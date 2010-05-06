@@ -32,6 +32,7 @@ http://www.eclipse.org/legal/epl-v10.html
    <includes id="org.eclipse.emf" version="0.0.0"/>
    <includes id="org.eclipse.emf.source" version="0.0.0"/>
    <includes id="org.eclipse.emf.doc" version="0.0.0"/>
+   <includes id="org.eclipse.emf.doc.source" version="0.0.0"/>
 
    <plugin id="org.eclipse.emf.example.installer" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 
@@ -44,7 +45,7 @@ http://www.eclipse.org/legal/epl-v10.html
    -->  
 
    <!-- generated plugins -->
-	<plugin id="org.eclipse.emf.cheatsheets" download-size="0" install-size="0" version="0.0.0" unpack="true"/>
+	<plugin id="org.eclipse.emf.cheatsheets" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.doc" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.ant" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
