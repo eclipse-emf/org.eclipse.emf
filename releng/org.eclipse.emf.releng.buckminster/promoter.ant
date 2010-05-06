@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Promoter" default="launch.promotion">
+	<target name="-locate.launcher.jar" unless="launcher.jar">
+		<pathconvert property="launcher.jar">
+			<first count="1">
+				<sort>
+					<fileset dir="${saved.eclipse.home}/plugins" includes="**/org.eclipse.equinox.launcher_*.jar" />
+					<reverse xmlns="antlib:org.apache.tools.ant.types.resources.comparators">
+						<date />
+					</reverse>
+				</sort>
+			</first>
+		</pathconvert>
+	</target>
+
+	<target name="-setup.properties">
+		<fail message="promoter.base property must be specified" unless="promoter.base" />
+		<fail message="packages.base property must be specified" unless="packages.base" />
+		<fail message="downloads.area property must be specified" unless="downloads.area" />
+
+		<property environment="env." />
+
+		<fail message="PROMOTED_URL not present in the evironment, can't continue" unless="env.PROMOTED_URL" />
+
+		<property name="promoter.properties.file.url" value="${env.PROMOTED_URL}/artifact/${promoter.base}/promoter.properties" />
+
+		<loadproperties>
+			<url url="${promoter.properties.file.url}" />
+			<prefixlines prefix="saved." />
+		</loadproperties>
+
+		<fail message="hudson.build.id not defined in ${promoter.properties.file.url}, can't continue">
+			<not>
+				<and>
+					<isset property="saved.hudson.build.id" />
+					<length string="${saved.hudson.build.id}" trim="true" when="greater" length="0" />
+				</and>
+			</not>
+		</fail>
+		<fail message="build.id not defined in ${promoter.properties.file.url}, can't continue">
+			<not>
+				<and>
+					<isset property="saved.build.id" />
+					<length string="${saved.build.id}" trim="true" when="greater" length="0" />
+				</and>
+			</not>
+		</fail>
+		<fail message="eclipse.home not defined in ${promoter.properties.file.url}, can't continue">
+			<not>
+				<and>
+					<isset property="saved.eclipse.home" />
+					<length string="${saved.eclipse.home}" trim="true" when="greater" length="0" />
+				</and>
+			</not>
+		</fail>
+	</target>
+
+	<target name="launch.promotion" depends="-setup.properties,-locate.launcher.jar">
+		<dirname property="publish.workspace" file="${ant.file}" />
+
+		<java jar="${launcher.jar}" fork="true" failonerror="true">
+			<syspropertset>
+				<propertyref builtin="commandline" />
+				<propertyref prefix="saved." />
+			</syspropertset>
+			<sysproperty key="job.root" file="${env.WORKSPACE}/.." />
+			<arg value="-consolelog" />
+			<arg value="-data" />
+			<arg value="${publish.workspace}" />
+			<arg value="-application" />
+			<arg value="org.eclipse.ant.core.antRunner" />
+			<arg value="-buildfile" />
+			<arg value="${ant.file}" />
+			<arg value=".promote.build" />
+		</java>
+	</target>
+
+	<target name=".promote.build" depends="-setup.properties">
+		<!-- defaults -->
+		<property name="version" value="2.6.0" />
+		<!--property name="downloads.area" location="/home/data/httpd/download.eclipse.org/modeling/emf/emf" /-->
+
+		<property name="build.drop.directory" location="${downloads.area}/downloads/drops/${version}/${saved.build.id}" />
+
+		<property name="build.root" location="${job.root}/builds/${saved.hudson.build.id}" />
+		<property name="packages.directory" location="${build.root}/archive/${packages.base}" />
+
+		<delete dir="${build.drop.directory}" />
+		<mkdir dir="${build.drop.directory}" />
+
+		<!-- copy zip packages -->
+		<copy todir="${build.drop.directory}">
+			<fileset dir="${packages.directory}">
+				<filename name="*.zip" />
+			</fileset>
+		</copy>
+		<!-- genereate md5 checksums -->
+		<checksum algorithm="MD5" fileext=".md5" format="MD5SUM">
+			<fileset dir="${build.drop.directory}" />
+		</checksum>
+		<!-- copy buildlog -->
+		<copy tofile="${build.drop.directory}/buildlog.txt" file="${build.root}/log" />
+
+		<fileset id="drop.resources" dir="${build.drop.directory}">
+			<or>
+				<type type="dir" />
+				<type type="file" />
+			</or>
+		</fileset>
+
+		<!-- chgrp -->
+		<antcall target="-change.group.owner" inheritall="true">
+			<reference refid="drop.resources" torefid="change.group.owner.resources" />
+		</antcall>
+
+		<antcall target="-promote.repository" inheritall="true" />
+	</target>
+
+	<target name="-promote.repository" if="composite.repository.subdirectory">
+		<!-- strip the micro version number from the version string -->
+		<buckminster.substitute value="${version}" pattern="^(\d+\.\d+)\.d+$" replacement="$$1" property="base.version" />
+
+		<!-- setup composite.repository.subdirectory corresponding to the build type -->
+		<buckminster.substitute value="${saved.build.id}" pattern="^I.*$" replacement="${base.version}-I-builds" property="composite.repository.base" />
+		<buckminster.substitute value="${saved.build.id}" pattern="^[MS].*$" replacement="${base.version}milestones" property="composite.repository.base" />
+		<buckminster.substitute value="${saved.build.id}" pattern="^R.*$" replacement="${base.version}" property="composite.repository.base" />
+
+		<property name="composite.repository.directory" location="${downloads.area}/updates/${composite.repository.base}" />
+		<property name="composite.repository.url" value="file:/${composite.repository.directory}" />
+		<property name="build.repository.directory" location="${composite.repository.directory}/${saved.build.id}" />
+
+		<delete dir="${composite.repository.directory}" />
+		<mkdir dir="${composite.repository.directory}" />
+
+		<unzip dest="${build.repository.directory}">
+			<fileset dir="${packages.directory}">
+				<filename name="emf-xsd-Update*.zip" />
+			</fileset>
+		</unzip>
+
+		<p2.composite.repository>
+			<repository location="${composite.repository.url}" />
+			<add>
+				<repository location="${saved.build.id}" />
+			</add>
+		</p2.composite.repository>
+
+		<fileset id="repository.resources" dir="${composite.repository.directory}">
+			<or>
+				<filename name="compositeContent.*" />
+				<filename name="compositeArtifacts.*" />
+				<filename name="${saved.build.id}/**" />
+			</or>
+		</fileset>
+
+		<antcall target="-change.group.owner" inheritall="true">
+			<reference refid="repository.resources" torefid="change.group.owner.resources" />
+		</antcall>
+	</target>
+
+	<target name="-change.group.owner" if="group.owner">
+		<chgrp group="${group.owner}" type="both" verbose="true">
+			<fileset refid="change.group.owner.resources" />
+		</chgrp>
+	</target>
+</project>
