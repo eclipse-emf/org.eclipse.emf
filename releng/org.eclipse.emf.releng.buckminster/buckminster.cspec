@@ -17,7 +17,7 @@
 			<cs:actorProperties>
 				<cs:property key="buildFile" value="publishing.ant" />
 			</cs:actorProperties>
-			<cs:products alias="output" base="${buckminster.output}/.promoter/" />
+			<cs:products alias="output" base="${buckminster.output}/promoter/" />
 		</cs:public>
 	</cs:actions>
 </cs:cspec>

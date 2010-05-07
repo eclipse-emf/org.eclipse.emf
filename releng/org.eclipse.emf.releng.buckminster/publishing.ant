@@ -2,23 +2,22 @@
 <project name="Publishing">
 	<target name="setup.promoter">
 		<property name="promoter.install.directory" location="${sp:output}" />
-		<property name="promoter.properties.file" location="${promoter.install.directory}/promoter.properties" />
+		<property name="promoter.properties.file" location="${promoter.install.directory}/promote.properties" />
 		<dirname property="script.directory" file="${ant.file}" />
 
 		<mkdir dir="{promoter.install.directory}" />
-
-		<copy file="${script.directory}/promoter.ant" todir="${promoter.install.directory}" />
 
 		<property environment="env." />
 
 		<!-- supply defaults -->
 		<property name="build.id" value="" />
-		<property name="env.BUILD_ID" value="" />
+		<property name="hudson.build.id" value="" />
 
 		<propertyfile file="${promoter.properties.file}" comment="Promoter script properties">
+			<entry key="java.home" value="${java.home}" />
 			<entry key="eclipse.home" value="${eclipse.home}" />
 			<entry key="build.id" value="${build.id}" />
-			<entry key="hudson.build.id" value="${env.BUILD_ID}" />
+			<entry key="hudson.build.id" value="${hudson.build.id}" />
 		</propertyfile>
 	</target>
 </project>
