@@ -5,7 +5,7 @@
 		<property name="promoter.properties.file" location="${promoter.install.directory}/promote.properties" />
 		<dirname property="script.directory" file="${ant.file}" />
 
-		<mkdir dir="{promoter.install.directory}" />
+		<mkdir dir="${promoter.install.directory}" />
 
 		<property environment="env." />
 
