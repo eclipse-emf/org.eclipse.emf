@@ -166,8 +166,8 @@
 		<property name="composite.repository.url" value="file:/${composite.repository.directory}" />
 		<property name="build.repository.directory" location="${composite.repository.directory}/${saved.build.id}" />
 
-		<delete dir="${composite.repository.directory}" />
-		<mkdir dir="${composite.repository.directory}" />
+		<delete dir="${build.repository.directory}" />
+		<mkdir dir="${build.repository.directory}" />
 
 		<unzip dest="${build.repository.directory}">
 			<fileset dir="${packages.directory}">
