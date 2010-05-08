@@ -15,7 +15,8 @@
 	<cs:actions>
 		<cs:public name="setup.promoter" actor="ant">
 			<cs:actorProperties>
-				<cs:property key="buildFile" value="publishing.ant" />
+				<cs:property key="buildFile" value="promoter.ant" />
+				<cs:property key="targets" value="-setup.promoter" />
 			</cs:actorProperties>
 			<cs:products alias="output" base="${buckminster.output}/promoter/" />
 		</cs:public>

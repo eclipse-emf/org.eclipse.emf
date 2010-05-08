@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Promoter Publisher" default="publish.build">
+<project name="Promoter / Publisher" default="publish.build">
+	<property name="promoter.properties.file.name" value="promote.properties" />
 	<property name="publisher.properties.file.name" value="publisher.properties" />
+
+	<target name="-setup.promoter">
+		<property name="promoter.setup.directory" location="${sp:output}" />
+		<property name="promoter.properties.file" location="${promoter.setup.directory}/${promoter.properties.file.name}" />
+
+		<mkdir dir="${promoter.setup.directory}" />
+
+		<!-- supply defaults -->
+		<property name="build.id" value="" />
+		<property name="hudson.build.id" value="" />
+
+		<propertyfile file="${promoter.properties.file}" comment="Promoter script properties">
+			<entry key="java.home" value="${java.home}" />
+			<entry key="eclipse.home" value="${eclipse.home}" />
+			<entry key="build.id" value="${build.id}" />
+			<entry key="hudson.build.id" value="${hudson.build.id}" />
+		</propertyfile>
+	</target>
 
 	<target name="-locate.launcher.jar" unless="launcher.jar">
 		<pathconvert property="launcher.jar">
@@ -29,17 +48,10 @@
 
 		<copy tofile="${publisher.root}/publisher.ant" file="${ant.file}" />
 
-		<property name="promoter.properties.file.url" value="${env.PROMOTED_URL}/artifact/promote.properties" />
+		<property name="promoter.properties.file.url" value="${env.PROMOTED_URL}/artifact/${promoter.properties.file.name}" />
 
-		<loadproperties>
-			<url url="${promoter.properties.file.url}" />
-			<filterchain>
-				<striplinecomments>
-					<comment value="#" />
-				</striplinecomments>
-				<prefixlines prefix="saved." />
-			</filterchain>
-		</loadproperties>
+		<!-- load the promoter properties using the PROMOTED_URL supplied by Hudson -->
+		<property prefix="saved." url="${promoter.properties.file.url}" />
 
 		<fail message="hudson.build.id not defined in ${promoter.properties.file.url}, can't continue">
 			<condition>
@@ -63,25 +75,42 @@
 		</echoproperties>
 	</target>
 
-	<target name="-load.publisher.properties">
-		<dirname property="script.directory" file="${ant.file}" />
+	<target name="publish.build">
+		<fail message="build.root property must be defined" unless="build.root" />
 
-		<loadproperties srcfile="${script.directory}/${publisher.properties.file.name}">
-			<filterchain>
-				<striplinecomments>
-					<comment value="#" />
-				</striplinecomments>
-			</filterchain>
-		</loadproperties>
+		<property name="property.file.location" location="${build.root}/archive/${promoter.properties.file.name}" />
+		<property name="property.load.prefix" value="saved." />
+
+		<antcall target="publish.build.stage.2" inheritall="true" />
 	</target>
 
-	<target name="publish.build" depends="-load.publisher.properties,-locate.launcher.jar">
+	<target name="-setup.property.file.location" unless="property.file.location">
+		<dirname property="script.directory" file="${ant.file}" />
+		<property name="property.file.location" location="${script.directory}/${publisher.properties.file.name}" />
+	</target>
+
+	<target name="-load.properties.as.is" unless="property.load.prefix">
+		<property file="${property.file.location}" />
+	</target>
+
+	<target name="-load.properties.with.prefix" if="property.load.prefix">
+		<property prefix="${property.load.prefix}" file="${property.file.location}" />
+	</target>
+
+	<target name="-load.properties" depends="-load.properties.as.is,-load.properties.with.prefix" />
+
+	<target name="publish.build.stage.2" depends="-setup.property.file.location,-load.properties,-locate.launcher.jar">
 		<condition property="java.executable" value="${saved.java.home}/bin/java" else="java">
 			<isset property="saved.java.home" />
 		</condition>
 		<tempfile property="publisher.workspace" prefix="workspace." destdir="${java.io.tmpdir}" />
 
 		<java jvm="${java.executable}" jar="${launcher.jar}" fork="true" failonerror="true">
+			<syspropertyset>
+				<propertyref builtin="commandline" />
+				<propertyref name="property.file.location" />
+				<propertyref name="property.load.prefix" />
+			</syspropertyset>
 			<arg value="-data" />
 			<arg value="${publisher.workspace}" />
 			<arg value="-application" />
@@ -91,10 +120,23 @@
 			<arg value="publish.build.from.framework" />
 		</java>
 
-		<delete dir="${publisher.workspace}" />
+		<!--
+			somewhat more complicated than simple <delete dir="${publisher.workspace}" />
+			but this way it does not produce the "Deleting directory" message
+		-->
+		<delete dir="${publisher.workspace}" includeemptydirs="true" quiet="true">
+			<or>
+				<type type="dir" />
+				<type type="file" />
+			</or>
+		</delete>
 	</target>
 
-	<target name="publish.build.from.framework" depends="-load.publisher.properties">
+	<target name="-check.property.file.location">
+		<fail message="property.file.location property must be defined" unless="property.file.location" />
+	</target>
+
+	<target name="publish.build.from.framework" depends="-check.property.file.location,-load.properties">
 		<fail message="saved.build.id property must be defined">
 			<condition>
 				<not>
@@ -158,10 +200,10 @@
 			<matches pattern="^R" string="${saved.build.id}" />
 		</condition>
 
-		<antcall target="-publish.repository" inheritall="true" />
+		<antcall target="-publish.build.repository" inheritall="true" />
 	</target>
 
-	<target name="-publish.repository" if="composite.repository.base">
+	<target name="-publish.build.repository" if="composite.repository.base">
 		<property name="composite.repository.directory" location="${downloads.area}/updates/${composite.repository.base}" />
 		<property name="composite.repository.url" value="file:/${composite.repository.directory}" />
 		<property name="build.repository.directory" location="${composite.repository.directory}/${saved.build.id}" />
