@@ -42,7 +42,7 @@
    <extension point="org.eclipse.ui.editors">
       <editor
             id="org.eclipse.emf.ecore.presentation.XMLReflectiveEditorID"
-            name="%_UI_ReflectiveEcoreEditor_label"
+            name="%_UI_ReflectiveEcoreXMLEditor_label"
             icon="platform:/plugin/org.eclipse.emf.edit/icons/full/obj16/ModelFile.gif"
             class="org.eclipse.emf.ecore.presentation.EcoreEditor$XML"
             contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor$Reflective"/>
