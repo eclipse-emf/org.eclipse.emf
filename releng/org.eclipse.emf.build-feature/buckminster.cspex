@@ -38,8 +38,7 @@
 			</cs:actorProperties>
 			<cs:properties>
 				<cs:property key="content.ius"
-					value="org.eclipse.emf.sdk.feature.group,org.eclipse.xsd.sdk.feature.group,org.eclipse.xsd.sdk.source.feature.group" />
-				<cs:property key="prerequisite.ius" value="org.eclipse.xsd.cheatsheets.source" />
+					value="org.eclipse.emf.sdk.feature.group,org.eclipse.xsd.sdk.feature.group" />
 				<cs:property key="package.name" value="emf-xsd-SDK" />
 			</cs:properties>
 			<cs:prerequisites>
@@ -56,7 +55,7 @@
 			</cs:actorProperties>
 			<cs:properties>
 				<cs:property key="content.ius"
-					value="org.eclipse.emf.examples.feature.group" />
+					value="org.eclipse.emf.examples.feature.group,org.eclipse.xsd.feature.group,org.eclipse.xsd.ecore.converter.feature.group,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.editor.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.mapping.editor.feature.group" />
 				<cs:property key="prerequisite.ius"
 					value="org.eclipse.emf.feature.group,org.eclipse.xsd.feature.group" />
 				<cs:property key="package.name" value="emf-xsd-Examples" />
@@ -91,7 +90,7 @@
 			</cs:actorProperties>
 			<cs:properties>
 				<cs:property key="content.ius"
-					value="org.eclipse.emf.source.feature.group,org.eclipse.emf.doc.feature.group" />
+					value="org.eclipse.emf.sdk.feature.group" />
 				<cs:property key="prerequisite.ius" value="org.eclipse.emf.feature.group" />
 				<cs:property key="package.name" value="emf-sourcedoc" />
 			</cs:properties>
@@ -109,7 +108,7 @@
 			</cs:actorProperties>
 			<cs:properties>
 				<cs:property key="content.ius"
-					value="org.eclipse.xsd.feature.group,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.editor.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.mapping.editor.feature.group,org.eclipse.xsd.ecore.converter.feature.group" />
+					value="org.eclipse.xsd.feature.group,org.eclipse.xsd.ecore.converter.feature.group,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.editor.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.mapping.editor.feature.group" />
 				<cs:property key="prerequisite.ius" value="org.eclipse.emf.feature.group" />
 				<cs:property key="package.name" value="xsd-runtime" />
 			</cs:properties>
@@ -127,9 +126,9 @@
 			</cs:actorProperties>
 			<cs:properties>
 				<cs:property key="content.ius"
-					value="org.eclipse.xsd.sdk.source.feature.group,org.eclipse.xsd.doc.feature.group" />
+					value="org.eclipse.xsd.sdk.source.feature.group" />
 				<cs:property key="prerequisite.ius"
-					value="org.eclipse.emf.feature.group,org.eclipse.emf.cheatsheets,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.ecore.converter.feature.group,org.eclipse.xsd.cheatsheets.source" />
+					value="org.eclipse.emf.feature.group,org.eclipse.xsd.feature.group,org.eclipse.xsd.ecore.converter.feature.group,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.editor.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.mapping.editor.feature.group" />
 				<cs:property key="package.name" value="xsd-sourcedoc" />
 			</cs:properties>
 			<cs:prerequisites>
@@ -146,7 +145,7 @@
 			</cs:actorProperties>
 			<cs:properties>
 				<cs:property key="content.ius"
-					value="org.eclipse.emf.feature.group,org.eclipse.xsd.feature.group,org.eclipse.xsd.mapping.feature.group" />
+					value="org.eclipse.emf.feature.group,org.eclipse.xsd.feature.group,org.eclipse.xsd.ecore.converter.feature.group,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.editor.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.mapping.editor.feature.group" />
 				<cs:property key="top.directory" value="emf" />
 				<cs:property key="package.name" value="emf-xsd-Models" />
 			</cs:properties>
