@@ -55,9 +55,9 @@
 			</cs:actorProperties>
 			<cs:properties>
 				<cs:property key="content.ius"
-					value="org.eclipse.emf.examples.feature.group,org.eclipse.xsd.feature.group,org.eclipse.xsd.ecore.converter.feature.group,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.editor.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.mapping.editor.feature.group" />
+					value="org.eclipse.emf.examples.feature.group,org.eclipse.xsd.example.feature.group" />
 				<cs:property key="prerequisite.ius"
-					value="org.eclipse.emf.feature.group,org.eclipse.xsd.feature.group" />
+					value="org.eclipse.emf.feature.group,org.eclipse.xsd.feature.group,org.eclipse.xsd.ecore.converter.feature.group,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.editor.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.mapping.editor.feature.group" />
 				<cs:property key="package.name" value="emf-xsd-Examples" />
 			</cs:properties>
 			<cs:prerequisites>
@@ -90,7 +90,7 @@
 			</cs:actorProperties>
 			<cs:properties>
 				<cs:property key="content.ius"
-					value="org.eclipse.emf.sdk.feature.group" />
+					value="org.eclipse.emf.source.feature.group,org.eclipse.emf.doc.feature.group,org.eclipse.emf.doc.source.feature.group" />
 				<cs:property key="prerequisite.ius" value="org.eclipse.emf.feature.group" />
 				<cs:property key="package.name" value="emf-sourcedoc" />
 			</cs:properties>
@@ -126,7 +126,7 @@
 			</cs:actorProperties>
 			<cs:properties>
 				<cs:property key="content.ius"
-					value="org.eclipse.xsd.sdk.source.feature.group" />
+					value="org.eclipse.xsd.source.feature.group,org.eclipse.xsd.ecore.converter.source.feature.group,org.eclipse.xsd.edit.source.feature.group,org.eclipse.xsd.editor.source.feature.group,org.eclipse.xsd.mapping.source.feature.group,org.eclipse.xsd.mapping.editor.source.feature.group,org.eclipse.xsd.doc.feature.group,org.eclipse.xsd.doc.source.feature.group" />
 				<cs:property key="prerequisite.ius"
 					value="org.eclipse.emf.feature.group,org.eclipse.xsd.feature.group,org.eclipse.xsd.ecore.converter.feature.group,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.editor.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.mapping.editor.feature.group" />
 				<cs:property key="package.name" value="xsd-sourcedoc" />
