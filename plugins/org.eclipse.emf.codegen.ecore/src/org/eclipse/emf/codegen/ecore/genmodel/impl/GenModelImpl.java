@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.113 2010/04/28 14:50:52 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.114 2010/05/11 17:40:00 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -9270,6 +9270,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public String getEditModuleName()
   {
+    if (sameModelEditProject())
+    {
+      return getModelModuleName();
+    }
     List<GenPackage> allGenPackagesWithClassifiers = getAllGenAndUsedGenPackagesWithClassifiers();
     return  
       (allGenPackagesWithClassifiers.size() == 1 || isBlank(getModelName()) ?
@@ -9298,7 +9302,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     List<String> result = new UniqueEList<String>();
     result.add("org.eclipse.emf.edit.Edit");
-    result.add(getQualifiedModelModuleName());
+    if (!sameModelEditProject())
+    {
+      result.add(getQualifiedModelModuleName());
+    }
+    else
+    {
+      result.addAll(getModelModuleInherits());
+    }
     for (GenPackage genPackage : getUsedGenPackages())
     {
       result.add(genPackage.getGenModel().getQualifiedEditModuleName());
