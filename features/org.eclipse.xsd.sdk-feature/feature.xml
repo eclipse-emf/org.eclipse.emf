@@ -12,7 +12,7 @@
    </description>
 
    <copyright url="http://www.eclipse.org/legal/epl-v10.html">
-      Copyright (c) 2002-2010 IBM Corporation and others.
+      Copyright (c) 2002-2008 IBM Corporation and others.
 All rights reserved.   This program and the accompanying materials
 are made available under the terms of the Eclipse Public License v1.0
 which accompanies this distribution, and is available at
@@ -30,19 +30,15 @@ http://www.eclipse.org/legal/epl-v10.html
    </url>
 
    <includes id="org.eclipse.xsd" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.source" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.ecore.converter" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.ecore.converter.source" version="0.0.0"/>
    <includes id="org.eclipse.xsd.edit" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.edit.source" version="0.0.0"/>
    <includes id="org.eclipse.xsd.editor" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.editor.source" version="0.0.0"/>
    <includes id="org.eclipse.xsd.mapping" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.mapping.source" version="0.0.0"/>
    <includes id="org.eclipse.xsd.mapping.editor" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.mapping.editor.source" version="0.0.0"/>
+   <includes id="org.eclipse.xsd.ecore.converter" version="0.0.0"/>
+   <includes id="org.eclipse.xsd.source" version="0.0.0"/>
    <includes id="org.eclipse.xsd.doc" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.doc.source" version="0.0.0"/>
+
+   <plugin id="org.eclipse.xsd.example.installer" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 
 <!-- TemplateEntriesBegin -->
    <!-- 
@@ -53,7 +49,6 @@ http://www.eclipse.org/legal/epl-v10.html
    -->  
 
    <!-- generated plugins -->
-	<plugin id="org.eclipse.xsd.cheatsheets" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.xsd.doc" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.mapping.xsd2ecore" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.mapping.xsd2ecore.editor" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
