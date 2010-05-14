@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cs:cspecExtension xmlns:com="http://www.eclipse.org/buckminster/Common-1.0" xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0">
+	<cs:dependencies>
+		<cs:dependency name="org.eclipse.xsd.example.EXAMPLE" componentType="unknown" />
+	</cs:dependencies>
+
+	<cs:actions>
+		<cs:public name="buckminster.prebind" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="install.ant" />
+				<cs:property key="targets" value="install.example.projects" />
+			</cs:actorProperties>
+			<cs:prerequisites alias="example.projects">
+				<cs:attribute component="org.eclipse.xsd.example.EXAMPLE" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.home}/examples/" />
+		</cs:public>
+	</cs:actions>
+</cs:cspecExtension>
