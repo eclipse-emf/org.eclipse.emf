@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cs:cspecExtension xmlns:com="http://www.eclipse.org/buckminster/Common-1.0" xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0">
+	<cs:dependencies>
+		<cs:dependency name="org.eclipse.emf.activities.EXAMPLE" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.examples.databinding.project.core.EXAMPLE" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.examples.databinding.project.core.model.EXAMPLE" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.examples.databinding.project.ui.rcp.EXAMPLE" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.examples.generator.validator.EXAMPLE" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.examples.library.EXAMPLE" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.examples.library.edit.EXAMPLE" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.examples.library.editor.EXAMPLE" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.exporter.html.EXAMPLE" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.java.EXAMPLE" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.java.edit.EXAMPLE" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.java.editor.EXAMPLE" componentType="unknown" />
+	</cs:dependencies>
+
+	<cs:actions>
+		<cs:public name="buckminster.prebind" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="install.ant" />
+				<cs:property key="targets" value="install.example.projects" />
+			</cs:actorProperties>
+			<cs:prerequisites alias="example.projects">
+				<cs:attribute component="org.eclipse.emf.activities.EXAMPLE" />
+				<cs:attribute component="org.eclipse.emf.examples.databinding.project.core.EXAMPLE" />
+				<cs:attribute component="org.eclipse.emf.examples.databinding.project.core.model.EXAMPLE" />
+				<cs:attribute component="org.eclipse.emf.examples.databinding.project.ui.rcp.EXAMPLE" />
+				<cs:attribute component="org.eclipse.emf.examples.generator.validator.EXAMPLE" />
+				<cs:attribute component="org.eclipse.emf.examples.library.EXAMPLE" />
+				<cs:attribute component="org.eclipse.emf.examples.library.edit.EXAMPLE" />
+				<cs:attribute component="org.eclipse.emf.examples.library.editor.EXAMPLE" />
+				<cs:attribute component="org.eclipse.emf.exporter.html.EXAMPLE" />
+				<cs:attribute component="org.eclipse.emf.java.EXAMPLE" />
+				<cs:attribute component="org.eclipse.emf.java.edit.EXAMPLE" />
+				<cs:attribute component="org.eclipse.emf.java.editor.EXAMPLE" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.home}/examples/" />
+		</cs:public>
+	</cs:actions>
+</cs:cspecExtension>
