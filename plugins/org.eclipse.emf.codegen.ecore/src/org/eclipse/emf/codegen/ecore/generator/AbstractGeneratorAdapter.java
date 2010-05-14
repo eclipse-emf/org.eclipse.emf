@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.19 2009/04/18 11:37:30 emerks Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.20 2010/05/14 14:15:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -1491,7 +1491,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    */
   protected String formatCode(String contents, Object codeFormatter)
   {
-    return EMFPlugin.IS_ECLIPSE_RUNNING ? EclipseHelper.formatCode(contents, codeFormatter) : contents;
+    return EMFPlugin.IS_ECLIPSE_RUNNING ? EclipseHelper.formatCode(contents, codeFormatter, getLineDelimiter()) : contents;
   }
 
   /*
@@ -1651,12 +1651,12 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       return ToolFactory.createCodeFormatter(options);
     }
 
-    public static String formatCode(String contents, Object codeFormatter)
+    public static String formatCode(String contents, Object codeFormatter, String lineDelimiter)
     {
       if (codeFormatter instanceof CodeFormatter)
       {
         IDocument doc = new Document(contents);
-        TextEdit edit = ((CodeFormatter)codeFormatter).format(CodeFormatter.K_COMPILATION_UNIT, doc.get(), 0, doc.get().length(), 0, null);
+        TextEdit edit = ((CodeFormatter)codeFormatter).format(CodeFormatter.K_COMPILATION_UNIT, doc.get(), 0, doc.get().length(), 0, lineDelimiter);
   
         if (edit != null)
         {
