@@ -1177,7 +1177,7 @@ public class PackageClass
     stringBuffer.append(TEXT_188);
     }
     } else if (genClassifier instanceof GenDataType) { GenDataType genDataType = (GenDataType)genClassifier;
-    if (!genDataType.isObjectType()) {
+    if (!genDataType.isObjectType() && genDataType.isSerializable()) {
     stringBuffer.append(TEXT_189);
     stringBuffer.append(genDataType.getImportedWildcardInstanceClassName());
     stringBuffer.append(TEXT_190);

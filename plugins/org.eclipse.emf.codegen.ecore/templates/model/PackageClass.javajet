@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.49 2010/04/28 20:38:15 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.50 2010/05/17 13:12:09 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -437,7 +437,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 
         <%}%>
       <%} else if (genClassifier instanceof GenDataType) { GenDataType genDataType = (GenDataType)genClassifier;%>
-        <%if (!genDataType.isObjectType()) {%>
+        <%if (!genDataType.isObjectType() && genDataType.isSerializable()) {%>
 		/**
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
