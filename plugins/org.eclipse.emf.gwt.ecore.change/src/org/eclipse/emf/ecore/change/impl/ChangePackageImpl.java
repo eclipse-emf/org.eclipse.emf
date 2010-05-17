@@ -12,13 +12,15 @@
  *
  * </copyright>
  *
- * $Id: ChangePackageImpl.java,v 1.2 2010/04/28 20:37:24 khussey Exp $
+ * $Id: ChangePackageImpl.java,v 1.3 2010/05/17 13:17:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.Reflect;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -143,6 +145,8 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
   {
     if (isInited) return (ChangePackage)EPackage.Registry.INSTANCE.getEPackage(ChangePackage.eNS_URI);
 
+    initializeRegistryHelpers();
+
     // Obtain or create and register package
     ChangePackageImpl theChangePackage = (ChangePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ChangePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ChangePackageImpl());
 
@@ -202,6 +206,171 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
        });
     
     return changePackage;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static void initializeRegistryHelpers()
+  {
+    Reflect.register
+      (ChangeDescription.class, 
+       new Reflect.Helper() 
+       {
+         public boolean isInstance(Object instance)
+         {
+           return instance instanceof ChangeDescription;
+         }
+
+         public Object newArrayInstance(int size)
+         {
+           return new ChangeDescription[size];
+         }
+       });
+    Reflect.register
+      (EObjectToChangesMapEntryImpl.class, 
+       new Reflect.Helper() 
+       {
+         public boolean isInstance(Object instance)
+         {
+           return instance instanceof EObjectToChangesMapEntryImpl;
+         }
+
+         public Object newArrayInstance(int size)
+         {
+           return new EObjectToChangesMapEntryImpl[size];
+         }
+       });
+    Reflect.register
+      (FeatureChange.class, 
+       new Reflect.Helper() 
+       {
+         public boolean isInstance(Object instance)
+         {
+           return instance instanceof FeatureChange;
+         }
+
+         public Object newArrayInstance(int size)
+         {
+           return new FeatureChange[size];
+         }
+       });
+    Reflect.register
+      (ListChange.class, 
+       new Reflect.Helper() 
+       {
+         public boolean isInstance(Object instance)
+         {
+           return instance instanceof ListChange;
+         }
+
+         public Object newArrayInstance(int size)
+         {
+           return new ListChange[size];
+         }
+       });
+    Reflect.register
+      (ResourceChange.class, 
+       new Reflect.Helper() 
+       {
+         public boolean isInstance(Object instance)
+         {
+           return instance instanceof ResourceChange;
+         }
+
+         public Object newArrayInstance(int size)
+         {
+           return new ResourceChange[size];
+         }
+       });
+    Reflect.register
+      (FeatureMapEntry.class, 
+       new Reflect.Helper() 
+       {
+         public boolean isInstance(Object instance)
+         {
+           return instance instanceof FeatureMapEntry;
+         }
+
+         public Object newArrayInstance(int size)
+         {
+           return new FeatureMapEntry[size];
+         }
+       });
+    Reflect.register
+      (ChangeKind.class, 
+       new Reflect.Helper() 
+       {
+         public boolean isInstance(Object instance)
+         {
+           return instance instanceof ChangeKind;
+         }
+
+         public Object newArrayInstance(int size)
+         {
+           return new ChangeKind[size];
+         }
+    });
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static class WhiteList implements IsSerializable
+  {
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected ChangeDescription changeDescription;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected EObjectToChangesMapEntryImpl eObjectToChangesMapEntry;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected FeatureChange featureChange;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected ListChange listChange;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected ResourceChange resourceChange;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected FeatureMapEntry featureMapEntry;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected ChangeKind changeKind;
+
   }
 
   /**

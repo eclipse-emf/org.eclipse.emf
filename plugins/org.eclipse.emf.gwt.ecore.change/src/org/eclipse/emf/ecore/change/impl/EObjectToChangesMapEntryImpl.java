@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EObjectToChangesMapEntryImpl.java,v 1.2 2010/04/28 20:37:24 khussey Exp $
+ * $Id: EObjectToChangesMapEntryImpl.java,v 1.3 2010/05/17 13:17:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
 
+import com.google.gwt.user.client.rpc.GwtTransient;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -64,6 +65,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * @generated
    * @ordered
    */
+  @GwtTransient
   protected EObject key;
 
   /**
@@ -74,6 +76,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * @generated
    * @ordered
    */
+  @GwtTransient
   protected EList<FeatureChange> value;
 
   /**
@@ -290,6 +293,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
+  @GwtTransient
   protected int hash = -1;
 
   /**

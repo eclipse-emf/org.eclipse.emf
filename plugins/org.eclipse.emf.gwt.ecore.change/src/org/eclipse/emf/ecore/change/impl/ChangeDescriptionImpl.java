@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.2 2010/04/28 20:37:24 khussey Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.3 2010/05/17 13:17:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
 
+import com.google.gwt.user.client.rpc.GwtTransient;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -74,6 +75,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * @generated
    * @ordered
    */
+  @GwtTransient
   protected EMap<EObject, EList<FeatureChange>> objectChanges;
 
   /**
@@ -86,6 +88,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * @generated
    * @ordered
    */
+  @GwtTransient
   protected EList<EObject> objectsToDetach;
   
   /**
@@ -96,6 +99,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * @generated
    * @ordered
    */
+  @GwtTransient
   protected EList<EObject> objectsToAttach;
 
   /**
@@ -106,6 +110,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * @generated
    * @ordered
    */
+  @GwtTransient
   protected EList<ResourceChange> resourceChanges;
 
   /**

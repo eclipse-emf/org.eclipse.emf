@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.2 2010/04/28 20:37:24 khussey Exp $
+ * $Id: FeatureChangeImpl.java,v 1.3 2010/05/17 13:17:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
 
+import com.google.gwt.user.client.rpc.GwtTransient;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -112,6 +113,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * @generated
    * @ordered
    */
+  @GwtTransient
   protected boolean set = SET_EDEFAULT;
 
   /**
@@ -132,6 +134,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * @generated
    * @ordered
    */
+  @GwtTransient
   protected EList<ListChange> listChanges;
   
   protected EStructuralFeature feature = null;
