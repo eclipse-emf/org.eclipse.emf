@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreItemProviderAdapterFactory.java,v 1.2 2010/04/28 20:37:15 khussey Exp $
+ * $Id: EcoreItemProviderAdapterFactory.java,v 1.3 2010/05/17 13:17:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -23,6 +23,7 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.Reflect;
 import org.eclipse.emf.ecore.util.EcoreAdapterFactory;
 import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
@@ -519,7 +520,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class<?>) /*|| (((Class<?>)type).isInstance(adapter))*/)
+      if (!(type instanceof Class<?>) || Reflect.isInstance((Class<?>)type, adapter))
       {
         return adapter;
       }

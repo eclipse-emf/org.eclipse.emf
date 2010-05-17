@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementItemProvider.java,v 1.2 2010/04/28 20:37:16 khussey Exp $
+ * $Id: EModelElementItemProvider.java,v 1.3 2010/05/17 13:17:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -45,6 +45,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
 import org.eclipse.emf.edit.provider.ViewerNotification;
@@ -56,7 +57,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
  * @generated
  */
 public class EModelElementItemProvider
-  extends EObjectItemProvider
+  extends ItemProviderAdapter
   implements
     IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource
 {
@@ -170,6 +171,18 @@ public class EModelElementItemProvider
       (createChildParameter
         (EcorePackage.Literals.EMODEL_ELEMENT__EANNOTATIONS,
          EcoreFactory.eINSTANCE.createEAnnotation()));
+  }
+
+  /**
+   * Return the resource locator for this item provider's resources.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public ResourceLocator getResourceLocator()
+  {
+    return EcoreEditPlugin.INSTANCE;
   }
 
   /** 
