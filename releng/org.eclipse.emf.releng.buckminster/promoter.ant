@@ -152,7 +152,7 @@
 		<fail message="downloads.area property must be defined" unless="downloads.area" />
 
 		<!-- defaults -->
-		<property name="version" value="2.6.0" />
+		<property name="version" value="0.0.0" />
 
 		<property name="packages.directory" location="${build.root}/archive/${packages.base}" />
 
@@ -204,6 +204,8 @@
 	</target>
 
 	<target name="-publish.build.repository" if="composite.repository.base">
+		<fail message="repository.base property must be defined" unless="repository.base" />
+
 		<property name="composite.repository.directory" location="${downloads.area}/updates/${composite.repository.base}" />
 		<property name="composite.repository.url" value="file:/${composite.repository.directory}" />
 		<property name="build.repository.directory" location="${composite.repository.directory}/${saved.build.id}" />
@@ -211,11 +213,9 @@
 		<delete dir="${build.repository.directory}" />
 		<mkdir dir="${build.repository.directory}" />
 
-		<unzip dest="${build.repository.directory}">
-			<fileset dir="${packages.directory}">
-				<filename name="emf-xsd-Update*.zip" />
-			</fileset>
-		</unzip>
+		<copy todir="${build.repository.directory}">
+			<fileset dir="${build.root}/archive/${repository.base}" />
+		</copy>
 
 		<p2.composite.repository destination="${composite.repository.url}">
 			<add>
