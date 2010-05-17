@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.2 2010/04/28 20:39:43 khussey Exp $
+ * $Id: BasicFeatureMap.java,v 1.3 2010/05/17 13:17:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -37,6 +37,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import com.google.gwt.user.client.rpc.GwtTransient;
 
 
 public class BasicFeatureMap
@@ -2421,6 +2423,7 @@ public class BasicFeatureMap
    */
   public static class FeatureMapEObjectImpl extends org.eclipse.emf.ecore.impl.EObjectImpl
   {
+    @GwtTransient
     protected BasicFeatureMap featureMap = new BasicFeatureMap(this, -1);
 
     public FeatureMapEObjectImpl()
