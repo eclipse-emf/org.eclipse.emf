@@ -36,15 +36,6 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <plugin id="org.eclipse.emf.example.installer" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 
-<!-- TemplateEntriesBegin -->
-   <!-- 
-		NOTE: this file is a template. At build-time, use 
-		org.eclipse.emf.releng/scripts/genFeatureSDK.sh 
-		to get plugins and merge XML into this file.
-		Any XML below the INCLUDE line below will be lost. 
-   -->  
-
-   <!-- generated plugins -->
 	<plugin id="org.eclipse.emf.cheatsheets" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.doc" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
@@ -80,5 +71,4 @@ http://www.eclipse.org/legal/epl-v10.html
 	<plugin id="org.eclipse.emf.mapping.ecore2xml.ui" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.mapping.ecore.editor" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.mapping.ui" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-<!-- TemplateEntriesEnd -->
 </feature>
