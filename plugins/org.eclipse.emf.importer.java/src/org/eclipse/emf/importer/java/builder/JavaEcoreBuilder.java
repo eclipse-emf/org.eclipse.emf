@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.56 2009/08/07 15:46:10 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.57 2010/05/17 13:19:46 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -901,7 +901,7 @@ public class JavaEcoreBuilder
       {
         analyzeEnum((JEnum)abstractType);
       }
-      else
+      else if (abstractType instanceof JType)
       {
         analyzeType((JType)abstractType);
       }
