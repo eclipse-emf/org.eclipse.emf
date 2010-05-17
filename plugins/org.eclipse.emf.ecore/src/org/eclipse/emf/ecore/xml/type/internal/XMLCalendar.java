@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.18 2008/10/16 17:45:55 davidms Exp $
+ * $Id: XMLCalendar.java,v 1.19 2010/05/17 13:31:33 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -156,10 +156,10 @@ public final class XMLCalendar extends XMLGregorianCalendar implements Serializa
   
   protected static final DateFormat [] EDATE_FORMATS =
   {
-    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
-    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'S"), 
     new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'S'Z'"),
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'S"), 
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
     new SafeSimpleDateFormat("yyyy-MM-dd'Z'"),
     new SafeSimpleDateFormat("yyyy-MM-dd")
   };
@@ -167,7 +167,7 @@ public final class XMLCalendar extends XMLGregorianCalendar implements Serializa
   static
   {
     EDATE_FORMATS[0].setTimeZone(TimeZone.getTimeZone("GMT"));
-    EDATE_FORMATS[3].setTimeZone(TimeZone.getTimeZone("GMT"));    
+    EDATE_FORMATS[1].setTimeZone(TimeZone.getTimeZone("GMT"));    
   }
 
   // The XMLGregorianCalendar implementation in some JREs are based on the wrong lexical representation for
@@ -284,38 +284,40 @@ public final class XMLCalendar extends XMLGregorianCalendar implements Serializa
       {
         if (dataType == XMLCalendar.DATETIME)
         {
+          String xmlFormat = toXMLFormat();
           try
           {
-            date = XMLCalendar.EDATE_FORMATS[0].parse(toXMLFormat());
+            date = XMLCalendar.EDATE_FORMATS[0].parse(xmlFormat);
           }
           catch (Exception e)
           {
             try
             {
-              date = XMLCalendar.EDATE_FORMATS[1].parse(toXMLFormat());
+              date = XMLCalendar.EDATE_FORMATS[1].parse(xmlFormat);
             }
             catch (Exception e2)
             {
               try
               {
-                date = XMLCalendar.EDATE_FORMATS[2].parse(toXMLFormat());
+                date = XMLCalendar.EDATE_FORMATS[2].parse(xmlFormat);
               }
               catch (Exception e3)
               {
-                date = XMLCalendar.EDATE_FORMATS[3].parse(toXMLFormat());
+                date = XMLCalendar.EDATE_FORMATS[3].parse(xmlFormat);
               }
             }
           }
         }
         else if (dataType == XMLCalendar.DATE)
         {
+          String xmlFormat = toXMLFormat();
           try
           {
-            date = XMLCalendar.EDATE_FORMATS[4].parse(toXMLFormat());
+            date = XMLCalendar.EDATE_FORMATS[4].parse(xmlFormat);
           }
           catch (Exception e)
           {
-            date = XMLCalendar.EDATE_FORMATS[5].parse(toXMLFormat());
+            date = XMLCalendar.EDATE_FORMATS[5].parse(xmlFormat);
           }
         }
       }
