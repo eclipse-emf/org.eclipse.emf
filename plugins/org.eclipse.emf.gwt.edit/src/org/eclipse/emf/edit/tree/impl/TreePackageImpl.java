@@ -12,11 +12,13 @@
  *
  * </copyright>
  *
- * $Id: TreePackageImpl.java,v 1.2 2010/04/28 20:38:41 khussey Exp $
+ * $Id: TreePackageImpl.java,v 1.3 2010/05/17 13:17:43 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+import org.eclipse.emf.common.util.Reflect;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -85,6 +87,8 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
   {
     if (isInited) return (TreePackage)EPackage.Registry.INSTANCE.getEPackage(TreePackage.eNS_URI);
 
+    initializeRegistryHelpers();
+
     // Obtain or create and register package
     TreePackageImpl theTreePackage = (TreePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof TreePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new TreePackageImpl());
 
@@ -106,6 +110,45 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(TreePackage.eNS_URI, theTreePackage);
     return theTreePackage;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static void initializeRegistryHelpers()
+  {
+    Reflect.register
+      (TreeNode.class, 
+       new Reflect.Helper() 
+       {
+         public boolean isInstance(Object instance)
+         {
+           return instance instanceof TreeNode;
+         }
+
+         public Object newArrayInstance(int size)
+         {
+           return new TreeNode[size];
+         }
+       });
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static class WhiteList implements IsSerializable
+  {
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected TreeNode treeNode;
+
   }
 
   /**

@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: TreeNodeImpl.java,v 1.2 2010/04/28 20:38:41 khussey Exp $
+ * $Id: TreeNodeImpl.java,v 1.3 2010/05/17 13:17:43 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
 
+import com.google.gwt.user.client.rpc.GwtTransient;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -59,6 +60,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * @generated
    * @ordered
    */
+  @GwtTransient
   protected EList<TreeNode> children;
 
   /**
@@ -69,6 +71,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * @generated
    * @ordered
    */
+  @GwtTransient
   protected EObject data;
 
   /**
