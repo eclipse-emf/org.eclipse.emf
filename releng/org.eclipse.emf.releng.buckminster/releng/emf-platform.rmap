@@ -4,7 +4,7 @@
 
 	<locator pattern="^org\.eclipse\.emf\.releng\.buckminster$" searchPathRef="local.releng"/>
 	<locator pattern="^org\.eclipse\.rap(?:\..+)?$" searchPathRef="rap"/>
-	<locator searchPathRef="eclipse.helios"/>
+	<locator searchPathRef="platform"/>
 
 	<searchPath name="local.releng">
 		<provider componentTypes="buckminster" readerType="local" source="true" mutable="false">
@@ -23,14 +23,9 @@
 		</provider>
 	</searchPath>
 
-	<searchPath name="eclipse.helios">
+	<searchPath name="platform">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
 			<uri format="{0}/eclipse/updates/3.6milestones">
-				<bc:propertyRef key="eclipse.download"/>
-			</uri>
-		</provider>
-		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
-			<uri format="{0}/releases/helios">
 				<bc:propertyRef key="eclipse.download"/>
 			</uri>
 		</provider>
