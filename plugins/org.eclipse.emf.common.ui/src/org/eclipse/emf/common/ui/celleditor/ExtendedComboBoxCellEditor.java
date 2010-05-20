@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedComboBoxCellEditor.java,v 1.7 2008/05/04 17:03:35 emerks Exp $
+ * $Id: ExtendedComboBoxCellEditor.java,v 1.7.2.1 2010/05/20 04:31:47 davidms Exp $
  */
 package org.eclipse.emf.common.ui.celleditor;
 
@@ -210,13 +210,23 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
   protected void refreshItems(String filter)
   {
     CCombo combo = (CCombo)getControl();
-    if (combo != null && (!combo.isDisposed()))
+    if (combo != null && !combo.isDisposed())
     {
-      String[] items = createItems(list = new ArrayList<Object>(originalList), labelProvider, filter, sorted);
-      combo.setItems(items);
-      if (items.length > 0)
+      ArrayList<Object> newList = new ArrayList<Object>(originalList);
+      String[] items = createItems(newList, labelProvider, filter, sorted);
+      if (!newList.equals(list))
       {
-        combo.select(0);
+        Object previousValue = getValue();
+        list = newList;
+        combo.setItems(items);
+        if (list.contains(previousValue))
+        {
+          setValue(previousValue);
+        }
+        else if (!list.isEmpty())
+        {
+          setValue(list.get(0));
+        }
       }
     }
   }
@@ -238,7 +248,7 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
     int index = list.indexOf(value);
     if (index != -1)
     {
-      super.doSetValue(new Integer(list.indexOf(value)));
+      super.doSetValue(index);
     }
   }
 
