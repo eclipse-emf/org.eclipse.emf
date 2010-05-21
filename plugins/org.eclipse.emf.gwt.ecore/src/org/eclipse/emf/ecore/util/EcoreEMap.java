@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEMap.java,v 1.2 2010/04/28 20:39:44 khussey Exp $
+ * $Id: EcoreEMap.java,v 1.3 2010/05/21 15:20:09 khussey Exp $
  */
 package  org.eclipse.emf.ecore.util;
 
@@ -158,46 +158,6 @@ public class EcoreEMap<K, V> extends BasicEMap<K, V> implements InternalEList.Un
     {
       EcoreEMap.this.doMove(movedObject);
     }
-
-    // XXX 245014
-//    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException
-//    {
-//      objectOutputStream.defaultWriteObject();
-//      writeDataDeferredAgain(objectOutputStream);
-//    }
-
-    // XXX 245014
-//    @Override
-//    protected void writeDataDeferred(ObjectOutputStream objectOutputStream) throws IOException
-//    {
-//      // Defer this even more.
-//    }
-
-    // XXX 245014
-//    protected void writeDataDeferredAgain(ObjectOutputStream objectOutputStream) throws IOException
-//    {
-//      super.writeDataDeferred(objectOutputStream);
-//    }
-
-    // XXX 245014
-//    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
-//    {
-//      objectInputStream.defaultReadObject();
-//      readDataDeferredAgain(objectInputStream);
-//    }
-
-    // XXX 245014
-//    @Override
-//    protected void readDataDeferred(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
-//    {
-//      // Defer this even more
-//    }
-
-    // XXX 245014
-//    protected void readDataDeferredAgain(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
-//    {
-//      super.readDataDeferred(objectInputStream);
-//    }
   }
 
   @Override
@@ -406,36 +366,4 @@ public class EcoreEMap<K, V> extends BasicEMap<K, V> implements InternalEList.Un
   {
     ((EStructuralFeature.Setting)delegateEList).unset();
   }
-
-  // XXX 245014
-//  private void writeObject(ObjectOutputStream objectOutputStream) throws IOException
-//  {
-//    // Write the fields before writing the entries.
-//  }
-
-  // XXX 245014
-//  @Override
-//  protected void writeEntries(ObjectOutputStream objectOutputStream) throws IOException
-//  {
-//    objectOutputStream.writeObject(entryClass);
-//    objectOutputStream.writeObject(entryEClass);
-//    objectOutputStream.writeObject(delegateEList);
-//  }
-
-  // XXX 245014
-//  private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
-//  {
-//    // Read the fields before reading the entries
-//  }
-
-  // XXX 245014
-//  @Override
-//  @SuppressWarnings("unchecked")
-//  protected void readEntries(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
-//  {
-//    entryClass = (Class<?>)objectInputStream.readObject();
-//    entryEClass = (EClass)objectInputStream.readObject();
-//    delegateEList = (EList<Entry<K, V>>)objectInputStream.readObject();
-//  }
-
 }

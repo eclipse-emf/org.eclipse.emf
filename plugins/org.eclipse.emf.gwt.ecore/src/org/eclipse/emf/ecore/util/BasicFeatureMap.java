@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.3 2010/05/17 13:17:57 emerks Exp $
+ * $Id: BasicFeatureMap.java,v 1.4 2010/05/21 15:20:09 khussey Exp $
  */
 package org.eclipse.emf.ecore.util;
 
 
-//import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -47,9 +46,7 @@ public class BasicFeatureMap
 {
   private static final long serialVersionUID = 1L;
 
-  protected Wrapper wrapper = this;
-  
-  // XXX 245014
+  protected Wrapper wrapper = this;  
   protected transient FeatureMapUtil.Validator featureMapValidator;
 
   public BasicFeatureMap(InternalEObject owner, int featureID)
@@ -2561,10 +2558,4 @@ public class BasicFeatureMap
     super.set(newValue instanceof FeatureMap ? newValue : ((FeatureMap.Internal.Wrapper)newValue).featureMap());
   }
 
-  // XXX 245014
-//  private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
-//  {
-//      in.defaultReadObject();
-//      featureMapValidator = FeatureMapUtil.getValidator(owner.eClass(), getEStructuralFeature());
-//  }
 }

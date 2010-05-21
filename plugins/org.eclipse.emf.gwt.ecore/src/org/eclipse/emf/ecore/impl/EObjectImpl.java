@@ -12,10 +12,9 @@
  *
  * </copyright>
  *
- * $Id: EObjectImpl.java,v 1.2 2010/04/28 20:39:48 khussey Exp $
+ * $Id: EObjectImpl.java,v 1.3 2010/05/21 15:20:09 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
-
 
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -294,21 +293,4 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
       eFlags &= ~EDYNAMIC_CLASS;
     }
   }
-
-  // XXX 245014
-//  @Override
-//  protected void eWriteObject(ObjectOutputStream out) throws IOException
-//  {
-//    super.eWriteObject(out);
-//    out.writeInt(eFlags);
-//  }
-
-  // XXX 245014
-//  @Override
-//  protected void eReadObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-//  {
-//    super.eReadObject(in);
-//    eFlags = in.readInt();
-//  }
-
 }

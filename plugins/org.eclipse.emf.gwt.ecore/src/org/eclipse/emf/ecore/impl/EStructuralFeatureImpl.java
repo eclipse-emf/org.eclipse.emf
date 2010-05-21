@@ -12,13 +12,11 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.2 2010/04/28 20:39:46 khussey Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.3 2010/05/21 15:20:09 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
-import com.google.gwt.user.client.rpc.GwtTransient;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +56,8 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+
+import com.google.gwt.user.client.rpc.GwtTransient;
 
 
 /**
@@ -2933,11 +2933,8 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     return cachedIsFeatureMap;
   }
   
-  public static abstract class BasicFeatureMapEntry implements FeatureMap.Entry.Internal, Serializable
+  public static abstract class BasicFeatureMapEntry implements FeatureMap.Entry.Internal
   {
-    // XXX 245014
-    private static final long serialVersionUID = 1L;
-
     protected final EStructuralFeature.Internal eStructuralFeature;
 
     BasicFeatureMapEntry(EStructuralFeature.Internal eStructuralFeature)
@@ -3021,9 +3018,6 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
   public final static class SimpleFeatureMapEntry extends BasicFeatureMapEntry
   {
-    // XXX 245014
-    private static final long serialVersionUID = 1L;
-
     protected final Object value;
     
     public SimpleFeatureMapEntry(EStructuralFeature.Internal eStructuralFeature, Object value)
@@ -3066,9 +3060,6 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
   public final static class SimpleContentFeatureMapEntry extends BasicFeatureMapEntry
   {
-    // XXX 245014
-    private static final long serialVersionUID = 1L;
-
     protected EFactory eFactory;
     protected EDataType eDataType;
 
@@ -3117,9 +3108,6 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
   public final class InverseUpdatingFeatureMapEntry extends BasicFeatureMapEntry
   {
-    // XXX 245014
-    private static final long serialVersionUID = 1L;
-
     protected final InternalEObject value;
     
     public InverseUpdatingFeatureMapEntry(EStructuralFeature.Internal eStructuralFeature, InternalEObject value)
@@ -3191,9 +3179,6 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
   public final static class ContainmentUpdatingFeatureMapEntry extends BasicFeatureMapEntry
   {
-    // XXX 245014
-    private static final long serialVersionUID = 1L;
-
     protected final InternalEObject value;
 
     public ContainmentUpdatingFeatureMapEntry(EStructuralFeature.Internal eStructuralFeature, InternalEObject value)
@@ -3322,159 +3307,4 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     }
     super.setName(newName);
   }
-
-  // XXX 245014
-  /*
-  protected Object writeReplace() throws ObjectStreamException
-  {
-    return new WriteReplacement(this);
-  }
-
-  // XXX 245014
-  protected static class WriteReplacement implements Externalizable
-  {
-    protected EStructuralFeature eStructuralFeature;
-
-    public WriteReplacement()
-    {
-      super();
-    }
-
-    public WriteReplacement(EStructuralFeature eStructuralFeature)
-    {
-      this.eStructuralFeature = eStructuralFeature;
-    }
-
-    public void readExternalx(ObjectInput in) throws IOException, ClassNotFoundException
-    {
-      String nsURI = in.readUTF();
-      String classifierName = in.readUTF();
-      String featureName = in.readUTF();
-      EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(nsURI);
-      if (ePackage == null)
-      {
-        eStructuralFeature = ExtendedMetaData.INSTANCE.demandFeature(nsURI, featureName, true);
-      }
-      else
-      {
-        EClass eClass = (EClass)ePackage.getEClassifier(classifierName);
-        eStructuralFeature = eClass.getEStructuralFeature(featureName);
-      }
-    }
-
-    public void writeExternalx(ObjectOutput out) throws IOException
-    {
-      EClass eClass = eStructuralFeature.getEContainingClass();
-      EPackage ePackage = eClass.getEPackage();
-      out.writeUTF(ePackage.getNsURI());
-      out.writeUTF(eClass.getName());
-      out.writeUTF(eStructuralFeature.getName());
-    }
-
-    public void writeExternal(ObjectOutput out) throws IOException
-    {
-      EClass eClass = eStructuralFeature.getEContainingClass();
-      EPackage ePackage = eClass.getEPackage();
-
-      // First try to see if this package's implementation class has an eInstance.
-      //
-      try
-      {
-        Field field = ePackage.getClass().getField("eINSTANCE");
-        out.writeByte(0);
-        out.writeObject(field.getDeclaringClass());
-        out.writeUTF(eClass.getName());
-        out.writeUTF(eStructuralFeature.getName());
-      }
-      catch (Exception exception)
-      {
-        String nsURI = ePackage.getNsURI();
-        if (EPackage.Registry.INSTANCE.get(nsURI) == ePackage)
-        {
-          out.writeByte(1);
-          out.writeUTF(nsURI);
-          out.writeUTF(eClass.getName());
-          out.writeUTF(eStructuralFeature.getName());
-        }
-        else
-        {
-          out.writeByte
-          (ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature) == ExtendedMetaData.ELEMENT_FEATURE ? 
-          eStructuralFeature instanceof EReference ? 2 : 3 :
-          eStructuralFeature instanceof EReference ? 4 : 5);
-          String namespace = ExtendedMetaData.INSTANCE.getNamespace(eStructuralFeature);
-          out.writeUTF(namespace == null ? "" : namespace);
-          out.writeUTF(ExtendedMetaData.INSTANCE.getName(eStructuralFeature));
-        }
-      }
-    }
-
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException
-    {
-      byte value = in.readByte();
-      if (value == 0)
-      {
-        Class<?> packageInterface = (Class<?>)in.readObject();
-        try
-        {
-          EPackage ePackage = (EPackage)packageInterface.getField("eINSTANCE").get(null);
-          EClass eClass = (EClass)ePackage.getEClassifier(in.readUTF());
-          eStructuralFeature = eClass.getEStructuralFeature(in.readUTF());
-        }
-        catch (Throwable throwable)
-        {
-          throw new Resource.IOWrappedException(throwable);
-        }
-      }
-      else
-      {
-        if (value == 1)
-        {
-          String nsURI = in.readUTF();
-          EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(nsURI);
-          EClass eClass = (EClass)ePackage.getEClassifier(in.readUTF());
-          eStructuralFeature = eClass.getEStructuralFeature(in.readUTF());
-        }
-        else
-        {
-          boolean isElement = value == 2 || value == 3;
-          boolean isReference = value == 2 || value == 4;
-          String namespace = in.readUTF();
-          if (namespace.length() == 0)
-          {
-            namespace = null;
-          }
-          String name = in.readUTF();
-          eStructuralFeature = ExtendedMetaData.INSTANCE.demandFeature(namespace, name, isElement, isReference);
-        }
-      }
-    }
-
-    protected Object readResolve()
-    {
-      return eStructuralFeature;
-    }
-
-    @Override
-    public int hashCode()
-    {
-      return eStructuralFeature == null ? null : eStructuralFeature.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-      if (o instanceof WriteReplacement)
-      {
-        WriteReplacement writeReplacement = (WriteReplacement)o;
-        return eStructuralFeature == null ? writeReplacement.eStructuralFeature == null : eStructuralFeature.equals(writeReplacement.eStructuralFeature);
-      }
-      else
-      {
-        return false;
-      }
-    }
-  }
-  */
-
 }

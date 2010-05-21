@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.2 2010/04/28 20:39:53 khussey Exp $
+ * $Id: BasicEObjectImpl.java,v 1.3 2010/05/21 15:20:09 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2062,49 +2062,6 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     return eInvocationDelegate(eOperation).dynamicInvoke(this, arguments);
   }
   
-  // XXX 245014
-//  protected void eWriteObject(ObjectOutputStream out) throws IOException
-//  {
-//    out.writeObject(eContainer());
-//    out.writeInt(eContainerFeatureID());
-//    out.writeObject(eDynamicClass());
-//    int size =  eClass().getFeatureCount() - eStaticFeatureCount();
-//    if (size > 0)
-//    {
-//      DynamicValueHolder eSettings = eSettings();
-//      for (int i = 0; i < size; ++i)
-//      {
-//        out.writeObject(eSettings.dynamicGet(i));
-//      }
-//    }
-//  }
-
-  // XXX 245014
-//  protected void eReadObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-//  {
-//    InternalEObject eContainer = (InternalEObject)in.readObject();
-//    int eContainerFeatureID = in.readInt();
-//    eBasicSetContainer(eContainer, eContainerFeatureID);
-//    EClass eClass = (EClass)in.readObject();
-//    if (eClass != null)
-//    {
-//      eSetClass(eClass);
-//    }
-//    else
-//    {
-//      eClass = eClass();
-//    }
-//    int size =  eClass.getFeatureCount() - eStaticFeatureCount();
-//    if (size > 0)
-//    {
-//      DynamicValueHolder eSettings = eSettings();
-//      for (int i = 0; i < size; ++i)
-//      {
-//        eSettings.dynamicSet(i, in.readObject());
-//      }
-//    }
-//  }
-
   @Override
   public String toString()
   {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEList.java,v 1.2 2010/04/28 20:39:44 khussey Exp $
+ * $Id: EcoreEList.java,v 1.3 2010/05/21 15:20:09 khussey Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -849,45 +849,4 @@ public abstract class EcoreEList<E> extends NotifyingInternalEListImpl<E> implem
       return eStructuralFeature;
     }
   }
-
-  // XXX 245014
-//  private void writeObject(ObjectOutputStream objectOutputStream) throws IOException
-//  {
-//    objectOutputStream.defaultWriteObject();
-//    writeDataDeferred(objectOutputStream);
-//  }
-
-  // XXX 245014
-//  @Override
-//  protected void writeData(ObjectOutputStream objectOutputStream) throws IOException
-//  {
-//    // Defer this.
-//  }
-
-  // XXX 245014
-//  protected void writeDataDeferred(ObjectOutputStream objectOutputStream) throws IOException
-//  {
-//    super.writeData(objectOutputStream);
-//  }
-
-  // XXX 245014
-//  private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
-//  {
-//    objectInputStream.defaultReadObject();
-//    readDataDeferred(objectInputStream);
-//  }
-
-  // XXX 245014
-//  @Override
-//  protected void readData(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
-//  {
-//    // Defer this
-//  }
-
-  // XXX 245014
-//  protected void readDataDeferred(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
-//  {
-//    super.readData(objectInputStream);
-//  }
-
 }

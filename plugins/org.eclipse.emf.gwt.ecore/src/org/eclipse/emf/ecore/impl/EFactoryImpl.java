@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.2 2010/04/28 20:39:45 khussey Exp $
+ * $Id: EFactoryImpl.java,v 1.3 2010/05/21 15:20:09 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -264,27 +264,6 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
 
     return basicCreate(eClass);
   }
-
-  // XXX 245014
-//  private static class SerializableDynamicEObjectImpl extends DynamicEObjectImpl implements Serializable
-//  {
-//    private static final long serialVersionUID = 1L;
-//
-//    public SerializableDynamicEObjectImpl(EClass eClass)
-//    {
-//      super(eClass);
-//    }
-//
-//    private void writeObject(ObjectOutputStream out) throws IOException
-//    {
-//      eWriteObject(out);
-//    }
-//
-//    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-//    {
-//      eReadObject(in);
-//    }
-//  }
 
   protected EObject basicCreate(EClass eClass) 
   {

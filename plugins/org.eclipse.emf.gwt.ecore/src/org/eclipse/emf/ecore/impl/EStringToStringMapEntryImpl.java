@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStringToStringMapEntryImpl.java,v 1.2 2010/04/28 20:39:55 khussey Exp $
+ * $Id: EStringToStringMapEntryImpl.java,v 1.3 2010/05/21 15:20:09 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -338,19 +338,5 @@ public class EStringToStringMapEntryImpl extends MinimalEObjectImpl.Container im
     EObject container = eContainer();
     return container == null ? null : (EMap<String, String>)container.eGet(eContainmentFeature());
   }
-
-  // XXX 245014
-//  private void writeObject(ObjectOutputStream out) throws IOException
-//  {
-//    out.defaultWriteObject();
-//    eWriteObject(out);
-//  }
-
-  // XXX 245014
-//  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-//  {
-//    in.defaultReadObject();
-//    eReadObject(in);
-//  }
 
 } //EStringToStringMapEntryImpl
