@@ -12,14 +12,11 @@
  *
  * </copyright>
  *
- * $Id: BasicEMap.java,v 1.2 2010/04/28 20:37:42 khussey Exp $
+ * $Id: BasicEMap.java,v 1.3 2010/05/21 15:20:12 khussey Exp $
  */
 package  org.eclipse.emf.common.util;
 
 
-//import java.io.IOException;
-//import java.io.ObjectInputStream;
-//import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.AbstractSet;
@@ -1458,79 +1455,6 @@ public class BasicEMap<K, V> implements EMap<K, V>, Serializable
       return false;
     }
   }
-
-  // XXX 245014
-//  private void writeObject(ObjectOutputStream objectOutputStream) throws IOException
-//  {
-//    objectOutputStream.defaultWriteObject();
-//    writeEntries(objectOutputStream);
-//  }
-
-  // XXX 245014
-//  protected void writeEntries(ObjectOutputStream objectOutputStream) throws IOException
-//  {
-//    objectOutputStream.writeInt(size);
-//
-//    if (entryData == null)
-//    {
-//      objectOutputStream.writeInt(0);
-//    }
-//    else
-//    {
-//      // Write the capacity.
-//      //
-//      objectOutputStream.writeInt(entryData.length);
-//  
-//      // Write all the entryData; there will be size of them.
-//      //
-//      for (int i = 0; i < entryData.length; ++i)
-//      {
-//        BasicEList<Entry<K, V>> eList = entryData[i];
-//        if (eList != null)
-//        {
-//          Object [] entries = eList.data;
-//          int size = eList.size;
-//          for (int j = 0; j < size; ++j)
-//          {
-//            @SuppressWarnings("unchecked") Entry<K, V> entry = (Entry<K, V>)entries[j];
-//            objectOutputStream.writeObject(entry.getKey());
-//            objectOutputStream.writeObject(entry.getValue());
-//          }
-//        }
-//      }
-//    }
-//  }
-
-  // XXX 245014
-//  private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
-//  {
-//    objectInputStream.defaultReadObject();
-//    readEntries(objectInputStream);
-//  }
-
-  // XXX 245014
-//  protected void readEntries(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
-//  {
-//    size = objectInputStream.readInt();
-//    initializeDelegateEList();
-//  
-//    // Restore the capacity, if there was any.
-//    //
-//    int capacity = objectInputStream.readInt();
-//    if (capacity > 0)
-//    {
-//      entryData = newEntryData(capacity);
-//    
-//      // Read all size number of entryData.
-//      //
-//      for (int i = 0; i < size; ++i) 
-//      {
-//        @SuppressWarnings("unchecked") K key = (K)objectInputStream.readObject();
-//        @SuppressWarnings("unchecked") V value = (V)objectInputStream.readObject();
-//        put(key, value);
-//      }
-//    }
-//  }
 
   /**
    * Delegates to {@link #delegateEList}.
