@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedImageRegistry.java,v 1.1 2010/03/11 02:30:14 khussey Exp $
+ * $Id: ExtendedImageRegistry.java,v 1.2 2010/05/25 13:40:24 khussey Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -202,10 +202,11 @@ public class ExtendedImageRegistry
 
   protected void handleDisplayDispose() 
   {
-    for (Image image : table.values())
-    {
-      image.dispose();
-    }
+// TODO https://bugs.eclipse.org/bugs/show_bug.cgi?id=314239
+//    for (Image image : table.values())
+//    {
+//      image.dispose();
+//    }
     table = null;
   }
 
