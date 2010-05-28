@@ -23,7 +23,7 @@ http://www.eclipse.org/legal/epl-v10.html
    </license>
 
    <url>
-      <update label="%ModelingUpdateSiteName" url="http://www.eclipse.org/modeling/updates/"/>
+      <update label="Eclipse Modeling Framework (EMF) Build Site" url="http://www.eclipse.org/downloads/download.php?file=/modeling/emf/emf/updates/2.6/&amp;protocol=http&amp;format=xml"/>
       <discovery label="%ModelingUpdateSiteName" url="http://www.eclipse.org/modeling/updates/"/>
    </url>
 
