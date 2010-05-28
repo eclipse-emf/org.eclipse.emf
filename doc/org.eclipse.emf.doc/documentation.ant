@@ -1,0 +1,6 @@
+<project name="Documentation Build Tasks">
+	<target name="build.index" description="Build documentation search index">
+		<dirname property="destination" file="${sp:output}" />
+		<help.buildHelpIndex manifest="${sp:plugin.xml}" destination="${destination}" />
+	</target>
+</project>
