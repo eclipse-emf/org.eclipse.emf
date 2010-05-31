@@ -22,10 +22,6 @@ http://www.eclipse.org/legal/epl-v10.html
       %license
    </license>
 
-   <url>
-      <update label="Eclipse Modeling Framework (EMF) Build Site" url="http://www.eclipse.org/downloads/download.php?file=/modeling/emf/emf/updates/&amp;protocol=http&amp;format=xml"/>
-   </url>
-
    <includes id="org.eclipse.emf.all" version="0.0.0"/>
    
    <includes id="org.eclipse.emf.rap.sdk" version="0.0.0"/>
