@@ -209,13 +209,31 @@
 		<property name="composite.repository.directory" location="${downloads.area}/updates/${composite.repository.base}" />
 		<property name="composite.repository.url" value="file:/${composite.repository.directory}" />
 		<property name="build.repository.directory" location="${composite.repository.directory}/${saved.build.id}" />
+		<property name="build.repository.template" location="${composite.repository.directory}/template" />
 
 		<delete dir="${build.repository.directory}" />
 		<mkdir dir="${build.repository.directory}" />
 
+		<!--
+			We seed the metadata repository with the repository references and the mirroring
+			information specified in the template
+		-->
 		<copy todir="${build.repository.directory}">
-			<fileset dir="${build.root}/archive/${repository.base}" />
+			<fileset dir="${build.repository.template}">
+				<filename name="content.xml" />
+			</fileset>
 		</copy>
+		<p2.mirror>
+			<repository location="file:/${build.repository.directory}" kind="M" />
+			<!--
+				Seeding does not work for artifact repository - missing artifacts are reported.
+				Fortunately we can use the format attribute to obtain the same effect.
+			-->
+			<repository location="file:/${build.repository.directory}" kind="A" format="file:/${build.repository.template}" />
+			<source>
+				<repository location="file:/${build.root}/archive/${repository.base}" />
+			</source>
+		</p2.mirror>
 
 		<p2.composite.repository destination="${composite.repository.url}">
 			<add>
