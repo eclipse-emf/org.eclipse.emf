@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2009 IBM Corporation and others.
+ * Copyright (c) 2002-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.73 2010/02/04 20:56:54 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.74 2010/06/04 14:14:15 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2521,6 +2521,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected String indent(String text, String indentation, String lineDelimiter)
   {
+    return indent(text, indentation, lineDelimiter, false);
+  }
+
+  protected String indent(String text, String indentation, String lineDelimiter, boolean escape)
+  {
     if (text == null)
     {
       return null;
@@ -2536,14 +2541,72 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         {
           case '\n':
           {
-            stringBuffer.replace(i, i + (i + 1 < stringBuffer.length() && stringBuffer.charAt(i + 1) == '\r' ? 2 : 1), separator);
-            i += increment;
+            boolean crNext = i + 1 < stringBuffer.length() && stringBuffer.charAt(i + 1) == '\r';
+            if (escape)
+            {
+              stringBuffer.replace(i, i + (crNext ? 2 : 1), (crNext ? "\\n\\r" : "\\n") + separator);
+              i += increment + (crNext ? 4 : 2);
+            }
+            else
+            {
+              stringBuffer.replace(i, i + (crNext ? 2 : 1), separator);
+              i += increment;
+            }
             break;
           }
           case '\r':
           {
-            stringBuffer.replace(i, i + (i + 1 < stringBuffer.length() && stringBuffer.charAt(i + 1) == '\n' ? 2 : 1), separator);
-            i += increment;
+            boolean lfNext = i + 1 < stringBuffer.length() && stringBuffer.charAt(i + 1) == '\n';
+            if (escape)
+            {
+              stringBuffer.replace(i, i + (lfNext ? 2 : 1), (lfNext ? "\\r\\n" : "\\r") + separator);
+              i += increment + (lfNext ? 4 : 2);
+            }
+            else
+            {
+              stringBuffer.replace(i, i + (lfNext ? 2 : 1), separator);
+              i += increment;
+            }
+            break;
+          }
+          case '\b':
+          {
+            if (escape)
+            {
+              stringBuffer.replace(i, ++i, "\\b");
+            }
+            break;
+          }
+          case '\t':
+          {
+            if (escape)
+            {
+              stringBuffer.replace(i, ++i, "\\t");
+            }
+            break;
+          }
+          case '\f':
+          {
+            if (escape)
+            {
+              stringBuffer.replace(i, ++i, "\\f");
+            }
+            break;
+          }
+          case '\"':
+          {
+            if (escape)
+            {
+              stringBuffer.replace(i, ++i, "\\\"");
+            }
+            break;
+          }
+          case '\\':
+          {
+            if (escape)
+            {
+              stringBuffer.replace(i, ++i, "\\\\");
+            }
             break;
           }
         }

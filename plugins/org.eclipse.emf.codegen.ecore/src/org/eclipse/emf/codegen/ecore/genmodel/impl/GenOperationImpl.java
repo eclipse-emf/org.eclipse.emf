@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.40 2010/03/15 20:38:38 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.41 2010/06/04 14:14:15 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -997,7 +997,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
 
   public String getInvariantExpression(String indentation)
   {
-    return indent(getInvariantExpression(), indentation + "\"", "\" +" + getGenModel().getNonNLS() + getGenModel().getLineDelimiter());
+    return indent(getInvariantExpression(), indentation + "\"", "\" +" + getGenModel().getNonNLS() + getGenModel().getLineDelimiter(), true);
   }
 
   public String getValidationDelegate()

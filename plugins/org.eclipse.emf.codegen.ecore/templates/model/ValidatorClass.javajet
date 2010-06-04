@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.36 2010/03/01 17:47:46 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.37 2010/06/04 14:14:15 khussey Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2009 IBM Corporation and others.
+ * Copyright (c) 2002-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -306,7 +306,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static final <%=genModel.getImportedName("java.lang.String")%> <%=genClassifier.getClassifierID()%>__<%=CodeGenUtil.upperName(constraint)%>__EEXPRESSION = "<%=genClassifier.getConstraintExpression(constraint, genModel.getIndentation(stringBuffer))%>";<%=genModel.getNonNLS()%>
+	protected static final <%=genModel.getImportedName("java.lang.String")%> <%=genClassifier.getClassifierID()%>__<%=CodeGenUtil.upperName(constraint)%>__EEXPRESSION = "<%=genClassifier.getConstraintExpression(constraint, "\t\t")%>";<%=genModel.getNonNLS()%>
 
 <%}%>
 	/**
