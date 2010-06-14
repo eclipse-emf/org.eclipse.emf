@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceImpl.java,v 1.2 2010/04/28 20:39:59 khussey Exp $
+ * $Id: BinaryResourceImpl.java,v 1.3 2010/06/14 15:32:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -626,13 +626,15 @@ public class BinaryResourceImpl extends ResourceImpl
               {
                 writeCompressedInt(-1);
                 writeURI(resource.getURI(), resource.getURIFragment(internalEObject));
+                return;
               }
               else if (internalEObject.eIsProxy())
               {
                 writeCompressedInt(-1);
                 writeURI(internalEObject.eProxyURI());
+                return;
               }
-              return;
+              break;
             }
             case RESOURCE:
             {
@@ -641,13 +643,15 @@ public class BinaryResourceImpl extends ResourceImpl
               {
                 writeCompressedInt(-1);
                 writeURI(resource.getURI(), resource.getURIFragment(internalEObject));
+                return;
               }
               else if (internalEObject.eIsProxy())
               {
                 writeCompressedInt(-1);
                 writeURI(internalEObject.eProxyURI());
+                return;
               }
-              return;
+              break;
             }
             case NOTHING:
             case CONTAINER:
