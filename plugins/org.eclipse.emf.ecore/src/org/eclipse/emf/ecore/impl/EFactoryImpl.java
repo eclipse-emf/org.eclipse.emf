@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.29 2009/11/16 19:27:13 khussey Exp $
+ * $Id: EFactoryImpl.java,v 1.30 2010/07/20 22:12:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -728,6 +728,11 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
   protected String collapseWhiteSpace(String value)
   {
     return XMLTypeUtil.normalize(value, true);
+  }
+
+  protected String [] split(String value)
+  {
+    return value.split("[ \t\n\r\f]");
   }
 
   private static class SafeSimpleDateFormat extends SimpleDateFormat
