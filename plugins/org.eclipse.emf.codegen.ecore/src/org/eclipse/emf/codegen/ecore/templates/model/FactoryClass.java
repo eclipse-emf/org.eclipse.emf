@@ -233,7 +233,7 @@ public class FactoryClass
   protected final String TEXT_216 = NL + "\t\tfor (";
   protected final String TEXT_217 = " stringTokenizer = new ";
   protected final String TEXT_218 = "(initialValue); stringTokenizer.hasMoreTokens(); )";
-  protected final String TEXT_219 = NL + "\t\tfor (String item : split(literal))";
+  protected final String TEXT_219 = NL + "\t\tfor (String item : split(initialValue))";
   protected final String TEXT_220 = NL + "\t\t{";
   protected final String TEXT_221 = NL + "\t\t\tString item = stringTokenizer.nextToken();";
   protected final String TEXT_222 = NL + "\t\t\tresult.add(create";

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.36 2010/04/28 20:38:14 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.36.2.1 2010/07/20 18:45:29 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -362,7 +362,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
         <%if (genModel.getRuntimeVersion().getValue() < GenRuntimeVersion.EMF26_VALUE) {%>
 		for (<%=genModel.getImportedName("java.util.StringTokenizer")%> stringTokenizer = new <%=genModel.getImportedName("java.util.StringTokenizer")%>(initialValue); stringTokenizer.hasMoreTokens(); )
         <%} else {%>
-		for (String item : split(literal))
+		for (String item : split(initialValue))
         <%}%>
 		{
         <%if (genModel.getRuntimeVersion().getValue() < GenRuntimeVersion.EMF26_VALUE) {%>
