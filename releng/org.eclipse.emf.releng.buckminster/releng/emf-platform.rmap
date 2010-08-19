@@ -17,7 +17,7 @@
 
 	<searchPath name="rap">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
-			<uri format="{0}/rt/rap/1.3/runtime">
+			<uri format="{0}/rt/rap/1.4/runtime">
 				<bc:propertyRef key="eclipse.download"/>
 			</uri>
 		</provider>
@@ -25,7 +25,7 @@
 
 	<searchPath name="platform">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
-			<uri format="{0}/eclipse/updates/3.6milestones">
+			<uri format="{0}/eclipse/updates/3.7milestones">
 				<bc:propertyRef key="eclipse.download"/>
 			</uri>
 		</provider>
