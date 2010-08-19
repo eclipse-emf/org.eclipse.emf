@@ -3,4 +3,5 @@
 	<cq:rootRequest name="org.eclipse.emf.build" componentType="eclipse.feature"/>
 
 	<cq:advisorNode namePattern="^org\.eclipse\.(?:emf|xsd)(?:\..*)?\.source$" skipComponent="true"/>
+	<cq:advisorNode namePattern="^org\.eclipse\.(?:emf|xsd)(?:\..*)?$" branchTagPath="R2_6_maintenance"/>
 </cq:componentQuery>
