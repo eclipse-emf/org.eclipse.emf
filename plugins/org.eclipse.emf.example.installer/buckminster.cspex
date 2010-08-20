@@ -19,23 +19,45 @@
 		<cs:public name="buckminster.prebind" actor="ant">
 			<cs:actorProperties>
 				<cs:property key="buildFile" value="install.ant" />
-				<cs:property key="targets" value="install.example.projects" />
+				<cs:property key="targets" value="process.example.projects" />
 			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="execute.target" value="install.example.project" />
+			</cs:properties>
 			<cs:prerequisites alias="example.projects">
-				<cs:attribute component="org.eclipse.emf.activities.EXAMPLE" />
-				<cs:attribute component="org.eclipse.emf.examples.databinding.project.core.EXAMPLE" />
-				<cs:attribute component="org.eclipse.emf.examples.databinding.project.core.model.EXAMPLE" />
-				<cs:attribute component="org.eclipse.emf.examples.databinding.project.ui.rcp.EXAMPLE" />
-				<cs:attribute component="org.eclipse.emf.examples.generator.validator.EXAMPLE" />
-				<cs:attribute component="org.eclipse.emf.examples.library.EXAMPLE" />
-				<cs:attribute component="org.eclipse.emf.examples.library.edit.EXAMPLE" />
-				<cs:attribute component="org.eclipse.emf.examples.library.editor.EXAMPLE" />
-				<cs:attribute component="org.eclipse.emf.exporter.html.EXAMPLE" />
-				<cs:attribute component="org.eclipse.emf.java.EXAMPLE" />
-				<cs:attribute component="org.eclipse.emf.java.edit.EXAMPLE" />
-				<cs:attribute component="org.eclipse.emf.java.editor.EXAMPLE" />
+				<cs:attribute name="example.projects" />
 			</cs:prerequisites>
 			<cs:products alias="output" base="${buckminster.home}/examples/" />
 		</cs:public>
+
+		<cs:public name="bind.example.projects" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="install.ant" />
+				<cs:property key="targets" value="process.example.projects" />
+			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="execute.target" value="bind.example.project" />
+			</cs:properties>
+			<cs:prerequisites alias="example.projects">
+				<cs:attribute name="example.projects" />
+			</cs:prerequisites>
+		</cs:public>
 	</cs:actions>
+
+	<cs:groups>
+		<cs:private name="example.projects">
+			<cs:attribute component="org.eclipse.emf.activities.EXAMPLE" />
+			<cs:attribute component="org.eclipse.emf.examples.databinding.project.core.EXAMPLE" />
+			<cs:attribute component="org.eclipse.emf.examples.databinding.project.core.model.EXAMPLE" />
+			<cs:attribute component="org.eclipse.emf.examples.databinding.project.ui.rcp.EXAMPLE" />
+			<cs:attribute component="org.eclipse.emf.examples.generator.validator.EXAMPLE" />
+			<cs:attribute component="org.eclipse.emf.examples.library.EXAMPLE" />
+			<cs:attribute component="org.eclipse.emf.examples.library.edit.EXAMPLE" />
+			<cs:attribute component="org.eclipse.emf.examples.library.editor.EXAMPLE" />
+			<cs:attribute component="org.eclipse.emf.exporter.html.EXAMPLE" />
+			<cs:attribute component="org.eclipse.emf.java.EXAMPLE" />
+			<cs:attribute component="org.eclipse.emf.java.edit.EXAMPLE" />
+			<cs:attribute component="org.eclipse.emf.java.editor.EXAMPLE" />
+		</cs:private>
+	</cs:groups>
 </cs:cspecExtension>
