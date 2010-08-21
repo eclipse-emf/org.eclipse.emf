@@ -25,6 +25,10 @@ public abstract class BookImpl extends EObjectImpl implements Book
    */
   protected Date publicationDate = PUBLICATION_DATE_EDEFAULT;
   
+  
+
+  // comments between removed fields are removed
+  
   // comments after removed 'isbn' are kept
   
   /**

@@ -109,6 +109,12 @@ protected abstract class EchoSoapBindingImpl implements echo.Echo, Comparable
   
   // between d and e
   
+  
+  // line comment after b()
+  
+  // hanging comment between b() and c()
+  // could be another method here, these comments will be removed
+  
   // line comment after c()
   
   // hanging comment between c() and d()
