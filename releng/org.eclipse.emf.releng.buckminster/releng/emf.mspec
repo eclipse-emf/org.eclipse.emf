@@ -4,5 +4,5 @@
 	<mspec:property key="target.arch" value="*"/>
 	<mspec:property key="target.ws" value="*"/>
 
-	<mspec:mspecNode installLocation="${workspace.root}/examples" materializer="filesystem" namePattern="\.EXAMPLE$"/>
+	<mspec:mspecNode componentType="unknown" materializer="filesystem" installLocation="${workspace.root}/examples"/>
 </mspec:mspec>

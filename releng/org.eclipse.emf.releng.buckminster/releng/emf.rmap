@@ -35,18 +35,10 @@
 				<bc:propertyRef key="buckminster.component"/>
 			</uri>
 		</provider>
-		<provider componentTypes="osgi.bundle" readerType="cvs" source="true" mutable="false">
+		<provider componentTypes="osgi.bundle,unknown" readerType="cvs" source="true" mutable="false">
 			<uri format="{0},org.eclipse.emf/org.eclipse.emf/examples/{1}">
 				<bc:propertyRef key="source.repository.location"/>
 				<bc:propertyRef key="buckminster.component"/>
-			</uri>
-		</provider>
-		<provider componentTypes="unknown" readerType="cvs" source="true" mutable="false">
-			<uri format="{0},org.eclipse.emf/org.eclipse.emf/examples/{1}">
-				<bc:propertyRef key="source.repository.location"/>
-				<bc:replace pattern="^(.*)\.EXAMPLE$" replacement="$1">
-					<bc:propertyRef key="buckminster.component"/>
-				</bc:replace>
 			</uri>
 		</provider>
 		<provider componentTypes="eclipse.feature" readerType="cvs" source="true" mutable="false">
@@ -94,18 +86,10 @@
 				<bc:propertyRef key="buckminster.component"/>
 			</uri>
 		</provider>
-		<provider componentTypes="osgi.bundle" readerType="cvs" source="true" mutable="false">
+		<provider componentTypes="osgi.bundle,unknown" readerType="cvs" source="true" mutable="false">
 			<uri format="{0},org.eclipse.mdt/org.eclipse.xsd/examples/{1}">
 				<bc:propertyRef key="source.repository.location"/>
 				<bc:propertyRef key="buckminster.component"/>
-			</uri>
-		</provider>
-		<provider componentTypes="unknown" readerType="cvs" source="true" mutable="false">
-			<uri format="{0},org.eclipse.mdt/org.eclipse.xsd/examples/{1}">
-				<bc:propertyRef key="source.repository.location"/>
-				<bc:replace pattern="^(.*)\.EXAMPLE$" replacement="$1">
-					<bc:propertyRef key="buckminster.component"/>
-				</bc:replace>
 			</uri>
 		</provider>
 		<provider componentTypes="eclipse.feature" readerType="cvs" source="true" mutable="false">
