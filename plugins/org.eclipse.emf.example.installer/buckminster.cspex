@@ -1,63 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cs:cspecExtension xmlns:com="http://www.eclipse.org/buckminster/Common-1.0" xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0">
 	<cs:dependencies>
-		<cs:dependency name="org.eclipse.emf.activities.EXAMPLE" componentType="unknown" />
-		<cs:dependency name="org.eclipse.emf.examples.databinding.project.core.EXAMPLE" componentType="unknown" />
-		<cs:dependency name="org.eclipse.emf.examples.databinding.project.core.model.EXAMPLE" componentType="unknown" />
-		<cs:dependency name="org.eclipse.emf.examples.databinding.project.ui.rcp.EXAMPLE" componentType="unknown" />
-		<cs:dependency name="org.eclipse.emf.examples.generator.validator.EXAMPLE" componentType="unknown" />
-		<cs:dependency name="org.eclipse.emf.examples.library.EXAMPLE" componentType="unknown" />
-		<cs:dependency name="org.eclipse.emf.examples.library.edit.EXAMPLE" componentType="unknown" />
-		<cs:dependency name="org.eclipse.emf.examples.library.editor.EXAMPLE" componentType="unknown" />
-		<cs:dependency name="org.eclipse.emf.exporter.html.EXAMPLE" componentType="unknown" />
-		<cs:dependency name="org.eclipse.emf.java.EXAMPLE" componentType="unknown" />
-		<cs:dependency name="org.eclipse.emf.java.edit.EXAMPLE" componentType="unknown" />
-		<cs:dependency name="org.eclipse.emf.java.editor.EXAMPLE" componentType="unknown" />
+		<!--
+			each of the example projects must be listed twice in the dependency list:
+				- once with a component type of "osgi.bunlde" - this copy of the example project is bound
+				  to the workspace and associated with a team provider - this is necessary for the project
+				  to be tagged when using the Buckminster tagging support to carry out the tagging operation
+				- once with a component type of "unknown" - this copy is NOT bound to the workspace (making
+				  it unsuitable for tagging using the Buckminster tagging support, BUT) preventing it from
+				  being modified (this is in contrast to the formerly described copy) by any of the builders
+				  the project may define - which is what we want when inserting the example project's files
+				  into the installer bundle
+		-->
+		<cs:dependency name="org.eclipse.emf.activities" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.emf.activities" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.examples.databinding.project.core" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.emf.examples.databinding.project.core" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.examples.databinding.project.core.model" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.emf.examples.databinding.project.core.model" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.examples.databinding.project.ui.rcp" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.emf.examples.databinding.project.ui.rcp" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.examples.generator.validator" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.emf.examples.generator.validator" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.examples.library" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.emf.examples.library" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.examples.library.edit" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.emf.examples.library.edit" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.examples.library.editor" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.emf.examples.library.editor" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.exporter.html" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.emf.exporter.html" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.java" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.emf.java" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.java.edit" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.emf.java.edit" componentType="unknown" />
+		<cs:dependency name="org.eclipse.emf.java.editor" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.emf.java.editor" componentType="unknown" />
 	</cs:dependencies>
 
 	<cs:actions>
-		<cs:public name="buckminster.prebind" actor="ant">
+		<cs:private name="install.example.projects" actor="ant">
 			<cs:actorProperties>
 				<cs:property key="buildFile" value="install.ant" />
-				<cs:property key="targets" value="process.example.projects" />
 			</cs:actorProperties>
-			<cs:properties>
-				<cs:property key="execute.target" value="install.example.project" />
-			</cs:properties>
 			<cs:prerequisites alias="example.projects">
 				<cs:attribute name="example.projects" />
 			</cs:prerequisites>
-			<cs:products alias="output" base="${buckminster.home}/examples/" />
-		</cs:public>
-
-		<cs:public name="bind.example.projects" actor="ant">
-			<cs:actorProperties>
-				<cs:property key="buildFile" value="install.ant" />
-				<cs:property key="targets" value="process.example.projects" />
-			</cs:actorProperties>
-			<cs:properties>
-				<cs:property key="execute.target" value="bind.example.project" />
-			</cs:properties>
-			<cs:prerequisites alias="example.projects">
-				<cs:attribute name="example.projects" />
-			</cs:prerequisites>
-		</cs:public>
+			<cs:products alias="output" base="${buckminster.temp}">
+				<cs:path path="examples/" />
+			</cs:products>
+		</cs:private>
 	</cs:actions>
 
 	<cs:groups>
 		<cs:private name="example.projects">
-			<cs:attribute component="org.eclipse.emf.activities.EXAMPLE" />
-			<cs:attribute component="org.eclipse.emf.examples.databinding.project.core.EXAMPLE" />
-			<cs:attribute component="org.eclipse.emf.examples.databinding.project.core.model.EXAMPLE" />
-			<cs:attribute component="org.eclipse.emf.examples.databinding.project.ui.rcp.EXAMPLE" />
-			<cs:attribute component="org.eclipse.emf.examples.generator.validator.EXAMPLE" />
-			<cs:attribute component="org.eclipse.emf.examples.library.EXAMPLE" />
-			<cs:attribute component="org.eclipse.emf.examples.library.edit.EXAMPLE" />
-			<cs:attribute component="org.eclipse.emf.examples.library.editor.EXAMPLE" />
-			<cs:attribute component="org.eclipse.emf.exporter.html.EXAMPLE" />
-			<cs:attribute component="org.eclipse.emf.java.EXAMPLE" />
-			<cs:attribute component="org.eclipse.emf.java.edit.EXAMPLE" />
-			<cs:attribute component="org.eclipse.emf.java.editor.EXAMPLE" />
+			<cs:attribute component="org.eclipse.emf.activities" componentType="unknown" />
+			<cs:attribute component="org.eclipse.emf.examples.databinding.project.core" componentType="unknown" />
+			<cs:attribute component="org.eclipse.emf.examples.databinding.project.core.model" componentType="unknown" />
+			<cs:attribute component="org.eclipse.emf.examples.databinding.project.ui.rcp" componentType="unknown" />
+			<cs:attribute component="org.eclipse.emf.examples.generator.validator" componentType="unknown" />
+			<cs:attribute component="org.eclipse.emf.examples.library" componentType="unknown" />
+			<cs:attribute component="org.eclipse.emf.examples.library.edit" componentType="unknown" />
+			<cs:attribute component="org.eclipse.emf.examples.library.editor" componentType="unknown" />
+			<cs:attribute component="org.eclipse.emf.exporter.html" componentType="unknown" />
+			<cs:attribute component="org.eclipse.emf.java" componentType="unknown" />
+			<cs:attribute component="org.eclipse.emf.java.edit" componentType="unknown" />
+			<cs:attribute component="org.eclipse.emf.java.editor" componentType="unknown" />
 		</cs:private>
 	</cs:groups>
+
+	<cs:alterGroups>
+		<cs:private name="jar.contents">
+			<cs:attribute name="install.example.projects" />
+		</cs:private>
+	</cs:alterGroups>
 </cs:cspecExtension>

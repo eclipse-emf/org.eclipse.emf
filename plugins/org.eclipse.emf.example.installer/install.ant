@@ -1,60 +1,19 @@
 <project name="Install">
-	<property name="unbound.project.suffix" value=".UNBOUND" />
-
-	<target name="process.example.projects">
-		<!-- Call the "${execute.target}" target for each of the example projects. -->
-		<subant genericantfile="${ant.file}" target="${execute.target}" inheritall="true">
+	<target name="install.example.projects">
+		<!-- Call the "-install.single.example.project" target for each of the example projects. -->
+		<subant genericantfile="${ant.file}" target="-install.single.example.project" inheritall="true">
 			<buckminster.valuepath value="${fs:example.projects}" />
 		</subant>
 	</target>
 
-	<target name="-set.project.names">
-		<basename property="EXAMPLE.project.name" file="${basedir}" />
-		<buckminster.substitute property="project.name" pattern="^(.*)\.EXAMPLE$$" replacement="$$1" value="${EXAMPLE.project.name}" />
-	</target>
-
-	<target name="install.example.project" depends="-set.project.names">
-		<!--
-			If there is a backup copy of the project, use it in preference.
-			This way we should always install the project in its original state
-			(i.e. unmodified by the builders the project defines).
-		-->
-		<condition property="source.directory" value="${basedir}${unbound.project.suffix}" else="${basedir}">
-			<available file="${basedir}${unbound.project.suffix}" type="dir" />
-		</condition>
+	<target name="-install.single.example.project">
+		<basename property="project.name" file="${basedir}" />
 		<property name="target.directory" location="${sp:output}/${project.name}" />
 
 		<mkdir dir="${target.directory}" />
 
 		<copy todir="${target.directory}">
-			<fileset dir="${source.directory}" />
+			<fileset dir="${basedir}" />
 		</copy>
-	</target>
-
-	<target name="-check.if.bound" depends="-set.project.names">
-		<buckminster.resourceLocation property="is.bound" path="${project.name}" />
-	</target>
-
-	<!--
-		Bind the example project to the workspace (if it is not bound yet)
-		in order to make it possible to tag it using buckminster tagging support
-		(which can only tag resources bound to the workspace).
-	-->
-	<target name="bind.example.project" depends="-check.if.bound" unless="is.bound">
-		<property name="unbound.project.directory" value="${basedir}${unbound.project.suffix}" />
-
-		<mkdir dir="${unbound.project.directory}" />
-
-		<!--
-			Take a backup of the project before it's bound, so that we have
-			an unmodified copy of it.
-			(Once a project is bound to the workspace, it may be modified by the various
-			builders it defines.)
-		-->
-		<copy todir="${unbound.project.directory}">
-			<fileset dir="${basedir}" defaultexcludes="false" />
-		</copy>
-
-		<buckminster.bind projectdir="${basedir}" />
 	</target>
 </project>
