@@ -234,7 +234,7 @@
     <eOperations name="eInvoke" eType="#//EJavaObject" eExceptions="#//EInvocationTargetException">
       <eParameters name="operation" eType="#//EOperation"/>
       <eParameters name="arguments">
-        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eGenericType eClassifier="ecore:EDataType #//EEList">
           <eTypeArguments/>
         </eGenericType>
       </eParameters>
