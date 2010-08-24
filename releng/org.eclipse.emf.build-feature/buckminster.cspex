@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<cs:cspecExtension xmlns:com="http://www.eclipse.org/buckminster/Common-1.0" xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0">
+<cs:cspecExtension
+	xmlns:com="http://www.eclipse.org/buckminster/Common-1.0"
+	xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0">
+
 	<cs:dependencies>
 		<cs:dependency name="org.eclipse.emf.releng.buckminster" componentType="buckminster" />
 		<cs:dependency name="org.eclipse.emf.tests" componentType="eclipse.feature" />
-		<cs:dependency name="org.eclipse.emf.example.installer" componentType="osgi.bundle" />
 	</cs:dependencies>
 
 	<cs:actions>
@@ -35,7 +37,8 @@
 				<cs:property key="targets" value="package.ius" />
 			</cs:actorProperties>
 			<cs:properties>
-				<cs:property key="content.ius" value="org.eclipse.emf.sdk.feature.group,org.eclipse.xsd.sdk.feature.group" />
+				<cs:property key="content.ius"
+					value="org.eclipse.emf.sdk.feature.group,org.eclipse.xsd.sdk.feature.group" />
 				<cs:property key="package.name" value="emf-xsd-SDK" />
 			</cs:properties>
 			<cs:prerequisites>
@@ -51,7 +54,8 @@
 				<cs:property key="targets" value="package.ius" />
 			</cs:actorProperties>
 			<cs:properties>
-				<cs:property key="content.ius" value="org.eclipse.emf.examples.feature.group,org.eclipse.xsd.example.feature.group" />
+				<cs:property key="content.ius"
+					value="org.eclipse.emf.examples.feature.group,org.eclipse.xsd.example.feature.group" />
 				<cs:property key="prerequisite.ius"
 					value="org.eclipse.emf.feature.group,org.eclipse.xsd.feature.group,org.eclipse.xsd.ecore.converter.feature.group,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.editor.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.mapping.editor.feature.group" />
 				<cs:property key="package.name" value="emf-xsd-Examples" />
@@ -158,9 +162,6 @@
 				<cs:property key="exclude.0" value="^org\.eclipse\.test$" />
 				<cs:property key="exclude.1" value="^org\.eclipse\.ant\.optional\.junit$" />
 			</cs:actorProperties>
-			<cs:prerequisites>
-				<cs:attribute component="org.eclipse.emf.example.installer" name="bind.example.projects" />
-			</cs:prerequisites>
 		</cs:public>
 	</cs:actions>
 
