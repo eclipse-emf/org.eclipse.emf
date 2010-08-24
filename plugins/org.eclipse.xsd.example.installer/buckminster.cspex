@@ -1,19 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cs:cspecExtension xmlns:com="http://www.eclipse.org/buckminster/Common-1.0" xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0">
 	<cs:dependencies>
-		<cs:dependency name="org.eclipse.xsd.example.EXAMPLE" componentType="unknown" />
+		<!--
+			each of the example projects must be listed twice in the dependency list:
+				- once with a component type of "osgi.bunlde" - this copy of the example project is bound
+				  to the workspace and associated with a team provider - this is necessary for the project
+				  to be tagged when using the Buckminster tagging support to carry out the tagging operation
+				- once with a component type of "unknown" - this copy is NOT bound to the workspace (making
+				  it unsuitable for tagging using the Buckminster tagging support, BUT) preventing it from
+				  being modified (this is in contrast to the formerly described copy) by any of the builders
+				  the project may define - which is what we want when inserting the example project's files
+				  into the installer bundle
+		-->
+		<cs:dependency name="org.eclipse.xsd.example" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.xsd.example" componentType="unknown" />
 	</cs:dependencies>
 
 	<cs:actions>
-		<cs:public name="buckminster.prebind" actor="ant">
+		<cs:private name="install.example.projects" actor="ant">
 			<cs:actorProperties>
 				<cs:property key="buildFile" value="install.ant" />
-				<cs:property key="targets" value="install.example.projects" />
 			</cs:actorProperties>
 			<cs:prerequisites alias="example.projects">
-				<cs:attribute component="org.eclipse.xsd.example.EXAMPLE" />
+				<cs:attribute name="example.projects" />
 			</cs:prerequisites>
-			<cs:products alias="output" base="${buckminster.home}/examples/" />
-		</cs:public>
+			<cs:products alias="output" base="${buckminster.temp}">
+				<cs:path path="examples/" />
+			</cs:products>
+		</cs:private>
 	</cs:actions>
+
+	<cs:groups>
+		<cs:private name="example.projects">
+			<cs:attribute component="org.eclipse.xsd.example" componentType="unknown" />
+		</cs:private>
+	</cs:groups>
+
+	<cs:alterGroups>
+		<cs:private name="jar.contents">
+			<cs:attribute name="install.example.projects" />
+		</cs:private>
+	</cs:alterGroups>
 </cs:cspecExtension>

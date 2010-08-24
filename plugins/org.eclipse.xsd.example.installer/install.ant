@@ -1,17 +1,13 @@
 <project name="Install">
 	<target name="install.example.projects">
-		<!--
-			call the "-install.single.example.project" target for each of the
-			example projects
-		-->
+		<!-- Call the "-install.single.example.project" target for each of the example projects. -->
 		<subant genericantfile="${ant.file}" target="-install.single.example.project" inheritall="true">
 			<buckminster.valuepath value="${fs:example.projects}" />
 		</subant>
 	</target>
 
 	<target name="-install.single.example.project">
-		<basename property="EXAMPLE.project.name" file="${basedir}" />
-		<buckminster.substitute property="project.name" pattern="^(.*)\.EXAMPLE$$" replacement="$$1" value="${EXAMPLE.project.name}" />
+		<basename property="project.name" file="${basedir}" />
 		<property name="target.directory" location="${sp:output}/${project.name}" />
 
 		<mkdir dir="${target.directory}" />
