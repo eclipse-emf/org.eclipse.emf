@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.47 2010/04/28 14:50:57 emerks Exp $
+ * $Id: GenModelItemProvider.java,v 1.48 2010/08/24 16:59:30 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -22,10 +22,18 @@ import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
+import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimePlatform;
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -1980,6 +1988,36 @@ public class GenModelItemProvider
         return;
     }
     super.notifyChanged(notification);
+  }
+
+  @Override
+  protected Command createSetCommand(final EditingDomain domain, final EObject owner, EStructuralFeature feature, Object value)
+  {
+    Command result = new SetCommand(domain, owner, feature, value);
+    if (value == GenRuntimePlatform.GWT)
+    {
+      CompoundCommand compoundCommand = 
+        new CompoundCommand(0)
+        {
+          @Override
+          public void execute()
+          {
+            GenModel genModel = (GenModel)owner;
+            for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers())
+            {
+              appendAndExecute(SetCommand.create(domain, genPackage, GenModelPackage.Literals.GEN_PACKAGE__RESOURCE, GenResourceKind.NONE_LITERAL));
+            }
+            appendAndExecute(SetCommand.create(domain, genModel, GenModelPackage.Literals.GEN_MODEL__TESTS_DIRECTORY, ""));
+            super.execute();
+          }
+        };
+      compoundCommand.append(result);
+      return compoundCommand;
+    }
+    else
+    {
+      return result;
+    }
   }
 
 }
