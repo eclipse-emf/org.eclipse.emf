@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.39 2010/04/28 20:38:15 khussey Exp $
+ * $Id: Generator.java,v 1.40 2010/08/24 16:59:38 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -719,7 +719,13 @@ public class Generator extends CodeGen
             natureIds = 
               ((style & EMF_GWT_PROJECT_STYLE) == 0 ? 
                   new String [] { JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature" } :
-                  new String [] { JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", "com.google.gwt.eclipse.core.gwtNature" });
+                  (style & EMF_EDITOR_PROJECT_STYLE) == 0 ? 
+                    new String [] { JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", "com.google.gwt.eclipse.core.gwtNature" } :
+                    new String [] 
+                      { JavaCore.NATURE_ID, 
+                        "org.eclipse.pde.PluginNature", 
+                        "com.google.gwt.eclipse.core.gwtNature", 
+                        "com.google.appengine.eclipse.core.gaeNature" });
           }
           else
           {
@@ -744,6 +750,13 @@ public class Generator extends CodeGen
               System.arraycopy(oldNatureIds, 0, natureIds, 0, oldNatureIds.length);
               natureIds[oldNatureIds.length] = "com.google.gwt.eclipse.core.gwtNature";
             }
+            if ((style & EMF_GWT_PROJECT_STYLE) != 0 && (style & EMF_EDITOR_PROJECT_STYLE) != 0 && !project.hasNature("com.google.appengine.eclipse.core.gaeNature"))
+            {
+              String [] oldNatureIds = natureIds;
+              natureIds = new String [oldNatureIds.length + 1];
+              System.arraycopy(oldNatureIds, 0, natureIds, 0, oldNatureIds.length);
+              natureIds[oldNatureIds.length] = "com.google.appengine.eclipse.core.gaeNature";
+            }
           }
           projectDescription.setNatureIds(natureIds);
   
@@ -752,63 +765,35 @@ public class Generator extends CodeGen
           {
             builders = new ICommand [0];
           }
-          boolean hasManifestBuilder = false;
-          boolean hasSchemaBuilder = false;
-          boolean hasGWTProjectValidator = false;
-          boolean hasWebAppProjectValidator = false;
+          boolean hasGWTBuilder = false;
+          int enhancerBuilderIndex = -1;
           for (int i = 0; i < builders.length; ++i)
           {
-            if ("org.eclipse.pde.ManifestBuilder".equals(builders[i].getBuilderName()))
+            if ("org.eclipse.emf.codegen.ecore.GWTBuilder".equals(builders[i].getBuilderName()))
             {
-              hasManifestBuilder = true;
+              hasGWTBuilder = true;
             }
-            if ("org.eclipse.pde.SchemaBuilder".equals(builders[i].getBuilderName()))
+            if ("com.google.appengine.eclipse.core.enhancerbuilder".equals(builders[i].getBuilderName()))
             {
-              hasSchemaBuilder = true;
-            }
-            if ("com.google.gwt.eclipse.core.gwtProjectValidator".equals(builders[i].getBuilderName()))
-            {
-              hasGWTProjectValidator = true;
-            }
-            if ("com.google.gdt.eclipse.core.webAppProjectValidator".equals(builders[i].getBuilderName()))
-            {
-              hasWebAppProjectValidator = true;
+              enhancerBuilderIndex = i;
             }
           }
-          if (!hasManifestBuilder)
+          if ((style & EMF_GWT_PROJECT_STYLE) != 0 && (style & EMF_EDITOR_PROJECT_STYLE) != 0 && !hasGWTBuilder)
           {
             ICommand [] oldBuilders = builders;
             builders = new ICommand [oldBuilders.length + 1];
             System.arraycopy(oldBuilders, 0, builders, 0, oldBuilders.length);
             builders[oldBuilders.length] = projectDescription.newCommand();
-            builders[oldBuilders.length].setBuilderName("org.eclipse.pde.ManifestBuilder");
+            builders[oldBuilders.length].setBuilderName("org.eclipse.emf.codegen.ecore.GWTBuilder");
           }
-          if (!hasSchemaBuilder)
+          if (enhancerBuilderIndex != -1)
           {
             ICommand [] oldBuilders = builders;
-            builders = new ICommand [oldBuilders.length + 1];
-            System.arraycopy(oldBuilders, 0, builders, 0, oldBuilders.length);
-            builders[oldBuilders.length] = projectDescription.newCommand();
-            builders[oldBuilders.length].setBuilderName("org.eclipse.pde.SchemaBuilder");
-          }
-          if ((style & EMF_GWT_PROJECT_STYLE) != 0 && !hasGWTProjectValidator)
-          {
-            ICommand [] oldBuilders = builders;
-            builders = new ICommand [oldBuilders.length + 1];
-            System.arraycopy(oldBuilders, 0, builders, 0, oldBuilders.length);
-            builders[oldBuilders.length] = projectDescription.newCommand();
-            builders[oldBuilders.length].setBuilderName("com.google.gwt.eclipse.core.gwtProjectValidator");
-          }
-          if ((style & EMF_GWT_PROJECT_STYLE) != 0 && !hasWebAppProjectValidator)
-          {
-            ICommand [] oldBuilders = builders;
-            builders = new ICommand [oldBuilders.length + 1];
-            System.arraycopy(oldBuilders, 0, builders, 0, oldBuilders.length);
-            builders[oldBuilders.length] = projectDescription.newCommand();
-            builders[oldBuilders.length].setBuilderName("com.google.gdt.eclipse.core.webAppProjectValidator");
+            builders = new ICommand [oldBuilders.length - 1];
+            System.arraycopy(oldBuilders, 0, builders, 0, enhancerBuilderIndex);
+            System.arraycopy(oldBuilders, enhancerBuilderIndex + 1, builders, enhancerBuilderIndex, oldBuilders.length - enhancerBuilderIndex - 1);
           }
           projectDescription.setBuildSpec(builders);
-  
           project.setDescription(projectDescription, new SubProgressMonitor(progressMonitor, 1));
   
           IContainer sourceContainer = project;
@@ -876,6 +861,10 @@ public class Generator extends CodeGen
               if ((style & EMF_GWT_PROJECT_STYLE) != 0)
               {
                 classpathEntries.add(JavaCore.newContainerEntry(new Path("com.google.gwt.eclipse.core.GWT_CONTAINER")));
+                if ((style & EMF_EDITOR_PROJECT_STYLE) != 0)
+                {
+                  classpathEntries.add(JavaCore.newContainerEntry(new Path("com.google.appengine.eclipse.core.GAE_CONTAINER")));
+                }
               }
   
               // Remove variables since the plugin.xml should provide the complete path information.
@@ -968,7 +957,9 @@ public class Generator extends CodeGen
   
         if (isInitiallyEmpty)
         {
-          javaProject.setOutputLocation(new Path("/" + javaSource.segment(0) + "/bin"), new SubProgressMonitor(progressMonitor, 1));
+          javaProject.setOutputLocation
+            (new Path("/" + javaSource.segment(0) + (((style & EMF_GWT_PROJECT_STYLE) != 0) && ((style & EMF_EDITOR_PROJECT_STYLE) != 0) ? "/war/WEB-INF/classes" : "/bin")), 
+             new SubProgressMonitor(progressMonitor, 1));
         }
       }
       catch (Exception exception)

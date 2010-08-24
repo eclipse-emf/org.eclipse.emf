@@ -48,4 +48,10 @@
    <extension point="org.eclipse.team.core.fileTypes">
       <fileTypes extension="genmodel" type="text"/>
    </extension>
+   
+   <extension point="org.eclipse.core.resources.builders" id="GWTBuilder" name="%gwtBuilder">
+      <builder>
+         <run class="org.eclipse.emf.codegen.ecore.gwt.GWTBuilder" />
+      </builder>
+   </extension>
 </plugin>

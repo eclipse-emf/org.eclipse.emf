@@ -56,7 +56,7 @@ public class Plugin
   protected final String TEXT_39 = ".class);" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\t@Override" + NL + "\tpublic String getString(String key, boolean translate)" + NL + "\t{";
   protected final String TEXT_40 = NL + "\t\t";
   protected final String TEXT_41 = "else ";
-  protected final String TEXT_42 = " if (\"_UI_";
+  protected final String TEXT_42 = "if (\"_UI_";
   protected final String TEXT_43 = "_type\".equals(key)) return PROPERTIES.";
   protected final String TEXT_44 = "Type();";
   protected final String TEXT_45 = NL + "\t\t";

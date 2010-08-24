@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.68 2010/04/28 14:50:52 emerks Exp $
+ * $Id: GenModel.java,v 1.69 2010/08/24 16:59:38 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -2754,8 +2754,44 @@ public interface GenModel extends GenBase
   List<String> getEditModuleSources();
 
   /**
-   * Get the inherits dependencies for the dit project's GWT Module.
+   * Get the inherits dependencies for the edit project's GWT Module.
    * @since 2.6
    */
   List<String> getEditModuleInherits();
+
+  /**
+   * Get the qualified name of the editor project's GWT Module.
+   * @since 2.7
+   */
+  String getQualifiedEditorModuleName();
+
+  /**
+   * Get the source dependencies for the edit project's GWT Module.
+   * @since 2.7
+   */
+  List<String> getEditorModuleSources();
+
+  /**
+   * Get the inherits dependencies for the editor project's GWT Module.
+   * @since 2.7
+   */
+  List<String> getEditorModuleInherits();
+
+  /**
+   * Gets the name of the home page.
+   * @since 2.7
+   */
+  String getEditorHomePageName();
+
+  /**
+   * Gets the fully qualified name of the entry point's class.
+   * @since 2.7
+   */
+  String getEditorEntryPointClassName();
+
+  /**
+   * Gets the name of the entry point's class.
+   * @since 2.7
+   */
+  String getQualifiedEditorEntryPointClassName();
 }

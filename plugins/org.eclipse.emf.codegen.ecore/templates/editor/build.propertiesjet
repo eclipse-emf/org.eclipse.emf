@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.* java.util.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.10 2008/01/08 17:09:54 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.* java.util.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.11 2010/08/24 16:59:38 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -25,9 +25,11 @@ bin.includes = <%=pluginClassesLocation%>,\
 <%if (genModel.isBundleManifest()) {%>
                META-INF/,\
 <%}%>
+<%if (genModel.getRuntimePlatform() != GenRuntimePlatform.GWT) {%>
                plugin.xml,\
+<%}%>
                plugin.properties
 jars.compile.order = <%=pluginClassesLocation%>
 <% boolean first=true; for (Iterator<String> i = sourceFolders.iterator(); i.hasNext();) { String sourceFolder = i.next(); if (i.hasNext()){sourceFolder +=",\\";} if (first) {%>
 source.<%=pluginClassesLocation%> = <%=sourceFolder%><%first=false;} else {%><%=sourceFolder%><%}}%>
-output.<%=pluginClassesLocation%> = bin/
+output.<%=pluginClassesLocation%> = <%if (genModel.getRuntimePlatform() != GenRuntimePlatform.GWT) {%>bin<%} else {%>war/WEB-INF/classes<%}%>

@@ -21,12 +21,15 @@ public class BuildProperties
   protected final String TEXT_4 = NL + NL + "bin.includes = ";
   protected final String TEXT_5 = ",\\" + NL + "               icons/,\\";
   protected final String TEXT_6 = NL + "               META-INF/,\\";
-  protected final String TEXT_7 = NL + "               plugin.xml,\\" + NL + "               plugin.properties" + NL + "jars.compile.order = ";
-  protected final String TEXT_8 = NL + "source.";
-  protected final String TEXT_9 = " = ";
-  protected final String TEXT_10 = NL + "output.";
-  protected final String TEXT_11 = " = bin/";
-  protected final String TEXT_12 = NL;
+  protected final String TEXT_7 = NL + "               plugin.xml,\\";
+  protected final String TEXT_8 = NL + "               plugin.properties" + NL + "jars.compile.order = ";
+  protected final String TEXT_9 = NL + "source.";
+  protected final String TEXT_10 = " = ";
+  protected final String TEXT_11 = NL + "output.";
+  protected final String TEXT_12 = " = ";
+  protected final String TEXT_13 = "bin";
+  protected final String TEXT_14 = "war/WEB-INF/classes";
+  protected final String TEXT_15 = NL;
 
   public String generate(Object argument)
   {
@@ -66,20 +69,28 @@ public class BuildProperties
     if (genModel.isBundleManifest()) {
     stringBuffer.append(TEXT_6);
     }
+    if (genModel.getRuntimePlatform() != GenRuntimePlatform.GWT) {
     stringBuffer.append(TEXT_7);
-    stringBuffer.append(pluginClassesLocation);
-     boolean first=true; for (Iterator<String> i = sourceFolders.iterator(); i.hasNext();) { String sourceFolder = i.next(); if (i.hasNext()){sourceFolder +=",\\";} if (first) {
+    }
     stringBuffer.append(TEXT_8);
     stringBuffer.append(pluginClassesLocation);
+     boolean first=true; for (Iterator<String> i = sourceFolders.iterator(); i.hasNext();) { String sourceFolder = i.next(); if (i.hasNext()){sourceFolder +=",\\";} if (first) {
     stringBuffer.append(TEXT_9);
+    stringBuffer.append(pluginClassesLocation);
+    stringBuffer.append(TEXT_10);
     stringBuffer.append(sourceFolder);
     first=false;} else {
     stringBuffer.append(sourceFolder);
     }}
-    stringBuffer.append(TEXT_10);
-    stringBuffer.append(pluginClassesLocation);
     stringBuffer.append(TEXT_11);
+    stringBuffer.append(pluginClassesLocation);
     stringBuffer.append(TEXT_12);
+    if (genModel.getRuntimePlatform() != GenRuntimePlatform.GWT) {
+    stringBuffer.append(TEXT_13);
+    } else {
+    stringBuffer.append(TEXT_14);
+    }
+    stringBuffer.append(TEXT_15);
     return stringBuffer.toString();
   }
 }

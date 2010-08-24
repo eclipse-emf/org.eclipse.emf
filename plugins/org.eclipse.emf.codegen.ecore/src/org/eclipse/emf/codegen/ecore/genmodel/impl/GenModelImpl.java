@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.114 2010/05/11 17:40:00 khussey Exp $
+ * $Id: GenModelImpl.java,v 1.115 2010/08/24 16:59:38 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -7947,6 +7947,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return (modelName != null ? getModelName() : "") + "EditorAdvisor";
   }
 
+  public String getQualifiedEditorEntryPointClassName()
+  {
+    return getEditorPluginPackageName() + "." + getEditorEntryPointClassName();
+  }
+
+  public String getEditorEntryPointClassName()
+  {
+    String modelName = getModelName();
+    return (modelName != null ? getModelName() : "") + "EditorEntryPoint";
+  }
+
   public boolean hasTestSuiteClass()
   {
     return !isBlank(getTestSuiteClass());
@@ -8265,10 +8276,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public List<String> getEditorRequiredPlugins()
   {
     List<String> result = new UniqueEList<String>();
-    result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
-    if (!isRichClientPlatform())
+    if (getRuntimePlatform() != GenRuntimePlatform.GWT)
     {
-      result.add("org.eclipse.core.resources");
+      result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
+      if (!isRichClientPlatform())
+      {
+        result.add("org.eclipse.core.resources");
+      }
     }
     result.addAll(getEffectiveEditorPluginIDs());
     
@@ -8287,16 +8301,19 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       result.addAll(getEditRequiredPlugins());
     }
-    result.add("org.eclipse.emf.ecore.xmi");
+    if (getRuntimePlatform() != GenRuntimePlatform.GWT)
+    {
+      result.add("org.eclipse.emf.ecore.xmi");
+    }
     if (isRichAjaxPlatform())
     {
       result.add("org.eclipse.core.commands");
     }
     else
     {
-      result.add("org.eclipse.emf.edit.ui");
+      result.add(getRuntimePlatform() == GenRuntimePlatform.GWT ? "org.eclipse.emf.gwt.edit.ui" : "org.eclipse.emf.edit.ui");
     }
-    if (!isRichClientPlatform())
+    if (!isRichClientPlatform() && getRuntimePlatform() != GenRuntimePlatform.GWT)
     {
       result.add("org.eclipse.ui.ide");
     }
@@ -9315,6 +9332,47 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       result.add(genPackage.getGenModel().getQualifiedEditModuleName());
     }
     return result;
+  }
+
+  public String getEditorModuleName()
+  {
+    List<GenPackage> allGenPackagesWithClassifiers = getAllGenAndUsedGenPackagesWithClassifiers();
+    return  
+      (allGenPackagesWithClassifiers.size() == 1 || isBlank(getModelName()) ?
+         allGenPackagesWithClassifiers.get(0).getPrefix() :
+         CodeGenUtil.validJavaIdentifier(getModelName())) + "Editor";
+  }
+
+  public String getQualifiedEditorModuleName()
+  {
+    String rootPackageName = getRootPackageName();
+    return isBlank(rootPackageName) ? getEditorModuleName() : rootPackageName + "." + getEditorModuleName();
+  }
+
+  public List<String> getEditorModuleInherits()
+  {
+    List<String> result = new UniqueEList<String>();
+    for (GenPackage genPackage : getGenPackages())
+    {
+      result.add(genPackage.getGenModel().getQualifiedEditModuleName());
+    }
+    return result;
+  }
+
+  public List<String> getEditorModuleSources()
+  {
+    List<String> result = new UniqueEList<String>();
+    int prefixLength = getRootPackageName().length();
+    for (String editorQualifiedPackageName : getEditorQualifiedPackageNames())
+    {
+      result.add(editorQualifiedPackageName.length() == prefixLength ? ""  : editorQualifiedPackageName.substring(prefixLength + 1));
+    }
+    return result;
+  }
+
+  public String getEditorHomePageName()
+  {
+    return getEditorModuleName();
   }
 
 } //GenModelImpl

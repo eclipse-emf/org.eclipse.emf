@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.19 2009/08/11 18:32:21 davidms Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.20 2010/08/24 16:59:37 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -32,6 +32,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
+import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimePlatform;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
@@ -806,7 +807,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
   protected void generateEditor(GenPackage genPackage, Monitor monitor)
   {
-    if (genPackage.hasConcreteClasses())
+    if (genPackage.hasConcreteClasses() && genPackage.getGenModel().getRuntimePlatform() != GenRuntimePlatform.GWT)
     {
       message = CodeGenEcorePlugin.INSTANCE.getString
         ("_UI_GeneratingJavaClass_message", new Object[] { genPackage.getQualifiedEditorClassName() });
@@ -827,7 +828,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
   protected void generateModelWizard(GenPackage genPackage, Monitor monitor)
   {
-    if (genPackage.hasConcreteClasses() && genPackage.isGenerateModelWizard())
+    if (genPackage.hasConcreteClasses() && genPackage.isGenerateModelWizard() && genPackage.getGenModel().getRuntimePlatform() != GenRuntimePlatform.GWT)
     {
       message = CodeGenEcorePlugin.INSTANCE.getString
         ("_UI_GeneratingJavaClass_message", new Object[] { genPackage.getQualifiedModelWizardClassName() });
@@ -848,7 +849,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
   protected void generateActionBarContributor(GenPackage genPackage, Monitor monitor)
   {
-    if (genPackage.hasConcreteClasses())
+    if (genPackage.hasConcreteClasses() && genPackage.getGenModel().getRuntimePlatform() != GenRuntimePlatform.GWT)
     {
       message = CodeGenEcorePlugin.INSTANCE.getString
         ("_UI_GeneratingJavaClass_message", new Object[] { genPackage.getQualifiedActionBarContributorClassName() });

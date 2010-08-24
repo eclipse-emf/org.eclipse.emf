@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Plugin" version="$Id: Plugin.javajet,v 1.11 2010/04/28 20:38:10 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Plugin" version="$Id: Plugin.javajet,v 1.12 2010/08/24 16:59:37 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -153,7 +153,7 @@ public final class <%=genModel.getEditPluginClassName()%> extends EMFPlugin
 <%boolean first = true; for (GenPackage genPackage : genModel.getAllGenAndUsedGenPackagesWithClassifiers()) {%>
   <%if (genPackage.getGenModel() == genModel || !genPackage.getGenModel().hasEditSupport()) { %>
     <%for (GenClass genClass : genPackage.getGenClasses()) {%>
-		<%if (first) { first = false; } else {%>else <%}%> if ("_UI_<%=genClass.getName()%>_type".equals(key)) return PROPERTIES.<%=genClass.getUncapName()%>Type();
+		<%if (first) { first = false; } else {%>else <%}%>if ("_UI_<%=genClass.getName()%>_type".equals(key)) return PROPERTIES.<%=genClass.getUncapName()%>Type();
     <%}%>
   <%}%>
 <%}%>

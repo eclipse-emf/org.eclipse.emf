@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapter.java,v 1.10 2010/04/28 20:38:16 khussey Exp $
+ * $Id: GenModelGeneratorAdapter.java,v 1.11 2010/08/24 16:59:37 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -70,6 +70,11 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
   protected static final int EDIT_MODULE_GWT_XML_ID = 22;
   protected static final int EDIT_PLUGIN_PROPERTIES_INTERFACE_ID = 23;
   protected static final int EDIT_PLUGIN_IMAGES_INTERFACE_ID = 24;
+  protected static final int EDITOR_WEB_XML_ID = 25;
+  protected static final int EDITOR_APPENGINE_WEB_XML_ID = 26;
+  protected static final int EDITOR_MODULE_GWT_XML_ID = 27;
+  protected static final int EDITOR_HOME_HMTL_ID = 28;
+  protected static final int EDITOR_ENTRY_POINT_CLASS_ID = 29;
 
   private static final JETEmitterDescriptor[] JET_EMITTER_DESCRIPTORS =
   {
@@ -95,9 +100,14 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     new JETEmitterDescriptor("model.tests/plugin.propertiesjet", "org.eclipse.emf.codegen.ecore.templates.model.tests.PluginProperties"),
     new JETEmitterDescriptor("model.tests/build.propertiesjet", "org.eclipse.emf.codegen.ecore.templates.model.tests.BuildProperties"),
     new JETEmitterDescriptor("model/module.gwt.xmljet", "org.eclipse.emf.codegen.ecore.templates.model.ModuleGWTXML"),
-    new JETEmitterDescriptor("model/module.gwt.xmljet", "org.eclipse.emf.codegen.ecore.templates.edit.ModuleGWTXML"),
+    new JETEmitterDescriptor("edit/module.gwt.xmljet", "org.eclipse.emf.codegen.ecore.templates.edit.ModuleGWTXML"),
     new JETEmitterDescriptor("edit/Properties.javajet", "org.eclipse.emf.codegen.ecore.templates.edit.Properties"),
     new JETEmitterDescriptor("edit/Images.javajet", "org.eclipse.emf.codegen.ecore.templates.edit.Images"),
+    new JETEmitterDescriptor("editor/web.xmljet", "org.eclipse.emf.codegen.ecore.templates.editor.WebXML"),
+    new JETEmitterDescriptor("editor/appengine-web.xmljet", "org.eclipse.emf.codegen.ecore.templates.editor.AppEngineWebXML"),
+    new JETEmitterDescriptor("editor/module.gwt.xmljet", "org.eclipse.emf.codegen.ecore.templates.editor.ModuleGWTXML"),
+    new JETEmitterDescriptor("editor/home.htmljet", "org.eclipse.emf.codegen.ecore.templates.editor.HomeHTML"),
+    new JETEmitterDescriptor("editor/EntryPoint.javajet", "org.eclipse.emf.codegen.ecore.templates.editor.EntryPoint"),
   };
 
   /**
@@ -228,7 +238,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     if (genModel.getRuntimePlatform() == GenRuntimePlatform.GWT && !genModel.sameModelEditProject() && !genModel.sameModelEditorProject())
     {
       String qualifiedModelModuleName = genModel.getQualifiedModelModuleName();
-      message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModelModuleGWTXML_message", new Object[] { qualifiedModelModuleName });
+      message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModuleGWTXML_message", new Object[] { qualifiedModelModuleName });
       monitor.subTask(message);
       generateText
         (genModel.getModelDirectory() + "/" + qualifiedModelModuleName.replace(".", "/") + ".gwt.xml",
@@ -246,8 +256,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
 
   protected void generateModelPluginProperties(GenModel genModel, Monitor monitor)
   {
-    // TODO
-    if (genModel.hasPluginSupport() /* && genModel.getRuntimePlatform() != GenRuntimePlatform.GWT */)
+    if (genModel.hasPluginSupport())
     {
       message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModelPluginProperties_message");
       monitor.subTask(message);
@@ -433,7 +442,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     if (genModel.getRuntimePlatform() == GenRuntimePlatform.GWT && !genModel.sameModelEditorProject())
     {
       String qualifiedEditModuleName = genModel.getQualifiedEditModuleName();
-      message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditModuleGWTXML_message", new Object[] { qualifiedEditModuleName });
+      message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModuleGWTXML_message", new Object[] { qualifiedEditModuleName });
       monitor.subTask(message);
       generateText
         (genModel.getEditDirectory() + "/" + qualifiedEditModuleName.replace(".", "/") + ".gwt.xml",
@@ -489,7 +498,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
   @Override
   protected Diagnostic generateEditor(Object object, Monitor monitor)
   {
-    monitor.beginTask("", 7);
+    monitor.beginTask("", 12);
 
     GenModel genModel = (GenModel)object;
     monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorPackages_message"));
@@ -499,9 +508,14 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       (genModel.getEditorDirectory(), genModel, EDITOR_PROJECT_TYPE, genModel.isUpdateClasspath(), createMonitor(monitor, 1));
 
     generateEditorPluginClass(genModel, monitor);
+    generateEditorEntryPointClass(genModel, monitor);
     generateEditorPluginProperties(genModel, monitor);
     generateEditorBuildProperties(genModel, monitor);
     generateEditorManifest(genModel, monitor);
+    generateEditorModule(genModel, monitor);
+    generateEditorWebXML(genModel, monitor);
+    generateEditorHomeHTML(genModel, monitor);
+    generateEditorAppEngineWebXML(genModel, monitor);
     generateAdvisor(genModel, monitor);
 
     return Diagnostic.OK_INSTANCE;
@@ -517,6 +531,20 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
        genModel.getEditorPluginPackageName(),
        genModel.getEditorPluginClassName(),
        getJETEmitter(getJETEmitterDescriptors(), EDITOR_PLUGIN_CLASS_ID),
+       null,
+       createMonitor(monitor, 1));
+  }
+
+  protected void generateEditorEntryPointClass(GenModel genModel, Monitor monitor)
+  {
+    message = CodeGenEcorePlugin.INSTANCE.getString
+      ("_UI_GeneratingJavaClass_message", new Object[] { genModel.getQualifiedEditorPluginClassName() });
+    monitor.subTask(message);
+    generateJava
+      (genModel.getEditorPluginDirectory(),
+       genModel.getEditorPluginPackageName(),
+       genModel.getEditorEntryPointClassName(),
+       getJETEmitter(getJETEmitterDescriptors(), EDITOR_ENTRY_POINT_CLASS_ID),
        null,
        createMonitor(monitor, 1));
   }
@@ -562,6 +590,27 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     }
   }
 
+  protected void generateEditorModule(GenModel genModel, Monitor monitor)
+  {
+    if (genModel.getRuntimePlatform() == GenRuntimePlatform.GWT)
+    {
+      String qualifiedEditorModuleName = genModel.getQualifiedEditorModuleName();
+      message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModuleGWTXML_message", new Object[] { qualifiedEditorModuleName });
+      monitor.subTask(message);
+      generateText
+        (genModel.getEditorDirectory() + "/" + qualifiedEditorModuleName.replace(".", "/") + ".gwt.xml",
+         getJETEmitter(getJETEmitterDescriptors(), EDITOR_MODULE_GWT_XML_ID),
+         null,
+         false,
+         MANIFEST_ENCODING,
+         createMonitor(monitor, 1));
+    }
+    else
+    {
+      monitor.worked(1);
+    }
+  }
+
   protected void generateEditorPluginProperties(GenModel genModel, Monitor monitor)
   {
     message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorPluginProperties_message");
@@ -588,6 +637,66 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
        genModel.isUpdateClasspath() && !exists(toURI(genModel.getEditorProjectDirectory()).appendSegment("plugin.xml")),
        PROPERTIES_ENCODING,
        createMonitor(monitor, 1));
+  }
+
+  protected void generateEditorWebXML(GenModel genModel, Monitor monitor)
+  {
+    if (genModel.getRuntimePlatform() == GenRuntimePlatform.GWT)
+    {
+      message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorWebXML_message");
+      monitor.subTask(message);
+      generateText
+        (genModel.getEditorProjectDirectory() + "/war/WEB-INF/web.xml",
+         getJETEmitter(getJETEmitterDescriptors(), EDITOR_WEB_XML_ID),
+         null,
+         false,
+         MANIFEST_ENCODING,
+         createMonitor(monitor, 1));
+    }
+    else
+    {
+      monitor.worked(1);
+    }
+  }
+
+  protected void generateEditorAppEngineWebXML(GenModel genModel, Monitor monitor)
+  {
+    if (genModel.getRuntimePlatform() == GenRuntimePlatform.GWT)
+    {
+      message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorAppEngineWebXML_message");
+      monitor.subTask(message);
+      generateText
+        (genModel.getEditorProjectDirectory() + "/war/WEB-INF/appengine-web.xml",
+         getJETEmitter(getJETEmitterDescriptors(), EDITOR_APPENGINE_WEB_XML_ID),
+         null,
+         false,
+         MANIFEST_ENCODING,
+         createMonitor(monitor, 1));
+    }
+    else
+    {
+      monitor.worked(1);
+    }
+  }
+
+  protected void generateEditorHomeHTML(GenModel genModel, Monitor monitor)
+  {
+    if (genModel.getRuntimePlatform() == GenRuntimePlatform.GWT)
+    {
+      message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorHomePageHTML_message", new Object[] { genModel.getEditorHomePageName() + ".html" });
+      monitor.subTask(message);
+      generateText
+        (genModel.getEditorProjectDirectory() + "/war/" + genModel.getEditorHomePageName() + ".html",
+         getJETEmitter(getJETEmitterDescriptors(), EDITOR_HOME_HMTL_ID),
+         null,
+         false,
+         MANIFEST_ENCODING,
+         createMonitor(monitor, 1));
+    }
+    else
+    {
+      monitor.worked(1);
+    }
   }
 
   protected void generateAdvisor(GenModel genModel, Monitor monitor)
