@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2008 IBM Corporation and others.
+ * Copyright (c) 2008-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedFontRegistry.java,v 1.1 2010/03/11 02:30:14 khussey Exp $
+ * $Id: ExtendedFontRegistry.java,v 1.1.2.1 2010/08/25 17:26:19 khussey Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -26,6 +26,7 @@ import org.eclipse.emf.edit.provider.IItemFontProvider;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 import org.eclipse.jface.resource.DeviceResourceException;
 import org.eclipse.jface.resource.FontDescriptor;
+import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
@@ -38,7 +39,14 @@ import org.eclipse.swt.widgets.Display;
  */
 public class ExtendedFontRegistry
 {
-  public static final ExtendedFontRegistry INSTANCE = new ExtendedFontRegistry();
+
+  public static final ExtendedFontRegistry INSTANCE = new ExtendedFontRegistry()
+    {
+      public Font getFont(Font baseFont, Object object)
+      {
+        return ((ExtendedFontRegistry)SessionSingletonBase.getInstance(ExtendedFontRegistry.class)).getFont(baseFont, object);
+      }
+    };
 
   protected Display display;
   protected HashMap<Collection<?>, Font> table = new HashMap<Collection<?>, Font>(10);
