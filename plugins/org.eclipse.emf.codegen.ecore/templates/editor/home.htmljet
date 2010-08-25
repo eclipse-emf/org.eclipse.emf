@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="HomeHTML" version="$Id: home.htmljet,v 1.1 2010/08/24 16:59:38 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="HomeHTML" version="$Id: home.htmljet,v 1.2 2010/08/25 13:36:45 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -21,15 +21,57 @@
 <html style="height : 100%"> 
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <!--
-    <link type="text/css" rel="stylesheet" href="Com_macromodeling.css">
-    -->
 
     <!--                                           -->
     <!-- Any title is fine                         -->
     <!--                                           -->
-    <title>Web Application Starter Project</title>
+    <title><%=genModel.getModelName()%> Application</title>
     
+    <style TYPE="text/css">
+      <!--
+        .ToolBar
+        {
+          background-color: #d0e4f6;
+        }
+        .ToolBarButton
+        {
+          float: left;
+          margin-top: 5px;
+        }
+        .ToolBarButtonLeftMargin
+        {
+          float: left;
+          margin-left: 10px;
+          margin-top: 5px;
+        }
+        .Header
+        {
+          background-color: #628cd5;
+          color: #FFFFFF;
+          float: left;
+          font-weight: bold;
+          font-size: xx-large;
+        }
+        .HeaderLabel
+        {
+          float: left;
+          margin-left: 10px;
+        }
+        .PropertiesTitle
+        {
+          background-color: #628cd5;
+          color: #FFFFFF;
+          font-weight: bold;
+          font-size: large;
+        }
+        .PropertiesTitleLabel
+        {
+          float: left;
+          margin-left: 5px;
+        }
+      -->
+    </style>
+
     <!--                                           -->
     <!-- This script loads your compiled module.   -->
     <!-- If you add any GWT meta tags, they must   -->

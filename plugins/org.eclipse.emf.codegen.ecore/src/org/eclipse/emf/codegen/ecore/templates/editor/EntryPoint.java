@@ -37,8 +37,10 @@ public class EntryPoint
   protected final String TEXT_20 = " adapterFactory)" + NL + "\t{";
   protected final String TEXT_21 = NL + "\t\tadapterFactory.addAdapterFactory(new ";
   protected final String TEXT_22 = "());";
-  protected final String TEXT_23 = NL + "\t}" + NL + "" + NL + "}";
-  protected final String TEXT_24 = NL;
+  protected final String TEXT_23 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\t@Override" + NL + "\tprotected String getApplicationTitle()" + NL + "\t{" + NL + "\t\treturn \"";
+  protected final String TEXT_24 = " Application\";";
+  protected final String TEXT_25 = NL + "\t}" + NL + "}";
+  protected final String TEXT_26 = NL;
 
   public String generate(Object argument)
   {
@@ -107,8 +109,12 @@ public class EntryPoint
     stringBuffer.append(TEXT_22);
     }
     stringBuffer.append(TEXT_23);
-    genModel.emitSortedImports();
+    stringBuffer.append(genModel.getModelName());
     stringBuffer.append(TEXT_24);
+    stringBuffer.append(genModel.getNonNLS());
+    stringBuffer.append(TEXT_25);
+    genModel.emitSortedImports();
+    stringBuffer.append(TEXT_26);
     return stringBuffer.toString();
   }
 }

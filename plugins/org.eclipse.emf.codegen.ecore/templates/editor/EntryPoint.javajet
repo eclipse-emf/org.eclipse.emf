@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EntryPoint" version="$Id: EntryPoint.javajet,v 1.1 2010/08/24 16:59:38 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EntryPoint" version="$Id: EntryPoint.javajet,v 1.2 2010/08/25 13:36:45 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -76,5 +76,15 @@ public class <%=genModel.getEditorEntryPointClassName()%> extends EditorEntryPoi
 <%}%>
 	}
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected String getApplicationTitle()
+	{
+		return "<%=genModel.getModelName()%> Application";<%=genModel.getNonNLS()%>
+	}
 }
 <%genModel.emitSortedImports();%>

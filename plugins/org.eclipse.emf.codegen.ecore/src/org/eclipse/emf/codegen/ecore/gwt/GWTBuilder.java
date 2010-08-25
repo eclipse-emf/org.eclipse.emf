@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GWTBuilder.java,v 1.1 2010/08/24 16:59:38 emerks Exp $
+ * $Id: GWTBuilder.java,v 1.2 2010/08/25 13:36:45 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.gwt;
 
@@ -58,75 +58,84 @@ public class GWTBuilder extends IncrementalProjectBuilder
       IWorkspaceRoot root = project.getWorkspace().getRoot();
       IJavaProject javaProject = JavaCore.create(project);
       IClasspathContainer gaeClasspathContainer = JavaCore.getClasspathContainer(new Path("com.google.appengine.eclipse.core.GAE_CONTAINER"), javaProject);
-      for (IClasspathEntry classpathEntry : gaeClasspathContainer.getClasspathEntries())
-      {
-        if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_LIBRARY && 
-              classpathEntry.getContentKind() == IPackageFragmentRoot.K_BINARY)
+      if (gaeClasspathContainer != null)
+      { 
+        for (IClasspathEntry classpathEntry : gaeClasspathContainer.getClasspathEntries())
         {
-          IPath path = classpathEntry.getPath();
-          int segmentCount = path.segmentCount();
-          if (segmentCount >= 4)
+          if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_LIBRARY && 
+                classpathEntry.getContentKind() == IPackageFragmentRoot.K_BINARY)
           {
-            if (path.segment(segmentCount - 2).equals("user") || path.segment(segmentCount - 3).equals("user"))
+            IPath path = classpathEntry.getPath();
+            int segmentCount = path.segmentCount();
+            if (segmentCount >= 4)
             {
-              copy(URI.createFileURI(path.toOSString()), URI.createPlatformResourceURI(project.getName() + "/war/WEB-INF/lib/" + path.lastSegment(), true));
+              if (path.segment(segmentCount - 2).equals("user") || path.segment(segmentCount - 3).equals("user"))
+              {
+                copy(URI.createFileURI(path.toOSString()), URI.createPlatformResourceURI(project.getName() + "/war/WEB-INF/lib/" + path.lastSegment(), true));
+              }
             }
           }
         }
       }
 
       IClasspathContainer gwtClasspathContainer = JavaCore.getClasspathContainer(new Path("com.google.gwt.eclipse.core.GWT_CONTAINER"), javaProject);
-      for (IClasspathEntry classpathEntry : gwtClasspathContainer.getClasspathEntries())
+      if (gwtClasspathContainer != null)
       {
-        if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_LIBRARY && 
-              classpathEntry.getContentKind() == IPackageFragmentRoot.K_BINARY)
+        for (IClasspathEntry classpathEntry : gwtClasspathContainer.getClasspathEntries())
         {
-          IPath path = classpathEntry.getPath();
-          int segmentCount = path.segmentCount();
-          if (segmentCount >= 2)
+          if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_LIBRARY && 
+                classpathEntry.getContentKind() == IPackageFragmentRoot.K_BINARY)
           {
-            path = path.removeLastSegments(1).append("gwt-servlet.jar");
-            URI fileURI = URI.createFileURI(path.toOSString());
-            if (URIConverter.INSTANCE.exists(fileURI, null))
+            IPath path = classpathEntry.getPath();
+            int segmentCount = path.segmentCount();
+            if (segmentCount >= 2)
             {
-              copy(fileURI, URI.createPlatformResourceURI(project.getName() + "/war/WEB-INF/lib/" + path.lastSegment(), true));
+              path = path.removeLastSegments(1).append("gwt-servlet.jar");
+              URI fileURI = URI.createFileURI(path.toOSString());
+              if (URIConverter.INSTANCE.exists(fileURI, null))
+              {
+                copy(fileURI, URI.createPlatformResourceURI(project.getName() + "/war/WEB-INF/lib/" + path.lastSegment(), true));
+              }
             }
           }
         }
       }
       IClasspathContainer pdeClasspathContainer = JavaCore.getClasspathContainer(new Path("org.eclipse.pde.core.requiredPlugins"), javaProject);
-      for (IClasspathEntry classpathEntry : pdeClasspathContainer.getClasspathEntries())
+      if (pdeClasspathContainer != null)
       {
-        if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_PROJECT)
+        for (IClasspathEntry classpathEntry : pdeClasspathContainer.getClasspathEntries())
         {
-          IProject requiredProject = root.getProject(classpathEntry.getPath().segment(0));
-          IJavaProject requiredJavaProject = JavaCore.create(requiredProject);
-          IPath outputLocation = requiredJavaProject.getOutputLocation();
-          final int depth = outputLocation.segmentCount();
-          IFolder folder = root.getFolder(outputLocation);
-          folder.accept
-           (new IResourceVisitor()
-            {
-              public boolean visit(IResource resource) throws CoreException
+          if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_PROJECT)
+          {
+            IProject requiredProject = root.getProject(classpathEntry.getPath().segment(0));
+            IJavaProject requiredJavaProject = JavaCore.create(requiredProject);
+            IPath outputLocation = requiredJavaProject.getOutputLocation();
+            final int depth = outputLocation.segmentCount();
+            IFolder folder = root.getFolder(outputLocation);
+            folder.accept
+             (new IResourceVisitor()
               {
-                if (resource.getType() == IResource.FILE)
+                public boolean visit(IResource resource) throws CoreException
                 {
-                  IPath fullPath = resource.getFullPath();
-                  copy
-                    (URI.createPlatformResourceURI(fullPath.toString(), true), 
-                     URI.createPlatformResourceURI(project.getName() + "/war/WEB-INF/classes/" + fullPath.removeFirstSegments(depth), true));
+                  if (resource.getType() == IResource.FILE)
+                  {
+                    IPath fullPath = resource.getFullPath();
+                    copy
+                      (URI.createPlatformResourceURI(fullPath.toString(), true), 
+                       URI.createPlatformResourceURI(project.getName() + "/war/WEB-INF/classes/" + fullPath.removeFirstSegments(depth), true));
+                  }
+                  return true;
                 }
-                return true;
-              }
-            },
-            IResource.DEPTH_INFINITE,
-            0);
-          result.add(requiredProject);
-        }
-        else if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_LIBRARY && classpathEntry.getContentKind() == IPackageFragmentRoot.K_BINARY)
-        {
-          IPath path = classpathEntry.getPath();
-          copy(URI.createFileURI(path.toOSString()), URI.createPlatformResourceURI(project.getName() + "/war/WEB-INF/lib/" + path.lastSegment(), true));
+              },
+              IResource.DEPTH_INFINITE,
+              0);
+            result.add(requiredProject);
+          }
+          else if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_LIBRARY && classpathEntry.getContentKind() == IPackageFragmentRoot.K_BINARY)
+          {
+            IPath path = classpathEntry.getPath();
+            copy(URI.createFileURI(path.toOSString()), URI.createPlatformResourceURI(project.getName() + "/war/WEB-INF/lib/" + path.lastSegment(), true));
+          }
         }
       }
     }
