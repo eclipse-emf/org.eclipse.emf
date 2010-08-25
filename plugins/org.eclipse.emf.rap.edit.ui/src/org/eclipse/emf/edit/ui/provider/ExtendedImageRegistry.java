@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedImageRegistry.java,v 1.2 2010/05/25 13:40:24 khussey Exp $
+ * $Id: ExtendedImageRegistry.java,v 1.3 2010/08/25 18:40:22 khussey Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -32,6 +32,7 @@ import java.util.List;
 
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
@@ -50,11 +51,22 @@ import org.eclipse.emf.edit.provider.ComposedImage;
  */
 public class ExtendedImageRegistry 
 {
-  public static final ExtendedImageRegistry INSTANCE = new ExtendedImageRegistry();
+  public static final ExtendedImageRegistry INSTANCE = new ExtendedImageRegistry()
+    {
+      public Image getImage(Object object)
+      {
+        return getInstance().getImage(object);
+      }
+
+      public ImageDescriptor getImageDescriptor(Object object)
+      {
+        return getInstance().getImageDescriptor(object);
+      }
+    };
 
   public static ExtendedImageRegistry getInstance()
   {
-    return INSTANCE;
+    return (ExtendedImageRegistry)SessionSingletonBase.getInstance(ExtendedImageRegistry.class);
   }
 
   protected HashMap<Object, Image> table = new HashMap<Object, Image>(10);

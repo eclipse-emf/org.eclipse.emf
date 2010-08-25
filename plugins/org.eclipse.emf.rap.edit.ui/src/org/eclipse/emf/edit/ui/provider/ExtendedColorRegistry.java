@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2008 IBM Corporation and others.
+ * Copyright (c) 2008-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedColorRegistry.java,v 1.1 2010/03/11 02:30:14 khussey Exp $
+ * $Id: ExtendedColorRegistry.java,v 1.2 2010/08/25 18:40:22 khussey Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
@@ -38,7 +39,16 @@ import org.eclipse.jface.resource.DeviceResourceException;
  */
 public class ExtendedColorRegistry
 {
-  public static final ExtendedColorRegistry INSTANCE = new ExtendedColorRegistry();
+  public static final ExtendedColorRegistry INSTANCE = new ExtendedColorRegistry()
+    {
+      public Color getColor(Color foregroundColor, Color backgroundColor, Object object)
+      {
+        return ((ExtendedColorRegistry)SessionSingletonBase.getInstance(ExtendedColorRegistry.class)).getColor(
+          foregroundColor,
+          backgroundColor,
+          object);
+      }
+    };
 
   protected Display display;
   protected HashMap<Collection<?>, Color> table = new HashMap<Collection<?>, Color>(10);
