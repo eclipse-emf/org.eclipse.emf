@@ -2,11 +2,10 @@
 <feature
       id="org.eclipse.xsd.sdk"
       label="%featureName"
-      version="2.6.0.qualifier"
+      version="2.7.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
-   <!-- do not increment version here; instead, use feature.xml.template -->
-   
+
    <description>
       %description
    </description>
@@ -28,32 +27,151 @@ http://www.eclipse.org/legal/epl-v10.html
       <discovery label="%ModelingUpdateSiteName" url="http://www.eclipse.org/modeling/updates/"/>
    </url>
 
-   <includes id="org.eclipse.xsd" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.source" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.ecore.converter" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.ecore.converter.source" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.edit" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.edit.source" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.editor" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.editor.source" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.mapping" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.mapping.source" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.mapping.editor" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.mapping.editor.source" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.doc" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.doc.source" version="0.0.0"/>
+   <includes
+         id="org.eclipse.xsd"
+         version="0.0.0"/>
 
-	<plugin id="org.eclipse.xsd.cheatsheets" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd.doc" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.mapping.xsd2ecore" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.mapping.xsd2ecore.editor" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd.ecore.converter" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd.ecore.exporter" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd.ecore.importer" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd.edit" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd.editor" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd.example.installer" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd.mapping" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd.mapping.editor" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+   <includes
+         id="org.eclipse.xsd.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.ecore.converter"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.ecore.converter.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.edit"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.edit.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.editor"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.editor.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.mapping"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.mapping.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.mapping.editor"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.mapping.editor.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.doc"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.doc.source"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.xsd.cheatsheets"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.doc"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.mapping.xsd2ecore"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.mapping.xsd2ecore.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.ecore.converter"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.ecore.exporter"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.ecore.importer"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.example.installer"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.mapping"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.mapping.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
