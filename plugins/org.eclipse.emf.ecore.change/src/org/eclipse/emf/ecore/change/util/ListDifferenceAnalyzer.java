@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListDifferenceAnalyzer.java,v 1.3 2010/04/09 10:38:37 emerks Exp $
+ * $Id: ListDifferenceAnalyzer.java,v 1.4 2010/09/04 16:57:16 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -98,7 +98,7 @@ public class ListDifferenceAnalyzer
                 {
                   targetIndex = oldList.size() - 1;
                 }
-                createMoveListChange(oldList, listChanges, newObject, index, targetIndex);
+                createMoveListChange(oldList, listChanges, targetObject, index, targetIndex);
                 done = false;
               }
               else
