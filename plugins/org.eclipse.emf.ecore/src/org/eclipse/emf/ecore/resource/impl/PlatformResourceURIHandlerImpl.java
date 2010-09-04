@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PlatformResourceURIHandlerImpl.java,v 1.4 2008/12/11 18:24:38 emerks Exp $
+ * $Id: PlatformResourceURIHandlerImpl.java,v 1.5 2010/09/04 17:16:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -117,19 +117,23 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
         {
           file.appendContents(inputStream, force, false, progressMonitor);
         }
-        else if (!file.exists())
-        {
-          file.create(inputStream, false, null);
-          previouslyFlushed = true;
-        }
         else
         {
           if (!file.isSynchronized(IResource.DEPTH_ONE))
           {
             file.refreshLocal(IResource.DEPTH_ONE, progressMonitor);
           }
-          file.setContents(inputStream, force, keepHistory, progressMonitor);
-          previouslyFlushed = true;
+
+          if (!file.exists())
+          {
+            file.create(inputStream, false, null);
+            previouslyFlushed = true;
+          }
+          else
+          {
+            file.setContents(inputStream, force, keepHistory, progressMonitor);
+            previouslyFlushed = true;
+          }
         }
         reset();
       }
