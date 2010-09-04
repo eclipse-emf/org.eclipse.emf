@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEcoreEList.java,v 1.2 2010/04/28 20:39:44 khussey Exp $
+ * $Id: DelegatingEcoreEList.java,v 1.3 2010/09/04 17:36:03 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -461,7 +461,7 @@ public abstract class DelegatingEcoreEList<E>
           boolean result =
             eContainer == owner && 
               (hasNavigableInverse() ? 
-                 eObject.eContainerFeatureID() == getInverseFeatureID() :
+                eObject.eBaseStructuralFeatureID(eObject.eContainerFeatureID(), getInverseFeatureClass()) == getInverseFeatureID() :
                  InternalEObject.EOPPOSITE_FEATURE_BASE - eObject.eContainerFeatureID() == getFeatureID());
           if (hasProxies() && !result && eContainer == null && eObject.eDirectResource() != null)
           {
