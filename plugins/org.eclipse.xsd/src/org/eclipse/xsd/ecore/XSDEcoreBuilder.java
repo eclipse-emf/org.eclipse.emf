@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.102 2010/03/17 15:32:17 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.103 2010/09/04 17:20:43 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -3382,6 +3382,31 @@ public class XSDEcoreBuilder extends MapBuilder
 
   protected Transformer transformer;
 
+  protected String getBody(Element element)
+  {
+    for (Node node = element.getFirstChild(); node != null; node = node.getNextSibling())
+    {
+      switch (node.getNodeType())
+      {
+        case Node.TEXT_NODE:
+        case Node.CDATA_SECTION_NODE:
+        {
+          break;
+        }
+        default:
+        {
+          String body = serialize(element);
+          int start = body.indexOf("?>");
+          start = body.indexOf(">", start + 2);
+          int end = body.lastIndexOf("</");
+          String result = end == -1 ? null : body.substring(start + 1, end);
+          return result;
+        }
+      }
+    }
+    return getText(element);
+  }
+  
   protected String serialize(Element element)
   {
     if (transformer == null)
@@ -3491,11 +3516,7 @@ public class XSDEcoreBuilder extends MapBuilder
         {
           if (!"true".equals(getEcoreAttribute(element, "ignore")) && !ignore(element))
           {
-            String documentation = serialize(element);
-            int start = documentation.indexOf("?>");
-            start = documentation.indexOf(">", start + 2);
-            int end = documentation.lastIndexOf("</");
-            String documentationBody = end == -1 ? null : documentation.substring(start + 1, end);
+            String documentationBody = getBody(element);
             String existingDocumentation =  EcoreUtil.getDocumentation(eModelElement);
             if (existingDocumentation != null)
             {
@@ -3514,11 +3535,7 @@ public class XSDEcoreBuilder extends MapBuilder
           if (!"true".equals(getEcoreAttribute(element, "ignore")) && !ignore(element))
           {
             String sourceURI = element.hasAttributeNS(null, "source") ? element.getAttributeNS(null, "source") : null;
-            String applicationInformation = serialize(element);
-            int start = applicationInformation.indexOf("?>");
-            start = applicationInformation.indexOf(">", start + 2);
-            int end = applicationInformation.lastIndexOf("</");
-            String applicationInformationBody = end == -1 ? null : applicationInformation.substring(start + 1, end);
+            String applicationInformationBody = getBody(element);
 
             String key = getEcoreAttribute(element, "key");
             if (key == null)
