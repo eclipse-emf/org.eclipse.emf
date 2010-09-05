@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.19 2009/08/11 14:34:43 marcelop Exp $
+ * $Id: GeneratorTask.java,v 1.20 2010/09/05 16:33:20 emerks Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -499,7 +499,7 @@ public abstract class GeneratorTask extends EMFTask
     generateModelProject &= arguments.indexOf("-modelProject") >= 0;
     generateEditProject &= arguments.indexOf("-editProject") >= 0;
     generateEditorProject &= arguments.indexOf("-editorProject") >= 0;
-    generateEditorProject &= arguments.indexOf("-testsProject") >= 0;
+    generateTestsProject &= arguments.indexOf("-testsProject") >= 0;
   }
 
   protected List<String> getGeneratorArguments()
@@ -509,7 +509,7 @@ public abstract class GeneratorTask extends EMFTask
     if (generateModelProject)  arguments.add("-model");
     if (generateEditProject)   arguments.add("-edit");
     if (generateEditorProject) arguments.add("-editor");
-    if (generateEditorProject) arguments.add("-tests");
+    if (generateTestsProject) arguments.add("-tests");
     
     if (autoBuild != null)
     {
