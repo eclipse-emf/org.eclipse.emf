@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappedObjectItemProvider.java,v 1.3 2006/12/29 18:29:10 marcelop Exp $
+ * $Id: MappedObjectItemProvider.java,v 1.4 2010/09/05 18:58:46 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -96,6 +96,12 @@ public class MappedObjectItemProvider
 
   @Override
   public Collection<?> getChildren(Object object)
+  {
+    return Collections.EMPTY_LIST;
+  }
+  
+  @Override
+  public Collection<?> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
   {
     return Collections.EMPTY_LIST;
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingItemProvider.java,v 1.12 2008/12/13 15:56:51 emerks Exp $
+ * $Id: MappingItemProvider.java,v 1.13 2010/09/05 18:58:46 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -714,36 +714,39 @@ public class MappingItemProvider
   @Override
   public void notifyChanged(Notification msg) 
   {
-    MappingPackage ePackage = MappingPackage.eINSTANCE;
-    if (msg.getFeature() == ePackage.getMapping_Inputs() || msg.getFeature() == ePackage.getMapping_Outputs())
+    if (msg.getEventType() != Notification.RESOLVE)
     {
-      fireNotifyChanged(msg);
-      //hgd::fireNotifyChanged(msg.getNotifier(), msg.getEventType(), msg.getFeature(), substituteOldValue, substituteNewValue, msg.getPosition());
-
-      ENotificationImpl note = 
-        new ENotificationImpl
-         ((InternalEObject)msg.getNotifier(),  //FIX:::
-          Notification.SET, 
-          null, 
-          null, 
-          null, 
-          -1);
-      fireNotifyChanged(note);
-    }
-    else if (msg.getFeature() == ePackage.getMapping_Helper() || msg.getFeature() == ePackage.getMapping_TypeMapping())
-    {
-      itemPropertyDescriptors = null;
-      fireNotifyChanged(msg);
-      //hgd::fireNotifyChanged(msg.getNotifier(), msg.getEventType(), msg.getFeature(), msg.getOldValue(), msg.getNewValue(), msg.getPosition());
-    }
-    else if (msg.getFeature() == ePackage.getMapping_Nested() || msg.getFeature() == ePackage.getMapping_NestedIn())
-    {
-      fireNotifyChanged(msg);
-      //fireNotifyChanged(msg.getNotifier(), msg.getEventType(), msg.getFeature(), msg.getOldValue(), msg.getNewValue(), msg.getPosition());
-    }
-    else
-    {
-      super.notifyChanged(msg);
+      MappingPackage ePackage = MappingPackage.eINSTANCE;
+      if (msg.getFeature() == ePackage.getMapping_Inputs() || msg.getFeature() == ePackage.getMapping_Outputs())
+      {
+        fireNotifyChanged(msg);
+        //hgd::fireNotifyChanged(msg.getNotifier(), msg.getEventType(), msg.getFeature(), substituteOldValue, substituteNewValue, msg.getPosition());
+  
+        ENotificationImpl note = 
+          new ENotificationImpl
+           ((InternalEObject)msg.getNotifier(),  //FIX:::
+            Notification.SET, 
+            null, 
+            null, 
+            null, 
+            -1);
+        fireNotifyChanged(note);
+      }
+      else if (msg.getFeature() == ePackage.getMapping_Helper() || msg.getFeature() == ePackage.getMapping_TypeMapping())
+      {
+        itemPropertyDescriptors = null;
+        fireNotifyChanged(msg);
+        //hgd::fireNotifyChanged(msg.getNotifier(), msg.getEventType(), msg.getFeature(), msg.getOldValue(), msg.getNewValue(), msg.getPosition());
+      }
+      else if (msg.getFeature() == ePackage.getMapping_Nested() || msg.getFeature() == ePackage.getMapping_NestedIn())
+      {
+        fireNotifyChanged(msg);
+        //fireNotifyChanged(msg.getNotifier(), msg.getEventType(), msg.getFeature(), msg.getOldValue(), msg.getNewValue(), msg.getPosition());
+      }
+      else
+      {
+        super.notifyChanged(msg);
+      }
     }
   }
 

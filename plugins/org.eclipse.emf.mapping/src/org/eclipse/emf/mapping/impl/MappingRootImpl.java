@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingRootImpl.java,v 1.11 2008/12/22 14:26:20 emerks Exp $
+ * $Id: MappingRootImpl.java,v 1.12 2010/09/05 18:58:46 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -551,6 +551,10 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
 
   public boolean canCreateMapping(Collection<?> inputs, Collection<?> outputs, Mapping mapping)
   {
+    if (domain == null)
+    {
+      return false;
+    }
     int enablementFlags = domain.getMappingEnablementFlags();
     if ((enablementFlags & MappingDomain.ENABLE_EMPTY_INPUTS) == 0 && inputs.size() == 0 ||
         (enablementFlags & MappingDomain.ENABLE_EMPTY_OUTPUTS) == 0 && outputs.size() == 0 ||
