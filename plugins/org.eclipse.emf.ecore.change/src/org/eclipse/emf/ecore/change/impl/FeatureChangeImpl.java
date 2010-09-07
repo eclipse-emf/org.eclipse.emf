@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.35 2008/12/22 14:26:03 emerks Exp $
+ * $Id: FeatureChangeImpl.java,v 1.36 2010/09/07 16:48:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -134,13 +134,13 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    */
   protected EList<ListChange> listChanges;
   
-  protected EStructuralFeature feature = null;
+  protected EStructuralFeature feature;
   
-  protected String featureName = null;
+  protected String featureName;
 
-  protected Object value = null;
+  protected Object value;
   
-  protected String valueString = null;
+  protected String valueString;
 
   /**
    * <!-- begin-user-doc -->
@@ -376,6 +376,12 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    */
   public EObject basicGetReferenceValue()
   {
+    // If there is a feature name, we should try to get the feature so we can correctly determine if we should return the value.
+    //
+    if (feature == null && featureName != null)
+    {
+      getFeature();
+    }
     return (feature instanceof EReference && value instanceof EObject) ? (EObject)value : null;
   }
 
