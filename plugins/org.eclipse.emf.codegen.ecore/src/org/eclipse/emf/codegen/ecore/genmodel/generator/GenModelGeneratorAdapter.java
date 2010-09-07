@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapter.java,v 1.11 2010/08/24 16:59:37 emerks Exp $
+ * $Id: GenModelGeneratorAdapter.java,v 1.12 2010/09/07 16:57:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -537,16 +537,23 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
 
   protected void generateEditorEntryPointClass(GenModel genModel, Monitor monitor)
   {
-    message = CodeGenEcorePlugin.INSTANCE.getString
-      ("_UI_GeneratingJavaClass_message", new Object[] { genModel.getQualifiedEditorPluginClassName() });
-    monitor.subTask(message);
-    generateJava
-      (genModel.getEditorPluginDirectory(),
-       genModel.getEditorPluginPackageName(),
-       genModel.getEditorEntryPointClassName(),
-       getJETEmitter(getJETEmitterDescriptors(), EDITOR_ENTRY_POINT_CLASS_ID),
-       null,
-       createMonitor(monitor, 1));
+    if (genModel.getRuntimePlatform() == GenRuntimePlatform.GWT)
+    {
+      message = CodeGenEcorePlugin.INSTANCE.getString
+        ("_UI_GeneratingJavaClass_message", new Object[] { genModel.getQualifiedEditorPluginClassName() });
+      monitor.subTask(message);
+      generateJava
+        (genModel.getEditorPluginDirectory(),
+         genModel.getEditorPluginPackageName(),
+         genModel.getEditorEntryPointClassName(),
+         getJETEmitter(getJETEmitterDescriptors(), EDITOR_ENTRY_POINT_CLASS_ID),
+         null,
+         createMonitor(monitor, 1));
+    }
+    else
+    {
+      monitor.worked(1);
+    }
   }
 
   protected void generateEditorManifest(GenModel genModel, Monitor monitor)
