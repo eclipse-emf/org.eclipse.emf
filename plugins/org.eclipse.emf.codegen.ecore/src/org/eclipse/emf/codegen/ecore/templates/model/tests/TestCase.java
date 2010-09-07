@@ -446,8 +446,7 @@ public class TestCase
     if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/genOperation.annotations.insert.javajetinc
     }
     stringBuffer.append(TEXT_122);
-    stringBuffer.append(genModel.capName(genOperation.getName()));
-    stringBuffer.append(genOperation.getGenParameters().size() == 0 ? "" : "__" + genOperation.getParameterTypes("_", false));
+    stringBuffer.append(genClass.getUniqueName(genOperation));
     stringBuffer.append(TEXT_123);
     stringBuffer.append(TEXT_124);
     //TestCase/implementedGenOperation.todo.override.javajetinc

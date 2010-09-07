@@ -300,7 +300,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
   <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/genOperation.annotations.insert.javajetinc%>
 <%@ include file="TestCase/genOperation.annotations.insert.javajetinc" fail="silent" %>
   <%}%>
-	public void test<%=genModel.capName(genOperation.getName())%><%=genOperation.getGenParameters().size() == 0 ? "" : "__" + genOperation.getParameterTypes("_", false)%>()
+	public void test<%=genClass.getUniqueName(genOperation)%>()
 	{
 <%@ include file="TestCase/implementedGenOperation.TODO.override.javajetinc" fail="alternative" %>
 <%@ start %>
