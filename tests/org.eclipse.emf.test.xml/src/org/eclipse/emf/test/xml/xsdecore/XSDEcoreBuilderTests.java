@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilderTests.java,v 1.7 2010/02/04 20:56:59 emerks Exp $
+ * $Id: XSDEcoreBuilderTests.java,v 1.8 2010/09/08 16:40:26 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -107,7 +107,11 @@ public class XSDEcoreBuilderTests extends TestCase
     resource.load(options);
 
     // SERIALIZE
-    resource.save(new ByteArrayOutputStream(2064), options);
+    ByteArrayOutputStream out = new ByteArrayOutputStream(2064);
+    resource.save(out, options);
+    String value = new String(out.toByteArray(), "UTF8");
+    
+    assertTrue(value.contains("]]&gt;") );
   }
 
 }
