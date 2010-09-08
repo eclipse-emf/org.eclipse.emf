@@ -45,6 +45,7 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF24"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF25"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF26"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF27"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenRuntimePlatform">
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimePlatform/IDE"/>

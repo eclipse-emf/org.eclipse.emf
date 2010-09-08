@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.108 2010/09/04 16:43:21 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.109 2010/09/08 01:20:59 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3110,6 +3110,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       sb.append(".class, this, ");
       sb.append(getQualifiedFeatureID(genFeature));
       sb.append(offsetCorrectionField);
+      if (genFeature.isBidirectional() && getGenModel().getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF27_VALUE)
+      {
+        sb.append(", ");
+        sb.append(genFeature.getReverse().getGenClass().getQualifiedFeatureID(genFeature.getReverse()));
+      }
       sb.append(")");
     }
     else if (genFeature.isFeatureMapType())
