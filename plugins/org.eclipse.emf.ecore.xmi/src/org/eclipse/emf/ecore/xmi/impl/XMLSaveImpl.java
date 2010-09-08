@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.80 2009/12/30 15:51:18 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.81 2010/09/08 16:40:25 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1774,7 +1774,7 @@ public class XMLSaveImpl implements XMLSave
             String svalue = helper.convertToString(fac, d, value);
             if (escape != null)
             {
-              svalue = escape.convert(svalue);
+              svalue = escape.convertText(svalue);
             }
             doc.saveDataValueElement(name, svalue);
           }
