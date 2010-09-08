@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEMap.java,v 1.3 2010/05/21 15:20:09 khussey Exp $
+ * $Id: EcoreEMap.java,v 1.4 2010/09/08 01:21:01 emerks Exp $
  */
 package  org.eclipse.emf.ecore.util;
 
@@ -47,6 +47,12 @@ public class EcoreEMap<K, V> extends BasicEMap<K, V> implements InternalEList.Un
     {
       super(entryEClass, entryClass, null);
       delegateEList = new UnsettableDelegateEObjectContainmentEList<Entry<K, V>>(entryClass, owner, featureID);
+    }
+
+    public Unsettable(EClass entryEClass, Class<?> entryClass, InternalEObject owner, int featureID, int inverseFeatureID)
+    {
+      super(entryEClass, entryClass, null);
+      delegateEList = new UnsettableDelegateEObjectContainmentWithInverseEList<Entry<K, V>>(entryClass, owner, featureID, inverseFeatureID);
     }
     
     protected class UnsettableDelegateEObjectContainmentEList<E extends Object & Entry<K, V>> extends DelegateEObjectContainmentEList<E>
@@ -88,6 +94,46 @@ public class EcoreEMap<K, V> extends BasicEMap<K, V> implements InternalEList.Un
         }
       }
     }
+
+    protected class UnsettableDelegateEObjectContainmentWithInverseEList<E extends Object & Entry<K, V>> extends DelegateEObjectContainmentWithInverseEList<E>
+    {
+      private static final long serialVersionUID = 1L;
+
+      protected boolean isSet;
+
+      public UnsettableDelegateEObjectContainmentWithInverseEList(Class<?> dataClass, InternalEObject owner, int featureID, int inverseFeatureID)
+      {
+        super(dataClass, owner, featureID, inverseFeatureID);
+      }
+
+      @Override
+      protected void didChange()
+      {
+        isSet = true;
+      }
+
+      @Override
+      public boolean isSet()
+      {
+        return isSet;
+      }
+
+      @Override
+      public void unset()
+      {
+        super.unset();
+        if (isNotificationRequired())
+        {
+          boolean oldIsSet = isSet;
+          isSet = false;
+          owner.eNotify(createNotification(Notification.UNSET, oldIsSet, false));
+        }
+        else
+        {
+          isSet = false;
+        }
+      }
+    }
   }
 
   protected EClass entryEClass;
@@ -99,6 +145,17 @@ public class EcoreEMap<K, V> extends BasicEMap<K, V> implements InternalEList.Un
     // assert entryClass != null && BasicEMap.Entry.class.isAssignableFrom(entryClass) : "A class derived from org.eclipse.emf.common.util.BasicEMap.Entry is required: " + entryClass;
     this.entryEClass = entryEClass;
     delegateEList = new DelegateEObjectContainmentEList<Entry<K, V>>(entryClass, owner, featureID);
+  }
+
+  /**
+   * @since 2.7
+   */
+  public EcoreEMap(EClass entryEClass, Class<?> entryClass, InternalEObject owner, int featureID, int inverseFeatureID)
+  {
+    this.entryClass = entryClass;
+    assert entryClass != null && BasicEMap.Entry.class.isAssignableFrom(entryClass) : "A class derived from org.eclipse.emf.common.util.BasicEMap.Entry is required: " + entryClass;
+    this.entryEClass = entryEClass;
+    delegateEList = new DelegateEObjectContainmentWithInverseEList<Entry<K, V>>(entryClass, owner, featureID, inverseFeatureID);
   }
   
   public EcoreEMap(EClass entryEClass, Class<?> entryClass, EList<Entry<K, V>> delegateEList)
@@ -157,6 +214,40 @@ public class EcoreEMap<K, V> extends BasicEMap<K, V> implements InternalEList.Un
     protected void didMove(int index, E movedObject, int oldIndex)
     {
       EcoreEMap.this.doMove(movedObject);
+    }
+  }
+
+  /**
+   * @since 2.7
+   */
+  protected class DelegateEObjectContainmentWithInverseEList<E extends Object & Entry<K, V>> extends DelegateEObjectContainmentEList<E>
+  {
+    private static final long serialVersionUID = 1L;
+
+    protected final int inverseFeatureID;
+
+    public DelegateEObjectContainmentWithInverseEList(Class<?> entryClass, InternalEObject owner, int featureID, int inverseFeatureID)
+    {
+      super(entryClass, owner, featureID);
+      this.inverseFeatureID = inverseFeatureID;
+    }
+
+    @Override
+    protected boolean hasNavigableInverse()
+    {
+      return true;
+    }
+
+    @Override
+    public int getInverseFeatureID()
+    {
+      return inverseFeatureID;
+    }
+
+    @Override
+    public Class<?> getInverseFeatureClass()
+    {
+      return dataClass;
     }
   }
 
