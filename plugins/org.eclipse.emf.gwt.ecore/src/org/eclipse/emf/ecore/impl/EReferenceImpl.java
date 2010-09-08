@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceImpl.java,v 1.2 2010/04/28 20:39:54 khussey Exp $
+ * $Id: EReferenceImpl.java,v 1.3 2010/09/08 01:56:25 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -170,12 +170,21 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setContainment(boolean newContainment)
+  public void setContainmentGen(boolean newContainment)
   {
     boolean oldContainment = (eFlags & CONTAINMENT_EFLAG) != 0;
     if (newContainment) eFlags |= CONTAINMENT_EFLAG; else eFlags &= ~CONTAINMENT_EFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EREFERENCE__CONTAINMENT, oldContainment, newContainment));
+  }
+
+  public void setContainment(boolean value)
+  {
+    setContainmentGen(value);
+    if (eContainer instanceof EClassImpl)
+    {
+      ((EClassImpl)eContainer).getESuperAdapter().setFlags(ESuperAdapter.REFERENCES);
+    }
   }
 
   /**
