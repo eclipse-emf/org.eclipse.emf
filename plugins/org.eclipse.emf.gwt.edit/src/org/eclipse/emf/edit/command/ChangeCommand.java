@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeCommand.java,v 1.2 2010/04/28 20:38:33 khussey Exp $
+ * $Id: ChangeCommand.java,v 1.3 2010/09/08 01:30:21 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -115,12 +115,6 @@ abstract public class ChangeCommand extends AbstractCommand
   protected boolean prepare()
   {
     return getChangeDescription() == null;
-  }
-  
-  @Override
-  public boolean canUndo()
-  {
-    return getChangeDescription() != null;
   }
   
   /**
