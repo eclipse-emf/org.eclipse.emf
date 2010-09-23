@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicChangeRecorder.java,v 1.3 2008/05/04 17:03:41 emerks Exp $
+ * $Id: BasicChangeRecorder.java,v 1.4 2010/09/23 11:01:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -31,7 +31,6 @@ import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.change.ResourceChange;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 
 
 /**
@@ -240,18 +239,17 @@ public class BasicChangeRecorder extends ListDifferenceAnalyzer
 
   protected FeatureChange getFeatureChange(List<FeatureChange> featureChanges, EStructuralFeature eStructuralFeature)
   {
-    EObjectContainmentEList<FeatureChange> changes = (EObjectContainmentEList<FeatureChange>)featureChanges;
-    for (int i = 0, size = changes.size(); i < size;)
+    for (int i = 0, size = featureChanges.size(); i < size;)
     {
-      FeatureChange featureChange = changes.get(i++);
+      FeatureChange featureChange = featureChanges.get(i++);
       if (featureChange.getFeature() == eStructuralFeature)
       {
         return featureChange;
       }
     }
     return null;
-  }  
-  
+  }
+
   protected FeatureChange createFeatureChange(EObject eObject, EStructuralFeature eStructuralFeature, Object value, boolean isSet)
   {
     return ChangeFactory.eINSTANCE.createFeatureChange(eStructuralFeature, value, isSet);
