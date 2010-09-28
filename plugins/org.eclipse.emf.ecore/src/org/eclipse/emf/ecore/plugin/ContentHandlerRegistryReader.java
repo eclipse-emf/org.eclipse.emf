@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2007 IBM Corporation and others.
+ * Copyright (c) 2007-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ContentHandlerRegistryReader.java,v 1.1 2007/09/29 16:41:42 emerks Exp $
+ * $Id: ContentHandlerRegistryReader.java,v 1.2 2010/09/28 18:14:49 khussey Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -73,7 +73,7 @@ class ContentHandlerRegistryReader extends RegistryReader
           try
           {
             @SuppressWarnings("unchecked")
-            Class<ContentHandler> contributorHandlerClass = Platform.getBundle(element.getNamespaceIdentifier()).loadClass(contributorClassName);
+            Class<ContentHandler> contributorHandlerClass = (Class<ContentHandler>)Platform.getBundle(element.getNamespaceIdentifier()).loadClass(contributorClassName);
             Map<String, String> parameters = new HashMap<String, String>();
             for (IConfigurationElement parameter : element.getChildren("parameter"))
             {
