@@ -12,29 +12,34 @@
  *
  * </copyright>
  *
- * $Id: GWTBuilder.java,v 1.2 2010/08/25 13:36:45 emerks Exp $
+ * $Id: GWTBuilder.java,v 1.3 2010/10/01 14:32:58 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.gwt;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -167,5 +172,53 @@ public class GWTBuilder extends IncrementalProjectBuilder
         CodeGenEcorePlugin.INSTANCE.log(exception);
       }
     }
+    try
+    {
+      IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(targetURI.toPlatformString(true)));
+      if (file.exists() && !file.isDerived())
+      {
+        file.setDerived(true, null);
+      }
+    }
+    catch (CoreException exception)
+    {
+      CodeGenEcorePlugin.INSTANCE.log(exception);
+    }
+  }
+
+  @Override
+  protected void clean(final IProgressMonitor monitor) throws CoreException
+  {
+    final IProject project = getProject();
+    if (project.exists())
+    {
+      IFolder folder = project.getFolder(new Path("/war/WEB-INF/lib/"));
+      if (folder.exists())
+      {
+        final List<IFile> filesToDelete = new ArrayList<IFile>();
+        folder.accept
+          (new IResourceVisitor()
+           {
+             public boolean visit(IResource resource) throws CoreException
+             {
+               if (resource.getType() == IResource.FILE && resource.isDerived())
+               {
+                 filesToDelete.add((IFile)resource);
+                 return false;
+               }
+               else
+               {
+                 return true;
+               }
+             }
+           });
+          monitor.beginTask("", filesToDelete.size());
+          for (IFile file : filesToDelete)
+          {
+            file.delete(true, new SubProgressMonitor(monitor, 1));
+          }
+      }
+    }
+    super.clean(monitor);
   }
 }
