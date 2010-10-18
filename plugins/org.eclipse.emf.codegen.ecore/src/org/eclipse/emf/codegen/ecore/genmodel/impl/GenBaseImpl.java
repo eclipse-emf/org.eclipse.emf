@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.74 2010/06/04 14:14:15 khussey Exp $
+ * $Id: GenBaseImpl.java,v 1.75 2010/10/18 12:44:41 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -865,19 +865,22 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    */
   protected GenPackage findGenPackageHelper(GenPackage genPackage, EPackage ePackage)
   {
-    if (ePackage.getNsURI() == null ? 
-          genPackage.getEcorePackage().getNsURI() == null :
-          ePackage.getNsURI().equals(genPackage.getEcorePackage().getNsURI())) //FB TBD different objects for ecore model!
+    if (genPackage.getEcorePackage() != null)
     {
-      return genPackage;
-    }
-
-    for (GenPackage nestedGenPackage : genPackage.getNestedGenPackages())
-    {
-      GenPackage nestedResult = findGenPackageHelper(nestedGenPackage, ePackage);
-      if (nestedResult != null)
+      if (ePackage.getNsURI() == null ? 
+            genPackage.getEcorePackage().getNsURI() == null :
+            ePackage.getNsURI().equals(genPackage.getEcorePackage().getNsURI())) //FB TBD different objects for ecore model!
       {
-        return nestedResult;
+        return genPackage;
+      }
+  
+      for (GenPackage nestedGenPackage : genPackage.getNestedGenPackages())
+      {
+        GenPackage nestedResult = findGenPackageHelper(nestedGenPackage, ePackage);
+        if (nestedResult != null)
+        {
+          return nestedResult;
+        }
       }
     }
 
