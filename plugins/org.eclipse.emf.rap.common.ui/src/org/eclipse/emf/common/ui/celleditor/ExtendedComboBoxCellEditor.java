@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedComboBoxCellEditor.java,v 1.1 2010/03/11 02:30:05 khussey Exp $
+ * $Id: ExtendedComboBoxCellEditor.java,v 1.2 2010/11/05 10:15:29 emerks Exp $
  */
 package org.eclipse.emf.common.ui.celleditor;
 
@@ -269,7 +269,7 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
           filter = new StringBuffer(filter.substring(0, filter.length() - 1));
         }
       }
-      else if (e.keyCode == SWT.ARROW_UP || e.keyCode == SWT.ARROW_DOWN || e.keyCode == SWT.CR || e.keyCode == SWT.LF)
+      else if (e.keyCode == SWT.ARROW_UP || e.keyCode == SWT.ARROW_DOWN || e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR || e.keyCode == SWT.LF)
       {
         e.doit = true;
       }
