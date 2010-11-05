@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFEditPlugin.java,v 1.10 2008/12/13 15:56:01 emerks Exp $
+ * $Id: EMFEditPlugin.java,v 1.11 2010/11/05 10:23:43 emerks Exp $
  */
 package org.eclipse.emf.edit;
 
@@ -239,9 +239,12 @@ public final class EMFEditPlugin extends EMFPlugin
 
                  class PluginChildCreationExtenderDescriptor extends PluginClassDescriptor implements IChildCreationExtender.Descriptor
                  {
+                   protected String contributor;
+
                    public PluginChildCreationExtenderDescriptor(IConfigurationElement element, String attributeName)
                    {
                      super(element, attributeName);
+                     contributor = element.getContributor().getName();
                    }
 
                    public IChildCreationExtender createChildCreationExtender()
@@ -251,7 +254,7 @@ public final class EMFEditPlugin extends EMFPlugin
 
                    public boolean matches(IConfigurationElement element)
                    {
-                     return element.getContributor().equals(this.element.getContributor());
+                     return element.getContributor().getName().equals(contributor);
                    }
                  }
 
