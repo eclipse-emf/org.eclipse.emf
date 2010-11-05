@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratedPackageRegistryReader.java,v 1.10 2007/05/10 19:16:06 emerks Exp $
+ * $Id: GeneratedPackageRegistryReader.java,v 1.11 2010/11/05 10:47:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -95,6 +95,10 @@ class GeneratedPackageRegistryReader extends RegistryReader
       else
       {
         EPackage.Registry.INSTANCE.remove(packageURI);
+        if (ePackageNsURIToGenModelLocationMap != null)
+        {
+          ePackageNsURIToGenModelLocationMap.remove(packageURI);
+        }
         return true;
       }
     }
