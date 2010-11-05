@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEMap.java,v 1.10 2008/12/13 15:54:18 emerks Exp $
+ * $Id: BasicEMap.java,v 1.11 2010/11/05 12:17:13 emerks Exp $
  */
 package  org.eclipse.emf.common.util;
 
@@ -79,7 +79,7 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
   /**
    * The size of the map.
    */
-  protected int size;
+  protected transient int size;
 
   /**
    * The array of entry lists into which the hash codes are indexed.
@@ -1509,9 +1509,10 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
     }
     else
     {
-      // Write the capacity.
+      // Write the capacity and the size.
       //
       objectOutputStream.writeInt(entryData.length);
+      objectOutputStream.writeInt(size);
   
       // Write all the entryData; there will be size of them.
       //
@@ -1535,7 +1536,7 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
 
   private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
   {
-    objectInputStream.defaultReadObject();
+    initializeDelegateEList();
   
     // Restore the capacity, if there was any.
     //
@@ -1546,7 +1547,7 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
     
       // Read all size number of entryData.
       //
-      for (int i = 0; i < size; ++i) 
+      for (int i = 0, size = objectInputStream.readInt(); i < size; ++i) 
       {
         @SuppressWarnings("unchecked") K key = (K)objectInputStream.readObject();
         @SuppressWarnings("unchecked") V value = (V)objectInputStream.readObject();
