@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedComboBoxCellEditor.java,v 1.10 2010/05/03 12:09:09 emerks Exp $
+ * $Id: ExtendedComboBoxCellEditor.java,v 1.11 2010/11/05 10:15:28 emerks Exp $
  */
 package org.eclipse.emf.common.ui.celleditor;
 
@@ -279,7 +279,7 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
           filter = new StringBuffer(filter.substring(0, filter.length() - 1));
         }
       }
-      else if (e.keyCode == SWT.ARROW_UP || e.keyCode == SWT.ARROW_DOWN || e.keyCode == SWT.CR || e.keyCode == SWT.LF)
+      else if (e.keyCode == SWT.ARROW_UP || e.keyCode == SWT.ARROW_DOWN || e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR || e.keyCode == SWT.LF)
       {
         e.doit = true;
       }
