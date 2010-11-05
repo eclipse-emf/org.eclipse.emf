@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.47 2009/11/16 19:27:13 khussey Exp $
+ * $Id: EClassImpl.java,v 1.48 2010/11/05 10:20:23 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -788,8 +788,11 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
             (EClassImpl.this, 
              EcorePackage.eINSTANCE.getEClass_EAllStructuralFeatures(), 
              eAllStructuralFeatures.size(), 
-             eAllStructuralFeatures.data()) ;
+             eAllStructuralFeatures.data());
+        }
 
+        private void init()
+        {
           BasicEList<EStructuralFeature> containmentsList = new EStructuralFeatureUniqueEList();
           BasicEList<EStructuralFeature> crossReferencesList = new EStructuralFeatureUniqueEList();
           boolean isMixed = "mixed".equals(EcoreUtil.getAnnotation(EClassImpl.this, ExtendedMetaData.ANNOTATION_URI, "kind"));
@@ -836,11 +839,19 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
         public EStructuralFeature [] containments()
         {
+          if (containments == null)
+          {
+            init();
+          }
           return containments;
         }
 
         public EStructuralFeature [] crossReferences()
         {
+          if (crossReferences == null)
+          {
+            init();
+          }
           return crossReferences;
         }
 
