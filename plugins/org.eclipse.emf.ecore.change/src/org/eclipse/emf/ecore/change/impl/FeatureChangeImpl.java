@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.36 2010/09/07 16:48:19 emerks Exp $
+ * $Id: FeatureChangeImpl.java,v 1.37 2010/11/05 10:04:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -281,9 +281,17 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   {
     if (feature == null)
     {
-      if (featureName != null && eContainer() instanceof EObjectToChangesMapEntryImpl)
+      if (featureName != null)
       {
-        feature = ((EObjectToChangesMapEntryImpl)eContainer()).getTypedKey().eClass().getEStructuralFeature(featureName);
+        EObject container = eContainer();
+        if (container instanceof EObjectToChangesMapEntryImpl)
+        {
+          EObject typedKey = ((EObjectToChangesMapEntryImpl)container).getTypedKey();
+          if (typedKey != null)
+          {
+            feature = typedKey.eClass().getEStructuralFeature(featureName);
+          }
+        }
       }
     }
     else if ((eFlags & EPROXY_FEATURECHANGE) !=0)
