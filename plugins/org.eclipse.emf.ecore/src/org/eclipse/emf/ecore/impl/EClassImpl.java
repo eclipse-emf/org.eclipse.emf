@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.48 2010/11/05 10:20:23 emerks Exp $
+ * $Id: EClassImpl.java,v 1.49 2010/11/12 13:32:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -437,9 +437,16 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
               EClassifier otherEClassifier = otherEGenericType.getEClassifier();
               if (otherEClassifier != eClassifier)
               {
-                String instanceTypeName = eClassifier.getInstanceTypeName();
-                String otherInstanceTypeName = otherEClassifier.getInstanceTypeName();
-                return instanceTypeName == otherInstanceTypeName && instanceTypeName != null;
+                if (otherEClassifier == null)
+                {
+                  return false;
+                }
+                else
+                { 
+                  String instanceTypeName = eClassifier.getInstanceTypeName();
+                  String otherInstanceTypeName = otherEClassifier.getInstanceTypeName();
+                  return instanceTypeName == otherInstanceTypeName && instanceTypeName != null;
+                }
               }
               else
               {
