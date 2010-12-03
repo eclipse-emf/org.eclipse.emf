@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QueryDelegate.java,v 1.1 2010/12/03 01:23:45 khussey Exp $
+ * $Id: QueryDelegate.java,v 1.2 2010/12/03 15:49:49 khussey Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -37,10 +37,9 @@ public interface QueryDelegate
   interface Factory
   {
     /**
-     * Creates the query delegate for the specified <tt>expression</tt>. Implementors are expected to
-     * parse the specified expression and throw a runtime exception in case of an error.
+     * Creates a query delegate for the specified <tt>expression</tt>.
      * 
-     * @param context the type of object against which the query can be executed
+     * @param context the type of object against which the query will be executed
      * @param parameters a map of parameter names to types
      * @param expression the query text
      * @return a query delegate
@@ -94,11 +93,19 @@ public interface QueryDelegate
   }
 
   /**
-   * Executes the query for the specified <tt>target</tt> object.
+   * Prepares (e.g., parses) the query for execution.
    * 
-   * @param target the object on which to execute the query; this must be an instance of the context
+   * @throws InvocationTargetException in case of failure to prepare (e.g., parse) the
+   *    query, usually because of an exception
+   */
+  void prepare() throws InvocationTargetException;
+
+  /**
+   * Executes the query against the specified <tt>target</tt> object.
+   * 
+   * @param target the object against which to execute the query; must be an instance of the context
    *    with which the delegate was created
-   * @param arguments a map of parameter names to values; these must correspond to the parameters
+   * @param arguments a map of parameter names to values; must correspond to the parameters
    *    with which the delegate was created
    * @return the query's result
    * @throws InvocationTargetException in case of failure to execute the
