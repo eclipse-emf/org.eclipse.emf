@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegistryReader.java,v 1.11 2008/10/09 19:55:07 emerks Exp $
+ * $Id: RegistryReader.java,v 1.12 2010/12/03 01:43:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -238,7 +238,12 @@ public abstract class RegistryReader
             URI locationURI = URI.createURI(location);
             if (locationURI.isRelative())
             {
-              locationURI = URI.createPlatformPluginURI(element.getDeclaringExtension().getContributor().getName() + "/" + location, true);
+              String fragment = locationURI.fragment();
+              locationURI = URI.createPlatformPluginURI(element.getDeclaringExtension().getContributor().getName() + "/" + locationURI.trimFragment().toString(), true);
+              if (fragment != null)
+              {
+                locationURI = locationURI.appendFragment(fragment);
+              }
             }
             if (!locationURI.hasFragment())
             {
