@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterTest.java,v 1.9 2008/02/21 18:18:06 emerks Exp $
+ * $Id: URIConverterTest.java,v 1.10 2010/12/03 20:42:55 khussey Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -99,7 +99,7 @@ public class URIConverterTest extends TestCase
     
     //Reads the data.zip file from our CVS repository using http
     //
-    uri = URI.createURI("archive:http://dev.eclipse.org/viewcvs/index.cgi/org.eclipse.emf/org.eclipse.emf/tests/org.eclipse.emf.test.core/%64ata/data.zip?root=Modeling_Project&amp;view=co!/%66ile.txt");    
+    uri = URI.createURI("archive:http://dev.eclipse.org/viewcvs/index.cgi/org.eclipse.emf/org.eclipse.emf/tests/org.eclipse.emf.test.core/%64ata/data.zip?root=Modeling_Project&view=co!/%66ile.txt");    
     contents = readFile(uriConverter.createInputStream(uri)); 
     assertEquals(contentsFromUncompressedFile, contents);
   }

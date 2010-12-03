@@ -732,7 +732,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     Diagnostic diagnostic75 = diagnosticIterator.next();
     assertEquals(Diagnostic.ERROR, diagnostic75.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic75.getSource());
-    assertEquals("The opposite of a transient reference must transient if it is proxy resolving", removeObjectHashCode(diagnostic75.getMessage()));
+    assertEquals("The opposite of a transient reference must be transient if it is proxy resolving", removeObjectHashCode(diagnostic75.getMessage()));
     assertEquals(11, diagnostic75.getCode());
     assertEquals(0, diagnostic75.getChildren().size());
     assertEquals(2, diagnostic75.getData().size());
