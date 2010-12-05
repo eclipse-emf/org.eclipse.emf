@@ -6,6 +6,11 @@
 		<cs:dependency name="org.eclipse.pde.core" componentType="osgi.bundle" />
 		<cs:dependency name="org.eclipse.pde.junit.runtime" componentType="osgi.bundle" />
 
+		<!-- EMF ODA build requirements -->
+		<cs:dependency name="org.eclipse.datatools.connectivity.oda" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.datatools.connectivity.oda.profile" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.datatools.connectivity.oda.design.ui" componentType="osgi.bundle" />
+
 		<!-- EMF RAP build requirements -->
 		<cs:dependency name="org.eclipse.rap.ui" componentType="osgi.bundle" />
 		<cs:dependency name="org.eclipse.rap.ui.views" componentType="osgi.bundle" />
