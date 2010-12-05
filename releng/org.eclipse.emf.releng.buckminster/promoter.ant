@@ -186,8 +186,8 @@
 			<reference refid="drop.resources" torefid="change.group.owner.resources" />
 		</antcall>
 
-		<!-- strip the micro version and anything following it -->
-		<buckminster.substitute value="${version}" pattern="^(\d+\.\d+)\.\d+.*$" replacement="$$1" property="base.version" />
+		<!-- strip everything after the minor version -->
+		<buckminster.substitute value="${version}" pattern="^(\d+\.\d+).*$" replacement="$$1" property="base.version" />
 
 		<!-- setup composite.repository.base appropriate to the build type -->
 		<condition property="composite.repository.base" value="${base.version}-I-builds">
