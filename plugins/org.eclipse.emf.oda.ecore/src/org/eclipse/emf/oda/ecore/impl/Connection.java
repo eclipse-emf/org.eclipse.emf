@@ -1,0 +1,134 @@
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2010 Kenn Hussey and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   Kenn Hussey - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: Connection.java,v 1.1 2010/12/05 01:42:04 khussey Exp $
+ */
+package org.eclipse.emf.oda.ecore.impl;
+
+import java.util.Properties;
+
+import org.eclipse.datatools.connectivity.oda.IConnection;
+import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
+import org.eclipse.datatools.connectivity.oda.IQuery;
+import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.oda.ecore.util.StringUtil;
+
+import com.ibm.icu.util.ULocale;
+
+
+/**
+ * Implementation of IConnection for EMF ODA runtime driver.
+ */
+public class Connection implements IConnection
+{
+  public static final String RESOURCE_PROPERTY_NAME = "resource"; //$NON-NLS-1$
+
+  protected ResourceSet resourceSet = null;
+
+  public void open(Properties connProperties) throws OdaException
+  {
+    String uri = connProperties.getProperty(RESOURCE_PROPERTY_NAME);
+
+    if (!StringUtil.isEmpty(uri))
+    {
+      resourceSet = new ResourceSetImpl();
+
+      try
+      {
+        resourceSet.getResource(URI.createURI(uri), true);
+      }
+      catch (Exception e)
+      {
+        throw new OdaException(e);
+      }
+    }
+    else
+    {
+      throw new OdaException(new IllegalArgumentException(String.valueOf(connProperties)));
+    }
+  }
+
+  /**
+   * Returns the resource set for this connection.
+   * @return the resource set
+   */
+  public ResourceSet getResourceSet()
+  {
+    return resourceSet;
+  }
+
+  public void setAppContext(Object context) throws OdaException
+  {
+    // do nothing; no support for pass-through context
+  }
+
+  public void close() throws OdaException
+  {
+    if (isOpen())
+    {
+      for (Resource resource : resourceSet.getResources())
+      {
+        resource.unload();
+      }
+
+      resourceSet = null;
+    }
+  }
+
+  public boolean isOpen() throws OdaException
+  {
+    return resourceSet != null;
+  }
+
+  public IDataSetMetaData getMetaData(String dataSetType) throws OdaException
+  {
+    // only one type of data set supported
+    return new DataSetMetaData(this);
+  }
+
+  public IQuery newQuery(String dataSetType) throws OdaException
+  {
+    if (!isOpen())
+    {
+      throw new OdaException(new IllegalStateException());
+    }
+
+    // only one type of data set supported
+    return new Query(this);
+  }
+
+  public int getMaxQueries() throws OdaException
+  {
+    return 0; // no limit
+  }
+
+  public void commit() throws OdaException
+  {
+    // do nothing; no transaction support provided
+  }
+
+  public void rollback() throws OdaException
+  {
+    // do nothing; no transaction support provided
+  }
+
+  public void setLocale(ULocale locale) throws OdaException
+  {
+    // do nothing; no locale support provided
+  }
+}
