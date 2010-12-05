@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.all"
       label="%featureName"
-      version="2.6.0.qualifier"
+      version="2.7.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -34,5 +34,7 @@ http://www.eclipse.org/legal/epl-v10.html
    <includes id="org.eclipse.emf.examples" version="0.0.0"/>
 
    <includes id="org.eclipse.xsd.example" version="0.0.0"/>
+
+   <includes id="org.eclipse.emf.oda.sdk" version="0.0.0"/>
 
 </feature>
