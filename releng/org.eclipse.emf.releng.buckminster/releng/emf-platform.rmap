@@ -3,8 +3,8 @@
 	xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0">
 
 	<locator pattern="^org\.eclipse\.emf\.releng\.buckminster$" searchPathRef="local.releng"/>
-	<locator pattern="^org\.eclipse\.rap(?:\..+)?$" searchPathRef="rap"/>
 	<locator pattern="^org\.eclipse\.datatools(?:\..+)?$" searchPathRef="datatools"/>
+	<locator pattern="^org\.eclipse\.rap(?:\..+)?$" searchPathRef="rap"/>
 	<locator searchPathRef="platform"/>
 
 	<searchPath name="local.releng">
@@ -16,17 +16,17 @@
 		</provider>
 	</searchPath>
 
-	<searchPath name="rap">
+	<searchPath name="datatools">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
-			<uri format="{0}/rt/rap/1.4/runtime">
+			<uri format="{0}/datatools/downloads/drops/M_updates_1.9">
 				<bc:propertyRef key="eclipse.download"/>
 			</uri>
 		</provider>
 	</searchPath>
 
-	<searchPath name="datatools">
+	<searchPath name="rap">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
-			<uri format="{0}/datatools/downloads/drops/M_updates_1.9">
+			<uri format="{0}/rt/rap/1.4/runtime">
 				<bc:propertyRef key="eclipse.download"/>
 			</uri>
 		</provider>
