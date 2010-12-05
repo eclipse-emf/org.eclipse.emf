@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.datatools.connectivity.connectionProfile">
+      <newWizard
+            name="%newwizard.name"
+            icon="icons/full/ctool16/NewEcore.gif"
+            profile="%data.source.id"
+            description="%newwizard.description"
+            class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.NewDataSourceWizard"
+            id="%data.source.id"/>
+   </extension>
+   <extension
+         point="org.eclipse.datatools.connectivity.ui.connectionProfileImage">
+      <profileImage
+            icon="icons/full/obj16/EcoreModelFile.gif"
+            profileID="%data.source.id"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            name="%profile.propertypage.name"
+            class="org.eclipse.emf.oda.ecore.ui.impl.EcoreDataSourcePropertyPage"
+            id="%data.source.id">
+         <enabledWhen>
+            <instanceof
+                  value="org.eclipse.datatools.connectivity.IConnectionProfile"/>
+         </enabledWhen>
+         <filter
+               name="org.eclipse.datatools.profile.property.id"
+               value="%data.source.id"/>
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.datatools.connectivity.oda.design.ui.dataSource">
+      <dataSourceUI
+            id="%data.source.id">
+         <newDataSourceWizard
+               pageClass="org.eclipse.emf.oda.ecore.ui.impl.EcoreDataSourceWizardPage"
+               includesProgressMonitor="false"
+               pageTitle="%wizard.data.source.page.title"
+               windowTitle="%wizard.window.title"/>
+      </dataSourceUI>
+      <dataSetUI
+            supportsOutParameters="false"
+            supportsInParameters="true"
+            initialPageId="%wizard.data.set.page.id"
+            id="%data.set.id">
+         <dataSetWizard
+               class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizard"
+               windowTitle="%wizard.data.set.window.title"/>
+         <dataSetPage
+               displayName="%wizard.data.set.page.title"
+               icon="icons/full/ctool16/NewEcore.gif"
+               wizardPageClass="org.eclipse.emf.oda.ecore.ui.impl.EcoreDataSetWizardPage"
+               path="/"
+               id="%wizard.data.set.page.id"/>
+      </dataSetUI>
+   </extension>
+
+</plugin>
