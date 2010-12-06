@@ -39,6 +39,7 @@
 
 	<property key="eclipse.download" value="http://download.eclipse.org" />
 
-	<property key="resolve.target.platform" value="false" />
 	<property key="resolve.target.platform.base.sources" value="false" />
+	<property key="resolve.target.platform" value="false" />
+	<property key="build.type" value="R" />
 </rmap>
