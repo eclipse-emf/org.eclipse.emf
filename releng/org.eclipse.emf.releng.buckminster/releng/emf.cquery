@@ -2,7 +2,7 @@
 <cq:componentQuery xmlns:cq="http://www.eclipse.org/buckminster/CQuery-1.0" resourceMap="emf.rmap">
 	<cq:rootRequest name="org.eclipse.emf.build" componentType="eclipse.feature"/>
 
-	<cq:advisorNode namePattern="^org\.eclipse\.(?:emf|xsd)(?:\..*)?\.source$" skipComponent="true"/>
+	<cq:advisorNode namePattern="^org\.eclipse\.(?:emf|xsd)(?:\..+)?\.source$" skipComponent="true"/>
 	<cq:advisorNode namePattern="^org.eclipse.equinox.launcher\..+$" skipComponent="true"/>
 	<cq:advisorNode filter="(resolve.target.platform=true)" useTargetPlatform="false"/>
 
