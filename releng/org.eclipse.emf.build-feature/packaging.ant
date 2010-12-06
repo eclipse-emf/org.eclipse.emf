@@ -76,6 +76,7 @@
 		<property name="fs:prerequisite.repositories" value="" />
 		<property name="fs:prerequisite.metadata.repositories" value="" />
 		<property name="fs:prerequisite.artifact.repositories" value="" />
+		<property name="sp:prerequisites.base" value="" />
 
 		<!-- create a list of all possible metadata repositories -->
 		<pathconvert property="metadata.repositories" dirsep="/" pathsep=",">
@@ -100,14 +101,16 @@
 		</condition>
 	</target>
 
+	<target name="-init.install" depends="-define.common.properties">
+		<delete dir="${prerequisites.destination}" />
+		<delete dir="${install.destination}" />
+	</target>
+
 	<!--
 		install the specified prerequisite IUs (which are not meant to be included
 		in the final install) in a separate directory
 	-->
-	<target name="-install.prerequisite.ius" depends="-define.common.properties" if="prerequisite.ius">
-		<!-- default to an empty value if not set -->
-		<property name="sp:prerequisites.base" value="" />
-
+	<target name="-install.prerequisite.ius" depends="-init.install" if="prerequisite.ius">
 		<pathconvert property="bundle.pools.for.prerequisites" dirsep="/" pathsep="|" setonempty="false">
 			<path path="${target.platform.bundle.pool.path}" />
 			<path path="${sp:prerequisites.base}" />
@@ -123,8 +126,6 @@
 		<condition property="prerequisites.profile.properties" value="${bundle.pools.property.name}=${bundle.pools.for.prerequisites},${install.features.property.name}=${install.features}" else="${install.features.property.name}=${install.features}">
 			<isset property="bundle.pools.for.prerequisites" />
 		</condition>
-
-		<delete dir="${prerequisites.destination}" />
 
 		<java jar="${launcher.jar}" fork="true" failonerror="true">
 			<arg value="-consolelog" />
@@ -160,11 +161,63 @@
 	</target>
 
 	<!--
+		install the specified prerequisite target platfrom IUs (which are not meant to be included
+		in the final install) in the separate directory
+	-->
+	<target name="-install.prerequisite.target.platform.ius" depends="-install.prerequisite.ius" if="target.platform.prerequisite.ius">
+		<pathconvert property="bundle.pools.for.target.patform.prerequisites" dirsep="/" pathsep="|" setonempty="false">
+			<path path="${sp:prerequisites.base}" />
+			<map from="" to="file:/" />
+		</pathconvert>
+
+		<pathconvert property="bundle.pools.for.target.platform.install" dirsep="/" pathsep="|" setonempty="false">
+			<path path="${prerequisites.destination}" />
+			<map from="" to="file:/" />
+		</pathconvert>
+
+		<condition property="target.platform.prerequisites.profile.properties" value="${bundle.pools.property.name}=${bundle.pools.for.target.patform.prerequisites},${install.features.property.name}=${install.features}" else="${install.features.property.name}=${install.features}">
+			<isset property="bundle.pools.for.target.patform.prerequisites" />
+		</condition>
+
+		<java jar="${launcher.jar}" fork="true" failonerror="true">
+			<arg value="-consolelog" />
+			<arg value="-application" />
+			<arg value="org.eclipse.equinox.p2.director" />
+			<arg value="-metadataRepository" />
+			<arg value="${metadata.repositories}" />
+			<arg value="-artifactRepository" />
+			<arg value="${artifact.repositories}" />
+			<arg value="-destination" />
+			<arg value="${prerequisites.destination}" />
+			<arg value="-profile" />
+			<arg value="Prerequisites" />
+			<arg value="-profileproperties" />
+			<arg value="${target.platform.prerequisites.profile.properties}" />
+			<arg value="-installIU" />
+			<arg value="${target.platform.prerequisite.ius}" />
+			<arg value="-p2.os" />
+			<arg value="${wildcard}" />
+			<arg value="-p2.ws" />
+			<arg value="${wildcard}" />
+			<arg value="-p2.arch" />
+			<arg value="${wildcard}" />
+		</java>
+
+		<!--
+			remove the p2 metadata, as the prerequisites install location is only meant
+			to be used as a secondary bundle pool during the install of the required IUs
+		-->
+		<delete dir="${prerequisites.destination}" includeEmptyDirs="true">
+			<include name="p2/**" />
+		</delete>
+	</target>
+
+	<!--
 		install the required IUs, potentially referencing the target platform and/or the prerequisite
 		install location as secondary bundle pools so that only the desired components are installed
 		in the install destination directory
 	-->
-	<target name="-install.content.ius" depends="-install.prerequisite.ius">
+	<target name="-install.content.ius" depends="-install.prerequisite.target.platform.ius">
 		<!-- this may have already been defined in the -install.prerequisite.ius target (if it ran) -->
 		<pathconvert property="bundle.pools.for.install" dirsep="/" pathsep="|" setonempty="false">
 			<path path="${target.platform.bundle.pool.path}" />
@@ -174,8 +227,6 @@
 		<condition property="install.profile.properties" value="${bundle.pools.property.name}=${bundle.pools.for.install},${install.features.property.name}=${install.features}" else="${install.features.property.name}=${install.features}">
 			<isset property="bundle.pools.for.install" />
 		</condition>
-
-		<delete dir="${install.destination}" />
 
 		<java jar="${launcher.jar}" fork="true" failonerror="true">
 			<arg value="-consolelog" />
@@ -211,6 +262,10 @@
 		install the specified TP IUs
 	-->
 	<target name="-install.ius" depends="-install.content.ius" if="target.platform.ius">
+		<condition property="target.platform.install.profile.properties" value="${bundle.pools.property.name}=${bundle.pools.for.target.platform.install},${install.features.property.name}=${install.features}" else="${install.features.property.name}=${install.features}">
+			<isset property="bundle.pools.for.target.platform.install" />
+		</condition>
+
 		<java jar="${launcher.jar}" fork="true" failonerror="true">
 			<arg value="-consolelog" />
 			<arg value="-application" />
@@ -224,7 +279,7 @@
 			<arg value="-profile" />
 			<arg value="Install" />
 			<arg value="-profileproperties" />
-			<arg value="${install.features.property.name}=${install.features}" />
+			<arg value="${target.platform.install.profile.properties}" />
 			<arg value="-installIU" />
 			<arg value="${target.platform.ius}" />
 			<arg value="-p2.os" />
