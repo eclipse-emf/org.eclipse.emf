@@ -9,6 +9,7 @@
 		<cs:dependency name="org.eclipse.rcp" componentType="eclipse.feature" />
 		<cs:dependency name="org.eclipse.pde.core" componentType="osgi.bundle" />
 		<cs:dependency name="org.eclipse.pde.junit.runtime" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.equinox.frameworkadmin.equinox" componentType="osgi.bundle" />
 	</cs:dependencies>
 
 	<cs:actions>
@@ -41,8 +42,7 @@
 			</cs:actorProperties>
 			<cs:properties>
 				<cs:property key="content.ius" value="org.eclipse.emf.sdk.feature.group,org.eclipse.xsd.sdk.feature.group" />
-				<cs:property key="target.platform.ius"
-					value="org.eclipse.emf.base.feature.group,org.eclipse.emf.base.source.feature.group" />
+				<cs:property key="target.platform.ius" value="org.eclipse.emf.base.feature.group,org.eclipse.emf.base.source.feature.group" />
 				<cs:property key="package.name" value="emf-xsd-SDK" />
 			</cs:properties>
 			<cs:prerequisites>
