@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreDataSetWizardPage.java,v 1.1 2010/12/05 01:42:01 khussey Exp $
+ * $Id: EcoreDataSetWizardPage.java,v 1.2 2010/12/11 02:28:55 khussey Exp $
  */
 package org.eclipse.emf.oda.ecore.ui.impl;
 
@@ -726,6 +726,8 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
             if (!choices.contains(eClass))
             {
               choices.add(eClass);
+
+              choices.addAll(eClass.getEAllSuperTypes());
 
               for (EAttribute eAttribute : eClass.getEAllAttributes())
               {
