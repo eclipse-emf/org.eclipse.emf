@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="EMF GWT Build Helper Tasks">
+	<target name="take.time.stamp">
+		<!-- workaround for a problem in Buckminster -->
+		<eclipse.refreshLocal resource="/" depth="infinite" />
+		<touch file="${sp:time.stamp.file}" mkdirs="true" />
+	</target>
+
+	<target name="-check.container.replacement.data">
+		<uptodate property="data.up.to.date" targetfile="${sp:container.replacement.data.file}" srcfile="${sp:time.stamp.file}" />
+	</target>
+
+	<target name="clean.old.container.replacement.data" depends="-check.container.replacement.data" unless="data.up.to.date">
+		<delete file="${sp:container.replacement.data.file}" />
+	</target>
+
+	<target name="-define.prefix.properties">
+		<property name="prefix.separator" value=":" />
+		<property name="prefix.qualifier.separator" value="@" />
+		<property name="container.prefix" value="container" />
+		<property name="classpath.entry.prefix" value="classpath-entry" />
+	</target>
+
+	<target name="prepare.google.classpath.containers.replacement.data" depends="-define.prefix.properties,-define.filterchains">
+		<property name="container.replacement.data.properties.file" value="${sp:container.replacement.data.file}.properties" />
+
+		<property name="container.replacement.properties.prefix" value="container.replacement.property." />
+
+		<delete file="${container.replacement.data.properties.file}" />
+		<touch file="${container.replacement.data.properties.file}" mkdirs="true" />
+
+		<!-- prepare classpath replacement data for GWT container -->
+		<pathconvert property="gwt.sdk.directory">
+			<dirset dir="${sp:gwt.sdk.bundle}">
+				<filename name="gwt-*" />
+			</dirset>
+		</pathconvert>
+		<path id="gwt.libs">
+			<fileset dir="${gwt.sdk.directory}">
+				<or>
+					<filename name="gwt-dev.jar" />
+					<filename name="gwt-user.jar" />
+				</or>
+			</fileset>
+		</path>
+		<antcall target="-write.classpath.container.properties" inheritrefs="true">
+			<param name="classpath.replacement.container" value="com.google.gwt.eclipse.core.GWT_CONTAINER" />
+			<reference torefid="classpath.replacement.entries" refid="gwt.libs" />
+		</antcall>
+
+		<!-- prepare classpath replacement data for App Engine container -->
+		<pathconvert property="appengine.lib.directory">
+			<dirset dir="${sp:appengine.sdk.bundle}">
+				<filename name="appengine-java-sdk-*/lib" />
+			</dirset>
+		</pathconvert>
+		<path id="appengine.libs">
+			<fileset dir="${appengine.lib.directory}">
+				<or>
+					<filename name="shared/**/*.jar" />
+					<filename name="user/**/*.jar" />
+					<filename name="appengine-tools-api.jar" />
+				</or>
+			</fileset>
+		</path>
+		<antcall target="-write.classpath.container.properties" inheritrefs="true">
+			<param name="classpath.replacement.container" value="com.google.appengine.eclipse.core.GAE_CONTAINER" />
+			<reference torefid="classpath.replacement.entries" refid="appengine.libs" />
+		</antcall>
+
+		<!-- load the properties -->
+		<property file="${container.replacement.data.properties.file}" prefix="${container.replacement.properties.prefix}" />
+
+		<delete file="${container.replacement.data.properties.file}" />
+
+		<!-- and save them in XML format -->
+		<echoproperties destfile="${sp:container.replacement.data.file}" format="xml">
+			<propertyset>
+				<propertyref prefix="${container.replacement.properties.prefix}" />
+				<globmapper from="${container.replacement.properties.prefix}*" to="*" />
+			</propertyset>
+		</echoproperties>
+
+		<!-- diagnostics
+		<concat>
+			<file file="${sp:container.replacement.data.file}" />
+		</concat>
+		-->
+	</target>
+
+	<target name="-define.default.dirsep.filterchain">
+		<condition property="is.windows">
+			<os family="windows" />
+		</condition>
+
+		<filterchain id="dirsep.filterchain" />
+	</target>
+
+	<target name="-define.windows.dirsep.filterchain" if="is.windows">
+		<!-- override the default (no-op) dirsep.filterchain on Windows -->
+		<filterchain id="dirsep.filterchain">
+			<replacestring from="\" to="/" />
+		</filterchain>
+	</target>
+
+	<target name="-define.filterchains" depends="-define.default.dirsep.filterchain,-define.windows.dirsep.filterchain">
+		<!--
+			filter chain to perform Java properties files escaping;
+			NOTE that we use forward slash as the escape character
+			because it is less likely to cause problems but we must
+			remember to convert the forward slashes to back slashes
+			prior to writing the value to a property file
+		-->
+		<filterchain id="properties.filterchain">
+			<tokenfilter>
+				<filetokenizer />
+				<!--
+					we use this filterchain in a <pathconvert> task
+					where we need to take care of slashes ...
+				-->
+				<replaceregex pattern="/" replace="/u002F" flags="g" />
+				<replaceregex pattern="\\" replace="/u005C" flags="g" />
+				<replaceregex pattern="[#!=: ]" replace="/\0" flags="g" />
+				<replaceregex pattern="\t" replace="/t" flags="g" />
+				<replaceregex pattern="\n" replace="/n" flags="g" />
+				<replaceregex pattern="\r" replace="/r" flags="g" />
+				<replaceregex pattern="\f" replace="/f" flags="g" />
+			</tokenfilter>
+			<escapeunicode />
+		</filterchain>
+
+		<!-- filter chain to create a property definition -->
+		<filterchain id="create.property.entry">
+			<replaceregex pattern="^.*$" replace="\0=\0&#xa;" />
+		</filterchain>
+
+		<!-- filter chain to turn forward slashes to back slashes -->
+		<filterchain id="replace.slashes">
+			<replacestring from="/" to="\" />
+		</filterchain>
+	</target>
+
+	<target name="-write.classpath.container.properties">
+		<!-- create complete escaped container prefix -->
+		<loadresource property="complete.escaped.container.prefix">
+			<string value="${container.prefix}${prefix.separator}" />
+
+			<filterchain refid="properties.filterchain" />
+		</loadresource>
+
+		<!-- create the container entry property definition and append it to the properties file -->
+		<concat destfile="${container.replacement.data.properties.file}" append="true">
+			<propertyresource name="classpath.replacement.container" />
+
+			<filterchain refid="properties.filterchain" />
+			<filterchain refid="create.property.entry" />
+			<filterchain>
+				<prefixlines prefix="${complete.escaped.container.prefix}" />
+			</filterchain>
+			<filterchain refid="replace.slashes" />
+		</concat>
+
+		<!-- create complete escaped classpath entries prefix -->
+		<loadresource property="complete.escaped.classpath.entry.prefix">
+			<string value="${classpath.entry.prefix}${prefix.qualifier.separator}${classpath.replacement.container}${prefix.separator}" />
+
+			<filterchain refid="properties.filterchain" />
+		</loadresource>
+
+		<!-- create classpath entries property definitions for the path elements -->
+		<pathconvert property="container.replacement.entries" pathsep="" dirsep="\">
+			<path refid="classpath.replacement.entries" />
+
+			<chainedmapper>
+				<!--
+					we want to replace the default ${file.separator} on certain platforms (notably Windows);
+					this is what the "dirsep.filterchain" filterchain is intended for
+				-->
+				<filtermapper refid="dirsep.filterchain" />
+				<filtermapper refid="properties.filterchain" />
+				<filtermapper refid="create.property.entry" />
+				<filtermapper>
+					<prefixlines prefix="${complete.escaped.classpath.entry.prefix}" />
+				</filtermapper>
+				<filtermapper refid="replace.slashes" />
+			</chainedmapper>
+		</pathconvert>
+
+		<!-- append the classpath entries property definitions to the properties file -->
+		<concat destfile="${container.replacement.data.properties.file}" append="true">
+			<propertyresource name="container.replacement.entries" />
+		</concat>
+	</target>
+
+	<target name="replace.classpath.containers" depends="-define.prefix.properties">
+		<dirname property="project.directory" file="${sp:helper.script}" />
+		<property name="temporary.classpath.file" location="${sp:classpath.file}.temp" />
+
+		<!-- apply the classpath containers replacement data by means of an xslt transformation -->
+		<xslt in="${sp:classpath.file}" out="${temporary.classpath.file}" force="true" style="${project.directory}/classpath-container-replacement.xsl">
+			<param name="prefix-separator" expression="${prefix.separator}" />
+			<param name="prefix-qualifier-separator" expression="${prefix.qualifier.separator}" />
+			<param name="container-prefix" expression="${container.prefix}" />
+			<param name="classpath-entry-prefix" expression="${classpath.entry.prefix}" />
+			<param name="container-replacement-data-file" expression="${sp:container.replacement.data}" />
+		</xslt>
+
+		<copy tofile="${sp:classpath.file}" file="${temporary.classpath.file}" />
+		<delete file="${temporary.classpath.file}" />
+
+		<!-- refresh the resource so that the changes take effect -->
+		<!--
+			since this is now called at project's prebind time we don't need to do that
+			(moreover it would probably fail)
+		<eclipse.convertPath property="classpath.file.resource.path" filesystempath="${sp:classpath.file}" />
+		<eclipse.refreshLocal resource="${classpath.file.resource.path}" depth="zero" />
+		-->
+	</target>
+</project>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="org.eclipse.emf.gwt.build.helper"
+	componentType="buckminster" version="0.1.0.qualifier" shortDesc="EMF GWT Build Helper Project"
+>
+	<cs:dependencies>
+		<cs:dependency name="com.google.gwt.eclipse.sdkbundle.2.1.0" componentType="osgi.bundle" />
+		<cs:dependency name="com.google.appengine.eclipse.sdkbundle.1.4.0" componentType="osgi.bundle" />
+	</cs:dependencies>
+
+	<cs:artifacts>
+		<cs:public name="helper.script" path="helper.ant" />
+	</cs:artifacts>
+
+	<cs:actions>
+		<cs:public name="google.classpath.containers.replacement.data" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="helper.ant" />
+				<cs:property key="targets" value="prepare.google.classpath.containers.replacement.data" />
+			</cs:actorProperties>
+			<cs:prerequisites>
+				<cs:attribute component="com.google.gwt.eclipse.sdkbundle.2.1.0" componentType="osgi.bundle" alias="gwt.sdk.bundle" />
+				<cs:attribute component="com.google.appengine.eclipse.sdkbundle.1.4.0" componentType="osgi.bundle"
+					alias="appengine.sdk.bundle" />
+			</cs:prerequisites>
+			<cs:products alias="container.replacement.data.file" base="${buckminster.output}">
+				<cs:path path="google-classpath-containers-replacement-data.xml" />
+			</cs:products>
+		</cs:public>
+
+		<cs:private name="time.stamp" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="helper.ant" />
+				<cs:property key="targets" value="take.time.stamp" />
+			</cs:actorProperties>
+			<cs:products alias="time.stamp.file" base="${buckminster.temp}">
+				<cs:path path=".bind.time.stamp" />
+			</cs:products>
+		</cs:private>
+
+		<cs:public name="buckminster.prebind" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="helper.ant" />
+				<cs:property key="targets" value="clean.old.container.replacement.data" />
+			</cs:actorProperties>
+			<cs:prerequisites>
+				<cs:attribute name="time.stamp" alias="time.stamp.file" />
+				<cs:attribute name="google.classpath.containers.replacement.data" alias="container.replacement.data.file" />
+			</cs:prerequisites>
+		</cs:public>
+	</cs:actions>
+</cs:cspec>
