@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.2 2010/04/28 20:39:45 khussey Exp $
+ * $Id: EPackageImpl.java,v 1.3 2010/12/12 20:29:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -51,7 +51,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -744,15 +744,13 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     {
       if (resourceFactory == null)
       {
-        try
+        resourceFactory = new Resource.Factory()
         {
-          // resourceFactory = (Resource.Factory)CommonPlugin.loadClass("org.eclipse.emf.ecore.xmi", "org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl").newInstance();
-          resourceFactory = new ResourceFactoryImpl();
-        }
-        catch (Throwable exception)
-        {
-          resourceFactory = new ResourceFactoryImpl();
-        }
+          public Resource createResource(URI uri)
+          {
+            return new BinaryResourceImpl(uri);
+          }
+        };
       }
       URI actualURI = URI.createURI(uri);
       resource =  resourceFactory.createResource(actualURI);

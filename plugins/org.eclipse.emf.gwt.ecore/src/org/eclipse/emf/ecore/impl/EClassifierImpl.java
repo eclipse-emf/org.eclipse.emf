@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.3 2010/05/21 15:20:09 khussey Exp $
+ * $Id: EClassifierImpl.java,v 1.4 2010/12/12 20:29:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.InvocationTargetException;
+import org.eclipse.emf.common.util.Reflect;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -218,9 +219,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
         }
         else
         {
-          // TODO
-          return true;
-          // return instanceClass.isInstance(object);
+          return Reflect.isInstance(instanceClass, object);
         }
       }
       else if (object instanceof EObject)

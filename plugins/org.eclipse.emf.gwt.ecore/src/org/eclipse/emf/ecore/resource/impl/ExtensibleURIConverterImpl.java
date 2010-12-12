@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtensibleURIConverterImpl.java,v 1.2 2010/04/28 20:39:59 khussey Exp $
+ * $Id: ExtensibleURIConverterImpl.java,v 1.3 2010/12/12 20:29:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.Callback;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.InputStream;
 import org.eclipse.emf.common.util.OutputStream;
@@ -184,6 +185,18 @@ public class ExtensibleURIConverterImpl implements URIConverter
     return createOutputStream(uri, null);
   }
 
+  public void store(URI uri, byte[] bytes, Map<?, ?> options, Callback<Map<?, ?>> callback)
+  {
+    URI normalizedURI = normalize(uri);
+    getURIHandler(normalizedURI).store(normalizedURI, bytes, new OptionsMap(OPTION_URI_CONVERTER, this, options), callback);
+  }
+
+  public void delete(URI uri, Map<?, ?> options, Callback<Map<?, ?>> callback)
+  {
+    URI normalizedURI = normalize(uri);
+    getURIHandler(normalizedURI).delete(normalizedURI, new OptionsMap(OPTION_URI_CONVERTER, this, options), callback);
+  }
+
   static class OptionsMap implements Map<Object, Object>
   {
     protected Object key;
@@ -298,6 +311,12 @@ public class ExtensibleURIConverterImpl implements URIConverter
     return getURIHandler(normalizedURI).createInputStream(normalizedURI, new OptionsMap(OPTION_URI_CONVERTER, this, options));
   }
 
+  public void createInputStream(URI uri, Map<?, ?> options, Callback<Map<?, ?>> callback)
+  {
+    URI normalizedURI = normalize(uri);
+    getURIHandler(normalizedURI).createInputStream(normalizedURI, new OptionsMap(OPTION_URI_CONVERTER, this, options), callback);
+  }
+
   public void delete(URI uri, Map<?, ?> options) throws IOException
   {
     URI normalizedURI = normalize(uri);
@@ -314,6 +333,12 @@ public class ExtensibleURIConverterImpl implements URIConverter
   {
     URI normalizedURI = normalize(uri);
     return getURIHandler(normalizedURI).exists(normalizedURI, new OptionsMap(OPTION_URI_CONVERTER, this, options));
+  }
+
+  public void exists(URI uri, Map<?, ?> options, Callback<Boolean> callback)
+  {
+    URI normalizedURI = normalize(uri);
+    getURIHandler(normalizedURI).exists(normalizedURI, new OptionsMap(OPTION_URI_CONVERTER, this, options), callback);
   }
 
   public Map<String, ?> getAttributes(URI uri, Map<?, ?> options)

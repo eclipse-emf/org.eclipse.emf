@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSet.java,v 1.2 2010/04/28 20:39:57 khussey Exp $
+ * $Id: ResourceSet.java,v 1.3 2010/12/12 20:29:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.Callback;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -148,6 +149,13 @@ public interface ResourceSet extends Notifier
   EObject getEObject(URI uri, boolean loadOnDemand);
 
   /**
+   * TODO
+   * @param uri
+   * @param callback
+   */
+  void getEObject(URI uri, Callback<EObject> callback);
+
+  /**
    * Returns the resource resolved by the URI.
    * <p>
    * A resource set is expected to implement the following strategy 
@@ -181,6 +189,13 @@ public interface ResourceSet extends Notifier
    * @throws org.eclipse.emf.common.util.WrappedException if a problem occurs during demand load.
    */
   Resource getResource(URI uri, boolean loadOnDemand);
+
+  /**
+   * TODO
+   * @param uri
+   * @param callback
+   */
+  Resource getResource(URI uri, Callback<Resource> callback);
 
   /**
    * Creates a new resource, of the appropriate type, and returns it.

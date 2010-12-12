@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIHandlerImpl.java,v 1.2 2010/04/28 20:39:59 khussey Exp $
+ * $Id: URIHandlerImpl.java,v 1.3 2010/12/12 20:29:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.Callback;
 import org.eclipse.emf.common.util.InputStream;
 import org.eclipse.emf.common.util.OutputStream;
 import org.eclipse.emf.common.util.URI;
@@ -95,6 +96,11 @@ public class URIHandlerImpl implements URIHandler
     return null;
   }
 
+  public void store(URI uri, byte[] bytes, Map<?, ?> options, Callback<Map<?, ?>> callback)
+  {
+    callback.onSuccess(null);
+  }
+
   /**
    * Creates an input stream for the URI, assuming it's a URL, and returns it.
    * @return an open input stream.
@@ -105,12 +111,22 @@ public class URIHandlerImpl implements URIHandler
     return null;
   }
 
+  public void createInputStream(URI uri, Map<?, ?> options, Callback<Map<?, ?>> callback)
+  {
+    callback.onSuccess(null);
+  }
+
   /**
    * Only HTTP connections support delete.
    */
   public void delete(URI uri, Map<?, ?> options) throws IOException
   {
     //
+  }
+
+  public void delete(URI uri, Map<?, ?> options, Callback<Map<?, ?>> callback)
+  {
+    callback.onSuccess(null);
   }
 
   /**
@@ -189,6 +205,11 @@ public class URIHandlerImpl implements URIHandler
   public boolean exists(URI uri, Map<?, ?> options)
   {
     return false;
+  }
+
+  public void exists(URI uri, Map<?, ?> options, Callback<Boolean> callback)
+  {
+    callback.onSuccess(false);
   }
 
   public Map<String, ?> getAttributes(URI uri, Map<?, ?> options)

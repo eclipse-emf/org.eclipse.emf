@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceImpl.java,v 1.3 2010/06/14 15:32:43 emerks Exp $
+ * $Id: BinaryResourceImpl.java,v 1.4 2010/12/12 20:29:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +80,11 @@ public class BinaryResourceImpl extends ResourceImpl
   {
     public enum Version
     {
-      VERSION_1_0
+      VERSION_1_0,
+      /**
+       * TODO
+       */
+      VERSION_1_1
     }
 
     protected Version version;
@@ -187,6 +192,11 @@ public class BinaryResourceImpl extends ResourceImpl
       LONG,
       SHORT,
       STRING,
+
+      /**
+       * TODO
+       */
+      DATE,
 
       DATA,
       DATA_LIST,
@@ -306,6 +316,10 @@ public class BinaryResourceImpl extends ResourceImpl
           {
             return SHORT;
           }
+          else if (instanceClassName == "java.util.Date")
+          {
+            return DATE;
+          }
           else
           {
             return DATA;
@@ -355,6 +369,7 @@ public class BinaryResourceImpl extends ResourceImpl
     {
       public String name;
       public boolean isTransient;
+      public boolean isProxyTransient;
       public FeatureKind kind;
       public EFactory eFactory;
       public EDataType eDataType;
@@ -368,7 +383,7 @@ public class BinaryResourceImpl extends ResourceImpl
 
     public EObjectOutputStream(OutputStream outputStream, Map<?, ?> options) throws IOException
     {
-      this(outputStream, options, Version.VERSION_1_0);
+      this(outputStream, options, Version.VERSION_1_1);
     }
 
     public EObjectOutputStream(OutputStream outputStream, Map<?, ?> options, Version version) throws IOException
@@ -447,6 +462,11 @@ public class BinaryResourceImpl extends ResourceImpl
             EDataType eDataType = eAttribute.getEAttributeType();
             eStructuralFeatureData.eDataType = eDataType;
             eStructuralFeatureData.eFactory = eDataType.getEPackage().getEFactoryInstance();
+            eStructuralFeatureData.isProxyTransient = eStructuralFeatureData.kind == FeatureKind.FEATURE_MAP;
+          }
+          else
+          {
+            eStructuralFeatureData.isProxyTransient = true;
           }
         }
         ePackageData.eClassData[eClassData.id] = eClassData;
@@ -587,6 +607,11 @@ public class BinaryResourceImpl extends ResourceImpl
           writeString((String)value);
           break;
         }
+        case DATE:
+        {
+          writeDate((Date)value);
+          break;
+        }
         case DATA:
         case DATA_LIST:
         {
@@ -617,6 +642,7 @@ public class BinaryResourceImpl extends ResourceImpl
           eObjectIDMap.put(internalEObject, idValue);
           EClass eClass = internalEObject.eClass();
           EClassData eClassData = writeEClass(eClass);
+          boolean checkIsTransientProxy = false;
           switch (check)
           {
             case DIRECT_RESOURCE:
@@ -626,13 +652,21 @@ public class BinaryResourceImpl extends ResourceImpl
               {
                 writeCompressedInt(-1);
                 writeURI(resource.getURI(), resource.getURIFragment(internalEObject));
-                return;
+                if (version == Version.VERSION_1_0)
+                {
+                  return;
+                }
+                checkIsTransientProxy = true;
               }
               else if (internalEObject.eIsProxy())
               {
                 writeCompressedInt(-1);
                 writeURI(internalEObject.eProxyURI());
-                return;
+                if (version == Version.VERSION_1_0)
+                {
+                  return;
+                }
+                checkIsTransientProxy = true;
               }
               break;
             }
@@ -643,13 +677,21 @@ public class BinaryResourceImpl extends ResourceImpl
               {
                 writeCompressedInt(-1);
                 writeURI(resource.getURI(), resource.getURIFragment(internalEObject));
-                return;
+                if (version == Version.VERSION_1_0)
+                {
+                  return;
+                }
+                checkIsTransientProxy = true;
               }
               else if (internalEObject.eIsProxy())
               {
                 writeCompressedInt(-1);
                 writeURI(internalEObject.eProxyURI());
-                return;
+                if (version == Version.VERSION_1_0)
+                {
+                  return;
+                }
+                checkIsTransientProxy = true;
               }
               break;
             }
@@ -664,7 +706,8 @@ public class BinaryResourceImpl extends ResourceImpl
           {
             EStructuralFeatureData structuralFeatureData = eStructuralFeatureData[i];
             if (!structuralFeatureData.isTransient &&
-                  (structuralFeatureData.kind != FeatureKind.EOBJECT_CONTAINER_PROXY_RESOLVING || check == Check.CONTAINER))
+                  (structuralFeatureData.kind != FeatureKind.EOBJECT_CONTAINER_PROXY_RESOLVING || check == Check.CONTAINER) &&
+                  (!checkIsTransientProxy || !structuralFeatureData.isProxyTransient))
             {
               saveFeatureValue(internalEObject, i, structuralFeatureData);
             }
@@ -779,6 +822,11 @@ public class BinaryResourceImpl extends ResourceImpl
             writeString((String)value);
             break;
           }
+          case DATE:
+          {
+            writeDate((Date)value);
+            break;
+          }
           case FEATURE_MAP:
           {
             FeatureMap.Internal featureMap = (FeatureMap.Internal)value;
@@ -849,16 +897,12 @@ public class BinaryResourceImpl extends ResourceImpl
 
     public void writeFloat(float value) throws IOException
     {
-      // TODO
-      // writeInt(Float.floatToIntBits(value));
-      throw new UnsupportedOperationException();
+      writeString(Float.toString(value));
     }
 
     public void writeDouble(double value) throws IOException
     {
-      // TODO
-      // writeLong(Double.doubleToLongBits(value));
-      throw new UnsupportedOperationException();
+      writeString(Double.toString(value));
     }
 
     public void writeCompressedInt(int value) throws IOException
@@ -936,6 +980,11 @@ public class BinaryResourceImpl extends ResourceImpl
           }
         }
       }
+    }
+
+    public void writeDate(Date date) throws IOException
+    {
+      writeLong(date.getTime());
     }
 
     public void writeURI(URI uri) throws IOException
@@ -1336,6 +1385,11 @@ public class BinaryResourceImpl extends ResourceImpl
           value = readString();
           break;
         }
+        case DATE:
+        {
+          value = readDate();
+          break;
+        }
         case DATA:
         {
           String literal = readString();
@@ -1414,7 +1468,10 @@ public class BinaryResourceImpl extends ResourceImpl
             else if (featureID == -2)
             {
               internalEObject.eSetProxyURI(readURI());
-              break;
+              if (version == Version.VERSION_1_0)
+              {
+                break;
+              }
             }
             else
             {
@@ -1458,6 +1515,11 @@ public class BinaryResourceImpl extends ResourceImpl
         case STRING:
         {
           internalEObject.eSet(eStructuralFeatureData.featureID, readString());
+          break;
+        }
+        case DATE:
+        {
+          internalEObject.eSet(eStructuralFeatureData.featureID, readDate());
           break;
         }
         case FEATURE_MAP:
@@ -1572,16 +1634,12 @@ public class BinaryResourceImpl extends ResourceImpl
 
     public float readFloat() throws IOException
     {
-      // TODO
-      // return Float.intBitsToFloat(readInt());
-      throw new UnsupportedOperationException();
+      return Float.parseFloat(readString());
     }
 
     public double readDouble() throws IOException
     {
-      // TODO
-      // return Double.longBitsToDouble(readLong());
-      throw new UnsupportedOperationException();
+      return Double.parseDouble(readString());
     }
 
     public int readCompressedInt() throws IOException
@@ -1642,6 +1700,12 @@ public class BinaryResourceImpl extends ResourceImpl
         }
         return new String(characters, 0, length);
       }
+    }
+
+    public Date readDate() throws IOException
+    {
+      long time = readLong();
+      return new Date(time);
     }
 
     public URI readURI() throws IOException

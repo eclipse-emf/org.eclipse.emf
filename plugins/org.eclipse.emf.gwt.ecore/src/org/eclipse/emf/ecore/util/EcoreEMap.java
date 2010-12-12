@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEMap.java,v 1.4 2010/09/08 01:21:01 emerks Exp $
+ * $Id: EcoreEMap.java,v 1.5 2010/12/12 20:29:38 emerks Exp $
  */
 package  org.eclipse.emf.ecore.util;
 
@@ -153,7 +153,7 @@ public class EcoreEMap<K, V> extends BasicEMap<K, V> implements InternalEList.Un
   public EcoreEMap(EClass entryEClass, Class<?> entryClass, InternalEObject owner, int featureID, int inverseFeatureID)
   {
     this.entryClass = entryClass;
-    assert entryClass != null && BasicEMap.Entry.class.isAssignableFrom(entryClass) : "A class derived from org.eclipse.emf.common.util.BasicEMap.Entry is required: " + entryClass;
+    // assert entryClass != null && BasicEMap.Entry.class.isAssignableFrom(entryClass) : "A class derived from org.eclipse.emf.common.util.BasicEMap.Entry is required: " + entryClass;
     this.entryEClass = entryEClass;
     delegateEList = new DelegateEObjectContainmentWithInverseEList<Entry<K, V>>(entryClass, owner, featureID, inverseFeatureID);
   }

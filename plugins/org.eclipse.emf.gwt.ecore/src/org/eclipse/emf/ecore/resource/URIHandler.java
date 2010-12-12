@@ -12,22 +12,22 @@
  *
  * </copyright>
  *
- * $Id: URIHandler.java,v 1.2 2010/04/28 20:39:57 khussey Exp $
+ * $Id: URIHandler.java,v 1.3 2010/12/12 20:29:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.Callback;
 import org.eclipse.emf.common.util.InputStream;
 import org.eclipse.emf.common.util.OutputStream;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.impl.LocalURIHandlerImpl;
-import org.eclipse.emf.ecore.resource.impl.PlatformResourceURIHandlerImpl;
-import org.eclipse.emf.ecore.resource.impl.URIHandlerImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.google.gwt.core.client.GWT;
 
 /**
  * A handler for determining information about URI.
@@ -48,14 +48,9 @@ public interface URIHandler
    * The global default read only list of URI handlers.
    */
   List<URIHandler> DEFAULT_HANDLERS = 
-    Collections.unmodifiableList
-      (Arrays.asList
-         (new URIHandler [] 
-          { 
-            new PlatformResourceURIHandlerImpl(), 
-            new LocalURIHandlerImpl(),
-            new URIHandlerImpl()
-          }));
+    GWT.isClient() ?
+      Collections.<URIHandler>emptyList() :
+      Collections.unmodifiableList(EcorePlugin.DEFAULT_URI_HANDLERS);
 
   /**
    * Returns whether this handler is appropriate for the given URI.
@@ -75,6 +70,14 @@ public interface URIHandler
   InputStream createInputStream(URI uri, Map<?, ?> options) throws IOException;
 
   /**
+   * TODO
+   * @param uri
+   * @param options
+   * @param callback
+   */
+  void createInputStream(URI uri, Map<?, ?> options, Callback<Map<?, ?>> callback);
+
+  /**
    * Creates an output stream for the URI and returns it.
    * @param uri the URI for which to create the output stream.
    * @param options a map of options to influence the kind of stream that is returned; unrecognized options are ignored and <code>null</code> is permitted.
@@ -85,6 +88,15 @@ public interface URIHandler
   OutputStream createOutputStream(URI uri, Map<?, ?> options) throws IOException;
 
   /**
+   * TODO
+   * @param uri
+   * @param bytes
+   * @param options
+   * @param callback
+   */
+  void store(URI uri, byte[] bytes, Map<?, ?> options, Callback<Map<?, ?>> callback);
+
+  /**
    * Deletes the contents of the given URI. 
    * @param uri the URI to consider.
    * @param options options to influence how the contents are deleted.
@@ -92,6 +104,15 @@ public interface URIHandler
    * @see URIConverter#delete(URI, Map) 
    */
   void delete(URI uri, Map<?, ?> options) throws IOException;
+
+  /**
+   * TODO
+   * @param uri
+   * @param options
+   * @param callback
+   * @throws IOException
+   */
+  void delete(URI uri, Map<?, ?> options, Callback<Map<?, ?>> callback);
 
   /**
    * Returns a map from String properties to their corresponding values representing a description the given URI's contents.
@@ -115,6 +136,14 @@ public interface URIHandler
    * @see URIConverter#exists(URI, Map)
    */
   boolean exists(URI uri, Map<?, ?> options);
+
+  /**
+   * TODO
+   * @param uri
+   * @param options
+   * @param callback
+   */
+  void exists(URI uri, Map<?, ?> options, Callback<Boolean> callback);
 
   /**
    * Returns a map from String attributes to their corresponding values representing information about various aspects of the URI's state.

@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.3 2010/05/21 15:20:09 khussey Exp $
+ * $Id: BasicEObjectImpl.java,v 1.4 2010/12/12 20:29:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -21,6 +21,7 @@ package org.eclipse.emf.ecore.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -28,6 +29,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.impl.BasicNotifierImpl;
 import org.eclipse.emf.common.util.AbstractTreeIterator;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.Callback;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.InvocationTargetException;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -45,6 +47,7 @@ import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentsEList;
 import org.eclipse.emf.ecore.util.ECrossReferenceEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -53,6 +56,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 
@@ -1482,7 +1486,56 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   public EObject eResolveProxy(InternalEObject proxy)
   {
-    return EcoreUtil.resolve(proxy, this);
+    final EObject result = EcoreUtil.resolve(proxy, this);
+    if (result == proxy && GWT.isClient())
+    {
+      Resource eResource = eResource();
+      if (eResource != null)
+      {
+        ResourceSet resourceSet = eResource.getResourceSet();
+        if (resourceSet != null)
+        {
+          resourceSet.getEObject
+            (proxy.eProxyURI(), 
+             new Callback<EObject>()
+             {
+               public void onSuccess(EObject eObject)
+               {
+                 for (EReference eReference : eClass().getEAllReferences())
+                 {
+                   Object value = eGet(eReference, false, true);
+                   if (eReference.isMany())
+                   {
+                    InternalEList<?> list = (InternalEList<?>)value;
+                    for (ListIterator<?> i = list.basicListIterator(); i.hasNext(); )
+                     {
+                       if (i.next() == result)
+                       {
+                         // Force this proxy at this index to be resolved.
+                         list.get(i.previousIndex());
+                         break;
+                       }
+                     }
+                   }
+                   else if (value == result)
+                   {
+                     // Force this proxy to resolve.
+                     //
+                     eGet(eReference, true, true);
+                   }
+                 }
+               }
+
+               public void onFailure(Throwable caught)
+               {
+                 // Ignore failed proxy resolutions.
+               }
+             });
+          
+        }
+      }
+    }
+    return result;
   }
 
   public boolean eIsProxy()

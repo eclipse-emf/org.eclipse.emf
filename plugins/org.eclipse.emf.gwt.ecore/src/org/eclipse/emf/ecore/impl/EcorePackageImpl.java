@@ -13,12 +13,14 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.3 2010/05/17 13:17:57 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.4 2010/12/12 20:29:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -53,6 +55,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.URIService;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.util.FeatureMap;
 
@@ -1116,8 +1119,10 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public static class WhiteList implements IsSerializable
+  public static class WhiteList implements IsSerializable, URIService.WhiteList
   {
+    protected IOException ioException;
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverter.java,v 1.2 2010/04/28 20:39:57 khussey Exp $
+ * $Id: URIConverter.java,v 1.3 2010/12/12 20:29:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.Callback;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.InputStream;
 import org.eclipse.emf.common.util.OutputStream;
@@ -62,6 +63,13 @@ public interface URIConverter
 
   /**
    * A property of the {@link #OPTION_RESPONSE response option} 
+   * used to yield the result for the asynchronous methods.
+   * @since 2.7
+   */
+  String RESPONSE_RESULT = "RESULT";
+
+  /**
+   * A property of the {@link #OPTION_RESPONSE response option} 
    * used to yield the {@link #ATTRIBUTE_TIME_STAMP time stamp} associated
    * with the creation of an {@link #createInputStream(URI, Map) input} or an {@link #createOutputStream(URI, Map) output} stream.
    * This is typically used by resource {@link Resource#load(Map) load} and {@link Resource#save(Map) save} 
@@ -69,6 +77,12 @@ public interface URIConverter
    * @since 2.4
    */
   String RESPONSE_TIME_STAMP_PROPERTY = "TIME_STAMP";
+
+  /**
+   * A createOutputStream, store, or delete option that specifies a long timestamp which must match the underlying resource's timestamp for the update to have any effect.
+   * @since 2.7
+   */
+  String OPTION_UPDATE_ONLY_IF_TIME_STAMP_MATCHES = "UPDATE_ONLY_IF_TIME_STAMP_MATCHES";
 
   /**
    * Returns the normalized form of the URI.
@@ -191,6 +205,14 @@ public interface URIConverter
    * @since 2.4
    */
   InputStream createInputStream(URI uri, Map<?, ?> options) throws IOException;
+
+  /**
+   * TODO
+   * @param uri
+   * @param options
+   * @param callback
+   */
+  void createInputStream(URI uri, Map<?, ?> options, Callback<Map<?, ?>> callback);
 
   /**
    * An interface that is optionally implemented by the input streams returned from 
@@ -395,6 +417,15 @@ public interface URIConverter
   OutputStream createOutputStream(URI uri, Map<?, ?> options) throws IOException;
 
   /**
+   * TODO
+   * @param uri
+   * @param bytes
+   * @param options
+   * @param callback
+   */
+  void store(URI uri, byte[] bytes, Map<?, ?> options, Callback<Map<?, ?>> callback);
+
+  /**
    * An interface that is optionally implemented by the output streams returned from 
    * {@link URIConverter#createOutputStream(URI)} and {@link URIConverter#createOutputStream(URI, Map)}.
    * @see WriteableOutputStream
@@ -563,6 +594,14 @@ public interface URIConverter
   void delete(URI uri, Map<?, ?> options) throws IOException;
 
   /**
+   * TODO
+   * @param uri
+   * @param options
+   * @param callback
+   */
+  void delete(URI uri, Map<?, ?> options, Callback<Map<?, ?>> callback);
+  
+  /**
    * Returns a map from String properties to their corresponding values representing a description the given URI's contents.
    * See the {@link ContentHandler#contentDescription(URI, InputStream, Map, Map) content handler} for more details.
    * @param uri the URI to consider.
@@ -584,6 +623,14 @@ public interface URIConverter
    * @since 2.4
    */
   boolean exists(URI uri, Map<?, ?> options);
+
+  /**
+   * TODO
+   * @param uri
+   * @param options
+   * @param callback
+   */
+  void exists(URI uri, Map<?, ?> options, Callback<Boolean> callback);
 
   /**
    * The time stamp {@link #getAttributes(URI, Map) attribute} representing the last time the contents of a URI were modified.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Resource.java,v 1.2 2010/04/28 20:39:57 khussey Exp $
+ * $Id: Resource.java,v 1.3 2010/12/12 20:29:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.Callback;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.InputStream;
 import org.eclipse.emf.common.util.OutputStream;
@@ -300,6 +301,14 @@ public interface Resource extends Notifier
   void save(Map<?, ?> options) throws IOException;
 
   /**
+   * TODO
+   * @param options
+   * @param callback
+   * @throws IOException
+   */
+  void save(Map<?, ?> options, Callback<Resource> callback) throws IOException;
+
+  /**
    * Loads the resource using the specified options.
    * <p>
    * Options are handled generically as feature-to-setting entries;
@@ -321,6 +330,14 @@ public interface Resource extends Notifier
    * @see #load(InputStream, Map)
    */
   void load(Map<?, ?> options) throws IOException;
+
+  /**
+   * TODO
+   * @param options
+   * @param callback
+   * @throws IOException
+   */
+  void load(Map<?, ?> options, Callback<Resource> callback) throws IOException;
 
   /**
    * Saves the resource to the output stream using the specified options.
@@ -438,6 +455,14 @@ public interface Resource extends Notifier
    * </p>
    */
   void delete(Map<?, ?> options) throws IOException;
+
+  /**
+   * TODO
+   * @param options
+   * @param callback
+   * @throws IOException
+   */
+  void delete(Map<?, ?> options, Callback<Resource> callback) throws IOException;
 
   /**
    * Returns a list of the errors in the resource;

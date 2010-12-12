@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.2 2010/04/28 20:39:58 khussey Exp $
+ * $Id: ResourceImpl.java,v 1.3 2010/12/12 20:29:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -34,6 +34,8 @@ import org.eclipse.emf.common.notify.impl.NotifierImpl;
 import org.eclipse.emf.common.notify.impl.NotifyingListImpl;
 import org.eclipse.emf.common.util.AbstractTreeIterator;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.ByteArrayOutputStream;
+import org.eclipse.emf.common.util.Callback;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.InputStream;
 import org.eclipse.emf.common.util.OutputStream;
@@ -50,6 +52,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil.ContentTreeIterator;
 import org.eclipse.emf.ecore.util.EcoreUtil.ProperContentIterator;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.util.NotifyingInternalEListImpl;
+
+import com.google.gwt.core.client.GWT;
 
 
 /**
@@ -203,6 +207,12 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * @see #isLoading
    */
   protected boolean isLoading;
+
+  /**
+   * TODO
+   * @since 2.7
+   */
+  protected List<Callback<Resource>> loadingCallbacks;
 
   /**
    * A copy of the {@link #contents contents} list while the contents are being {@link #unload() unloaded}.
@@ -959,14 +969,57 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   public void save(Map<?, ?> options) throws IOException
   {
-    // TODO
+    save(options, null);
+  }
+
+  /*
+   * Javadoc copied from interface.
+   */
+  public void save(Map<?, ?> options, final Callback<Resource> callback) throws IOException
+  {
+    Map<?, ?> response = options == null ? null : (Map<?, ?>)options.get(URIConverter.OPTION_RESPONSE);
+    if (response == null)
     {
-      Map<?, ?> response = options == null ? null : (Map<?, ?>)options.get(URIConverter.OPTION_RESPONSE);
-      if (response == null)
+      response = new HashMap<Object, Object>();
+    }
+    URIConverter uriConverter = getURIConverter();
+    if (GWT.isClient())
+    {
+      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+      try
       {
-        response = new HashMap<Object, Object>();
+        save(outputStream, options);
       }
-      URIConverter uriConverter = getURIConverter();
+      finally
+      {
+        outputStream.close();
+        byte[] bytes = outputStream.toByteArray();
+        uriConverter.store
+          (getURI(), 
+           bytes, 
+           new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options),
+           new Callback<Map<?,?>>()
+           {
+             public void onFailure(Throwable caught)
+             {
+               callback.onFailure(caught);
+             }
+
+             public void onSuccess(Map<?, ?> result)
+             {
+               Map<?, ?> response = (Map<?, ?>)result.get(URIConverter.OPTION_RESPONSE);
+               Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
+               if (timeStamp != null)
+               {
+                 setTimeStamp(timeStamp);
+               }
+               callback.onSuccess(ResourceImpl.this);
+             }
+           });
+      }
+    }
+    else
+    {
       OutputStream outputStream = uriConverter.createOutputStream(getURI(), new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options));
       try
       {
@@ -984,11 +1037,15 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     }
   }
 
+  public void load(Map<?, ?> options) throws IOException
+  {
+    load(options, null);
+  }
 
   /*
    * Javadoc copied from interface.
    */
-  public void load(Map<?, ?> options) throws IOException
+  public void load(final Map<?, ?> options, Callback<Resource> callback) throws IOException
   {
     if (!isLoaded)
     {
@@ -997,6 +1054,101 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       if (response == null)
       {
         response = new HashMap<Object, Object>();
+      }
+
+      if (GWT.isClient())
+      {
+        if (loadingCallbacks == null)
+        {
+          isLoading = true;
+          loadingCallbacks = new ArrayList<Callback<Resource>>();
+          if (callback != null)
+          {
+            loadingCallbacks.add(callback);
+          }
+          uriConverter.createInputStream
+            (getURI(),
+             new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options),
+             new Callback<Map<?,?>>()
+              {
+                protected void dispatchOnFailure(Throwable caught)
+                {
+                  for (Callback<Resource> callback : loadingCallbacks)
+                  {
+                    callback.onFailure(caught);
+                  }
+                  loadingCallbacks = null;
+                }
+  
+                protected void dispatchOnSuccess(Resource resource)
+                {
+                  for (Callback<Resource> callback : loadingCallbacks)
+                  {
+                    callback.onSuccess(resource);
+                  }
+                  loadingCallbacks = null;
+                }
+  
+                public void onFailure(Throwable caught)
+                {
+                  Notification notification = setLoaded(true);
+                  if (errors != null)
+                  {
+                    errors.clear();
+                  }
+                  if (warnings != null)
+                  {
+                    warnings.clear();
+                  }
+                  isLoading = false;
+                  if (notification != null)
+                  {
+                    eNotify(notification);
+                  }
+                  setModified(false);
+                  dispatchOnFailure(caught);
+                }
+  
+                public void onSuccess(Map<?, ?> result)
+                {
+                  Map<?, ?> response = (Map<?, ?>)result.get(URIConverter.OPTION_RESPONSE);
+                  InputStream inputStream = (InputStream)response.get(URIConverter.RESPONSE_RESULT);
+                  try
+                  {
+                    load(inputStream, options);
+                  }
+                  catch (IOException exception)
+                  {
+                    dispatchOnFailure(exception);
+                    return;
+                  }
+                  finally
+                  {
+                    isLoading = false;
+                    try
+                    {
+                      inputStream.close();
+                    }
+                    catch (IOException exception)
+                    {
+                      dispatchOnFailure(exception);
+                      return;
+                    }
+                    Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
+                    if (timeStamp != null)
+                    {
+                      setTimeStamp(timeStamp);
+                    }
+                  }
+                  dispatchOnSuccess(ResourceImpl.this);
+                }
+              });
+        }
+        else if (callback != null)
+        {
+          loadingCallbacks.add(callback);
+        }
+        return;
       }
 
       // If an input stream can't be created, ensure that the resource is still considered loaded after the failure,
@@ -1045,6 +1197,10 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
           setTimeStamp(timeStamp);
         }
       }
+    }
+    else
+    {
+      callback.onSuccess(this);
     }
   }
 
@@ -1320,7 +1476,45 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
 
   public void delete(Map<?, ?> options) throws IOException
   {
-    getURIConverter().delete(getURI(), mergeMaps(options, defaultDeleteOptions));
+    delete(options, null);
+  }
+
+  public void delete(Map<?, ?> options, final Callback<Resource> callback) throws IOException
+  {
+    options = mergeMaps(options, defaultDeleteOptions);
+    Map<?, ?> response = options == null ? null : (Map<?, ?>)options.get(URIConverter.OPTION_RESPONSE);
+    if (response == null)
+    {
+      response = new HashMap<Object, Object>();
+    }
+    if (GWT.isClient())
+    {
+      getURIConverter().delete
+        (getURI(), 
+         new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options),
+         new Callback<Map<?,?>>()
+         {
+           public void onFailure(Throwable caught)
+           {
+             if (callback != null)
+             {
+               callback.onFailure(caught);
+             }
+           }
+ 
+           public void onSuccess(Map<?, ?> result)
+           {
+             if (callback != null)
+             {
+               callback.onSuccess(ResourceImpl.this);
+             }
+           }
+         });
+    }
+    else
+    {
+      getURIConverter().delete(getURI(), new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options));
+    }
     unload();
     ResourceSet resourceSet = getResourceSet();
     if (resourceSet != null)

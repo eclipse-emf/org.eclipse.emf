@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cs:cspecExtension xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0">
+	<cs:dependencies>
+		<cs:dependency name="org.eclipse.emf.gwt.build.helper" componentType="buckminster" filter="(no.tooling.classpath=true)" />
+	</cs:dependencies>
+
+	<cs:artifacts>
+		<cs:private name="classpath.file" path=".classpath" />
+	</cs:artifacts>
+
+	<cs:actions>
+		<cs:private name="replace.classpath.containers" actor="ant">
+			<cs:documentation>
+				Replace selected classpath containers in the .classpath file according to the
+				"container.replacement.data" prerequisite.
+			</cs:documentation>
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="wrapper.ant" />
+			</cs:actorProperties>
+			<cs:prerequisites>
+				<cs:attribute component="org.eclipse.emf.gwt.build.helper" name="helper.script" alias="helper.script" />
+				<cs:attribute component="org.eclipse.emf.gwt.build.helper" name="google.classpath.containers.replacement.data"
+					alias="container.replacement.data" />
+				<cs:attribute name="classpath.file" alias="classpath.file" />
+			</cs:prerequisites>
+		</cs:private>
+
+		<cs:public name="buckminster.prebind" actor="null">
+			<cs:prerequisites>
+				<cs:attribute name="replace.classpath.containers" contributor="false" filter="(no.tooling.classpath=true)" />
+			</cs:prerequisites>
+		</cs:public>
+	</cs:actions>
+
+	<cs:alterGroups>
+		<cs:private name="jar.contents">
+			<cs:attribute name="eclipse.build.source" />
+		</cs:private>
+	</cs:alterGroups>
+</cs:cspecExtension>

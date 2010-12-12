@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.2 2010/04/28 20:39:52 khussey Exp $
+ * $Id: EClassImpl.java,v 1.3 2010/12/12 20:29:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -453,9 +453,16 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
               EClassifier otherEClassifier = otherEGenericType.getEClassifier();
               if (otherEClassifier != eClassifier)
               {
-                String instanceTypeName = eClassifier.getInstanceTypeName();
-                String otherInstanceTypeName = otherEClassifier.getInstanceTypeName();
-                return instanceTypeName == otherInstanceTypeName && instanceTypeName != null;
+                if (otherEClassifier == null)
+                {
+                  return false;
+                }
+                else
+                { 
+                  String instanceTypeName = eClassifier.getInstanceTypeName();
+                  String otherInstanceTypeName = otherEClassifier.getInstanceTypeName();
+                  return instanceTypeName == otherInstanceTypeName && instanceTypeName != null;
+                }
               }
               else
               {
@@ -804,8 +811,11 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
             (EClassImpl.this, 
              EcorePackage.eINSTANCE.getEClass_EAllStructuralFeatures(), 
              eAllStructuralFeatures.size(), 
-             eAllStructuralFeatures.data()) ;
+             eAllStructuralFeatures.data());
+        }
 
+        private void init()
+        {
           BasicEList<EStructuralFeature> containmentsList = new EStructuralFeatureUniqueEList();
           BasicEList<EStructuralFeature> crossReferencesList = new EStructuralFeatureUniqueEList();
           boolean isMixed = "mixed".equals(EcoreUtil.getAnnotation(EClassImpl.this, ExtendedMetaData.ANNOTATION_URI, "kind"));
@@ -852,11 +862,19 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
         public EStructuralFeature [] containments()
         {
+          if (containments == null)
+          {
+            init();
+          }
           return containments;
         }
 
         public EStructuralFeature [] crossReferences()
         {
+          if (crossReferences == null)
+          {
+            init();
+          }
           return crossReferences;
         }
 

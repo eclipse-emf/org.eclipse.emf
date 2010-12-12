@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSetImpl.java,v 1.2 2010/04/28 20:39:59 khussey Exp $
+ * $Id: ResourceSetImpl.java,v 1.3 2010/12/12 20:29:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -28,6 +28,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.NotifierImpl;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.Callback;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -213,7 +214,39 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    */
   public EObject getEObject(URI uri, boolean loadOnDemand)
   {
-    Resource resource = getResource(uri.trimFragment(), loadOnDemand);
+    return getEObject(uri, loadOnDemand, null);
+  }
+
+  /*
+   * Javadoc copied from interface.
+   */
+  public void getEObject(URI uri, Callback<EObject> callback)
+  {
+    getEObject(uri, true, callback);
+  }
+
+  /*
+   * Javadoc copied from interface.
+   */
+  protected EObject getEObject(final URI uri, boolean loadOnDemand, final Callback<EObject> callback)
+  {
+    Resource resource = getResource
+      (uri.trimFragment(), 
+       loadOnDemand, 
+       callback == null ?
+         null :
+         new Callback<Resource>()
+         {
+           public void onSuccess(Resource resource)
+           {
+             callback.onSuccess(resource.getEObject(uri.fragment()));
+           }
+            
+           public void onFailure(Throwable caught)
+           {
+             callback.onFailure(caught);
+           }
+         });
     if (resource != null)
     {
       return resource.getEObject(uri.fragment());
@@ -250,9 +283,9 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    * @see #getResource(URI, boolean)
    * @see #demandLoadHelper(Resource)
    */
-  protected void demandLoad(Resource resource) throws IOException
+  protected void demandLoad(Resource resource, Callback<Resource> callback) throws IOException
   {
-    resource.load(getLoadOptions());
+    resource.load(getLoadOptions(), callback);
   }
 
   /**
@@ -263,11 +296,11 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    * @param resource a resource that isn't loaded.
    * @see #demandLoad(Resource)
    */
-  protected void demandLoadHelper(Resource resource)
+  protected void demandLoadHelper(Resource resource, Callback<Resource> callback)
   {
     try
     {
-      demandLoad(resource);
+      demandLoad(resource, callback);
     }
     catch (IOException exception)
     {
@@ -332,7 +365,7 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    * @param uri the URI
    * @param loadOnDemand whether demand loading is required.
    */
-  protected Resource delegatedGetResource(URI uri, boolean loadOnDemand)
+  protected Resource delegatedGetResource(URI uri, boolean loadOnDemand, Callback<Resource> callback)
   {
     EPackage ePackage = getPackageRegistry().getEPackage(uri.toString());
     return ePackage == null ? null : ePackage.eResource();
@@ -343,6 +376,20 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    */
   public Resource getResource(URI uri, boolean loadOnDemand)
   {
+    return getResource(uri, loadOnDemand, null);
+    
+  }
+
+  /*
+   * Javadoc copied from interface.
+   */
+  public Resource getResource(URI uri, Callback<Resource> callback)
+  {
+    return getResource(uri, true, callback);
+  }
+
+  protected Resource getResource(URI uri, boolean loadOnDemand, Callback<Resource> callback)
+  {
     Map<URI, Resource> map = getURIResourceMap();
     if (map != null)
     {
@@ -351,7 +398,11 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
       {
         if (loadOnDemand && !resource.isLoaded())
         {
-          demandLoadHelper(resource);
+          demandLoadHelper(resource, callback);
+        }
+        else if (callback != null)
+        {
+          callback.onSuccess(resource);
         }
         return resource;
       }
@@ -363,25 +414,32 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
     {
       if (theURIConverter.normalize(resource.getURI()).equals(normalizedURI))
       {
-        if (loadOnDemand && !resource.isLoaded())
-        {
-          demandLoadHelper(resource);
-        }
-
         if (map != null)
         {
           map.put(uri, resource);
+        }
+        if (loadOnDemand && !resource.isLoaded())
+        {
+          demandLoadHelper(resource, callback);
+        }
+        else if (callback != null)
+        {
+          callback.onSuccess(resource);
         }
         return resource;
       }
     }
 
-    Resource delegatedResource = delegatedGetResource(uri, loadOnDemand);
+    Resource delegatedResource = delegatedGetResource(uri, loadOnDemand, callback);
     if (delegatedResource != null)
     {
       if (map != null)
       {
         map.put(uri, delegatedResource);
+      }
+      if (callback != null && delegatedResource.isLoaded())
+      {
+        callback.onSuccess(delegatedResource);
       }
       return delegatedResource;
     }
@@ -394,7 +452,7 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
         throw new RuntimeException("Cannot create a resource for '" + uri + "'; a registered resource factory is needed");
       }
 
-      demandLoadHelper(resource);
+      demandLoadHelper(resource, callback);
 
       if (map != null)
       {
