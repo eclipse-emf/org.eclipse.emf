@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.emf.gwt"
+      label="%featureName"
+      version="2.7.0.qualifier"
+      provider-name="%providerName"
+      image="eclipse_update_120.jpg">
+
+   <description>
+      %description
+   </description>
+
+   <copyright url="http://www.eclipse.org/legal/epl-v10.html">
+      Copyright (c) 2002-2010 IBM Corporation and others.
+All rights reserved.   This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <url>
+      <update label="%ModelingUpdateSiteName" url="http://www.eclipse.org/modeling/updates/"/>
+      <discovery label="%ModelingUpdateSiteName" url="http://www.eclipse.org/modeling/updates/"/>
+   </url>
+
+   <includes
+         id="org.eclipse.emf.gwt.common"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.gwt.ecore"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.gwt.edit"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.gwt.ecore.edit"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.gwt.edit.ui"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.emf.gwt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
