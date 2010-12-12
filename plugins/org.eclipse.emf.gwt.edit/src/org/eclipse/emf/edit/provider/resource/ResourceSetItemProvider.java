@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSetItemProvider.java,v 1.2 2010/04/28 20:38:40 khussey Exp $
+ * $Id: ResourceSetItemProvider.java,v 1.3 2010/12/12 20:29:46 emerks Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
@@ -43,11 +43,11 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
  */
 public class ResourceSetItemProvider
   extends ItemProviderAdapter
-  implements 
+  implements
     IEditingDomainItemProvider,
-    IStructuredItemContentProvider, 
-    ITreeItemContentProvider, 
-    IItemLabelProvider, 
+    IStructuredItemContentProvider,
+    ITreeItemContentProvider,
+    IItemLabelProvider,
     IItemPropertySource
 {
   /**
@@ -67,6 +67,113 @@ public class ResourceSetItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
+      itemPropertyDescriptors.add
+        (new IItemPropertyDescriptor()
+         {
+           public void setPropertyValue(Object object, Object value)
+           {
+             throw new UnsupportedOperationException();
+           }
+
+           public void resetPropertyValue(Object object)
+           {
+             throw new UnsupportedOperationException();
+           }
+
+           public boolean isSortChoices(Object object)
+           {
+             return false;
+           }
+
+           public boolean isPropertySet(Object object)
+           {
+             return !((ResourceSet)object).getResources().isEmpty();
+           }
+
+           public boolean isMultiLine(Object object)
+           {
+             return false;
+           }
+
+           public boolean isMany(Object object)
+           {
+             return false;
+           }
+
+           public boolean isCompatibleWith(Object object, Object anotherObject, IItemPropertyDescriptor anotherPropertyDescriptor)
+           {
+             return false;
+           }
+
+           public Object getPropertyValue(Object object)
+           {
+             return ((ResourceSet)object).getResources().size();
+           }
+
+           public IItemLabelProvider getLabelProvider(Object object)
+           {
+             return
+               new IItemLabelProvider()
+               {
+                 public String getText(Object object)
+                 {
+                   return object.toString();
+                 }
+
+                 public Object getImage(Object object)
+                 {
+                   return null;
+                 }
+               };
+           }
+
+           public String getId(Object object)
+           {
+             return "resourceCount";
+           }
+
+           public Object getHelpContextIds(Object object)
+           {
+             return null;
+           }
+
+           public String[] getFilterFlags(Object object)
+           {
+             return null;
+           }
+
+           public Object getFeature(Object object)
+           {
+             return ResourceSet.RESOURCE_SET__RESOURCES;
+           }
+
+           public String getDisplayName(Object object)
+           {
+             // TODO
+             return "Size";
+           }
+
+           public String getDescription(Object object)
+           {
+             // TODO
+             return "The number of resources";
+           }
+
+           public Collection<?> getChoiceOfValues(Object object)
+           {
+             return null;
+           }
+
+           public String getCategory(Object object)
+           {
+             return null;
+           }
+
+           public boolean canSetProperty(Object object)
+           {
+             return false;
+           }
+         });
     }
     return itemPropertyDescriptors;
   }
@@ -128,7 +235,7 @@ public class ResourceSetItemProvider
    * This handles notification by calling {@link #fireNotifyChanged(Notification) fireNotifyChanged}.
    */
   @Override
-  public void notifyChanged(Notification notification) 
+  public void notifyChanged(Notification notification)
   {
     switch (notification.getFeatureID(ResourceSet.class))
     {

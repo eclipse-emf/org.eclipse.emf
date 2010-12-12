@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComposedAdapterFactory.java,v 1.2 2010/04/28 20:38:37 khussey Exp $
+ * $Id: ComposedAdapterFactory.java,v 1.3 2010/12/12 20:29:46 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -28,6 +28,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.Reflect;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -264,8 +265,7 @@ public class ComposedAdapterFactory
       adapter = adapt((Notifier)target, type);
     }
 
-    // TODO
-    if (!(type instanceof Class<?>) /* || ((Class<?>)type).isInstance(adapter)*/)
+    if (!(type instanceof Class<?>) || Reflect.isInstance((Class<?>)type, adapter))
     {
       return adapter;
     }
@@ -353,8 +353,12 @@ public class ComposedAdapterFactory
   {
     Adapter result = null;
 
-    /*
-    Package javaPackage = javaClass.getPackage();
+    String javaPackage = javaClass.getName();
+    javaPackage = javaPackage.substring(0, javaPackage.lastIndexOf('.'));
+    if (javaPackage.endsWith("impl"))
+    {
+      javaPackage = javaPackage.substring(0, javaPackage.length() - 5);
+    }
     if (failedPackages.add(javaPackage))
     {
       Collection<Object> types = new ArrayList<Object>();
@@ -369,7 +373,6 @@ public class ComposedAdapterFactory
         result = isNew ? delegateAdapterFactory.adaptNew(target, type) : delegateAdapterFactory.adapt(target, type);
       }
     }
-    */
 
     if (result == null)
     {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceItemProviderAdapterFactory.java,v 1.2 2010/04/28 20:38:40 khussey Exp $
+ * $Id: ResourceItemProviderAdapterFactory.java,v 1.3 2010/12/12 20:29:46 emerks Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
@@ -150,8 +150,7 @@ public class ResourceItemProviderAdapterFactory
   @Override
   public boolean isFactoryForType(Object type)
   {
-    // TODO
-    return type instanceof Resource || type instanceof ResourceSet || supportedTypes.contains(type);
+    return type.equals("org.eclipse.emf.ecore.resource") || type instanceof Resource || type instanceof ResourceSet || supportedTypes.contains(type);
   }
 
   /**

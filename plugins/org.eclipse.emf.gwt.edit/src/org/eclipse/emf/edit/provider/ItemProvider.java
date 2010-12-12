@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProvider.java,v 1.2 2010/04/28 20:38:37 khussey Exp $
+ * $Id: ItemProvider.java,v 1.3 2010/12/12 20:29:46 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1031,5 +1031,10 @@ public class ItemProvider
   public Command createCommand(Object object, EditingDomain editingDomain, Class<? extends Command> commandClass, CommandParameter commandParameter)
   {
     return UnexecutableCommand.INSTANCE;
+  }
+
+  static
+  {
+    new ItemProviderAdapter(null);
   }
 }
