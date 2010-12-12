@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ByteArrayInputStream.java,v 1.1 2010/04/28 14:49:26 emerks Exp $
+ * $Id: ByteArrayInputStream.java,v 1.2 2010/12/12 20:29:31 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -38,7 +38,7 @@ public class ByteArrayInputStream extends InputStream
     }
     else
     {
-      return bytes[index++];
+      return bytes[index++] & 0xFF;
     }
   }
 }

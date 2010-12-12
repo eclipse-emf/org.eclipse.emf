@@ -12,13 +12,15 @@
  *
  * </copyright>
  *
- * $Id: CommonPlugin.java,v 1.2 2010/04/28 20:37:44 khussey Exp $
+ * $Id: CommonPlugin.java,v 1.3 2010/12/12 20:29:31 emerks Exp $
  */
 package org.eclipse.emf.common;
 
 
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
+
+import com.google.gwt.core.client.GWT;
 
 
 /**
@@ -52,6 +54,37 @@ public final class CommonPlugin extends EMFPlugin
   public ResourceLocator getPluginResourceLocator()
   {
     return null;
+  }
+
+  protected static final CommonPluginProperties PROPERTIES = GWT.create(CommonPluginProperties.class);
+
+  @Override
+  public String getString(String key, boolean translate)
+  {
+    if ("_UI_AbstractCommand_label".equals(key)) return PROPERTIES.abstractCommandLabel();
+    else if ("_UI_AbstractCommand_description".equals(key)) return PROPERTIES.abstractCommandDescription();
+    else if ("_UI_CommandWrapper_label".equals(key)) return PROPERTIES.commandWrapperLabel();
+    else if ("_UI_CommandWrapper_description".equals(key)) return PROPERTIES.commandWrapperDescription();
+    else if ("_UI_CompoundCommand_label".equals(key)) return PROPERTIES.compoundCommandLabel();
+    else if ("_UI_CompoundCommand_description".equals(key)) return PROPERTIES.compoundCommandDescription();
+    else if ("_UI_IdentityCommand_label".equals(key)) return PROPERTIES.identityCommandLabel();
+    else if ("_UI_IdentityCommand_description".equals(key)) return PROPERTIES.identityCommandDescription();
+    else if ("_UI_UnexecutableCommand_label".equals(key)) return PROPERTIES.unexecutableCommandLabel();
+    else if ("_UI_UnexecutableCommand_description".equals(key)) return PROPERTIES.unexecutableCommandDescription();
+    else if ("_UI_IgnoreException_exception".equals(key)) return PROPERTIES.ignoreExceptionException();
+    else if ("_UI_NullLogEntry_exception".equals(key)) return PROPERTIES.nullLogEntryException();
+    else if ("_UI_OK_diagnostic_0".equals(key)) return PROPERTIES.okDiagnostic0();
+    else if ("_UI_Cancel_diagnostic_0".equals(key)) return PROPERTIES.cancelDiagnostic0();
+    else return key;
+  }
+
+  @Override
+  public String getString(String key, Object [] substitutions, boolean translate)
+  {
+    if ("_EXC_Method_not_implemented".equals(key)) return PROPERTIES.excMethodNotImplemented(substitutions[0]);
+    else if ("_UI_StringResourceNotFound_exception".equals(key)) return PROPERTIES.stringResourceNotFoundException(substitutions[0]);
+    else if ("_UI_ImageResourceNotFound_exception".equals(key)) return PROPERTIES.imageResourceNotFoundException(substitutions[0]);
+    else return key;
   }
 
   /**

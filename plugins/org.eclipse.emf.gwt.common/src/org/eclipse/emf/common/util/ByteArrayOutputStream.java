@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ByteArrayOutputStream.java,v 1.1 2010/04/28 14:49:30 emerks Exp $
+ * $Id: ByteArrayOutputStream.java,v 1.2 2010/12/12 20:29:31 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -36,12 +36,19 @@ public class ByteArrayOutputStream extends OutputStream
   @Override
   public void write(int byteValue) throws IOException
   {
-    if (index > bytes.length)
+    if (index >= bytes.length)
     {
       byte[] newBytes = new byte[bytes.length * 2];
       System.arraycopy(bytes, 0, newBytes, 0, bytes.length);
       bytes = newBytes;
     }
     bytes[index++] = (byte)byteValue;
+  }
+
+  public byte[] toByteArray()
+  {
+    byte[] result = new byte[index];
+    System.arraycopy(bytes, 0, result, 0, index);
+    return result;
   }
 }
