@@ -2,7 +2,8 @@
 <rmap xmlns="http://www.eclipse.org/buckminster/RMap-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0"
 >
-	<locator pattern="^org\.eclipse\.emf\.(?:releng(?:\..+)|(?:base\.)?build)$" searchPathRef="releng" />
+	<locator pattern="^org\.eclipse\.emf\.(?:releng(?:\..+)|(?:base\.)?build|(?:.+\.)?build\.helper)$"
+		searchPathRef="releng" />
 	<locator pattern="^org\.eclipse\.emf\.mapping\.xsd2ecore(?:\..+)?$" searchPathRef="xsd" />
 	<locator pattern="^org\.eclipse\.emf(?:\..+)?$" searchPathRef="emf" />
 	<locator pattern="^org\.eclipse\.xsd(?:\..+)?$" searchPathRef="xsd" />
@@ -12,6 +13,7 @@
 
 	<locator pattern="^org\.eclipse\.datatools(?:\..+)?$" searchPathRef="datatools" />
 	<locator pattern="^org\.eclipse\.rap(?:\..+)?$" searchPathRef="rap" />
+	<locator pattern="^com\.google\.(?:appengine|gdt|gwt)\.eclipse(?:\..+)?$" searchPathRef="google" />
 	<locator searchPathRef="platform" />
 
 	<searchPath name="emf">
@@ -152,6 +154,16 @@
 		</provider>
 	</searchPath>
 
+	<searchPath name="google">
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(resolve.target.platform=true)"
+		>
+			<uri format="{0}">
+				<bc:propertyRef key="google.web.toolkit.repository" />
+			</uri>
+		</provider>
+	</searchPath>
+
 	<searchPath name="platform">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(resolve.target.platform=true)(build.type=N))"
@@ -186,6 +198,7 @@
 	<property key="source.repository.location" value=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling" />
 
 	<property key="eclipse.download" value="http://download.eclipse.org" />
+	<property key="google.web.toolkit.repository" value="http://dl.google.com/eclipse/plugin/3.6" />
 
 	<property key="resolve.target.platform" value="false" />
 	<property key="build.type" value="R" />
