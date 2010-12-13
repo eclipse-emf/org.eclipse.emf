@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="EMF GWT Build Helper Tasks">
 	<target name="take.time.stamp">
-		<!-- workaround for a problem in Buckminster -->
-		<eclipse.refreshLocal resource="/" depth="infinite" />
 		<touch file="${sp:time.stamp.file}" mkdirs="true" />
 	</target>
 
