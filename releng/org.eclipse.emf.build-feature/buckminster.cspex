@@ -35,23 +35,85 @@
 			<cs:products alias="output" base="${buckminster.output}/zips/" />
 		</cs:public>
 
+		<cs:private name="install.emf-base-platform" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="packaging.ant" />
+				<cs:property key="targets" value="install.ius" />
+			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="target.platform.ius" value="org.eclipse.rcp.feature.group" />
+			</cs:properties>
+			<cs:prerequisites>
+				<cs:attribute name="site.p2" alias="repositories" />
+				<cs:attribute name="site.tp" alias="target.platform.repository" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.temp}/emf-Base-platform/" />
+		</cs:private>
+
+		<cs:private name="install.emf-xsd-foundation" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="packaging.ant" />
+				<cs:property key="targets" value="install.ius" />
+			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="ius"
+					value="org.eclipse.emf.feature.group,org.eclipse.xsd.feature.group,org.eclipse.xsd.ecore.converter.feature.group,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.editor.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.mapping.editor.feature.group" />
+				<cs:property key="target.platform.ius" value="org.eclipse.emf.ecore.feature.group" />
+			</cs:properties>
+			<cs:prerequisites>
+				<cs:attribute name="site.p2" alias="repositories" />
+				<cs:attribute name="site.tp" alias="target.platform.repository" />
+				<cs:attribute name="install.emf-base-platform" alias="install.pools" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.temp}/emf-xsd-foundation/" />
+		</cs:private>
+
+		<cs:private name="install.emf-xsd-SDK" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="packaging.ant" />
+				<cs:property key="targets" value="install.ius" />
+			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="ius" value="org.eclipse.emf.sdk.feature.group,org.eclipse.xsd.sdk.feature.group" />
+				<cs:property key="target.platform.ius" value="org.eclipse.emf.base.feature.group,org.eclipse.emf.base.source.feature.group" />
+			</cs:properties>
+			<cs:prerequisites>
+				<cs:attribute name="site.p2" alias="repositories" />
+				<cs:attribute name="site.tp" alias="target.platform.repository" />
+				<cs:attribute name="install.emf-base-platform" alias="install.pools" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.temp}/emf-xsd-SDK/" />
+		</cs:private>
+
 		<cs:public name="package.emf-xsd-SDK" actor="ant">
 			<cs:actorProperties>
 				<cs:property key="buildFile" value="packaging.ant" />
 				<cs:property key="targets" value="package.ius" />
 			</cs:actorProperties>
 			<cs:properties>
-				<cs:property key="content.ius" value="org.eclipse.emf.sdk.feature.group,org.eclipse.xsd.sdk.feature.group" />
-				<cs:property key="target.platform.ius" value="org.eclipse.emf.base.feature.group,org.eclipse.emf.base.source.feature.group" />
-				<cs:property key="target.platform.prerequisite.ius" value="org.eclipse.rcp.feature.group" />
 				<cs:property key="package.name" value="emf-xsd-SDK" />
 			</cs:properties>
 			<cs:prerequisites>
-				<cs:attribute name="site.p2" alias="repository" />
-				<cs:attribute name="site.tp" alias="target.platform.repository" />
+				<cs:attribute name="install.emf-xsd-SDK" alias="install.pools" />
 			</cs:prerequisites>
 			<cs:products alias="output" base="${buckminster.output}/zips/" />
 		</cs:public>
+
+		<cs:private name="install.emf-xsd-Examples" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="packaging.ant" />
+				<cs:property key="targets" value="install.ius" />
+			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="ius" value="org.eclipse.emf.examples.feature.group,org.eclipse.xsd.example.feature.group" />
+			</cs:properties>
+			<cs:prerequisites>
+				<cs:attribute name="site.p2" alias="repositories" />
+				<cs:attribute name="site.tp" alias="target.platform.repository" />
+				<cs:attribute name="install.emf-xsd-foundation" alias="install.pools" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.temp}/emf-xsd-Examples/" />
+		</cs:private>
 
 		<cs:public name="package.emf-xsd-Examples" actor="ant">
 			<cs:actorProperties>
@@ -59,88 +121,10 @@
 				<cs:property key="targets" value="package.ius" />
 			</cs:actorProperties>
 			<cs:properties>
-				<cs:property key="content.ius" value="org.eclipse.emf.examples.feature.group,org.eclipse.xsd.example.feature.group" />
-				<cs:property key="prerequisite.ius"
-					value="org.eclipse.emf.feature.group,org.eclipse.xsd.feature.group,org.eclipse.xsd.ecore.converter.feature.group,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.editor.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.mapping.editor.feature.group" />
 				<cs:property key="package.name" value="emf-xsd-Examples" />
 			</cs:properties>
 			<cs:prerequisites>
-				<cs:attribute name="site.p2" alias="repository" />
-				<cs:attribute name="site.tp" alias="target.platform.repository" />
-			</cs:prerequisites>
-			<cs:products alias="output" base="${buckminster.output}/zips/" />
-		</cs:public>
-
-		<cs:public name="package.emf-runtime" actor="ant">
-			<cs:actorProperties>
-				<cs:property key="buildFile" value="packaging.ant" />
-				<cs:property key="targets" value="package.ius" />
-			</cs:actorProperties>
-			<cs:properties>
-				<cs:property key="content.ius" value="org.eclipse.emf.feature.group" />
-				<cs:property key="target.platform.ius" value="org.eclipse.emf.base.feature.group" />
-				<cs:property key="target.platform.prerequisite.ius" value="org.eclipse.rcp.feature.group" />
-				<cs:property key="package.name" value="emf-runtime" />
-			</cs:properties>
-			<cs:prerequisites>
-				<cs:attribute name="site.p2" alias="repository" />
-				<cs:attribute name="site.tp" alias="target.platform.repository" />
-			</cs:prerequisites>
-			<cs:products alias="output" base="${buckminster.output}/zips/" />
-		</cs:public>
-
-		<cs:public name="package.emf-sourcedoc" actor="ant">
-			<cs:actorProperties>
-				<cs:property key="buildFile" value="packaging.ant" />
-				<cs:property key="targets" value="package.ius" />
-			</cs:actorProperties>
-			<cs:properties>
-				<cs:property key="content.ius"
-					value="org.eclipse.emf.source.feature.group,org.eclipse.emf.doc.feature.group,org.eclipse.emf.doc.source.feature.group" />
-				<cs:property key="prerequisite.ius" value="org.eclipse.emf.feature.group" />
-				<cs:property key="target.platform.ius" value="org.eclipse.emf.base.source.feature.group" />
-				<cs:property key="package.name" value="emf-sourcedoc" />
-			</cs:properties>
-			<cs:prerequisites>
-				<cs:attribute name="site.p2" alias="repository" />
-				<cs:attribute name="site.tp" alias="target.platform.repository" />
-			</cs:prerequisites>
-			<cs:products alias="output" base="${buckminster.output}/zips/" />
-		</cs:public>
-
-		<cs:public name="package.xsd-runtime" actor="ant">
-			<cs:actorProperties>
-				<cs:property key="buildFile" value="packaging.ant" />
-				<cs:property key="targets" value="package.ius" />
-			</cs:actorProperties>
-			<cs:properties>
-				<cs:property key="content.ius"
-					value="org.eclipse.xsd.feature.group,org.eclipse.xsd.ecore.converter.feature.group,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.editor.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.mapping.editor.feature.group" />
-				<cs:property key="prerequisite.ius" value="org.eclipse.emf.feature.group" />
-				<cs:property key="package.name" value="xsd-runtime" />
-			</cs:properties>
-			<cs:prerequisites>
-				<cs:attribute name="site.p2" alias="repository" />
-				<cs:attribute name="site.tp" alias="target.platform.repository" />
-			</cs:prerequisites>
-			<cs:products alias="output" base="${buckminster.output}/zips/" />
-		</cs:public>
-
-		<cs:public name="package.xsd-sourcedoc" actor="ant">
-			<cs:actorProperties>
-				<cs:property key="buildFile" value="packaging.ant" />
-				<cs:property key="targets" value="package.ius" />
-			</cs:actorProperties>
-			<cs:properties>
-				<cs:property key="content.ius"
-					value="org.eclipse.xsd.source.feature.group,org.eclipse.xsd.ecore.converter.source.feature.group,org.eclipse.xsd.edit.source.feature.group,org.eclipse.xsd.editor.source.feature.group,org.eclipse.xsd.mapping.source.feature.group,org.eclipse.xsd.mapping.editor.source.feature.group,org.eclipse.xsd.doc.feature.group,org.eclipse.xsd.doc.source.feature.group" />
-				<cs:property key="prerequisite.ius"
-					value="org.eclipse.emf.feature.group,org.eclipse.emf.doc.feature.group,org.eclipse.xsd.feature.group,org.eclipse.xsd.ecore.converter.feature.group,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.editor.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.mapping.editor.feature.group" />
-				<cs:property key="package.name" value="xsd-sourcedoc" />
-			</cs:properties>
-			<cs:prerequisites>
-				<cs:attribute name="site.p2" alias="repository" />
-				<cs:attribute name="site.tp" alias="target.platform.repository" />
+				<cs:attribute name="install.emf-xsd-Examples" alias="install.pools" />
 			</cs:prerequisites>
 			<cs:products alias="output" base="${buckminster.output}/zips/" />
 		</cs:public>
@@ -151,16 +135,138 @@
 				<cs:property key="targets" value="package.models" />
 			</cs:actorProperties>
 			<cs:properties>
-				<cs:property key="content.ius"
-					value="org.eclipse.emf.feature.group,org.eclipse.xsd.feature.group,org.eclipse.xsd.ecore.converter.feature.group,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.editor.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.mapping.editor.feature.group" />
-				<cs:property key="target.platform.ius" value="org.eclipse.emf.ecore.feature.group" />
-				<cs:property key="target.platform.prerequisite.ius" value="org.eclipse.rcp.feature.group" />
-				<cs:property key="top.directory" value="emf/models" />
 				<cs:property key="package.name" value="emf-xsd-Models" />
+				<cs:property key="top.directory" value="emf/models" />
 			</cs:properties>
 			<cs:prerequisites>
-				<cs:attribute name="site.p2" alias="repository" />
+				<cs:attribute name="install.emf-xsd-foundation" alias="install.pools" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.output}/zips/" />
+		</cs:public>
+
+		<cs:private name="install.emf-runtime" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="packaging.ant" />
+				<cs:property key="targets" value="install.ius" />
+			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="ius" value="org.eclipse.emf.feature.group" />
+				<cs:property key="target.platform.ius" value="org.eclipse.emf.base.feature.group" />
+			</cs:properties>
+			<cs:prerequisites>
+				<cs:attribute name="site.p2" alias="repositories" />
 				<cs:attribute name="site.tp" alias="target.platform.repository" />
+				<cs:attribute name="install.emf-base-platform" alias="install.pools" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.temp}/emf-runtime/" />
+		</cs:private>
+
+		<cs:public name="package.emf-runtime" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="packaging.ant" />
+				<cs:property key="targets" value="package.ius" />
+			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="package.name" value="emf-runtime" />
+			</cs:properties>
+			<cs:prerequisites>
+				<cs:attribute name="install.emf-runtime" alias="install.pools" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.output}/zips/" />
+		</cs:public>
+
+		<cs:private name="install.emf-sourcedoc" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="packaging.ant" />
+				<cs:property key="targets" value="install.ius" />
+			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="ius"
+					value="org.eclipse.emf.source.feature.group,org.eclipse.emf.doc.feature.group,org.eclipse.emf.doc.source.feature.group" />
+				<cs:property key="target.platform.ius" value="org.eclipse.emf.base.source.feature.group" />
+			</cs:properties>
+			<cs:prerequisites>
+				<cs:attribute name="site.p2" alias="repositories" />
+				<cs:attribute name="site.tp" alias="target.platform.repository" />
+				<cs:attribute name="install.emf-runtime" alias="install.pools" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.temp}/emf-sourcedoc/" />
+		</cs:private>
+
+		<cs:public name="package.emf-sourcedoc" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="packaging.ant" />
+				<cs:property key="targets" value="package.ius" />
+			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="package.name" value="emf-sourcedoc" />
+			</cs:properties>
+			<cs:prerequisites>
+				<cs:attribute name="install.emf-sourcedoc" alias="install.pools" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.output}/zips/" />
+		</cs:public>
+
+		<cs:private name="install.xsd-runtime" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="packaging.ant" />
+				<cs:property key="targets" value="install.ius" />
+			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="ius"
+					value="org.eclipse.xsd.feature.group,org.eclipse.xsd.ecore.converter.feature.group,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.editor.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.mapping.editor.feature.group" />
+			</cs:properties>
+			<cs:prerequisites>
+				<cs:attribute name="site.p2" alias="repositories" />
+				<cs:attribute name="site.tp" alias="target.platform.repository" />
+				<cs:attribute name="install.emf-runtime" alias="install.pools" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.temp}/xsd-runtime/" />
+		</cs:private>
+
+		<cs:public name="package.xsd-runtime" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="packaging.ant" />
+				<cs:property key="targets" value="package.ius" />
+			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="package.name" value="xsd-runtime" />
+			</cs:properties>
+			<cs:prerequisites>
+				<cs:attribute name="install.xsd-runtime" alias="install.pools" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.output}/zips/" />
+		</cs:public>
+
+		<cs:private name="install.xsd-sourcedoc" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="packaging.ant" />
+				<cs:property key="targets" value="install.ius" />
+			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="ius"
+					value="org.eclipse.xsd.source.feature.group,org.eclipse.xsd.ecore.converter.source.feature.group,org.eclipse.xsd.edit.source.feature.group,org.eclipse.xsd.editor.source.feature.group,org.eclipse.xsd.mapping.source.feature.group,org.eclipse.xsd.mapping.editor.source.feature.group,org.eclipse.xsd.doc.feature.group,org.eclipse.xsd.doc.source.feature.group" />
+			</cs:properties>
+			<cs:prerequisites>
+				<cs:attribute name="site.p2" alias="repositories" />
+				<cs:attribute name="site.tp" alias="target.platform.repository" />
+				<cs:attribute name="group.xsd-sourcedoc.prerequisites" alias="install.pools" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.temp}/xsd-sourcedoc/" />
+		</cs:private>
+
+		<cs:public name="package.xsd-sourcedoc" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="packaging.ant" />
+				<cs:property key="targets" value="package.ius" />
+			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="package.name" value="xsd-sourcedoc" />
+			</cs:properties>
+			<cs:prerequisites>
+				<cs:attribute name="site.p2" alias="repositories" />
+				<cs:attribute name="site.tp" alias="target.platform.repository" />
+				<cs:attribute name="install.xsd-sourcedoc" alias="install.pools" />
 			</cs:prerequisites>
 			<cs:products alias="output" base="${buckminster.output}/zips/" />
 		</cs:public>
@@ -175,6 +281,12 @@
 	</cs:actions>
 
 	<cs:groups>
+		<cs:private name="group.xsd-sourcedoc.prerequisites">
+			<cs:attribute name="install.emf-runtime" />
+			<cs:attribute name="install.emf-sourcedoc" />
+			<cs:attribute name="install.xsd-runtime" />
+		</cs:private>
+
 		<cs:public name="build">
 			<cs:attribute name="package.emf-xsd-Update" />
 			<cs:attribute name="package.emf-xsd-SDK" />
