@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cs:cspecExtension xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0">
 	<cs:dependencies>
-		<cs:dependency name="org.eclipse.emf.gwt.build.helper" componentType="buckminster" filter="(no.tooling.classpath=true)" />
+		<cs:dependency name="org.eclipse.emf.gwt.build.helper" componentType="buckminster" filter="(without.gdt=true)" />
 	</cs:dependencies>
 
 	<cs:artifacts>
@@ -27,7 +27,7 @@
 
 		<cs:public name="buckminster.prebind" actor="null">
 			<cs:prerequisites>
-				<cs:attribute name="replace.classpath.containers" contributor="false" filter="(no.tooling.classpath=true)" />
+				<cs:attribute name="replace.classpath.containers" contributor="false" filter="(without.gdt=true)" />
 			</cs:prerequisites>
 		</cs:public>
 	</cs:actions>
