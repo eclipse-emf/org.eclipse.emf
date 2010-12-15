@@ -6,6 +6,9 @@
    <feature id="org.eclipse.emf.all" version="0.0.0">
       <category name="emf+xsd"/>
    </feature>
+   <feature id="org.eclipse.emf.base" version="0.0.0">
+      <category name="emf+xsd"/>
+   </feature>
    <feature id="org.eclipse.emf.codegen" version="0.0.0">
       <category name="emf+xsd"/>
    </feature>
@@ -52,6 +55,27 @@
       <category name="emf+xsd"/>
    </feature>
    <feature id="org.eclipse.emf.examples" version="0.0.0">
+      <category name="emf+xsd"/>
+   </feature>
+   <feature id="org.eclipse.emf.gwt" version="0.0.0">
+      <category name="emf+xsd"/>
+   </feature>
+   <feature id="org.eclipse.emf.gwt.common" version="0.0.0">
+      <category name="emf+xsd"/>
+   </feature>
+   <feature id="org.eclipse.emf.gwt.ecore" version="0.0.0">
+      <category name="emf+xsd"/>
+   </feature>
+   <feature id="org.eclipse.emf.gwt.ecore.edit" version="0.0.0">
+      <category name="emf+xsd"/>
+   </feature>
+   <feature id="org.eclipse.emf.gwt.edit" version="0.0.0">
+      <category name="emf+xsd"/>
+   </feature>
+   <feature id="org.eclipse.emf.gwt.edit.ui" version="0.0.0">
+      <category name="emf+xsd"/>
+   </feature>
+   <feature id="org.eclipse.emf.gwt.sdk" version="0.0.0">
       <category name="emf+xsd"/>
    </feature>
    <feature id="org.eclipse.emf.mapping" version="0.0.0">
