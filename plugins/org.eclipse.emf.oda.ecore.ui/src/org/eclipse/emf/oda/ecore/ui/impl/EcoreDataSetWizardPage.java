@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreDataSetWizardPage.java,v 1.2 2010/12/11 02:28:55 khussey Exp $
+ * $Id: EcoreDataSetWizardPage.java,v 1.3 2010/12/15 16:20:04 khussey Exp $
  */
 package org.eclipse.emf.oda.ecore.ui.impl;
 
@@ -187,6 +187,11 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
     for (String uri : QueryDelegate.Factory.Registry.INSTANCE.keySet())
     {
       queryDelegateCombo.add(uri);
+    }
+
+    if (queryDelegateCombo.getItemCount() > 0)
+    {
+      queryDelegateCombo.setText(queryDelegateCombo.getItem(0));
     }
 
     GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).span(2, 1).applyTo(queryDelegateCombo);
