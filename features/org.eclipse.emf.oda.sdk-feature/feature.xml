@@ -35,11 +35,12 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.oda.source"
          version="0.0.0"/>
 
-   <plugin
+   <includes
          id="org.eclipse.emf.oda.ecore.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.oda.ecore.ui.source"
+         version="0.0.0"/>
 
 </feature>
