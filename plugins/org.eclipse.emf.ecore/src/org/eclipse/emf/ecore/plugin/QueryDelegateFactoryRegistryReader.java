@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QueryDelegateFactoryRegistryReader.java,v 1.1 2010/12/03 01:23:45 khussey Exp $
+ * $Id: QueryDelegateFactoryRegistryReader.java,v 1.2 2010/12/15 16:19:25 khussey Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.util.QueryDelegate;
 
 /**
  * A plugin extension reader that populates the
- * {@link org.eclipse.emf.oda.ecore.QueryDelegate.Factory.Registry#INSTANCE global} query delegate factory registry.
+ * {@link org.eclipse.emf.ecore.util.QueryDelegate.Factory.Registry#INSTANCE global} query delegate factory registry.
  * Clients are not expected to use this class directly.
  */
 class QueryDelegateFactoryRegistryReader extends RegistryReader
