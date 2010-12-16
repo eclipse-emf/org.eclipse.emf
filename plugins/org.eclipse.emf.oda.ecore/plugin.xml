@@ -116,11 +116,11 @@
                nativeDataType="EJavaObject"/>
          <dataTypeMapping
                nativeDataTypeCode="43"
-               odaScalarDataType="Decimal"
+               odaScalarDataType="Integer"
                nativeDataType="ELong"/>
          <dataTypeMapping
                nativeDataTypeCode="44"
-               odaScalarDataType="Decimal"
+               odaScalarDataType="Integer"
                nativeDataType="ELongObject"/>
          <dataTypeMapping
                nativeDataTypeCode="45"

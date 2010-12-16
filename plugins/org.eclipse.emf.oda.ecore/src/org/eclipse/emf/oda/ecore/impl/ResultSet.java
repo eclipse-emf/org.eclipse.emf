@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResultSet.java,v 1.1 2010/12/05 01:42:04 khussey Exp $
+ * $Id: ResultSet.java,v 1.2 2010/12/16 14:03:18 khussey Exp $
  */
 package org.eclipse.emf.oda.ecore.impl;
 
@@ -339,6 +339,9 @@ public abstract class ResultSet implements IResultSet
       case EcorePackage.ESHORT:
       case EcorePackage.ESHORT_OBJECT:
         return new Integer((Short)getValue(index));
+      case EcorePackage.ELONG:
+      case EcorePackage.ELONG_OBJECT:
+        return new Integer(((Long)getValue(index)).intValue());
       default:
         throw new OdaException(new IllegalArgumentException(String.valueOf(index)));
     }
@@ -377,9 +380,6 @@ public abstract class ResultSet implements IResultSet
         return (BigDecimal)getValue(index);
       case EcorePackage.EBIG_INTEGER:
         return new BigDecimal((BigInteger)getValue(index));
-      case EcorePackage.ELONG:
-      case EcorePackage.ELONG_OBJECT:
-        return new BigDecimal((Long)getValue(index));
       default:
         throw new OdaException(new IllegalArgumentException(String.valueOf(index)));
     }
