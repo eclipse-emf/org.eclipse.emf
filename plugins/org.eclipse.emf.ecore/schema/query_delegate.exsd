@@ -85,7 +85,7 @@
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         Following is an example of how an invocation delegate factory can be registered: 
+         Following is an example of how a query delegate factory can be registered: 
 &lt;pre&gt;
   &lt;extension point=&quot;org.eclipse.emf.ecore.query_delegate&quot; &gt;
     &lt;factory uri=&quot;http://www.eclipse.org/emf/2002/Ecore/OCL&quot; class=&quot;org.eclipse.ocl.ecore.delegate.OCLQueryDelegateFactory&quot;/&gt; 
