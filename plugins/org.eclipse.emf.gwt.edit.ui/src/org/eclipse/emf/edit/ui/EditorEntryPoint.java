@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditorEntryPoint.java,v 1.1 2010/12/12 20:29:42 emerks Exp $
+ * $Id: EditorEntryPoint.java,v 1.2 2010/12/21 19:25:01 khussey Exp $
  */
 package org.eclipse.emf.edit.ui;
 
@@ -587,7 +587,7 @@ public abstract class EditorEntryPoint implements EntryPoint
             new AbstractCell<Object>()
             {
               @Override
-              public void render(Object value, Object key, SafeHtmlBuilder safeHtmlBuilder)
+              public void render(Context context, Object value, SafeHtmlBuilder safeHtmlBuilder)
               {
                 StringBuilder sb = new StringBuilder();
                 Object image = itemDelegator.getImage(value);
