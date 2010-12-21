@@ -3,7 +3,7 @@
 	componentType="buckminster" version="0.1.0.qualifier" shortDesc="EMF GWT Build Helper Project"
 >
 	<cs:dependencies>
-		<cs:dependency name="com.google.gwt.eclipse.sdkbundle.2.1.0" componentType="osgi.bundle" />
+		<cs:dependency name="com.google.gwt.eclipse.sdkbundle.2.1.1" componentType="osgi.bundle" />
 		<cs:dependency name="com.google.appengine.eclipse.sdkbundle.1.4.0" componentType="osgi.bundle" />
 	</cs:dependencies>
 
@@ -18,7 +18,7 @@
 				<cs:property key="targets" value="prepare.google.classpath.containers.replacement.data" />
 			</cs:actorProperties>
 			<cs:prerequisites>
-				<cs:attribute component="com.google.gwt.eclipse.sdkbundle.2.1.0" componentType="osgi.bundle" alias="gwt.sdk.bundle" />
+				<cs:attribute component="com.google.gwt.eclipse.sdkbundle.2.1.1" componentType="osgi.bundle" alias="gwt.sdk.bundle" />
 				<cs:attribute component="com.google.appengine.eclipse.sdkbundle.1.4.0" componentType="osgi.bundle"
 					alias="appengine.sdk.bundle" />
 			</cs:prerequisites>
