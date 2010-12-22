@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: Connection.java,v 1.1 2010/12/05 01:42:04 khussey Exp $
+ * $Id: Connection.java,v 1.2 2010/12/22 14:07:56 khussey Exp $
  */
 package org.eclipse.emf.oda.ecore.impl;
 
+import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.datatools.connectivity.oda.IConnection;
@@ -38,28 +39,40 @@ public class Connection implements IConnection
 {
   public static final String RESOURCE_PROPERTY_NAME = "resource"; //$NON-NLS-1$
 
+  protected Map< ? , ? > appContext = null;
   protected ResourceSet resourceSet = null;
 
   public void open(Properties connProperties) throws OdaException
   {
-    String uri = connProperties.getProperty(RESOURCE_PROPERTY_NAME);
-
-    if (!StringUtil.isEmpty(uri))
+    if (appContext != null)
     {
-      resourceSet = new ResourceSetImpl();
-
       try
       {
-        resourceSet.getResource(URI.createURI(uri), true);
+        resourceSet = (ResourceSet)appContext.get(ResourceSet.class.getName());
       }
       catch (Exception e)
       {
         throw new OdaException(e);
       }
     }
-    else
+
+    if (resourceSet == null)
     {
-      throw new OdaException(new IllegalArgumentException(String.valueOf(connProperties)));
+      resourceSet = new ResourceSetImpl();
+
+      String uri = connProperties.getProperty(RESOURCE_PROPERTY_NAME);
+
+      if (!StringUtil.isEmpty(uri))
+      {
+        try
+        {
+          resourceSet.getResource(URI.createURI(uri), true);
+        }
+        catch (Exception e)
+        {
+          throw new OdaException(e);
+        }
+      }
     }
   }
 
@@ -74,7 +87,19 @@ public class Connection implements IConnection
 
   public void setAppContext(Object context) throws OdaException
   {
-    // do nothing; no support for pass-through context
+    if (context == null && appContext != null)
+    {
+      if (appContext.containsKey(ResourceSet.class.getName()))
+      {
+        resourceSet = null;
+      }
+
+      appContext = null;
+    }
+    else if (context instanceof Map< ? , ? >)
+    {
+      appContext = (Map< ? , ? >)context;
+    }
   }
 
   public void close() throws OdaException
