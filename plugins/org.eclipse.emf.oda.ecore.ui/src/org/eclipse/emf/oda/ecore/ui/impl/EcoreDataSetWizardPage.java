@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreDataSetWizardPage.java,v 1.3 2010/12/15 16:20:04 khussey Exp $
+ * $Id: EcoreDataSetWizardPage.java,v 1.4 2010/12/22 14:08:59 khussey Exp $
  */
 package org.eclipse.emf.oda.ecore.ui.impl;
 
@@ -60,6 +60,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.QueryDelegate;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
+import org.eclipse.emf.edit.ui.util.QueryDelegateTextViewer;
 import org.eclipse.emf.oda.ecore.impl.Connection;
 import org.eclipse.emf.oda.ecore.impl.Driver;
 import org.eclipse.emf.oda.ecore.impl.ParameterMetaData;
@@ -68,6 +69,11 @@ import org.eclipse.emf.oda.ecore.ui.ODAEcoreUIPlugin;
 import org.eclipse.emf.oda.ecore.util.StringUtil;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.ITextListener;
+import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.TextEvent;
+import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -82,6 +88,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseAdapter;
@@ -112,7 +119,9 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
 
   protected Combo queryDelegateCombo = null;
 
-  protected Text queryTextField = null;
+  protected Map<String, ITextViewer> queryTextViewers = new HashMap<String, ITextViewer>();
+  protected Composite queryTextViewerComposite = null;
+  protected StackLayout queryTextViewerStackLayout = null;
 
   protected TableViewer variablesViewer = null;
   protected List<Variable> variables = new UniqueEList<Variable>();
@@ -175,11 +184,36 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
     queryDelegateLabel.setText(ODAEcoreUIPlugin.INSTANCE.getString("_UI_QueryDelegate_label")); //$NON-NLS-1$
 
     queryDelegateCombo = new Combo(parent, SWT.BORDER | SWT.READ_ONLY);
-    queryDelegateCombo.addSelectionListener(new SelectionAdapter()
+    queryDelegateCombo.addModifyListener(new ModifyListener()
       {
-        @Override
-        public void widgetSelected(SelectionEvent ee)
+        public void modifyText(ModifyEvent me)
         {
+          String queryDelegate = getQueryDelegate();
+          QueryDelegateTextViewer.Factory factory = (QueryDelegateTextViewer.Factory)QueryDelegateTextViewer.Factory.Registry.INSTANCE.get(queryDelegate);
+
+          ITextViewer queryTextViewer = queryTextViewers.get(queryDelegate);
+
+          if (queryTextViewer == null)
+          {
+            queryTextViewer = factory != null
+              ? factory.createTextViewer(queryTextViewerComposite, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL) : new TextViewer(
+                queryTextViewerComposite,
+                SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+
+            queryTextViewer.addTextListener(new ITextListener()
+              {
+                public void textChanged(TextEvent te)
+                {
+                  validateData();
+                }
+              });
+
+            queryTextViewers.put(queryDelegate, queryTextViewer);
+          }
+
+          queryTextViewerStackLayout.topControl = queryTextViewer.getTextWidget();
+          queryTextViewerComposite.layout();
+
           validateData();
         }
       });
@@ -187,11 +221,6 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
     for (String uri : QueryDelegate.Factory.Registry.INSTANCE.keySet())
     {
       queryDelegateCombo.add(uri);
-    }
-
-    if (queryDelegateCombo.getItemCount() > 0)
-    {
-      queryDelegateCombo.setText(queryDelegateCombo.getItem(0));
     }
 
     GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).span(2, 1).applyTo(queryDelegateCombo);
@@ -381,6 +410,12 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
       {
         public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
         {
+          ITextViewer queryTextViewer = getQueryTextViewer();
+
+          if (queryTextViewer instanceof QueryDelegateTextViewer)
+          {
+            ((QueryDelegateTextViewer)queryTextViewer).setParameters(convertVariablesToMap(getVariables()));
+          }
         }
 
         public void dispose()
@@ -528,16 +563,9 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
     Label queryTextLabel = new Label(parent, SWT.NONE);
     queryTextLabel.setText(ODAEcoreUIPlugin.INSTANCE.getString("_UI_QueryText_label")); //$NON-NLS-1$
 
-    queryTextField = new Text(parent, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
-    queryTextField.addModifyListener(new ModifyListener()
-      {
-        public void modifyText(ModifyEvent me)
-        {
-          validateData();
-        }
-      });
+    (queryTextViewerComposite = new Composite(parent, SWT.NONE)).setLayout(queryTextViewerStackLayout = new StackLayout());
 
-    GridDataFactory.fillDefaults().grab(true, true).span(2, 1).applyTo(queryTextField);
+    GridDataFactory.fillDefaults().grab(true, true).span(2, 1).applyTo(queryTextViewerComposite);
   }
 
   /**
@@ -609,22 +637,30 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
       return; // nothing to initialize
     }
 
-    String queryText = dataSetDesign.getQueryText();
-
-    if (queryText != null)
-    {
-      // initialize query text
-      queryTextField.setText(queryText);
-    }
-
     Properties properties = DesignUtil.convertDesignProperties(dataSetDesign.getPublicProperties());
 
     String queryDelegate = properties.getProperty(Query.DELEGATE_PROPERTY_NAME);
 
-    if (queryDelegate != null)
+    if (!StringUtil.isEmpty(queryDelegate))
     {
       // initialize query delegate
       queryDelegateCombo.setText(queryDelegate);
+    }
+    else if (queryDelegateCombo.getItemCount() > 0)
+    {
+      queryDelegateCombo.setText(queryDelegateCombo.getItem(0));
+    }
+
+    String queryText = dataSetDesign.getQueryText();
+
+    if (!StringUtil.isEmpty(queryText))
+    {
+      // initialize query text
+      getQueryTextViewer().setDocument(new Document(queryText));
+    }
+    else
+    {
+      getQueryTextViewer().setDocument(new Document());
     }
 
     String context = properties.getProperty(Query.CONTEXT_PROPERTY_NAME);
@@ -843,7 +879,7 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
    */
   protected String getQueryDelegate()
   {
-    return queryDelegateCombo == null ? null : queryDelegateCombo.getText();
+    return queryDelegateCombo == null || queryDelegateCombo.isDisposed() ? null : queryDelegateCombo.getText();
   }
 
   /**
@@ -855,13 +891,19 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
     return variables;
   }
 
+  protected ITextViewer getQueryTextViewer()
+  {
+    return queryTextViewers.get(getQueryDelegate());
+  }
+
   /**
    * Returns the value of the query text.
    * @return the query text
    */
   protected String getQueryText()
   {
-    return queryTextField == null ? null : queryTextField.getText();
+    ITextViewer queryTextViewer = getQueryTextViewer();
+    return queryTextViewer == null ? null : queryTextViewer.getDocument().get();
   }
 
   /**
@@ -884,6 +926,13 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
     if (contextTypeField != null)
     {
       contextTypeField.setText(StringUtil.getTypeText(contextType));
+    }
+
+    ITextViewer queryTextViewer = getQueryTextViewer();
+
+    if (queryTextViewer instanceof QueryDelegateTextViewer)
+    {
+      ((QueryDelegateTextViewer)queryTextViewer).setContext(contextType);
     }
   }
 
