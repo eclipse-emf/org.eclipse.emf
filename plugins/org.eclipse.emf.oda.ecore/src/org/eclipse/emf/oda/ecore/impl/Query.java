@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: Query.java,v 1.1 2010/12/05 01:42:04 khussey Exp $
+ * $Id: Query.java,v 1.2 2010/12/22 14:08:23 khussey Exp $
  */
 package org.eclipse.emf.oda.ecore.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
@@ -37,6 +38,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -58,6 +60,7 @@ public class Query implements IQuery
 
   protected QuerySpecification specification = null;
 
+  protected QueryDelegate.Factory factory = null;
   protected QueryDelegate delegate = null;
   protected EClassifier context = null;
   protected Map<String, EClassifier> variables = null;
@@ -140,7 +143,7 @@ public class Query implements IQuery
 
     try
     {
-      QueryDelegate.Factory factory = (QueryDelegate.Factory)QueryDelegate.Factory.Registry.INSTANCE.get((String)specification.getProperty(DELEGATE_PROPERTY_NAME));
+      factory = (QueryDelegate.Factory)QueryDelegate.Factory.Registry.INSTANCE.get((String)specification.getProperty(DELEGATE_PROPERTY_NAME));
 
       ResourceSet resourceSet = connection.getResourceSet();
 
@@ -177,86 +180,171 @@ public class Query implements IQuery
     return ResultSetMetaData.create(type);
   }
 
+  protected EList<Object> getAllObjectsByType(EList<Object> objects, EClassifier type)
+  {
+    for (TreeIterator<Object> allContents = EcoreUtil.getAllContents(connection.getResourceSet(), true); allContents.hasNext();)
+    {
+      Object next = allContents.next();
+
+      if (type.isInstance(next))
+      {
+        objects.add(next);
+      }
+    }
+
+    return objects;
+  }
+
+  protected EList<Object> getResults(
+    EList<Object> results,
+    QueryDelegate delegate,
+    EList<Object> targets,
+    Map<String, Object> arguments,
+    EClassifier type) throws InvocationTargetException
+  {
+    for (Object target : targets)
+    {
+      Object result = delegate.execute(target, arguments);
+
+      if (result instanceof Collection< ? >)
+      {
+        results.addAll(EcoreUtil.getObjectsByType((Collection< ? >)result, type));
+      }
+      else if (type.isInstance(result))
+      {
+        results.add(result);
+      }
+    }
+
+    return results;
+  }
+
   public IResultSet executeQuery() throws OdaException
   {
     assertPrepared();
 
     EList<Object> targets = new UniqueEList.FastCompare<Object>();
-
     Map<String, Object> arguments = new HashMap<String, Object>();
 
-    for (Map.Entry<ParameterIdentifier, ? > entry : specification.getParameterValues().entrySet())
+    Map<ParameterIdentifier, ? > parameterValues = specification.getParameterValues();
+
+    if (!parameterValues.isEmpty())
     {
-      String name = entry.getKey().getParameterName();
+      Object targetArgument = null;
 
-      if (!StringUtil.isEmpty(name))
+      Map<String, EClassifier> dataTypeParameters = new HashMap<String, EClassifier>();
+      Map<String, Object> dataTypeArguments = new HashMap<String, Object>();
+
+      Map<String, Object> classArguments = new HashMap<String, Object>();
+
+      for (Map.Entry<ParameterIdentifier, ? > entry : parameterValues.entrySet())
       {
-        Object value = entry.getValue();
+        String name = entry.getKey().getParameterName();
 
-        if (value instanceof ResultSet.JavaObject)
+        if (!StringUtil.isEmpty(name))
         {
-          value = ((ResultSet.JavaObject)value).getObject();
-        }
+          Object value = entry.getValue();
 
-        if (ParameterMetaData.TARGET_PARAMETER_NAME.equals(name))
-        {
-          if (value != null && !ParameterMetaData.DEFAULT_PARAMETER_VALUE.equals(value))
+          if (value instanceof ResultSet.JavaObject)
           {
-            if (value instanceof Collection< ? >)
+            value = ((ResultSet.JavaObject)value).getObject();
+          }
+
+          if (value != null)
+          {
+            if (ParameterMetaData.TARGET_PARAMETER_NAME.equals(name))
             {
-              targets.addAll((Collection< ? >)value);
+              targetArgument = value;
             }
             else
             {
-              targets.add(value);
+              EClassifier type = variables.get(name);
+
+              if (type instanceof EClass)
+              {
+                classArguments.put(name, value);
+              }
+              else
+              {
+                dataTypeParameters.put(name, type);
+                dataTypeArguments.put(name, value);
+              }
             }
           }
         }
-        else
+      }
+
+      if (targetArgument == null || ParameterMetaData.DEFAULT_PARAMETER_VALUE.equals(targetArgument))
+      {
+        getAllObjectsByType(targets, context);
+      }
+      else if (targetArgument instanceof String)
+      {
+        try
         {
-          arguments.put(name, value);
+          QueryDelegate delegate = factory.createQueryDelegate(context, dataTypeParameters, (String)targetArgument);
+          getResults(targets, delegate, getAllObjectsByType(new UniqueEList.FastCompare<Object>(), context), dataTypeArguments, context);
         }
+        catch (Exception e)
+        {
+          Throwable cause = e.getCause();
+          throw new OdaException(ParameterMetaData.TARGET_PARAMETER_NAME
+            + ": " + (cause == null ? e.getLocalizedMessage() : cause.getLocalizedMessage())); //$NON-NLS-1$
+        }
+      }
+      else if (targetArgument instanceof Collection< ? >)
+      {
+        targets.addAll((Collection< ? >)targetArgument);
+      }
+      else
+      {
+        targets.add(targetArgument);
+      }
+
+      arguments.putAll(dataTypeArguments);
+
+      for (Map.Entry<String, Object> entry : classArguments.entrySet())
+      {
+        String name = entry.getKey();
+        Object value = entry.getValue();
+
+        if (value instanceof String)
+        {
+          EClassifier type = variables.get(name);
+          EList<Object> values = getAllObjectsByType(new UniqueEList.FastCompare<Object>(), type);
+
+          if (!ParameterMetaData.DEFAULT_PARAMETER_VALUE.equals(value))
+          {
+            try
+            {
+              QueryDelegate delegate = factory.createQueryDelegate(type, dataTypeParameters, (String)value);
+              values = getResults(new UniqueEList.FastCompare<Object>(), delegate, values, dataTypeArguments, type);
+            }
+            catch (Exception e)
+            {
+              Throwable cause = e.getCause();
+              throw new OdaException(name + ": " + (cause == null ? e.getLocalizedMessage() : cause.getLocalizedMessage())); //$NON-NLS-1$
+            }
+          }
+
+          value = values.isEmpty() ? null : values.iterator().next();
+        }
+
+        arguments.put(name, value);
       }
     }
 
     try
     {
-      if (targets.isEmpty())
-      {
-        for (TreeIterator<Object> allContents = EcoreUtil.getAllContents(connection.getResourceSet(), true); allContents.hasNext();)
-        {
-          Object next = allContents.next();
-
-          if (context.isInstance(next))
-          {
-            targets.add(next);
-          }
-        }
-      }
-
-      EList<Object> results = new UniqueEList<Object>();
-
-      for (Object target : targets)
-      {
-        Object result = delegate.execute(target, arguments);
-
-        if (result instanceof Collection< ? >)
-        {
-          results.addAll(EcoreUtil.getObjectsByType((Collection< ? >)result, type));
-        }
-        else if (type.isInstance(result))
-        {
-          results.add(result);
-        }
-      }
-
-      IResultSet resultSet = ResultSet.create(type, results);
+      IResultSet resultSet = ResultSet.create(type, getResults(new UniqueEList<Object>(), delegate, targets, arguments, type));
       resultSet.setMaxRows(getMaxRows());
       return resultSet;
     }
     catch (Exception e)
     {
-      throw new OdaException(e);
+      Throwable cause = e.getCause();
+
+      throw new OdaException(cause == null ? e.getLocalizedMessage() : cause.getLocalizedMessage());
     }
   }
 
