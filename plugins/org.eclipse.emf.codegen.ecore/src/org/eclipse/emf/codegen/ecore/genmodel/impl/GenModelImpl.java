@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.116 2010/11/19 18:07:23 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.117 2011/01/06 21:03:33 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -8235,24 +8235,27 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           (EList<String>)getTestsQualifiedPackageNames() :
           new UniqueEList<String>();
 
-    TreeIterator<GenPackage> genPackagesIterator = 
-      new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
-      {
-        private static final long serialVersionUID = 1L;
-
-        @SuppressWarnings("unchecked")
-        @Override
-        protected Iterator<GenPackage> getChildren(Object object)
-        {
-          return object instanceof Collection<?> ? 
-            ((Collection<GenPackage>)object).iterator() :
-            ((GenPackage)object).getNestedGenPackages().iterator();
-        }
-      };
-    while(genPackagesIterator.hasNext())
+    if (getRuntimePlatform() != GenRuntimePlatform.GWT)
     {
-      GenPackage genPackage = genPackagesIterator.next();
-      addQualifiedEditorPackageNames(packageNames, genPackage);
+      TreeIterator<GenPackage> genPackagesIterator = 
+        new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
+        {
+          private static final long serialVersionUID = 1L;
+  
+          @SuppressWarnings("unchecked")
+          @Override
+          protected Iterator<GenPackage> getChildren(Object object)
+          {
+            return object instanceof Collection<?> ? 
+              ((Collection<GenPackage>)object).iterator() :
+              ((GenPackage)object).getNestedGenPackages().iterator();
+          }
+        };
+      while(genPackagesIterator.hasNext())
+      {
+        GenPackage genPackage = genPackagesIterator.next();
+        addQualifiedEditorPackageNames(packageNames, genPackage);
+      }
     }
 
     String pluginClassPackage = CodeGenUtil.getPackageName(getEditorPluginClassToUse());
