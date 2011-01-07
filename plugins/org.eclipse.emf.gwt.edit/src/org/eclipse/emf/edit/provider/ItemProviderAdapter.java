@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.2 2010/04/28 20:38:37 khussey Exp $
+ * $Id: ItemProviderAdapter.java,v 1.3 2011/01/07 00:08:16 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -2551,6 +2551,7 @@ public class ItemProviderAdapter
             
             // continue to next case
           }
+          case Notification.RESOLVE:
           case Notification.SET:
           {
             Object oldChild = childrenStore.get(feature, index);
