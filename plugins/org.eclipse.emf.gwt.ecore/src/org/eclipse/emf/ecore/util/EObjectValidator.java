@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.2 2010/04/28 20:39:41 khussey Exp $
+ * $Id: EObjectValidator.java,v 1.3 2011/01/12 16:24:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1524,7 +1524,7 @@ public class EObjectValidator implements EValidator
       (createDiagnostic
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
-         DATA_VALUE__TOTAL_DIGITS_IN_RANGE,
+         DATA_VALUE__FRACTION_DIGITS_IN_RANGE,
          "_UI_FractionDigitsConstraint_diagnostic",
          new Object []
          {
