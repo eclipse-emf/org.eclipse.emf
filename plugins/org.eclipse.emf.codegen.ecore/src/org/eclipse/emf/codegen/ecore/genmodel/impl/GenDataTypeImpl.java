@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.38 2010/04/28 20:38:10 khussey Exp $
+ * $Id: GenDataTypeImpl.java,v 1.39 2011/01/17 20:47:48 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1109,7 +1109,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     EDataType base = getBasicType();
     if (base != null && !useFactoryFor(base))
     {
-      Object value = base.getDefaultValue();
+      Object value = isPrimitiveType() ? base.getDefaultValue() : null;
 
       if (literal != null)
       {
