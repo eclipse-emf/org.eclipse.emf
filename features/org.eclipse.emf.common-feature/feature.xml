@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.common"
       label="%featureName"
-      version="2.6.0.qualifier"
+      version="2.7.0.qualifier"
       provider-name="%providerName">
 
    <description>
