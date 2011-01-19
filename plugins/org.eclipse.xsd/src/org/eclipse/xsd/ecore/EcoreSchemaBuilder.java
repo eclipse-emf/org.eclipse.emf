@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.28 2010/03/05 16:58:05 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.29 2011/01/19 01:59:11 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -922,11 +922,20 @@ public class EcoreSchemaBuilder extends MapBuilder
            (extendedMetaData.getNamespace(eStructuralFeature.getEContainingClass()),
             extendedMetaData.getWildcards(eStructuralFeature)));
       XSDModelGroup xsdModelGroup = findOrCreateModelGroup(xsdComplexTypeDefinition);
-      XSDParticle particle = XSDFactory.eINSTANCE.createXSDParticle();
-      particle.setContent(xsdWildcard);
-      xsdModelGroup.getContents().add(particle);
-      map(particle, eStructuralFeature);
+      XSDParticle xsdParticle = XSDFactory.eINSTANCE.createXSDParticle();
+      xsdParticle.setContent(xsdWildcard);
+      xsdModelGroup.getContents().add(xsdParticle);
+      map(xsdParticle, eStructuralFeature);
 
+      if (eStructuralFeature.getLowerBound() != 1)
+      {
+        xsdParticle.setMinOccurs(eStructuralFeature.getLowerBound());
+      }
+
+      if (eStructuralFeature.getUpperBound() != 1)
+      {
+        xsdParticle.setMaxOccurs(eStructuralFeature.getUpperBound());
+      }
       createEcoreAnnotation(xsdWildcard, "name", eStructuralFeature.getName());
 
       buildAnnotations(xsdWildcard, eStructuralFeature);
