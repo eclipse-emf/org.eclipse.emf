@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SwitchClass" version="$Id: SwitchClass.javajet,v 1.22 2008/06/04 21:42:39 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SwitchClass" version="$Id: SwitchClass.javajet,v 1.23 2011/01/20 01:10:53 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -16,11 +16,18 @@
  */
 %>
 <%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();%>
+<%boolean supportsComposition = genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF27_VALUE;%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getUtilitiesPackageName()%>;
 
+<%if (supportsComposition) {%>
+<%genModel.addImport("org.eclipse.emf.ecore.EObject");%>
+<%genModel.addImport("org.eclipse.emf.ecore.EPackage");%>
+<%genModel.addImport("org.eclipse.emf.ecore.util.Switch");%>
+<%} else {%>
 <%genModel.addImport("org.eclipse.emf.ecore.EClass");%>
 <%genModel.addImport("org.eclipse.emf.ecore.EObject");%>
+<%}%>
 <%if (!genPackage.hasJavaLangConflict() && !genPackage.getUtilitiesPackageName().equals(genPackage.getInterfacePackageName())) genModel.addImport(genPackage.getInterfacePackageName() + ".*");%>
 <%
 String templateParameterName = null;
@@ -66,7 +73,7 @@ if (genModel.useGenerics())
  * @see <%=genPackage.getQualifiedPackageInterfaceName()%>
  * @generated
  */
-public class <%=genPackage.getSwitchClassName()%><%=templateParameters%>
+public class <%=genPackage.getSwitchClassName()%><%=templateParameters%><%if (supportsComposition){%> extends Switch<%=templateParameters%><%}%>
 {
 <%if (genModel.hasCopyrightField()) {%>
 	/**
@@ -99,6 +106,21 @@ public class <%=genPackage.getSwitchClassName()%><%=templateParameters%>
 		}
 	}
 
+<%if (supportsComposition) {%>
+	/**
+	 * Checks whether this is a switch for the given package.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @parameter ePackage the package in question.
+	 * @return whether this is a switch for the given package.
+	 * @generated
+	 */
+	@Override
+	protected boolean isSwitchFor(EPackage ePackage)
+	{
+		return ePackage == modelPackage;
+	}
+<%} else {%>
 	/**
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
 	 * <!-- begin-user-doc -->
@@ -133,6 +155,7 @@ public class <%=genPackage.getSwitchClassName()%><%=templateParameters%>
 					doSwitch(<%if (!genModel.useGenerics()) {%>(EClass)<%}%>eSuperTypes.get(0), theEObject);
 		}
 	}
+<%}%>
 
 	/**
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
@@ -141,6 +164,9 @@ public class <%=genPackage.getSwitchClassName()%><%=templateParameters%>
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
+<%if (supportsComposition) {%>
+	@Override
+<%}%>
 	protected <%=returnType%> doSwitch(int classifierID, EObject theEObject)
 	{
 		switch (classifierID)
@@ -192,6 +218,9 @@ public class <%=genPackage.getSwitchClassName()%><%=templateParameters%>
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
+<%if (supportsComposition) {%>
+	@Override
+<%}%>
 	public <%=returnType%> defaultCase(EObject object)
 	{
 		return null;
