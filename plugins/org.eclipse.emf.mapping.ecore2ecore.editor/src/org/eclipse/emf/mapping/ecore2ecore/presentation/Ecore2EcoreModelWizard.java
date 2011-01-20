@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreModelWizard.java,v 1.14 2008/04/27 20:53:46 davidms Exp $
+ * $Id: Ecore2EcoreModelWizard.java,v 1.15 2011/01/20 01:10:51 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 
@@ -54,6 +54,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import org.eclipse.jface.viewers.ISelection;
@@ -335,7 +336,9 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
       {
         page.openEditor
           (new FileEditorInput(modelFile),
-           workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());
+           workbench.getEditorRegistry().getDefaultEditor
+           	(modelFile.getFullPath().toString(),
+           	 Platform.getContentTypeManager().getContentType(Ecore2EcorePackage.eCONTENT_TYPE)).getId());					 	 
       }
       catch (PartInitException exception)
       {
