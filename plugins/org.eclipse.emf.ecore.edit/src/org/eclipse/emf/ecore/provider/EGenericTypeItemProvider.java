@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericTypeItemProvider.java,v 1.10 2008/08/24 14:33:07 emerks Exp $
+ * $Id: EGenericTypeItemProvider.java,v 1.11 2011/01/20 01:10:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -29,6 +29,7 @@ import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -52,6 +53,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
@@ -61,7 +63,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
  * @generated
  */
 public class EGenericTypeItemProvider
-  extends EObjectItemProvider
+  extends ItemProviderAdapter
   implements	
     IEditingDomainItemProvider,	
     IStructuredItemContentProvider,	
@@ -651,6 +653,18 @@ public class EGenericTypeItemProvider
             super.getCreateChildText(owner, feature, child, selection);
   }
   
+  /**
+   * Return the resource locator for this item provider's resources.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public ResourceLocator getResourceLocator()
+  {
+    return EcoreEditPlugin.INSTANCE;
+  }
+
   @Override
   protected Command createCreateChildCommand(
     EditingDomain domain,
