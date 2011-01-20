@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreModelWizard.java,v 1.17 2008/04/27 20:30:36 davidms Exp $
+ * $Id: EcoreModelWizard.java,v 1.18 2011/01/20 01:10:17 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -35,6 +35,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+//import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
