@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="switch2"
+    nsURI="http:///org.eclipse.emf.test.models/switch2" nsPrefix="s2">
+  <eClassifiers xsi:type="ecore:EClass" name="EClass2" eSuperTypes="switch1.ecore#//EClass1">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="EAttribute4" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="EAttribute5" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EClass3" eSuperTypes="#//EClass2">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="EAttribute6" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="EAttribute7" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -87,7 +87,24 @@
        uri = "http:///org.eclipse.emf.test.models/qname" 
        class = "org.eclipse.emf.test.models.qname.QNamePackage"
        genModel = "models/QName/qname.genmodel" /> 
-       
+
+    <!-- Switch -->
+
+    <package 
+       uri = "http:///org.eclipse.emf.test.models/switch1" 
+       class = "org.eclipse.emf.test.models.switch1.Switch1Package"
+       genModel = "models/Switch/switch.genmodel" /> 
+
+    <package 
+       uri = "http:///org.eclipse.emf.test.models/switch2" 
+       class = "org.eclipse.emf.test.models.switch2.Switch2Package"
+       genModel = "models/Switch/switch.genmodel" /> 
+
+    <package 
+       uri = "http:///org.eclipse.emf.test.models/switch3" 
+       class = "org.eclipse.emf.test.models.switch3.Switch3Package"
+       genModel = "models/Switch/switch.genmodel" /> 
+
   </extension>
 
   <extension point="org.eclipse.emf.ecore.extension_parser">

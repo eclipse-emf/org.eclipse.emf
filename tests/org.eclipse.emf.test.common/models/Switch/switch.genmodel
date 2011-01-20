@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.test.common/src"
+    editDirectory="" editorDirectory="" modelPluginID="org.eclipse.emf.test.models"
+    modelName="Switch" testsDirectory="" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" editPluginID="org.eclipse.emf.test.models.edit" testsPluginID="org.eclipse.emf.test.models.edit">
+  <genPackages prefix="Switch1" basePackage="org.eclipse.emf.test.models" disposableProviderFactory="true"
+      ecorePackage="switch1.ecore#/">
+    <genClasses ecoreClass="switch1.ecore#//EClass0">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute switch1.ecore#//EClass0/EAttribute0"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute switch1.ecore#//EClass0/EAttribute1"/>
+    </genClasses>
+    <genClasses ecoreClass="switch1.ecore#//EClass1">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute switch1.ecore#//EClass1/EAttribute2"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute switch1.ecore#//EClass1/EAttribute3"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Switch2" basePackage="org.eclipse.emf.test.models" disposableProviderFactory="true"
+      ecorePackage="switch2.ecore#/">
+    <genClasses ecoreClass="switch2.ecore#//EClass2">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute switch2.ecore#//EClass2/EAttribute4"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute switch2.ecore#//EClass2/EAttribute5"/>
+    </genClasses>
+    <genClasses ecoreClass="switch2.ecore#//EClass3">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute switch2.ecore#//EClass3/EAttribute6"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute switch2.ecore#//EClass3/EAttribute7"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Switch3" basePackage="org.eclipse.emf.test.models" disposableProviderFactory="true"
+      ecorePackage="switch3.ecore#/">
+    <genClasses ecoreClass="switch3.ecore#//EClass4">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute switch3.ecore#//EClass4/EAttribute8"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute switch3.ecore#//EClass4/EAttribute9"/>
+    </genClasses>
+    <genClasses ecoreClass="switch3.ecore#//EClass5">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute switch3.ecore#//EClass5/EAttribute10"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute switch3.ecore#//EClass5/EAttribute11"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

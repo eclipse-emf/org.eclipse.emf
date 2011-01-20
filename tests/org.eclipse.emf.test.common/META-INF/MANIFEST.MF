@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.test.common;singleton:=true
-Bundle-Version: 1.2.0.qualifier
+Bundle-Version: 1.3.0.qualifier
 Bundle-ClassPath: test.common.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -56,6 +56,15 @@ Export-Package: org.eclipse.emf.test.common,
  org.eclipse.emf.test.models.ref.unsettable.provider,
  org.eclipse.emf.test.models.ref.unsettable.util,
  org.eclipse.emf.test.models.ref.util,
+ org.eclipse.emf.test.models.switch1,
+ org.eclipse.emf.test.models.switch1.impl,
+ org.eclipse.emf.test.models.switch1.util,
+ org.eclipse.emf.test.models.switch2,
+ org.eclipse.emf.test.models.switch2.impl,
+ org.eclipse.emf.test.models.switch2.util,
+ org.eclipse.emf.test.models.switch3,
+ org.eclipse.emf.test.models.switch3.impl,
+ org.eclipse.emf.test.models.switch3.util,
  org.eclipse.emf.test.models.tree,
  org.eclipse.emf.test.models.tree.impl,
  org.eclipse.emf.test.models.tree.provider,
