@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditPlugin.java,v 1.3 2010/05/17 13:17:50 emerks Exp $
+ * $Id: EcoreEditPlugin.java,v 1.4 2011/01/20 01:10:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -80,26 +80,26 @@ public final class EcoreEditPlugin extends EMFPlugin
   @Override
   public String getString(String key, boolean translate)
   {
-     if ("_UI_EAttribute_type".equals(key)) return PROPERTIES.eAttributeType();
-    else  if ("_UI_EAnnotation_type".equals(key)) return PROPERTIES.eAnnotationType();
-    else  if ("_UI_EClass_type".equals(key)) return PROPERTIES.eClassType();
-    else  if ("_UI_EClassifier_type".equals(key)) return PROPERTIES.eClassifierType();
-    else  if ("_UI_EDataType_type".equals(key)) return PROPERTIES.eDataTypeType();
-    else  if ("_UI_EEnum_type".equals(key)) return PROPERTIES.eEnumType();
-    else  if ("_UI_EEnumLiteral_type".equals(key)) return PROPERTIES.eEnumLiteralType();
-    else  if ("_UI_EFactory_type".equals(key)) return PROPERTIES.eFactoryType();
-    else  if ("_UI_EModelElement_type".equals(key)) return PROPERTIES.eModelElementType();
-    else  if ("_UI_ENamedElement_type".equals(key)) return PROPERTIES.eNamedElementType();
-    else  if ("_UI_EObject_type".equals(key)) return PROPERTIES.eObjectType();
-    else  if ("_UI_EOperation_type".equals(key)) return PROPERTIES.eOperationType();
-    else  if ("_UI_EPackage_type".equals(key)) return PROPERTIES.ePackageType();
-    else  if ("_UI_EParameter_type".equals(key)) return PROPERTIES.eParameterType();
-    else  if ("_UI_EReference_type".equals(key)) return PROPERTIES.eReferenceType();
-    else  if ("_UI_EStructuralFeature_type".equals(key)) return PROPERTIES.eStructuralFeatureType();
-    else  if ("_UI_ETypedElement_type".equals(key)) return PROPERTIES.eTypedElementType();
-    else  if ("_UI_EStringToStringMapEntry_type".equals(key)) return PROPERTIES.eStringToStringMapEntryType();
-    else  if ("_UI_EGenericType_type".equals(key)) return PROPERTIES.eGenericTypeType();
-    else  if ("_UI_ETypeParameter_type".equals(key)) return PROPERTIES.eTypeParameterType();
+    if ("_UI_EAttribute_type".equals(key)) return PROPERTIES.eAttributeType();
+    else if ("_UI_EAnnotation_type".equals(key)) return PROPERTIES.eAnnotationType();
+    else if ("_UI_EClass_type".equals(key)) return PROPERTIES.eClassType();
+    else if ("_UI_EClassifier_type".equals(key)) return PROPERTIES.eClassifierType();
+    else if ("_UI_EDataType_type".equals(key)) return PROPERTIES.eDataTypeType();
+    else if ("_UI_EEnum_type".equals(key)) return PROPERTIES.eEnumType();
+    else if ("_UI_EEnumLiteral_type".equals(key)) return PROPERTIES.eEnumLiteralType();
+    else if ("_UI_EFactory_type".equals(key)) return PROPERTIES.eFactoryType();
+    else if ("_UI_EModelElement_type".equals(key)) return PROPERTIES.eModelElementType();
+    else if ("_UI_ENamedElement_type".equals(key)) return PROPERTIES.eNamedElementType();
+    else if ("_UI_EObject_type".equals(key)) return PROPERTIES.eObjectType();
+    else if ("_UI_EOperation_type".equals(key)) return PROPERTIES.eOperationType();
+    else if ("_UI_EPackage_type".equals(key)) return PROPERTIES.ePackageType();
+    else if ("_UI_EParameter_type".equals(key)) return PROPERTIES.eParameterType();
+    else if ("_UI_EReference_type".equals(key)) return PROPERTIES.eReferenceType();
+    else if ("_UI_EStructuralFeature_type".equals(key)) return PROPERTIES.eStructuralFeatureType();
+    else if ("_UI_ETypedElement_type".equals(key)) return PROPERTIES.eTypedElementType();
+    else if ("_UI_EStringToStringMapEntry_type".equals(key)) return PROPERTIES.eStringToStringMapEntryType();
+    else if ("_UI_EGenericType_type".equals(key)) return PROPERTIES.eGenericTypeType();
+    else if ("_UI_ETypeParameter_type".equals(key)) return PROPERTIES.eTypeParameterType();
     else  if ("_UI_Unknown_type".equals(key)) return PROPERTIES.unknownType();
     else if ("_UI_Unknown_datatype".equals(key)) return PROPERTIES.unknownDatatype();
     else if ("_UI_EAttribute_iD_feature".equals(key)) return PROPERTIES.eAttribute_IDFeature();
