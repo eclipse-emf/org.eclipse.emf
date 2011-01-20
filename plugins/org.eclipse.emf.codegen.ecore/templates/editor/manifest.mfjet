@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ManifestMF" version="$Id: manifest.mfjet,v 1.9 2010/08/24 16:59:38 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ManifestMF" version="$Id: manifest.mfjet,v 1.10 2011/01/20 01:36:08 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -20,7 +20,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: <%=genModel.getEditorPluginID()%>;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: <%if (genModel.isRuntimeJar()) {%><%=genModel.getEditorPluginID()%>.jar<%}else{%>.<%}%>
 <%if (genModel.getRuntimePlatform() != GenRuntimePlatform.GWT) {%>
 Bundle-Activator: <%=genModel.getQualifiedEditorPluginClassName()%>$Implementation
