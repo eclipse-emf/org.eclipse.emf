@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.31 2010/04/14 16:48:28 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.32 2011/01/20 01:10:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2694,7 +2694,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
 
     op = initEOperation(getEObject__EInvoke__EOperation_EList(), this.getEJavaObject(), "eInvoke", 0, 1, IS_UNIQUE, IS_ORDERED);
     addEParameter(op, this.getEOperation(), "operation", 0, 1, IS_UNIQUE, IS_ORDERED);
-    g1 = createEGenericType(ecorePackage.getEEList());
+    g1 = createEGenericType(this.getEEList());
     g2 = createEGenericType();
     g1.getETypeArguments().add(g2);
     addEParameter(op, g1, "arguments", 0, 1, IS_UNIQUE, IS_ORDERED);

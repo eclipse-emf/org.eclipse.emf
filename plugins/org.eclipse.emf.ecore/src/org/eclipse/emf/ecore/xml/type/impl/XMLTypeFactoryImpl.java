@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.32 2008/12/22 14:24:54 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.33 2011/01/20 01:10:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -27,7 +27,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.StringTokenizer;
 
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.Duration;
@@ -433,9 +432,8 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   {
     if (literal == null) return null;
     List<String> result = new ArrayList<String>();
-    for (StringTokenizer stringTokenizer = new StringTokenizer(literal); stringTokenizer.hasMoreTokens(); )
+    for (String item : split(literal))
     {
-      String item = stringTokenizer.nextToken();
       result.add(createENTITY(item));
     }
     return result;
@@ -812,9 +810,8 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   {
     if (literal == null) return null;
     List<String> result = new ArrayList<String>();
-    for (StringTokenizer stringTokenizer = new StringTokenizer(literal); stringTokenizer.hasMoreTokens(); )
+    for (String item : split(literal))
     {
-      String item = stringTokenizer.nextToken();
       result.add(createIDREF(item));
     }
     return result;
@@ -1128,9 +1125,8 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   {
     if (literal == null) return null;
     List<String> result = new ArrayList<String>();
-    for (StringTokenizer stringTokenizer = new StringTokenizer(literal); stringTokenizer.hasMoreTokens(); )
+    for (String item : split(literal))
     {
-      String item = stringTokenizer.nextToken();
       result.add(createNMTOKEN(item));
     }
     return result;
