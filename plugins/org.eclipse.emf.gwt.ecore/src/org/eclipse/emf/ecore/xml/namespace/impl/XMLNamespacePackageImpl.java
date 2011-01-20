@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackageImpl.java,v 1.2 2010/04/28 20:40:03 khussey Exp $
+ * $Id: XMLNamespacePackageImpl.java,v 1.3 2011/01/20 01:10:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import org.eclipse.emf.common.util.Reflect;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -233,6 +234,50 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
            return new SpaceType[size];
          }
     });
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static class WhiteList implements IsSerializable
+  {
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected XMLNamespaceDocumentRoot xmlNamespaceDocumentRoot;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected SpaceType spaceType;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected String langType;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected String langTypeNull;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected SpaceType spaceTypeObject;
+
   }
 
   /**

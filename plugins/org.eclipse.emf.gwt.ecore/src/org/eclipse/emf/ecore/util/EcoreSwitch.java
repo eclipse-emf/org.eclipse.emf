@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: EcoreSwitch.java,v 1.2 2010/04/28 20:39:42 khussey Exp $
+ * $Id: EcoreSwitch.java,v 1.3 2011/01/20 01:10:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
 
-import java.util.List;
 import java.util.Map;
 import org.eclipse.emf.ecore.*;
 
@@ -36,7 +35,7 @@ import org.eclipse.emf.ecore.*;
  * @see org.eclipse.emf.ecore.EcorePackage
  * @generated
  */
-public class EcoreSwitch<T>
+public class EcoreSwitch<T> extends Switch<T>
 {
   /**
    * The cached model package
@@ -61,15 +60,17 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * Checks whether this is a switch for the given package.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @parameter ePackage the package in question.
+   * @return whether this is a switch for the given package.
    * @generated
    */
-  public T doSwitch(EObject theEObject)
+  @Override
+  protected boolean isSwitchFor(EPackage ePackage)
   {
-    return doSwitch(theEObject.eClass(), theEObject);
+    return ePackage == modelPackage;
   }
 
   /**
@@ -79,29 +80,7 @@ public class EcoreSwitch<T>
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected T doSwitch(EClass theEClass, EObject theEObject)
-  {
-    if (theEClass.eContainer() == modelPackage)
-    {
-      return doSwitch(theEClass.getClassifierID(), theEObject);
-    }
-    else
-    {
-      List<EClass> eSuperTypes = theEClass.getESuperTypes();
-      return
-        eSuperTypes.isEmpty() ?
-          defaultCase(theEObject) :
-          doSwitch(eSuperTypes.get(0), theEObject);
-    }
-  }
-
-  /**
-   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the first non-null result returned by a <code>caseXXX</code> call.
-   * @generated
-   */
+  @Override
   protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
@@ -422,6 +401,7 @@ public class EcoreSwitch<T>
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
+  @Override
   public T defaultCase(EObject object)
   {
     return null;

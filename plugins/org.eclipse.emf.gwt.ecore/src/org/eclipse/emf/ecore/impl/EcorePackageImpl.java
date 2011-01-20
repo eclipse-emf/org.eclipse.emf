@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.4 2010/12/12 20:29:37 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.5 2011/01/20 01:10:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1119,7 +1119,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public static class WhiteList implements IsSerializable, URIService.WhiteList
+  public static class WhiteList implements IsSerializable
   {
     protected IOException ioException;
 
@@ -3572,7 +3572,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
 
     op = initEOperation(getEObject__EInvoke__EOperation_EList(), this.getEJavaObject(), "eInvoke", 0, 1, IS_UNIQUE, IS_ORDERED);
     addEParameter(op, this.getEOperation(), "operation", 0, 1, IS_UNIQUE, IS_ORDERED);
-    g1 = createEGenericType(ecorePackage.getEEList());
+    g1 = createEGenericType(this.getEEList());
     g2 = createEGenericType();
     g1.getETypeArguments().add(g2);
     addEParameter(op, g1, "arguments", 0, 1, IS_UNIQUE, IS_ORDERED);
