@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLModelWizard.java,v 1.9 2008/04/27 20:55:17 davidms Exp $
+ * $Id: Ecore2XMLModelWizard.java,v 1.10 2011/01/20 01:09:46 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -90,6 +90,7 @@ import org.eclipse.emf.mapping.ecore2xml.ui.Ecore2XMLUIPlugin;
 
 import org.eclipse.core.runtime.Path;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 
@@ -314,7 +315,9 @@ public class Ecore2XMLModelWizard extends Wizard implements INewWizard
       {
         page.openEditor
           (new FileEditorInput(modelFile),
-           workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());
+           workbench.getEditorRegistry().getDefaultEditor
+           	(modelFile.getFullPath().toString(),
+           	 Platform.getContentTypeManager().getContentType(Ecore2XMLPackage.eCONTENT_TYPE)).getId());					 	 
       }
       catch (PartInitException exception)
       {
