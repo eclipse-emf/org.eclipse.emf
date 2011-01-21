@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.41 2009/11/16 19:27:13 khussey Exp $
+ * $Id: EPackageImpl.java,v 1.42 2011/01/21 05:14:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1828,5 +1828,15 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   {
     EObject result = getEClassifierGen(uriFragmentSegment);
     return result != null ? result : super.eObjectForURIFragmentSegment(uriFragmentSegment);
+  }
+
+  /**
+   * This interface is provided as a place holder for single sourcing GWT runtime and regular runtime applications.
+   * Generated WhiteList classes in generated packages will implement this, but that's pointless in the regular runtime, though we want it to compile correctly.
+   * @since 2.7
+   */
+  protected static interface EBasicWhiteList
+  {
+    // This is a dummy placeholder class.
   }
 }
