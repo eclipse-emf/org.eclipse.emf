@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.20 2009/04/06 12:07:12 emerks Exp $
+ * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.21 2011/01/21 01:31:43 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -254,6 +254,13 @@ public class XSDAttributeGroupDefinitionImpl
         handleNewResolvedAttributeGroupDefinition(newResolvedAttributeGroupDefinition);
       }
     }
+  }
+
+  @Override
+  protected void traverseToRootForAnalysis()
+  {
+    analysisState = UNANALYZED;
+    super.traverseToRootForAnalysis();
   }
 
   @Override

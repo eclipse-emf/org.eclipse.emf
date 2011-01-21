@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.37 2010/03/19 16:45:38 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.38 2011/01/21 01:31:43 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -769,6 +769,13 @@ public class XSDSimpleTypeDefinitionImpl
       }
       setListContentAndOrder(getFinal(), newFinal);
     }
+  }
+
+  @Override
+  protected void traverseToRootForAnalysis()
+  {
+    analysisState = UNANALYZED;
+    super.traverseToRootForAnalysis();
   }
 
   protected XSDWhiteSpaceFacet effectiveWhiteSpaceFacet;

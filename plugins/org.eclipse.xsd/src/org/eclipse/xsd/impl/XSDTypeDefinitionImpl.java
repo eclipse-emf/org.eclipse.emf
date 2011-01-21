@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTypeDefinitionImpl.java,v 1.12 2007/02/20 17:42:20 emerks Exp $
+ * $Id: XSDTypeDefinitionImpl.java,v 1.13 2011/01/21 01:31:42 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -245,6 +245,13 @@ public abstract class XSDTypeDefinitionImpl
   {
     analysisState = UNANALYZED;
     super.patch();
+  }
+
+  @Override
+  protected void traverseToRootForAnalysis()
+  {
+    analysisState = UNANALYZED;
+    super.traverseToRootForAnalysis();
   }
 
   @Override

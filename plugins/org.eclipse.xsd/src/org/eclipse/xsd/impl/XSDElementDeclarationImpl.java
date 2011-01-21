@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.31 2008/12/22 14:25:47 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.32 2011/01/21 01:31:42 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -654,6 +654,13 @@ public class XSDElementDeclarationImpl
         setResolvedElementDeclaration(newResolvedElementDeclaration);
       }
     }
+  }
+
+  @Override
+  protected void traverseToRootForAnalysis()
+  {
+    analysisState = UNANALYZED;
+    super.traverseToRootForAnalysis();
   }
 
   @Override

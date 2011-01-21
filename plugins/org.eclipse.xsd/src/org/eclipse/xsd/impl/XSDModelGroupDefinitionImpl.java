@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupDefinitionImpl.java,v 1.18 2008/12/22 14:25:48 emerks Exp $
+ * $Id: XSDModelGroupDefinitionImpl.java,v 1.19 2011/01/21 01:31:43 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -193,6 +193,13 @@ public class XSDModelGroupDefinitionImpl
         handleNewResolvedModelGroupDefinition(newResolvedModelGroupDefinition);
       }
     }
+  }
+
+  @Override
+  protected void traverseToRootForAnalysis()
+  {
+    analysisState = UNANALYZED;
+    super.traverseToRootForAnalysis();
   }
 
   @Override

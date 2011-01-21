@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.30 2009/03/14 16:26:47 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.31 2011/01/21 01:31:43 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1175,6 +1175,13 @@ public class XSDComplexTypeDefinitionImpl
       }
       setListContentAndOrder(getProhibitedSubstitutions(), newProhibitedSubstitutions);
     }
+  }
+
+  @Override
+  protected void traverseToRootForAnalysis()
+  {
+    analysisState = UNANALYZED;
+    super.traverseToRootForAnalysis();
   }
 
   protected XSDParticle extensionParticle;
