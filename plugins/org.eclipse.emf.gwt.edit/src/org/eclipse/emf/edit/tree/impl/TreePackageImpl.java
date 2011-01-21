@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreePackageImpl.java,v 1.3 2010/05/17 13:17:43 emerks Exp $
+ * $Id: TreePackageImpl.java,v 1.4 2011/01/21 05:14:32 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
@@ -140,7 +140,7 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public static class WhiteList implements IsSerializable
+  public static class WhiteList implements IsSerializable, EBasicWhiteList
   {
     /**
      * <!-- begin-user-doc -->
