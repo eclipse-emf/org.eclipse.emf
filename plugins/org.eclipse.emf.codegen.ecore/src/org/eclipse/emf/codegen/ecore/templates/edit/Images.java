@@ -81,7 +81,7 @@ public class Images
     stringBuffer.append(TEXT_12);
     stringBuffer.append(genModel.getImportedName("com.google.gwt.resources.client.ImageResource"));
     stringBuffer.append(TEXT_13);
-    stringBuffer.append(genClass.getSafeUncapName());
+    stringBuffer.append(genClass.getItemIconAccessorName());
     stringBuffer.append(TEXT_14);
     }
     }

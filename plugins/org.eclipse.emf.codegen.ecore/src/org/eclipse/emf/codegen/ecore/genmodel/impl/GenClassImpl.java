@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.109 2010/09/08 01:20:59 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.110 2011/01/21 07:19:09 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -21,11 +21,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
@@ -1977,6 +1979,33 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     {
       return genModel.getEditIconsDirectory() + "/full/obj16/" + getName() + ".gif";
     }
+  }
+  
+  private static final Set<String> OBJECT_METHODS = 
+    new HashSet<String>()
+    {
+      private static final long serialVersionUID = 1L;
+
+      {
+        this.add("clone");
+        this.add("getClass");
+        this.add("hashCode");
+        this.add("finalize");
+        this.add("notify");
+        this.add("notifyAll");
+        this.add("toString");
+        this.add("wait");
+      }
+    };
+
+  public String getItemIconAccessorName()
+  {
+    String result = safeName(getUncapName());
+    if (OBJECT_METHODS.contains(result))
+    {
+      result += "_";
+    }
+    return result;
   }
 
   public String getCreateChildIconFileName(GenFeature feature, GenClass childClass)

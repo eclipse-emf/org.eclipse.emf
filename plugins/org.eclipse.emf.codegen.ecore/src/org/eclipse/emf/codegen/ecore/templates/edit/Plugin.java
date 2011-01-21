@@ -300,7 +300,7 @@ public class Plugin
     stringBuffer.append(TEXT_79);
     stringBuffer.append(image);
     stringBuffer.append(TEXT_80);
-    stringBuffer.append(genClass.getSafeUncapName());
+    stringBuffer.append(genClass.getItemIconAccessorName());
     stringBuffer.append(TEXT_81);
     }
     }

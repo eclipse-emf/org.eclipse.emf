@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.35 2009/11/16 19:26:45 khussey Exp $
+ * $Id: GenClass.java,v 1.36 2011/01/21 07:19:08 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -445,6 +445,10 @@ public interface GenClass extends GenClassifier
    */
   String getCreateChildIconFileName(GenModel genModel, GenFeature feature, GenClass childClass);
   String getCreateChildIconFileName(GenFeature feature, GenClass childClass);
+  /**
+   * @since 2.7
+   */
+  String getItemIconAccessorName();
 
   /**
    * @since 2.4

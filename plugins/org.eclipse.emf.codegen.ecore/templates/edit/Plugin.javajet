@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Plugin" version="$Id: Plugin.javajet,v 1.12 2010/08/24 16:59:37 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Plugin" version="$Id: Plugin.javajet,v 1.13 2011/01/21 07:19:09 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -220,7 +220,7 @@ public final class <%=genModel.getEditPluginClassName()%> extends EMFPlugin
 <%first = true; for (GenPackage genPackage : genModel.getAllGenAndUsedGenPackagesWithClassifiers()) {%>
   <%for (GenClass genClass : genPackage.getGenClasses()) {%>
     <%if (genClass.isImage()) { String image = genClass.getItemIconFileName(); image = image.substring(image.lastIndexOf("/icons/") + 7, image.length() - 4); %>
-		<%if (first) { first = false; } else {%>else <%}%>if ("<%=image%>".equals(key)) return IMAGES.<%=genClass.getSafeUncapName()%>();
+		<%if (first) { first = false; } else {%>else <%}%>if ("<%=image%>".equals(key)) return IMAGES.<%=genClass.getItemIconAccessorName()%>();
     <%}%>
   <%}%>
 <%}%>

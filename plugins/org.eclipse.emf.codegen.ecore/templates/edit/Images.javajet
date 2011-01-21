@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Images" version="$Id: Images.javajet,v 1.1 2010/04/28 14:50:50 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Images" version="$Id: Images.javajet,v 1.2 2011/01/21 07:19:08 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -37,7 +37,7 @@ public interface <%=genModel.getEditPluginClassName()%>Images extends <%=genMode
 	 * @generated
 	 */
 	@Source("<%=image%>")
-	<%=genModel.getImportedName("com.google.gwt.resources.client.ImageResource")%> <%=genClass.getSafeUncapName()%>();
+	<%=genModel.getImportedName("com.google.gwt.resources.client.ImageResource")%> <%=genClass.getItemIconAccessorName()%>();
 
     <%}%>
   <%}%>
