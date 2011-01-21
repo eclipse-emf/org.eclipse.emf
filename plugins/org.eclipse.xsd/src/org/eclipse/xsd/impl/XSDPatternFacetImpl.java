@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPatternFacetImpl.java,v 1.17 2008/12/22 14:25:47 emerks Exp $
+ * $Id: XSDPatternFacetImpl.java,v 1.18 2011/01/21 01:33:20 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -214,7 +214,7 @@ public class XSDPatternFacetImpl
   {
     if (patterns == null || withDiagnostics)
     {
-      patterns = new ArrayList<RegularExpression>();
+      ArrayList<RegularExpression> result = new ArrayList<RegularExpression>();
       Collection<String> theValues = getValue();
       if (theValues.isEmpty())
       {
@@ -230,7 +230,7 @@ public class XSDPatternFacetImpl
         {
           try
           {
-            patterns.add(new RegularExpression(value, "X"));
+            result.add(new RegularExpression(value, "X"));
           }
           catch (ParseException parseException)
           {
@@ -241,6 +241,7 @@ public class XSDPatternFacetImpl
           }
         }
       }
+      patterns = result;
     }
     return patterns;
   }
