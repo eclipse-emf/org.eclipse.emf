@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.50 2010/05/17 13:12:09 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.51 2011/01/21 05:14:26 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -31,6 +31,7 @@ package <%=genPackage.getReflectionPackageName()%>;
 <%if (isImplementation) {%>
 <%genModel.addPseudoImport("org.eclipse.emf.ecore.EPackage.Registry");%>
 <%genModel.addPseudoImport("org.eclipse.emf.ecore.EPackage.Descriptor");%>
+<%genModel.addPseudoImport("org.eclipse.emf.ecore.impl.EPackageImpl.EBasicWhiteList");%>
 <%genModel.addPseudoImport("org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container");%>
 <%genModel.addPseudoImport("org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container.Dynamic");%>
   <%if (genPackage.isLiteralsInterface()) {%>
@@ -423,7 +424,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static class WhiteList implements <%=genModel.getImportedName("com.google.gwt.user.client.rpc.IsSerializable")%>
+	public static class WhiteList implements <%=genModel.getImportedName("com.google.gwt.user.client.rpc.IsSerializable")%>, EBasicWhiteList
 	{
     <%for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {%>
       <%if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;%>
