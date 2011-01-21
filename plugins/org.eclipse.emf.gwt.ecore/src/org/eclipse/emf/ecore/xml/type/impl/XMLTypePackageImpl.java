@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackageImpl.java,v 1.3 2011/01/20 01:10:14 emerks Exp $
+ * $Id: XMLTypePackageImpl.java,v 1.4 2011/01/21 05:14:21 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -1282,7 +1282,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public static class WhiteList implements IsSerializable
+  public static class WhiteList implements IsSerializable, EBasicWhiteList
   {
     /**
      * <!-- begin-user-doc -->

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackageImpl.java,v 1.3 2011/01/20 01:10:14 emerks Exp $
+ * $Id: XMLNamespacePackageImpl.java,v 1.4 2011/01/21 05:14:21 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -241,7 +241,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
-  public static class WhiteList implements IsSerializable
+  public static class WhiteList implements IsSerializable, EBasicWhiteList
   {
     /**
      * <!-- begin-user-doc -->

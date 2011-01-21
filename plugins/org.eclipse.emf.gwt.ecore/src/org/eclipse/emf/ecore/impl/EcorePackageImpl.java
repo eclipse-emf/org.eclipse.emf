@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.5 2011/01/20 01:10:14 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.6 2011/01/21 05:14:21 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -55,7 +55,6 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.URIService;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.util.FeatureMap;
 
@@ -1119,7 +1118,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public static class WhiteList implements IsSerializable
+  public static class WhiteList implements IsSerializable, EBasicWhiteList
   {
     protected IOException ioException;
 

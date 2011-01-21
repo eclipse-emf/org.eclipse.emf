@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.3 2010/12/12 20:29:37 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.4 2011/01/21 05:14:21 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -51,6 +51,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.URIService;
 import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
@@ -1835,5 +1836,16 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   {
     EObject result = getEClassifierGen(uriFragmentSegment);
     return result != null ? result : super.eObjectForURIFragmentSegment(uriFragmentSegment);
+  }
+
+  /**
+   * This interface is provided to support single sourcing GWT runtime and regular runtime applications.
+   * Generated WhiteList classes in generated packages will implement this and this extends the {@link URIService.WhiteList white list used in URI service}.
+   * This avoids having generated classes depend on classes not available in the regular runtime.
+   * @since 2.7
+   */
+  protected static interface EBasicWhiteList extends URIService.WhiteList
+  {
+    // This is a dummy placeholder class.
   }
 }
