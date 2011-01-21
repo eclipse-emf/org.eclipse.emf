@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackageImpl.java,v 1.3 2010/05/17 13:17:52 emerks Exp $
+ * $Id: ChangePackageImpl.java,v 1.4 2011/01/21 05:14:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -320,7 +320,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public static class WhiteList implements IsSerializable
+  public static class WhiteList implements IsSerializable, EBasicWhiteList
   {
     /**
      * <!-- begin-user-doc -->
