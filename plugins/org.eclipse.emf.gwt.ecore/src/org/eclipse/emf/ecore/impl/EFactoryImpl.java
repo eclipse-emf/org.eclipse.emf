@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.3 2010/05/21 15:20:09 khussey Exp $
+ * $Id: EFactoryImpl.java,v 1.4 2011/01/24 23:34:16 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -736,27 +736,50 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     return value.split("[ \t\n\r\f]");
   }
 
-  protected static final DateTimeFormat [] EDATE_FORMATS;
+  public interface InternalEDateTimeFormat
+  {
+    Date parse(String value);
+    String format(Date value);
+  }
+
+  public static InternalEDateTimeFormat [] EDATE_FORMATS;
+
   static 
   {
-    DateTimeFormat[] result;
+    // This only works on the client.
+    //
     try
     {
-      result=
-        new DateTimeFormat[] 
+      class ClientInternalEDateTimeFormat implements InternalEDateTimeFormat
+      {
+        DateTimeFormat dateTimeFormat;
+        ClientInternalEDateTimeFormat(DateTimeFormat dateTimeFormat)
         {
-          DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSSZ"),
-          DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS"),
-          DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm:ss"),
-          DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm"),
-          DateTimeFormat.getFormat("yyyy-MM-dd")
-         };
+          this.dateTimeFormat = dateTimeFormat;
+        }
+
+        public Date parse(String value)
+        {
+          return dateTimeFormat.parse(value);
+        }
+        public String format(Date value)
+        {
+          return dateTimeFormat.format(value);
+        }
+      }
+      EDATE_FORMATS =
+        new InternalEDateTimeFormat[] 
+        {
+          new ClientInternalEDateTimeFormat(DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSSZ")),
+          new ClientInternalEDateTimeFormat(DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS")),
+          new ClientInternalEDateTimeFormat(DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm:ss")),
+          new ClientInternalEDateTimeFormat(DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm")),
+          new ClientInternalEDateTimeFormat(DateTimeFormat.getFormat("yyyy-MM-dd"))
+        };
     }
     catch (Throwable exception)
     {
-      result = new DateTimeFormat[0];
+      // Ignore.
     }
-    EDATE_FORMATS = result;
   }
-
 }

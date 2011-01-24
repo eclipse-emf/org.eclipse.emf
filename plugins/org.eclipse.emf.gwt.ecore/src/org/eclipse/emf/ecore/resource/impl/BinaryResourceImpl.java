@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceImpl.java,v 1.4 2010/12/12 20:29:38 emerks Exp $
+ * $Id: BinaryResourceImpl.java,v 1.5 2011/01/24 23:34:17 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -45,13 +45,80 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 
 /**
- * PROVISIONAL API for efficiently producing and consuming a compact binary serialization.
- * Absolutely any and all aspects of this design are likely to change arbitrarily.
- * It might not be wise to use this format for long term persistence while the API is provisional.
+ * An API for efficiently producing and consuming a compact binary serialization that's suitable for long term storage.
  * @since 2.4
  */
 public class BinaryResourceImpl extends ResourceImpl
 {
+  /**
+   * A save option to specify the {@link Version} to be used for the serialization.
+   * @see Version
+   * @since 2.7
+   */
+  public static final String OPTION_VERSION = "VERSION";
+
+  /**
+   * A Boolean save option to specify whether float and double values
+   * are encoded using {@link Float#floatToIntBits(float)} and {@link Double#doubleToLongBits(double)} respectively,
+   * rather than a string representation.
+   * The default is false because GWT's client doesn't support this method.
+   * This style option is only supported for serializations with {@link Version#VERSION_1_1 version 1.1} or higher.
+   * @since 2.7
+   */
+  public static final String OPTION_STYLE_BINARY_FLOATING_POINT = "STYLE_BINARY_FLOATING_POINT ";
+
+  /**
+   * A Boolean save option to specify whether {@link Date date} values will be serialized using {@link Date#getTime()} rather than a string representation.
+   * This style option is only supported for serializations with {@link Version#VERSION_1_1 version 1.1} or higher.
+   * The default is false.
+   * @since 2.7
+   */
+  public static final String OPTION_STYLE_BINARY_DATE = "STYLE_BINARY_DATE";
+
+  /**
+   * A Boolean save option to specify whether serialized proxies will include the serialization of their attribute values.
+   * This style option is only supported for serializations with {@link Version#VERSION_1_1 version 1.1} or higher.
+   * The default is false.
+   * @since 2.7
+   */
+  public static final String OPTION_STYLE_PROXY_ATTRIBUTES = "STYLE_PROXY_ATTRIBUTES";
+
+  /**
+   * Specify the capacity of the buffered stream
+   * used when {@link #doSave(OutputStream, Map) saving} or {@link #doLoad(InputStream, Map) loading} the resource content.
+   * The value must be an integer.
+   * If not specified, {@link #DEFAULT_BUFFER_CAPACITY} is used.
+   * A value less than one disables the cache.
+   * @since 2.6
+   */
+  public static final String OPTION_BUFFER_CAPACITY = "BUFFER_CAPACITY";
+
+  /**
+   * The default {@link #OPTION_BUFFER_CAPACITY} capacity of the buffered stream
+   * used when {@link #doSave(OutputStream, Map) saving} or {@link #doLoad(InputStream, Map) loading} the resource content.
+   * @since 2.6
+   */
+  public static final int DEFAULT_BUFFER_CAPACITY = 1024;
+
+  /**
+   * Extract the {@link #OPTION_BUFFER_CAPACITY} from the options.
+   * @param options a map of options.
+   * @return the value associated with the {@link #OPTION_BUFFER_CAPACITY} key in the options map.
+   * @since 2.6
+   */
+  protected static int getBufferCapacity(Map<?, ?> options)
+  {
+    if (options != null)
+    {
+      Integer capacity = (Integer)options.get(OPTION_BUFFER_CAPACITY);
+      if (capacity != null)
+      {
+        return capacity;
+      }
+    }
+    return DEFAULT_BUFFER_CAPACITY;
+  }
+
   public BinaryResourceImpl()
   {
     super();
@@ -82,18 +149,58 @@ public class BinaryResourceImpl extends ResourceImpl
     {
       VERSION_1_0,
       /**
-       * TODO
+       * @since 2.7
        */
       VERSION_1_1
     }
 
+    /**
+     * @since 2.7
+     */
+    public static final int STYLE_BINARY_FLOATING_POINT = 0x1;
+
+    /**
+     * @since 2.7
+     */
+    public static final int STYLE_BINARY_DATE = 0x2;
+
+    /**
+     * @since 2.7
+     */
+    public static final int STYLE_PROXY_ATTRIBUTES = 0x4;
+
     protected Version version;
+    /**
+     * @since 2.7
+     */
+    protected int style;
     protected Resource resource;
     protected URI baseURI;
     protected Map<?, ?> options;
     protected char[] characters;
     protected InternalEObject[][] internalEObjectDataArrayBuffer = new InternalEObject[50][];
     protected int internalEObjectDataArrayBufferCount = -1;
+
+    protected static int getStyle(Map<?, ?> options)
+    {
+      int result = 0;
+      if (options != null)
+      {
+        if (Boolean.TRUE.equals(options.get(OPTION_STYLE_BINARY_FLOATING_POINT)))
+        {
+          result |= STYLE_BINARY_FLOATING_POINT;
+        }
+        if (Boolean.TRUE.equals(options.get(OPTION_STYLE_BINARY_DATE)))
+        {
+          result |= STYLE_BINARY_DATE;
+        }
+        if (Boolean.TRUE.equals(options.get(OPTION_STYLE_PROXY_ATTRIBUTES)))
+        {
+          result |= STYLE_PROXY_ATTRIBUTES;
+        }
+      }
+      return result;
+    }
 
     protected URI resolve(URI uri)
     {
@@ -194,7 +301,7 @@ public class BinaryResourceImpl extends ResourceImpl
       STRING,
 
       /**
-       * TODO
+       * @since 2.7
        */
       DATE,
 
@@ -369,6 +476,9 @@ public class BinaryResourceImpl extends ResourceImpl
     {
       public String name;
       public boolean isTransient;
+      /**
+       * @since 2.7
+       */
       public boolean isProxyTransient;
       public FeatureKind kind;
       public EFactory eFactory;
@@ -383,16 +493,29 @@ public class BinaryResourceImpl extends ResourceImpl
 
     public EObjectOutputStream(OutputStream outputStream, Map<?, ?> options) throws IOException
     {
-      this(outputStream, options, Version.VERSION_1_1);
+      this(outputStream, options, options != null && options.containsKey(OPTION_VERSION)? (Version)options.get(OPTION_VERSION) : Version.VERSION_1_1);
     }
 
     public EObjectOutputStream(OutputStream outputStream, Map<?, ?> options, Version version) throws IOException
     {
+      this(outputStream, options, version, version.ordinal() > 0 ? getStyle(options) : STYLE_BINARY_FLOATING_POINT);
+    }
+
+    /**
+     * @since 2.7
+     */
+    public EObjectOutputStream(OutputStream outputStream, Map<?, ?> options, Version version, int style) throws IOException
+    {
       this.outputStream = outputStream;
       this.options = options;
       this.version = version;
+      this.style = style;
       writeSignature();
       writeVersion();
+      if (version.ordinal() > 0)
+      {
+        writeStyle();
+      }
     }
 
     protected void writeSignature() throws IOException
@@ -414,6 +537,14 @@ public class BinaryResourceImpl extends ResourceImpl
     protected void writeVersion() throws IOException
     {
       writeByte(version.ordinal());
+    }
+
+    /**
+     * @since 2.7
+     */
+    protected void writeStyle() throws IOException
+    {
+      writeInt(style);
     }
 
     protected EPackageData writeEPackage(EPackage ePackage) throws IOException
@@ -609,8 +740,12 @@ public class BinaryResourceImpl extends ResourceImpl
         }
         case DATE:
         {
-          writeDate((Date)value);
-          break;
+          if ((style & STYLE_BINARY_DATE) != 0)
+          {
+            writeDate((Date)value);
+             break;
+          }
+          // continue to the next case
         }
         case DATA:
         case DATA_LIST:
@@ -666,7 +801,6 @@ public class BinaryResourceImpl extends ResourceImpl
                 {
                   return;
                 }
-                checkIsTransientProxy = true;
               }
               break;
             }
@@ -691,7 +825,6 @@ public class BinaryResourceImpl extends ResourceImpl
                 {
                   return;
                 }
-                checkIsTransientProxy = true;
               }
               break;
             }
@@ -822,16 +955,20 @@ public class BinaryResourceImpl extends ResourceImpl
             writeString((String)value);
             break;
           }
-          case DATE:
-          {
-            writeDate((Date)value);
-            break;
-          }
           case FEATURE_MAP:
           {
             FeatureMap.Internal featureMap = (FeatureMap.Internal)value;
             saveFeatureMap(featureMap);
             break;
+          }
+          case DATE:
+          {
+            if ((style & STYLE_BINARY_DATE) != 0)
+            {
+              writeDate((Date)value);
+               break;
+            }
+            // continue to the next case
           }
           case DATA:
           {
@@ -897,12 +1034,26 @@ public class BinaryResourceImpl extends ResourceImpl
 
     public void writeFloat(float value) throws IOException
     {
-      writeString(Float.toString(value));
+      if ((style & STYLE_BINARY_FLOATING_POINT) != 0)
+      {
+        throw new IOException("Binary serialization of floats is not supported for GWT");
+      }
+      else
+      {
+        writeString(Float.toString(value));
+      }
     }
 
     public void writeDouble(double value) throws IOException
     {
-      writeString(Double.toString(value));
+      if ((style & STYLE_BINARY_FLOATING_POINT) != 0)
+      {
+        throw new IOException("Binary serialization of floats is not supported for GWT");
+      }
+      else
+      {
+        writeString(Double.toString(value));
+      }
     }
 
     public void writeCompressedInt(int value) throws IOException
@@ -1072,6 +1223,10 @@ public class BinaryResourceImpl extends ResourceImpl
       this.options = options;
       readSignature();
       readVersion();
+      if (version.ordinal() > 0)
+      {
+        readStyle();
+      }
     }
 
     protected void readSignature() throws IOException
@@ -1092,6 +1247,11 @@ public class BinaryResourceImpl extends ResourceImpl
     protected void readVersion() throws IOException
     {
       version = Version.values()[readByte()];
+    }
+
+    protected void readStyle() throws IOException
+    {
+      style = readInt();
     }
 
     protected int[][] intDataArrayBuffer = new int[50][];
@@ -1387,10 +1547,15 @@ public class BinaryResourceImpl extends ResourceImpl
         }
         case DATE:
         {
-          value = readDate();
-          break;
+          if ((style & STYLE_BINARY_DATE) != 0)
+          {
+            value = readDate();
+            break;
+          }
+          // continue to next case
         }
         case DATA:
+        case DATA_LIST:
         {
           String literal = readString();
           value = eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, literal);
@@ -1517,16 +1682,20 @@ public class BinaryResourceImpl extends ResourceImpl
           internalEObject.eSet(eStructuralFeatureData.featureID, readString());
           break;
         }
-        case DATE:
-        {
-          internalEObject.eSet(eStructuralFeatureData.featureID, readDate());
-          break;
-        }
         case FEATURE_MAP:
         {
           FeatureMap.Internal featureMap = (FeatureMap.Internal)internalEObject.eGet(eStructuralFeatureData.featureID, false, true);
           loadFeatureMap(featureMap);
           break;
+        }
+        case DATE:
+        {
+          if ((style & STYLE_BINARY_DATE) != 0)
+          {
+            internalEObject.eSet(eStructuralFeatureData.featureID, readDate());
+            break;
+          }
+          // continue to next case
         }
         case DATA:
         {
@@ -1634,12 +1803,26 @@ public class BinaryResourceImpl extends ResourceImpl
 
     public float readFloat() throws IOException
     {
-      return Float.parseFloat(readString());
+      if ((style & STYLE_BINARY_FLOATING_POINT) != 0)
+      {
+        throw new IOException("Binary deserialization of floats is not supported for GWT");
+      }
+      else
+      {
+        return Float.parseFloat(readString());
+      }
     }
 
     public double readDouble() throws IOException
     {
-      return Double.parseDouble(readString());
+      if ((style & STYLE_BINARY_FLOATING_POINT) != 0)
+      {
+        throw new IOException("Binary deserialization of floats is not supported for GWT");
+      }
+      else
+      {
+        return Double.parseDouble(readString());
+      }
     }
 
     public int readCompressedInt() throws IOException

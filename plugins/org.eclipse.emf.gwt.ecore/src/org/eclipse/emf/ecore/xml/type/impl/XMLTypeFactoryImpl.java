@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.2 2010/04/28 20:40:04 khussey Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.3 2011/01/24 23:34:17 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -30,8 +30,6 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.xml.type.*;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue.Base64;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue.HexBin;
-
-import com.google.gwt.i18n.client.DateTimeFormat;
 
 /**
  * <!-- begin-user-doc -->
@@ -1237,6 +1235,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     return new XMLTypeFactoryImpl();
   }
 
+  /*
   protected static final DateTimeFormat [] EDATE_FORMATS;
   static 
   {
@@ -1256,6 +1255,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     }
     EDATE_FORMATS = result;
   }
+  */
 
   /**
    * Creates an instance of the factory.
