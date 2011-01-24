@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceImpl.java,v 1.10 2010/06/14 15:32:41 emerks Exp $
+ * $Id: BinaryResourceImpl.java,v 1.11 2011/01/24 23:34:18 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,26 +47,57 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 
 /**
- * PROVISIONAL API for efficiently producing and consuming a compact binary serialization.
- * Absolutely any and all aspects of this design are likely to change arbitrarily.
- * It might not be wise to use this format for long term persistence while the API is provisional.
+ * An API for efficiently producing and consuming a compact binary serialization that's suitable for long term storage.
  * @since 2.4
  */
 public class BinaryResourceImpl extends ResourceImpl
 {
   /**
-   * Specify the capacity of the buffered stream 
-   * used when {@link #doSave(OutputStream, Map) saving} or {@link #doLoad(InputStream, Map) loading} the resource content. 
+   * A save option to specify the {@link Version} to be used for the serialization.
+   * @see Version
+   * @since 2.7
+   */
+  public static final String OPTION_VERSION = "VERSION";
+
+  /**
+   * A Boolean save option to specify whether float and double values
+   * are encoded using {@link Float#floatToIntBits(float)} and {@link Double#doubleToLongBits(double)} respectively,
+   * rather than a string representation.
+   * The default is true.
+   * This style option is only supported for serializations with {@link Version#VERSION_1_1 version 1.1} or higher.
+   * @since 2.7
+   */
+  public static final String OPTION_STYLE_BINARY_FLOATING_POINT = "STYLE_BINARY_FLOATING_POINT ";
+
+  /**
+   * A Boolean save option to specify whether {@link Date date} values will be serialized using {@link Date#getTime()} rather than a string representation.
+   * This style option is only supported for serializations with {@link Version#VERSION_1_1 version 1.1} or higher.
+   * The default is false.
+   * @since 2.7
+   */
+  public static final String OPTION_STYLE_BINARY_DATE = "STYLE_BINARY_DATE";
+
+  /**
+   * A Boolean save option to specify whether serialized proxies will include the serialization of their attribute values.
+   * This style option is only supported for serializations with {@link Version#VERSION_1_1 version 1.1} or higher.
+   * The default is false.
+   * @since 2.7
+   */
+  public static final String OPTION_STYLE_PROXY_ATTRIBUTES = "STYLE_PROXY_ATTRIBUTES";
+
+  /**
+   * Specify the capacity of the buffered stream
+   * used when {@link #doSave(OutputStream, Map) saving} or {@link #doLoad(InputStream, Map) loading} the resource content.
    * The value must be an integer.
-   * If not specified, {@link #DEFAULT_BUFFER_CAPACITY} is used. 
-   * A value less than one disables the cache. 
+   * If not specified, {@link #DEFAULT_BUFFER_CAPACITY} is used.
+   * A value less than one disables the cache.
    * @since 2.6
    */
   public static final String OPTION_BUFFER_CAPACITY = "BUFFER_CAPACITY";
 
   /**
    * The default {@link #OPTION_BUFFER_CAPACITY} capacity of the buffered stream
-   * used when {@link #doSave(OutputStream, Map) saving} or {@link #doLoad(InputStream, Map) loading} the resource content. 
+   * used when {@link #doSave(OutputStream, Map) saving} or {@link #doLoad(InputStream, Map) loading} the resource content.
    * @since 2.6
    */
   public static final int DEFAULT_BUFFER_CAPACITY = 1024;
@@ -150,16 +182,60 @@ public class BinaryResourceImpl extends ResourceImpl
   {
     public enum Version
     {
-      VERSION_1_0
+      VERSION_1_0,
+      /**
+       * @since 2.7
+       */
+      VERSION_1_1
     }
 
+    /**
+     * @since 2.7
+     */
+    public static final int STYLE_BINARY_FLOATING_POINT = 0x1;
+
+    /**
+     * @since 2.7
+     */
+    public static final int STYLE_BINARY_DATE = 0x2;
+
+    /**
+     * @since 2.7
+     */
+    public static final int STYLE_PROXY_ATTRIBUTES = 0x4;
+
     protected Version version;
+    /**
+     * @since 2.7
+     */
+    protected int style;
     protected Resource resource;
     protected URI baseURI;
     protected Map<?, ?> options;
     protected char[] characters;
     protected InternalEObject[][] internalEObjectDataArrayBuffer = new InternalEObject[50][];
     protected int internalEObjectDataArrayBufferCount = -1;
+
+    protected static int getStyle(Map<?, ?> options)
+    {
+      int result = STYLE_BINARY_FLOATING_POINT;
+      if (options != null)
+      {
+        if (Boolean.FALSE.equals(options.get(OPTION_STYLE_BINARY_FLOATING_POINT)))
+        {
+          result &= ~STYLE_BINARY_FLOATING_POINT;
+        }
+        if (Boolean.TRUE.equals(options.get(OPTION_STYLE_BINARY_DATE)))
+        {
+          result |= STYLE_BINARY_DATE;
+        }
+        if (Boolean.TRUE.equals(options.get(OPTION_STYLE_PROXY_ATTRIBUTES)))
+        {
+          result |= STYLE_PROXY_ATTRIBUTES;
+        }
+      }
+      return result;
+    }
 
     protected URI resolve(URI uri)
     {
@@ -258,6 +334,11 @@ public class BinaryResourceImpl extends ResourceImpl
       LONG,
       SHORT,
       STRING,
+
+      /**
+       * @since 2.7
+       */
+      DATE,
 
       DATA,
       DATA_LIST,
@@ -377,6 +458,10 @@ public class BinaryResourceImpl extends ResourceImpl
           {
             return SHORT;
           }
+          else if (instanceClassName == "java.util.Date")
+          {
+            return DATE;
+          }
           else
           {
             return DATA;
@@ -426,6 +511,10 @@ public class BinaryResourceImpl extends ResourceImpl
     {
       public String name;
       public boolean isTransient;
+      /**
+       * @since 2.7
+       */
+      public boolean isProxyTransient;
       public FeatureKind kind;
       public EFactory eFactory;
       public EDataType eDataType;
@@ -439,16 +528,29 @@ public class BinaryResourceImpl extends ResourceImpl
 
     public EObjectOutputStream(OutputStream outputStream, Map<?, ?> options) throws IOException
     {
-      this(outputStream, options, Version.VERSION_1_0);
+      this(outputStream, options, options != null && options.containsKey(OPTION_VERSION)? (Version)options.get(OPTION_VERSION) : Version.VERSION_1_0);
     }
 
     public EObjectOutputStream(OutputStream outputStream, Map<?, ?> options, Version version) throws IOException
     {
+      this(outputStream, options, version, version.ordinal() > 0 ? getStyle(options) : STYLE_BINARY_FLOATING_POINT);
+    }
+
+    /**
+     * @since 2.7
+     */
+    public EObjectOutputStream(OutputStream outputStream, Map<?, ?> options, Version version, int style) throws IOException
+    {
       this.outputStream = outputStream;
       this.options = options;
       this.version = version;
+      this.style = style;
       writeSignature();
       writeVersion();
+      if (version.ordinal() > 0)
+      {
+        writeStyle();
+      }
     }
 
     protected void writeSignature() throws IOException
@@ -470,6 +572,14 @@ public class BinaryResourceImpl extends ResourceImpl
     protected void writeVersion() throws IOException
     {
       writeByte(version.ordinal());
+    }
+
+    /**
+     * @since 2.7
+     */
+    protected void writeStyle() throws IOException
+    {
+      writeInt(style);
     }
 
     protected EPackageData writeEPackage(EPackage ePackage) throws IOException
@@ -518,6 +628,11 @@ public class BinaryResourceImpl extends ResourceImpl
             EDataType eDataType = eAttribute.getEAttributeType();
             eStructuralFeatureData.eDataType = eDataType;
             eStructuralFeatureData.eFactory = eDataType.getEPackage().getEFactoryInstance();
+            eStructuralFeatureData.isProxyTransient = eStructuralFeatureData.kind == FeatureKind.FEATURE_MAP;
+          }
+          else
+          {
+            eStructuralFeatureData.isProxyTransient = true;
           }
         }
         ePackageData.eClassData[eClassData.id] = eClassData;
@@ -658,6 +773,15 @@ public class BinaryResourceImpl extends ResourceImpl
           writeString((String)value);
           break;
         }
+        case DATE:
+        {
+          if ((style & STYLE_BINARY_DATE) != 0)
+          {
+            writeDate((Date)value);
+             break;
+          }
+          // continue to the next case
+        }
         case DATA:
         case DATA_LIST:
         {
@@ -688,6 +812,7 @@ public class BinaryResourceImpl extends ResourceImpl
           eObjectIDMap.put(internalEObject, idValue);
           EClass eClass = internalEObject.eClass();
           EClassData eClassData = writeEClass(eClass);
+          boolean checkIsTransientProxy = false;
           switch (check)
           {
             case DIRECT_RESOURCE:
@@ -697,13 +822,20 @@ public class BinaryResourceImpl extends ResourceImpl
               {
                 writeCompressedInt(-1);
                 writeURI(resource.getURI(), resource.getURIFragment(internalEObject));
-                return;
+                if (version == Version.VERSION_1_0)
+                {
+                  return;
+                }
+                checkIsTransientProxy = true;
               }
               else if (internalEObject.eIsProxy())
               {
                 writeCompressedInt(-1);
                 writeURI(internalEObject.eProxyURI());
-                return;
+                if (version == Version.VERSION_1_0)
+                {
+                  return;
+                }
               }
               break;
             }
@@ -714,13 +846,20 @@ public class BinaryResourceImpl extends ResourceImpl
               {
                 writeCompressedInt(-1);
                 writeURI(resource.getURI(), resource.getURIFragment(internalEObject));
-                return;
+                if (version == Version.VERSION_1_0)
+                {
+                  return;
+                }
+                checkIsTransientProxy = true;
               }
               else if (internalEObject.eIsProxy())
               {
                 writeCompressedInt(-1);
                 writeURI(internalEObject.eProxyURI());
-                return;
+                if (version == Version.VERSION_1_0)
+                {
+                  return;
+                }
               }
               break;
             }
@@ -735,7 +874,8 @@ public class BinaryResourceImpl extends ResourceImpl
           {
             EStructuralFeatureData structuralFeatureData = eStructuralFeatureData[i];
             if (!structuralFeatureData.isTransient &&
-                  (structuralFeatureData.kind != FeatureKind.EOBJECT_CONTAINER_PROXY_RESOLVING || check == Check.CONTAINER))
+                  (structuralFeatureData.kind != FeatureKind.EOBJECT_CONTAINER_PROXY_RESOLVING || check == Check.CONTAINER) &&
+                  (!checkIsTransientProxy || !structuralFeatureData.isProxyTransient))
             {
               saveFeatureValue(internalEObject, i, structuralFeatureData);
             }
@@ -856,6 +996,15 @@ public class BinaryResourceImpl extends ResourceImpl
             saveFeatureMap(featureMap);
             break;
           }
+          case DATE:
+          {
+            if ((style & STYLE_BINARY_DATE) != 0)
+            {
+              writeDate((Date)value);
+               break;
+            }
+            // continue to the next case
+          }
           case DATA:
           {
             String literal = eStructuralFeatureData.eFactory.convertToString(eStructuralFeatureData.eDataType, value);
@@ -920,12 +1069,26 @@ public class BinaryResourceImpl extends ResourceImpl
 
     public void writeFloat(float value) throws IOException
     {
-      writeInt(Float.floatToIntBits(value));
+      if ((style & STYLE_BINARY_FLOATING_POINT) != 0)
+      {
+        writeInt(Float.floatToIntBits(value));
+      }
+      else
+      {
+        writeString(Float.toString(value));
+      }
     }
 
     public void writeDouble(double value) throws IOException
     {
-      writeLong(Double.doubleToLongBits(value));
+      if ((style & STYLE_BINARY_FLOATING_POINT) != 0)
+      {
+        writeLong(Double.doubleToLongBits(value));
+      }
+      else
+      {
+        writeString(Double.toString(value));
+      }
     }
 
     public void writeCompressedInt(int value) throws IOException
@@ -1003,6 +1166,11 @@ public class BinaryResourceImpl extends ResourceImpl
           }
         }
       }
+    }
+
+    public void writeDate(Date date) throws IOException
+    {
+      writeLong(date.getTime());
     }
 
     public void writeURI(URI uri) throws IOException
@@ -1090,6 +1258,10 @@ public class BinaryResourceImpl extends ResourceImpl
       this.options = options;
       readSignature();
       readVersion();
+      if (version.ordinal() > 0)
+      {
+        readStyle();
+      }
     }
 
     protected void readSignature() throws IOException
@@ -1110,6 +1282,11 @@ public class BinaryResourceImpl extends ResourceImpl
     protected void readVersion() throws IOException
     {
       version = Version.values()[readByte()];
+    }
+
+    protected void readStyle() throws IOException
+    {
+      style = readInt();
     }
 
     protected int[][] intDataArrayBuffer = new int[50][];
@@ -1403,7 +1580,17 @@ public class BinaryResourceImpl extends ResourceImpl
           value = readString();
           break;
         }
+        case DATE:
+        {
+          if ((style & STYLE_BINARY_DATE) != 0)
+          {
+            value = readDate();
+            break;
+          }
+          // continue to next case
+        }
         case DATA:
+        case DATA_LIST:
         {
           String literal = readString();
           value = eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, literal);
@@ -1481,7 +1668,10 @@ public class BinaryResourceImpl extends ResourceImpl
             else if (featureID == -2)
             {
               internalEObject.eSetProxyURI(readURI());
-              break;
+              if (version == Version.VERSION_1_0)
+              {
+                break;
+              }
             }
             else
             {
@@ -1532,6 +1722,15 @@ public class BinaryResourceImpl extends ResourceImpl
           FeatureMap.Internal featureMap = (FeatureMap.Internal)internalEObject.eGet(eStructuralFeatureData.featureID, false, true);
           loadFeatureMap(featureMap);
           break;
+        }
+        case DATE:
+        {
+          if ((style & STYLE_BINARY_DATE) != 0)
+          {
+            internalEObject.eSet(eStructuralFeatureData.featureID, readDate());
+            break;
+          }
+          // continue to next case
         }
         case DATA:
         {
@@ -1639,12 +1838,26 @@ public class BinaryResourceImpl extends ResourceImpl
 
     public float readFloat() throws IOException
     {
-      return Float.intBitsToFloat(readInt());
+      if ((style & STYLE_BINARY_FLOATING_POINT) != 0)
+      {
+        return Float.intBitsToFloat(readInt());
+      }
+      else
+      {
+        return Float.parseFloat(readString());
+      }
     }
 
     public double readDouble() throws IOException
     {
-      return Double.longBitsToDouble(readLong());
+      if ((style & STYLE_BINARY_FLOATING_POINT) != 0)
+      {
+        return Double.longBitsToDouble(readLong());
+      }
+      else
+      {
+        return Double.parseDouble(readString());
+      }
     }
 
     public int readCompressedInt() throws IOException
@@ -1705,6 +1918,12 @@ public class BinaryResourceImpl extends ResourceImpl
         }
         return new String(characters, 0, length);
       }
+    }
+
+    public Date readDate() throws IOException
+    {
+      long time = readLong();
+      return new Date(time);
     }
 
     public URI readURI() throws IOException
