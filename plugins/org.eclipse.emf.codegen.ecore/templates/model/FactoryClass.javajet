@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.37 2010/07/20 22:12:52 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.38 2011/01/25 19:10:42 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -119,7 +119,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 		{
 			<%=genModel.getImportedName("org.eclipse.emf.ecore.plugin.EcorePlugin")%>.INSTANCE.log(exception);
 		}
-		return new <%=genPackage.getFactoryClassName()%>();
+		return new <%=genPackage.getImportedFactoryClassName()%>();
 	}
 
 	/**

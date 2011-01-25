@@ -597,7 +597,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_45);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.plugin.EcorePlugin"));
     stringBuffer.append(TEXT_46);
-    stringBuffer.append(genPackage.getFactoryClassName());
+    stringBuffer.append(genPackage.getImportedFactoryClassName());
     stringBuffer.append(TEXT_47);
     stringBuffer.append(genPackage.getFactoryClassName());
     stringBuffer.append(TEXT_48);
