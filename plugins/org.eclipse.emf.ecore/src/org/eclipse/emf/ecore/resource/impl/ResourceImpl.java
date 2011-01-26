@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.35 2010/03/16 14:41:10 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.36 2011/01/26 17:25:59 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -135,9 +135,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     }
     else
     {
-      Map<Object, Object> mergedMap = new HashMap<Object, Object>(map2);
-      mergedMap.putAll(map1);
-      return mergedMap;
+      return new ExtensibleURIConverterImpl.OptionsMap(map1, map2);
     }
   }
 
@@ -987,7 +985,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         response = new HashMap<Object, Object>();
       }
       URIConverter uriConverter = getURIConverter();
-      OutputStream outputStream = uriConverter.createOutputStream(getURI(), new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options));
+      OutputStream outputStream = uriConverter.createOutputStream(getURI(), new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options, defaultSaveOptions));
       try
       {
         save(outputStream, options);
@@ -999,6 +997,11 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         if (timeStamp != null)
         {
           setTimeStamp(timeStamp);
+        }
+        URI uri = (URI)response.get(URIConverter.RESPONSE_URI);
+        if (uri != null)
+        {
+          setURI(uri);
         }
       }
     }
@@ -1073,7 +1076,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         {
           response = new HashMap<Object, Object>();
         }
-        OutputStream newContents = uriConverter.createOutputStream(getURI(), new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options));
+        OutputStream newContents = uriConverter.createOutputStream(getURI(), new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options, defaultSaveOptions));
         try
         {
           InputStream temporaryFileContents = uriConverter.createInputStream(temporaryFileURI, null);
@@ -1213,7 +1216,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       {
         response = new HashMap<Object, Object>();
       }
-      OutputStream newContents = uriConverter.createOutputStream(getURI(), new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options));
+      OutputStream newContents = uriConverter.createOutputStream(getURI(), new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options, defaultSaveOptions));
       try
       {
         newContents.write(newContentBuffer, 0, length);
@@ -1253,7 +1256,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         inputStream =
           uriConverter.createInputStream
             (getURI(),
-             new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options));
+             new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options, defaultLoadOptions));
       }
       catch (IOException exception)
       {
