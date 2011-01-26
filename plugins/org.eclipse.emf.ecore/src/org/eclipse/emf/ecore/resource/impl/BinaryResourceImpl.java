@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceImpl.java,v 1.11 2011/01/24 23:34:18 emerks Exp $
+ * $Id: BinaryResourceImpl.java,v 1.12 2011/01/26 17:24:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -40,6 +40,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
@@ -108,7 +109,7 @@ public class BinaryResourceImpl extends ResourceImpl
    * @return the value associated with the {@link #OPTION_BUFFER_CAPACITY} key in the options map.
    * @since 2.6
    */
-  protected static int getBufferCapacity(Map<?, ?> options)
+  public static int getBufferCapacity(Map<?, ?> options)
   {
     if (options != null)
     {
@@ -134,48 +135,63 @@ public class BinaryResourceImpl extends ResourceImpl
   @Override
   protected void doSave(OutputStream outputStream, Map<?, ?> options) throws IOException
   {
-    boolean buffer = !(outputStream instanceof BufferedOutputStream);
-    if (buffer)
+    if (outputStream instanceof URIConverter.Savable)
     {
-      int bufferCapacity = getBufferCapacity(options);
-      if (bufferCapacity > 0)
-      {
-        outputStream = new BufferedOutputStream(outputStream, bufferCapacity);
-      }
-      else
-      {
-        buffer = false;
-      }
+      ((URIConverter.Savable)outputStream).saveResource(this);
     }
-
-    try
+    else
     {
-      EObjectOutputStream eObjectOutputStream = new EObjectOutputStream(outputStream, options);
-      eObjectOutputStream.saveResource(this);
-    }
-    finally
-    {
+      boolean buffer = !(outputStream instanceof BufferedOutputStream);
       if (buffer)
       {
-        outputStream.flush();
+        int bufferCapacity = getBufferCapacity(options);
+        if (bufferCapacity > 0)
+        {
+          outputStream = new BufferedOutputStream(outputStream, bufferCapacity);
+        }
+        else
+        {
+          buffer = false;
+        }
+      }
+  
+      try
+      {
+        EObjectOutputStream eObjectOutputStream = new EObjectOutputStream(outputStream, options);
+        eObjectOutputStream.saveResource(this);
+      }
+      finally
+      {
+        if (buffer)
+        {
+          outputStream.flush();
+        }
       }
     }
   }
+    
 
   @Override
   protected void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException
   {
-    if (!(inputStream instanceof BufferedInputStream))
+    if (inputStream instanceof URIConverter.Loadable)
     {
-      int bufferCapacity = getBufferCapacity(options);
-      if (bufferCapacity > 0)
-      {
-        inputStream = new BufferedInputStream(inputStream, bufferCapacity);
-      }
+      ((URIConverter.Loadable)inputStream).loadResource(this);
     }
+    else
+    {
+      if (!(inputStream instanceof BufferedInputStream))
+      {
+        int bufferCapacity = getBufferCapacity(options);
+        if (bufferCapacity > 0)
+        {
+          inputStream = new BufferedInputStream(inputStream, bufferCapacity);
+        }
+      }
 
-    EObjectInputStream eObjectInputStream = new EObjectInputStream(inputStream, options);
-    eObjectInputStream.loadResource(this);
+      EObjectInputStream eObjectInputStream = new EObjectInputStream(inputStream, options);
+      eObjectInputStream.loadResource(this);
+    }
   }
 
   public static class BinaryIO
