@@ -12,11 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.22 2009/04/28 14:48:33 davidms Exp $
+ * $Id: XMLResourceImpl.java,v 1.23 2011/01/26 17:27:45 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -32,7 +34,11 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl.EObjectInputStream;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl.EObjectOutputStream;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.DOMHandler;
 import org.eclipse.emf.ecore.xmi.DOMHelper;
@@ -155,63 +161,153 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     return new XMLLoadImpl(createXMLHelper());
   }
 
+  /**
+   * @since 2.7
+   */
+  protected XMLLoad createXMLLoad(Map<?, ?> options)
+  {
+    return createXMLLoad();
+  }
+
   protected XMLSave createXMLSave()
   {
     return new XMLSaveImpl(createXMLHelper());
   }
 
+  /**
+   * @since 2.7
+   */
+  protected XMLSave createXMLSave(Map<?, ?> options)
+  {
+    return createXMLSave();
+  }
+
   @Override
   public void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException
   {
-    XMLLoad xmlLoad = createXMLLoad();
-
-    if (options == null)
+    if (inputStream instanceof URIConverter.Loadable)
     {
-      options = Collections.EMPTY_MAP;
+      ((URIConverter.Loadable)inputStream).loadResource(this);
     }
-
-    ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
-
-    if (handler != null)
+    else if (options != null && Boolean.TRUE.equals(options.get(OPTION_BINARY)))
     {
-      handler.preLoad(this, inputStream, options);
+      if (!(inputStream instanceof BufferedInputStream))
+      {
+        int bufferCapacity = BinaryResourceImpl.getBufferCapacity(options);
+        if (bufferCapacity > 0)
+        {
+          inputStream = new BufferedInputStream(inputStream, bufferCapacity);
+        }
+      }
+
+      EObjectInputStream eObjectInputStream = new EObjectInputStream(inputStream, options);
+      ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
+      if (handler != null)
+      {
+        handler.preLoad(this, inputStream, options);
+      }
+      eObjectInputStream.loadResource(this);
+      if (handler != null)
+      {
+        handler.postLoad(this, inputStream, options);
+      }
     }
-
-    xmlLoad.load(this, inputStream, options);
-    xmlLoad = null;
-
-    if (handler != null)
+    else
     {
-      handler.postLoad(this, inputStream, options);
+      XMLLoad xmlLoad = createXMLLoad(options);
+
+      if (options == null)
+      {
+        options = Collections.EMPTY_MAP;
+      }
+
+      ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
+
+      if (handler != null)
+      {
+        handler.preLoad(this, inputStream, options);
+      }
+
+      xmlLoad.load(this, inputStream, options);
+      xmlLoad = null;
+
+      if (handler != null)
+      {
+        handler.postLoad(this, inputStream, options);
+      }
     }
   }
 
   @Override
   public void doSave(OutputStream outputStream, Map<?, ?> options) throws IOException
   {
-    XMLSave xmlSave = createXMLSave();
-
-    if (options == null)
+    if (outputStream instanceof URIConverter.Savable)
     {
-      options = Collections.EMPTY_MAP;
+      ((URIConverter.Savable)outputStream).saveResource(this);
     }
-
-    ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
-
-    if (handler != null)
+    else if (options != null && Boolean.TRUE.equals(options.get(OPTION_BINARY)))
     {
-      handler.preSave(this, outputStream, options);
+      boolean buffer = !(outputStream instanceof BufferedOutputStream);
+      if (buffer)
+      {
+        int bufferCapacity = BinaryResourceImpl.getBufferCapacity(options);
+        if (bufferCapacity > 0)
+        {
+          outputStream = new BufferedOutputStream(outputStream, bufferCapacity);
+        }
+        else
+        {
+          buffer = false;
+        }
+      }
+
+      ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
+      if (handler != null)
+      {
+        handler.preSave(this, outputStream, options);
+      }
+      try
+      {
+        EObjectOutputStream eObjectOutputStream = new EObjectOutputStream(outputStream, options);
+        eObjectOutputStream.saveResource(this);
+      }
+      finally
+      {
+        if (buffer)
+        {
+          outputStream.flush();
+        }
+      }
+      if (handler != null)
+      {
+        handler.postSave(this, outputStream, options);
+      }
     }
-
-    xmlSave.save(this, outputStream, options);
-
-
-    if (handler != null)
+    else
     {
-      handler.postSave(this, outputStream, options);
+      XMLSave xmlSave = createXMLSave(options);
+
+      if (options == null)
+      {
+        options = Collections.EMPTY_MAP;
+      }
+
+      ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
+
+      if (handler != null)
+      {
+        handler.preSave(this, outputStream, options);
+      }
+
+      xmlSave.save(this, outputStream, options);
+
+      if (handler != null)
+      {
+        handler.postSave(this, outputStream, options);
+      }
     }
   }
-  
+
   /**
    * Saves the resource to the writer using the specified options.
    * <p>
@@ -244,7 +340,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   
   public void doSave(Writer writer, Map<?, ?> options) throws IOException
   {
-    XMLSave xmlSave = createXMLSave();
+    XMLSave xmlSave = createXMLSave(options);
 
     if (options == null)
     {
@@ -256,7 +352,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
 
   public Document save(Document doc, Map<?, ?> options, DOMHandler handler)
   {
-    XMLSave xmlSave = createXMLSave();
+    XMLSave xmlSave = createXMLSave(options);
     domHandler = handler;
     if (domHandler == null)
     {
@@ -605,7 +701,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
    */
   public void doLoad(Node node, Map<?, ?> options) throws IOException
   {
-    XMLLoad xmlLoad = createXMLLoad();
+    XMLLoad xmlLoad = createXMLLoad(options);
 
     if (options == null)
     {
@@ -666,7 +762,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   
   public void doLoad(InputSource inputSource, Map<?, ?> options) throws IOException
   {
-    XMLLoad xmlLoad = createXMLLoad();
+    XMLLoad xmlLoad = createXMLLoad(options);
 
     if (options == null)
     {
