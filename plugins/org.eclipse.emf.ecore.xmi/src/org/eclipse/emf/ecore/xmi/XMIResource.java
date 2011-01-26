@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIResource.java,v 1.6 2007/06/14 18:32:39 emerks Exp $
+ * $Id: XMIResource.java,v 1.7 2011/01/26 17:26:21 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -59,6 +59,12 @@ public interface XMIResource extends XMLResource
    * conflict with XML schema types
    */
   String OPTION_USE_XMI_TYPE = "USE_XMI_TYPE";
+
+  /**
+   * A save or load option that when set to true, instructs the resource to produce regular XML, not XMI, or to consume, regular XML, not XMI.
+   * @since 2.7
+   */
+  String OPTION_SUPPRESS_XMI = "SUPPRESS_XMI";
 
   String VERSION_NAME = "version";
 
