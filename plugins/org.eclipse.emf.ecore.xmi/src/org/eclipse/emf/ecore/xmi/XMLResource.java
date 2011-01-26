@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.46 2010/03/15 02:57:06 davidms Exp $
+ * $Id: XMLResource.java,v 1.47 2011/01/26 17:26:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.impl.ConfigurationCache;
 import org.eclipse.emf.ecore.xmi.impl.ResourceEntityHandlerImpl;
@@ -524,6 +525,13 @@ public interface XMLResource extends Resource
    * @since 2.4
    */
   String OPTION_ESCAPE_USING_CDATA = "ESCAPE_USING_CDATA";
+
+
+  /**
+   * A load or save option that when set to Boolean.TRUE, directs the resource to produce or consume a {@link BinaryResourceImpl binary serialization}.
+   * @since 2.7
+   */
+  String OPTION_BINARY = "BINARY";
 
   String HREF = "href";
   String NIL = "nil";
