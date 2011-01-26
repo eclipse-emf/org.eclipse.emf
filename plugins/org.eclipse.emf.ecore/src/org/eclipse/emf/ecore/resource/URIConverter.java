@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverter.java,v 1.12 2008/09/08 16:02:22 emerks Exp $
+ * $Id: URIConverter.java,v 1.13 2011/01/26 17:24:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -79,6 +79,16 @@ public interface URIConverter
    * @since 2.4
    */
   String RESPONSE_TIME_STAMP_PROPERTY = "TIME_STAMP";
+
+  /**
+   * A property of the {@link #OPTION_RESPONSE response option} 
+   * used to yield the newly allocated URI associated
+   * with the creation of an {@link #createOutputStream(URI, Map) output} stream.
+   * This is typically used by resource {@link Resource#save(Map) save} 
+   * in order to {@link Resource#setURI(URI) set the resource URI}.
+   * @since 2.7
+   */
+  String RESPONSE_URI = "URI";
 
   /**
    * Returns the normalized form of the URI.
@@ -201,6 +211,23 @@ public interface URIConverter
    * @since 2.4
    */
   InputStream createInputStream(URI uri, Map<?, ?> options) throws IOException;
+
+  /**
+   * An interface that is optionally implemented by the input streams returned from 
+   * {@link URIConverter#createInputStream(URI)} and {@link URIConverter#createInputStream(URI, Map)}.
+   * An input stream implementing this interface is highly unlikely to support {@link InputStream#read() read}.
+   * Instead {@link #loadResource(Resource) loadResource} should be called.
+   * @since 2.7
+   */
+  interface Loadable
+  {
+    /**
+     * Load the contents of the resource directly from the backing store for which the stream implementing this interface is a facade.
+     * @param resource the resource to load.
+     * @throws IOException if there are any problems load the resource from the backing store.
+     */
+    void loadResource(Resource resource) throws IOException;
+  }
 
   /**
    * An interface that is optionally implemented by the input streams returned from 
@@ -407,6 +434,23 @@ public interface URIConverter
    * @since 2.4
    */
   OutputStream createOutputStream(URI uri, Map<?, ?> options) throws IOException;
+
+  /**
+   * An interface that is optionally implemented by the output streams returned from 
+   * {@link URIConverter#createOutputStream(URI)} and {@link URIConverter#createOutputStream(URI, Map)}.
+   * An output stream implementing this interface is highly unlikely to support {@link OutputStream#write(int) write}.
+   * Instead {@link #saveResource(Resource) saveResource} should be called.
+   * @since 2.7
+   */
+  interface Savable
+  {
+    /**
+     * Save the contents of the resource directly to the backing store for which the stream implementing this interface is a facade.
+     * @param resource the resource to save.
+     * @throws IOException if there are any problems saving the resource to the backing store.
+     */
+    void saveResource(Resource resource) throws IOException;
+  }
 
   /**
    * An interface that is optionally implemented by the output streams returned from 
