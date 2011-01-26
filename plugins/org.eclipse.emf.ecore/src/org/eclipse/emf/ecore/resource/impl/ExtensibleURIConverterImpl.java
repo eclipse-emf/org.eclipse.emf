@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtensibleURIConverterImpl.java,v 1.6 2008/10/23 14:54:00 emerks Exp $
+ * $Id: ExtensibleURIConverterImpl.java,v 1.7 2011/01/26 17:25:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -63,7 +62,7 @@ public class ExtensibleURIConverterImpl implements URIConverter
      */
     URI getURI(URI uri);
   }
- 
+
   protected static class URIHandlerList extends BasicEList<URIHandler>
   {
     private static final long serialVersionUID = 1L;
@@ -91,9 +90,9 @@ public class ExtensibleURIConverterImpl implements URIConverter
       return (URIHandler[])data;
     }
   }
- 
+
   protected URIHandlerList uriHandlers;
- 
+
   protected static class ContentHandlerList extends BasicEList<ContentHandler>
   {
     private static final long serialVersionUID = 1L;
@@ -121,7 +120,7 @@ public class ExtensibleURIConverterImpl implements URIConverter
       return (ContentHandler[])data;
     }
   }
- 
+
   protected ContentHandlerList contentHandlers;
 
   /**
@@ -189,14 +188,28 @@ public class ExtensibleURIConverterImpl implements URIConverter
 
   static class OptionsMap implements Map<Object, Object>
   {
+    private static final Object NO_KEY = new Object();
+
     protected Object key;
     protected Object value;
     protected Map<?, ?> options;
+    protected Map<?, ?> defaultOptions;
     protected Map<Object, Object> mergedMap;
 
     public OptionsMap(Object key, Object value, Map<?, ?> options)
     {
-      this.options = options == null ? Collections.EMPTY_MAP : options;
+      this(key, value, options, null);
+    }
+
+    public OptionsMap(Map<?, ?> options, Map<?, ?> defaultOptions)
+    {
+      this(NO_KEY, null, options, defaultOptions);
+    }
+
+    public OptionsMap(Object key, Object value, Map<?, ?> options, Map<?, ?> defaultOptions)
+    {
+      this.options = options;
+      this.defaultOptions = defaultOptions;
       this.key = key;
       this.value = value;
     }
@@ -205,8 +218,23 @@ public class ExtensibleURIConverterImpl implements URIConverter
     {
       if (mergedMap == null)
       {
-        mergedMap = new LinkedHashMap<Object, Object>(options);
-        mergedMap.put(key, value);
+        mergedMap =
+          new LinkedHashMap<Object, Object>
+          ((options == null ? 0 : options.size()) +
+             (defaultOptions == null ? 0 : defaultOptions.size()) +
+             (key == NO_KEY ? 0 : 1));
+        if (defaultOptions != null)
+        {
+          mergedMap.putAll(defaultOptions);
+        }
+        if (options != null)
+        {
+          mergedMap.putAll(options);
+        }
+        if (key != NO_KEY)
+        {
+          mergedMap.put(key, value);
+        }
       }
       return mergedMap;
     }
@@ -218,12 +246,18 @@ public class ExtensibleURIConverterImpl implements URIConverter
 
     public boolean containsKey(Object key)
     {
-      return this.key == key || this.key.equals(key) || options.containsKey(key);
+      return
+        mergedMap != null ?
+          mergedMap.containsKey(key) :
+          this.key == key ||
+            this.key.equals(key) ||
+            options != null && options.containsKey(key) ||
+            defaultOptions != null && defaultOptions.containsKey(key);
     }
 
     public boolean containsValue(Object value)
     {
-      return this.value == value || options.containsValue(value);
+      return mergedMap().containsValue(value);
     }
 
     public Set<Map.Entry<Object, Object>> entrySet()
@@ -233,12 +267,27 @@ public class ExtensibleURIConverterImpl implements URIConverter
 
     public Object get(Object key)
     {
-      return this.key == key || this.key.equals(key) ? value : options.get(key);
+      return
+        mergedMap != null ?
+          mergedMap.get(key) :
+          this.key == key ||
+            this.key.equals(key) ?
+              value :
+              options != null && options.containsKey(key) ?
+                options.get(key) :
+                defaultOptions == null ?
+                  null :
+                  defaultOptions.get(key);
     }
 
     public boolean isEmpty()
     {
-      return false;
+      return 
+        mergedMap != null ? 
+          mergedMap.isEmpty() : 
+          key != NO_KEY || 
+            options != null && !options.isEmpty() || 
+            defaultOptions != null && !defaultOptions.isEmpty();
     }
 
     public Set<Object> keySet()
