@@ -12,9 +12,11 @@
  *
  * </copyright>
  *
- * $Id: XMIResourceImpl.java,v 1.5 2006/12/05 20:23:28 emerks Exp $
+ * $Id: XMIResourceImpl.java,v 1.6 2011/01/26 17:27:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
+
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.XMIResource;
@@ -27,9 +29,8 @@ import org.eclipse.emf.ecore.xmi.XMLSave;
  */
 public class XMIResourceImpl extends XMLResourceImpl implements XMIResource
 {
-
   String version = XMIResource.VERSION_VALUE;
-  
+
   /**
    * Constructor for XMIResourceImpl.
    */
@@ -60,11 +61,37 @@ public class XMIResourceImpl extends XMLResourceImpl implements XMIResource
   }
 
   @Override
+  protected XMLLoad createXMLLoad(Map<?, ?> options)
+  {
+    if (options != null && Boolean.TRUE.equals(options.get(OPTION_SUPPRESS_XMI)))
+    {
+      return new XMLLoadImpl(new XMLHelperImpl(this));
+    }
+    else
+    {
+      return super.createXMLLoad(options);
+    }
+  }
+
+  @Override
   protected XMLSave createXMLSave()
   {
     return new XMISaveImpl(createXMLHelper());
   }
-  
+
+  @Override
+  protected XMLSave createXMLSave(Map<?, ?> options)
+  {
+    if (options != null && Boolean.TRUE.equals(options.get(OPTION_SUPPRESS_XMI)))
+    {
+      return new XMLSaveImpl(new XMLHelperImpl(this));
+    }
+    else
+    {
+      return super.createXMLSave(options);
+    }
+  }
+
   @Override
   protected boolean useIDs()
   {
@@ -98,17 +125,14 @@ public class XMIResourceImpl extends XMLResourceImpl implements XMIResource
     if (namespace.startsWith(XMIResource.XMI_NAMESPACE_PREFIX))
     {
       this.setXMIVersion(namespace.substring(XMIResource.XMI_NAMESPACE_PREFIX.length()));
-    } 
+    }
     else if (namespace.equals(XMIResource.XMI_URI))
     {
       this.setXMIVersion(XMIResource.VERSION_VALUE);
     }
     else
     {
-      // TODO translation
       throw new IllegalArgumentException("Invalid XMI namespace: '"+namespace+"'");
     }
-    
   }
-  
 }
