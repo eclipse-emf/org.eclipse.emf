@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EmfdbSwitch.java,v 1.1 2009/07/11 11:13:24 tschindl Exp $
+ * $Id: EmfdbSwitch.java,v 1.2 2011/02/08 22:28:33 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding.emfdb.util;
 
 import java.util.List;
 
+import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
@@ -120,6 +121,13 @@ public class EmfdbSwitch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case EmfdbPackage.C:
+      {
+        @SuppressWarnings("unchecked") Map.Entry<String, String> c = (Map.Entry<String, String>)theEObject;
+        T result = caseC(c);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       default: return defaultCase(theEObject);
     }
   }
@@ -152,6 +160,22 @@ public class EmfdbSwitch<T>
    * @generated
    */
   public T caseB(B object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>C</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>C</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseC(Map.Entry<String, String> object)
   {
     return null;
   }

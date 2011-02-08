@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AImpl.java,v 1.1 2009/07/11 11:13:24 tschindl Exp $
+ * $Id: AImpl.java,v 1.2 2011/02/08 22:28:33 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding.emfdb.impl;
 
@@ -23,13 +23,16 @@ import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.emf.test.databinding.emfdb.A;
@@ -45,6 +48,7 @@ import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
  * <ul>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.AImpl#getString <em>String</em>}</li>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.AImpl#getBlist <em>Blist</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.AImpl#getCmap <em>Cmap</em>}</li>
  * </ul>
  * </p>
  *
@@ -81,6 +85,16 @@ public class AImpl extends EObjectImpl implements A
    * @ordered
    */
   protected EList<B> blist;
+
+  /**
+   * The cached value of the '{@link #getCmap() <em>Cmap</em>}' map.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getCmap()
+   * @generated
+   * @ordered
+   */
+  protected EMap<String, String> cmap;
 
   /**
    * <!-- begin-user-doc -->
@@ -145,6 +159,20 @@ public class AImpl extends EObjectImpl implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  public EMap<String, String> getCmap()
+  {
+    if (cmap == null)
+    {
+      cmap = new EcoreEMap<String,String>(EmfdbPackage.Literals.C, CImpl.class, this, EmfdbPackage.A__CMAP);
+    }
+    return cmap;
+  }
+
+    /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
@@ -152,6 +180,8 @@ public class AImpl extends EObjectImpl implements A
     {
       case EmfdbPackage.A__BLIST:
         return ((InternalEList<?>)getBlist()).basicRemove(otherEnd, msgs);
+      case EmfdbPackage.A__CMAP:
+        return ((InternalEList<?>)getCmap()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -170,6 +200,9 @@ public class AImpl extends EObjectImpl implements A
         return getString();
       case EmfdbPackage.A__BLIST:
         return getBlist();
+      case EmfdbPackage.A__CMAP:
+        if (coreType) return getCmap();
+        else return getCmap().map();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -192,6 +225,9 @@ public class AImpl extends EObjectImpl implements A
         getBlist().clear();
         getBlist().addAll((Collection<? extends B>)newValue);
         return;
+      case EmfdbPackage.A__CMAP:
+        ((EStructuralFeature.Setting)getCmap()).set(newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -212,6 +248,9 @@ public class AImpl extends EObjectImpl implements A
       case EmfdbPackage.A__BLIST:
         getBlist().clear();
         return;
+      case EmfdbPackage.A__CMAP:
+        getCmap().clear();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -230,6 +269,8 @@ public class AImpl extends EObjectImpl implements A
         return STRING_EDEFAULT == null ? string != null : !STRING_EDEFAULT.equals(string);
       case EmfdbPackage.A__BLIST:
         return blist != null && !blist.isEmpty();
+      case EmfdbPackage.A__CMAP:
+        return cmap != null && !cmap.isEmpty();
     }
     return super.eIsSet(featureID);
   }

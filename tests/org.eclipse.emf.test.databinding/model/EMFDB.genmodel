@@ -10,9 +10,14 @@
     <genClasses ecoreClass="EMFDB.ecore#//A">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EMFDB.ecore#//A/string"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference EMFDB.ecore#//A/blist"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference EMFDB.ecore#//A/cmap"/>
     </genClasses>
     <genClasses ecoreClass="EMFDB.ecore#//B">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EMFDB.ecore#//B/string"/>
+    </genClasses>
+    <genClasses ecoreClass="EMFDB.ecore#//C">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EMFDB.ecore#//C/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EMFDB.ecore#//C/value"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -12,25 +12,33 @@
  *
  * </copyright>
  *
- * $Id: EMFPropertiesTest.java,v 1.4 2010/05/04 12:59:06 tschindl Exp $
+ * $Id: EMFPropertiesTest.java,v 1.5 2011/02/08 22:28:33 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import junit.framework.TestCase;
 
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.core.databinding.observable.list.ListDiff;
+import org.eclipse.core.databinding.observable.map.IMapChangeListener;
+import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.map.MapChangeEvent;
+import org.eclipse.core.databinding.observable.map.MapDiff;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.set.ISetChangeListener;
 import org.eclipse.core.databinding.observable.set.SetChangeEvent;
 import org.eclipse.core.databinding.observable.set.SetDiff;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.databinding.IEMFMapProperty;
 import org.eclipse.emf.databinding.IEMFSetProperty;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -42,14 +50,13 @@ import org.eclipse.emf.test.databinding.emfdb.B;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbFactory;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
 
-import junit.framework.TestCase;
-
 public class EMFPropertiesTest extends TestCase
 {
   private Resource resource;
   private Realm testRealm;
   private SetDiff setDiff;
   private ListDiff listDiff;
+  private MapDiff mapDiff;
 
   @Override
   protected void setUp() throws Exception
@@ -235,4 +242,119 @@ public class EMFPropertiesTest extends TestCase
       });
     a.setString("Instance 1");
   }
+  
+  public void testMapProperty() {
+    Realm.runWithDefault(testRealm, new Runnable()
+    {
+
+      public void run()
+      {
+        _testMapProperty();
+      }
+    });
+  }
+
+  public void _testMapProperty() {
+    A a = (A)resource.getContents().get(0);
+    IEMFMapProperty prop = EMFProperties.map(EmfdbPackage.Literals.A__CMAP);
+    IObservableMap map = prop.observe(a);
+    map.addMapChangeListener(new IMapChangeListener()
+    {
+      
+      public void handleMapChange(MapChangeEvent event)
+      {
+        mapDiff = event.diff;
+      }
+    });
+    assertNull(mapDiff);
+    
+    // Changing existing key
+    a.getCmap().put("key 1", "value 1 modified");
+    assertEquals(0, mapDiff.getAddedKeys().size());
+    assertEquals(1, mapDiff.getChangedKeys().size());
+    assertEquals("key 1", mapDiff.getChangedKeys().iterator().next());
+    assertEquals("value 1", mapDiff.getOldValue("key 1"));
+    assertEquals("value 1 modified", mapDiff.getNewValue("key 1"));
+    assertEquals(0, mapDiff.getRemovedKeys().size());
+    
+    // Adding new key
+    a.getCmap().put("key 3", "value 3");
+    assertEquals(1, mapDiff.getAddedKeys().size());
+    assertEquals("key 3", mapDiff.getAddedKeys().iterator().next());
+    assertNull(mapDiff.getOldValue("key 3"));
+    assertEquals("value 3", mapDiff.getNewValue("key 3"));
+    assertEquals(0, mapDiff.getChangedKeys().size());
+    assertEquals(0, mapDiff.getRemovedKeys().size());
+    
+    // Removing key
+    a.getCmap().removeKey("key 2");
+    assertEquals(0, mapDiff.getAddedKeys().size());
+    assertEquals(0, mapDiff.getChangedKeys().size());
+    assertEquals(1, mapDiff.getRemovedKeys().size());
+    assertEquals("key 2", mapDiff.getRemovedKeys().iterator().next());
+    assertEquals("value 2", mapDiff.getOldValue("key 2"));
+    assertNull(mapDiff.getNewValue("key 2"));
+    
+    // putAll is implemented as a series of put calls,
+    // which are already tested above, see BasicEMap.putAll()
+    
+    // Removing many keys
+    a.getCmap().clear();
+    assertEquals(0, mapDiff.getAddedKeys().size());
+    assertEquals(0, mapDiff.getChangedKeys().size());
+    assertEquals(2, mapDiff.getRemovedKeys().size());
+    assertTrue(mapDiff.getRemovedKeys().contains("key 1"));
+    assertTrue(mapDiff.getRemovedKeys().contains("key 3"));
+    assertEquals("value 1 modified", mapDiff.getOldValue("key 1"));
+    assertEquals("value 3", mapDiff.getOldValue("key 3"));
+    assertNull(mapDiff.getNewValue("key 1"));
+    assertNull(mapDiff.getNewValue("key 3"));
+
+    // =============================================================
+
+    // Changed through IObservableMap
+    // Adding new key
+    map.put("key 1", "value 1");
+    assertEquals(1, mapDiff.getAddedKeys().size());
+    assertEquals("key 1", mapDiff.getAddedKeys().iterator().next());
+    assertNull(mapDiff.getOldValue("key 1"));
+    assertEquals("value 1", mapDiff.getNewValue("key 1"));
+    assertEquals(0, mapDiff.getChangedKeys().size());
+    assertEquals(0, mapDiff.getRemovedKeys().size());
+    
+    // Adding many (including existing) keys
+    Map<String, String> newValues = new HashMap<String, String>();
+    newValues.put("key 1", "value 1 modified");
+    newValues.put("key 2", "value 2");
+    newValues.put("key 3", "value 3");
+    map.putAll(newValues);
+    assertEquals(2, mapDiff.getAddedKeys().size());
+    assertTrue(mapDiff.getAddedKeys().contains("key 2"));
+    assertTrue(mapDiff.getAddedKeys().contains("key 3"));
+    assertNull(mapDiff.getOldValue("key 2"));
+    assertNull(mapDiff.getOldValue("key 3"));
+    assertEquals("value 2", mapDiff.getNewValue("key 2"));
+    assertEquals("value 3", mapDiff.getNewValue("key 3"));
+    assertEquals(1, mapDiff.getChangedKeys().size());
+    assertEquals("key 1", mapDiff.getChangedKeys().iterator().next());
+    assertEquals("value 1", mapDiff.getOldValue("key 1"));
+    assertEquals("value 1 modified", mapDiff.getNewValue("key 1"));
+    assertEquals(0, mapDiff.getRemovedKeys().size());
+    
+    // Removing
+    map.remove("key 1");
+    assertEquals(0, mapDiff.getAddedKeys().size());
+    assertEquals(0, mapDiff.getChangedKeys().size());
+    assertEquals(1, mapDiff.getRemovedKeys().size());
+    assertEquals("key 1", mapDiff.getRemovedKeys().iterator().next());
+    assertEquals("value 1 modified", mapDiff.getOldValue("key 1"));
+    assertNull(mapDiff.getNewValue("key 1"));
+
+    // Removing many
+    // The only way to remove many entries from IObservableMap is
+    // to call clear(), but clear removes entries one by one, which
+    // has already been tested above
+    map.clear();
+  }
+  
 }

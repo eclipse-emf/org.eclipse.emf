@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: EmfdbFactoryImpl.java,v 1.1 2009/07/11 11:13:24 tschindl Exp $
+ * $Id: EmfdbFactoryImpl.java,v 1.2 2011/02/08 22:28:33 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding.emfdb.impl;
 
+import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -80,6 +81,7 @@ public class EmfdbFactoryImpl extends EFactoryImpl implements EmfdbFactory
     {
       case EmfdbPackage.A: return createA();
       case EmfdbPackage.B: return createB();
+      case EmfdbPackage.C: return (EObject)createC();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -105,6 +107,17 @@ public class EmfdbFactoryImpl extends EFactoryImpl implements EmfdbFactory
   {
     BImpl b = new BImpl();
     return b;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Map.Entry<String, String> createC()
+  {
+    CImpl c = new CImpl();
+    return c;
   }
 
   /**

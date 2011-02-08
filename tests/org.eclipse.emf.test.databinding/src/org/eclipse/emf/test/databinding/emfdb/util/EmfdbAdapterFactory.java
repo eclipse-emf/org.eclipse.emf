@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: EmfdbAdapterFactory.java,v 1.1 2009/07/11 11:13:24 tschindl Exp $
+ * $Id: EmfdbAdapterFactory.java,v 1.2 2011/02/08 22:28:33 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding.emfdb.util;
 
+import java.util.Map;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 
@@ -99,6 +100,11 @@ public class EmfdbAdapterFactory extends AdapterFactoryImpl
         return createBAdapter();
       }
       @Override
+      public Adapter caseC(Map.Entry<String, String> object)
+      {
+        return createCAdapter();
+      }
+      @Override
       public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
@@ -146,6 +152,21 @@ public class EmfdbAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createBAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>C</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see java.util.Map.Entry
+   * @generated
+   */
+  public Adapter createCAdapter()
   {
     return null;
   }

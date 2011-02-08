@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: EmfdbPackageImpl.java,v 1.1 2009/07/11 11:13:24 tschindl Exp $
+ * $Id: EmfdbPackageImpl.java,v 1.2 2011/02/08 22:28:33 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding.emfdb.impl;
 
+import java.util.Map;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -47,6 +48,13 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * @generated
    */
   private EClass bEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass cEClass = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -146,6 +154,16 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EReference getA_Cmap()
+  {
+    return (EReference)aEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getB()
   {
     return bEClass;
@@ -159,6 +177,36 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
   public EAttribute getB_String()
   {
     return (EAttribute)bEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getC()
+  {
+    return cEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getC_Key()
+  {
+    return (EAttribute)cEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getC_Value()
+  {
+    return (EAttribute)cEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -194,9 +242,14 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
     aEClass = createEClass(A);
     createEAttribute(aEClass, A__STRING);
     createEReference(aEClass, A__BLIST);
+    createEReference(aEClass, A__CMAP);
 
     bEClass = createEClass(B);
     createEAttribute(bEClass, B__STRING);
+
+    cEClass = createEClass(C);
+    createEAttribute(cEClass, C__KEY);
+    createEAttribute(cEClass, C__VALUE);
   }
 
   /**
@@ -233,9 +286,14 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
     initEClass(aEClass, org.eclipse.emf.test.databinding.emfdb.A.class, "A", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getA_String(), ecorePackage.getEString(), "string", null, 0, 1, org.eclipse.emf.test.databinding.emfdb.A.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getA_Blist(), this.getB(), null, "blist", null, 0, -1, org.eclipse.emf.test.databinding.emfdb.A.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getA_Cmap(), this.getC(), null, "cmap", null, 0, -1, org.eclipse.emf.test.databinding.emfdb.A.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(bEClass, org.eclipse.emf.test.databinding.emfdb.B.class, "B", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getB_String(), ecorePackage.getEString(), "string", null, 0, 1, org.eclipse.emf.test.databinding.emfdb.B.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(cEClass, Map.Entry.class, "C", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getC_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getC_Value(), ecorePackage.getEString(), "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Create resource
     createResource(eNS_URI);

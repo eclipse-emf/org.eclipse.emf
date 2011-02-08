@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: A.java,v 1.1 2009/07/11 11:13:24 tschindl Exp $
+ * $Id: A.java,v 1.2 2011/02/08 22:28:33 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding.emfdb;
 
 import org.eclipse.emf.common.util.EList;
 
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -30,6 +31,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.A#getString <em>String</em>}</li>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.A#getBlist <em>Blist</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.databinding.emfdb.A#getCmap <em>Cmap</em>}</li>
  * </ul>
  * </p>
  *
@@ -80,5 +82,22 @@ public interface A extends EObject
    * @generated
    */
   EList<B> getBlist();
+
+  /**
+   * Returns the value of the '<em><b>Cmap</b></em>' map.
+   * The key is of type {@link java.lang.String},
+   * and the value is of type {@link java.lang.String},
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Cmap</em>' map isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Cmap</em>' map.
+   * @see org.eclipse.emf.test.databinding.emfdb.EmfdbPackage#getA_Cmap()
+   * @model mapType="org.eclipse.emf.test.databinding.emfdb.C<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
+   * @generated
+   */
+  EMap<String, String> getCmap();
 
 } // A
