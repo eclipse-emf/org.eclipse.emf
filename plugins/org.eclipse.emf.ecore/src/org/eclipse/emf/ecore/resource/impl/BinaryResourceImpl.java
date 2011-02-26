@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceImpl.java,v 1.13 2011/02/26 02:39:43 emerks Exp $
+ * $Id: BinaryResourceImpl.java,v 1.14 2011/02/26 02:54:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -1277,6 +1277,10 @@ public class BinaryResourceImpl extends ResourceImpl
       if (version.ordinal() > 0)
       {
         readStyle();
+      }
+      else
+      {
+        style = STYLE_BINARY_FLOATING_POINT;
       }
     }
 
