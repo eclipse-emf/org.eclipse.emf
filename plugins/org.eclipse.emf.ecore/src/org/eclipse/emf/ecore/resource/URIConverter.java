@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverter.java,v 1.13 2011/01/26 17:24:30 emerks Exp $
+ * $Id: URIConverter.java,v 1.14 2011/02/26 02:39:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -442,7 +442,7 @@ public interface URIConverter
    * Instead {@link #saveResource(Resource) saveResource} should be called.
    * @since 2.7
    */
-  interface Savable
+  interface Saveable
   {
     /**
      * Save the contents of the resource directly to the backing store for which the stream implementing this interface is a facade.

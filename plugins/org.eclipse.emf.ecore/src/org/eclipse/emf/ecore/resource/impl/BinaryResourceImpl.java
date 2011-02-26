@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceImpl.java,v 1.12 2011/01/26 17:24:50 emerks Exp $
+ * $Id: BinaryResourceImpl.java,v 1.13 2011/02/26 02:39:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -135,9 +135,9 @@ public class BinaryResourceImpl extends ResourceImpl
   @Override
   protected void doSave(OutputStream outputStream, Map<?, ?> options) throws IOException
   {
-    if (outputStream instanceof URIConverter.Savable)
+    if (outputStream instanceof URIConverter.Saveable)
     {
-      ((URIConverter.Savable)outputStream).saveResource(this);
+      ((URIConverter.Saveable)outputStream).saveResource(this);
     }
     else
     {
