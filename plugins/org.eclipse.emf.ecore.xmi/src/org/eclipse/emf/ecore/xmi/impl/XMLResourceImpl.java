@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.23 2011/01/26 17:27:45 emerks Exp $
+ * $Id: XMLResourceImpl.java,v 1.24 2011/02/26 02:39:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -241,9 +241,9 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   @Override
   public void doSave(OutputStream outputStream, Map<?, ?> options) throws IOException
   {
-    if (outputStream instanceof URIConverter.Savable)
+    if (outputStream instanceof URIConverter.Saveable)
     {
-      ((URIConverter.Savable)outputStream).saveResource(this);
+      ((URIConverter.Saveable)outputStream).saveResource(this);
     }
     else if (options != null && Boolean.TRUE.equals(options.get(OPTION_BINARY)))
     {
