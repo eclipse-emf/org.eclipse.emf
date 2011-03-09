@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Build Tasks">
+	<!--
+		this is just a hack to avoid a warning on the import task below;
+		under normal circumstances the ${sp:helper.script} has a defined value
+		in which case this definition has no effect
+	-->
+	<property name="sp:helper.script" value="${ant.file}" />
+
 	<import file="${sp:helper.script}" />
 </project>
