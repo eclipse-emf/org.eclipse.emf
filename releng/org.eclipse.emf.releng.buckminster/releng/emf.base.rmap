@@ -182,7 +182,7 @@
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(resolve.target.platform=true)(build.type=S))"
 		>
-			<uri format="{0}/eclipse/updates/3.7milestones">
+			<uri format="{0}/eclipse/updates/3.7-I-builds">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
