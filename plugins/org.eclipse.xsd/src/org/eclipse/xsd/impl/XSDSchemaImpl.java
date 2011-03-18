@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.43 2010/03/08 17:01:40 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.44 2011/03/18 16:50:54 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1550,7 +1550,7 @@ public class XSDSchemaImpl
             if (xsdIncorporatedSchema != null && !schemasToPatch.contains(xsdIncorporatedSchema))
             {
               xsdIncorporatedSchema.patchContents();
-              computeSchemasToPatch(xsdIncorporatedSchema, schemasToPatch);
+              schemasToPatch.add(xsdIncorporatedSchema);
             }
           }
         }
