@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditorEntryPoint.java,v 1.2 2010/12/21 19:25:01 khussey Exp $
+ * $Id: EditorEntryPoint.java,v 1.3 2011/03/20 16:49:56 emerks Exp $
  */
 package org.eclipse.emf.edit.ui;
 
@@ -724,7 +724,7 @@ public abstract class EditorEntryPoint implements EntryPoint
              void updateSelection()
              {
                int selectedIndex = listBox.getSelectedIndex();
-               setSelection(selectedIndex == -1 || values.size() >= selectedIndex ? null : values.get(selectedIndex));
+               setSelection(selectedIndex == -1 || selectedIndex >= values.size() ? null : values.get(selectedIndex));
              }
            });
       }
