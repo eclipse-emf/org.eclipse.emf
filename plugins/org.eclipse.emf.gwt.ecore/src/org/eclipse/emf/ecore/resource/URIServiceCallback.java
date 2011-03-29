@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2010 Ed Merks and others.
+ * Copyright (c) 2010-2011 Ed Merks and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIServiceCallback.java,v 1.1 2010/12/12 20:29:37 emerks Exp $
+ * $Id: URIServiceCallback.java,v 1.2 2011/03/29 23:34:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -58,20 +58,25 @@ public class URIServiceCallback extends URIHandlerImpl
          {
            @SuppressWarnings("unchecked")
            Map<String, Object> response = (Map<String, Object>)result.get(URIConverter.OPTION_RESPONSE);
-           byte[] bytes = (byte[])response.get(URIConverter.RESPONSE_RESULT);
-           if (bytes == null)
+   	       Object responseResult = response.get(URIConverter.RESPONSE_RESULT);
+   	       if (responseResult == null)
            {
              callback.onFailure(new IOException("Stream for '" + uri + "' not found"));
            }
-           else
+   	       else if (responseResult instanceof byte[])
            {
+             byte[] bytes = (byte[])responseResult;
              response.put(URIConverter.RESPONSE_RESULT, new ByteArrayInputStream(bytes));
              callback.onSuccess(result);
+           }
+           else
+           {
+       	     callback.onFailure((IOException)responseResult);
            }
          }
        });
   }
-  
+
   @Override
   public void store(URI uri, byte[] bytes, Map<?, ?> options, final Callback<Map<?, ?>> callback)
   {

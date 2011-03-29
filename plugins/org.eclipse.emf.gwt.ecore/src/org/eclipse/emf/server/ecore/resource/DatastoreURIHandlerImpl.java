@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2010 Ed Merks and others.
+ * Copyright (c) 2010-2011 Ed Merks and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DatastoreURIHandlerImpl.java,v 1.1 2010/12/12 20:29:37 emerks Exp $
+ * $Id: DatastoreURIHandlerImpl.java,v 1.2 2011/03/29 23:34:28 emerks Exp $
  */
 package org.eclipse.emf.server.ecore.resource;
 
@@ -72,13 +72,21 @@ public class DatastoreURIHandlerImpl extends URIHandlerImpl
   {
     String uriString = uri.toString();
     DatastoreUtil.fetch(uriString, options);
-    Map<Object, Object> result = getResponse(options);
-    byte[] bytes = (byte[])result.get(URIConverter.RESPONSE_RESULT);
-    if (bytes == null)
+    Map<Object, Object> response = getResponse(options);
+    Object result = response.get(URIConverter.RESPONSE_RESULT);
+    if (result == null)
     {
       throw new IOException("URI not found " + uri);
     }
-    return new ByteArrayInputStream(bytes);
+    else if (result instanceof byte[])
+    {
+      byte[] bytes = (byte[])result;
+      return new ByteArrayInputStream(bytes);
+    }
+    else
+    {
+      throw (IOException)result;
+    }
   }
 
   @Override
