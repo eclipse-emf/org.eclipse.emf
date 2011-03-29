@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.4 2010/12/12 20:29:37 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.5 2011/03/29 23:20:16 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1501,27 +1501,33 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
              {
                public void onSuccess(EObject eObject)
                {
-                 for (EReference eReference : eClass().getEAllReferences())
+                 // If the proxy successfully resolved...
+                 //
+                 if (eObject != null)
                  {
-                   Object value = eGet(eReference, false, true);
-                   if (eReference.isMany())
+                   for (EReference eReference : eClass().getEAllReferences())
                    {
-                    InternalEList<?> list = (InternalEList<?>)value;
-                    for (ListIterator<?> i = list.basicListIterator(); i.hasNext(); )
+                     Object value = eGet(eReference, false, true);
+                     if (eReference.isMany())
                      {
-                       if (i.next() == result)
+                      InternalEList<?> list = (InternalEList<?>)value;
+                      for (ListIterator<?> i = list.basicListIterator(); i.hasNext(); )
                        {
-                         // Force this proxy at this index to be resolved.
-                         list.get(i.previousIndex());
-                         break;
+                         if (i.next() == result)
+                         {
+                           // Force this proxy at this index to be resolved.
+                           //
+                           list.get(i.previousIndex());
+                           break;
+                         }
                        }
                      }
-                   }
-                   else if (value == result)
-                   {
-                     // Force this proxy to resolve.
-                     //
-                     eGet(eReference, true, true);
+                     else if (value == result)
+                     {
+                       // Force this proxy to resolve.
+                       //
+                       eGet(eReference, true, true);
+                     }
                    }
                  }
                }
