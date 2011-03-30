@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.emf.license"
-      label="%featureName"
+      label="EMF License"
       version="2.7.0.qualifier"
-      provider-name="%providerName"
-      image="eclipse_update_120.jpg">
+      provider-name="Eclipse Modeling Project">
 
    <description>
-      %description
+      License for Eclipse Modeling Framework.
    </description>
 
    <copyright url="http://www.eclipse.org/legal/epl-v10.html">
@@ -21,10 +20,5 @@ http://www.eclipse.org/legal/epl-v10.html
    <license url="%licenseURL">
       %license
    </license>
-
-   <url>
-      <update label="%ModelingUpdateSiteName" url="http://www.eclipse.org/modeling/updates/"/>
-      <discovery label="%ModelingUpdateSiteName" url="http://www.eclipse.org/modeling/updates/"/>
-   </url>
 
 </feature>
