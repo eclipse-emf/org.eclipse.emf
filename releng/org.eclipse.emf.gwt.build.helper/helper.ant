@@ -19,7 +19,7 @@
 		<property name="classpath.entry.prefix" value="classpath-entry" />
 	</target>
 
-	<target name="prepare.google.classpath.containers.replacement.data" depends="-define.prefix.properties,-define.filterchains">
+	<target name="prepare.google.classpath.containers.replacement.data" depends="-define.prefix.properties,-define.filtermappers">
 		<property name="container.replacement.data.properties.file" value="${sp:container.replacement.data.file}.properties" />
 
 		<property name="container.replacement.properties.prefix" value="container.replacement.property." />
@@ -86,34 +86,34 @@
 		-->
 	</target>
 
-	<target name="-define.default.dirsep.filterchain">
+	<target name="-define.default.dirsep.filtermapper">
 		<condition property="is.windows">
 			<os family="windows" />
 		</condition>
 
-		<filterchain id="dirsep.filterchain" />
+		<filtermapper id="dirsep.filtermapper" />
 	</target>
 
-	<target name="-define.windows.dirsep.filterchain" if="is.windows">
-		<!-- override the default (no-op) dirsep.filterchain on Windows -->
-		<filterchain id="dirsep.filterchain">
+	<target name="-define.windows.dirsep.filtermapper" if="is.windows">
+		<!-- override the default (no-op) dirsep.filtermapper on Windows -->
+		<filtermapper id="dirsep.filtermapper">
 			<replacestring from="\" to="/" />
-		</filterchain>
+		</filtermapper>
 	</target>
 
-	<target name="-define.filterchains" depends="-define.default.dirsep.filterchain,-define.windows.dirsep.filterchain">
+	<target name="-define.filtermappers" depends="-define.default.dirsep.filtermapper,-define.windows.dirsep.filtermapper">
 		<!--
-			filter chain to perform Java properties files escaping;
+			filter mapper to perform Java properties files escaping;
 			NOTE that we use forward slash as the escape character
 			because it is less likely to cause problems but we must
 			remember to convert the forward slashes to back slashes
 			prior to writing the value to a property file
 		-->
-		<filterchain id="properties.filterchain">
+		<filtermapper id="properties.filtermapper">
 			<tokenfilter>
 				<filetokenizer />
 				<!--
-					we use this filterchain in a <pathconvert> task
+					we use this filtermapper in a <pathconvert> task
 					where we need to take care of slashes ...
 				-->
 				<replaceregex pattern="/" replace="/u002F" flags="g" />
@@ -125,17 +125,17 @@
 				<replaceregex pattern="\f" replace="/f" flags="g" />
 			</tokenfilter>
 			<escapeunicode />
-		</filterchain>
+		</filtermapper>
 
-		<!-- filter chain to create a property definition -->
-		<filterchain id="create.property.entry">
+		<!-- filter mapper to create a property definition -->
+		<filtermapper id="create.property.entry">
 			<replaceregex pattern="^.*$" replace="\0=\0&#xa;" />
-		</filterchain>
+		</filtermapper>
 
-		<!-- filter chain to turn forward slashes to back slashes -->
-		<filterchain id="replace.slashes">
+		<!-- filter mapper to turn forward slashes to back slashes -->
+		<filtermapper id="replace.slashes">
 			<replacestring from="/" to="\" />
-		</filterchain>
+		</filtermapper>
 	</target>
 
 	<target name="-write.classpath.container.properties">
@@ -143,14 +143,14 @@
 		<loadresource property="complete.escaped.container.prefix">
 			<string value="${container.prefix}${prefix.separator}" />
 
-			<filterchain refid="properties.filterchain" />
+			<filterchain refid="properties.filtermapper" />
 		</loadresource>
 
 		<!-- create the container entry property definition and append it to the properties file -->
 		<concat destfile="${container.replacement.data.properties.file}" append="true">
 			<propertyresource name="classpath.replacement.container" />
 
-			<filterchain refid="properties.filterchain" />
+			<filterchain refid="properties.filtermapper" />
 			<filterchain refid="create.property.entry" />
 			<filterchain>
 				<prefixlines prefix="${complete.escaped.container.prefix}" />
@@ -162,7 +162,7 @@
 		<loadresource property="complete.escaped.classpath.entry.prefix">
 			<string value="${classpath.entry.prefix}${prefix.qualifier.separator}${classpath.replacement.container}${prefix.separator}" />
 
-			<filterchain refid="properties.filterchain" />
+			<filterchain refid="properties.filtermapper" />
 		</loadresource>
 
 		<!-- create classpath entries property definitions for the path elements -->
@@ -172,10 +172,10 @@
 			<chainedmapper>
 				<!--
 					we want to replace the default ${file.separator} on certain platforms (notably Windows);
-					this is what the "dirsep.filterchain" filterchain is intended for
+					this is what the "dirsep.filtermapper" filtermapper is intended for
 				-->
-				<filtermapper refid="dirsep.filterchain" />
-				<filtermapper refid="properties.filterchain" />
+				<filtermapper refid="dirsep.filtermapper" />
+				<filtermapper refid="properties.filtermapper" />
 				<filtermapper refid="create.property.entry" />
 				<filtermapper>
 					<prefixlines prefix="${complete.escaped.classpath.entry.prefix}" />
