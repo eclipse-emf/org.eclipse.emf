@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2010 IBM Corporation and others.
+ * Copyright (c) 2002-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.5 2011/03/29 23:20:16 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.6 2011/03/31 20:21:28 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
