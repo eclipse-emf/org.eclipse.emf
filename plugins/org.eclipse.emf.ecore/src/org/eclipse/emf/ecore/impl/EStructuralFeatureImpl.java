@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.41 2010/02/23 17:10:43 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.42 2011/04/01 15:52:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2812,7 +2812,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     }
   }
 
-  public static class InternalSettingDelegateSingleEObjectResolvingUnsettable extends InternalSettingDelegateSingleEObject
+  public static class InternalSettingDelegateSingleEObjectResolvingUnsettable extends InternalSettingDelegateSingleEObjectResolving
   {
     public InternalSettingDelegateSingleEObjectResolvingUnsettable(EClass eClass, EStructuralFeature feature)
     {
