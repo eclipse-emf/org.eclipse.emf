@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2010 IBM Corporation and others.
+ * Copyright (c) 2002-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.2 2010/04/28 20:39:42 khussey Exp $
+ * $Id: EcoreUtil.java,v 1.3 2011/04/04 16:24:02 khussey Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.RandomAccess;
 import java.util.Set;
 
@@ -59,8 +60,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-
-import com.google.gwt.user.client.Random;
 
 
 /**
@@ -3603,7 +3602,7 @@ public class EcoreUtil
 
   /**
    * Generates a universally unique identifier, 
-   * i.e., a <a href="ftp://ietf.org/internet-drafts/draft-mealling-uuid-urn-02.txt">UUID</a>.
+   * i.e., a <a href="http://www.ietf.org/rfc/rfc4122.txt">UUID</a>.
    * It encodes the 128 bit UUID in <a href="http://www.ietf.org/rfc/rfc2045.txt">base 64</a>,
    * but rather than padding the encoding with two "=" characters, 
    * it prefixes the encoding with a single "_" character,
@@ -3618,7 +3617,7 @@ public class EcoreUtil
 
   /**
    * Generates a universally unique identifier, 
-   * i.e., a <a href="ftp://ietf.org/internet-drafts/draft-mealling-uuid-urn-02.txt">UUID</a>.
+   * i.e., a <a href="http://tools.ietf.org/id/draft-mealling-uuid-urn-02.txt">UUID</a>.
    * The argument is filled in with the 128 bit UUID and hence must be at least 16 bytes in length.
    * @param uuid the value to receive the result.
    */
@@ -3758,17 +3757,17 @@ public class EcoreUtil
 
     static
     {
-      clockSequence = (short)Random.nextInt();
+      Random random = new Random();
+
+      clockSequence = (short)random.nextInt(16384);
       updateClockSequence();
 
       // Generate a 48 bit node identifier; 
       // This is an alternative to the IEEE 802 host address, which is not available in Java.
       //
       byte[] nodeAddress = new byte [6];
-      for (int i = 0; i < 6; ++i)
-      {
-        nodeAddress[i] = (byte)Random.nextInt();
-      }
+
+      random.nextBytes(nodeAddress);
 
       // Set the most significant bit of the first octet to 1 so as to distinguish it from IEEE node addresses
       //
@@ -3835,7 +3834,7 @@ public class EcoreUtil
         if (timeAdjustment > 9999)
         {
           // Wait so that the clock can catch up and the time adjustment won't overflow.
-          for (int i = 0; i < 10000; ++i)
+          for (int i = 0; i < 10000 * sleepTime; ++i)
           {
             //
           }
