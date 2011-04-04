@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2009 IBM Corporation and others.
+ * Copyright (c) 2002-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.72 2010/03/13 13:47:38 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.73 2011/04/04 16:23:59 khussey Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.RandomAccess;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -3759,7 +3760,7 @@ public class EcoreUtil
 
     static
     {
-      SecureRandom random = new SecureRandom();
+      Random random = new SecureRandom();
 
       clockSequence = (short)random.nextInt(16384);
       updateClockSequence();
