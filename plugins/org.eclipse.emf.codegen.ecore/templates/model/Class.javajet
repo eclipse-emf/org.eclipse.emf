@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="Class" version="$Id: Class.javajet,v 1.91 2010/04/28 20:38:15 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="Class" version="$Id: Class.javajet,v 1.92 2011/04/07 19:53:34 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -1453,6 +1453,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	<%=genOperation.getTypeParameters(genClass)%><%=genOperation.getImportedType(genClass)%> <%=genOperation.getName()%>(<%=genOperation.getParameters(genClass)%>)<%=genOperation.getThrows(genClass)%>;
 
 <%} else {%>
+  <%if (genModel.useGenerics() && !genOperation.hasBody() && !genOperation.isInvariant() && genOperation.hasInvocationDelegate() && genOperation.isUncheckedCast(genClass)) {%>
+	@SuppressWarnings("unchecked")
+  <%}%>
 	public <%=genOperation.getTypeParameters(genClass)%><%=genOperation.getImportedType(genClass)%> <%=genOperation.getName()%>(<%=genOperation.getParameters(genClass)%>)<%=genOperation.getThrows(genClass)%>
 	{
   <%if (genOperation.hasBody()) {%>
@@ -2113,11 +2116,13 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
   <%if (genModel.useClassOverrideAnnotation()) {%>
 	@Override
   <%}%>
-  <%LOOP: for (GenOperation genOperation : (genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenOperations() : genClass.getAllGenOperations())) {%>
-    <%for (GenParameter genParameter : genOperation.getGenParameters()) {%>
-      <%if (genParameter.isUncheckedCast()) {%>
+  <%if (genModel.useGenerics()) {%>
+    <%LOOP: for (GenOperation genOperation : (genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenOperations() : genClass.getAllGenOperations())) {%>
+      <%for (GenParameter genParameter : genOperation.getGenParameters()) {%>
+        <%if (genParameter.isUncheckedCast()) {%>
 	@SuppressWarnings("unchecked")
-      <%break LOOP;}%>
+        <%break LOOP;}%>
+      <%}%>
     <%}%>
   <%}%>
 	public Object eInvoke(int operationID, <%=genModel.getImportedName("org.eclipse.emf.common.util.EList")%><%=singleWildcard%> arguments) throws <%=genModel.getImportedName(isGWT ? "org.eclipse.emf.common.util.InvocationTargetException" : "java.lang.reflect.InvocationTargetException")%>

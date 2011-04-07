@@ -1218,560 +1218,561 @@ public class Class
   protected final String TEXT_1200 = "(";
   protected final String TEXT_1201 = ")";
   protected final String TEXT_1202 = ";" + NL;
-  protected final String TEXT_1203 = NL + "\tpublic ";
-  protected final String TEXT_1204 = " ";
-  protected final String TEXT_1205 = "(";
-  protected final String TEXT_1206 = ")";
-  protected final String TEXT_1207 = NL + "\t{";
-  protected final String TEXT_1208 = NL + "\t\t";
-  protected final String TEXT_1209 = NL + "\t\treturn" + NL + "\t\t\t";
-  protected final String TEXT_1210 = ".validate" + NL + "\t\t\t\t(";
-  protected final String TEXT_1211 = "," + NL + "\t\t\t\t this," + NL + "\t\t\t\t ";
-  protected final String TEXT_1212 = "," + NL + "\t\t\t\t ";
-  protected final String TEXT_1213 = "," + NL + "\t\t\t\t \"";
-  protected final String TEXT_1214 = "\",";
-  protected final String TEXT_1215 = NL + "\t\t\t\t ";
-  protected final String TEXT_1216 = "," + NL + "\t\t\t\t ";
-  protected final String TEXT_1217 = "__EEXPRESSION," + NL + "\t\t\t\t ";
-  protected final String TEXT_1218 = ".ERROR," + NL + "\t\t\t\t ";
-  protected final String TEXT_1219 = ".DIAGNOSTIC_SOURCE," + NL + "\t\t\t\t ";
-  protected final String TEXT_1220 = ".";
-  protected final String TEXT_1221 = ");";
-  protected final String TEXT_1222 = NL + "\t\t// TODO: implement this method" + NL + "\t\t// -> specify the condition that violates the invariant" + NL + "\t\t// -> verify the details of the diagnostic, including severity and message" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\tif (false)" + NL + "\t\t{" + NL + "\t\t\tif (";
-  protected final String TEXT_1223 = " != null)" + NL + "\t\t\t{" + NL + "\t\t\t\t";
-  protected final String TEXT_1224 = ".add" + NL + "\t\t\t\t\t(new ";
-  protected final String TEXT_1225 = NL + "\t\t\t\t\t\t(";
-  protected final String TEXT_1226 = ".ERROR," + NL + "\t\t\t\t\t\t ";
-  protected final String TEXT_1227 = ".DIAGNOSTIC_SOURCE," + NL + "\t\t\t\t\t\t ";
-  protected final String TEXT_1228 = ".";
-  protected final String TEXT_1229 = "," + NL + "\t\t\t\t\t\t ";
-  protected final String TEXT_1230 = ".INSTANCE.getString(\"_UI_GenericInvariant_diagnostic\", new Object[] { \"";
-  protected final String TEXT_1231 = "\", ";
-  protected final String TEXT_1232 = ".getObjectLabel(this, ";
-  protected final String TEXT_1233 = ") }),";
-  protected final String TEXT_1234 = NL + "\t\t\t\t\t\t new Object [] { this }));" + NL + "\t\t\t}" + NL + "\t\t\treturn false;" + NL + "\t\t}" + NL + "\t\treturn true;";
-  protected final String TEXT_1235 = NL + "\t\ttry" + NL + "\t\t{";
-  protected final String TEXT_1236 = NL + "\t\t\t";
-  protected final String TEXT_1237 = "__EINVOCATION_DELEGATE.dynamicInvoke(this, ";
-  protected final String TEXT_1238 = "new ";
-  protected final String TEXT_1239 = ".UnmodifiableEList<Object>(";
-  protected final String TEXT_1240 = ", ";
-  protected final String TEXT_1241 = ")";
-  protected final String TEXT_1242 = "null";
-  protected final String TEXT_1243 = ");";
-  protected final String TEXT_1244 = NL + "\t\t\treturn ";
-  protected final String TEXT_1245 = "(";
+  protected final String TEXT_1203 = NL + "\t@SuppressWarnings(\"unchecked\")";
+  protected final String TEXT_1204 = NL + "\tpublic ";
+  protected final String TEXT_1205 = " ";
+  protected final String TEXT_1206 = "(";
+  protected final String TEXT_1207 = ")";
+  protected final String TEXT_1208 = NL + "\t{";
+  protected final String TEXT_1209 = NL + "\t\t";
+  protected final String TEXT_1210 = NL + "\t\treturn" + NL + "\t\t\t";
+  protected final String TEXT_1211 = ".validate" + NL + "\t\t\t\t(";
+  protected final String TEXT_1212 = "," + NL + "\t\t\t\t this," + NL + "\t\t\t\t ";
+  protected final String TEXT_1213 = "," + NL + "\t\t\t\t ";
+  protected final String TEXT_1214 = "," + NL + "\t\t\t\t \"";
+  protected final String TEXT_1215 = "\",";
+  protected final String TEXT_1216 = NL + "\t\t\t\t ";
+  protected final String TEXT_1217 = "," + NL + "\t\t\t\t ";
+  protected final String TEXT_1218 = "__EEXPRESSION," + NL + "\t\t\t\t ";
+  protected final String TEXT_1219 = ".ERROR," + NL + "\t\t\t\t ";
+  protected final String TEXT_1220 = ".DIAGNOSTIC_SOURCE," + NL + "\t\t\t\t ";
+  protected final String TEXT_1221 = ".";
+  protected final String TEXT_1222 = ");";
+  protected final String TEXT_1223 = NL + "\t\t// TODO: implement this method" + NL + "\t\t// -> specify the condition that violates the invariant" + NL + "\t\t// -> verify the details of the diagnostic, including severity and message" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\tif (false)" + NL + "\t\t{" + NL + "\t\t\tif (";
+  protected final String TEXT_1224 = " != null)" + NL + "\t\t\t{" + NL + "\t\t\t\t";
+  protected final String TEXT_1225 = ".add" + NL + "\t\t\t\t\t(new ";
+  protected final String TEXT_1226 = NL + "\t\t\t\t\t\t(";
+  protected final String TEXT_1227 = ".ERROR," + NL + "\t\t\t\t\t\t ";
+  protected final String TEXT_1228 = ".DIAGNOSTIC_SOURCE," + NL + "\t\t\t\t\t\t ";
+  protected final String TEXT_1229 = ".";
+  protected final String TEXT_1230 = "," + NL + "\t\t\t\t\t\t ";
+  protected final String TEXT_1231 = ".INSTANCE.getString(\"_UI_GenericInvariant_diagnostic\", new Object[] { \"";
+  protected final String TEXT_1232 = "\", ";
+  protected final String TEXT_1233 = ".getObjectLabel(this, ";
+  protected final String TEXT_1234 = ") }),";
+  protected final String TEXT_1235 = NL + "\t\t\t\t\t\t new Object [] { this }));" + NL + "\t\t\t}" + NL + "\t\t\treturn false;" + NL + "\t\t}" + NL + "\t\treturn true;";
+  protected final String TEXT_1236 = NL + "\t\ttry" + NL + "\t\t{";
+  protected final String TEXT_1237 = NL + "\t\t\t";
+  protected final String TEXT_1238 = "__EINVOCATION_DELEGATE.dynamicInvoke(this, ";
+  protected final String TEXT_1239 = "new ";
+  protected final String TEXT_1240 = ".UnmodifiableEList<Object>(";
+  protected final String TEXT_1241 = ", ";
+  protected final String TEXT_1242 = ")";
+  protected final String TEXT_1243 = "null";
+  protected final String TEXT_1244 = ");";
+  protected final String TEXT_1245 = NL + "\t\t\treturn ";
   protected final String TEXT_1246 = "(";
-  protected final String TEXT_1247 = ")";
-  protected final String TEXT_1248 = "__EINVOCATION_DELEGATE.dynamicInvoke(this, ";
-  protected final String TEXT_1249 = "new ";
-  protected final String TEXT_1250 = ".UnmodifiableEList<Object>(";
-  protected final String TEXT_1251 = ", ";
-  protected final String TEXT_1252 = ")";
-  protected final String TEXT_1253 = "null";
-  protected final String TEXT_1254 = ")";
-  protected final String TEXT_1255 = ").";
-  protected final String TEXT_1256 = "()";
-  protected final String TEXT_1257 = ";";
-  protected final String TEXT_1258 = NL + "\t\t}" + NL + "\t\tcatch (";
-  protected final String TEXT_1259 = " ite)" + NL + "\t\t{" + NL + "\t\t\tthrow new ";
-  protected final String TEXT_1260 = "(ite);" + NL + "\t\t}";
-  protected final String TEXT_1261 = NL + "\t\t// TODO: implement this method" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\tthrow new UnsupportedOperationException();";
-  protected final String TEXT_1262 = NL + "\t}" + NL;
-  protected final String TEXT_1263 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1264 = NL + "\t@SuppressWarnings(\"unchecked\")";
-  protected final String TEXT_1265 = NL + "\t@Override";
-  protected final String TEXT_1266 = NL + "\tpublic ";
-  protected final String TEXT_1267 = " eInverseAdd(";
-  protected final String TEXT_1268 = " otherEnd, int featureID, ";
-  protected final String TEXT_1269 = " msgs)" + NL + "\t{" + NL + "\t\tswitch (featureID";
-  protected final String TEXT_1270 = ")" + NL + "\t\t{";
-  protected final String TEXT_1271 = NL + "\t\t\tcase ";
-  protected final String TEXT_1272 = ":";
-  protected final String TEXT_1273 = NL + "\t\t\t\treturn ((";
-  protected final String TEXT_1274 = "(";
-  protected final String TEXT_1275 = ".InternalMapView";
-  protected final String TEXT_1276 = ")";
-  protected final String TEXT_1277 = "()).eMap()).basicAdd(otherEnd, msgs);";
-  protected final String TEXT_1278 = NL + "\t\t\t\treturn (";
-  protected final String TEXT_1279 = "()).basicAdd(otherEnd, msgs);";
-  protected final String TEXT_1280 = NL + "\t\t\t\tif (eInternalContainer() != null)" + NL + "\t\t\t\t\tmsgs = eBasicRemoveFromContainer(msgs);";
-  protected final String TEXT_1281 = NL + "\t\t\t\treturn basicSet";
-  protected final String TEXT_1282 = "((";
-  protected final String TEXT_1283 = ")otherEnd, msgs);";
-  protected final String TEXT_1284 = NL + "\t\t\t\treturn eBasicSetContainer(otherEnd, ";
-  protected final String TEXT_1285 = ", msgs);";
-  protected final String TEXT_1286 = NL + "\t\t\t\t";
-  protected final String TEXT_1287 = " ";
-  protected final String TEXT_1288 = " = (";
-  protected final String TEXT_1289 = ")eVirtualGet(";
-  protected final String TEXT_1290 = ");";
-  protected final String TEXT_1291 = NL + "\t\t\t\t";
-  protected final String TEXT_1292 = " ";
-  protected final String TEXT_1293 = " = ";
-  protected final String TEXT_1294 = "basicGet";
-  protected final String TEXT_1295 = "();";
-  protected final String TEXT_1296 = NL + "\t\t\t\tif (";
-  protected final String TEXT_1297 = " != null)";
-  protected final String TEXT_1298 = NL + "\t\t\t\t\tmsgs = ((";
-  protected final String TEXT_1299 = ")";
-  protected final String TEXT_1300 = ").eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ";
-  protected final String TEXT_1301 = ", null, msgs);";
-  protected final String TEXT_1302 = NL + "\t\t\t\t\tmsgs = ((";
-  protected final String TEXT_1303 = ")";
-  protected final String TEXT_1304 = ").eInverseRemove(this, ";
-  protected final String TEXT_1305 = ", ";
-  protected final String TEXT_1306 = ".class, msgs);";
-  protected final String TEXT_1307 = NL + "\t\t\t\treturn basicSet";
-  protected final String TEXT_1308 = "((";
-  protected final String TEXT_1309 = ")otherEnd, msgs);";
-  protected final String TEXT_1310 = NL + "\t\t}";
-  protected final String TEXT_1311 = NL + "\t\treturn super.eInverseAdd(otherEnd, featureID, msgs);";
-  protected final String TEXT_1312 = NL + "\t\treturn eDynamicInverseAdd(otherEnd, featureID, msgs);";
-  protected final String TEXT_1313 = NL + "\t}" + NL;
-  protected final String TEXT_1314 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1315 = NL + "\t@Override";
-  protected final String TEXT_1316 = NL + "\tpublic ";
-  protected final String TEXT_1317 = " eInverseRemove(";
-  protected final String TEXT_1318 = " otherEnd, int featureID, ";
-  protected final String TEXT_1319 = " msgs)" + NL + "\t{" + NL + "\t\tswitch (featureID";
-  protected final String TEXT_1320 = ")" + NL + "\t\t{";
-  protected final String TEXT_1321 = NL + "\t\t\tcase ";
-  protected final String TEXT_1322 = ":";
-  protected final String TEXT_1323 = NL + "\t\t\t\treturn ((";
-  protected final String TEXT_1324 = ")((";
-  protected final String TEXT_1325 = ".InternalMapView";
-  protected final String TEXT_1326 = ")";
-  protected final String TEXT_1327 = "()).eMap()).basicRemove(otherEnd, msgs);";
-  protected final String TEXT_1328 = NL + "\t\t\t\treturn ((";
-  protected final String TEXT_1329 = ")((";
-  protected final String TEXT_1330 = ".Internal.Wrapper)";
-  protected final String TEXT_1331 = "()).featureMap()).basicRemove(otherEnd, msgs);";
-  protected final String TEXT_1332 = NL + "\t\t\t\treturn ((";
-  protected final String TEXT_1333 = ")";
-  protected final String TEXT_1334 = "()).basicRemove(otherEnd, msgs);";
-  protected final String TEXT_1335 = NL + "\t\t\t\treturn eBasicSetContainer(null, ";
-  protected final String TEXT_1336 = ", msgs);";
-  protected final String TEXT_1337 = NL + "\t\t\t\treturn basicUnset";
-  protected final String TEXT_1338 = "(msgs);";
-  protected final String TEXT_1339 = NL + "\t\t\t\treturn basicSet";
-  protected final String TEXT_1340 = "(null, msgs);";
-  protected final String TEXT_1341 = NL + "\t\t}";
-  protected final String TEXT_1342 = NL + "\t\treturn super.eInverseRemove(otherEnd, featureID, msgs);";
-  protected final String TEXT_1343 = NL + "\t\treturn eDynamicInverseRemove(otherEnd, featureID, msgs);";
-  protected final String TEXT_1344 = NL + "\t}" + NL;
-  protected final String TEXT_1345 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1346 = NL + "\t@Override";
-  protected final String TEXT_1347 = NL + "\tpublic ";
-  protected final String TEXT_1348 = " eBasicRemoveFromContainerFeature(";
-  protected final String TEXT_1349 = " msgs)" + NL + "\t{" + NL + "\t\tswitch (eContainerFeatureID()";
-  protected final String TEXT_1350 = ")" + NL + "\t\t{";
-  protected final String TEXT_1351 = NL + "\t\t\tcase ";
-  protected final String TEXT_1352 = ":" + NL + "\t\t\t\treturn eInternalContainer().eInverseRemove(this, ";
-  protected final String TEXT_1353 = ", ";
-  protected final String TEXT_1354 = ".class, msgs);";
-  protected final String TEXT_1355 = NL + "\t\t}";
-  protected final String TEXT_1356 = NL + "\t\treturn super.eBasicRemoveFromContainerFeature(msgs);";
-  protected final String TEXT_1357 = NL + "\t\treturn eDynamicBasicRemoveFromContainer(msgs);";
-  protected final String TEXT_1358 = NL + "\t}" + NL;
-  protected final String TEXT_1359 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1360 = NL + "\t@Override";
-  protected final String TEXT_1361 = NL + "\tpublic Object eGet(int featureID, boolean resolve, boolean coreType)" + NL + "\t{" + NL + "\t\tswitch (featureID";
-  protected final String TEXT_1362 = ")" + NL + "\t\t{";
-  protected final String TEXT_1363 = NL + "\t\t\tcase ";
-  protected final String TEXT_1364 = ":";
-  protected final String TEXT_1365 = NL + "\t\t\t\treturn ";
-  protected final String TEXT_1366 = "();";
-  protected final String TEXT_1367 = NL + "\t\t\t\treturn ";
-  protected final String TEXT_1368 = "() ? Boolean.TRUE : Boolean.FALSE;";
-  protected final String TEXT_1369 = NL + "\t\t\t\treturn new ";
-  protected final String TEXT_1370 = "(";
-  protected final String TEXT_1371 = "());";
-  protected final String TEXT_1372 = NL + "\t\t\t\tif (resolve) return ";
-  protected final String TEXT_1373 = "();" + NL + "\t\t\t\treturn basicGet";
-  protected final String TEXT_1374 = "();";
-  protected final String TEXT_1375 = NL + "\t\t\t\tif (coreType) return ((";
-  protected final String TEXT_1376 = ".InternalMapView";
-  protected final String TEXT_1377 = ")";
-  protected final String TEXT_1378 = "()).eMap();" + NL + "\t\t\t\telse return ";
-  protected final String TEXT_1379 = "();";
-  protected final String TEXT_1380 = NL + "\t\t\t\tif (coreType) return ";
-  protected final String TEXT_1381 = "();" + NL + "\t\t\t\telse return ";
-  protected final String TEXT_1382 = "().map();";
-  protected final String TEXT_1383 = NL + "\t\t\t\tif (coreType) return ((";
-  protected final String TEXT_1384 = ".Internal.Wrapper)";
-  protected final String TEXT_1385 = "()).featureMap();" + NL + "\t\t\t\treturn ";
-  protected final String TEXT_1386 = "();";
-  protected final String TEXT_1387 = NL + "\t\t\t\tif (coreType) return ";
-  protected final String TEXT_1388 = "();" + NL + "\t\t\t\treturn ((";
-  protected final String TEXT_1389 = ".Internal)";
-  protected final String TEXT_1390 = "()).getWrapper();";
-  protected final String TEXT_1391 = NL + "\t\t\t\treturn ";
-  protected final String TEXT_1392 = "();";
-  protected final String TEXT_1393 = NL + "\t\t}";
-  protected final String TEXT_1394 = NL + "\t\treturn super.eGet(featureID, resolve, coreType);";
-  protected final String TEXT_1395 = NL + "\t\treturn eDynamicGet(featureID, resolve, coreType);";
-  protected final String TEXT_1396 = NL + "\t}" + NL;
-  protected final String TEXT_1397 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1398 = NL + "\t@SuppressWarnings(\"unchecked\")";
-  protected final String TEXT_1399 = NL + "\t@Override";
-  protected final String TEXT_1400 = NL + "\tpublic void eSet(int featureID, Object newValue)" + NL + "\t{" + NL + "\t\tswitch (featureID";
-  protected final String TEXT_1401 = ")" + NL + "\t\t{";
-  protected final String TEXT_1402 = NL + "\t\t\tcase ";
-  protected final String TEXT_1403 = ":";
-  protected final String TEXT_1404 = NL + "\t\t\t\t((";
-  protected final String TEXT_1405 = ".Internal)((";
-  protected final String TEXT_1406 = ".Internal.Wrapper)";
-  protected final String TEXT_1407 = "()).featureMap()).set(newValue);";
-  protected final String TEXT_1408 = NL + "\t\t\t\t((";
-  protected final String TEXT_1409 = ".Internal)";
-  protected final String TEXT_1410 = "()).set(newValue);";
-  protected final String TEXT_1411 = NL + "\t\t\t\t((";
-  protected final String TEXT_1412 = ".Setting)((";
-  protected final String TEXT_1413 = ".InternalMapView";
-  protected final String TEXT_1414 = ")";
-  protected final String TEXT_1415 = "()).eMap()).set(newValue);";
-  protected final String TEXT_1416 = NL + "\t\t\t\t((";
-  protected final String TEXT_1417 = ".Setting)";
-  protected final String TEXT_1418 = "()).set(newValue);";
-  protected final String TEXT_1419 = NL + "\t\t\t\t";
-  protected final String TEXT_1420 = "().clear();" + NL + "\t\t\t\t";
-  protected final String TEXT_1421 = "().addAll((";
-  protected final String TEXT_1422 = "<? extends ";
-  protected final String TEXT_1423 = ">";
-  protected final String TEXT_1424 = ")newValue);";
-  protected final String TEXT_1425 = NL + "\t\t\t\tset";
-  protected final String TEXT_1426 = "(((";
-  protected final String TEXT_1427 = ")newValue).";
-  protected final String TEXT_1428 = "());";
-  protected final String TEXT_1429 = NL + "\t\t\t\tset";
-  protected final String TEXT_1430 = "(";
+  protected final String TEXT_1247 = "(";
+  protected final String TEXT_1248 = ")";
+  protected final String TEXT_1249 = "__EINVOCATION_DELEGATE.dynamicInvoke(this, ";
+  protected final String TEXT_1250 = "new ";
+  protected final String TEXT_1251 = ".UnmodifiableEList<Object>(";
+  protected final String TEXT_1252 = ", ";
+  protected final String TEXT_1253 = ")";
+  protected final String TEXT_1254 = "null";
+  protected final String TEXT_1255 = ")";
+  protected final String TEXT_1256 = ").";
+  protected final String TEXT_1257 = "()";
+  protected final String TEXT_1258 = ";";
+  protected final String TEXT_1259 = NL + "\t\t}" + NL + "\t\tcatch (";
+  protected final String TEXT_1260 = " ite)" + NL + "\t\t{" + NL + "\t\t\tthrow new ";
+  protected final String TEXT_1261 = "(ite);" + NL + "\t\t}";
+  protected final String TEXT_1262 = NL + "\t\t// TODO: implement this method" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\tthrow new UnsupportedOperationException();";
+  protected final String TEXT_1263 = NL + "\t}" + NL;
+  protected final String TEXT_1264 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1265 = NL + "\t@SuppressWarnings(\"unchecked\")";
+  protected final String TEXT_1266 = NL + "\t@Override";
+  protected final String TEXT_1267 = NL + "\tpublic ";
+  protected final String TEXT_1268 = " eInverseAdd(";
+  protected final String TEXT_1269 = " otherEnd, int featureID, ";
+  protected final String TEXT_1270 = " msgs)" + NL + "\t{" + NL + "\t\tswitch (featureID";
+  protected final String TEXT_1271 = ")" + NL + "\t\t{";
+  protected final String TEXT_1272 = NL + "\t\t\tcase ";
+  protected final String TEXT_1273 = ":";
+  protected final String TEXT_1274 = NL + "\t\t\t\treturn ((";
+  protected final String TEXT_1275 = "(";
+  protected final String TEXT_1276 = ".InternalMapView";
+  protected final String TEXT_1277 = ")";
+  protected final String TEXT_1278 = "()).eMap()).basicAdd(otherEnd, msgs);";
+  protected final String TEXT_1279 = NL + "\t\t\t\treturn (";
+  protected final String TEXT_1280 = "()).basicAdd(otherEnd, msgs);";
+  protected final String TEXT_1281 = NL + "\t\t\t\tif (eInternalContainer() != null)" + NL + "\t\t\t\t\tmsgs = eBasicRemoveFromContainer(msgs);";
+  protected final String TEXT_1282 = NL + "\t\t\t\treturn basicSet";
+  protected final String TEXT_1283 = "((";
+  protected final String TEXT_1284 = ")otherEnd, msgs);";
+  protected final String TEXT_1285 = NL + "\t\t\t\treturn eBasicSetContainer(otherEnd, ";
+  protected final String TEXT_1286 = ", msgs);";
+  protected final String TEXT_1287 = NL + "\t\t\t\t";
+  protected final String TEXT_1288 = " ";
+  protected final String TEXT_1289 = " = (";
+  protected final String TEXT_1290 = ")eVirtualGet(";
+  protected final String TEXT_1291 = ");";
+  protected final String TEXT_1292 = NL + "\t\t\t\t";
+  protected final String TEXT_1293 = " ";
+  protected final String TEXT_1294 = " = ";
+  protected final String TEXT_1295 = "basicGet";
+  protected final String TEXT_1296 = "();";
+  protected final String TEXT_1297 = NL + "\t\t\t\tif (";
+  protected final String TEXT_1298 = " != null)";
+  protected final String TEXT_1299 = NL + "\t\t\t\t\tmsgs = ((";
+  protected final String TEXT_1300 = ")";
+  protected final String TEXT_1301 = ").eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ";
+  protected final String TEXT_1302 = ", null, msgs);";
+  protected final String TEXT_1303 = NL + "\t\t\t\t\tmsgs = ((";
+  protected final String TEXT_1304 = ")";
+  protected final String TEXT_1305 = ").eInverseRemove(this, ";
+  protected final String TEXT_1306 = ", ";
+  protected final String TEXT_1307 = ".class, msgs);";
+  protected final String TEXT_1308 = NL + "\t\t\t\treturn basicSet";
+  protected final String TEXT_1309 = "((";
+  protected final String TEXT_1310 = ")otherEnd, msgs);";
+  protected final String TEXT_1311 = NL + "\t\t}";
+  protected final String TEXT_1312 = NL + "\t\treturn super.eInverseAdd(otherEnd, featureID, msgs);";
+  protected final String TEXT_1313 = NL + "\t\treturn eDynamicInverseAdd(otherEnd, featureID, msgs);";
+  protected final String TEXT_1314 = NL + "\t}" + NL;
+  protected final String TEXT_1315 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1316 = NL + "\t@Override";
+  protected final String TEXT_1317 = NL + "\tpublic ";
+  protected final String TEXT_1318 = " eInverseRemove(";
+  protected final String TEXT_1319 = " otherEnd, int featureID, ";
+  protected final String TEXT_1320 = " msgs)" + NL + "\t{" + NL + "\t\tswitch (featureID";
+  protected final String TEXT_1321 = ")" + NL + "\t\t{";
+  protected final String TEXT_1322 = NL + "\t\t\tcase ";
+  protected final String TEXT_1323 = ":";
+  protected final String TEXT_1324 = NL + "\t\t\t\treturn ((";
+  protected final String TEXT_1325 = ")((";
+  protected final String TEXT_1326 = ".InternalMapView";
+  protected final String TEXT_1327 = ")";
+  protected final String TEXT_1328 = "()).eMap()).basicRemove(otherEnd, msgs);";
+  protected final String TEXT_1329 = NL + "\t\t\t\treturn ((";
+  protected final String TEXT_1330 = ")((";
+  protected final String TEXT_1331 = ".Internal.Wrapper)";
+  protected final String TEXT_1332 = "()).featureMap()).basicRemove(otherEnd, msgs);";
+  protected final String TEXT_1333 = NL + "\t\t\t\treturn ((";
+  protected final String TEXT_1334 = ")";
+  protected final String TEXT_1335 = "()).basicRemove(otherEnd, msgs);";
+  protected final String TEXT_1336 = NL + "\t\t\t\treturn eBasicSetContainer(null, ";
+  protected final String TEXT_1337 = ", msgs);";
+  protected final String TEXT_1338 = NL + "\t\t\t\treturn basicUnset";
+  protected final String TEXT_1339 = "(msgs);";
+  protected final String TEXT_1340 = NL + "\t\t\t\treturn basicSet";
+  protected final String TEXT_1341 = "(null, msgs);";
+  protected final String TEXT_1342 = NL + "\t\t}";
+  protected final String TEXT_1343 = NL + "\t\treturn super.eInverseRemove(otherEnd, featureID, msgs);";
+  protected final String TEXT_1344 = NL + "\t\treturn eDynamicInverseRemove(otherEnd, featureID, msgs);";
+  protected final String TEXT_1345 = NL + "\t}" + NL;
+  protected final String TEXT_1346 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1347 = NL + "\t@Override";
+  protected final String TEXT_1348 = NL + "\tpublic ";
+  protected final String TEXT_1349 = " eBasicRemoveFromContainerFeature(";
+  protected final String TEXT_1350 = " msgs)" + NL + "\t{" + NL + "\t\tswitch (eContainerFeatureID()";
+  protected final String TEXT_1351 = ")" + NL + "\t\t{";
+  protected final String TEXT_1352 = NL + "\t\t\tcase ";
+  protected final String TEXT_1353 = ":" + NL + "\t\t\t\treturn eInternalContainer().eInverseRemove(this, ";
+  protected final String TEXT_1354 = ", ";
+  protected final String TEXT_1355 = ".class, msgs);";
+  protected final String TEXT_1356 = NL + "\t\t}";
+  protected final String TEXT_1357 = NL + "\t\treturn super.eBasicRemoveFromContainerFeature(msgs);";
+  protected final String TEXT_1358 = NL + "\t\treturn eDynamicBasicRemoveFromContainer(msgs);";
+  protected final String TEXT_1359 = NL + "\t}" + NL;
+  protected final String TEXT_1360 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1361 = NL + "\t@Override";
+  protected final String TEXT_1362 = NL + "\tpublic Object eGet(int featureID, boolean resolve, boolean coreType)" + NL + "\t{" + NL + "\t\tswitch (featureID";
+  protected final String TEXT_1363 = ")" + NL + "\t\t{";
+  protected final String TEXT_1364 = NL + "\t\t\tcase ";
+  protected final String TEXT_1365 = ":";
+  protected final String TEXT_1366 = NL + "\t\t\t\treturn ";
+  protected final String TEXT_1367 = "();";
+  protected final String TEXT_1368 = NL + "\t\t\t\treturn ";
+  protected final String TEXT_1369 = "() ? Boolean.TRUE : Boolean.FALSE;";
+  protected final String TEXT_1370 = NL + "\t\t\t\treturn new ";
+  protected final String TEXT_1371 = "(";
+  protected final String TEXT_1372 = "());";
+  protected final String TEXT_1373 = NL + "\t\t\t\tif (resolve) return ";
+  protected final String TEXT_1374 = "();" + NL + "\t\t\t\treturn basicGet";
+  protected final String TEXT_1375 = "();";
+  protected final String TEXT_1376 = NL + "\t\t\t\tif (coreType) return ((";
+  protected final String TEXT_1377 = ".InternalMapView";
+  protected final String TEXT_1378 = ")";
+  protected final String TEXT_1379 = "()).eMap();" + NL + "\t\t\t\telse return ";
+  protected final String TEXT_1380 = "();";
+  protected final String TEXT_1381 = NL + "\t\t\t\tif (coreType) return ";
+  protected final String TEXT_1382 = "();" + NL + "\t\t\t\telse return ";
+  protected final String TEXT_1383 = "().map();";
+  protected final String TEXT_1384 = NL + "\t\t\t\tif (coreType) return ((";
+  protected final String TEXT_1385 = ".Internal.Wrapper)";
+  protected final String TEXT_1386 = "()).featureMap();" + NL + "\t\t\t\treturn ";
+  protected final String TEXT_1387 = "();";
+  protected final String TEXT_1388 = NL + "\t\t\t\tif (coreType) return ";
+  protected final String TEXT_1389 = "();" + NL + "\t\t\t\treturn ((";
+  protected final String TEXT_1390 = ".Internal)";
+  protected final String TEXT_1391 = "()).getWrapper();";
+  protected final String TEXT_1392 = NL + "\t\t\t\treturn ";
+  protected final String TEXT_1393 = "();";
+  protected final String TEXT_1394 = NL + "\t\t}";
+  protected final String TEXT_1395 = NL + "\t\treturn super.eGet(featureID, resolve, coreType);";
+  protected final String TEXT_1396 = NL + "\t\treturn eDynamicGet(featureID, resolve, coreType);";
+  protected final String TEXT_1397 = NL + "\t}" + NL;
+  protected final String TEXT_1398 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1399 = NL + "\t@SuppressWarnings(\"unchecked\")";
+  protected final String TEXT_1400 = NL + "\t@Override";
+  protected final String TEXT_1401 = NL + "\tpublic void eSet(int featureID, Object newValue)" + NL + "\t{" + NL + "\t\tswitch (featureID";
+  protected final String TEXT_1402 = ")" + NL + "\t\t{";
+  protected final String TEXT_1403 = NL + "\t\t\tcase ";
+  protected final String TEXT_1404 = ":";
+  protected final String TEXT_1405 = NL + "\t\t\t\t((";
+  protected final String TEXT_1406 = ".Internal)((";
+  protected final String TEXT_1407 = ".Internal.Wrapper)";
+  protected final String TEXT_1408 = "()).featureMap()).set(newValue);";
+  protected final String TEXT_1409 = NL + "\t\t\t\t((";
+  protected final String TEXT_1410 = ".Internal)";
+  protected final String TEXT_1411 = "()).set(newValue);";
+  protected final String TEXT_1412 = NL + "\t\t\t\t((";
+  protected final String TEXT_1413 = ".Setting)((";
+  protected final String TEXT_1414 = ".InternalMapView";
+  protected final String TEXT_1415 = ")";
+  protected final String TEXT_1416 = "()).eMap()).set(newValue);";
+  protected final String TEXT_1417 = NL + "\t\t\t\t((";
+  protected final String TEXT_1418 = ".Setting)";
+  protected final String TEXT_1419 = "()).set(newValue);";
+  protected final String TEXT_1420 = NL + "\t\t\t\t";
+  protected final String TEXT_1421 = "().clear();" + NL + "\t\t\t\t";
+  protected final String TEXT_1422 = "().addAll((";
+  protected final String TEXT_1423 = "<? extends ";
+  protected final String TEXT_1424 = ">";
+  protected final String TEXT_1425 = ")newValue);";
+  protected final String TEXT_1426 = NL + "\t\t\t\tset";
+  protected final String TEXT_1427 = "(((";
+  protected final String TEXT_1428 = ")newValue).";
+  protected final String TEXT_1429 = "());";
+  protected final String TEXT_1430 = NL + "\t\t\t\tset";
   protected final String TEXT_1431 = "(";
-  protected final String TEXT_1432 = ")";
-  protected final String TEXT_1433 = "newValue);";
-  protected final String TEXT_1434 = NL + "\t\t\t\treturn;";
-  protected final String TEXT_1435 = NL + "\t\t}";
-  protected final String TEXT_1436 = NL + "\t\tsuper.eSet(featureID, newValue);";
-  protected final String TEXT_1437 = NL + "\t\teDynamicSet(featureID, newValue);";
-  protected final String TEXT_1438 = NL + "\t}" + NL;
-  protected final String TEXT_1439 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1440 = NL + "\t@Override";
-  protected final String TEXT_1441 = NL + "\tpublic void eUnset(int featureID)" + NL + "\t{" + NL + "\t\tswitch (featureID";
-  protected final String TEXT_1442 = ")" + NL + "\t\t{";
-  protected final String TEXT_1443 = NL + "\t\t\tcase ";
-  protected final String TEXT_1444 = ":";
-  protected final String TEXT_1445 = NL + "\t\t\t\t((";
-  protected final String TEXT_1446 = ".Internal.Wrapper)";
-  protected final String TEXT_1447 = "()).featureMap().clear();";
-  protected final String TEXT_1448 = NL + "\t\t\t\t";
-  protected final String TEXT_1449 = "().clear();";
-  protected final String TEXT_1450 = NL + "\t\t\t\tunset";
-  protected final String TEXT_1451 = "();";
-  protected final String TEXT_1452 = NL + "\t\t\t\tset";
-  protected final String TEXT_1453 = "((";
-  protected final String TEXT_1454 = ")null);";
-  protected final String TEXT_1455 = NL + "\t\t\t\tset";
-  protected final String TEXT_1456 = "(";
-  protected final String TEXT_1457 = ");";
-  protected final String TEXT_1458 = NL + "\t\t\t\treturn;";
-  protected final String TEXT_1459 = NL + "\t\t}";
-  protected final String TEXT_1460 = NL + "\t\tsuper.eUnset(featureID);";
-  protected final String TEXT_1461 = NL + "\t\teDynamicUnset(featureID);";
-  protected final String TEXT_1462 = NL + "\t}" + NL;
-  protected final String TEXT_1463 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1464 = NL + "\t@SuppressWarnings(\"unchecked\")";
-  protected final String TEXT_1465 = NL + "\t@Override";
-  protected final String TEXT_1466 = NL + "\tpublic boolean eIsSet(int featureID)" + NL + "\t{" + NL + "\t\tswitch (featureID";
-  protected final String TEXT_1467 = ")" + NL + "\t\t{";
-  protected final String TEXT_1468 = NL + "\t\t\tcase ";
-  protected final String TEXT_1469 = ":";
-  protected final String TEXT_1470 = NL + "\t\t\t\treturn isSet";
-  protected final String TEXT_1471 = "();";
-  protected final String TEXT_1472 = NL + "\t\t\t\treturn ";
-  protected final String TEXT_1473 = "__ESETTING_DELEGATE.dynamicIsSet(this, null, 0);";
-  protected final String TEXT_1474 = NL + "\t\t\t\treturn !((";
-  protected final String TEXT_1475 = ".Internal.Wrapper)";
-  protected final String TEXT_1476 = "()).featureMap().isEmpty();";
-  protected final String TEXT_1477 = NL + "\t\t\t\treturn ";
-  protected final String TEXT_1478 = " != null && !";
-  protected final String TEXT_1479 = ".featureMap().isEmpty();";
-  protected final String TEXT_1480 = NL + "\t\t\t\treturn ";
-  protected final String TEXT_1481 = " != null && !";
-  protected final String TEXT_1482 = ".isEmpty();";
-  protected final String TEXT_1483 = NL + "\t\t\t\t";
-  protected final String TEXT_1484 = " ";
-  protected final String TEXT_1485 = " = (";
-  protected final String TEXT_1486 = ")eVirtualGet(";
-  protected final String TEXT_1487 = ");" + NL + "\t\t\t\treturn ";
-  protected final String TEXT_1488 = " != null && !";
-  protected final String TEXT_1489 = ".isEmpty();";
-  protected final String TEXT_1490 = NL + "\t\t\t\treturn !";
-  protected final String TEXT_1491 = "().isEmpty();";
-  protected final String TEXT_1492 = NL + "\t\t\t\treturn isSet";
-  protected final String TEXT_1493 = "();";
-  protected final String TEXT_1494 = NL + "\t\t\t\treturn ";
-  protected final String TEXT_1495 = " != null;";
-  protected final String TEXT_1496 = NL + "\t\t\t\treturn eVirtualGet(";
-  protected final String TEXT_1497 = ") != null;";
-  protected final String TEXT_1498 = NL + "\t\t\t\treturn basicGet";
-  protected final String TEXT_1499 = "() != null;";
-  protected final String TEXT_1500 = NL + "\t\t\t\treturn ";
-  protected final String TEXT_1501 = " != null;";
-  protected final String TEXT_1502 = NL + "\t\t\t\treturn eVirtualGet(";
-  protected final String TEXT_1503 = ") != null;";
-  protected final String TEXT_1504 = NL + "\t\t\t\treturn ";
-  protected final String TEXT_1505 = "() != null;";
-  protected final String TEXT_1506 = NL + "\t\t\t\treturn ((";
-  protected final String TEXT_1507 = " & ";
-  protected final String TEXT_1508 = "_EFLAG) != 0) != ";
-  protected final String TEXT_1509 = ";";
-  protected final String TEXT_1510 = NL + "\t\t\t\treturn (";
-  protected final String TEXT_1511 = " & ";
-  protected final String TEXT_1512 = "_EFLAG) != ";
-  protected final String TEXT_1513 = "_EFLAG_DEFAULT;";
-  protected final String TEXT_1514 = NL + "\t\t\t\treturn ";
-  protected final String TEXT_1515 = " != ";
-  protected final String TEXT_1516 = ";";
-  protected final String TEXT_1517 = NL + "\t\t\t\treturn eVirtualGet(";
-  protected final String TEXT_1518 = ", ";
-  protected final String TEXT_1519 = ") != ";
-  protected final String TEXT_1520 = ";";
-  protected final String TEXT_1521 = NL + "\t\t\t\treturn ";
-  protected final String TEXT_1522 = "() != ";
-  protected final String TEXT_1523 = ";";
-  protected final String TEXT_1524 = NL + "\t\t\t\treturn ";
-  protected final String TEXT_1525 = " == null ? ";
-  protected final String TEXT_1526 = " != null : !";
-  protected final String TEXT_1527 = ".equals(";
-  protected final String TEXT_1528 = ");";
-  protected final String TEXT_1529 = NL + "\t\t\t\t";
-  protected final String TEXT_1530 = " ";
-  protected final String TEXT_1531 = " = (";
-  protected final String TEXT_1532 = ")eVirtualGet(";
-  protected final String TEXT_1533 = ", ";
-  protected final String TEXT_1534 = ");" + NL + "\t\t\t\treturn ";
-  protected final String TEXT_1535 = " == null ? ";
-  protected final String TEXT_1536 = " != null : !";
-  protected final String TEXT_1537 = ".equals(";
-  protected final String TEXT_1538 = ");";
-  protected final String TEXT_1539 = NL + "\t\t\t\treturn ";
-  protected final String TEXT_1540 = " == null ? ";
-  protected final String TEXT_1541 = "() != null : !";
-  protected final String TEXT_1542 = ".equals(";
-  protected final String TEXT_1543 = "());";
-  protected final String TEXT_1544 = NL + "\t\t}";
-  protected final String TEXT_1545 = NL + "\t\treturn super.eIsSet(featureID);";
-  protected final String TEXT_1546 = NL + "\t\treturn eDynamicIsSet(featureID);";
-  protected final String TEXT_1547 = NL + "\t}" + NL;
-  protected final String TEXT_1548 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1549 = NL + "\t@Override";
-  protected final String TEXT_1550 = NL + "\tpublic int eBaseStructuralFeatureID(int derivedFeatureID, Class";
-  protected final String TEXT_1551 = " baseClass)" + NL + "\t{";
-  protected final String TEXT_1552 = NL + "\t\tif (baseClass == ";
-  protected final String TEXT_1553 = ".class)" + NL + "\t\t{" + NL + "\t\t\tswitch (derivedFeatureID";
-  protected final String TEXT_1554 = ")" + NL + "\t\t\t{";
-  protected final String TEXT_1555 = NL + "\t\t\t\tcase ";
-  protected final String TEXT_1556 = ": return ";
-  protected final String TEXT_1557 = ";";
-  protected final String TEXT_1558 = NL + "\t\t\t\tdefault: return -1;" + NL + "\t\t\t}" + NL + "\t\t}";
-  protected final String TEXT_1559 = NL + "\t\treturn super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);" + NL + "\t}";
-  protected final String TEXT_1560 = NL + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1561 = NL + "\t@Override";
-  protected final String TEXT_1562 = NL + "\tpublic int eDerivedStructuralFeatureID(int baseFeatureID, Class";
-  protected final String TEXT_1563 = " baseClass)" + NL + "\t{";
-  protected final String TEXT_1564 = NL + "\t\tif (baseClass == ";
-  protected final String TEXT_1565 = ".class)" + NL + "\t\t{" + NL + "\t\t\tswitch (baseFeatureID)" + NL + "\t\t\t{";
-  protected final String TEXT_1566 = NL + "\t\t\t\tcase ";
-  protected final String TEXT_1567 = ": return ";
-  protected final String TEXT_1568 = ";";
-  protected final String TEXT_1569 = NL + "\t\t\t\tdefault: return -1;" + NL + "\t\t\t}" + NL + "\t\t}";
-  protected final String TEXT_1570 = NL + "\t\tif (baseClass == ";
-  protected final String TEXT_1571 = ".class)" + NL + "\t\t{" + NL + "\t\t\tswitch (baseFeatureID";
-  protected final String TEXT_1572 = ")" + NL + "\t\t\t{";
-  protected final String TEXT_1573 = NL + "\t\t\t\tcase ";
-  protected final String TEXT_1574 = ": return ";
-  protected final String TEXT_1575 = ";";
-  protected final String TEXT_1576 = NL + "\t\t\t\tdefault: return -1;" + NL + "\t\t\t}" + NL + "\t\t}";
-  protected final String TEXT_1577 = NL + "\t\treturn super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);" + NL + "\t}" + NL;
-  protected final String TEXT_1578 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1579 = NL + "\t@Override";
-  protected final String TEXT_1580 = NL + "\tpublic int eDerivedOperationID(int baseOperationID, Class";
-  protected final String TEXT_1581 = " baseClass)" + NL + "\t{";
-  protected final String TEXT_1582 = NL + "\t\tif (baseClass == ";
-  protected final String TEXT_1583 = ".class)" + NL + "\t\t{" + NL + "\t\t\tswitch (baseOperationID)" + NL + "\t\t\t{";
-  protected final String TEXT_1584 = NL + "\t\t\t\tcase ";
-  protected final String TEXT_1585 = ": return ";
-  protected final String TEXT_1586 = ";";
-  protected final String TEXT_1587 = NL + "\t\t\t\tdefault: return super.eDerivedOperationID(baseOperationID, baseClass);" + NL + "\t\t\t}" + NL + "\t\t}";
-  protected final String TEXT_1588 = NL + "\t\tif (baseClass == ";
-  protected final String TEXT_1589 = ".class)" + NL + "\t\t{" + NL + "\t\t\tswitch (baseOperationID)" + NL + "\t\t\t{";
-  protected final String TEXT_1590 = NL + "\t\t\t\tcase ";
-  protected final String TEXT_1591 = ": return ";
-  protected final String TEXT_1592 = ";";
-  protected final String TEXT_1593 = NL + "\t\t\t\tdefault: return -1;" + NL + "\t\t\t}" + NL + "\t\t}";
-  protected final String TEXT_1594 = NL + "\t\tif (baseClass == ";
-  protected final String TEXT_1595 = ".class)" + NL + "\t\t{" + NL + "\t\t\tswitch (baseOperationID";
-  protected final String TEXT_1596 = ")" + NL + "\t\t\t{";
-  protected final String TEXT_1597 = NL + "\t\t\t\tcase ";
-  protected final String TEXT_1598 = ": return ";
-  protected final String TEXT_1599 = ";";
-  protected final String TEXT_1600 = NL + "\t\t\t\tdefault: return -1;" + NL + "\t\t\t}" + NL + "\t\t}";
-  protected final String TEXT_1601 = NL + "\t\treturn super.eDerivedOperationID(baseOperationID, baseClass);" + NL + "\t}" + NL;
-  protected final String TEXT_1602 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1603 = NL + "\t@Override";
-  protected final String TEXT_1604 = NL + "\tprotected Object[] eVirtualValues()" + NL + "\t{" + NL + "\t\treturn ";
-  protected final String TEXT_1605 = ";" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1606 = NL + "\t@Override";
-  protected final String TEXT_1607 = NL + "\tprotected void eSetVirtualValues(Object[] newValues)" + NL + "\t{" + NL + "\t\t";
-  protected final String TEXT_1608 = " = newValues;" + NL + "\t}" + NL;
-  protected final String TEXT_1609 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1610 = NL + "\t@Override";
-  protected final String TEXT_1611 = NL + "\tprotected int eVirtualIndexBits(int offset)" + NL + "\t{" + NL + "\t\tswitch (offset)" + NL + "\t\t{";
-  protected final String TEXT_1612 = NL + "\t\t\tcase ";
-  protected final String TEXT_1613 = " :" + NL + "\t\t\t\treturn ";
-  protected final String TEXT_1614 = ";";
-  protected final String TEXT_1615 = NL + "\t\t\tdefault :" + NL + "\t\t\t\tthrow new IndexOutOfBoundsException();" + NL + "\t\t}" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1616 = NL + "\t@Override";
-  protected final String TEXT_1617 = NL + "\tprotected void eSetVirtualIndexBits(int offset, int newIndexBits)" + NL + "\t{" + NL + "\t\tswitch (offset)" + NL + "\t\t{";
-  protected final String TEXT_1618 = NL + "\t\t\tcase ";
-  protected final String TEXT_1619 = " :" + NL + "\t\t\t\t";
-  protected final String TEXT_1620 = " = newIndexBits;" + NL + "\t\t\t\tbreak;";
-  protected final String TEXT_1621 = NL + "\t\t\tdefault :" + NL + "\t\t\t\tthrow new IndexOutOfBoundsException();" + NL + "\t\t}" + NL + "\t}" + NL;
-  protected final String TEXT_1622 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1623 = NL + "\t@Override";
-  protected final String TEXT_1624 = NL + "\t@SuppressWarnings(\"unchecked\")";
-  protected final String TEXT_1625 = NL + "\tpublic Object eInvoke(int operationID, ";
-  protected final String TEXT_1626 = " arguments) throws ";
-  protected final String TEXT_1627 = NL + "\t{" + NL + "\t\tswitch (operationID";
-  protected final String TEXT_1628 = ")" + NL + "\t\t{";
-  protected final String TEXT_1629 = NL + "\t\t\tcase ";
-  protected final String TEXT_1630 = ":";
-  protected final String TEXT_1631 = NL + "\t\t\t\t";
-  protected final String TEXT_1632 = "(";
+  protected final String TEXT_1432 = "(";
+  protected final String TEXT_1433 = ")";
+  protected final String TEXT_1434 = "newValue);";
+  protected final String TEXT_1435 = NL + "\t\t\t\treturn;";
+  protected final String TEXT_1436 = NL + "\t\t}";
+  protected final String TEXT_1437 = NL + "\t\tsuper.eSet(featureID, newValue);";
+  protected final String TEXT_1438 = NL + "\t\teDynamicSet(featureID, newValue);";
+  protected final String TEXT_1439 = NL + "\t}" + NL;
+  protected final String TEXT_1440 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1441 = NL + "\t@Override";
+  protected final String TEXT_1442 = NL + "\tpublic void eUnset(int featureID)" + NL + "\t{" + NL + "\t\tswitch (featureID";
+  protected final String TEXT_1443 = ")" + NL + "\t\t{";
+  protected final String TEXT_1444 = NL + "\t\t\tcase ";
+  protected final String TEXT_1445 = ":";
+  protected final String TEXT_1446 = NL + "\t\t\t\t((";
+  protected final String TEXT_1447 = ".Internal.Wrapper)";
+  protected final String TEXT_1448 = "()).featureMap().clear();";
+  protected final String TEXT_1449 = NL + "\t\t\t\t";
+  protected final String TEXT_1450 = "().clear();";
+  protected final String TEXT_1451 = NL + "\t\t\t\tunset";
+  protected final String TEXT_1452 = "();";
+  protected final String TEXT_1453 = NL + "\t\t\t\tset";
+  protected final String TEXT_1454 = "((";
+  protected final String TEXT_1455 = ")null);";
+  protected final String TEXT_1456 = NL + "\t\t\t\tset";
+  protected final String TEXT_1457 = "(";
+  protected final String TEXT_1458 = ");";
+  protected final String TEXT_1459 = NL + "\t\t\t\treturn;";
+  protected final String TEXT_1460 = NL + "\t\t}";
+  protected final String TEXT_1461 = NL + "\t\tsuper.eUnset(featureID);";
+  protected final String TEXT_1462 = NL + "\t\teDynamicUnset(featureID);";
+  protected final String TEXT_1463 = NL + "\t}" + NL;
+  protected final String TEXT_1464 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1465 = NL + "\t@SuppressWarnings(\"unchecked\")";
+  protected final String TEXT_1466 = NL + "\t@Override";
+  protected final String TEXT_1467 = NL + "\tpublic boolean eIsSet(int featureID)" + NL + "\t{" + NL + "\t\tswitch (featureID";
+  protected final String TEXT_1468 = ")" + NL + "\t\t{";
+  protected final String TEXT_1469 = NL + "\t\t\tcase ";
+  protected final String TEXT_1470 = ":";
+  protected final String TEXT_1471 = NL + "\t\t\t\treturn isSet";
+  protected final String TEXT_1472 = "();";
+  protected final String TEXT_1473 = NL + "\t\t\t\treturn ";
+  protected final String TEXT_1474 = "__ESETTING_DELEGATE.dynamicIsSet(this, null, 0);";
+  protected final String TEXT_1475 = NL + "\t\t\t\treturn !((";
+  protected final String TEXT_1476 = ".Internal.Wrapper)";
+  protected final String TEXT_1477 = "()).featureMap().isEmpty();";
+  protected final String TEXT_1478 = NL + "\t\t\t\treturn ";
+  protected final String TEXT_1479 = " != null && !";
+  protected final String TEXT_1480 = ".featureMap().isEmpty();";
+  protected final String TEXT_1481 = NL + "\t\t\t\treturn ";
+  protected final String TEXT_1482 = " != null && !";
+  protected final String TEXT_1483 = ".isEmpty();";
+  protected final String TEXT_1484 = NL + "\t\t\t\t";
+  protected final String TEXT_1485 = " ";
+  protected final String TEXT_1486 = " = (";
+  protected final String TEXT_1487 = ")eVirtualGet(";
+  protected final String TEXT_1488 = ");" + NL + "\t\t\t\treturn ";
+  protected final String TEXT_1489 = " != null && !";
+  protected final String TEXT_1490 = ".isEmpty();";
+  protected final String TEXT_1491 = NL + "\t\t\t\treturn !";
+  protected final String TEXT_1492 = "().isEmpty();";
+  protected final String TEXT_1493 = NL + "\t\t\t\treturn isSet";
+  protected final String TEXT_1494 = "();";
+  protected final String TEXT_1495 = NL + "\t\t\t\treturn ";
+  protected final String TEXT_1496 = " != null;";
+  protected final String TEXT_1497 = NL + "\t\t\t\treturn eVirtualGet(";
+  protected final String TEXT_1498 = ") != null;";
+  protected final String TEXT_1499 = NL + "\t\t\t\treturn basicGet";
+  protected final String TEXT_1500 = "() != null;";
+  protected final String TEXT_1501 = NL + "\t\t\t\treturn ";
+  protected final String TEXT_1502 = " != null;";
+  protected final String TEXT_1503 = NL + "\t\t\t\treturn eVirtualGet(";
+  protected final String TEXT_1504 = ") != null;";
+  protected final String TEXT_1505 = NL + "\t\t\t\treturn ";
+  protected final String TEXT_1506 = "() != null;";
+  protected final String TEXT_1507 = NL + "\t\t\t\treturn ((";
+  protected final String TEXT_1508 = " & ";
+  protected final String TEXT_1509 = "_EFLAG) != 0) != ";
+  protected final String TEXT_1510 = ";";
+  protected final String TEXT_1511 = NL + "\t\t\t\treturn (";
+  protected final String TEXT_1512 = " & ";
+  protected final String TEXT_1513 = "_EFLAG) != ";
+  protected final String TEXT_1514 = "_EFLAG_DEFAULT;";
+  protected final String TEXT_1515 = NL + "\t\t\t\treturn ";
+  protected final String TEXT_1516 = " != ";
+  protected final String TEXT_1517 = ";";
+  protected final String TEXT_1518 = NL + "\t\t\t\treturn eVirtualGet(";
+  protected final String TEXT_1519 = ", ";
+  protected final String TEXT_1520 = ") != ";
+  protected final String TEXT_1521 = ";";
+  protected final String TEXT_1522 = NL + "\t\t\t\treturn ";
+  protected final String TEXT_1523 = "() != ";
+  protected final String TEXT_1524 = ";";
+  protected final String TEXT_1525 = NL + "\t\t\t\treturn ";
+  protected final String TEXT_1526 = " == null ? ";
+  protected final String TEXT_1527 = " != null : !";
+  protected final String TEXT_1528 = ".equals(";
+  protected final String TEXT_1529 = ");";
+  protected final String TEXT_1530 = NL + "\t\t\t\t";
+  protected final String TEXT_1531 = " ";
+  protected final String TEXT_1532 = " = (";
+  protected final String TEXT_1533 = ")eVirtualGet(";
+  protected final String TEXT_1534 = ", ";
+  protected final String TEXT_1535 = ");" + NL + "\t\t\t\treturn ";
+  protected final String TEXT_1536 = " == null ? ";
+  protected final String TEXT_1537 = " != null : !";
+  protected final String TEXT_1538 = ".equals(";
+  protected final String TEXT_1539 = ");";
+  protected final String TEXT_1540 = NL + "\t\t\t\treturn ";
+  protected final String TEXT_1541 = " == null ? ";
+  protected final String TEXT_1542 = "() != null : !";
+  protected final String TEXT_1543 = ".equals(";
+  protected final String TEXT_1544 = "());";
+  protected final String TEXT_1545 = NL + "\t\t}";
+  protected final String TEXT_1546 = NL + "\t\treturn super.eIsSet(featureID);";
+  protected final String TEXT_1547 = NL + "\t\treturn eDynamicIsSet(featureID);";
+  protected final String TEXT_1548 = NL + "\t}" + NL;
+  protected final String TEXT_1549 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1550 = NL + "\t@Override";
+  protected final String TEXT_1551 = NL + "\tpublic int eBaseStructuralFeatureID(int derivedFeatureID, Class";
+  protected final String TEXT_1552 = " baseClass)" + NL + "\t{";
+  protected final String TEXT_1553 = NL + "\t\tif (baseClass == ";
+  protected final String TEXT_1554 = ".class)" + NL + "\t\t{" + NL + "\t\t\tswitch (derivedFeatureID";
+  protected final String TEXT_1555 = ")" + NL + "\t\t\t{";
+  protected final String TEXT_1556 = NL + "\t\t\t\tcase ";
+  protected final String TEXT_1557 = ": return ";
+  protected final String TEXT_1558 = ";";
+  protected final String TEXT_1559 = NL + "\t\t\t\tdefault: return -1;" + NL + "\t\t\t}" + NL + "\t\t}";
+  protected final String TEXT_1560 = NL + "\t\treturn super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);" + NL + "\t}";
+  protected final String TEXT_1561 = NL + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1562 = NL + "\t@Override";
+  protected final String TEXT_1563 = NL + "\tpublic int eDerivedStructuralFeatureID(int baseFeatureID, Class";
+  protected final String TEXT_1564 = " baseClass)" + NL + "\t{";
+  protected final String TEXT_1565 = NL + "\t\tif (baseClass == ";
+  protected final String TEXT_1566 = ".class)" + NL + "\t\t{" + NL + "\t\t\tswitch (baseFeatureID)" + NL + "\t\t\t{";
+  protected final String TEXT_1567 = NL + "\t\t\t\tcase ";
+  protected final String TEXT_1568 = ": return ";
+  protected final String TEXT_1569 = ";";
+  protected final String TEXT_1570 = NL + "\t\t\t\tdefault: return -1;" + NL + "\t\t\t}" + NL + "\t\t}";
+  protected final String TEXT_1571 = NL + "\t\tif (baseClass == ";
+  protected final String TEXT_1572 = ".class)" + NL + "\t\t{" + NL + "\t\t\tswitch (baseFeatureID";
+  protected final String TEXT_1573 = ")" + NL + "\t\t\t{";
+  protected final String TEXT_1574 = NL + "\t\t\t\tcase ";
+  protected final String TEXT_1575 = ": return ";
+  protected final String TEXT_1576 = ";";
+  protected final String TEXT_1577 = NL + "\t\t\t\tdefault: return -1;" + NL + "\t\t\t}" + NL + "\t\t}";
+  protected final String TEXT_1578 = NL + "\t\treturn super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);" + NL + "\t}" + NL;
+  protected final String TEXT_1579 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1580 = NL + "\t@Override";
+  protected final String TEXT_1581 = NL + "\tpublic int eDerivedOperationID(int baseOperationID, Class";
+  protected final String TEXT_1582 = " baseClass)" + NL + "\t{";
+  protected final String TEXT_1583 = NL + "\t\tif (baseClass == ";
+  protected final String TEXT_1584 = ".class)" + NL + "\t\t{" + NL + "\t\t\tswitch (baseOperationID)" + NL + "\t\t\t{";
+  protected final String TEXT_1585 = NL + "\t\t\t\tcase ";
+  protected final String TEXT_1586 = ": return ";
+  protected final String TEXT_1587 = ";";
+  protected final String TEXT_1588 = NL + "\t\t\t\tdefault: return super.eDerivedOperationID(baseOperationID, baseClass);" + NL + "\t\t\t}" + NL + "\t\t}";
+  protected final String TEXT_1589 = NL + "\t\tif (baseClass == ";
+  protected final String TEXT_1590 = ".class)" + NL + "\t\t{" + NL + "\t\t\tswitch (baseOperationID)" + NL + "\t\t\t{";
+  protected final String TEXT_1591 = NL + "\t\t\t\tcase ";
+  protected final String TEXT_1592 = ": return ";
+  protected final String TEXT_1593 = ";";
+  protected final String TEXT_1594 = NL + "\t\t\t\tdefault: return -1;" + NL + "\t\t\t}" + NL + "\t\t}";
+  protected final String TEXT_1595 = NL + "\t\tif (baseClass == ";
+  protected final String TEXT_1596 = ".class)" + NL + "\t\t{" + NL + "\t\t\tswitch (baseOperationID";
+  protected final String TEXT_1597 = ")" + NL + "\t\t\t{";
+  protected final String TEXT_1598 = NL + "\t\t\t\tcase ";
+  protected final String TEXT_1599 = ": return ";
+  protected final String TEXT_1600 = ";";
+  protected final String TEXT_1601 = NL + "\t\t\t\tdefault: return -1;" + NL + "\t\t\t}" + NL + "\t\t}";
+  protected final String TEXT_1602 = NL + "\t\treturn super.eDerivedOperationID(baseOperationID, baseClass);" + NL + "\t}" + NL;
+  protected final String TEXT_1603 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1604 = NL + "\t@Override";
+  protected final String TEXT_1605 = NL + "\tprotected Object[] eVirtualValues()" + NL + "\t{" + NL + "\t\treturn ";
+  protected final String TEXT_1606 = ";" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1607 = NL + "\t@Override";
+  protected final String TEXT_1608 = NL + "\tprotected void eSetVirtualValues(Object[] newValues)" + NL + "\t{" + NL + "\t\t";
+  protected final String TEXT_1609 = " = newValues;" + NL + "\t}" + NL;
+  protected final String TEXT_1610 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1611 = NL + "\t@Override";
+  protected final String TEXT_1612 = NL + "\tprotected int eVirtualIndexBits(int offset)" + NL + "\t{" + NL + "\t\tswitch (offset)" + NL + "\t\t{";
+  protected final String TEXT_1613 = NL + "\t\t\tcase ";
+  protected final String TEXT_1614 = " :" + NL + "\t\t\t\treturn ";
+  protected final String TEXT_1615 = ";";
+  protected final String TEXT_1616 = NL + "\t\t\tdefault :" + NL + "\t\t\t\tthrow new IndexOutOfBoundsException();" + NL + "\t\t}" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1617 = NL + "\t@Override";
+  protected final String TEXT_1618 = NL + "\tprotected void eSetVirtualIndexBits(int offset, int newIndexBits)" + NL + "\t{" + NL + "\t\tswitch (offset)" + NL + "\t\t{";
+  protected final String TEXT_1619 = NL + "\t\t\tcase ";
+  protected final String TEXT_1620 = " :" + NL + "\t\t\t\t";
+  protected final String TEXT_1621 = " = newIndexBits;" + NL + "\t\t\t\tbreak;";
+  protected final String TEXT_1622 = NL + "\t\t\tdefault :" + NL + "\t\t\t\tthrow new IndexOutOfBoundsException();" + NL + "\t\t}" + NL + "\t}" + NL;
+  protected final String TEXT_1623 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1624 = NL + "\t@Override";
+  protected final String TEXT_1625 = NL + "\t@SuppressWarnings(\"unchecked\")";
+  protected final String TEXT_1626 = NL + "\tpublic Object eInvoke(int operationID, ";
+  protected final String TEXT_1627 = " arguments) throws ";
+  protected final String TEXT_1628 = NL + "\t{" + NL + "\t\tswitch (operationID";
+  protected final String TEXT_1629 = ")" + NL + "\t\t{";
+  protected final String TEXT_1630 = NL + "\t\t\tcase ";
+  protected final String TEXT_1631 = ":";
+  protected final String TEXT_1632 = NL + "\t\t\t\t";
   protected final String TEXT_1633 = "(";
   protected final String TEXT_1634 = "(";
-  protected final String TEXT_1635 = ")";
-  protected final String TEXT_1636 = "arguments.get(";
-  protected final String TEXT_1637 = ")";
-  protected final String TEXT_1638 = ").";
-  protected final String TEXT_1639 = "()";
-  protected final String TEXT_1640 = ", ";
-  protected final String TEXT_1641 = ");" + NL + "\t\t\t\treturn null;";
-  protected final String TEXT_1642 = NL + "\t\t\t\treturn ";
-  protected final String TEXT_1643 = "new ";
-  protected final String TEXT_1644 = "(";
+  protected final String TEXT_1635 = "(";
+  protected final String TEXT_1636 = ")";
+  protected final String TEXT_1637 = "arguments.get(";
+  protected final String TEXT_1638 = ")";
+  protected final String TEXT_1639 = ").";
+  protected final String TEXT_1640 = "()";
+  protected final String TEXT_1641 = ", ";
+  protected final String TEXT_1642 = ");" + NL + "\t\t\t\treturn null;";
+  protected final String TEXT_1643 = NL + "\t\t\t\treturn ";
+  protected final String TEXT_1644 = "new ";
   protected final String TEXT_1645 = "(";
   protected final String TEXT_1646 = "(";
   protected final String TEXT_1647 = "(";
-  protected final String TEXT_1648 = ")";
-  protected final String TEXT_1649 = "arguments.get(";
-  protected final String TEXT_1650 = ")";
-  protected final String TEXT_1651 = ").";
-  protected final String TEXT_1652 = "()";
-  protected final String TEXT_1653 = ", ";
-  protected final String TEXT_1654 = ")";
+  protected final String TEXT_1648 = "(";
+  protected final String TEXT_1649 = ")";
+  protected final String TEXT_1650 = "arguments.get(";
+  protected final String TEXT_1651 = ")";
+  protected final String TEXT_1652 = ").";
+  protected final String TEXT_1653 = "()";
+  protected final String TEXT_1654 = ", ";
   protected final String TEXT_1655 = ")";
-  protected final String TEXT_1656 = ";";
-  protected final String TEXT_1657 = NL + "\t\t}";
-  protected final String TEXT_1658 = NL + "\t\treturn super.eInvoke(operationID, arguments);";
-  protected final String TEXT_1659 = NL + "\t\treturn eDynamicInvoke(operationID, arguments);";
-  protected final String TEXT_1660 = NL + "\t}" + NL;
-  protected final String TEXT_1661 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1662 = NL + "\t@Override";
-  protected final String TEXT_1663 = NL + "\tpublic String toString()" + NL + "\t{" + NL + "\t\tif (eIsProxy()) return super.toString();" + NL + "" + NL + "\t\tStringBuffer result = new StringBuffer(super.toString());";
-  protected final String TEXT_1664 = NL + "\t\tresult.append(\" (";
-  protected final String TEXT_1665 = ": \");";
-  protected final String TEXT_1666 = NL + "\t\tresult.append(\", ";
-  protected final String TEXT_1667 = ": \");";
-  protected final String TEXT_1668 = NL + "\t\tif (eVirtualIsSet(";
-  protected final String TEXT_1669 = ")) result.append(eVirtualGet(";
-  protected final String TEXT_1670 = ")); else result.append(\"<unset>\");";
-  protected final String TEXT_1671 = NL + "\t\tif (";
-  protected final String TEXT_1672 = "(";
-  protected final String TEXT_1673 = " & ";
-  protected final String TEXT_1674 = "_ESETFLAG) != 0";
-  protected final String TEXT_1675 = "ESet";
-  protected final String TEXT_1676 = ") result.append((";
-  protected final String TEXT_1677 = " & ";
-  protected final String TEXT_1678 = "_EFLAG) != 0); else result.append(\"<unset>\");";
-  protected final String TEXT_1679 = NL + "\t\tif (";
-  protected final String TEXT_1680 = "(";
-  protected final String TEXT_1681 = " & ";
-  protected final String TEXT_1682 = "_ESETFLAG) != 0";
-  protected final String TEXT_1683 = "ESet";
-  protected final String TEXT_1684 = ") result.append(";
-  protected final String TEXT_1685 = "_EFLAG_VALUES[(";
-  protected final String TEXT_1686 = " & ";
-  protected final String TEXT_1687 = "_EFLAG) >>> ";
-  protected final String TEXT_1688 = "_EFLAG_OFFSET]); else result.append(\"<unset>\");";
-  protected final String TEXT_1689 = NL + "\t\tif (";
-  protected final String TEXT_1690 = "(";
-  protected final String TEXT_1691 = " & ";
-  protected final String TEXT_1692 = "_ESETFLAG) != 0";
-  protected final String TEXT_1693 = "ESet";
-  protected final String TEXT_1694 = ") result.append(";
-  protected final String TEXT_1695 = "); else result.append(\"<unset>\");";
-  protected final String TEXT_1696 = NL + "\t\tresult.append(eVirtualGet(";
-  protected final String TEXT_1697 = ", ";
-  protected final String TEXT_1698 = "));";
-  protected final String TEXT_1699 = NL + "\t\tresult.append((";
-  protected final String TEXT_1700 = " & ";
-  protected final String TEXT_1701 = "_EFLAG) != 0);";
-  protected final String TEXT_1702 = NL + "\t\tresult.append(";
-  protected final String TEXT_1703 = "_EFLAG_VALUES[(";
-  protected final String TEXT_1704 = " & ";
-  protected final String TEXT_1705 = "_EFLAG) >>> ";
-  protected final String TEXT_1706 = "_EFLAG_OFFSET]);";
-  protected final String TEXT_1707 = NL + "\t\tresult.append(";
-  protected final String TEXT_1708 = ");";
-  protected final String TEXT_1709 = NL + "\t\tresult.append(')');" + NL + "\t\treturn result.toString();" + NL + "\t}" + NL;
-  protected final String TEXT_1710 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1711 = NL + "\t@";
-  protected final String TEXT_1712 = NL + "\tprotected int hash = -1;" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic int getHash()" + NL + "\t{" + NL + "\t\tif (hash == -1)" + NL + "\t\t{" + NL + "\t\t\t";
-  protected final String TEXT_1713 = " theKey = getKey();" + NL + "\t\t\thash = (theKey == null ? 0 : theKey.hashCode());" + NL + "\t\t}" + NL + "\t\treturn hash;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic void setHash(int hash)" + NL + "\t{" + NL + "\t\tthis.hash = hash;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
-  protected final String TEXT_1714 = " getKey()" + NL + "\t{";
-  protected final String TEXT_1715 = NL + "\t\treturn new ";
-  protected final String TEXT_1716 = "(getTypedKey());";
-  protected final String TEXT_1717 = NL + "\t\treturn getTypedKey();";
-  protected final String TEXT_1718 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic void setKey(";
-  protected final String TEXT_1719 = " key)" + NL + "\t{";
-  protected final String TEXT_1720 = NL + "\t\tgetTypedKey().addAll(";
-  protected final String TEXT_1721 = "(";
-  protected final String TEXT_1722 = ")";
-  protected final String TEXT_1723 = "key);";
-  protected final String TEXT_1724 = NL + "\t\tsetTypedKey(key);";
-  protected final String TEXT_1725 = NL + "\t\tsetTypedKey(((";
-  protected final String TEXT_1726 = ")key).";
-  protected final String TEXT_1727 = "());";
-  protected final String TEXT_1728 = NL + "\t\tsetTypedKey((";
-  protected final String TEXT_1729 = ")key);";
-  protected final String TEXT_1730 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
-  protected final String TEXT_1731 = " getValue()" + NL + "\t{";
-  protected final String TEXT_1732 = NL + "\t\treturn new ";
-  protected final String TEXT_1733 = "(getTypedValue());";
-  protected final String TEXT_1734 = NL + "\t\treturn getTypedValue();";
-  protected final String TEXT_1735 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
-  protected final String TEXT_1736 = " setValue(";
-  protected final String TEXT_1737 = " value)" + NL + "\t{" + NL + "\t\t";
-  protected final String TEXT_1738 = " oldValue = getValue();";
-  protected final String TEXT_1739 = NL + "\t\tgetTypedValue().clear();" + NL + "\t\tgetTypedValue().addAll(";
-  protected final String TEXT_1740 = "(";
-  protected final String TEXT_1741 = ")";
-  protected final String TEXT_1742 = "value);";
-  protected final String TEXT_1743 = NL + "\t\tsetTypedValue(value);";
-  protected final String TEXT_1744 = NL + "\t\tsetTypedValue(((";
-  protected final String TEXT_1745 = ")value).";
-  protected final String TEXT_1746 = "());";
-  protected final String TEXT_1747 = NL + "\t\tsetTypedValue((";
-  protected final String TEXT_1748 = ")value);";
-  protected final String TEXT_1749 = NL + "\t\treturn oldValue;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_1750 = NL + "\t@SuppressWarnings(\"unchecked\")";
-  protected final String TEXT_1751 = NL + "\tpublic ";
-  protected final String TEXT_1752 = " getEMap()" + NL + "\t{" + NL + "\t\t";
-  protected final String TEXT_1753 = " container = eContainer();" + NL + "\t\treturn container == null ? null : (";
-  protected final String TEXT_1754 = ")container.eGet(eContainmentFeature());" + NL + "\t}" + NL;
-  protected final String TEXT_1755 = NL + "} //";
-  protected final String TEXT_1756 = NL;
+  protected final String TEXT_1656 = ")";
+  protected final String TEXT_1657 = ";";
+  protected final String TEXT_1658 = NL + "\t\t}";
+  protected final String TEXT_1659 = NL + "\t\treturn super.eInvoke(operationID, arguments);";
+  protected final String TEXT_1660 = NL + "\t\treturn eDynamicInvoke(operationID, arguments);";
+  protected final String TEXT_1661 = NL + "\t}" + NL;
+  protected final String TEXT_1662 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1663 = NL + "\t@Override";
+  protected final String TEXT_1664 = NL + "\tpublic String toString()" + NL + "\t{" + NL + "\t\tif (eIsProxy()) return super.toString();" + NL + "" + NL + "\t\tStringBuffer result = new StringBuffer(super.toString());";
+  protected final String TEXT_1665 = NL + "\t\tresult.append(\" (";
+  protected final String TEXT_1666 = ": \");";
+  protected final String TEXT_1667 = NL + "\t\tresult.append(\", ";
+  protected final String TEXT_1668 = ": \");";
+  protected final String TEXT_1669 = NL + "\t\tif (eVirtualIsSet(";
+  protected final String TEXT_1670 = ")) result.append(eVirtualGet(";
+  protected final String TEXT_1671 = ")); else result.append(\"<unset>\");";
+  protected final String TEXT_1672 = NL + "\t\tif (";
+  protected final String TEXT_1673 = "(";
+  protected final String TEXT_1674 = " & ";
+  protected final String TEXT_1675 = "_ESETFLAG) != 0";
+  protected final String TEXT_1676 = "ESet";
+  protected final String TEXT_1677 = ") result.append((";
+  protected final String TEXT_1678 = " & ";
+  protected final String TEXT_1679 = "_EFLAG) != 0); else result.append(\"<unset>\");";
+  protected final String TEXT_1680 = NL + "\t\tif (";
+  protected final String TEXT_1681 = "(";
+  protected final String TEXT_1682 = " & ";
+  protected final String TEXT_1683 = "_ESETFLAG) != 0";
+  protected final String TEXT_1684 = "ESet";
+  protected final String TEXT_1685 = ") result.append(";
+  protected final String TEXT_1686 = "_EFLAG_VALUES[(";
+  protected final String TEXT_1687 = " & ";
+  protected final String TEXT_1688 = "_EFLAG) >>> ";
+  protected final String TEXT_1689 = "_EFLAG_OFFSET]); else result.append(\"<unset>\");";
+  protected final String TEXT_1690 = NL + "\t\tif (";
+  protected final String TEXT_1691 = "(";
+  protected final String TEXT_1692 = " & ";
+  protected final String TEXT_1693 = "_ESETFLAG) != 0";
+  protected final String TEXT_1694 = "ESet";
+  protected final String TEXT_1695 = ") result.append(";
+  protected final String TEXT_1696 = "); else result.append(\"<unset>\");";
+  protected final String TEXT_1697 = NL + "\t\tresult.append(eVirtualGet(";
+  protected final String TEXT_1698 = ", ";
+  protected final String TEXT_1699 = "));";
+  protected final String TEXT_1700 = NL + "\t\tresult.append((";
+  protected final String TEXT_1701 = " & ";
+  protected final String TEXT_1702 = "_EFLAG) != 0);";
+  protected final String TEXT_1703 = NL + "\t\tresult.append(";
+  protected final String TEXT_1704 = "_EFLAG_VALUES[(";
+  protected final String TEXT_1705 = " & ";
+  protected final String TEXT_1706 = "_EFLAG) >>> ";
+  protected final String TEXT_1707 = "_EFLAG_OFFSET]);";
+  protected final String TEXT_1708 = NL + "\t\tresult.append(";
+  protected final String TEXT_1709 = ");";
+  protected final String TEXT_1710 = NL + "\t\tresult.append(')');" + NL + "\t\treturn result.toString();" + NL + "\t}" + NL;
+  protected final String TEXT_1711 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1712 = NL + "\t@";
+  protected final String TEXT_1713 = NL + "\tprotected int hash = -1;" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic int getHash()" + NL + "\t{" + NL + "\t\tif (hash == -1)" + NL + "\t\t{" + NL + "\t\t\t";
+  protected final String TEXT_1714 = " theKey = getKey();" + NL + "\t\t\thash = (theKey == null ? 0 : theKey.hashCode());" + NL + "\t\t}" + NL + "\t\treturn hash;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic void setHash(int hash)" + NL + "\t{" + NL + "\t\tthis.hash = hash;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
+  protected final String TEXT_1715 = " getKey()" + NL + "\t{";
+  protected final String TEXT_1716 = NL + "\t\treturn new ";
+  protected final String TEXT_1717 = "(getTypedKey());";
+  protected final String TEXT_1718 = NL + "\t\treturn getTypedKey();";
+  protected final String TEXT_1719 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic void setKey(";
+  protected final String TEXT_1720 = " key)" + NL + "\t{";
+  protected final String TEXT_1721 = NL + "\t\tgetTypedKey().addAll(";
+  protected final String TEXT_1722 = "(";
+  protected final String TEXT_1723 = ")";
+  protected final String TEXT_1724 = "key);";
+  protected final String TEXT_1725 = NL + "\t\tsetTypedKey(key);";
+  protected final String TEXT_1726 = NL + "\t\tsetTypedKey(((";
+  protected final String TEXT_1727 = ")key).";
+  protected final String TEXT_1728 = "());";
+  protected final String TEXT_1729 = NL + "\t\tsetTypedKey((";
+  protected final String TEXT_1730 = ")key);";
+  protected final String TEXT_1731 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
+  protected final String TEXT_1732 = " getValue()" + NL + "\t{";
+  protected final String TEXT_1733 = NL + "\t\treturn new ";
+  protected final String TEXT_1734 = "(getTypedValue());";
+  protected final String TEXT_1735 = NL + "\t\treturn getTypedValue();";
+  protected final String TEXT_1736 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
+  protected final String TEXT_1737 = " setValue(";
+  protected final String TEXT_1738 = " value)" + NL + "\t{" + NL + "\t\t";
+  protected final String TEXT_1739 = " oldValue = getValue();";
+  protected final String TEXT_1740 = NL + "\t\tgetTypedValue().clear();" + NL + "\t\tgetTypedValue().addAll(";
+  protected final String TEXT_1741 = "(";
+  protected final String TEXT_1742 = ")";
+  protected final String TEXT_1743 = "value);";
+  protected final String TEXT_1744 = NL + "\t\tsetTypedValue(value);";
+  protected final String TEXT_1745 = NL + "\t\tsetTypedValue(((";
+  protected final String TEXT_1746 = ")value).";
+  protected final String TEXT_1747 = "());";
+  protected final String TEXT_1748 = NL + "\t\tsetTypedValue((";
+  protected final String TEXT_1749 = ")value);";
+  protected final String TEXT_1750 = NL + "\t\treturn oldValue;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_1751 = NL + "\t@SuppressWarnings(\"unchecked\")";
+  protected final String TEXT_1752 = NL + "\tpublic ";
+  protected final String TEXT_1753 = " getEMap()" + NL + "\t{" + NL + "\t\t";
+  protected final String TEXT_1754 = " container = eContainer();" + NL + "\t\treturn container == null ? null : (";
+  protected final String TEXT_1755 = ")container.eGet(eContainmentFeature());" + NL + "\t}" + NL;
+  protected final String TEXT_1756 = NL + "} //";
+  protected final String TEXT_1757 = NL;
 
   public String generate(Object argument)
   {
@@ -4603,1293 +4604,1298 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     stringBuffer.append(genOperation.getThrows(genClass));
     stringBuffer.append(TEXT_1202);
     } else {
+    if (genModel.useGenerics() && !genOperation.hasBody() && !genOperation.isInvariant() && genOperation.hasInvocationDelegate() && genOperation.isUncheckedCast(genClass)) {
     stringBuffer.append(TEXT_1203);
+    }
+    stringBuffer.append(TEXT_1204);
     stringBuffer.append(genOperation.getTypeParameters(genClass));
     stringBuffer.append(genOperation.getImportedType(genClass));
-    stringBuffer.append(TEXT_1204);
-    stringBuffer.append(genOperation.getName());
     stringBuffer.append(TEXT_1205);
-    stringBuffer.append(genOperation.getParameters(genClass));
+    stringBuffer.append(genOperation.getName());
     stringBuffer.append(TEXT_1206);
-    stringBuffer.append(genOperation.getThrows(genClass));
+    stringBuffer.append(genOperation.getParameters(genClass));
     stringBuffer.append(TEXT_1207);
-    if (genOperation.hasBody()) {
+    stringBuffer.append(genOperation.getThrows(genClass));
     stringBuffer.append(TEXT_1208);
+    if (genOperation.hasBody()) {
+    stringBuffer.append(TEXT_1209);
     stringBuffer.append(genOperation.getBody(genModel.getIndentation(stringBuffer)));
     } else if (genOperation.isInvariant()) {GenClass opClass = genOperation.getGenClass(); String diagnostics = genOperation.getGenParameters().get(0).getName(); String context = genOperation.getGenParameters().get(1).getName();
     if (genOperation.hasInvariantExpression()) {
-    stringBuffer.append(TEXT_1209);
-    stringBuffer.append(opClass.getGenPackage().getImportedValidatorClassName());
     stringBuffer.append(TEXT_1210);
-    stringBuffer.append(genClass.getQualifiedClassifierAccessor());
-    stringBuffer.append(TEXT_1211);
-    stringBuffer.append(diagnostics);
-    stringBuffer.append(TEXT_1212);
-    stringBuffer.append(context);
-    stringBuffer.append(TEXT_1213);
-    stringBuffer.append(genOperation.getValidationDelegate());
-    stringBuffer.append(TEXT_1214);
-    stringBuffer.append(genModel.getNonNLS());
-    stringBuffer.append(TEXT_1215);
-    stringBuffer.append(genOperation.getQualifiedOperationAccessor());
-    stringBuffer.append(TEXT_1216);
-    stringBuffer.append(CodeGenUtil.upperName(genClass.getUniqueName(genOperation), genModel.getLocale()));
-    stringBuffer.append(TEXT_1217);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic"));
-    stringBuffer.append(TEXT_1218);
     stringBuffer.append(opClass.getGenPackage().getImportedValidatorClassName());
+    stringBuffer.append(TEXT_1211);
+    stringBuffer.append(genClass.getQualifiedClassifierAccessor());
+    stringBuffer.append(TEXT_1212);
+    stringBuffer.append(diagnostics);
+    stringBuffer.append(TEXT_1213);
+    stringBuffer.append(context);
+    stringBuffer.append(TEXT_1214);
+    stringBuffer.append(genOperation.getValidationDelegate());
+    stringBuffer.append(TEXT_1215);
+    stringBuffer.append(genModel.getNonNLS());
+    stringBuffer.append(TEXT_1216);
+    stringBuffer.append(genOperation.getQualifiedOperationAccessor());
+    stringBuffer.append(TEXT_1217);
+    stringBuffer.append(CodeGenUtil.upperName(genClass.getUniqueName(genOperation), genModel.getLocale()));
+    stringBuffer.append(TEXT_1218);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic"));
     stringBuffer.append(TEXT_1219);
     stringBuffer.append(opClass.getGenPackage().getImportedValidatorClassName());
     stringBuffer.append(TEXT_1220);
-    stringBuffer.append(opClass.getOperationID(genOperation));
+    stringBuffer.append(opClass.getGenPackage().getImportedValidatorClassName());
     stringBuffer.append(TEXT_1221);
-    } else {
+    stringBuffer.append(opClass.getOperationID(genOperation));
     stringBuffer.append(TEXT_1222);
-    stringBuffer.append(diagnostics);
+    } else {
     stringBuffer.append(TEXT_1223);
     stringBuffer.append(diagnostics);
     stringBuffer.append(TEXT_1224);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.BasicDiagnostic"));
+    stringBuffer.append(diagnostics);
     stringBuffer.append(TEXT_1225);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic"));
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.BasicDiagnostic"));
     stringBuffer.append(TEXT_1226);
-    stringBuffer.append(opClass.getGenPackage().getImportedValidatorClassName());
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic"));
     stringBuffer.append(TEXT_1227);
     stringBuffer.append(opClass.getGenPackage().getImportedValidatorClassName());
     stringBuffer.append(TEXT_1228);
-    stringBuffer.append(opClass.getOperationID(genOperation));
+    stringBuffer.append(opClass.getGenPackage().getImportedValidatorClassName());
     stringBuffer.append(TEXT_1229);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.plugin.EcorePlugin"));
+    stringBuffer.append(opClass.getOperationID(genOperation));
     stringBuffer.append(TEXT_1230);
-    stringBuffer.append(genOperation.getName());
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.plugin.EcorePlugin"));
     stringBuffer.append(TEXT_1231);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.EObjectValidator"));
+    stringBuffer.append(genOperation.getName());
     stringBuffer.append(TEXT_1232);
-    stringBuffer.append(context);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.EObjectValidator"));
     stringBuffer.append(TEXT_1233);
+    stringBuffer.append(context);
+    stringBuffer.append(TEXT_1234);
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(genModel.getNonNLS(2));
-    stringBuffer.append(TEXT_1234);
+    stringBuffer.append(TEXT_1235);
     }
     } else if (genOperation.hasInvocationDelegate()) { int size = genOperation.getGenParameters().size();
-    stringBuffer.append(TEXT_1235);
-    if (genOperation.isVoid()) {
     stringBuffer.append(TEXT_1236);
-    stringBuffer.append(CodeGenUtil.upperName(genClass.getUniqueName(genOperation), genModel.getLocale()));
+    if (genOperation.isVoid()) {
     stringBuffer.append(TEXT_1237);
-    if (size > 0) {
-    stringBuffer.append(TEXT_1238);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.BasicEList"));
-    stringBuffer.append(TEXT_1239);
-    stringBuffer.append(size);
-    stringBuffer.append(TEXT_1240);
-    stringBuffer.append(genOperation.getParametersArray(genClass));
-    stringBuffer.append(TEXT_1241);
-    } else {
-    stringBuffer.append(TEXT_1242);
-    }
-    stringBuffer.append(TEXT_1243);
-    } else {
-    stringBuffer.append(TEXT_1244);
-    if (!isJDK50 && genOperation.isPrimitiveType()) {
-    stringBuffer.append(TEXT_1245);
-    }
-    stringBuffer.append(TEXT_1246);
-    stringBuffer.append(genOperation.getObjectType(genClass));
-    stringBuffer.append(TEXT_1247);
     stringBuffer.append(CodeGenUtil.upperName(genClass.getUniqueName(genOperation), genModel.getLocale()));
-    stringBuffer.append(TEXT_1248);
+    stringBuffer.append(TEXT_1238);
     if (size > 0) {
-    stringBuffer.append(TEXT_1249);
+    stringBuffer.append(TEXT_1239);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.BasicEList"));
-    stringBuffer.append(TEXT_1250);
+    stringBuffer.append(TEXT_1240);
     stringBuffer.append(size);
-    stringBuffer.append(TEXT_1251);
+    stringBuffer.append(TEXT_1241);
     stringBuffer.append(genOperation.getParametersArray(genClass));
-    stringBuffer.append(TEXT_1252);
+    stringBuffer.append(TEXT_1242);
     } else {
-    stringBuffer.append(TEXT_1253);
+    stringBuffer.append(TEXT_1243);
     }
-    stringBuffer.append(TEXT_1254);
+    stringBuffer.append(TEXT_1244);
+    } else {
+    stringBuffer.append(TEXT_1245);
     if (!isJDK50 && genOperation.isPrimitiveType()) {
-    stringBuffer.append(TEXT_1255);
-    stringBuffer.append(genOperation.getPrimitiveValueFunction());
-    stringBuffer.append(TEXT_1256);
+    stringBuffer.append(TEXT_1246);
     }
+    stringBuffer.append(TEXT_1247);
+    stringBuffer.append(genOperation.getObjectType(genClass));
+    stringBuffer.append(TEXT_1248);
+    stringBuffer.append(CodeGenUtil.upperName(genClass.getUniqueName(genOperation), genModel.getLocale()));
+    stringBuffer.append(TEXT_1249);
+    if (size > 0) {
+    stringBuffer.append(TEXT_1250);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.BasicEList"));
+    stringBuffer.append(TEXT_1251);
+    stringBuffer.append(size);
+    stringBuffer.append(TEXT_1252);
+    stringBuffer.append(genOperation.getParametersArray(genClass));
+    stringBuffer.append(TEXT_1253);
+    } else {
+    stringBuffer.append(TEXT_1254);
+    }
+    stringBuffer.append(TEXT_1255);
+    if (!isJDK50 && genOperation.isPrimitiveType()) {
+    stringBuffer.append(TEXT_1256);
+    stringBuffer.append(genOperation.getPrimitiveValueFunction());
     stringBuffer.append(TEXT_1257);
     }
     stringBuffer.append(TEXT_1258);
-    stringBuffer.append(genModel.getImportedName(isGWT ? "org.eclipse.emf.common.util.InvocationTargetException" : "java.lang.reflect.InvocationTargetException"));
+    }
     stringBuffer.append(TEXT_1259);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.WrappedException"));
+    stringBuffer.append(genModel.getImportedName(isGWT ? "org.eclipse.emf.common.util.InvocationTargetException" : "java.lang.reflect.InvocationTargetException"));
     stringBuffer.append(TEXT_1260);
-    } else {
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.WrappedException"));
     stringBuffer.append(TEXT_1261);
+    } else {
+    stringBuffer.append(TEXT_1262);
     //Class/implementedGenOperation.todo.override.javajetinc
     }
-    stringBuffer.append(TEXT_1262);
+    stringBuffer.append(TEXT_1263);
     }
     //Class/implementedGenOperation.override.javajetinc
     }//for
     if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEInverseAddGenFeatures())) {
-    stringBuffer.append(TEXT_1263);
+    stringBuffer.append(TEXT_1264);
     if (genModel.useGenerics()) {
     for (GenFeature genFeature : genClass.getEInverseAddGenFeatures()) {
     if (genFeature.isUncheckedCast(genClass)) {
-    stringBuffer.append(TEXT_1264);
+    stringBuffer.append(TEXT_1265);
     break; }
     }
     }
     if (genModel.useClassOverrideAnnotation()) {
-    stringBuffer.append(TEXT_1265);
-    }
     stringBuffer.append(TEXT_1266);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
+    }
     stringBuffer.append(TEXT_1267);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject"));
-    stringBuffer.append(TEXT_1268);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
+    stringBuffer.append(TEXT_1268);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject"));
     stringBuffer.append(TEXT_1269);
-    stringBuffer.append(negativeOffsetCorrection);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
     stringBuffer.append(TEXT_1270);
-    for (GenFeature genFeature : genClass.getEInverseAddGenFeatures()) {
+    stringBuffer.append(negativeOffsetCorrection);
     stringBuffer.append(TEXT_1271);
-    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    for (GenFeature genFeature : genClass.getEInverseAddGenFeatures()) {
     stringBuffer.append(TEXT_1272);
+    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    stringBuffer.append(TEXT_1273);
     if (genFeature.isListType()) { String cast = "("  + genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList") + (!genModel.useGenerics() ? ")" : "<" + genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject") + ">)(" + genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList") + "<?>)");
     if (genFeature.isMapType() && genFeature.isEffectiveSuppressEMFTypes()) {
-    stringBuffer.append(TEXT_1273);
-    stringBuffer.append(cast);
     stringBuffer.append(TEXT_1274);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.EMap"));
+    stringBuffer.append(cast);
     stringBuffer.append(TEXT_1275);
-    stringBuffer.append(genFeature.getImportedMapTemplateArguments(genClass));
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.EMap"));
     stringBuffer.append(TEXT_1276);
-    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(genFeature.getImportedMapTemplateArguments(genClass));
     stringBuffer.append(TEXT_1277);
-    } else {
+    stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1278);
+    } else {
+    stringBuffer.append(TEXT_1279);
     stringBuffer.append(cast);
     stringBuffer.append(genFeature.getGetAccessor());
-    stringBuffer.append(TEXT_1279);
+    stringBuffer.append(TEXT_1280);
     }
     } else if (genFeature.isContainer()) {
-    stringBuffer.append(TEXT_1280);
-    if (genFeature.isBasicSet()) {
     stringBuffer.append(TEXT_1281);
-    stringBuffer.append(genFeature.getAccessorName());
+    if (genFeature.isBasicSet()) {
     stringBuffer.append(TEXT_1282);
-    stringBuffer.append(genFeature.getImportedType(genClass));
+    stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_1283);
-    } else {
+    stringBuffer.append(genFeature.getImportedType(genClass));
     stringBuffer.append(TEXT_1284);
+    } else {
+    stringBuffer.append(TEXT_1285);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(positiveOffsetCorrection);
-    stringBuffer.append(TEXT_1285);
+    stringBuffer.append(TEXT_1286);
     }
     } else {
     if (genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
-    stringBuffer.append(TEXT_1286);
-    stringBuffer.append(genFeature.getImportedType(genClass));
     stringBuffer.append(TEXT_1287);
-    stringBuffer.append(genFeature.getSafeName());
-    stringBuffer.append(TEXT_1288);
     stringBuffer.append(genFeature.getImportedType(genClass));
+    stringBuffer.append(TEXT_1288);
+    stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_1289);
+    stringBuffer.append(genFeature.getImportedType(genClass));
+    stringBuffer.append(TEXT_1290);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(positiveOffsetCorrection);
-    stringBuffer.append(TEXT_1290);
-    } else if (genFeature.isVolatile() || genClass.getImplementingGenModel(genFeature).isDynamicDelegation()) {
     stringBuffer.append(TEXT_1291);
-    stringBuffer.append(genFeature.getImportedType(genClass));
+    } else if (genFeature.isVolatile() || genClass.getImplementingGenModel(genFeature).isDynamicDelegation()) {
     stringBuffer.append(TEXT_1292);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(genFeature.getImportedType(genClass));
     stringBuffer.append(TEXT_1293);
-    if (genFeature.isResolveProxies()) {
+    stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_1294);
+    if (genFeature.isResolveProxies()) {
+    stringBuffer.append(TEXT_1295);
     stringBuffer.append(genFeature.getAccessorName());
     } else {
     stringBuffer.append(genFeature.getGetAccessor());
-    }
-    stringBuffer.append(TEXT_1295);
     }
     stringBuffer.append(TEXT_1296);
-    stringBuffer.append(genFeature.getSafeName());
+    }
     stringBuffer.append(TEXT_1297);
-    if (genFeature.isEffectiveContains()) {
-    stringBuffer.append(TEXT_1298);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject"));
-    stringBuffer.append(TEXT_1299);
     stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(TEXT_1298);
+    if (genFeature.isEffectiveContains()) {
+    stringBuffer.append(TEXT_1299);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject"));
     stringBuffer.append(TEXT_1300);
+    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(TEXT_1301);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(negativeOffsetCorrection);
-    stringBuffer.append(TEXT_1301);
-    } else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass(); String reverseOffsetCorrection = targetClass.hasOffsetCorrection() ? " + " + genClass.getOffsetCorrectionField(genFeature) : "";
     stringBuffer.append(TEXT_1302);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject"));
+    } else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass(); String reverseOffsetCorrection = targetClass.hasOffsetCorrection() ? " + " + genClass.getOffsetCorrectionField(genFeature) : "";
     stringBuffer.append(TEXT_1303);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject"));
     stringBuffer.append(TEXT_1304);
+    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(TEXT_1305);
     stringBuffer.append(targetClass.getQualifiedFeatureID(reverseFeature));
     stringBuffer.append(reverseOffsetCorrection);
-    stringBuffer.append(TEXT_1305);
-    stringBuffer.append(targetClass.getRawImportedInterfaceName());
     stringBuffer.append(TEXT_1306);
-    }
+    stringBuffer.append(targetClass.getRawImportedInterfaceName());
     stringBuffer.append(TEXT_1307);
-    stringBuffer.append(genFeature.getAccessorName());
+    }
     stringBuffer.append(TEXT_1308);
-    stringBuffer.append(genFeature.getImportedType(genClass));
+    stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_1309);
-    }
-    }
+    stringBuffer.append(genFeature.getImportedType(genClass));
     stringBuffer.append(TEXT_1310);
-    if (genModel.isMinimalReflectiveMethods()) {
-    stringBuffer.append(TEXT_1311);
-    } else {
-    stringBuffer.append(TEXT_1312);
     }
+    }
+    stringBuffer.append(TEXT_1311);
+    if (genModel.isMinimalReflectiveMethods()) {
+    stringBuffer.append(TEXT_1312);
+    } else {
     stringBuffer.append(TEXT_1313);
     }
-    if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEInverseRemoveGenFeatures())) {
     stringBuffer.append(TEXT_1314);
-    if (genModel.useClassOverrideAnnotation()) {
-    stringBuffer.append(TEXT_1315);
     }
+    if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEInverseRemoveGenFeatures())) {
+    stringBuffer.append(TEXT_1315);
+    if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1316);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
+    }
     stringBuffer.append(TEXT_1317);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject"));
-    stringBuffer.append(TEXT_1318);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
+    stringBuffer.append(TEXT_1318);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject"));
     stringBuffer.append(TEXT_1319);
-    stringBuffer.append(negativeOffsetCorrection);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
     stringBuffer.append(TEXT_1320);
-    for (GenFeature genFeature : genClass.getEInverseRemoveGenFeatures()) {
+    stringBuffer.append(negativeOffsetCorrection);
     stringBuffer.append(TEXT_1321);
-    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    for (GenFeature genFeature : genClass.getEInverseRemoveGenFeatures()) {
     stringBuffer.append(TEXT_1322);
+    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    stringBuffer.append(TEXT_1323);
     if (genFeature.isListType()) {
     if (genFeature.isMapType() && genFeature.isEffectiveSuppressEMFTypes()) {
-    stringBuffer.append(TEXT_1323);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList"));
-    stringBuffer.append(singleWildcard);
     stringBuffer.append(TEXT_1324);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.EMap"));
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList"));
+    stringBuffer.append(singleWildcard);
     stringBuffer.append(TEXT_1325);
-    stringBuffer.append(genFeature.getImportedMapTemplateArguments(genClass));
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.EMap"));
     stringBuffer.append(TEXT_1326);
-    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(genFeature.getImportedMapTemplateArguments(genClass));
     stringBuffer.append(TEXT_1327);
-    } else if (genFeature.isWrappedFeatureMapType()) {
+    stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1328);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList"));
-    stringBuffer.append(singleWildcard);
+    } else if (genFeature.isWrappedFeatureMapType()) {
     stringBuffer.append(TEXT_1329);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
-    stringBuffer.append(TEXT_1330);
-    stringBuffer.append(genFeature.getGetAccessor());
-    stringBuffer.append(TEXT_1331);
-    } else {
-    stringBuffer.append(TEXT_1332);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList"));
     stringBuffer.append(singleWildcard);
-    stringBuffer.append(TEXT_1333);
+    stringBuffer.append(TEXT_1330);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
+    stringBuffer.append(TEXT_1331);
     stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1332);
+    } else {
+    stringBuffer.append(TEXT_1333);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList"));
+    stringBuffer.append(singleWildcard);
     stringBuffer.append(TEXT_1334);
+    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1335);
     }
     } else if (genFeature.isContainer() && !genFeature.isBasicSet()) {
-    stringBuffer.append(TEXT_1335);
+    stringBuffer.append(TEXT_1336);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(positiveOffsetCorrection);
-    stringBuffer.append(TEXT_1336);
-    } else if (genFeature.isUnsettable()) {
     stringBuffer.append(TEXT_1337);
-    stringBuffer.append(genFeature.getAccessorName());
+    } else if (genFeature.isUnsettable()) {
     stringBuffer.append(TEXT_1338);
-    } else {
-    stringBuffer.append(TEXT_1339);
     stringBuffer.append(genFeature.getAccessorName());
-    stringBuffer.append(TEXT_1340);
-    }
-    }
-    stringBuffer.append(TEXT_1341);
-    if (genModel.isMinimalReflectiveMethods()) {
-    stringBuffer.append(TEXT_1342);
+    stringBuffer.append(TEXT_1339);
     } else {
-    stringBuffer.append(TEXT_1343);
+    stringBuffer.append(TEXT_1340);
+    stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_1341);
     }
+    }
+    stringBuffer.append(TEXT_1342);
+    if (genModel.isMinimalReflectiveMethods()) {
+    stringBuffer.append(TEXT_1343);
+    } else {
     stringBuffer.append(TEXT_1344);
     }
-    if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEBasicRemoveFromContainerGenFeatures())) {
     stringBuffer.append(TEXT_1345);
-    if (genModel.useClassOverrideAnnotation()) {
-    stringBuffer.append(TEXT_1346);
     }
+    if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEBasicRemoveFromContainerGenFeatures())) {
+    stringBuffer.append(TEXT_1346);
+    if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1347);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
+    }
     stringBuffer.append(TEXT_1348);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
     stringBuffer.append(TEXT_1349);
-    stringBuffer.append(negativeOffsetCorrection);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
     stringBuffer.append(TEXT_1350);
+    stringBuffer.append(negativeOffsetCorrection);
+    stringBuffer.append(TEXT_1351);
     for (GenFeature genFeature : genClass.getEBasicRemoveFromContainerGenFeatures()) {
     GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass(); String reverseOffsetCorrection = targetClass.hasOffsetCorrection() ? " + " + genClass.getOffsetCorrectionField(genFeature) : "";
-    stringBuffer.append(TEXT_1351);
-    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1352);
+    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    stringBuffer.append(TEXT_1353);
     stringBuffer.append(targetClass.getQualifiedFeatureID(reverseFeature));
     stringBuffer.append(reverseOffsetCorrection);
-    stringBuffer.append(TEXT_1353);
-    stringBuffer.append(targetClass.getRawImportedInterfaceName());
     stringBuffer.append(TEXT_1354);
-    }
+    stringBuffer.append(targetClass.getRawImportedInterfaceName());
     stringBuffer.append(TEXT_1355);
-    if (genModel.isMinimalReflectiveMethods()) {
-    stringBuffer.append(TEXT_1356);
-    } else {
-    stringBuffer.append(TEXT_1357);
     }
+    stringBuffer.append(TEXT_1356);
+    if (genModel.isMinimalReflectiveMethods()) {
+    stringBuffer.append(TEXT_1357);
+    } else {
     stringBuffer.append(TEXT_1358);
     }
-    if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEGetGenFeatures())) {
     stringBuffer.append(TEXT_1359);
-    if (genModel.useClassOverrideAnnotation()) {
-    stringBuffer.append(TEXT_1360);
     }
+    if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEGetGenFeatures())) {
+    stringBuffer.append(TEXT_1360);
+    if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1361);
-    stringBuffer.append(negativeOffsetCorrection);
+    }
     stringBuffer.append(TEXT_1362);
-    for (GenFeature genFeature : genClass.getEGetGenFeatures()) {
+    stringBuffer.append(negativeOffsetCorrection);
     stringBuffer.append(TEXT_1363);
-    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    for (GenFeature genFeature : genClass.getEGetGenFeatures()) {
     stringBuffer.append(TEXT_1364);
+    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    stringBuffer.append(TEXT_1365);
     if (genFeature.isPrimitiveType()) {
     if (isJDK50) {
-    stringBuffer.append(TEXT_1365);
-    stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1366);
-    } else if (genFeature.isBooleanType()) {
+    stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1367);
-    stringBuffer.append(genFeature.getGetAccessor());
+    } else if (genFeature.isBooleanType()) {
     stringBuffer.append(TEXT_1368);
-    } else {
-    stringBuffer.append(TEXT_1369);
-    stringBuffer.append(genFeature.getObjectType(genClass));
-    stringBuffer.append(TEXT_1370);
     stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1369);
+    } else {
+    stringBuffer.append(TEXT_1370);
+    stringBuffer.append(genFeature.getObjectType(genClass));
     stringBuffer.append(TEXT_1371);
+    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1372);
     }
     } else if (genFeature.isResolveProxies() && !genFeature.isListType()) {
-    stringBuffer.append(TEXT_1372);
-    stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1373);
-    stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1374);
+    stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_1375);
     } else if (genFeature.isMapType()) {
     if (genFeature.isEffectiveSuppressEMFTypes()) {
-    stringBuffer.append(TEXT_1375);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.EMap"));
     stringBuffer.append(TEXT_1376);
-    stringBuffer.append(genFeature.getImportedMapTemplateArguments(genClass));
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.EMap"));
     stringBuffer.append(TEXT_1377);
-    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(genFeature.getImportedMapTemplateArguments(genClass));
     stringBuffer.append(TEXT_1378);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1379);
-    } else {
-    stringBuffer.append(TEXT_1380);
     stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1380);
+    } else {
     stringBuffer.append(TEXT_1381);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1382);
+    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1383);
     }
     } else if (genFeature.isWrappedFeatureMapType()) {
-    stringBuffer.append(TEXT_1383);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
     stringBuffer.append(TEXT_1384);
-    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
     stringBuffer.append(TEXT_1385);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1386);
-    } else if (genFeature.isFeatureMapType()) {
+    stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1387);
-    stringBuffer.append(genFeature.getGetAccessor());
+    } else if (genFeature.isFeatureMapType()) {
     stringBuffer.append(TEXT_1388);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
+    stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1389);
-    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
     stringBuffer.append(TEXT_1390);
-    } else {
-    stringBuffer.append(TEXT_1391);
     stringBuffer.append(genFeature.getGetAccessor());
-    stringBuffer.append(TEXT_1392);
-    }
-    }
-    stringBuffer.append(TEXT_1393);
-    if (genModel.isMinimalReflectiveMethods()) {
-    stringBuffer.append(TEXT_1394);
+    stringBuffer.append(TEXT_1391);
     } else {
-    stringBuffer.append(TEXT_1395);
+    stringBuffer.append(TEXT_1392);
+    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1393);
     }
+    }
+    stringBuffer.append(TEXT_1394);
+    if (genModel.isMinimalReflectiveMethods()) {
+    stringBuffer.append(TEXT_1395);
+    } else {
     stringBuffer.append(TEXT_1396);
     }
-    if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getESetGenFeatures())) {
     stringBuffer.append(TEXT_1397);
+    }
+    if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getESetGenFeatures())) {
+    stringBuffer.append(TEXT_1398);
     if (genModel.useGenerics()) {
     for (GenFeature genFeature : genClass.getESetGenFeatures()) {
     if (genFeature.isUncheckedCast(genClass) && !genFeature.isFeatureMapType() && !genFeature.isMapType()) {
-    stringBuffer.append(TEXT_1398);
+    stringBuffer.append(TEXT_1399);
     break; }
     }
     }
     if (genModel.useClassOverrideAnnotation()) {
-    stringBuffer.append(TEXT_1399);
-    }
     stringBuffer.append(TEXT_1400);
-    stringBuffer.append(negativeOffsetCorrection);
+    }
     stringBuffer.append(TEXT_1401);
-    for (GenFeature genFeature : genClass.getESetGenFeatures()) {
+    stringBuffer.append(negativeOffsetCorrection);
     stringBuffer.append(TEXT_1402);
-    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    for (GenFeature genFeature : genClass.getESetGenFeatures()) {
     stringBuffer.append(TEXT_1403);
+    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    stringBuffer.append(TEXT_1404);
     if (genFeature.isListType()) {
     if (genFeature.isWrappedFeatureMapType()) {
-    stringBuffer.append(TEXT_1404);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
     stringBuffer.append(TEXT_1405);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
     stringBuffer.append(TEXT_1406);
-    stringBuffer.append(genFeature.getGetAccessor());
-    stringBuffer.append(TEXT_1407);
-    } else if (genFeature.isFeatureMapType()) {
-    stringBuffer.append(TEXT_1408);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
-    stringBuffer.append(TEXT_1409);
+    stringBuffer.append(TEXT_1407);
     stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1408);
+    } else if (genFeature.isFeatureMapType()) {
+    stringBuffer.append(TEXT_1409);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
     stringBuffer.append(TEXT_1410);
+    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1411);
     } else if (genFeature.isMapType()) {
     if (genFeature.isEffectiveSuppressEMFTypes()) {
-    stringBuffer.append(TEXT_1411);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature"));
     stringBuffer.append(TEXT_1412);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.EMap"));
-    stringBuffer.append(TEXT_1413);
-    stringBuffer.append(genFeature.getImportedMapTemplateArguments(genClass));
-    stringBuffer.append(TEXT_1414);
-    stringBuffer.append(genFeature.getGetAccessor());
-    stringBuffer.append(TEXT_1415);
-    } else {
-    stringBuffer.append(TEXT_1416);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature"));
-    stringBuffer.append(TEXT_1417);
+    stringBuffer.append(TEXT_1413);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.EMap"));
+    stringBuffer.append(TEXT_1414);
+    stringBuffer.append(genFeature.getImportedMapTemplateArguments(genClass));
+    stringBuffer.append(TEXT_1415);
     stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1416);
+    } else {
+    stringBuffer.append(TEXT_1417);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature"));
     stringBuffer.append(TEXT_1418);
+    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1419);
     }
     } else {
-    stringBuffer.append(TEXT_1419);
-    stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1420);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1421);
+    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1422);
     stringBuffer.append(genModel.getImportedName("java.util.Collection"));
     if (isJDK50) {
-    stringBuffer.append(TEXT_1422);
-    stringBuffer.append(genFeature.getListItemType(genClass));
     stringBuffer.append(TEXT_1423);
-    }
+    stringBuffer.append(genFeature.getListItemType(genClass));
     stringBuffer.append(TEXT_1424);
     }
-    } else if (!isJDK50 && genFeature.isPrimitiveType()) {
     stringBuffer.append(TEXT_1425);
-    stringBuffer.append(genFeature.getAccessorName());
-    stringBuffer.append(TEXT_1426);
-    stringBuffer.append(genFeature.getObjectType(genClass));
-    stringBuffer.append(TEXT_1427);
-    stringBuffer.append(genFeature.getPrimitiveValueFunction());
-    stringBuffer.append(TEXT_1428);
-    } else {
-    stringBuffer.append(TEXT_1429);
-    stringBuffer.append(genFeature.getAccessorName());
-    stringBuffer.append(TEXT_1430);
-    if (genFeature.getTypeGenDataType() == null || !genFeature.getTypeGenDataType().isObjectType() || !genFeature.getRawType().equals(genFeature.getType(genClass))) {
-    stringBuffer.append(TEXT_1431);
-    stringBuffer.append(genFeature.getObjectType(genClass));
-    stringBuffer.append(TEXT_1432);
     }
+    } else if (!isJDK50 && genFeature.isPrimitiveType()) {
+    stringBuffer.append(TEXT_1426);
+    stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_1427);
+    stringBuffer.append(genFeature.getObjectType(genClass));
+    stringBuffer.append(TEXT_1428);
+    stringBuffer.append(genFeature.getPrimitiveValueFunction());
+    stringBuffer.append(TEXT_1429);
+    } else {
+    stringBuffer.append(TEXT_1430);
+    stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_1431);
+    if (genFeature.getTypeGenDataType() == null || !genFeature.getTypeGenDataType().isObjectType() || !genFeature.getRawType().equals(genFeature.getType(genClass))) {
+    stringBuffer.append(TEXT_1432);
+    stringBuffer.append(genFeature.getObjectType(genClass));
     stringBuffer.append(TEXT_1433);
     }
     stringBuffer.append(TEXT_1434);
     }
     stringBuffer.append(TEXT_1435);
-    if (genModel.isMinimalReflectiveMethods()) {
-    stringBuffer.append(TEXT_1436);
-    } else {
-    stringBuffer.append(TEXT_1437);
     }
+    stringBuffer.append(TEXT_1436);
+    if (genModel.isMinimalReflectiveMethods()) {
+    stringBuffer.append(TEXT_1437);
+    } else {
     stringBuffer.append(TEXT_1438);
     }
-    if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEUnsetGenFeatures())) {
     stringBuffer.append(TEXT_1439);
-    if (genModel.useClassOverrideAnnotation()) {
-    stringBuffer.append(TEXT_1440);
     }
+    if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEUnsetGenFeatures())) {
+    stringBuffer.append(TEXT_1440);
+    if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1441);
-    stringBuffer.append(negativeOffsetCorrection);
+    }
     stringBuffer.append(TEXT_1442);
-    for (GenFeature genFeature : genClass.getEUnsetGenFeatures()) {
+    stringBuffer.append(negativeOffsetCorrection);
     stringBuffer.append(TEXT_1443);
-    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    for (GenFeature genFeature : genClass.getEUnsetGenFeatures()) {
     stringBuffer.append(TEXT_1444);
+    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    stringBuffer.append(TEXT_1445);
     if (genFeature.isListType() && !genFeature.isUnsettable()) {
     if (genFeature.isWrappedFeatureMapType()) {
-    stringBuffer.append(TEXT_1445);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
     stringBuffer.append(TEXT_1446);
-    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
     stringBuffer.append(TEXT_1447);
-    } else {
-    stringBuffer.append(TEXT_1448);
     stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1448);
+    } else {
     stringBuffer.append(TEXT_1449);
+    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1450);
     }
     } else if (genFeature.isUnsettable()) {
-    stringBuffer.append(TEXT_1450);
-    stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_1451);
-    } else if (!genFeature.hasEDefault()) {
+    stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_1452);
-    stringBuffer.append(genFeature.getAccessorName());
+    } else if (!genFeature.hasEDefault()) {
     stringBuffer.append(TEXT_1453);
-    stringBuffer.append(genFeature.getImportedType(genClass));
-    stringBuffer.append(TEXT_1454);
-    } else {
-    stringBuffer.append(TEXT_1455);
     stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_1454);
+    stringBuffer.append(genFeature.getImportedType(genClass));
+    stringBuffer.append(TEXT_1455);
+    } else {
     stringBuffer.append(TEXT_1456);
-    stringBuffer.append(genFeature.getEDefault());
+    stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_1457);
-    }
+    stringBuffer.append(genFeature.getEDefault());
     stringBuffer.append(TEXT_1458);
     }
     stringBuffer.append(TEXT_1459);
-    if (genModel.isMinimalReflectiveMethods()) {
-    stringBuffer.append(TEXT_1460);
-    } else {
-    stringBuffer.append(TEXT_1461);
     }
+    stringBuffer.append(TEXT_1460);
+    if (genModel.isMinimalReflectiveMethods()) {
+    stringBuffer.append(TEXT_1461);
+    } else {
     stringBuffer.append(TEXT_1462);
+    }
+    stringBuffer.append(TEXT_1463);
     //Class/eUnset.override.javajetinc
     }
     if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEIsSetGenFeatures())) {
-    stringBuffer.append(TEXT_1463);
+    stringBuffer.append(TEXT_1464);
     if (genModel.useGenerics()) {
     for (GenFeature genFeature : genClass.getEIsSetGenFeatures()) {
     if (genFeature.isListType() && !genFeature.isUnsettable() && !genFeature.isWrappedFeatureMapType() && !genClass.isField(genFeature) && genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
-    stringBuffer.append(TEXT_1464);
+    stringBuffer.append(TEXT_1465);
     break; }
     }
     }
     if (genModel.useClassOverrideAnnotation()) {
-    stringBuffer.append(TEXT_1465);
-    }
     stringBuffer.append(TEXT_1466);
-    stringBuffer.append(negativeOffsetCorrection);
+    }
     stringBuffer.append(TEXT_1467);
-    for (GenFeature genFeature : genClass.getEIsSetGenFeatures()) { String safeNameAccessor = genFeature.getSafeName(); if ("featureID".equals(safeNameAccessor)) { safeNameAccessor = "this." + safeNameAccessor; }
+    stringBuffer.append(negativeOffsetCorrection);
     stringBuffer.append(TEXT_1468);
-    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    for (GenFeature genFeature : genClass.getEIsSetGenFeatures()) { String safeNameAccessor = genFeature.getSafeName(); if ("featureID".equals(safeNameAccessor)) { safeNameAccessor = "this." + safeNameAccessor; }
     stringBuffer.append(TEXT_1469);
+    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    stringBuffer.append(TEXT_1470);
     if (genFeature.hasSettingDelegate()) {
     if (genFeature.isUnsettable()) {
-    stringBuffer.append(TEXT_1470);
-    stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_1471);
-    } else {
+    stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_1472);
-    stringBuffer.append(genFeature.getUpperName());
+    } else {
     stringBuffer.append(TEXT_1473);
+    stringBuffer.append(genFeature.getUpperName());
+    stringBuffer.append(TEXT_1474);
     }
     } else if (genFeature.isListType() && !genFeature.isUnsettable()) {
     if (genFeature.isWrappedFeatureMapType()) {
     if (genFeature.isVolatile()) {
-    stringBuffer.append(TEXT_1474);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
     stringBuffer.append(TEXT_1475);
-    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
     stringBuffer.append(TEXT_1476);
-    } else {
+    stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1477);
-    stringBuffer.append(safeNameAccessor);
+    } else {
     stringBuffer.append(TEXT_1478);
     stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1479);
+    stringBuffer.append(safeNameAccessor);
+    stringBuffer.append(TEXT_1480);
     }
     } else {
     if (genClass.isField(genFeature)) {
-    stringBuffer.append(TEXT_1480);
-    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1481);
     stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1482);
+    stringBuffer.append(safeNameAccessor);
+    stringBuffer.append(TEXT_1483);
     } else {
     if (genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
-    stringBuffer.append(TEXT_1483);
-    stringBuffer.append(genFeature.getImportedType(genClass));
     stringBuffer.append(TEXT_1484);
-    stringBuffer.append(safeNameAccessor);
-    stringBuffer.append(TEXT_1485);
     stringBuffer.append(genFeature.getImportedType(genClass));
+    stringBuffer.append(TEXT_1485);
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1486);
+    stringBuffer.append(genFeature.getImportedType(genClass));
+    stringBuffer.append(TEXT_1487);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(positiveOffsetCorrection);
-    stringBuffer.append(TEXT_1487);
-    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1488);
     stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1489);
-    } else {
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1490);
-    stringBuffer.append(genFeature.getGetAccessor());
+    } else {
     stringBuffer.append(TEXT_1491);
+    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1492);
     }
     }
     }
     } else if (genFeature.isUnsettable()) {
-    stringBuffer.append(TEXT_1492);
-    stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_1493);
+    stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_1494);
     } else if (genFeature.isResolveProxies()) {
     if (genClass.isField(genFeature)) {
-    stringBuffer.append(TEXT_1494);
-    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1495);
+    stringBuffer.append(safeNameAccessor);
+    stringBuffer.append(TEXT_1496);
     } else {
     if (genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
-    stringBuffer.append(TEXT_1496);
+    stringBuffer.append(TEXT_1497);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(positiveOffsetCorrection);
-    stringBuffer.append(TEXT_1497);
-    } else {
     stringBuffer.append(TEXT_1498);
-    stringBuffer.append(genFeature.getAccessorName());
+    } else {
     stringBuffer.append(TEXT_1499);
+    stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_1500);
     }
     }
     } else if (!genFeature.hasEDefault()) {
     if (genClass.isField(genFeature)) {
-    stringBuffer.append(TEXT_1500);
-    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1501);
+    stringBuffer.append(safeNameAccessor);
+    stringBuffer.append(TEXT_1502);
     } else {
     if (genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
-    stringBuffer.append(TEXT_1502);
+    stringBuffer.append(TEXT_1503);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(positiveOffsetCorrection);
-    stringBuffer.append(TEXT_1503);
-    } else {
     stringBuffer.append(TEXT_1504);
-    stringBuffer.append(genFeature.getGetAccessor());
+    } else {
     stringBuffer.append(TEXT_1505);
+    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1506);
     }
     }
     } else if (genFeature.isPrimitiveType() || genFeature.isEnumType()) {
     if (genClass.isField(genFeature)) {
     if (genClass.isFlag(genFeature)) {
     if (genFeature.isBooleanType()) {
-    stringBuffer.append(TEXT_1506);
-    stringBuffer.append(genClass.getFlagsField(genFeature));
     stringBuffer.append(TEXT_1507);
-    stringBuffer.append(genFeature.getUpperName());
-    stringBuffer.append(TEXT_1508);
-    stringBuffer.append(genFeature.getEDefault());
-    stringBuffer.append(TEXT_1509);
-    } else {
-    stringBuffer.append(TEXT_1510);
     stringBuffer.append(genClass.getFlagsField(genFeature));
-    stringBuffer.append(TEXT_1511);
+    stringBuffer.append(TEXT_1508);
     stringBuffer.append(genFeature.getUpperName());
+    stringBuffer.append(TEXT_1509);
+    stringBuffer.append(genFeature.getEDefault());
+    stringBuffer.append(TEXT_1510);
+    } else {
+    stringBuffer.append(TEXT_1511);
+    stringBuffer.append(genClass.getFlagsField(genFeature));
     stringBuffer.append(TEXT_1512);
     stringBuffer.append(genFeature.getUpperName());
     stringBuffer.append(TEXT_1513);
+    stringBuffer.append(genFeature.getUpperName());
+    stringBuffer.append(TEXT_1514);
     }
     } else {
-    stringBuffer.append(TEXT_1514);
-    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1515);
-    stringBuffer.append(genFeature.getEDefault());
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1516);
+    stringBuffer.append(genFeature.getEDefault());
+    stringBuffer.append(TEXT_1517);
     }
     } else {
     if (genFeature.isEnumType() && genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
-    stringBuffer.append(TEXT_1517);
+    stringBuffer.append(TEXT_1518);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(positiveOffsetCorrection);
-    stringBuffer.append(TEXT_1518);
-    stringBuffer.append(genFeature.getEDefault());
     stringBuffer.append(TEXT_1519);
     stringBuffer.append(genFeature.getEDefault());
     stringBuffer.append(TEXT_1520);
-    } else {
-    stringBuffer.append(TEXT_1521);
-    stringBuffer.append(genFeature.getGetAccessor());
-    stringBuffer.append(TEXT_1522);
     stringBuffer.append(genFeature.getEDefault());
+    stringBuffer.append(TEXT_1521);
+    } else {
+    stringBuffer.append(TEXT_1522);
+    stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1523);
+    stringBuffer.append(genFeature.getEDefault());
+    stringBuffer.append(TEXT_1524);
     }
     }
     } else {//datatype
     if (genClass.isField(genFeature)) {
-    stringBuffer.append(TEXT_1524);
-    stringBuffer.append(genFeature.getEDefault());
     stringBuffer.append(TEXT_1525);
-    stringBuffer.append(safeNameAccessor);
-    stringBuffer.append(TEXT_1526);
     stringBuffer.append(genFeature.getEDefault());
-    stringBuffer.append(TEXT_1527);
+    stringBuffer.append(TEXT_1526);
     stringBuffer.append(safeNameAccessor);
+    stringBuffer.append(TEXT_1527);
+    stringBuffer.append(genFeature.getEDefault());
     stringBuffer.append(TEXT_1528);
+    stringBuffer.append(safeNameAccessor);
+    stringBuffer.append(TEXT_1529);
     } else {
     if (genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
-    stringBuffer.append(TEXT_1529);
-    stringBuffer.append(genFeature.getImportedType(genClass));
     stringBuffer.append(TEXT_1530);
-    stringBuffer.append(safeNameAccessor);
-    stringBuffer.append(TEXT_1531);
     stringBuffer.append(genFeature.getImportedType(genClass));
+    stringBuffer.append(TEXT_1531);
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1532);
+    stringBuffer.append(genFeature.getImportedType(genClass));
+    stringBuffer.append(TEXT_1533);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(positiveOffsetCorrection);
-    stringBuffer.append(TEXT_1533);
-    stringBuffer.append(genFeature.getEDefault());
     stringBuffer.append(TEXT_1534);
     stringBuffer.append(genFeature.getEDefault());
     stringBuffer.append(TEXT_1535);
-    stringBuffer.append(safeNameAccessor);
+    stringBuffer.append(genFeature.getEDefault());
     stringBuffer.append(TEXT_1536);
-    stringBuffer.append(genFeature.getEDefault());
-    stringBuffer.append(TEXT_1537);
     stringBuffer.append(safeNameAccessor);
+    stringBuffer.append(TEXT_1537);
+    stringBuffer.append(genFeature.getEDefault());
     stringBuffer.append(TEXT_1538);
-    } else {
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1539);
-    stringBuffer.append(genFeature.getEDefault());
-    stringBuffer.append(TEXT_1540);
-    stringBuffer.append(genFeature.getGetAccessor());
-    stringBuffer.append(TEXT_1541);
-    stringBuffer.append(genFeature.getEDefault());
-    stringBuffer.append(TEXT_1542);
-    stringBuffer.append(genFeature.getGetAccessor());
-    stringBuffer.append(TEXT_1543);
-    }
-    }
-    }
-    }
-    stringBuffer.append(TEXT_1544);
-    if (genModel.isMinimalReflectiveMethods()) {
-    stringBuffer.append(TEXT_1545);
     } else {
-    stringBuffer.append(TEXT_1546);
+    stringBuffer.append(TEXT_1540);
+    stringBuffer.append(genFeature.getEDefault());
+    stringBuffer.append(TEXT_1541);
+    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1542);
+    stringBuffer.append(genFeature.getEDefault());
+    stringBuffer.append(TEXT_1543);
+    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_1544);
     }
+    }
+    }
+    }
+    stringBuffer.append(TEXT_1545);
+    if (genModel.isMinimalReflectiveMethods()) {
+    stringBuffer.append(TEXT_1546);
+    } else {
     stringBuffer.append(TEXT_1547);
+    }
+    stringBuffer.append(TEXT_1548);
     //Class/eIsSet.override.javajetinc
     }
     if (isImplementation && (!genClass.getMixinGenFeatures().isEmpty() || genClass.hasOffsetCorrection() && !genClass.getGenFeatures().isEmpty())) {
     if (!genClass.getMixinGenFeatures().isEmpty()) {
-    stringBuffer.append(TEXT_1548);
-    if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1549);
-    }
+    if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1550);
-    stringBuffer.append(singleWildcard);
-    stringBuffer.append(TEXT_1551);
-    for (GenClass mixinGenClass : genClass.getMixinGenClasses()) {
-    stringBuffer.append(TEXT_1552);
-    stringBuffer.append(mixinGenClass.getRawImportedInterfaceName());
-    stringBuffer.append(TEXT_1553);
-    stringBuffer.append(negativeOffsetCorrection);
-    stringBuffer.append(TEXT_1554);
-    for (GenFeature genFeature : mixinGenClass.getGenFeatures()) {
-    stringBuffer.append(TEXT_1555);
-    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
-    stringBuffer.append(TEXT_1556);
-    stringBuffer.append(mixinGenClass.getQualifiedFeatureID(genFeature));
-    stringBuffer.append(TEXT_1557);
     }
+    stringBuffer.append(TEXT_1551);
+    stringBuffer.append(singleWildcard);
+    stringBuffer.append(TEXT_1552);
+    for (GenClass mixinGenClass : genClass.getMixinGenClasses()) {
+    stringBuffer.append(TEXT_1553);
+    stringBuffer.append(mixinGenClass.getRawImportedInterfaceName());
+    stringBuffer.append(TEXT_1554);
+    stringBuffer.append(negativeOffsetCorrection);
+    stringBuffer.append(TEXT_1555);
+    for (GenFeature genFeature : mixinGenClass.getGenFeatures()) {
+    stringBuffer.append(TEXT_1556);
+    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    stringBuffer.append(TEXT_1557);
+    stringBuffer.append(mixinGenClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1558);
     }
     stringBuffer.append(TEXT_1559);
     }
     stringBuffer.append(TEXT_1560);
-    if (genModel.useClassOverrideAnnotation()) {
-    stringBuffer.append(TEXT_1561);
     }
+    stringBuffer.append(TEXT_1561);
+    if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1562);
-    stringBuffer.append(singleWildcard);
+    }
     stringBuffer.append(TEXT_1563);
-    for (GenClass mixinGenClass : genClass.getMixinGenClasses()) {
+    stringBuffer.append(singleWildcard);
     stringBuffer.append(TEXT_1564);
-    stringBuffer.append(mixinGenClass.getRawImportedInterfaceName());
+    for (GenClass mixinGenClass : genClass.getMixinGenClasses()) {
     stringBuffer.append(TEXT_1565);
-    for (GenFeature genFeature : mixinGenClass.getGenFeatures()) {
+    stringBuffer.append(mixinGenClass.getRawImportedInterfaceName());
     stringBuffer.append(TEXT_1566);
-    stringBuffer.append(mixinGenClass.getQualifiedFeatureID(genFeature));
+    for (GenFeature genFeature : mixinGenClass.getGenFeatures()) {
     stringBuffer.append(TEXT_1567);
+    stringBuffer.append(mixinGenClass.getQualifiedFeatureID(genFeature));
+    stringBuffer.append(TEXT_1568);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(positiveOffsetCorrection);
-    stringBuffer.append(TEXT_1568);
-    }
     stringBuffer.append(TEXT_1569);
     }
-    if (genClass.hasOffsetCorrection() && !genClass.getGenFeatures().isEmpty()) {
     stringBuffer.append(TEXT_1570);
-    stringBuffer.append(genClass.getRawImportedInterfaceName());
+    }
+    if (genClass.hasOffsetCorrection() && !genClass.getGenFeatures().isEmpty()) {
     stringBuffer.append(TEXT_1571);
-    stringBuffer.append(negativeOffsetCorrection);
+    stringBuffer.append(genClass.getRawImportedInterfaceName());
     stringBuffer.append(TEXT_1572);
-    for (GenFeature genFeature : genClass.getGenFeatures()) {
+    stringBuffer.append(negativeOffsetCorrection);
     stringBuffer.append(TEXT_1573);
-    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    for (GenFeature genFeature : genClass.getGenFeatures()) {
     stringBuffer.append(TEXT_1574);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
-    stringBuffer.append(positiveOffsetCorrection);
     stringBuffer.append(TEXT_1575);
-    }
+    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    stringBuffer.append(positiveOffsetCorrection);
     stringBuffer.append(TEXT_1576);
     }
     stringBuffer.append(TEXT_1577);
     }
-    if (genModel.isOperationReflection() && isImplementation && (!genClass.getMixinGenOperations().isEmpty() || !genClass.getOverrideGenOperations(genClass.getExtendedGenOperations(), genClass.getImplementedGenOperations()).isEmpty() || genClass.hasOffsetCorrection() && !genClass.getGenOperations().isEmpty())) {
     stringBuffer.append(TEXT_1578);
-    if (genModel.useClassOverrideAnnotation()) {
-    stringBuffer.append(TEXT_1579);
     }
+    if (genModel.isOperationReflection() && isImplementation && (!genClass.getMixinGenOperations().isEmpty() || !genClass.getOverrideGenOperations(genClass.getExtendedGenOperations(), genClass.getImplementedGenOperations()).isEmpty() || genClass.hasOffsetCorrection() && !genClass.getGenOperations().isEmpty())) {
+    stringBuffer.append(TEXT_1579);
+    if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1580);
-    stringBuffer.append(singleWildcard);
+    }
     stringBuffer.append(TEXT_1581);
+    stringBuffer.append(singleWildcard);
+    stringBuffer.append(TEXT_1582);
     for (GenClass extendedGenClass : genClass.getExtendedGenClasses()) { List<GenOperation> extendedImplementedGenOperations = extendedGenClass.getImplementedGenOperations(); List<GenOperation> implementedGenOperations = genClass.getImplementedGenOperations();
     if (!genClass.getOverrideGenOperations(extendedImplementedGenOperations, implementedGenOperations).isEmpty()) {
-    stringBuffer.append(TEXT_1582);
-    stringBuffer.append(extendedGenClass.getRawImportedInterfaceName());
     stringBuffer.append(TEXT_1583);
+    stringBuffer.append(extendedGenClass.getRawImportedInterfaceName());
+    stringBuffer.append(TEXT_1584);
     for (GenOperation genOperation : extendedImplementedGenOperations) { GenOperation overrideGenOperation = genClass.getOverrideGenOperation(genOperation);
     if (implementedGenOperations.contains(overrideGenOperation)) {
-    stringBuffer.append(TEXT_1584);
-    stringBuffer.append(extendedGenClass.getQualifiedOperationID(genOperation));
     stringBuffer.append(TEXT_1585);
+    stringBuffer.append(extendedGenClass.getQualifiedOperationID(genOperation));
+    stringBuffer.append(TEXT_1586);
     stringBuffer.append(genClass.getQualifiedOperationID(overrideGenOperation));
     stringBuffer.append(positiveOperationOffsetCorrection);
-    stringBuffer.append(TEXT_1586);
-    }
-    }
     stringBuffer.append(TEXT_1587);
     }
     }
-    for (GenClass mixinGenClass : genClass.getMixinGenClasses()) {
     stringBuffer.append(TEXT_1588);
-    stringBuffer.append(mixinGenClass.getRawImportedInterfaceName());
+    }
+    }
+    for (GenClass mixinGenClass : genClass.getMixinGenClasses()) {
     stringBuffer.append(TEXT_1589);
-    for (GenOperation genOperation : mixinGenClass.getGenOperations()) { GenOperation overrideGenOperation = genClass.getOverrideGenOperation(genOperation);
+    stringBuffer.append(mixinGenClass.getRawImportedInterfaceName());
     stringBuffer.append(TEXT_1590);
-    stringBuffer.append(mixinGenClass.getQualifiedOperationID(genOperation));
+    for (GenOperation genOperation : mixinGenClass.getGenOperations()) { GenOperation overrideGenOperation = genClass.getOverrideGenOperation(genOperation);
     stringBuffer.append(TEXT_1591);
+    stringBuffer.append(mixinGenClass.getQualifiedOperationID(genOperation));
+    stringBuffer.append(TEXT_1592);
     stringBuffer.append(genClass.getQualifiedOperationID(overrideGenOperation != null ? overrideGenOperation : genOperation));
     stringBuffer.append(positiveOperationOffsetCorrection);
-    stringBuffer.append(TEXT_1592);
-    }
     stringBuffer.append(TEXT_1593);
     }
-    if (genClass.hasOffsetCorrection() && !genClass.getGenOperations().isEmpty()) {
     stringBuffer.append(TEXT_1594);
-    stringBuffer.append(genClass.getRawImportedInterfaceName());
+    }
+    if (genClass.hasOffsetCorrection() && !genClass.getGenOperations().isEmpty()) {
     stringBuffer.append(TEXT_1595);
-    stringBuffer.append(negativeOperationOffsetCorrection);
+    stringBuffer.append(genClass.getRawImportedInterfaceName());
     stringBuffer.append(TEXT_1596);
-    for (GenOperation genOperation : genClass.getGenOperations()) {
+    stringBuffer.append(negativeOperationOffsetCorrection);
     stringBuffer.append(TEXT_1597);
-    stringBuffer.append(genClass.getQualifiedOperationID(genOperation));
+    for (GenOperation genOperation : genClass.getGenOperations()) {
     stringBuffer.append(TEXT_1598);
     stringBuffer.append(genClass.getQualifiedOperationID(genOperation));
-    stringBuffer.append(positiveOperationOffsetCorrection);
     stringBuffer.append(TEXT_1599);
-    }
+    stringBuffer.append(genClass.getQualifiedOperationID(genOperation));
+    stringBuffer.append(positiveOperationOffsetCorrection);
     stringBuffer.append(TEXT_1600);
     }
     stringBuffer.append(TEXT_1601);
     }
+    stringBuffer.append(TEXT_1602);
+    }
     if (isImplementation && genModel.isVirtualDelegation()) { String eVirtualValuesField = genClass.getEVirtualValuesField();
     if (eVirtualValuesField != null) {
-    stringBuffer.append(TEXT_1602);
-    if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1603);
-    }
-    stringBuffer.append(TEXT_1604);
-    stringBuffer.append(eVirtualValuesField);
-    stringBuffer.append(TEXT_1605);
     if (genModel.useClassOverrideAnnotation()) {
-    stringBuffer.append(TEXT_1606);
+    stringBuffer.append(TEXT_1604);
     }
-    stringBuffer.append(TEXT_1607);
+    stringBuffer.append(TEXT_1605);
     stringBuffer.append(eVirtualValuesField);
+    stringBuffer.append(TEXT_1606);
+    if (genModel.useClassOverrideAnnotation()) {
+    stringBuffer.append(TEXT_1607);
+    }
     stringBuffer.append(TEXT_1608);
+    stringBuffer.append(eVirtualValuesField);
+    stringBuffer.append(TEXT_1609);
     }
     { List<String> eVirtualIndexBitFields = genClass.getEVirtualIndexBitFields(new ArrayList<String>());
     if (!eVirtualIndexBitFields.isEmpty()) { List<String> allEVirtualIndexBitFields = genClass.getAllEVirtualIndexBitFields(new ArrayList<String>());
-    stringBuffer.append(TEXT_1609);
-    if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1610);
-    }
-    stringBuffer.append(TEXT_1611);
-    for (int i = 0; i < allEVirtualIndexBitFields.size(); i++) {
-    stringBuffer.append(TEXT_1612);
-    stringBuffer.append(i);
-    stringBuffer.append(TEXT_1613);
-    stringBuffer.append(allEVirtualIndexBitFields.get(i));
-    stringBuffer.append(TEXT_1614);
-    }
-    stringBuffer.append(TEXT_1615);
     if (genModel.useClassOverrideAnnotation()) {
-    stringBuffer.append(TEXT_1616);
+    stringBuffer.append(TEXT_1611);
     }
-    stringBuffer.append(TEXT_1617);
+    stringBuffer.append(TEXT_1612);
     for (int i = 0; i < allEVirtualIndexBitFields.size(); i++) {
-    stringBuffer.append(TEXT_1618);
+    stringBuffer.append(TEXT_1613);
     stringBuffer.append(i);
-    stringBuffer.append(TEXT_1619);
+    stringBuffer.append(TEXT_1614);
     stringBuffer.append(allEVirtualIndexBitFields.get(i));
-    stringBuffer.append(TEXT_1620);
+    stringBuffer.append(TEXT_1615);
     }
+    stringBuffer.append(TEXT_1616);
+    if (genModel.useClassOverrideAnnotation()) {
+    stringBuffer.append(TEXT_1617);
+    }
+    stringBuffer.append(TEXT_1618);
+    for (int i = 0; i < allEVirtualIndexBitFields.size(); i++) {
+    stringBuffer.append(TEXT_1619);
+    stringBuffer.append(i);
+    stringBuffer.append(TEXT_1620);
+    stringBuffer.append(allEVirtualIndexBitFields.get(i));
     stringBuffer.append(TEXT_1621);
+    }
+    stringBuffer.append(TEXT_1622);
     }
     }
     }
     if (genModel.isOperationReflection() && isImplementation && !genClass.getImplementedGenOperations().isEmpty()) {
-    stringBuffer.append(TEXT_1622);
-    if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1623);
+    if (genModel.useClassOverrideAnnotation()) {
+    stringBuffer.append(TEXT_1624);
     }
+    if (genModel.useGenerics()) {
     LOOP: for (GenOperation genOperation : (genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenOperations() : genClass.getAllGenOperations())) {
     for (GenParameter genParameter : genOperation.getGenParameters()) {
     if (genParameter.isUncheckedCast()) {
-    stringBuffer.append(TEXT_1624);
+    stringBuffer.append(TEXT_1625);
     break LOOP;}
     }
     }
-    stringBuffer.append(TEXT_1625);
+    }
+    stringBuffer.append(TEXT_1626);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.EList"));
     stringBuffer.append(singleWildcard);
-    stringBuffer.append(TEXT_1626);
-    stringBuffer.append(genModel.getImportedName(isGWT ? "org.eclipse.emf.common.util.InvocationTargetException" : "java.lang.reflect.InvocationTargetException"));
     stringBuffer.append(TEXT_1627);
-    stringBuffer.append(negativeOperationOffsetCorrection);
+    stringBuffer.append(genModel.getImportedName(isGWT ? "org.eclipse.emf.common.util.InvocationTargetException" : "java.lang.reflect.InvocationTargetException"));
     stringBuffer.append(TEXT_1628);
-    for (GenOperation genOperation : (genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenOperations() : genClass.getAllGenOperations())) { List<GenParameter> genParameters = genOperation.getGenParameters(); int size = genParameters.size();
+    stringBuffer.append(negativeOperationOffsetCorrection);
     stringBuffer.append(TEXT_1629);
-    stringBuffer.append(genClass.getQualifiedOperationID(genOperation));
+    for (GenOperation genOperation : (genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenOperations() : genClass.getAllGenOperations())) { List<GenParameter> genParameters = genOperation.getGenParameters(); int size = genParameters.size();
     stringBuffer.append(TEXT_1630);
-    if (genOperation.isVoid()) {
+    stringBuffer.append(genClass.getQualifiedOperationID(genOperation));
     stringBuffer.append(TEXT_1631);
-    stringBuffer.append(genOperation.getName());
+    if (genOperation.isVoid()) {
     stringBuffer.append(TEXT_1632);
+    stringBuffer.append(genOperation.getName());
+    stringBuffer.append(TEXT_1633);
     for (int i = 0; i < size; i++) { GenParameter genParameter = genParameters.get(i);
     if (!isJDK50 && genParameter.isPrimitiveType()) {
-    stringBuffer.append(TEXT_1633);
+    stringBuffer.append(TEXT_1634);
     }
     if (genParameter.getTypeGenDataType() == null || !genParameter.getTypeGenDataType().isObjectType() || !genParameter.getRawType().equals(genParameter.getType(genClass))) {
-    stringBuffer.append(TEXT_1634);
-    stringBuffer.append(genParameter.getObjectType(genClass));
     stringBuffer.append(TEXT_1635);
-    }
+    stringBuffer.append(genParameter.getObjectType(genClass));
     stringBuffer.append(TEXT_1636);
-    stringBuffer.append(i);
-    stringBuffer.append(TEXT_1637);
-    if (!isJDK50 && genParameter.isPrimitiveType()) {
-    stringBuffer.append(TEXT_1638);
-    stringBuffer.append(genParameter.getPrimitiveValueFunction());
-    stringBuffer.append(TEXT_1639);
     }
-    if (i < (size - 1)) {
+    stringBuffer.append(TEXT_1637);
+    stringBuffer.append(i);
+    stringBuffer.append(TEXT_1638);
+    if (!isJDK50 && genParameter.isPrimitiveType()) {
+    stringBuffer.append(TEXT_1639);
+    stringBuffer.append(genParameter.getPrimitiveValueFunction());
     stringBuffer.append(TEXT_1640);
     }
-    }
+    if (i < (size - 1)) {
     stringBuffer.append(TEXT_1641);
-    } else {
+    }
+    }
     stringBuffer.append(TEXT_1642);
-    if (!isJDK50 && genOperation.isPrimitiveType()) {
+    } else {
     stringBuffer.append(TEXT_1643);
-    stringBuffer.append(genOperation.getObjectType(genClass));
+    if (!isJDK50 && genOperation.isPrimitiveType()) {
     stringBuffer.append(TEXT_1644);
+    stringBuffer.append(genOperation.getObjectType(genClass));
+    stringBuffer.append(TEXT_1645);
     }
     stringBuffer.append(genOperation.getName());
-    stringBuffer.append(TEXT_1645);
+    stringBuffer.append(TEXT_1646);
     for (int i = 0; i < size; i++) { GenParameter genParameter = genParameters.get(i);
     if (!isJDK50 && genParameter.isPrimitiveType()) {
-    stringBuffer.append(TEXT_1646);
+    stringBuffer.append(TEXT_1647);
     }
     if (genParameter.getTypeGenDataType() == null || !genParameter.getTypeGenDataType().isObjectType() || !genParameter.getRawType().equals(genParameter.getType(genClass))) {
-    stringBuffer.append(TEXT_1647);
-    stringBuffer.append(genParameter.getObjectType(genClass));
     stringBuffer.append(TEXT_1648);
-    }
+    stringBuffer.append(genParameter.getObjectType(genClass));
     stringBuffer.append(TEXT_1649);
-    stringBuffer.append(i);
-    stringBuffer.append(TEXT_1650);
-    if (!isJDK50 && genParameter.isPrimitiveType()) {
-    stringBuffer.append(TEXT_1651);
-    stringBuffer.append(genParameter.getPrimitiveValueFunction());
-    stringBuffer.append(TEXT_1652);
     }
-    if (i < (size - 1)) {
+    stringBuffer.append(TEXT_1650);
+    stringBuffer.append(i);
+    stringBuffer.append(TEXT_1651);
+    if (!isJDK50 && genParameter.isPrimitiveType()) {
+    stringBuffer.append(TEXT_1652);
+    stringBuffer.append(genParameter.getPrimitiveValueFunction());
     stringBuffer.append(TEXT_1653);
     }
-    }
+    if (i < (size - 1)) {
     stringBuffer.append(TEXT_1654);
-    if (!isJDK50 && genOperation.isPrimitiveType()) {
-    stringBuffer.append(TEXT_1655);
     }
+    }
+    stringBuffer.append(TEXT_1655);
+    if (!isJDK50 && genOperation.isPrimitiveType()) {
     stringBuffer.append(TEXT_1656);
     }
-    }
     stringBuffer.append(TEXT_1657);
-    if (genModel.isMinimalReflectiveMethods()) {
-    stringBuffer.append(TEXT_1658);
-    } else {
-    stringBuffer.append(TEXT_1659);
     }
+    }
+    stringBuffer.append(TEXT_1658);
+    if (genModel.isMinimalReflectiveMethods()) {
+    stringBuffer.append(TEXT_1659);
+    } else {
     stringBuffer.append(TEXT_1660);
     }
-    if (!genClass.hasImplementedToStringGenOperation() && isImplementation && !genModel.isReflectiveDelegation() && !genModel.isDynamicDelegation() && !genClass.getToStringGenFeatures().isEmpty()) {
     stringBuffer.append(TEXT_1661);
-    if (genModel.useClassOverrideAnnotation()) {
-    stringBuffer.append(TEXT_1662);
     }
+    if (!genClass.hasImplementedToStringGenOperation() && isImplementation && !genModel.isReflectiveDelegation() && !genModel.isDynamicDelegation() && !genClass.getToStringGenFeatures().isEmpty()) {
+    stringBuffer.append(TEXT_1662);
+    if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1663);
+    }
+    stringBuffer.append(TEXT_1664);
     { boolean first = true;
     for (GenFeature genFeature : genClass.getToStringGenFeatures()) {
     if (first) { first = false;
-    stringBuffer.append(TEXT_1664);
-    stringBuffer.append(genFeature.getName());
     stringBuffer.append(TEXT_1665);
+    stringBuffer.append(genFeature.getName());
+    stringBuffer.append(TEXT_1666);
     stringBuffer.append(genModel.getNonNLS());
     } else {
-    stringBuffer.append(TEXT_1666);
-    stringBuffer.append(genFeature.getName());
     stringBuffer.append(TEXT_1667);
+    stringBuffer.append(genFeature.getName());
+    stringBuffer.append(TEXT_1668);
     stringBuffer.append(genModel.getNonNLS());
     }
     if (genFeature.isUnsettable() && !genFeature.isListType()) {
     if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {
-    stringBuffer.append(TEXT_1668);
-    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
-    stringBuffer.append(positiveOffsetCorrection);
     stringBuffer.append(TEXT_1669);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(positiveOffsetCorrection);
     stringBuffer.append(TEXT_1670);
+    stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
+    stringBuffer.append(positiveOffsetCorrection);
+    stringBuffer.append(TEXT_1671);
     stringBuffer.append(genModel.getNonNLS());
     } else {
     if (genClass.isFlag(genFeature)) {
     if (genFeature.isBooleanType()) {
-    stringBuffer.append(TEXT_1671);
-    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_1672);
-    stringBuffer.append(genClass.getESetFlagsField(genFeature));
+    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_1673);
-    stringBuffer.append(genFeature.getUpperName());
+    stringBuffer.append(genClass.getESetFlagsField(genFeature));
     stringBuffer.append(TEXT_1674);
+    stringBuffer.append(genFeature.getUpperName());
+    stringBuffer.append(TEXT_1675);
     } else {
     stringBuffer.append(genFeature.getUncapName());
-    stringBuffer.append(TEXT_1675);
-    }
     stringBuffer.append(TEXT_1676);
-    stringBuffer.append(genClass.getFlagsField(genFeature));
+    }
     stringBuffer.append(TEXT_1677);
-    stringBuffer.append(genFeature.getUpperName());
+    stringBuffer.append(genClass.getFlagsField(genFeature));
     stringBuffer.append(TEXT_1678);
+    stringBuffer.append(genFeature.getUpperName());
+    stringBuffer.append(TEXT_1679);
     stringBuffer.append(genModel.getNonNLS());
     } else {
-    stringBuffer.append(TEXT_1679);
-    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_1680);
-    stringBuffer.append(genClass.getESetFlagsField(genFeature));
+    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_1681);
-    stringBuffer.append(genFeature.getUpperName());
+    stringBuffer.append(genClass.getESetFlagsField(genFeature));
     stringBuffer.append(TEXT_1682);
+    stringBuffer.append(genFeature.getUpperName());
+    stringBuffer.append(TEXT_1683);
     } else {
     stringBuffer.append(genFeature.getUncapName());
-    stringBuffer.append(TEXT_1683);
-    }
     stringBuffer.append(TEXT_1684);
-    stringBuffer.append(genFeature.getUpperName());
+    }
     stringBuffer.append(TEXT_1685);
-    stringBuffer.append(genClass.getFlagsField(genFeature));
-    stringBuffer.append(TEXT_1686);
     stringBuffer.append(genFeature.getUpperName());
+    stringBuffer.append(TEXT_1686);
+    stringBuffer.append(genClass.getFlagsField(genFeature));
     stringBuffer.append(TEXT_1687);
     stringBuffer.append(genFeature.getUpperName());
     stringBuffer.append(TEXT_1688);
+    stringBuffer.append(genFeature.getUpperName());
+    stringBuffer.append(TEXT_1689);
     stringBuffer.append(genModel.getNonNLS());
     }
     } else {
-    stringBuffer.append(TEXT_1689);
-    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_1690);
-    stringBuffer.append(genClass.getESetFlagsField(genFeature));
+    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_1691);
-    stringBuffer.append(genFeature.getUpperName());
+    stringBuffer.append(genClass.getESetFlagsField(genFeature));
     stringBuffer.append(TEXT_1692);
+    stringBuffer.append(genFeature.getUpperName());
+    stringBuffer.append(TEXT_1693);
     } else {
     stringBuffer.append(genFeature.getUncapName());
-    stringBuffer.append(TEXT_1693);
-    }
     stringBuffer.append(TEXT_1694);
-    stringBuffer.append(genFeature.getSafeName());
+    }
     stringBuffer.append(TEXT_1695);
+    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(TEXT_1696);
     stringBuffer.append(genModel.getNonNLS());
     }
     }
     } else {
     if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {
-    stringBuffer.append(TEXT_1696);
+    stringBuffer.append(TEXT_1697);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(positiveOffsetCorrection);
     if (!genFeature.isListType() && !genFeature.isReferenceType()){
-    stringBuffer.append(TEXT_1697);
+    stringBuffer.append(TEXT_1698);
     stringBuffer.append(genFeature.getEDefault());
     }
-    stringBuffer.append(TEXT_1698);
+    stringBuffer.append(TEXT_1699);
     } else {
     if (genClass.isFlag(genFeature)) {
     if (genFeature.isBooleanType()) {
-    stringBuffer.append(TEXT_1699);
-    stringBuffer.append(genClass.getFlagsField(genFeature));
     stringBuffer.append(TEXT_1700);
-    stringBuffer.append(genFeature.getUpperName());
-    stringBuffer.append(TEXT_1701);
-    } else {
-    stringBuffer.append(TEXT_1702);
-    stringBuffer.append(genFeature.getUpperName());
-    stringBuffer.append(TEXT_1703);
     stringBuffer.append(genClass.getFlagsField(genFeature));
-    stringBuffer.append(TEXT_1704);
+    stringBuffer.append(TEXT_1701);
     stringBuffer.append(genFeature.getUpperName());
+    stringBuffer.append(TEXT_1702);
+    } else {
+    stringBuffer.append(TEXT_1703);
+    stringBuffer.append(genFeature.getUpperName());
+    stringBuffer.append(TEXT_1704);
+    stringBuffer.append(genClass.getFlagsField(genFeature));
     stringBuffer.append(TEXT_1705);
     stringBuffer.append(genFeature.getUpperName());
     stringBuffer.append(TEXT_1706);
+    stringBuffer.append(genFeature.getUpperName());
+    stringBuffer.append(TEXT_1707);
     }
     } else {
-    stringBuffer.append(TEXT_1707);
-    stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_1708);
-    }
-    }
-    }
-    }
-    }
+    stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_1709);
+    }
+    }
+    }
+    }
+    }
+    stringBuffer.append(TEXT_1710);
     }
     if (isImplementation && genClass.isMapEntry()) { GenFeature keyFeature = genClass.getMapEntryKeyFeature(); GenFeature valueFeature = genClass.getMapEntryValueFeature();
     String objectType = genModel.getImportedName("java.lang.Object");
     String keyType = isJDK50 ? keyFeature.getObjectType(genClass) : objectType;
     String valueType = isJDK50 ? valueFeature.getObjectType(genClass) : objectType;
     String eMapType = genModel.getImportedName("org.eclipse.emf.common.util.EMap") + (isJDK50 ? "<" + keyType + ", " + valueType + ">" : "");
-    stringBuffer.append(TEXT_1710);
-    if (isGWT) {
     stringBuffer.append(TEXT_1711);
+    if (isGWT) {
+    stringBuffer.append(TEXT_1712);
     stringBuffer.append(genModel.getImportedName("com.google.gwt.user.client.rpc.GwtTransient"));
     }
-    stringBuffer.append(TEXT_1712);
-    stringBuffer.append(objectType);
     stringBuffer.append(TEXT_1713);
-    stringBuffer.append(keyType);
+    stringBuffer.append(objectType);
     stringBuffer.append(TEXT_1714);
-    if (!isJDK50 && keyFeature.isPrimitiveType()) {
-    stringBuffer.append(TEXT_1715);
-    stringBuffer.append(keyFeature.getObjectType(genClass));
-    stringBuffer.append(TEXT_1716);
-    } else {
-    stringBuffer.append(TEXT_1717);
-    }
-    stringBuffer.append(TEXT_1718);
     stringBuffer.append(keyType);
-    stringBuffer.append(TEXT_1719);
-    if (keyFeature.isListType()) {
-    stringBuffer.append(TEXT_1720);
-    if (!genModel.useGenerics()) {
-    stringBuffer.append(TEXT_1721);
-    stringBuffer.append(genModel.getImportedName("java.util.Collection"));
-    stringBuffer.append(TEXT_1722);
-    }
-    stringBuffer.append(TEXT_1723);
-    } else if (isJDK50) {
-    stringBuffer.append(TEXT_1724);
-    } else if (keyFeature.isPrimitiveType()) {
-    stringBuffer.append(TEXT_1725);
+    stringBuffer.append(TEXT_1715);
+    if (!isJDK50 && keyFeature.isPrimitiveType()) {
+    stringBuffer.append(TEXT_1716);
     stringBuffer.append(keyFeature.getObjectType(genClass));
+    stringBuffer.append(TEXT_1717);
+    } else {
+    stringBuffer.append(TEXT_1718);
+    }
+    stringBuffer.append(TEXT_1719);
+    stringBuffer.append(keyType);
+    stringBuffer.append(TEXT_1720);
+    if (keyFeature.isListType()) {
+    stringBuffer.append(TEXT_1721);
+    if (!genModel.useGenerics()) {
+    stringBuffer.append(TEXT_1722);
+    stringBuffer.append(genModel.getImportedName("java.util.Collection"));
+    stringBuffer.append(TEXT_1723);
+    }
+    stringBuffer.append(TEXT_1724);
+    } else if (isJDK50) {
+    stringBuffer.append(TEXT_1725);
+    } else if (keyFeature.isPrimitiveType()) {
     stringBuffer.append(TEXT_1726);
-    stringBuffer.append(keyFeature.getPrimitiveValueFunction());
+    stringBuffer.append(keyFeature.getObjectType(genClass));
     stringBuffer.append(TEXT_1727);
-    } else {
+    stringBuffer.append(keyFeature.getPrimitiveValueFunction());
     stringBuffer.append(TEXT_1728);
-    stringBuffer.append(keyFeature.getImportedType(genClass));
-    stringBuffer.append(TEXT_1729);
-    }
-    stringBuffer.append(TEXT_1730);
-    stringBuffer.append(valueType);
-    stringBuffer.append(TEXT_1731);
-    if (!isJDK50 && valueFeature.isPrimitiveType()) {
-    stringBuffer.append(TEXT_1732);
-    stringBuffer.append(valueFeature.getObjectType(genClass));
-    stringBuffer.append(TEXT_1733);
     } else {
-    stringBuffer.append(TEXT_1734);
+    stringBuffer.append(TEXT_1729);
+    stringBuffer.append(keyFeature.getImportedType(genClass));
+    stringBuffer.append(TEXT_1730);
     }
-    stringBuffer.append(TEXT_1735);
+    stringBuffer.append(TEXT_1731);
     stringBuffer.append(valueType);
+    stringBuffer.append(TEXT_1732);
+    if (!isJDK50 && valueFeature.isPrimitiveType()) {
+    stringBuffer.append(TEXT_1733);
+    stringBuffer.append(valueFeature.getObjectType(genClass));
+    stringBuffer.append(TEXT_1734);
+    } else {
+    stringBuffer.append(TEXT_1735);
+    }
     stringBuffer.append(TEXT_1736);
     stringBuffer.append(valueType);
     stringBuffer.append(TEXT_1737);
     stringBuffer.append(valueType);
     stringBuffer.append(TEXT_1738);
-    if (valueFeature.isListType()) {
+    stringBuffer.append(valueType);
     stringBuffer.append(TEXT_1739);
-    if (!genModel.useGenerics()) {
+    if (valueFeature.isListType()) {
     stringBuffer.append(TEXT_1740);
-    stringBuffer.append(genModel.getImportedName("java.util.Collection"));
+    if (!genModel.useGenerics()) {
     stringBuffer.append(TEXT_1741);
-    }
+    stringBuffer.append(genModel.getImportedName("java.util.Collection"));
     stringBuffer.append(TEXT_1742);
-    } else if (isJDK50) {
+    }
     stringBuffer.append(TEXT_1743);
-    } else if (valueFeature.isPrimitiveType()) {
+    } else if (isJDK50) {
     stringBuffer.append(TEXT_1744);
-    stringBuffer.append(valueFeature.getObjectType(genClass));
+    } else if (valueFeature.isPrimitiveType()) {
     stringBuffer.append(TEXT_1745);
-    stringBuffer.append(valueFeature.getPrimitiveValueFunction());
+    stringBuffer.append(valueFeature.getObjectType(genClass));
     stringBuffer.append(TEXT_1746);
-    } else {
+    stringBuffer.append(valueFeature.getPrimitiveValueFunction());
     stringBuffer.append(TEXT_1747);
-    stringBuffer.append(valueFeature.getImportedType(genClass));
+    } else {
     stringBuffer.append(TEXT_1748);
-    }
+    stringBuffer.append(valueFeature.getImportedType(genClass));
     stringBuffer.append(TEXT_1749);
-    if (genModel.useGenerics()) {
+    }
     stringBuffer.append(TEXT_1750);
-    }
+    if (genModel.useGenerics()) {
     stringBuffer.append(TEXT_1751);
-    stringBuffer.append(eMapType);
-    stringBuffer.append(TEXT_1752);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EObject"));
-    stringBuffer.append(TEXT_1753);
-    stringBuffer.append(eMapType);
-    stringBuffer.append(TEXT_1754);
     }
+    stringBuffer.append(TEXT_1752);
+    stringBuffer.append(eMapType);
+    stringBuffer.append(TEXT_1753);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EObject"));
+    stringBuffer.append(TEXT_1754);
+    stringBuffer.append(eMapType);
     stringBuffer.append(TEXT_1755);
+    }
+    stringBuffer.append(TEXT_1756);
     stringBuffer.append(isInterface ? " " + genClass.getInterfaceName() : genClass.getClassName());
     // TODO fix the space above
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_1756);
+    stringBuffer.append(TEXT_1757);
     return stringBuffer.toString();
   }
 }
