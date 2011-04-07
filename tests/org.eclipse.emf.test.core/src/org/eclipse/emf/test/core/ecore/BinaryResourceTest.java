@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceTest.java,v 1.1 2010/02/27 17:10:03 marcelop Exp $
+ * $Id: BinaryResourceTest.java,v 1.2 2011/04/07 23:41:08 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -37,6 +37,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.test.models.ppo.Item;
 import org.eclipse.emf.test.models.ppo.PPOFactory;
 import org.eclipse.emf.test.models.ppo.PurchaseOrder;
@@ -61,6 +63,7 @@ public class BinaryResourceTest extends TestCase
     TestSuite ts = new TestSuite("BinaryResourceTest");
     ts.addTest(new BinaryResourceTest("testSaveAndLoad1"));
     ts.addTest(new BinaryResourceTest("testSaveAndLoad2"));
+    ts.addTest(new BinaryResourceTest("testSaveAndLoadWithXMIResource"));
     ts.addTest(new BinaryResourceTest("testSaveAndLoadNoCache1"));
     ts.addTest(new BinaryResourceTest("testSaveAndLoadNoCache2"));
     return ts;
@@ -149,6 +152,34 @@ public class BinaryResourceTest extends TestCase
       inputStream.close();
     }
     assertTrue(equalityHelper.equals(rootObjects, resource.getContents()));
+  }
+
+  public void testSaveAndLoadWithXMIResource() throws Exception
+  {
+    XMLResource savedResource = 
+      new XMIResourceImpl(resourceURI)
+      {
+        @Override
+        protected boolean useUUIDs()
+        {
+          return true;
+        }
+      };
+    savedResource.getDefaultSaveOptions().put(XMLResource.OPTION_BINARY, Boolean.TRUE);
+    savedResource.getContents().addAll(rootObjects);
+    savedResource.save(null);
+    assertTrue(resourceURI.toString(), URIConverter.INSTANCE.exists(resourceURI, null));
+
+    XMLResource loadedResource = new XMIResourceImpl(resourceURI);
+    loadedResource.getDefaultLoadOptions().put(XMLResource.OPTION_BINARY, Boolean.TRUE);
+    loadedResource.load(null);
+    assertTrue(equalityHelper.equals(rootObjects, loadedResource.getContents()));
+    for (int i = 0, size = rootObjects.size(); i < size; ++i)
+    {
+      String loadedID = loadedResource.getID(loadedResource.getContents().get(i));
+      assertNotNull(loadedID);
+      assertEquals(savedResource.getID(rootObjects.get(i)), loadedID);
+    }
   }
 
   public void testSaveAndLoadNoCache1() throws Exception

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.28 2010/02/04 20:56:00 emerks Exp $
+ * $Id: SpecialCasesTest.java,v 1.29 2011/04/07 23:41:08 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -611,8 +611,10 @@ public class SpecialCasesTest  extends TestCase
     assertEquals("Mary", copiedMary.eGet(name));
     
     assertNotNull(copiedChangeDescription);
-    assert copiedChangeDescription != null;
-    copiedChangeDescription.applyAndReverse();
+    if (copiedChangeDescription != null)
+    {
+      copiedChangeDescription.applyAndReverse();
+    }
 
     // State 0
     assertNull(copiedJohn.eGet(name));
@@ -620,7 +622,10 @@ public class SpecialCasesTest  extends TestCase
     assertEquals("Mary", copiedMary.eGet(name));
     assertTrue(friendsOfCopiedJohn.isEmpty());
     
-    copiedChangeDescription.apply();
+    if (copiedChangeDescription != null)
+    {
+      copiedChangeDescription.apply();
+    }
 
     // State 1
     assertEquals("John", copiedJohn.eGet(name));

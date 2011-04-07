@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeAllSuites.java,v 1.2 2007/01/31 16:33:29 marcelop Exp $
+ * $Id: ChangeAllSuites.java,v 1.3 2011/04/07 23:41:07 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -25,6 +25,8 @@ public class ChangeAllSuites extends TestSuite
 {
   private static Test[] suites = new Test []
   { 
+    ListDifferenceAnalyzerTest.suite(),
+    ChangeDescriptionReverseTest.suite(),
     ChangeRecordTest.suite(false)
     ,ChangeRecordTest.suite(true)
     ,ChangeDescriptionTest.suite()

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.19 2008/05/04 10:59:07 emerks Exp $
+ * $Id: ChangeRecordTest.java,v 1.20 2011/04/07 23:41:07 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -174,6 +174,10 @@ extends TestCase
     assertEquals(EcorePackage.Literals.EANNOTATION__CONTENTS, featureChange.getFeature());
     assertEquals(2, featureChange.getListChanges().size());
     
+    // With the latest algorithm we always expect to removes to be first.
+    //
+    assertEquals(ChangeKind.REMOVE_LITERAL, featureChange.getListChanges().get(0).getKind());
+    
     int checker = 0;
     for (ListChange listChange : featureChange.getListChanges())
     {
@@ -181,14 +185,14 @@ extends TestCase
       {
         case ChangeKind.ADD:
           assertEquals(0, listChange.getIndex());
-        	assertEquals(1, listChange.getValues().size());
-        	assertEquals(eClass0, listChange.getValues().get(0));
-        	checker += 1;
+          assertEquals(1, listChange.getValues().size());
+          assertEquals(eClass0, listChange.getValues().get(0));
+          checker += 1;
           break;
         
         case ChangeKind.REMOVE:
-        	assertEquals(1, listChange.getIndex());
-        	assertEquals(0, listChange.getReferenceValues().size());
+          assertEquals(0, listChange.getIndex());
+          assertEquals(0, listChange.getReferenceValues().size());
           checker += 4;
           break;
       }
