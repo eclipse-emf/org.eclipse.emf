@@ -16,6 +16,7 @@
       <genEnumLiterals ecoreEnumLiteral="Change.ecore#//ChangeKind/REMOVE"/>
       <genEnumLiterals ecoreEnumLiteral="Change.ecore#//ChangeKind/MOVE"/>
     </genEnums>
+    <genDataTypes ecoreDataType="Change.ecore#//EObjectToURIMap"/>
     <genClasses ecoreClass="Change.ecore#//ChangeDescription">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Change.ecore#//ChangeDescription/objectChanges"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Change.ecore#//ChangeDescription/objectsToDetach"/>
@@ -23,6 +24,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Change.ecore#//ChangeDescription/resourceChanges"/>
       <genOperations ecoreOperation="Change.ecore#//ChangeDescription/apply"/>
       <genOperations ecoreOperation="Change.ecore#//ChangeDescription/applyAndReverse"/>
+      <genOperations ecoreOperation="Change.ecore#//ChangeDescription/copyAndReverse">
+        <genParameters ecoreParameter="Change.ecore#//ChangeDescription/copyAndReverse/eObjectToProxyURIMap"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="Change.ecore#//EObjectToChangesMapEntry">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Change.ecore#//EObjectToChangesMapEntry/key"/>
@@ -42,6 +46,9 @@
       <genOperations ecoreOperation="Change.ecore#//FeatureChange/applyAndReverse">
         <genParameters ecoreParameter="Change.ecore#//FeatureChange/applyAndReverse/originalObject"/>
       </genOperations>
+      <genOperations ecoreOperation="Change.ecore#//FeatureChange/reverse">
+        <genParameters ecoreParameter="Change.ecore#//FeatureChange/reverse/originalObject"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="Change.ecore#//ListChange">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//ListChange/kind"/>
@@ -58,6 +65,9 @@
       <genOperations ecoreOperation="Change.ecore#//ListChange/applyAndReverse">
         <genParameters ecoreParameter="Change.ecore#//ListChange/applyAndReverse/originalList"/>
       </genOperations>
+      <genOperations ecoreOperation="Change.ecore#//ListChange/reverse">
+        <genParameters ecoreParameter="Change.ecore#//ListChange/reverse/originalList"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="Change.ecore#//ResourceChange">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//ResourceChange/resourceURI"/>
@@ -66,6 +76,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Change.ecore#//ResourceChange/listChanges"/>
       <genOperations ecoreOperation="Change.ecore#//ResourceChange/apply"/>
       <genOperations ecoreOperation="Change.ecore#//ResourceChange/applyAndReverse"/>
+      <genOperations ecoreOperation="Change.ecore#//ResourceChange/reverse"/>
     </genClasses>
     <genClasses ecoreClass="Change.ecore#//FeatureMapEntry">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//FeatureMapEntry/featureName"/>

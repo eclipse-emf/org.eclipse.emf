@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2006 IBM Corporation and others.
+ * Copyright (c) 2003-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeImpl.java,v 1.14 2008/12/22 14:26:03 emerks Exp $
+ * $Id: ListChangeImpl.java,v 1.15 2011/04/07 23:41:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -479,29 +479,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    */
   public void apply(EList<Object> originalList)
   {
-    switch (getKind().getValue())
-    {
-      case ChangeKind.ADD:
-        if (index == -1)
-        {
-          originalList.addAll(getValues());
-        }
-        else
-        {
-          originalList.addAll(index, getValues());
-        }
-        break;
-      case ChangeKind.REMOVE:
-        int removeCount = getValues().isEmpty() ? 1 : getValues().size();
-        for (int i = 0; i < removeCount; ++i)
-        {
-          originalList.remove(index);
-        }
-        break;
-      case ChangeKind.MOVE:
-        originalList.move(moveToIndex, index);
-        break;
-    }
+    process(originalList, false, true);
   }
 
   /**
@@ -511,44 +489,89 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    */
   public void applyAndReverse(EList<Object> originalList)
   {
+    process(originalList, true, true);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void reverse(EList<Object> originalList)
+  {
+    process(originalList, true, false);
+  }
+
+  protected void process(EList<Object> originalList, boolean reverse, boolean apply)
+  {
     switch (getKind().getValue())
     {
       case ChangeKind.ADD:
         if (index == -1)
         {
-          index = originalList.size();
-          originalList.addAll(getValues());
+          if (reverse)
+          {
+            index = originalList.size();
+          }
+          if (apply)
+          {
+            originalList.addAll(getValues());
+          }
         }
-        else
+        else if (apply)
         {
           originalList.addAll(index, getValues());
         }
-        if (getValues().size() == 1)
+        if (reverse)
         {
-          getValues().clear();
+          if (getValues().size() == 1)
+          {
+            getValues().clear();
+          }
+          setKind(ChangeKind.REMOVE_LITERAL);
         }
-        setKind(ChangeKind.REMOVE_LITERAL);
         break;
       case ChangeKind.REMOVE:
+        int removeCount;
         if (getValues().isEmpty())
         {
-          getValues().add(originalList.get(getIndex()));
+          if (reverse)
+          {
+            getValues().add(originalList.get(getIndex()));
+          }
+          removeCount = 1;
         }
-        int removeCount = getValues().size();
-        for (int i = 0; i < removeCount; ++i)
+        else
         {
-          originalList.remove(index);
+          removeCount = getValues().size();
         }
-        setKind(ChangeKind.ADD_LITERAL);
+        if (apply)
+        {
+          for (int i = 0; i < removeCount; ++i)
+          {
+            originalList.remove(index);
+          }
+        }
+        if (reverse)
+        {
+          setKind(ChangeKind.ADD_LITERAL);
+        }
         break;
       case ChangeKind.MOVE:
-        originalList.move(moveToIndex, index);
-        int temp = moveToIndex;
-        setMoveToIndex(index);
-        setIndex(temp);
+        if (apply)
+        {
+          originalList.move(moveToIndex, index);
+        }
+        if (reverse)
+        {
+          int temp = moveToIndex;
+          setMoveToIndex(index);
+          setIndex(temp);
+        }
         break;
     }
   }
+  
 
   /**
    * <!-- begin-user-doc -->

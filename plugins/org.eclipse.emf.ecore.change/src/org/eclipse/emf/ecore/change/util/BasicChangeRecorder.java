@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2007 IBM Corporation and others.
+ * Copyright (c) 2007-2011 IBM Corporation and others.
  * All rights reserved.  This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicChangeRecorder.java,v 1.4 2010/09/23 11:01:26 emerks Exp $
+ * $Id: BasicChangeRecorder.java,v 1.5 2011/04/07 23:41:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -40,7 +40,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 public class BasicChangeRecorder extends ListDifferenceAnalyzer
 {
   protected boolean recording;
-  
+  protected boolean recordingTransientFeatures = true;
+
   protected ChangeDescription changeDescription;
 
   /**
@@ -50,24 +51,41 @@ public class BasicChangeRecorder extends ListDifferenceAnalyzer
   {
     return recording;
   }
-  
+
   protected void setRecording(boolean recording)
   {
     this.recording = recording;
   }
-  
+
+  /**
+   * @return true if this change recorder is recording transient features or false otherwise.
+   * @since 2.7
+   */
+  public boolean isRecordingTransientFeatures()
+  {
+    return recordingTransientFeatures;
+  }
+
+  /**
+   * @since 2.7
+   */
+  public void setRecordingTransientFeatures(boolean recordingTransientFeatures)
+  {
+    this.recordingTransientFeatures = recordingTransientFeatures;
+  }
+
   protected ChangeDescription getChangeDescription()
   {
     return changeDescription;
   }
-  
+
   protected void setChangeDescription(ChangeDescription changeDescription)
   {
     this.changeDescription = changeDescription;
   }
-  
+
   /**
-   * Disposes this change recorder.  This method ends a recording without 
+   * Disposes this change recorder.  This method ends a recording without
    * consolidating the changes.
    */
   public void dispose()
@@ -78,9 +96,9 @@ public class BasicChangeRecorder extends ListDifferenceAnalyzer
   /**
    * <p>Summarizes the changes made to the analyzed objects on the {@link ChangeDescription change description}
    * returned by the {@link #endRecording()} without ending the recording.</p>
-
+   *
    * <p>This method doesn't do anything if this ChangeRecorder is not recording.</p>
-   * 
+   *
    * @return the {@link ChangeDescription} or <tt class="code">null</tt> if there is nothing being recorded.
    */
   public ChangeDescription summarize()
@@ -92,7 +110,7 @@ public class BasicChangeRecorder extends ListDifferenceAnalyzer
     }
     return null;
   }
-  
+
   /**
    * Ends the recording and consolidates the changes on the {@link ChangeDescription change description}.
    * @return the {@link ChangeDescription} or <tt class="code">null</tt> if there is nothing being recorded.
@@ -106,8 +124,8 @@ public class BasicChangeRecorder extends ListDifferenceAnalyzer
       return getChangeDescription();
     }
     return null;
-  }  
-  
+  }
+
   /**
    * Consolidates the changes that have happen since the last consolidation.
    */
@@ -126,7 +144,7 @@ public class BasicChangeRecorder extends ListDifferenceAnalyzer
     for (ResourceChange resourceChange : changeDescription.getResourceChanges())
     {
       finalizeChange(resourceChange);
-    }    
+    }
 
     eliminateEmptyChanges();
   }
@@ -169,18 +187,19 @@ public class BasicChangeRecorder extends ListDifferenceAnalyzer
       {
         i.remove();
       }
-    }    
+    }
   }
-  
+
   protected boolean shouldRecord(EStructuralFeature feature, EObject eObject)
   {
     return isRecording() &&
       !feature.isDerived() &&
       feature != EcorePackage.Literals.ECLASS__ESUPER_TYPES &&
       feature != EcorePackage.Literals.ETYPED_ELEMENT__ETYPE &&
-      feature != EcorePackage.Literals.EOPERATION__EEXCEPTIONS;
-  }  
-  
+      feature != EcorePackage.Literals.EOPERATION__EEXCEPTIONS &&
+      feature != EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME;
+  }
+
   protected void finalizeChange(ResourceChange change)
   {
     EList<Object> oldList = new BasicEList.FastCompare<Object>(change.getResource().getContents());
@@ -222,8 +241,8 @@ public class BasicChangeRecorder extends ListDifferenceAnalyzer
       }
     }
     return null;
-  }  
-  
+  }
+
   protected List<FeatureChange> getFeatureChanges(EObject eObject)
   {
     ChangeDescription changeDescription = getChangeDescription();

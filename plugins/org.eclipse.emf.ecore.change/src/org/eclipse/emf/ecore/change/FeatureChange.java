@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2006 IBM Corporation and others.
+ * Copyright (c) 2003-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChange.java,v 1.6 2007/06/12 15:07:30 emerks Exp $
+ * $Id: FeatureChange.java,v 1.7 2011/04/07 23:41:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -249,5 +249,14 @@ public interface FeatureChange extends EObject
    * @generated
    */
   void applyAndReverse(EObject originalObject);
+
+  /**
+   * <!-- begin-user-doc -->
+   * @since 2.7
+   * <!-- end-user-doc -->
+   * @model
+   * @generated
+   */
+  void reverse(EObject originalObject);
 
 } // FeatureChange

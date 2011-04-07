@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2006 IBM Corporation and others.
+ * Copyright (c) 2003-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChange.java,v 1.9 2008/10/23 17:22:40 emerks Exp $
+ * $Id: ListChange.java,v 1.10 2011/04/07 23:41:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -202,5 +202,14 @@ public interface ListChange extends EObject
    * @generated
    */
   void applyAndReverse(EList<Object> originalList);
+
+  /**
+   * <!-- begin-user-doc -->
+   * @since 2.7
+   * <!-- end-user-doc -->
+   * @model originalListMany="false"
+   * @generated
+   */
+  void reverse(EList<Object> originalList);
 
 } // ListChange
