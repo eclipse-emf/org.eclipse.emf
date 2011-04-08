@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeImpl.java,v 1.15 2011/04/07 23:41:05 emerks Exp $
+ * $Id: ListChangeImpl.java,v 1.16 2011/04/08 21:16:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -160,7 +160,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * @ordered
    */
   protected EStructuralFeature feature;
-  
+
   /**
    * The cached value of the '{@link #getFeatureMapEntryValues() <em>Feature Map Entry Values</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -174,7 +174,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
   /**
    * The data value delegating list is used to ensure that the elements
    * are properly converted to and from strings when added and removed
-   * from the dataValues list. 
+   * from the dataValues list.
    */
   protected EList<Object> dataValueDelegatingList = null;
 
@@ -243,7 +243,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
   {
     if (FeatureMapUtil.isFeatureMap(getFeature()))
     {
-      return 
+      return
         new DelegatingEList<Object>()
         {
           private static final long serialVersionUID = 1L;
@@ -254,7 +254,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
           {
             return (List<Object>)(List<?>)getFeatureMapEntryValues();
           }
-          
+
           @Override
           protected Object validate(int index, Object object)
           {
@@ -272,7 +272,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
     }
     else
     {
-      return 
+      return
         new DelegatingEList<Object>()
         {
           private static final long serialVersionUID = 1L;
@@ -283,14 +283,14 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
           {
             return (List<Object>)(List<?>)getDataValues();
           }
-            
+
           @Override
           protected Object resolve(int index, Object object)
           {
             EDataType type = (EDataType)getFeature().getEType();
             return EcoreUtil.createFromString(type, (String)object);
           }
-            
+
           @Override
           protected Object validate(int index, Object object)
           {
@@ -298,9 +298,9 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
             return EcoreUtil.convertToString(type, object);
           }
         };
-    } 
+    }
   }
-  
+
   protected FeatureMapEntry createFeatureMapEntry(EStructuralFeature feature, Object value)
   {
     return ChangeFactory.eINSTANCE.createFeatureMapEntry(feature, value);
@@ -459,7 +459,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
       return result;
     }
   }
-  
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -571,7 +571,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
         break;
     }
   }
-  
+
 
   /**
    * <!-- begin-user-doc -->

@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ListDifferenceAnalyzer.java,v 1.5 2011/04/07 23:41:05 emerks Exp $
+ * $Id: ListDifferenceAnalyzer.java,v 1.6 2011/04/08 21:16:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
 import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.change.ChangeFactory;
 import org.eclipse.emf.ecore.change.ChangeKind;
@@ -62,65 +61,6 @@ public class ListDifferenceAnalyzer
     createListChanges(new BasicEList<Object>(oldList), newList, listChanges);
   }
 
-  /**
-   * @see #analyzeLists(EList, EList, EList)
-   */
-  protected void createListChangesx(EList<Object> oldList, EList<?> newList, EList<ListChange> listChanges)
-  {
-    int index = 0;
-    for (Object newObject : newList)
-    {
-      if (oldList.size() <= index)
-      {
-        createAddListChange(oldList, listChanges, newObject, index);
-      }
-      else
-      {
-        boolean done;
-        do
-        {
-          done = true;
-          Object targetObject = oldList.get(index);
-          if (targetObject == null ? newObject != null : !targetObject.equals(newObject))
-          {
-            int position = ECollections.indexOf(oldList, newObject, index);
-            if (position != -1)
-            {
-              int targetIndex = ECollections.indexOf(newList, targetObject, index);
-              if (targetIndex == -1)
-              {
-                createRemoveListChange(oldList, listChanges, targetObject, index);
-                done = false;
-              }
-              else if (targetIndex > position)
-              {
-                if (oldList.size() <= targetIndex)
-                {
-                  targetIndex = oldList.size() - 1;
-                }
-                createMoveListChange(oldList, listChanges, targetObject, index, targetIndex);
-                done = false;
-              }
-              else
-              {
-                createMoveListChange(oldList, listChanges, targetObject, position, index);
-              }
-            }
-            else
-            {
-              createAddListChange(oldList, listChanges, newObject, index);
-            }
-          }
-        }
-        while (!done);
-      }
-      ++index;
-    }
-    for (int i = oldList.size(); i > index;)
-    {
-      createRemoveListChange(oldList, listChanges, oldList.get(--i), i);
-    }
-  }
 
   protected void createListChanges(EList<Object> oldList, EList<?> newList, EList<ListChange> listChanges)
   {
