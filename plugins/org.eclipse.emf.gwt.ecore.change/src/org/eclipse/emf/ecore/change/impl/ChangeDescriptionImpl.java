@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2010 IBM Corporation and others.
+ * Copyright (c) 2003-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.3 2010/05/17 13:17:52 emerks Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.4 2011/04/08 21:17:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -21,13 +21,19 @@ import com.google.gwt.user.client.rpc.GwtTransient;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.BasicEMap;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -44,6 +50,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -90,7 +97,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    */
   @GwtTransient
   protected EList<EObject> objectsToDetach;
-  
+
   /**
    * The cached value of the '{@link #getObjectsToAttach() <em>Objects To Attach</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -170,7 +177,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
       EStructuralFeature feature = entry.getEStructuralFeature();
       if (feature instanceof EReference && ((EReference)feature).isContainment())
       {
-        result.add((EObject)entry.getValue()); 
+        result.add((EObject)entry.getValue());
       }
     }
     return result;
@@ -187,7 +194,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
 
       for (Map.Entry<EObject,EList<FeatureChange>> entry : getObjectChanges())
       {
-        EObject objectToChange = entry.getKey(); 
+        EObject objectToChange = entry.getKey();
         for (FeatureChange featureChange : entry.getValue())
         {
           EStructuralFeature feature = featureChange.getFeature();
@@ -195,7 +202,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
           {
             @SuppressWarnings("unchecked") List<FeatureMap.Entry> beforeValue = (List<FeatureMap.Entry>)featureChange.getValue();
             objectsBeforeChange.addAll(getContainedEObjects(beforeValue));
-            @SuppressWarnings("unchecked") 
+            @SuppressWarnings("unchecked")
             List<FeatureMap.Entry> afterValue = (List<FeatureMap.Entry>)objectToChange.eGet(feature);
             objectsAfterChange.addAll(getContainedEObjects(afterValue));
           }
@@ -219,7 +226,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         }
       }
     }
-    
+
     if (!getResourceChanges().isEmpty())
     {
       for (ResourceChange resourceChange : getResourceChanges())
@@ -229,7 +236,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         {
           resource = eResource();
         }
-        
+
         if (resource != null)
         {
           EList<EObject> currentContentCopy = new BasicEList<EObject>(resource.getContents());
@@ -238,20 +245,20 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
             @SuppressWarnings("unchecked") EList<Object> list = (EList<Object>)(EList<?>)currentContentCopy;
             listChange.apply(list);
           }
-        
+
           objectsBeforeChange.addAll(currentContentCopy);
           objectsAfterChange.addAll(resource.getContents());
         }
       }
     }
-    
+
     // Isolating the new objects
     objectsAfterChange.removeAll(objectsBeforeChange);
-    
+
     // getObjectsToDetachGen() should be changed only if required
     getObjectsToDetachGen().retainAll(objectsAfterChange);
     getObjectsToDetachGen().addAll(objectsAfterChange);
-    
+
     return getObjectsToDetachGen();
   }
 
@@ -324,10 +331,10 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
   public void applyAndReverse()
   {
     preApply(true);
-    
+
     List<EObject> objectsBeforeApply = new UniqueEList.FastCompare<EObject>();
     List<EObject> objectsAfterApply = new UniqueEList.FastCompare<EObject>();
-    
+
     // Apply the change and reverse the change information.
     //
     for (Map.Entry<EObject, EList<FeatureChange>> entry : getObjectChanges())
@@ -337,13 +344,13 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
       {
         EStructuralFeature feature  = featureChange.getFeature();
 
-        int featureKind = 
+        int featureKind =
           feature != null && FeatureMapUtil.isFeatureMap(feature) ?
             3 :
-            feature instanceof EReference && ((EReference)feature).isContainment() ? 
-              feature.isMany() ? 
-                1 : 
-                2 : 
+            feature instanceof EReference && ((EReference)feature).isContainment() ?
+              feature.isMany() ?
+                1 :
+                2 :
             0;
         switch (featureKind)
         {
@@ -361,7 +368,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
               objectsBeforeApply.add((EObject)objectToChange.eGet(feature));
             }
             break;
-          }            
+          }
           case 3:
           {
             @SuppressWarnings("unchecked") List<FeatureMap.Entry> beforeValue = (List<FeatureMap.Entry>)objectToChange.eGet(feature);
@@ -369,9 +376,9 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
             break;
           }
         }
-               
+
         featureChange.applyAndReverse(objectToChange);
-        
+
         switch (featureKind)
         {
           case 1:
@@ -388,7 +395,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
               objectsAfterApply.add((EObject)objectToChange.eGet(feature));
             }
             break;
-          }            
+          }
           case 3:
           {
             @SuppressWarnings("unchecked") List<FeatureMap.Entry> afterValue = (List<FeatureMap.Entry>)objectToChange.eGet(feature);
@@ -412,11 +419,11 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         objectsAfterApply.addAll(resource.getContents());
       }
     }
-    
+
     // The next line leaves objectsBeforeApply with all the objects that were
     // added during the last recording.
     objectsBeforeApply.removeAll(objectsAfterApply);
-    
+
     // Reverse the objects to attach and detach lists.
     //
     getObjectsToAttach().clear();
@@ -427,6 +434,199 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         getObjectsToAttach().add(eObject);
       }
     }
+    oldContainmentInformation = null;
+  }
+
+  public void copyAndReverse(final Map<EObject, URI> eObjectToProxyURIMap)
+  {
+    // Cache this list early, because it's result depends on calling preApply(false).
+    //
+    EList<EObject> objectToDetach = getObjectsToDetach();
+
+    // Get ready to apply the changes, even though we really won't apply them to the originals.
+    //
+    preApply(true);
+
+    EcoreUtil.Copier copier =
+      new EcoreUtil.Copier()
+      {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public EObject copy(EObject eObject)
+        {
+          // Ensure that objects that appear both as a contained child and directly in the list, will not be copied twice.
+          //
+          EObject result = get(eObject);
+          if (result != null)
+          {
+            return result;
+          }
+          else
+          {
+            // Create proxies copies for objects in the proxy map.
+            //
+            URI proxyURI = eObjectToProxyURIMap.get(eObject);
+            if (proxyURI != null)
+            {
+              InternalEObject copyEObject = (InternalEObject)createCopy(eObject);
+              copyEObject.eSetProxyURI(proxyURI);
+              put(eObject, copyEObject);
+              return copyEObject;
+            }
+            else
+            {
+              // Otherwise create a normal copy.
+              //
+              return super.copy(eObject);
+            }
+          }
+        }
+      };
+    Collection<EObject> newObjectsToAttach = copier.copyAll(objectToDetach);
+    copier.copyReferences();
+
+    // The children of the objects to attach might become orphans;
+    // we'll need to check for that later.
+    //
+    Set<EObject> potentialOrphans = new HashSet<EObject>();
+    for (EObject eObject : newObjectsToAttach)
+    {
+      for (Iterator<EObject> i = eObject.eAllContents(); i.hasNext(); )
+      {
+        potentialOrphans.add(i.next());
+      }
+    }
+
+    // Apply the change to the proxified copy and reverse the change information.
+    //
+    EMap<EObject, EList<FeatureChange>> oldObjectChanges =  new BasicEMap<EObject, EList<FeatureChange>>();
+    oldObjectChanges.putAll(getObjectChanges());
+    for (Map.Entry<EObject, EList<FeatureChange>> entry : oldObjectChanges)
+    {
+      // Get the copied version of the object to be changed.
+      //
+      EObject objectToChange = entry.getKey();
+      EObject copiedObjectToChange = copier.get(objectToChange);
+
+      for (FeatureChange featureChange : entry.getValue())
+      {
+        // If there is a real, non-proxy copy...
+        //
+        if (copiedObjectToChange != null && !copiedObjectToChange.eIsProxy())
+        {
+          // Apply the change to that copy.
+          //
+          featureChange.applyAndReverse(copiedObjectToChange);
+        }
+        else
+        {
+          // Otherwise use copy and reverse for the original object.
+          //
+          featureChange.reverse(objectToChange);
+        }
+
+        EObject referenceValue = featureChange.getReferenceValue();
+        if (referenceValue != null)
+        {
+          // Try to get the copy corresponding to the reference value.
+          //
+          EObject copiedReferenceValue = copier.get(referenceValue);
+          if (copiedReferenceValue == null)
+          {
+            // If there isn't one, create a proxified copy of it.
+            //
+            copiedReferenceValue = copier.copy(referenceValue);
+          }
+          // Switch to the copy.
+          //
+          featureChange.setReferenceValue(copiedReferenceValue);
+        }
+        else
+        {
+          // Otherwise deal with the list changes.
+          //
+          for (ListChange listChange : featureChange.getListChanges())
+          {
+            for (ListIterator<EObject> referenceValues = listChange.getReferenceValues().listIterator(); referenceValues.hasNext();)
+            {
+              // Deal with each reference value in exactly the same way as the single value case.
+              //
+              referenceValue = referenceValues.next();
+              EObject copiedReferenceValue = copier.get(referenceValue);
+              if (copiedReferenceValue == null)
+              {
+                copiedReferenceValue = copier.copy(referenceValue);
+              }
+              referenceValues.set(copiedReferenceValue);
+            }
+          }
+        }
+      }
+
+      // Remove the entry for the original object.
+      //
+      objectChanges.remove(objectToChange);
+
+      // Ensure that we have a copy of the original object, even if it's just a proxified one.
+      //
+      if (copiedObjectToChange == null)
+      {
+        copiedObjectToChange = copier.copy(objectToChange);
+      }
+
+      // Update the value of the new entry to the value of the old entry, which we updated above.
+      //
+      objectChanges.put(copiedObjectToChange, entry.getValue());
+    }
+
+    for (ResourceChange resourceChange : getResourceChanges())
+    {
+      // Copy and reverse the resource change itself.
+      //
+      resourceChange.reverse();
+
+      // Deal with all the list changes.
+      //
+      for (ListChange listChange : resourceChange.getListChanges())
+      {
+        for (ListIterator<EObject> referenceValues = listChange.getReferenceValues().listIterator(); referenceValues.hasNext();)
+        {
+          // Deal with each reference value exactly like we did multi-valued feature changes.
+          //
+          EObject referenceValue = referenceValues.next();
+          EObject copiedReferenceValue = copier.get(referenceValue);
+          if (copiedReferenceValue == null)
+          {
+            copiedReferenceValue = copier.copy(referenceValue);
+          }
+          referenceValues.set(copiedReferenceValue);
+        }
+      }
+    }
+
+    // Ensure that references between the copied objects are properly populated as in the originals.
+    //
+    copier.copyReferences();
+
+    // Check for objects that became orphans as a result of applying the changes.
+    //
+    for (EObject eObject : potentialOrphans)
+    {
+      if (eObject.eContainer() == null && !eObject.eIsProxy())
+      {
+        newObjectsToAttach.add(eObject);
+      }
+    }
+
+    // Reverse the objects to attach and detach lists.
+    //
+    getObjectsToAttach().clear();
+
+    getObjectsToAttach().addAll(newObjectsToAttach);
+
+    // Clear this cached information.
+    //
     oldContainmentInformation = null;
   }
 
@@ -488,7 +688,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         }
       }
     }
-    
+
     if (resourceChanges != null)
     {
       @SuppressWarnings({"unchecked", "rawtypes"}) EList<ResourceChangeImpl> resourceChanges = (EList)getResourceChanges();

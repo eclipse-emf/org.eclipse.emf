@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2010 IBM Corporation and others.
+ * Copyright (c) 2003-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeImpl.java,v 1.3 2010/05/17 13:17:52 emerks Exp $
+ * $Id: ListChangeImpl.java,v 1.4 2011/04/08 21:17:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -167,7 +167,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    */
   @GwtTransient
   protected EStructuralFeature feature;
-  
+
   /**
    * The cached value of the '{@link #getFeatureMapEntryValues() <em>Feature Map Entry Values</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -182,7 +182,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
   /**
    * The data value delegating list is used to ensure that the elements
    * are properly converted to and from strings when added and removed
-   * from the dataValues list. 
+   * from the dataValues list.
    */
   @GwtTransient
   protected EList<Object> dataValueDelegatingList = null;
@@ -252,7 +252,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
   {
     if (FeatureMapUtil.isFeatureMap(getFeature()))
     {
-      return 
+      return
         new DelegatingEList<Object>()
         {
           private static final long serialVersionUID = 1L;
@@ -263,7 +263,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
           {
             return (List<Object>)(List<?>)getFeatureMapEntryValues();
           }
-          
+
           @Override
           protected Object validate(int index, Object object)
           {
@@ -281,7 +281,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
     }
     else
     {
-      return 
+      return
         new DelegatingEList<Object>()
         {
           private static final long serialVersionUID = 1L;
@@ -292,14 +292,14 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
           {
             return (List<Object>)(List<?>)getDataValues();
           }
-            
+
           @Override
           protected Object resolve(int index, Object object)
           {
             EDataType type = (EDataType)getFeature().getEType();
             return EcoreUtil.createFromString(type, (String)object);
           }
-            
+
           @Override
           protected Object validate(int index, Object object)
           {
@@ -307,9 +307,9 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
             return EcoreUtil.convertToString(type, object);
           }
         };
-    } 
+    }
   }
-  
+
   protected FeatureMapEntry createFeatureMapEntry(EStructuralFeature feature, Object value)
   {
     return ChangeFactory.eINSTANCE.createFeatureMapEntry(feature, value);
@@ -468,7 +468,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
       return result;
     }
   }
-  
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -488,29 +488,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    */
   public void apply(EList<Object> originalList)
   {
-    switch (getKind().getValue())
-    {
-      case ChangeKind.ADD:
-        if (index == -1)
-        {
-          originalList.addAll(getValues());
-        }
-        else
-        {
-          originalList.addAll(index, getValues());
-        }
-        break;
-      case ChangeKind.REMOVE:
-        int removeCount = getValues().isEmpty() ? 1 : getValues().size();
-        for (int i = 0; i < removeCount; ++i)
-        {
-          originalList.remove(index);
-        }
-        break;
-      case ChangeKind.MOVE:
-        originalList.move(moveToIndex, index);
-        break;
-    }
+    process(originalList, false, true);
   }
 
   /**
@@ -520,41 +498,85 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    */
   public void applyAndReverse(EList<Object> originalList)
   {
+    process(originalList, true, true);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void reverse(EList<Object> originalList)
+  {
+    process(originalList, true, false);
+  }
+
+  protected void process(EList<Object> originalList, boolean reverse, boolean apply)
+  {
     switch (getKind().getValue())
     {
       case ChangeKind.ADD:
         if (index == -1)
         {
-          index = originalList.size();
-          originalList.addAll(getValues());
+          if (reverse)
+          {
+            index = originalList.size();
+          }
+          if (apply)
+          {
+            originalList.addAll(getValues());
+          }
         }
-        else
+        else if (apply)
         {
           originalList.addAll(index, getValues());
         }
-        if (getValues().size() == 1)
+        if (reverse)
         {
-          getValues().clear();
+          if (getValues().size() == 1)
+          {
+            getValues().clear();
+          }
+          setKind(ChangeKind.REMOVE_LITERAL);
         }
-        setKind(ChangeKind.REMOVE_LITERAL);
         break;
       case ChangeKind.REMOVE:
+        int removeCount;
         if (getValues().isEmpty())
         {
-          getValues().add(originalList.get(getIndex()));
+          if (reverse)
+          {
+            getValues().add(originalList.get(getIndex()));
+          }
+          removeCount = 1;
         }
-        int removeCount = getValues().size();
-        for (int i = 0; i < removeCount; ++i)
+        else
         {
-          originalList.remove(index);
+          removeCount = getValues().size();
         }
-        setKind(ChangeKind.ADD_LITERAL);
+        if (apply)
+        {
+          for (int i = 0; i < removeCount; ++i)
+          {
+            originalList.remove(index);
+          }
+        }
+        if (reverse)
+        {
+          setKind(ChangeKind.ADD_LITERAL);
+        }
         break;
       case ChangeKind.MOVE:
-        originalList.move(moveToIndex, index);
-        int temp = moveToIndex;
-        setMoveToIndex(index);
-        setIndex(temp);
+        if (apply)
+        {
+          originalList.move(moveToIndex, index);
+        }
+        if (reverse)
+        {
+          int temp = moveToIndex;
+          setMoveToIndex(index);
+          setIndex(temp);
+        }
         break;
     }
   }

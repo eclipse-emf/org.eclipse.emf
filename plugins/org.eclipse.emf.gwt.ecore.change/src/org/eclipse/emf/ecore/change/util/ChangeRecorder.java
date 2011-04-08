@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2010 IBM Corporation and others.
+ * Copyright (c) 2003-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.2 2010/04/28 20:37:22 khussey Exp $
+ * $Id: ChangeRecorder.java,v 1.3 2011/04/08 21:17:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -21,20 +21,24 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.ResourceChange;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 
@@ -50,8 +54,10 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
   protected List<Notifier> originalTargetObjects = new BasicEList.FastCompare<Notifier>();
 
   protected boolean loadingTargets;
-  
+
   protected boolean resolveProxies;
+
+  protected Map<EObject, URI> eObjectToProxyURIMap;
 
   public ChangeRecorder()
   {
@@ -77,30 +83,50 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
   {
     beginRecording(rootObjects);
   }
-  
+
   public boolean isResolveProxies()
   {
     return resolveProxies;
   }
-  
+
   public void setResolveProxies(boolean resolveProxies)
   {
     this.resolveProxies = resolveProxies;
   }
-  
+
+  /**
+   * @since 2.7
+   */
+  public Map<EObject, URI> getEObjectToProxyURIMap()
+  {
+    return eObjectToProxyURIMap;
+  }
+
+  /**
+   * When this is set to a non-null value,
+   * the original proxy URI of each object will be recorded
+   * as the change recorder is attached to each object.
+   * This is important for calling {@link ChangeDescription#copyAndReverse(Map)}.
+   * @since 2.7
+   */
+  public void setEObjectToProxyURIMap(Map<EObject, URI> eObjectToProxyURIMap)
+  {
+    this.eObjectToProxyURIMap = eObjectToProxyURIMap;
+  }
+
   @Override
   public void dispose()
   {
     setRecording(false);
-    
+
     Notifier[] notifiers = targetObjects.toArray(new Notifier [targetObjects.size()]);
-    targetObjects.clear();    
+    targetObjects.clear();
     for (int i = 0, length = notifiers.length; i < length; i++)
     {
       removeAdapter(notifiers[i]);
     }
     originalTargetObjects.clear();
-    
+
     super.dispose();
   }
 
@@ -119,8 +145,8 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
   }
 
   /**
-   * Begins recording any changes made to the elements of the specified collection,  
-   * adding the changes to and existing {@link ChangeDescription}. 
+   * Begins recording any changes made to the elements of the specified collection,
+   * adding the changes to an existing {@link ChangeDescription}.
    * This allows clients to resume a previous recording.
    * <p>
    * Unpredictable (and probably bad) results may happen if the change description is
@@ -133,10 +159,10 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
    */
   public void beginRecording(ChangeDescription changeDescription, Collection<?> rootObjects)
   {
-    List<EObject> insertedObjects = changeDescription == null ? 
+    List<EObject> insertedObjects = changeDescription == null ?
       null
       : changeDescription.getObjectsToDetach();
-    
+
     if (changeDescription == null)
     {
       changeDescription = createChangeDescription();
@@ -150,7 +176,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
       addAdapter(notifier);
     }
     loadingTargets = false;
-    
+
     if (changeDescription != null)
     {
       prepareChangeDescriptionForResume();
@@ -160,10 +186,10 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
     {
       originalTargetObjects.removeAll(insertedObjects);
     }
-    
+
     setRecording(true);
   }
-  
+
   /**
    * Prepares this ChangeRecorder's {@link #changeDescription} for the scenarios where the user
    * is resuming a previous recording.
@@ -181,7 +207,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
     loadingTargets = false;
 
     changeDescription.getObjectsToAttach().clear();
-    
+
     // Make sure that all the old values are cached.
     for (List<FeatureChange> featureChanges : changeDescription.getObjectChanges().values())
     {
@@ -190,13 +216,13 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
         featureChange.getValue();
       }
     }
-        
+
     for (ResourceChange resourceChange : changeDescription.getResourceChanges())
     {
       resourceChange.getValue();
     }
   }
-  
+
   @Override
   protected void consolidateChanges()
   {
@@ -220,7 +246,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
         }
       }
     }
-    
+
     super.consolidateChanges();
   }
 
@@ -248,7 +274,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
     else if (notifier instanceof Resource)
     {
       int featureID = notification.getFeatureID(Resource.class);
-      switch (featureID) 
+      switch (featureID)
       {
         case Resource.RESOURCE__CONTENTS:
         {
@@ -261,15 +287,23 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
         case Resource.RESOURCE__IS_LOADED:
         {
           loadingTargets = true;
-          for (Notifier content : ((Resource)notification.getNotifier()).getContents())
+          @SuppressWarnings("unchecked")
+          EList<InternalEObject> contents = (EList<InternalEObject>)(EList<?>)((Resource)notification.getNotifier()).getContents();
+          for (InternalEObject content : contents)
           {
-            addAdapter(content);
+            // Don't process it as a load if the bidirectional inverse has not been set.
+            // This situation happens when objects are added to an empty not-yet-loaded resource.
+            //
+            if (content.eDirectResource() != null)
+            {
+              addAdapter(content);
+            }
           }
           loadingTargets = false;
           break;
         }
       }
-    }      
+    }
     else if (notifier instanceof ResourceSet)
     {
       if (notification.getFeatureID(ResourceSet.class) == ResourceSet.RESOURCE_SET__RESOURCES)
@@ -286,7 +320,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
             loadingTargets = false;
             break;
           }
-          
+
           case Notification.ADD_MANY:
           //case Notification.REMOVE_MANY:
           {
@@ -302,7 +336,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
       }
     }
   }
-  
+
   protected boolean shouldRecord(EStructuralFeature feature, EReference containment, Notification notification, EObject eObject)
   {
     return shouldRecord(feature, eObject) &&
@@ -310,17 +344,17 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
   }
 
   protected void handleFeature(EStructuralFeature feature, EReference containment, Notification notification, EObject eObject)
-  {    
+  {
     boolean shouldRecord = shouldRecord(feature, containment, notification, eObject);
-    
+
     List<FeatureChange> changes = null;
     FeatureChange change = null;
     if (shouldRecord)
     {
       changes = getFeatureChanges(eObject);
-      change = getFeatureChange(changes, feature);      
+      change = getFeatureChange(changes, feature);
     }
-    
+
     switch (notification.getEventType())
     {
       case Notification.RESOLVE:
@@ -589,30 +623,65 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
     {
       throw new IllegalStateException("The target should not be set more than once");
     }
-    
+
     if (loadingTargets)
     {
       originalTargetObjects.add(target);
     }
 
-    Iterator<?> contents = 
-      target instanceof EObject ? 
-        resolveProxies ?  
-          ((EObject)target).eContents().iterator() : 
-          ((InternalEList<?>)((EObject)target).eContents()).basicIterator() :
-        target instanceof ResourceSet ? 
-          ((ResourceSet)target).getResources().iterator() : 
-            target instanceof Resource ? 
-              ((Resource)target).getContents().iterator() : 
-                null;
-
-    if (contents != null)
+    if (target instanceof EObject)
     {
-      while (contents.hasNext())
+      EObject targetEObject = (EObject)target;
+      if (resolveProxies)
       {
-        Notifier notifier = (Notifier)contents.next();
-        addAdapter(notifier);
+        for (EObject eObject : targetEObject.eContents())
+        {
+          addAdapter(eObject);
+        }
       }
+      else
+      {
+        Iterator<EObject> contents = ((InternalEList<EObject>)targetEObject.eContents()).basicIterator();
+        while (contents.hasNext())
+        {
+          // Avoid adding the adapter to unresolved proxies
+          // so that the proxies don't look like objects that have become orphans.
+          //
+          EObject eObject = contents.next();
+          if (!eObject.eIsProxy())
+          {
+            addAdapter(eObject);
+          }
+        }
+      }
+
+      handleTarget(targetEObject);
+    }
+    else
+    {
+      Iterator<?> contents =
+        target instanceof ResourceSet ?
+          ((ResourceSet)target).getResources().iterator() :
+            target instanceof Resource ?
+              ((Resource)target).getContents().iterator() :
+              null;
+
+      if (contents != null)
+      {
+        while (contents.hasNext())
+        {
+          Notifier notifier = (Notifier)contents.next();
+          addAdapter(notifier);
+        }
+      }
+    }
+  }
+
+  protected void handleTarget(EObject targetEObject)
+  {
+    if (loadingTargets && eObjectToProxyURIMap != null)
+    {
+      eObjectToProxyURIMap.put(targetEObject, EcoreUtil.getURI(targetEObject));
     }
   }
 

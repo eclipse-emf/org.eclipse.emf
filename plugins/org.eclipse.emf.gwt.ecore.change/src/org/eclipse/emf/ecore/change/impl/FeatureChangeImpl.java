@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2010 IBM Corporation and others.
+ * Copyright (c) 2003-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.5 2010/12/12 20:29:44 emerks Exp $
+ * $Id: FeatureChangeImpl.java,v 1.6 2011/04/08 21:17:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -27,6 +27,7 @@ import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
@@ -74,7 +75,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * The bit of {@link #eFlags} that is used to represent if feature is a proxy.
    */
   protected static final int EPROXY_FEATURECHANGE = ELAST_EOBJECT_FLAG << 1;
-  
+
   /**
    * The default value of the '{@link #getFeatureName() <em>Feature Name</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -136,13 +137,17 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    */
   @GwtTransient
   protected EList<ListChange> listChanges;
-  
+
+  @GwtTransient
   protected EStructuralFeature feature;
-  
+
+  @GwtTransient
   protected String featureName;
 
+  @GwtTransient
   protected Object value;
-  
+
+  @GwtTransient
   protected String valueString;
 
   /**
@@ -193,7 +198,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   {
     featureName = newFeatureName;
     feature = null;
-    eFlags &= ~EPROXY_FEATURECHANGE; 
+    eFlags &= ~EPROXY_FEATURECHANGE;
   }
 
   /**
@@ -213,7 +218,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    */
   public boolean isSetFeatureName()
   {
-    return 
+    return
       featureName != null ||
         feature != null &&
          eContainer() instanceof EObjectToChangesMapEntryImpl;
@@ -333,7 +338,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     featureName = null;
     if (feature != null && feature.eIsProxy())
       eFlags |= EPROXY_FEATURECHANGE;
-    else 
+    else
       eFlags &= ~EPROXY_FEATURECHANGE;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, ChangePackage.FEATURE_CHANGE__FEATURE, oldFeature, newFeature));
@@ -448,7 +453,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       EDataType type = (EDataType)feature.getEType();
       value = EcoreUtil.createFromString(type, valueString);
     }
-    return value;    
+    return value;
   }
 
   protected void setValue(Object value)
@@ -471,7 +476,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       {
         setReferenceValue((EObject)value);
       }
-    }    
+    }
   }
 
   protected EList<?> getListValue(EList<?> originalList)
@@ -482,7 +487,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       {
         return (EList<?>)value;
       }
-      
+
       EList<Object> changedList =  new BasicEList<Object>(originalList);
       apply(changedList);
       value = changedList; // cache result
@@ -510,104 +515,146 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   {
     apply(originalObject, true);
   }
-  
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void reverse(EObject originalObject)
+  {
+    process(originalObject, true, false);
+  }
+
   protected void apply(EObject originalObject, boolean reverse)
   {
+    process(originalObject, reverse, true);
+  }
+
+  protected void process(EObject originalObject, boolean reverse, boolean apply)
+  {
     EStructuralFeature.Internal internalFeature = (EStructuralFeature.Internal)getFeature();
-    if (internalFeature != null && internalFeature.isChangeable() && !internalFeature.isContainer())
+    if (internalFeature != null && internalFeature.isChangeable())
     {
-      if (!isSet())
+      if (!internalFeature.isContainer())
       {
-        if (reverse && internalFeature.isMany())
+        if (!isSet())
         {
-          ListChange listChange = createListChange(getListChanges(), ChangeKind.ADD_LITERAL, 0);
-          if (internalFeature.getEOpposite() != null || internalFeature.isContainment())
+          if (reverse && internalFeature.isMany())
           {
-            listChange.getValues().addAll((EList<?>)getValue());
-          }
-          else
-          {
-            listChange.getValues().addAll((EList<?>)originalObject.eGet(internalFeature));
-          }
-        }
-        originalObject.eUnset(internalFeature);
-      }
-      else if (internalFeature.isMany())
-      {
-        if (listChanges != null)
-        {
-          if (internalFeature.isFeatureMap())
-          {
-            FeatureMap.Internal result = (FeatureMap.Internal)originalObject.eGet(internalFeature);
-            @SuppressWarnings("unchecked") EList<FeatureMap.Entry.Internal> prototype = (EList<FeatureMap.Entry.Internal>)getValue();
-            EList<FeatureMap.Entry> featureMapEntryList = new BasicEList<FeatureMap.Entry>(prototype.size());
-            for (FeatureMap.Entry.Internal entry : prototype)
+            ListChange listChange = createListChange(getListChanges(), ChangeKind.ADD_LITERAL, 0);
+            if (internalFeature.getEOpposite() != null || internalFeature.isContainment())
             {
-              Object entryValue = entry.getValue();
-              // Create a proper feature map entry.
-              //
-              entry = entry.createEntry(entryValue);
-              featureMapEntryList.add(entry);
-              EStructuralFeature entryFeature = entry.getEStructuralFeature();
-              if (!FeatureMapUtil.isMany(originalObject, entry.getEStructuralFeature()))
-              {
-                for (int i = 0, size = result.size(); i < size; ++i)
-                {
-                  if (result.getEStructuralFeature(i) == entryFeature && !(entryValue == null ? result.getValue(i) == null : entryValue.equals(result.getValue(i))))
-                  {
-                    result.set(i, entry);
-                  }
-                }
-              }
-            }
-            ECollections.setEList(result, featureMapEntryList);
-          }
-          else if (internalFeature.isFeatureMap() || internalFeature.getEOpposite() != null || internalFeature.isContainment())
-          {
-            // Bidirectional references need to use this less efficient approach because some
-            //  or all of the changes may already have been made from the other end.
-            //
-            @SuppressWarnings("unchecked") EList<Object> result = (EList<Object>)originalObject.eGet(internalFeature);
-            @SuppressWarnings("unchecked") EList<Object> prototype = (EList<Object>)getValue();
-            ECollections.setEList(result, prototype);
-          }
-          else
-          {
-            @SuppressWarnings("unchecked") EList<Object> applyToList = (EList<Object>)originalObject.eGet(internalFeature);
-            if (reverse)
-            {
-              applyAndReverse(applyToList);
+              listChange.getValues().addAll((EList<?>)getValue());
             }
             else
             {
-              apply(applyToList);
+              listChange.getValues().addAll((EList<?>)originalObject.eGet(internalFeature));
             }
           }
-          
-          if (reverse)
+          if (apply)
           {
-            ECollections.reverse(getListChanges());
+            originalObject.eUnset(internalFeature);
           }
         }
+        else if (internalFeature.isMany())
+        {
+          if (listChanges != null)
+          {
+            if (internalFeature.isFeatureMap())
+            {
+              FeatureMap.Internal result = (FeatureMap.Internal)originalObject.eGet(internalFeature);
+              if (apply)
+              {
+                @SuppressWarnings("unchecked") EList<FeatureMap.Entry.Internal> prototype = (EList<FeatureMap.Entry.Internal>)getValue();
+                EList<FeatureMap.Entry> featureMapEntryList = new BasicEList<FeatureMap.Entry>(prototype.size());
+                for (FeatureMap.Entry.Internal entry : prototype)
+                {
+                  Object entryValue = entry.getValue();
+                  // Create a proper feature map entry.
+                  //
+                  entry = entry.createEntry(entryValue);
+                  featureMapEntryList.add(entry);
+                  EStructuralFeature entryFeature = entry.getEStructuralFeature();
+                  if (!FeatureMapUtil.isMany(originalObject, entry.getEStructuralFeature()))
+                  {
+                    for (int i = 0, size = result.size(); i < size; ++i)
+                    {
+                      if (result.getEStructuralFeature(i) == entryFeature && !(entryValue == null ? result.getValue(i) == null : entryValue.equals(result.getValue(i))))
+                      {
+                        result.set(i, entry);
+                      }
+                    }
+                  }
+                }
+                ECollections.setEList(result, featureMapEntryList);
+              }
+              else
+              {
+                newValue = new BasicEList<Object>(result);
+              }
+            }
+            else if (internalFeature.getEOpposite() != null || internalFeature.isContainment())
+            {
+              @SuppressWarnings("unchecked") EList<Object> result = (EList<Object>)originalObject.eGet(internalFeature);
+              if (apply)
+              {
+                // Bidirectional references need to use this less efficient approach because some
+                //  or all of the changes may already have been made from the other end.
+                //
+                @SuppressWarnings("unchecked") EList<Object> prototype = (EList<Object>)getValue();
+                ECollections.setEList(result, prototype);
+              }
+              else
+              {
+                newValue = new BasicEList<Object>(result);
+              }
+            }
+            else
+            {
+              @SuppressWarnings("unchecked") EList<Object> applyToList = (EList<Object>)originalObject.eGet(internalFeature);
+              if (apply)
+              {
+                if (reverse)
+                {
+                  applyAndReverse(applyToList);
+                }
+                else
+                {
+                  apply(applyToList);
+                }
+              }
+              else
+              {
+                reverse(applyToList);
+              }
+            }
+
+            if (reverse)
+            {
+              ECollections.reverse(getListChanges());
+            }
+          }
+        }
+        else if (apply)
+        {
+          originalObject.eSet(internalFeature, getValue());
+        }
       }
-      else 
-      {
-        originalObject.eSet(internalFeature, getValue());
-      }
-      
+
       if (reverse)
       {
         setSet(newIsSet);
         setValue(newValue);
-        
+
         if (!isSet())
         {
           getListChanges().clear();
-        }        
+        }
       }
-    }    
+    }
   }
-  
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -624,9 +671,12 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
+  @GwtTransient
   protected boolean newIsSet;
+
+  @GwtTransient
   protected Object newValue;
-  
+
   public void preApply(EObject originalObject, boolean reverse)
   {
     if (reverse)
@@ -639,13 +689,18 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       }
       else if (feature == EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE)
       {
-        newValue = ((ETypedElement)originalObject).getEGenericType();                     
+        newValue = ((ETypedElement)originalObject).getEGenericType();
         newIsSet = newValue != null;
       }
       else if (feature == EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS)
       {
         newIsSet = !((EOperation)originalObject).getEGenericExceptions().isEmpty();
-        newValue = null;                
+        newValue = null;
+      }
+      else if (feature == EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME)
+      {
+        newValue = ((EClassifier)originalObject).getInstanceTypeName();
+        newIsSet = newValue != null;
       }
       else if (feature != null)
       {
@@ -670,7 +725,15 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       listChange.applyAndReverse(toList);
     }
   }
-  
+
+  protected void reverse(EList<Object> toList)
+  {
+    for (ListChange listChange : getListChanges())
+    {
+      listChange.reverse(toList);
+    }
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

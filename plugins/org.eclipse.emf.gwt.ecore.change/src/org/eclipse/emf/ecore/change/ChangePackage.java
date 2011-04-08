@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2010 IBM Corporation and others.
+ * Copyright (c) 2003-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: ChangePackage.java,v 1.2 2010/04/28 20:37:24 khussey Exp $
+ * $Id: ChangePackage.java,v 1.3 2011/04/08 21:17:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -466,6 +467,15 @@ public interface ChangePackage extends EPackage{
    */
   int CHANGE_KIND = 6;
 
+  /**
+   * The meta object id for the '<em>EObject To URI Map</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see java.util.Map
+   * @see org.eclipse.emf.ecore.change.impl.ChangePackageImpl#getEObjectToURIMap()
+   * @generated
+   */
+  int EOBJECT_TO_URI_MAP = 7;
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.change.ChangeDescription <em>Description</em>}'.
@@ -870,6 +880,17 @@ public interface ChangePackage extends EPackage{
   EEnum getChangeKind();
 
   /**
+   * Returns the meta object for data type '{@link java.util.Map <em>EObject To URI Map</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for data type '<em>EObject To URI Map</em>'.
+   * @see java.util.Map
+   * @model instanceClass="java.util.Map<org.eclipse.emf.ecore.EObject, org.eclipse.emf.common.util.URI>" serializeable="false"
+   * @generated
+   */
+  EDataType getEObjectToURIMap();
+
+  /**
    * Returns the factory that creates the instances of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1201,6 +1222,16 @@ public interface ChangePackage extends EPackage{
      * @generated
      */
     EEnum CHANGE_KIND = eINSTANCE.getChangeKind();
+
+    /**
+     * The meta object literal for the '<em>EObject To URI Map</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.util.Map
+     * @see org.eclipse.emf.ecore.change.impl.ChangePackageImpl#getEObjectToURIMap()
+     * @generated
+     */
+    EDataType EOBJECT_TO_URI_MAP = eINSTANCE.getEObjectToURIMap();
 
   }
 

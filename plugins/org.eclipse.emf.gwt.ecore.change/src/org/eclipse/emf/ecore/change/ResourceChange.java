@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006-2010 IBM Corporation and others.
+ * Copyright (c) 2006-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceChange.java,v 1.2 2010/04/28 20:37:24 khussey Exp $
+ * $Id: ResourceChange.java,v 1.3 2011/04/08 21:17:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -123,5 +123,14 @@ public interface ResourceChange extends EObject
    * @generated
    */
   void applyAndReverse();
+
+  /**
+   * <!-- begin-user-doc -->
+   * @since 2.7
+   * <!-- end-user-doc -->
+   * @model
+   * @generated
+   */
+  void reverse();
 
 } // ResourceChange

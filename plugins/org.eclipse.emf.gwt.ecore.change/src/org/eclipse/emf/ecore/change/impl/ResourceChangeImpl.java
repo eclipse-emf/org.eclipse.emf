@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006-2010 IBM Corporation and others.
+ * Copyright (c) 2006-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceChangeImpl.java,v 1.3 2010/05/17 13:17:52 emerks Exp $
+ * $Id: ResourceChangeImpl.java,v 1.4 2011/04/08 21:17:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.change.ResourceChange;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.resource.ContentHandler;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -181,7 +182,15 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
           ResourceSet resourceSet = changeResource.getResourceSet();
           if (resourceSet != null)
           {
-            resource = resourceSet.getResource(URI.createURI(getResourceURI()), false);
+            URI resourceURI = URI.createURI(getResourceURI());
+            if (resourceSet.getURIConverter().exists(resourceURI, resourceSet.getLoadOptions()))
+            {
+              resource = resourceSet.getResource(resourceURI, true);
+            }
+            else
+            {
+              resource = resourceSet.createResource(resourceURI, ContentHandler.UNSPECIFIED_CONTENT_TYPE);
+            }
           }
         }
       }
@@ -259,14 +268,14 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
       }
     }
   }
-  
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated NOT
    */
   public void apply()
-  {    
+  {
     apply(false);
   }
 
@@ -282,14 +291,32 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
 
   protected void apply(boolean reverse)
   {
+    process(reverse, true);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void reverse()
+  {
+    process(true, false);
+  }
+
+  protected void process(boolean reverse, boolean apply)
+  {
     Resource resource = getResource();
     if (resource != null && listChanges != null)
     {
       EList<Object> value = getValue();
-      
-      @SuppressWarnings({"unchecked", "rawtypes"}) EList<Object> result = (EList)resource.getContents();
-      ECollections.setEList(result, value);
-      
+
+      if (apply)
+      {
+        @SuppressWarnings({"unchecked", "rawtypes"}) EList<Object> result = (EList)resource.getContents();
+        ECollections.setEList(result, value);
+      }
+
       if (reverse)
       {
         ECollections.reverse(getListChanges());

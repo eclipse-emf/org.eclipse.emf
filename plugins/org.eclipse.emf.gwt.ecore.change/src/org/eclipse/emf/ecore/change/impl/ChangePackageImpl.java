@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2010 IBM Corporation and others.
+ * Copyright (c) 2003-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackageImpl.java,v 1.4 2011/01/21 05:14:31 emerks Exp $
+ * $Id: ChangePackageImpl.java,v 1.5 2011/04/08 21:17:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.common.util.Reflect;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
@@ -101,6 +102,13 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * @generated
    */
   private EEnum changeKindEEnum = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EDataType eObjectToURIMapEDataType = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -311,6 +319,20 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
          public Object newArrayInstance(int size)
          {
            return new ChangeKind[size];
+         }
+    });
+    Reflect.register
+      (Map.class, 
+       new Reflect.Helper() 
+       {
+         public boolean isInstance(Object instance)
+         {
+           return instance instanceof Map;
+         }
+
+         public Object newArrayInstance(int size)
+         {
+           return new Map[size];
          }
     });
   }
@@ -748,6 +770,16 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EDataType getEObjectToURIMap()
+  {
+    return eObjectToURIMapEDataType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public ChangeFactory getChangeFactory()
   {
     return (ChangeFactory)getEFactoryInstance();
@@ -817,6 +849,9 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
 
     // Create enums
     changeKindEEnum = createEEnum(CHANGE_KIND);
+
+    // Create data types
+    eObjectToURIMapEDataType = createEDataType(EOBJECT_TO_URI_MAP);
   }
 
   /**
@@ -863,6 +898,9 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
 
     addEOperation(changeDescriptionEClass, null, "applyAndReverse", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+    EOperation op = addEOperation(changeDescriptionEClass, null, "copyAndReverse", 0, 1, IS_UNIQUE, IS_ORDERED);
+    addEParameter(op, this.getEObjectToURIMap(), "eObjectToProxyURIMap", 0, 1, IS_UNIQUE, IS_ORDERED);
+
     initEClass(eObjectToChangesMapEntryEClass, Map.Entry.class, "EObjectToChangesMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
     initEReference(getEObjectToChangesMapEntry_Key(), theEcorePackage.getEObject(), null, "key", null, 1, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEObjectToChangesMapEntry_Value(), this.getFeatureChange(), null, "value", null, 0, -1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -876,10 +914,13 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     initEReference(getFeatureChange_ReferenceValue(), theEcorePackage.getEObject(), null, "referenceValue", null, 0, 1, FeatureChange.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getFeatureChange_ListChanges(), this.getListChange(), null, "listChanges", null, 0, -1, FeatureChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    EOperation op = addEOperation(featureChangeEClass, null, "apply", 0, 1, IS_UNIQUE, IS_ORDERED);
+    op = addEOperation(featureChangeEClass, null, "apply", 0, 1, IS_UNIQUE, IS_ORDERED);
     addEParameter(op, theEcorePackage.getEObject(), "originalObject", 0, 1, IS_UNIQUE, IS_ORDERED);
 
     op = addEOperation(featureChangeEClass, null, "applyAndReverse", 0, 1, IS_UNIQUE, IS_ORDERED);
+    addEParameter(op, theEcorePackage.getEObject(), "originalObject", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+    op = addEOperation(featureChangeEClass, null, "reverse", 0, 1, IS_UNIQUE, IS_ORDERED);
     addEParameter(op, theEcorePackage.getEObject(), "originalObject", 0, 1, IS_UNIQUE, IS_ORDERED);
 
     initEClass(listChangeEClass, ListChange.class, "ListChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -904,6 +945,12 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     g1.getETypeArguments().add(g2);
     addEParameter(op, g1, "originalList", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+    op = addEOperation(listChangeEClass, null, "reverse", 0, 1, IS_UNIQUE, IS_ORDERED);
+    g1 = createEGenericType(theEcorePackage.getEEList());
+    g2 = createEGenericType(theEcorePackage.getEJavaObject());
+    g1.getETypeArguments().add(g2);
+    addEParameter(op, g1, "originalList", 0, 1, IS_UNIQUE, IS_ORDERED);
+
     initEClass(resourceChangeEClass, ResourceChange.class, "ResourceChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getResourceChange_ResourceURI(), ecorePackage.getEString(), "resourceURI", null, 0, 1, ResourceChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getResourceChange_Resource(), theEcorePackage.getEResource(), "resource", null, 0, 1, ResourceChange.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
@@ -917,6 +964,8 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
 
     addEOperation(resourceChangeEClass, null, "applyAndReverse", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+    addEOperation(resourceChangeEClass, null, "reverse", 0, 1, IS_UNIQUE, IS_ORDERED);
+
     initEClass(featureMapEntryEClass, FeatureMapEntry.class, "FeatureMapEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getFeatureMapEntry_FeatureName(), ecorePackage.getEString(), "featureName", null, 0, 1, FeatureMapEntry.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getFeatureMapEntry_DataValue(), ecorePackage.getEString(), "dataValue", null, 0, 1, FeatureMapEntry.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -929,6 +978,9 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     addEEnumLiteral(changeKindEEnum, ChangeKind.ADD_LITERAL);
     addEEnumLiteral(changeKindEEnum, ChangeKind.REMOVE_LITERAL);
     addEEnumLiteral(changeKindEEnum, ChangeKind.MOVE_LITERAL);
+
+    // Initialize data types
+    initEDataType(eObjectToURIMapEDataType, Map.class, "EObjectToURIMap", !IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS, "java.util.Map<org.eclipse.emf.ecore.EObject, org.eclipse.emf.common.util.URI>");
 
     // Create resource
     createResource(eNS_URI);
