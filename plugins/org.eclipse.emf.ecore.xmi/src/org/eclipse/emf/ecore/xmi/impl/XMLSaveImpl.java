@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.81 2010/09/08 16:40:25 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.82 2011/04/08 17:06:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -120,6 +120,7 @@ public class XMLSaveImpl implements XMLSave
   protected XMLResource xmlResource;
   protected List<? extends EObject> roots;
   protected XMLResource.ElementHandler elementHandler;
+  protected boolean proxyAttributes;
   
   protected static final int SKIP = 0;
   protected static final int SAME_DOC = 1;
@@ -567,6 +568,8 @@ public class XMLSaveImpl implements XMLSave
     }
     
     helper.setOptions(options);
+    
+    proxyAttributes = Boolean.TRUE.equals(options.get(XMLResource.OPTION_PROXY_ATTRIBUTES));
   }
 
   public void traverse(List<? extends EObject> contents)
@@ -1214,6 +1217,14 @@ public class XMLSaveImpl implements XMLSave
 
   protected boolean saveFeatures(EObject o)
   {
+    return saveFeatures(o, false);
+  }
+
+  /**
+   * @since 2.7
+   */
+  protected boolean saveFeatures(EObject o, boolean attributesOnly)
+  {
     EClass eClass = o.eClass();   
     int contentKind = extendedMetaData == null ? ExtendedMetaData.UNSPECIFIED_CONTENT : extendedMetaData.getContentKind(eClass);     
     if (!toDOM)
@@ -1435,6 +1446,11 @@ public class XMLSaveImpl implements XMLSave
           {
             continue LOOP;
           }
+        }
+
+        if (attributesOnly)
+        {
+          continue LOOP;
         }
 
         // We only get here if we should do this.
@@ -2315,7 +2331,11 @@ public class XMLSaveImpl implements XMLSave
       if (!toDOM)
       {
         doc.addAttribute(XMLResource.HREF, href);
-        if (eObjectToExtensionMap != null)
+        if (proxyAttributes)
+        {
+          saveFeatures(remote, true);
+        }
+        else if (eObjectToExtensionMap != null)
         {
           processAttributeExtensions(remote);
           if (processElementExtensions(remote))
@@ -2335,7 +2355,11 @@ public class XMLSaveImpl implements XMLSave
       else
       {
         ((Element)currentNode).setAttributeNS(null, XMLResource.HREF, href);
-        if (eObjectToExtensionMap != null)
+        if (proxyAttributes)
+        {
+          saveFeatures(remote, true);
+        }
+        else if (eObjectToExtensionMap != null)
         {
           processAttributeExtensions(remote);
           processElementExtensions(remote);

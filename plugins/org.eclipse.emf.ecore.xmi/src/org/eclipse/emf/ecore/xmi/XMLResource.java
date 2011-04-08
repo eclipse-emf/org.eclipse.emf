@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.48 2011/04/08 15:12:28 emerks Exp $
+ * $Id: XMLResource.java,v 1.49 2011/04/08 17:06:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -541,7 +541,7 @@ public interface XMLResource extends Resource
    * @see #OPTION_USE_ENCODED_ATTRIBUTE_STYLE
    * @since 2.7
    */
-  String OPTION_PROXY_ATTRIBUTES = "PROXY_ATTRIBUTES";
+  String OPTION_PROXY_ATTRIBUTES = org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl.OPTION_STYLE_PROXY_ATTRIBUTES;
 
   String HREF = "href";
   String NIL = "nil";
