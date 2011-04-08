@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.3 2010/12/12 20:29:38 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.4 2011/04/08 16:48:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -994,10 +994,11 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       {
         outputStream.close();
         byte[] bytes = outputStream.toByteArray();
+        final ExtensibleURIConverterImpl.OptionsMap effectiveOptions = new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options);
         uriConverter.store
-          (getURI(), 
-           bytes, 
-           new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options),
+          (getURI(),
+           bytes,
+           effectiveOptions,
            new Callback<Map<?,?>>()
            {
              public void onFailure(Throwable caught)
@@ -1008,11 +1009,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
              public void onSuccess(Map<?, ?> result)
              {
                Map<?, ?> response = (Map<?, ?>)result.get(URIConverter.OPTION_RESPONSE);
-               Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
-               if (timeStamp != null)
-               {
-                 setTimeStamp(timeStamp);
-               }
+               handleSaveResponse(response, effectiveOptions);
                callback.onSuccess(ResourceImpl.this);
              }
            });
@@ -1020,7 +1017,8 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     }
     else
     {
-      OutputStream outputStream = uriConverter.createOutputStream(getURI(), new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options));
+      ExtensibleURIConverterImpl.OptionsMap effectiveOptions = new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options);
+      OutputStream outputStream = uriConverter.createOutputStream(getURI(), effectiveOptions);
       try
       {
         save(outputStream, options);
@@ -1028,13 +1026,27 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       finally
       {
         outputStream.close();
-        Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
-        if (timeStamp != null)
-        {
-          setTimeStamp(timeStamp);
-        }
+        handleSaveResponse(response, effectiveOptions);
       }
     }
+  }
+
+  /**
+   * Handle the processing of the response after the stream has been closed during save.
+   * @since 2.7
+   */
+  protected void handleSaveResponse(Map<?, ?> response, Map<?, ?> options)
+  {
+     Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
+     if (timeStamp != null)
+     {
+       setTimeStamp(timeStamp);
+     }
+     URI uri = (URI)response.get(URIConverter.RESPONSE_URI);
+     if (uri != null)
+     {
+       setURI(uri);
+     }
   }
 
   public void load(Map<?, ?> options) throws IOException
@@ -1066,9 +1078,10 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
           {
             loadingCallbacks.add(callback);
           }
+          final ExtensibleURIConverterImpl.OptionsMap effectiveOptions = new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options);
           uriConverter.createInputStream
             (getURI(),
-             new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options),
+             effectiveOptions,
              new Callback<Map<?,?>>()
               {
                 protected void dispatchOnFailure(Throwable caught)
@@ -1079,7 +1092,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
                   }
                   loadingCallbacks = null;
                 }
-  
+
                 protected void dispatchOnSuccess(Resource resource)
                 {
                   for (Callback<Resource> callback : loadingCallbacks)
@@ -1088,7 +1101,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
                   }
                   loadingCallbacks = null;
                 }
-  
+
                 public void onFailure(Throwable caught)
                 {
                   Notification notification = setLoaded(true);
@@ -1108,7 +1121,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
                   setModified(false);
                   dispatchOnFailure(caught);
                 }
-  
+
                 public void onSuccess(Map<?, ?> result)
                 {
                   Map<?, ?> response = (Map<?, ?>)result.get(URIConverter.OPTION_RESPONSE);
@@ -1134,11 +1147,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
                       dispatchOnFailure(exception);
                       return;
                     }
-                    Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
-                    if (timeStamp != null)
-                    {
-                      setTimeStamp(timeStamp);
-                    }
+                    handleLoadResponse(response, effectiveOptions);
                   }
                   dispatchOnSuccess(ResourceImpl.this);
                 }
@@ -1155,12 +1164,13 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       // and do all the same processing we'd do if we actually were able to create a valid input stream.
       //
       InputStream inputStream = null;
+      ExtensibleURIConverterImpl.OptionsMap effectiveOptions = new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options);
       try
       {
         inputStream =
           uriConverter.createInputStream
             (getURI(),
-             new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options));
+             effectiveOptions);
       }
       catch (IOException exception)
       {
@@ -1191,16 +1201,25 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       finally
       {
         inputStream.close();
-        Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
-        if (timeStamp != null)
-        {
-          setTimeStamp(timeStamp);
-        }
+        handleLoadResponse(response, effectiveOptions);
       }
     }
     else
     {
       callback.onSuccess(this);
+    }
+  }
+
+  /**
+   * Handle the processing of the response after the stream has been closed during load.
+   * @since 2.7
+   */
+  protected void handleLoadResponse(Map<?, ?> response, Map<?, ?> options)
+  {
+    Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
+    if (timeStamp != null)
+    {
+      setTimeStamp(timeStamp);
     }
   }
 
@@ -1490,7 +1509,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     if (GWT.isClient())
     {
       getURIConverter().delete
-        (getURI(), 
+        (getURI(),
          new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options),
          new Callback<Map<?,?>>()
          {
@@ -1501,7 +1520,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
                callback.onFailure(caught);
              }
            }
- 
+
            public void onSuccess(Map<?, ?> result)
            {
              if (callback != null)
