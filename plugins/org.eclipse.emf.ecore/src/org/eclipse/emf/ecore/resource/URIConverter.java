@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverter.java,v 1.14 2011/02/26 02:39:43 emerks Exp $
+ * $Id: URIConverter.java,v 1.15 2011/04/08 19:53:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -112,7 +112,7 @@ public interface URIConverter
    *</pre>
    * </p>
    * <p>
-   * It is important to emphasize that normalization can result it loss of information.
+   * It is important to emphasize that normalization can result in loss of information.
    * The normalized URI should generally be used only for comparison and for access to input or output streams.
    * </p>
    * @param uri the URI to normalize.
