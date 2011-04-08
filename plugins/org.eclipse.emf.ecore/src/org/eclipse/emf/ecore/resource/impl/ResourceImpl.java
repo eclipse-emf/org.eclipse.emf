@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.36 2011/01/26 17:25:59 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.37 2011/04/08 16:48:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -985,7 +985,8 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         response = new HashMap<Object, Object>();
       }
       URIConverter uriConverter = getURIConverter();
-      OutputStream outputStream = uriConverter.createOutputStream(getURI(), new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options, defaultSaveOptions));
+      ExtensibleURIConverterImpl.OptionsMap effectiveOptions = new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options, defaultSaveOptions);
+      OutputStream outputStream = uriConverter.createOutputStream(getURI(), effectiveOptions);
       try
       {
         save(outputStream, options);
@@ -993,18 +994,27 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       finally
       {
         outputStream.close();
-        Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
-        if (timeStamp != null)
-        {
-          setTimeStamp(timeStamp);
-        }
-        URI uri = (URI)response.get(URIConverter.RESPONSE_URI);
-        if (uri != null)
-        {
-          setURI(uri);
-        }
+        handleSaveResponse(response, effectiveOptions);
       }
     }
+  }
+
+  /**
+   * Handle the processing of the response after the stream has been closed during save.
+   * @since 2.7
+   */
+  protected void handleSaveResponse(Map<?, ?> response, Map<?, ?> options)
+  {
+     Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
+     if (timeStamp != null)
+     {
+       setTimeStamp(timeStamp);
+     }
+     URI uri = (URI)response.get(URIConverter.RESPONSE_URI);
+     if (uri != null)
+     {
+       setURI(uri);
+     }
   }
 
   protected void saveOnlyIfChangedWithFileBuffer(Map<?, ?> options) throws IOException
@@ -1076,7 +1086,8 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         {
           response = new HashMap<Object, Object>();
         }
-        OutputStream newContents = uriConverter.createOutputStream(getURI(), new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options, defaultSaveOptions));
+        ExtensibleURIConverterImpl.OptionsMap effectiveOptions = new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options, defaultSaveOptions);
+        OutputStream newContents = uriConverter.createOutputStream(getURI(), effectiveOptions);
         try
         {
           InputStream temporaryFileContents = uriConverter.createInputStream(temporaryFileURI, null);
@@ -1095,11 +1106,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         finally
         {
           newContents.close();
-          Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
-          if (timeStamp != null)
-          {
-            setTimeStamp(timeStamp);
-          }
+          handleSaveResponse(response, effectiveOptions);
         }
       }
     }
@@ -1216,7 +1223,8 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       {
         response = new HashMap<Object, Object>();
       }
-      OutputStream newContents = uriConverter.createOutputStream(getURI(), new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options, defaultSaveOptions));
+      ExtensibleURIConverterImpl.OptionsMap effectiveOptions = new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options, defaultSaveOptions);
+      OutputStream newContents = uriConverter.createOutputStream(getURI(), effectiveOptions);
       try
       {
         newContents.write(newContentBuffer, 0, length);
@@ -1224,11 +1232,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       finally
       {
         newContents.close();
-        Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
-        if (timeStamp != null)
-        {
-          setTimeStamp(timeStamp);
-        }
+        handleSaveResponse(response, effectiveOptions);
       }
     }
   }
@@ -1251,12 +1255,13 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       // and do all the same processing we'd do if we actually were able to create a valid input stream.
       //
       InputStream inputStream = null;
+      ExtensibleURIConverterImpl.OptionsMap effectiveOptions = new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options, defaultLoadOptions);
       try
       {
         inputStream =
           uriConverter.createInputStream
             (getURI(),
-             new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options, defaultLoadOptions));
+             effectiveOptions);
       }
       catch (IOException exception)
       {
@@ -1287,12 +1292,21 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       finally
       {
         inputStream.close();
-        Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
-        if (timeStamp != null)
-        {
-          setTimeStamp(timeStamp);
-        }
+        handleLoadResponse(response, effectiveOptions);
       }
+    }
+  }
+
+  /**
+   * Handle the processing of the response after the stream has been closed during load.
+   * @since 2.7
+   */
+  protected void handleLoadResponse(Map<?, ?> response, Map<?, ?> options)
+  {
+    Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
+    if (timeStamp != null)
+    {
+      setTimeStamp(timeStamp);
     }
   }
 
