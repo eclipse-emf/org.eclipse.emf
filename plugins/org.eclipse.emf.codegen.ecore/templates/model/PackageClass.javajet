@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.51 2011/01/21 05:14:26 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.52 2011/04/08 21:15:57 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -402,7 +402,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 			 {
 				 public boolean isInstance(Object instance)
 				 {
-					 return instance instanceof <%=genDataType.getImportedWildcardInstanceClassName()%>;
+					 return instance instanceof <%=genDataType.getRawImportedInstanceClassName()%>;
 				 }
 
 				 public Object newArrayInstance(int size)

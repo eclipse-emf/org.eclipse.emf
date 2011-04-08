@@ -1148,7 +1148,7 @@ public class PackageClass
     stringBuffer.append(TEXT_175);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.Reflect"));
     stringBuffer.append(TEXT_176);
-    stringBuffer.append(genDataType.getImportedWildcardInstanceClassName());
+    stringBuffer.append(genDataType.getRawImportedInstanceClassName());
     stringBuffer.append(TEXT_177);
     if (genDataType.isArrayType()) { String componentType = genDataType.getRawImportedInstanceClassName(); String indices = ""; while(componentType.endsWith("[]")) { componentType = componentType.substring(0, componentType.length() - 2); indices += "[]";}
     stringBuffer.append(TEXT_178);
