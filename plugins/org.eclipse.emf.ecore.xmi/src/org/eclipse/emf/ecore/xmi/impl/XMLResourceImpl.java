@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.24 2011/02/26 02:39:41 emerks Exp $
+ * $Id: XMLResourceImpl.java,v 1.25 2011/04/08 15:12:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -34,11 +34,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl.BinaryIO.Version;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl.EObjectInputStream;
 import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl.EObjectOutputStream;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl.EObjectOutputStream.Check;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.DOMHandler;
 import org.eclipse.emf.ecore.xmi.DOMHelper;
@@ -207,6 +210,14 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
         handler.preLoad(this, inputStream, options);
       }
       eObjectInputStream.loadResource(this);
+
+      // Load the extrinsic ID map.
+      //
+      for (int i = 0, size = eObjectInputStream.readCompressedInt(); i < size; ++i)
+      {
+        setID(eObjectInputStream.loadEObject(), eObjectInputStream.readString());
+      }
+
       if (handler != null)
       {
         handler.postLoad(this, inputStream, options);
@@ -268,8 +279,28 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       }
       try
       {
-        EObjectOutputStream eObjectOutputStream = new EObjectOutputStream(outputStream, options);
+        EObjectOutputStream eObjectOutputStream = 
+          options.containsKey(BinaryResourceImpl.OPTION_VERSION) ?
+            new EObjectOutputStream(outputStream, options) :
+            new EObjectOutputStream(outputStream, options, Version.VERSION_1_1);
+
         eObjectOutputStream.saveResource(this);
+
+        // Save the extrinsic ID map.
+        //
+        if (eObjectToIDMap != null)
+        {
+          eObjectOutputStream.writeCompressedInt(eObjectToIDMap.size());
+          for (Map.Entry<EObject, String> entry : eObjectToIDMap.entrySet())
+          {
+            eObjectOutputStream.saveEObject((InternalEObject)entry.getKey(), Check.NOTHING);
+            eObjectOutputStream.writeString(entry.getValue());
+          }
+        }
+        else
+        {
+          eObjectOutputStream.writeCompressedInt(0);
+        }
       }
       finally
       {

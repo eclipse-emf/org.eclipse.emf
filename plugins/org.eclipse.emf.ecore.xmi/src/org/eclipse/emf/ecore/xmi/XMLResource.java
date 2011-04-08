@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.47 2011/01/26 17:26:40 emerks Exp $
+ * $Id: XMLResource.java,v 1.48 2011/04/08 15:12:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl.BinaryIO.Version;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.impl.ConfigurationCache;
 import org.eclipse.emf.ecore.xmi.impl.ResourceEntityHandlerImpl;
@@ -529,9 +530,18 @@ public interface XMLResource extends Resource
 
   /**
    * A load or save option that when set to Boolean.TRUE, directs the resource to produce or consume a {@link BinaryResourceImpl binary serialization}.
+   * By default, unless a {@link BinaryResourceImpl#OPTION_VERSION version option} is specified, a {@link Version#VERSION_1_1 version 1.1} serialization will be produced.
    * @since 2.7
    */
   String OPTION_BINARY = "BINARY";
+
+  /**
+   * A option that when set to Boolean.TRUE, directs the resource to produce href-style proxies with attribute values;
+   * The default value is false.
+   * @see #OPTION_USE_ENCODED_ATTRIBUTE_STYLE
+   * @since 2.7
+   */
+  String OPTION_PROXY_ATTRIBUTES = "PROXY_ATTRIBUTES";
 
   String HREF = "href";
   String NIL = "nil";
