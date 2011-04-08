@@ -6,6 +6,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="ChangeDescription">
     <eOperations name="apply"/>
     <eOperations name="applyAndReverse"/>
+    <eOperations name="copyAndReverse">
+      <eParameters name="eObjectToProxyURIMap" eType="#//EObjectToURIMap"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="objectChanges" upperBound="-1"
         eType="#//EObjectToChangesMapEntry" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="objectsToDetach" upperBound="-1"
@@ -27,6 +30,9 @@
       <eParameters name="originalObject" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
     </eOperations>
     <eOperations name="applyAndReverse">
+      <eParameters name="originalObject" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    </eOperations>
+    <eOperations name="reverse">
       <eParameters name="originalObject" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
@@ -60,6 +66,13 @@
         </eGenericType>
       </eParameters>
     </eOperations>
+    <eOperations name="reverse">
+      <eParameters name="originalList">
+        <eGenericType eClassifier="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EEList">
+          <eTypeArguments eClassifier="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//ChangeKind"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataValues" unique="false"
         upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -83,6 +96,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="ResourceChange">
     <eOperations name="apply"/>
     <eOperations name="applyAndReverse"/>
+    <eOperations name="reverse"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resource" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EResource"
         transient="true" derived="true"/>
@@ -108,4 +122,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="referenceValue" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
         volatile="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="EObjectToURIMap" instanceTypeName="java.util.Map&lt;org.eclipse.emf.ecore.EObject, org.eclipse.emf.common.util.URI>"
+      serializable="false"/>
 </ecore:EPackage>
