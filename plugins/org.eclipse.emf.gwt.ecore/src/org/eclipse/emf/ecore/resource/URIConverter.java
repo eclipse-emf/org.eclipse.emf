@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2010 IBM Corporation and others.
+ * Copyright (c) 2002-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverter.java,v 1.3 2010/12/12 20:29:37 emerks Exp $
+ * $Id: URIConverter.java,v 1.4 2011/04/08 15:17:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -79,7 +79,20 @@ public interface URIConverter
   String RESPONSE_TIME_STAMP_PROPERTY = "TIME_STAMP";
 
   /**
-   * A createOutputStream, store, or delete option that specifies a long timestamp which must match the underlying resource's timestamp for the update to have any effect.
+   * A property of the {@link #OPTION_RESPONSE response option} 
+   * used to yield the newly allocated URI associated
+   * with the creation of an {@link #createOutputStream(URI, Map) output} stream.
+   * This is typically used by resource {@link Resource#save(Map) save} 
+   * in order to {@link Resource#setURI(URI) set the resource URI}.
+   * @since 2.7
+   */
+  String RESPONSE_URI = "URI";
+
+  /**
+   * A {@link #createOutputStream(URI, Map) createOutputStream},
+   * {@link #store(URI, byte[], Map, Callback) store},
+   * or {@link #delete(URI, Map, Callback) delete} option 
+   * that specifies a long {@link #RESPONSE_TIME_STAMP_PROPERTY timestamp} which must match the underlying resource's timestamp for the update to succeed.
    * @since 2.7
    */
   String OPTION_UPDATE_ONLY_IF_TIME_STAMP_MATCHES = "UPDATE_ONLY_IF_TIME_STAMP_MATCHES";
@@ -217,180 +230,19 @@ public interface URIConverter
   /**
    * An interface that is optionally implemented by the input streams returned from 
    * {@link URIConverter#createInputStream(URI)} and {@link URIConverter#createInputStream(URI, Map)}.
-   * @see ReadableInputStream
+   * An input stream implementing this interface is highly unlikely to support {@link InputStream#read() read}.
+   * Instead {@link #loadResource(Resource) loadResource} should be called.
+   * @since 2.7
    */
-  interface Readable
+  interface Loadable
   {
     /**
-     * Returns a reader that provides access to the same underlying data as the input stream itself.
-     * @return a reader that provides access to the same underlying data as the input stream itself.
+     * Load the contents of the resource directly from the backing store for which the stream implementing this interface is a facade.
+     * @param resource the resource to load.
+     * @throws IOException if there are any problems load the resource from the backing store.
      */
-    void asReader();
-    
-    /**
-     * Returns the encoding used to convert the reader's characters to bytes.
-     * @return the encoding used to convert the reader's characters to bytes.
-     */
-    String getEncoding();
+    void loadResource(Resource resource) throws IOException;
   }
-
-  /**
-   * A wrapper around a reader that implements an input stream but can be unwrapped to access the reader directly.
-   */
-  /*
-  class ReadableInputStream extends InputStream implements Readable
-  {
-    private static final Pattern XML_HEADER = Pattern.compile("<\\?xml\\s+(?:version\\s*=\\s*\"[^\"]*\"\\s+)encoding\\s*=\\s*\"\\s*([^\\s\"]*)\"\\s*\\?>");
-    
-    public static String getEncoding(String xmlString)
-    {
-      Matcher matcher = XML_HEADER.matcher(xmlString);
-      return
-        matcher.lookingAt() ?
-          matcher.group(1) :
-          null;
-    }
-
-    public static String getEncoding(Reader xmlReader)
-    {
-      try
-      {
-        xmlReader.mark(100);
-        char [] buffer = new char[100];
-        int length = xmlReader.read(buffer);
-        if (length > -1)
-        {
-          Matcher matcher = XML_HEADER.matcher(new String(buffer, 0, length));
-          return
-            matcher.lookingAt() ?
-              matcher.group(1) :
-              null;
-        }
-        else
-        {
-          return null;
-        }
-      }
-      catch (IOException exception)
-      {
-        return null;
-      }
-      finally
-      {
-        try
-        {
-          xmlReader.reset();
-        }
-        catch (IOException exception)
-        {
-          // Ignore.
-        }
-      }
-    }
-
-    protected String encoding;
-    protected Reader reader;
-    protected Buffer buffer;
-    
-    public ReadableInputStream(Reader reader, String encoding)
-    {
-      super();
-      this.reader = reader;
-      this.encoding = encoding;
-    }
-
-    public ReadableInputStream(Reader xmlReader)
-    {
-      super();
-      this.reader = xmlReader.markSupported() ? xmlReader : new BufferedReader(xmlReader);
-      this.encoding = getEncoding(this.reader);
-    }
-    
-    public ReadableInputStream(String string, String encoding)
-    {
-      this(new StringReader(string), encoding);
-    }
-    
-    public ReadableInputStream(String xmlString)
-    {
-      this(new StringReader(xmlString), getEncoding(xmlString));
-    }
-    
-    @Override
-    public int read() throws IOException
-    {
-      if (buffer == null)
-      {
-        buffer = new Buffer(100);
-      }
-      
-      return buffer.read();
-    }
-
-    public Reader asReader()
-    {
-      return reader;
-    }
-    
-    public String getEncoding()
-    {
-      return encoding; 
-    }
-
-    @Override
-    public void close() throws IOException
-    {
-      super.close();
-      reader.close();
-    }
-
-    @Override
-    public synchronized void reset() throws IOException
-    {
-      super.reset();
-      reader.reset();
-    }
-    
-    protected class Buffer extends ByteArrayOutputStream
-    {
-      protected int index;
-      protected char [] characters;
-      protected OutputStreamWriter writer;
-      
-      public Buffer(int size) throws IOException
-      {
-        super(size);
-        characters = new char [size];
-        writer = new OutputStreamWriter(this, encoding);
-      }
-      
-      public int read() throws IOException
-      {
-        if (index < count)
-        {
-          return buf[index++];
-        }
-        else
-        {
-          index = 0;
-          reset();
-          
-          int readCount = reader.read(characters);
-          if (readCount < 0)
-          {
-            return -1;
-          }
-          else
-          {
-            writer.write(characters, 0, readCount);
-            writer.flush();
-            return buf[index++];
-          }
-        }
-      }
-    }
-  }
-*/
 
   /**
    * Creates an output stream for the URI and returns it;
@@ -428,124 +280,19 @@ public interface URIConverter
   /**
    * An interface that is optionally implemented by the output streams returned from 
    * {@link URIConverter#createOutputStream(URI)} and {@link URIConverter#createOutputStream(URI, Map)}.
-   * @see WriteableOutputStream
+   * An output stream implementing this interface is highly unlikely to support {@link OutputStream#write(int) write}.
+   * Instead {@link #saveResource(Resource) saveResource} should be called.
+   * @since 2.7
    */
-  interface Writeable
+  interface Saveable
   {
     /**
-     * Returns a writer that provides access to the same underlying data as the input stream itself.
-     * @return a writer that provides access to the same underlying data as the input stream itself.
+     * Save the contents of the resource directly to the backing store for which the stream implementing this interface is a facade.
+     * @param resource the resource to save.
+     * @throws IOException if there are any problems saving the resource to the backing store.
      */
-    // TODO
-    void asWriter();
-    
-    /**
-     * Returns the encoding used to convert the writer's bytes to characters.
-     * @return the encoding used to convert the writer's bytes to characters.
-     */
-    String getEncoding();
+    void saveResource(Resource resource) throws IOException;
   }
-
-  /**
-   * A wrapper around a writer that implements an output stream but can be unwrapped to access the writer directly.
-   */
-  /*
-  static class WriteableOutputStream extends OutputStream implements Writeable
-  {
-    protected String encoding;
-    protected Writer writer;
-    protected Buffer buffer;
-
-    public WriteableOutputStream(Writer writer, String encoding)
-    {
-      super();
-      this.writer = writer;
-      this.encoding = encoding;
-    }
-    
-    @Override
-    public void write(int b) throws IOException
-    {
-      if (buffer == null)
-      {
-        buffer = new Buffer(100);
-      }
-      
-      buffer.write(b);
-    }
-
-    public Writer asWriter()
-    {
-      return writer;
-    }
-
-    public String getEncoding()
-    {
-      return encoding;
-    }
-    
-    @Override
-    public void close() throws IOException
-    {
-      super.close();
-      writer.close();
-    }
-    
-    @Override
-    public void flush() throws IOException
-    {
-      super.flush();
-      buffer.flush();
-      writer.flush();
-    }
-
-    protected class Buffer extends ByteArrayInputStream
-    {
-      protected int index;
-      protected char [] characters;
-      protected InputStreamReader reader;
-      
-      public Buffer(int size) throws IOException
-      {
-        super(new byte [size], 0, 0);
-        characters = new char [size];
-        reader = new InputStreamReader(this, encoding);
-      }
-      
-      public void write(int b) throws IOException
-      {
-        if (count < buf.length)
-        {
-          buf[count++] = (byte)b;
-        }
-        else
-        {
-          int readCount = reader.read(characters);
-          if (readCount > 0)
-          {
-            writer.write(characters, 0, readCount);
-          }
-          count = 0;
-          index = 0;
-          pos = 0;
-          write(b);
-        }
-      }
-      
-      public void flush() throws IOException
-      {
-        int readCount = reader.read(characters);
-        if (readCount > 0)
-        {
-          writer.write(characters, 0, readCount);
-        }
-        count = 0;
-        index = 0;
-        pos = 0;
-      }
-    }
-  }
-  */
 
   /**
    * An interface to be implemented by encryption service providers.

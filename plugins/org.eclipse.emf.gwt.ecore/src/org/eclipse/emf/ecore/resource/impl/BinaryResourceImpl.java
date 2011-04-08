@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceImpl.java,v 1.5 2011/01/24 23:34:17 emerks Exp $
+ * $Id: BinaryResourceImpl.java,v 1.6 2011/04/08 15:17:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
@@ -63,25 +64,28 @@ public class BinaryResourceImpl extends ResourceImpl
    * rather than a string representation.
    * The default is false because GWT's client doesn't support this method.
    * This style option is only supported for serializations with {@link Version#VERSION_1_1 version 1.1} or higher.
+   * @see BinaryIO#STYLE_BINARY_FLOATING_POINT
    * @since 2.7
    */
-  public static final String OPTION_STYLE_BINARY_FLOATING_POINT = "STYLE_BINARY_FLOATING_POINT ";
+  public static final String OPTION_STYLE_BINARY_FLOATING_POINT = "BINARY_FLOATING_POINT ";
 
   /**
    * A Boolean save option to specify whether {@link Date date} values will be serialized using {@link Date#getTime()} rather than a string representation.
    * This style option is only supported for serializations with {@link Version#VERSION_1_1 version 1.1} or higher.
    * The default is false.
+   * @see BinaryIO#STYLE_BINARY_DATE
    * @since 2.7
    */
-  public static final String OPTION_STYLE_BINARY_DATE = "STYLE_BINARY_DATE";
+  public static final String OPTION_STYLE_BINARY_DATE = "BINARY_DATE";
 
   /**
    * A Boolean save option to specify whether serialized proxies will include the serialization of their attribute values.
    * This style option is only supported for serializations with {@link Version#VERSION_1_1 version 1.1} or higher.
    * The default is false.
+   * @see BinaryIO#STYLE_PROXY_ATTRIBUTES
    * @since 2.7
    */
-  public static final String OPTION_STYLE_PROXY_ATTRIBUTES = "STYLE_PROXY_ATTRIBUTES";
+  public static final String OPTION_STYLE_PROXY_ATTRIBUTES = "PROXY_ATTRIBUTES";
 
   /**
    * Specify the capacity of the buffered stream
@@ -106,7 +110,7 @@ public class BinaryResourceImpl extends ResourceImpl
    * @return the value associated with the {@link #OPTION_BUFFER_CAPACITY} key in the options map.
    * @since 2.6
    */
-  protected static int getBufferCapacity(Map<?, ?> options)
+  public static int getBufferCapacity(Map<?, ?> options)
   {
     if (options != null)
     {
@@ -132,15 +136,29 @@ public class BinaryResourceImpl extends ResourceImpl
   @Override
   protected void doSave(OutputStream outputStream, Map<?, ?> options) throws IOException
   {
-    EObjectOutputStream eObjectOutputStream = new EObjectOutputStream(outputStream, options);
-    eObjectOutputStream.saveResource(this);
+    if (outputStream instanceof URIConverter.Saveable)
+    {
+      ((URIConverter.Saveable)outputStream).saveResource(this);
+    }
+    else
+    {
+      EObjectOutputStream eObjectOutputStream = new EObjectOutputStream(outputStream, options);
+      eObjectOutputStream.saveResource(this);
+    }
   }
 
   @Override
   protected void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException
   {
-    EObjectInputStream eObjectInputStream = new EObjectInputStream(inputStream, options);
-    eObjectInputStream.loadResource(this);
+    if (inputStream instanceof URIConverter.Loadable)
+    {
+      ((URIConverter.Loadable)inputStream).loadResource(this);
+    }
+    else
+    {
+      EObjectInputStream eObjectInputStream = new EObjectInputStream(inputStream, options);
+      eObjectInputStream.loadResource(this);
+    }
   }
 
   public static class BinaryIO
@@ -148,28 +166,35 @@ public class BinaryResourceImpl extends ResourceImpl
     public enum Version
     {
       VERSION_1_0,
+
       /**
+       * This version supports styles {@link BinaryIO#STYLE_BINARY_FLOATING_POINT}, {@link BinaryIO#STYLE_BINARY_DATE}, {@link BinaryIO#STYLE_PROXY_ATTRIBUTES}.
+       * An extra integer value encoding the style is written after the version number so that deserialization will respect the styles used during serialization.
        * @since 2.7
        */
       VERSION_1_1
     }
 
     /**
+     * @see BinaryResourceImpl#OPTION_STYLE_BINARY_FLOATING_POINT
      * @since 2.7
      */
     public static final int STYLE_BINARY_FLOATING_POINT = 0x1;
 
     /**
+     * @see BinaryResourceImpl#OPTION_STYLE_BINARY_DATE
      * @since 2.7
      */
     public static final int STYLE_BINARY_DATE = 0x2;
 
     /**
+     * @see BinaryResourceImpl#OPTION_STYLE_PROXY_ATTRIBUTES
      * @since 2.7
      */
     public static final int STYLE_PROXY_ATTRIBUTES = 0x4;
 
     protected Version version;
+
     /**
      * @since 2.7
      */
@@ -743,7 +768,7 @@ public class BinaryResourceImpl extends ResourceImpl
           if ((style & STYLE_BINARY_DATE) != 0)
           {
             writeDate((Date)value);
-             break;
+            break;
           }
           // continue to the next case
         }
@@ -787,7 +812,7 @@ public class BinaryResourceImpl extends ResourceImpl
               {
                 writeCompressedInt(-1);
                 writeURI(resource.getURI(), resource.getURIFragment(internalEObject));
-                if (version == Version.VERSION_1_0)
+                if ((style & STYLE_PROXY_ATTRIBUTES) == 0)
                 {
                   return;
                 }
@@ -797,10 +822,11 @@ public class BinaryResourceImpl extends ResourceImpl
               {
                 writeCompressedInt(-1);
                 writeURI(internalEObject.eProxyURI());
-                if (version == Version.VERSION_1_0)
+                if ((style & STYLE_PROXY_ATTRIBUTES) == 0)
                 {
                   return;
                 }
+                checkIsTransientProxy = true;
               }
               break;
             }
@@ -811,7 +837,7 @@ public class BinaryResourceImpl extends ResourceImpl
               {
                 writeCompressedInt(-1);
                 writeURI(resource.getURI(), resource.getURIFragment(internalEObject));
-                if (version == Version.VERSION_1_0)
+                if ((style & STYLE_PROXY_ATTRIBUTES) == 0)
                 {
                   return;
                 }
@@ -821,10 +847,11 @@ public class BinaryResourceImpl extends ResourceImpl
               {
                 writeCompressedInt(-1);
                 writeURI(internalEObject.eProxyURI());
-                if (version == Version.VERSION_1_0)
+                if ((style & STYLE_PROXY_ATTRIBUTES) == 0)
                 {
                   return;
                 }
+                checkIsTransientProxy = true;
               }
               break;
             }
@@ -966,7 +993,7 @@ public class BinaryResourceImpl extends ResourceImpl
             if ((style & STYLE_BINARY_DATE) != 0)
             {
               writeDate((Date)value);
-               break;
+              break;
             }
             // continue to the next case
           }
