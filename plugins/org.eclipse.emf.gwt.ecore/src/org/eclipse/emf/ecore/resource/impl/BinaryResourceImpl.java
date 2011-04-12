@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceImpl.java,v 1.6 2011/04/08 15:17:05 emerks Exp $
+ * $Id: BinaryResourceImpl.java,v 1.7 2011/04/12 15:39:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -1660,7 +1660,7 @@ public class BinaryResourceImpl extends ResourceImpl
             else if (featureID == -2)
             {
               internalEObject.eSetProxyURI(readURI());
-              if (version == Version.VERSION_1_0)
+              if ((style & STYLE_PROXY_ATTRIBUTES) == 0)
               {
                 break;
               }
