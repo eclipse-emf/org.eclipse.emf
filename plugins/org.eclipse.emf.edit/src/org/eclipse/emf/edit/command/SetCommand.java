@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.17 2008/12/13 15:56:01 emerks Exp $
+ * $Id: SetCommand.java,v 1.18 2011/04/13 15:11:07 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -140,7 +140,7 @@ public class SetCommand extends AbstractOverrideableCommand
               
               // Determine the values that will remain and move them into the right order, if necessary.
               //
-              List<Object> remainingValues = new BasicEList.FastCompare<Object>(oldValues);
+              EList<Object> remainingValues = new BasicEList.FastCompare<Object>(oldValues);
               remainingValues.removeAll(removedValues);
               int count = -1;
               for (Object object : values)
@@ -149,6 +149,7 @@ public class SetCommand extends AbstractOverrideableCommand
                 if (position != -1 && position != ++count)
                 {
                   compound.append(MoveCommand.create(domain, owner, feature, object, count));
+                  remainingValues.move(count, position);
                 }
               }
               
@@ -156,17 +157,20 @@ public class SetCommand extends AbstractOverrideableCommand
               //
               List<Object> addedValues = new BasicEList.FastCompare<Object>(values);
               addedValues.removeAll(remainingValues);
-              int addIndex = remainingValues.size();
-              for (ListIterator<?> i = values.listIterator(values.size()); i.hasPrevious(); )
+              if (!addedValues.isEmpty())
               {
-                Object object = i.previous();
-                if (addedValues.contains(object))
+                int addIndex = remainingValues.size();
+                for (ListIterator<?> i = values.listIterator(values.size()); i.hasPrevious(); )
                 {
-                  compound.append(AddCommand.create(domain, owner, feature, object, addIndex));
-                }
-                else
-                {
-                  --addIndex;
+                  Object object = i.previous();
+                  if (addedValues.contains(object))
+                  {
+                    compound.append(AddCommand.create(domain, owner, feature, object, addIndex));
+                  }
+                  else
+                  {
+                    --addIndex;
+                  }
                 }
               }
               return compound;
