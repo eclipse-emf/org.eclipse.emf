@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFEditPropertiesTest.java,v 1.7 2011/04/22 07:22:38 tschindl Exp $
+ * $Id: EMFEditPropertiesTest.java,v 1.8 2011/04/22 12:56:27 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding.edit;
 
@@ -438,16 +438,16 @@ public class EMFEditPropertiesTest extends TestCase
   public void _testListElementProperty()
   {
     IEMFEditListProperty prop = EMFEditProperties.list(editingDomain, EmfdbPackage.Literals.A__BLIST);
-    IEMFEditValueProperty valueProp = prop.value(new ListElementAccess()
+    IEMFEditValueProperty valueProp = prop.value(new ListElementAccess<Object>()
       {
 
-        public int getReadValueIndex(List< ? > list)
+        public int getReadValueIndex(List< Object > list)
         {
           return 0;
         }
 
         @Override
-        public int getWriteValueIndex(List< ? > list)
+        public int getWriteValueIndex(List< Object > list)
         {
           return 0;
         }
