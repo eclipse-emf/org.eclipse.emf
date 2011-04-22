@@ -13,7 +13,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFListPropertyDecorator.java,v 1.2 2009/05/28 10:02:03 emerks Exp $
+ * $Id: EMFListPropertyDecorator.java,v 1.3 2011/04/22 07:22:40 tschindl Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -68,6 +68,11 @@ public class EMFListPropertyDecorator extends ListProperty implements IEMFListPr
   public IEMFListProperty values(IEMFValueProperty property)
   {
     return new EMFListPropertyDecorator(super.values(property), property.getStructuralFeature());
+  }
+
+  public IEMFValueProperty value(ListElementAccess elementAccess)
+  {
+    return new EMFValuePropertyDecorator(new EMFListValueProperty(eStructuralFeature, elementAccess), eStructuralFeature);
   }
 
   public EStructuralFeature getStructuralFeature()

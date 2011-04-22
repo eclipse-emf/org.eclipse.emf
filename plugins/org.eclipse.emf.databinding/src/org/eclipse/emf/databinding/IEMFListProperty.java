@@ -12,9 +12,11 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: IEMFListProperty.java,v 1.1 2009/05/23 11:11:33 tschindl Exp $
+ * $Id: IEMFListProperty.java,v 1.2 2011/04/22 07:22:40 tschindl Exp $
  */
 package org.eclipse.emf.databinding;
+
+import java.util.List;
 
 import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -32,6 +34,80 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  */
 public interface IEMFListProperty extends IEMFProperty, IListProperty
 {
+
+  /**
+   * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
+   * <p><b>This API is highly experimental and if possible will get moved upwards to Core-Databinding</b></p>
+   * 
+   * Delegate used to read/write an element of an observed list
+   * 
+   * @since 2.7
+   */
+  public abstract class ListElementAccess
+  {
+    /**
+     * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
+     * <p><b>This API is highly experimental and if possible will get moved upwards to Core-Databinding</b></p>
+     * 
+     * Struct to hold write information
+     * 
+     * @since 2.7
+     */
+    public static class WriteData
+    {
+      /**
+       * If the value should be appended
+       */
+      public static final int NO_INDEX = -1;
+
+      /**
+       * The index in the list the value is written to
+       */
+      public final int index;
+
+      /**
+       * <code>true</code> if the given value should be inserted at the given position
+       */
+      public final boolean insert;
+
+      /**
+       * Create new instance
+       * @param index The index in the list the value is written to
+       * @param insert <code>true</code> if the given value should be inserted at the given position
+       */
+      public WriteData(int index, boolean insert)
+      {
+        this.index = index;
+        this.insert = insert;
+      }
+    }
+
+    /**
+     * The index in the list the value is read from or {@link WriteData#NO_INDEX} if not available
+     * @param list the list to search in
+     * @return the index or <code>{@link WriteData#NO_INDEX}</code> if not found
+     */
+    public abstract int getReadValueIndex(List< ? > list);
+
+    /**
+     * The index in the list the value is written to or {@link WriteData#NO_INDEX} if appended
+     * @param list the list the value will is written in
+     * @return The index in the list the value is written to or {@link WriteData#NO_INDEX} if appended
+     */
+    public abstract int getWriteValueIndex(List< ? > list);
+
+    /**
+     * The data used to add/replace when writing the value back to the list
+     * @param list the list the value will is written in
+     * @return the data
+     */
+    public WriteData getWriteValueData(List< ? > list)
+    {
+      int idx = getWriteValueIndex(list);
+      return new WriteData(idx, idx == WriteData.NO_INDEX);
+    }
+  }
+
   /**
    * Returns a master-detail combination of this property and the specified
    * value nested feature.
@@ -79,4 +155,13 @@ public interface IEMFListProperty extends IEMFProperty, IListProperty
    *         value property.
    */
   public IEMFListProperty values(IEMFValueProperty property);
+
+  /**
+   * <p><b>This API is highly experimental and if possible will get moved upwards to Core-Databinding</b></p>
+   * Observe one of the elements in the list
+   * @param elementAccess the element access to use
+   * @return a master-detail property
+   * @since 2.7
+   */
+  public IEMFValueProperty value(ListElementAccess elementAccess);
 }

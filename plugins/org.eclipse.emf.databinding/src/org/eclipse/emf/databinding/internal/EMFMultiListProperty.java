@@ -11,7 +11,7 @@
  *  Tom Schindl <tom.schindl@bestsolution.at>
  * </copyright>
  *
- * $Id: EMFMultiListProperty.java,v 1.1 2009/05/29 17:02:10 tschindl Exp $
+ * $Id: EMFMultiListProperty.java,v 1.2 2011/04/22 07:22:40 tschindl Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -59,4 +59,8 @@ public class EMFMultiListProperty extends MultiListProperty implements IEMFListP
   {
     return null;
   }
+  
+  public IEMFValueProperty value(ListElementAccess elementAccess) {
+		throw new UnsupportedOperationException();
+	}
 }
