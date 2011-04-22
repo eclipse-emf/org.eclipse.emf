@@ -12,11 +12,14 @@
  *
  * </copyright>
  *
- * $Id: EMFEditPropertiesTest.java,v 1.6 2010/05/04 12:59:25 tschindl Exp $
+ * $Id: EMFEditPropertiesTest.java,v 1.7 2011/04/22 07:22:38 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding.edit;
 
 import java.util.Arrays;
+import java.util.List;
+
+import junit.framework.TestCase;
 
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
@@ -28,16 +31,15 @@ import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.set.ISetChangeListener;
 import org.eclipse.core.databinding.observable.set.SetChangeEvent;
 import org.eclipse.core.databinding.observable.set.SetDiff;
-
+import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.command.BasicCommandStack;
-import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.databinding.EMFProperties;
-import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.databinding.IEMFListProperty.ListElementAccess;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.databinding.edit.IEMFEditListProperty;
 import org.eclipse.emf.databinding.edit.IEMFEditSetProperty;
+import org.eclipse.emf.databinding.edit.IEMFEditValueProperty;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -51,8 +53,6 @@ import org.eclipse.emf.test.databinding.emfdb.A;
 import org.eclipse.emf.test.databinding.emfdb.B;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbFactory;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
-
-import junit.framework.TestCase;
 
 
 public class EMFEditPropertiesTest extends TestCase
@@ -268,7 +268,7 @@ public class EMFEditPropertiesTest extends TestCase
 
   private void _testResourceProperty()
   {
-    IEMFListProperty prop = EMFEditProperties.resource(editingDomain);
+    IEMFEditListProperty prop = EMFEditProperties.resource(editingDomain);
     IObservableList list = prop.observe(resource);
     list.addListChangeListener(new IListChangeListener()
       {
@@ -296,7 +296,7 @@ public class EMFEditPropertiesTest extends TestCase
     assertEquals(2, listDiff.getDifferences().length);
     assertFalse(listDiff.getDifferences()[0].isAddition()); // Removal
     assertEquals(1, listDiff.getDifferences()[0].getPosition());
-    assertTrue(listDiff.getDifferences()[1].isAddition());  // Addition
+    assertTrue(listDiff.getDifferences()[1].isAddition()); // Addition
     assertEquals(0, listDiff.getDifferences()[1].getPosition());
 
     // Removing
@@ -325,13 +325,13 @@ public class EMFEditPropertiesTest extends TestCase
     assertEquals(1, listDiff.getDifferences()[0].getPosition());
     assertTrue(listDiff.getDifferences()[0].isAddition());
     assertNotNull(commandStack.getUndoCommand());
-    assertTrue( commandStack.canUndo() );
-    assertTrue( commandStack.getUndoCommand() instanceof CompoundCommand );
+    assertTrue(commandStack.canUndo());
+    assertTrue(commandStack.getUndoCommand() instanceof CompoundCommand);
     CompoundCommand cmd = (CompoundCommand)commandStack.getUndoCommand();
-    assertEquals( 1, cmd.getCommandList().size());
+    assertEquals(1, cmd.getCommandList().size());
     assertTrue(cmd.getCommandList().get(0) instanceof AddCommand);
     commandStack.undo();
-    assertFalse( commandStack.canUndo() );
+    assertFalse(commandStack.canUndo());
     commandStack.redo();
     commandStack.flush();
 
@@ -340,12 +340,12 @@ public class EMFEditPropertiesTest extends TestCase
     assertEquals(2, listDiff.getDifferences().length);
     assertFalse(listDiff.getDifferences()[0].isAddition()); // Removal
     assertEquals(1, listDiff.getDifferences()[0].getPosition());
-    assertTrue(listDiff.getDifferences()[1].isAddition());  // Addition
+    assertTrue(listDiff.getDifferences()[1].isAddition()); // Addition
     assertEquals(0, listDiff.getDifferences()[1].getPosition());
-    assertTrue( commandStack.canUndo() );
-    assertTrue( commandStack.getUndoCommand() instanceof CompoundCommand );
+    assertTrue(commandStack.canUndo());
+    assertTrue(commandStack.getUndoCommand() instanceof CompoundCommand);
     commandStack.undo();
-    assertFalse( commandStack.canUndo() );
+    assertFalse(commandStack.canUndo());
     commandStack.redo();
     commandStack.flush();
 
@@ -354,49 +354,50 @@ public class EMFEditPropertiesTest extends TestCase
     assertEquals(1, listDiff.getDifferences().length);
     assertFalse(listDiff.getDifferences()[0].isAddition()); // Removal
     assertEquals(0, listDiff.getDifferences()[0].getPosition());
-    assertTrue( commandStack.canUndo() );
-    assertTrue( commandStack.getUndoCommand() instanceof CompoundCommand );
+    assertTrue(commandStack.canUndo());
+    assertTrue(commandStack.getUndoCommand() instanceof CompoundCommand);
     commandStack.undo();
-    assertFalse( commandStack.canUndo() );
+    assertFalse(commandStack.canUndo());
     commandStack.redo();
     commandStack.flush();
 
     // Adding many
     list.addAll(Arrays.asList(a, a1));
     assertEquals(2, listDiff.getDifferences().length);
-    assertTrue( commandStack.canUndo() );
-    assertTrue( commandStack.getUndoCommand() instanceof CompoundCommand );
+    assertTrue(commandStack.canUndo());
+    assertTrue(commandStack.getUndoCommand() instanceof CompoundCommand);
     commandStack.undo();
-    assertFalse( commandStack.canUndo() );
+    assertFalse(commandStack.canUndo());
     commandStack.redo();
     commandStack.flush();
 
     // Remove many
     list.removeAll(Arrays.asList(a, a1));
     assertEquals(2, listDiff.getDifferences().length);
-    assertTrue( commandStack.canUndo() );
-    assertTrue( commandStack.getUndoCommand() instanceof CompoundCommand );
+    assertTrue(commandStack.canUndo());
+    assertTrue(commandStack.getUndoCommand() instanceof CompoundCommand);
     commandStack.undo();
-    assertFalse( commandStack.canUndo() );
+    assertFalse(commandStack.canUndo());
     commandStack.redo();
     commandStack.flush();
   }
 
-
-  public void testListPropertyOnSingleFeature() {
+  public void testListPropertyOnSingleFeature()
+  {
     Realm.runWithDefault(testRealm, new Runnable()
-    {
-
-      public void run()
       {
-        _testListPropertyOnSingleFeature();
-      }
-    });
+
+        public void run()
+        {
+          _testListPropertyOnSingleFeature();
+        }
+      });
   }
 
-  public void _testListPropertyOnSingleFeature() {
+  public void _testListPropertyOnSingleFeature()
+  {
     A a = (A)resource.getContents().get(0);
-    IEMFListProperty prop = EMFEditProperties.list(editingDomain, EmfdbPackage.Literals.A__STRING);
+    IEMFEditListProperty prop = EMFEditProperties.list(editingDomain, EmfdbPackage.Literals.A__STRING);
     IObservableList l = prop.observe(a);
     assertEquals(1, l.size());
     assertEquals("Instance 1", l.get(0));
@@ -420,6 +421,57 @@ public class EMFEditPropertiesTest extends TestCase
         }
       });
     a.setString("Instance 1");
+  }
+
+  public void testListElementProperty()
+  {
+    Realm.runWithDefault(testRealm, new Runnable()
+      {
+
+        public void run()
+        {
+          _testListElementProperty();
+        }
+      });
+  }
+
+  public void _testListElementProperty()
+  {
+    IEMFEditListProperty prop = EMFEditProperties.list(editingDomain, EmfdbPackage.Literals.A__BLIST);
+    IEMFEditValueProperty valueProp = prop.value(new ListElementAccess()
+      {
+
+        public int getReadValueIndex(List< ? > list)
+        {
+          return 0;
+        }
+
+        @Override
+        public int getWriteValueIndex(List< ? > list)
+        {
+          return 0;
+        }
+      });
+
+    IEMFEditValueProperty detailValue = valueProp.value(EmfdbPackage.Literals.B__STRING);
+
+    IObservableValue value = detailValue.observe(resource.getContents().get(0));
+    assertEquals("Instance 1", value.getValue());
+    A a = (A)resource.getContents().get(0);
+    a.getBlist().get(0).setString("Bla Bla");
+    assertEquals("Bla Bla", value.getValue());
+
+    B b = EmfdbFactory.eINSTANCE.createB();
+    b.setString("New Element");
+
+    a.getBlist().add(0, b);
+    assertEquals("New Element", value.getValue());
+
+    b = EmfdbFactory.eINSTANCE.createB();
+    b.setString("New Element 2");
+    valueProp.setValue(a, b);
+
+    assertEquals("New Element 2", value.getValue());
   }
 
   //
