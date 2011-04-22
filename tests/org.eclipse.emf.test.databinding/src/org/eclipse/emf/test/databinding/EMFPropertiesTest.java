@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EMFPropertiesTest.java,v 1.5 2011/02/08 22:28:33 tschindl Exp $
+ * $Id: EMFPropertiesTest.java,v 1.6 2011/04/22 07:22:39 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -35,11 +36,14 @@ import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.set.ISetChangeListener;
 import org.eclipse.core.databinding.observable.set.SetChangeEvent;
 import org.eclipse.core.databinding.observable.set.SetDiff;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.databinding.IEMFListProperty.ListElementAccess;
 import org.eclipse.emf.databinding.IEMFMapProperty;
 import org.eclipse.emf.databinding.IEMFSetProperty;
+import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -49,6 +53,7 @@ import org.eclipse.emf.test.databinding.emfdb.A;
 import org.eclipse.emf.test.databinding.emfdb.B;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbFactory;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
+
 
 public class EMFPropertiesTest extends TestCase
 {
@@ -81,18 +86,20 @@ public class EMFPropertiesTest extends TestCase
       };
   }
 
-  public void testResourceProperty() {
+  public void testResourceProperty()
+  {
     Realm.runWithDefault(testRealm, new Runnable()
-    {
-
-      public void run()
       {
-        _testResourceProperty();
-      }
-    });
+
+        public void run()
+        {
+          _testResourceProperty();
+        }
+      });
   }
 
-  private void _testResourceProperty() {
+  private void _testResourceProperty()
+  {
     IEMFListProperty prop = EMFProperties.resource();
     IObservableList list = prop.observe(resource);
     list.addListChangeListener(new IListChangeListener()
@@ -121,7 +128,7 @@ public class EMFPropertiesTest extends TestCase
     assertEquals(2, listDiff.getDifferences().length);
     assertFalse(listDiff.getDifferences()[0].isAddition()); // Removal
     assertEquals(1, listDiff.getDifferences()[0].getPosition());
-    assertTrue(listDiff.getDifferences()[1].isAddition());  // Addition
+    assertTrue(listDiff.getDifferences()[1].isAddition()); // Addition
     assertEquals(0, listDiff.getDifferences()[1].getPosition());
 
     // Removing
@@ -154,7 +161,7 @@ public class EMFPropertiesTest extends TestCase
     assertEquals(2, listDiff.getDifferences().length);
     assertFalse(listDiff.getDifferences()[0].isAddition()); // Removal
     assertEquals(1, listDiff.getDifferences()[0].getPosition());
-    assertTrue(listDiff.getDifferences()[1].isAddition());  // Addition
+    assertTrue(listDiff.getDifferences()[1].isAddition()); // Addition
     assertEquals(0, listDiff.getDifferences()[1].getPosition());
 
     // Removing
@@ -172,7 +179,8 @@ public class EMFPropertiesTest extends TestCase
     assertEquals(2, listDiff.getDifferences().length);
   }
 
-  public void testSetProperty() {
+  public void testSetProperty()
+  {
     Realm.runWithDefault(testRealm, new Runnable()
       {
 
@@ -183,7 +191,8 @@ public class EMFPropertiesTest extends TestCase
       });
   }
 
-  public void _testSetProperty() {
+  public void _testSetProperty()
+  {
     A a = (A)resource.getContents().get(0);
     IEMFSetProperty prop = EMFProperties.set(EmfdbPackage.Literals.A__BLIST);
     IObservableSet set = prop.observe(a);
@@ -204,18 +213,20 @@ public class EMFPropertiesTest extends TestCase
     assertSame(b, setDiff.getAdditions().iterator().next());
   }
 
-  public void testListPropertyOnSingleFeature() {
+  public void testListPropertyOnSingleFeature()
+  {
     Realm.runWithDefault(testRealm, new Runnable()
-    {
-
-      public void run()
       {
-        _testListPropertyOnSingleFeature();
-      }
-    });
+
+        public void run()
+        {
+          _testListPropertyOnSingleFeature();
+        }
+      });
   }
 
-  public void _testListPropertyOnSingleFeature() {
+  public void _testListPropertyOnSingleFeature()
+  {
     A a = (A)resource.getContents().get(0);
     IEMFListProperty prop = EMFProperties.list(EmfdbPackage.Literals.A__STRING);
     IObservableList l = prop.observe(a);
@@ -242,32 +253,85 @@ public class EMFPropertiesTest extends TestCase
       });
     a.setString("Instance 1");
   }
-  
-  public void testMapProperty() {
-    Realm.runWithDefault(testRealm, new Runnable()
-    {
 
-      public void run()
+  public void testListElementProperty()
+  {
+    Realm.runWithDefault(testRealm, new Runnable()
       {
-        _testMapProperty();
-      }
-    });
+
+        public void run()
+        {
+          _testListElementProperty();
+        }
+      });
   }
 
-  public void _testMapProperty() {
+  public void _testListElementProperty()
+  {
+    IEMFListProperty prop = EMFProperties.list(EmfdbPackage.Literals.A__BLIST);
+    IEMFValueProperty valueProp = prop.value(new ListElementAccess()
+      {
+
+        public int getReadValueIndex(List< ? > list)
+        {
+          return 0;
+        }
+
+        @Override
+        public int getWriteValueIndex(List< ? > list)
+        {
+          return 0;
+        }
+      });
+
+    IEMFValueProperty detailValue = valueProp.value(EmfdbPackage.Literals.B__STRING);
+
+    IObservableValue value = detailValue.observe(resource.getContents().get(0));
+    assertEquals("Instance 1", value.getValue());
+    A a = (A)resource.getContents().get(0);
+    a.getBlist().get(0).setString("Bla Bla");
+    assertEquals("Bla Bla", value.getValue());
+
+    B b = EmfdbFactory.eINSTANCE.createB();
+    b.setString("New Element");
+
+    a.getBlist().add(0, b);
+    assertEquals("New Element", value.getValue());
+
+    b = EmfdbFactory.eINSTANCE.createB();
+    b.setString("New Element 2");
+    valueProp.setValue(a, b);
+
+    assertEquals("New Element 2", value.getValue());
+  }
+
+  public void testMapProperty()
+  {
+    Realm.runWithDefault(testRealm, new Runnable()
+      {
+
+        public void run()
+        {
+          _testMapProperty();
+        }
+      });
+  }
+
+  public void _testMapProperty()
+  {
     A a = (A)resource.getContents().get(0);
     IEMFMapProperty prop = EMFProperties.map(EmfdbPackage.Literals.A__CMAP);
     IObservableMap map = prop.observe(a);
     map.addMapChangeListener(new IMapChangeListener()
-    {
-      
-      public void handleMapChange(MapChangeEvent event)
       {
-        mapDiff = event.diff;
-      }
-    });
+
+        public void handleMapChange(MapChangeEvent event)
+        {
+          mapDiff = event.diff;
+        }
+      });
     assertNull(mapDiff);
-    
+
     // Changing existing key
     a.getCmap().put("key 1", "value 1 modified");
     assertEquals(0, mapDiff.getAddedKeys().size());
@@ -276,7 +340,7 @@ public class EMFPropertiesTest extends TestCase
     assertEquals("value 1", mapDiff.getOldValue("key 1"));
     assertEquals("value 1 modified", mapDiff.getNewValue("key 1"));
     assertEquals(0, mapDiff.getRemovedKeys().size());
-    
+
     // Adding new key
     a.getCmap().put("key 3", "value 3");
     assertEquals(1, mapDiff.getAddedKeys().size());
@@ -285,7 +349,7 @@ public class EMFPropertiesTest extends TestCase
     assertEquals("value 3", mapDiff.getNewValue("key 3"));
     assertEquals(0, mapDiff.getChangedKeys().size());
     assertEquals(0, mapDiff.getRemovedKeys().size());
-    
+
     // Removing key
     a.getCmap().removeKey("key 2");
     assertEquals(0, mapDiff.getAddedKeys().size());
@@ -294,10 +358,10 @@ public class EMFPropertiesTest extends TestCase
     assertEquals("key 2", mapDiff.getRemovedKeys().iterator().next());
     assertEquals("value 2", mapDiff.getOldValue("key 2"));
     assertNull(mapDiff.getNewValue("key 2"));
-    
+
     // putAll is implemented as a series of put calls,
     // which are already tested above, see BasicEMap.putAll()
-    
+
     // Removing many keys
     a.getCmap().clear();
     assertEquals(0, mapDiff.getAddedKeys().size());
@@ -321,7 +385,7 @@ public class EMFPropertiesTest extends TestCase
     assertEquals("value 1", mapDiff.getNewValue("key 1"));
     assertEquals(0, mapDiff.getChangedKeys().size());
     assertEquals(0, mapDiff.getRemovedKeys().size());
-    
+
     // Adding many (including existing) keys
     Map<String, String> newValues = new HashMap<String, String>();
     newValues.put("key 1", "value 1 modified");
@@ -340,7 +404,7 @@ public class EMFPropertiesTest extends TestCase
     assertEquals("value 1", mapDiff.getOldValue("key 1"));
     assertEquals("value 1 modified", mapDiff.getNewValue("key 1"));
     assertEquals(0, mapDiff.getRemovedKeys().size());
-    
+
     // Removing
     map.remove("key 1");
     assertEquals(0, mapDiff.getAddedKeys().size());
@@ -356,5 +420,5 @@ public class EMFPropertiesTest extends TestCase
     // has already been tested above
     map.clear();
   }
-  
+
 }
