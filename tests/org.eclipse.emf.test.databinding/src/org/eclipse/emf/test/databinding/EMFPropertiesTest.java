@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPropertiesTest.java,v 1.6 2011/04/22 07:22:39 tschindl Exp $
+ * $Id: EMFPropertiesTest.java,v 1.7 2011/04/22 12:56:28 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding;
 
@@ -269,16 +269,16 @@ public class EMFPropertiesTest extends TestCase
   public void _testListElementProperty()
   {
     IEMFListProperty prop = EMFProperties.list(EmfdbPackage.Literals.A__BLIST);
-    IEMFValueProperty valueProp = prop.value(new ListElementAccess()
+    IEMFValueProperty valueProp = prop.value(new ListElementAccess<Object>()
       {
 
-        public int getReadValueIndex(List< ? > list)
+        public int getReadValueIndex(List< Object > list)
         {
           return 0;
         }
 
         @Override
-        public int getWriteValueIndex(List< ? > list)
+        public int getWriteValueIndex(List< Object > list)
         {
           return 0;
         }
