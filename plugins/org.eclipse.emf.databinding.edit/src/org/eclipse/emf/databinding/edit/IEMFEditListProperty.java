@@ -12,7 +12,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: IEMFEditListProperty.java,v 1.1 2009/05/23 11:11:30 tschindl Exp $
+ * $Id: IEMFEditListProperty.java,v 1.2 2011/04/22 07:22:41 tschindl Exp $
  */
 package org.eclipse.emf.databinding.edit;
 
@@ -20,6 +20,7 @@ import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
+import org.eclipse.emf.databinding.IEMFListProperty.ListElementAccess;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 
@@ -82,6 +83,8 @@ public interface IEMFEditListProperty extends IEMFEditProperty, IEMFListProperty
    *         value property.
    */
   public IEMFEditListProperty values(IEMFEditValueProperty property);
-  
+
   public IEMFEditListProperty values(IEMFValueProperty property);
+
+  public IEMFEditValueProperty value(ListElementAccess elementAccess);
 }

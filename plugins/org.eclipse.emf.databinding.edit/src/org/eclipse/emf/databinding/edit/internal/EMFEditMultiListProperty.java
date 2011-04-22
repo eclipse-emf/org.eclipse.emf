@@ -11,7 +11,7 @@
  *  Tom Schindl <tom.schindl@bestsolution.at>
  * </copyright>
  *
- * $Id: EMFEditMultiListProperty.java,v 1.1 2009/05/29 17:02:12 tschindl Exp $
+ * $Id: EMFEditMultiListProperty.java,v 1.2 2011/04/22 07:22:41 tschindl Exp $
  */
 package org.eclipse.emf.databinding.edit.internal;
 
@@ -23,6 +23,7 @@ import org.eclipse.emf.databinding.edit.IEMFEditListProperty;
 import org.eclipse.emf.databinding.edit.IEMFEditValueProperty;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
+
 
 /**
  * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
@@ -71,5 +72,10 @@ public class EMFEditMultiListProperty extends MultiListProperty implements IEMFE
   public EditingDomain getEditingDomain()
   {
     return editingDomain;
+  }
+
+  public IEMFEditValueProperty value(ListElementAccess elementAccess)
+  {
+    throw new UnsupportedOperationException();
   }
 }

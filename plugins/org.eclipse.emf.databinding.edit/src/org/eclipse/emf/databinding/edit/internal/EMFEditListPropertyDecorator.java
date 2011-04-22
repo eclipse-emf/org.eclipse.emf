@@ -11,7 +11,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - Initial API and implementation (bug 262160)
  * </copyright>
  *
- * $Id: EMFEditListPropertyDecorator.java,v 1.2 2009/05/28 10:02:04 emerks Exp $
+ * $Id: EMFEditListPropertyDecorator.java,v 1.3 2011/04/22 07:22:41 tschindl Exp $
  */
 package org.eclipse.emf.databinding.edit.internal;
 
@@ -122,5 +122,10 @@ public class EMFEditListPropertyDecorator extends ListProperty implements IEMFEd
   public IEMFEditListProperty values(IEMFValueProperty property)
   {
     return new EMFEditListPropertyDecorator(editingDomain, super.values(property), property.getStructuralFeature());
+  }
+
+  public IEMFEditValueProperty value(ListElementAccess elementAccess) 
+  {
+    return new EMFEditValuePropertyDecorator(editingDomain,new EMFEditListValueProperty(editingDomain,eStructuralFeature,elementAccess), eStructuralFeature);
   }
 }
