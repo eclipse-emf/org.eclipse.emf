@@ -12,7 +12,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: IEMFListProperty.java,v 1.2 2011/04/22 07:22:40 tschindl Exp $
+ * $Id: IEMFListProperty.java,v 1.3 2011/04/22 12:56:28 tschindl Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -43,7 +43,7 @@ public interface IEMFListProperty extends IEMFProperty, IListProperty
    * 
    * @since 2.7
    */
-  public abstract class ListElementAccess
+  public abstract class ListElementAccess<O>
   {
     /**
      * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
@@ -87,21 +87,21 @@ public interface IEMFListProperty extends IEMFProperty, IListProperty
      * @param list the list to search in
      * @return the index or <code>{@link WriteData#NO_INDEX}</code> if not found
      */
-    public abstract int getReadValueIndex(List< ? > list);
+    public abstract int getReadValueIndex(List< O > list);
 
     /**
      * The index in the list the value is written to or {@link WriteData#NO_INDEX} if appended
      * @param list the list the value will is written in
      * @return The index in the list the value is written to or {@link WriteData#NO_INDEX} if appended
      */
-    public abstract int getWriteValueIndex(List< ? > list);
+    public abstract int getWriteValueIndex(List< O > list);
 
     /**
      * The data used to add/replace when writing the value back to the list
      * @param list the list the value will is written in
      * @return the data
      */
-    public WriteData getWriteValueData(List< ? > list)
+    public WriteData getWriteValueData(List< O > list)
     {
       int idx = getWriteValueIndex(list);
       return new WriteData(idx, idx == WriteData.NO_INDEX);
@@ -163,5 +163,5 @@ public interface IEMFListProperty extends IEMFProperty, IListProperty
    * @return a master-detail property
    * @since 2.7
    */
-  public IEMFValueProperty value(ListElementAccess elementAccess);
+  public IEMFValueProperty value(ListElementAccess<?> elementAccess);
 }
