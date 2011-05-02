@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.6 2011/01/21 05:14:21 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.7 2011/05/02 09:55:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -55,6 +55,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.util.FeatureMap;
 
@@ -1120,6 +1121,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    */
   public static class WhiteList implements IsSerializable, EBasicWhiteList
   {
+    protected BinaryResourceImpl.BinaryIO.Version binaryResourceVersion;
     protected IOException ioException;
 
     /**
