@@ -145,6 +145,7 @@
 		<!-- remove the p2 profile as this is not a real product -->
 		<delete dir="${sp:output}" includeEmptyDirs="true">
 			<include name="p2/**" />
+			<include name=".artifactlock/**" />
 		</delete>
 	</target>
 
@@ -182,23 +183,45 @@
 		</buckminster.copy>
 	</target>
 
-	<target name="package.ius" depends="-gather.install.pools">
-		<mkdir dir="${sp:output}" />
+	<target name="-define.empty.licese.files.resource.set" unless="sp:license.files">
+		<!-- this is intended to produce an empty zipfileset (cf. with the condition in the target) -->
+		<zipfileset dir="${basedir}" id="license.files">
+			<selector if="sp:license.files" />
+		</zipfileset>
+	</target>
 
-		<!-- set default -->
+	<target name="-define.license.files.resource.set" depends="-define.empty.licese.files.resource.set" if="sp:license.files">
+		<!-- define a zipfileset containing all license files and specifying their location in the resulting zip file -->
+		<zipfileset id="license.files" dir="${sp:license.files}" prefix="${license.files.directory}" />
+	</target>
+
+	<target name="-define.package.ius.properties">
+		<!-- set defaults -->
 		<property name="top.directory" value="eclipse" />
+		<property name="license.files.directory" value="${top.directory}" />
+	</target>
+
+	<target name="package.ius" depends="-define.package.ius.properties,-gather.install.pools,-define.license.files.resource.set">
+		<mkdir dir="${sp:output}" />
 
 		<zip destfile="${package.name.stem}.zip">
 			<zipfileset dir="${gathered.pools.directory}" prefix="${top.directory}">
 				<exclude name="artifacts.xml" />
 			</zipfileset>
+			<zipfileset refid="license.files" />
 		</zip>
 
 		<!-- cleanup (the directory is present only if fs:install.pools appointed more than one install pool) -->
 		<delete dir="${package.name.stem}" />
 	</target>
 
-	<target name="package.models" depends="-gather.install.pools">
+	<target name="-define.package.models.properties">
+		<!-- set defaults -->
+		<property name="top.directory" value="models" />
+		<property name="license.files.directory" value="" />
+	</target>
+
+	<target name="package.models" depends="-define.package.models.properties,-gather.install.pools,-define.license.files.resource.set">
 		<property name="plugins.directory" location="${gathered.pools.directory}/plugins" />
 		<property name="models.directory" location="${package.name.stem}/models" />
 		<property name="stamp.file.name" value=".stamp" />
@@ -243,11 +266,9 @@
 			<include name="*" />
 		</delete>
 
-		<!-- set default -->
-		<property name="top.directory" value="models" />
-
 		<zip destfile="${package.name.stem}.zip">
 			<zipfileset dir="${models.directory}" prefix="${top.directory}" />
+			<zipfileset refid="license.files" />
 		</zip>
 
 		<!-- cleanup -->
