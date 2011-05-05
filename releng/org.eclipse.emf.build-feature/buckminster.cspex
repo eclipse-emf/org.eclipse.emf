@@ -50,7 +50,7 @@
 			<cs:products alias="output" base="${buckminster.temp}/emf-Base-platform/" />
 		</cs:private>
 
-		<cs:private name="license.files" actor="ant">
+		<cs:private name="emf.license.files" actor="ant">
 			<cs:actorProperties>
 				<cs:property key="buildFile" value="packaging.ant" />
 				<cs:property key="targets" value="install.ius" />
@@ -62,7 +62,22 @@
 				<cs:attribute name="site.p2" alias="repositories" />
 				<cs:attribute name="site.tp" alias="target.platform.repository" />
 			</cs:prerequisites>
-			<cs:products alias="output" base="${buckminster.temp}/license.files/" />
+			<cs:products alias="output" base="${buckminster.temp}/emf.license.files/" />
+		</cs:private>
+
+		<cs:private name="xsd.license.files" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="packaging.ant" />
+				<cs:property key="targets" value="install.ius" />
+			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="ius" value="org.eclipse.xsd.license_root" />
+			</cs:properties>
+			<cs:prerequisites>
+				<cs:attribute name="site.p2" alias="repositories" />
+				<cs:attribute name="site.tp" alias="target.platform.repository" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.temp}/xsd.license.files/" />
 		</cs:private>
 
 		<cs:private name="install.emf-xsd-foundation" actor="ant">
@@ -110,7 +125,7 @@
 			</cs:properties>
 			<cs:prerequisites>
 				<cs:attribute name="install.emf-xsd-SDK" alias="install.pools" />
-				<cs:attribute name="license.files" alias="license.files" />
+				<cs:attribute name="emf.license.files" alias="license.files" />
 			</cs:prerequisites>
 			<cs:products alias="output" base="${buckminster.output}/zips/" />
 		</cs:public>
@@ -141,7 +156,7 @@
 			</cs:properties>
 			<cs:prerequisites>
 				<cs:attribute name="install.emf-xsd-Examples" alias="install.pools" />
-				<cs:attribute name="license.files" alias="license.files" />
+				<cs:attribute name="emf.license.files" alias="license.files" />
 			</cs:prerequisites>
 			<cs:products alias="output" base="${buckminster.output}/zips/" />
 		</cs:public>
@@ -157,7 +172,7 @@
 			</cs:properties>
 			<cs:prerequisites>
 				<cs:attribute name="install.emf-xsd-foundation" alias="install.pools" />
-				<cs:attribute name="license.files" alias="license.files" />
+				<cs:attribute name="emf.license.files" alias="license.files" />
 			</cs:prerequisites>
 			<cs:products alias="output" base="${buckminster.output}/zips/" />
 		</cs:public>
@@ -189,7 +204,7 @@
 			</cs:properties>
 			<cs:prerequisites>
 				<cs:attribute name="install.emf-runtime" alias="install.pools" />
-				<cs:attribute name="license.files" alias="license.files" />
+				<cs:attribute name="emf.license.files" alias="license.files" />
 			</cs:prerequisites>
 			<cs:products alias="output" base="${buckminster.output}/zips/" />
 		</cs:public>
@@ -222,7 +237,7 @@
 			</cs:properties>
 			<cs:prerequisites>
 				<cs:attribute name="install.emf-sourcedoc" alias="install.pools" />
-				<cs:attribute name="license.files" alias="license.files" />
+				<cs:attribute name="emf.license.files" alias="license.files" />
 			</cs:prerequisites>
 			<cs:products alias="output" base="${buckminster.output}/zips/" />
 		</cs:public>
@@ -254,7 +269,7 @@
 			</cs:properties>
 			<cs:prerequisites>
 				<cs:attribute name="install.xsd-runtime" alias="install.pools" />
-				<cs:attribute name="license.files" alias="license.files" />
+				<cs:attribute name="xsd.license.files" alias="license.files" />
 			</cs:prerequisites>
 			<cs:products alias="output" base="${buckminster.output}/zips/" />
 		</cs:public>
@@ -288,7 +303,7 @@
 				<cs:attribute name="site.p2" alias="repositories" />
 				<cs:attribute name="site.tp" alias="target.platform.repository" />
 				<cs:attribute name="install.xsd-sourcedoc" alias="install.pools" />
-				<cs:attribute name="license.files" alias="license.files" />
+				<cs:attribute name="xsd.license.files" alias="license.files" />
 			</cs:prerequisites>
 			<cs:products alias="output" base="${buckminster.output}/zips/" />
 		</cs:public>
