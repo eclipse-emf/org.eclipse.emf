@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.103 2010/09/04 17:20:43 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.104 2011/05/12 21:40:47 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1408,13 +1408,14 @@ public class XSDEcoreBuilder extends MapBuilder
       {
         XSDSimpleTypeDefinition contentType = xsdComplexTypeDefinition.getSimpleType();
         extendedMetaData.setContentKind(eClass, ExtendedMetaData.SIMPLE_CONTENT);
-        if ("SimpleAnyType".equals(eClass.getName()) && XMLTypePackage.eNS_URI.equals(eClass.getEPackage().getNsURI()))
+        boolean isSimpleAnyType = "SimpleAnyType".equals(eClass.getName()) && XMLTypePackage.eNS_URI.equals(eClass.getEPackage().getNsURI());
+        if (isSimpleAnyType)
         {
           EStructuralFeature eStructuralFeature =
             createFeature
               (eClass,
                "rawValue",
-               getBuiltInEClassifier(xsdComplexTypeDefinition.getSchema().getSchemaForSchemaNamespace(), "string"),
+               getEClassifier(xsdComplexTypeDefinition.getSchema().resolveTypeDefinition("string")),
                null,
                0,
                1);
@@ -1428,7 +1429,7 @@ public class XSDEcoreBuilder extends MapBuilder
           createFeature
             (eClass,
              "value",
-             getEClassifier(baseSimpleContentType),
+             getEClassifier(isSimpleAnyType ? xsdComplexTypeDefinition.getSchema().resolveTypeDefinition("anySimpleType") : baseSimpleContentType),
              null,
              0,
              1);
@@ -1436,7 +1437,7 @@ public class XSDEcoreBuilder extends MapBuilder
         eStructuralFeature.setTransient(true);
         eStructuralFeature.setVolatile(true);
 
-        if ("SimpleAnyType".equals(eClass.getName()) && XMLTypePackage.eNS_URI.equals(eClass.getEPackage().getNsURI()))
+        if (isSimpleAnyType)
         {
           eStructuralFeature =
             createFeature
