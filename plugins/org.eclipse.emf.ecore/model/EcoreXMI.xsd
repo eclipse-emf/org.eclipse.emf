@@ -85,13 +85,12 @@
   </xsd:complexType>
   <xsd:element name="EFactory" type="ecore:EFactory"/>
   <xsd:complexType abstract="true" name="EModelElement">
-    <xsd:complexContent>
-      <xsd:extension base="ecore:EObject">
-        <xsd:choice maxOccurs="unbounded" minOccurs="0">
-          <xsd:element name="eAnnotations" type="ecore:EAnnotation"/>
-        </xsd:choice>
-      </xsd:extension>
-    </xsd:complexContent>
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element name="eAnnotations" type="ecore:EAnnotation"/>
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
   </xsd:complexType>
   <xsd:element name="EModelElement" type="ecore:EModelElement"/>
   <xsd:complexType abstract="true" name="ENamedElement">
@@ -198,19 +197,18 @@
   </xsd:complexType>
   <xsd:element name="EStringToStringMapEntry" type="ecore:EStringToStringMapEntry"/>
   <xsd:complexType name="EGenericType">
-    <xsd:complexContent>
-      <xsd:extension base="ecore:EObject">
-        <xsd:choice maxOccurs="unbounded" minOccurs="0">
-          <xsd:element name="eUpperBound" type="ecore:EGenericType"/>
-          <xsd:element name="eTypeArguments" type="ecore:EGenericType"/>
-          <xsd:element name="eLowerBound" type="ecore:EGenericType"/>
-          <xsd:element name="eTypeParameter" type="ecore:ETypeParameter"/>
-          <xsd:element name="eClassifier" type="ecore:EClassifier"/>
-        </xsd:choice>
-        <xsd:attribute name="eTypeParameter" type="xsd:string"/>
-        <xsd:attribute name="eClassifier" type="xsd:string"/>
-      </xsd:extension>
-    </xsd:complexContent>
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element name="eUpperBound" type="ecore:EGenericType"/>
+      <xsd:element name="eTypeArguments" type="ecore:EGenericType"/>
+      <xsd:element name="eLowerBound" type="ecore:EGenericType"/>
+      <xsd:element name="eTypeParameter" type="ecore:ETypeParameter"/>
+      <xsd:element name="eClassifier" type="ecore:EClassifier"/>
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+    <xsd:attribute name="eTypeParameter" type="xsd:string"/>
+    <xsd:attribute name="eClassifier" type="xsd:string"/>
   </xsd:complexType>
   <xsd:element name="EGenericType" type="ecore:EGenericType"/>
   <xsd:complexType name="ETypeParameter">

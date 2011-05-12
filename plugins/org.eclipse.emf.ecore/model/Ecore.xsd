@@ -44,7 +44,7 @@
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
-  <xsd:complexType ecore:constraints="InterfaceIsAbstract AtMostOneID UniqueFeatureNames UniqueOperationSignatures NoCircularSuperTypes WellFormedMapEntryClass ConsistentSuperTypes" name="EClass">
+  <xsd:complexType ecore:constraints="InterfaceIsAbstract AtMostOneID UniqueFeatureNames UniqueOperationSignatures NoCircularSuperTypes WellFormedMapEntryClass ConsistentSuperTypes DisjointFeatureAndOperationSignatures" name="EClass">
     <xsd:annotation>
       <xsd:appinfo ecore:key="operations" source="http://www.eclipse.org/emf/2002/Ecore">
         <operation name="isSuperTypeOf" type="ecore:EBoolean">
@@ -59,6 +59,16 @@
         </operation>
         <operation name="getEStructuralFeature" type="ecore:EStructuralFeature">
           <parameter name="featureName" type="ecore:EString"/>
+        </operation>
+        <operation name="getOperationCount" type="ecore:EInt"/>
+        <operation name="getEOperation" type="ecore:EOperation">
+          <parameter name="operationID" type="ecore:EInt"/>
+        </operation>
+        <operation name="getOperationID" type="ecore:EInt">
+          <parameter name="operation" type="ecore:EOperation"/>
+        </operation>
+        <operation name="getOverride" type="ecore:EOperation">
+          <parameter name="operation" type="ecore:EOperation"/>
         </operation>
       </xsd:appinfo>
     </xsd:annotation>
@@ -254,10 +264,22 @@
         <operation name="eUnset">
           <parameter name="feature" type="ecore:EStructuralFeature"/>
         </operation>
+        <operation exceptions="ecore:EInvocationTargetException" name="eInvoke" type="ecore:EJavaObject">
+          <parameter name="operation" type="ecore:EOperation"/>
+          <parameter name="arguments" type="ecore:EEList{?}"/>
+        </operation>
       </xsd:appinfo>
     </xsd:annotation>
   </xsd:complexType>
   <xsd:complexType ecore:constraints="UniqueParameterNames UniqueTypeParameterNames NoRepeatingVoid" name="EOperation">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="operations" source="http://www.eclipse.org/emf/2002/Ecore">
+        <operation name="getOperationID" type="ecore:EInt"/>
+        <operation name="isOverrideOf" type="ecore:EBoolean">
+          <parameter name="someOperation" type="ecore:EOperation"/>
+        </operation>
+      </xsd:appinfo>
+    </xsd:annotation>
     <xsd:complexContent>
       <xsd:extension base="ecore:ETypedElement">
         <xsd:sequence>
@@ -298,7 +320,7 @@
       <xsd:extension base="ecore:ETypedElement"/>
     </xsd:complexContent>
   </xsd:complexType>
-  <xsd:complexType ecore:constraints="ConsistentOpposite SingleContainer ConsistentKeys" name="EReference">
+  <xsd:complexType ecore:constraints="ConsistentOpposite SingleContainer ConsistentKeys ConsistentUnique ConsistentContainer" name="EReference">
     <xsd:complexContent>
       <xsd:extension base="ecore:EStructuralFeature">
         <xsd:attribute ecore:unsettable="false" name="containment" type="ecore:EBoolean"/>
@@ -355,8 +377,8 @@
   <xsd:simpleType name="EBigInteger">
     <xsd:restriction base="xsd:integer"/>
   </xsd:simpleType>
-  <xsd:simpleType name="EBoolean">
-    <xsd:restriction base="xsd:boolean"/>
+  <xsd:simpleType ecore:instanceClass="boolean" name="EBoolean">
+    <xsd:restriction base="xsd:string"/>
   </xsd:simpleType>
   <xsd:simpleType ecore:instanceClass="java.lang.Boolean" name="EBooleanObject">
     <xsd:restriction base="ecore:EBoolean"/>
@@ -411,8 +433,8 @@
   <xsd:simpleType ecore:instanceClass="java.lang.Float" name="EFloatObject">
     <xsd:restriction base="ecore:EFloat"/>
   </xsd:simpleType>
-  <xsd:simpleType name="EInt">
-    <xsd:restriction base="xsd:int"/>
+  <xsd:simpleType ecore:instanceClass="int" name="EInt">
+    <xsd:restriction base="xsd:string"/>
   </xsd:simpleType>
   <xsd:simpleType ecore:instanceClass="java.lang.Integer" name="EIntegerObject">
     <xsd:restriction base="ecore:EInt"/>
@@ -489,4 +511,7 @@
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
+  <xsd:simpleType ecore:instanceClass="java.lang.reflect.InvocationTargetException" ecore:serializable="false" name="EInvocationTargetException">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
 </xsd:schema>
