@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: ByteArrayOutputStream.java,v 1.2 2010/12/12 20:29:31 emerks Exp $
+ * $Id: ByteArrayOutputStream.java,v 1.1 2011/05/12 15:08:17 khussey Exp $
  */
-package org.eclipse.emf.common.util;
+package java.io;
 
 import java.io.IOException;
 

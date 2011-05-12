@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: InputStream.java,v 1.1 2010/04/28 14:49:26 emerks Exp $
+ * $Id: InputStream.java,v 1.1 2011/05/12 15:08:17 khussey Exp $
  */
-package org.eclipse.emf.common.util;
+package java.io;
 
 import java.io.IOException;
 

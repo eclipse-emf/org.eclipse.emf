@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: OutputStream.java,v 1.1 2010/04/28 14:49:30 emerks Exp $
+ * $Id: OutputStream.java,v 1.1 2011/05/12 15:08:17 khussey Exp $
  */
-package org.eclipse.emf.common.util;
+package java.io;
 
 
 import java.io.IOException;
@@ -22,7 +22,11 @@ import java.io.IOException;
 
 public abstract class OutputStream
 {
-  public abstract void write(int byteValue) throws IOException;
+  //public abstract void write(int byteValue) throws IOException;
+  public void write(int byteValue) throws IOException {
+	  //can't be abstract because of the default GWT implementations that do not implement this method
+	  throw new UnsupportedOperationException("This method body is just a replacement for an abstract method declaration");
+  }
 
   public void write(byte[] bytes) throws IOException 
   {
