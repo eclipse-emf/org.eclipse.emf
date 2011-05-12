@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DatastoreUtil.java,v 1.2 2011/05/12 15:08:22 khussey Exp $
+ * $Id: DatastoreUtil.java,v 1.3 2011/05/12 22:15:58 emerks Exp $
  */
 package org.eclipse.emf.server.ecore.resource;
 
@@ -141,7 +141,7 @@ final public class DatastoreUtil
     return result;
   }
   
-  protected static Entity getEntity(Key sessionKey, PreparedQuery query)
+  public static Entity getEntity(Key sessionKey, PreparedQuery query)
   {
     if (sessionKey == null)
     {
@@ -219,7 +219,7 @@ final public class DatastoreUtil
     return options;
   }
   
-  protected static byte[] getBytes(Entity entity, DatastoreService datastoreService)
+  public static byte[] getBytes(Entity entity, DatastoreService datastoreService)
   {
     if (entity.hasProperty("content"))
     {
@@ -251,7 +251,7 @@ final public class DatastoreUtil
 
   protected static final int MAX_BLOB_SIZE = 1000000;
   
-  protected static Entity getSession(DatastoreService datastoreService, String session)
+  public static Entity getSession(DatastoreService datastoreService, String session)
   {
     Entity entity = null;
     if (session != null)
