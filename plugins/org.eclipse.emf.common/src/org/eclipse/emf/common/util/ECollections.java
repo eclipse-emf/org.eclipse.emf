@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECollections.java,v 1.8 2008/12/13 15:54:18 emerks Exp $
+ * $Id: ECollections.java,v 1.9 2011/05/12 22:11:04 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -281,9 +281,9 @@ public class ECollections
 
   private static class UnmodifiableEList<E> implements EList<E>
   {
-    protected EList<? extends E> list;
+    protected List<? extends E> list;
 
-    public UnmodifiableEList(EList<? extends E> list)
+    public UnmodifiableEList(List<? extends E> list)
     {
       this.list = list;
     }
@@ -829,5 +829,27 @@ public class ECollections
     {
       throw new UnsupportedOperationException();
     }    
+  }
+
+  /**
+   * Returns an immutable list containing just the one object.
+   * @return an immutable list containing just the one object.
+   * @since 2.7
+   */
+  public static <T> List<T> singletonEList(T o)
+  {
+    return new UnmodifiableEList<T>(Collections.singletonList(o));
+  }
+
+  /**
+   * Returns an immutable map containing just the one key/value mapping.
+   * @return an immutable map containing just the one key/value mapping.
+   * @since 2.7
+   */
+  public static <K, V> EMap<K, V> singletonEMap(K key, V value)
+  {
+    BasicEMap<K, V> result = new BasicEMap<K, V>(1);
+    result.put(key, value);
+    return new UnmodifiableEMap<K, V>(result);
   }
 }
