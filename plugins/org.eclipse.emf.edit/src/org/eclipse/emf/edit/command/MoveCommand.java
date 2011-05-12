@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MoveCommand.java,v 1.6 2008/05/07 19:08:46 emerks Exp $
+ * $Id: MoveCommand.java,v 1.7 2011/05/12 22:56:24 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -119,14 +119,37 @@ public class MoveCommand extends AbstractOverrideableCommand
    */
   public MoveCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value, int index)
   {
-    super (domain, LABEL, DESCRIPTION);
+    super(domain, LABEL, DESCRIPTION);
 
     this.owner = owner;
     this.feature = feature;
     this.value = value;
     this.index = index;
+ 
+    ownerList = getOwnerList(this.owner, feature);
+    oldIndex = ownerList != null ? ownerList.indexOf(value) : -1;
+  }
+
+  /**
+   * This constructs a primitive command to move a value at a particular index to another particular index 
+   * of the specified many-valued feature of the owner.
+   * @since 2.7
+   */
+  public MoveCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, int sourceIndex, int targetIndex)
+  {
+    super(domain, LABEL, DESCRIPTION);
+
+    this.owner = owner;
+    this.feature = feature;
+
+    index = targetIndex;
+    oldIndex = sourceIndex;
 
     ownerList = getOwnerList(this.owner, feature);
+    if (ownerList != null && ownerList.size() > sourceIndex && sourceIndex >= 0)
+    {
+      value = ownerList.get(sourceIndex);
+    }
   }
 
   /**
@@ -138,6 +161,28 @@ public class MoveCommand extends AbstractOverrideableCommand
 
     this.value = value;
     this.index = index;
+
+    oldIndex = list != null ? list.indexOf(value) : -1;
+
+    @SuppressWarnings("unchecked")
+    EList<Object> untypedList = (EList<Object>)list;
+    ownerList = untypedList;
+  }
+
+  /**
+   * This constructs a primitive command to move a value at a particular index to another particular index of the specified extent.
+   * @since 2.7
+   */
+  public MoveCommand(EditingDomain domain, EList<?> list, int sourceIndex, int targetIndex)
+  {
+    super(domain, LABEL, DESCRIPTION_FOR_LIST);
+
+    if (list != null && list.size() > sourceIndex && sourceIndex >= 0)
+    {
+      value = list.get(sourceIndex);
+    }
+    index = targetIndex;
+    oldIndex = sourceIndex;
 
     @SuppressWarnings("unchecked")
     EList<Object> untypedList = (EList<Object>)list;
@@ -197,13 +242,14 @@ public class MoveCommand extends AbstractOverrideableCommand
   @Override
   protected boolean prepare()
   {
-    // Return whether there is a list, the value is in the list, and index is in range...
+    // Return whether there is a list and the indices are within range.
     //
     boolean result =
       ownerList != null  && 
-         ownerList.contains(value) &&
          index >= 0 && 
          index < ownerList.size() &&
+         oldIndex >= 0 &&
+         oldIndex < ownerList.size() && 
          (owner == null || !domain.isReadOnly(owner.eResource()));
 
     return result;
@@ -212,20 +258,19 @@ public class MoveCommand extends AbstractOverrideableCommand
   @Override
   public void doExecute() 
   {
-    oldIndex = ownerList.indexOf(value);
-    ownerList.move(index, value);
+    ownerList.move(index, oldIndex);
   }
 
   @Override
   public void doUndo() 
   {
-    ownerList.move(oldIndex, value);
+    ownerList.move(oldIndex, index);
   }
 
   @Override
   public void doRedo()
   {
-    ownerList.move(index, value);
+    ownerList.move(index, oldIndex);
   }
 
   @Override
