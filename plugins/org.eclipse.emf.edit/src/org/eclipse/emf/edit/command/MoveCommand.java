@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MoveCommand.java,v 1.7 2011/05/12 22:56:24 emerks Exp $
+ * $Id: MoveCommand.java,v 1.8 2011/05/12 23:09:57 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -127,7 +127,7 @@ public class MoveCommand extends AbstractOverrideableCommand
     this.index = index;
  
     ownerList = getOwnerList(this.owner, feature);
-    oldIndex = ownerList != null ? ownerList.indexOf(value) : -1;
+    oldIndex = -1;
   }
 
   /**
@@ -162,7 +162,7 @@ public class MoveCommand extends AbstractOverrideableCommand
     this.value = value;
     this.index = index;
 
-    oldIndex = list != null ? list.indexOf(value) : -1;
+    oldIndex = -1;
 
     @SuppressWarnings("unchecked")
     EList<Object> untypedList = (EList<Object>)list;
@@ -248,8 +248,7 @@ public class MoveCommand extends AbstractOverrideableCommand
       ownerList != null  && 
          index >= 0 && 
          index < ownerList.size() &&
-         oldIndex >= 0 &&
-         oldIndex < ownerList.size() && 
+         (oldIndex == -1 ? ownerList.contains(value) : oldIndex >= 0 && oldIndex < ownerList.size()) && 
          (owner == null || !domain.isReadOnly(owner.eResource()));
 
     return result;
@@ -258,6 +257,10 @@ public class MoveCommand extends AbstractOverrideableCommand
   @Override
   public void doExecute() 
   {
+    if (oldIndex == -1)
+    {
+      oldIndex = ownerList.indexOf(value);
+    }
     ownerList.move(index, oldIndex);
   }
 
