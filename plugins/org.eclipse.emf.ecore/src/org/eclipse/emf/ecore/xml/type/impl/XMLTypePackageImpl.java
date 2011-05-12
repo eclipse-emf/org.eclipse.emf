@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackageImpl.java,v 1.23 2009/05/12 15:54:45 davidms Exp $
+ * $Id: XMLTypePackageImpl.java,v 1.24 2011/05/12 21:40:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -1466,9 +1466,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     setNsPrefix(eNS_PREFIX);
     setNsURI(eNS_URI);
 
-    // Obtain other dependent packages
-    XMLTypePackage theXMLTypePackage_1 = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
-
     // Create type parameters
 
     // Set bounds for type parameters
@@ -1487,8 +1484,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     initEAttribute(getProcessingInstruction_Target(), this.getString(), "target", null, 1, 1, ProcessingInstruction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(simpleAnyTypeEClass, SimpleAnyType.class, "SimpleAnyType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getSimpleAnyType_RawValue(), theXMLTypePackage_1.getString(), "rawValue", null, 0, 1, SimpleAnyType.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-    initEAttribute(getSimpleAnyType_Value(), theXMLTypePackage_1.getAnySimpleType(), "value", null, 0, 1, SimpleAnyType.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEAttribute(getSimpleAnyType_RawValue(), this.getString(), "rawValue", null, 0, 1, SimpleAnyType.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEAttribute(getSimpleAnyType_Value(), this.getAnySimpleType(), "value", null, 0, 1, SimpleAnyType.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEReference(getSimpleAnyType_InstanceType(), ecorePackage.getEDataType(), null, "instanceType", null, 1, 1, SimpleAnyType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xmlTypeDocumentRootEClass, XMLTypeDocumentRoot.class, "XMLTypeDocumentRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

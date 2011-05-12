@@ -353,14 +353,14 @@
       <details key="name" value="simpleAnyType"/>
       <details key="kind" value="simple"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rawValue" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rawValue" eType="#//String"
         volatile="true" transient="true" derived="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="name" value=":3"/>
         <details key="kind" value="simple"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnySimpleType"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="#//AnySimpleType"
         volatile="true" transient="true" derived="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="name" value=":4"/>
