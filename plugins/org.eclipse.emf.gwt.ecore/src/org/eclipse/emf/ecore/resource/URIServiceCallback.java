@@ -12,15 +12,15 @@
  *
  * </copyright>
  *
- * $Id: URIServiceCallback.java,v 1.2 2011/03/29 23:34:28 emerks Exp $
+ * $Id: URIServiceCallback.java,v 1.3 2011/05/12 15:08:22 khussey Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.ByteArrayInputStream;
 import org.eclipse.emf.common.util.Callback;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.impl.URIHandlerImpl;

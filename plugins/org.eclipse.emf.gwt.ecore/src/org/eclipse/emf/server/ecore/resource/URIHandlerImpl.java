@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2007 IBM Corporation and others.
+ * Copyright (c) 2007-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIHandlerImpl.java,v 1.1 2010/12/12 20:29:38 emerks Exp $
+ * $Id: URIHandlerImpl.java,v 1.2 2011/05/12 15:08:22 khussey Exp $
  */
 package org.eclipse.emf.server.ecore.resource;
 
@@ -20,6 +20,8 @@ package org.eclipse.emf.server.ecore.resource;
 import java.io.ByteArrayInputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -28,8 +30,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.Callback;
-import org.eclipse.emf.common.util.InputStream;
-import org.eclipse.emf.common.util.OutputStream;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ContentHandler;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -109,8 +109,7 @@ public class URIHandlerImpl implements URIHandler
         final HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;
         httpURLConnection.setRequestMethod("PUT");
         return
-          new OutputStreamDelgator
-            (new FilterOutputStream(urlConnection.getOutputStream())
+          new FilterOutputStream(urlConnection.getOutputStream())
              {
                @Override
                public void close() throws IOException
@@ -131,7 +130,7 @@ public class URIHandlerImpl implements URIHandler
                    }
                  }
                }
-             });
+             };
       }
       else
       {
@@ -156,7 +155,7 @@ public class URIHandlerImpl implements URIHandler
               }
             };
         }
-        return new OutputStreamDelgator(result);
+        return result;
       }
     }
     catch (RuntimeException exception)
@@ -182,7 +181,7 @@ public class URIHandlerImpl implements URIHandler
       {
         response.put(URIConverter.RESPONSE_TIME_STAMP_PROPERTY, urlConnection.getLastModified());
       }
-      return new InputStreamDelegator(result);
+      return result;
     }
     catch (RuntimeException exception)
     {
@@ -253,7 +252,7 @@ public class URIHandlerImpl implements URIHandler
             }
             catch (IOException exception)
             {
-              inputStream = new InputStreamDelegator(new ByteArrayInputStream(new byte [0]));
+              inputStream =new ByteArrayInputStream(new byte [0]);
             }
             if (!inputStream.markSupported())
             {

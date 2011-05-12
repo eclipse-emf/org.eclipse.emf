@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2010 Ed Merks and others.
+ * Copyright (c) 2010-2011 Ed Merks and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,18 +12,18 @@
  *
  * </copyright>
  *
- * $Id: DatastoreUtil.java,v 1.1 2010/12/12 20:29:37 emerks Exp $
+ * $Id: DatastoreUtil.java,v 1.2 2011/05/12 15:08:22 khussey Exp $
  */
 package org.eclipse.emf.server.ecore.resource;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.eclipse.emf.common.util.ByteArrayInputStream;
-import org.eclipse.emf.common.util.ByteArrayOutputStream;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EcoreFactory;

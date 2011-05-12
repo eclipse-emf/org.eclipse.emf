@@ -12,19 +12,19 @@
  *
  * </copyright>
  *
- * $Id: URIConverter.java,v 1.5 2011/04/08 19:53:39 emerks Exp $
+ * $Id: URIConverter.java,v 1.6 2011/05/12 15:08:22 khussey Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
 
+import java.io.InputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.Callback;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.InputStream;
-import org.eclipse.emf.common.util.OutputStream;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 

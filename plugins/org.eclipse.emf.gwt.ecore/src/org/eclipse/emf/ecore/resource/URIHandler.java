@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2007-2010 IBM Corporation and others.
+ * Copyright (c) 2007-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,18 +12,18 @@
  *
  * </copyright>
  *
- * $Id: URIHandler.java,v 1.3 2010/12/12 20:29:37 emerks Exp $
+ * $Id: URIHandler.java,v 1.4 2011/05/12 15:08:22 khussey Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.Callback;
-import org.eclipse.emf.common.util.InputStream;
-import org.eclipse.emf.common.util.OutputStream;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 

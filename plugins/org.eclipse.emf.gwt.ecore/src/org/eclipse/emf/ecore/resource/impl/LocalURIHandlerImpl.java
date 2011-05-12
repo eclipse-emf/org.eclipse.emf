@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2010 Ed Merks and others.
+ * Copyright (c) 2010-2011 Ed Merks and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,18 +12,18 @@
  *
  * </copyright>
  *
- * $Id: LocalURIHandlerImpl.java,v 1.1 2010/04/28 14:45:58 emerks Exp $
+ * $Id: LocalURIHandlerImpl.java,v 1.2 2011/05/12 15:08:22 khussey Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
+import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.ByteArrayOutputStream;
-import org.eclipse.emf.common.util.ByteArrayInputStream;
-import org.eclipse.emf.common.util.InputStream;
-import org.eclipse.emf.common.util.OutputStream;
 import org.eclipse.emf.common.util.URI;
 
 public class LocalURIHandlerImpl extends URIHandlerImpl
@@ -50,9 +50,7 @@ public class LocalURIHandlerImpl extends URIHandlerImpl
         @Override
         public void close() throws IOException
         {
-          byte[] newBytes = new byte[index];
-          System.arraycopy(bytes, 0, newBytes, 0, index);
-          localBytes.put(uri, newBytes);
+          localBytes.put(uri, toByteArray());
         }
       };
   }

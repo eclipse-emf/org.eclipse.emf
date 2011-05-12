@@ -12,17 +12,17 @@
  *
  * </copyright>
  *
- * $Id: DatastoreURIHandlerImpl.java,v 1.2 2011/03/29 23:34:28 emerks Exp $
+ * $Id: DatastoreURIHandlerImpl.java,v 1.3 2011/05/12 15:08:22 khussey Exp $
  */
 package org.eclipse.emf.server.ecore.resource;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.ByteArrayInputStream;
-import org.eclipse.emf.common.util.ByteArrayOutputStream;
-import org.eclipse.emf.common.util.InputStream;
-import org.eclipse.emf.common.util.OutputStream;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIConverter;
 
