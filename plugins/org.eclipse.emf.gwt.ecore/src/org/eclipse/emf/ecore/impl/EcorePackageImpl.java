@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.7 2011/05/02 09:55:05 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.8 2011/05/12 14:38:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -889,7 +889,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        {
          public boolean isInstance(Object instance)
          {
-           return instance instanceof EList<?>;
+           return instance instanceof EList;
          }
 
          public Object newArrayInstance(int size)
@@ -973,7 +973,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        {
          public boolean isInstance(Object instance)
          {
-           return instance instanceof Class<?>;
+           return instance instanceof Class;
          }
 
          public Object newArrayInstance(int size)
@@ -1001,7 +1001,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        {
          public boolean isInstance(Object instance)
          {
-           return instance instanceof Map<?, ?>;
+           return instance instanceof Map;
          }
 
          public Object newArrayInstance(int size)
@@ -1071,7 +1071,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        {
          public boolean isInstance(Object instance)
          {
-           return instance instanceof TreeIterator<?>;
+           return instance instanceof TreeIterator;
          }
 
          public Object newArrayInstance(int size)
@@ -3763,7 +3763,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        source, 
        new String[] 
        {
-       "constraints", "ConsistentOpposite SingleContainer ConsistentKeys ConsistentUnique"
+       "constraints", "ConsistentOpposite SingleContainer ConsistentKeys ConsistentUnique ConsistentContainer"
        });		
     addAnnotation
       (eStructuralFeatureEClass, 
