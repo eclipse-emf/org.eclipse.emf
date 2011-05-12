@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.73 2011/04/04 16:23:59 khussey Exp $
+ * $Id: EcoreUtil.java,v 1.74 2011/05/12 14:47:17 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -282,19 +282,19 @@ public class EcoreUtil
    */
   public static void resolveAll(Resource resource)
   {
-    for (Iterator<EObject> i = resource.getAllContents();  i.hasNext(); )
+    for (EObject eObject : resource.getContents())
     {
-      EObject eObject = i.next();
-      resolveCrossReferences(eObject);
+      resolveAll(eObject);
     }
   }
 
   /**
-   * Visits all proxies referenced by the object or recursively any of it's contained object.
+   * Visits all proxies referenced by the object and recursively any of its contained objects.
    * @param eObject the object to visit.
    */
   public static void resolveAll(EObject eObject)
   {
+    eObject.eContainer();
     resolveCrossReferences(eObject);
     for (Iterator<EObject> i = eObject.eAllContents(); i.hasNext(); )
     {
@@ -3094,8 +3094,7 @@ public class EcoreUtil
    */
   public static void replace(EObject eObject, EObject replacementEObject)
   {
-    InternalEObject internalEObject = (InternalEObject)eObject;
-    EObject container = internalEObject.eInternalContainer();
+    EObject container = eObject.eContainer();
     if (container != null)
     {
       EReference feature = eObject.eContainmentFeature();
@@ -3110,14 +3109,14 @@ public class EcoreUtil
       }
     }
 
-    Resource resource = internalEObject.eDirectResource();
+    Resource resource = ((InternalEObject)eObject).eDirectResource();
     if (resource != null)
     {
       List<EObject> list = resource.getContents();
       list.set(list.indexOf(eObject), replacementEObject);
     }
   }
-  
+
   /**
    * Deletes the object from its {@link EObject#eResource containing} resource 
    * and/or its {@link EObject#eContainer containing} object
