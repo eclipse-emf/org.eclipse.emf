@@ -11,7 +11,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: FeaturePath.java,v 1.1 2009/05/23 11:11:33 tschindl Exp $
+ * $Id: FeaturePath.java,v 1.2 2011/05/12 20:44:06 tschindl Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -34,6 +34,13 @@ public class FeaturePath
   private FeaturePath(EStructuralFeature[] featurePath)
   {
     this.featurePath = featurePath;
+    for (int i = 0; i < featurePath.length - 1; i++)
+    {
+      if (featurePath[i].isMany())
+      {
+        throw new IllegalArgumentException("The feature " + featurePath[i].getName() + " is multi valued.");
+      }
+    }
   }
 
   /**
@@ -49,8 +56,9 @@ public class FeaturePath
    * 
    * @param featurePath
    *            the list of feature to go from the local instance to the
-   *            requested instance
+   *            requested instance. The features all have to be single valued ones.
    * @return the path constructed
+   * @throws IllegalArgumentException if one of the features beside the last one is a list
    */
   public static FeaturePath fromList(EStructuralFeature... featurePath)
   {
