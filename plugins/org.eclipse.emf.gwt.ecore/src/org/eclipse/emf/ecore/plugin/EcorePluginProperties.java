@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePluginProperties.java,v 1.1 2010/12/12 20:29:38 emerks Exp $
+ * $Id: EcorePluginProperties.java,v 1.2 2011/05/12 14:42:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -642,4 +642,8 @@ public interface EcorePluginProperties extends Messages
   @Key("_UI_ConstraintDelegateNotFound_diagnostic")
   @DefaultMessage("Unable to find delegate to evaluate the ''{0}'' constraint on ''{1}'': {2}")
   String constraintDelegateNotFoundDiagnostic(Object substitution0, Object substitution1, Object substitution2);
+  
+  @Key("_UI_EReferenceConsistentContainer_diagnostic")
+  @DefaultMessage("A containment reference of a type with a container feature {0} that requires instances to be contained elsewhere cannot be populated")
+  String consistentContainerDiagnostic(Object substitution0);
 }

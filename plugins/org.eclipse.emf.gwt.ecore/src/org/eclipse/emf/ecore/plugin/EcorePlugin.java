@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.3 2010/12/12 20:29:38 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.4 2011/05/12 14:42:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -228,6 +228,7 @@ public class EcorePlugin  extends EMFPlugin
     else if ("_UI_InvariantDelegateNotFound_diagnostic".equals(key)) return PROPERTIES.invariantDelegateNotFoundDiagnostic(substitutions[0], substitutions[1], substitutions[2]);
     else if ("_UI_ConstraintDelegateException_diagnostic".equals(key)) return PROPERTIES.constraintDelegateExceptionDiagnostic(substitutions[0], substitutions[1], substitutions[2]);
     else if ("_UI_ConstraintDelegateNotFound_diagnostic".equals(key)) return PROPERTIES.constraintDelegateNotFoundDiagnostic(substitutions[0], substitutions[1], substitutions[2]);
+    else if ("_UI_EReferenceConsistentContainer_diagnostic".equals(key)) return PROPERTIES.consistentContainerDiagnostic(substitutions[0]);
     else return key;
   }
 
