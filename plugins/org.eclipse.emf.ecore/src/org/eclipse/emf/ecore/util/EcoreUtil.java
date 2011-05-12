@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.74 2011/05/12 14:47:17 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.75 2011/05/12 15:08:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2223,6 +2223,30 @@ public class EcoreUtil
         return true;
       }
 
+      // If eObject1 is a proxy...
+      //  
+      if (eObject1.eIsProxy())
+      {
+        // Then the other object must be a proxy with the same URI.
+        //
+        if (((InternalEObject)eObject1).eProxyURI().equals(((InternalEObject)eObject2).eProxyURI()))
+        {
+          put(eObject1, eObject2);
+          put(eObject2, eObject1);
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      // If eObject1 isn't a proxy but eObject2 is, they can't be equal.
+      //
+      else if (eObject2.eIsProxy())
+      {
+        return false;
+      }
+
       // If they don't have the same class, they can't be equal.
       //
       EClass eClass = eObject1.eClass();
@@ -2235,7 +2259,6 @@ public class EcoreUtil
       //
       put(eObject1, eObject2);
       put(eObject2, eObject1);
-
       
       // Check all the values.
       //
@@ -2257,7 +2280,7 @@ public class EcoreUtil
       //
       return true;
     }
-    
+
     /**
      * Returns whether <code>list1</code> and <code>list2</code> contain 
      * {@link #equals(EObject, EObject) equal} {@link EObject}s at the same index.
