@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPropertiesTest.java,v 1.7 2011/04/22 12:56:28 tschindl Exp $
+ * $Id: EMFPropertiesTest.java,v 1.8 2011/05/12 20:44:07 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding;
 
@@ -41,6 +41,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFListProperty.ListElementAccess;
+import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFMapProperty;
 import org.eclipse.emf.databinding.IEMFSetProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
@@ -84,6 +85,15 @@ public class EMFPropertiesTest extends TestCase
           return true;
         }
       };
+  }
+  
+  public void testFeaturePath() {
+    assertNotNull(FeaturePath.fromList(EmfdbPackage.Literals.A__BLIST));
+    try {
+      FeaturePath.fromList(EmfdbPackage.Literals.A__BLIST, EmfdbPackage.Literals.B__STRING);
+      fail("Traversing list feature");
+    } catch (IllegalArgumentException e) {
+    }
   }
 
   public void testResourceProperty()
@@ -239,7 +249,6 @@ public class EMFPropertiesTest extends TestCase
 
         public void handleListChange(ListChangeEvent event)
         {
-          System.err.println("Done");
           assertEquals(2, event.diff.getDifferences().length);
 
           assertEquals(0, event.diff.getDifferences()[0].getPosition());
