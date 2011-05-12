@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.61 2010/02/04 20:56:02 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.62 2011/05/12 20:21:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -1567,17 +1567,16 @@ public class EcoreEditor
         URI newURI = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
         String newExtension = newURI.fileExtension();
         
-        if (currentExtension.equals(ECORE_FILE_EXTENSION) && newExtension.equals(EMOF_FILE_EXTENSION) ||
-            currentExtension.equals(EMOF_FILE_EXTENSION) && newExtension.equals(ECORE_FILE_EXTENSION))
+        if (currentExtension.equals(newExtension))
+        {
+          currentResource.setURI(newURI);
+        }
+        else
         {
           Resource newResource = resourceSet.createResource(newURI);
           newResource.getContents().addAll(currentResource.getContents());
           resourceSet.getResources().remove(0);
           resourceSet.getResources().move(0, newResource);
-        }
-        else
-        {
-          currentResource.setURI(newURI);
         }
 
         IFileEditorInput modelFile = new FileEditorInput(file);
