@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.3 2011/05/12 14:38:56 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.4 2011/05/13 15:08:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -3444,6 +3444,18 @@ public class EcoreValidator extends EObjectValidator
               if (eClassifierClass != null /*&& !eBoundClass.isAssignableFrom(eClassifierClass)*/)
               {
                 return false;
+              }
+              // If the classifier being bounded doesn't have type parameters...
+              //
+              else if (eClassifier.getETypeParameters().isEmpty())
+              {
+                // Then there won't be any type arguments,
+                // so even if the bound has type arguments, 
+                // we must assume the classifier is bounded
+                // because we don't know that the implementation class in Java isn't properly bounded.
+                // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=331475
+                //
+                return true;
               }
             }
           }
