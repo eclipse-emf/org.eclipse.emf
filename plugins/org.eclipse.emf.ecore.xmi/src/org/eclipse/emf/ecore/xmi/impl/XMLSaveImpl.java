@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.82 2011/04/08 17:06:15 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.83 2011/05/20 14:06:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -2302,7 +2302,10 @@ public class XMLSaveImpl implements XMLSave
       boolean shouldSaveType = 
         saveTypeInfo ? 
           xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : 
-          eClass != expectedType && (expectedType.isAbstract() || f.getEGenericType().getETypeParameter() != null);
+          eClass != expectedType &&
+            (proxyAttributes && eClass.getEAllAttributes().size() > expectedType.getEAllAttributes().size() || 
+              expectedType.isAbstract() ||
+              f.getEGenericType().getETypeParameter() != null);
       if (elementHandler != null)
       {
         EStructuralFeature substitutionGroup = featureTable.getSubstitutionGroup(f, eClass);
