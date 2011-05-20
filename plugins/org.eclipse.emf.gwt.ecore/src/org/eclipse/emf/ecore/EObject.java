@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: EObject.java,v 1.2 2010/04/28 20:39:40 khussey Exp $
+ * $Id: EObject.java,v 1.3 2011/05/20 14:04:26 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -255,8 +255,8 @@ public interface EObject extends Notifier
    * for efficient determination of the {@link org.eclipse.emf.ecore.util.EContentsEList.FeatureIterator#feature feature} 
    * of each cross reference in the list, e.g.,
    *<pre>
-   *  for (EContentEList.FeatureIterator featureIterator = 
-   *        (EContentEList.FeatureIterator)eObject.eCrossReferences().iterator();
+   *  for (EContentsEList.FeatureIterator featureIterator = 
+   *        (EContentsEList.FeatureIterator)eObject.eCrossReferences().iterator();
    *       featureIterator.hasNext(); )
    *  {
    *    EObject eObject = (EObject)featureIterator.next();
