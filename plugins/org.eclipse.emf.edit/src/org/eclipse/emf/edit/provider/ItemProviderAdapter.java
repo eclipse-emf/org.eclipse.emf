@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.45 2011/01/07 00:08:13 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.46 2011/05/21 16:26:40 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -48,6 +48,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.CommandActionDelegate;
@@ -144,6 +145,31 @@ public class ItemProviderAdapter
   public ItemProviderAdapter(AdapterFactory adapterFactory)
   {
     this.adapterFactory = adapterFactory;
+  }
+
+  /**
+   * Returns whether proxies should be resolved when reflectively fetching values of features.
+   * @since 2.7
+   */
+  protected boolean isResolveProxies()
+  {
+    return true;
+  }
+
+  /**
+   * Returns the value of the feature.
+   * If {@link #isResolveProxies() proxies are not to be resolved} they won't be,
+   * and in the case of a list value, a list that doesn't resolve proxies is returned.
+   * @since 2.7
+   */
+  protected Object getValue(EObject eObject, EStructuralFeature eStructuralFeature)
+  {
+    boolean isResolveProxies = isResolveProxies();
+    Object result = eObject.eGet(eStructuralFeature, isResolveProxies);
+    return 
+      !isResolveProxies && result instanceof InternalEList<?> ?
+        ((InternalEList<?>)result).basicList() :
+        result;
   }
 
   /**
@@ -335,7 +361,7 @@ public class ItemProviderAdapter
     {
       if (feature.isMany())
       {
-        List<?> children = (List<?>)eObject.eGet(feature);
+        List<?> children = (List<?>)getValue(eObject, feature);
         int index = 0;
         for (Object unwrappedChild : children)
         {
@@ -353,7 +379,7 @@ public class ItemProviderAdapter
       }
       else
       {
-        Object child = eObject.eGet(feature);
+        Object child = getValue(eObject, feature);
         if (child != null)
         {
           child = wrap(eObject, feature, child, CommandParameter.NO_INDEX);
@@ -401,7 +427,7 @@ public class ItemProviderAdapter
     {
       if (feature.isMany())
       {
-        List<?> children = (List<?>)eObject.eGet(feature);
+        List<?> children = (List<?>)getValue(eObject, feature);
         if (!children.isEmpty())
         {
           return true;
@@ -475,7 +501,7 @@ public class ItemProviderAdapter
       return getReferenceValue(object, (EReference)feature);
     }
 
-    return object.eGet(feature);
+    return getValue(object, feature);
   }
 
   /**
@@ -487,7 +513,7 @@ public class ItemProviderAdapter
   @Deprecated
   protected Object getReferenceValue(EObject object, EReference reference)
   {
-    return object.eGet(reference);
+    return getValue(object, reference);
   }
 
   /**
@@ -787,7 +813,7 @@ public class ItemProviderAdapter
       FEATURES_LOOP:
       for (EStructuralFeature feature : childrenFeatures)
       {
-        Object featureValue = eObject.eGet(feature);
+        Object featureValue = getValue(eObject, feature);
         if (feature.isMany())
         {
           for (Object value : (Collection<?>)featureValue)
@@ -825,7 +851,7 @@ public class ItemProviderAdapter
           // immediately follow it.
           //
           i = 0;
-          for (Object v  : (Collection<?>)eObject.eGet(childFeature))
+          for (Object v  : (Collection<?>)getValue(eObject, childFeature))
           {
             if (isEquivalentValue(sibling, v))
             {
@@ -1366,9 +1392,9 @@ public class ItemProviderAdapter
 
             if (feature.isMany())
             {
-              index -= ((List<?>)(eObject).eGet(feature)).size();
+              index -= ((List<?>)getValue(eObject, feature)).size();
             }
-            else if (eObject.eGet(feature) != null)
+            else if (getValue(eObject, feature) != null)
             {
               index -= 1;
             }
@@ -1415,7 +1441,7 @@ public class ItemProviderAdapter
           index = CommandParameter.NO_INDEX;
         }
       }
-      else if (eObject.eGet(childFeature) == null)
+      else if (getValue(eObject, childFeature) == null)
       {
         Command setCommand = createSetCommand(domain, eObject, childFeature, firstChild);
         addCommand.append
@@ -1501,9 +1527,9 @@ public class ItemProviderAdapter
 
         if (feature.isMany())
         {
-          index -= ((List<?>)(eObject).eGet(feature)).size();
+          index -= ((List<?>)getValue(eObject, feature)).size();
         }
-        else if (eObject.eGet(feature) != null)
+        else if (getValue(eObject, feature) != null)
         {
           index -= 1;
         }
@@ -2455,7 +2481,7 @@ public class ItemProviderAdapter
 
   /**
    * Each element of the given list that implements {@link IWrapperItemProvider} is disposed by calling
-   * IWrapperItemProvider#dispose dispose} and is removed from {@link #wrappers}.
+   * {@link IWrapperItemProvider#dispose dispose} and is removed from {@link #wrappers}.
    */
   protected void disposeWrappers(List<?> objects)
   {
@@ -2569,7 +2595,7 @@ public class ItemProviderAdapter
           }
           case Notification.ADD:
           {
-            EList<?> values = (EList<?>)object.eGet(feature);
+            EList<?> values = (EList<?>)getValue(object, feature);
 
             if (children.size() != values.size())
             {
@@ -2581,7 +2607,7 @@ public class ItemProviderAdapter
           }
           case Notification.REMOVE:
           {
-            EList<?> values = (EList<?>)object.eGet(feature);
+            EList<?> values = (EList<?>)getValue(object, feature);
 
             if (children.size() != values.size())
             {
@@ -2592,7 +2618,7 @@ public class ItemProviderAdapter
           }
           case Notification.ADD_MANY:
           {
-            EList<?> values = (EList<?>)object.eGet(feature);
+            EList<?> values = (EList<?>)getValue(object, feature);
 
             if (children.size() != values.size())
             {
@@ -2617,7 +2643,7 @@ public class ItemProviderAdapter
             // No index specified when removing all elements.
             //
             if (index == Notification.NO_INDEX) index = 0;
-            EList<?> values = (EList<?>)object.eGet(feature);
+            EList<?> values = (EList<?>)getValue(object, feature);
 
             if (children.size() != values.size())
             {
@@ -2644,7 +2670,7 @@ public class ItemProviderAdapter
           case Notification.MOVE:
           {
             int oldIndex = (Integer)notification.getOldValue();
-            EList<?> values = (EList<?>)object.eGet(feature);
+            EList<?> values = (EList<?>)getValue(object, feature);
             boolean didMove = true;
 
             for (int i = Math.min(oldIndex, index), end = Math.max(oldIndex, index); didMove && i <= end; i++)
