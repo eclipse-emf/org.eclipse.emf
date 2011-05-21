@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingWrapperItemProvider.java,v 1.2 2010/04/28 20:38:34 khussey Exp $
+ * $Id: DelegatingWrapperItemProvider.java,v 1.3 2011/05/21 16:28:45 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -243,7 +243,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
         int index = 0;
         for (Object delegateChild : delegateChildren)
         {
-          childrenMap.get(delegateChild).setIndex(index);
+          childrenMap.get(delegateChild).setIndex(index++);
         }
       }
     }
