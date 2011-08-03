@@ -24,7 +24,6 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.ecore.xcore,
  org.eclipse.emf.ecore.xcore.formatting,
  org.eclipse.emf.ecore.xcore.linking,
- org.eclipse.emf.ecore.xcore.parseTreeConstruction,
  org.eclipse.emf.ecore.xcore.parser.antlr,
  org.eclipse.emf.ecore.xcore.parser.antlr.internal,
  org.eclipse.emf.ecore.xcore.scoping,

@@ -41,6 +41,7 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXClassAccess().getAlternatives_2(), "rule__XClass__Alternatives_2");
 					put(grammarAccess.getXMemberAccess().getAlternatives(), "rule__XMember__Alternatives");
 					put(grammarAccess.getXStructuralFeatureAccess().getAlternatives_1_7(), "rule__XStructuralFeature__Alternatives_1_7");
+					put(grammarAccess.getXStructuralFeatureAccess().getAlternatives_2(), "rule__XStructuralFeature__Alternatives_2");
 					put(grammarAccess.getXStructuralFeatureAccess().getAlternatives_6(), "rule__XStructuralFeature__Alternatives_6");
 					put(grammarAccess.getXOperationAccess().getAlternatives_1(), "rule__XOperation__Alternatives_1");
 					put(grammarAccess.getXParameterAccess().getAlternatives_1(), "rule__XParameter__Alternatives_1");
@@ -300,7 +301,7 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXStructuralFeatureAccess().getContainmentAssignment_1_7_1_1(), "rule__XStructuralFeature__ContainmentAssignment_1_7_1_1");
 					put(grammarAccess.getXStructuralFeatureAccess().getLocalAssignment_1_7_2(), "rule__XStructuralFeature__LocalAssignment_1_7_2");
 					put(grammarAccess.getXStructuralFeatureAccess().getReferenceAssignment_1_7_3(), "rule__XStructuralFeature__ReferenceAssignment_1_7_3");
-					put(grammarAccess.getXStructuralFeatureAccess().getTypeAssignment_2(), "rule__XStructuralFeature__TypeAssignment_2");
+					put(grammarAccess.getXStructuralFeatureAccess().getTypeAssignment_2_0(), "rule__XStructuralFeature__TypeAssignment_2_0");
 					put(grammarAccess.getXStructuralFeatureAccess().getMultiplicityAssignment_3(), "rule__XStructuralFeature__MultiplicityAssignment_3");
 					put(grammarAccess.getXStructuralFeatureAccess().getNameAssignment_4(), "rule__XStructuralFeature__NameAssignment_4");
 					put(grammarAccess.getXStructuralFeatureAccess().getDefaultValueLiteralAssignment_5_1(), "rule__XStructuralFeature__DefaultValueLiteralAssignment_5_1");

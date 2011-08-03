@@ -338,8 +338,11 @@
             </elements>
           </elements>
         </elements>
-        <elements xsi:type="xtext:Assignment" feature="type" operator="=">
-          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.18"/>
+        <elements xsi:type="xtext:Alternatives">
+          <elements xsi:type="xtext:Assignment" feature="type" operator="=">
+            <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.18"/>
+          </elements>
+          <elements xsi:type="xtext:Keyword" value="void"/>
         </elements>
         <elements xsi:type="xtext:Assignment" cardinality="?" feature="multiplicity" operator="=">
           <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.16"/>

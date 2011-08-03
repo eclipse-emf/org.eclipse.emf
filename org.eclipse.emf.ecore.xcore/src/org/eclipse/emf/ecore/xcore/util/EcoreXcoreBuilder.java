@@ -203,6 +203,12 @@ public class EcoreXcoreBuilder
     String instanceTypeName = eClassifier.getInstanceTypeName();
     if (instanceTypeName != null)
     {
+      // TODO
+      int index = instanceTypeName.indexOf('[');
+      if (index != -1)
+      {
+        instanceTypeName = instanceTypeName.substring(0, index);
+      }
       xClassifier.setInstanceTypeName(instanceTypeName);
     }
     for (ETypeParameter eTypeParameter : eClassifier.getETypeParameters())
@@ -351,34 +357,41 @@ public class EcoreXcoreBuilder
 
   XGenericType getXGenericType(EGenericType eGenericType)
   {
-    final XGenericType xGenericType = XcoreFactory.eINSTANCE.createXGenericType();
-    map(xGenericType, eGenericType);
-    EGenericType lowerBound = eGenericType.getELowerBound();
-    if (lowerBound != null)
+    if (eGenericType == null)
     {
-      xGenericType.setLowerBound(getXGenericType(lowerBound));
-    }
-    EGenericType upperBound = eGenericType.getEUpperBound();
-    if (upperBound != null)
-    {
-      xGenericType.setUpperBound(getXGenericType(upperBound));
-    }
-    for (EGenericType typeArgument : eGenericType.getETypeArguments())
-    {
-      xGenericType.getTypeArguments().add(getXGenericType(typeArgument));
-    }
-    
-    EClassifier eClassifier = eGenericType.getEClassifier();
-    if (eClassifier != null)
-    {
-      xGenericType.setType(eClassifier);
+      return null;
     }
     else
     {
-      xGenericType.setType(eGenericType.getETypeParameter());
+      final XGenericType xGenericType = XcoreFactory.eINSTANCE.createXGenericType();
+      map(xGenericType, eGenericType);
+      EGenericType lowerBound = eGenericType.getELowerBound();
+      if (lowerBound != null)
+      {
+        xGenericType.setLowerBound(getXGenericType(lowerBound));
+      }
+      EGenericType upperBound = eGenericType.getEUpperBound();
+      if (upperBound != null)
+      {
+        xGenericType.setUpperBound(getXGenericType(upperBound));
+      }
+      for (EGenericType typeArgument : eGenericType.getETypeArguments())
+      {
+        xGenericType.getTypeArguments().add(getXGenericType(typeArgument));
+      }
+      
+      EClassifier eClassifier = eGenericType.getEClassifier();
+      if (eClassifier != null)
+      {
+        xGenericType.setType(eClassifier);
+      }
+      else
+      {
+        xGenericType.setType(eGenericType.getETypeParameter());
+      }
+      
+      return xGenericType;
     }
-    
-    return xGenericType;
   }
   
   XClassifier getClassifier(XPackage xPackage, String name)

@@ -39,11 +39,6 @@ public abstract class AbstractXcoreRuntimeModule extends DefaultRuntimeModule {
 		return org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess.class;
 	}
 
-	// contributed by org.eclipse.xtext.generator.parseTreeConstructor.ParseTreeConstructorFragment
-	public Class<? extends org.eclipse.xtext.parsetree.reconstr.IParseTreeConstructor> bindIParseTreeConstructor() {
-		return org.eclipse.emf.ecore.xcore.parseTreeConstruction.XcoreParsetreeConstructor.class;
-	}
-
 	// contributed by org.eclipse.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment
 	public Class<? extends org.eclipse.xtext.parser.IParser> bindIParser() {
 		return org.eclipse.emf.ecore.xcore.parser.antlr.XcoreParser.class;

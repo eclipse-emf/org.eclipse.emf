@@ -334,40 +334,47 @@ public class XcoreEcoreBuilder
 
   EGenericType getEGenericType(final XGenericType xGenericType)
   {
-    final EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
-    map(eGenericType, xGenericType);
-    XGenericType lowerBound = xGenericType.getLowerBound();
-    if (lowerBound != null)
+    if (xGenericType == null)
     {
-      eGenericType.setELowerBound(getEGenericType(lowerBound));
+      return null;
     }
-    XGenericType upperBound = xGenericType.getUpperBound();
-    if (upperBound != null)
+    else
     {
-      eGenericType.setEUpperBound(getEGenericType(upperBound));
-    }
-    for (XGenericType typeArgument : xGenericType.getTypeArguments())
-    {
-      eGenericType.getETypeArguments().add(getEGenericType(typeArgument));
-    }
-    
-    runnables.add
-      (new Runnable()
-       {
-         public void run()
+      final EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+      map(eGenericType, xGenericType);
+      XGenericType lowerBound = xGenericType.getLowerBound();
+      if (lowerBound != null)
+      {
+        eGenericType.setELowerBound(getEGenericType(lowerBound));
+      }
+      XGenericType upperBound = xGenericType.getUpperBound();
+      if (upperBound != null)
+      {
+        eGenericType.setEUpperBound(getEGenericType(upperBound));
+      }
+      for (XGenericType typeArgument : xGenericType.getTypeArguments())
+      {
+        eGenericType.getETypeArguments().add(getEGenericType(typeArgument));
+      }
+       
+      runnables.add
+        (new Runnable()
          {
-           ENamedElement type = xGenericType.getType();
-           if (type instanceof ETypeParameter)
+           public void run()
            {
-             eGenericType.setETypeParameter((ETypeParameter)type);
+             ENamedElement type = xGenericType.getType();
+             if (type instanceof ETypeParameter)
+             {
+               eGenericType.setETypeParameter((ETypeParameter)type);
+             }
+             else if (type instanceof EClassifier)
+             {
+               eGenericType.setEClassifier((EClassifier)type);
+             }
            }
-           else if (type instanceof EClassifier)
-           {
-             eGenericType.setEClassifier((EClassifier)type);
-           }
-         }
-       });
-    return eGenericType;
+         });
+      return eGenericType;
+    }
   }
 
   EStructuralFeature getEStructuralFeature(final XStructuralFeature xStructuralFeature)

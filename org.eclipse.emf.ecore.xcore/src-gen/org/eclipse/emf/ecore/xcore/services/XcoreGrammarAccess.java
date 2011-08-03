@@ -749,8 +749,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cLocalLocalKeyword_1_7_2_0 = (Keyword)cLocalAssignment_1_7_2.eContents().get(0);
 		private final Assignment cReferenceAssignment_1_7_3 = (Assignment)cAlternatives_1_7.eContents().get(3);
 		private final Keyword cReferenceReferenceKeyword_1_7_3_0 = (Keyword)cReferenceAssignment_1_7_3.eContents().get(0);
-		private final Assignment cTypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cTypeXGenericTypeParserRuleCall_2_0 = (RuleCall)cTypeAssignment_2.eContents().get(0);
+		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
+		private final Assignment cTypeAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
+		private final RuleCall cTypeXGenericTypeParserRuleCall_2_0_0 = (RuleCall)cTypeAssignment_2_0.eContents().get(0);
+		private final Keyword cVoidKeyword_2_1 = (Keyword)cAlternatives_2.eContents().get(1);
 		private final Assignment cMultiplicityAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cMultiplicityXMultiplicityParserRuleCall_3_0 = (RuleCall)cMultiplicityAssignment_3.eContents().get(0);
 		private final Assignment cNameAssignment_4 = (Assignment)cGroup.eContents().get(4);
@@ -797,7 +799,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	annotations+=XAnnotation* (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? &
 		//	transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"? & (iD?="id" |
 		//	resolveProxies?="resolving"? & containment?="containment" | local?="local" | reference?="reference")?)
-		//	type=XGenericType multiplicity=XMultiplicity? name=ID ("=" defaultValueLiteral=STRING)? ("opposite"
+		//	(type=XGenericType | "void") multiplicity=XMultiplicity? name=ID ("=" defaultValueLiteral=STRING)? ("opposite"
 		//	opposite=[ecore::EReference|ValidID] | "keys" keys+=[ecore::EAttribute|ValidID] (","
 		//	keys+=[ecore::EAttribute|ValidID])*)? / *
 		//	 * In scope for getBody should be what's visible in AbcImpl
@@ -809,9 +811,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 
 		//annotations+=XAnnotation* (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? & transient?="transient"?
 		//& volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"? & (iD?="id" | resolveProxies?="resolving"? &
-		//containment?="containment" | local?="local" | reference?="reference")?) type=XGenericType multiplicity=XMultiplicity?
-		//name=ID ("=" defaultValueLiteral=STRING)? ("opposite" opposite=[ecore::EReference|ValidID] | "keys"
-		//keys+=[ecore::EAttribute|ValidID] ("," keys+=[ecore::EAttribute|ValidID])*)? / *
+		//containment?="containment" | local?="local" | reference?="reference")?) (type=XGenericType | "void")
+		//multiplicity=XMultiplicity? name=ID ("=" defaultValueLiteral=STRING)? ("opposite" opposite=[ecore::EReference|ValidID]
+		//| "keys" keys+=[ecore::EAttribute|ValidID] ("," keys+=[ecore::EAttribute|ValidID])*)? / *
 		//	 * In scope for getBody should be what's visible in AbcImpl
 		//	 * and 'this' will denote an instance of the feature's type.
 		//	 * The block expression must yield a value of the feature's type.
@@ -908,11 +910,17 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//"reference"
 		public Keyword getReferenceReferenceKeyword_1_7_3_0() { return cReferenceReferenceKeyword_1_7_3_0; }
 
+		//type=XGenericType | "void"
+		public Alternatives getAlternatives_2() { return cAlternatives_2; }
+
 		//type=XGenericType
-		public Assignment getTypeAssignment_2() { return cTypeAssignment_2; }
+		public Assignment getTypeAssignment_2_0() { return cTypeAssignment_2_0; }
 
 		//XGenericType
-		public RuleCall getTypeXGenericTypeParserRuleCall_2_0() { return cTypeXGenericTypeParserRuleCall_2_0; }
+		public RuleCall getTypeXGenericTypeParserRuleCall_2_0_0() { return cTypeXGenericTypeParserRuleCall_2_0_0; }
+
+		//"void"
+		public Keyword getVoidKeyword_2_1() { return cVoidKeyword_2_1; }
 
 		//multiplicity=XMultiplicity?
 		public Assignment getMultiplicityAssignment_3() { return cMultiplicityAssignment_3; }
@@ -1832,7 +1840,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	//	annotations+=XAnnotation* (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? &
 	//	transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"? & (iD?="id" |
 	//	resolveProxies?="resolving"? & containment?="containment" | local?="local" | reference?="reference")?)
-	//	type=XGenericType multiplicity=XMultiplicity? name=ID ("=" defaultValueLiteral=STRING)? ("opposite"
+	//	(type=XGenericType | "void") multiplicity=XMultiplicity? name=ID ("=" defaultValueLiteral=STRING)? ("opposite"
 	//	opposite=[ecore::EReference|ValidID] | "keys" keys+=[ecore::EAttribute|ValidID] (","
 	//	keys+=[ecore::EAttribute|ValidID])*)? / *
 	//	 * In scope for getBody should be what's visible in AbcImpl

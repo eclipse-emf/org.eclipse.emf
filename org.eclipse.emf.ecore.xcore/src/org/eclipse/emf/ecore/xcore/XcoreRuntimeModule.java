@@ -5,6 +5,8 @@ package org.eclipse.emf.ecore.xcore;
 
 import org.eclipse.emf.ecore.xcore.linking.XcoreLazyLinker;
 import org.eclipse.xtext.linking.ILinker;
+import org.eclipse.xtext.parsetree.reconstr.Serializer;
+import org.eclipse.xtext.serializer.ISerializer;
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
@@ -15,5 +17,11 @@ public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcor
   public Class<? extends ILinker> bindILinker() 
   {
     return XcoreLazyLinker.class;
+  }
+  
+  @Override
+  public Class<? extends ISerializer> bindISerializer()
+  {
+    return Serializer.class;
   }
 }

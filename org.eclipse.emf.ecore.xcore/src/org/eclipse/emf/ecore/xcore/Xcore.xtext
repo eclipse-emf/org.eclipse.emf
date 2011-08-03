@@ -109,7 +109,7 @@ XStructuralFeature:
 	  (derived?='derived')? &
 	  (iD?='id' | (resolveProxies?='resolving'? & containment?='containment') | local?='local' | reference?='reference')?
 	)
-    type=XGenericType 
+    (type=XGenericType | 'void')
 	multiplicity=XMultiplicity?
     name=ID
     ('=' defaultValueLiteral=STRING)?
