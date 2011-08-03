@@ -25,107 +25,107 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     public static final String[] tokenNames = new String[] {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'='", "'+='", "'||'", "'&&'", "'void'", "'refers'", "'?'", "'*'", "'+'", "'=='", "'!='", "'>='", "'<='", "'>'", "'<'", "'->'", "'..'", "'-'", "'**'", "'/'", "'%'", "'!'", "'.'", "'val'", "'super'", "'false'", "'package'", "'@'", "'('", "')'", "','", "'import'", "'.*'", "'annotation'", "'as'", "'type'", "'wraps'", "'convert'", "'enum'", "'{'", "'}'", "'class'", "'extends'", "'get'", "'set'", "'isSet'", "'unset'", "'opposite'", "'keys'", "'op'", "'throws'", "'&'", "'['", "']'", "';'", "'instanceof'", "'|'", "'if'", "'else'", "'switch'", "':'", "'default'", "'case'", "'for'", "'while'", "'do'", "'::'", "'new'", "'null'", "'typeof'", "'throw'", "'return'", "'try'", "'finally'", "'catch'", "'=>'", "'create'", "'abstract'", "'interface'", "'unordered'", "'unique'", "'readonly'", "'transient'", "'volatile'", "'unsettable'", "'derived'", "'id'", "'containment'", "'container'", "'?.'", "'*.'", "'var'", "'true'"
     };
-    public static final int RULE_ID=4;
-    public static final int T__29=29;
-    public static final int T__28=28;
-    public static final int T__27=27;
-    public static final int T__26=26;
-    public static final int T__25=25;
-    public static final int T__24=24;
-    public static final int T__23=23;
-    public static final int T__22=22;
-    public static final int RULE_ANY_OTHER=10;
-    public static final int T__21=21;
-    public static final int T__20=20;
-    public static final int EOF=-1;
-    public static final int T__93=93;
-    public static final int T__19=19;
-    public static final int T__94=94;
-    public static final int T__91=91;
-    public static final int T__92=92;
-    public static final int T__16=16;
-    public static final int T__15=15;
-    public static final int T__90=90;
-    public static final int T__18=18;
-    public static final int T__17=17;
-    public static final int T__12=12;
-    public static final int T__11=11;
-    public static final int T__14=14;
-    public static final int T__13=13;
-    public static final int T__99=99;
-    public static final int T__98=98;
-    public static final int T__97=97;
-    public static final int T__96=96;
-    public static final int T__95=95;
-    public static final int T__80=80;
-    public static final int T__81=81;
-    public static final int T__82=82;
-    public static final int T__83=83;
-    public static final int T__85=85;
-    public static final int T__84=84;
-    public static final int T__87=87;
-    public static final int T__86=86;
-    public static final int T__89=89;
-    public static final int T__88=88;
-    public static final int RULE_ML_COMMENT=7;
+    public static final int T__42=42;
     public static final int RULE_STRING=6;
-    public static final int T__71=71;
+    public static final int T__47=47;
+    public static final int T__73=73;
+    public static final int T__21=21;
     public static final int T__72=72;
     public static final int T__70=70;
-    public static final int T__76=76;
-    public static final int T__75=75;
-    public static final int T__74=74;
-    public static final int T__73=73;
-    public static final int T__79=79;
-    public static final int T__78=78;
-    public static final int T__77=77;
-    public static final int T__68=68;
-    public static final int T__69=69;
-    public static final int T__66=66;
-    public static final int T__67=67;
-    public static final int T__64=64;
-    public static final int T__65=65;
-    public static final int T__62=62;
-    public static final int T__63=63;
-    public static final int T__61=61;
-    public static final int T__60=60;
-    public static final int T__55=55;
-    public static final int T__56=56;
-    public static final int T__57=57;
-    public static final int T__58=58;
-    public static final int T__51=51;
-    public static final int T__52=52;
-    public static final int T__53=53;
-    public static final int T__54=54;
-    public static final int T__103=103;
-    public static final int T__59=59;
-    public static final int RULE_INT=5;
-    public static final int T__50=50;
-    public static final int T__42=42;
-    public static final int T__43=43;
-    public static final int T__40=40;
-    public static final int T__41=41;
-    public static final int T__46=46;
-    public static final int T__47=47;
-    public static final int T__44=44;
-    public static final int T__45=45;
-    public static final int T__48=48;
-    public static final int T__49=49;
-    public static final int T__102=102;
-    public static final int T__101=101;
-    public static final int T__100=100;
-    public static final int RULE_SL_COMMENT=8;
-    public static final int T__30=30;
-    public static final int T__31=31;
-    public static final int T__32=32;
-    public static final int T__33=33;
-    public static final int T__34=34;
-    public static final int T__35=35;
-    public static final int T__36=36;
-    public static final int T__37=37;
-    public static final int T__38=38;
     public static final int T__39=39;
+    public static final int T__30=30;
+    public static final int T__46=46;
+    public static final int T__96=96;
+    public static final int T__49=49;
+    public static final int T__48=48;
+    public static final int T__54=54;
+    public static final int T__89=89;
+    public static final int T__20=20;
+    public static final int T__79=79;
+    public static final int T__64=64;
+    public static final int T__44=44;
+    public static final int T__66=66;
+    public static final int T__92=92;
+    public static final int T__14=14;
+    public static final int T__88=88;
+    public static final int T__22=22;
+    public static final int T__90=90;
     public static final int RULE_WS=9;
+    public static final int T__63=63;
+    public static final int T__43=43;
+    public static final int T__91=91;
+    public static final int T__40=40;
+    public static final int T__85=85;
+    public static final int T__26=26;
+    public static final int T__25=25;
+    public static final int RULE_SL_COMMENT=8;
+    public static final int T__60=60;
+    public static final int T__41=41;
+    public static final int T__93=93;
+    public static final int T__12=12;
+    public static final int T__86=86;
+    public static final int T__28=28;
+    public static final int T__23=23;
+    public static final int T__57=57;
+    public static final int T__94=94;
+    public static final int T__100=100;
+    public static final int T__51=51;
+    public static final int T__80=80;
+    public static final int T__13=13;
+    public static final int T__69=69;
+    public static final int T__95=95;
+    public static final int T__50=50;
+    public static final int T__19=19;
+    public static final int T__65=65;
+    public static final int T__101=101;
+    public static final int T__67=67;
+    public static final int T__87=87;
+    public static final int T__74=74;
+    public static final int T__52=52;
+    public static final int T__68=68;
+    public static final int T__17=17;
+    public static final int T__62=62;
+    public static final int RULE_INT=5;
+    public static final int T__27=27;
+    public static final int T__24=24;
+    public static final int T__61=61;
+    public static final int T__59=59;
+    public static final int T__34=34;
+    public static final int T__98=98;
+    public static final int T__15=15;
+    public static final int T__56=56;
+    public static final int RULE_ML_COMMENT=7;
+    public static final int T__35=35;
+    public static final int RULE_ID=4;
+    public static final int T__78=78;
+    public static final int T__36=36;
+    public static final int T__58=58;
+    public static final int T__99=99;
+    public static final int T__33=33;
+    public static final int T__11=11;
+    public static final int T__77=77;
+    public static final int T__45=45;
+    public static final int T__29=29;
+    public static final int T__55=55;
+    public static final int T__103=103;
+    public static final int T__84=84;
+    public static final int T__97=97;
+    public static final int T__75=75;
+    public static final int T__31=31;
+    public static final int EOF=-1;
+    public static final int T__53=53;
+    public static final int T__32=32;
+    public static final int T__16=16;
+    public static final int T__38=38;
+    public static final int T__37=37;
+    public static final int T__76=76;
+    public static final int RULE_ANY_OTHER=10;
+    public static final int T__82=82;
+    public static final int T__81=81;
+    public static final int T__83=83;
+    public static final int T__18=18;
+    public static final int T__71=71;
+    public static final int T__102=102;
 
     // delegates
     // delegators
@@ -9220,10 +9220,7 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
             if ( (LA23_0==33) ) {
                 int LA23_1 = input.LA(2);
 
-                if ( (LA23_1==25) ) {
-                    alt23=2;
-                }
-                else if ( (LA23_1==RULE_ID) ) {
+                if ( (LA23_1==RULE_ID) ) {
                     int LA23_3 = input.LA(3);
 
                     if ( (LA23_3==EOF||(LA23_3>=RULE_ID && LA23_3<=RULE_STRING)||(LA23_3>=12 && LA23_3<=14)||(LA23_3>=18 && LA23_3<=36)||(LA23_3>=39 && LA23_3<=41)||LA23_3==45||(LA23_3>=50 && LA23_3<=51)||(LA23_3>=63 && LA23_3<=66)||(LA23_3>=68 && LA23_3<=76)||(LA23_3>=78 && LA23_3<=86)||(LA23_3>=100 && LA23_3<=103)) ) {
@@ -9239,6 +9236,9 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
 
                         throw nvae;
                     }
+                }
+                else if ( (LA23_1==25) ) {
+                    alt23=2;
                 }
                 else {
                     if (state.backtracking>0) {state.failed=true; return ;}
@@ -68363,11 +68363,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
 
     // Delegated rules
 
-    public final boolean synpred163_InternalXcore() {
+    public final boolean synpred195_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred163_InternalXcore_fragment(); // can never throw exception
+            synpred195_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -68377,235 +68377,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred144_InternalXcore() {
+    public final boolean synpred58_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred144_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred214_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred214_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred173_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred173_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred189_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred189_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred134_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred134_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred212_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred212_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred215_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred215_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred199_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred199_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred162_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred162_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred192_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred192_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred202_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred202_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred200_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred200_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred172_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred172_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred132_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred132_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred205_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred205_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred164_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred164_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred183_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred183_InternalXcore_fragment(); // can never throw exception
+            synpred58_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -68629,39 +68405,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred191_InternalXcore() {
+    public final boolean synpred200_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred191_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred196_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred196_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred127_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred127_InternalXcore_fragment(); // can never throw exception
+            synpred200_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -68685,11 +68433,501 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
+    public final boolean synpred214_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred214_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred196_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred196_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred201_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred201_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred192_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred192_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred177_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred177_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred187_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred187_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred131_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred131_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred213_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred213_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred173_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred173_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred209_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred209_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred191_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred191_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred134_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred134_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred186_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred186_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred132_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred132_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
     public final boolean synpred185_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
             synpred185_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred181_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred181_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred188_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred188_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred212_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred212_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred37_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred37_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred126_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred126_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred172_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred172_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred129_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred129_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred190_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred190_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred204_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred204_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred207_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred207_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred168_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred168_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred194_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred194_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred154_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred154_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred179_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred179_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred171_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred171_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred130_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred130_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred197_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred197_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred163_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred163_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred205_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred205_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred162_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred162_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred202_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred202_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -68713,11 +68951,25 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred208_InternalXcore() {
+    public final boolean synpred189_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred208_InternalXcore_fragment(); // can never throw exception
+            synpred189_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred203_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred203_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -68755,221 +69007,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred193_InternalXcore() {
+    public final boolean synpred133_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred193_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred184_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred184_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred198_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred198_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred190_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred190_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred210_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred210_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred58_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred58_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred126_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred126_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred182_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred182_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred209_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred209_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred175_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred175_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred131_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred131_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred207_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred207_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred129_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred129_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred188_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred188_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred60_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred60_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred181_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred181_InternalXcore_fragment(); // can never throw exception
+            synpred133_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -68993,11 +69035,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred179_InternalXcore() {
+    public final boolean synpred211_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred179_InternalXcore_fragment(); // can never throw exception
+            synpred211_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -69007,11 +69049,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred213_InternalXcore() {
+    public final boolean synpred210_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred213_InternalXcore_fragment(); // can never throw exception
+            synpred210_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -69021,11 +69063,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred168_InternalXcore() {
+    public final boolean synpred175_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred168_InternalXcore_fragment(); // can never throw exception
+            synpred175_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -69035,11 +69077,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred37_InternalXcore() {
+    public final boolean synpred208_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred37_InternalXcore_fragment(); // can never throw exception
+            synpred208_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -69049,11 +69091,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred178_InternalXcore() {
+    public final boolean synpred183_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred178_InternalXcore_fragment(); // can never throw exception
+            synpred183_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -69063,11 +69105,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred186_InternalXcore() {
+    public final boolean synpred127_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred186_InternalXcore_fragment(); // can never throw exception
+            synpred127_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -69077,11 +69119,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred197_InternalXcore() {
+    public final boolean synpred198_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred197_InternalXcore_fragment(); // can never throw exception
+            synpred198_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -69091,11 +69133,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred130_InternalXcore() {
+    public final boolean synpred193_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred130_InternalXcore_fragment(); // can never throw exception
+            synpred193_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -69105,11 +69147,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred133_InternalXcore() {
+    public final boolean synpred215_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred133_InternalXcore_fragment(); // can never throw exception
+            synpred215_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -69119,11 +69161,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred195_InternalXcore() {
+    public final boolean synpred184_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred195_InternalXcore_fragment(); // can never throw exception
+            synpred184_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -69133,25 +69175,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred194_InternalXcore() {
+    public final boolean synpred182_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred194_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred201_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred201_InternalXcore_fragment(); // can never throw exception
+            synpred182_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -69175,6 +69203,34 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
+    public final boolean synpred144_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred144_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred60_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred60_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
     public final boolean synpred206_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
@@ -69189,53 +69245,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred204_InternalXcore() {
+    public final boolean synpred178_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred204_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred154_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred154_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred211_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred211_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred203_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred203_InternalXcore_fragment(); // can never throw exception
+            synpred178_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -69259,11 +69273,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred171_InternalXcore() {
+    public final boolean synpred164_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred171_InternalXcore_fragment(); // can never throw exception
+            synpred164_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -69273,25 +69287,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred177_InternalXcore() {
+    public final boolean synpred199_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred177_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred187_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred187_InternalXcore_fragment(); // can never throw exception
+            synpred199_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -70101,8 +70101,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA135_acceptS =
         "\31\uffff\1\2\41\uffff\1\1";
     static final String DFA135_specialS =
-        "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1"+
-        "\14\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24\1\25\1\26\1\27\43\uffff}>";
+        "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1\14"+
+        "\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24\1\25\1\26\1\27\43\uffff}>";
     static final String[] DFA135_transitionS = {
             "\1\1\1\15\1\17\5\uffff\3\31\3\uffff\1\31\1\4\5\31\1\10\2\31"+
             "\1\3\3\31\1\2\2\31\1\11\1\13\2\uffff\1\30\2\31\3\uffff\1\31"+
