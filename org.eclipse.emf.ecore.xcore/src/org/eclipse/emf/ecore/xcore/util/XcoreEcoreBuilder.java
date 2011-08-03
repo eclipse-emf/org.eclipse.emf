@@ -166,8 +166,12 @@ public class XcoreEcoreBuilder
     {
       EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
       map(eAnnotation, xAnnotation);
-      String source = xAnnotation.getSource().getSourceURI();
-      eAnnotation.setSource(source);
+      XAnnotationDirective source = xAnnotation.getSource();
+      if (source != null)
+      {
+			  String sourceURI = source.getSourceURI();
+        eAnnotation.setSource(sourceURI);
+      }
       for (Map.Entry<String, String> detail : xAnnotation.getDetails())
       {
         eAnnotation.getDetails().put(detail.getKey(), detail.getValue());

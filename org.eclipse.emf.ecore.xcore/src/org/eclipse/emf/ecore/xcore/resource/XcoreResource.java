@@ -39,9 +39,11 @@ public class XcoreResource extends XbaseResource {
 		if (!isLoading && !fullyInitialized) {
 			try {
 				eSetDeliver(false);
+				isLoading = true;
 				lateInitialize();
 				fullyInitialized = true;
 			} finally {
+				isLoading = false;
 				eSetDeliver(true);
 			}
 		}

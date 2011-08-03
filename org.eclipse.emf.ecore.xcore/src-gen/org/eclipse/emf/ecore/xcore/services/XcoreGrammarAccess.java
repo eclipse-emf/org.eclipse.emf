@@ -947,11 +947,18 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cAnnotationsAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final RuleCall cAnnotationsXAnnotationParserRuleCall_0_0 = (RuleCall)cAnnotationsAssignment_0.eContents().get(0);
 		private final Alternatives cAlternatives_1 = (Alternatives)cGroup.eContents().get(1);
-		private final Assignment cContainmentAssignment_1_0 = (Assignment)cAlternatives_1.eContents().get(0);
-		private final Keyword cContainmentContainmentKeyword_1_0_0 = (Keyword)cContainmentAssignment_1_0.eContents().get(0);
-		private final Assignment cContainerAssignment_1_1 = (Assignment)cAlternatives_1.eContents().get(1);
-		private final Keyword cContainerContainerKeyword_1_1_0 = (Keyword)cContainerAssignment_1_1.eContents().get(0);
-		private final Keyword cRefersKeyword_1_2 = (Keyword)cAlternatives_1.eContents().get(2);
+		private final UnorderedGroup cUnorderedGroup_1_0 = (UnorderedGroup)cAlternatives_1.eContents().get(0);
+		private final Assignment cResolveProxiesAssignment_1_0_0 = (Assignment)cUnorderedGroup_1_0.eContents().get(0);
+		private final Keyword cResolveProxiesResolvingKeyword_1_0_0_0 = (Keyword)cResolveProxiesAssignment_1_0_0.eContents().get(0);
+		private final Alternatives cAlternatives_1_0_1 = (Alternatives)cUnorderedGroup_1_0.eContents().get(1);
+		private final Assignment cContainmentAssignment_1_0_1_0 = (Assignment)cAlternatives_1_0_1.eContents().get(0);
+		private final Keyword cContainmentContainmentKeyword_1_0_1_0_0 = (Keyword)cContainmentAssignment_1_0_1_0.eContents().get(0);
+		private final Assignment cContainerAssignment_1_0_1_1 = (Assignment)cAlternatives_1_0_1.eContents().get(1);
+		private final Keyword cContainerContainerKeyword_1_0_1_1_0 = (Keyword)cContainerAssignment_1_0_1_1.eContents().get(0);
+		private final UnorderedGroup cUnorderedGroup_1_1 = (UnorderedGroup)cAlternatives_1.eContents().get(1);
+		private final Assignment cLocalAssignment_1_1_0 = (Assignment)cUnorderedGroup_1_1.eContents().get(0);
+		private final Keyword cLocalLocalKeyword_1_1_0_0 = (Keyword)cLocalAssignment_1_1_0.eContents().get(0);
+		private final Keyword cRefersKeyword_1_1_1 = (Keyword)cUnorderedGroup_1_1.eContents().get(1);
 		private final UnorderedGroup cUnorderedGroup_2 = (UnorderedGroup)cGroup.eContents().get(2);
 		private final Assignment cUnorderedAssignment_2_0 = (Assignment)cUnorderedGroup_2.eContents().get(0);
 		private final Keyword cUnorderedUnorderedKeyword_2_0_0 = (Keyword)cUnorderedAssignment_2_0.eContents().get(0);
@@ -1009,11 +1016,11 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cUnsetBodyXBlockExpressionParserRuleCall_8_3_1_0 = (RuleCall)cUnsetBodyAssignment_8_3_1.eContents().get(0);
 		
 		//XReference:
-		//	annotations+=XAnnotation* (containment?="containment" | container?="container" | "refers") (unordered?="unordered"? &
-		//	unique?="unique"? & readonly?="readonly"? & transient?="transient"? & volatile?="volatile"? &
-		//	unsettable?="unsettable"? & derived?="derived"?) (type=XGenericType | "void") multiplicity=XMultiplicity? name=ID
-		//	("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys" keys+=[genmodel::GenFeature|ValidID] (","
-		//	keys+=[genmodel::GenFeature|ValidID])*)? / *
+		//	annotations+=XAnnotation* (resolveProxies?="resolving"? & (containment?="containment" | container?="container") |
+		//	local?="local"? & "refers") (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? &
+		//	transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) (type=XGenericType
+		//	| "void") multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
+		//	keys+=[genmodel::GenFeature|ValidID] ("," keys+=[genmodel::GenFeature|ValidID])*)? / *
 		//	 * In scope for getBody should be what's visible in AbcImpl
 		//	 * and 'this' will denote an instance of the feature's type.
 		//	 * The block expression must yield a value of the feature's type.
@@ -1021,11 +1028,11 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	("unset" unsetBody=XBlockExpression)?);
 		public ParserRule getRule() { return rule; }
 
-		//annotations+=XAnnotation* (containment?="containment" | container?="container" | "refers") (unordered?="unordered"? &
-		//unique?="unique"? & readonly?="readonly"? & transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"?
-		//& derived?="derived"?) (type=XGenericType | "void") multiplicity=XMultiplicity? name=ID ("opposite"
-		//opposite=[genmodel::GenFeature|ValidID])? ("keys" keys+=[genmodel::GenFeature|ValidID] (","
-		//keys+=[genmodel::GenFeature|ValidID])*)? / *
+		//annotations+=XAnnotation* (resolveProxies?="resolving"? & (containment?="containment" | container?="container") |
+		//local?="local"? & "refers") (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? &
+		//transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) (type=XGenericType |
+		//"void") multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
+		//keys+=[genmodel::GenFeature|ValidID] ("," keys+=[genmodel::GenFeature|ValidID])*)? / *
 		//	 * In scope for getBody should be what's visible in AbcImpl
 		//	 * and 'this' will denote an instance of the feature's type.
 		//	 * The block expression must yield a value of the feature's type.
@@ -1039,23 +1046,44 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//XAnnotation
 		public RuleCall getAnnotationsXAnnotationParserRuleCall_0_0() { return cAnnotationsXAnnotationParserRuleCall_0_0; }
 
-		//containment?="containment" | container?="container" | "refers"
+		//resolveProxies?="resolving"? & (containment?="containment" | container?="container") | local?="local"? & "refers"
 		public Alternatives getAlternatives_1() { return cAlternatives_1; }
 
+		//resolveProxies?="resolving"? & (containment?="containment" | container?="container")
+		public UnorderedGroup getUnorderedGroup_1_0() { return cUnorderedGroup_1_0; }
+
+		//resolveProxies?="resolving"?
+		public Assignment getResolveProxiesAssignment_1_0_0() { return cResolveProxiesAssignment_1_0_0; }
+
+		//"resolving"
+		public Keyword getResolveProxiesResolvingKeyword_1_0_0_0() { return cResolveProxiesResolvingKeyword_1_0_0_0; }
+
+		//containment?="containment" | container?="container"
+		public Alternatives getAlternatives_1_0_1() { return cAlternatives_1_0_1; }
+
 		//containment?="containment"
-		public Assignment getContainmentAssignment_1_0() { return cContainmentAssignment_1_0; }
+		public Assignment getContainmentAssignment_1_0_1_0() { return cContainmentAssignment_1_0_1_0; }
 
 		//"containment"
-		public Keyword getContainmentContainmentKeyword_1_0_0() { return cContainmentContainmentKeyword_1_0_0; }
+		public Keyword getContainmentContainmentKeyword_1_0_1_0_0() { return cContainmentContainmentKeyword_1_0_1_0_0; }
 
 		//container?="container"
-		public Assignment getContainerAssignment_1_1() { return cContainerAssignment_1_1; }
+		public Assignment getContainerAssignment_1_0_1_1() { return cContainerAssignment_1_0_1_1; }
 
 		//"container"
-		public Keyword getContainerContainerKeyword_1_1_0() { return cContainerContainerKeyword_1_1_0; }
+		public Keyword getContainerContainerKeyword_1_0_1_1_0() { return cContainerContainerKeyword_1_0_1_1_0; }
+
+		//local?="local"? & "refers"
+		public UnorderedGroup getUnorderedGroup_1_1() { return cUnorderedGroup_1_1; }
+
+		//local?="local"?
+		public Assignment getLocalAssignment_1_1_0() { return cLocalAssignment_1_1_0; }
+
+		//"local"
+		public Keyword getLocalLocalKeyword_1_1_0_0() { return cLocalLocalKeyword_1_1_0_0; }
 
 		//"refers"
-		public Keyword getRefersKeyword_1_2() { return cRefersKeyword_1_2; }
+		public Keyword getRefersKeyword_1_1_1() { return cRefersKeyword_1_1_1; }
 
 		//unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? & transient?="transient"? & volatile?="volatile"? &
 		//unsettable?="unsettable"? & derived?="derived"?
@@ -2036,11 +2064,11 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//XReference:
-	//	annotations+=XAnnotation* (containment?="containment" | container?="container" | "refers") (unordered?="unordered"? &
-	//	unique?="unique"? & readonly?="readonly"? & transient?="transient"? & volatile?="volatile"? &
-	//	unsettable?="unsettable"? & derived?="derived"?) (type=XGenericType | "void") multiplicity=XMultiplicity? name=ID
-	//	("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys" keys+=[genmodel::GenFeature|ValidID] (","
-	//	keys+=[genmodel::GenFeature|ValidID])*)? / *
+	//	annotations+=XAnnotation* (resolveProxies?="resolving"? & (containment?="containment" | container?="container") |
+	//	local?="local"? & "refers") (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? &
+	//	transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) (type=XGenericType
+	//	| "void") multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
+	//	keys+=[genmodel::GenFeature|ValidID] ("," keys+=[genmodel::GenFeature|ValidID])*)? / *
 	//	 * In scope for getBody should be what's visible in AbcImpl
 	//	 * and 'this' will denote an instance of the feature's type.
 	//	 * The block expression must yield a value of the feature's type.
