@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder;
+import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.AbstractEObjectDescription;
 import org.eclipse.xtext.resource.EObjectDescription;
@@ -38,6 +39,7 @@ import org.eclipse.xtext.scoping.impl.FilteringScope;
 import org.eclipse.xtext.xbase.scoping.XbaseScopeProvider;
 
 import com.google.common.base.Predicate;
+import com.google.inject.Inject;
 
 /**
  * This class contains custom scoping description.
@@ -47,6 +49,9 @@ import com.google.common.base.Predicate;
  *
  */
 public class XcoreScopeProvider extends XbaseScopeProvider  {
+  
+  @Inject
+  private IQualifiedNameConverter nameConverter;
 
   @Override
   public IScope getScope(final EObject context, EReference reference)
@@ -101,7 +106,7 @@ public class XcoreScopeProvider extends XbaseScopeProvider  {
                 String packageName = genPackage.getQualifiedPackageName();
                 for (GenClassifier genClassifier : genPackage.getGenClassifiers())
                 {
-                  result.add(new EObjectDescription(QualifiedName.create(packageName + "." + genClassifier.getName()), genClassifier, null));
+                  result.add(new EObjectDescription(nameConverter.toQualifiedName(packageName + "." + genClassifier.getName()), genClassifier, null));
                 }
               }
             }

@@ -5,12 +5,20 @@ package org.eclipse.emf.ecore.xcore;
 
 import org.eclipse.emf.ecore.xcore.linking.XcoreLazyLinker;
 import org.eclipse.emf.ecore.xcore.resource.XcoreResource;
+import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvider;
+import org.eclipse.emf.ecore.xcore.scoping.XcoreQualifiedNameProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionStrategy;
 import org.eclipse.xtext.linking.ILinker;
+import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
 import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.scoping.IScopeProvider;
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.serializer.ISerializer;
 import org.eclipse.xtext.serializer.impl.Serializer;
+
+import com.google.inject.Binder;
+import com.google.inject.name.Names;
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
@@ -35,7 +43,22 @@ public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcor
   }
   
   @Override
-  public Class<? extends XtextResource> bindXtextResource() {
+  public Class<? extends XtextResource> bindXtextResource() 
+  {
 	return XcoreResource.class;
   }
+  
+  @Override
+  public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider()
+  {
+    return XcoreQualifiedNameProvider.class;
+  }
+  
+  @Override
+  public void configureIScopeProviderDelegate(Binder binder)
+  {
+    binder.bind(IScopeProvider.class).annotatedWith(Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(XcoreImportedNamespaceAwareScopeProvider.class);
+  }
+  
+  
 }
