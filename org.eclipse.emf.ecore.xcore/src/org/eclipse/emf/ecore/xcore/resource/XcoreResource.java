@@ -1,11 +1,21 @@
 package org.eclipse.emf.ecore.xcore.resource;
 
+import java.util.Collections;
+import java.util.Iterator;
+
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyUriConverter;
+import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.parser.IParseResult;
@@ -45,7 +55,31 @@ public class XcoreResource extends XbaseResource {
 	}
 	
 	protected void lateInitialize() {
-		
+		if (getParseResult() != null && getParseResult().getRootASTElement() instanceof XPackage)
+    {
+			XPackage model = (XPackage) getParseResult().getRootASTElement();
+      XcoreEcoreBuilder xcoreEcoreBuilder = new XcoreEcoreBuilder();
+      EPackage ePackage = xcoreEcoreBuilder.getEPackage(model);
+      super.getContents().add(ePackage);
+      GenModel genModel =  GenModelFactory.eINSTANCE.createGenModel();
+      genModel.initialize(Collections.singleton(ePackage));
+      super.getContents().add(genModel);
+      genModel.initialize();
+      for (Iterator<EObject> i = genModel.eAllContents(); i.hasNext(); )
+      {
+        EObject eObject = i.next();
+        if (eObject instanceof GenBase)
+        {
+          GenBase genBase = (GenBase)eObject;
+          EModelElement eModelElement = genBase.getEcoreModelElement();
+          if (eModelElement != null)
+          {
+            XcoreEcoreBuilder.map(eModelElement, (GenBase)eObject);
+          }
+        }
+      }
+      xcoreEcoreBuilder.link(); 
+    }
 	}
 	
 	@Override

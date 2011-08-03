@@ -51,5 +51,5 @@ public class ResourceDescriptionManagerTest
 		assertEquals(expected + "Impl", jvmTypes.next().getName().toString());
 		assertFalse(genclass.hasNext());
 	}
-
+	
 }
