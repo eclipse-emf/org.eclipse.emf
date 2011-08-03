@@ -5,8 +5,8 @@ package org.eclipse.emf.ecore.xcore;
 
 import org.eclipse.emf.ecore.xcore.linking.XcoreLazyLinker;
 import org.eclipse.xtext.linking.ILinker;
-import org.eclipse.xtext.parsetree.reconstr.Serializer;
 import org.eclipse.xtext.serializer.ISerializer;
+import org.eclipse.xtext.serializer.impl.Serializer;
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
