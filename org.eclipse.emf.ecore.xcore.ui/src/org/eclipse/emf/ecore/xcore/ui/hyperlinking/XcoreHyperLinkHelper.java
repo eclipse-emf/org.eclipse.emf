@@ -1,5 +1,6 @@
 package org.eclipse.emf.ecore.xcore.ui.hyperlinking;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder;
@@ -13,7 +14,15 @@ public class XcoreHyperLinkHelper extends TypeAwareHyperlinkHelper
   @Override
   public void createHyperlinksTo(XtextResource from, Region region, EObject to, IHyperlinkAcceptor acceptor)
   {
-    if (to instanceof EModelElement)
+  	if (to instanceof GenBase)
+  	{
+  		EModelElement eModelElement = ((GenBase)to).getEcoreModelElement();
+  		if (eModelElement != null)
+  		{
+        super.createHyperlinksTo(from, region, XcoreEcoreBuilder.get(eModelElement), acceptor);
+  		}
+  	}
+  	else if (to instanceof EModelElement)
     {
       super.createHyperlinksTo(from, region, XcoreEcoreBuilder.get(to), acceptor);
     }

@@ -7,21 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
-import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XOperation;
@@ -30,7 +22,6 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
-import org.eclipse.xtext.resource.AbstractEObjectDescription;
 import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
@@ -99,15 +90,7 @@ public class XcoreScopeProvider extends XbaseScopeProvider  {
               {
                 GenClassifier genClassifier = (GenClassifier)XcoreEcoreBuilder.getGen(XcoreEcoreBuilder.get(eObject));
                 handleGenTypeParameters(result, genClassifier.getGenTypeParameters());
-              }
-              else if (eObject instanceof XPackage)
-              {
-                GenPackage genPackage = (GenPackage)XcoreEcoreBuilder.getGen(XcoreEcoreBuilder.get(eObject));
-                String packageName = genPackage.getQualifiedPackageName();
-                for (GenClassifier genClassifier : genPackage.getGenClassifiers())
-                {
-                  result.add(new EObjectDescription(nameConverter.toQualifiedName(packageName + "." + genClassifier.getName()), genClassifier, null));
-                }
+                break;
               }
             }
             return result;

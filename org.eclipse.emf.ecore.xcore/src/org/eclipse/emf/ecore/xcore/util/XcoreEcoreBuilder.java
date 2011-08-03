@@ -223,31 +223,24 @@ public class XcoreEcoreBuilder
     {
       eClass.getEGenericSuperTypes().add(getEGenericType(superType));
     }
-    runnables.add
-      (new Runnable()
-       {
-         public void run()
-         {
-           for (XMember xMember : xClass.getMembers())
-           {
-             if (xMember instanceof XOperation)
-             {
-               EOperation eOperation = getEOperation((XOperation)xMember);
-               eClass.getEOperations().add(eOperation);
-             }
-             else if (xMember instanceof XReference)
-             {
-               EReference eReference = getEReference((XReference)xMember);
-               eClass.getEStructuralFeatures().add(eReference);
-             }
-             else
-             {
-               EAttribute eAttribute = getEAttribute((XAttribute)xMember);
-               eClass.getEStructuralFeatures().add(eAttribute);
-             }
-           }
-         }
-       });
+    for (XMember xMember : xClass.getMembers())
+    {
+      if (xMember instanceof XOperation)
+      {
+        EOperation eOperation = getEOperation((XOperation)xMember);
+        eClass.getEOperations().add(eOperation);
+      }
+      else if (xMember instanceof XReference)
+      {
+        EReference eReference = getEReference((XReference)xMember);
+        eClass.getEStructuralFeatures().add(eReference);
+      }
+      else
+      {
+        EAttribute eAttribute = getEAttribute((XAttribute)xMember);
+        eClass.getEStructuralFeatures().add(eAttribute);
+      }
+    }
     return eClass;
   }
 
