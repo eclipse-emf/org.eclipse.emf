@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
+import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
@@ -15,7 +19,6 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
-import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
@@ -29,6 +32,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XAnnotation;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
+import org.eclipse.emf.ecore.xcore.XAttribute;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XDataType;
@@ -40,6 +44,7 @@ import org.eclipse.emf.ecore.xcore.XModelElement;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XParameter;
+import org.eclipse.emf.ecore.xcore.XReference;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XTypedElement;
@@ -206,10 +211,15 @@ public class XcoreEcoreBuilder
                EOperation eOperation = getEOperation((XOperation)xMember);
                eClass.getEOperations().add(eOperation);
              }
+             else if (xMember instanceof XReference)
+             {
+               EReference eReference = getEReference((XReference)xMember);
+               eClass.getEStructuralFeatures().add(eReference);
+             }
              else
              {
-               EStructuralFeature eStructuralFeature = getEStructuralFeature((XStructuralFeature)xMember);
-               eClass.getEStructuralFeatures().add(eStructuralFeature);
+               EAttribute eAttribute = getEAttribute((XAttribute)xMember);
+               eClass.getEStructuralFeatures().add(eAttribute);
              }
            }
          }
@@ -362,14 +372,14 @@ public class XcoreEcoreBuilder
          {
            public void run()
            {
-             ENamedElement type = xGenericType.getType();
-             if (type instanceof ETypeParameter)
+             GenBase type = xGenericType.getType();
+             if (type instanceof GenTypeParameter)
              {
-               eGenericType.setETypeParameter((ETypeParameter)type);
+               eGenericType.setETypeParameter(((GenTypeParameter)type).getEcoreTypeParameter());
              }
-             else if (type instanceof EClassifier)
+             else if (type instanceof GenClassifier)
              {
-               eGenericType.setEClassifier((EClassifier)type);
+               eGenericType.setEClassifier(((GenClassifier)type).getEcoreClassifier());
              }
            }
          });
@@ -377,102 +387,64 @@ public class XcoreEcoreBuilder
     }
   }
 
-  EStructuralFeature getEStructuralFeature(final XStructuralFeature xStructuralFeature)
+  EReference getEReference(final XReference xReference)
   {
-    EStructuralFeature eStructuralFeature;
-    ENamedElement type = xStructuralFeature.getType().getType();
-    boolean isReference;
-    if (type instanceof ETypeParameter)
+    final EReference eReference = EcoreFactory.eINSTANCE.createEReference();
+    map(eReference, xReference);
+    if (xReference.isContainment())
     {
-      isReference = 
-        xStructuralFeature.isReference() || 
-          xStructuralFeature.isLocal() || 
-          xStructuralFeature.isContainment() || 
-          !xStructuralFeature.getKeys().isEmpty();
-    }
-    else if (type instanceof EClass)
-    {
-      isReference = true;
-    }
-    else if (type instanceof EDataType)
-    {
-      isReference = false;
-    }
-    else
-    {
-      isReference = 
-        xStructuralFeature.isReference() || 
-          xStructuralFeature.isLocal() || 
-          xStructuralFeature.isContainment() || 
-          !xStructuralFeature.getKeys().isEmpty();
-      type = isReference ? EcorePackage.Literals.EOBJECT : EcorePackage.Literals.ESTRING;
-    }
-    if (isReference)
-    {
-      final EReference eReference = EcoreFactory.eINSTANCE.createEReference();
-      map(eReference, xStructuralFeature);
-      if (xStructuralFeature.isContainment())
-      {
-        eReference.setContainment(true);
-      }
-      handleETypedElement(eReference, xStructuralFeature);
-      runnables.add
-        (new Runnable()
-         {
-           public void run()
-           {
-             EReference eOpposite = xStructuralFeature.getOpposite();
-             if (eOpposite != null)
-             {
-               eReference.setEOpposite(eOpposite);
-             }
-             for (EAttribute key : xStructuralFeature.getKeys())
-             {
-               eReference.getEKeys().add(key);
-             }
-           }
-         });
-      /*
-      for (final XStructuralFeature key : xStructuralFeature.getKeys())
-      {
-        runnables.add
-          (new Runnable()
-           {
-             public void run()
-             {
-               // Resolve the feature name in the type.
-               // TODO
-               eReference.getEKeys().add((EAttribute)eReference.getEReferenceType().getEStructuralFeature(key.getName()));
-             }
-           });
-      }
-      */
-      if (xStructuralFeature.isContainment())
-      {
-        eReference.setContainment(true);
-        if (!xStructuralFeature.isResolveProxies())
-        {
-          eReference.setResolveProxies(false);
-        }
-      }
-      if (xStructuralFeature.isLocal())
+      eReference.setContainment(true);
+      if (!xReference.isResolveProxies())
       {
         eReference.setResolveProxies(false);
       }
-      eStructuralFeature = eReference;
     }
-    else
+    if (xReference.isLocal())
     {
-      final EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-      map(eAttribute, xStructuralFeature);
-      eAttribute.setUnique(false);
-      handleETypedElement(eAttribute, xStructuralFeature);
-      if (xStructuralFeature.isID())
-      {
-        eAttribute.setID(true);
-      }
-      eStructuralFeature = eAttribute;
+      eReference.setResolveProxies(false);
     }
+
+    handleEStructuralFeature(eReference, xReference);
+    
+    runnables.add
+      (new Runnable()
+       {
+         public void run()
+         {
+           GenFeature opposite = xReference.getOpposite();
+           if (opposite != null)
+           {
+             eReference.setEOpposite((EReference)opposite.getEcoreFeature());
+           }
+           for (GenFeature key : xReference.getKeys())
+           {
+             eReference.getEKeys().add((EAttribute)key.getEcoreFeature());
+           }
+         }
+       });
+    
+    return eReference;
+  }
+  
+
+  EAttribute getEAttribute(final XAttribute xAttribute)
+  {
+    final EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
+    map(eAttribute, xAttribute);
+    eAttribute.setUnique(false);
+    if (xAttribute.isID())
+    {
+      eAttribute.setID(true);
+    }
+    eAttribute.setDefaultValueLiteral(xAttribute.getDefaultValueLiteral());
+    handleEStructuralFeature(eAttribute, xAttribute);
+    return eAttribute;
+  }
+  
+  void handleEStructuralFeature(EStructuralFeature eStructuralFeature, XStructuralFeature xStructuralFeature)
+  {
+    eStructuralFeature.setName(xStructuralFeature.getName());
+    handleETypedElement(eStructuralFeature, xStructuralFeature);
     if (xStructuralFeature.isReadonly())
     {
       eStructuralFeature.setChangeable(false);
@@ -493,9 +465,6 @@ public class XcoreEcoreBuilder
     {
       eStructuralFeature.setDerived(true);
     }
-    eStructuralFeature.setDefaultValueLiteral(xStructuralFeature.getDefaultValueLiteral());
-    eStructuralFeature.setName(xStructuralFeature.getName());
-    return eStructuralFeature;
   }
 
   EDataType getEDataType(XDataType xDataType)

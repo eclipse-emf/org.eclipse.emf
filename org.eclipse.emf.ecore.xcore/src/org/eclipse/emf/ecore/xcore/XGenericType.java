@@ -6,6 +6,7 @@
  */
 package org.eclipse.emf.ecore.xcore;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.ENamedElement;
@@ -109,12 +110,12 @@ public interface XGenericType extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Type</em>' reference.
-   * @see #setType(ENamedElement)
+   * @see #setType(GenBase)
    * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXGenericType_Type()
    * @model
    * @generated
    */
-  ENamedElement getType();
+  GenBase getType();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.ecore.xcore.XGenericType#getType <em>Type</em>}' reference.
@@ -124,6 +125,6 @@ public interface XGenericType extends EObject
    * @see #getType()
    * @generated
    */
-  void setType(ENamedElement value);
+  void setType(GenBase value);
 
 } // XGenericType

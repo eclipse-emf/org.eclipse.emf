@@ -74,18 +74,18 @@ public class XcoreFactoryImpl extends EFactoryImpl implements XcoreFactory
     {
       case XcorePackage.XANNOTATION: return createXAnnotation();
       case XcorePackage.XANNOTATION_DIRECTIVE: return createXAnnotationDirective();
+      case XcorePackage.XATTRIBUTE: return createXAttribute();
       case XcorePackage.XCLASS: return createXClass();
       case XcorePackage.XDATA_TYPE: return createXDataType();
       case XcorePackage.XENUM: return createXEnum();
       case XcorePackage.XENUM_LITERAL: return createXEnumLiteral();
       case XcorePackage.XGENERIC_TYPE: return createXGenericType();
       case XcorePackage.XIMPORT_DIRECTIVE: return createXImportDirective();
-      case XcorePackage.XMEMBER: return createXMember();
       case XcorePackage.XOPERATION: return createXOperation();
       case XcorePackage.XPACKAGE: return createXPackage();
       case XcorePackage.XPARAMETER: return createXParameter();
+      case XcorePackage.XREFERENCE: return createXReference();
       case XcorePackage.XSTRING_TO_STRING_MAP_ENTRY: return (EObject)createXStringToStringMapEntry();
-      case XcorePackage.XSTRUCTURAL_FEATURE: return createXStructuralFeature();
       case XcorePackage.XTYPE_PARAMETER: return createXTypeParameter();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -146,6 +146,17 @@ public class XcoreFactoryImpl extends EFactoryImpl implements XcoreFactory
   {
     XAnnotationDirectiveImpl xAnnotationDirective = new XAnnotationDirectiveImpl();
     return xAnnotationDirective;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XAttribute createXAttribute()
+  {
+    XAttributeImpl xAttribute = new XAttributeImpl();
+    return xAttribute;
   }
 
   /**
@@ -230,10 +241,10 @@ public class XcoreFactoryImpl extends EFactoryImpl implements XcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public Map.Entry<String, String> createXStringToStringMapEntry()
+  public XReference createXReference()
   {
-    XStringToStringMapEntryImpl xStringToStringMapEntry = new XStringToStringMapEntryImpl();
-    return xStringToStringMapEntry;
+    XReferenceImpl xReference = new XReferenceImpl();
+    return xReference;
   }
 
   /**
@@ -241,10 +252,10 @@ public class XcoreFactoryImpl extends EFactoryImpl implements XcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public XStructuralFeature createXStructuralFeature()
+  public Map.Entry<String, String> createXStringToStringMapEntry()
   {
-    XStructuralFeatureImpl xStructuralFeature = new XStructuralFeatureImpl();
-    return xStructuralFeature;
+    XStringToStringMapEntryImpl xStringToStringMapEntry = new XStringToStringMapEntryImpl();
+    return xStringToStringMapEntry;
   }
 
   /**
@@ -267,17 +278,6 @@ public class XcoreFactoryImpl extends EFactoryImpl implements XcoreFactory
   {
     XImportDirectiveImpl xImportDirective = new XImportDirectiveImpl();
     return xImportDirective;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public XMember createXMember()
-  {
-    XMemberImpl xMember = new XMemberImpl();
-    return xMember;
   }
 
   /**

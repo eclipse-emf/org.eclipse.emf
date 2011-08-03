@@ -173,6 +173,7 @@ public class XcoreScopeProvider extends XbaseScopeProvider  {
           }
         };
     }
+    /*
     else if (reference == XcorePackage.Literals.XSTRUCTURAL_FEATURE__OPPOSITE)
     {
       return 
@@ -265,6 +266,7 @@ public class XcoreScopeProvider extends XbaseScopeProvider  {
         };
       
     }
+    */
     else
     {
       return scope;

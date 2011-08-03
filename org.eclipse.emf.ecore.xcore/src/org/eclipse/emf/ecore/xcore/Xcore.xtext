@@ -3,6 +3,7 @@ grammar org.eclipse.emf.ecore.xcore.Xcore
 
 import "platform:/resource/org.eclipse.emf.ecore.xcore/model/Xcore.ecore"
 import "platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore" as ecore
+import "platform:/resource/org.eclipse.emf.codegen.ecore/model/GenModel.ecore" as genmodel
 // import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 import "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore" as xbase
 
@@ -93,11 +94,12 @@ XClass:
 ;
 
 XMember:
-	=> XOperation |
-	XStructuralFeature
+	XOperation |
+	XReference |
+	XAttribute
 ;
 
-XStructuralFeature:
+XAttribute:
 	(annotations+=XAnnotation)*
 	(
 	  (unordered?='unordered')? &
@@ -107,15 +109,43 @@ XStructuralFeature:
 	  (volatile?='volatile')? &
 	  (unsettable?='unsettable')? &
 	  (derived?='derived')? &
-	  (iD?='id' | (resolveProxies?='resolving'? & containment?='containment') | local?='local' | reference?='reference')?
+	  (iD?='id')?
 	)
     (type=XGenericType | 'void')
 	multiplicity=XMultiplicity?
     name=ID
     ('=' defaultValueLiteral=STRING)?
+	/*
+	 * In scope for getBody should be what's visible in AbcImpl
+	 * and 'this' will denote an instance of the feature's type.
+	 * The block expression must yield a value of the feature's type.
+	 */
+	(('get' getBody=XBlockExpression)? &
+	 ('set' setBody=XBlockExpression)? &
+	 ('isSet' isSetBody=XBlockExpression)? &
+	 ('unset' unsetBody=XBlockExpression)?)
+;
+
+XReference:
+	(annotations+=XAnnotation)*
+	(containment?='containment' | container?='container' | 'refers') 
+	(
+	  (unordered?='unordered')? &
+	  (unique?='unique')? &
+	  (readonly?='readonly')? &
+	  (transient?='transient')? &
+	  (volatile?='volatile')? &
+	  (unsettable?='unsettable')? &
+	  (derived?='derived')?
+	)
+    (type=XGenericType | 'void')
+	multiplicity=XMultiplicity?
+    name=ID
     (
-      'opposite' opposite=[ecore::EReference|ValidID] |
-      'keys' keys+=[ecore::EAttribute|ValidID] (',' keys+=[ecore::EAttribute|ValidID])*
+      'opposite' opposite=[genmodel::GenFeature|ValidID] 
+    )?
+    (
+      'keys' keys+=[genmodel::GenFeature|ValidID] (',' keys+=[genmodel::GenFeature|ValidID])*
     )?
 	/*
 	 * In scope for getBody should be what's visible in AbcImpl
@@ -130,6 +160,7 @@ XStructuralFeature:
 
 XOperation:
 	(annotations+=XAnnotation)*
+	'op'
 	(
 	  unordered?='unordered' unique?='unique'? |
 	  unique?='unique' unordered?='unordered'? 
@@ -179,7 +210,7 @@ XBlockExpression returns xbase::XBlockExpression:
 
 XGenericType returns XGenericType:
   // classifier=[XClassifier|QualifiedName] (=>'<' typeArguments+=XGenericTypeArgument (',' typeArguments+=XGenericTypeArgument)* '>')?
-  type=[ecore::ENamedElement|QualifiedName] (=>'<' typeArguments+=XGenericTypeArgument (',' typeArguments+=XGenericTypeArgument)* '>')?
+  type=[genmodel::GenBase|QualifiedName] (=>'<' typeArguments+=XGenericTypeArgument (',' typeArguments+=XGenericTypeArgument)* '>')?
 ;
 
 XGenericTypeArgument returns XGenericType :

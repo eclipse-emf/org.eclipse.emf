@@ -64,13 +64,14 @@ public class XcoreFormatter extends AbstractDeclarativeFormatter {
     c.setLinewrap(1).after(f.getXAnnotationDirectiveRule());
     c.setLinewrap(2).after(f.getXPackageAccess().getAnnotationDirectivesXAnnotationDirectiveParserRuleCall_4_0());
     
-    c.setNoSpace().before(f.getXOperationAccess().getLeftParenthesisKeyword_6());
+    c.setNoSpace().before(f.getXOperationAccess().getLeftParenthesisKeyword_7());
     c.setLinewrap(1).before(f.getXDataTypeRule());
     c.setLinewrap(2).after(f.getXPackageAccess().getNameAssignment_2());
     c.setLinewrap(2).after(f.getXClassRule());
     c.setLinewrap(2).after(f.getXEnumRule());
     c.setLinewrap(1).after(f.getXOperationRule());
-    c.setLinewrap(1).after(f.getXStructuralFeatureRule());
+    c.setLinewrap(1).after(f.getXAttributeRule());
+    c.setLinewrap(1).after(f.getXReferenceRule());
     c.setLinewrap(1).after(f.getXEnumLiteralRule());
     c.setNoSpace().before(f.getXClassAccess().getLessThanSignKeyword_4_0());
     c.setNoSpace().before(f.getXDataTypeAccess().getLessThanSignKeyword_3_0());

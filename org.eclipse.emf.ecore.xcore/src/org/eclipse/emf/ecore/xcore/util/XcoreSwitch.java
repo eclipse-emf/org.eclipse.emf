@@ -95,6 +95,18 @@ public class XcoreSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case XcorePackage.XATTRIBUTE:
+      {
+        XAttribute xAttribute = (XAttribute)theEObject;
+        T result = caseXAttribute(xAttribute);
+        if (result == null) result = caseXStructuralFeature(xAttribute);
+        if (result == null) result = caseXMember(xAttribute);
+        if (result == null) result = caseXTypedElement(xAttribute);
+        if (result == null) result = caseXNamedElement(xAttribute);
+        if (result == null) result = caseXModelElement(xAttribute);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case XcorePackage.XCLASS:
       {
         XClass xClass = (XClass)theEObject;
@@ -214,6 +226,18 @@ public class XcoreSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case XcorePackage.XREFERENCE:
+      {
+        XReference xReference = (XReference)theEObject;
+        T result = caseXReference(xReference);
+        if (result == null) result = caseXStructuralFeature(xReference);
+        if (result == null) result = caseXMember(xReference);
+        if (result == null) result = caseXTypedElement(xReference);
+        if (result == null) result = caseXNamedElement(xReference);
+        if (result == null) result = caseXModelElement(xReference);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case XcorePackage.XSTRING_TO_STRING_MAP_ENTRY:
       {
         @SuppressWarnings("unchecked") Map.Entry<String, String> xStringToStringMapEntry = (Map.Entry<String, String>)theEObject;
@@ -282,6 +306,22 @@ public class XcoreSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseXAnnotationDirective(XAnnotationDirective object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>XAttribute</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>XAttribute</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseXAttribute(XAttribute object)
   {
     return null;
   }
@@ -442,6 +482,22 @@ public class XcoreSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseXParameter(XParameter object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>XReference</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>XReference</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseXReference(XReference object)
   {
     return null;
   }

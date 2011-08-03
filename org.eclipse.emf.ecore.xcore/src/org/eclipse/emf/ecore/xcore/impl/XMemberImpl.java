@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  *
  * @generated
  */
-public class XMemberImpl extends XTypedElementImpl implements XMember
+public abstract class XMemberImpl extends XTypedElementImpl implements XMember
 {
   /**
    * <!-- begin-user-doc -->

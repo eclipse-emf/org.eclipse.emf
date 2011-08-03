@@ -45,6 +45,15 @@ public interface XcoreFactory extends EFactory
   XAnnotationDirective createXAnnotationDirective();
 
   /**
+   * Returns a new object of class '<em>XAttribute</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>XAttribute</em>'.
+   * @generated
+   */
+  XAttribute createXAttribute();
+
+  /**
    * Returns a new object of class '<em>XClass</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -108,13 +117,13 @@ public interface XcoreFactory extends EFactory
   XParameter createXParameter();
 
   /**
-   * Returns a new object of class '<em>XStructural Feature</em>'.
+   * Returns a new object of class '<em>XReference</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>XStructural Feature</em>'.
+   * @return a new object of class '<em>XReference</em>'.
    * @generated
    */
-  XStructuralFeature createXStructuralFeature();
+  XReference createXReference();
 
   /**
    * Returns a new object of class '<em>XGeneric Type</em>'.
@@ -133,15 +142,6 @@ public interface XcoreFactory extends EFactory
    * @generated
    */
   XImportDirective createXImportDirective();
-
-  /**
-   * Returns a new object of class '<em>XMember</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>XMember</em>'.
-   * @generated
-   */
-  XMember createXMember();
 
   /**
    * Returns a new object of class '<em>XType Parameter</em>'.

@@ -69,7 +69,7 @@ public interface XcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXModelElement()
    * @generated
    */
-  int XMODEL_ELEMENT = 10;
+  int XMODEL_ELEMENT = 11;
 
   /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -152,7 +152,7 @@ public interface XcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXNamedElement()
    * @generated
    */
-  int XNAMED_ELEMENT = 11;
+  int XNAMED_ELEMENT = 12;
 
   /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -235,7 +235,616 @@ public interface XcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXClassifier()
    * @generated
    */
-  int XCLASSIFIER = 3;
+  int XCLASSIFIER = 4;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XClassImpl <em>XClass</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XClassImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXClass()
+   * @generated
+   */
+  int XCLASS = 3;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XDataTypeImpl <em>XData Type</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XDataTypeImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXDataType()
+   * @generated
+   */
+  int XDATA_TYPE = 5;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XEnumImpl <em>XEnum</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XEnumImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXEnum()
+   * @generated
+   */
+  int XENUM = 6;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XEnumLiteralImpl <em>XEnum Literal</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XEnumLiteralImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXEnumLiteral()
+   * @generated
+   */
+  int XENUM_LITERAL = 7;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XTypedElementImpl <em>XTyped Element</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XTypedElementImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXTypedElement()
+   * @generated
+   */
+  int XTYPED_ELEMENT = 19;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XOperationImpl <em>XOperation</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XOperationImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXOperation()
+   * @generated
+   */
+  int XOPERATION = 13;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XPackageImpl <em>XPackage</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XPackageImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXPackage()
+   * @generated
+   */
+  int XPACKAGE = 14;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XParameterImpl <em>XParameter</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XParameterImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXParameter()
+   * @generated
+   */
+  int XPARAMETER = 15;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XStructuralFeatureImpl <em>XStructural Feature</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XStructuralFeatureImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXStructuralFeature()
+   * @generated
+   */
+  int XSTRUCTURAL_FEATURE = 18;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XStringToStringMapEntryImpl <em>XString To String Map Entry</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XStringToStringMapEntryImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXStringToStringMapEntry()
+   * @generated
+   */
+  int XSTRING_TO_STRING_MAP_ENTRY = 17;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl <em>XGeneric Type</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXGenericType()
+   * @generated
+   */
+  int XGENERIC_TYPE = 8;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl <em>XImport Directive</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXImportDirective()
+   * @generated
+   */
+  int XIMPORT_DIRECTIVE = 9;
+
+  /**
+   * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XTYPED_ELEMENT__ANNOTATIONS = XNAMED_ELEMENT__ANNOTATIONS;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XTYPED_ELEMENT__NAME = XNAMED_ELEMENT__NAME;
+
+  /**
+   * The feature id for the '<em><b>Unordered</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XTYPED_ELEMENT__UNORDERED = XNAMED_ELEMENT_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Unique</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XTYPED_ELEMENT__UNIQUE = XNAMED_ELEMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XTYPED_ELEMENT__TYPE = XNAMED_ELEMENT_FEATURE_COUNT + 2;
+
+  /**
+   * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XTYPED_ELEMENT__MULTIPLICITY = XNAMED_ELEMENT_FEATURE_COUNT + 3;
+
+  /**
+   * The number of structural features of the '<em>XTyped Element</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XTYPED_ELEMENT_FEATURE_COUNT = XNAMED_ELEMENT_FEATURE_COUNT + 4;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XMemberImpl <em>XMember</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XMemberImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXMember()
+   * @generated
+   */
+  int XMEMBER = 10;
+
+  /**
+   * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XMEMBER__ANNOTATIONS = XTYPED_ELEMENT__ANNOTATIONS;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XMEMBER__NAME = XTYPED_ELEMENT__NAME;
+
+  /**
+   * The feature id for the '<em><b>Unordered</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XMEMBER__UNORDERED = XTYPED_ELEMENT__UNORDERED;
+
+  /**
+   * The feature id for the '<em><b>Unique</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XMEMBER__UNIQUE = XTYPED_ELEMENT__UNIQUE;
+
+  /**
+   * The feature id for the '<em><b>Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XMEMBER__TYPE = XTYPED_ELEMENT__TYPE;
+
+  /**
+   * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XMEMBER__MULTIPLICITY = XTYPED_ELEMENT__MULTIPLICITY;
+
+  /**
+   * The feature id for the '<em><b>Containing Class</b></em>' container reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XMEMBER__CONTAINING_CLASS = XTYPED_ELEMENT_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>XMember</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XMEMBER_FEATURE_COUNT = XTYPED_ELEMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XReferenceImpl <em>XReference</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XReferenceImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXReference()
+   * @generated
+   */
+  int XREFERENCE = 16;
+
+  /**
+   * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE__ANNOTATIONS = XMEMBER__ANNOTATIONS;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE__NAME = XMEMBER__NAME;
+
+  /**
+   * The feature id for the '<em><b>Unordered</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE__UNORDERED = XMEMBER__UNORDERED;
+
+  /**
+   * The feature id for the '<em><b>Unique</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE__UNIQUE = XMEMBER__UNIQUE;
+
+  /**
+   * The feature id for the '<em><b>Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE__TYPE = XMEMBER__TYPE;
+
+  /**
+   * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE__MULTIPLICITY = XMEMBER__MULTIPLICITY;
+
+  /**
+   * The feature id for the '<em><b>Containing Class</b></em>' container reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE__CONTAINING_CLASS = XMEMBER__CONTAINING_CLASS;
+
+  /**
+   * The feature id for the '<em><b>Readonly</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE__READONLY = XMEMBER_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Volatile</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE__VOLATILE = XMEMBER_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>Transient</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE__TRANSIENT = XMEMBER_FEATURE_COUNT + 2;
+
+  /**
+   * The feature id for the '<em><b>Unsettable</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE__UNSETTABLE = XMEMBER_FEATURE_COUNT + 3;
+
+  /**
+   * The feature id for the '<em><b>Derived</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE__DERIVED = XMEMBER_FEATURE_COUNT + 4;
+
+  /**
+   * The feature id for the '<em><b>Get Body</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE__GET_BODY = XMEMBER_FEATURE_COUNT + 5;
+
+  /**
+   * The feature id for the '<em><b>Set Body</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE__SET_BODY = XMEMBER_FEATURE_COUNT + 6;
+
+  /**
+   * The feature id for the '<em><b>Is Set Body</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE__IS_SET_BODY = XMEMBER_FEATURE_COUNT + 7;
+
+  /**
+   * The feature id for the '<em><b>Unset Body</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE__UNSET_BODY = XMEMBER_FEATURE_COUNT + 8;
+
+  /**
+   * The number of structural features of the '<em>XStructural Feature</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSTRUCTURAL_FEATURE_FEATURE_COUNT = XMEMBER_FEATURE_COUNT + 9;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XAttributeImpl <em>XAttribute</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XAttributeImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXAttribute()
+   * @generated
+   */
+  int XATTRIBUTE = 2;
+
+  /**
+   * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__ANNOTATIONS = XSTRUCTURAL_FEATURE__ANNOTATIONS;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__NAME = XSTRUCTURAL_FEATURE__NAME;
+
+  /**
+   * The feature id for the '<em><b>Unordered</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__UNORDERED = XSTRUCTURAL_FEATURE__UNORDERED;
+
+  /**
+   * The feature id for the '<em><b>Unique</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__UNIQUE = XSTRUCTURAL_FEATURE__UNIQUE;
+
+  /**
+   * The feature id for the '<em><b>Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__TYPE = XSTRUCTURAL_FEATURE__TYPE;
+
+  /**
+   * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__MULTIPLICITY = XSTRUCTURAL_FEATURE__MULTIPLICITY;
+
+  /**
+   * The feature id for the '<em><b>Containing Class</b></em>' container reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__CONTAINING_CLASS = XSTRUCTURAL_FEATURE__CONTAINING_CLASS;
+
+  /**
+   * The feature id for the '<em><b>Readonly</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__READONLY = XSTRUCTURAL_FEATURE__READONLY;
+
+  /**
+   * The feature id for the '<em><b>Volatile</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__VOLATILE = XSTRUCTURAL_FEATURE__VOLATILE;
+
+  /**
+   * The feature id for the '<em><b>Transient</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__TRANSIENT = XSTRUCTURAL_FEATURE__TRANSIENT;
+
+  /**
+   * The feature id for the '<em><b>Unsettable</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__UNSETTABLE = XSTRUCTURAL_FEATURE__UNSETTABLE;
+
+  /**
+   * The feature id for the '<em><b>Derived</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__DERIVED = XSTRUCTURAL_FEATURE__DERIVED;
+
+  /**
+   * The feature id for the '<em><b>Get Body</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__GET_BODY = XSTRUCTURAL_FEATURE__GET_BODY;
+
+  /**
+   * The feature id for the '<em><b>Set Body</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__SET_BODY = XSTRUCTURAL_FEATURE__SET_BODY;
+
+  /**
+   * The feature id for the '<em><b>Is Set Body</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__IS_SET_BODY = XSTRUCTURAL_FEATURE__IS_SET_BODY;
+
+  /**
+   * The feature id for the '<em><b>Unset Body</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__UNSET_BODY = XSTRUCTURAL_FEATURE__UNSET_BODY;
+
+  /**
+   * The feature id for the '<em><b>Default Value Literal</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__DEFAULT_VALUE_LITERAL = XSTRUCTURAL_FEATURE_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>ID</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE__ID = XSTRUCTURAL_FEATURE_FEATURE_COUNT + 1;
+
+  /**
+   * The number of structural features of the '<em>XAttribute</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XATTRIBUTE_FEATURE_COUNT = XSTRUCTURAL_FEATURE_FEATURE_COUNT + 2;
 
   /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -290,16 +899,6 @@ public interface XcorePackage extends EPackage
    * @ordered
    */
   int XCLASSIFIER_FEATURE_COUNT = XNAMED_ELEMENT_FEATURE_COUNT + 3;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XClassImpl <em>XClass</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XClassImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXClass()
-   * @generated
-   */
-  int XCLASS = 2;
 
   /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -392,16 +991,6 @@ public interface XcorePackage extends EPackage
   int XCLASS_FEATURE_COUNT = XCLASSIFIER_FEATURE_COUNT + 4;
 
   /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XDataTypeImpl <em>XData Type</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XDataTypeImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXDataType()
-   * @generated
-   */
-  int XDATA_TYPE = 4;
-
-  /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -481,16 +1070,6 @@ public interface XcorePackage extends EPackage
    * @ordered
    */
   int XDATA_TYPE_FEATURE_COUNT = XCLASSIFIER_FEATURE_COUNT + 3;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XEnumImpl <em>XEnum</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XEnumImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXEnum()
-   * @generated
-   */
-  int XENUM = 5;
 
   /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -583,16 +1162,6 @@ public interface XcorePackage extends EPackage
   int XENUM_FEATURE_COUNT = XDATA_TYPE_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XEnumLiteralImpl <em>XEnum Literal</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XEnumLiteralImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXEnumLiteral()
-   * @generated
-   */
-  int XENUM_LITERAL = 6;
-
-  /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -647,76 +1216,6 @@ public interface XcorePackage extends EPackage
   int XENUM_LITERAL_FEATURE_COUNT = XNAMED_ELEMENT_FEATURE_COUNT + 3;
 
   /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XTypedElementImpl <em>XTyped Element</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XTypedElementImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXTypedElement()
-   * @generated
-   */
-  int XTYPED_ELEMENT = 17;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XOperationImpl <em>XOperation</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XOperationImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXOperation()
-   * @generated
-   */
-  int XOPERATION = 12;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XPackageImpl <em>XPackage</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XPackageImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXPackage()
-   * @generated
-   */
-  int XPACKAGE = 13;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XParameterImpl <em>XParameter</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XParameterImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXParameter()
-   * @generated
-   */
-  int XPARAMETER = 14;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XStructuralFeatureImpl <em>XStructural Feature</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XStructuralFeatureImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXStructuralFeature()
-   * @generated
-   */
-  int XSTRUCTURAL_FEATURE = 16;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XStringToStringMapEntryImpl <em>XString To String Map Entry</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XStringToStringMapEntryImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXStringToStringMapEntry()
-   * @generated
-   */
-  int XSTRING_TO_STRING_MAP_ENTRY = 15;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl <em>XGeneric Type</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXGenericType()
-   * @generated
-   */
-  int XGENERIC_TYPE = 7;
-
-  /**
    * The feature id for the '<em><b>Upper Bound</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -762,16 +1261,6 @@ public interface XcorePackage extends EPackage
   int XGENERIC_TYPE_FEATURE_COUNT = 4;
 
   /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl <em>XImport Directive</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXImportDirective()
-   * @generated
-   */
-  int XIMPORT_DIRECTIVE = 8;
-
-  /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -797,151 +1286,6 @@ public interface XcorePackage extends EPackage
    * @ordered
    */
   int XIMPORT_DIRECTIVE_FEATURE_COUNT = XMODEL_ELEMENT_FEATURE_COUNT + 1;
-
-  /**
-   * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XTYPED_ELEMENT__ANNOTATIONS = XNAMED_ELEMENT__ANNOTATIONS;
-
-  /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XTYPED_ELEMENT__NAME = XNAMED_ELEMENT__NAME;
-
-  /**
-   * The feature id for the '<em><b>Unordered</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XTYPED_ELEMENT__UNORDERED = XNAMED_ELEMENT_FEATURE_COUNT + 0;
-
-  /**
-   * The feature id for the '<em><b>Unique</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XTYPED_ELEMENT__UNIQUE = XNAMED_ELEMENT_FEATURE_COUNT + 1;
-
-  /**
-   * The feature id for the '<em><b>Type</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XTYPED_ELEMENT__TYPE = XNAMED_ELEMENT_FEATURE_COUNT + 2;
-
-  /**
-   * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XTYPED_ELEMENT__MULTIPLICITY = XNAMED_ELEMENT_FEATURE_COUNT + 3;
-
-  /**
-   * The number of structural features of the '<em>XTyped Element</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XTYPED_ELEMENT_FEATURE_COUNT = XNAMED_ELEMENT_FEATURE_COUNT + 4;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XMemberImpl <em>XMember</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XMemberImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXMember()
-   * @generated
-   */
-  int XMEMBER = 9;
-
-  /**
-   * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XMEMBER__ANNOTATIONS = XTYPED_ELEMENT__ANNOTATIONS;
-
-  /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XMEMBER__NAME = XTYPED_ELEMENT__NAME;
-
-  /**
-   * The feature id for the '<em><b>Unordered</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XMEMBER__UNORDERED = XTYPED_ELEMENT__UNORDERED;
-
-  /**
-   * The feature id for the '<em><b>Unique</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XMEMBER__UNIQUE = XTYPED_ELEMENT__UNIQUE;
-
-  /**
-   * The feature id for the '<em><b>Type</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XMEMBER__TYPE = XTYPED_ELEMENT__TYPE;
-
-  /**
-   * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XMEMBER__MULTIPLICITY = XTYPED_ELEMENT__MULTIPLICITY;
-
-  /**
-   * The feature id for the '<em><b>Containing Class</b></em>' container reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XMEMBER__CONTAINING_CLASS = XTYPED_ELEMENT_FEATURE_COUNT + 0;
-
-  /**
-   * The number of structural features of the '<em>XMember</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XMEMBER_FEATURE_COUNT = XTYPED_ELEMENT_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -1196,6 +1540,213 @@ public interface XcorePackage extends EPackage
   int XPARAMETER_FEATURE_COUNT = XTYPED_ELEMENT_FEATURE_COUNT + 1;
 
   /**
+   * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__ANNOTATIONS = XSTRUCTURAL_FEATURE__ANNOTATIONS;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__NAME = XSTRUCTURAL_FEATURE__NAME;
+
+  /**
+   * The feature id for the '<em><b>Unordered</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__UNORDERED = XSTRUCTURAL_FEATURE__UNORDERED;
+
+  /**
+   * The feature id for the '<em><b>Unique</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__UNIQUE = XSTRUCTURAL_FEATURE__UNIQUE;
+
+  /**
+   * The feature id for the '<em><b>Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__TYPE = XSTRUCTURAL_FEATURE__TYPE;
+
+  /**
+   * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__MULTIPLICITY = XSTRUCTURAL_FEATURE__MULTIPLICITY;
+
+  /**
+   * The feature id for the '<em><b>Containing Class</b></em>' container reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__CONTAINING_CLASS = XSTRUCTURAL_FEATURE__CONTAINING_CLASS;
+
+  /**
+   * The feature id for the '<em><b>Readonly</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__READONLY = XSTRUCTURAL_FEATURE__READONLY;
+
+  /**
+   * The feature id for the '<em><b>Volatile</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__VOLATILE = XSTRUCTURAL_FEATURE__VOLATILE;
+
+  /**
+   * The feature id for the '<em><b>Transient</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__TRANSIENT = XSTRUCTURAL_FEATURE__TRANSIENT;
+
+  /**
+   * The feature id for the '<em><b>Unsettable</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__UNSETTABLE = XSTRUCTURAL_FEATURE__UNSETTABLE;
+
+  /**
+   * The feature id for the '<em><b>Derived</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__DERIVED = XSTRUCTURAL_FEATURE__DERIVED;
+
+  /**
+   * The feature id for the '<em><b>Get Body</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__GET_BODY = XSTRUCTURAL_FEATURE__GET_BODY;
+
+  /**
+   * The feature id for the '<em><b>Set Body</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__SET_BODY = XSTRUCTURAL_FEATURE__SET_BODY;
+
+  /**
+   * The feature id for the '<em><b>Is Set Body</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__IS_SET_BODY = XSTRUCTURAL_FEATURE__IS_SET_BODY;
+
+  /**
+   * The feature id for the '<em><b>Unset Body</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__UNSET_BODY = XSTRUCTURAL_FEATURE__UNSET_BODY;
+
+  /**
+   * The feature id for the '<em><b>Container</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__CONTAINER = XSTRUCTURAL_FEATURE_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Containment</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__CONTAINMENT = XSTRUCTURAL_FEATURE_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>Resolve Proxies</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__RESOLVE_PROXIES = XSTRUCTURAL_FEATURE_FEATURE_COUNT + 2;
+
+  /**
+   * The feature id for the '<em><b>Local</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__LOCAL = XSTRUCTURAL_FEATURE_FEATURE_COUNT + 3;
+
+  /**
+   * The feature id for the '<em><b>Opposite</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__OPPOSITE = XSTRUCTURAL_FEATURE_FEATURE_COUNT + 4;
+
+  /**
+   * The feature id for the '<em><b>Keys</b></em>' reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE__KEYS = XSTRUCTURAL_FEATURE_FEATURE_COUNT + 5;
+
+  /**
+   * The number of structural features of the '<em>XReference</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XREFERENCE_FEATURE_COUNT = XSTRUCTURAL_FEATURE_FEATURE_COUNT + 6;
+
+  /**
    * The feature id for the '<em><b>Key</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1223,231 +1774,6 @@ public interface XcorePackage extends EPackage
   int XSTRING_TO_STRING_MAP_ENTRY_FEATURE_COUNT = 2;
 
   /**
-   * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__ANNOTATIONS = XMEMBER__ANNOTATIONS;
-
-  /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__NAME = XMEMBER__NAME;
-
-  /**
-   * The feature id for the '<em><b>Unordered</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__UNORDERED = XMEMBER__UNORDERED;
-
-  /**
-   * The feature id for the '<em><b>Unique</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__UNIQUE = XMEMBER__UNIQUE;
-
-  /**
-   * The feature id for the '<em><b>Type</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__TYPE = XMEMBER__TYPE;
-
-  /**
-   * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__MULTIPLICITY = XMEMBER__MULTIPLICITY;
-
-  /**
-   * The feature id for the '<em><b>Containing Class</b></em>' container reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__CONTAINING_CLASS = XMEMBER__CONTAINING_CLASS;
-
-  /**
-   * The feature id for the '<em><b>Readonly</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__READONLY = XMEMBER_FEATURE_COUNT + 0;
-
-  /**
-   * The feature id for the '<em><b>Volatile</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__VOLATILE = XMEMBER_FEATURE_COUNT + 1;
-
-  /**
-   * The feature id for the '<em><b>Transient</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__TRANSIENT = XMEMBER_FEATURE_COUNT + 2;
-
-  /**
-   * The feature id for the '<em><b>Default Value Literal</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL = XMEMBER_FEATURE_COUNT + 3;
-
-  /**
-   * The feature id for the '<em><b>Unsettable</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__UNSETTABLE = XMEMBER_FEATURE_COUNT + 4;
-
-  /**
-   * The feature id for the '<em><b>Derived</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__DERIVED = XMEMBER_FEATURE_COUNT + 5;
-
-  /**
-   * The feature id for the '<em><b>ID</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__ID = XMEMBER_FEATURE_COUNT + 6;
-
-  /**
-   * The feature id for the '<em><b>Containment</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__CONTAINMENT = XMEMBER_FEATURE_COUNT + 7;
-
-  /**
-   * The feature id for the '<em><b>Resolve Proxies</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__RESOLVE_PROXIES = XMEMBER_FEATURE_COUNT + 8;
-
-  /**
-   * The feature id for the '<em><b>Local</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__LOCAL = XMEMBER_FEATURE_COUNT + 9;
-
-  /**
-   * The feature id for the '<em><b>Opposite</b></em>' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__OPPOSITE = XMEMBER_FEATURE_COUNT + 10;
-
-  /**
-   * The feature id for the '<em><b>Keys</b></em>' reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__KEYS = XMEMBER_FEATURE_COUNT + 11;
-
-  /**
-   * The feature id for the '<em><b>Get Body</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__GET_BODY = XMEMBER_FEATURE_COUNT + 12;
-
-  /**
-   * The feature id for the '<em><b>Set Body</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__SET_BODY = XMEMBER_FEATURE_COUNT + 13;
-
-  /**
-   * The feature id for the '<em><b>Is Set Body</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__IS_SET_BODY = XMEMBER_FEATURE_COUNT + 14;
-
-  /**
-   * The feature id for the '<em><b>Unset Body</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__UNSET_BODY = XMEMBER_FEATURE_COUNT + 15;
-
-  /**
-   * The feature id for the '<em><b>Reference</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE__REFERENCE = XMEMBER_FEATURE_COUNT + 16;
-
-  /**
-   * The number of structural features of the '<em>XStructural Feature</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XSTRUCTURAL_FEATURE_FEATURE_COUNT = XMEMBER_FEATURE_COUNT + 17;
-
-  /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XTypeParameterImpl <em>XType Parameter</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1455,7 +1781,7 @@ public interface XcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXTypeParameter()
    * @generated
    */
-  int XTYPE_PARAMETER = 18;
+  int XTYPE_PARAMETER = 20;
 
   /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -1501,7 +1827,7 @@ public interface XcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXMultiplicity()
    * @generated
    */
-  int XMULTIPLICITY = 19;
+  int XMULTIPLICITY = 21;
 
 
   /**
@@ -1567,6 +1893,38 @@ public interface XcorePackage extends EPackage
    * @generated
    */
   EAttribute getXAnnotationDirective_SourceURI();
+
+  /**
+   * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XAttribute <em>XAttribute</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>XAttribute</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XAttribute
+   * @generated
+   */
+  EClass getXAttribute();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XAttribute#getDefaultValueLiteral <em>Default Value Literal</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Default Value Literal</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XAttribute#getDefaultValueLiteral()
+   * @see #getXAttribute()
+   * @generated
+   */
+  EAttribute getXAttribute_DefaultValueLiteral();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XAttribute#isID <em>ID</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>ID</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XAttribute#isID()
+   * @see #getXAttribute()
+   * @generated
+   */
+  EAttribute getXAttribute_ID();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XClass <em>XClass</em>}'.
@@ -1955,6 +2313,82 @@ public interface XcorePackage extends EPackage
   EReference getXParameter_Operation();
 
   /**
+   * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XReference <em>XReference</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>XReference</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XReference
+   * @generated
+   */
+  EClass getXReference();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XReference#isContainer <em>Container</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Container</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XReference#isContainer()
+   * @see #getXReference()
+   * @generated
+   */
+  EAttribute getXReference_Container();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XReference#isContainment <em>Containment</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Containment</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XReference#isContainment()
+   * @see #getXReference()
+   * @generated
+   */
+  EAttribute getXReference_Containment();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XReference#isResolveProxies <em>Resolve Proxies</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Resolve Proxies</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XReference#isResolveProxies()
+   * @see #getXReference()
+   * @generated
+   */
+  EAttribute getXReference_ResolveProxies();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XReference#isLocal <em>Local</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Local</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XReference#isLocal()
+   * @see #getXReference()
+   * @generated
+   */
+  EAttribute getXReference_Local();
+
+  /**
+   * Returns the meta object for the reference '{@link org.eclipse.emf.ecore.xcore.XReference#getOpposite <em>Opposite</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Opposite</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XReference#getOpposite()
+   * @see #getXReference()
+   * @generated
+   */
+  EReference getXReference_Opposite();
+
+  /**
+   * Returns the meta object for the reference list '{@link org.eclipse.emf.ecore.xcore.XReference#getKeys <em>Keys</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference list '<em>Keys</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XReference#getKeys()
+   * @see #getXReference()
+   * @generated
+   */
+  EReference getXReference_Keys();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature <em>XStructural Feature</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1998,17 +2432,6 @@ public interface XcorePackage extends EPackage
   EAttribute getXStructuralFeature_Transient();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#getDefaultValueLiteral <em>Default Value Literal</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Default Value Literal</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XStructuralFeature#getDefaultValueLiteral()
-   * @see #getXStructuralFeature()
-   * @generated
-   */
-  EAttribute getXStructuralFeature_DefaultValueLiteral();
-
-  /**
    * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isUnsettable <em>Unsettable</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2029,72 +2452,6 @@ public interface XcorePackage extends EPackage
    * @generated
    */
   EAttribute getXStructuralFeature_Derived();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isID <em>ID</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>ID</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XStructuralFeature#isID()
-   * @see #getXStructuralFeature()
-   * @generated
-   */
-  EAttribute getXStructuralFeature_ID();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isContainment <em>Containment</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Containment</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XStructuralFeature#isContainment()
-   * @see #getXStructuralFeature()
-   * @generated
-   */
-  EAttribute getXStructuralFeature_Containment();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isResolveProxies <em>Resolve Proxies</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Resolve Proxies</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XStructuralFeature#isResolveProxies()
-   * @see #getXStructuralFeature()
-   * @generated
-   */
-  EAttribute getXStructuralFeature_ResolveProxies();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isLocal <em>Local</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Local</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XStructuralFeature#isLocal()
-   * @see #getXStructuralFeature()
-   * @generated
-   */
-  EAttribute getXStructuralFeature_Local();
-
-  /**
-   * Returns the meta object for the reference '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#getOpposite <em>Opposite</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the reference '<em>Opposite</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XStructuralFeature#getOpposite()
-   * @see #getXStructuralFeature()
-   * @generated
-   */
-  EReference getXStructuralFeature_Opposite();
-
-  /**
-   * Returns the meta object for the reference list '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#getKeys <em>Keys</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the reference list '<em>Keys</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XStructuralFeature#getKeys()
-   * @see #getXStructuralFeature()
-   * @generated
-   */
-  EReference getXStructuralFeature_Keys();
 
   /**
    * Returns the meta object for the containment reference '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#getGetBody <em>Get Body</em>}'.
@@ -2139,17 +2496,6 @@ public interface XcorePackage extends EPackage
    * @generated
    */
   EReference getXStructuralFeature_UnsetBody();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isReference <em>Reference</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Reference</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XStructuralFeature#isReference()
-   * @see #getXStructuralFeature()
-   * @generated
-   */
-  EAttribute getXStructuralFeature_Reference();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XTypedElement <em>XTyped Element</em>}'.
@@ -2440,6 +2786,32 @@ public interface XcorePackage extends EPackage
      * @generated
      */
     EAttribute XANNOTATION_DIRECTIVE__SOURCE_URI = eINSTANCE.getXAnnotationDirective_SourceURI();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XAttributeImpl <em>XAttribute</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xcore.impl.XAttributeImpl
+     * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXAttribute()
+     * @generated
+     */
+    EClass XATTRIBUTE = eINSTANCE.getXAttribute();
+
+    /**
+     * The meta object literal for the '<em><b>Default Value Literal</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XATTRIBUTE__DEFAULT_VALUE_LITERAL = eINSTANCE.getXAttribute_DefaultValueLiteral();
+
+    /**
+     * The meta object literal for the '<em><b>ID</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XATTRIBUTE__ID = eINSTANCE.getXAttribute_ID();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XClassImpl <em>XClass</em>}' class.
@@ -2750,6 +3122,64 @@ public interface XcorePackage extends EPackage
     EReference XPARAMETER__OPERATION = eINSTANCE.getXParameter_Operation();
 
     /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XReferenceImpl <em>XReference</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xcore.impl.XReferenceImpl
+     * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXReference()
+     * @generated
+     */
+    EClass XREFERENCE = eINSTANCE.getXReference();
+
+    /**
+     * The meta object literal for the '<em><b>Container</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XREFERENCE__CONTAINER = eINSTANCE.getXReference_Container();
+
+    /**
+     * The meta object literal for the '<em><b>Containment</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XREFERENCE__CONTAINMENT = eINSTANCE.getXReference_Containment();
+
+    /**
+     * The meta object literal for the '<em><b>Resolve Proxies</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XREFERENCE__RESOLVE_PROXIES = eINSTANCE.getXReference_ResolveProxies();
+
+    /**
+     * The meta object literal for the '<em><b>Local</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XREFERENCE__LOCAL = eINSTANCE.getXReference_Local();
+
+    /**
+     * The meta object literal for the '<em><b>Opposite</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XREFERENCE__OPPOSITE = eINSTANCE.getXReference_Opposite();
+
+    /**
+     * The meta object literal for the '<em><b>Keys</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XREFERENCE__KEYS = eINSTANCE.getXReference_Keys();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XStructuralFeatureImpl <em>XStructural Feature</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2784,14 +3214,6 @@ public interface XcorePackage extends EPackage
     EAttribute XSTRUCTURAL_FEATURE__TRANSIENT = eINSTANCE.getXStructuralFeature_Transient();
 
     /**
-     * The meta object literal for the '<em><b>Default Value Literal</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute XSTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL = eINSTANCE.getXStructuralFeature_DefaultValueLiteral();
-
-    /**
      * The meta object literal for the '<em><b>Unsettable</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2806,54 +3228,6 @@ public interface XcorePackage extends EPackage
      * @generated
      */
     EAttribute XSTRUCTURAL_FEATURE__DERIVED = eINSTANCE.getXStructuralFeature_Derived();
-
-    /**
-     * The meta object literal for the '<em><b>ID</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute XSTRUCTURAL_FEATURE__ID = eINSTANCE.getXStructuralFeature_ID();
-
-    /**
-     * The meta object literal for the '<em><b>Containment</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute XSTRUCTURAL_FEATURE__CONTAINMENT = eINSTANCE.getXStructuralFeature_Containment();
-
-    /**
-     * The meta object literal for the '<em><b>Resolve Proxies</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute XSTRUCTURAL_FEATURE__RESOLVE_PROXIES = eINSTANCE.getXStructuralFeature_ResolveProxies();
-
-    /**
-     * The meta object literal for the '<em><b>Local</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute XSTRUCTURAL_FEATURE__LOCAL = eINSTANCE.getXStructuralFeature_Local();
-
-    /**
-     * The meta object literal for the '<em><b>Opposite</b></em>' reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference XSTRUCTURAL_FEATURE__OPPOSITE = eINSTANCE.getXStructuralFeature_Opposite();
-
-    /**
-     * The meta object literal for the '<em><b>Keys</b></em>' reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference XSTRUCTURAL_FEATURE__KEYS = eINSTANCE.getXStructuralFeature_Keys();
 
     /**
      * The meta object literal for the '<em><b>Get Body</b></em>' containment reference feature.
@@ -2886,14 +3260,6 @@ public interface XcorePackage extends EPackage
      * @generated
      */
     EReference XSTRUCTURAL_FEATURE__UNSET_BODY = eINSTANCE.getXStructuralFeature_UnsetBody();
-
-    /**
-     * The meta object literal for the '<em><b>Reference</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute XSTRUCTURAL_FEATURE__REFERENCE = eINSTANCE.getXStructuralFeature_Reference();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XTypedElementImpl <em>XTyped Element</em>}' class.

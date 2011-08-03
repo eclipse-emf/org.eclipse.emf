@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XAnnotation;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
+import org.eclipse.emf.ecore.xcore.XAttribute;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XDataType;
@@ -38,6 +39,7 @@ import org.eclipse.emf.ecore.xcore.XModelElement;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XParameter;
+import org.eclipse.emf.ecore.xcore.XReference;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XTypedElement;
@@ -239,7 +241,16 @@ public class EcoreXcoreBuilder
     
     for (EStructuralFeature eStructuralFeature : eClass.getEStructuralFeatures())
     {
-      XStructuralFeature xStructuralFeature = getXStructuralFeature(eStructuralFeature);
+      XStructuralFeature xStructuralFeature;
+      if (eStructuralFeature instanceof EReference)
+      {
+        xStructuralFeature = getXReference((EReference)eStructuralFeature);
+        
+      }
+      else
+      {
+        xStructuralFeature = getXAttribute((EAttribute)eStructuralFeature);
+      }
       xClass.getMembers().add(xStructuralFeature);
     }
     
@@ -381,6 +392,8 @@ public class EcoreXcoreBuilder
       }
       
       EClassifier eClassifier = eGenericType.getEClassifier();
+      // TODO
+      /*
       if (eClassifier != null)
       {
         xGenericType.setType(eClassifier);
@@ -389,6 +402,7 @@ public class EcoreXcoreBuilder
       {
         xGenericType.setType(eGenericType.getETypeParameter());
       }
+      */
       
       return xGenericType;
     }
@@ -419,40 +433,50 @@ public class EcoreXcoreBuilder
     return null;
   }
 
-  XStructuralFeature getXStructuralFeature(EStructuralFeature eStructuralFeature)
+  XReference getXReference(EReference eReference)
   {
-    final XStructuralFeature xStructuralFeature = XcoreFactory.eINSTANCE.createXStructuralFeature();
-    map(xStructuralFeature, eStructuralFeature);
-    if (eStructuralFeature instanceof EReference)
+    final XReference xReference = XcoreFactory.eINSTANCE.createXReference();
+    map(xReference, eReference);
+    if (eReference.isContainment())
     {
-      final EReference eReference = (EReference)eStructuralFeature;
-      if (eReference.isContainment())
+      xReference.setContainment(true);
+      if (eReference.isResolveProxies())
       {
-        xStructuralFeature.setContainment(true);
-        if (eReference.isResolveProxies())
-        {
-          xStructuralFeature.setResolveProxies(true);
-        }
-      }
-      else if (!eReference.isResolveProxies())
-      {
-        xStructuralFeature.setLocal(true);
-      }
-      EReference opposite = eReference.getEOpposite();
-      if (opposite != null)
-      {
-        xStructuralFeature.setOpposite(opposite);
-      }
-      xStructuralFeature.getKeys().addAll(eReference.getEKeys());
-    }
-    else
-    {
-      EAttribute eAttribute = (EAttribute)eStructuralFeature;
-      if (eAttribute.isID())
-      {
-        xStructuralFeature.setID(true);
+        xReference.setResolveProxies(true);
       }
     }
+    else if (!eReference.isResolveProxies())
+    {
+      xReference.setLocal(true);
+    }
+    // TODO
+    /*
+    EReference opposite = eReference.getEOpposite();
+    if (opposite != null)
+    {
+      xReference.setOpposite(opposite);
+    }
+    xReference.getKeys().addAll(eReference.getEKeys());
+    */
+    
+    handleXStructuralFeature(xReference, eReference);
+    return xReference;
+  }
+  
+  XAttribute getXAttribute(EAttribute eAttribute)
+  {
+    final XAttribute xAttribute = XcoreFactory.eINSTANCE.createXAttribute();
+    map(xAttribute, eAttribute);
+    if (eAttribute.isID())
+    {
+      xAttribute.setID(true);
+    }
+    handleXStructuralFeature(xAttribute, eAttribute);
+    return xAttribute;
+  }
+  
+  void handleXStructuralFeature(XStructuralFeature xStructuralFeature, EStructuralFeature eStructuralFeature)
+  {
     if (!eStructuralFeature.isChangeable())
     {
       xStructuralFeature.setReadonly(true);
@@ -475,7 +499,6 @@ public class EcoreXcoreBuilder
     }
     handleXTypedElement(xStructuralFeature, eStructuralFeature);
     xStructuralFeature.setName(eStructuralFeature.getName());
-    return xStructuralFeature;
   }
 
   XDataType getXDataType(EDataType eDataType)

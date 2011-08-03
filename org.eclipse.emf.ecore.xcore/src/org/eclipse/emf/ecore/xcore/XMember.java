@@ -20,7 +20,7 @@ package org.eclipse.emf.ecore.xcore;
  * </p>
  *
  * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXMember()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface XMember extends XTypedElement

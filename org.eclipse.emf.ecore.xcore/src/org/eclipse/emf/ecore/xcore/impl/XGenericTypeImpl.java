@@ -8,6 +8,7 @@ package org.eclipse.emf.ecore.xcore.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -84,7 +85,7 @@ public class XGenericTypeImpl extends EObjectImpl implements XGenericType
    * @generated
    * @ordered
    */
-  protected ENamedElement type;
+  protected GenBase type;
 
   /**
    * <!-- begin-user-doc -->
@@ -222,12 +223,12 @@ public class XGenericTypeImpl extends EObjectImpl implements XGenericType
    * <!-- end-user-doc -->
    * @generated
    */
-  public ENamedElement getType()
+  public GenBase getType()
   {
     if (type != null && type.eIsProxy())
     {
       InternalEObject oldType = (InternalEObject)type;
-      type = (ENamedElement)eResolveProxy(oldType);
+      type = (GenBase)eResolveProxy(oldType);
       if (type != oldType)
       {
         if (eNotificationRequired())
@@ -242,7 +243,7 @@ public class XGenericTypeImpl extends EObjectImpl implements XGenericType
    * <!-- end-user-doc -->
    * @generated
    */
-  public ENamedElement basicGetType()
+  public GenBase basicGetType()
   {
     return type;
   }
@@ -252,9 +253,9 @@ public class XGenericTypeImpl extends EObjectImpl implements XGenericType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setType(ENamedElement newType)
+  public void setType(GenBase newType)
   {
-    ENamedElement oldType = type;
+    GenBase oldType = type;
     type = newType;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XGENERIC_TYPE__TYPE, oldType, type));
@@ -325,7 +326,7 @@ public class XGenericTypeImpl extends EObjectImpl implements XGenericType
         setLowerBound((XGenericType)newValue);
         return;
       case XcorePackage.XGENERIC_TYPE__TYPE:
-        setType((ENamedElement)newValue);
+        setType((GenBase)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -351,7 +352,7 @@ public class XGenericTypeImpl extends EObjectImpl implements XGenericType
         setLowerBound((XGenericType)null);
         return;
       case XcorePackage.XGENERIC_TYPE__TYPE:
-        setType((ENamedElement)null);
+        setType((GenBase)null);
         return;
     }
     super.eUnset(featureID);

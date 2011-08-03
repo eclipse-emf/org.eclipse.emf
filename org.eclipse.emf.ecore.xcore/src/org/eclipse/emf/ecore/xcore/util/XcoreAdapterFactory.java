@@ -91,6 +91,11 @@ public class XcoreAdapterFactory extends AdapterFactoryImpl
         return createXAnnotationDirectiveAdapter();
       }
       @Override
+      public Adapter caseXAttribute(XAttribute object)
+      {
+        return createXAttributeAdapter();
+      }
+      @Override
       public Adapter caseXClass(XClass object)
       {
         return createXClassAdapter();
@@ -154,6 +159,11 @@ public class XcoreAdapterFactory extends AdapterFactoryImpl
       public Adapter caseXParameter(XParameter object)
       {
         return createXParameterAdapter();
+      }
+      @Override
+      public Adapter caseXReference(XReference object)
+      {
+        return createXReferenceAdapter();
       }
       @Override
       public Adapter caseXStringToStringMapEntry(Map.Entry<String, String> object)
@@ -223,6 +233,21 @@ public class XcoreAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createXAnnotationDirectiveAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.ecore.xcore.XAttribute <em>XAttribute</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.eclipse.emf.ecore.xcore.XAttribute
+   * @generated
+   */
+  public Adapter createXAttributeAdapter()
   {
     return null;
   }
@@ -373,6 +398,21 @@ public class XcoreAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createXParameterAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.ecore.xcore.XReference <em>XReference</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.eclipse.emf.ecore.xcore.XReference
+   * @generated
+   */
+  public Adapter createXReferenceAdapter()
   {
     return null;
   }

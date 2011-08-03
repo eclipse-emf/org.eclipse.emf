@@ -8,6 +8,7 @@ package org.eclipse.emf.ecore.xcore.impl;
 
 import java.util.Map;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xcore.XAnnotation;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
+import org.eclipse.emf.ecore.xcore.XAttribute;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XDataType;
@@ -32,6 +34,7 @@ import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XParameter;
+import org.eclipse.emf.ecore.xcore.XReference;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XTypedElement;
@@ -60,6 +63,13 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    * @generated
    */
   private EClass xAnnotationDirectiveEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass xAttributeEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -130,6 +140,13 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    * @generated
    */
   private EClass xParameterEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass xReferenceEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -236,7 +253,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     isInited = true;
 
     // Initialize simple dependencies
-    EcorePackage.eINSTANCE.eClass();
+    GenModelPackage.eINSTANCE.eClass();
     XbasePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
@@ -312,6 +329,36 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
   public EAttribute getXAnnotationDirective_SourceURI()
   {
     return (EAttribute)xAnnotationDirectiveEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getXAttribute()
+  {
+    return xAttributeEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getXAttribute_DefaultValueLiteral()
+  {
+    return (EAttribute)xAttributeEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getXAttribute_ID()
+  {
+    return (EAttribute)xAttributeEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -679,6 +726,76 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getXReference()
+  {
+    return xReferenceEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getXReference_Container()
+  {
+    return (EAttribute)xReferenceEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getXReference_Containment()
+  {
+    return (EAttribute)xReferenceEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getXReference_ResolveProxies()
+  {
+    return (EAttribute)xReferenceEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getXReference_Local()
+  {
+    return (EAttribute)xReferenceEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getXReference_Opposite()
+  {
+    return (EReference)xReferenceEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getXReference_Keys()
+  {
+    return (EReference)xReferenceEClass.getEStructuralFeatures().get(5);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getXStructuralFeature()
   {
     return xStructuralFeatureEClass;
@@ -719,7 +836,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getXStructuralFeature_DefaultValueLiteral()
+  public EAttribute getXStructuralFeature_Unsettable()
   {
     return (EAttribute)xStructuralFeatureEClass.getEStructuralFeatures().get(3);
   }
@@ -729,7 +846,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getXStructuralFeature_Unsettable()
+  public EAttribute getXStructuralFeature_Derived()
   {
     return (EAttribute)xStructuralFeatureEClass.getEStructuralFeatures().get(4);
   }
@@ -739,79 +856,9 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getXStructuralFeature_Derived()
-  {
-    return (EAttribute)xStructuralFeatureEClass.getEStructuralFeatures().get(5);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getXStructuralFeature_ID()
-  {
-    return (EAttribute)xStructuralFeatureEClass.getEStructuralFeatures().get(6);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getXStructuralFeature_Containment()
-  {
-    return (EAttribute)xStructuralFeatureEClass.getEStructuralFeatures().get(7);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getXStructuralFeature_ResolveProxies()
-  {
-    return (EAttribute)xStructuralFeatureEClass.getEStructuralFeatures().get(8);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getXStructuralFeature_Local()
-  {
-    return (EAttribute)xStructuralFeatureEClass.getEStructuralFeatures().get(9);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getXStructuralFeature_Opposite()
-  {
-    return (EReference)xStructuralFeatureEClass.getEStructuralFeatures().get(10);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getXStructuralFeature_Keys()
-  {
-    return (EReference)xStructuralFeatureEClass.getEStructuralFeatures().get(11);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EReference getXStructuralFeature_GetBody()
   {
-    return (EReference)xStructuralFeatureEClass.getEStructuralFeatures().get(12);
+    return (EReference)xStructuralFeatureEClass.getEStructuralFeatures().get(5);
   }
 
   /**
@@ -821,7 +868,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    */
   public EReference getXStructuralFeature_SetBody()
   {
-    return (EReference)xStructuralFeatureEClass.getEStructuralFeatures().get(13);
+    return (EReference)xStructuralFeatureEClass.getEStructuralFeatures().get(6);
   }
 
   /**
@@ -831,7 +878,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    */
   public EReference getXStructuralFeature_IsSetBody()
   {
-    return (EReference)xStructuralFeatureEClass.getEStructuralFeatures().get(14);
+    return (EReference)xStructuralFeatureEClass.getEStructuralFeatures().get(7);
   }
 
   /**
@@ -841,17 +888,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    */
   public EReference getXStructuralFeature_UnsetBody()
   {
-    return (EReference)xStructuralFeatureEClass.getEStructuralFeatures().get(15);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getXStructuralFeature_Reference()
-  {
-    return (EAttribute)xStructuralFeatureEClass.getEStructuralFeatures().get(16);
+    return (EReference)xStructuralFeatureEClass.getEStructuralFeatures().get(8);
   }
 
   /**
@@ -1092,6 +1129,10 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     xAnnotationDirectiveEClass = createEClass(XANNOTATION_DIRECTIVE);
     createEAttribute(xAnnotationDirectiveEClass, XANNOTATION_DIRECTIVE__SOURCE_URI);
 
+    xAttributeEClass = createEClass(XATTRIBUTE);
+    createEAttribute(xAttributeEClass, XATTRIBUTE__DEFAULT_VALUE_LITERAL);
+    createEAttribute(xAttributeEClass, XATTRIBUTE__ID);
+
     xClassEClass = createEClass(XCLASS);
     createEAttribute(xClassEClass, XCLASS__ABSTRACT);
     createEAttribute(xClassEClass, XCLASS__INTERFACE);
@@ -1150,6 +1191,14 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     xParameterEClass = createEClass(XPARAMETER);
     createEReference(xParameterEClass, XPARAMETER__OPERATION);
 
+    xReferenceEClass = createEClass(XREFERENCE);
+    createEAttribute(xReferenceEClass, XREFERENCE__CONTAINER);
+    createEAttribute(xReferenceEClass, XREFERENCE__CONTAINMENT);
+    createEAttribute(xReferenceEClass, XREFERENCE__RESOLVE_PROXIES);
+    createEAttribute(xReferenceEClass, XREFERENCE__LOCAL);
+    createEReference(xReferenceEClass, XREFERENCE__OPPOSITE);
+    createEReference(xReferenceEClass, XREFERENCE__KEYS);
+
     xStringToStringMapEntryEClass = createEClass(XSTRING_TO_STRING_MAP_ENTRY);
     createEAttribute(xStringToStringMapEntryEClass, XSTRING_TO_STRING_MAP_ENTRY__KEY);
     createEAttribute(xStringToStringMapEntryEClass, XSTRING_TO_STRING_MAP_ENTRY__VALUE);
@@ -1158,20 +1207,12 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     createEAttribute(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__READONLY);
     createEAttribute(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__VOLATILE);
     createEAttribute(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__TRANSIENT);
-    createEAttribute(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL);
     createEAttribute(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__UNSETTABLE);
     createEAttribute(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__DERIVED);
-    createEAttribute(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__ID);
-    createEAttribute(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__CONTAINMENT);
-    createEAttribute(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__RESOLVE_PROXIES);
-    createEAttribute(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__LOCAL);
-    createEReference(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__OPPOSITE);
-    createEReference(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__KEYS);
     createEReference(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__GET_BODY);
     createEReference(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__SET_BODY);
     createEReference(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__IS_SET_BODY);
     createEReference(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__UNSET_BODY);
-    createEAttribute(xStructuralFeatureEClass, XSTRUCTURAL_FEATURE__REFERENCE);
 
     xTypedElementEClass = createEClass(XTYPED_ELEMENT);
     createEAttribute(xTypedElementEClass, XTYPED_ELEMENT__UNORDERED);
@@ -1213,6 +1254,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     // Obtain other dependent packages
     EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
     XbasePackage theXbasePackage = (XbasePackage)EPackage.Registry.INSTANCE.getEPackage(XbasePackage.eNS_URI);
+    GenModelPackage theGenModelPackage = (GenModelPackage)EPackage.Registry.INSTANCE.getEPackage(GenModelPackage.eNS_URI);
 
     // Create type parameters
 
@@ -1221,6 +1263,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     // Add supertypes to classes
     xAnnotationEClass.getESuperTypes().add(this.getXModelElement());
     xAnnotationDirectiveEClass.getESuperTypes().add(this.getXNamedElement());
+    xAttributeEClass.getESuperTypes().add(this.getXStructuralFeature());
     xClassEClass.getESuperTypes().add(this.getXClassifier());
     xClassifierEClass.getESuperTypes().add(this.getXNamedElement());
     xDataTypeEClass.getESuperTypes().add(this.getXClassifier());
@@ -1232,6 +1275,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     xOperationEClass.getESuperTypes().add(this.getXMember());
     xPackageEClass.getESuperTypes().add(this.getXNamedElement());
     xParameterEClass.getESuperTypes().add(this.getXTypedElement());
+    xReferenceEClass.getESuperTypes().add(this.getXStructuralFeature());
     xStructuralFeatureEClass.getESuperTypes().add(this.getXMember());
     xTypedElementEClass.getESuperTypes().add(this.getXNamedElement());
     xTypeParameterEClass.getESuperTypes().add(this.getXNamedElement());
@@ -1244,6 +1288,10 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
 
     initEClass(xAnnotationDirectiveEClass, XAnnotationDirective.class, "XAnnotationDirective", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXAnnotationDirective_SourceURI(), theEcorePackage.getEString(), "sourceURI", null, 0, 1, XAnnotationDirective.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(xAttributeEClass, XAttribute.class, "XAttribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getXAttribute_DefaultValueLiteral(), theEcorePackage.getEString(), "defaultValueLiteral", null, 0, 1, XAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXAttribute_ID(), theEcorePackage.getEBoolean(), "iD", null, 0, 1, XAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xClassEClass, XClass.class, "XClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXClass_Abstract(), theEcorePackage.getEBoolean(), "abstract", null, 0, 1, XClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1273,12 +1321,12 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     initEReference(getXGenericType_UpperBound(), this.getXGenericType(), null, "upperBound", null, 0, 1, XGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXGenericType_TypeArguments(), this.getXGenericType(), null, "typeArguments", null, 0, -1, XGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXGenericType_LowerBound(), this.getXGenericType(), null, "lowerBound", null, 0, 1, XGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getXGenericType_Type(), theEcorePackage.getENamedElement(), null, "type", null, 0, 1, XGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXGenericType_Type(), theGenModelPackage.getGenBase(), null, "type", null, 0, 1, XGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xImportDirectiveEClass, XImportDirective.class, "XImportDirective", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXImportDirective_ImportedNamespace(), theEcorePackage.getEString(), "importedNamespace", null, 1, 1, XImportDirective.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xMemberEClass, XMember.class, "XMember", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEClass(xMemberEClass, XMember.class, "XMember", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getXMember_ContainingClass(), this.getXClass(), this.getXClass_Members(), "containingClass", null, 0, 1, XMember.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xModelElementEClass, XModelElement.class, "XModelElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1303,28 +1351,28 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     initEClass(xParameterEClass, XParameter.class, "XParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getXParameter_Operation(), this.getXOperation(), this.getXOperation_Parameters(), "operation", null, 0, 1, XParameter.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+    initEClass(xReferenceEClass, XReference.class, "XReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getXReference_Container(), theEcorePackage.getEBoolean(), "container", null, 0, 1, XReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXReference_Containment(), theEcorePackage.getEBoolean(), "containment", null, 0, 1, XReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXReference_ResolveProxies(), theEcorePackage.getEBoolean(), "resolveProxies", null, 0, 1, XReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXReference_Local(), theEcorePackage.getEBoolean(), "local", null, 0, 1, XReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXReference_Opposite(), theGenModelPackage.getGenFeature(), null, "opposite", null, 0, 1, XReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXReference_Keys(), theGenModelPackage.getGenFeature(), null, "keys", null, 0, -1, XReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
     initEClass(xStringToStringMapEntryEClass, Map.Entry.class, "XStringToStringMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXStringToStringMapEntry_Key(), theEcorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXStringToStringMapEntry_Value(), theEcorePackage.getEString(), "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xStructuralFeatureEClass, XStructuralFeature.class, "XStructuralFeature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEClass(xStructuralFeatureEClass, XStructuralFeature.class, "XStructuralFeature", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXStructuralFeature_Readonly(), theEcorePackage.getEBoolean(), "readonly", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXStructuralFeature_Volatile(), theEcorePackage.getEBoolean(), "volatile", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXStructuralFeature_Transient(), theEcorePackage.getEBoolean(), "transient", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getXStructuralFeature_DefaultValueLiteral(), theEcorePackage.getEString(), "defaultValueLiteral", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXStructuralFeature_Unsettable(), theEcorePackage.getEBoolean(), "unsettable", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXStructuralFeature_Derived(), theEcorePackage.getEBoolean(), "derived", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getXStructuralFeature_ID(), theEcorePackage.getEBoolean(), "iD", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getXStructuralFeature_Containment(), theEcorePackage.getEBoolean(), "containment", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getXStructuralFeature_ResolveProxies(), theEcorePackage.getEBoolean(), "resolveProxies", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getXStructuralFeature_Local(), theEcorePackage.getEBoolean(), "local", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getXStructuralFeature_Opposite(), theEcorePackage.getEReference(), null, "opposite", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getXStructuralFeature_Keys(), theEcorePackage.getEAttribute(), null, "keys", null, 0, -1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXStructuralFeature_GetBody(), theXbasePackage.getXBlockExpression(), null, "getBody", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXStructuralFeature_SetBody(), theXbasePackage.getXBlockExpression(), null, "setBody", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXStructuralFeature_IsSetBody(), theXbasePackage.getXBlockExpression(), null, "isSetBody", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXStructuralFeature_UnsetBody(), theXbasePackage.getXBlockExpression(), null, "unsetBody", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getXStructuralFeature_Reference(), theEcorePackage.getEBoolean(), "reference", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xTypedElementEClass, XTypedElement.class, "XTypedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXTypedElement_Unordered(), theEcorePackage.getEBoolean(), "unordered", null, 0, 1, XTypedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

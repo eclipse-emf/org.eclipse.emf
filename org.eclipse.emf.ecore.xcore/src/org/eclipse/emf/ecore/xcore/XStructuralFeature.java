@@ -22,25 +22,17 @@ import org.eclipse.xtext.xbase.XBlockExpression;
  *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isReadonly <em>Readonly</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isVolatile <em>Volatile</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isTransient <em>Transient</em>}</li>
- *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#getDefaultValueLiteral <em>Default Value Literal</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isUnsettable <em>Unsettable</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isDerived <em>Derived</em>}</li>
- *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isID <em>ID</em>}</li>
- *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isContainment <em>Containment</em>}</li>
- *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isResolveProxies <em>Resolve Proxies</em>}</li>
- *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isLocal <em>Local</em>}</li>
- *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#getOpposite <em>Opposite</em>}</li>
- *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#getKeys <em>Keys</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#getGetBody <em>Get Body</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#getSetBody <em>Set Body</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#getIsSetBody <em>Is Set Body</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#getUnsetBody <em>Unset Body</em>}</li>
- *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isReference <em>Reference</em>}</li>
  * </ul>
  * </p>
  *
  * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXStructuralFeature()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface XStructuralFeature extends XMember
@@ -124,32 +116,6 @@ public interface XStructuralFeature extends XMember
   void setTransient(boolean value);
 
   /**
-   * Returns the value of the '<em><b>Default Value Literal</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Default Value Literal</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Default Value Literal</em>' attribute.
-   * @see #setDefaultValueLiteral(String)
-   * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXStructuralFeature_DefaultValueLiteral()
-   * @model
-   * @generated
-   */
-  String getDefaultValueLiteral();
-
-  /**
-   * Sets the value of the '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#getDefaultValueLiteral <em>Default Value Literal</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Default Value Literal</em>' attribute.
-   * @see #getDefaultValueLiteral()
-   * @generated
-   */
-  void setDefaultValueLiteral(String value);
-
-  /**
    * Returns the value of the '<em><b>Unsettable</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
@@ -200,152 +166,6 @@ public interface XStructuralFeature extends XMember
    * @generated
    */
   void setDerived(boolean value);
-
-  /**
-   * Returns the value of the '<em><b>ID</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>ID</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>ID</em>' attribute.
-   * @see #setID(boolean)
-   * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXStructuralFeature_ID()
-   * @model
-   * @generated
-   */
-  boolean isID();
-
-  /**
-   * Sets the value of the '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isID <em>ID</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>ID</em>' attribute.
-   * @see #isID()
-   * @generated
-   */
-  void setID(boolean value);
-
-  /**
-   * Returns the value of the '<em><b>Containment</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Containment</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Containment</em>' attribute.
-   * @see #setContainment(boolean)
-   * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXStructuralFeature_Containment()
-   * @model
-   * @generated
-   */
-  boolean isContainment();
-
-  /**
-   * Sets the value of the '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isContainment <em>Containment</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Containment</em>' attribute.
-   * @see #isContainment()
-   * @generated
-   */
-  void setContainment(boolean value);
-
-  /**
-   * Returns the value of the '<em><b>Resolve Proxies</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Resolve Proxies</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Resolve Proxies</em>' attribute.
-   * @see #setResolveProxies(boolean)
-   * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXStructuralFeature_ResolveProxies()
-   * @model
-   * @generated
-   */
-  boolean isResolveProxies();
-
-  /**
-   * Sets the value of the '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isResolveProxies <em>Resolve Proxies</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Resolve Proxies</em>' attribute.
-   * @see #isResolveProxies()
-   * @generated
-   */
-  void setResolveProxies(boolean value);
-
-  /**
-   * Returns the value of the '<em><b>Local</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Local</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Local</em>' attribute.
-   * @see #setLocal(boolean)
-   * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXStructuralFeature_Local()
-   * @model
-   * @generated
-   */
-  boolean isLocal();
-
-  /**
-   * Sets the value of the '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isLocal <em>Local</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Local</em>' attribute.
-   * @see #isLocal()
-   * @generated
-   */
-  void setLocal(boolean value);
-
-  /**
-   * Returns the value of the '<em><b>Opposite</b></em>' reference.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Opposite</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Opposite</em>' reference.
-   * @see #setOpposite(EReference)
-   * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXStructuralFeature_Opposite()
-   * @model
-   * @generated
-   */
-  EReference getOpposite();
-
-  /**
-   * Sets the value of the '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#getOpposite <em>Opposite</em>}' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Opposite</em>' reference.
-   * @see #getOpposite()
-   * @generated
-   */
-  void setOpposite(EReference value);
-
-  /**
-   * Returns the value of the '<em><b>Keys</b></em>' reference list.
-   * The list contents are of type {@link org.eclipse.emf.ecore.EAttribute}.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Keys</em>' reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Keys</em>' reference list.
-   * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXStructuralFeature_Keys()
-   * @model
-   * @generated
-   */
-  EList<EAttribute> getKeys();
 
   /**
    * Returns the value of the '<em><b>Get Body</b></em>' containment reference.
@@ -450,31 +270,5 @@ public interface XStructuralFeature extends XMember
    * @generated
    */
   void setUnsetBody(XBlockExpression value);
-
-  /**
-   * Returns the value of the '<em><b>Reference</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Reference</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Reference</em>' attribute.
-   * @see #setReference(boolean)
-   * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXStructuralFeature_Reference()
-   * @model
-   * @generated
-   */
-  boolean isReference();
-
-  /**
-   * Sets the value of the '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isReference <em>Reference</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Reference</em>' attribute.
-   * @see #isReference()
-   * @generated
-   */
-  void setReference(boolean value);
 
 } // XStructuralFeature

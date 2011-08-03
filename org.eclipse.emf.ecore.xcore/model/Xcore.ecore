@@ -14,6 +14,10 @@
   <eClassifiers xsi:type="ecore:EClass" name="XAnnotationDirective" eSuperTypes="#//XNamedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceURI" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XAttribute" eSuperTypes="#//XStructuralFeature">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValueLiteral" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iD" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XClass" eSuperTypes="#//XClassifier">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="interface" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
@@ -65,13 +69,13 @@
         eType="#//XGenericType" containment="true" resolveProxies="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lowerBound" eType="#//XGenericType"
         containment="true" resolveProxies="false"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../org.eclipse.emf.codegen.ecore/model/GenModel.ecore#//GenBase"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XImportDirective" eSuperTypes="#//XModelElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="importedNamespace" lowerBound="1"
         eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="XMember" eSuperTypes="#//XTypedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="XMember" abstract="true" eSuperTypes="#//XTypedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="containingClass" eType="#//XClass"
         changeable="false" transient="true" resolveProxies="false" eOpposite="#//XClass/members"/>
   </eClassifiers>
@@ -111,23 +115,25 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="operation" eType="#//XOperation"
         changeable="false" transient="true" resolveProxies="false" eOpposite="#//XOperation/parameters"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XReference" eSuperTypes="#//XStructuralFeature">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="container" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="containment" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resolveProxies" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="local" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="opposite" eType="ecore:EClass ../../org.eclipse.emf.codegen.ecore/model/GenModel.ecore#//GenFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="keys" upperBound="-1" eType="ecore:EClass ../../org.eclipse.emf.codegen.ecore/model/GenModel.ecore#//GenFeature"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XStringToStringMapEntry" instanceClassName="java.util.Map$Entry">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="XStructuralFeature" eSuperTypes="#//XMember">
+  <eClassifiers xsi:type="ecore:EClass" name="XStructuralFeature" abstract="true"
+      eSuperTypes="#//XMember">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="readonly" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="volatile" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="transient" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValueLiteral" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="unsettable" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="derived" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iD" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="containment" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resolveProxies" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="local" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="opposite" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EReference"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="keys" upperBound="-1" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EAttribute"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="getBody" eType="ecore:EClass ../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XBlockExpression"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="setBody" eType="ecore:EClass ../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XBlockExpression"
@@ -136,7 +142,6 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="unsetBody" eType="ecore:EClass ../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XBlockExpression"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reference" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XTypedElement" abstract="true" eSuperTypes="#//XNamedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="unordered" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
