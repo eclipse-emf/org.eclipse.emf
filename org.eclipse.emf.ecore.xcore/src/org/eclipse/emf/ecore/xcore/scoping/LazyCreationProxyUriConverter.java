@@ -1,0 +1,85 @@
+package org.eclipse.emf.ecore.xcore.scoping;
+
+import java.util.Map;
+
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.xtext.common.types.TypesPackage;
+import org.eclipse.xtext.naming.QualifiedName;
+import org.eclipse.xtext.util.Pair;
+import org.eclipse.xtext.util.Tuples;
+
+import static com.google.common.collect.Maps.*;
+
+public class LazyCreationProxyUriConverter {
+
+	private Map<String, EClass> types = newHashMap();
+	{
+		EClass eclass = EcorePackage.Literals.ECLASS;
+		EClass genClass = GenModelPackage.Literals.GEN_CLASS;
+		EClass jvmGenericType = TypesPackage.Literals.JVM_GENERIC_TYPE;
+		types.put(eclass.getName(), eclass);
+		types.put(genClass.getName(), genClass);
+		types.put(jvmGenericType.getName(), jvmGenericType);
+	}
+
+	public void installProxyURI(URI resourceURI, EObject eobject, QualifiedName name) {
+		URI proxyURI = getProxyURI(resourceURI, eobject, name);
+		((InternalEObject) eobject).eSetProxyURI(proxyURI);
+	}
+
+	public URI getProxyURI(URI resourceURI, EObject eObject, QualifiedName name) {
+		if (!isSupported(eObject)) {
+			throw new IllegalArgumentException("eObjects of type " + eObject.eClass().getName() + " are not supported.");
+		}
+		return resourceURI.appendFragment(encodeFragment(eObject.eClass(), name));
+	}
+
+	private boolean isSupported(EObject eObject) {
+		return types.containsValue(eObject.eClass());
+	}
+
+	public Pair<EClass, QualifiedName> decodeProxy(EObject obj) {
+		if (obj != null) {
+			URI proxyURI = ((InternalEObject) obj).eProxyURI();
+			if (proxyURI != null) {
+				return decodeProxyUri(proxyURI);
+			}
+		}
+		throw new IllegalArgumentException("" + obj);
+	}
+
+	public Pair<EClass, QualifiedName> decodeProxyUri(URI proxyUri) {
+		final String fragment = proxyUri.fragment();
+		if (fragment != null) {
+			Pair<EClass, QualifiedName> fragmentInfo = decodeFragment(fragment);
+			if (fragmentInfo != null) {
+				return fragmentInfo;
+			}
+		}
+		throw new IllegalArgumentException("couldn't parse URI :'" + proxyUri);
+	}
+
+	private final static String DELIM = "%";
+
+	protected String encodeFragment(EClass eclass, QualifiedName name) {
+		return eclass.getName() + DELIM + name.toString();
+	}
+
+	protected Pair<EClass, QualifiedName> decodeFragment(String fragment) {
+		String[] segments = fragment.split(DELIM);
+		if (segments.length == 2) {
+			String clazzName = segments[0];
+			QualifiedName name = QualifiedName.create(segments[1]);
+			if (types.containsKey(clazzName)) {
+				return Tuples.create(types.get(clazzName), name);
+			}
+		}
+		return null;
+	}
+
+}
