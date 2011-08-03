@@ -4,9 +4,11 @@
 package org.eclipse.emf.ecore.xcore;
 
 import org.eclipse.emf.ecore.xcore.linking.XcoreLazyLinker;
+import org.eclipse.emf.ecore.xcore.resource.XcoreResource;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionStrategy;
 import org.eclipse.xtext.linking.ILinker;
 import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
+import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.serializer.ISerializer;
 import org.eclipse.xtext.serializer.impl.Serializer;
 
@@ -29,7 +31,11 @@ public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcor
   
   public Class<? extends IDefaultResourceDescriptionStrategy> bindIDefaultResourceDescriptionStrategy()
   {
-	  return XcoreResourceDescriptionStrategy.class;
+	return XcoreResourceDescriptionStrategy.class;
   }
   
+  @Override
+  public Class<? extends XtextResource> bindXtextResource() {
+	return XcoreResource.class;
+  }
 }

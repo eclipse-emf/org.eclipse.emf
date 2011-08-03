@@ -64,13 +64,13 @@ public class LazyCreationProxyUriConverter {
 		throw new IllegalArgumentException("couldn't parse URI :'" + proxyUri);
 	}
 
-	private final static String DELIM = "%";
+	private final static String DELIM = "-=-";
 
-	protected String encodeFragment(EClass eclass, QualifiedName name) {
+	public String encodeFragment(EClass eclass, QualifiedName name) {
 		return eclass.getName() + DELIM + name.toString();
 	}
 
-	protected Pair<EClass, QualifiedName> decodeFragment(String fragment) {
+	public Pair<EClass, QualifiedName> decodeFragment(String fragment) {
 		String[] segments = fragment.split(DELIM);
 		if (segments.length == 2) {
 			String clazzName = segments[0];

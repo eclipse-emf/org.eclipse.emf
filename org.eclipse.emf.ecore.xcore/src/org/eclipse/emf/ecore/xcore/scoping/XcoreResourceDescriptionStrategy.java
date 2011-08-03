@@ -2,12 +2,14 @@ package org.eclipse.emf.ecore.xcore.scoping;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.common.types.TypesFactory;
+import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
@@ -30,41 +32,41 @@ public class XcoreResourceDescriptionStrategy extends DefaultResourceDescription
 	@Inject
 	private LazyCreationProxyUriConverter proxyTool;
 	
+	@Inject
+	private IQualifiedNameProvider nameProvider;
+	
 	@Override
 	public boolean createEObjectDescriptions(EObject eObject, IAcceptor<IEObjectDescription> acceptor) {
 		if (eObject instanceof XClass) {
-			final XClass clazz = (XClass) eObject;
-			String name = clazz.getName();
-			String packageName = clazz.getPackage().getName();
-			QualifiedName qn = QualifiedName.create(packageName,name);
-			createGenModelDescription(eObject, acceptor, qn);
-			createEcoreDescription(eObject, acceptor, qn);
-			createJvmTypesDescription(eObject, acceptor, qn);
+			QualifiedName qn = nameProvider.getFullyQualifiedName(eObject);
+			createGenModelDescription(eObject.eResource().getURI(), acceptor, qn);
+			createEcoreDescription(eObject.eResource().getURI(), acceptor, qn);
+			createJvmTypesDescription(eObject.eResource().getURI(), acceptor, qn);
 			return false;
 		}
 		return true;
 	}
 
-	protected void createJvmTypesDescription(EObject eObject, IAcceptor<IEObjectDescription> acceptor, QualifiedName qn) {
+	protected void createJvmTypesDescription(URI resourceURI, IAcceptor<IEObjectDescription> acceptor, QualifiedName qn) {
 		JvmGenericType theInterface = typesFactory.createJvmGenericType();
-		proxyTool.installProxyURI(eObject.eResource().getURI(), theInterface, qn);
+		proxyTool.installProxyURI(resourceURI, theInterface, qn);
 		acceptor.accept(EObjectDescription.create(qn, theInterface));
 		
 		QualifiedName implClassName = QualifiedName.create(qn.toString()+"Impl"); 
 		JvmGenericType theImplClass = typesFactory.createJvmGenericType();
-		proxyTool.installProxyURI(eObject.eResource().getURI(), theImplClass, implClassName);
+		proxyTool.installProxyURI(resourceURI, theImplClass, implClassName);
 		acceptor.accept(EObjectDescription.create(implClassName, theImplClass));
 	}
 
-	protected void createEcoreDescription(EObject eObject, IAcceptor<IEObjectDescription> acceptor, QualifiedName qn) {
+	protected void createEcoreDescription(URI resourceURI, IAcceptor<IEObjectDescription> acceptor, QualifiedName qn) {
 		EClass eclass = ecoreFactory.createEClass();
-		proxyTool.installProxyURI(eObject.eResource().getURI(), eclass, qn);
+		proxyTool.installProxyURI(resourceURI, eclass, qn);
 		acceptor.accept(EObjectDescription.create(qn, eclass));
 	}
 
-	protected void createGenModelDescription(EObject eObject, IAcceptor<IEObjectDescription> acceptor, QualifiedName qn) {
+	protected void createGenModelDescription(URI resourceURI, IAcceptor<IEObjectDescription> acceptor, QualifiedName qn) {
 		GenClass genClass = genFactory.createGenClass();
-		proxyTool.installProxyURI(eObject.eResource().getURI(), genClass, qn);
+		proxyTool.installProxyURI(resourceURI, genClass, qn);
 		acceptor.accept(EObjectDescription.create(qn, genClass));
 	}
 
