@@ -14,13 +14,15 @@ import static org.junit.Assert.*;
 
 @RunWith(XtextRunner.class)
 @InjectWith(XcoreInjectorProvider.class)
-public class ParserTest {
-	
+public class ParserTest
+{
+
 	@Inject
 	private ParseHelper<XPackage> parser;
 
 	@Test
-	public void parseSimpleFile() throws Exception {
+	public void parseSimpleFile() throws Exception
+	{
 		XPackage parse = parser.parse("package foo");
 		assertEquals("foo", parse.getName());
 	}

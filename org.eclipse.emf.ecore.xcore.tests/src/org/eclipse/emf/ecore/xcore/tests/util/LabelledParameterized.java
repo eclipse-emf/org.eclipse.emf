@@ -18,59 +18,66 @@ import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 import org.junit.runners.model.TestClass;
 
-public class LabelledParameterized extends Suite {
+public class LabelledParameterized extends Suite
+{
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.METHOD)
-	public static @interface LabelledParameters {
+	public static @interface LabelledParameters
+	{
 	}
 
-	private class TestClassRunnerForParameters extends BlockJUnit4ClassRunner {
+	private class TestClassRunnerForParameters extends BlockJUnit4ClassRunner
+	{
 		private final int parameterSetNumber;
 
 		private final List<Object[]> parameters;
 
-		TestClassRunnerForParameters(Class<?> type,
-				List<Object[]> parameterList, int i) throws InitializationError {
+		TestClassRunnerForParameters(Class<?> type, List<Object[]> parameterList, int i) throws InitializationError
+		{
 			super(type);
 			parameters = parameterList;
 			parameterSetNumber = i;
 		}
 
 		@Override
-		public Object createTest() throws Exception {
-			return getTestClass().getOnlyConstructor().newInstance(
-					computeParams());
+		public Object createTest() throws Exception
+		{
+			return getTestClass().getOnlyConstructor().newInstance(computeParams());
 		}
 
-		protected Object[] computeParams() throws Exception {
-			try {
+		protected Object[] computeParams() throws Exception
+		{
+			try
+			{
 				return parameters.get(parameterSetNumber);
-			} catch (ClassCastException e) {
-				throw new Exception(String.format(
-						"%s.%s() must return a Collection of arrays.",
-						getTestClass().getName(),
-						getParametersMethod(getTestClass()).getName()));
+			} catch (ClassCastException e)
+			{
+				throw new Exception(String.format("%s.%s() must return a Collection of arrays.", getTestClass().getName(),
+				    getParametersMethod(getTestClass()).getName()));
 			}
 		}
 
 		@Override
-		protected String getName() {
+		protected String getName()
+		{
 			return String.format("%s", parameters.get(parameterSetNumber)[0]);
 		}
 
 		@Override
-		protected String testName(final FrameworkMethod method) {
-			return String.format("%s -> %s",
-					parameters.get(parameterSetNumber)[0], method.getName());
+		protected String testName(final FrameworkMethod method)
+		{
+			return String.format("%s -> %s", parameters.get(parameterSetNumber)[0], method.getName());
 		}
 
 		@Override
-		protected void validateZeroArgConstructor(List<Throwable> errors) {
+		protected void validateZeroArgConstructor(List<Throwable> errors)
+		{
 			// super.validateZeroArgConstructor(errors);
 		}
 
 		@Override
-		protected Statement classBlock(RunNotifier notifier) {
+		protected Statement classBlock(RunNotifier notifier)
+		{
 			return childrenInvoker(notifier);
 		}
 	}
@@ -80,38 +87,37 @@ public class LabelledParameterized extends Suite {
 	/**
 	 * Only called reflectively. Do not use programmatically.
 	 */
-	public LabelledParameterized(Class<?> klass) throws Throwable {
+	public LabelledParameterized(Class<?> klass) throws Throwable
+	{
 		super(klass, Collections.<Runner> emptyList());
 		List<Object[]> parametersList = getParametersList(getTestClass());
 		for (int i = 0; i < parametersList.size(); i++)
-			runners.add(new TestClassRunnerForParameters(getTestClass()
-					.getJavaClass(), parametersList, i));
+			runners.add(new TestClassRunnerForParameters(getTestClass().getJavaClass(), parametersList, i));
 	}
 
 	@Override
-	protected List<Runner> getChildren() {
+	protected List<Runner> getChildren()
+	{
 		return runners;
 	}
 
 	@SuppressWarnings("unchecked")
-	protected List<Object[]> getParametersList(TestClass klass)
-			throws Throwable {
-		return (List<Object[]>) getParametersMethod(klass).invokeExplosively(
-				null);
+	protected List<Object[]> getParametersList(TestClass klass) throws Throwable
+	{
+		return (List<Object[]>) getParametersMethod(klass).invokeExplosively(null);
 	}
 
-	protected FrameworkMethod getParametersMethod(TestClass testClass)
-			throws Exception {
-		List<FrameworkMethod> methods = testClass
-				.getAnnotatedMethods(LabelledParameters.class);
-		for (FrameworkMethod each : methods) {
+	protected FrameworkMethod getParametersMethod(TestClass testClass) throws Exception
+	{
+		List<FrameworkMethod> methods = testClass.getAnnotatedMethods(LabelledParameters.class);
+		for (FrameworkMethod each : methods)
+		{
 			int modifiers = each.getMethod().getModifiers();
 			if (Modifier.isStatic(modifiers) && Modifier.isPublic(modifiers))
 				return each;
 		}
 
-		throw new Exception("No public static parameters method on class "
-				+ testClass.getName());
+		throw new Exception("No public static parameters method on class " + testClass.getName());
 	}
 
 }

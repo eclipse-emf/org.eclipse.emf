@@ -28,16 +28,20 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
 @RunWith(LabelledParameterized.class)
-public abstract class AbstractModelSanityTest {
+public abstract class AbstractModelSanityTest
+{
 
-	public static class FilePredicate implements Predicate<File> {
+	public static class FilePredicate implements Predicate<File>
+	{
 		private final String[] fileExts;
 
-		public FilePredicate(String... fileExts) {
+		public FilePredicate(String... fileExts)
+		{
 			this.fileExts = fileExts;
 		}
 
-		public boolean apply(File input) {
+		public boolean apply(File input)
+		{
 			for (String ext : fileExts)
 				if (input.getName().endsWith("." + ext))
 					return true;
@@ -47,9 +51,10 @@ public abstract class AbstractModelSanityTest {
 
 	protected static List<File> files;
 
-	protected static void collectFiles(File dir, List<File> result,
-			Predicate<File> shouldLoad) {
-		for (File child : dir.listFiles()) {
+	protected static void collectFiles(File dir, List<File> result, Predicate<File> shouldLoad)
+	{
+		for (File child : dir.listFiles())
+		{
 			if (shouldLoad.apply(child))
 				result.add(child);
 			if (child.isDirectory())
@@ -57,8 +62,8 @@ public abstract class AbstractModelSanityTest {
 		}
 	}
 
-	public static List<File> collectFiles(String directory,
-			Predicate<File> shouldCollect) {
+	public static List<File> collectFiles(String directory, Predicate<File> shouldCollect)
+	{
 		File dir = new File(directory);
 		if (!dir.isDirectory())
 			throw new RuntimeException("Directory not found: " + directory);
@@ -67,36 +72,40 @@ public abstract class AbstractModelSanityTest {
 		return result;
 	}
 
-	protected static List<File> collectFiles(String directory,
-			String... fileExtensions) {
+	protected static List<File> collectFiles(String directory, String... fileExtensions)
+	{
 		return collectFiles(directory, new FilePredicate(fileExtensions));
 	}
 
-	protected static Collection<Object[]> collectTestFiles(String root,
-			String... fileExts) {
+	protected static Collection<Object[]> collectTestFiles(String root, String... fileExts)
+	{
 		init();
 		List<Object[]> result = Lists.newArrayList();
 		ResourceSet rs = new XtextResourceSet();
 		URI rootURI = URI.createFileURI(new File(root).getAbsolutePath());
-		for (File file : collectFiles(root, fileExts)) {
+		for (File file : collectFiles(root, fileExts))
+		{
 			URI uri = URI.createFileURI(file.getAbsolutePath());
 			Resource res = null;
-			try {
+			try
+			{
 				res = rs.getResource(uri, true);
-			} catch (Exception t) {
+			} catch (Exception t)
+			{
 				if (res == null)
 					res = rs.createResource(uri);
 				res.getErrors().add(new ExceptionDiagnostic(t));
 			}
 			List<String> segmentsList = uri.deresolve(rootURI).segmentsList();
-			String name = Joiner.on('/').join(
-					segmentsList.subList(1, segmentsList.size()));
-			result.add(new Object[] { name, res });
+			String name = Joiner.on('/').join(segmentsList.subList(1, segmentsList.size()));
+			result.add(new Object[]
+			{ name, res });
 		}
 		return result;
 	}
 
-	private static void init() {
+	private static void init()
+	{
 		new StandaloneSetup().setPlatformUri(".");
 	}
 
@@ -104,25 +113,29 @@ public abstract class AbstractModelSanityTest {
 
 	protected XtextResource resource;
 
-	public AbstractModelSanityTest(String label, Resource res) throws Exception {
+	public AbstractModelSanityTest(String label, Resource res) throws Exception
+	{
 		this.label = label;
 		this.resource = (XtextResource) res;
 	}
 
-	protected String annotateDocumentWithIssues(String document,
-			List<Issue> issues) {
+	protected String annotateDocumentWithIssues(String document, List<Issue> issues)
+	{
 		String[] lines = document.split("\n");
 		Multimap<Integer, Issue> issueByLine = HashMultimap.create();
 		for (Issue issue : issues)
 			issueByLine.put(issue.getLineNumber(), issue);
 		List<String> result = Lists.newArrayList();
-		for (int i = 0; i < lines.length; i++) {
+		for (int i = 0; i < lines.length; i++)
+		{
 			Collection<Issue> lineIssues = issueByLine.get(i);
 			if (lineIssues.isEmpty())
 				result.add(lines[i]);
-			else {
+			else
+			{
 				StringBuilder line = new StringBuilder(lines[i]);
-				for (Issue issue : lineIssues) {
+				for (Issue issue : lineIssues)
+				{
 					line.append("\n");
 					line.append("// " + formatIssue(issue));
 				}
@@ -136,7 +149,8 @@ public abstract class AbstractModelSanityTest {
 		return Joiner.on('\n').join(result);
 	}
 
-	protected String formatIssue(Issue issue) {
+	protected String formatIssue(Issue issue)
+	{
 		StringBuilder result = new StringBuilder();
 		result.append(issue.getSeverity());
 		result.append(": ");
@@ -147,7 +161,8 @@ public abstract class AbstractModelSanityTest {
 		return result.toString();
 	}
 
-	protected String getIssuesText(List<Issue> issues) {
+	protected String getIssuesText(List<Issue> issues)
+	{
 		List<String> result = Lists.newArrayList();
 		for (Issue issue : issues)
 			result.add(formatIssue(issue));
@@ -155,27 +170,23 @@ public abstract class AbstractModelSanityTest {
 	}
 
 	@Test
-	public void serialize() throws Exception {
+	public void serialize() throws Exception
+	{
 		Assert.assertTrue(resource.getContents().size() > 0);
 		EObject root = resource.getContents().get(0);
-		SerializerTester tester = resource.getResourceServiceProvider().get(
-				SerializerTester.class);
+		SerializerTester tester = resource.getResourceServiceProvider().get(SerializerTester.class);
 		tester.assertSerializeWithNodeModel(root);
 		tester.assertSerializeWithoutNodeModel(root);
 	}
 
 	@Test
-	public void validate() {
-		IResourceValidator validator = resource.getResourceServiceProvider()
-				.get(IResourceValidator.class);
-		List<Issue> issues = validator.validate(resource, CheckMode.ALL,
-				CancelIndicator.NullImpl);
-		String expectedDocument = resource.getParseResult().getRootNode()
-				.getText();
-		String actualDocument = annotateDocumentWithIssues(expectedDocument,
-				issues);
-		Assert.assertEquals(getIssuesText(issues), expectedDocument,
-				actualDocument);
+	public void validate()
+	{
+		IResourceValidator validator = resource.getResourceServiceProvider().get(IResourceValidator.class);
+		List<Issue> issues = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
+		String expectedDocument = resource.getParseResult().getRootNode().getText();
+		String actualDocument = annotateDocumentWithIssues(expectedDocument, issues);
+		Assert.assertEquals(getIssuesText(issues), expectedDocument, actualDocument);
 	}
 
 }
