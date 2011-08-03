@@ -68,6 +68,40 @@ public class XcoreEcoreBuilder
       return type == Mapping.class;
     }
   }
+  public static void map(EObject eObject1, EObject eObject2)
+  {
+    eObject1.eAdapters().add(new Mapping(eObject2));
+    eObject2.eAdapters().add(new Mapping(eObject1));
+  }
+  
+  public static EObject get(EObject eObject)
+  {
+    return ((Mapping)EcoreUtil.getAdapter(eObject.eAdapters(), Mapping.class)).eObject;
+  }
+
+  static class GenMapping extends AdapterImpl
+  {
+    public GenBase genBase;
+    GenMapping(GenBase genBase)
+    {
+      this.genBase = genBase;
+    }
+    @Override
+    public boolean isAdapterForType(Object type)
+    {
+      return type == GenMapping.class;
+    }
+  }
+  
+  public static void map(EObject eObject, GenBase genBase)
+  {
+    eObject.eAdapters().add(new GenMapping(genBase));
+  }
+  
+  public static GenBase getGen(EObject eObject)
+  {
+    return ((GenMapping)EcoreUtil.getAdapter(eObject.eAdapters(), GenMapping.class)).genBase;
+  }
   
   public void link()
   {
@@ -85,16 +119,6 @@ public class XcoreEcoreBuilder
     }
   }
 
-  public static void map(EObject eObject1, EObject eObject2)
-  {
-    eObject1.eAdapters().add(new Mapping(eObject2));
-    eObject2.eAdapters().add(new Mapping(eObject1));
-  }
-  
-  public static EObject get(EObject eObject)
-  {
-    return ((Mapping)EcoreUtil.getAdapter(eObject.eAdapters(), Mapping.class)).eObject;
-  }
 
   public EPackage getEPackage(XPackage xPackage)
   {

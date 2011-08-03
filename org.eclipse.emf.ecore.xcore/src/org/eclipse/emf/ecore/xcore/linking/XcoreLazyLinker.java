@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.ecore.EClass;
@@ -51,11 +52,25 @@ public class XcoreLazyLinker extends JvmModelXbaseLazyLinker
       XcoreEcoreBuilder xcoreEcoreBuilder = new XcoreEcoreBuilder();
       EPackage ePackage = xcoreEcoreBuilder.getEPackage((XPackage)model);
       model.eResource().getContents().add(ePackage);
-      xcoreEcoreBuilder.link(); 
       GenModel genModel =  GenModelFactory.eINSTANCE.createGenModel();
       genModel.initialize(Collections.singleton(ePackage));
       model.eResource().getContents().add(genModel);
       genModel.initialize();
+      for (Iterator<EObject> i = genModel.eAllContents(); i.hasNext(); )
+      {
+        EObject eObject = i.next();
+        if (eObject instanceof GenBase)
+        {
+          GenBase genBase = (GenBase)eObject;
+          EModelElement eModelElement = genBase.getEcoreModelElement();
+          if (eModelElement != null)
+          {
+            XcoreEcoreBuilder.map(eModelElement, (GenBase)eObject);
+          }
+        }
+      }
+      
+      xcoreEcoreBuilder.link(); 
     }
     super.afterModelLinked(model, diagnosticsConsumer);
   }

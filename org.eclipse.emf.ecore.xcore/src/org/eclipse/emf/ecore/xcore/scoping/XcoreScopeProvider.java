@@ -6,6 +6,11 @@ package org.eclipse.emf.ecore.xcore.scoping;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -25,6 +30,7 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.AbstractEObjectDescription;
+import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractScope;
@@ -65,38 +71,11 @@ public class XcoreScopeProvider extends XbaseScopeProvider  {
       return 
         new AbstractScope(scope, false)
         {
-          void handleETypeParameters(List<IEObjectDescription> result, EList<ETypeParameter> eTypeParameters)
+          void handleGenTypeParameters(List<IEObjectDescription> result, EList<GenTypeParameter> genTypeParameters)
           {
-            for (final ETypeParameter eTypeParameter : eTypeParameters)
+            for (final GenTypeParameter genTypeParameter : genTypeParameters)
             {
-              result.add
-                (new AbstractEObjectDescription()
-                 {
-                   public QualifiedName getQualifiedName()
-                   {
-                     return QualifiedName.create(eTypeParameter.getName());
-                   }
-                         
-                   public QualifiedName getName()
-                   {
-                     return QualifiedName.create(eTypeParameter.getName());
-                   }
-                         
-                   public URI getEObjectURI()
-                   {
-                     return EcoreUtil.getURI(eTypeParameter);
-                   }
-                         
-                   public EObject getEObjectOrProxy()
-                   {
-                     return eTypeParameter;
-                   }
-                         
-                   public EClass getEClass()
-                   {
-                     return EcorePackage.Literals.ETYPE_PARAMETER;
-                   }
-                 });
+              result.add(new EObjectDescription(QualifiedName.create(genTypeParameter.getName()), genTypeParameter, null));
             }
           }
 
@@ -108,14 +87,22 @@ public class XcoreScopeProvider extends XbaseScopeProvider  {
             {
               if (eObject instanceof XOperation)
               {
-                EOperation eOperation = (EOperation)XcoreEcoreBuilder.get(eObject);
-                handleETypeParameters(result, eOperation.getETypeParameters());
+                GenOperation genOperation = (GenOperation)XcoreEcoreBuilder.getGen(XcoreEcoreBuilder.get(eObject));
+                handleGenTypeParameters(result, genOperation.getGenTypeParameters());
               }
               else if (eObject instanceof XClassifier)
               {
-                EClassifier eClassifier = (EClassifier)XcoreEcoreBuilder.get(eObject);
-                handleETypeParameters(result, eClassifier.getETypeParameters());
-                break;
+                GenClassifier genClassifier = (GenClassifier)XcoreEcoreBuilder.getGen(XcoreEcoreBuilder.get(eObject));
+                handleGenTypeParameters(result, genClassifier.getGenTypeParameters());
+              }
+              else if (eObject instanceof XPackage)
+              {
+                GenPackage genPackage = (GenPackage)XcoreEcoreBuilder.getGen(XcoreEcoreBuilder.get(eObject));
+                String packageName = genPackage.getQualifiedPackageName();
+                for (GenClassifier genClassifier : genPackage.getGenClassifiers())
+                {
+                  result.add(new EObjectDescription(QualifiedName.create(packageName + "." + genClassifier.getName()), genClassifier, null));
+                }
               }
             }
             return result;
@@ -138,34 +125,7 @@ public class XcoreScopeProvider extends XbaseScopeProvider  {
                 XPackage xPackage = (XPackage)eObject;
                 for (final XAnnotationDirective xAnnotationDirective : xPackage.getAnnotationDirectives())
                 {
-                  result.add
-                    (new AbstractEObjectDescription()
-                     {
-                       public QualifiedName getQualifiedName()
-                       {
-                         return QualifiedName.create(xAnnotationDirective.getName());
-                       }
-                             
-                       public QualifiedName getName()
-                       {
-                         return QualifiedName.create(xAnnotationDirective.getName());
-                       }
-                             
-                       public URI getEObjectURI()
-                       {
-                         return EcoreUtil.getURI(xAnnotationDirective);
-                       }
-                             
-                       public EObject getEObjectOrProxy()
-                       {
-                         return xAnnotationDirective;
-                       }
-                             
-                       public EClass getEClass()
-                       {
-                         return XcorePackage.Literals.XANNOTATION_DIRECTIVE;
-                       }
-                     });
+                  result.add(new EObjectDescription(QualifiedName.create(xAnnotationDirective.getName()), xAnnotationDirective, null));
                 }
               }
             }
