@@ -241,7 +241,6 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
                   final ISelection targetSelection = new StructuredSelection(file);
                   workbenchWindow.getShell().getDisplay().asyncExec(new Runnable()
                     {
-                      @Override
                       public void run()
                       {
                         ((ISetSelectionTarget)activePart).selectReveal(targetSelection);
