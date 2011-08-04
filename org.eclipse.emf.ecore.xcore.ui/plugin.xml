@@ -206,7 +206,7 @@
       </participant>
    </extension>
    
-   <-- MANUAL ADDITIONS -->
+   <!-- MANUAL ADDITIONS -->
    
    
       <extension point="org.eclipse.ui.popupMenus">
