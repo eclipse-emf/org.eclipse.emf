@@ -302,7 +302,7 @@ public class XcoreEcoreBuilder
     {
       EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
       eAnnotation.setSource(EcorePackage.eNS_URI);
-      eAnnotation.getContents().add(EcoreUtil2.cloneWithProxies(body));
+      eAnnotation.getReferences().add(body);
       eOperation.getEAnnotations().add(eAnnotation);
     }
     return eOperation;
