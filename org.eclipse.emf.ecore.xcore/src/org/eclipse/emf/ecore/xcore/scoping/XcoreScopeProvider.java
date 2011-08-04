@@ -12,14 +12,10 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XOperation;
-import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
@@ -28,10 +24,8 @@ import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractScope;
-import org.eclipse.xtext.scoping.impl.FilteringScope;
 import org.eclipse.xtext.xbase.scoping.XbaseScopeProvider;
 
-import com.google.common.base.Predicate;
 import com.google.inject.Inject;
 
 /**
@@ -49,31 +43,7 @@ public class XcoreScopeProvider extends XbaseScopeProvider  {
   @Override
   public IScope getScope(final EObject context, EReference reference)
   {
-    if (reference == XcorePackage.Literals.XANNOTATION__SOURCE)
-    {
-      return 
-        new AbstractScope(IScope.NULLSCOPE, false)
-        {
-          @Override
-          protected Iterable<IEObjectDescription> getAllLocalElements()
-          {
-            ArrayList<IEObjectDescription> result = new ArrayList<IEObjectDescription>();
-            for (EObject eObject = context; eObject != null; eObject = eObject.eContainer())
-            {
-              if (eObject instanceof XPackage)
-              {
-                XPackage xPackage = (XPackage)eObject;
-                for (final XAnnotationDirective xAnnotationDirective : xPackage.getAnnotationDirectives())
-                {
-                  result.add(new EObjectDescription(QualifiedName.create(xAnnotationDirective.getName()), xAnnotationDirective, null));
-                }
-              }
-            }
-            return result;
-          }
-        };
-    }
-    else if (reference == XcorePackage.Literals.XREFERENCE__OPPOSITE)
+    if (reference == XcorePackage.Literals.XREFERENCE__OPPOSITE)
     {
       return 
         new AbstractScope(IScope.NULLSCOPE, false)
@@ -126,21 +96,7 @@ public class XcoreScopeProvider extends XbaseScopeProvider  {
     }
     else
     {
-      IScope scope = 
-        new FilteringScope
-          (super.getScope(context, reference), 
-           new Predicate<IEObjectDescription>()
-           {
-             public boolean apply(IEObjectDescription input)
-             {
-               EClass eClass = input.getEClass();
-               return 
-                 eClass.getEPackage() != EcorePackage.eINSTANCE ||
-                 eClass == EcorePackage.Literals.ECLASS ||
-                 eClass == EcorePackage.Literals.EDATA_TYPE ||
-                 eClass == EcorePackage.Literals.EENUM;
-             }
-           });
+      IScope scope = super.getScope(context, reference);
       if (reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE)
       {
         return 

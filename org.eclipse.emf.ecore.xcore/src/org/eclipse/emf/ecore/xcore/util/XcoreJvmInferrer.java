@@ -3,6 +3,10 @@ package org.eclipse.emf.ecore.xcore.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
+import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -18,47 +22,46 @@ public class XcoreJvmInferrer
 {
   public List<? extends JvmDeclaredType> getDeclaredTypes(XPackage xPackage)
   {
-    EPackage ePackage = (EPackage)XcoreEcoreBuilder.get(xPackage);
-    return getDeclaredTypes(ePackage);
+    GenPackage genPackage = (GenPackage)XcoreEcoreBuilder.getGen(XcoreEcoreBuilder.get(xPackage));
+    return getDeclaredTypes(genPackage);
   }
 
-  public List<? extends JvmDeclaredType> getDeclaredTypes(EPackage ePackage)
+  public List<? extends JvmDeclaredType> getDeclaredTypes(GenPackage genPackage)
   {
     ArrayList<JvmDeclaredType> result = new ArrayList<JvmDeclaredType>();
-    for (EClassifier eClassifier : ePackage.getEClassifiers())
+    for (GenClassifier genClassifier : genPackage.getGenClassifiers())
     {
-      result.addAll(getDeclaredTypes(eClassifier));
-      
+      result.addAll(getDeclaredTypes(genClassifier));
     }
     return result;
   }
   
-  public List<? extends JvmDeclaredType> getDeclaredTypes(EClassifier eClassifier)
+  public List<? extends JvmDeclaredType> getDeclaredTypes(GenClassifier genClassifier)
   {
     ArrayList<JvmDeclaredType> result = new ArrayList<JvmDeclaredType>();
-    if (eClassifier instanceof EClass)
+    if (genClassifier instanceof GenClass)
     {
-      getDeclaredTypes((EClass)eClassifier);
+      result.addAll(getDeclaredTypes((GenClass)genClassifier));
     }
-    else if (eClassifier instanceof EEnum)
+    else if (genClassifier instanceof GenEnum)
     {
       
     }
-    else if (eClassifier instanceof EDataType)
+    else if (genClassifier instanceof EDataType)
     {
       
     }
     return result;
   }
 
-  public List<? extends JvmDeclaredType> getDeclaredTypes(EClass eClass)
+  public List<? extends JvmDeclaredType> getDeclaredTypes(GenClass genClass)
   {
     ArrayList<JvmDeclaredType> result = new ArrayList<JvmDeclaredType>();
     JvmGenericType jvmGenericType = TypesFactory.eINSTANCE.createJvmGenericType();
-    jvmGenericType.setSimpleName(eClass.getName());
-    jvmGenericType.setPackageName(eClass.getEPackage().getName());
+    jvmGenericType.setSimpleName(genClass.getName());
+    jvmGenericType.setPackageName(genClass.getGenPackage().getInterfacePackageName());
     jvmGenericType.setVisibility(JvmVisibility.PUBLIC);
-    jvmGenericType.setStatic(true);
+    result.add(jvmGenericType);
     return result;
   }
 }
