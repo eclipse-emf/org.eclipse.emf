@@ -18,15 +18,12 @@ import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder;
-import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractScope;
 import org.eclipse.xtext.xbase.scoping.XbaseScopeProvider;
-
-import com.google.inject.Inject;
 
 /**
  * This class contains custom scoping description.
@@ -37,9 +34,6 @@ import com.google.inject.Inject;
  */
 public class XcoreScopeProvider extends XbaseScopeProvider  {
   
-  @Inject
-  private IQualifiedNameConverter nameConverter;
-
   @Override
   public IScope getScope(final EObject context, EReference reference)
   {
