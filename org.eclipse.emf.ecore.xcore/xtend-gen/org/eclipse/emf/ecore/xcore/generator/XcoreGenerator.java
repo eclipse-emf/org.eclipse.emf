@@ -1,8 +1,12 @@
 package org.eclipse.emf.ecore.xcore.generator;
 
 import com.google.inject.Inject;
+import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
+import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -13,8 +17,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.util.MappingFacade;
-import org.eclipse.xtext.common.types.JvmOperation;
-import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.xbase.XBlockExpression;
@@ -45,11 +47,8 @@ public class XcoreGenerator implements IGenerator {
           final EOperation eOperation = _eOperation;
           StringBuilderBasedAppendable _stringBuilderBasedAppendable = new StringBuilderBasedAppendable();
           final StringBuilderBasedAppendable appendable = _stringBuilderBasedAppendable;
-          JvmOperation _jvmOperation = this.mappings.getJvmOperation(op);
-          JvmTypeReference _returnType = _jvmOperation.getReturnType();
-          final JvmTypeReference expectedType = _returnType;
           XBlockExpression _body = op.getBody();
-          this.compiler.compile(_body, appendable, expectedType);
+          this.compiler.compile(_body, appendable, null);
           EList<EAnnotation> _eAnnotations = eOperation.getEAnnotations();
           String _string = appendable.toString();
           EAnnotation _createGenModelAnnotation = this.createGenModelAnnotation("body", _string);
@@ -62,8 +61,18 @@ public class XcoreGenerator implements IGenerator {
     }
   }
   
-  public void generateGenModel(final GenModel genModel) {
-    genModel.gen(null);
+  public Diagnostic generateGenModel(final GenModel genModel) {
+    Diagnostic _xblockexpression = null;
+    {
+      genModel.setCanGenerate(true);
+      Generator _generator = new Generator();
+      final Generator generator = _generator;
+      generator.setInput(genModel);
+      BasicMonitor _basicMonitor = new BasicMonitor();
+      Diagnostic _generate = generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, _basicMonitor);
+      _xblockexpression = (_generate);
+    }
+    return _xblockexpression;
   }
   
   public EAnnotation createGenModelAnnotation(final String key, final String value) {

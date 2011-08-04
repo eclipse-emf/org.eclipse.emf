@@ -67,9 +67,9 @@ public class XcoreJvmInferrer
     jvmGenericType.setPackageName(genClass.getGenPackage().getInterfacePackageName());
     jvmGenericType.setVisibility(JvmVisibility.PUBLIC);
     
-    JvmTypeReference eObjectImpl = typeReferences.getTypeForName(EObjectImpl.class, genClass);
-    jvmGenericType.getSuperTypes().add(eObjectImpl);
-    
+//    JvmTypeReference eObjectImpl = typeReferences.getTypeForName(EObjectImpl.class, genClass);
+//    jvmGenericType.getSuperTypes().add(eObjectImpl);
+//    
     result.add(jvmGenericType);
     return result;
   }

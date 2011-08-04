@@ -17,6 +17,9 @@ import org.eclipse.xtext.xbase.compiler.StringBuilderBasedAppendable
 import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel
+import org.eclipse.emf.codegen.ecore.generator.Generator
+import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter
+import org.eclipse.emf.common.util.BasicMonitor
 
 class XcoreGenerator implements IGenerator {
 	
@@ -32,8 +35,8 @@ class XcoreGenerator implements IGenerator {
 		for (op : pack.allContentsIterable.filter(typeof(XOperation))) {
 			val eOperation = op.EOperation
 			val appendable = new StringBuilderBasedAppendable()
-			val expectedType = op.jvmOperation.returnType
-			compiler.compile(op.body, appendable, expectedType)
+//			val expectedType = op.jvmOperation.returnType
+			compiler.compile(op.body, appendable, null)
 			eOperation.EAnnotations.add(createGenModelAnnotation("body", appendable.toString))
 		}
 		
@@ -41,7 +44,11 @@ class XcoreGenerator implements IGenerator {
 	}
 	
 	def generateGenModel(GenModel genModel) {
-		genModel.gen(null)
+		genModel.canGenerate = true
+		val generator = new Generator()
+		generator.input = genModel
+		generator.generate(genModel, GenBaseGeneratorAdapter::MODEL_PROJECT_TYPE,
+				new BasicMonitor());
 	}
 	
 	def createGenModelAnnotation(String key, String value) {
