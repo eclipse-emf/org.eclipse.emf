@@ -9,13 +9,19 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.xtext.common.types.TypesPackage;
+import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.util.Tuples;
 
+import com.google.inject.Inject;
+
 import static com.google.common.collect.Maps.*;
 
 public class LazyCreationProxyUriConverter {
+	
+	@Inject
+	private IQualifiedNameConverter nameConverter;
 
 	private Map<String, EClass> types = newHashMap();
 	{
@@ -74,7 +80,7 @@ public class LazyCreationProxyUriConverter {
 		String[] segments = fragment.split(DELIM);
 		if (segments.length == 2) {
 			String clazzName = segments[0];
-			QualifiedName name = QualifiedName.create(segments[1]);
+			QualifiedName name = nameConverter.toQualifiedName(segments[1]);
 			if (types.containsKey(clazzName)) {
 				return Tuples.create(types.get(clazzName), name);
 			}

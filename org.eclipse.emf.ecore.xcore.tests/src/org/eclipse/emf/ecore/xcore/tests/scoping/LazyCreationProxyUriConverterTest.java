@@ -6,22 +6,31 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyUriConverter;
 import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.common.types.TypesFactory;
+import org.eclipse.xtext.junit4.InjectWith;
+import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.util.Pair;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.google.inject.Inject;
 
 import static junit.framework.Assert.*;
 
+@RunWith(XtextRunner.class)
+@InjectWith(XcoreInjectorProvider.class)
 public class LazyCreationProxyUriConverterTest
 {
+	@Inject LazyCreationProxyUriConverter converter;
 
 	@Test
 	public void testUriConversion_1() throws Exception
 	{
-		LazyCreationProxyUriConverter converter = new LazyCreationProxyUriConverter();
+		LazyCreationProxyUriConverter converter = getProxyUriConverter();
 
 		GenClass genClass = GenModelFactory.eINSTANCE.createGenClass();
 		final QualifiedName name = QualifiedName.create("foo.bar", "Baz");
@@ -32,10 +41,14 @@ public class LazyCreationProxyUriConverterTest
 		assertEquals(name.toString(), proxyInfo.getSecond().toString());
 	}
 
+	protected LazyCreationProxyUriConverter getProxyUriConverter() {
+		return converter;
+	}
+
 	@Test
 	public void testUriConversion_2() throws Exception
 	{
-		LazyCreationProxyUriConverter converter = new LazyCreationProxyUriConverter();
+		LazyCreationProxyUriConverter converter = getProxyUriConverter();
 
 		EClass eClass = EcoreFactory.eINSTANCE.createEClass();
 		final QualifiedName name = QualifiedName.create("foo.bar", "Baz");
@@ -49,7 +62,7 @@ public class LazyCreationProxyUriConverterTest
 	@Test
 	public void testUriConversion_3() throws Exception
 	{
-		LazyCreationProxyUriConverter converter = new LazyCreationProxyUriConverter();
+		LazyCreationProxyUriConverter converter = getProxyUriConverter();
 
 		JvmGenericType genericType = TypesFactory.eINSTANCE.createJvmGenericType();
 		final QualifiedName name = QualifiedName.create("foo.bar", "Baz");
@@ -63,7 +76,7 @@ public class LazyCreationProxyUriConverterTest
 	@Test
 	public void testUriConversion_4() throws Exception
 	{
-		LazyCreationProxyUriConverter converter = new LazyCreationProxyUriConverter();
+		LazyCreationProxyUriConverter converter = getProxyUriConverter();
 
 		EOperation op = EcoreFactory.eINSTANCE.createEOperation();
 		final QualifiedName name = QualifiedName.create("foo.bar", "Baz");
@@ -80,7 +93,7 @@ public class LazyCreationProxyUriConverterTest
 	@Test
 	public void testUriConversion_5() throws Exception
 	{
-		LazyCreationProxyUriConverter converter = new LazyCreationProxyUriConverter();
+		LazyCreationProxyUriConverter converter = getProxyUriConverter();
 
 		JvmGenericType genericType = TypesFactory.eINSTANCE.createJvmGenericType();
 		try
