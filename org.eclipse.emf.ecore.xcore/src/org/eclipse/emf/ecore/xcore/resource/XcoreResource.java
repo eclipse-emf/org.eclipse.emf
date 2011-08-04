@@ -61,17 +61,38 @@ public class XcoreResource extends XbaseResource {
 	
 	@Override
 	protected void updateInternalState(IParseResult parseResult) {
-    for (Iterator<EObject> i = getContents().iterator(); i.hasNext(); )
+		EObject ePackage = null;
+		
+    EList<EObject> contents = getContents();
+    int size = contents.size();
+    if (size > 1)
     {
-      EObject eObject = i.next();
-      if (eObject instanceof EPackage || eObject instanceof GenModel || eObject instanceof JvmGenericType)
+  		for (Iterator<EObject> i = contents.iterator(); i.hasNext(); )
       {
-        unloader.unloadRoot(eObject);
-        i.remove();
+        EObject eObject = i.next();
+        if (eObject instanceof EPackage)
+        {
+        	// Defer unloading until the GenModel is unloaded.
+        	// 
+        	ePackage = eObject;
+        }
+        else if (eObject instanceof GenModel || eObject instanceof JvmGenericType)
+        {
+          unloader.unloadRoot(eObject);
+          if (ePackage != null)
+          {
+          	unloader.unloadRoot(ePackage);
+          	ePackage = null;
+          }
+        }
       }
+      contents.clear();
     }
-		fullyInitialized = false;
 		super.updateInternalState(parseResult);
+		
+		// This mustn't be set to false earlier or the above logic will cause the lazy initialized to kick in too early.
+		//
+		fullyInitialized = false;
 	}
 	
 	protected void lateInitialize() {
