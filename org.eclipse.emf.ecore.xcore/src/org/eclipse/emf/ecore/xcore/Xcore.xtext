@@ -138,7 +138,7 @@ XReference:
 	  (unsettable?='unsettable')? &
 	  (derived?='derived')?
 	)
-    (type=XGenericType | 'void')
+	type=XGenericType
 	multiplicity=XMultiplicity?
     name=ID
     (
@@ -166,7 +166,7 @@ XOperation:
 	  unique?='unique' unordered?='unordered'? 
 	)?
 	('<' typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')? 
-	type=XGenericType 
+	(type=XGenericType | 'void') 
 	multiplicity=XMultiplicity?
 	name=ID 
 	'(' (parameters+=XParameter (',' parameters+=XParameter)*)? ')' 

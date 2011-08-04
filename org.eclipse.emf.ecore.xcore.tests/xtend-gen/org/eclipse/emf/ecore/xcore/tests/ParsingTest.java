@@ -7,12 +7,14 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.xcore.XAnnotation;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XGenericType;
 import org.eclipse.emf.ecore.xcore.XMember;
+import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XReference;
 import org.eclipse.emf.ecore.xcore.XcoreExtensions;
@@ -21,6 +23,7 @@ import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.junit4.util.ParseHelper;
 import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.xbase.lib.ComparableExtensions;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xtend2.lib.StringConcatenation;
 import org.junit.Assert;
@@ -187,6 +190,62 @@ public class ParsingTest {
         String _name_7 = _opposite_3.getName();
         Assert.assertEquals(_name_6, _name_7);
       }
+    }
+  }
+  
+  @Test
+  public void operationReturnsVoid() throws Exception {
+    {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo");
+      _builder.newLine();
+      _builder.append("class Bar {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("op void operation() {}");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      XPackage _parse = this.parser.parse(_builder);
+      final XPackage pack = _parse;
+      EList<XClassifier> _classifiers = pack.getClassifiers();
+      XClassifier _head = IterableExtensions.<XClassifier>head(_classifiers);
+      final XClass clazz = ((XClass) _head);
+      EList<XMember> _members = clazz.getMembers();
+      XMember _head_1 = IterableExtensions.<XMember>head(_members);
+      final XOperation operation = ((XOperation) _head_1);
+      Resource _eResource = clazz.eResource();
+      EList<Diagnostic> _errors = _eResource.getErrors();
+      boolean _isEmpty = _errors.isEmpty();
+      Assert.assertTrue(_isEmpty);
+      XGenericType _type = operation.getType();
+      Assert.assertNull(_type);
+    }
+  }
+  
+  @Test
+  public void referenceMayNotBeVoid() throws Exception {
+    {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo");
+      _builder.newLine();
+      _builder.append("class Bar {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("refers void referenceName");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      XPackage _parse = this.parser.parse(_builder);
+      final XPackage pack = _parse;
+      Resource _eResource = pack.eResource();
+      EList<Diagnostic> _errors = _eResource.getErrors();
+      String _string = _errors.toString();
+      Resource _eResource_1 = pack.eResource();
+      EList<Diagnostic> _errors_1 = _eResource_1.getErrors();
+      int _size = _errors_1.size();
+      boolean _operator_lessEqualsThan = ComparableExtensions.<Integer>operator_lessEqualsThan(((Integer)1), ((Integer)_size));
+      Assert.assertTrue(_string, _operator_lessEqualsThan);
     }
   }
 }

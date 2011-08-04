@@ -974,10 +974,8 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cUnsettableUnsettableKeyword_2_5_0 = (Keyword)cUnsettableAssignment_2_5.eContents().get(0);
 		private final Assignment cDerivedAssignment_2_6 = (Assignment)cUnorderedGroup_2.eContents().get(6);
 		private final Keyword cDerivedDerivedKeyword_2_6_0 = (Keyword)cDerivedAssignment_2_6.eContents().get(0);
-		private final Alternatives cAlternatives_3 = (Alternatives)cGroup.eContents().get(3);
-		private final Assignment cTypeAssignment_3_0 = (Assignment)cAlternatives_3.eContents().get(0);
-		private final RuleCall cTypeXGenericTypeParserRuleCall_3_0_0 = (RuleCall)cTypeAssignment_3_0.eContents().get(0);
-		private final Keyword cVoidKeyword_3_1 = (Keyword)cAlternatives_3.eContents().get(1);
+		private final Assignment cTypeAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cTypeXGenericTypeParserRuleCall_3_0 = (RuleCall)cTypeAssignment_3.eContents().get(0);
 		private final Assignment cMultiplicityAssignment_4 = (Assignment)cGroup.eContents().get(4);
 		private final RuleCall cMultiplicityXMultiplicityParserRuleCall_4_0 = (RuleCall)cMultiplicityAssignment_4.eContents().get(0);
 		private final Assignment cNameAssignment_5 = (Assignment)cGroup.eContents().get(5);
@@ -1018,8 +1016,8 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//XReference:
 		//	annotations+=XAnnotation* (resolveProxies?="resolving"? & (containment?="containment" | container?="container") |
 		//	local?="local"? & "refers") (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? &
-		//	transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) (type=XGenericType
-		//	| "void") multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
+		//	transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) type=XGenericType
+		//	multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
 		//	keys+=[genmodel::GenFeature|ValidID] ("," keys+=[genmodel::GenFeature|ValidID])*)? / *
 		//	 * In scope for getBody should be what's visible in AbcImpl
 		//	 * and 'this' will denote an instance of the feature's type.
@@ -1030,8 +1028,8 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 
 		//annotations+=XAnnotation* (resolveProxies?="resolving"? & (containment?="containment" | container?="container") |
 		//local?="local"? & "refers") (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? &
-		//transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) (type=XGenericType |
-		//"void") multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
+		//transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) type=XGenericType
+		//multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
 		//keys+=[genmodel::GenFeature|ValidID] ("," keys+=[genmodel::GenFeature|ValidID])*)? / *
 		//	 * In scope for getBody should be what's visible in AbcImpl
 		//	 * and 'this' will denote an instance of the feature's type.
@@ -1131,17 +1129,11 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//"derived"
 		public Keyword getDerivedDerivedKeyword_2_6_0() { return cDerivedDerivedKeyword_2_6_0; }
 
-		//type=XGenericType | "void"
-		public Alternatives getAlternatives_3() { return cAlternatives_3; }
-
 		//type=XGenericType
-		public Assignment getTypeAssignment_3_0() { return cTypeAssignment_3_0; }
+		public Assignment getTypeAssignment_3() { return cTypeAssignment_3; }
 
 		//XGenericType
-		public RuleCall getTypeXGenericTypeParserRuleCall_3_0_0() { return cTypeXGenericTypeParserRuleCall_3_0_0; }
-
-		//"void"
-		public Keyword getVoidKeyword_3_1() { return cVoidKeyword_3_1; }
+		public RuleCall getTypeXGenericTypeParserRuleCall_3_0() { return cTypeXGenericTypeParserRuleCall_3_0; }
 
 		//multiplicity=XMultiplicity?
 		public Assignment getMultiplicityAssignment_4() { return cMultiplicityAssignment_4; }
@@ -1279,8 +1271,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cTypeParametersAssignment_3_2_1 = (Assignment)cGroup_3_2.eContents().get(1);
 		private final RuleCall cTypeParametersXTypeParameterParserRuleCall_3_2_1_0 = (RuleCall)cTypeParametersAssignment_3_2_1.eContents().get(0);
 		private final Keyword cGreaterThanSignKeyword_3_3 = (Keyword)cGroup_3.eContents().get(3);
-		private final Assignment cTypeAssignment_4 = (Assignment)cGroup.eContents().get(4);
-		private final RuleCall cTypeXGenericTypeParserRuleCall_4_0 = (RuleCall)cTypeAssignment_4.eContents().get(0);
+		private final Alternatives cAlternatives_4 = (Alternatives)cGroup.eContents().get(4);
+		private final Assignment cTypeAssignment_4_0 = (Assignment)cAlternatives_4.eContents().get(0);
+		private final RuleCall cTypeXGenericTypeParserRuleCall_4_0_0 = (RuleCall)cTypeAssignment_4_0.eContents().get(0);
+		private final Keyword cVoidKeyword_4_1 = (Keyword)cAlternatives_4.eContents().get(1);
 		private final Assignment cMultiplicityAssignment_5 = (Assignment)cGroup.eContents().get(5);
 		private final RuleCall cMultiplicityXMultiplicityParserRuleCall_5_0 = (RuleCall)cMultiplicityAssignment_5.eContents().get(0);
 		private final Assignment cNameAssignment_6 = (Assignment)cGroup.eContents().get(6);
@@ -1307,7 +1301,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//XOperation:
 		//	annotations+=XAnnotation* "op" (unordered?="unordered" unique?="unique"? | unique?="unique" unordered?="unordered"?)?
-		//	("<" typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)* ">")? type=XGenericType
+		//	("<" typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)* ">")? (type=XGenericType | "void")
 		//	multiplicity=XMultiplicity? name=ID "(" (parameters+=XParameter ("," parameters+=XParameter)*)? ")" ("throws"
 		//	exceptions+=XGenericType ("," exceptions+=XGenericType)*)? / *
 		//	 * This is the logic for the operation.
@@ -1317,7 +1311,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		public ParserRule getRule() { return rule; }
 
 		//annotations+=XAnnotation* "op" (unordered?="unordered" unique?="unique"? | unique?="unique" unordered?="unordered"?)?
-		//("<" typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)* ">")? type=XGenericType
+		//("<" typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)* ">")? (type=XGenericType | "void")
 		//multiplicity=XMultiplicity? name=ID "(" (parameters+=XParameter ("," parameters+=XParameter)*)? ")" ("throws"
 		//exceptions+=XGenericType ("," exceptions+=XGenericType)*)? / *
 		//	 * This is the logic for the operation.
@@ -1395,11 +1389,17 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//">"
 		public Keyword getGreaterThanSignKeyword_3_3() { return cGreaterThanSignKeyword_3_3; }
 
+		//type=XGenericType | "void"
+		public Alternatives getAlternatives_4() { return cAlternatives_4; }
+
 		//type=XGenericType
-		public Assignment getTypeAssignment_4() { return cTypeAssignment_4; }
+		public Assignment getTypeAssignment_4_0() { return cTypeAssignment_4_0; }
 
 		//XGenericType
-		public RuleCall getTypeXGenericTypeParserRuleCall_4_0() { return cTypeXGenericTypeParserRuleCall_4_0; }
+		public RuleCall getTypeXGenericTypeParserRuleCall_4_0_0() { return cTypeXGenericTypeParserRuleCall_4_0_0; }
+
+		//"void"
+		public Keyword getVoidKeyword_4_1() { return cVoidKeyword_4_1; }
 
 		//multiplicity=XMultiplicity?
 		public Assignment getMultiplicityAssignment_5() { return cMultiplicityAssignment_5; }
@@ -2066,8 +2066,8 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	//XReference:
 	//	annotations+=XAnnotation* (resolveProxies?="resolving"? & (containment?="containment" | container?="container") |
 	//	local?="local"? & "refers") (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? &
-	//	transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) (type=XGenericType
-	//	| "void") multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
+	//	transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) type=XGenericType
+	//	multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
 	//	keys+=[genmodel::GenFeature|ValidID] ("," keys+=[genmodel::GenFeature|ValidID])*)? / *
 	//	 * In scope for getBody should be what's visible in AbcImpl
 	//	 * and 'this' will denote an instance of the feature's type.
@@ -2084,7 +2084,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 
 	//XOperation:
 	//	annotations+=XAnnotation* "op" (unordered?="unordered" unique?="unique"? | unique?="unique" unordered?="unordered"?)?
-	//	("<" typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)* ">")? type=XGenericType
+	//	("<" typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)* ">")? (type=XGenericType | "void")
 	//	multiplicity=XMultiplicity? name=ID "(" (parameters+=XParameter ("," parameters+=XParameter)*)? ")" ("throws"
 	//	exceptions+=XGenericType ("," exceptions+=XGenericType)*)? / *
 	//	 * This is the logic for the operation.

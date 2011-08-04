@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.xcore.XClass
 import org.eclipse.emf.ecore.xcore.XcoreExtensions
 import org.eclipse.emf.ecore.xcore.XReference
 import org.eclipse.xtext.resource.XtextResource
+import org.eclipse.emf.ecore.xcore.XOperation
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(XcoreInjectorProvider))
@@ -93,6 +94,31 @@ class ParsingTest {
 			assertEquals(refY.name, refX.opposite.name)
 			assertEquals(refX.name, refY.opposite.name)
 		}
+	}
+	
+	@Test
+	def void operationReturnsVoid() {
+		val pack = parser.parse('''
+			package foo
+			class Bar {
+				op void operation() {}
+			}
+		''');
+		val clazz = pack.classifiers.head as XClass
+		val operation = clazz.members.head as XOperation
+		assertTrue(clazz.eResource.errors.isEmpty)
+		assertNull(operation.type)
+	}
+	
+	@Test
+	def void referenceMayNotBeVoid() {
+		val pack = parser.parse('''
+			package foo
+			class Bar {
+				refers void referenceName
+			}
+		''');
+		assertTrue(pack.eResource.errors.toString, 1 <= pack.eResource.errors.size)
 	}
 
 }

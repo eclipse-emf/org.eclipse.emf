@@ -43,8 +43,8 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXAttributeAccess().getAlternatives_2(), "rule__XAttribute__Alternatives_2");
 					put(grammarAccess.getXReferenceAccess().getAlternatives_1(), "rule__XReference__Alternatives_1");
 					put(grammarAccess.getXReferenceAccess().getAlternatives_1_0_1(), "rule__XReference__Alternatives_1_0_1");
-					put(grammarAccess.getXReferenceAccess().getAlternatives_3(), "rule__XReference__Alternatives_3");
 					put(grammarAccess.getXOperationAccess().getAlternatives_2(), "rule__XOperation__Alternatives_2");
+					put(grammarAccess.getXOperationAccess().getAlternatives_4(), "rule__XOperation__Alternatives_4");
 					put(grammarAccess.getXParameterAccess().getAlternatives_1(), "rule__XParameter__Alternatives_1");
 					put(grammarAccess.getXMultiplicityAccess().getAlternatives_1(), "rule__XMultiplicity__Alternatives_1");
 					put(grammarAccess.getXMultiplicityAccess().getAlternatives_1_3_1_1(), "rule__XMultiplicity__Alternatives_1_3_1_1");
@@ -323,7 +323,7 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXReferenceAccess().getVolatileAssignment_2_4(), "rule__XReference__VolatileAssignment_2_4");
 					put(grammarAccess.getXReferenceAccess().getUnsettableAssignment_2_5(), "rule__XReference__UnsettableAssignment_2_5");
 					put(grammarAccess.getXReferenceAccess().getDerivedAssignment_2_6(), "rule__XReference__DerivedAssignment_2_6");
-					put(grammarAccess.getXReferenceAccess().getTypeAssignment_3_0(), "rule__XReference__TypeAssignment_3_0");
+					put(grammarAccess.getXReferenceAccess().getTypeAssignment_3(), "rule__XReference__TypeAssignment_3");
 					put(grammarAccess.getXReferenceAccess().getMultiplicityAssignment_4(), "rule__XReference__MultiplicityAssignment_4");
 					put(grammarAccess.getXReferenceAccess().getNameAssignment_5(), "rule__XReference__NameAssignment_5");
 					put(grammarAccess.getXReferenceAccess().getOppositeAssignment_6_1(), "rule__XReference__OppositeAssignment_6_1");
@@ -340,7 +340,7 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXOperationAccess().getUnorderedAssignment_2_1_1(), "rule__XOperation__UnorderedAssignment_2_1_1");
 					put(grammarAccess.getXOperationAccess().getTypeParametersAssignment_3_1(), "rule__XOperation__TypeParametersAssignment_3_1");
 					put(grammarAccess.getXOperationAccess().getTypeParametersAssignment_3_2_1(), "rule__XOperation__TypeParametersAssignment_3_2_1");
-					put(grammarAccess.getXOperationAccess().getTypeAssignment_4(), "rule__XOperation__TypeAssignment_4");
+					put(grammarAccess.getXOperationAccess().getTypeAssignment_4_0(), "rule__XOperation__TypeAssignment_4_0");
 					put(grammarAccess.getXOperationAccess().getMultiplicityAssignment_5(), "rule__XOperation__MultiplicityAssignment_5");
 					put(grammarAccess.getXOperationAccess().getNameAssignment_6(), "rule__XOperation__NameAssignment_6");
 					put(grammarAccess.getXOperationAccess().getParametersAssignment_8_0(), "rule__XOperation__ParametersAssignment_8_0");
