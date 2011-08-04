@@ -16,9 +16,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyUriConverter;
 import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder;
+import org.eclipse.emf.ecore.xcore.util.XcoreJvmInferrer;
+import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.parser.IParseResult;
+import org.eclipse.xtext.parser.antlr.IReferableElementsUnloader;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.xbase.resource.XbaseResource;
 
@@ -31,6 +34,9 @@ public class XcoreResource extends XbaseResource {
 	
 	@Inject
 	private IQualifiedNameProvider nameProvider; 
+	
+  @Inject
+  private IReferableElementsUnloader.GenericUnloader unloader;
 	
 	private boolean fullyInitialized = false;
 	
@@ -52,6 +58,15 @@ public class XcoreResource extends XbaseResource {
 	
 	@Override
 	protected void updateInternalState(IParseResult parseResult) {
+    for (Iterator<EObject> i = getContents().iterator(); i.hasNext(); )
+    {
+      EObject eObject = i.next();
+      if (eObject instanceof EPackage || eObject instanceof GenModel || eObject instanceof JvmGenericType)
+      {
+        unloader.unloadRoot(eObject);
+        i.remove();
+      }
+    }
 		fullyInitialized = false;
 		super.updateInternalState(parseResult);
 	}
@@ -81,6 +96,7 @@ public class XcoreResource extends XbaseResource {
         }
       }
       xcoreEcoreBuilder.link(); 
+      super.getContents().addAll(new XcoreJvmInferrer().getDeclaredTypes(model));
     }
 	}
 	

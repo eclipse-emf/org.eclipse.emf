@@ -15,22 +15,11 @@ public class XcoreLazyLinker extends JvmModelXbaseLazyLinker
 { 
   private static final String GEN_MODEL_PACKAGE_NS_URI = "http://www.eclipse.org/emf/2002/GenModel";
 
-  @Inject
-  private IReferableElementsUnloader.GenericUnloader unloader;
 
   @Override
   protected void beforeModelLinked(EObject model, IDiagnosticConsumer diagnosticsConsumer)
   {
-    for (Iterator<EObject> i = model.eResource().getContents().iterator(); i.hasNext(); )
-    {
-      EObject eObject = i.next();
-      if (eObject instanceof EPackage || eObject instanceof GenModel)
-      {
-        unloader.unloadRoot(eObject);
-        i.remove();
-      }
-    }
-    super.beforeModelLinked(model, diagnosticsConsumer);
+    // Do nothing.
   }
   
   

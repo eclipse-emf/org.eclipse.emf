@@ -6,6 +6,7 @@ package org.eclipse.emf.ecore.xcore.scoping;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
@@ -82,12 +83,16 @@ public class XcoreScopeProvider extends XbaseScopeProvider  {
           {
             ArrayList<IEObjectDescription> result = new ArrayList<IEObjectDescription>();
             GenFeature genFeature = (GenFeature)XcoreEcoreBuilder.getGen(XcoreEcoreBuilder.get(context));
-            for (GenFeature opposite : genFeature.getTypeGenClass().getGenFeatures())
+            GenClass genClass = genFeature.getTypeGenClass();
+            if (genClass != null)
             {
-            	if (opposite.isReferenceType())
-            	{
-            		result.add(new EObjectDescription(QualifiedName.create(opposite.getName()), opposite, null));
-            	}
+  						for (GenFeature opposite : genClass.getGenFeatures())
+              {
+              	if (opposite.isReferenceType())
+              	{
+              		result.add(new EObjectDescription(QualifiedName.create(opposite.getName()), opposite, null));
+              	}
+              }
             }
             return result;
           }
@@ -103,12 +108,16 @@ public class XcoreScopeProvider extends XbaseScopeProvider  {
           {
             ArrayList<IEObjectDescription> result = new ArrayList<IEObjectDescription>();
             GenFeature genFeature = (GenFeature)XcoreEcoreBuilder.getGen(XcoreEcoreBuilder.get(context));
-            for (GenFeature key : genFeature.getTypeGenClass().getGenFeatures())
+            GenClass genClass = genFeature.getTypeGenClass();
+            if (genClass != null)
             {
-            	if (!key.isReferenceType())
-            	{
-            		result.add(new EObjectDescription(QualifiedName.create(key.getName()), key, null));
-            	}
+              for (GenFeature key : genClass.getGenFeatures())
+              {
+              	if (!key.isReferenceType())
+              	{
+              		result.add(new EObjectDescription(QualifiedName.create(key.getName()), key, null));
+              	}
+              }
             }
             return result;
           }
