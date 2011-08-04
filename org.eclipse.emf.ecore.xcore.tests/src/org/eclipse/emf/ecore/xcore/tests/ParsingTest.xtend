@@ -68,14 +68,18 @@ class ParsingTest {
 
 	@Test
 	def void testReferenceToOpposite() {
-		val pack = parser.parse('''
+		val text = '''
 			package  foo
 			class X
 			{
 				refers X x opposite y   
 				refers X y opposite x
+				op void foo() {
+					val X x = null
+				}
 			}
-		''')
+		'''.toString
+		val pack = parser.parse(text)
 		{
 			val clazz = pack.classifiers.get(0) as XClass
 			val refs = clazz.members.filter(typeof(XReference)).iterator
@@ -85,7 +89,8 @@ class ParsingTest {
 			assertEquals(refX.name, refY.opposite.name)
 		}
 		val resource = pack.eResource as XtextResource
-		resource.update(0, 0, " ")
+		val elements = resource.contents.size
+		resource.update(0, text.length, text)
 		{
 			val clazz = (resource.contents.get(0) as XPackage).classifiers.get(0) as XClass
 			val refs = clazz.members.filter(typeof(XReference)).iterator
@@ -93,6 +98,18 @@ class ParsingTest {
 			var refY = refs.next
 			assertEquals(refY.name, refX.opposite.name)
 			assertEquals(refX.name, refY.opposite.name)
+			assertEquals(elements, resource.contents.size)
+		}
+		
+		resource.reparse(text)
+		{
+			val clazz = (resource.contents.get(0) as XPackage).classifiers.get(0) as XClass
+			val refs = clazz.members.filter(typeof(XReference)).iterator
+			var refX = refs.next
+			var refY = refs.next
+			assertEquals(refY.name, refX.opposite.name)
+			assertEquals(refX.name, refY.opposite.name)
+			assertEquals(elements, resource.contents.size)
 		}
 	}
 	

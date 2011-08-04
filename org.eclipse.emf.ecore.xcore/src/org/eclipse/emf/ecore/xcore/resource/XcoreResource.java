@@ -41,7 +41,7 @@ public class XcoreResource extends XbaseResource {
 	
 	@Override
 	public EList<EObject> getContents() {
-		if (!isLoading && !fullyInitialized) {
+		if (!isLoading && !isUpdating && !fullyInitialized) {
 			try {
 				eSetDeliver(false);
 				isLoading = true;
@@ -84,11 +84,8 @@ public class XcoreResource extends XbaseResource {
       }
       contents.clear();
     }
+    fullyInitialized = false;
 		super.updateInternalState(parseResult);
-		
-		// This mustn't be set to false earlier or the above logic will cause the lazy initialized to kick in too early.
-		//
-		fullyInitialized = false;
 	}
 	
 	protected void lateInitialize() {

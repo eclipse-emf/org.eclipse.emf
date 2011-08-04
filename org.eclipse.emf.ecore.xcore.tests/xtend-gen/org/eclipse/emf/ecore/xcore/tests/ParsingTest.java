@@ -1,6 +1,7 @@
 package org.eclipse.emf.ecore.xcore.tests;
 
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.Iterator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
@@ -124,7 +125,7 @@ public class ParsingTest {
   }
   
   @Test
-  public void testReferenceToOpposite() throws Exception {
+  public void testReferenceToOpposite() throws IOException, Exception {
     {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package  foo");
@@ -139,9 +140,20 @@ public class ParsingTest {
       _builder.append("\t");
       _builder.append("refers X y opposite x");
       _builder.newLine();
+      _builder.append("\t");
+      _builder.append("op void foo() {");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("val X x = null");
+      _builder.newLine();
+      _builder.append("\t");
       _builder.append("}");
       _builder.newLine();
-      XPackage _parse = this.parser.parse(_builder);
+      _builder.append("}");
+      _builder.newLine();
+      String _string = _builder.toString();
+      final String text = _string;
+      XPackage _parse = this.parser.parse(text);
       final XPackage pack = _parse;
       {
         EList<XClassifier> _classifiers = pack.getClassifiers();
@@ -166,10 +178,14 @@ public class ParsingTest {
       }
       Resource _eResource = pack.eResource();
       final XtextResource resource = ((XtextResource) _eResource);
-      resource.update(0, 0, " ");
+      EList<EObject> _contents = resource.getContents();
+      int _size = _contents.size();
+      final int elements = _size;
+      int _length = text.length();
+      resource.update(0, _length, text);
       {
-        EList<EObject> _contents = resource.getContents();
-        EObject _get_1 = _contents.get(0);
+        EList<EObject> _contents_1 = resource.getContents();
+        EObject _get_1 = _contents_1.get(0);
         EList<XClassifier> _classifiers_1 = ((XPackage) _get_1).getClassifiers();
         XClassifier _get_2 = _classifiers_1.get(0);
         final XClass clazz_1 = ((XClass) _get_2);
@@ -189,6 +205,36 @@ public class ParsingTest {
         GenFeature _opposite_3 = refY_1.getOpposite();
         String _name_7 = _opposite_3.getName();
         Assert.assertEquals(_name_6, _name_7);
+        EList<EObject> _contents_2 = resource.getContents();
+        int _size_1 = _contents_2.size();
+        Assert.assertEquals(elements, _size_1);
+      }
+      resource.reparse(text);
+      {
+        EList<EObject> _contents_3 = resource.getContents();
+        EObject _get_3 = _contents_3.get(0);
+        EList<XClassifier> _classifiers_2 = ((XPackage) _get_3).getClassifiers();
+        XClassifier _get_4 = _classifiers_2.get(0);
+        final XClass clazz_2 = ((XClass) _get_4);
+        EList<XMember> _members_2 = clazz_2.getMembers();
+        Iterable<XReference> _filter_2 = IterableExtensions.<XReference>filter(_members_2, org.eclipse.emf.ecore.xcore.XReference.class);
+        Iterator<XReference> _iterator_2 = _filter_2.iterator();
+        final Iterator<XReference> refs_2 = _iterator_2;
+        XReference _next_4 = refs_2.next();
+        XReference refX_2 = _next_4;
+        XReference _next_5 = refs_2.next();
+        XReference refY_2 = _next_5;
+        String _name_8 = refY_2.getName();
+        GenFeature _opposite_4 = refX_2.getOpposite();
+        String _name_9 = _opposite_4.getName();
+        Assert.assertEquals(_name_8, _name_9);
+        String _name_10 = refX_2.getName();
+        GenFeature _opposite_5 = refY_2.getOpposite();
+        String _name_11 = _opposite_5.getName();
+        Assert.assertEquals(_name_10, _name_11);
+        EList<EObject> _contents_4 = resource.getContents();
+        int _size_2 = _contents_4.size();
+        Assert.assertEquals(elements, _size_2);
       }
     }
   }
