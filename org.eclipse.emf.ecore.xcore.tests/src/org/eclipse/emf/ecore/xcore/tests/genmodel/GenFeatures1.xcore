@@ -1,0 +1,26 @@
+package foo
+
+class X
+{
+	/* XPECT gen ---
+		GenFeature {
+		    attr EBoolean notify 'false'
+		    attr EBoolean createChild 'false'
+		    attr EBoolean propertySortChoices 'true'
+		    ref GenClass genClass ref: GenClass@/2/foo/X
+		    ref EStructuralFeature ecoreFeature 'x' ref: EReference@/1/X/x
+		}
+	--- */
+	refers X x opposite y
+	   
+	/* XPECT gen ---
+		GenFeature {
+		    attr EBoolean notify 'false'
+		    attr EBoolean createChild 'false'
+		    attr EBoolean propertySortChoices 'true'
+		    ref GenClass genClass ref: GenClass@/2/foo/X
+		    ref EStructuralFeature ecoreFeature 'y' ref: EReference@/1/X/y
+		}
+	--- */
+	refers X y opposite x
+}
