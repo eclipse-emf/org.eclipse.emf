@@ -37,6 +37,9 @@ public class XcoreResource extends XbaseResource {
 	
   @Inject
   private IReferableElementsUnloader.GenericUnloader unloader;
+  
+  @Inject
+  private XcoreJvmInferrer jvmInferrer;
 	
 	protected boolean fullyInitialized = false;
 	
@@ -96,7 +99,7 @@ public class XcoreResource extends XbaseResource {
         }
       }
       xcoreEcoreBuilder.link(); 
-      super.getContents().addAll(new XcoreJvmInferrer().getDeclaredTypes(model));
+      super.getContents().addAll(jvmInferrer.getDeclaredTypes(model));
     }
 	}
 	
