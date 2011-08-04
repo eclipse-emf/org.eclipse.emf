@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.mwe.utils.StandaloneSetup;
 import org.eclipse.xtext.diagnostics.ExceptionDiagnostic;
-import org.eclipse.xtext.junit.serializer.SerializerTester;
+import org.eclipse.xtext.junit4.serializer.SerializerTester;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.util.CancelIndicator;

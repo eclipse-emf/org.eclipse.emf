@@ -122,6 +122,11 @@ Workflow {
 			// quickfix API 
 			fragment = quickfix.QuickfixProviderFragment {}
 			
+			fragment = generator.GeneratorFragment {
+				generateJavaMain = false
+				generateMwe = false
+			}
+			
 			// Xbase support
 			fragment = types.TypesGeneratorFragment {}
 			fragment = xbase.XbaseGeneratorFragment {
