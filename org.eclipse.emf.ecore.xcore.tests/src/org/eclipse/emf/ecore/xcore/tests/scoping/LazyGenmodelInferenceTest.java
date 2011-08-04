@@ -40,11 +40,11 @@ public class LazyGenmodelInferenceTest {
 
 	@Inject
 	private Provider<XtextResourceSet> resourceSetProvider;
-	
+
 	public static class MyXcoreInjectorProvider extends XcoreInjectorProvider {
-		
+
 		private Injector injector;
-		
+
 		@Override
 		public Injector getInjector() {
 			if (injector == null) {
@@ -61,7 +61,7 @@ public class LazyGenmodelInferenceTest {
 			}
 			return injector;
 		}
-		
+
 		@Override
 		public void setupRegistry() {
 			super.setupRegistry();
@@ -70,52 +70,58 @@ public class LazyGenmodelInferenceTest {
 			}
 		}
 	}
-	
+
 	public static class InspectableXcoreResource extends XcoreResource {
-		
+
 		public EList<EObject> getContentsUnsafe() {
 			return contents;
 		}
 		
+		public boolean isFullyInitialized() {
+			return fullyInitialized;
+		}
+
 	}
-	
+
 	@Test
 	public void testSetup() {
 		XtextResourceSet resourceSet = resourceSetProvider.get();
 		Resource resource = resourceSet.createResource(URI.createURI("foo.xcore"));
 		assertTrue(resource.toString(), resource instanceof InspectableXcoreResource);
-		assertNull(((InspectableXcoreResource)resource).getContentsUnsafe());
+		assertNull(((InspectableXcoreResource) resource).getContentsUnsafe());
+		assertFalse(((InspectableXcoreResource) resource).isFullyInitialized());
 	}
-	
+
 	@Test
 	public void testContentsWithoutDerived() throws IOException {
 		XtextResourceSet resourceSet = resourceSetProvider.get();
 		Resource resource = resourceSet.createResource(URI.createURI("foo.xcore"));
 		resource.load(new StringInputStream("package foo.bar class Baz {}"), null);
-		assertEquals(1, ((InspectableXcoreResource)resource).getContentsUnsafe().size());
+		assertEquals(1, ((InspectableXcoreResource) resource).getContentsUnsafe().size());
+		assertFalse(((InspectableXcoreResource) resource).isFullyInitialized());
 	}
-	
+
 	@Test
 	public void testContentsWithDerived() throws IOException {
 		XtextResourceSet resourceSet = resourceSetProvider.get();
 		Resource resource = resourceSet.createResource(URI.createURI("foo.xcore"));
 		resource.load(new StringInputStream("package foo.bar class Baz {}"), null);
 		assertTrue(1 < resource.getContents().size());
+		assertTrue(((InspectableXcoreResource) resource).isFullyInitialized());
 	}
-	
+
 	public void testResourceDescriptionManagerDoesNotResolve() throws IOException {
 		XtextResourceSet resourceSet = resourceSetProvider.get();
 		InspectableXcoreResource resource = (InspectableXcoreResource) resourceSet.createResource(URI.createURI("foo.xcore"));
 		resource.load(new StringInputStream("package foo.bar class Baz {}"), null);
 		Manager manager = resource.getResourceServiceProvider().getResourceDescriptionManager();
 		IResourceDescription resourceDescription = manager.getResourceDescription(resource);
-		
-		Iterator<IEObjectDescription> eclass = resourceDescription.getExportedObjectsByType(EcorePackage.Literals.ECLASS)
-		    .iterator();
-		Iterator<IEObjectDescription> genclass = resourceDescription.getExportedObjectsByType(
-		    GenModelPackage.Literals.GEN_CLASS).iterator();
-		Iterator<IEObjectDescription> jvmTypes = resourceDescription.getExportedObjectsByType(
-		    TypesPackage.Literals.JVM_GENERIC_TYPE).iterator();
+
+		Iterator<IEObjectDescription> eclass = resourceDescription.getExportedObjectsByType(EcorePackage.Literals.ECLASS).iterator();
+		Iterator<IEObjectDescription> genclass = resourceDescription.getExportedObjectsByType(GenModelPackage.Literals.GEN_CLASS)
+				.iterator();
+		Iterator<IEObjectDescription> jvmTypes = resourceDescription.getExportedObjectsByType(TypesPackage.Literals.JVM_GENERIC_TYPE)
+				.iterator();
 		final String expected = "foo.bar.Baz";
 		assertEquals(expected, eclass.next().getName().toString());
 		assertFalse(eclass.hasNext());
@@ -124,8 +130,9 @@ public class LazyGenmodelInferenceTest {
 		assertEquals(expected, jvmTypes.next().getName().toString());
 		assertEquals(expected + "Impl", jvmTypes.next().getName().toString());
 		assertFalse(genclass.hasNext());
-		
+
 		assertEquals(1, resource.getContentsUnsafe().size());
+		assertFalse(((InspectableXcoreResource) resource).isFullyInitialized());
 	}
-	
+
 }
