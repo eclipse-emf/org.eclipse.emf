@@ -50,6 +50,7 @@ import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XTypedElement;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.xbase.XBlockExpression;
 
 public class XcoreEcoreBuilder
@@ -301,7 +302,7 @@ public class XcoreEcoreBuilder
     {
       EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
       eAnnotation.setSource(EcorePackage.eNS_URI);
-      eAnnotation.getContents().add(EcoreUtil.copy(body));
+      eAnnotation.getContents().add(EcoreUtil2.cloneWithProxies(body));
       eOperation.getEAnnotations().add(eAnnotation);
     }
     return eOperation;

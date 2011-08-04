@@ -2,6 +2,8 @@ package org.eclipse.emf.ecore.xcore.scoping;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.common.types.JvmDeclaredType;
+import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -21,6 +23,12 @@ public class XcoreQualifiedNameProvider extends DefaultDeclarativeQualifiedNameP
       GenClassifier genClassifier = (GenClassifier)eObject;
       String packageName = genClassifier.getGenPackage().getQualifiedPackageName();
       return nameConverter.toQualifiedName(packageName + "." + genClassifier.getName());
+    }
+    else if (eObject instanceof JvmType)
+    {
+    	JvmType type = (JvmType) eObject;
+    	String typeName = type.getQualifiedName();
+    	return nameConverter.toQualifiedName(typeName);
     }
     else
     {

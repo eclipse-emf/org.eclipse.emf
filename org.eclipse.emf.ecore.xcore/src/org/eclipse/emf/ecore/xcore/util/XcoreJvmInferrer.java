@@ -60,6 +60,7 @@ public class XcoreJvmInferrer
 
   public List<? extends JvmDeclaredType> getDeclaredTypes(GenClass genClass)
   {
+  	// TODO set java.lang.Object super type or inferred super type
     ArrayList<JvmDeclaredType> result = new ArrayList<JvmDeclaredType>();
     JvmGenericType jvmGenericType = TypesFactory.eINSTANCE.createJvmGenericType();
     jvmGenericType.setSimpleName(genClass.getName());

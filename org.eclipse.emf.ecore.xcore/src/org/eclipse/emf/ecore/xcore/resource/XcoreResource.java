@@ -21,7 +21,6 @@ import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.parser.IParseResult;
-import org.eclipse.xtext.parser.antlr.IReferableElementsUnloader;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.xbase.resource.XbaseResource;
 
@@ -35,9 +34,6 @@ public class XcoreResource extends XbaseResource {
 	@Inject
 	private IQualifiedNameProvider nameProvider; 
 	
-  @Inject
-  private IReferableElementsUnloader.GenericUnloader unloader;
-  
   @Inject
   private XcoreJvmInferrer jvmInferrer;
 	
@@ -78,10 +74,10 @@ public class XcoreResource extends XbaseResource {
         }
         else if (eObject instanceof GenModel || eObject instanceof JvmGenericType)
         {
-          unloader.unloadRoot(eObject);
+          unload(eObject);
           if (ePackage != null)
           {
-          	unloader.unloadRoot(ePackage);
+          	unload(ePackage);
           	ePackage = null;
           }
         }
@@ -121,6 +117,7 @@ public class XcoreResource extends XbaseResource {
       }
       xcoreEcoreBuilder.link(); 
       super.getContents().addAll(jvmInferrer.getDeclaredTypes(model));
+      getCache().clear(this);
     }
 	}
 	
