@@ -32,7 +32,7 @@ public class XcoreResource extends XbaseResource {
 	@Inject
 	private IQualifiedNameProvider nameProvider; 
 	
-	private boolean fullyInitialized = false;
+	protected boolean fullyInitialized = false;
 	
 	@Override
 	public EList<EObject> getContents() {
