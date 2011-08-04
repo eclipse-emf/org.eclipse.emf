@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionManager;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionStrategy;
 import org.eclipse.xtext.linking.ILinker;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
+import org.eclipse.xtext.parser.antlr.IReferableElementsUnloader;
 import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
 import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.XtextResource;
@@ -62,9 +63,14 @@ public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcor
     binder.bind(IScopeProvider.class).annotatedWith(Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(XcoreImportedNamespaceAwareScopeProvider.class);
   }
   
-  public Class<? extends IResourceDescription.Manager> bindIResourceDescriptionManager() {
+  public Class<? extends IResourceDescription.Manager> bindIResourceDescriptionManager() 
+  {
   	return XcoreResourceDescriptionManager.class;
   }
   
+  public Class<? extends IReferableElementsUnloader> bindIReferableElementsUnloader() 
+  {
+  	return IReferableElementsUnloader.GenericUnloader.class;
+  }
   
 }

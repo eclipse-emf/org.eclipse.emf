@@ -9,6 +9,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XAnnotation;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XClass;
@@ -23,6 +24,7 @@ import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.junit4.util.ParseHelper;
+import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.xbase.lib.ComparableExtensions;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
@@ -42,6 +44,9 @@ public class ParsingTest {
   @Inject
   private XcoreExtensions exts;
   
+  @Inject
+  private ValidationTestHelper vth;
+  
   @Test
   public void parseSimpleFile() throws Exception {
     {
@@ -49,6 +54,29 @@ public class ParsingTest {
       final XPackage parse = _parse;
       String _name = parse.getName();
       Assert.assertEquals("foo", _name);
+    }
+  }
+  
+  @Test
+  public void testJvmTypes() throws Exception {
+    {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo ");
+      _builder.newLine();
+      _builder.append("class A ");
+      _builder.newLine();
+      _builder.append("{ ");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("refers A a");
+      _builder.newLine();
+      _builder.append("} ");
+      _builder.newLine();
+      XPackage _parse = this.parser.parse(_builder);
+      final XPackage pack = _parse;
+      Resource _eResource = pack.eResource();
+      EcoreUtil.resolveAll(_eResource);
+      this.vth.assertNoErrors(pack);
     }
   }
   

@@ -14,6 +14,8 @@ import org.eclipse.emf.ecore.xcore.XcoreExtensions
 import org.eclipse.emf.ecore.xcore.XReference
 import org.eclipse.xtext.resource.XtextResource
 import org.eclipse.emf.ecore.xcore.XOperation
+import org.eclipse.xtext.junit4.validation.ValidationTestHelper
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(XcoreInjectorProvider))
@@ -25,11 +27,27 @@ class ParsingTest {
 	@Inject 
 	extension XcoreExtensions exts
 	
+	@Inject
+	extension ValidationTestHelper vth
+	
 
 	@Test
 	def void parseSimpleFile() {
 		val parse = parser.parse("package foo");
 		assertEquals("foo", parse.getName());
+	}
+	
+	@Test
+	def void testJvmTypes() {
+		val pack = parser.parse('''
+			package foo 
+			class A 
+			{ 
+				refers A a
+			} 
+		''')
+		EcoreUtil::resolveAll(pack.eResource)
+		vth.assertNoErrors(pack);
 	}
 	
 	@Test

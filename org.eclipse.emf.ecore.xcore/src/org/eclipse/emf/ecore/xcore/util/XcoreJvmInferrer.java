@@ -8,6 +8,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
+import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xcore.XPackage;
@@ -37,6 +39,7 @@ import org.eclipse.xtext.common.types.TypesFactory;
 import org.eclipse.xtext.common.types.util.TypeReferences;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
+import org.eclipse.xtext.util.EmfFormatter;
 
 import com.google.inject.Inject;
 
@@ -74,6 +77,11 @@ public class XcoreJvmInferrer
     for (GenClassifier genClassifier : genPackage.getGenClassifiers())
     {
       result.addAll(getDeclaredTypes(genClassifier));
+    }
+    
+    if (true)
+    {
+    	System.out.println(EmfFormatter.listToStr(result));
     }
     return result;
   }
@@ -136,11 +144,42 @@ public class XcoreJvmInferrer
       	members.add(getJvmOperation(genOperation));
       }
       
+      for (GenFeature genFeature : genClass.getGenFeatures())
+      {
+      	EStructuralFeature eStructuralFeature = genFeature.getEcoreFeature();
+				if (eStructuralFeature.getName() != null && eStructuralFeature.getEGenericType() != null)
+      	{
+      	  members.addAll(getJvmFeatureAccessors(genFeature));
+      	}
+      }
       result.add(jvmGenericType);
     }
     return result;
   }
   
+  List<JvmOperation> getJvmFeatureAccessors(GenFeature genFeature)
+  {
+  	List<JvmOperation> result = new ArrayList<JvmOperation>();
+  	if (genFeature.isGet() && !genFeature.isSuppressedGetVisibility())
+  	{
+  	  JvmOperation jvmOperation = TypesFactory.eINSTANCE.createJvmOperation();
+  	  map(jvmOperation, genFeature);
+  	  jvmOperation.setSimpleName(genFeature.getGetAccessor());
+  	  jvmOperation.setReturnType(getJvmTypeReference(genFeature.getType(genFeature.getGenClass()), genFeature));
+  	  result.add(jvmOperation);
+  	}
+  	if (genFeature.isSet() && !genFeature.isSuppressedSetVisibility())
+  	{
+  	  JvmOperation jvmOperation = TypesFactory.eINSTANCE.createJvmOperation();
+  	  map(jvmOperation, genFeature);
+  	  jvmOperation.setSimpleName("set" + genFeature.getAccessorName());
+  	  jvmOperation.setReturnType(getJvmTypeReference(genFeature.getType(genFeature.getGenClass()), genFeature));
+  	  result.add(jvmOperation);
+  	}
+  	
+  	return result;
+  }
+
   JvmOperation getJvmOperation(GenOperation genOperation)
   {
   	JvmOperation jvmOperation = TypesFactory.eINSTANCE.createJvmOperation();
@@ -216,6 +255,10 @@ public class XcoreJvmInferrer
     {
       List<JvmTypeReference> arguments = getJvmTypeReferences(eGenericType.getETypeArguments(), context);
 		  String instanceTypeName = eClassifier.getInstanceTypeName();
+		  if (instanceTypeName == null)
+		  {
+		  	System.err.println("###");
+		  }
       QualifiedName qualifiedName = nameConverter.toQualifiedName(instanceTypeName);
     	JvmGenericType jvmGenericType = TypesFactory.eINSTANCE.createJvmGenericType();
     	proxyUriConverter.installProxyURI(context.eResource().getURI(), jvmGenericType, qualifiedName);

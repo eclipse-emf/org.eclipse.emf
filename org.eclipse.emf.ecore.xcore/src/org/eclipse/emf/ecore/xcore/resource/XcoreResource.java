@@ -57,8 +57,6 @@ public class XcoreResource extends XbaseResource {
 	
 	@Override
 	protected void updateInternalState(IParseResult parseResult) {
-		EObject ePackage = null;
-		
     EList<EObject> contents = getContents();
     int size = contents.size();
     if (size > 1)
@@ -66,20 +64,9 @@ public class XcoreResource extends XbaseResource {
   		for (Iterator<EObject> i = contents.iterator(); i.hasNext(); )
       {
         EObject eObject = i.next();
-        if (eObject instanceof EPackage)
-        {
-        	// Defer unloading until the GenModel is unloaded.
-        	// 
-        	ePackage = eObject;
-        }
-        else if (eObject instanceof GenModel || eObject instanceof JvmGenericType)
+        if (eObject instanceof EPackage || eObject instanceof GenModel || eObject instanceof JvmGenericType)
         {
           unload(eObject);
-          if (ePackage != null)
-          {
-          	unload(ePackage);
-          	ePackage = null;
-          }
         }
       }
       contents.clear();
@@ -88,7 +75,8 @@ public class XcoreResource extends XbaseResource {
 		super.updateInternalState(parseResult);
 	}
 	
-	protected void lateInitialize() {
+	protected void lateInitialize() 
+	{
 		if (getParseResult() != null && getParseResult().getRootASTElement() instanceof XPackage)
     {
 			XPackage model = (XPackage) getParseResult().getRootASTElement();
@@ -97,7 +85,7 @@ public class XcoreResource extends XbaseResource {
       super.getContents().add(ePackage);
       GenModel genModel =  GenModelFactory.eINSTANCE.createGenModel();
       genModel.initialize(Collections.singleton(ePackage));
-      super.getContents().add(genModel);
+      super.getContents().add(1, genModel);
       genModel.initialize();
       for (Iterator<EObject> i = genModel.eAllContents(); i.hasNext(); )
       {
