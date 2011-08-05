@@ -4,22 +4,22 @@ class X
 {
 	/* XPECT gen ---
 		GenFeature {
-		    attr EBoolean notify 'false'
-		    attr EBoolean createChild 'false'
-		    attr EBoolean propertySortChoices 'true'
-		    ref GenClass genClass ref: GenClass@/1/foo/X
-		    ref EStructuralFeature ecoreFeature 'x' ref: EReference@/2/X/x
+			notify = 'false'
+			createChild = 'false'
+			propertySortChoices = 'true'
+			genClass -> GenClass /1/foo/X
+			ecoreFeature -> EReference /2/X/x
 		}
 	--- */
 	refers X x opposite y
 	   
 	/* XPECT gen ---
 		GenFeature {
-		    attr EBoolean notify 'false'
-		    attr EBoolean createChild 'false'
-		    attr EBoolean propertySortChoices 'true'
-		    ref GenClass genClass ref: GenClass@/1/foo/X
-		    ref EStructuralFeature ecoreFeature 'y' ref: EReference@/2/X/y
+			notify = 'false'
+			createChild = 'false'
+			propertySortChoices = 'true'
+			genClass -> GenClass /1/foo/X
+			ecoreFeature -> EReference /2/X/y
 		}
 	--- */
 	refers X y opposite x

@@ -5,6 +5,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
+import org.eclipse.emf.ecore.xcore.tests.EObjectFormatter;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.parameterized.ParameterizedXtextRunner;
 import org.eclipse.xtext.junit4.parameterized.ResourceURIs;
@@ -12,7 +13,6 @@ import org.eclipse.xtext.nodemodel.ILeafNode;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.parsetree.reconstr.impl.NodeIterator;
-import org.eclipse.xtext.util.EmfFormatter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -43,7 +43,7 @@ public class XcoreGenModelTest
 		}
 		this.expected = expected;
 	}
-	
+
 	@Inject
 	private XcoreMapper mapper = new XcoreMapper();
 
@@ -53,7 +53,7 @@ public class XcoreGenModelTest
 		EObject obj = NodeModelUtils.findActualSemanticObjectFor(leaf);
 		EcoreUtil.resolveAll(obj.eResource());
 		EObject gen = mapper.getGen((XNamedElement) obj);
-		return EmfFormatter.objToStr(gen);
+		return new EObjectFormatter().resolveCrossReferences().format(gen);
 	}
 
 }

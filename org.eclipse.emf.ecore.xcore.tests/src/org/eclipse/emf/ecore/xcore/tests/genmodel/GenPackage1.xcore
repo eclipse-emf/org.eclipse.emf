@@ -1,18 +1,18 @@
 /* XPECT gen ---
 	GenPackage {
-	    attr EString prefix 'Foo'
-	    attr EBoolean disposableProviderFactory 'true'
-	    ref EPackage ecorePackage 'foo' ref: EPackage@/2
-	    ref GenModel genModel ref: GenModel@/1
-	    cref GenClass genClasses [
-	        0: GenClass {
-	            ref GenPackage genPackage ref: GenPackage@/1/foo
-	            ref EClass ecoreClass 'Bar' ref: EClass@/2/Bar
-	        }
-	    ]
-	    ref GenClassifier genClassifiers [
-	        0: GenClass@/1/foo/Bar
-	    ]
+		prefix = 'Foo'
+		disposableProviderFactory = 'true'
+		ecorePackage -> EPackage /2
+		genModel -> GenModel /1
+		genClasses = [
+			GenClass {
+				genPackage -> GenPackage /1/foo
+				ecoreClass -> EClass /2/Bar
+			}
+		]
+		genClassifiers -> [
+			GenClass /1/foo/Bar
+		]
 	}
 ---
 */
