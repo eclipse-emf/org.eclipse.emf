@@ -21,6 +21,7 @@ import org.eclipse.emf.codegen.ecore.generator.Generator
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter
 import org.eclipse.emf.common.util.BasicMonitor
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper
+import org.eclipse.xtext.common.types.JvmOperation
 
 class XcoreGenerator implements IGenerator {
 	
@@ -36,6 +37,7 @@ class XcoreGenerator implements IGenerator {
 		for (op : pack.allContentsIterable.filter(typeof(XOperation))) {
 			val eOperation = op.mapping.EOperation
 			val appendable = new StringBuilderBasedAppendable()
+			appendable.declareVariable(mappings.getMapping(op).jvmOperation.declaringType,"this");
 //			val expectedType = op.jvmOperation.returnType
 			compiler.compile(op.body, appendable, null)
 			eOperation.EAnnotations.add(createGenModelAnnotation("body", appendable.toString))
