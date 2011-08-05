@@ -38,7 +38,7 @@ public class XcoreGenmodelBuilder {
   public void getGenModel(final XPackage pack) {
     {
       XPackageMapping _mapping = this.mapper.getMapping(pack);
-      EPackage _ePackage = _mapping.getePackage();
+      EPackage _ePackage = _mapping.getEPackage();
       final EPackage ePackage = _ePackage;
       GenModel _createGenModel = GenModelFactory.eINSTANCE.createGenModel();
       final GenModel genModel = _createGenModel;

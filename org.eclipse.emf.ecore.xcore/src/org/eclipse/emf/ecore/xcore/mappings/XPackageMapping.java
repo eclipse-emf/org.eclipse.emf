@@ -8,7 +8,7 @@ public class XPackageMapping extends AbstractMapping
 	private EPackage ePackage;
 	private GenPackage genPackage;
 	
-	public EPackage getePackage()
+	public EPackage getEPackage()
   {
   	return ePackage;
   }

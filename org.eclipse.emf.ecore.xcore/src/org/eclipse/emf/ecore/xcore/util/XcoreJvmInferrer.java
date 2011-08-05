@@ -230,6 +230,8 @@ public class XcoreJvmInferrer
     {
       List<JvmTypeReference> arguments = getJvmTypeReferences(eGenericType.getETypeArguments(), context);
 		  String instanceTypeName = eClassifier.getInstanceTypeName();
+		  if (instanceTypeName == null) 
+		  	return null;
       QualifiedName qualifiedName = nameConverter.toQualifiedName(instanceTypeName);
     	JvmGenericType jvmGenericType = TypesFactory.eINSTANCE.createJvmGenericType();
     	proxyUriConverter.installProxyURI(context.eResource().getURI(), jvmGenericType, qualifiedName);

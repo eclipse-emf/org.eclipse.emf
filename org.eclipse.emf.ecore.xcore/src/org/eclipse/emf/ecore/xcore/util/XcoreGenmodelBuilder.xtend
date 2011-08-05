@@ -19,7 +19,7 @@ class XcoreGenmodelBuilder {
 	@Inject extension XcoreMapper mapper
 	
 	def getGenModel(XPackage pack) {
-		val ePackage = pack.mapping.getePackage
+		val ePackage = pack.mapping.getEPackage
 		val genModel =  GenModelFactory::eINSTANCE.createGenModel();
       	genModel.initialize(Collections::singleton(ePackage));
       	pack.eResource.getContents().add(1, genModel);
