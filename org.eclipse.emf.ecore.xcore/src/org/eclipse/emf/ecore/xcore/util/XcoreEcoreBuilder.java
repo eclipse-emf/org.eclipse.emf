@@ -9,8 +9,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -20,7 +18,6 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
@@ -281,6 +278,7 @@ public class XcoreEcoreBuilder
   ETypeParameter getETypeParameter(XTypeParameter xTypeParameter)
   {
     ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
+    mapper.getToXcoreMapping(eTypeParameter).setXcoreElement(xTypeParameter);
     //TODO
 //    map(eTypeParameter, xTypeParameter);
     handleAnnotations(xTypeParameter, eTypeParameter);
@@ -483,6 +481,7 @@ public class XcoreEcoreBuilder
   EDataType getEDataType(XDataType xDataType)
   {
     EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
+    mapper.getToXcoreMapping(eDataType).setXcoreElement(xDataType);
     //TODO
 //    map(eDataType, xDataType);
     return eDataType;
@@ -491,6 +490,7 @@ public class XcoreEcoreBuilder
   EEnum getEEnum(XEnum xEnum)
   {
     EEnum eEnum = EcoreFactory.eINSTANCE.createEEnum();
+    mapper.getToXcoreMapping(eEnum).setXcoreElement(xEnum);
     //TODO
 //    map(eEnum, xEnum);
     for (XEnumLiteral xEnumLiteral : xEnum.getLiterals())
@@ -503,6 +503,7 @@ public class XcoreEcoreBuilder
   EEnumLiteral getEEnumLiteral(XEnumLiteral xEnumLiteral)
   {
     EEnumLiteral eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
+    mapper.getToXcoreMapping(eEnumLiteral).setXcoreElement(xEnumLiteral);
     //TODO
 //    map(eEnumLiteral, xEnumLiteral);
     handleAnnotations(xEnumLiteral, eEnumLiteral);

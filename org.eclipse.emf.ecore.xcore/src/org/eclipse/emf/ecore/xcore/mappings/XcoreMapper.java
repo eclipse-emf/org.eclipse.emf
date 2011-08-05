@@ -5,6 +5,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XClass;
+import org.eclipse.emf.ecore.xcore.XDataType;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
@@ -33,6 +34,9 @@ public class XcoreMapper
 	public XOperationMapping getMapping(XOperation feature) {
 		return lazyCreateMapping(feature, XOperationMapping.class);
 	}
+	public XDataTypeMapping getMapping(XDataType derivedElement) {
+		return lazyCreateMapping(derivedElement, XDataTypeMapping.class);
+	}
 	
 	public ToXcoreMapping getToXcoreMapping(EObject derivedElement) {
 		return lazyCreateMapping(derivedElement, ToXcoreMapping.class);
@@ -43,6 +47,8 @@ public class XcoreMapper
 			return getMapping((XPackage)namedElement).getGenPackage();
 		} else if (namedElement instanceof XClass) {
 			return getMapping((XClass)namedElement).getGenClass();
+		} else if (namedElement instanceof XDataType) {
+			return getMapping((XDataType)namedElement).getGenDataType();
 		} else if (namedElement instanceof XStructuralFeature) {
 			return getMapping((XStructuralFeature)namedElement).getGenFeature();
 		} else if (namedElement instanceof XOperation) {

@@ -13,6 +13,8 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenFeature
 import org.eclipse.emf.ecore.xcore.XStructuralFeature
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation
 import org.eclipse.emf.ecore.xcore.XOperation
+import org.eclipse.emf.codegen.ecore.genmodel.GenDataType
+import org.eclipse.emf.ecore.xcore.XDataType
 
 class XcoreGenmodelBuilder {
 	
@@ -38,6 +40,12 @@ class XcoreGenmodelBuilder {
       			val xClass = genElement.ecoreClass.toXcoreMapping.xcoreElement as XClass
 				xClass.mapping.genClass = genElement
 				genElement.toXcoreMapping.xcoreElement = xClass    			
+      		}
+      		GenDataType :
+      		{
+      			val xDataType = genElement.ecoreDataType.toXcoreMapping.xcoreElement as XDataType
+				xDataType.mapping.genDataType = genElement
+				genElement.toXcoreMapping.xcoreElement = xDataType    			
       		}
       		GenFeature :
       		{

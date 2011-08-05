@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
+import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -235,16 +236,42 @@ public class XcoreJvmInferrer
     {
       List<JvmTypeReference> arguments = getJvmTypeReferences(eGenericType.getETypeArguments(), context);
 		  String instanceTypeName = eClassifier.getInstanceTypeName();
+    	JvmParameterizedTypeReference jvmParameterizedTypeReference;
 		  if (instanceTypeName == null) 
-		  	return null;
-      QualifiedName qualifiedName = nameConverter.toQualifiedName(instanceTypeName);
-    	JvmGenericType jvmGenericType = TypesFactory.eINSTANCE.createJvmGenericType();
-    	proxyUriConverter.installProxyURI(context.eResource().getURI(), jvmGenericType, qualifiedName);
-    	JvmParameterizedTypeReference jvmParameterizedTypeReference = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
-    	jvmParameterizedTypeReference.setType(jvmGenericType);
+		  {
+		  	GenClassifier genClassifier = (GenClassifier)mapper.getGen(mapper.getToXcoreMapping(eClassifier).getXcoreElement());
+      	jvmParameterizedTypeReference =  getJvmParameterizedTypeReference(genClassifier);
+		  }
+		  else
+  		{
+        QualifiedName qualifiedName = nameConverter.toQualifiedName(instanceTypeName);
+      	JvmGenericType jvmGenericType = TypesFactory.eINSTANCE.createJvmGenericType();
+      	proxyUriConverter.installProxyURI(context.eResource().getURI(), jvmGenericType, qualifiedName);
+      	jvmParameterizedTypeReference = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+      	jvmParameterizedTypeReference.setType(jvmGenericType);
+  		}
     	jvmParameterizedTypeReference.getArguments().addAll(arguments);
     	return jvmParameterizedTypeReference;
     }
+  }
+  
+  JvmParameterizedTypeReference getJvmParameterizedTypeReference(GenClassifier genClassifier)
+  {
+ 	  String instanceTypeName;
+  	if (genClassifier instanceof GenClass)
+  	{
+  	  instanceTypeName = ((GenClass)genClassifier).getQualifiedInterfaceName();
+  	}
+  	else
+  	{
+  	  instanceTypeName = ((GenDataType)genClassifier).getQualifiedInstanceClassName();
+  	}
+    QualifiedName qualifiedName = nameConverter.toQualifiedName(instanceTypeName);
+    JvmGenericType jvmGenericType = TypesFactory.eINSTANCE.createJvmGenericType();
+    proxyUriConverter.installProxyURI(genClassifier.eResource().getURI(), jvmGenericType, qualifiedName);
+    JvmParameterizedTypeReference jvmParameterizedTypeReference = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+   	jvmParameterizedTypeReference.setType(jvmGenericType);
+  	return jvmParameterizedTypeReference;
   }
 
   List<JvmTypeReference> getJvmTypeReferences(List<EGenericType> eGenericTypes, EObject context)
