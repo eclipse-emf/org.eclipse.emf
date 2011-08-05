@@ -64,14 +64,18 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
   protected static final EDataType [] IMPLICIT_ALIASES = 
     new EDataType[] 
     {
-      EcorePackage.Literals.ESTRING
+      EcorePackage.Literals.ESTRING,
+      EcorePackage.Literals.EINT,
+      EcorePackage.Literals.EINTEGER_OBJECT,
+      EcorePackage.Literals.EBOOLEAN,
+      EcorePackage.Literals.EBOOLEAN_OBJECT,
     };
 
   @Override
   protected IScope getGlobalScope(Resource context, EReference reference, Predicate<IEObjectDescription> filter)
   {
     final IScope globalScope = super.getGlobalScope(context, reference, filter);
-    if (false && reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE)
+    if (reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE)
     {
       return
         new AbstractScope(globalScope, false)

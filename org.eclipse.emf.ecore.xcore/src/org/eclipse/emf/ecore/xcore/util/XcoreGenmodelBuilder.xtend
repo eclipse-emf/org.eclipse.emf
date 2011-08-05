@@ -26,6 +26,10 @@ class XcoreGenmodelBuilder {
       	genModel.initialize(Collections::singleton(ePackage));
       	pack.eResource.getContents().add(1, genModel);
       	genModel.initialize();
+      	genModel.updateClasspath = false
+      	// set to src-gen
+      	if (!genModel.modelDirectory.endsWith('-gen'))
+      		genModel.modelDirectory = genModel.modelDirectory + "-gen"
       for (genElement : genModel.allContentsIterable)
       {
       	switch genElement {

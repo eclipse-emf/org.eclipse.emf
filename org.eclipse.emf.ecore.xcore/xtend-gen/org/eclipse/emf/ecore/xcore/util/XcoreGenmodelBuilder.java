@@ -31,6 +31,8 @@ import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XPackageMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
+import org.eclipse.xtext.xbase.lib.BooleanExtensions;
+import org.eclipse.xtext.xbase.lib.StringExtensions;
 import org.eclipse.xtext.xtend2.lib.EObjectExtensions;
 
 @SuppressWarnings("all")
@@ -52,6 +54,15 @@ public class XcoreGenmodelBuilder {
       EList<EObject> _contents = _eResource.getContents();
       _contents.add(1, genModel);
       genModel.initialize();
+      genModel.setUpdateClasspath(false);
+      String _modelDirectory = genModel.getModelDirectory();
+      boolean _endsWith = _modelDirectory.endsWith("-gen");
+      boolean _operator_not = BooleanExtensions.operator_not(_endsWith);
+      if (_operator_not) {
+        String _modelDirectory_1 = genModel.getModelDirectory();
+        String _operator_plus = StringExtensions.operator_plus(_modelDirectory_1, "-gen");
+        genModel.setModelDirectory(_operator_plus);
+      }
       Iterable<EObject> _allContentsIterable = EObjectExtensions.allContentsIterable(genModel);
       for (EObject genElement : _allContentsIterable) {
         final EObject genElement_1 = genElement;
