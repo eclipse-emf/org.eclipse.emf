@@ -70,9 +70,9 @@ public class XcoreScopeProvider extends XbaseScopeProvider
 				{
 					list.add(EObjectDescription.create(QualifiedName.create(param.getName()), param, null));
 				}
-				return new SimpleScope(parent, list);
+				return super.createLocalVarScope(new SimpleScope(parent, list), scopeContext);
 			}
-		}
+		} 
 		return super.createLocalVarScope(parent, scopeContext);
 	}
 

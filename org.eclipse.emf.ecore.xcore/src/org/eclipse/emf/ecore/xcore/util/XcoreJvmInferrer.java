@@ -134,10 +134,15 @@ public class XcoreJvmInferrer
       
       // TODO  should deal with EClass.getEGenericSuperTypes().
       EList<JvmTypeReference> superTypes = jvmGenericType.getSuperTypes();
-      List<String> qualifiedInterfaceExtendsList = genClass.getQualifiedInterfaceExtendsList();
-      for (String instanceTypeName : qualifiedInterfaceExtendsList)
-      {
-			  superTypes.add(getJvmTypeReference(instanceTypeName, genClass));
+      try {
+      	List<String> qualifiedInterfaceExtendsList = genClass.getQualifiedInterfaceExtendsList();
+      	for (String instanceTypeName : qualifiedInterfaceExtendsList)
+      	{
+      		superTypes.add(getJvmTypeReference(instanceTypeName, genClass));
+      	}
+      } catch (NullPointerException e) {
+      	//TODO get rid of me
+      	e.printStackTrace();
       }
 
       EList<JvmMember> members = jvmGenericType.getMembers();

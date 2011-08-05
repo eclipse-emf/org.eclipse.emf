@@ -15,12 +15,18 @@ import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenmodelBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreJvmInferrer;
 import org.eclipse.xtext.common.types.JvmGenericType;
+import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.parser.IParseResult;
+import org.eclipse.xtext.resource.IEObjectDescription;
+import org.eclipse.xtext.scoping.IScope;
+import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.xbase.resource.XbaseResource;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -40,6 +46,9 @@ public class XcoreResource extends XbaseResource {
   
   @Inject
   private Provider<XcoreEcoreBuilder> xcoreEcoreBuilderProvider;
+  
+  @Inject
+  private IScopeProvider scopeProvider;
 	
 	protected boolean fullyInitialized = false;
 	
@@ -110,6 +119,11 @@ public class XcoreResource extends XbaseResource {
 	 * TODO optimize
 	 */
 	protected EObject findEObject(EClass clazz, QualifiedName name) {
+		if (clazz == TypesPackage.Literals.JVM_GENERIC_TYPE) {
+			IScope scope = scopeProvider.getScope(getContents().get(0), TypesPackage.Literals.JVM_PARAMETERIZED_TYPE_REFERENCE__TYPE);
+			final IEObjectDescription desc = scope.getSingleElement(name);
+			return desc == null ? null : desc.getEObjectOrProxy();
+		}
 		TreeIterator<EObject> iterator = EcoreUtil.getAllContents(this, false);
 		while (iterator.hasNext()) {
 			EObject candidate = iterator.next();
