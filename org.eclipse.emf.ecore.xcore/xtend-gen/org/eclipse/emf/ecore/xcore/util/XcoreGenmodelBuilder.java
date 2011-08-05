@@ -2,7 +2,9 @@ package org.eclipse.emf.ecore.xcore.util;
 
 import com.google.inject.Inject;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
@@ -12,6 +14,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
@@ -32,6 +35,7 @@ import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XPackageMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.xbase.lib.BooleanExtensions;
+import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
 import org.eclipse.xtext.xtend2.lib.EObjectExtensions;
 
@@ -41,7 +45,7 @@ public class XcoreGenmodelBuilder {
   @Inject
   private XcoreMapper mapper;
   
-  public void getGenModel(final XPackage pack) {
+  public GenModel getGenModel(final XPackage pack) {
     {
       XPackageMapping _mapping = this.mapper.getMapping(pack);
       EPackage _ePackage = _mapping.getEPackage();
@@ -54,7 +58,6 @@ public class XcoreGenmodelBuilder {
       EList<EObject> _contents = _eResource.getContents();
       _contents.add(1, genModel);
       genModel.initialize();
-      genModel.setUpdateClasspath(false);
       String _modelDirectory = genModel.getModelDirectory();
       boolean _endsWith = _modelDirectory.endsWith("-gen");
       boolean _operator_not = BooleanExtensions.operator_not(_endsWith);
@@ -63,6 +66,7 @@ public class XcoreGenmodelBuilder {
         String _operator_plus = StringExtensions.operator_plus(_modelDirectory_1, "-gen");
         genModel.setModelDirectory(_operator_plus);
       }
+      genModel.setUpdateClasspath(false);
       Iterable<EObject> _allContentsIterable = EObjectExtensions.allContentsIterable(genModel);
       for (EObject genElement : _allContentsIterable) {
         final EObject genElement_1 = genElement;
@@ -145,6 +149,57 @@ public class XcoreGenmodelBuilder {
               ToXcoreMapping _xcoreMapping_9 = this.mapper.getToXcoreMapping(genElement_6);
               _xcoreMapping_9.setXcoreElement(xOperation);
             }
+          }
+        }
+      }
+      return genModel;
+    }
+  }
+  
+  public void initializeUsedGenPackages(final GenModel genModel) {
+    {
+      HashSet<EPackage> _hashSet = new HashSet<EPackage>();
+      final HashSet<EPackage> referencedEPackages = _hashSet;
+      EList<GenPackage> _genPackages = genModel.getGenPackages();
+      for (GenPackage genPackage : _genPackages) {
+        EPackage _ecorePackage = genPackage.getEcorePackage();
+        Iterable<EObject> _allContentsIterable = EObjectExtensions.allContentsIterable(_ecorePackage);
+        for (EObject eObject : _allContentsIterable) {
+          EList<EObject> _eCrossReferences = eObject.eCrossReferences();
+          for (EObject eCrossReference : _eCrossReferences) {
+            final EObject eCrossReference_1 = eCrossReference;
+            boolean matched = false;
+            if (!matched) {
+              if (eCrossReference_1 instanceof EClassifier) {
+                final EClassifier eCrossReference_2 = (EClassifier) eCrossReference_1;
+                matched=true;
+                EPackage _ePackage = eCrossReference_2.getEPackage();
+                referencedEPackages.add(_ePackage);
+              }
+            }
+            if (!matched) {
+              if (eCrossReference_1 instanceof EStructuralFeature) {
+                final EStructuralFeature eCrossReference_3 = (EStructuralFeature) eCrossReference_1;
+                matched=true;
+                EClass _eContainingClass = eCrossReference_3.getEContainingClass();
+                EPackage _ePackage_1 = _eContainingClass.getEPackage();
+                referencedEPackages.add(_ePackage_1);
+              }
+            }
+          }
+        }
+      }
+      for (EPackage referencedEPackage : referencedEPackages) {
+        GenPackage _findGenPackage = genModel.findGenPackage(referencedEPackage);
+        boolean _operator_equals = ObjectExtensions.operator_equals(_findGenPackage, null);
+        if (_operator_equals) {
+          {
+            ToXcoreMapping _xcoreMapping = this.mapper.getToXcoreMapping(referencedEPackage);
+            XNamedElement _xcoreElement = _xcoreMapping.getXcoreElement();
+            GenBase _gen = this.mapper.getGen(_xcoreElement);
+            final GenPackage usedGenPackage = ((GenPackage) _gen);
+            EList<GenPackage> _usedGenPackages = genModel.getUsedGenPackages();
+            _usedGenPackages.add(usedGenPackage);
           }
         }
       }

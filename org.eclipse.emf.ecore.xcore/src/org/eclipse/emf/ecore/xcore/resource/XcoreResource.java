@@ -96,8 +96,9 @@ public class XcoreResource extends XbaseResource {
       XcoreEcoreBuilder xcoreEcoreBuilder = xcoreEcoreBuilderProvider.get();
       EPackage ePackage = xcoreEcoreBuilder.getEPackage(model);
       super.getContents().add(ePackage);
-      genModelBuilder.getGenModel(model);
+      GenModel genModel = genModelBuilder.getGenModel(model);
       xcoreEcoreBuilder.link(); 
+      genModelBuilder.initializeUsedGenPackages(genModel);
       super.getContents().addAll(jvmInferrer.getDeclaredTypes(model));
       getCache().clear(this);
     }
