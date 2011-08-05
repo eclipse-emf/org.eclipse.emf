@@ -2,8 +2,9 @@ package org.eclipse.emf.ecore.xcore.tests.genmodel;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
-import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder;
+import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.parameterized.ParameterizedXtextRunner;
 import org.eclipse.xtext.junit4.parameterized.ResourceURIs;
@@ -14,6 +15,8 @@ import org.eclipse.xtext.parsetree.reconstr.impl.NodeIterator;
 import org.eclipse.xtext.util.EmfFormatter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import com.google.inject.Inject;
 
 @InjectWith(XcoreInjectorProvider.class)
 @RunWith(ParameterizedXtextRunner.class)
@@ -40,13 +43,16 @@ public class XcoreGenModelTest
 		}
 		this.expected = expected;
 	}
+	
+	@Inject
+	private XcoreMapper mapper = new XcoreMapper();
 
 	@Test
 	public String gen()
 	{
 		EObject obj = NodeModelUtils.findActualSemanticObjectFor(leaf);
 		EcoreUtil.resolveAll(obj.eResource());
-		EObject gen = XcoreEcoreBuilder.getGen(XcoreEcoreBuilder.get(obj));
+		EObject gen = mapper.getGen((XNamedElement) obj);
 		return EmfFormatter.objToStr(gen);
 	}
 

@@ -16,7 +16,8 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
-import org.eclipse.emf.ecore.xcore.util.MappingFacade;
+import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.xbase.XBlockExpression;
@@ -29,7 +30,7 @@ import org.eclipse.xtext.xtend2.lib.EObjectExtensions;
 public class XcoreGenerator implements IGenerator {
   
   @Inject
-  private MappingFacade mappings;
+  private XcoreMapper mappings;
   
   @Inject
   private XbaseCompiler compiler;
@@ -43,7 +44,8 @@ public class XcoreGenerator implements IGenerator {
       Iterable<XOperation> _filter = IterableExtensions.<XOperation>filter(_allContentsIterable, org.eclipse.emf.ecore.xcore.XOperation.class);
       for (XOperation op : _filter) {
         {
-          EOperation _eOperation = this.mappings.getEOperation(op);
+          XOperationMapping _mapping = this.mappings.getMapping(op);
+          EOperation _eOperation = _mapping.getEOperation();
           final EOperation eOperation = _eOperation;
           StringBuilderBasedAppendable _stringBuilderBasedAppendable = new StringBuilderBasedAppendable();
           final StringBuilderBasedAppendable appendable = _stringBuilderBasedAppendable;
@@ -56,8 +58,9 @@ public class XcoreGenerator implements IGenerator {
         }
       }
       EList<EObject> _contents_1 = resource.getContents();
-      EObject _get = _contents_1.get(2);
-      this.generateGenModel(((GenModel) _get));
+      Iterable<GenModel> _filter_1 = IterableExtensions.<GenModel>filter(_contents_1, org.eclipse.emf.codegen.ecore.genmodel.GenModel.class);
+      GenModel _head_1 = IterableExtensions.<GenModel>head(_filter_1);
+      this.generateGenModel(_head_1);
     }
   }
   

@@ -50,86 +50,44 @@ import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XTypedElement;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.xbase.XBlockExpression;
 
+import com.google.inject.Inject;
+
 public class XcoreEcoreBuilder
 {
+	@Inject
+	private XcoreMapper mapper;
+	
   List<Runnable> runnables = new ArrayList<Runnable>();
   
-  static class Mapping extends AdapterImpl
-  {
-    public EObject eObject;
-    private Mapping other;
-    
-    Mapping(EObject eObject)
-    {
-      this.eObject = eObject;
-    }
-    Mapping(EObject eObject, Mapping other)
-    {
-      this.eObject = eObject;
-      this.other = other;
-    }
-    @Override
-    public boolean isAdapterForType(Object type)
-    {
-      return type == Mapping.class;
-    }
-    @Override
-    public void notifyChanged(Notification notification)
-   	{
-   		if (other != null && notification.getEventType() == Notification.REMOVING_ADAPTER)
-   		{
-   			eObject.eAdapters().remove(other);
-   		}
-   	}
-  }
-  public static void map(EObject eObject1, EObject eObject2)
-  {
-  	if (eObject1.eClass().getEPackage() != EcorePackage.eINSTANCE)
-  	{
-  		throw new IllegalArgumentException("The first argument must be an instance from the EcorePackage");
-  	}
-    if (eObject2.eClass().getEPackage() != XcorePackage.eINSTANCE)
-    {
-  		throw new IllegalArgumentException("The second argument must be an instance from the XcorePackage");
-    }
-    final Mapping mapping2 = new Mapping(eObject1);
-		eObject2.eAdapters().add(mapping2);
+  
 
-    Mapping mapping1 =  new Mapping(eObject2, mapping2);
-		eObject1.eAdapters().add(mapping1);
-  }
-  
-  public static EObject get(EObject eObject)
-  {
-    return ((Mapping)EcoreUtil.getAdapter(eObject.eAdapters(), Mapping.class)).eObject;
-  }
-
-  static class GenMapping extends AdapterImpl
-  {
-    public GenBase genBase;
-    GenMapping(GenBase genBase)
-    {
-      this.genBase = genBase;
-    }
-    @Override
-    public boolean isAdapterForType(Object type)
-    {
-      return type == GenMapping.class;
-    }
-  }
-  
-  public static void map(EObject eObject, GenBase genBase)
-  {
-    eObject.eAdapters().add(new GenMapping(genBase));
-  }
-  
-  public static GenBase getGen(EObject eObject)
-  {
-    return ((GenMapping)EcoreUtil.getAdapter(eObject.eAdapters(), GenMapping.class)).genBase;
-  }
+//  static class GenMapping extends AdapterImpl
+//  {
+//    public GenBase genBase;
+//    GenMapping(GenBase genBase)
+//    {
+//      this.genBase = genBase;
+//    }
+//    @Override
+//    public boolean isAdapterForType(Object type)
+//    {
+//      return type == GenMapping.class;
+//    }
+//  }
+//  
+//  public static void map(EObject eObject, GenBase genBase)
+//  {
+//    eObject.eAdapters().add(new GenMapping(genBase));
+//  }
+//  
+//  public static GenBase getGen(EObject eObject)
+//  {
+//    return ((GenMapping)EcoreUtil.getAdapter(eObject.eAdapters(), GenMapping.class)).genBase;
+//  }
   
   public void link()
   {
@@ -151,7 +109,8 @@ public class XcoreEcoreBuilder
   public EPackage getEPackage(XPackage xPackage)
   {
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
-    map(ePackage, xPackage);
+    mapper.getMapping(xPackage).setEPackage(ePackage);
+    mapper.getToXcoreMapping(ePackage).setXcoreElement(xPackage);
     handleAnnotations(xPackage, ePackage);
     String name = xPackage.getName();
     String basePackage;
@@ -193,7 +152,7 @@ public class XcoreEcoreBuilder
     for (XAnnotation xAnnotation : xModelElement.getAnnotations())
     {
       EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-      map(eAnnotation, xAnnotation);
+//      map(eAnnotation, xAnnotation);
       XAnnotationDirective source = xAnnotation.getSource();
       if (source != null)
       {
@@ -241,7 +200,8 @@ public class XcoreEcoreBuilder
   EClass getEClass(final XClass xClass)
   {
     final EClass eClass = EcoreFactory.eINSTANCE.createEClass();
-    map(eClass, xClass);
+    mapper.getMapping(xClass).setEclass(eClass);
+    mapper.getToXcoreMapping(eClass).setXcoreElement(xClass);
     if (xClass.isInterface())
     {
       eClass.setInterface(true);
@@ -279,7 +239,8 @@ public class XcoreEcoreBuilder
   EOperation getEOperation(XOperation xOperation)
   {
     EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
-    map(eOperation, xOperation);
+    mapper.getMapping(xOperation).setEOperation(eOperation);
+    mapper.getToXcoreMapping(eOperation).setXcoreElement(xOperation);
     eOperation.setUnique(false);
     handleETypedElement(eOperation, xOperation);
     for (XTypeParameter xTypeParameter : xOperation.getTypeParameters())
@@ -311,7 +272,7 @@ public class XcoreEcoreBuilder
   EParameter getEParameter(XParameter xParameter)
   {
     EParameter eParameter = EcoreFactory.eINSTANCE.createEParameter();
-    map(eParameter, xParameter);
+//    map(eParameter, xParameter);
     eParameter.setUnique(false);
     handleETypedElement(eParameter, xParameter);
     return eParameter;
@@ -320,7 +281,8 @@ public class XcoreEcoreBuilder
   ETypeParameter getETypeParameter(XTypeParameter xTypeParameter)
   {
     ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
-    map(eTypeParameter, xTypeParameter);
+    //TODO
+//    map(eTypeParameter, xTypeParameter);
     handleAnnotations(xTypeParameter, eTypeParameter);
     eTypeParameter.setName(xTypeParameter.getName());
     for (XGenericType xGenericType : xTypeParameter.getBounds())
@@ -400,7 +362,7 @@ public class XcoreEcoreBuilder
     else
     {
       final EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
-      map(eGenericType, xGenericType);
+//      map(eGenericType, xGenericType);
       XGenericType lowerBound = xGenericType.getLowerBound();
       if (lowerBound != null)
       {
@@ -439,7 +401,8 @@ public class XcoreEcoreBuilder
   EReference getEReference(final XReference xReference)
   {
     final EReference eReference = EcoreFactory.eINSTANCE.createEReference();
-    map(eReference, xReference);
+    mapper.getMapping(xReference).setEStructuralFeature(eReference);
+    mapper.getToXcoreMapping(eReference).setXcoreElement(xReference);
     if (xReference.isContainment())
     {
       eReference.setContainment(true);
@@ -479,7 +442,8 @@ public class XcoreEcoreBuilder
   EAttribute getEAttribute(final XAttribute xAttribute)
   {
     final EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-    map(eAttribute, xAttribute);
+    mapper.getMapping(xAttribute).setEStructuralFeature(eAttribute);
+    mapper.getToXcoreMapping(eAttribute).setXcoreElement(xAttribute);
     eAttribute.setUnique(false);
     if (xAttribute.isID())
     {
@@ -519,14 +483,16 @@ public class XcoreEcoreBuilder
   EDataType getEDataType(XDataType xDataType)
   {
     EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
-    map(eDataType, xDataType);
+    //TODO
+//    map(eDataType, xDataType);
     return eDataType;
   }
 
   EEnum getEEnum(XEnum xEnum)
   {
     EEnum eEnum = EcoreFactory.eINSTANCE.createEEnum();
-    map(eEnum, xEnum);
+    //TODO
+//    map(eEnum, xEnum);
     for (XEnumLiteral xEnumLiteral : xEnum.getLiterals())
     {
       eEnum.getELiterals().add(getEEnumLiteral(xEnumLiteral));
@@ -537,7 +503,8 @@ public class XcoreEcoreBuilder
   EEnumLiteral getEEnumLiteral(XEnumLiteral xEnumLiteral)
   {
     EEnumLiteral eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
-    map(eEnumLiteral, xEnumLiteral);
+    //TODO
+//    map(eEnumLiteral, xEnumLiteral);
     handleAnnotations(xEnumLiteral, eEnumLiteral);
     eEnumLiteral.setName(xEnumLiteral.getName());
     eEnumLiteral.setLiteral(xEnumLiteral.getLiteral());

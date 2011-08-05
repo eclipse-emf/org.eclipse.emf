@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
@@ -45,21 +47,60 @@ import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XTypedElement;
 import org.eclipse.emf.ecore.xcore.XcoreFactory;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
-import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder.Mapping;
 import org.eclipse.xtext.xbase.XBlockExpression;
 
 public class EcoreXcoreBuilder
 {
   List<Runnable> runnables = new ArrayList<Runnable>();
   
+  static class Mapping extends AdapterImpl
+  {
+    public EObject eObject;
+    private Mapping other;
+    
+    Mapping(EObject eObject)
+    {
+      this.eObject = eObject;
+    }
+    Mapping(EObject eObject, Mapping other)
+    {
+      this.eObject = eObject;
+      this.other = other;
+    }
+    @Override
+    public boolean isAdapterForType(Object type)
+    {
+      return type == Mapping.class;
+    }
+    @Override
+    public void notifyChanged(Notification notification)
+   	{
+   		if (other != null && notification.getEventType() == Notification.REMOVING_ADAPTER)
+   		{
+   			eObject.eAdapters().remove(other);
+   		}
+   	}
+  }
   public static void map(EObject eObject1, EObject eObject2)
   {
-    XcoreEcoreBuilder.map(eObject2, eObject1);
+  	if (eObject1.eClass().getEPackage() != EcorePackage.eINSTANCE)
+  	{
+  		throw new IllegalArgumentException("The first argument must be an instance from the EcorePackage");
+  	}
+    if (eObject2.eClass().getEPackage() != XcorePackage.eINSTANCE)
+    {
+  		throw new IllegalArgumentException("The second argument must be an instance from the XcorePackage");
+    }
+    final Mapping mapping2 = new Mapping(eObject1);
+		eObject2.eAdapters().add(mapping2);
+
+    Mapping mapping1 =  new Mapping(eObject2, mapping2);
+		eObject1.eAdapters().add(mapping1);
   }
   
   public static EObject get(EObject eObject)
   {
-    return XcoreEcoreBuilder.get(eObject);
+    return ((Mapping)EcoreUtil.getAdapter(eObject.eAdapters(), Mapping.class)).eObject;
   }
   
   public XPackage getXPackage(EPackage ePackage)

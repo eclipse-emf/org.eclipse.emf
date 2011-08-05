@@ -2,7 +2,6 @@ package foo
 
 /* XPECT issues ---
 error for 'baz' message 'Couldn't resolve reference to GenBase 'baz'.'
-error for 'baz' message 'The feature 'type' of 'org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl@???' contains an unresolved proxy '???''
 error ' message 'A generic super type must refer to a class'
 ---
 */

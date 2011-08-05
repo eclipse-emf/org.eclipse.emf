@@ -20,11 +20,12 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel
 import org.eclipse.emf.codegen.ecore.generator.Generator
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter
 import org.eclipse.emf.common.util.BasicMonitor
+import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper
 
 class XcoreGenerator implements IGenerator {
 	
 	@Inject
-	extension MappingFacade mappings
+	extension XcoreMapper mappings
 	
 	@Inject
 	XbaseCompiler compiler
@@ -33,14 +34,14 @@ class XcoreGenerator implements IGenerator {
 		val pack = resource.contents.head as XPackage
 		// install operation bodies
 		for (op : pack.allContentsIterable.filter(typeof(XOperation))) {
-			val eOperation = op.EOperation
+			val eOperation = op.mapping.EOperation
 			val appendable = new StringBuilderBasedAppendable()
 //			val expectedType = op.jvmOperation.returnType
 			compiler.compile(op.body, appendable, null)
 			eOperation.EAnnotations.add(createGenModelAnnotation("body", appendable.toString))
 		}
 		
-		generateGenModel(resource.contents.get(2) as GenModel)
+		generateGenModel(resource.contents.filter(typeof(GenModel)).head)
 	}
 	
 	def generateGenModel(GenModel genModel) {
