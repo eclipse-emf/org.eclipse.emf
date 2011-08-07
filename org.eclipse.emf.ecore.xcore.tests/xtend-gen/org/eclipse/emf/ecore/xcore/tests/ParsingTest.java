@@ -355,4 +355,89 @@ public class ParsingTest {
       Assert.assertEquals("EString", _name);
     }
   }
+  
+  public void testEcoreDataTypeAliases() throws Exception {
+    {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo ");
+      _builder.newLine();
+      _builder.append("class A ");
+      _builder.newLine();
+      _builder.append("{ ");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("java.math.BigDecimal _bigDecimal");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("java.math.BigInteger _bigInteger");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("boolean _boolean");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("Boolean _Boolean");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("byte _byte");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("Byte _Byte");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("char _char");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("Character _Character");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("java.util.Date _date");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("double _double");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("Double _Double");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("float _float");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("Float _Float");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("int _int");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("Integer _Integer");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("Class _class");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("Object _object");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("long _long");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("Long _Long");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("short _short");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("Short _Short");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("String _String");
+      _builder.newLine();
+      _builder.append("} ");
+      _builder.newLine();
+      XPackage _parse = this.parser.parse(_builder);
+      final XPackage pack = _parse;
+      Resource _eResource = pack.eResource();
+      EcoreUtil.resolveAll(_eResource);
+      this.vth.assertNoErrors(pack);
+    }
+  }
 }

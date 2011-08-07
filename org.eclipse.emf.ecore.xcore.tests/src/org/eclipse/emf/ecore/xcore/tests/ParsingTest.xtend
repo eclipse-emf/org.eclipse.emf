@@ -159,6 +159,7 @@ class ParsingTest {
 		assertTrue(pack.eResource.errors.toString, 1 <= pack.eResource.errors.size)
 	}
 
+	// Please uncomment me when *.genmodel is registered in Xtext's junit4
 	// @Test
 	def void stringResolvesToEString() {
 		val pack = parser.parse('''
@@ -171,6 +172,41 @@ class ParsingTest {
 		val attribute = clazz.members.head as XAttribute
 		assertTrue(attribute.type.type instanceof GenClassifier)
 		assertEquals("EString", (attribute.type.type as GenClassifier).getName())
+	}
+
+	// Please uncomment me when *.genmodel is registered in Xtext's junit4
+	// @Test
+	def void testEcoreDataTypeAliases() {
+		val pack = parser.parse('''
+			package foo 
+			class A 
+			{ 
+				java.math.BigDecimal _bigDecimal
+				java.math.BigInteger _bigInteger
+				boolean _boolean
+				Boolean _Boolean
+				byte _byte
+				Byte _Byte
+				char _char
+				Character _Character
+				java.util.Date _date
+				double _double
+				Double _Double
+				float _float
+				Float _Float
+				int _int
+				Integer _Integer
+				Class _class
+				Object _object
+				long _long
+				Long _Long
+				short _short
+				Short _Short
+				String _String
+			} 
+		''')
+		EcoreUtil::resolveAll(pack.eResource)
+		vth.assertNoErrors(pack);
 	}
 
 }

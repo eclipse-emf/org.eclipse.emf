@@ -74,11 +74,28 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
   protected static final EDataType [] IMPLICIT_ALIASES = 
     new EDataType[] 
     {
-      EcorePackage.Literals.ESTRING,
-      EcorePackage.Literals.EINT,
-      EcorePackage.Literals.EINTEGER_OBJECT,
+      EcorePackage.Literals.EBIG_DECIMAL,
+      EcorePackage.Literals.EBIG_INTEGER,
       EcorePackage.Literals.EBOOLEAN,
       EcorePackage.Literals.EBOOLEAN_OBJECT,
+      EcorePackage.Literals.EBYTE,
+      EcorePackage.Literals.EBYTE_OBJECT,
+      EcorePackage.Literals.ECHAR,
+      EcorePackage.Literals.ECHARACTER_OBJECT,
+      EcorePackage.Literals.EDATE,
+      EcorePackage.Literals.EDOUBLE,
+      EcorePackage.Literals.EDOUBLE_OBJECT,
+      EcorePackage.Literals.EFLOAT,
+      EcorePackage.Literals.EFLOAT_OBJECT,
+      EcorePackage.Literals.EINT,
+      EcorePackage.Literals.EINTEGER_OBJECT,
+      EcorePackage.Literals.EJAVA_CLASS,
+      EcorePackage.Literals.EJAVA_OBJECT,
+      EcorePackage.Literals.ELONG,
+      EcorePackage.Literals.ELONG_OBJECT,
+      EcorePackage.Literals.ESHORT,
+      EcorePackage.Literals.ESHORT_OBJECT,
+      EcorePackage.Literals.ESTRING,
     };
 
   @Override
