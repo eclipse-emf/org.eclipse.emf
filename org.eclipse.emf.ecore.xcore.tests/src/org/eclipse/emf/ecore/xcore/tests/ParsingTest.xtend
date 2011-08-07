@@ -159,8 +159,7 @@ class ParsingTest {
 		assertTrue(pack.eResource.errors.toString, 1 <= pack.eResource.errors.size)
 	}
 
-	// Please uncomment me when *.genmodel is registered in Xtext's junit4
-	// @Test
+	@Test
 	def void stringResolvesToEString() {
 		val pack = parser.parse('''
 			package foo
@@ -174,8 +173,7 @@ class ParsingTest {
 		assertEquals("EString", (attribute.type.type as GenClassifier).getName())
 	}
 
-	// Please uncomment me when *.genmodel is registered in Xtext's junit4
-	// @Test
+	@Test
 	def void testEcoreDataTypeAliases() {
 		val pack = parser.parse('''
 			package foo 

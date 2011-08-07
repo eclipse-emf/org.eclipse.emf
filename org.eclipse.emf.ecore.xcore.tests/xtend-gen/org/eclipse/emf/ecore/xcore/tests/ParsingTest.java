@@ -326,6 +326,7 @@ public class ParsingTest {
     }
   }
   
+  @Test
   public void stringResolvesToEString() throws Exception {
     {
       StringConcatenation _builder = new StringConcatenation();
@@ -356,6 +357,7 @@ public class ParsingTest {
     }
   }
   
+  @Test
   public void testEcoreDataTypeAliases() throws Exception {
     {
       StringConcatenation _builder = new StringConcatenation();
