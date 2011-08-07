@@ -17,16 +17,17 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XGenericType;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XParameter;
 import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+
 import org.eclipse.xtext.xbase.XBlockExpression;
 
 /**

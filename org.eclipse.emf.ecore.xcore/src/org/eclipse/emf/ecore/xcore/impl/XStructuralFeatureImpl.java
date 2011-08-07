@@ -6,25 +6,17 @@
  */
 package org.eclipse.emf.ecore.xcore.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-
-import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+
 import org.eclipse.xtext.xbase.XBlockExpression;
 
 /**
@@ -577,7 +569,6 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {

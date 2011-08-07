@@ -102,8 +102,6 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XPackage" eSuperTypes="#//XNamedElement">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nsURI" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nsPrefix" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="importDirectives" upperBound="-1"
         eType="#//XImportDirective" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="annotationDirectives" upperBound="-1"

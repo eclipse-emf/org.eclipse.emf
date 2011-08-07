@@ -25,8 +25,6 @@ import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.xbase.resource.XbaseResource;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

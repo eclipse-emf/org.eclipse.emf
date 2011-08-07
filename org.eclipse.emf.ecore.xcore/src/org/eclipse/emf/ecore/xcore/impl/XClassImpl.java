@@ -25,8 +25,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XGenericType;
 import org.eclipse.emf.ecore.xcore.XMember;
-import org.eclipse.emf.ecore.xcore.XOperation;
-import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 
 /**

@@ -31,12 +31,11 @@ class XcoreGenmodelBuilder {
       	genModel.initialize(Collections::singleton(ePackage));
       	pack.eResource.getContents().add(1, genModel);
       	genModel.initialize();
-      	// set to src-gen
-      	// TODO this shoudl all be in the initialize()
-      	if (!genModel.modelDirectory.endsWith('-gen'))
-      		genModel.modelDirectory = genModel.modelDirectory + "-gen"
-      	genModel.updateClasspath = false
+      	buildMap(genModel);
+      	return genModel
+   	}
      
+	def buildMap(GenModel genModel) {
        for (genElement : genModel.allContentsIterable)
        {
        	switch genElement {
@@ -72,8 +71,8 @@ class XcoreGenmodelBuilder {
        		}
        	}
        }
-       return genModel;
 	}
+	
 	def initializeUsedGenPackages(GenModel genModel) {
       	val referencedEPackages = new HashSet<EPackage>();
       	for (genPackage : genModel.genPackages)
@@ -100,8 +99,26 @@ class XcoreGenmodelBuilder {
      	{
      	  if (genModel.findGenPackage(referencedEPackage) == null)
      	  {
-     	  	val usedGenPackage = mapper.getGen(mapper.getToXcoreMapping(referencedEPackage).xcoreElement) as GenPackage
-     	  	genModel.usedGenPackages.add(usedGenPackage);
+     	  	var usedGenPackage = mapper.getGen(mapper.getToXcoreMapping(referencedEPackage).xcoreElement) as GenPackage
+     	  	if (usedGenPackage != null)
+     	  	{
+     	  	  genModel.usedGenPackages.add(usedGenPackage);
+     	  	}
+     	  	else
+     	  	{
+     	  		for (resource : genModel.eResource.resourceSet.resources)
+     	  		{
+     	  			if ("genmodel".equals(resource.URI.fileExtension))
+     	  			{
+     	  				usedGenPackage = (resource.contents.get(0) as GenModel).findGenPackage(referencedEPackage);
+     	  				if (usedGenPackage != null)
+     	  				{
+     					  	 genModel.usedGenPackages.add(usedGenPackage);
+     					  	 return
+     	  				}
+     	  			}
+     	  		}
+     	  	}
      	  }
      	}
 	}

@@ -48,7 +48,6 @@ import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XTypedElement;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
-import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.xbase.XBlockExpression;
 
 import com.google.inject.Inject;
@@ -59,32 +58,6 @@ public class XcoreEcoreBuilder
 	private XcoreMapper mapper;
 	
   List<Runnable> runnables = new ArrayList<Runnable>();
-  
-  
-
-//  static class GenMapping extends AdapterImpl
-//  {
-//    public GenBase genBase;
-//    GenMapping(GenBase genBase)
-//    {
-//      this.genBase = genBase;
-//    }
-//    @Override
-//    public boolean isAdapterForType(Object type)
-//    {
-//      return type == GenMapping.class;
-//    }
-//  }
-//  
-//  public static void map(EObject eObject, GenBase genBase)
-//  {
-//    eObject.eAdapters().add(new GenMapping(genBase));
-//  }
-//  
-//  public static GenBase getGen(EObject eObject)
-//  {
-//    return ((GenMapping)EcoreUtil.getAdapter(eObject.eAdapters(), GenMapping.class)).genBase;
-//  }
   
   public void link()
   {
@@ -269,6 +242,7 @@ public class XcoreEcoreBuilder
   EParameter getEParameter(XParameter xParameter)
   {
     EParameter eParameter = EcoreFactory.eINSTANCE.createEParameter();
+    // TODO
 //    map(eParameter, xParameter);
     eParameter.setUnique(false);
     handleETypedElement(eParameter, xParameter);
@@ -306,9 +280,8 @@ public class XcoreEcoreBuilder
     int[] multiplicity = xTypedElement.getMultiplicity();
     if (multiplicity == null)
     {
-      // required is the default
+      // optional is the default
       //
-      eTypedElement.setLowerBound(1);
     }
     else if (multiplicity.length == 0)
     {
@@ -481,18 +454,16 @@ public class XcoreEcoreBuilder
   EDataType getEDataType(XDataType xDataType)
   {
     EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
+    mapper.getMapping(xDataType).setEDataType(eDataType);
     mapper.getToXcoreMapping(eDataType).setXcoreElement(xDataType);
-    //TODO
-//    map(eDataType, xDataType);
     return eDataType;
   }
 
   EEnum getEEnum(XEnum xEnum)
   {
     EEnum eEnum = EcoreFactory.eINSTANCE.createEEnum();
+    mapper.getMapping(xEnum).setEDataType(eEnum);
     mapper.getToXcoreMapping(eEnum).setXcoreElement(xEnum);
-    //TODO
-//    map(eEnum, xEnum);
     for (XEnumLiteral xEnumLiteral : xEnum.getLiterals())
     {
       eEnum.getELiterals().add(getEEnumLiteral(xEnumLiteral));

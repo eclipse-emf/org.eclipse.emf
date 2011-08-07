@@ -228,56 +228,6 @@ public interface XcorePackage extends EPackage
   int XANNOTATION_DIRECTIVE_FEATURE_COUNT = XNAMED_ELEMENT_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XClassifierImpl <em>XClassifier</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XClassifierImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXClassifier()
-   * @generated
-   */
-  int XCLASSIFIER = 4;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XClassImpl <em>XClass</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XClassImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXClass()
-   * @generated
-   */
-  int XCLASS = 3;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XDataTypeImpl <em>XData Type</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XDataTypeImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXDataType()
-   * @generated
-   */
-  int XDATA_TYPE = 5;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XEnumImpl <em>XEnum</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XEnumImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXEnum()
-   * @generated
-   */
-  int XENUM = 6;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XEnumLiteralImpl <em>XEnum Literal</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XEnumLiteralImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXEnumLiteral()
-   * @generated
-   */
-  int XENUM_LITERAL = 7;
-
-  /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XTypedElementImpl <em>XTyped Element</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -286,76 +236,6 @@ public interface XcorePackage extends EPackage
    * @generated
    */
   int XTYPED_ELEMENT = 19;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XOperationImpl <em>XOperation</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XOperationImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXOperation()
-   * @generated
-   */
-  int XOPERATION = 13;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XPackageImpl <em>XPackage</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XPackageImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXPackage()
-   * @generated
-   */
-  int XPACKAGE = 14;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XParameterImpl <em>XParameter</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XParameterImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXParameter()
-   * @generated
-   */
-  int XPARAMETER = 15;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XStructuralFeatureImpl <em>XStructural Feature</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XStructuralFeatureImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXStructuralFeature()
-   * @generated
-   */
-  int XSTRUCTURAL_FEATURE = 18;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XStringToStringMapEntryImpl <em>XString To String Map Entry</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XStringToStringMapEntryImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXStringToStringMapEntry()
-   * @generated
-   */
-  int XSTRING_TO_STRING_MAP_ENTRY = 17;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl <em>XGeneric Type</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXGenericType()
-   * @generated
-   */
-  int XGENERIC_TYPE = 8;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl <em>XImport Directive</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXImportDirective()
-   * @generated
-   */
-  int XIMPORT_DIRECTIVE = 9;
 
   /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -503,14 +383,14 @@ public interface XcorePackage extends EPackage
   int XMEMBER_FEATURE_COUNT = XTYPED_ELEMENT_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XReferenceImpl <em>XReference</em>}' class.
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XStructuralFeatureImpl <em>XStructural Feature</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.eclipse.emf.ecore.xcore.impl.XReferenceImpl
-   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXReference()
+   * @see org.eclipse.emf.ecore.xcore.impl.XStructuralFeatureImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXStructuralFeature()
    * @generated
    */
-  int XREFERENCE = 16;
+  int XSTRUCTURAL_FEATURE = 18;
 
   /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -847,6 +727,16 @@ public interface XcorePackage extends EPackage
   int XATTRIBUTE_FEATURE_COUNT = XSTRUCTURAL_FEATURE_FEATURE_COUNT + 2;
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XClassifierImpl <em>XClassifier</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XClassifierImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXClassifier()
+   * @generated
+   */
+  int XCLASSIFIER = 4;
+
+  /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -899,6 +789,16 @@ public interface XcorePackage extends EPackage
    * @ordered
    */
   int XCLASSIFIER_FEATURE_COUNT = XNAMED_ELEMENT_FEATURE_COUNT + 3;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XClassImpl <em>XClass</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XClassImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXClass()
+   * @generated
+   */
+  int XCLASS = 3;
 
   /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -991,6 +891,16 @@ public interface XcorePackage extends EPackage
   int XCLASS_FEATURE_COUNT = XCLASSIFIER_FEATURE_COUNT + 4;
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XDataTypeImpl <em>XData Type</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XDataTypeImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXDataType()
+   * @generated
+   */
+  int XDATA_TYPE = 5;
+
+  /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1070,6 +980,16 @@ public interface XcorePackage extends EPackage
    * @ordered
    */
   int XDATA_TYPE_FEATURE_COUNT = XCLASSIFIER_FEATURE_COUNT + 3;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XEnumImpl <em>XEnum</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XEnumImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXEnum()
+   * @generated
+   */
+  int XENUM = 6;
 
   /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -1162,6 +1082,16 @@ public interface XcorePackage extends EPackage
   int XENUM_FEATURE_COUNT = XDATA_TYPE_FEATURE_COUNT + 1;
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XEnumLiteralImpl <em>XEnum Literal</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XEnumLiteralImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXEnumLiteral()
+   * @generated
+   */
+  int XENUM_LITERAL = 7;
+
+  /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1216,6 +1146,16 @@ public interface XcorePackage extends EPackage
   int XENUM_LITERAL_FEATURE_COUNT = XNAMED_ELEMENT_FEATURE_COUNT + 3;
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl <em>XGeneric Type</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXGenericType()
+   * @generated
+   */
+  int XGENERIC_TYPE = 8;
+
+  /**
    * The feature id for the '<em><b>Upper Bound</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1261,6 +1201,16 @@ public interface XcorePackage extends EPackage
   int XGENERIC_TYPE_FEATURE_COUNT = 4;
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl <em>XImport Directive</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXImportDirective()
+   * @generated
+   */
+  int XIMPORT_DIRECTIVE = 9;
+
+  /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1286,6 +1236,16 @@ public interface XcorePackage extends EPackage
    * @ordered
    */
   int XIMPORT_DIRECTIVE_FEATURE_COUNT = XMODEL_ELEMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XOperationImpl <em>XOperation</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XOperationImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXOperation()
+   * @generated
+   */
+  int XOPERATION = 13;
 
   /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -1396,6 +1356,16 @@ public interface XcorePackage extends EPackage
   int XOPERATION_FEATURE_COUNT = XMEMBER_FEATURE_COUNT + 4;
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XPackageImpl <em>XPackage</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XPackageImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXPackage()
+   * @generated
+   */
+  int XPACKAGE = 14;
+
+  /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1414,31 +1384,13 @@ public interface XcorePackage extends EPackage
   int XPACKAGE__NAME = XNAMED_ELEMENT__NAME;
 
   /**
-   * The feature id for the '<em><b>Ns URI</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XPACKAGE__NS_URI = XNAMED_ELEMENT_FEATURE_COUNT + 0;
-
-  /**
-   * The feature id for the '<em><b>Ns Prefix</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int XPACKAGE__NS_PREFIX = XNAMED_ELEMENT_FEATURE_COUNT + 1;
-
-  /**
    * The feature id for the '<em><b>Import Directives</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int XPACKAGE__IMPORT_DIRECTIVES = XNAMED_ELEMENT_FEATURE_COUNT + 2;
+  int XPACKAGE__IMPORT_DIRECTIVES = XNAMED_ELEMENT_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Annotation Directives</b></em>' containment reference list.
@@ -1447,7 +1399,7 @@ public interface XcorePackage extends EPackage
    * @generated
    * @ordered
    */
-  int XPACKAGE__ANNOTATION_DIRECTIVES = XNAMED_ELEMENT_FEATURE_COUNT + 3;
+  int XPACKAGE__ANNOTATION_DIRECTIVES = XNAMED_ELEMENT_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Classifiers</b></em>' containment reference list.
@@ -1456,7 +1408,7 @@ public interface XcorePackage extends EPackage
    * @generated
    * @ordered
    */
-  int XPACKAGE__CLASSIFIERS = XNAMED_ELEMENT_FEATURE_COUNT + 4;
+  int XPACKAGE__CLASSIFIERS = XNAMED_ELEMENT_FEATURE_COUNT + 2;
 
   /**
    * The number of structural features of the '<em>XPackage</em>' class.
@@ -1465,7 +1417,17 @@ public interface XcorePackage extends EPackage
    * @generated
    * @ordered
    */
-  int XPACKAGE_FEATURE_COUNT = XNAMED_ELEMENT_FEATURE_COUNT + 5;
+  int XPACKAGE_FEATURE_COUNT = XNAMED_ELEMENT_FEATURE_COUNT + 3;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XParameterImpl <em>XParameter</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XParameterImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXParameter()
+   * @generated
+   */
+  int XPARAMETER = 15;
 
   /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -1538,6 +1500,16 @@ public interface XcorePackage extends EPackage
    * @ordered
    */
   int XPARAMETER_FEATURE_COUNT = XTYPED_ELEMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XReferenceImpl <em>XReference</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XReferenceImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXReference()
+   * @generated
+   */
+  int XREFERENCE = 16;
 
   /**
    * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -1747,6 +1719,16 @@ public interface XcorePackage extends EPackage
   int XREFERENCE_FEATURE_COUNT = XSTRUCTURAL_FEATURE_FEATURE_COUNT + 6;
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XStringToStringMapEntryImpl <em>XString To String Map Entry</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xcore.impl.XStringToStringMapEntryImpl
+   * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXStringToStringMapEntry()
+   * @generated
+   */
+  int XSTRING_TO_STRING_MAP_ENTRY = 17;
+
+  /**
    * The feature id for the '<em><b>Key</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1818,7 +1800,6 @@ public interface XcorePackage extends EPackage
    * @ordered
    */
   int XTYPE_PARAMETER_FEATURE_COUNT = XNAMED_ELEMENT_FEATURE_COUNT + 1;
-
 
   /**
    * The meta object id for the '<em>XMultiplicity</em>' data type.
@@ -2131,6 +2112,102 @@ public interface XcorePackage extends EPackage
   EReference getXEnumLiteral_Enum();
 
   /**
+   * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XGenericType <em>XGeneric Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>XGeneric Type</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XGenericType
+   * @generated
+   */
+  EClass getXGenericType();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.eclipse.emf.ecore.xcore.XGenericType#getUpperBound <em>Upper Bound</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Upper Bound</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XGenericType#getUpperBound()
+   * @see #getXGenericType()
+   * @generated
+   */
+  EReference getXGenericType_UpperBound();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.ecore.xcore.XGenericType#getTypeArguments <em>Type Arguments</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Type Arguments</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XGenericType#getTypeArguments()
+   * @see #getXGenericType()
+   * @generated
+   */
+  EReference getXGenericType_TypeArguments();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.eclipse.emf.ecore.xcore.XGenericType#getLowerBound <em>Lower Bound</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Lower Bound</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XGenericType#getLowerBound()
+   * @see #getXGenericType()
+   * @generated
+   */
+  EReference getXGenericType_LowerBound();
+
+  /**
+   * Returns the meta object for the reference '{@link org.eclipse.emf.ecore.xcore.XGenericType#getType <em>Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Type</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XGenericType#getType()
+   * @see #getXGenericType()
+   * @generated
+   */
+  EReference getXGenericType_Type();
+
+  /**
+   * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XImportDirective <em>XImport Directive</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>XImport Directive</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XImportDirective
+   * @generated
+   */
+  EClass getXImportDirective();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XImportDirective#getImportedNamespace <em>Imported Namespace</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Imported Namespace</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XImportDirective#getImportedNamespace()
+   * @see #getXImportDirective()
+   * @generated
+   */
+  EAttribute getXImportDirective_ImportedNamespace();
+
+  /**
+   * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XMember <em>XMember</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>XMember</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XMember
+   * @generated
+   */
+  EClass getXMember();
+
+  /**
+   * Returns the meta object for the container reference '{@link org.eclipse.emf.ecore.xcore.XMember#getContainingClass <em>Containing Class</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the container reference '<em>Containing Class</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XMember#getContainingClass()
+   * @see #getXMember()
+   * @generated
+   */
+  EReference getXMember_ContainingClass();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XModelElement <em>XModel Element</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2235,28 +2312,6 @@ public interface XcorePackage extends EPackage
    * @generated
    */
   EClass getXPackage();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XPackage#getNsURI <em>Ns URI</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Ns URI</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XPackage#getNsURI()
-   * @see #getXPackage()
-   * @generated
-   */
-  EAttribute getXPackage_NsURI();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XPackage#getNsPrefix <em>Ns Prefix</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Ns Prefix</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XPackage#getNsPrefix()
-   * @see #getXPackage()
-   * @generated
-   */
-  EAttribute getXPackage_NsPrefix();
 
   /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.ecore.xcore.XPackage#getImportDirectives <em>Import Directives</em>}'.
@@ -2387,6 +2442,40 @@ public interface XcorePackage extends EPackage
    * @generated
    */
   EReference getXReference_Keys();
+
+  /**
+   * Returns the meta object for class '{@link java.util.Map.Entry <em>XString To String Map Entry</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>XString To String Map Entry</em>'.
+   * @see java.util.Map.Entry
+   * @model keyDataType="org.eclipse.emf.ecore.EString"
+   *        valueDataType="org.eclipse.emf.ecore.EString"
+   * @generated
+   */
+  EClass getXStringToStringMapEntry();
+
+  /**
+   * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Key</em>'.
+   * @see java.util.Map.Entry
+   * @see #getXStringToStringMapEntry()
+   * @generated
+   */
+  EAttribute getXStringToStringMapEntry_Key();
+
+  /**
+   * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Value</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Value</em>'.
+   * @see java.util.Map.Entry
+   * @see #getXStringToStringMapEntry()
+   * @generated
+   */
+  EAttribute getXStringToStringMapEntry_Value();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XStructuralFeature <em>XStructural Feature</em>}'.
@@ -2550,136 +2639,6 @@ public interface XcorePackage extends EPackage
    * @generated
    */
   EAttribute getXTypedElement_Multiplicity();
-
-  /**
-   * Returns the meta object for class '{@link java.util.Map.Entry <em>XString To String Map Entry</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>XString To String Map Entry</em>'.
-   * @see java.util.Map.Entry
-   * @model keyDataType="org.eclipse.emf.ecore.EString"
-   *        valueDataType="org.eclipse.emf.ecore.EString"
-   * @generated
-   */
-  EClass getXStringToStringMapEntry();
-
-  /**
-   * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Key</em>'.
-   * @see java.util.Map.Entry
-   * @see #getXStringToStringMapEntry()
-   * @generated
-   */
-  EAttribute getXStringToStringMapEntry_Key();
-
-  /**
-   * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Value</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Value</em>'.
-   * @see java.util.Map.Entry
-   * @see #getXStringToStringMapEntry()
-   * @generated
-   */
-  EAttribute getXStringToStringMapEntry_Value();
-
-  /**
-   * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XGenericType <em>XGeneric Type</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>XGeneric Type</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XGenericType
-   * @generated
-   */
-  EClass getXGenericType();
-
-  /**
-   * Returns the meta object for the containment reference '{@link org.eclipse.emf.ecore.xcore.XGenericType#getUpperBound <em>Upper Bound</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Upper Bound</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XGenericType#getUpperBound()
-   * @see #getXGenericType()
-   * @generated
-   */
-  EReference getXGenericType_UpperBound();
-
-  /**
-   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.ecore.xcore.XGenericType#getTypeArguments <em>Type Arguments</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Type Arguments</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XGenericType#getTypeArguments()
-   * @see #getXGenericType()
-   * @generated
-   */
-  EReference getXGenericType_TypeArguments();
-
-  /**
-   * Returns the meta object for the containment reference '{@link org.eclipse.emf.ecore.xcore.XGenericType#getLowerBound <em>Lower Bound</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Lower Bound</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XGenericType#getLowerBound()
-   * @see #getXGenericType()
-   * @generated
-   */
-  EReference getXGenericType_LowerBound();
-
-  /**
-   * Returns the meta object for the reference '{@link org.eclipse.emf.ecore.xcore.XGenericType#getType <em>Type</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the reference '<em>Type</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XGenericType#getType()
-   * @see #getXGenericType()
-   * @generated
-   */
-  EReference getXGenericType_Type();
-
-  /**
-   * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XImportDirective <em>XImport Directive</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>XImport Directive</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XImportDirective
-   * @generated
-   */
-  EClass getXImportDirective();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XImportDirective#getImportedNamespace <em>Imported Namespace</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Imported Namespace</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XImportDirective#getImportedNamespace()
-   * @see #getXImportDirective()
-   * @generated
-   */
-  EAttribute getXImportDirective_ImportedNamespace();
-
-  /**
-   * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XMember <em>XMember</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>XMember</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XMember
-   * @generated
-   */
-  EClass getXMember();
-
-  /**
-   * Returns the meta object for the container reference '{@link org.eclipse.emf.ecore.xcore.XMember#getContainingClass <em>Containing Class</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the container reference '<em>Containing Class</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XMember#getContainingClass()
-   * @see #getXMember()
-   * @generated
-   */
-  EReference getXMember_ContainingClass();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XTypeParameter <em>XType Parameter</em>}'.
@@ -2976,6 +2935,84 @@ public interface XcorePackage extends EPackage
     EReference XENUM_LITERAL__ENUM = eINSTANCE.getXEnumLiteral_Enum();
 
     /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl <em>XGeneric Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl
+     * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXGenericType()
+     * @generated
+     */
+    EClass XGENERIC_TYPE = eINSTANCE.getXGenericType();
+
+    /**
+     * The meta object literal for the '<em><b>Upper Bound</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XGENERIC_TYPE__UPPER_BOUND = eINSTANCE.getXGenericType_UpperBound();
+
+    /**
+     * The meta object literal for the '<em><b>Type Arguments</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XGENERIC_TYPE__TYPE_ARGUMENTS = eINSTANCE.getXGenericType_TypeArguments();
+
+    /**
+     * The meta object literal for the '<em><b>Lower Bound</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XGENERIC_TYPE__LOWER_BOUND = eINSTANCE.getXGenericType_LowerBound();
+
+    /**
+     * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XGENERIC_TYPE__TYPE = eINSTANCE.getXGenericType_Type();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl <em>XImport Directive</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl
+     * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXImportDirective()
+     * @generated
+     */
+    EClass XIMPORT_DIRECTIVE = eINSTANCE.getXImportDirective();
+
+    /**
+     * The meta object literal for the '<em><b>Imported Namespace</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XIMPORT_DIRECTIVE__IMPORTED_NAMESPACE = eINSTANCE.getXImportDirective_ImportedNamespace();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XMemberImpl <em>XMember</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xcore.impl.XMemberImpl
+     * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXMember()
+     * @generated
+     */
+    EClass XMEMBER = eINSTANCE.getXMember();
+
+    /**
+     * The meta object literal for the '<em><b>Containing Class</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XMEMBER__CONTAINING_CLASS = eINSTANCE.getXMember_ContainingClass();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XModelElementImpl <em>XModel Element</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3062,22 +3099,6 @@ public interface XcorePackage extends EPackage
      * @generated
      */
     EClass XPACKAGE = eINSTANCE.getXPackage();
-
-    /**
-     * The meta object literal for the '<em><b>Ns URI</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute XPACKAGE__NS_URI = eINSTANCE.getXPackage_NsURI();
-
-    /**
-     * The meta object literal for the '<em><b>Ns Prefix</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute XPACKAGE__NS_PREFIX = eINSTANCE.getXPackage_NsPrefix();
 
     /**
      * The meta object literal for the '<em><b>Import Directives</b></em>' containment reference list feature.
@@ -3178,6 +3199,32 @@ public interface XcorePackage extends EPackage
      * @generated
      */
     EReference XREFERENCE__KEYS = eINSTANCE.getXReference_Keys();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XStringToStringMapEntryImpl <em>XString To String Map Entry</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xcore.impl.XStringToStringMapEntryImpl
+     * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXStringToStringMapEntry()
+     * @generated
+     */
+    EClass XSTRING_TO_STRING_MAP_ENTRY = eINSTANCE.getXStringToStringMapEntry();
+
+    /**
+     * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSTRING_TO_STRING_MAP_ENTRY__KEY = eINSTANCE.getXStringToStringMapEntry_Key();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSTRING_TO_STRING_MAP_ENTRY__VALUE = eINSTANCE.getXStringToStringMapEntry_Value();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XStructuralFeatureImpl <em>XStructural Feature</em>}' class.
@@ -3304,110 +3351,6 @@ public interface XcorePackage extends EPackage
     EAttribute XTYPED_ELEMENT__MULTIPLICITY = eINSTANCE.getXTypedElement_Multiplicity();
 
     /**
-     * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XStringToStringMapEntryImpl <em>XString To String Map Entry</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.eclipse.emf.ecore.xcore.impl.XStringToStringMapEntryImpl
-     * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXStringToStringMapEntry()
-     * @generated
-     */
-    EClass XSTRING_TO_STRING_MAP_ENTRY = eINSTANCE.getXStringToStringMapEntry();
-
-    /**
-     * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute XSTRING_TO_STRING_MAP_ENTRY__KEY = eINSTANCE.getXStringToStringMapEntry_Key();
-
-    /**
-     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute XSTRING_TO_STRING_MAP_ENTRY__VALUE = eINSTANCE.getXStringToStringMapEntry_Value();
-
-    /**
-     * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl <em>XGeneric Type</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl
-     * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXGenericType()
-     * @generated
-     */
-    EClass XGENERIC_TYPE = eINSTANCE.getXGenericType();
-
-    /**
-     * The meta object literal for the '<em><b>Upper Bound</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference XGENERIC_TYPE__UPPER_BOUND = eINSTANCE.getXGenericType_UpperBound();
-
-    /**
-     * The meta object literal for the '<em><b>Type Arguments</b></em>' containment reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference XGENERIC_TYPE__TYPE_ARGUMENTS = eINSTANCE.getXGenericType_TypeArguments();
-
-    /**
-     * The meta object literal for the '<em><b>Lower Bound</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference XGENERIC_TYPE__LOWER_BOUND = eINSTANCE.getXGenericType_LowerBound();
-
-    /**
-     * The meta object literal for the '<em><b>Type</b></em>' reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference XGENERIC_TYPE__TYPE = eINSTANCE.getXGenericType_Type();
-
-    /**
-     * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl <em>XImport Directive</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl
-     * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXImportDirective()
-     * @generated
-     */
-    EClass XIMPORT_DIRECTIVE = eINSTANCE.getXImportDirective();
-
-    /**
-     * The meta object literal for the '<em><b>Imported Namespace</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute XIMPORT_DIRECTIVE__IMPORTED_NAMESPACE = eINSTANCE.getXImportDirective_ImportedNamespace();
-
-    /**
-     * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XMemberImpl <em>XMember</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.eclipse.emf.ecore.xcore.impl.XMemberImpl
-     * @see org.eclipse.emf.ecore.xcore.impl.XcorePackageImpl#getXMember()
-     * @generated
-     */
-    EClass XMEMBER = eINSTANCE.getXMember();
-
-    /**
-     * The meta object literal for the '<em><b>Containing Class</b></em>' container reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference XMEMBER__CONTAINING_CLASS = eINSTANCE.getXMember_ContainingClass();
-
-    /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XTypeParameterImpl <em>XType Parameter</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3437,7 +3380,3 @@ public interface XcorePackage extends EPackage
   }
 
 } //XcorePackage
-
-/*
-package xcore 
-*/

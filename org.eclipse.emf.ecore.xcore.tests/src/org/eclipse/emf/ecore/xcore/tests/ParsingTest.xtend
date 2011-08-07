@@ -16,6 +16,9 @@ import org.eclipse.xtext.resource.XtextResource
 import org.eclipse.emf.ecore.xcore.XOperation
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper
 import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.emf.ecore.xcore.XAttribute
+import org.eclipse.emf.ecore.xcore.XClassifier
+import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(XcoreInjectorProvider))
@@ -154,6 +157,20 @@ class ParsingTest {
 			}
 		''');
 		assertTrue(pack.eResource.errors.toString, 1 <= pack.eResource.errors.size)
+	}
+
+	// @Test
+	def void stringResolvesToEString() {
+		val pack = parser.parse('''
+			package foo
+			class Bar {
+				String value
+			}
+		''');
+		val clazz = pack.classifiers.head as XClass
+		val attribute = clazz.members.head as XAttribute
+		assertTrue(attribute.type.type instanceof GenClassifier)
+		assertEquals("EString", (attribute.type.type as GenClassifier).getName())
 	}
 
 }

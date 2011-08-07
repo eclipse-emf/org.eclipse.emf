@@ -19,7 +19,6 @@
     <genClasses ecoreClass="Xcore.ecore#//XAttribute">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Xcore.ecore#//XAttribute/defaultValueLiteral"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Xcore.ecore#//XAttribute/iD"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Xcore.ecore#//XAttribute/keys"/>
     </genClasses>
     <genClasses ecoreClass="Xcore.ecore#//XClass">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Xcore.ecore#//XClass/abstract"/>
@@ -70,8 +69,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Xcore.ecore#//XOperation/body"/>
     </genClasses>
     <genClasses ecoreClass="Xcore.ecore#//XPackage">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Xcore.ecore#//XPackage/nsURI"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Xcore.ecore#//XPackage/nsPrefix"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Xcore.ecore#//XPackage/importDirectives"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Xcore.ecore#//XPackage/annotationDirectives"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Xcore.ecore#//XPackage/classifiers"/>
@@ -85,6 +82,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Xcore.ecore#//XReference/resolveProxies"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Xcore.ecore#//XReference/local"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Xcore.ecore#//XReference/opposite"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Xcore.ecore#//XReference/keys"/>
     </genClasses>
     <genClasses ecoreClass="Xcore.ecore#//XStringToStringMapEntry">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Xcore.ecore#//XStringToStringMapEntry/key"/>

@@ -9,13 +9,14 @@ package org.eclipse.emf.ecore.xcore.impl;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.EcorePackage;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xcore.XAnnotation;
@@ -40,6 +41,7 @@ import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XTypedElement;
 import org.eclipse.emf.ecore.xcore.XcoreFactory;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+
 import org.eclipse.xtext.xbase.XbasePackage;
 
 /**
@@ -111,6 +113,27 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass xGenericTypeEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass xImportDirectiveEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass xMemberEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass xModelElementEClass = null;
 
   /**
@@ -153,6 +176,13 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass xStringToStringMapEntryEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass xStructuralFeatureEClass = null;
 
   /**
@@ -161,34 +191,6 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    * @generated
    */
   private EClass xTypedElementEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass xStringToStringMapEntryEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass xGenericTypeEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass xImportDirectiveEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass xMemberEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -556,6 +558,96 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getXGenericType()
+  {
+    return xGenericTypeEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getXGenericType_UpperBound()
+  {
+    return (EReference)xGenericTypeEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getXGenericType_TypeArguments()
+  {
+    return (EReference)xGenericTypeEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getXGenericType_LowerBound()
+  {
+    return (EReference)xGenericTypeEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getXGenericType_Type()
+  {
+    return (EReference)xGenericTypeEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getXImportDirective()
+  {
+    return xImportDirectiveEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getXImportDirective_ImportedNamespace()
+  {
+    return (EAttribute)xImportDirectiveEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getXMember()
+  {
+    return xMemberEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getXMember_ContainingClass()
+  {
+    return (EReference)xMemberEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getXModelElement()
   {
     return xModelElementEClass;
@@ -656,29 +748,9 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getXPackage_NsURI()
-  {
-    return (EAttribute)xPackageEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getXPackage_NsPrefix()
-  {
-    return (EAttribute)xPackageEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EReference getXPackage_ImportDirectives()
   {
-    return (EReference)xPackageEClass.getEStructuralFeatures().get(2);
+    return (EReference)xPackageEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -688,7 +760,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    */
   public EReference getXPackage_AnnotationDirectives()
   {
-    return (EReference)xPackageEClass.getEStructuralFeatures().get(3);
+    return (EReference)xPackageEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -698,7 +770,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    */
   public EReference getXPackage_Classifiers()
   {
-    return (EReference)xPackageEClass.getEStructuralFeatures().get(4);
+    return (EReference)xPackageEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -789,6 +861,36 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
   public EReference getXReference_Keys()
   {
     return (EReference)xReferenceEClass.getEStructuralFeatures().get(5);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getXStringToStringMapEntry()
+  {
+    return xStringToStringMapEntryEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getXStringToStringMapEntry_Key()
+  {
+    return (EAttribute)xStringToStringMapEntryEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getXStringToStringMapEntry_Value()
+  {
+    return (EAttribute)xStringToStringMapEntryEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -946,126 +1048,6 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getXStringToStringMapEntry()
-  {
-    return xStringToStringMapEntryEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getXStringToStringMapEntry_Key()
-  {
-    return (EAttribute)xStringToStringMapEntryEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getXStringToStringMapEntry_Value()
-  {
-    return (EAttribute)xStringToStringMapEntryEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EClass getXGenericType()
-  {
-    return xGenericTypeEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getXGenericType_UpperBound()
-  {
-    return (EReference)xGenericTypeEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getXGenericType_TypeArguments()
-  {
-    return (EReference)xGenericTypeEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getXGenericType_LowerBound()
-  {
-    return (EReference)xGenericTypeEClass.getEStructuralFeatures().get(2);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getXGenericType_Type()
-  {
-    return (EReference)xGenericTypeEClass.getEStructuralFeatures().get(3);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EClass getXImportDirective()
-  {
-    return xImportDirectiveEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getXImportDirective_ImportedNamespace()
-  {
-    return (EAttribute)xImportDirectiveEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EClass getXMember()
-  {
-    return xMemberEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getXMember_ContainingClass()
-  {
-    return (EReference)xMemberEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EClass getXTypeParameter()
   {
     return xTypeParameterEClass;
@@ -1182,8 +1164,6 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     createEReference(xOperationEClass, XOPERATION__BODY);
 
     xPackageEClass = createEClass(XPACKAGE);
-    createEAttribute(xPackageEClass, XPACKAGE__NS_URI);
-    createEAttribute(xPackageEClass, XPACKAGE__NS_PREFIX);
     createEReference(xPackageEClass, XPACKAGE__IMPORT_DIRECTIVES);
     createEReference(xPackageEClass, XPACKAGE__ANNOTATION_DIRECTIVES);
     createEReference(xPackageEClass, XPACKAGE__CLASSIFIERS);
@@ -1342,8 +1322,6 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     initEReference(getXOperation_Body(), theXbasePackage.getXBlockExpression(), null, "body", null, 0, 1, XOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xPackageEClass, XPackage.class, "XPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getXPackage_NsURI(), theEcorePackage.getEString(), "nsURI", null, 0, 1, XPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getXPackage_NsPrefix(), theEcorePackage.getEString(), "nsPrefix", null, 0, 1, XPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXPackage_ImportDirectives(), this.getXImportDirective(), null, "importDirectives", null, 0, -1, XPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXPackage_AnnotationDirectives(), this.getXAnnotationDirective(), null, "annotationDirectives", null, 0, -1, XPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXPackage_Classifiers(), this.getXClassifier(), this.getXClassifier_Package(), "classifiers", null, 0, -1, XPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1391,7 +1369,3 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
   }
 
 } //XcorePackageImpl
-
-/*
-package xcore 
-*/

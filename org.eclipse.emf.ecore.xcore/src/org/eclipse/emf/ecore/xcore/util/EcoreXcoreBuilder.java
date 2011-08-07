@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
@@ -47,73 +48,79 @@ import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XTypedElement;
 import org.eclipse.emf.ecore.xcore.XcoreFactory;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.xbase.XBlockExpression;
+
+import com.google.inject.Inject;
 
 public class EcoreXcoreBuilder
 {
+	// TODO need to make sure it's really injected.
+	@Inject
+	private XcoreMapper mapper = new XcoreMapper();
+	
   List<Runnable> runnables = new ArrayList<Runnable>();
   
-  static class Mapping extends AdapterImpl
-  {
-    public EObject eObject;
-    private Mapping other;
-    
-    Mapping(EObject eObject)
-    {
-      this.eObject = eObject;
-    }
-    Mapping(EObject eObject, Mapping other)
-    {
-      this.eObject = eObject;
-      this.other = other;
-    }
-    @Override
-    public boolean isAdapterForType(Object type)
-    {
-      return type == Mapping.class;
-    }
-    @Override
-    public void notifyChanged(Notification notification)
-   	{
-   		if (other != null && notification.getEventType() == Notification.REMOVING_ADAPTER)
-   		{
-   			eObject.eAdapters().remove(other);
-   		}
-   	}
-  }
-  public static void map(EObject eObject1, EObject eObject2)
-  {
-  	if (eObject1.eClass().getEPackage() != EcorePackage.eINSTANCE)
-  	{
-  		throw new IllegalArgumentException("The first argument must be an instance from the EcorePackage");
-  	}
-    if (eObject2.eClass().getEPackage() != XcorePackage.eINSTANCE)
-    {
-  		throw new IllegalArgumentException("The second argument must be an instance from the XcorePackage");
-    }
-    final Mapping mapping2 = new Mapping(eObject1);
-		eObject2.eAdapters().add(mapping2);
-
-    Mapping mapping1 =  new Mapping(eObject2, mapping2);
-		eObject1.eAdapters().add(mapping1);
-  }
+  GenModel genModel;
   
-  public static EObject get(EObject eObject)
+  public EcoreXcoreBuilder(GenModel genModel)
   {
-    return ((Mapping)EcoreUtil.getAdapter(eObject.eAdapters(), Mapping.class)).eObject;
+  	this.genModel = genModel;
   }
   
   public XPackage getXPackage(EPackage ePackage)
   {
     XPackage xPackage = XcoreFactory.eINSTANCE.createXPackage();
-    map(xPackage, ePackage);
+    mapper.getMapping(xPackage).setEPackage(ePackage);
+    mapper.getToXcoreMapping(ePackage).setXcoreElement(xPackage);
     handleAnnotations(ePackage, xPackage);
-    String name = ePackage.getName();
+		String name = ePackage.getName();
+		String nsPrefix = ePackage.getNsPrefix();
+		if (name.equals(nsPrefix))
+		{
+			nsPrefix = null;
+		}
+    String basePackage = genModel.findGenPackage(ePackage).getBasePackage();
+    if (basePackage != null && !basePackage.isEmpty())
+    {
+    	name = basePackage + "." + name;
+    }
     xPackage.setName(name);
-    // TODO
-    // xPackage.setNsURI(ePackage.getNsURI());
-    // xPackage.setNsPrefix(ePackage.getNsPrefix());
+		String nsURI = ePackage.getNsURI();
+		if (name.equals(nsURI))
+		{
+			nsURI = null;
+		}
     
+		if (nsPrefix != null || nsURI != null)
+  	{
+      XAnnotation ecoreAnnotation = null;
+      for (XAnnotation xAnnotation : xPackage.getAnnotations())
+      {
+      	if (EcorePackage.eNS_URI.equals(xAnnotation.getSource()))
+      	{
+      		ecoreAnnotation = xAnnotation;
+      		break;
+      	}
+      }
+      if (ecoreAnnotation == null)
+      {
+      	ecoreAnnotation = XcoreFactory.eINSTANCE.createXAnnotation();
+      	ecoreAnnotation.setSource(getXAnnotationDirective(xPackage, EcorePackage.eNS_URI));
+      }
+      if (nsPrefix != null)
+      {
+      	ecoreAnnotation.getDetails().put("nsPrefix", nsPrefix);
+      }
+      if (nsURI != null)
+      {
+      	ecoreAnnotation.getDetails().put("nsURI", nsURI);
+      }
+      xPackage.getAnnotations().add(ecoreAnnotation);
+  	}
+
     EAnnotation eAnnotation = ePackage.getEAnnotation(XcorePackage.eNS_URI);
     if (eAnnotation != null)
     {
@@ -167,10 +174,34 @@ public class EcoreXcoreBuilder
                    if (xAnnotation == null)
                    {
                      xAnnotation = XcoreFactory.eINSTANCE.createXAnnotation();
-                     map(xAnnotation, eAnnotation);
+                     // TODO
+                     // map(xAnnotation, eAnnotation);
                      xAnnotation.setSource(getXAnnotationDirective(xModelElement, GenModelPackage.eNS_URI));
                    }
                    xAnnotation.getDetails().put(detail.getKey(), detail.getValue());
+                 }
+               }
+               if (xAnnotation != null)
+               {
+                 xModelElement.getAnnotations().add(xAnnotation);
+               }
+             }
+             else if (xModelElement instanceof XPackage && EcorePackage.eNS_URI.equals(eAnnotation.getSource()))
+             {
+               XAnnotation xAnnotation = null;
+               for (Map.Entry<String, String> detail : eAnnotation.getDetails())
+               {
+                 String key = detail.getKey();
+								 if (!"nsPrefix".equals(key) && !"nsURI".equals(key))
+                 {
+                   if (xAnnotation == null)
+                   {
+                     xAnnotation = XcoreFactory.eINSTANCE.createXAnnotation();
+                     // TODO
+                     // map(xAnnotation, eAnnotation);
+                     xAnnotation.setSource(getXAnnotationDirective(xModelElement, EcorePackage.eNS_URI));
+                   }
+                   xAnnotation.getDetails().put(key, detail.getValue());
                  }
                }
                if (xAnnotation != null)
@@ -187,7 +218,8 @@ public class EcoreXcoreBuilder
              else if (!EcorePackage.eNS_URI.equals(eAnnotation.getSource()) || !eAnnotation.getDetails().isEmpty())
              {
                XAnnotation xAnnotation = XcoreFactory.eINSTANCE.createXAnnotation();
-               map(xAnnotation, eAnnotation);
+               // TODO
+               // map(xAnnotation, eAnnotation);
                String source = eAnnotation.getSource();
                xAnnotation.setSource(getXAnnotationDirective(xModelElement, source));
                for (Map.Entry<String, String> detail : eAnnotation.getDetails())
@@ -265,7 +297,10 @@ public class EcoreXcoreBuilder
   XClass getXClass(EClass eClass)
   {
     XClass xClass = XcoreFactory.eINSTANCE.createXClass();
-    map(xClass, eClass);
+    XClassMapping mapping = mapper.getMapping(xClass);
+		mapping.setEclass(eClass);
+		mapping.setGenClass((GenClass)genModel.findGenClassifier(eClass));
+    mapper.getToXcoreMapping(eClass).setXcoreElement(xClass);
     if (eClass.isInterface())
     {
       xClass.setInterface(true);
@@ -306,7 +341,10 @@ public class EcoreXcoreBuilder
   XOperation getXOperation(EOperation eOperation)
   {
     XOperation xOperation = XcoreFactory.eINSTANCE.createXOperation();
-    map(xOperation, eOperation);
+    XOperationMapping mapping = mapper.getMapping(xOperation);
+		mapping.setEOperation(eOperation);
+		mapping.setGenOperation((GenOperation)genModel.findGenOperation(eOperation));
+    mapper.getToXcoreMapping(eOperation).setXcoreElement(xOperation);
     handleXTypedElement(xOperation, eOperation);
     for (EParameter eParameter : eOperation.getEParameters())
     {
@@ -338,7 +376,8 @@ public class EcoreXcoreBuilder
   XParameter getXParameter(EParameter eParameter)
   {
     XParameter xParameter = XcoreFactory.eINSTANCE.createXParameter();
-    map(xParameter, eParameter);
+    //TODO
+    // map(xParameter, eParameter);
     handleXTypedElement(xParameter, eParameter);
     return xParameter;
   }
@@ -346,7 +385,9 @@ public class EcoreXcoreBuilder
   XTypeParameter getXTypeParameter(ETypeParameter eTypeParameter)
   {
     XTypeParameter xTypeParameter = XcoreFactory.eINSTANCE.createXTypeParameter();
-    map(xTypeParameter, eTypeParameter);
+    mapper.getToXcoreMapping(eTypeParameter).setXcoreElement(xTypeParameter);
+    //TODO
+    // map(xTypeParameter, eTypeParameter);
     xTypeParameter.setName(eTypeParameter.getName());
     for (EGenericType eGenericType : eTypeParameter.getEBounds())
     {
@@ -357,7 +398,6 @@ public class EcoreXcoreBuilder
   
   void handleXTypedElement(XTypedElement xTypedElement, ETypedElement eTypedElement)
   {
-    
     handleAnnotations(eTypedElement, xTypedElement);
     xTypedElement.setName(eTypedElement.getName());
     xTypedElement.setType(getXGenericType(eTypedElement.getEGenericType()));
@@ -379,12 +419,17 @@ public class EcoreXcoreBuilder
       }
       else if (upperBound == 1)
       {
-        xTypedElement.setMultiplicity(new int [] {-3});
+        // xTypedElement.setMultiplicity(new int [] {-3});
+      	// This is the default.
       }
       else
       {
         xTypedElement.setMultiplicity(new int [] {0, upperBound});
       }
+    }
+    else if (lowerBound == upperBound)
+    {
+      xTypedElement.setMultiplicity(new int [] {lowerBound});
     }
     else if (lowerBound == 1)
     {
@@ -392,14 +437,10 @@ public class EcoreXcoreBuilder
       {
         xTypedElement.setMultiplicity(new int [] {-2});
       }
-      else if (lowerBound != 1)
+      else
       {
         xTypedElement.setMultiplicity(new int [] {1, upperBound});
       }
-    }
-    else if (lowerBound == upperBound)
-    {
-      xTypedElement.setMultiplicity(new int [] {lowerBound});
     }
     else
     {
@@ -407,7 +448,7 @@ public class EcoreXcoreBuilder
     }
   }
 
-  XGenericType getXGenericType(EGenericType eGenericType)
+  XGenericType getXGenericType(final EGenericType eGenericType)
   {
     if (eGenericType == null)
     {
@@ -416,7 +457,8 @@ public class EcoreXcoreBuilder
     else
     {
       final XGenericType xGenericType = XcoreFactory.eINSTANCE.createXGenericType();
-      map(xGenericType, eGenericType);
+      // TODO
+      // map(xGenericType, eGenericType);
       EGenericType lowerBound = eGenericType.getELowerBound();
       if (lowerBound != null)
       {
@@ -433,17 +475,18 @@ public class EcoreXcoreBuilder
       }
       
       EClassifier eClassifier = eGenericType.getEClassifier();
-      // TODO
-      /*
       if (eClassifier != null)
       {
-        xGenericType.setType(eClassifier);
+        xGenericType.setType(genModel.findGenClassifier(eClassifier));
       }
       else
       {
-        xGenericType.setType(eGenericType.getETypeParameter());
+        ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
+        if (eTypeParameter != null)
+        {
+          xGenericType.setType(genModel.findGenTypeParameter(eTypeParameter));
+        }
       }
-      */
       
       return xGenericType;
     }
@@ -477,7 +520,8 @@ public class EcoreXcoreBuilder
   XReference getXReference(EReference eReference)
   {
     final XReference xReference = XcoreFactory.eINSTANCE.createXReference();
-    map(xReference, eReference);
+    mapper.getMapping(xReference).setEStructuralFeature(eReference);
+    mapper.getToXcoreMapping(eReference).setXcoreElement(xReference);
     if (eReference.isContainment())
     {
       xReference.setContainment(true);
@@ -507,10 +551,16 @@ public class EcoreXcoreBuilder
   XAttribute getXAttribute(EAttribute eAttribute)
   {
     final XAttribute xAttribute = XcoreFactory.eINSTANCE.createXAttribute();
-    map(xAttribute, eAttribute);
+    mapper.getMapping(xAttribute).setEStructuralFeature(eAttribute);
+    mapper.getToXcoreMapping(eAttribute).setXcoreElement(xAttribute);
     if (eAttribute.isID())
     {
       xAttribute.setID(true);
+    }
+    String defaultValueLiteral = eAttribute.getDefaultValueLiteral();
+		if (defaultValueLiteral != null)
+    {
+    	xAttribute.setDefaultValueLiteral(defaultValueLiteral);
     }
     handleXStructuralFeature(xAttribute, eAttribute);
     return xAttribute;
@@ -545,14 +595,16 @@ public class EcoreXcoreBuilder
   XDataType getXDataType(EDataType eDataType)
   {
     XDataType xDataType = XcoreFactory.eINSTANCE.createXDataType();
-    map(xDataType, eDataType);
+    mapper.getMapping(xDataType).setEDataType(eDataType);
+    mapper.getToXcoreMapping(eDataType).setXcoreElement(xDataType);
     return xDataType;
   }
 
   XEnum getXEnum(EEnum eEnum)
   {
     XEnum xEnum = XcoreFactory.eINSTANCE.createXEnum();
-    map(xEnum, eEnum);
+    mapper.getMapping(xEnum).setEDataType(eEnum);
+    mapper.getToXcoreMapping(eEnum).setXcoreElement(xEnum);
     for (EEnumLiteral eEnumLiteral : eEnum.getELiterals())
     {
       xEnum.getLiterals().add(getXEnumLiteral(eEnumLiteral));
@@ -563,7 +615,8 @@ public class EcoreXcoreBuilder
   XEnumLiteral getXEnumLiteral(EEnumLiteral eEnumLiteral)
   {
     XEnumLiteral xEnumLiteral = XcoreFactory.eINSTANCE.createXEnumLiteral();
-    map(xEnumLiteral, eEnumLiteral);
+    // TODO
+    // map(xEnumLiteral, eEnumLiteral);
     handleAnnotations(eEnumLiteral, xEnumLiteral);
     xEnumLiteral.setName(eEnumLiteral.getName());
     if (!eEnumLiteral.getName().equals(eEnumLiteral.getLiteral()))

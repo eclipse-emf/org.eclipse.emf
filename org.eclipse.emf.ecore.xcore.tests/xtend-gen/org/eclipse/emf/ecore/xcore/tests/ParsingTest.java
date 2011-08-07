@@ -3,7 +3,9 @@ package org.eclipse.emf.ecore.xcore.tests;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Iterator;
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -12,6 +14,7 @@ import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XAnnotation;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
+import org.eclipse.emf.ecore.xcore.XAttribute;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XGenericType;
@@ -320,6 +323,36 @@ public class ParsingTest {
       int _size = _errors_1.size();
       boolean _operator_lessEqualsThan = ComparableExtensions.<Integer>operator_lessEqualsThan(((Integer)1), ((Integer)_size));
       Assert.assertTrue(_string, _operator_lessEqualsThan);
+    }
+  }
+  
+  public void stringResolvesToEString() throws Exception {
+    {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo");
+      _builder.newLine();
+      _builder.append("class Bar {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("String value");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      XPackage _parse = this.parser.parse(_builder);
+      final XPackage pack = _parse;
+      EList<XClassifier> _classifiers = pack.getClassifiers();
+      XClassifier _head = IterableExtensions.<XClassifier>head(_classifiers);
+      final XClass clazz = ((XClass) _head);
+      EList<XMember> _members = clazz.getMembers();
+      XMember _head_1 = IterableExtensions.<XMember>head(_members);
+      final XAttribute attribute = ((XAttribute) _head_1);
+      XGenericType _type = attribute.getType();
+      GenBase _type_1 = _type.getType();
+      Assert.assertTrue((_type_1 instanceof org.eclipse.emf.codegen.ecore.genmodel.GenClassifier));
+      XGenericType _type_2 = attribute.getType();
+      GenBase _type_3 = _type_2.getType();
+      String _name = ((GenClassifier) _type_3).getName();
+      Assert.assertEquals("EString", _name);
     }
   }
 }

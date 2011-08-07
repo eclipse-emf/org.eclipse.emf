@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
@@ -208,6 +207,28 @@ public class XcoreFactoryImpl extends EFactoryImpl implements XcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public XGenericType createXGenericType()
+  {
+    XGenericTypeImpl xGenericType = new XGenericTypeImpl();
+    return xGenericType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XImportDirective createXImportDirective()
+  {
+    XImportDirectiveImpl xImportDirective = new XImportDirectiveImpl();
+    return xImportDirective;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public XOperation createXOperation()
   {
     XOperationImpl xOperation = new XOperationImpl();
@@ -256,28 +277,6 @@ public class XcoreFactoryImpl extends EFactoryImpl implements XcoreFactory
   {
     XStringToStringMapEntryImpl xStringToStringMapEntry = new XStringToStringMapEntryImpl();
     return xStringToStringMapEntry;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public XGenericType createXGenericType()
-  {
-    XGenericTypeImpl xGenericType = new XGenericTypeImpl();
-    return xGenericType;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public XImportDirective createXImportDirective()
-  {
-    XImportDirectiveImpl xImportDirective = new XImportDirectiveImpl();
-    return xImportDirective;
   }
 
   /**

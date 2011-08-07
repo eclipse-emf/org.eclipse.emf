@@ -8,15 +8,12 @@ package org.eclipse.emf.ecore.xcore.impl;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
@@ -35,8 +32,6 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XPackageImpl#getNsURI <em>Ns URI</em>}</li>
- *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XPackageImpl#getNsPrefix <em>Ns Prefix</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XPackageImpl#getImportDirectives <em>Import Directives</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XPackageImpl#getAnnotationDirectives <em>Annotation Directives</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XPackageImpl#getClassifiers <em>Classifiers</em>}</li>
@@ -47,46 +42,6 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  */
 public class XPackageImpl extends XNamedElementImpl implements XPackage
 {
-  /**
-   * The default value of the '{@link #getNsURI() <em>Ns URI</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getNsURI()
-   * @generated
-   * @ordered
-   */
-  protected static final String NS_URI_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getNsURI() <em>Ns URI</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getNsURI()
-   * @generated
-   * @ordered
-   */
-  protected String nsURI = NS_URI_EDEFAULT;
-
-  /**
-   * The default value of the '{@link #getNsPrefix() <em>Ns Prefix</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getNsPrefix()
-   * @generated
-   * @ordered
-   */
-  protected static final String NS_PREFIX_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getNsPrefix() <em>Ns Prefix</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getNsPrefix()
-   * @generated
-   * @ordered
-   */
-  protected String nsPrefix = NS_PREFIX_EDEFAULT;
-
   /**
    * The cached value of the '{@link #getImportDirectives() <em>Import Directives</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -136,52 +91,6 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
   protected EClass eStaticClass()
   {
     return XcorePackage.Literals.XPACKAGE;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String getNsURI()
-  {
-    return nsURI;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setNsURI(String newNsURI)
-  {
-    String oldNsURI = nsURI;
-    nsURI = newNsURI;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XPACKAGE__NS_URI, oldNsURI, nsURI));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String getNsPrefix()
-  {
-    return nsPrefix;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setNsPrefix(String newNsPrefix)
-  {
-    String oldNsPrefix = nsPrefix;
-    nsPrefix = newNsPrefix;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XPACKAGE__NS_PREFIX, oldNsPrefix, nsPrefix));
   }
 
   /**
@@ -273,10 +182,6 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
   {
     switch (featureID)
     {
-      case XcorePackage.XPACKAGE__NS_URI:
-        return getNsURI();
-      case XcorePackage.XPACKAGE__NS_PREFIX:
-        return getNsPrefix();
       case XcorePackage.XPACKAGE__IMPORT_DIRECTIVES:
         return getImportDirectives();
       case XcorePackage.XPACKAGE__ANNOTATION_DIRECTIVES:
@@ -298,12 +203,6 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
   {
     switch (featureID)
     {
-      case XcorePackage.XPACKAGE__NS_URI:
-        setNsURI((String)newValue);
-        return;
-      case XcorePackage.XPACKAGE__NS_PREFIX:
-        setNsPrefix((String)newValue);
-        return;
       case XcorePackage.XPACKAGE__IMPORT_DIRECTIVES:
         getImportDirectives().clear();
         getImportDirectives().addAll((Collection<? extends XImportDirective>)newValue);
@@ -330,12 +229,6 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
   {
     switch (featureID)
     {
-      case XcorePackage.XPACKAGE__NS_URI:
-        setNsURI(NS_URI_EDEFAULT);
-        return;
-      case XcorePackage.XPACKAGE__NS_PREFIX:
-        setNsPrefix(NS_PREFIX_EDEFAULT);
-        return;
       case XcorePackage.XPACKAGE__IMPORT_DIRECTIVES:
         getImportDirectives().clear();
         return;
@@ -359,10 +252,6 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
   {
     switch (featureID)
     {
-      case XcorePackage.XPACKAGE__NS_URI:
-        return NS_URI_EDEFAULT == null ? nsURI != null : !NS_URI_EDEFAULT.equals(nsURI);
-      case XcorePackage.XPACKAGE__NS_PREFIX:
-        return NS_PREFIX_EDEFAULT == null ? nsPrefix != null : !NS_PREFIX_EDEFAULT.equals(nsPrefix);
       case XcorePackage.XPACKAGE__IMPORT_DIRECTIVES:
         return importDirectives != null && !importDirectives.isEmpty();
       case XcorePackage.XPACKAGE__ANNOTATION_DIRECTIVES:
@@ -371,25 +260,6 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
         return classifiers != null && !classifiers.isEmpty();
     }
     return super.eIsSet(featureID);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String toString()
-  {
-    if (eIsProxy()) return super.toString();
-
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (nsURI: ");
-    result.append(nsURI);
-    result.append(", nsPrefix: ");
-    result.append(nsPrefix);
-    result.append(')');
-    return result.toString();
   }
 
 } //XPackageImpl

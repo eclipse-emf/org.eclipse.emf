@@ -16,8 +16,6 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.emf.ecore.xcore.XPackage#getNsURI <em>Ns URI</em>}</li>
- *   <li>{@link org.eclipse.emf.ecore.xcore.XPackage#getNsPrefix <em>Ns Prefix</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XPackage#getImportDirectives <em>Import Directives</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XPackage#getAnnotationDirectives <em>Annotation Directives</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XPackage#getClassifiers <em>Classifiers</em>}</li>
@@ -30,58 +28,6 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface XPackage extends XNamedElement
 {
-  /**
-   * Returns the value of the '<em><b>Ns URI</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Ns URI</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Ns URI</em>' attribute.
-   * @see #setNsURI(String)
-   * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXPackage_NsURI()
-   * @model
-   * @generated
-   */
-  String getNsURI();
-
-  /**
-   * Sets the value of the '{@link org.eclipse.emf.ecore.xcore.XPackage#getNsURI <em>Ns URI</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Ns URI</em>' attribute.
-   * @see #getNsURI()
-   * @generated
-   */
-  void setNsURI(String value);
-
-  /**
-   * Returns the value of the '<em><b>Ns Prefix</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Ns Prefix</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Ns Prefix</em>' attribute.
-   * @see #setNsPrefix(String)
-   * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXPackage_NsPrefix()
-   * @model
-   * @generated
-   */
-  String getNsPrefix();
-
-  /**
-   * Sets the value of the '{@link org.eclipse.emf.ecore.xcore.XPackage#getNsPrefix <em>Ns Prefix</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Ns Prefix</em>' attribute.
-   * @see #getNsPrefix()
-   * @generated
-   */
-  void setNsPrefix(String value);
-
   /**
    * Returns the value of the '<em><b>Import Directives</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.ecore.xcore.XImportDirective}.

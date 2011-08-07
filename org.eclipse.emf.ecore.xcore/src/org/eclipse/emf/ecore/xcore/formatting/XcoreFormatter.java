@@ -21,6 +21,7 @@ public class XcoreFormatter extends AbstractDeclarativeFormatter {
   @Override
   protected void configureFormatting(FormattingConfig c)
   {
+  	c.setAutoLinewrap(140);
     org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess f = (org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess)getGrammarAccess();
     for (Pair<Keyword, Keyword> pair : f.findKeywordPairs("{", "}"))
     {
@@ -57,6 +58,7 @@ public class XcoreFormatter extends AbstractDeclarativeFormatter {
       
     c.setNoSpace().after(f.getXAnnotationAccess().getCommercialAtKeyword_0());
     c.setNoSpace().before(f.getXAnnotationAccess().getLeftParenthesisKeyword_2_0());
+    c.setLinewrap(1).before(f.getXAnnotationRule());
     c.setLinewrap(1).after(f.getXAnnotationRule());
     c.setNoSpace().before(f.getXStringToStringMapEntryAccess().getEqualsSignKeyword_1());
     c.setNoSpace().after(f.getXStringToStringMapEntryAccess().getEqualsSignKeyword_1());
@@ -65,10 +67,11 @@ public class XcoreFormatter extends AbstractDeclarativeFormatter {
     c.setLinewrap(2).after(f.getXPackageAccess().getAnnotationDirectivesXAnnotationDirectiveParserRuleCall_4_0());
     
     c.setNoSpace().before(f.getXOperationAccess().getLeftParenthesisKeyword_7());
-    c.setLinewrap(1).before(f.getXDataTypeRule());
     c.setLinewrap(2).after(f.getXPackageAccess().getNameAssignment_2());
     c.setLinewrap(2).after(f.getXClassRule());
+    c.setLinewrap(2).after(f.getXDataTypeRule());
     c.setLinewrap(2).after(f.getXEnumRule());
+    c.setLinewrap(1).before(f.getXOperationRule());
     c.setLinewrap(1).after(f.getXOperationRule());
     c.setLinewrap(1).after(f.getXAttributeRule());
     c.setLinewrap(1).after(f.getXReferenceRule());

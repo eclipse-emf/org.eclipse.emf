@@ -19,11 +19,9 @@ package org.eclipse.emf.ecore.xcore.ui;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
@@ -33,6 +31,21 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator;
+import org.eclipse.emf.ecore.xcore.util.EcoreXcoreBuilder;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -48,54 +61,6 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
 import org.eclipse.xtext.resource.SaveOptions;
-import org.eclipse.xtext.xbase.XBlockExpression;
-
-import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EEnumLiteral;
-import org.eclipse.emf.ecore.EGenericType;
-import org.eclipse.emf.ecore.EModelElement;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EParameter;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.ETypeParameter;
-import org.eclipse.emf.ecore.ETypedElement;
-import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xcore.XAnnotation;
-import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
-import org.eclipse.emf.ecore.xcore.XClass;
-import org.eclipse.emf.ecore.xcore.XClassifier;
-import org.eclipse.emf.ecore.xcore.XDataType;
-import org.eclipse.emf.ecore.xcore.XEnum;
-import org.eclipse.emf.ecore.xcore.XEnumLiteral;
-import org.eclipse.emf.ecore.xcore.XGenericType;
-import org.eclipse.emf.ecore.xcore.XMember;
-import org.eclipse.emf.ecore.xcore.XModelElement;
-import org.eclipse.emf.ecore.xcore.XOperation;
-import org.eclipse.emf.ecore.xcore.XPackage;
-import org.eclipse.emf.ecore.xcore.XParameter;
-import org.eclipse.emf.ecore.xcore.XStructuralFeature;
-import org.eclipse.emf.ecore.xcore.XTypeParameter;
-import org.eclipse.emf.ecore.xcore.XTypedElement;
-import org.eclipse.emf.ecore.xcore.XcoreFactory;
-import org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator;
-import org.eclipse.emf.ecore.xcore.util.EcoreXcoreBuilder;
 
 
 /**
@@ -170,16 +135,15 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
             try
             {
               progressMonitor.beginTask("", 1);
-
-              EPackage copy = EcoreUtil.copy(inputEPackage);
               
               Resource genModelResource = inputResource.getResourceSet().getResources().get(0);
+              GenModel inputGenModel = null;
               if (genModelResource != inputResource)
               {
-                GenModel inputGenModel = (GenModel)genModelResource.getContents().get(0);
+                inputGenModel = (GenModel)genModelResource.getContents().get(0);
                 inputGenModel.reconcile();
                 final GenModel genModel =  GenModelFactory.eINSTANCE.createGenModel();
-                genModel.initialize(Collections.singleton(copy));
+                genModel.initialize(Collections.singleton(inputEPackage));
                 genModelResource.getContents().add(genModel);
                 genModel.initialize();
                 new Object() 
@@ -190,7 +154,8 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
                     {
                       for (EAttribute eAttribute : genBase1.eClass().getEAllAttributes())
                       {
-                        if (genBase1.eIsSet(eAttribute))
+                        // TODO
+                        if (!eAttribute.isMany() && genBase1.eIsSet(eAttribute))
                         {
                           Object value1 = genBase1.eGet(eAttribute);
                           Object value2 = genBase2.eGet(eAttribute);
@@ -222,9 +187,15 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
                   }
                 }.visit(inputGenModel, genModel);
               }
+              else
+              {
+                // TODO what about no GenModel?
+                // We'd want to create one and use that...
+              }
               
-              outputResource.getContents().add(new EcoreXcoreBuilder().getXPackage(copy));
-              outputResource.getContents().add(copy);
+              outputResource.getContents().add(new EcoreXcoreBuilder(inputGenModel).getXPackage(inputEPackage));
+              outputResource.getContents().add(inputGenModel);
+              outputResource.getContents().add(inputEPackage);
 
               try
               {
