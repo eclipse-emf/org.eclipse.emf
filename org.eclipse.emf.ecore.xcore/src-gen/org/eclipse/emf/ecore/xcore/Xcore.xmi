@@ -387,7 +387,7 @@
             </elements>
             <elements xsi:type="xtext:Alternatives">
               <elements xsi:type="xtext:Assignment" feature="containment" operator="?=">
-                <terminal xsi:type="xtext:Keyword" value="containment"/>
+                <terminal xsi:type="xtext:Keyword" value="contains"/>
               </elements>
               <elements xsi:type="xtext:Assignment" feature="container" operator="?=">
                 <terminal xsi:type="xtext:Keyword" value="container"/>

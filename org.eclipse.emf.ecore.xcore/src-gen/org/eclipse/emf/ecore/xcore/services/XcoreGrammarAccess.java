@@ -952,7 +952,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cResolveProxiesResolvingKeyword_1_0_0_0 = (Keyword)cResolveProxiesAssignment_1_0_0.eContents().get(0);
 		private final Alternatives cAlternatives_1_0_1 = (Alternatives)cUnorderedGroup_1_0.eContents().get(1);
 		private final Assignment cContainmentAssignment_1_0_1_0 = (Assignment)cAlternatives_1_0_1.eContents().get(0);
-		private final Keyword cContainmentContainmentKeyword_1_0_1_0_0 = (Keyword)cContainmentAssignment_1_0_1_0.eContents().get(0);
+		private final Keyword cContainmentContainsKeyword_1_0_1_0_0 = (Keyword)cContainmentAssignment_1_0_1_0.eContents().get(0);
 		private final Assignment cContainerAssignment_1_0_1_1 = (Assignment)cAlternatives_1_0_1.eContents().get(1);
 		private final Keyword cContainerContainerKeyword_1_0_1_1_0 = (Keyword)cContainerAssignment_1_0_1_1.eContents().get(0);
 		private final UnorderedGroup cUnorderedGroup_1_1 = (UnorderedGroup)cAlternatives_1.eContents().get(1);
@@ -1014,7 +1014,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cUnsetBodyXBlockExpressionParserRuleCall_8_3_1_0 = (RuleCall)cUnsetBodyAssignment_8_3_1.eContents().get(0);
 		
 		//XReference:
-		//	annotations+=XAnnotation* (resolveProxies?="resolving"? & (containment?="containment" | container?="container") |
+		//	annotations+=XAnnotation* (resolveProxies?="resolving"? & (containment?="contains" | container?="container") |
 		//	local?="local"? & "refers") (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? &
 		//	transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) type=XGenericType
 		//	multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
@@ -1026,7 +1026,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	("unset" unsetBody=XBlockExpression)?);
 		public ParserRule getRule() { return rule; }
 
-		//annotations+=XAnnotation* (resolveProxies?="resolving"? & (containment?="containment" | container?="container") |
+		//annotations+=XAnnotation* (resolveProxies?="resolving"? & (containment?="contains" | container?="container") |
 		//local?="local"? & "refers") (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? &
 		//transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) type=XGenericType
 		//multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
@@ -1044,10 +1044,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//XAnnotation
 		public RuleCall getAnnotationsXAnnotationParserRuleCall_0_0() { return cAnnotationsXAnnotationParserRuleCall_0_0; }
 
-		//resolveProxies?="resolving"? & (containment?="containment" | container?="container") | local?="local"? & "refers"
+		//resolveProxies?="resolving"? & (containment?="contains" | container?="container") | local?="local"? & "refers"
 		public Alternatives getAlternatives_1() { return cAlternatives_1; }
 
-		//resolveProxies?="resolving"? & (containment?="containment" | container?="container")
+		//resolveProxies?="resolving"? & (containment?="contains" | container?="container")
 		public UnorderedGroup getUnorderedGroup_1_0() { return cUnorderedGroup_1_0; }
 
 		//resolveProxies?="resolving"?
@@ -1056,14 +1056,14 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//"resolving"
 		public Keyword getResolveProxiesResolvingKeyword_1_0_0_0() { return cResolveProxiesResolvingKeyword_1_0_0_0; }
 
-		//containment?="containment" | container?="container"
+		//containment?="contains" | container?="container"
 		public Alternatives getAlternatives_1_0_1() { return cAlternatives_1_0_1; }
 
-		//containment?="containment"
+		//containment?="contains"
 		public Assignment getContainmentAssignment_1_0_1_0() { return cContainmentAssignment_1_0_1_0; }
 
-		//"containment"
-		public Keyword getContainmentContainmentKeyword_1_0_1_0_0() { return cContainmentContainmentKeyword_1_0_1_0_0; }
+		//"contains"
+		public Keyword getContainmentContainsKeyword_1_0_1_0_0() { return cContainmentContainsKeyword_1_0_1_0_0; }
 
 		//container?="container"
 		public Assignment getContainerAssignment_1_0_1_1() { return cContainerAssignment_1_0_1_1; }
@@ -2064,7 +2064,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//XReference:
-	//	annotations+=XAnnotation* (resolveProxies?="resolving"? & (containment?="containment" | container?="container") |
+	//	annotations+=XAnnotation* (resolveProxies?="resolving"? & (containment?="contains" | container?="container") |
 	//	local?="local"? & "refers") (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? &
 	//	transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) type=XGenericType
 	//	multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"

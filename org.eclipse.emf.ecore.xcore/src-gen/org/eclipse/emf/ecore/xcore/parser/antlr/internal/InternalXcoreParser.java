@@ -22,111 +22,111 @@ import java.util.HashMap;
 @SuppressWarnings("all")
 public class InternalXcoreParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'package'", "'@'", "'('", "','", "')'", "'='", "'import'", "'.*'", "'annotation'", "'as'", "'type'", "'<'", "'>'", "'wraps'", "'create'", "'convert'", "'enum'", "'{'", "'}'", "'abstract'", "'class'", "'interface'", "'extends'", "'unordered'", "'unique'", "'readonly'", "'transient'", "'volatile'", "'unsettable'", "'derived'", "'id'", "'void'", "'get'", "'set'", "'isSet'", "'unset'", "'resolving'", "'containment'", "'container'", "'local'", "'refers'", "'opposite'", "'keys'", "'op'", "'throws'", "'&'", "'['", "'?'", "'*'", "'+'", "'..'", "']'", "';'", "'super'", "'+='", "'||'", "'&&'", "'=='", "'!='", "'instanceof'", "'>='", "'<='", "'->'", "'-'", "'**'", "'/'", "'%'", "'!'", "'.'", "'?.'", "'*.'", "'|'", "'if'", "'else'", "'switch'", "':'", "'default'", "'case'", "'for'", "'while'", "'do'", "'var'", "'val'", "'::'", "'new'", "'false'", "'true'", "'null'", "'typeof'", "'throw'", "'return'", "'try'", "'finally'", "'catch'", "'=>'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'package'", "'@'", "'('", "','", "')'", "'='", "'import'", "'.*'", "'annotation'", "'as'", "'type'", "'<'", "'>'", "'wraps'", "'create'", "'convert'", "'enum'", "'{'", "'}'", "'abstract'", "'class'", "'interface'", "'extends'", "'unordered'", "'unique'", "'readonly'", "'transient'", "'volatile'", "'unsettable'", "'derived'", "'id'", "'void'", "'get'", "'set'", "'isSet'", "'unset'", "'resolving'", "'contains'", "'container'", "'local'", "'refers'", "'opposite'", "'keys'", "'op'", "'throws'", "'&'", "'['", "'?'", "'*'", "'+'", "'..'", "']'", "';'", "'super'", "'+='", "'||'", "'&&'", "'=='", "'!='", "'instanceof'", "'>='", "'<='", "'->'", "'-'", "'**'", "'/'", "'%'", "'!'", "'.'", "'?.'", "'*.'", "'|'", "'if'", "'else'", "'switch'", "':'", "'default'", "'case'", "'for'", "'while'", "'do'", "'var'", "'val'", "'::'", "'new'", "'false'", "'true'", "'null'", "'typeof'", "'throw'", "'return'", "'try'", "'finally'", "'catch'", "'=>'"
     };
-    public static final int T__42=42;
-    public static final int RULE_STRING=4;
-    public static final int T__47=47;
-    public static final int T__73=73;
-    public static final int T__21=21;
-    public static final int T__72=72;
-    public static final int T__70=70;
-    public static final int T__39=39;
-    public static final int T__30=30;
-    public static final int T__46=46;
-    public static final int T__96=96;
-    public static final int T__49=49;
-    public static final int T__48=48;
-    public static final int T__54=54;
-    public static final int T__89=89;
-    public static final int T__20=20;
-    public static final int T__79=79;
-    public static final int T__64=64;
-    public static final int T__44=44;
-    public static final int T__66=66;
-    public static final int T__92=92;
-    public static final int T__14=14;
-    public static final int T__88=88;
-    public static final int T__22=22;
-    public static final int T__90=90;
-    public static final int RULE_WS=9;
-    public static final int T__63=63;
-    public static final int T__43=43;
-    public static final int T__91=91;
-    public static final int T__40=40;
-    public static final int T__85=85;
+    public static final int RULE_ID=5;
+    public static final int T__29=29;
+    public static final int T__28=28;
+    public static final int T__27=27;
     public static final int T__26=26;
     public static final int T__25=25;
-    public static final int RULE_SL_COMMENT=8;
-    public static final int T__60=60;
-    public static final int T__41=41;
-    public static final int T__93=93;
-    public static final int T__12=12;
-    public static final int T__86=86;
-    public static final int T__28=28;
-    public static final int T__23=23;
-    public static final int T__57=57;
-    public static final int T__94=94;
-    public static final int T__100=100;
-    public static final int T__51=51;
-    public static final int T__80=80;
-    public static final int T__13=13;
-    public static final int T__69=69;
-    public static final int T__95=95;
-    public static final int T__50=50;
-    public static final int T__19=19;
-    public static final int T__65=65;
-    public static final int T__101=101;
-    public static final int T__104=104;
-    public static final int T__67=67;
-    public static final int T__87=87;
-    public static final int T__74=74;
-    public static final int T__52=52;
-    public static final int T__68=68;
-    public static final int T__17=17;
-    public static final int T__62=62;
-    public static final int RULE_INT=6;
-    public static final int T__27=27;
     public static final int T__24=24;
-    public static final int T__61=61;
-    public static final int T__59=59;
-    public static final int T__34=34;
-    public static final int T__98=98;
-    public static final int T__15=15;
-    public static final int T__56=56;
-    public static final int RULE_ML_COMMENT=7;
-    public static final int T__35=35;
-    public static final int RULE_ID=5;
-    public static final int T__78=78;
-    public static final int T__36=36;
-    public static final int T__58=58;
-    public static final int T__99=99;
-    public static final int T__33=33;
-    public static final int T__11=11;
-    public static final int T__77=77;
-    public static final int T__45=45;
-    public static final int T__29=29;
-    public static final int T__55=55;
-    public static final int T__103=103;
-    public static final int T__84=84;
-    public static final int T__97=97;
-    public static final int T__105=105;
-    public static final int T__75=75;
-    public static final int T__31=31;
-    public static final int EOF=-1;
-    public static final int T__53=53;
-    public static final int T__32=32;
-    public static final int T__16=16;
-    public static final int T__38=38;
-    public static final int T__37=37;
-    public static final int T__76=76;
+    public static final int T__23=23;
+    public static final int T__22=22;
     public static final int RULE_ANY_OTHER=10;
-    public static final int T__82=82;
-    public static final int T__81=81;
-    public static final int T__83=83;
+    public static final int T__21=21;
+    public static final int T__20=20;
+    public static final int EOF=-1;
+    public static final int T__93=93;
+    public static final int T__19=19;
+    public static final int T__94=94;
+    public static final int T__91=91;
+    public static final int T__92=92;
+    public static final int T__16=16;
+    public static final int T__15=15;
+    public static final int T__90=90;
     public static final int T__18=18;
+    public static final int T__17=17;
+    public static final int T__12=12;
+    public static final int T__11=11;
+    public static final int T__14=14;
+    public static final int T__13=13;
+    public static final int T__99=99;
+    public static final int T__98=98;
+    public static final int T__97=97;
+    public static final int T__96=96;
+    public static final int T__95=95;
+    public static final int T__80=80;
+    public static final int T__81=81;
+    public static final int T__82=82;
+    public static final int T__83=83;
+    public static final int T__85=85;
+    public static final int T__84=84;
+    public static final int T__87=87;
+    public static final int T__86=86;
+    public static final int T__89=89;
+    public static final int T__88=88;
+    public static final int RULE_ML_COMMENT=7;
+    public static final int RULE_STRING=4;
     public static final int T__71=71;
+    public static final int T__72=72;
+    public static final int T__70=70;
+    public static final int T__76=76;
+    public static final int T__75=75;
+    public static final int T__74=74;
+    public static final int T__73=73;
+    public static final int T__79=79;
+    public static final int T__78=78;
+    public static final int T__77=77;
+    public static final int T__68=68;
+    public static final int T__69=69;
+    public static final int T__66=66;
+    public static final int T__67=67;
+    public static final int T__64=64;
+    public static final int T__65=65;
+    public static final int T__62=62;
+    public static final int T__63=63;
+    public static final int T__61=61;
+    public static final int T__60=60;
+    public static final int T__55=55;
+    public static final int T__56=56;
+    public static final int T__57=57;
+    public static final int T__58=58;
+    public static final int T__51=51;
+    public static final int T__52=52;
+    public static final int T__53=53;
+    public static final int T__54=54;
+    public static final int T__103=103;
+    public static final int T__59=59;
+    public static final int T__104=104;
+    public static final int T__105=105;
+    public static final int RULE_INT=6;
+    public static final int T__50=50;
+    public static final int T__42=42;
+    public static final int T__43=43;
+    public static final int T__40=40;
+    public static final int T__41=41;
+    public static final int T__46=46;
+    public static final int T__47=47;
+    public static final int T__44=44;
+    public static final int T__45=45;
+    public static final int T__48=48;
+    public static final int T__49=49;
     public static final int T__102=102;
+    public static final int T__101=101;
+    public static final int T__100=100;
+    public static final int RULE_SL_COMMENT=8;
+    public static final int T__30=30;
+    public static final int T__31=31;
+    public static final int T__32=32;
+    public static final int T__33=33;
+    public static final int T__34=34;
+    public static final int T__35=35;
+    public static final int T__36=36;
+    public static final int T__37=37;
+    public static final int T__38=38;
+    public static final int T__39=39;
+    public static final int RULE_WS=9;
 
     // delegates
     // delegators
@@ -4693,7 +4693,7 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleXReference"
-    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1742:1: ruleXReference returns [EObject current=null] : ( ( (lv_annotations_0_0= ruleXAnnotation ) )* ( ( ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) ) ) | ( ( ( ( ({...}? => ( ({...}? => ( (lv_local_6_0= 'local' ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_7= 'refers' ) ) ) ) )+ {...}?) ) ) ) ( ( ( ( ({...}? => ( ({...}? => ( (lv_unordered_9_0= 'unordered' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unique_10_0= 'unique' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_readonly_11_0= 'readonly' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_transient_12_0= 'transient' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_volatile_13_0= 'volatile' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unsettable_14_0= 'unsettable' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_derived_15_0= 'derived' ) ) ) ) ) )* ) ) ) ( (lv_type_16_0= ruleXGenericType ) ) ( (lv_multiplicity_17_0= ruleXMultiplicity ) )? ( (lv_name_18_0= RULE_ID ) ) (otherlv_19= 'opposite' ( ( ruleValidID ) ) )? (otherlv_21= 'keys' ( ( ruleValidID ) ) (otherlv_23= ',' ( ( ruleValidID ) ) )* )? ( ( ( ( ({...}? => ( ({...}? => (otherlv_26= 'get' ( (lv_getBody_27_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_28= 'set' ( (lv_setBody_29_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_30= 'isSet' ( (lv_isSetBody_31_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_32= 'unset' ( (lv_unsetBody_33_0= ruleXBlockExpression ) ) ) ) ) ) )* ) ) ) ) ;
+    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1742:1: ruleXReference returns [EObject current=null] : ( ( (lv_annotations_0_0= ruleXAnnotation ) )* ( ( ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) ) ) | ( ( ( ( ({...}? => ( ({...}? => ( (lv_local_6_0= 'local' ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_7= 'refers' ) ) ) ) )+ {...}?) ) ) ) ( ( ( ( ({...}? => ( ({...}? => ( (lv_unordered_9_0= 'unordered' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unique_10_0= 'unique' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_readonly_11_0= 'readonly' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_transient_12_0= 'transient' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_volatile_13_0= 'volatile' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unsettable_14_0= 'unsettable' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_derived_15_0= 'derived' ) ) ) ) ) )* ) ) ) ( (lv_type_16_0= ruleXGenericType ) ) ( (lv_multiplicity_17_0= ruleXMultiplicity ) )? ( (lv_name_18_0= RULE_ID ) ) (otherlv_19= 'opposite' ( ( ruleValidID ) ) )? (otherlv_21= 'keys' ( ( ruleValidID ) ) (otherlv_23= ',' ( ( ruleValidID ) ) )* )? ( ( ( ( ({...}? => ( ({...}? => (otherlv_26= 'get' ( (lv_getBody_27_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_28= 'set' ( (lv_setBody_29_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_30= 'isSet' ( (lv_isSetBody_31_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_32= 'unset' ( (lv_unsetBody_33_0= ruleXBlockExpression ) ) ) ) ) ) )* ) ) ) ) ;
     public final EObject ruleXReference() throws RecognitionException {
         EObject current = null;
 
@@ -4735,11 +4735,11 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1745:28: ( ( ( (lv_annotations_0_0= ruleXAnnotation ) )* ( ( ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) ) ) | ( ( ( ( ({...}? => ( ({...}? => ( (lv_local_6_0= 'local' ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_7= 'refers' ) ) ) ) )+ {...}?) ) ) ) ( ( ( ( ({...}? => ( ({...}? => ( (lv_unordered_9_0= 'unordered' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unique_10_0= 'unique' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_readonly_11_0= 'readonly' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_transient_12_0= 'transient' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_volatile_13_0= 'volatile' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unsettable_14_0= 'unsettable' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_derived_15_0= 'derived' ) ) ) ) ) )* ) ) ) ( (lv_type_16_0= ruleXGenericType ) ) ( (lv_multiplicity_17_0= ruleXMultiplicity ) )? ( (lv_name_18_0= RULE_ID ) ) (otherlv_19= 'opposite' ( ( ruleValidID ) ) )? (otherlv_21= 'keys' ( ( ruleValidID ) ) (otherlv_23= ',' ( ( ruleValidID ) ) )* )? ( ( ( ( ({...}? => ( ({...}? => (otherlv_26= 'get' ( (lv_getBody_27_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_28= 'set' ( (lv_setBody_29_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_30= 'isSet' ( (lv_isSetBody_31_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_32= 'unset' ( (lv_unsetBody_33_0= ruleXBlockExpression ) ) ) ) ) ) )* ) ) ) ) )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1746:1: ( ( (lv_annotations_0_0= ruleXAnnotation ) )* ( ( ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) ) ) | ( ( ( ( ({...}? => ( ({...}? => ( (lv_local_6_0= 'local' ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_7= 'refers' ) ) ) ) )+ {...}?) ) ) ) ( ( ( ( ({...}? => ( ({...}? => ( (lv_unordered_9_0= 'unordered' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unique_10_0= 'unique' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_readonly_11_0= 'readonly' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_transient_12_0= 'transient' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_volatile_13_0= 'volatile' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unsettable_14_0= 'unsettable' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_derived_15_0= 'derived' ) ) ) ) ) )* ) ) ) ( (lv_type_16_0= ruleXGenericType ) ) ( (lv_multiplicity_17_0= ruleXMultiplicity ) )? ( (lv_name_18_0= RULE_ID ) ) (otherlv_19= 'opposite' ( ( ruleValidID ) ) )? (otherlv_21= 'keys' ( ( ruleValidID ) ) (otherlv_23= ',' ( ( ruleValidID ) ) )* )? ( ( ( ( ({...}? => ( ({...}? => (otherlv_26= 'get' ( (lv_getBody_27_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_28= 'set' ( (lv_setBody_29_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_30= 'isSet' ( (lv_isSetBody_31_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_32= 'unset' ( (lv_unsetBody_33_0= ruleXBlockExpression ) ) ) ) ) ) )* ) ) ) )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1745:28: ( ( ( (lv_annotations_0_0= ruleXAnnotation ) )* ( ( ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) ) ) | ( ( ( ( ({...}? => ( ({...}? => ( (lv_local_6_0= 'local' ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_7= 'refers' ) ) ) ) )+ {...}?) ) ) ) ( ( ( ( ({...}? => ( ({...}? => ( (lv_unordered_9_0= 'unordered' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unique_10_0= 'unique' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_readonly_11_0= 'readonly' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_transient_12_0= 'transient' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_volatile_13_0= 'volatile' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unsettable_14_0= 'unsettable' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_derived_15_0= 'derived' ) ) ) ) ) )* ) ) ) ( (lv_type_16_0= ruleXGenericType ) ) ( (lv_multiplicity_17_0= ruleXMultiplicity ) )? ( (lv_name_18_0= RULE_ID ) ) (otherlv_19= 'opposite' ( ( ruleValidID ) ) )? (otherlv_21= 'keys' ( ( ruleValidID ) ) (otherlv_23= ',' ( ( ruleValidID ) ) )* )? ( ( ( ( ({...}? => ( ({...}? => (otherlv_26= 'get' ( (lv_getBody_27_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_28= 'set' ( (lv_setBody_29_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_30= 'isSet' ( (lv_isSetBody_31_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_32= 'unset' ( (lv_unsetBody_33_0= ruleXBlockExpression ) ) ) ) ) ) )* ) ) ) ) )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1746:1: ( ( (lv_annotations_0_0= ruleXAnnotation ) )* ( ( ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) ) ) | ( ( ( ( ({...}? => ( ({...}? => ( (lv_local_6_0= 'local' ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_7= 'refers' ) ) ) ) )+ {...}?) ) ) ) ( ( ( ( ({...}? => ( ({...}? => ( (lv_unordered_9_0= 'unordered' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unique_10_0= 'unique' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_readonly_11_0= 'readonly' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_transient_12_0= 'transient' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_volatile_13_0= 'volatile' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unsettable_14_0= 'unsettable' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_derived_15_0= 'derived' ) ) ) ) ) )* ) ) ) ( (lv_type_16_0= ruleXGenericType ) ) ( (lv_multiplicity_17_0= ruleXMultiplicity ) )? ( (lv_name_18_0= RULE_ID ) ) (otherlv_19= 'opposite' ( ( ruleValidID ) ) )? (otherlv_21= 'keys' ( ( ruleValidID ) ) (otherlv_23= ',' ( ( ruleValidID ) ) )* )? ( ( ( ( ({...}? => ( ({...}? => (otherlv_26= 'get' ( (lv_getBody_27_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_28= 'set' ( (lv_setBody_29_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_30= 'isSet' ( (lv_isSetBody_31_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_32= 'unset' ( (lv_unsetBody_33_0= ruleXBlockExpression ) ) ) ) ) ) )* ) ) ) )
             {
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1746:1: ( ( (lv_annotations_0_0= ruleXAnnotation ) )* ( ( ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) ) ) | ( ( ( ( ({...}? => ( ({...}? => ( (lv_local_6_0= 'local' ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_7= 'refers' ) ) ) ) )+ {...}?) ) ) ) ( ( ( ( ({...}? => ( ({...}? => ( (lv_unordered_9_0= 'unordered' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unique_10_0= 'unique' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_readonly_11_0= 'readonly' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_transient_12_0= 'transient' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_volatile_13_0= 'volatile' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unsettable_14_0= 'unsettable' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_derived_15_0= 'derived' ) ) ) ) ) )* ) ) ) ( (lv_type_16_0= ruleXGenericType ) ) ( (lv_multiplicity_17_0= ruleXMultiplicity ) )? ( (lv_name_18_0= RULE_ID ) ) (otherlv_19= 'opposite' ( ( ruleValidID ) ) )? (otherlv_21= 'keys' ( ( ruleValidID ) ) (otherlv_23= ',' ( ( ruleValidID ) ) )* )? ( ( ( ( ({...}? => ( ({...}? => (otherlv_26= 'get' ( (lv_getBody_27_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_28= 'set' ( (lv_setBody_29_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_30= 'isSet' ( (lv_isSetBody_31_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_32= 'unset' ( (lv_unsetBody_33_0= ruleXBlockExpression ) ) ) ) ) ) )* ) ) ) )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1746:2: ( (lv_annotations_0_0= ruleXAnnotation ) )* ( ( ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) ) ) | ( ( ( ( ({...}? => ( ({...}? => ( (lv_local_6_0= 'local' ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_7= 'refers' ) ) ) ) )+ {...}?) ) ) ) ( ( ( ( ({...}? => ( ({...}? => ( (lv_unordered_9_0= 'unordered' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unique_10_0= 'unique' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_readonly_11_0= 'readonly' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_transient_12_0= 'transient' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_volatile_13_0= 'volatile' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unsettable_14_0= 'unsettable' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_derived_15_0= 'derived' ) ) ) ) ) )* ) ) ) ( (lv_type_16_0= ruleXGenericType ) ) ( (lv_multiplicity_17_0= ruleXMultiplicity ) )? ( (lv_name_18_0= RULE_ID ) ) (otherlv_19= 'opposite' ( ( ruleValidID ) ) )? (otherlv_21= 'keys' ( ( ruleValidID ) ) (otherlv_23= ',' ( ( ruleValidID ) ) )* )? ( ( ( ( ({...}? => ( ({...}? => (otherlv_26= 'get' ( (lv_getBody_27_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_28= 'set' ( (lv_setBody_29_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_30= 'isSet' ( (lv_isSetBody_31_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_32= 'unset' ( (lv_unsetBody_33_0= ruleXBlockExpression ) ) ) ) ) ) )* ) ) )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1746:1: ( ( (lv_annotations_0_0= ruleXAnnotation ) )* ( ( ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) ) ) | ( ( ( ( ({...}? => ( ({...}? => ( (lv_local_6_0= 'local' ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_7= 'refers' ) ) ) ) )+ {...}?) ) ) ) ( ( ( ( ({...}? => ( ({...}? => ( (lv_unordered_9_0= 'unordered' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unique_10_0= 'unique' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_readonly_11_0= 'readonly' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_transient_12_0= 'transient' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_volatile_13_0= 'volatile' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unsettable_14_0= 'unsettable' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_derived_15_0= 'derived' ) ) ) ) ) )* ) ) ) ( (lv_type_16_0= ruleXGenericType ) ) ( (lv_multiplicity_17_0= ruleXMultiplicity ) )? ( (lv_name_18_0= RULE_ID ) ) (otherlv_19= 'opposite' ( ( ruleValidID ) ) )? (otherlv_21= 'keys' ( ( ruleValidID ) ) (otherlv_23= ',' ( ( ruleValidID ) ) )* )? ( ( ( ( ({...}? => ( ({...}? => (otherlv_26= 'get' ( (lv_getBody_27_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_28= 'set' ( (lv_setBody_29_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_30= 'isSet' ( (lv_isSetBody_31_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_32= 'unset' ( (lv_unsetBody_33_0= ruleXBlockExpression ) ) ) ) ) ) )* ) ) ) )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1746:2: ( (lv_annotations_0_0= ruleXAnnotation ) )* ( ( ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) ) ) | ( ( ( ( ({...}? => ( ({...}? => ( (lv_local_6_0= 'local' ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_7= 'refers' ) ) ) ) )+ {...}?) ) ) ) ( ( ( ( ({...}? => ( ({...}? => ( (lv_unordered_9_0= 'unordered' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unique_10_0= 'unique' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_readonly_11_0= 'readonly' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_transient_12_0= 'transient' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_volatile_13_0= 'volatile' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_unsettable_14_0= 'unsettable' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_derived_15_0= 'derived' ) ) ) ) ) )* ) ) ) ( (lv_type_16_0= ruleXGenericType ) ) ( (lv_multiplicity_17_0= ruleXMultiplicity ) )? ( (lv_name_18_0= RULE_ID ) ) (otherlv_19= 'opposite' ( ( ruleValidID ) ) )? (otherlv_21= 'keys' ( ( ruleValidID ) ) (otherlv_23= ',' ( ( ruleValidID ) ) )* )? ( ( ( ( ({...}? => ( ({...}? => (otherlv_26= 'get' ( (lv_getBody_27_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_28= 'set' ( (lv_setBody_29_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_30= 'isSet' ( (lv_isSetBody_31_0= ruleXBlockExpression ) ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_32= 'unset' ( (lv_unsetBody_33_0= ruleXBlockExpression ) ) ) ) ) ) )* ) ) )
             {
             // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1746:2: ( (lv_annotations_0_0= ruleXAnnotation ) )*
             loop35:
@@ -4794,7 +4794,7 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
                 }
             } while (true);
 
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1764:3: ( ( ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) ) ) | ( ( ( ( ({...}? => ( ({...}? => ( (lv_local_6_0= 'local' ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_7= 'refers' ) ) ) ) )+ {...}?) ) ) )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1764:3: ( ( ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) ) ) | ( ( ( ( ({...}? => ( ({...}? => ( (lv_local_6_0= 'local' ) ) ) ) ) | ({...}? => ( ({...}? => (otherlv_7= 'refers' ) ) ) ) )+ {...}?) ) ) )
             int alt39=2;
             int LA39_0 = input.LA(1);
 
@@ -4813,19 +4813,19 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
             }
             switch (alt39) {
                 case 1 :
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1764:4: ( ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) ) )
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1764:4: ( ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) ) )
                     {
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1764:4: ( ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) ) )
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1766:1: ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) )
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1764:4: ( ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) ) )
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1766:1: ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) )
                     {
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1766:1: ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) )
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1767:2: ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?)
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1766:1: ( ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?) )
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1767:2: ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?)
                     {
                     getUnorderedGroupHelper().enter(grammarAccess.getXReferenceAccess().getUnorderedGroup_1_0());
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1770:2: ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?)
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1771:3: ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1770:2: ( ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?)
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1771:3: ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+ {...}?
                     {
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1771:3: ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1771:3: ( ({...}? => ( ({...}? => ( (lv_resolveProxies_2_0= 'resolving' ) ) ) ) ) | ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) ) )+
                     int cnt37=0;
                     loop37:
                     do {
@@ -4902,27 +4902,27 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1800:4: ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) )
+                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1800:4: ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) )
                     	    {
-                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1800:4: ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) )
-                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1801:5: {...}? => ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) )
+                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1800:4: ({...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) ) )
+                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1801:5: {...}? => ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) )
                     	    {
                     	    if ( ! getUnorderedGroupHelper().canSelect(grammarAccess.getXReferenceAccess().getUnorderedGroup_1_0(), 1) ) {
                     	        if (state.backtracking>0) {state.failed=true; return current;}
                     	        throw new FailedPredicateException(input, "ruleXReference", "getUnorderedGroupHelper().canSelect(grammarAccess.getXReferenceAccess().getUnorderedGroup_1_0(), 1)");
                     	    }
-                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1801:109: ( ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) )
-                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1802:6: ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) )
+                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1801:109: ( ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) ) )
+                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1802:6: ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) )
                     	    {
                     	    getUnorderedGroupHelper().select(grammarAccess.getXReferenceAccess().getUnorderedGroup_1_0(), 1);
-                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1805:6: ({...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) ) )
-                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1805:7: {...}? => ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) )
+                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1805:6: ({...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) ) )
+                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1805:7: {...}? => ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) )
                     	    {
                     	    if ( !((true)) ) {
                     	        if (state.backtracking>0) {state.failed=true; return current;}
                     	        throw new FailedPredicateException(input, "ruleXReference", "true");
                     	    }
-                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1805:16: ( ( (lv_containment_3_0= 'containment' ) ) | ( (lv_container_4_0= 'container' ) ) )
+                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1805:16: ( ( (lv_containment_3_0= 'contains' ) ) | ( (lv_container_4_0= 'container' ) ) )
                     	    int alt36=2;
                     	    int LA36_0 = input.LA(1);
 
@@ -4941,18 +4941,18 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
                     	    }
                     	    switch (alt36) {
                     	        case 1 :
-                    	            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1805:17: ( (lv_containment_3_0= 'containment' ) )
+                    	            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1805:17: ( (lv_containment_3_0= 'contains' ) )
                     	            {
-                    	            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1805:17: ( (lv_containment_3_0= 'containment' ) )
-                    	            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1806:1: (lv_containment_3_0= 'containment' )
+                    	            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1805:17: ( (lv_containment_3_0= 'contains' ) )
+                    	            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1806:1: (lv_containment_3_0= 'contains' )
                     	            {
-                    	            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1806:1: (lv_containment_3_0= 'containment' )
-                    	            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1807:3: lv_containment_3_0= 'containment'
+                    	            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1806:1: (lv_containment_3_0= 'contains' )
+                    	            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:1807:3: lv_containment_3_0= 'contains'
                     	            {
                     	            lv_containment_3_0=(Token)match(input,48,FollowSets000.FOLLOW_48_in_ruleXReference4043); if (state.failed) return current;
                     	            if ( state.backtracking==0 ) {
 
-                    	                      newLeafNode(lv_containment_3_0, grammarAccess.getXReferenceAccess().getContainmentContainmentKeyword_1_0_1_0_0());
+                    	                      newLeafNode(lv_containment_3_0, grammarAccess.getXReferenceAccess().getContainmentContainsKeyword_1_0_1_0_0());
                     	                  
                     	            }
                     	            if ( state.backtracking==0 ) {
@@ -4960,7 +4960,7 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
                     	              	        if (current==null) {
                     	              	            current = createModelElement(grammarAccess.getXReferenceRule());
                     	              	        }
-                    	                     		setWithLastConsumed(current, "containment", true, "containment");
+                    	                     		setWithLastConsumed(current, "containment", true, "contains");
                     	              	    
                     	            }
 
@@ -9233,11 +9233,11 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
             if ( (LA77_0==RULE_ID) ) {
                 int LA77_1 = input.LA(2);
 
-                if ( (LA77_1==16) ) {
-                    alt77=1;
-                }
-                else if ( (LA77_1==EOF||(LA77_1>=RULE_STRING && LA77_1<=RULE_INT)||(LA77_1>=13 && LA77_1<=15)||LA77_1==20||(LA77_1>=22 && LA77_1<=23)||(LA77_1>=28 && LA77_1<=29)||LA77_1==57||(LA77_1>=59 && LA77_1<=81)||(LA77_1>=83 && LA77_1<=105)) ) {
+                if ( (LA77_1==EOF||(LA77_1>=RULE_STRING && LA77_1<=RULE_INT)||(LA77_1>=13 && LA77_1<=15)||LA77_1==20||(LA77_1>=22 && LA77_1<=23)||(LA77_1>=28 && LA77_1<=29)||LA77_1==57||(LA77_1>=59 && LA77_1<=81)||(LA77_1>=83 && LA77_1<=105)) ) {
                     alt77=2;
+                }
+                else if ( (LA77_1==16) ) {
+                    alt77=1;
                 }
                 else {
                     if (state.backtracking>0) {state.failed=true; return current;}
@@ -22379,174 +22379,6 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
 
     // Delegated rules
 
-    public final boolean synpred1_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred1_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred10_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred10_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred4_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred4_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred15_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred15_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred3_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred3_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred2_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred2_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred18_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred18_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred19_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred19_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred22_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred22_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred26_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred26_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred13_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred13_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred5_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred5_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
     public final boolean synpred9_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
@@ -22561,25 +22393,11 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred8_InternalXcore() {
+    public final boolean synpred2_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred8_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred17_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred17_InternalXcore_fragment(); // can never throw exception
+            synpred2_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -22617,11 +22435,11 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred11_InternalXcore() {
+    public final boolean synpred4_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred11_InternalXcore_fragment(); // can never throw exception
+            synpred4_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -22631,11 +22449,11 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred6_InternalXcore() {
+    public final boolean synpred17_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred6_InternalXcore_fragment(); // can never throw exception
+            synpred17_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -22645,11 +22463,11 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred12_InternalXcore() {
+    public final boolean synpred3_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred12_InternalXcore_fragment(); // can never throw exception
+            synpred3_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -22673,25 +22491,11 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred7_InternalXcore() {
+    public final boolean synpred26_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred7_InternalXcore_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred20_InternalXcore() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred20_InternalXcore_fragment(); // can never throw exception
+            synpred26_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -22715,11 +22519,207 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
         state.failed=false;
         return success;
     }
+    public final boolean synpred19_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred19_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred22_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred22_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred6_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred6_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred20_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred20_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred15_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred15_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred5_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred5_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred8_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred8_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred11_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred11_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred13_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred13_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred10_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred10_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred1_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred1_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
     public final boolean synpred14_InternalXcore() {
         state.backtracking++;
         int start = input.mark();
         try {
             synpred14_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred12_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred12_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred7_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred7_InternalXcore_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
+    public final boolean synpred18_InternalXcore() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred18_InternalXcore_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -22749,8 +22749,8 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
         "\1\14\1\5\3\uffff\1\14\1\5\1\20\1\5\1\4\1\20\1\16\1\5\1\14\1\20"+
         "\1\5\1\4\1\20\1\16";
     static final String DFA8_maxS =
-        "\1\40\1\5\3\uffff\1\40\1\5\1\117\1\5\1\4\1\117\1\17\1\5\1\40\1\117"+
-        "\1\5\1\4\1\117\1\17";
+        "\1\40\1\5\3\uffff\1\40\1\5\1\117\1\5\1\4\1\117\1\17\1\5\1\40\1"+
+        "\117\1\5\1\4\1\117\1\17";
     static final String DFA8_acceptS =
         "\2\uffff\1\1\1\2\1\3\16\uffff";
     static final String DFA8_specialS =
@@ -22818,8 +22818,8 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
         "\2\5\3\uffff\2\5\1\20\1\5\1\4\1\20\1\16\2\5\1\20\1\5\1\4\1\20\1"+
         "\16";
     static final String DFA28_maxS =
-        "\1\66\1\5\3\uffff\1\66\1\5\1\117\1\5\1\4\1\117\1\17\1\5\1\66\1\117"+
-        "\1\5\1\4\1\117\1\17";
+        "\1\66\1\5\3\uffff\1\66\1\5\1\117\1\5\1\4\1\117\1\17\1\5\1\66\1"+
+        "\117\1\5\1\4\1\117\1\17";
     static final String DFA28_acceptS =
         "\2\uffff\1\1\1\2\1\3\16\uffff";
     static final String DFA28_specialS =
@@ -23687,14 +23687,14 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
     static final String DFA130_acceptS =
         "\31\uffff\1\2\41\uffff\1\1";
     static final String DFA130_specialS =
-        "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1\14"+
-        "\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24\1\25\1\26\1\27\43\uffff}>";
+        "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1"+
+        "\14\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24\1\25\1\26\1\27\43\uffff}>";
     static final String[] DFA130_transitionS = {
-            "\1\17\1\1\1\15\6\uffff\1\30\2\31\4\uffff\1\31\1\uffff\1\10\1"+
-            "\31\4\uffff\1\6\1\31\33\uffff\1\12\1\uffff\1\31\1\4\3\31\1\11"+
-            "\11\31\1\3\3\31\1\2\3\31\1\uffff\1\21\1\31\1\7\3\31\1\22\1\23"+
-            "\1\24\2\31\1\uffff\1\5\1\13\1\14\1\16\1\20\1\25\1\26\1\27\3"+
-            "\31",
+            "\1\17\1\1\1\15\6\uffff\1\30\2\31\4\uffff\1\31\1\uffff\1\10"+
+            "\1\31\4\uffff\1\6\1\31\33\uffff\1\12\1\uffff\1\31\1\4\3\31\1"+
+            "\11\11\31\1\3\3\31\1\2\3\31\1\uffff\1\21\1\31\1\7\3\31\1\22"+
+            "\1\23\1\24\2\31\1\uffff\1\5\1\13\1\14\1\16\1\20\1\25\1\26\1"+
+            "\27\3\31",
             "\1\uffff",
             "\1\uffff",
             "\1\uffff",

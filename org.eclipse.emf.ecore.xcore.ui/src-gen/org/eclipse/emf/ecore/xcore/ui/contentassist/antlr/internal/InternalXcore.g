@@ -20834,16 +20834,16 @@ rule__XReference__ContainmentAssignment_1_0_1_0
     }
 :
 (
-{ before(grammarAccess.getXReferenceAccess().getContainmentContainmentKeyword_1_0_1_0_0()); }
+{ before(grammarAccess.getXReferenceAccess().getContainmentContainsKeyword_1_0_1_0_0()); }
 (
-{ before(grammarAccess.getXReferenceAccess().getContainmentContainmentKeyword_1_0_1_0_0()); }
+{ before(grammarAccess.getXReferenceAccess().getContainmentContainsKeyword_1_0_1_0_0()); }
 
-	'containment' 
+	'contains' 
 
-{ after(grammarAccess.getXReferenceAccess().getContainmentContainmentKeyword_1_0_1_0_0()); }
+{ after(grammarAccess.getXReferenceAccess().getContainmentContainsKeyword_1_0_1_0_0()); }
 )
 
-{ after(grammarAccess.getXReferenceAccess().getContainmentContainmentKeyword_1_0_1_0_0()); }
+{ after(grammarAccess.getXReferenceAccess().getContainmentContainsKeyword_1_0_1_0_0()); }
 )
 
 ;

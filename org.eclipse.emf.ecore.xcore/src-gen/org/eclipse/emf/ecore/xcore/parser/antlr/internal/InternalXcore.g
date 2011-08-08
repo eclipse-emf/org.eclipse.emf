@@ -1804,16 +1804,16 @@ ruleXReference returns [EObject current=null]
 	 				}
 					({true}?=>((
 (
-		lv_containment_3_0=	'containment' 
+		lv_containment_3_0=	'contains' 
     {
-        newLeafNode(lv_containment_3_0, grammarAccess.getXReferenceAccess().getContainmentContainmentKeyword_1_0_1_0_0());
+        newLeafNode(lv_containment_3_0, grammarAccess.getXReferenceAccess().getContainmentContainsKeyword_1_0_1_0_0());
     }
  
 	    {
 	        if ($current==null) {
 	            $current = createModelElement(grammarAccess.getXReferenceRule());
 	        }
-       		setWithLastConsumed($current, "containment", true, "containment");
+       		setWithLastConsumed($current, "containment", true, "contains");
 	    }
 
 )
