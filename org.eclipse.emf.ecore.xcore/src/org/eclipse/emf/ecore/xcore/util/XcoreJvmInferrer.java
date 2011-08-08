@@ -8,6 +8,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
+import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
@@ -18,11 +19,13 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
+import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyUriConverter;
@@ -149,15 +152,56 @@ public class XcoreJvmInferrer
       	members.add(getJvmOperation(genOperation));
       }
       
+      for (GenFeature genFeature : genClass.getGenFeatures())
+      {
+      	EStructuralFeature eStructuralFeature = genFeature.getEcoreFeature();
+				if (eStructuralFeature.getName() != null && eStructuralFeature.getEGenericType() != null)
+      	{
+      	  members.addAll(getJvmFeatureAccessors(genFeature));
+      	}
+      }
+      
       result.add(jvmGenericType);
     }
     return result;
   }
   
+  List<JvmOperation> getJvmFeatureAccessors(GenFeature genFeature)
+  {
+  	XStructuralFeature xStructuralFeature = mapper.getXFeature(genFeature);
+  	List<JvmOperation> result = new ArrayList<JvmOperation>();
+  	if (genFeature.isGet() && !genFeature.isSuppressedGetVisibility())
+  	{
+  	  JvmOperation jvmOperation = TypesFactory.eINSTANCE.createJvmOperation();
+  	  jvmOperation.setVisibility(JvmVisibility.PUBLIC);
+  	  mapper.getMapping(xStructuralFeature).setGetter(jvmOperation);
+  	  mapper.getToXcoreMapping(jvmOperation).setXcoreElement(xStructuralFeature);
+  	  // map(jvmOperation, genFeature);
+  	  jvmOperation.setSimpleName(genFeature.getGetAccessor());
+  	  jvmOperation.setReturnType(getJvmTypeReference(genFeature.getType(genFeature.getGenClass()), genFeature));
+  	  result.add(jvmOperation);
+  	}
+  	if (genFeature.isSet() && !genFeature.isSuppressedSetVisibility())
+  	{
+  	  JvmOperation jvmOperation = TypesFactory.eINSTANCE.createJvmOperation();
+  	  jvmOperation.setVisibility(JvmVisibility.PUBLIC);
+  	  mapper.getMapping(xStructuralFeature).setSetter(jvmOperation);
+  	  mapper.getToXcoreMapping(jvmOperation).setXcoreElement(xStructuralFeature);
+  	  // map(jvmOperation, genFeature);
+  	  jvmOperation.setSimpleName("set" + genFeature.getAccessorName());
+  	  jvmOperation.setReturnType(getJvmTypeReference(genFeature.getType(genFeature.getGenClass()), genFeature));
+  	  result.add(jvmOperation);
+  	}
+  	
+  	return result;
+  }
+
+  
   JvmOperation getJvmOperation(GenOperation genOperation)
   {
   	XOperation xOperation = mapper.getXOperation(genOperation);
   	JvmOperation jvmOperation = TypesFactory.eINSTANCE.createJvmOperation();
+	  jvmOperation.setVisibility(JvmVisibility.PUBLIC);
   	mapper.getMapping(xOperation).setJvmOperation(jvmOperation);
   	mapper.getToXcoreMapping(jvmOperation).setXcoreElement(xOperation);
   	jvmOperation.setSimpleName(genOperation.getName());
