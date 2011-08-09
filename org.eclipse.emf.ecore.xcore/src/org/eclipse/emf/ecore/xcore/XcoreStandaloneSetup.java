@@ -8,6 +8,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.eclipse.xtext.common.types.TypesPackage;
+import org.eclipse.xtext.xbase.XbasePackage;
 
 import com.google.inject.Injector;
 
@@ -26,6 +28,8 @@ public class XcoreStandaloneSetup extends XcoreStandaloneSetupGenerated{
 		EPackage.Registry packageRegistry = injector.getInstance(EPackage.Registry.class);
 		packageRegistry.put(XcorePackage.eNS_URI, XcorePackage.eINSTANCE);
 		packageRegistry.put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
+		packageRegistry.put(XbasePackage.eNS_URI, XbasePackage.eINSTANCE);
+		packageRegistry.put(TypesPackage.eNS_URI, TypesPackage.eINSTANCE);
 		packageRegistry.put(GenModelPackage.eNS_URI, GenModelPackage.eINSTANCE);
 		packageRegistry.put(XMLTypePackage.eNS_URI, XMLTypePackage.eINSTANCE);
 		packageRegistry.put(XMLNamespacePackage.eNS_URI, XMLNamespacePackage.eINSTANCE);

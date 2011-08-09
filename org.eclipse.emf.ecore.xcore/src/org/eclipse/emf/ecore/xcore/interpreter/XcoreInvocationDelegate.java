@@ -37,7 +37,7 @@ public class XcoreInvocationDelegate implements EOperation.Internal.InvocationDe
 		}
 		IEvaluationResult result = interpreter.evaluate(body, context, CancelIndicator.NullImpl);
 		if (result.getException() != null)
-			throw new RuntimeException(result.getException());
+			throw new InvocationTargetException(result.getException());
 	  return result.getResult();
   }
 	
