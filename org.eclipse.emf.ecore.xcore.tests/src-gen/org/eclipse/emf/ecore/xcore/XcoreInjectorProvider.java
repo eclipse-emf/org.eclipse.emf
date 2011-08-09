@@ -11,8 +11,8 @@ import org.eclipse.xtext.junit4.IRegistryConfigurator;
 import com.google.inject.Injector;
 
 public class XcoreInjectorProvider implements IInjectorProvider, IRegistryConfigurator {
-	private GlobalStateMemento globalStateMemento;
-	private Injector injector;
+	protected GlobalStateMemento globalStateMemento;
+	protected Injector injector;
 
 	static {
 		GlobalRegistries.initializeDefaults();
@@ -31,6 +31,8 @@ public class XcoreInjectorProvider implements IInjectorProvider, IRegistryConfig
 
 	public void setupRegistry() {
 		globalStateMemento = GlobalRegistries.makeCopyOfGlobalState();
+		if (injector != null)
+			new XcoreStandaloneSetup().register(injector);
 	}
 	
 }

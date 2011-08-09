@@ -26,7 +26,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XAnnotation;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
@@ -47,15 +46,20 @@ import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XTypedElement;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.emf.ecore.xcore.interpreter.XcoreInvocationDelegate;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.xbase.XBlockExpression;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 public class XcoreEcoreBuilder
 {
 	@Inject
 	private XcoreMapper mapper;
+	
+	@Inject
+	private Provider<XcoreInvocationDelegate> delegateProvider;
 	
   List<Runnable> runnables = new ArrayList<Runnable>();
   
@@ -231,10 +235,14 @@ public class XcoreEcoreBuilder
     XBlockExpression body = xOperation.getBody();
     if (body != null)
     {
-      EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-      eAnnotation.setSource(EcorePackage.eNS_URI);
-      eAnnotation.getReferences().add(body);
-      eOperation.getEAnnotations().add(eAnnotation);
+    	final XcoreInvocationDelegate invocationDelegate = delegateProvider.get();
+    	invocationDelegate.initialize(body, eOperation);
+			((EOperation.Internal)eOperation).setInvocationDelegate(invocationDelegate);
+			
+//      EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+//      eAnnotation.setSource(EcorePackage.eNS_URI);
+//      eAnnotation.getReferences().add(body);
+//      eOperation.getEAnnotations().add(eAnnotation);
     }
     return eOperation;
   }

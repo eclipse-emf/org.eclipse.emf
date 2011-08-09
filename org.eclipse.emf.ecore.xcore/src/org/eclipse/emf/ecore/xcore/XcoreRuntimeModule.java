@@ -5,6 +5,7 @@ package org.eclipse.emf.ecore.xcore;
 
 import org.eclipse.emf.ecore.xcore.linking.XcoreLazyLinker;
 import org.eclipse.emf.ecore.xcore.resource.XcoreResource;
+import org.eclipse.emf.ecore.xcore.scoping.XcoreIdentifableSimpleNameProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreQualifiedNameProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionManager;
@@ -19,6 +20,7 @@ import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.serializer.ISerializer;
 import org.eclipse.xtext.serializer.impl.Serializer;
+import org.eclipse.xtext.xbase.featurecalls.IdentifiableSimpleNameProvider;
 
 import com.google.inject.Binder;
 import com.google.inject.name.Names;
@@ -73,4 +75,9 @@ public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcor
   	return IReferableElementsUnloader.GenericUnloader.class;
   }
   
+  @Override
+  public Class<? extends IdentifiableSimpleNameProvider> bindIdentifiableSimpleNameProvider()
+  {
+    return XcoreIdentifableSimpleNameProvider.class;
+  }
 }

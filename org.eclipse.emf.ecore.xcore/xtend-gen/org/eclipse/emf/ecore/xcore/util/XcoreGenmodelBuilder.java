@@ -65,7 +65,7 @@ public class XcoreGenmodelBuilder {
   
   public void buildMap(final GenModel genModel) {
     Iterable<EObject> _allContentsIterable = EObjectExtensions.allContentsIterable(genModel);
-    for (EObject genElement : _allContentsIterable) {
+    for (final EObject genElement : _allContentsIterable) {
       final EObject genElement_1 = genElement;
       boolean matched = false;
       if (!matched) {
@@ -156,12 +156,12 @@ public class XcoreGenmodelBuilder {
       HashSet<EPackage> _hashSet = new HashSet<EPackage>();
       final HashSet<EPackage> referencedEPackages = _hashSet;
       EList<GenPackage> _genPackages = genModel.getGenPackages();
-      for (GenPackage genPackage : _genPackages) {
+      for (final GenPackage genPackage : _genPackages) {
         EPackage _ecorePackage = genPackage.getEcorePackage();
         Iterable<EObject> _allContentsIterable = EObjectExtensions.allContentsIterable(_ecorePackage);
-        for (EObject eObject : _allContentsIterable) {
+        for (final EObject eObject : _allContentsIterable) {
           EList<EObject> _eCrossReferences = eObject.eCrossReferences();
-          for (EObject eCrossReference : _eCrossReferences) {
+          for (final EObject eCrossReference : _eCrossReferences) {
             final EObject eCrossReference_1 = eCrossReference;
             boolean matched = false;
             if (!matched) {
@@ -184,7 +184,7 @@ public class XcoreGenmodelBuilder {
           }
         }
       }
-      for (EPackage referencedEPackage : referencedEPackages) {
+      for (final EPackage referencedEPackage : referencedEPackages) {
         GenPackage _findGenPackage = genModel.findGenPackage(referencedEPackage);
         boolean _operator_equals = ObjectExtensions.operator_equals(_findGenPackage, null);
         if (_operator_equals) {
@@ -201,7 +201,7 @@ public class XcoreGenmodelBuilder {
               Resource _eResource = genModel.eResource();
               ResourceSet _resourceSet = _eResource.getResourceSet();
               EList<Resource> _resources = _resourceSet.getResources();
-              for (Resource resource : _resources) {
+              for (final Resource resource : _resources) {
                 URI _uRI = resource.getURI();
                 String _fileExtension = _uRI.fileExtension();
                 boolean _equals = "genmodel".equals(_fileExtension);

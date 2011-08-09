@@ -33,4 +33,5 @@ class XbaseScopingTest {
 		''')
 		validator.assertNoErrors(pack)
 	}
+	
 }
