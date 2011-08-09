@@ -4,16 +4,16 @@
 	GenPackage {
 		prefix = 'Foo'
 		disposableProviderFactory = 'true'
-		ecorePackage -> EPackage /2
-		genModel -> GenModel /1
+		ecorePackage -> EPackage foo
+		genModel -> GenModel Foo
 		genClasses = [
 			GenClass {
-				genPackage -> GenPackage /1/foo
-				ecoreClass -> EClass /2/Bar
+				genPackage -> GenPackage foo.FooPackage
+				ecoreClass -> EClass foo::Bar
 			}
 		]
 		genClassifiers -> [
-			GenClass /1/foo/Bar
+			GenClass foo.Bar
 		]
 	}
 ---

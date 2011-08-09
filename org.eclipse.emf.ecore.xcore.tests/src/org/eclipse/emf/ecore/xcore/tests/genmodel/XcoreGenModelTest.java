@@ -5,7 +5,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
-import org.eclipse.emf.ecore.xcore.tests.EObjectFormatter;
+import org.eclipse.emf.ecore.xcore.tests.GenModelFormatter;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.parameterized.AbstractParameterizedXtextTest;
 import org.eclipse.xtext.junit4.parameterized.ResourceURIs;
@@ -32,7 +32,7 @@ public class XcoreGenModelTest extends AbstractParameterizedXtextTest
 	{
 		EcoreUtil.resolveAll(resource);
 		GenBase gen = mapper.getGen((XNamedElement) getEObjectAtOffset());
-		return new EObjectFormatter().resolveCrossReferences().format(gen);
+		return new GenModelFormatter().resolveCrossReferences().format(gen);
 	}
 
 }

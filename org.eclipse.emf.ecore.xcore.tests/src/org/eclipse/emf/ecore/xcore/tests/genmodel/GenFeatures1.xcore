@@ -9,8 +9,8 @@ class X
 			notify = 'false'
 			createChild = 'false'
 			propertySortChoices = 'true'
-			genClass -> GenClass /1/foo/X
-			ecoreFeature -> EReference /2/X/x
+			genClass -> GenClass foo.X
+			ecoreFeature -> EReference foo::X::x
 		}
 	--- */
 	refers X x opposite y
@@ -20,8 +20,8 @@ class X
 			notify = 'false'
 			createChild = 'false'
 			propertySortChoices = 'true'
-			genClass -> GenClass /1/foo/X
-			ecoreFeature -> EReference /2/X/y
+			genClass -> GenClass foo.X
+			ecoreFeature -> EReference foo::X::y
 		}
 	--- */
 	refers X y opposite x
