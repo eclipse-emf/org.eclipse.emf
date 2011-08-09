@@ -9,7 +9,6 @@ class X
 			notify = 'false'
 			createChild = 'false'
 			propertySortChoices = 'true'
-			genClass -> GenClass foo.X
 			ecoreFeature -> EReference foo::X::x
 		}
 	--- */
@@ -20,7 +19,6 @@ class X
 			notify = 'false'
 			createChild = 'false'
 			propertySortChoices = 'true'
-			genClass -> GenClass foo.X
 			ecoreFeature -> EReference foo::X::y
 		}
 	--- */

@@ -152,7 +152,11 @@ public class EObjectFormatter implements Function<EObject, String>
 
 	protected boolean shouldFormat(EObject object, EStructuralFeature feature)
 	{
-		return !feature.isDerived() && object.eIsSet(feature);
+		if (feature.isDerived())
+			return false;
+		if (feature instanceof EReference && ((EReference) feature).isContainer())
+			return false;
+		return object.eIsSet(feature);
 	}
 
 	protected boolean shouldFormat(EObject object, EStructuralFeature feature, int index, Object value)

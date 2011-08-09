@@ -5,7 +5,6 @@
 		prefix = 'Foo'
 		disposableProviderFactory = 'true'
 		ecorePackage -> EPackage foo
-		genModel -> GenModel Foo
 		genClasses = [
 			GenClass {
 				genPackage -> GenPackage foo.FooPackage
