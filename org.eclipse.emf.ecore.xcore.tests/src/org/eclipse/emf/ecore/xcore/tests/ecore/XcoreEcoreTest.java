@@ -16,10 +16,10 @@ import com.google.inject.Inject;
 
 @InjectWith(XcoreInjectorProvider.class)
 @ResourceURIs(baseDir = "src/org/eclipse/emf/ecore/xcore/tests/ecore", fileExtensions = "xcore")
-public class XcoreGenModelTest extends AbstractParameterizedXtextTest
+public class XcoreEcoreTest extends AbstractParameterizedXtextTest
 {
 
-	public XcoreGenModelTest(XtextResource resource, int offset, String[] params)
+	public XcoreEcoreTest(XtextResource resource, int offset, String[] params)
 	{
 		super(resource, offset, params);
 	}
