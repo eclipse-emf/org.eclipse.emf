@@ -1,8 +1,10 @@
 package foo
 
+// XPECT noValidationErrors
+
 class X
 {
-	/* XPECT gen ---
+	/* XPECT genBase at x ---
 		GenFeature {
 			notify = 'false'
 			createChild = 'false'
@@ -13,7 +15,7 @@ class X
 	--- */
 	refers X x opposite y
 	   
-	/* XPECT gen ---
+	/* XPECT genBase at y ---
 		GenFeature {
 			notify = 'false'
 			createChild = 'false'

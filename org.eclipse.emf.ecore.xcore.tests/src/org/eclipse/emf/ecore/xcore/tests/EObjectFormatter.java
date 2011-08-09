@@ -49,6 +49,8 @@ public class EObjectFormatter implements Function<EObject, String>
 
 	public String format(EObject object)
 	{
+		if (object == null)
+			return "null";
 		StringBuilder result = new StringBuilder();
 		result.append(object.eClass().getName());
 		result.append(" {");

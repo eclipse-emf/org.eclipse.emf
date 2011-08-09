@@ -1,9 +1,8 @@
 package foo
 
-/* XPECT issues ---
-error for 'baz' message 'Couldn't resolve reference to GenBase 'baz'.'
-error ' message 'A generic super type must refer to a class'
----
-*/
+/* XPECT validationIssues ---
+error at 'baz' message 'Couldn't resolve reference to GenBase 'baz'.'
+error message 'A generic super type must refer to a class'
+--- */
 
 class bar extends baz {}

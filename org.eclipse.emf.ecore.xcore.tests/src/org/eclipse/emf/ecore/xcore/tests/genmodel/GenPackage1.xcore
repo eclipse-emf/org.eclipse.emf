@@ -1,4 +1,6 @@
-/* XPECT gen ---
+// XPECT noValidationErrors
+
+/* XPECT genBase ---
 	GenPackage {
 		prefix = 'Foo'
 		disposableProviderFactory = 'true'

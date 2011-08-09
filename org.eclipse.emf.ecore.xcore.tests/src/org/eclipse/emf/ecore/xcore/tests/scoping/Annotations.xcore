@@ -1,0 +1,11 @@
+// XPECT noValidationErrors
+
+package foo
+
+annotation "http://example.org/" as myAnnotation
+
+// FIXME: this scope should not contain qualified names of annotations since they are only visible locally.
+// __XPECT scopeAllElements at myAnnotation --> myAnnotation
+@myAnnotation
+class Class1 {}
+
