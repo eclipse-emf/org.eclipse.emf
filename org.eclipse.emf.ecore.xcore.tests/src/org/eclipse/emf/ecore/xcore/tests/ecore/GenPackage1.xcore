@@ -1,0 +1,60 @@
+// XPECT noValidationErrors
+
+/* XPECT eNamedElement ---
+	EPackage  {
+		name = 'foo'
+		nsURI = 'foo'
+		nsPrefix = 'foo'
+		eFactoryInstance -> EFactory #//
+		eClassifiers = [ 
+			EClass {
+				name = 'Class1'
+			}
+			EClass {
+				name = 'Class2'
+			}
+			EDataType {
+				name = 'MyString1'
+				instanceClassName = 'java.lang.String'
+			}
+			EDataType {
+				name = 'MyString2'
+				instanceClassName = 'java.lang.String'
+			} 
+			EEnum  {
+				name = 'En1'
+				eLiterals = [
+					EEnumLiteral {
+						name = 'lit1'
+					}
+					EEnumLiteral {
+						name = 'lit2'
+						}
+				]
+			}
+			EEnum {
+				name = 'En2'
+				eLiterals = [
+					EEnumLiteral {
+						name = 'lit1'
+					}
+					EEnumLiteral {
+						name = 'lit2'
+					}
+				]
+			}
+		]
+	}
+---
+*/
+
+package foo
+
+class Class1 {}
+class Class2 {}
+
+type MyString1 wraps java.lang.String
+type MyString2 wraps java.lang.String
+
+enum En1 { lit1, lit2 }
+enum En2 { lit1, lit2 }

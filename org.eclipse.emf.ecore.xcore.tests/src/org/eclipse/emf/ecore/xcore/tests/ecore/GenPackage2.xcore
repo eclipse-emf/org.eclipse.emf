@@ -1,0 +1,20 @@
+// XPECT noValidationErrors
+
+/* XPECT eNamedElement ---
+	EPackage {
+		name = 'foo'
+		nsURI = 'foo'
+		nsPrefix = 'foo'
+		eFactoryInstance -> EFactory #//
+		eClassifiers = [ 
+			EClass {
+				name = 'Bar'
+			}
+		]
+	}
+---
+*/
+
+package foo
+
+class Bar {}

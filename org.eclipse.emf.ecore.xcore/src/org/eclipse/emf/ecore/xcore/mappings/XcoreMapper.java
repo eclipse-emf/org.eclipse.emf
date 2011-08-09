@@ -2,6 +2,8 @@ package org.eclipse.emf.ecore.xcore.mappings;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XClass;
@@ -40,6 +42,21 @@ public class XcoreMapper
 	
 	public ToXcoreMapping getToXcoreMapping(EObject derivedElement) {
 		return lazyCreateMapping(derivedElement, ToXcoreMapping.class);
+	}
+	
+	public ENamedElement getEcore(XNamedElement namedElement) {
+		if (namedElement instanceof XPackage) {
+			return getMapping((XPackage)namedElement).getEPackage();
+		} else if (namedElement instanceof XClass) {
+			return getMapping((XClass)namedElement).getEclass();
+		} else if (namedElement instanceof XDataType) {
+			return getMapping((XDataType)namedElement).getEDataType();
+		} else if (namedElement instanceof XStructuralFeature) {
+			return getMapping((XStructuralFeature)namedElement).getEStructuralFeature();
+		} else if (namedElement instanceof XOperation) {
+			return getMapping((XOperation)namedElement).getEOperation();
+		} 
+		return null;
 	}
 	
 	public GenBase getGen(XNamedElement namedElement) {
