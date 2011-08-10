@@ -44,7 +44,7 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
 	private ValidationTestHelper validator;
 
 	protected Object invokeXbaseExpression(String expression) throws Exception {
-		XPackage pack = parser.parse("package foo class Bar { op void foo() { "+expression+" } }");
+		XPackage pack = parser.parse("package foo class Bar { op Object foo() { "+expression+" } }");
 		validator.assertNoErrors(pack);
 		EPackage ePack = (EPackage) pack.eResource().getContents().get(2);
 		EClass barClass = (EClass) ePack.getEClassifier("Bar");
