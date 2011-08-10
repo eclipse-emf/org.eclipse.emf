@@ -64,4 +64,28 @@ class XcoreInterpreterTest {
 		val foo = ePackage.EFactoryInstance.create(fooClass)
 		assertEquals("call1call2call1Bar", foo.eInvoke(fooClass.EOperations.head, new BasicEList(newArrayList("Bar"))))
 	}
+
+	@Test
+	def void testFeatureAccessors() {
+		val pack = parse.parse('''
+			package foo.bar
+			
+			class Foo {
+				String value
+				op void storeValue(String newValue) {
+					value = newValue
+				}
+				
+				op String fetchValue() {
+					return value
+				}
+			}
+		''')
+		validator.assertNoErrors(pack)
+		val ePackage = pack.eResource.contents.get(2) as EPackage
+		val fooClass = ePackage.getEClassifier("Foo") as EClass
+		val foo = ePackage.EFactoryInstance.create(fooClass)
+		foo.eInvoke(fooClass.EOperations.head, new BasicEList(newArrayList("Bar")));
+		assertEquals("Bar", foo.eInvoke(fooClass.EOperations.get(1), null));
+	}
 }

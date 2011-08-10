@@ -30,11 +30,14 @@ public class XcoreInvocationDelegate implements EOperation.Internal.InvocationDe
 			throw new IllegalStateException("coudn't find exeutable Xbase body");
 		DefaultEvaluationContext context = new DefaultEvaluationContext();
 		context.newValue(QualifiedName.create("this"), target);
-		for (int i = 0; i< arguments.size(); i++) {
-			Object arg = arguments.get(i);
-			EParameter parameter = getEOperation().getEParameters().get(i);
-			context.newValue(QualifiedName.create(parameter.getName()), arg);
-		}
+		if (arguments != null)
+  	{
+  		for (int i = 0; i< arguments.size(); i++) {
+  			Object arg = arguments.get(i);
+  			EParameter parameter = getEOperation().getEParameters().get(i);
+  			context.newValue(QualifiedName.create(parameter.getName()), arg);
+  		}
+  	}
 		IEvaluationResult result = interpreter.evaluate(body, context, CancelIndicator.NullImpl);
 		if (result.getException() != null)
 			throw new InvocationTargetException(result.getException());

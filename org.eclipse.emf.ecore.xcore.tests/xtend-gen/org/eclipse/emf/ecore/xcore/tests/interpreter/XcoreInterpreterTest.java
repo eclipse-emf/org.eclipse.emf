@@ -128,4 +128,62 @@ public class XcoreInterpreterTest {
       Assert.assertEquals("call1call2call1Bar", _eInvoke);
     }
   }
+  
+  @Test
+  public void testFeatureAccessors() throws Exception, InvocationTargetException {
+    {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo.bar");
+      _builder.newLine();
+      _builder.newLine();
+      _builder.append("class Foo {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("String value");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("op void storeValue(String newValue) {");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("value = newValue");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("op String fetchValue() {");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("return value");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      XPackage _parse = this.parse.parse(_builder);
+      final XPackage pack = _parse;
+      this.validator.assertNoErrors(pack);
+      Resource _eResource = pack.eResource();
+      EList<EObject> _contents = _eResource.getContents();
+      EObject _get = _contents.get(2);
+      final EPackage ePackage = ((EPackage) _get);
+      EClassifier _eClassifier = ePackage.getEClassifier("Foo");
+      final EClass fooClass = ((EClass) _eClassifier);
+      EFactory _eFactoryInstance = ePackage.getEFactoryInstance();
+      EObject _create = _eFactoryInstance.create(fooClass);
+      final EObject foo = _create;
+      EList<EOperation> _eOperations = fooClass.getEOperations();
+      EOperation _head = IterableExtensions.<EOperation>head(_eOperations);
+      ArrayList<String> _newArrayList = CollectionLiterals.<String>newArrayList("Bar");
+      BasicEList<String> _basicEList = new BasicEList<String>(_newArrayList);
+      foo.eInvoke(_head, _basicEList);
+      EList<EOperation> _eOperations_1 = fooClass.getEOperations();
+      EOperation _get_1 = _eOperations_1.get(1);
+      Object _eInvoke = foo.eInvoke(_get_1, null);
+      Assert.assertEquals("Bar", _eInvoke);
+    }
+  }
 }

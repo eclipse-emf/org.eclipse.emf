@@ -6,8 +6,10 @@ import java.util.List;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XOperation;
+import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.mappings.ToXcoreMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.common.types.JvmOperation;
@@ -38,6 +40,32 @@ public class XcoreInterpreter extends XbaseInterpreter
 					{
 						throw new EvaluationException(e);
 					}
+				}
+				else if (element instanceof XStructuralFeature)
+				{
+					EStructuralFeature feature = mapper.getMapping((XStructuralFeature)element).getEStructuralFeature();
+					String accessorName = operation.getSimpleName();
+					if (accessorName.startsWith("get"))
+  				{
+  					try
+  					{
+  						return ((EObject)receiver).eGet(feature);
+  					} catch (Throwable e)
+  					{
+  						throw new EvaluationException(e);
+  					}
+  				}
+					else if (accessorName.startsWith("set"))
+  				{
+  					try
+  					{
+  						((EObject)receiver).eSet(feature, argumentValues.get(0));
+  						return null;
+  					} catch (Throwable e)
+  					{
+  						throw new EvaluationException(e);
+  					}
+  				}
 				}
 			}
 		} 

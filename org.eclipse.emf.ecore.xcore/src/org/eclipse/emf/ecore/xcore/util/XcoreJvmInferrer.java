@@ -176,7 +176,6 @@ public class XcoreJvmInferrer
   	  jvmOperation.setVisibility(JvmVisibility.PUBLIC);
   	  mapper.getMapping(xStructuralFeature).setGetter(jvmOperation);
   	  mapper.getToXcoreMapping(jvmOperation).setXcoreElement(xStructuralFeature);
-  	  // map(jvmOperation, genFeature);
   	  jvmOperation.setSimpleName(genFeature.getGetAccessor());
   	  jvmOperation.setReturnType(getJvmTypeReference(genFeature.getType(genFeature.getGenClass()), genFeature));
   	  result.add(jvmOperation);
@@ -187,9 +186,14 @@ public class XcoreJvmInferrer
   	  jvmOperation.setVisibility(JvmVisibility.PUBLIC);
   	  mapper.getMapping(xStructuralFeature).setSetter(jvmOperation);
   	  mapper.getToXcoreMapping(jvmOperation).setXcoreElement(xStructuralFeature);
-  	  // map(jvmOperation, genFeature);
+  	  
+    	JvmFormalParameter jvmFormalParameter = TypesFactory.eINSTANCE.createJvmFormalParameter();
+    	jvmFormalParameter.setName("value");
+    	jvmFormalParameter.setParameterType(getJvmTypeReference(genFeature.getType(genFeature.getGenClass()), genFeature));
+    	jvmOperation.getParameters().add(jvmFormalParameter);
+    	
   	  jvmOperation.setSimpleName("set" + genFeature.getAccessorName());
-  	  jvmOperation.setReturnType(getJvmTypeReference(genFeature.getType(genFeature.getGenClass()), genFeature));
+  	  jvmOperation.setReturnType(typeReferences.getTypeForName("void", genFeature));
   	  result.add(jvmOperation);
   	}
   	
