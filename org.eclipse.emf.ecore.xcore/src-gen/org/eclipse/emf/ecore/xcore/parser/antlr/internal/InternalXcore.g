@@ -3151,7 +3151,7 @@ ruleXGenericType returns [EObject current=null]
 		{ 
 	        newCompositeNode(grammarAccess.getXGenericTypeAccess().getTypeGenBaseCrossReference_0_0()); 
 	    }
-		ruleQualifiedName		{ 
+		ruleXQualifiedName		{ 
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -3323,6 +3323,150 @@ ruleXGenericWildcardTypeArgument returns [EObject current=null]
 )
 )))?)
 ;
+
+
+
+
+
+// Entry rule entryRuleXQualifiedName
+entryRuleXQualifiedName returns [String current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getXQualifiedNameRule()); } 
+	 iv_ruleXQualifiedName=ruleXQualifiedName 
+	 { $current=$iv_ruleXQualifiedName.current.getText(); }  
+	 EOF 
+;
+
+// Rule XQualifiedName
+ruleXQualifiedName returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+(
+    { 
+        newCompositeNode(grammarAccess.getXQualifiedNameAccess().getXIDParserRuleCall_0()); 
+    }
+    this_XID_0=ruleXID    {
+		$current.merge(this_XID_0);
+    }
+
+    { 
+        afterParserOrEnumRuleCall();
+    }
+(
+	kw='.' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getXQualifiedNameAccess().getFullStopKeyword_1_0()); 
+    }
+
+    { 
+        newCompositeNode(grammarAccess.getXQualifiedNameAccess().getXIDParserRuleCall_1_1()); 
+    }
+    this_XID_2=ruleXID    {
+		$current.merge(this_XID_2);
+    }
+
+    { 
+        afterParserOrEnumRuleCall();
+    }
+)*)
+    ;
+
+
+
+
+
+// Entry rule entryRuleXID
+entryRuleXID returns [String current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getXIDRule()); } 
+	 iv_ruleXID=ruleXID 
+	 { $current=$iv_ruleXID.current.getText(); }  
+	 EOF 
+;
+
+// Rule XID
+ruleXID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+(    this_ID_0=RULE_ID    {
+		$current.merge(this_ID_0);
+    }
+
+    { 
+    newLeafNode(this_ID_0, grammarAccess.getXIDAccess().getIDTerminalRuleCall_0()); 
+    }
+
+    |
+	kw='get' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getXIDAccess().getGetKeyword_1()); 
+    }
+
+    |
+	kw='set' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getXIDAccess().getSetKeyword_2()); 
+    }
+
+    |
+	kw='isUnSet' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getXIDAccess().getIsUnSetKeyword_3()); 
+    }
+
+    |
+	kw='isSet' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getXIDAccess().getIsSetKeyword_4()); 
+    }
+)
+    ;
+
+
+
+
+
+// Entry rule entryRuleValidID
+entryRuleValidID returns [String current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getValidIDRule()); } 
+	 iv_ruleValidID=ruleValidID 
+	 { $current=$iv_ruleValidID.current.getText(); }  
+	 EOF 
+;
+
+// Rule ValidID
+ruleValidID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+(
+    { 
+        newCompositeNode(grammarAccess.getValidIDAccess().getXIDParserRuleCall_0()); 
+    }
+    this_XID_0=ruleXID    {
+		$current.merge(this_XID_0);
+    }
+
+    { 
+        afterParserOrEnumRuleCall();
+    }
+
+    |
+	kw='void' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getValidIDAccess().getVoidKeyword_1()); 
+    }
+)
+    ;
 
 
 
@@ -7514,34 +7658,6 @@ ruleJvmLowerBound returns [EObject current=null]
 ;
 
 
-
-
-
-
-
-// Entry rule entryRuleValidID
-entryRuleValidID returns [String current=null] 
-	:
-	{ newCompositeNode(grammarAccess.getValidIDRule()); } 
-	 iv_ruleValidID=ruleValidID 
-	 { $current=$iv_ruleValidID.current.getText(); }  
-	 EOF 
-;
-
-// Rule ValidID
-ruleValidID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
-    @init { enterRule(); 
-    }
-    @after { leaveRule(); }:
-    this_ID_0=RULE_ID    {
-		$current.merge(this_ID_0);
-    }
-
-    { 
-    newLeafNode(this_ID_0, grammarAccess.getValidIDAccess().getIDTerminalRuleCall()); 
-    }
-
-    ;
 
 
 

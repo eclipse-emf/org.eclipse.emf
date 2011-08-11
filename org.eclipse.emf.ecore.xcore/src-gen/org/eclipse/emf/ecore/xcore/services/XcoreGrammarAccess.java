@@ -204,7 +204,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cQualifiedNameParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
 		private final Keyword cFullStopAsteriskKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		
-		//QualifiedNameWithWildcard returns ecore::EString:
+		//QualifiedNameWithWildcard:
 		//	QualifiedName ".*"?;
 		public ParserRule getRule() { return rule; }
 
@@ -1754,7 +1754,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cTypeAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final CrossReference cTypeGenBaseCrossReference_0_0 = (CrossReference)cTypeAssignment_0.eContents().get(0);
-		private final RuleCall cTypeGenBaseQualifiedNameParserRuleCall_0_0_1 = (RuleCall)cTypeGenBaseCrossReference_0_0.eContents().get(1);
+		private final RuleCall cTypeGenBaseXQualifiedNameParserRuleCall_0_0_1 = (RuleCall)cTypeGenBaseCrossReference_0_0.eContents().get(1);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
 		private final Keyword cLessThanSignKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
 		private final Assignment cTypeArgumentsAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
@@ -1766,24 +1766,24 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cGreaterThanSignKeyword_1_3 = (Keyword)cGroup_1.eContents().get(3);
 		
 		//XGenericType: // classifier=[XClassifier|QualifiedName] (=>'<' typeArguments+=XGenericTypeArgument (',' typeArguments+=XGenericTypeArgument)* '>')?
-		//	type=[genmodel::GenBase|QualifiedName] ("<" typeArguments+=XGenericTypeArgument (","
+		//	type=[genmodel::GenBase|XQualifiedName] ("<" typeArguments+=XGenericTypeArgument (","
 		//	typeArguments+=XGenericTypeArgument)* ">")?;
 		public ParserRule getRule() { return rule; }
 
 		//// classifier=[XClassifier|QualifiedName] (=>'<' typeArguments+=XGenericTypeArgument (',' typeArguments+=XGenericTypeArgument)* '>')?
-		//type=[genmodel::GenBase|QualifiedName] ("<" typeArguments+=XGenericTypeArgument (","
+		//type=[genmodel::GenBase|XQualifiedName] ("<" typeArguments+=XGenericTypeArgument (","
 		//typeArguments+=XGenericTypeArgument)* ">")?
 		public Group getGroup() { return cGroup; }
 
 		//// classifier=[XClassifier|QualifiedName] (=>'<' typeArguments+=XGenericTypeArgument (',' typeArguments+=XGenericTypeArgument)* '>')?
-		//type=[genmodel::GenBase|QualifiedName]
+		//type=[genmodel::GenBase|XQualifiedName]
 		public Assignment getTypeAssignment_0() { return cTypeAssignment_0; }
 
-		//[genmodel::GenBase|QualifiedName]
+		//[genmodel::GenBase|XQualifiedName]
 		public CrossReference getTypeGenBaseCrossReference_0_0() { return cTypeGenBaseCrossReference_0_0; }
 
-		//QualifiedName
-		public RuleCall getTypeGenBaseQualifiedNameParserRuleCall_0_0_1() { return cTypeGenBaseQualifiedNameParserRuleCall_0_0_1; }
+		//XQualifiedName
+		public RuleCall getTypeGenBaseXQualifiedNameParserRuleCall_0_0_1() { return cTypeGenBaseXQualifiedNameParserRuleCall_0_0_1; }
 
 		//(=> "<" typeArguments+=XGenericTypeArgument ("," typeArguments+=XGenericTypeArgument)* ">")?
 		public Group getGroup_1() { return cGroup_1; }
@@ -1888,6 +1888,86 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//XGenericType
 		public RuleCall getLowerBoundXGenericTypeParserRuleCall_2_1_1_0() { return cLowerBoundXGenericTypeParserRuleCall_2_1_1_0; }
 	}
+
+	public class XQualifiedNameElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "XQualifiedName");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final RuleCall cXIDParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
+		private final Keyword cFullStopKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final RuleCall cXIDParserRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
+		
+		//XQualifiedName:
+		//	XID ("." XID)*;
+		public ParserRule getRule() { return rule; }
+
+		//XID ("." XID)*
+		public Group getGroup() { return cGroup; }
+
+		//XID
+		public RuleCall getXIDParserRuleCall_0() { return cXIDParserRuleCall_0; }
+
+		//("." XID)*
+		public Group getGroup_1() { return cGroup_1; }
+
+		//"."
+		public Keyword getFullStopKeyword_1_0() { return cFullStopKeyword_1_0; }
+
+		//XID
+		public RuleCall getXIDParserRuleCall_1_1() { return cXIDParserRuleCall_1_1; }
+	}
+
+	public class XIDElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "XID");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cIDTerminalRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final Keyword cGetKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
+		private final Keyword cSetKeyword_2 = (Keyword)cAlternatives.eContents().get(2);
+		private final Keyword cIsUnSetKeyword_3 = (Keyword)cAlternatives.eContents().get(3);
+		private final Keyword cIsSetKeyword_4 = (Keyword)cAlternatives.eContents().get(4);
+		
+		//XID:
+		//	ID | "get" | "set" | "isUnSet" | "isSet";
+		public ParserRule getRule() { return rule; }
+
+		//ID | "get" | "set" | "isUnSet" | "isSet"
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//ID
+		public RuleCall getIDTerminalRuleCall_0() { return cIDTerminalRuleCall_0; }
+
+		//"get"
+		public Keyword getGetKeyword_1() { return cGetKeyword_1; }
+
+		//"set"
+		public Keyword getSetKeyword_2() { return cSetKeyword_2; }
+
+		//"isUnSet"
+		public Keyword getIsUnSetKeyword_3() { return cIsUnSetKeyword_3; }
+
+		//"isSet"
+		public Keyword getIsSetKeyword_4() { return cIsSetKeyword_4; }
+	}
+
+	public class ValidIDElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ValidID");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cXIDParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final Keyword cVoidKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
+		
+		//ValidID:
+		//	XID | "void";
+		public ParserRule getRule() { return rule; }
+
+		//XID | "void"
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//XID
+		public RuleCall getXIDParserRuleCall_0() { return cXIDParserRuleCall_0; }
+
+		//"void"
+		public Keyword getVoidKeyword_1() { return cVoidKeyword_1; }
+	}
 	
 	
 	private XPackageElements pXPackage;
@@ -1912,6 +1992,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	private XGenericTypeElements pXGenericType;
 	private XGenericTypeArgumentElements pXGenericTypeArgument;
 	private XGenericWildcardTypeArgumentElements pXGenericWildcardTypeArgument;
+	private XQualifiedNameElements pXQualifiedName;
+	private XIDElements pXID;
+	private ValidIDElements pValidID;
 	
 	private final GrammarProvider grammarProvider;
 
@@ -1976,7 +2059,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		return getXImportDirectiveAccess().getRule();
 	}
 
-	//QualifiedNameWithWildcard returns ecore::EString:
+	//QualifiedNameWithWildcard:
 	//	QualifiedName ".*"?;
 	public QualifiedNameWithWildcardElements getQualifiedNameWithWildcardAccess() {
 		return (pQualifiedNameWithWildcard != null) ? pQualifiedNameWithWildcard : (pQualifiedNameWithWildcard = new QualifiedNameWithWildcardElements());
@@ -2161,7 +2244,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//XGenericType: // classifier=[XClassifier|QualifiedName] (=>'<' typeArguments+=XGenericTypeArgument (',' typeArguments+=XGenericTypeArgument)* '>')?
-	//	type=[genmodel::GenBase|QualifiedName] ("<" typeArguments+=XGenericTypeArgument (","
+	//	type=[genmodel::GenBase|XQualifiedName] ("<" typeArguments+=XGenericTypeArgument (","
 	//	typeArguments+=XGenericTypeArgument)* ">")?;
 	public XGenericTypeElements getXGenericTypeAccess() {
 		return (pXGenericType != null) ? pXGenericType : (pXGenericType = new XGenericTypeElements());
@@ -2189,6 +2272,36 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getXGenericWildcardTypeArgumentRule() {
 		return getXGenericWildcardTypeArgumentAccess().getRule();
+	}
+
+	//XQualifiedName:
+	//	XID ("." XID)*;
+	public XQualifiedNameElements getXQualifiedNameAccess() {
+		return (pXQualifiedName != null) ? pXQualifiedName : (pXQualifiedName = new XQualifiedNameElements());
+	}
+	
+	public ParserRule getXQualifiedNameRule() {
+		return getXQualifiedNameAccess().getRule();
+	}
+
+	//XID:
+	//	ID | "get" | "set" | "isUnSet" | "isSet";
+	public XIDElements getXIDAccess() {
+		return (pXID != null) ? pXID : (pXID = new XIDElements());
+	}
+	
+	public ParserRule getXIDRule() {
+		return getXIDAccess().getRule();
+	}
+
+	//ValidID:
+	//	XID | "void";
+	public ValidIDElements getValidIDAccess() {
+		return (pValidID != null) ? pValidID : (pValidID = new ValidIDElements());
+	}
+	
+	public ParserRule getValidIDRule() {
+		return getValidIDAccess().getRule();
 	}
 
 	//XExpression:
@@ -2810,16 +2923,6 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getJvmTypeParameterRule() {
 		return getJvmTypeParameterAccess().getRule();
-	}
-
-	//ValidID:
-	//	ID;
-	public XtypeGrammarAccess.ValidIDElements getValidIDAccess() {
-		return gaXbase.getValidIDAccess();
-	}
-	
-	public ParserRule getValidIDRule() {
-		return getValidIDAccess().getRule();
 	}
 
 	//terminal ID:

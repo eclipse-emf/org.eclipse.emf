@@ -4,6 +4,8 @@
 package org.eclipse.emf.ecore.xcore;
 
 import org.eclipse.emf.ecore.util.Diagnostician;
+import org.eclipse.emf.ecore.xcore.conversion.FixedQualifiedNameValueConverter;
+import org.eclipse.emf.ecore.xcore.conversion.ValueConverterService;
 import org.eclipse.emf.ecore.xcore.linking.XcoreLazyLinker;
 import org.eclipse.emf.ecore.xcore.resource.XcoreResource;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreIdentifableSimpleNameProvider;
@@ -13,6 +15,8 @@ import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionManager;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionStrategy;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnosticConverter;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnostician;
+import org.eclipse.xtext.conversion.IValueConverterService;
+import org.eclipse.xtext.conversion.impl.QualifiedNameValueConverter;
 import org.eclipse.xtext.linking.ILinker;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.parser.antlr.IReferableElementsUnloader;
@@ -96,4 +100,14 @@ public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcor
 	{
 	  return XcoreDiagnostician.class;
   }
+	
+	@Override
+	public Class<? extends IValueConverterService> bindIValueConverterService()
+	{
+	  return ValueConverterService.class;
+	}
+	
+	public Class<? extends QualifiedNameValueConverter> bindFixedQualifiedNameValueConverter() {
+		return FixedQualifiedNameValueConverter.class;
+	}
 }

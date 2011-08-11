@@ -20,23 +20,6 @@ import com.google.inject.Inject;
 public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluationTest
 {
 	
-	// inactive tests
-	
-	// problem with 'void' being not allowed in ValidID
-	@Override public void testTypeLiteral_02() throws Exception {}
-	
-	// problem with 'get' being not allowed in ValidID
-	@Override public void testAssignment_11() throws Exception {}
-	@Override public void testMapConstruction_00() throws Exception {}
-	@Override public void testListExtensions_01() throws Exception {}
-	@Override public void testListExtensions_02() throws Exception {}
-	@Override public void testListExtensions_03() throws Exception {}
-	@Override public void testBug342434_01() throws Exception {}
-	@Override public void testBug342434_02() throws Exception {}
-	@Override public void testBug342434_03() throws Exception {}
-	@Override public void testBug342434_04() throws Exception {}
-	@Override public void testBug342434_05() throws Exception {}
-	
 	@Inject
 	private ParseHelper<XPackage> parser;
 	

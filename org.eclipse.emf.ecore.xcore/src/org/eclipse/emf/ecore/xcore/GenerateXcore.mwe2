@@ -13,16 +13,10 @@ Workflow {
 	bean = StandaloneSetup {
 		scanClassPath = true
 		platformUri = "${runtimeProject}/.."
-		registerGeneratedEPackage = "org.eclipse.emf.ecore.EcorePackage"
-		registerGeneratedEPackage = "org.eclipse.xtext.xbase.XbasePackage"
-		registerGeneratedEPackage = "org.eclipse.xtext.xtype.XtypePackage"
+		
 		registerGeneratedEPackage = "org.eclipse.emf.ecore.xcore.XcorePackage"
-	
-		registerGenModelFile = "platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel"
-		// registerGenModelFile = "platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel"
-		registerGenModelFile = "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel"
+
 		registerGenModelFile = "platform:/resource/org.eclipse.emf.ecore.xcore/model/Xcore.genmodel"
-	
 	}
 
 	component = DirectoryCleaner {

@@ -50,6 +50,8 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXMultiplicityAccess().getAlternatives_1_3_1_1(), "rule__XMultiplicity__Alternatives_1_3_1_1");
 					put(grammarAccess.getXGenericTypeArgumentAccess().getAlternatives(), "rule__XGenericTypeArgument__Alternatives");
 					put(grammarAccess.getXGenericWildcardTypeArgumentAccess().getAlternatives_2(), "rule__XGenericWildcardTypeArgument__Alternatives_2");
+					put(grammarAccess.getXIDAccess().getAlternatives(), "rule__XID__Alternatives");
+					put(grammarAccess.getValidIDAccess().getAlternatives(), "rule__ValidID__Alternatives");
 					put(grammarAccess.getXAssignmentAccess().getAlternatives(), "rule__XAssignment__Alternatives");
 					put(grammarAccess.getOpEqualityAccess().getAlternatives(), "rule__OpEquality__Alternatives");
 					put(grammarAccess.getXRelationalExpressionAccess().getAlternatives_1(), "rule__XRelationalExpression__Alternatives_1");
@@ -143,6 +145,8 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXGenericWildcardTypeArgumentAccess().getGroup(), "rule__XGenericWildcardTypeArgument__Group__0");
 					put(grammarAccess.getXGenericWildcardTypeArgumentAccess().getGroup_2_0(), "rule__XGenericWildcardTypeArgument__Group_2_0__0");
 					put(grammarAccess.getXGenericWildcardTypeArgumentAccess().getGroup_2_1(), "rule__XGenericWildcardTypeArgument__Group_2_1__0");
+					put(grammarAccess.getXQualifiedNameAccess().getGroup(), "rule__XQualifiedName__Group__0");
+					put(grammarAccess.getXQualifiedNameAccess().getGroup_1(), "rule__XQualifiedName__Group_1__0");
 					put(grammarAccess.getXAssignmentAccess().getGroup_0(), "rule__XAssignment__Group_0__0");
 					put(grammarAccess.getXAssignmentAccess().getGroup_1(), "rule__XAssignment__Group_1__0");
 					put(grammarAccess.getXAssignmentAccess().getGroup_1_1(), "rule__XAssignment__Group_1_1__0");
