@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.ecore.xcore;
 
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xcore.linking.XcoreLazyLinker;
 import org.eclipse.emf.ecore.xcore.resource.XcoreResource;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreIdentifableSimpleNameProvider;
@@ -10,6 +11,8 @@ import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvi
 import org.eclipse.emf.ecore.xcore.scoping.XcoreQualifiedNameProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionManager;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionStrategy;
+import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnosticConverter;
+import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnostician;
 import org.eclipse.xtext.linking.ILinker;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.parser.antlr.IReferableElementsUnloader;
@@ -20,6 +23,8 @@ import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.serializer.ISerializer;
 import org.eclipse.xtext.serializer.impl.Serializer;
+import org.eclipse.xtext.service.SingletonBinding;
+import org.eclipse.xtext.validation.IDiagnosticConverter;
 import org.eclipse.xtext.xbase.featurecalls.IdentifiableSimpleNameProvider;
 
 import com.google.inject.Binder;
@@ -79,5 +84,16 @@ public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcor
   public Class<? extends IdentifiableSimpleNameProvider> bindIdentifiableSimpleNameProvider()
   {
     return XcoreIdentifableSimpleNameProvider.class;
+  }
+  
+	public Class<? extends IDiagnosticConverter> bindIDiagnosticConverter() 
+	{
+		return XcoreDiagnosticConverter.class;
+	}
+	
+	@SingletonBinding
+	public Class<? extends Diagnostician> bindDiagnostician() 
+	{
+	  return XcoreDiagnostician.class;
   }
 }

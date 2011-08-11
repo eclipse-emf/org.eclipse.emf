@@ -1,0 +1,15 @@
+package foo
+
+/* XPECT validationIssues ---
+error at ' class B extends A, A
+{
+}' message 'The generic super types at index '1' and '0' must not be duplicates'
+--- */
+
+class A
+{
+} 
+
+class B extends A, A
+{
+}

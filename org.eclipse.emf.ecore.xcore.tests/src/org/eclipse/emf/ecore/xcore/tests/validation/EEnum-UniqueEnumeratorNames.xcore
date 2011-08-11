@@ -1,0 +1,11 @@
+package foo
+
+/* XPECT validationIssues ---
+error at 'A ' message 'There may not be two enumerators named 'A''
+--- */
+
+enum A
+{
+  A
+  A
+}

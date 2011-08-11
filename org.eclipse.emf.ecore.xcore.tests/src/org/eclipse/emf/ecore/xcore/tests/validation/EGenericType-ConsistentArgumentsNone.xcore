@@ -1,0 +1,10 @@
+package foo
+
+/* XPECT validationIssues ---
+warning at 'A' message 'The generic type associated with the 'A' classifier should have 1 type argument(s) to match the number of type parameter (s) of the classifier '
+--- */
+
+class A<T>
+{
+	refers A  a 
+}

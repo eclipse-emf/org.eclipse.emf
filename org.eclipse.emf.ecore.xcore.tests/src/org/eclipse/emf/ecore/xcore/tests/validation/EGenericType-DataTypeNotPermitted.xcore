@@ -1,0 +1,10 @@
+package foo
+
+/* XPECT validationIssues ---
+error at 'String' message 'The generic reference type must not refer to a data type'
+--- */
+
+class A
+{
+  refers String a
+} 

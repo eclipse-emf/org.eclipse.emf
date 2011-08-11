@@ -86,7 +86,7 @@ XClass:
 	(annotations+=XAnnotation)*
 	((abstract?='abstract'? 'class') | interface?= 'interface') name = ID
 	('<' typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')?
-	('extends' superTypes+=XGenericType)?
+	('extends' superTypes+=XGenericType (',' superTypes+=XGenericType)*)?
 	('wraps' instanceTypeName=QualifiedName)?
 	'{'
 	   (members+=XMember)*
@@ -111,8 +111,7 @@ XAttribute:
 	  (derived?='derived')? &
 	  (iD?='id')?
 	)
-    (type=XGenericType | 'void')
-	multiplicity=XMultiplicity?
+    (type=XGenericType multiplicity=XMultiplicity? | 'void')
     name=ID
     ('=' defaultValueLiteral=STRING)?
 	/*

@@ -1,0 +1,10 @@
+package foo
+
+/* XPECT validationIssues ---
+error at 'A<String>' message 'The generic type associated with the 'A' classifier must not have 1 argument(s) when the classifier has 2 type parameter(s)'
+--- */
+
+class A<T, U>
+{
+	refers A<String> a 
+}

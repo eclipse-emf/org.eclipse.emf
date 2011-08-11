@@ -1,0 +1,11 @@
+package foo
+
+/* XPECT validationIssues ---
+error at ' class A extends A
+{
+}' message 'A class may not be a super type of itself'
+--- */
+
+class A extends A
+{
+}

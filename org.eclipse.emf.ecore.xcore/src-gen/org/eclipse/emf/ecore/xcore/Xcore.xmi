@@ -268,6 +268,12 @@
           <elements xsi:type="xtext:Assignment" feature="superTypes" operator="+=">
             <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.19"/>
           </elements>
+          <elements xsi:type="xtext:Group" cardinality="*">
+            <elements xsi:type="xtext:Keyword" value=","/>
+            <elements xsi:type="xtext:Assignment" feature="superTypes" operator="+=">
+              <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.19"/>
+            </elements>
+          </elements>
         </elements>
         <elements xsi:type="xtext:Group" cardinality="?">
           <elements xsi:type="xtext:Keyword" value="wraps"/>
@@ -327,13 +333,15 @@
           </elements>
         </elements>
         <elements xsi:type="xtext:Alternatives">
-          <elements xsi:type="xtext:Assignment" feature="type" operator="=">
-            <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.19"/>
+          <elements xsi:type="xtext:Group">
+            <elements xsi:type="xtext:Assignment" feature="type" operator="=">
+              <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.19"/>
+            </elements>
+            <elements xsi:type="xtext:Assignment" cardinality="?" feature="multiplicity" operator="=">
+              <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.17"/>
+            </elements>
           </elements>
           <elements xsi:type="xtext:Keyword" value="void"/>
-        </elements>
-        <elements xsi:type="xtext:Assignment" cardinality="?" feature="multiplicity" operator="=">
-          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.17"/>
         </elements>
         <elements xsi:type="xtext:Assignment" feature="name" operator="=">
           <terminal xsi:type="xtext:RuleCall" rule="/2/@rules.11"/>

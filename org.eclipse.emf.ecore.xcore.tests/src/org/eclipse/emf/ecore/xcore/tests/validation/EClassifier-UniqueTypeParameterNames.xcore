@@ -1,0 +1,10 @@
+package foo
+
+/* XPECT validationIssues ---
+error at ' class A <T, T> {
+}' message 'There may not be two type parameters named 'T''
+--- */
+
+class A<T, T>
+{
+} 

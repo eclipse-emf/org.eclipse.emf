@@ -1,0 +1,11 @@
+package foo
+
+/* XPECT validationIssues ---
+error at ' [*]' message 'A container reference must have upper bound of 1 not -1'
+--- */
+
+class A
+{
+	contains A x opposite y
+	container A [*] y opposite x
+} 

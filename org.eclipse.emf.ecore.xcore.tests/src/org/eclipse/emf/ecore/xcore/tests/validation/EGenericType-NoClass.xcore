@@ -1,0 +1,10 @@
+package foo
+
+/* XPECT validationIssues ---
+error at 'T' message 'A generic super type must refer to a class'
+error at 'String' message 'A generic super type must refer to a class'
+--- */
+
+class A<T> extends T, String
+{
+} 
