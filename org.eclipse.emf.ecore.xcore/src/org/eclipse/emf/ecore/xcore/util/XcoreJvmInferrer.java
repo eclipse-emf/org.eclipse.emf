@@ -215,12 +215,16 @@ public class XcoreJvmInferrer
   	}
   	for (EGenericType eGenericException : genOperation.getEcoreOperation().getEGenericExceptions())
   	{
+  		// TODO this might not handle type substitution; not sure if that matters for exceptions.
   		jvmOperation.getExceptions().add(getJvmTypeReference(eGenericException, genOperation));
   	}
-  	EGenericType eGenericType = genOperation.getEcoreOperation().getEGenericType();
-  	if (eGenericType != null)
+  	if (genOperation.isVoid())
   	{
-  		jvmOperation.setReturnType(getJvmTypeReference(eGenericType, genOperation));
+  	  jvmOperation.setReturnType(typeReferences.getTypeForName("void", genOperation));
+  	}
+  	else
+  	{
+  		jvmOperation.setReturnType(getJvmTypeReference(genOperation.getType(genOperation.getGenClass()), genOperation));
   	}
     EList<GenTypeParameter> genTypeParameters = genOperation.getGenTypeParameters();
     if (!genTypeParameters.isEmpty())
@@ -245,7 +249,8 @@ public class XcoreJvmInferrer
   	//TODO
 //  	map(jvmFormalParameter, genParameter);
   	jvmFormalParameter.setName(genParameter.getName());
-  	jvmFormalParameter.setParameterType(getJvmTypeReference(genParameter.getEcoreParameter().getEGenericType(), genParameter));
+  	// jvmFormalParameter.setParameterType(getJvmTypeReference(genParameter.getEcoreParameter().getEGenericType(), genParameter));
+  	jvmFormalParameter.setParameterType(getJvmTypeReference(genParameter.getType(genParameter.getGenOperation().getGenClass()), genParameter));
   	return jvmFormalParameter;
   }
   
