@@ -1,0 +1,22 @@
+package foo
+
+/* XPECT validationIssues ---
+error at 'contains A a oppos it e b' message 'A containment reference of a type with a container feature foo.A.c that requires instances to be contained elsewhere cannot be populated'
+error at 'contains A a opposite c' message 'A containment reference of a type with a container feature foo.A.b that requires instances to be contained elsewhere cannot be populated'
+--- */
+
+class A
+{
+  container B [1] b opposite a
+  container C [1] c opposite a
+} 
+
+class B
+{
+  contains A a opposite b
+}
+
+class C
+{
+  contains A a opposite c
+}

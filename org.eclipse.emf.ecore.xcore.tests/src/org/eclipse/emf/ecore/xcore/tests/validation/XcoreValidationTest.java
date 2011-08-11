@@ -26,12 +26,17 @@ import org.eclipse.xtext.resource.XtextResource;
  * {@link EcoreValidator#CONSISTENT_KEYS},
  * {@link EcoreValidator#CONSISTENT_OPPOSITE_NOT_FROM_TYPE},
  * {@link EcoreValidator#CONSISTENT_TYPE_TYPE_PARAMETER_NOT_IN_SCOPE},
+ * {@link EcoreValidator#WELL_FORMED_NAME},
  * or we don't set the flags yet, i.e., 
  * {@link EcoreValidator#CONSISTENT_TRANSIENT},
  * or we can't get into that state, i.e.,
  * {@link EcoreValidator#VALID_DEFAULT_VALUE_LITERAL},
+ * {@link EcoreValidator#CONSISTENT_UNIQUE},
+ * or are TODO items
+ * {@link EcoreValidator#WELL_FORMED_NS_PREFIX},
+ * {@link EcoreValidator#WELL_FORMED_NS_URI},
+ * {@link EcoreValidator#WELL_FORMED_SOURCE_URI},
  * 
- * TODO All things from WELL_FORMED_MAP_ENTRY_CLASS
  */
 @InjectWith(XcoreInjectorProvider.class)
 @ResourceURIs(baseDir = "src/org/eclipse/emf/ecore/xcore/tests/validation", fileExtensions = "xcore")

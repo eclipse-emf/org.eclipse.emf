@@ -1,0 +1,12 @@
+package foo
+
+/* XPECT validationIssues ---
+error at 'x='x'' message 'The feature 'details' has a map entry at index 1 with a key that collides with that of the map entry at index 0'
+--- */
+
+annotation "Foo" as Foo
+
+@Foo(x='x', x='x')
+class A
+{
+} 
