@@ -44,7 +44,7 @@ public class XcoreGenerator implements IGenerator {
       final XPackage pack = ((XPackage) _head);
       Iterable<EObject> _allContentsIterable = EObjectExtensions.allContentsIterable(pack);
       Iterable<XOperation> _filter = IterableExtensions.<XOperation>filter(_allContentsIterable, org.eclipse.emf.ecore.xcore.XOperation.class);
-      for (final XOperation op : _filter) {
+      for (XOperation op : _filter) {
         {
           XOperationMapping _mapping = this.mappings.getMapping(op);
           EOperation _eOperation = _mapping.getEOperation();

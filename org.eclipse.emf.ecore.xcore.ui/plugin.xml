@@ -209,7 +209,7 @@
    <!-- MANUAL ADDITIONS -->
    
    
-      <extension point="org.eclipse.ui.popupMenus">
+   <extension point="org.eclipse.ui.popupMenus">
       <objectContribution
             objectClass="org.eclipse.core.resources.IFile"
             nameFilter="*.xcore"
@@ -223,7 +223,7 @@
    </extension>
 
    
-      <extension point="org.eclipse.ui.popupMenus">
+   <extension point="org.eclipse.ui.popupMenus">
       <objectContribution
             objectClass="org.eclipse.core.resources.IFile"
             nameFilter="*.ecore"
@@ -236,7 +236,7 @@
       </objectContribution>
    </extension>
    
-         <extension point="org.eclipse.ui.popupMenus">
+   <extension point="org.eclipse.ui.popupMenus">
       <objectContribution
             objectClass="org.eclipse.core.resources.IFile"
             nameFilter="*.genmodel"
@@ -248,4 +248,49 @@
                  id="org.eclipse.emf.ecore.xcore.ui.ConvertGenModelToXcoreActionID"/>
       </objectContribution>
    </extension>
+   
+    <extension
+        point="org.eclipse.ui.handlers">
+        <handler
+            class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.emf.ecore.xcore.ui.CreateDynamicInstanceHandler"
+            commandId="org.eclipse.emf.ecore.xcore.ui.CreateDynamicInstance">
+            <activeWhen>
+                <reference
+                    definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+    </extension>
+    
+    <extension
+         point="org.eclipse.ui.commands">
+      <command
+            description="Create a dynamic instance of the selected class"
+            id="org.eclipse.emf.ecore.xcore.ui.CreateDynamicInstance"
+            name="Create Dynamic Instance...">
+      </command>
+    </extension>
+    
+    <extension point="org.eclipse.ui.menus">
+        <menuContribution
+            locationURI="popup:#TextEditorContext?after=group.edit">
+             <command
+                 commandId="org.eclipse.emf.ecore.xcore.ui.CreateDynamicInstance"
+                 style="push"
+                 tooltip="Create a dynamic instance">
+            <visibleWhen checkEnabled="false">
+                <reference
+                    definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
+                </reference>
+            </visibleWhen>
+         </command>  
+         </menuContribution>
+    </extension>
+    
+    <extension point="org.eclipse.ui.views">
+        <view id="org.eclipse.emf.ecore.xcore.ui.EOperationInvocationView"
+             name="Operation Invocation View"
+          class="org.eclipse.emf.ecore.xcore.ui.EOperationInvocationView"
+          icon="icons\view.gif"/>
+    </extension>
 </plugin>
