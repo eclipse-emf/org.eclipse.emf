@@ -1,9 +1,7 @@
 package foo
 
 /* XPECT validationIssues ---
-error at ' class D extends B, C
-{
-}' message 'The generic super types instantiate 'foo.A' inconsistently'
+error at 'class D extends B, C { }' message 'The generic super types instantiate 'foo.A' inconsistently'
 --- */
 
 class A<T>

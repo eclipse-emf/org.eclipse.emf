@@ -1,9 +1,7 @@
 package foo
 
 /* XPECT validationIssues ---
-error at 'class C extends A, B
-{
-}' message 'The features 'id1' and 'id2' cannot both be IDs'
+error at 'class C extends A, B { }' message 'The features 'id1' and 'id2' cannot both be IDs'
 --- */
 
 class A

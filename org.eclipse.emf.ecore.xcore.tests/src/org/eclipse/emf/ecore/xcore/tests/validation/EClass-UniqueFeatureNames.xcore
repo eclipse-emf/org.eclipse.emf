@@ -1,9 +1,7 @@
 package foo
 
 /* XPECT validationIssues ---
-error at ' class C extends A, B
-{
-}' message 'There may not be two features named 'a''
+error at 'class C extends A, B { }' message 'There may not be two features named 'a''
 --- */
 
 class A

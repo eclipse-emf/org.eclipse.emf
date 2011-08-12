@@ -1,9 +1,7 @@
 package foo
 
 /* XPECT validationIssues ---
-error at 'class A
-{
-}' message 'There may not be two classifiers named 'A''
+error at 'class A { }' message 'There may not be two classifiers named 'A''
 --- */
 
 class A

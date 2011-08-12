@@ -9,8 +9,8 @@ import org.eclipse.emf.ecore.xcore.tests.GenModelFormatter;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.parameterized.AbstractParameterizedXtextTest;
 import org.eclipse.xtext.junit4.parameterized.ResourceURIs;
+import org.eclipse.xtext.junit4.parameterized.TestAsString;
 import org.eclipse.xtext.resource.XtextResource;
-import org.junit.Test;
 
 import com.google.inject.Inject;
 
@@ -27,7 +27,7 @@ public class XcoreGenModelTest extends AbstractParameterizedXtextTest
 	@Inject
 	private XcoreMapper mapper;
 
-	@Test
+	@TestAsString
 	public String genBase()
 	{
 		EcoreUtil.resolveAll(resource);

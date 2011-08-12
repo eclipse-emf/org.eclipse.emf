@@ -1,11 +1,7 @@
 package foo
 
 /* XPECT validationIssues ---
-error at ' class A
-{
-  op String a()
-  op String a()
-}' message 'There may not be two operations 'foo.A.a' and 'foo.A.a' with the same signature'
+error at 'class A { op String a() op String a() }' message 'There may not be two operations 'foo.A.a' and 'foo.A.a' with the same signature'
 --- */
 
 class A
