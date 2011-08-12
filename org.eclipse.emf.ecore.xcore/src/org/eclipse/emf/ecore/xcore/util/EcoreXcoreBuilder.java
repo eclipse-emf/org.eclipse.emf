@@ -83,7 +83,7 @@ public class EcoreXcoreBuilder
 			nsPrefix = null;
 		}
     String basePackage = genModel.findGenPackage(ePackage).getBasePackage();
-    if (basePackage != null && !basePackage.isEmpty())
+    if (basePackage != null && basePackage.length() > 0)
     {
     	name = basePackage + "." + name;
     }
