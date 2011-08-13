@@ -14,6 +14,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
+import org.eclipse.emf.ecore.EDataType
+import org.eclipse.emf.common.util.URI
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(XcoreInjectorProvider))
@@ -87,5 +89,40 @@ class XcoreInterpreterTest {
 		val foo = ePackage.EFactoryInstance.create(fooClass)
 		foo.eInvoke(fooClass.EOperations.head, new BasicEList(newArrayList("Bar")));
 		assertEquals("Bar", foo.eInvoke(fooClass.EOperations.get(1), null));
+	}
+	
+	@Test
+	def void testConversionDelegates() {
+		val pack = parse.parse('''
+			package foo.bar 
+			
+			type URI wraps org.eclipse.emf.common.util.URI 
+			create { if (this == null) null else org::eclipse::emf::common::util::URI::createURI(this) } 
+			convert { this?.toString  }
+		''')
+		validator.assertNoErrors(pack)
+		val ePackage = pack.eResource.contents.get(2) as EPackage
+		val uriDataType = ePackage.getEClassifier("URI") as EDataType
+		val literal = "http://www.eclipse.org"
+		val uri = ePackage.EFactoryInstance.createFromString(uriDataType, literal) as URI;
+		assertEquals(literal, ePackage.EFactoryInstance.convertToString(uriDataType, uri));
+	}
+
+	@Test
+	def void testSettingDelegates() {
+		val pack = parse.parse('''
+			package foo.bar
+			class Foo
+			{
+				String name
+				String alias get { name}
+			}
+		''')
+		validator.assertNoErrors(pack)
+		val ePackage = pack.eResource.contents.get(2) as EPackage
+		val fooClass = ePackage.getEClassifier("Foo") as EClass
+		val foo = ePackage.EFactoryInstance.create(fooClass)
+		foo.eSet(fooClass.getEStructuralFeature("name"), "Sven");
+		assertEquals("Sven", foo.eGet(fooClass.getEStructuralFeature("alias")));
 	}
 }

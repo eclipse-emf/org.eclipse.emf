@@ -33,6 +33,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XPackage;
@@ -101,9 +102,10 @@ public class ConvertToEcoreActionDelegate extends ActionDelegate
     final Resource inputResource = inputXPackage.eResource();
 
     URI ecoreOutputResourceURI = inputResource.getURI().trimFileExtension().appendFileExtension("ecore");
-    final Resource ecoreOutputResource = inputResource.getResourceSet().createResource(ecoreOutputResourceURI);
+    final ResourceSet resourceSet = inputResource.getResourceSet();
+    final Resource ecoreOutputResource = resourceSet.createResource(ecoreOutputResourceURI);
     URI genModelOutputResourceURI = inputResource.getURI().trimFileExtension().appendFileExtension("genmodel");
-    final Resource genModelOutputResource = inputResource.getResourceSet().createResource(genModelOutputResourceURI);
+    final Resource genModelOutputResource = resourceSet.createResource(genModelOutputResourceURI);
 
     ProgressMonitorDialog dialog = new ProgressMonitorDialog(workbenchWindow.getShell());
     try
@@ -119,6 +121,13 @@ public class ConvertToEcoreActionDelegate extends ActionDelegate
               progressMonitor.beginTask("", 1);
 
               // outputResource.getContents().add(new XcoreEcoreBuilder().getEPackage(inputXPackage));
+              Resource ecoreXcore = resourceSet.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.xcore"), false);
+              if (ecoreXcore != null)
+              {
+                Resource ecore = resourceSet.createResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"));
+                ecore.getContents().add(ecoreXcore.getContents().get(2));
+              }
+
               ecoreOutputResource.getContents().add((EPackage)EcoreUtil.getObjectByType(inputResource.getContents(), EcorePackage.Literals.EPACKAGE));
               genModelOutputResource.getContents().add((GenModel)EcoreUtil.getObjectByType(inputResource.getContents(), GenModelPackage.Literals.GEN_MODEL));
 

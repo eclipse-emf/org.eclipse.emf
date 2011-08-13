@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.xcore.XClass;
+import org.eclipse.emf.ecore.xcore.XDataType;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XReference;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
@@ -24,12 +25,14 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
 import org.eclipse.xtext.common.types.JvmFormalParameter;
 import org.eclipse.xtext.common.types.JvmOperation;
+import org.eclipse.xtext.common.types.util.TypeReferences;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractScope;
 import org.eclipse.xtext.scoping.impl.SimpleScope;
+import org.eclipse.xtext.xbase.XBlockExpression;
 import org.eclipse.xtext.xbase.scoping.LocalVariableScopeContext;
 import org.eclipse.xtext.xbase.scoping.XbaseScopeProvider;
 
@@ -46,24 +49,42 @@ import static com.google.common.collect.Lists.*;
  */
 public class XcoreScopeProvider extends XbaseScopeProvider
 {
-
 	@Inject
 	private XcoreMapper mapper;
 
+	@Inject
+	private TypeReferences typeReferences;
+
 	protected IScope createLocalVarScope(IScope parent, LocalVariableScopeContext scopeContext)
 	{
-		if (scopeContext.getContext() instanceof XClass)
+		EObject context = scopeContext.getContext();
+		if (context instanceof XBlockExpression)
 		{
-			JvmDeclaredType jvmType = mapper.getMapping((XClass) scopeContext.getContext()).getInterfaceType();
+			if (context.eContainer() instanceof XDataType)
+			{
+				if (context.eContainmentFeature() == XcorePackage.Literals.XDATA_TYPE__CREATE_BODY)
+				{
+				  return new SimpleScope(parent, Collections.singleton(EObjectDescription .create(XbaseScopeProvider.THIS, typeReferences.getTypeForName("java.lang.String", context).getType())));
+				}
+				else //  if (context.eContainmentFeature() == XcorePackage.Literals.XDATA_TYPE__CONVERT_BODY)
+				{
+				  return new SimpleScope(parent, Collections.singleton(EObjectDescription .create(XbaseScopeProvider.THIS, typeReferences.getTypeForName("java.lang.Object", context).getType())));
+				}
+			}
+		}
+		else if (context instanceof XClass)
+		{
+			JvmDeclaredType jvmType = mapper.getMapping((XClass) context).getInterfaceType();
 			if (jvmType != null)
 			{
 				return new SimpleScope(parent, Collections.singleton(EObjectDescription
 				    .create(XbaseScopeProvider.THIS, jvmType)));
 			}
-		} else if (scopeContext.getContext() instanceof XOperation)
+		} 
+		else if (context instanceof XOperation)
 		{
 			List<IEObjectDescription> list = newArrayList();
-			JvmOperation op = mapper.getMapping((XOperation) scopeContext.getContext()).getJvmOperation();
+			JvmOperation op = mapper.getMapping((XOperation) context).getJvmOperation();
 			if (op != null)
 			{
 				for (JvmFormalParameter param : op.getParameters())

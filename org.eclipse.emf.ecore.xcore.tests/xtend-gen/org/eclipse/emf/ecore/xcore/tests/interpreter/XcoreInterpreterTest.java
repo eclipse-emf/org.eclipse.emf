@@ -5,12 +5,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
@@ -184,6 +187,76 @@ public class XcoreInterpreterTest {
       EOperation _get_1 = _eOperations_1.get(1);
       Object _eInvoke = foo.eInvoke(_get_1, null);
       Assert.assertEquals("Bar", _eInvoke);
+    }
+  }
+  
+  @Test
+  public void testConversionDelegates() throws Exception {
+    {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo.bar ");
+      _builder.newLine();
+      _builder.newLine();
+      _builder.append("type URI wraps org.eclipse.emf.common.util.URI ");
+      _builder.newLine();
+      _builder.append("create { if (this == null) null else org::eclipse::emf::common::util::URI::createURI(this) } ");
+      _builder.newLine();
+      _builder.append("convert { this?.toString  }");
+      _builder.newLine();
+      XPackage _parse = this.parse.parse(_builder);
+      final XPackage pack = _parse;
+      this.validator.assertNoErrors(pack);
+      Resource _eResource = pack.eResource();
+      EList<EObject> _contents = _eResource.getContents();
+      EObject _get = _contents.get(2);
+      final EPackage ePackage = ((EPackage) _get);
+      EClassifier _eClassifier = ePackage.getEClassifier("URI");
+      final EDataType uriDataType = ((EDataType) _eClassifier);
+      final String literal = "http://www.eclipse.org";
+      EFactory _eFactoryInstance = ePackage.getEFactoryInstance();
+      Object _createFromString = _eFactoryInstance.createFromString(uriDataType, literal);
+      final URI uri = ((URI) _createFromString);
+      EFactory _eFactoryInstance_1 = ePackage.getEFactoryInstance();
+      String _convertToString = _eFactoryInstance_1.convertToString(uriDataType, uri);
+      Assert.assertEquals(literal, _convertToString);
+    }
+  }
+  
+  @Test
+  public void testSettingDelegates() throws Exception {
+    {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo.bar");
+      _builder.newLine();
+      _builder.append("class Foo");
+      _builder.newLine();
+      _builder.append("{");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("String name");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("String alias get { name}");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      XPackage _parse = this.parse.parse(_builder);
+      final XPackage pack = _parse;
+      this.validator.assertNoErrors(pack);
+      Resource _eResource = pack.eResource();
+      EList<EObject> _contents = _eResource.getContents();
+      EObject _get = _contents.get(2);
+      final EPackage ePackage = ((EPackage) _get);
+      EClassifier _eClassifier = ePackage.getEClassifier("Foo");
+      final EClass fooClass = ((EClass) _eClassifier);
+      EFactory _eFactoryInstance = ePackage.getEFactoryInstance();
+      EObject _create = _eFactoryInstance.create(fooClass);
+      final EObject foo = _create;
+      EStructuralFeature _eStructuralFeature = fooClass.getEStructuralFeature("name");
+      foo.eSet(_eStructuralFeature, "Sven");
+      EStructuralFeature _eStructuralFeature_1 = fooClass.getEStructuralFeature("alias");
+      Object _eGet = foo.eGet(_eStructuralFeature_1);
+      Assert.assertEquals("Sven", _eGet);
     }
   }
 }

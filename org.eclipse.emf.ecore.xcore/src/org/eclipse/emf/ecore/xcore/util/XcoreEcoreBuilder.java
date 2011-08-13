@@ -46,7 +46,9 @@ import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XTypedElement;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.emf.ecore.xcore.interpreter.XcoreConversionDelegate;
 import org.eclipse.emf.ecore.xcore.interpreter.XcoreInvocationDelegate;
+import org.eclipse.emf.ecore.xcore.interpreter.XcoreSettingDelegate;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.xbase.XBlockExpression;
 
@@ -59,7 +61,13 @@ public class XcoreEcoreBuilder
 	private XcoreMapper mapper;
 	
 	@Inject
-	private Provider<XcoreInvocationDelegate> delegateProvider;
+	private Provider<XcoreInvocationDelegate> operationDelegateProvider;
+	
+	@Inject
+	private Provider<XcoreSettingDelegate> settingDelegateProvider;
+
+	@Inject
+	private Provider<XcoreConversionDelegate> conversionDelegateProvider;
 	
   List<Runnable> runnables = new ArrayList<Runnable>();
   
@@ -235,7 +243,7 @@ public class XcoreEcoreBuilder
     XBlockExpression body = xOperation.getBody();
     if (body != null)
     {
-    	final XcoreInvocationDelegate invocationDelegate = delegateProvider.get();
+    	final XcoreInvocationDelegate invocationDelegate = operationDelegateProvider.get();
     	invocationDelegate.initialize(body, eOperation);
 			((EOperation.Internal)eOperation).setInvocationDelegate(invocationDelegate);
 			
@@ -457,6 +465,17 @@ public class XcoreEcoreBuilder
     {
       eStructuralFeature.setDerived(true);
     }
+
+    XBlockExpression getBody = xStructuralFeature.getGetBody();
+    XBlockExpression setBody = xStructuralFeature.getSetBody();
+    XBlockExpression isSetBody = xStructuralFeature.getIsSetBody();
+    XBlockExpression unsetBody = xStructuralFeature.getUnsetBody();
+    if (getBody != null || setBody != null || isSetBody != null || unsetBody != null)
+    {
+    	XcoreSettingDelegate settingDelegate = settingDelegateProvider.get();
+    	settingDelegate.initialize(getBody, setBody, isSetBody, unsetBody, eStructuralFeature);
+    	((EStructuralFeature.Internal)eStructuralFeature).setSettingDelegate(settingDelegate);
+    }
   }
 
   EDataType getEDataType(XDataType xDataType)
@@ -464,6 +483,9 @@ public class XcoreEcoreBuilder
     EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
     mapper.getMapping(xDataType).setEDataType(eDataType);
     mapper.getToXcoreMapping(eDataType).setXcoreElement(xDataType);
+   	XcoreConversionDelegate conversionDelegate = conversionDelegateProvider.get();
+   	conversionDelegate.initialize(xDataType.getCreateBody(), xDataType.getConvertBody(), eDataType);
+    ((EDataType.Internal)eDataType).setConversionDelegate(conversionDelegate);
     return eDataType;
   }
 
