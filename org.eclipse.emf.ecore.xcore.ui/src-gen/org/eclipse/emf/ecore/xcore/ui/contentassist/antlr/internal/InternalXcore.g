@@ -4507,9 +4507,9 @@ rule__XDataType__Group__5__Impl
     }
 :
 (
-{ before(grammarAccess.getXDataTypeAccess().getInstanceTypeNameAssignment_5()); }
-(rule__XDataType__InstanceTypeNameAssignment_5)
-{ after(grammarAccess.getXDataTypeAccess().getInstanceTypeNameAssignment_5()); }
+{ before(grammarAccess.getXDataTypeAccess().getInstanceTypeAssignment_5()); }
+(rule__XDataType__InstanceTypeAssignment_5)
+{ after(grammarAccess.getXDataTypeAccess().getInstanceTypeAssignment_5()); }
 )
 
 ;
@@ -6211,9 +6211,9 @@ rule__XClass__Group_6__1__Impl
     }
 :
 (
-{ before(grammarAccess.getXClassAccess().getInstanceTypeNameAssignment_6_1()); }
-(rule__XClass__InstanceTypeNameAssignment_6_1)
-{ after(grammarAccess.getXClassAccess().getInstanceTypeNameAssignment_6_1()); }
+{ before(grammarAccess.getXClassAccess().getInstanceTypeAssignment_6_1()); }
+(rule__XClass__InstanceTypeAssignment_6_1)
+{ after(grammarAccess.getXClassAccess().getInstanceTypeAssignment_6_1()); }
 )
 
 ;
@@ -20508,14 +20508,14 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__XDataType__InstanceTypeNameAssignment_5
+rule__XDataType__InstanceTypeAssignment_5
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getXDataTypeAccess().getInstanceTypeNameQualifiedNameParserRuleCall_5_0()); }
-	ruleQualifiedName{ after(grammarAccess.getXDataTypeAccess().getInstanceTypeNameQualifiedNameParserRuleCall_5_0()); }
+{ before(grammarAccess.getXDataTypeAccess().getInstanceTypeJvmTypeReferenceParserRuleCall_5_0()); }
+	ruleJvmTypeReference{ after(grammarAccess.getXDataTypeAccess().getInstanceTypeJvmTypeReferenceParserRuleCall_5_0()); }
 )
 
 ;
@@ -20832,14 +20832,14 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__XClass__InstanceTypeNameAssignment_6_1
+rule__XClass__InstanceTypeAssignment_6_1
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getXClassAccess().getInstanceTypeNameQualifiedNameParserRuleCall_6_1_0()); }
-	ruleQualifiedName{ after(grammarAccess.getXClassAccess().getInstanceTypeNameQualifiedNameParserRuleCall_6_1_0()); }
+{ before(grammarAccess.getXClassAccess().getInstanceTypeJvmTypeReferenceParserRuleCall_6_1_0()); }
+	ruleJvmTypeReference{ after(grammarAccess.getXClassAccess().getInstanceTypeJvmTypeReferenceParserRuleCall_6_1_0()); }
 )
 
 ;

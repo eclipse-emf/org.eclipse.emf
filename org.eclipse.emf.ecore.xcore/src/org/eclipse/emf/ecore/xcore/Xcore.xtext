@@ -3,6 +3,8 @@ grammar org.eclipse.emf.ecore.xcore.Xcore
 
 import "http://www.eclipse.org/emf/2002/GenModel" as genmodel
 import "http://www.eclipse.org/xtext/xbase/Xbase" as xbase
+import "http://www.eclipse.org/xtext/common/JavaVMTypes" as javaVMTypes
+import "http://www.eclipse.org/xtext/xbase/Xtype" as xtype
 import "http://www.eclipse.org/emf/2011/Xcore"
 
 XPackage returns XPackage:
@@ -47,7 +49,7 @@ XDataType:
 	(annotations+=XAnnotation)*
 	'type' name = ID 
 	('<' typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')?
-	'wraps' instanceTypeName=QualifiedName
+	'wraps' instanceType=JvmTypeReference
 	(
 	  /*
 	   * In scope for create should be what's visible in XyzFactoryImpl and 'this' will denote the literal value.
@@ -84,7 +86,7 @@ XClass:
 	((abstract?='abstract'? 'class') | interface?= 'interface') name = ID
 	('<' typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')?
 	('extends' superTypes+=XGenericType (',' superTypes+=XGenericType)*)?
-	('wraps' instanceTypeName=QualifiedName)?
+	('wraps' instanceType=JvmTypeReference) ?
 	'{'
 	   (members+=XMember)*
 	'}'

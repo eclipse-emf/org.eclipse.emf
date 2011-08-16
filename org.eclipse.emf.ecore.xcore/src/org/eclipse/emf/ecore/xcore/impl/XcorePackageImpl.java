@@ -42,6 +42,7 @@ import org.eclipse.emf.ecore.xcore.XTypedElement;
 import org.eclipse.emf.ecore.xcore.XcoreFactory;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 
+import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.xbase.XbasePackage;
 
 /**
@@ -428,9 +429,9 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getXClassifier_InstanceTypeName()
+  public EReference getXClassifier_InstanceType()
   {
-    return (EAttribute)xClassifierEClass.getEStructuralFeatures().get(0);
+    return (EReference)xClassifierEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1122,7 +1123,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     createEReference(xClassEClass, XCLASS__SUPER_TYPES);
 
     xClassifierEClass = createEClass(XCLASSIFIER);
-    createEAttribute(xClassifierEClass, XCLASSIFIER__INSTANCE_TYPE_NAME);
+    createEReference(xClassifierEClass, XCLASSIFIER__INSTANCE_TYPE);
     createEReference(xClassifierEClass, XCLASSIFIER__PACKAGE);
     createEReference(xClassifierEClass, XCLASSIFIER__TYPE_PARAMETERS);
 
@@ -1233,6 +1234,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
 
     // Obtain other dependent packages
     EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+    TypesPackage theTypesPackage = (TypesPackage)EPackage.Registry.INSTANCE.getEPackage(TypesPackage.eNS_URI);
     XbasePackage theXbasePackage = (XbasePackage)EPackage.Registry.INSTANCE.getEPackage(XbasePackage.eNS_URI);
     GenModelPackage theGenModelPackage = (GenModelPackage)EPackage.Registry.INSTANCE.getEPackage(GenModelPackage.eNS_URI);
 
@@ -1280,7 +1282,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     initEReference(getXClass_SuperTypes(), this.getXGenericType(), null, "superTypes", null, 0, -1, XClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xClassifierEClass, XClassifier.class, "XClassifier", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getXClassifier_InstanceTypeName(), theEcorePackage.getEString(), "instanceTypeName", null, 0, 1, XClassifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXClassifier_InstanceType(), theTypesPackage.getJvmTypeReference(), null, "instanceType", null, 0, 1, XClassifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXClassifier_Package(), this.getXPackage(), this.getXPackage_Classifiers(), "package", null, 0, 1, XClassifier.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXClassifier_TypeParameters(), this.getXTypeParameter(), null, "typeParameters", null, 0, -1, XClassifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

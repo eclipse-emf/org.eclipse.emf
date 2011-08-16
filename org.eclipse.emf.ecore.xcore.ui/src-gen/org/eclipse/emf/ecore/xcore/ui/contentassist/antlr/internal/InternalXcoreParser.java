@@ -14562,26 +14562,26 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__XDataType__Group__5__Impl"
-    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:4504:1: rule__XDataType__Group__5__Impl : ( ( rule__XDataType__InstanceTypeNameAssignment_5 ) ) ;
+    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:4504:1: rule__XDataType__Group__5__Impl : ( ( rule__XDataType__InstanceTypeAssignment_5 ) ) ;
     public final void rule__XDataType__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:4508:1: ( ( ( rule__XDataType__InstanceTypeNameAssignment_5 ) ) )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:4509:1: ( ( rule__XDataType__InstanceTypeNameAssignment_5 ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:4508:1: ( ( ( rule__XDataType__InstanceTypeAssignment_5 ) ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:4509:1: ( ( rule__XDataType__InstanceTypeAssignment_5 ) )
             {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:4509:1: ( ( rule__XDataType__InstanceTypeNameAssignment_5 ) )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:4510:1: ( rule__XDataType__InstanceTypeNameAssignment_5 )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:4509:1: ( ( rule__XDataType__InstanceTypeAssignment_5 ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:4510:1: ( rule__XDataType__InstanceTypeAssignment_5 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getXDataTypeAccess().getInstanceTypeNameAssignment_5()); 
+               before(grammarAccess.getXDataTypeAccess().getInstanceTypeAssignment_5()); 
             }
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:4511:1: ( rule__XDataType__InstanceTypeNameAssignment_5 )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:4511:2: rule__XDataType__InstanceTypeNameAssignment_5
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:4511:1: ( rule__XDataType__InstanceTypeAssignment_5 )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:4511:2: rule__XDataType__InstanceTypeAssignment_5
             {
-            pushFollow(FollowSets000.FOLLOW_rule__XDataType__InstanceTypeNameAssignment_5_in_rule__XDataType__Group__5__Impl9623);
-            rule__XDataType__InstanceTypeNameAssignment_5();
+            pushFollow(FollowSets000.FOLLOW_rule__XDataType__InstanceTypeAssignment_5_in_rule__XDataType__Group__5__Impl9623);
+            rule__XDataType__InstanceTypeAssignment_5();
 
             state._fsp--;
             if (state.failed) return ;
@@ -14589,7 +14589,7 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getXDataTypeAccess().getInstanceTypeNameAssignment_5()); 
+               after(grammarAccess.getXDataTypeAccess().getInstanceTypeAssignment_5()); 
             }
 
             }
@@ -19316,26 +19316,26 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__XClass__Group_6__1__Impl"
-    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:6208:1: rule__XClass__Group_6__1__Impl : ( ( rule__XClass__InstanceTypeNameAssignment_6_1 ) ) ;
+    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:6208:1: rule__XClass__Group_6__1__Impl : ( ( rule__XClass__InstanceTypeAssignment_6_1 ) ) ;
     public final void rule__XClass__Group_6__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:6212:1: ( ( ( rule__XClass__InstanceTypeNameAssignment_6_1 ) ) )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:6213:1: ( ( rule__XClass__InstanceTypeNameAssignment_6_1 ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:6212:1: ( ( ( rule__XClass__InstanceTypeAssignment_6_1 ) ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:6213:1: ( ( rule__XClass__InstanceTypeAssignment_6_1 ) )
             {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:6213:1: ( ( rule__XClass__InstanceTypeNameAssignment_6_1 ) )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:6214:1: ( rule__XClass__InstanceTypeNameAssignment_6_1 )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:6213:1: ( ( rule__XClass__InstanceTypeAssignment_6_1 ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:6214:1: ( rule__XClass__InstanceTypeAssignment_6_1 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getXClassAccess().getInstanceTypeNameAssignment_6_1()); 
+               before(grammarAccess.getXClassAccess().getInstanceTypeAssignment_6_1()); 
             }
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:6215:1: ( rule__XClass__InstanceTypeNameAssignment_6_1 )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:6215:2: rule__XClass__InstanceTypeNameAssignment_6_1
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:6215:1: ( rule__XClass__InstanceTypeAssignment_6_1 )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:6215:2: rule__XClass__InstanceTypeAssignment_6_1
             {
-            pushFollow(FollowSets000.FOLLOW_rule__XClass__InstanceTypeNameAssignment_6_1_in_rule__XClass__Group_6__1__Impl12982);
-            rule__XClass__InstanceTypeNameAssignment_6_1();
+            pushFollow(FollowSets000.FOLLOW_rule__XClass__InstanceTypeAssignment_6_1_in_rule__XClass__Group_6__1__Impl12982);
+            rule__XClass__InstanceTypeAssignment_6_1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -19343,7 +19343,7 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getXClassAccess().getInstanceTypeNameAssignment_6_1()); 
+               after(grammarAccess.getXClassAccess().getInstanceTypeAssignment_6_1()); 
             }
 
             }
@@ -59658,29 +59658,29 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__XDataType__TypeParametersAssignment_3_2_1"
 
 
-    // $ANTLR start "rule__XDataType__InstanceTypeNameAssignment_5"
-    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20511:1: rule__XDataType__InstanceTypeNameAssignment_5 : ( ruleQualifiedName ) ;
-    public final void rule__XDataType__InstanceTypeNameAssignment_5() throws RecognitionException {
+    // $ANTLR start "rule__XDataType__InstanceTypeAssignment_5"
+    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20511:1: rule__XDataType__InstanceTypeAssignment_5 : ( ruleJvmTypeReference ) ;
+    public final void rule__XDataType__InstanceTypeAssignment_5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20515:1: ( ( ruleQualifiedName ) )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20516:1: ( ruleQualifiedName )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20515:1: ( ( ruleJvmTypeReference ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20516:1: ( ruleJvmTypeReference )
             {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20516:1: ( ruleQualifiedName )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20517:1: ruleQualifiedName
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20516:1: ( ruleJvmTypeReference )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20517:1: ruleJvmTypeReference
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getXDataTypeAccess().getInstanceTypeNameQualifiedNameParserRuleCall_5_0()); 
+               before(grammarAccess.getXDataTypeAccess().getInstanceTypeJvmTypeReferenceParserRuleCall_5_0()); 
             }
-            pushFollow(FollowSets001.FOLLOW_ruleQualifiedName_in_rule__XDataType__InstanceTypeNameAssignment_542754);
-            ruleQualifiedName();
+            pushFollow(FollowSets001.FOLLOW_ruleJvmTypeReference_in_rule__XDataType__InstanceTypeAssignment_542754);
+            ruleJvmTypeReference();
 
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getXDataTypeAccess().getInstanceTypeNameQualifiedNameParserRuleCall_5_0()); 
+               after(grammarAccess.getXDataTypeAccess().getInstanceTypeJvmTypeReferenceParserRuleCall_5_0()); 
             }
 
             }
@@ -59700,7 +59700,7 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__XDataType__InstanceTypeNameAssignment_5"
+    // $ANTLR end "rule__XDataType__InstanceTypeAssignment_5"
 
 
     // $ANTLR start "rule__XDataType__SerializableAssignment_6_0_0"
@@ -60562,29 +60562,29 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__XClass__SuperTypesAssignment_5_2_1"
 
 
-    // $ANTLR start "rule__XClass__InstanceTypeNameAssignment_6_1"
-    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20835:1: rule__XClass__InstanceTypeNameAssignment_6_1 : ( ruleQualifiedName ) ;
-    public final void rule__XClass__InstanceTypeNameAssignment_6_1() throws RecognitionException {
+    // $ANTLR start "rule__XClass__InstanceTypeAssignment_6_1"
+    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20835:1: rule__XClass__InstanceTypeAssignment_6_1 : ( ruleJvmTypeReference ) ;
+    public final void rule__XClass__InstanceTypeAssignment_6_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20839:1: ( ( ruleQualifiedName ) )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20840:1: ( ruleQualifiedName )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20839:1: ( ( ruleJvmTypeReference ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20840:1: ( ruleJvmTypeReference )
             {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20840:1: ( ruleQualifiedName )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20841:1: ruleQualifiedName
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20840:1: ( ruleJvmTypeReference )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:20841:1: ruleJvmTypeReference
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getXClassAccess().getInstanceTypeNameQualifiedNameParserRuleCall_6_1_0()); 
+               before(grammarAccess.getXClassAccess().getInstanceTypeJvmTypeReferenceParserRuleCall_6_1_0()); 
             }
-            pushFollow(FollowSets001.FOLLOW_ruleQualifiedName_in_rule__XClass__InstanceTypeNameAssignment_6_143413);
-            ruleQualifiedName();
+            pushFollow(FollowSets001.FOLLOW_ruleJvmTypeReference_in_rule__XClass__InstanceTypeAssignment_6_143413);
+            ruleJvmTypeReference();
 
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getXClassAccess().getInstanceTypeNameQualifiedNameParserRuleCall_6_1_0()); 
+               after(grammarAccess.getXClassAccess().getInstanceTypeJvmTypeReferenceParserRuleCall_6_1_0()); 
             }
 
             }
@@ -60604,7 +60604,7 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__XClass__InstanceTypeNameAssignment_6_1"
+    // $ANTLR end "rule__XClass__InstanceTypeAssignment_6_1"
 
 
     // $ANTLR start "rule__XClass__MembersAssignment_8"
@@ -71843,8 +71843,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA4_specialS =
         "\54\uffff}>";
     static final String[] DFA4_transitionS = {
-            "\1\4\11\uffff\1\4\3\uffff\4\4\22\uffff\1\1\22\uffff\1\2\32\uffff"+
-            "\1\3\3\uffff\10\4\4\3",
+            "\1\4\11\uffff\1\4\3\uffff\4\4\22\uffff\1\1\22\uffff\1\2\32"+
+            "\uffff\1\3\3\uffff\10\4\4\3",
             "\1\5\11\uffff\1\12\3\uffff\1\6\1\7\1\10\1\11",
             "",
             "",
@@ -72013,10 +72013,10 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA28_specialS =
         "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\30\uffff}>";
     static final String[] DFA28_transitionS = {
-            "\1\12\1\1\1\12\10\uffff\1\6\2\uffff\1\12\1\2\1\3\1\4\1\5\5\uffff"+
-            "\1\12\2\uffff\1\12\3\uffff\1\12\2\uffff\2\12\2\uffff\1\7\12"+
-            "\uffff\1\12\11\uffff\1\12\3\uffff\1\10\1\12\1\uffff\1\12\3\uffff"+
-            "\3\12\1\uffff\6\12\2\uffff\1\10\23\uffff\1\12",
+            "\1\12\1\1\1\12\10\uffff\1\6\2\uffff\1\12\1\2\1\3\1\4\1\5\5"+
+            "\uffff\1\12\2\uffff\1\12\3\uffff\1\12\2\uffff\2\12\2\uffff\1"+
+            "\7\12\uffff\1\12\11\uffff\1\12\3\uffff\1\10\1\12\1\uffff\1\12"+
+            "\3\uffff\3\12\1\uffff\6\12\2\uffff\1\10\23\uffff\1\12",
             "\1\uffff",
             "\1\uffff",
             "\1\uffff",
@@ -72372,10 +72372,10 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA34_specialS =
         "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\30\uffff}>";
     static final String[] DFA34_transitionS = {
-            "\1\12\1\1\1\12\10\uffff\1\6\2\uffff\1\12\1\2\1\3\1\4\1\5\5\uffff"+
-            "\1\12\2\uffff\1\12\3\uffff\1\12\2\uffff\2\12\2\uffff\1\7\12"+
-            "\uffff\1\12\11\uffff\1\12\3\uffff\1\10\1\12\1\uffff\1\12\3\uffff"+
-            "\3\12\1\uffff\6\12\2\uffff\1\10\23\uffff\1\12",
+            "\1\12\1\1\1\12\10\uffff\1\6\2\uffff\1\12\1\2\1\3\1\4\1\5\5"+
+            "\uffff\1\12\2\uffff\1\12\3\uffff\1\12\2\uffff\2\12\2\uffff\1"+
+            "\7\12\uffff\1\12\11\uffff\1\12\3\uffff\1\10\1\12\1\uffff\1\12"+
+            "\3\uffff\3\12\1\uffff\6\12\2\uffff\1\10\23\uffff\1\12",
             "\1\uffff",
             "\1\uffff",
             "\1\uffff",
@@ -72571,10 +72571,10 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA36_specialS =
         "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\30\uffff}>";
     static final String[] DFA36_transitionS = {
-            "\1\12\1\1\1\12\10\uffff\1\6\2\uffff\1\12\1\2\1\3\1\4\1\5\5\uffff"+
-            "\1\12\2\uffff\1\12\3\uffff\1\12\2\uffff\2\12\2\uffff\1\7\12"+
-            "\uffff\1\12\11\uffff\1\12\3\uffff\1\10\1\12\1\uffff\1\12\3\uffff"+
-            "\3\12\1\uffff\6\12\2\uffff\1\10\23\uffff\1\12",
+            "\1\12\1\1\1\12\10\uffff\1\6\2\uffff\1\12\1\2\1\3\1\4\1\5\5"+
+            "\uffff\1\12\2\uffff\1\12\3\uffff\1\12\2\uffff\2\12\2\uffff\1"+
+            "\7\12\uffff\1\12\11\uffff\1\12\3\uffff\1\10\1\12\1\uffff\1\12"+
+            "\3\uffff\3\12\1\uffff\6\12\2\uffff\1\10\23\uffff\1\12",
             "\1\uffff",
             "\1\uffff",
             "\1\uffff",
@@ -73050,9 +73050,9 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA140_acceptS =
         "\36\uffff\1\2\41\uffff\1\1";
     static final String DFA140_specialS =
-        "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1\14"+
-        "\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24\1\25\1\26\1\27\1\30\1\31"+
-        "\1\32\1\33\1\34\43\uffff}>";
+        "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1"+
+        "\14\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24\1\25\1\26\1\27\1\30"+
+        "\1\31\1\32\1\33\1\34\43\uffff}>";
     static final String[] DFA140_transitionS = {
             "\1\22\1\1\1\24\5\uffff\3\36\1\6\1\uffff\1\36\1\11\1\2\1\3\1"+
             "\4\1\5\5\36\1\15\2\36\1\10\3\36\1\7\2\36\1\16\1\20\2\uffff\1"+
@@ -73617,8 +73617,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA143_specialS =
         "\3\uffff\1\2\1\5\1\0\1\1\1\4\1\3\1\uffff}>";
     static final String[] DFA143_transitionS = {
-            "\3\1\4\uffff\5\1\1\uffff\23\1\1\2\3\1\1\uffff\11\1\1\uffff\5"+
-            "\1\7\uffff\4\1\1\uffff\11\1\1\uffff\11\1\1\uffff\3\1\14\uffff"+
+            "\3\1\4\uffff\5\1\1\uffff\23\1\1\2\3\1\1\uffff\11\1\1\uffff"+
+            "\5\1\7\uffff\4\1\1\uffff\11\1\1\uffff\11\1\1\uffff\3\1\14\uffff"+
             "\4\1",
             "",
             "\1\3\11\uffff\1\10\3\uffff\1\4\1\5\1\6\1\7\5\uffff\1\1",
@@ -73766,22 +73766,30 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         }
     }
     static final String DFA146_eotS =
-        "\101\uffff";
+        "\111\uffff";
     static final String DFA146_eofS =
-        "\1\2\100\uffff";
+        "\1\2\110\uffff";
     static final String DFA146_minS =
-        "\1\4\1\0\77\uffff";
+        "\1\4\1\0\107\uffff";
     static final String DFA146_maxS =
-        "\1\152\1\0\77\uffff";
+        "\1\152\1\0\107\uffff";
     static final String DFA146_acceptS =
-        "\2\uffff\1\2\75\uffff\1\1";
+        "\2\uffff\1\2\105\uffff\1\1";
     static final String DFA146_specialS =
-        "\1\uffff\1\0\77\uffff}>";
+        "\1\uffff\1\0\107\uffff}>";
     static final String[] DFA146_transitionS = {
-            "\3\2\5\uffff\4\2\1\uffff\13\2\1\1\13\2\2\uffff\3\2\3\uffff\1"+
-            "\2\4\uffff\2\2\10\uffff\4\2\1\uffff\11\2\1\uffff\11\2\20\uffff"+
-            "\4\2",
+            "\3\2\5\uffff\4\2\1\uffff\13\2\1\1\13\2\1\uffff\4\2\3\uffff"+
+            "\2\2\1\uffff\5\2\7\uffff\4\2\1\uffff\11\2\1\uffff\11\2\1\uffff"+
+            "\3\2\14\uffff\4\2",
             "\1\uffff",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
             "",
             "",
             "",
@@ -73890,7 +73898,7 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
                         int index146_1 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred175_InternalXcore()) ) {s = 64;}
+                        if ( (synpred175_InternalXcore()) ) {s = 72;}
 
                         else if ( (true) ) {s = 2;}
 
@@ -73919,8 +73927,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA152_specialS =
         "\1\0\11\uffff}>";
     static final String[] DFA152_transitionS = {
-            "\1\11\11\uffff\1\11\3\uffff\4\11\104\uffff\1\1\1\2\1\3\1\4\1"+
-            "\5\1\6\1\7\1\10",
+            "\1\11\11\uffff\1\11\3\uffff\4\11\104\uffff\1\1\1\2\1\3\1\4"+
+            "\1\5\1\6\1\7\1\10",
             "",
             "",
             "",
@@ -74018,8 +74026,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA154_specialS =
         "\1\0\11\uffff}>";
     static final String[] DFA154_transitionS = {
-            "\1\11\11\uffff\1\11\3\uffff\4\11\104\uffff\1\1\1\2\1\3\1\4\1"+
-            "\5\1\6\1\7\1\10",
+            "\1\11\11\uffff\1\11\3\uffff\4\11\104\uffff\1\1\1\2\1\3\1\4"+
+            "\1\5\1\6\1\7\1\10",
             "",
             "",
             "",
@@ -74117,8 +74125,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA155_specialS =
         "\1\0\11\uffff}>";
     static final String[] DFA155_transitionS = {
-            "\1\11\11\uffff\1\11\3\uffff\4\11\104\uffff\1\1\1\2\1\3\1\4\1"+
-            "\5\1\6\1\7\1\10",
+            "\1\11\11\uffff\1\11\3\uffff\4\11\104\uffff\1\1\1\2\1\3\1\4"+
+            "\1\5\1\6\1\7\1\10",
             "",
             "",
             "",
@@ -74216,8 +74224,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA156_specialS =
         "\1\0\11\uffff}>";
     static final String[] DFA156_transitionS = {
-            "\1\11\11\uffff\1\11\3\uffff\4\11\104\uffff\1\1\1\2\1\3\1\4\1"+
-            "\5\1\6\1\7\1\10",
+            "\1\11\11\uffff\1\11\3\uffff\4\11\104\uffff\1\1\1\2\1\3\1\4"+
+            "\1\5\1\6\1\7\1\10",
             "",
             "",
             "",
@@ -74315,8 +74323,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA157_specialS =
         "\1\0\11\uffff}>";
     static final String[] DFA157_transitionS = {
-            "\1\11\11\uffff\1\11\3\uffff\4\11\104\uffff\1\1\1\2\1\3\1\4\1"+
-            "\5\1\6\1\7\1\10",
+            "\1\11\11\uffff\1\11\3\uffff\4\11\104\uffff\1\1\1\2\1\3\1\4"+
+            "\1\5\1\6\1\7\1\10",
             "",
             "",
             "",
@@ -74414,8 +74422,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA158_specialS =
         "\1\0\11\uffff}>";
     static final String[] DFA158_transitionS = {
-            "\1\11\11\uffff\1\11\3\uffff\4\11\104\uffff\1\1\1\2\1\3\1\4\1"+
-            "\5\1\6\1\7\1\10",
+            "\1\11\11\uffff\1\11\3\uffff\4\11\104\uffff\1\1\1\2\1\3\1\4"+
+            "\1\5\1\6\1\7\1\10",
             "",
             "",
             "",
@@ -74513,8 +74521,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA159_specialS =
         "\1\0\11\uffff}>";
     static final String[] DFA159_transitionS = {
-            "\1\11\11\uffff\1\11\3\uffff\4\11\104\uffff\1\1\1\2\1\3\1\4\1"+
-            "\5\1\6\1\7\1\10",
+            "\1\11\11\uffff\1\11\3\uffff\4\11\104\uffff\1\1\1\2\1\3\1\4"+
+            "\1\5\1\6\1\7\1\10",
             "",
             "",
             "",
@@ -74612,8 +74620,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA160_specialS =
         "\1\0\11\uffff}>";
     static final String[] DFA160_transitionS = {
-            "\1\11\11\uffff\1\11\3\uffff\4\11\104\uffff\1\1\1\2\1\3\1\4\1"+
-            "\5\1\6\1\7\1\10",
+            "\1\11\11\uffff\1\11\3\uffff\4\11\104\uffff\1\1\1\2\1\3\1\4"+
+            "\1\5\1\6\1\7\1\10",
             "",
             "",
             "",
@@ -75143,12 +75151,12 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         public static final BitSet FOLLOW_rule__XDataType__Group__3__Impl_in_rule__XDataType__Group__39470 = new BitSet(new long[]{0x0004000010000000L});
         public static final BitSet FOLLOW_rule__XDataType__Group__4_in_rule__XDataType__Group__39473 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XDataType__Group_3__0_in_rule__XDataType__Group__3__Impl9500 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_rule__XDataType__Group__4__Impl_in_rule__XDataType__Group__49531 = new BitSet(new long[]{0x0000000000788020L});
+        public static final BitSet FOLLOW_rule__XDataType__Group__4__Impl_in_rule__XDataType__Group__49531 = new BitSet(new long[]{0x0000040000788020L,0x0000000000400000L});
         public static final BitSet FOLLOW_rule__XDataType__Group__5_in_rule__XDataType__Group__49534 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_50_in_rule__XDataType__Group__4__Impl9562 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XDataType__Group__5__Impl_in_rule__XDataType__Group__59593 = new BitSet(new long[]{0x0008000000000000L,0x0000000001000000L});
         public static final BitSet FOLLOW_rule__XDataType__Group__6_in_rule__XDataType__Group__59596 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_rule__XDataType__InstanceTypeNameAssignment_5_in_rule__XDataType__Group__5__Impl9623 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_rule__XDataType__InstanceTypeAssignment_5_in_rule__XDataType__Group__5__Impl9623 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XDataType__Group__6__Impl_in_rule__XDataType__Group__69653 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XDataType__UnorderedGroup_6_in_rule__XDataType__Group__6__Impl9680 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XDataType__Group_3__0__Impl_in_rule__XDataType__Group_3__09724 = new BitSet(new long[]{0x0000020000000020L});
@@ -75287,11 +75295,11 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         public static final BitSet FOLLOW_44_in_rule__XClass__Group_5_2__0__Impl12801 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XClass__Group_5_2__1__Impl_in_rule__XClass__Group_5_2__112832 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XClass__SuperTypesAssignment_5_2_1_in_rule__XClass__Group_5_2__1__Impl12859 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_rule__XClass__Group_6__0__Impl_in_rule__XClass__Group_6__012893 = new BitSet(new long[]{0x0000000000788020L});
+        public static final BitSet FOLLOW_rule__XClass__Group_6__0__Impl_in_rule__XClass__Group_6__012893 = new BitSet(new long[]{0x0000040000788020L,0x0000000000400000L});
         public static final BitSet FOLLOW_rule__XClass__Group_6__1_in_rule__XClass__Group_6__012896 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_50_in_rule__XClass__Group_6__0__Impl12924 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XClass__Group_6__1__Impl_in_rule__XClass__Group_6__112955 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_rule__XClass__InstanceTypeNameAssignment_6_1_in_rule__XClass__Group_6__1__Impl12982 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_rule__XClass__InstanceTypeAssignment_6_1_in_rule__XClass__Group_6__1__Impl12982 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XAttribute__Group__0__Impl_in_rule__XAttribute__Group__013016 = new BitSet(new long[]{0x1000020000000000L,0x0000007FF8800000L});
         public static final BitSet FOLLOW_rule__XAttribute__Group__1_in_rule__XAttribute__Group__013019 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XAttribute__AnnotationsAssignment_0_in_rule__XAttribute__Group__0__Impl13046 = new BitSet(new long[]{0x0000020000000002L});
@@ -76440,7 +76448,7 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         public static final BitSet FOLLOW_RULE_ID_in_rule__XDataType__NameAssignment_242661 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXTypeParameter_in_rule__XDataType__TypeParametersAssignment_3_142692 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXTypeParameter_in_rule__XDataType__TypeParametersAssignment_3_2_142723 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleQualifiedName_in_rule__XDataType__InstanceTypeNameAssignment_542754 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleJvmTypeReference_in_rule__XDataType__InstanceTypeAssignment_542754 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_88_in_rule__XDataType__SerializableAssignment_6_0_042790 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXBlockExpression_in_rule__XDataType__CreateBodyAssignment_6_0_142829 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXBlockExpression_in_rule__XDataType__ConvertBodyAssignment_6_1_142860 = new BitSet(new long[]{0x0000000000000002L});
@@ -76460,7 +76468,7 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         public static final BitSet FOLLOW_ruleXTypeParameter_in_rule__XClass__TypeParametersAssignment_4_2_143320 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXGenericType_in_rule__XClass__SuperTypesAssignment_5_143351 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXGenericType_in_rule__XClass__SuperTypesAssignment_5_2_143382 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleQualifiedName_in_rule__XClass__InstanceTypeNameAssignment_6_143413 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleJvmTypeReference_in_rule__XClass__InstanceTypeAssignment_6_143413 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXMember_in_rule__XClass__MembersAssignment_843444 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXAnnotation_in_rule__XAttribute__AnnotationsAssignment_043475 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_91_in_rule__XAttribute__UnorderedAssignment_1_043511 = new BitSet(new long[]{0x0000000000000002L});

@@ -296,8 +296,8 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cTypeParametersXTypeParameterParserRuleCall_3_2_1_0 = (RuleCall)cTypeParametersAssignment_3_2_1.eContents().get(0);
 		private final Keyword cGreaterThanSignKeyword_3_3 = (Keyword)cGroup_3.eContents().get(3);
 		private final Keyword cWrapsKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Assignment cInstanceTypeNameAssignment_5 = (Assignment)cGroup.eContents().get(5);
-		private final RuleCall cInstanceTypeNameQualifiedNameParserRuleCall_5_0 = (RuleCall)cInstanceTypeNameAssignment_5.eContents().get(0);
+		private final Assignment cInstanceTypeAssignment_5 = (Assignment)cGroup.eContents().get(5);
+		private final RuleCall cInstanceTypeJvmTypeReferenceParserRuleCall_5_0 = (RuleCall)cInstanceTypeAssignment_5.eContents().get(0);
 		private final UnorderedGroup cUnorderedGroup_6 = (UnorderedGroup)cGroup.eContents().get(6);
 		private final Group cGroup_6_0 = (Group)cUnorderedGroup_6.eContents().get(0);
 		private final Assignment cSerializableAssignment_6_0_0 = (Assignment)cGroup_6_0.eContents().get(0);
@@ -311,7 +311,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//XDataType:
 		//	annotations+=XAnnotation* "type" name=ID ("<" typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)*
-		//	">")? "wraps" instanceTypeName=QualifiedName ((serializable?="create" createBody=XBlockExpression)? / *
+		//	">")? "wraps" instanceType=JvmTypeReference ((serializable?="create" createBody=XBlockExpression)? / *
 		//	   * In scope for create should be what's visible in XyzFactoryImpl and 'this' will denote the literal value.
 		//	   * The block expression must yield null or an instance of the wrapped type.
 		//	   * / / *
@@ -322,7 +322,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		public ParserRule getRule() { return rule; }
 
 		//annotations+=XAnnotation* "type" name=ID ("<" typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)* ">")?
-		//"wraps" instanceTypeName=QualifiedName ((serializable?="create" createBody=XBlockExpression)? / *
+		//"wraps" instanceType=JvmTypeReference ((serializable?="create" createBody=XBlockExpression)? / *
 		//	   * In scope for create should be what's visible in XyzFactoryImpl and 'this' will denote the literal value.
 		//	   * The block expression must yield null or an instance of the wrapped type.
 		//	   * / / *
@@ -377,11 +377,11 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//"wraps"
 		public Keyword getWrapsKeyword_4() { return cWrapsKeyword_4; }
 
-		//instanceTypeName=QualifiedName
-		public Assignment getInstanceTypeNameAssignment_5() { return cInstanceTypeNameAssignment_5; }
+		//instanceType=JvmTypeReference
+		public Assignment getInstanceTypeAssignment_5() { return cInstanceTypeAssignment_5; }
 
-		//QualifiedName
-		public RuleCall getInstanceTypeNameQualifiedNameParserRuleCall_5_0() { return cInstanceTypeNameQualifiedNameParserRuleCall_5_0; }
+		//JvmTypeReference
+		public RuleCall getInstanceTypeJvmTypeReferenceParserRuleCall_5_0() { return cInstanceTypeJvmTypeReferenceParserRuleCall_5_0; }
 
 		//(serializable?="create" createBody=XBlockExpression)? / *
 		//	   * In scope for create should be what's visible in XyzFactoryImpl and 'this' will denote the literal value.
@@ -583,8 +583,8 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cSuperTypesXGenericTypeParserRuleCall_5_2_1_0 = (RuleCall)cSuperTypesAssignment_5_2_1.eContents().get(0);
 		private final Group cGroup_6 = (Group)cGroup.eContents().get(6);
 		private final Keyword cWrapsKeyword_6_0 = (Keyword)cGroup_6.eContents().get(0);
-		private final Assignment cInstanceTypeNameAssignment_6_1 = (Assignment)cGroup_6.eContents().get(1);
-		private final RuleCall cInstanceTypeNameQualifiedNameParserRuleCall_6_1_0 = (RuleCall)cInstanceTypeNameAssignment_6_1.eContents().get(0);
+		private final Assignment cInstanceTypeAssignment_6_1 = (Assignment)cGroup_6.eContents().get(1);
+		private final RuleCall cInstanceTypeJvmTypeReferenceParserRuleCall_6_1_0 = (RuleCall)cInstanceTypeAssignment_6_1.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		private final Assignment cMembersAssignment_8 = (Assignment)cGroup.eContents().get(8);
 		private final RuleCall cMembersXMemberParserRuleCall_8_0 = (RuleCall)cMembersAssignment_8.eContents().get(0);
@@ -593,12 +593,12 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//XClass:
 		//	{XClass} annotations+=XAnnotation* (abstract?="abstract"? "class" | interface?="interface") name=ID ("<"
 		//	typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)* ">")? ("extends" superTypes+=XGenericType (","
-		//	superTypes+=XGenericType)*)? ("wraps" instanceTypeName=QualifiedName)? "{" members+=XMember* "}";
+		//	superTypes+=XGenericType)*)? ("wraps" instanceType=JvmTypeReference)? "{" members+=XMember* "}";
 		public ParserRule getRule() { return rule; }
 
 		//{XClass} annotations+=XAnnotation* (abstract?="abstract"? "class" | interface?="interface") name=ID ("<"
 		//typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)* ">")? ("extends" superTypes+=XGenericType (","
-		//superTypes+=XGenericType)*)? ("wraps" instanceTypeName=QualifiedName)? "{" members+=XMember* "}"
+		//superTypes+=XGenericType)*)? ("wraps" instanceType=JvmTypeReference)? "{" members+=XMember* "}"
 		public Group getGroup() { return cGroup; }
 
 		//{XClass}
@@ -688,17 +688,17 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//XGenericType
 		public RuleCall getSuperTypesXGenericTypeParserRuleCall_5_2_1_0() { return cSuperTypesXGenericTypeParserRuleCall_5_2_1_0; }
 
-		//("wraps" instanceTypeName=QualifiedName)?
+		//("wraps" instanceType=JvmTypeReference)?
 		public Group getGroup_6() { return cGroup_6; }
 
 		//"wraps"
 		public Keyword getWrapsKeyword_6_0() { return cWrapsKeyword_6_0; }
 
-		//instanceTypeName=QualifiedName
-		public Assignment getInstanceTypeNameAssignment_6_1() { return cInstanceTypeNameAssignment_6_1; }
+		//instanceType=JvmTypeReference
+		public Assignment getInstanceTypeAssignment_6_1() { return cInstanceTypeAssignment_6_1; }
 
-		//QualifiedName
-		public RuleCall getInstanceTypeNameQualifiedNameParserRuleCall_6_1_0() { return cInstanceTypeNameQualifiedNameParserRuleCall_6_1_0; }
+		//JvmTypeReference
+		public RuleCall getInstanceTypeJvmTypeReferenceParserRuleCall_6_1_0() { return cInstanceTypeJvmTypeReferenceParserRuleCall_6_1_0; }
 
 		//"{"
 		public Keyword getLeftCurlyBracketKeyword_7() { return cLeftCurlyBracketKeyword_7; }
@@ -2091,7 +2091,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 
 	//XDataType:
 	//	annotations+=XAnnotation* "type" name=ID ("<" typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)*
-	//	">")? "wraps" instanceTypeName=QualifiedName ((serializable?="create" createBody=XBlockExpression)? / *
+	//	">")? "wraps" instanceType=JvmTypeReference ((serializable?="create" createBody=XBlockExpression)? / *
 	//	   * In scope for create should be what's visible in XyzFactoryImpl and 'this' will denote the literal value.
 	//	   * The block expression must yield null or an instance of the wrapped type.
 	//	   * / / *
@@ -2130,7 +2130,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	//XClass:
 	//	{XClass} annotations+=XAnnotation* (abstract?="abstract"? "class" | interface?="interface") name=ID ("<"
 	//	typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)* ">")? ("extends" superTypes+=XGenericType (","
-	//	superTypes+=XGenericType)*)? ("wraps" instanceTypeName=QualifiedName)? "{" members+=XMember* "}";
+	//	superTypes+=XGenericType)*)? ("wraps" instanceType=JvmTypeReference)? "{" members+=XMember* "}";
 	public XClassElements getXClassAccess() {
 		return (pXClass != null) ? pXClass : (pXClass = new XClassElements());
 	}

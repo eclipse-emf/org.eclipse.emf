@@ -213,11 +213,8 @@ public class XcoreGenmodelBuilder {
                     usedGenPackage = _findGenPackage_1;
                     boolean _operator_notEquals_1 = ObjectExtensions.operator_notEquals(usedGenPackage, null);
                     if (_operator_notEquals_1) {
-                      {
-                        EList<GenPackage> _usedGenPackages_1 = genModel.getUsedGenPackages();
-                        _usedGenPackages_1.add(usedGenPackage);
-                        return;
-                      }
+                      EList<GenPackage> _usedGenPackages_1 = genModel.getUsedGenPackages();
+                      _usedGenPackages_1.add(usedGenPackage);
                     }
                   }
                 }

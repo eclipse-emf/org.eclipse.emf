@@ -279,7 +279,7 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXDataTypeAccess().getNameAssignment_2(), "rule__XDataType__NameAssignment_2");
 					put(grammarAccess.getXDataTypeAccess().getTypeParametersAssignment_3_1(), "rule__XDataType__TypeParametersAssignment_3_1");
 					put(grammarAccess.getXDataTypeAccess().getTypeParametersAssignment_3_2_1(), "rule__XDataType__TypeParametersAssignment_3_2_1");
-					put(grammarAccess.getXDataTypeAccess().getInstanceTypeNameAssignment_5(), "rule__XDataType__InstanceTypeNameAssignment_5");
+					put(grammarAccess.getXDataTypeAccess().getInstanceTypeAssignment_5(), "rule__XDataType__InstanceTypeAssignment_5");
 					put(grammarAccess.getXDataTypeAccess().getSerializableAssignment_6_0_0(), "rule__XDataType__SerializableAssignment_6_0_0");
 					put(grammarAccess.getXDataTypeAccess().getCreateBodyAssignment_6_0_1(), "rule__XDataType__CreateBodyAssignment_6_0_1");
 					put(grammarAccess.getXDataTypeAccess().getConvertBodyAssignment_6_1_1(), "rule__XDataType__ConvertBodyAssignment_6_1_1");
@@ -299,7 +299,7 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXClassAccess().getTypeParametersAssignment_4_2_1(), "rule__XClass__TypeParametersAssignment_4_2_1");
 					put(grammarAccess.getXClassAccess().getSuperTypesAssignment_5_1(), "rule__XClass__SuperTypesAssignment_5_1");
 					put(grammarAccess.getXClassAccess().getSuperTypesAssignment_5_2_1(), "rule__XClass__SuperTypesAssignment_5_2_1");
-					put(grammarAccess.getXClassAccess().getInstanceTypeNameAssignment_6_1(), "rule__XClass__InstanceTypeNameAssignment_6_1");
+					put(grammarAccess.getXClassAccess().getInstanceTypeAssignment_6_1(), "rule__XClass__InstanceTypeAssignment_6_1");
 					put(grammarAccess.getXClassAccess().getMembersAssignment_8(), "rule__XClass__MembersAssignment_8");
 					put(grammarAccess.getXAttributeAccess().getAnnotationsAssignment_0(), "rule__XAttribute__AnnotationsAssignment_0");
 					put(grammarAccess.getXAttributeAccess().getUnorderedAssignment_1_0(), "rule__XAttribute__UnorderedAssignment_1_0");

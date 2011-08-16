@@ -8,6 +8,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
@@ -28,6 +29,7 @@ import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xcore.XAnnotation;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XAttribute;
@@ -57,15 +59,17 @@ import com.google.inject.Inject;
 
 public class EcoreXcoreBuilder
 {
-	// TODO need to make sure it's really injected.
 	@Inject
-	private XcoreMapper mapper = new XcoreMapper();
+	private XcoreMapper mapper;
+	
+	@Inject
+	private XcoreJvmInferrer jvmInferrer;
 	
   List<Runnable> runnables = new ArrayList<Runnable>();
   
   GenModel genModel;
   
-  public EcoreXcoreBuilder(GenModel genModel)
+  public void initialize(GenModel genModel)
   {
   	this.genModel = genModel;
   }
@@ -138,7 +142,11 @@ public class EcoreXcoreBuilder
       XClassifier xClassifier = getXClassifier(eClassifier);
       xPackage.getClassifiers().add(xClassifier);
     }
-    
+    return xPackage;
+  }
+
+  public void link()
+  {
     // Hook up local references.
     //
     for (Runnable runnable : runnables)
@@ -146,8 +154,6 @@ public class EcoreXcoreBuilder
       runnable.run();
     }
     runnables.clear();
-
-    return xPackage;
   }
 
   void handleAnnotations(final EModelElement eModelElement, final XModelElement xModelElement)
@@ -258,21 +264,14 @@ public class EcoreXcoreBuilder
     return xAnnotationDirective;
   }
 
-  XClassifier getXClassifier(EClassifier eClassifier)
+  XClassifier getXClassifier(final EClassifier eClassifier)
   {
-    XClassifier xClassifier;
-    if (eClassifier instanceof EClass)
-    {
-      xClassifier = getXClass((EClass)eClassifier);
-    }
-    else if (eClassifier instanceof EEnum)
-    {
-      xClassifier = getXEnum((EEnum)eClassifier);
-    }
-    else
-    {
-      xClassifier = getXDataType((EDataType)eClassifier);
-    }
+    final XClassifier xClassifier =
+      eClassifier instanceof EClass ?
+        getXClass((EClass)eClassifier) :
+        eClassifier instanceof EEnum ?
+          getXEnum((EEnum)eClassifier) :
+          getXDataType((EDataType)eClassifier);
     handleAnnotations(eClassifier, xClassifier);
     xClassifier.setName(eClassifier.getName());
     String instanceTypeName = eClassifier.getInstanceTypeName();
@@ -284,7 +283,16 @@ public class EcoreXcoreBuilder
       {
         instanceTypeName = instanceTypeName.substring(0, index);
       }
-      xClassifier.setInstanceTypeName(instanceTypeName);
+      final String finalInstanceTypeName = instanceTypeName;
+      runnables.add
+        (new Runnable()
+         {
+           public void run()
+           {
+             Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(finalInstanceTypeName);
+             xClassifier.setInstanceType(jvmInferrer.getJvmTypeReference((EGenericType)diagnostic.getData().get(0), eClassifier));
+           }
+         });
     }
     for (ETypeParameter eTypeParameter : eClassifier.getETypeParameters())
     {
@@ -401,7 +409,7 @@ public class EcoreXcoreBuilder
     handleAnnotations(eTypedElement, xTypedElement);
     xTypedElement.setName(eTypedElement.getName());
     xTypedElement.setType(getXGenericType(eTypedElement.getEGenericType()));
-    if (eTypedElement.isUnique() && !(eTypedElement instanceof EReference))
+    if (eTypedElement.isUnique() && !(eTypedElement instanceof EReference) && eTypedElement.isMany())
     {
       xTypedElement.setUnique(true);
     }
@@ -530,20 +538,28 @@ public class EcoreXcoreBuilder
         xReference.setResolveProxies(true);
       }
     }
+    else if (eReference.isContainer())
+    {
+      xReference.setContainer(true);
+      if (eReference.isResolveProxies())
+      {
+        xReference.setResolveProxies(true);
+      }
+    }
     else if (!eReference.isResolveProxies())
     {
       xReference.setLocal(true);
     }
-    // TODO
-    /*
     EReference opposite = eReference.getEOpposite();
     if (opposite != null)
     {
-      xReference.setOpposite(opposite);
+      xReference.setOpposite(genModel.findGenFeature(opposite));
     }
-    xReference.getKeys().addAll(eReference.getEKeys());
-    */
-    
+    for (EAttribute eKey : eReference.getEKeys())
+    {
+      xReference.getKeys().add(genModel.findGenFeature(eKey));
+    }
+
     handleXStructuralFeature(xReference, eReference);
     return xReference;
   }

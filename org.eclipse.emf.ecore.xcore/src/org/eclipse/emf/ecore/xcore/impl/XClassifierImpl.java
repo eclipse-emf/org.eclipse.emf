@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.xtext.common.types.JvmTypeReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,7 +34,7 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XClassifierImpl#getInstanceTypeName <em>Instance Type Name</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XClassifierImpl#getInstanceType <em>Instance Type</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XClassifierImpl#getPackage <em>Package</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XClassifierImpl#getTypeParameters <em>Type Parameters</em>}</li>
  * </ul>
@@ -44,33 +45,14 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
 public abstract class XClassifierImpl extends XNamedElementImpl implements XClassifier
 {
   /**
-   * The default value of the '{@link #getInstanceTypeName() <em>Instance Type Name</em>}' attribute.
+   * The cached value of the '{@link #getInstanceType() <em>Instance Type</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getInstanceTypeName()
+   * @see #getInstanceType()
    * @generated
    * @ordered
    */
-  protected static final String INSTANCE_TYPE_NAME_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getInstanceTypeName() <em>Instance Type Name</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getInstanceTypeName()
-   * @generated
-   * @ordered
-   */
-  protected String instanceTypeName = INSTANCE_TYPE_NAME_EDEFAULT;
-
-  /**
-   * This is true if the Instance Type Name attribute has been set.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  protected boolean instanceTypeNameESet;
+  protected JvmTypeReference instanceType;
 
   /**
    * The cached value of the '{@link #getTypeParameters() <em>Type Parameters</em>}' containment reference list.
@@ -108,9 +90,9 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getInstanceTypeName()
+  public JvmTypeReference getInstanceType()
   {
-    return instanceTypeName;
+    return instanceType;
   }
 
   /**
@@ -118,14 +100,16 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setInstanceTypeName(String newInstanceTypeName)
+  public NotificationChain basicSetInstanceType(JvmTypeReference newInstanceType, NotificationChain msgs)
   {
-    String oldInstanceTypeName = instanceTypeName;
-    instanceTypeName = newInstanceTypeName;
-    boolean oldInstanceTypeNameESet = instanceTypeNameESet;
-    instanceTypeNameESet = true;
+    JvmTypeReference oldInstanceType = instanceType;
+    instanceType = newInstanceType;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XCLASSIFIER__INSTANCE_TYPE_NAME, oldInstanceTypeName, instanceTypeName, !oldInstanceTypeNameESet));
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XcorePackage.XCLASSIFIER__INSTANCE_TYPE, oldInstanceType, newInstanceType);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
   }
 
   /**
@@ -133,24 +117,20 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
    * <!-- end-user-doc -->
    * @generated
    */
-  public void unsetInstanceTypeName()
+  public void setInstanceType(JvmTypeReference newInstanceType)
   {
-    String oldInstanceTypeName = instanceTypeName;
-    boolean oldInstanceTypeNameESet = instanceTypeNameESet;
-    instanceTypeName = INSTANCE_TYPE_NAME_EDEFAULT;
-    instanceTypeNameESet = false;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.UNSET, XcorePackage.XCLASSIFIER__INSTANCE_TYPE_NAME, oldInstanceTypeName, INSTANCE_TYPE_NAME_EDEFAULT, oldInstanceTypeNameESet));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean isSetInstanceTypeName()
-  {
-    return instanceTypeNameESet;
+    if (newInstanceType != instanceType)
+    {
+      NotificationChain msgs = null;
+      if (instanceType != null)
+        msgs = ((InternalEObject)instanceType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XCLASSIFIER__INSTANCE_TYPE, null, msgs);
+      if (newInstanceType != null)
+        msgs = ((InternalEObject)newInstanceType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XCLASSIFIER__INSTANCE_TYPE, null, msgs);
+      msgs = basicSetInstanceType(newInstanceType, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XCLASSIFIER__INSTANCE_TYPE, newInstanceType, newInstanceType));
   }
 
   /**
@@ -206,6 +186,8 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
   {
     switch (featureID)
     {
+      case XcorePackage.XCLASSIFIER__INSTANCE_TYPE:
+        return basicSetInstanceType(null, msgs);
       case XcorePackage.XCLASSIFIER__PACKAGE:
         return eBasicSetContainer(null, XcorePackage.XCLASSIFIER__PACKAGE, msgs);
       case XcorePackage.XCLASSIFIER__TYPE_PARAMETERS:
@@ -240,8 +222,8 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
   {
     switch (featureID)
     {
-      case XcorePackage.XCLASSIFIER__INSTANCE_TYPE_NAME:
-        return getInstanceTypeName();
+      case XcorePackage.XCLASSIFIER__INSTANCE_TYPE:
+        return getInstanceType();
       case XcorePackage.XCLASSIFIER__PACKAGE:
         return getPackage();
       case XcorePackage.XCLASSIFIER__TYPE_PARAMETERS:
@@ -261,8 +243,8 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
   {
     switch (featureID)
     {
-      case XcorePackage.XCLASSIFIER__INSTANCE_TYPE_NAME:
-        setInstanceTypeName((String)newValue);
+      case XcorePackage.XCLASSIFIER__INSTANCE_TYPE:
+        setInstanceType((JvmTypeReference)newValue);
         return;
       case XcorePackage.XCLASSIFIER__TYPE_PARAMETERS:
         getTypeParameters().clear();
@@ -282,8 +264,8 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
   {
     switch (featureID)
     {
-      case XcorePackage.XCLASSIFIER__INSTANCE_TYPE_NAME:
-        unsetInstanceTypeName();
+      case XcorePackage.XCLASSIFIER__INSTANCE_TYPE:
+        setInstanceType((JvmTypeReference)null);
         return;
       case XcorePackage.XCLASSIFIER__TYPE_PARAMETERS:
         getTypeParameters().clear();
@@ -302,31 +284,14 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
   {
     switch (featureID)
     {
-      case XcorePackage.XCLASSIFIER__INSTANCE_TYPE_NAME:
-        return isSetInstanceTypeName();
+      case XcorePackage.XCLASSIFIER__INSTANCE_TYPE:
+        return instanceType != null;
       case XcorePackage.XCLASSIFIER__PACKAGE:
         return getPackage() != null;
       case XcorePackage.XCLASSIFIER__TYPE_PARAMETERS:
         return typeParameters != null && !typeParameters.isEmpty();
     }
     return super.eIsSet(featureID);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String toString()
-  {
-    if (eIsProxy()) return super.toString();
-
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (instanceTypeName: ");
-    if (instanceTypeNameESet) result.append(instanceTypeName); else result.append("<unset>");
-    result.append(')');
-    return result.toString();
   }
 
 } //XClassifierImpl

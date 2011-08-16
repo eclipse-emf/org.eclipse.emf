@@ -755,13 +755,13 @@ public interface XcorePackage extends EPackage
   int XCLASSIFIER__NAME = XNAMED_ELEMENT__NAME;
 
   /**
-   * The feature id for the '<em><b>Instance Type Name</b></em>' attribute.
+   * The feature id for the '<em><b>Instance Type</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int XCLASSIFIER__INSTANCE_TYPE_NAME = XNAMED_ELEMENT_FEATURE_COUNT + 0;
+  int XCLASSIFIER__INSTANCE_TYPE = XNAMED_ELEMENT_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Package</b></em>' container reference.
@@ -819,13 +819,13 @@ public interface XcorePackage extends EPackage
   int XCLASS__NAME = XCLASSIFIER__NAME;
 
   /**
-   * The feature id for the '<em><b>Instance Type Name</b></em>' attribute.
+   * The feature id for the '<em><b>Instance Type</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int XCLASS__INSTANCE_TYPE_NAME = XCLASSIFIER__INSTANCE_TYPE_NAME;
+  int XCLASS__INSTANCE_TYPE = XCLASSIFIER__INSTANCE_TYPE;
 
   /**
    * The feature id for the '<em><b>Package</b></em>' container reference.
@@ -919,13 +919,13 @@ public interface XcorePackage extends EPackage
   int XDATA_TYPE__NAME = XCLASSIFIER__NAME;
 
   /**
-   * The feature id for the '<em><b>Instance Type Name</b></em>' attribute.
+   * The feature id for the '<em><b>Instance Type</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int XDATA_TYPE__INSTANCE_TYPE_NAME = XCLASSIFIER__INSTANCE_TYPE_NAME;
+  int XDATA_TYPE__INSTANCE_TYPE = XCLASSIFIER__INSTANCE_TYPE;
 
   /**
    * The feature id for the '<em><b>Package</b></em>' container reference.
@@ -1010,13 +1010,13 @@ public interface XcorePackage extends EPackage
   int XENUM__NAME = XDATA_TYPE__NAME;
 
   /**
-   * The feature id for the '<em><b>Instance Type Name</b></em>' attribute.
+   * The feature id for the '<em><b>Instance Type</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int XENUM__INSTANCE_TYPE_NAME = XDATA_TYPE__INSTANCE_TYPE_NAME;
+  int XENUM__INSTANCE_TYPE = XDATA_TYPE__INSTANCE_TYPE;
 
   /**
    * The feature id for the '<em><b>Package</b></em>' container reference.
@@ -1972,15 +1972,15 @@ public interface XcorePackage extends EPackage
   EClass getXClassifier();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xcore.XClassifier#getInstanceTypeName <em>Instance Type Name</em>}'.
+   * Returns the meta object for the containment reference '{@link org.eclipse.emf.ecore.xcore.XClassifier#getInstanceType <em>Instance Type</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Instance Type Name</em>'.
-   * @see org.eclipse.emf.ecore.xcore.XClassifier#getInstanceTypeName()
+   * @return the meta object for the containment reference '<em>Instance Type</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XClassifier#getInstanceType()
    * @see #getXClassifier()
    * @generated
    */
-  EAttribute getXClassifier_InstanceTypeName();
+  EReference getXClassifier_InstanceType();
 
   /**
    * Returns the meta object for the container reference '{@link org.eclipse.emf.ecore.xcore.XClassifier#getPackage <em>Package</em>}'.
@@ -2825,12 +2825,12 @@ public interface XcorePackage extends EPackage
     EClass XCLASSIFIER = eINSTANCE.getXClassifier();
 
     /**
-     * The meta object literal for the '<em><b>Instance Type Name</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Instance Type</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute XCLASSIFIER__INSTANCE_TYPE_NAME = eINSTANCE.getXClassifier_InstanceTypeName();
+    EReference XCLASSIFIER__INSTANCE_TYPE = eINSTANCE.getXClassifier_InstanceType();
 
     /**
      * The meta object literal for the '<em><b>Package</b></em>' container reference feature.

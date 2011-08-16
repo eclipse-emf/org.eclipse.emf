@@ -242,7 +242,7 @@
             nameFilter="*.genmodel"
             id="org.eclipse.emf.ecore.xcore.ui.ConvertGenModelToXcoreActionID">
          <action label="Convert to Xcore"
-               class="org.eclipse.emf.ecore.xcore.ui.ConvertToXcoreActionDelegate"
+               class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.emf.ecore.xcore.ui.ConvertToXcoreActionDelegate"
                menubarPath="additions" 
                enablesFor="1"
                  id="org.eclipse.emf.ecore.xcore.ui.ConvertGenModelToXcoreActionID"/>

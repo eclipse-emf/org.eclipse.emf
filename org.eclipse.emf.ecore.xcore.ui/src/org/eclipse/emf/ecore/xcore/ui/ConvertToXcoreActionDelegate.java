@@ -23,8 +23,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -32,20 +34,32 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xcore.XImportDirective;
+import org.eclipse.emf.ecore.xcore.XPackage;
+import org.eclipse.emf.ecore.xcore.XcoreFactory;
+import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess;
 import org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator;
 import org.eclipse.emf.ecore.xcore.util.EcoreXcoreBuilder;
+import org.eclipse.emf.ecore.xcore.util.XcoreGenmodelBuilder;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -60,7 +74,13 @@ import org.eclipse.ui.actions.ActionDelegate;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
+import org.eclipse.xtext.GrammarUtil;
+import org.eclipse.xtext.IGrammarAccess;
 import org.eclipse.xtext.resource.SaveOptions;
+import org.eclipse.xtext.resource.XtextResourceSet;
+
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 
 /**
@@ -68,24 +88,37 @@ import org.eclipse.xtext.resource.SaveOptions;
  */
 public class ConvertToXcoreActionDelegate extends ActionDelegate
 {
+  @Inject
+  Provider<EcoreXcoreBuilder> ecoreXcoreBuilderProvider;
+  
+  @Inject
+  XcoreGenmodelBuilder genModelBuilder;
+  
+  @Inject
+  private IGrammarAccess grammarAccess;
+
   protected EPackage getInputEPackage(IStructuredSelection structuredSelection)
   {
     Object element = structuredSelection.getFirstElement();
     if (element instanceof IFile)
     {
       IFile file = (IFile)element;
+      XtextResourceSet resourceSet = new XtextResourceSet();
+      IProject project = file.getProject();
+      resourceSet.setClasspathURIContext(JavaCore.create(project));
+      resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
       if ("ecore".equals(file.getFullPath().getFileExtension()))
       {
         return
           (EPackage)EcoreUtil.getObjectByType
-            (new ResourceSetImpl().getResource(URI.createPlatformResourceURI(file.getFullPath().toString(), true), true).getContents(),
+            (resourceSet.getResource(URI.createPlatformResourceURI(file.getFullPath().toString(), true), true).getContents(),
              EcorePackage.Literals.EPACKAGE);
       }
       else if ("genmodel".equals(file.getFullPath().getFileExtension()))
       {
         GenModel genModel = 
           (GenModel)EcoreUtil.getObjectByType
-            (new ResourceSetImpl().getResource(URI.createPlatformResourceURI(file.getFullPath().toString(), true), true).getContents(),
+            (resourceSet.getResource(URI.createPlatformResourceURI(file.getFullPath().toString(), true), true).getContents(),
              GenModelPackage.Literals.GEN_MODEL);
         if (genModel.getGenPackages().size() == 1)
         {
@@ -193,9 +226,73 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
                 // We'd want to create one and use that...
               }
               
-              outputResource.getContents().add(new EcoreXcoreBuilder(inputGenModel).getXPackage(inputEPackage));
+              EcoreXcoreBuilder ecoreXcoreBuilder = ecoreXcoreBuilderProvider.get();
+              ecoreXcoreBuilder.initialize(inputGenModel);
+              XPackage xPackage = ecoreXcoreBuilder.getXPackage(inputEPackage);
+              outputResource.getContents().add(xPackage);
               outputResource.getContents().add(inputGenModel);
               outputResource.getContents().add(inputEPackage);
+              GenPackage ecoreGenPackage = inputGenModel.getEcoreGenPackage();
+              if (ecoreGenPackage != null)
+              {
+                outputResource.getContents().add(ecoreGenPackage.getGenModel());
+              }
+              GenPackage xmlTypeGenPackage = inputGenModel.getXMLTypeGenPackage();
+              if (xmlTypeGenPackage != null)
+              {
+                outputResource.getContents().add(xmlTypeGenPackage.getGenModel());
+              }
+              GenPackage xmlNamespaceGenPackage = inputGenModel.getXMLNamespaceGenPackage();
+              if (xmlNamespaceGenPackage != null)
+              {
+                outputResource.getContents().add(xmlNamespaceGenPackage.getGenModel());
+              }
+              ecoreXcoreBuilder.link();
+              genModelBuilder.buildMap(inputGenModel);
+              
+              ImportManager importManager = new ImportManager(inputGenModel.getGenPackages().get(0).getInterfacePackageName());
+              for (Iterator<EObject> i = inputEPackage.eAllContents(); i.hasNext(); )
+              {
+                EObject eObject = i.next();
+                if (eObject instanceof EGenericType)
+                {
+                  EGenericType eGenericType = (EGenericType)eObject;
+                  EClassifier eClassifier = eGenericType.getEClassifier();
+                  if (eClassifier != null)
+                  {
+                    GenClassifier genClassifier = inputGenModel.findGenClassifier(eClassifier);
+                    String qualifiedName = genClassifier.getGenPackage().getInterfacePackageName() + "." + eClassifier.getName();
+                    importManager.addImport(qualifiedName);
+                  }
+                }
+              }
+              Set<String> allKeywords = GrammarUtil.getAllKeywords(grammarAccess.getGrammar());
+              for (String qualifiedName : importManager.getImports())
+              {
+                XImportDirective xImportDirective = XcoreFactory.eINSTANCE.createXImportDirective();
+                String[] segments = qualifiedName.split("\\.");
+                boolean modify = false;
+                for (int i = 0, length = segments.length; i < length; ++i)
+                {
+                  if (allKeywords.contains(segments[i]))
+                  {
+                    segments[i] = "^" + segments[i];
+                    modify = true;
+                  }
+                }
+                if (modify)
+                {
+                  StringBuilder result = new StringBuilder(segments[0]);
+                  for (int i = 1, length = segments.length; i < length; ++i)
+                  {
+                    result.append('.');
+                    result.append(segments[i]);
+                  }
+                  qualifiedName = result.toString();
+                }
+                xImportDirective.setImportedNamespace(qualifiedName);
+                xPackage.getImportDirectives().add(xImportDirective);
+              }
 
               try
               {

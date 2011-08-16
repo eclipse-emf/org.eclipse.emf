@@ -114,7 +114,7 @@ class XcoreGenmodelBuilder {
      	  				if (usedGenPackage != null)
      	  				{
      					  	 genModel.usedGenPackages.add(usedGenPackage);
-     					  	 return
+     					  	 // TODO break
      	  				}
      	  			}
      	  		}

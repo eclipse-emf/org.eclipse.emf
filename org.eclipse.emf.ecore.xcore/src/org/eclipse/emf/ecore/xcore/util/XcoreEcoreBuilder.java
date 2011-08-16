@@ -50,6 +50,7 @@ import org.eclipse.emf.ecore.xcore.interpreter.XcoreConversionDelegate;
 import org.eclipse.emf.ecore.xcore.interpreter.XcoreInvocationDelegate;
 import org.eclipse.emf.ecore.xcore.interpreter.XcoreSettingDelegate;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
+import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.xbase.XBlockExpression;
 
 import com.google.inject.Inject;
@@ -86,7 +87,6 @@ public class XcoreEcoreBuilder
       runnable.run();
     }
   }
-
 
   public EPackage getEPackage(XPackage xPackage)
   {
@@ -149,28 +149,29 @@ public class XcoreEcoreBuilder
     }
   }
   
-  EClassifier getEClassifier(XClassifier xClassifier)
+  EClassifier getEClassifier(final XClassifier xClassifier)
   {
-    EClassifier eClassifier;
-    if (xClassifier instanceof XClass)
-    {
-      eClassifier = getEClass((XClass)xClassifier);
-    }
-    else if (xClassifier instanceof XEnum)
-    {
-      eClassifier = getEEnum((XEnum)xClassifier);
-    }
-    else
-    {
-      eClassifier = getEDataType((XDataType)xClassifier);
-    }
+    final EClassifier eClassifier =
+      xClassifier instanceof XClass ?
+        getEClass((XClass)xClassifier) :
+        xClassifier instanceof XEnum ?
+          getEEnum((XEnum)xClassifier) :
+          getEDataType((XDataType)xClassifier);
     handleAnnotations(xClassifier, eClassifier);
     eClassifier.setName(xClassifier.getName());
-    String instanceTypeName = xClassifier.getInstanceTypeName();
-    if (instanceTypeName != null)
-    {
-      eClassifier.setInstanceTypeName(instanceTypeName);
-    }
+    runnables.add
+      (new Runnable()
+       {
+         public void run()
+         {
+           JvmTypeReference instanceType = xClassifier.getInstanceType();
+           if (instanceType != null)
+           {
+             String instanceTypeName = instanceType.getIdentifier();
+             eClassifier.setInstanceTypeName(instanceTypeName);
+           }
+         }
+       });
     for (XTypeParameter xTypeParameter : xClassifier.getTypeParameters())
     {
       ETypeParameter eTypeParameter = getETypeParameter(xTypeParameter);

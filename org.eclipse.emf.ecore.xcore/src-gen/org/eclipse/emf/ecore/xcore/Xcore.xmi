@@ -7,11 +7,17 @@
     <metamodelDeclarations xsi:type="xtext:ReferencedMetamodel" alias="xbase">
       <ePackage href="http://www.eclipse.org/xtext/xbase/Xbase#/"/>
     </metamodelDeclarations>
+    <metamodelDeclarations xsi:type="xtext:ReferencedMetamodel" alias="javaVMTypes">
+      <ePackage href="http://www.eclipse.org/xtext/common/JavaVMTypes#/"/>
+    </metamodelDeclarations>
+    <metamodelDeclarations xsi:type="xtext:ReferencedMetamodel" alias="xtype">
+      <ePackage href="http://www.eclipse.org/xtext/xbase/Xtype#/"/>
+    </metamodelDeclarations>
     <metamodelDeclarations xsi:type="xtext:ReferencedMetamodel">
       <ePackage href="http://www.eclipse.org/emf/2011/Xcore#/"/>
     </metamodelDeclarations>
     <rules xsi:type="xtext:ParserRule" name="XPackage">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XPackage"/>
       </type>
       <alternatives xsi:type="xtext:Group">
@@ -34,14 +40,14 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XAnnotation">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XAnnotation"/>
       </type>
       <alternatives xsi:type="xtext:Group">
         <elements xsi:type="xtext:Keyword" value="@"/>
         <elements xsi:type="xtext:Assignment" feature="source" operator="=">
           <terminal xsi:type="xtext:CrossReference">
-            <type metamodel="/0/@metamodelDeclarations.2">
+            <type metamodel="/0/@metamodelDeclarations.4">
               <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XAnnotationDirective"/>
             </type>
             <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.24"/>
@@ -63,7 +69,7 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XStringToStringMapEntry">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XStringToStringMapEntry"/>
       </type>
       <alternatives xsi:type="xtext:Group">
@@ -77,7 +83,7 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XImportDirective">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XImportDirective"/>
       </type>
       <alternatives xsi:type="xtext:Group">
@@ -97,7 +103,7 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XAnnotationDirective">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XAnnotationDirective"/>
       </type>
       <alternatives xsi:type="xtext:Group">
@@ -112,7 +118,7 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XClassifier">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XClassifier"/>
       </type>
       <alternatives xsi:type="xtext:Alternatives">
@@ -122,7 +128,7 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XDataType">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XDataType"/>
       </type>
       <alternatives xsi:type="xtext:Group">
@@ -147,8 +153,8 @@
           <elements xsi:type="xtext:Keyword" value=">"/>
         </elements>
         <elements xsi:type="xtext:Keyword" value="wraps"/>
-        <elements xsi:type="xtext:Assignment" feature="instanceTypeName" operator="=">
-          <terminal xsi:type="xtext:RuleCall" rule="/1/@rules.50"/>
+        <elements xsi:type="xtext:Assignment" feature="instanceType" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/2/@rules.0"/>
         </elements>
         <elements xsi:type="xtext:UnorderedGroup">
           <elements xsi:type="xtext:Group" cardinality="?">
@@ -169,7 +175,7 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XEnum">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XEnum"/>
       </type>
       <alternatives xsi:type="xtext:Group">
@@ -196,7 +202,7 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XEnumLiteral">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XEnumLiteral"/>
       </type>
       <alternatives xsi:type="xtext:Group">
@@ -221,12 +227,12 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XClass">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XClass"/>
       </type>
       <alternatives xsi:type="xtext:Group">
         <elements xsi:type="xtext:Action">
-          <type metamodel="/0/@metamodelDeclarations.2">
+          <type metamodel="/0/@metamodelDeclarations.4">
             <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XClass"/>
           </type>
         </elements>
@@ -274,8 +280,8 @@
         </elements>
         <elements xsi:type="xtext:Group" cardinality="?">
           <elements xsi:type="xtext:Keyword" value="wraps"/>
-          <elements xsi:type="xtext:Assignment" feature="instanceTypeName" operator="=">
-            <terminal xsi:type="xtext:RuleCall" rule="/1/@rules.50"/>
+          <elements xsi:type="xtext:Assignment" feature="instanceType" operator="=">
+            <terminal xsi:type="xtext:RuleCall" rule="/2/@rules.0"/>
           </elements>
         </elements>
         <elements xsi:type="xtext:Keyword" value="{"/>
@@ -286,7 +292,7 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XMember">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XMember"/>
       </type>
       <alternatives xsi:type="xtext:Alternatives">
@@ -296,7 +302,7 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XAttribute">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XAttribute"/>
       </type>
       <alternatives xsi:type="xtext:Group">
@@ -378,7 +384,7 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XReference">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XReference"/>
       </type>
       <alternatives xsi:type="xtext:Group">
@@ -500,7 +506,7 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XOperation">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XOperation"/>
       </type>
       <alternatives xsi:type="xtext:Group">
@@ -582,7 +588,7 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XParameter">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XParameter"/>
       </type>
       <alternatives xsi:type="xtext:Group">
@@ -619,7 +625,7 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XTypeParameter">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XTypeParameter"/>
       </type>
       <alternatives xsi:type="xtext:Group">
@@ -644,7 +650,7 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XMultiplicity">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2011/Xcore#//XMultiplicity"/>
       </type>
       <alternatives xsi:type="xtext:Group">
@@ -689,7 +695,7 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XGenericType">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XGenericType"/>
       </type>
       <alternatives xsi:type="xtext:Group">
@@ -717,7 +723,7 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XGenericTypeArgument">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XGenericType"/>
       </type>
       <alternatives xsi:type="xtext:Alternatives">
@@ -726,12 +732,12 @@
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="XGenericWildcardTypeArgument">
-      <type metamodel="/0/@metamodelDeclarations.2">
+      <type metamodel="/0/@metamodelDeclarations.4">
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XGenericType"/>
       </type>
       <alternatives xsi:type="xtext:Group">
         <elements xsi:type="xtext:Action">
-          <type metamodel="/0/@metamodelDeclarations.2">
+          <type metamodel="/0/@metamodelDeclarations.4">
             <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XGenericType"/>
           </type>
         </elements>

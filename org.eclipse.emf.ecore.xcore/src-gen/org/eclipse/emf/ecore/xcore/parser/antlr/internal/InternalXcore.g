@@ -632,17 +632,17 @@ ruleXDataType returns [EObject current=null]
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getXDataTypeAccess().getInstanceTypeNameQualifiedNameParserRuleCall_5_0()); 
+	        newCompositeNode(grammarAccess.getXDataTypeAccess().getInstanceTypeJvmTypeReferenceParserRuleCall_5_0()); 
 	    }
-		lv_instanceTypeName_9_0=ruleQualifiedName		{
+		lv_instanceType_9_0=ruleJvmTypeReference		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getXDataTypeRule());
 	        }
        		set(
        			$current, 
-       			"instanceTypeName",
-        		lv_instanceTypeName_9_0, 
-        		"QualifiedName");
+       			"instanceType",
+        		lv_instanceType_9_0, 
+        		"JvmTypeReference");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1149,17 +1149,17 @@ ruleXClass returns [EObject current=null]
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getXClassAccess().getInstanceTypeNameQualifiedNameParserRuleCall_6_1_0()); 
+	        newCompositeNode(grammarAccess.getXClassAccess().getInstanceTypeJvmTypeReferenceParserRuleCall_6_1_0()); 
 	    }
-		lv_instanceTypeName_16_0=ruleQualifiedName		{
+		lv_instanceType_16_0=ruleJvmTypeReference		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getXClassRule());
 	        }
        		set(
        			$current, 
-       			"instanceTypeName",
-        		lv_instanceTypeName_16_0, 
-        		"QualifiedName");
+       			"instanceType",
+        		lv_instanceType_16_0, 
+        		"JvmTypeReference");
 	        afterParserOrEnumRuleCall();
 	    }
 

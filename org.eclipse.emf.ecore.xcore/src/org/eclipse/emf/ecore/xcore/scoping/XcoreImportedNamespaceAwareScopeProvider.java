@@ -34,6 +34,7 @@ import org.eclipse.xtext.util.Strings;
 
 import com.google.common.base.Predicate;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceAwareLocalScopeProvider
 {
@@ -46,6 +47,9 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
   @Inject
   private IQualifiedNameConverter nameConverter;
   
+  @Inject
+  Provider<EcoreXcoreBuilder> ecoreXcoreBuilderProvider;
+
   @Override
   protected List<ImportNormalizer> internalGetImportedNamespaceResolvers(EObject context, boolean ignoreCase)
   {
@@ -175,11 +179,14 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
 					               ecoreXcoreResource = resourceSet.getResource(ECORE_XCORE_URI, false);
 					               EPackage ePackage = genModel.getGenPackages().get(0).getEcorePackage();
 					               Resource ecoreResource = ePackage.eResource();
-												 XPackage xPackage = new EcoreXcoreBuilder(genModel).getXPackage(ePackage);
+					               EcoreXcoreBuilder ecoreXcoreBuilder = ecoreXcoreBuilderProvider.get();
+					               ecoreXcoreBuilder.initialize(genModel);
+					               XPackage xPackage = ecoreXcoreBuilder.getXPackage(ePackage);
 					               ecoreXcoreResource = resourceSet.createResource(ECORE_XCORE_URI);
 					               ecoreXcoreResource.getContents().add(xPackage);
 					               ecoreXcoreResource.getContents().add(genModel);
 					               ecoreXcoreResource.getContents().add(ePackage);
+					               ecoreXcoreBuilder.link();
 					               resourceSet.getResources().remove(genModelResource);
 					               resourceSet.getResources().remove(ecoreResource);
 					             }
