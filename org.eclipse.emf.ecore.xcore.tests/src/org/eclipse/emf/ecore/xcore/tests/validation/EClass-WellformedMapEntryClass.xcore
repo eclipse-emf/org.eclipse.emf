@@ -1,12 +1,8 @@
 package foo
 
 /* XPECT validationIssues ---
-error at ' class A wraps java.util.Map$Entry
-{
-}' message 'A map entry class must have a feature called 'key''
-error at 'class A wraps java.util.Map$Entry
-{
-}' message 'A map entry class must have a feature called 'value''
+error at 'class A wraps java.util.Map$Entry { }' message 'A map entry class must have a feature called 'key''
+error at 'class A wraps java.util.Map$Entry { }' message 'A map entry class must have a feature called 'value''
 --- */
 
 class A wraps java.util.Map$Entry

@@ -1,10 +1,7 @@
 package foo
 
 /* XPECT validationIssues ---
-error at ' class B extends A
-{
-}' message 'A class that inherits from a map entry class must have instance class name ' java.util.Map$Entry
-''
+error at 'class B extends A { }' message 'A class that inherits from a map entry class must have instance class name 'java.util.Map$Entry''
 --- */
 
 class A wraps java.util.Map$Entry

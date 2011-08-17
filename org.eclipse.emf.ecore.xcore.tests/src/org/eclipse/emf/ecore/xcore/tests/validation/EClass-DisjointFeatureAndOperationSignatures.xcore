@@ -1,11 +1,7 @@
 package foo
 
 /* XPECT validationIssues ---
-error at ' class A
-{
-  String a
-  op String getA()
-}' message 'There may not be an operation 'foo.A.getA' with the same signature as an accessor method for feature 'foo.A.a' '
+error at 'class A { String a op String getA() }' message 'There may not be an operation 'foo.A.getA' with the same signature as an accessor method for feature 'foo.A.a''
 --- */
 
 class A
