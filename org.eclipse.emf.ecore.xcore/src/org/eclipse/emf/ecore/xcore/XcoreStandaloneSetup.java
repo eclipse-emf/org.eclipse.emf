@@ -34,6 +34,7 @@ public class XcoreStandaloneSetup extends XcoreStandaloneSetupGenerated{
 		packageRegistry.put(XMLTypePackage.eNS_URI, XMLTypePackage.eINSTANCE);
 		packageRegistry.put(XMLNamespacePackage.eNS_URI, XMLNamespacePackage.eINSTANCE);
 		
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("genmodel", new EcoreResourceFactoryImpl());
 		
 		super.register(injector);

@@ -172,8 +172,9 @@ public class EcoreXcoreBuilder
                {
                  if ("basePackage".equals(detail.getKey()))
                  {
-                   XPackage xPackage = (XPackage)xModelElement;
-                   xPackage.setName(detail.getValue() + "." + xPackage.getName());
+                	 // This is already handled from the GenPackage.
+                   // XPackage xPackage = (XPackage)xModelElement;
+                   // xPackage.setName(detail.getValue() + "." + xPackage.getName());
                  }
                  else
                  {
@@ -605,7 +606,6 @@ public class EcoreXcoreBuilder
       xStructuralFeature.setUnsettable(true);
     }
     handleXTypedElement(xStructuralFeature, eStructuralFeature);
-    xStructuralFeature.setName(eStructuralFeature.getName());
   }
 
   XDataType getXDataType(EDataType eDataType)

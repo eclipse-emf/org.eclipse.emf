@@ -208,7 +208,6 @@
    
    <!-- MANUAL ADDITIONS -->
    
-   
    <extension point="org.eclipse.ui.popupMenus">
       <objectContribution
             objectClass="org.eclipse.core.resources.IFile"
@@ -218,24 +217,10 @@
                class="org.eclipse.emf.ecore.xcore.ui.ConvertToEcoreActionDelegate"
                menubarPath="additions" 
                enablesFor="1"
-                 id="org.eclipse.emf.ecore.xcore.ui.ConvertToEcoreActionID"/>
+               id="org.eclipse.emf.ecore.xcore.ui.ConvertToEcoreActionID"/>
       </objectContribution>
    </extension>
 
-   
-   <extension point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
-            nameFilter="*.ecore"
-            id="org.eclipse.emf.ecore.xcore.ui.ConvertToXcoreActionID">
-         <action label="Convert to Xcore"
-               class="org.eclipse.emf.ecore.xcore.ui.ConvertToXcoreActionDelegate"
-               menubarPath="additions" 
-               enablesFor="1"
-                 id="org.eclipse.emf.ecore.xcore.ui.ConvertToXcoreActionID"/>
-      </objectContribution>
-   </extension>
-   
    <extension point="org.eclipse.ui.popupMenus">
       <objectContribution
             objectClass="org.eclipse.core.resources.IFile"
@@ -245,12 +230,11 @@
                class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.emf.ecore.xcore.ui.ConvertToXcoreActionDelegate"
                menubarPath="additions" 
                enablesFor="1"
-                 id="org.eclipse.emf.ecore.xcore.ui.ConvertGenModelToXcoreActionID"/>
+               id="org.eclipse.emf.ecore.xcore.ui.ConvertGenModelToXcoreActionID"/>
       </objectContribution>
    </extension>
-   
-    <extension
-        point="org.eclipse.ui.handlers">
+
+    <extension point="org.eclipse.ui.handlers">
         <handler
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.emf.ecore.xcore.ui.CreateDynamicInstanceHandler"
             commandId="org.eclipse.emf.ecore.xcore.ui.CreateDynamicInstance">
@@ -261,16 +245,15 @@
             </activeWhen>
         </handler>
     </extension>
-    
-    <extension
-         point="org.eclipse.ui.commands">
+
+    <extension point="org.eclipse.ui.commands">
       <command
             description="Create a dynamic instance of the selected class"
             id="org.eclipse.emf.ecore.xcore.ui.CreateDynamicInstance"
             name="Create Dynamic Instance...">
       </command>
     </extension>
-    
+
     <extension point="org.eclipse.ui.menus">
         <menuContribution
             locationURI="popup:#TextEditorContext?after=group.edit">
@@ -286,7 +269,7 @@
          </command>  
          </menuContribution>
     </extension>
-    
+
     <extension point="org.eclipse.ui.views">
         <view id="org.eclipse.emf.ecore.xcore.ui.EOperationInvocationView"
              name="Operation Invocation View"

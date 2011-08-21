@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -54,8 +53,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XImportDirective;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcoreFactory;
-import org.eclipse.emf.ecore.xcore.XcorePackage;
-import org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess;
 import org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator;
 import org.eclipse.emf.ecore.xcore.util.EcoreXcoreBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenmodelBuilder;
@@ -74,8 +71,6 @@ import org.eclipse.ui.actions.ActionDelegate;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
-import org.eclipse.xtext.GrammarUtil;
-import org.eclipse.xtext.IGrammarAccess;
 import org.eclipse.xtext.resource.SaveOptions;
 import org.eclipse.xtext.resource.XtextResourceSet;
 
@@ -94,9 +89,6 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
   @Inject
   XcoreGenmodelBuilder genModelBuilder;
   
-  @Inject
-  private IGrammarAccess grammarAccess;
-
   protected EPackage getInputEPackage(IStructuredSelection structuredSelection)
   {
     Object element = structuredSelection.getFirstElement();
@@ -250,7 +242,15 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
               ecoreXcoreBuilder.link();
               genModelBuilder.buildMap(inputGenModel);
               
-              ImportManager importManager = new ImportManager(inputGenModel.getGenPackages().get(0).getInterfacePackageName());
+              ImportManager importManager = 
+                new ImportManager(inputGenModel.getGenPackages().get(0).getInterfacePackageName())
+                {
+                  @Override
+                  protected boolean shouldImport(String packageName, String shortName, String importName)
+                  {
+                    return true;
+                  }
+                };
               for (Iterator<EObject> i = inputEPackage.eAllContents(); i.hasNext(); )
               {
                 EObject eObject = i.next();
@@ -266,30 +266,9 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
                   }
                 }
               }
-              Set<String> allKeywords = GrammarUtil.getAllKeywords(grammarAccess.getGrammar());
               for (String qualifiedName : importManager.getImports())
               {
                 XImportDirective xImportDirective = XcoreFactory.eINSTANCE.createXImportDirective();
-                String[] segments = qualifiedName.split("\\.");
-                boolean modify = false;
-                for (int i = 0, length = segments.length; i < length; ++i)
-                {
-                  if (allKeywords.contains(segments[i]))
-                  {
-                    segments[i] = "^" + segments[i];
-                    modify = true;
-                  }
-                }
-                if (modify)
-                {
-                  StringBuilder result = new StringBuilder(segments[0]);
-                  for (int i = 1, length = segments.length; i < length; ++i)
-                  {
-                    result.append('.');
-                    result.append(segments[i]);
-                  }
-                  qualifiedName = result.toString();
-                }
                 xImportDirective.setImportedNamespace(qualifiedName);
                 xPackage.getImportDirectives().add(xImportDirective);
               }
