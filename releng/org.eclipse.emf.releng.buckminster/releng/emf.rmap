@@ -17,7 +17,7 @@
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))"
 		>
-			<uri format="{0}/modeling/emf/emf/updates/2.7/base">
+			<uri format="{0}/modeling/emf/emf/updates/2.7.x/base">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
