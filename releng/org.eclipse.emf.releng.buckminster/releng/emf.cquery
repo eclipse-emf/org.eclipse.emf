@@ -3,9 +3,8 @@
 	<cq:rootRequest name="org.eclipse.emf.build" componentType="eclipse.feature"/>
 
 	<cq:advisorNode namePattern="^org\.eclipse\.(?:emf|xsd)(?:\..+)?\.source$" skipComponent="true"/>
-	<cq:advisorNode namePattern="^org\.eclipse\.equinox\.launcher\..+$" skipComponent="true"/>
-	<!-- skip MacOS X Carbon components, as they are not provided by platform 4.x -->
-	<cq:advisorNode namePattern="^org\.eclipse\.(?:ui|swt)\.carbon(?:\..+)?$" skipComponent="true"/>
+	<cq:advisorNode namePattern="^org\.eclipse\.(?:emf|xsd)(?:\..*)?$" branchTagPath="R2_7_maintenance"/>
+	<cq:advisorNode namePattern="^org.eclipse.equinox.launcher\..+$" skipComponent="true"/>
 	<cq:advisorNode namePattern="^com\.google\.(?:appengine|gwt)\.eclipse\.core$" filter="(without.gdt=true)" skipComponent="true"/>
 	<cq:advisorNode filter="(resolve.target.platform=true)" useTargetPlatform="false"/>
 

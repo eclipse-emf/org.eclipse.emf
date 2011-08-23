@@ -2,6 +2,7 @@
 <cq:componentQuery xmlns:cq="http://www.eclipse.org/buckminster/CQuery-1.0" resourceMap="emf.base.rmap">
 	<cq:rootRequest name="org.eclipse.emf.base.build" componentType="eclipse.feature"/>
 
+	<cq:advisorNode namePattern="^org\.eclipse\.(?:emf|xsd)(?:\..*)?$" branchTagPath="R2_7_maintenance"/>
 	<cq:advisorNode filter="(resolve.target.platform=true)" useTargetPlatform="false"/>
 
 	<cq:property key="target.os" value="*"/>
