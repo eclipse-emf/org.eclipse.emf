@@ -1,25 +1,26 @@
 package org.eclipse.emf.ecore.xcore.util
 
-import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper
 import com.google.inject.Inject
-import org.eclipse.emf.ecore.xcore.XPackage
-import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory
 import java.util.Collections
-import static extension org.eclipse.xtext.xtend2.lib.EObjectExtensions.*
-import org.eclipse.emf.codegen.ecore.genmodel.GenClass
-import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
-import org.eclipse.emf.ecore.xcore.XClass
-import org.eclipse.emf.codegen.ecore.genmodel.GenFeature
-import org.eclipse.emf.ecore.xcore.XStructuralFeature
-import org.eclipse.emf.codegen.ecore.genmodel.GenOperation
-import org.eclipse.emf.ecore.xcore.XOperation
-import org.eclipse.emf.codegen.ecore.genmodel.GenDataType
-import org.eclipse.emf.ecore.xcore.XDataType
-import org.eclipse.emf.ecore.EPackage
-import org.eclipse.emf.ecore.EClassifier
 import java.util.HashSet
-import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass
+import org.eclipse.emf.codegen.ecore.genmodel.GenDataType
+import org.eclipse.emf.codegen.ecore.genmodel.GenFeature
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory
+import org.eclipse.emf.codegen.ecore.genmodel.GenOperation
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
+import org.eclipse.emf.ecore.EClassifier
+import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.emf.ecore.xcore.XClass
+import org.eclipse.emf.ecore.xcore.XDataType
+import org.eclipse.emf.ecore.xcore.XOperation
+import org.eclipse.emf.ecore.xcore.XPackage
+import org.eclipse.emf.ecore.xcore.XStructuralFeature
+import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper
+
+import static extension org.eclipse.xtext.xtend2.lib.EObjectExtensions.*
 
 class XcoreGenmodelBuilder {
 	

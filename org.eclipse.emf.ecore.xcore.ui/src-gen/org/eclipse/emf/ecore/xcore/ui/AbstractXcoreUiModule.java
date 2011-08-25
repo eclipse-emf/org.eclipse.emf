@@ -115,7 +115,7 @@ public abstract class AbstractXcoreUiModule extends DefaultUiModule {
 
 	// contributed by org.eclipse.xtext.generator.generator.GeneratorFragment
 	public Class<? extends org.eclipse.xtext.builder.IXtextBuilderParticipant> bindIXtextBuilderParticipant() {
-		return org.eclipse.xtext.builder.JavaProjectBasedBuilderParticipant.class;
+		return org.eclipse.xtext.builder.BuilderParticipant.class;
 	}
 
 	// contributed by org.eclipse.xtext.generator.generator.GeneratorFragment
@@ -156,6 +156,11 @@ public abstract class AbstractXcoreUiModule extends DefaultUiModule {
 	// contributed by org.eclipse.xtext.generator.types.TypesGeneratorFragment
 	public Class<? extends org.eclipse.xtext.ui.editor.contentassist.PrefixMatcher> bindPrefixMatcher() {
 		return org.eclipse.xtext.ui.editor.contentassist.FQNPrefixMatcher.class;
+	}
+
+	// contributed by org.eclipse.xtext.generator.types.TypesGeneratorFragment
+	public Class<? extends org.eclipse.xtext.ui.editor.IValidationJobScheduler> bindIValidationJobScheduler() {
+		return org.eclipse.xtext.common.types.xtext.ui.JdtValidationJobScheduler.class;
 	}
 
 	// contributed by org.eclipse.xtext.generator.xbase.XbaseGeneratorFragment

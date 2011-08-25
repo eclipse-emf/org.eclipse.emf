@@ -1,7 +1,7 @@
 package org.eclipse.emf.ecore.xcore.generator;
 
 import com.google.inject.Inject;
-import org.eclipse.emf.codegen.ecore.generator.Generator;
+import com.google.inject.Provider;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
+import org.eclipse.emf.ecore.xcore.generator.XcoreGeneratorImpl;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
@@ -36,6 +37,9 @@ public class XcoreGenerator implements IGenerator {
   
   @Inject
   private XbaseCompiler compiler;
+  
+  @Inject
+  private Provider<XcoreGeneratorImpl> xcoreGeneratorImplProvider;
   
   public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
     {
@@ -66,17 +70,18 @@ public class XcoreGenerator implements IGenerator {
       EList<EObject> _contents_1 = resource.getContents();
       Iterable<GenModel> _filter_1 = IterableExtensions.<GenModel>filter(_contents_1, org.eclipse.emf.codegen.ecore.genmodel.GenModel.class);
       GenModel _head_1 = IterableExtensions.<GenModel>head(_filter_1);
-      this.generateGenModel(_head_1);
+      this.generateGenModel(_head_1, fsa);
     }
   }
   
-  public Diagnostic generateGenModel(final GenModel genModel) {
+  public Diagnostic generateGenModel(final GenModel genModel, final IFileSystemAccess fsa) {
     Diagnostic _xblockexpression = null;
     {
       genModel.setCanGenerate(true);
-      Generator _generator = new Generator();
-      final Generator generator = _generator;
+      XcoreGeneratorImpl _get = this.xcoreGeneratorImplProvider.get();
+      final XcoreGeneratorImpl generator = _get;
       generator.setInput(genModel);
+      generator.setFileSystemAccess(fsa);
       BasicMonitor _basicMonitor = new BasicMonitor();
       Diagnostic _generate = generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, _basicMonitor);
       _xblockexpression = (_generate);
