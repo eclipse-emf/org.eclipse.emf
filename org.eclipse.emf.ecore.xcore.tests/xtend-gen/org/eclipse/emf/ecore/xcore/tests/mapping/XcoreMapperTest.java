@@ -101,7 +101,7 @@ public class XcoreMapperTest {
       Assert.assertEquals(pack, _xcoreElement_1);
       EList<XClassifier> _classifiers = pack.getClassifiers();
       Iterable<XClass> _filter = IterableExtensions.<XClass>filter(_classifiers, org.eclipse.emf.ecore.xcore.XClass.class);
-      for (XClass clazz : _filter) {
+      for (final XClass clazz : _filter) {
         {
           XClassMapping _mapping_5 = this.mapper.getMapping(clazz);
           EClass _eclass = _mapping_5.getEclass();
@@ -123,7 +123,7 @@ public class XcoreMapperTest {
           XNamedElement _xcoreElement_3 = _xcoreMapping_3.getXcoreElement();
           Assert.assertEquals(clazz, _xcoreElement_3);
           EList<XMember> _members = clazz.getMembers();
-          for (XMember member : _members) {
+          for (final XMember member : _members) {
             final XMember member_1 = member;
             boolean matched = false;
             if (!matched) {
