@@ -34,6 +34,12 @@ public class LazyCreationProxyUriConverter {
 	}
 
 	public void installProxyURI(URI resourceURI, EObject eobject, QualifiedName name) {
+		if (resourceURI == null)
+			throw new NullPointerException("resourceURI");
+		if (eobject == null)
+			throw new NullPointerException("eobject");
+		if (name == null)
+			throw new NullPointerException("name");
 		URI proxyURI = getProxyURI(resourceURI, eobject, name);
 		((InternalEObject) eobject).eSetProxyURI(proxyURI);
 	}

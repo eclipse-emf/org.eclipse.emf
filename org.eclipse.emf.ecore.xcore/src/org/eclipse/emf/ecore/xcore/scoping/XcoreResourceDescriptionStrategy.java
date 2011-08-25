@@ -39,9 +39,11 @@ public class XcoreResourceDescriptionStrategy extends DefaultResourceDescription
 	public boolean createEObjectDescriptions(EObject eObject, IAcceptor<IEObjectDescription> acceptor) {
 		if (eObject instanceof XClass) {
 			QualifiedName qn = nameProvider.getFullyQualifiedName(eObject);
-			createGenModelDescription(eObject.eResource().getURI(), acceptor, qn);
-			createEcoreDescription(eObject.eResource().getURI(), acceptor, qn);
-			createJvmTypesDescription(eObject.eResource().getURI(), acceptor, qn);
+			if (qn != null) {
+				createGenModelDescription(eObject.eResource().getURI(), acceptor, qn);
+				createEcoreDescription(eObject.eResource().getURI(), acceptor, qn);
+				createJvmTypesDescription(eObject.eResource().getURI(), acceptor, qn);
+			}
 			return false;
 		}
 		return true;
