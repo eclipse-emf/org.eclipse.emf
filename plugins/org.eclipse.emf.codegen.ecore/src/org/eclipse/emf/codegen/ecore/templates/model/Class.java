@@ -1781,7 +1781,7 @@ public class Class
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2010 IBM Corporation and others.
+ * Copyright (c) 2002-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -1876,6 +1876,7 @@ public class Class
     stringBuffer.append(genModel.getImportedName(genModel.getRootExtendsInterface()));
     }
     stringBuffer.append(TEXT_32);
+    //Class/interface.javadoc.override.javajetinc
     } else {
     stringBuffer.append(TEXT_33);
     stringBuffer.append(genClass.getFormattedName());

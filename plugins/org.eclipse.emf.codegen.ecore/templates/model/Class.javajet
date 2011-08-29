@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="Class" version="$Id: Class.javajet,v 1.92 2011/04/07 19:53:34 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="Class" version="$Id: Class.javajet,v 1.93 2011/08/29 20:16:46 khussey Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2010 IBM Corporation and others.
+ * Copyright (c) 2002-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,6 +36,8 @@ package <%=genPackage.getClassPackageName()%>;
 <%if (isImplementation) { genClass.addClassPsuedoImports(); }%>
 
 <%if (isInterface) {%>
+<%@ include file="Class/interface.javadoc.override.javajetinc" fail="alternative" %>
+<%@ start %>
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b><%=genClass.getFormattedName()%></b></em>'.
@@ -75,6 +77,7 @@ package <%=genPackage.getClassPackageName()%>;
 <%}%>
  * @generated
  */
+<%@ end %><%//Class/interface.javadoc.override.javajetinc%>
 <%} else {%>
 /**
  * <!-- begin-user-doc -->
