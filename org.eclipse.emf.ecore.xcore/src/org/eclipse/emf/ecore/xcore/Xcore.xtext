@@ -1,6 +1,7 @@
 grammar org.eclipse.emf.ecore.xcore.Xcore 
   with org.eclipse.xtext.xbase.Xbase 
 
+import "http://www.eclipse.org/emf/2002/Ecore"
 import "http://www.eclipse.org/emf/2002/GenModel" as genmodel
 import "http://www.eclipse.org/xtext/xbase/Xbase" as xbase
 import "http://www.eclipse.org/xtext/common/JavaVMTypes" as javaVMTypes
