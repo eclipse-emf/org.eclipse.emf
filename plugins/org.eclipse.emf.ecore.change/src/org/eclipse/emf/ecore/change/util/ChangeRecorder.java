@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.49 2011/04/07 23:41:05 emerks Exp $
+ * $Id: ChangeRecorder.java,v 1.50 2011/08/29 20:13:02 khussey Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -252,7 +252,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
 
   protected boolean isOrphan(EObject eObject)
   {
-    return eObject.eContainer() == null && eObject.eResource() == null;
+    return ((InternalEObject)eObject).eInternalContainer() == null && eObject.eResource() == null;
   }
 
   public void notifyChanged(Notification notification)
