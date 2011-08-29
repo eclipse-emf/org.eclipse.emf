@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.6 2011/04/08 21:17:09 emerks Exp $
+ * $Id: FeatureChangeImpl.java,v 1.6.2.1 2011/08/29 19:15:56 khussey Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -728,9 +728,21 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
 
   protected void reverse(EList<Object> toList)
   {
+    EList<Object> copy = null;
     for (ListChange listChange : getListChanges())
     {
-      listChange.reverse(toList);
+      if (listChange.getKind() == ChangeKind.REMOVE_LITERAL)
+      {
+        if (copy == null)
+        {
+          copy = new BasicEList<Object>(toList);
+        }
+        listChange.applyAndReverse(copy);
+      }
+      else
+      {
+        listChange.reverse(toList);
+      } 
     }
   }
 
