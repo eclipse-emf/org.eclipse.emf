@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.23 2011/04/07 23:41:05 emerks Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.23.2.1 2011/08/29 19:15:59 khussey Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -479,7 +479,6 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         }
       };
     Collection<EObject> newObjectsToAttach = copier.copyAll(objectToDetach);
-    copier.copyReferences();
 
     // The children of the objects to attach might become orphans;
     // we'll need to check for that later.
@@ -611,6 +610,10 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
       if (eObject.eContainer() == null && !eObject.eIsProxy())
       {
         newObjectsToAttach.add(eObject);
+      }
+      else
+      {
+        newObjectsToAttach.remove(eObject);
       }
     }
 
