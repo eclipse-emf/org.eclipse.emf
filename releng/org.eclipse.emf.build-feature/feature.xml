@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.build"
       label="Eclipse Modeling Framework (EMF) Build Site"
-      version="2.7.0.qualifier"
+      version="2.7.1.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg"
       license-feature="org.eclipse.emf.license"
@@ -24,10 +24,16 @@ http://www.eclipse.org/legal/epl-v10.html
       %license
    </license>
 
-   <includes id="org.eclipse.emf.all" version="0.0.0"/>
-   
-   <includes id="org.eclipse.emf.rap.sdk" version="0.0.0"/>
+   <includes
+         id="org.eclipse.emf.all"
+         version="0.0.0"/>
 
-   <includes id="org.eclipse.emf.gwt.sdk" version="0.0.0"/>
+   <includes
+         id="org.eclipse.emf.rap.sdk"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.gwt.sdk"
+         version="0.0.0"/>
 
 </feature>
