@@ -2834,8 +2834,8 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		return getQualifiedNameAccess().getRule();
 	}
 
-	//JvmTypeReference returns JvmParameterizedTypeReference:
-	//	JvmParameterizedTypeReference | XFunctionTypeRef;
+	//JvmTypeReference:
+	//	JvmParameterizedTypeReference ({JvmGenericArrayTypeReference.componentType=current} "[" "]")* | XFunctionTypeRef;
 	public XtypeGrammarAccess.JvmTypeReferenceElements getJvmTypeReferenceAccess() {
 		return gaXbase.getJvmTypeReferenceAccess();
 	}

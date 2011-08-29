@@ -4,11 +4,13 @@
 */
 package org.eclipse.emf.ecore.xcore.ui.refactoring;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtext.resource.ILocationInFileProvider;
+import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.ui.refactoring.IRenameStrategy;
 import org.eclipse.xtext.ui.refactoring.impl.DefaultRenameStrategy;
 import org.eclipse.xtext.ui.refactoring.ui.IRenameElementContext;
+import org.eclipse.xtext.util.ITextRegion;
 import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations;
 import org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.AbstractJvmModelRenameStrategy;
 
@@ -17,6 +19,7 @@ import com.google.inject.Inject;
 /**
  * Encapsulates the model changes of a rename refactoring.  
  */
+@SuppressWarnings("restriction")
 public class XcoreRenameStrategy extends AbstractJvmModelRenameStrategy {
 
 	public static class Provider extends DefaultRenameStrategy.Provider {
@@ -26,13 +29,18 @@ public class XcoreRenameStrategy extends AbstractJvmModelRenameStrategy {
 
 		@Override
 		public IRenameStrategy get(EObject targetElement, IRenameElementContext renameElementContext) {
-			return new XcoreRenameStrategy(targetElement, getLocationInFileProvider(), jvmModelAssociations);
+			EAttribute nameAttribute = getNameAttribute(targetElement);
+			return new XcoreRenameStrategy(targetElement, nameAttribute, getOriginalNameRegion(targetElement,
+					nameAttribute), getNameRuleName(targetElement, nameAttribute), getValueConverterService(),
+					jvmModelAssociations);
 		}
 	}
 	
-	protected XcoreRenameStrategy(EObject targetElement, ILocationInFileProvider locationInFileProvider,
+	protected XcoreRenameStrategy(EObject targetElement, EAttribute nameAttribute, ITextRegion originalNameRegion,
+			String nameRuleName, IValueConverterService valueConverterService,
 			IJvmModelAssociations jvmModelAssociations) {
-		super(targetElement, locationInFileProvider, jvmModelAssociations);
+		super(targetElement, nameAttribute, originalNameRegion, nameRuleName, valueConverterService,
+				jvmModelAssociations);
 	}
 
 	@Override

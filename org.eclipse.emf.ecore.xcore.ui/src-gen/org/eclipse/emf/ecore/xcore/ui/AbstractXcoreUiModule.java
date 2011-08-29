@@ -214,8 +214,13 @@ public abstract class AbstractXcoreUiModule extends DefaultUiModule {
 	}
 
 	// contributed by org.eclipse.xtext.generator.xbase.XbaseGeneratorFragment
-	public Class<? extends org.eclipse.xtext.ui.refactoring.impl.RefactoringResourceSetProvider> bindRefactoringResourceSetProvider() {
-		return org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.JvmModelRefactoringResourceSetProvider.class;
+	public Class<? extends org.eclipse.xtext.ui.refactoring.ui.RenameElementHandler> bindRenameElementHandler() {
+		return org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.JvmModelRenameElementHandler.class;
+	}
+
+	// contributed by org.eclipse.xtext.generator.xbase.XbaseGeneratorFragment
+	public Class<? extends org.eclipse.xtext.common.types.ui.refactoring.participant.JdtRenamePartcipant.ContextFactory> bindJdtRenamePartcipant$ContextFactory() {
+		return org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.JvmModelJdtRenameParticipantContext.ContextFactory.class;
 	}
 
 
