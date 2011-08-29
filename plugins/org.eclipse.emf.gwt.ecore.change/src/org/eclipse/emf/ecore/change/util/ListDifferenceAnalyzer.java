@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListDifferenceAnalyzer.java,v 1.4 2011/04/08 21:17:09 emerks Exp $
+ * $Id: ListDifferenceAnalyzer.java,v 1.5 2011/08/29 20:14:52 khussey Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -183,7 +183,7 @@ public class ListDifferenceAnalyzer
 
     // Loop until the termination condition is reached...
     //
-    for (;;)
+    while (true)
     {
       // The index of the value to be moved.
       // We're looking for the one that needs to be moved the farthest.
