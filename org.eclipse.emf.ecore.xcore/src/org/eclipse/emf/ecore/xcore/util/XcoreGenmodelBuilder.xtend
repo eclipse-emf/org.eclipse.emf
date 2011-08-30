@@ -107,17 +107,22 @@ class XcoreGenmodelBuilder {
      	  	}
      	  	else
      	  	{
-     	  		for (resource : genModel.eResource.resourceSet.resources)
+     	  		val resources = genModel.eResource.resourceSet.resources;
+     	  		var int i = 0;
+     	  		var boolean found = false
+     	  		while (i < resources.size)
      	  		{
+     	  			val resource = resources.get(i)
      	  			if ("genmodel".equals(resource.URI.fileExtension))
      	  			{
      	  				usedGenPackage = (resource.contents.get(0) as GenModel).findGenPackage(referencedEPackage);
      	  				if (usedGenPackage != null)
      	  				{
      					  	 genModel.usedGenPackages.add(usedGenPackage);
-     					  	 // TODO break
+     					  	 found = true
      	  				}
      	  			}
+     	  			i = i + 1
      	  		}
      	  	}
      	  }

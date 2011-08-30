@@ -36,6 +36,8 @@ import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XPackageMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
+import org.eclipse.xtext.xbase.lib.ComparableExtensions;
+import org.eclipse.xtext.xbase.lib.IntegerExtensions;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import org.eclipse.xtext.xtend2.lib.EObjectExtensions;
 
@@ -198,25 +200,45 @@ public class XcoreGenmodelBuilder {
               EList<GenPackage> _usedGenPackages = genModel.getUsedGenPackages();
               _usedGenPackages.add(usedGenPackage);
             } else {
-              Resource _eResource = genModel.eResource();
-              ResourceSet _resourceSet = _eResource.getResourceSet();
-              EList<Resource> _resources = _resourceSet.getResources();
-              for (final Resource resource : _resources) {
-                URI _uRI = resource.getURI();
-                String _fileExtension = _uRI.fileExtension();
-                boolean _equals = "genmodel".equals(_fileExtension);
-                if (_equals) {
+              {
+                Resource _eResource = genModel.eResource();
+                ResourceSet _resourceSet = _eResource.getResourceSet();
+                EList<Resource> _resources = _resourceSet.getResources();
+                final EList<Resource> resources = _resources;
+                int i = 0;
+                boolean found = false;
+                int _size = resources.size();
+                boolean _operator_lessThan = ComparableExtensions.<Integer>operator_lessThan(((Integer)i), ((Integer)_size));
+                Boolean _xwhileexpression = _operator_lessThan;
+                while (_xwhileexpression) {
                   {
-                    EList<EObject> _contents = resource.getContents();
-                    EObject _get = _contents.get(0);
-                    GenPackage _findGenPackage_1 = ((GenModel) _get).findGenPackage(referencedEPackage);
-                    usedGenPackage = _findGenPackage_1;
-                    boolean _operator_notEquals_1 = ObjectExtensions.operator_notEquals(usedGenPackage, null);
-                    if (_operator_notEquals_1) {
-                      EList<GenPackage> _usedGenPackages_1 = genModel.getUsedGenPackages();
-                      _usedGenPackages_1.add(usedGenPackage);
+                    Resource _get = resources.get(i);
+                    final Resource resource = _get;
+                    URI _uRI = resource.getURI();
+                    String _fileExtension = _uRI.fileExtension();
+                    boolean _equals = "genmodel".equals(_fileExtension);
+                    if (_equals) {
+                      {
+                        EList<EObject> _contents = resource.getContents();
+                        EObject _get_1 = _contents.get(0);
+                        GenPackage _findGenPackage_1 = ((GenModel) _get_1).findGenPackage(referencedEPackage);
+                        usedGenPackage = _findGenPackage_1;
+                        boolean _operator_notEquals_1 = ObjectExtensions.operator_notEquals(usedGenPackage, null);
+                        if (_operator_notEquals_1) {
+                          {
+                            EList<GenPackage> _usedGenPackages_1 = genModel.getUsedGenPackages();
+                            _usedGenPackages_1.add(usedGenPackage);
+                            found = true;
+                          }
+                        }
+                      }
                     }
+                    int _operator_plus = IntegerExtensions.operator_plus(((Integer)i), ((Integer)1));
+                    i = _operator_plus;
                   }
+                  int _size_1 = resources.size();
+                  boolean _operator_lessThan_1 = ComparableExtensions.<Integer>operator_lessThan(((Integer)i), ((Integer)_size_1));
+                  _xwhileexpression = _operator_lessThan_1;
                 }
               }
             }
