@@ -2539,9 +2539,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//XPrimaryExpression returns XExpression:
-	//	XConstructorCall | XBlockExpression | XSwitchExpression | XFeatureCall | XLiteral | XIfExpression | XForLoopExpression
-	//	| XWhileExpression | XDoWhileExpression | XThrowExpression | XReturnExpression | XTryCatchFinallyExpression |
-	//	XParenthesizedExpression;
+	//	XConstructorCall | XBlockExpression | XSwitchExpression | XWithExpression | XFeatureCall | XLiteral | XIfExpression |
+	//	XForLoopExpression | XWhileExpression | XDoWhileExpression | XThrowExpression | XReturnExpression |
+	//	XTryCatchFinallyExpression | XParenthesizedExpression;
 	public XbaseGrammarAccess.XPrimaryExpressionElements getXPrimaryExpressionAccess() {
 		return gaXbase.getXPrimaryExpressionAccess();
 	}
@@ -2603,7 +2603,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//XSwitchExpression returns XExpression:
-	//	{XSwitchExpression} "switch" (localVarName=ValidID ":")? switch=XExpression "{" cases+=XCasePart+ ("default" ":"
+	//	{XSwitchExpression} "switch" => (localVarName=ValidID ":")? switch=XExpression "{" cases+=XCasePart+ ("default" ":"
 	//	default=XExpression)? "}";
 	public XbaseGrammarAccess.XSwitchExpressionElements getXSwitchExpressionAccess() {
 		return gaXbase.getXSwitchExpressionAccess();
@@ -2822,6 +2822,37 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getXCatchClauseRule() {
 		return getXCatchClauseAccess().getRule();
+	}
+
+	//XWithExpression returns XExpression:
+	//	{XWithExpression} (":" variable=JvmFormalParameterWithoutType)? (":" mainExpression=XExpression
+	//	blockExpression=XBlockExpression | blockExpression=XMustacheExpression);
+	public XbaseGrammarAccess.XWithExpressionElements getXWithExpressionAccess() {
+		return gaXbase.getXWithExpressionAccess();
+	}
+	
+	public ParserRule getXWithExpressionRule() {
+		return getXWithExpressionAccess().getRule();
+	}
+
+	//JvmFormalParameterWithoutType returns types::JvmFormalParameter:
+	//	name=ValidID;
+	public XbaseGrammarAccess.JvmFormalParameterWithoutTypeElements getJvmFormalParameterWithoutTypeAccess() {
+		return gaXbase.getJvmFormalParameterWithoutTypeAccess();
+	}
+	
+	public ParserRule getJvmFormalParameterWithoutTypeRule() {
+		return getJvmFormalParameterWithoutTypeAccess().getRule();
+	}
+
+	//XMustacheExpression returns XExpression:
+	//	{XBlockExpression} ":{" expressions+=XExpressionInsideBlock* "}";
+	public XbaseGrammarAccess.XMustacheExpressionElements getXMustacheExpressionAccess() {
+		return gaXbase.getXMustacheExpressionAccess();
+	}
+	
+	public ParserRule getXMustacheExpressionRule() {
+		return getXMustacheExpressionAccess().getRule();
 	}
 
 	//QualifiedName:

@@ -163,6 +163,11 @@ public abstract class AbstractXcoreUiModule extends DefaultUiModule {
 		return org.eclipse.xtext.common.types.xtext.ui.JdtValidationJobScheduler.class;
 	}
 
+	// contributed by org.eclipse.xtext.generator.types.TypesGeneratorFragment
+	public Class<? extends org.eclipse.xtext.ui.refactoring.impl.RefactoringResourceSetProvider> bindRefactoringResourceSetProvider() {
+		return org.eclipse.xtext.common.types.ui.refactoring.JvmRefactoringResourceSetProvider.class;
+	}
+
 	// contributed by org.eclipse.xtext.generator.xbase.XbaseGeneratorFragment
 	public Class<? extends org.eclipse.xtext.ui.editor.syntaxcoloring.AbstractAntlrTokenToAttributeIdMapper> bindAbstractAntlrTokenToAttributeIdMapper() {
 		return org.eclipse.xtext.xbase.ui.syntaxcoloring.XbaseTokenToAttributeIdMapper.class;
@@ -209,17 +214,17 @@ public abstract class AbstractXcoreUiModule extends DefaultUiModule {
 	}
 
 	// contributed by org.eclipse.xtext.generator.xbase.XbaseGeneratorFragment
-	public Class<? extends org.eclipse.xtext.ui.refactoring.IRenameStrategy.Provider> bindIRenameStrategy$Provider() {
-		return org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameStrategy.Provider.class;
+	public void configureJvmMemberRenameStrategy$Provider$Delegate(com.google.inject.Binder binder) {
+		binder.bind(org.eclipse.xtext.ui.refactoring.IRenameStrategy.Provider.class).annotatedWith(org.eclipse.xtext.common.types.ui.refactoring.participant.JvmMemberRenameStrategy.Provider.Delegate.class).to(org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameStrategy.Provider.class);
 	}
 
 	// contributed by org.eclipse.xtext.generator.xbase.XbaseGeneratorFragment
-	public Class<? extends org.eclipse.xtext.ui.refactoring.ui.RenameElementHandler> bindRenameElementHandler() {
+	public Class<? extends org.eclipse.xtext.ui.refactoring.ui.IRenameElementHandler> bindIRenameElementHandler() {
 		return org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.JvmModelRenameElementHandler.class;
 	}
 
 	// contributed by org.eclipse.xtext.generator.xbase.XbaseGeneratorFragment
-	public Class<? extends org.eclipse.xtext.common.types.ui.refactoring.participant.JdtRenamePartcipant.ContextFactory> bindJdtRenamePartcipant$ContextFactory() {
+	public Class<? extends org.eclipse.xtext.common.types.ui.refactoring.participant.JdtRenameParticipant.ContextFactory> bindJdtRenameParticipant$ContextFactory() {
 		return org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.JvmModelJdtRenameParticipantContext.ContextFactory.class;
 	}
 

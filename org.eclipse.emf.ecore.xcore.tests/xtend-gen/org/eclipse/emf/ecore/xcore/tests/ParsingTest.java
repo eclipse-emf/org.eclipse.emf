@@ -39,7 +39,7 @@ import org.junit.runner.RunWith;
 @SuppressWarnings("all")
 @RunWith(XtextRunner.class)
 @InjectWith(XcoreInjectorProvider.class)
-public class ParsingTest {
+public class ParsingTest extends Object {
   
   @Inject
   private ParseHelper<XPackage> parser;

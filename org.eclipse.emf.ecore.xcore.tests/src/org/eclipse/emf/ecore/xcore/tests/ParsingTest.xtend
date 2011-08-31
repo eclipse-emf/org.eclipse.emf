@@ -19,10 +19,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.xcore.XAttribute
 import org.eclipse.emf.ecore.xcore.XClassifier
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier
+import org.eclipse.xtext.xtend2.lib.StringConcatenation
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(XcoreInjectorProvider))
-class ParsingTest {
+class ParsingTest extends Object {
 
 	@Inject
 	ParseHelper<XPackage> parser
@@ -33,7 +34,6 @@ class ParsingTest {
 	@Inject
 	extension ValidationTestHelper vth
 	
-
 	@Test
 	def void parseSimpleFile() {
 		val parse = parser.parse("package foo");

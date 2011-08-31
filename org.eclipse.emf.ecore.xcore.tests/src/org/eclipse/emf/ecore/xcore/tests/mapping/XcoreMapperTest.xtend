@@ -55,14 +55,14 @@ class XcoreMapperTest {
 			
 			for (member : clazz.members) {
 				switch member {
-					XStructuralFeature :{
+					XStructuralFeature : {
 						assertNotNull(member.mapping.EStructuralFeature)
 						assertEquals(member.mapping.EStructuralFeature, member.mapping.genFeature.ecoreFeature)
 						assertEquals(member,member.mapping.EStructuralFeature.toXcoreMapping.xcoreElement)
 						assertEquals(member,member.mapping.genFeature.toXcoreMapping.xcoreElement)
 						//TODO jvm stuff
 					}
-					XOperation :{
+					XOperation : {
 						assertNotNull(member.mapping.EOperation)
 						assertEquals(member.mapping.EOperation, member.mapping.genOperation.ecoreOperation)
 						assertEquals(member,member.mapping.EOperation.toXcoreMapping.xcoreElement)
