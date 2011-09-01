@@ -12,11 +12,14 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
+import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.generator.XcoreGeneratorImpl;
+import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
@@ -27,6 +30,7 @@ import org.eclipse.xtext.xbase.XBlockExpression;
 import org.eclipse.xtext.xbase.compiler.StringBuilderBasedAppendable;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import org.eclipse.xtext.xtend2.lib.EObjectExtensions;
 
 @SuppressWarnings("all")
@@ -67,9 +71,36 @@ public class XcoreGenerator implements IGenerator {
           _eAnnotations.add(_createGenModelAnnotation);
         }
       }
+      Iterable<EObject> _allContentsIterable_1 = EObjectExtensions.allContentsIterable(pack);
+      Iterable<XStructuralFeature> _filter_1 = IterableExtensions.<XStructuralFeature>filter(_allContentsIterable_1, org.eclipse.emf.ecore.xcore.XStructuralFeature.class);
+      for (final XStructuralFeature feature : _filter_1) {
+        {
+          XFeatureMapping _mapping_2 = this.mappings.getMapping(feature);
+          EStructuralFeature _eStructuralFeature = _mapping_2.getEStructuralFeature();
+          final EStructuralFeature eStructuralFeature = _eStructuralFeature;
+          XFeatureMapping _mapping_3 = this.mappings.getMapping(feature);
+          JvmOperation _getter = _mapping_3.getGetter();
+          final JvmOperation getter = _getter;
+          boolean _operator_notEquals = ObjectExtensions.operator_notEquals(getter, null);
+          if (_operator_notEquals) {
+            {
+              StringBuilderBasedAppendable _stringBuilderBasedAppendable_1 = new StringBuilderBasedAppendable();
+              final StringBuilderBasedAppendable appendable_1 = _stringBuilderBasedAppendable_1;
+              JvmDeclaredType _declaringType_1 = getter.getDeclaringType();
+              appendable_1.declareVariable(_declaringType_1, "this");
+              XBlockExpression _getBody = feature.getGetBody();
+              this.compiler.compile(_getBody, appendable_1, null);
+              EList<EAnnotation> _eAnnotations_1 = eStructuralFeature.getEAnnotations();
+              String _string_1 = appendable_1.toString();
+              EAnnotation _createGenModelAnnotation_1 = this.createGenModelAnnotation("get", _string_1);
+              _eAnnotations_1.add(_createGenModelAnnotation_1);
+            }
+          }
+        }
+      }
       EList<EObject> _contents_1 = resource.getContents();
-      Iterable<GenModel> _filter_1 = IterableExtensions.<GenModel>filter(_contents_1, org.eclipse.emf.codegen.ecore.genmodel.GenModel.class);
-      GenModel _head_1 = IterableExtensions.<GenModel>head(_filter_1);
+      Iterable<GenModel> _filter_2 = IterableExtensions.<GenModel>filter(_contents_1, org.eclipse.emf.codegen.ecore.genmodel.GenModel.class);
+      GenModel _head_1 = IterableExtensions.<GenModel>head(_filter_2);
       this.generateGenModel(_head_1, fsa);
     }
   }

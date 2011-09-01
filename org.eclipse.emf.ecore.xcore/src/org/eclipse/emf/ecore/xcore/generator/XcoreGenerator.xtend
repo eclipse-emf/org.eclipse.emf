@@ -21,6 +21,7 @@ import org.eclipse.xtext.xbase.compiler.XbaseCompiler
 
 import static extension org.eclipse.xtext.xtend2.lib.EObjectExtensions.*
 import com.google.inject.Provider
+import org.eclipse.emf.ecore.xcore.XStructuralFeature
 
 class XcoreGenerator implements IGenerator {
 	
@@ -39,10 +40,20 @@ class XcoreGenerator implements IGenerator {
 		for (op : pack.allContentsIterable.filter(typeof(XOperation))) {
 			val eOperation = op.mapping.EOperation
 			val appendable = new StringBuilderBasedAppendable()
-			appendable.declareVariable(mappings.getMapping(op).jvmOperation.declaringType,"this");
+			appendable.declareVariable(mappings.getMapping(op).jvmOperation.declaringType, "this");
 //			val expectedType = op.jvmOperation.returnType
 			compiler.compile(op.body, appendable, null)
 			eOperation.EAnnotations.add(createGenModelAnnotation("body", appendable.toString))
+		}
+		for (feature : pack.allContentsIterable.filter(typeof(XStructuralFeature))) {
+			val eStructuralFeature = feature.mapping.EStructuralFeature
+			val getter = mappings.getMapping(feature).getter
+			if (getter != null) {
+				val appendable = new StringBuilderBasedAppendable()
+				appendable.declareVariable(getter.declaringType, "this");
+				compiler.compile(feature.getBody, appendable, null)
+				eStructuralFeature.EAnnotations.add(createGenModelAnnotation("get", appendable.toString))
+			}
 		}
 		
 		generateGenModel(resource.contents.filter(typeof(GenModel)).head, fsa)
