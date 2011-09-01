@@ -5,7 +5,9 @@ package org.eclipse.emf.ecore.xcore.ui;
 
 import org.eclipse.emf.ecore.xcore.ui.hyperlinking.XcoreHyperLinkHelper;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.common.types.ui.refactoring.JdtAwareRenameSupportFactory;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
+import org.eclipse.xtext.ui.refactoring.ui.IRenameSupport;
 
 /**
  * Use this class to register components to be used within the IDE.
@@ -20,5 +22,10 @@ public class XcoreUiModule extends org.eclipse.emf.ecore.xcore.ui.AbstractXcoreU
 	public Class<? extends IHyperlinkHelper> bindIHyperlinkHelper()
 	{
 	  return XcoreHyperLinkHelper.class;
+	}
+	
+	public Class<? extends IRenameSupport.Factory> bindIRenameSupport$Factory()
+	{
+	  return JdtAwareRenameSupportFactory.class;
 	}
 }
