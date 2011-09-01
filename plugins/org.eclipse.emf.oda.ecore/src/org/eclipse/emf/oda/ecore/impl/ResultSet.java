@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2010 Kenn Hussey and others.
+ * Copyright (c) 2010-2011 Kenn Hussey and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResultSet.java,v 1.2 2010/12/16 14:03:18 khussey Exp $
+ * $Id: ResultSet.java,v 1.2.2.1 2011/09/01 02:18:01 khussey Exp $
  */
 package org.eclipse.emf.oda.ecore.impl;
 
@@ -395,7 +395,7 @@ public abstract class ResultSet implements IResultSet
     switch (getMetaData().getColumnType(index))
     {
       case EcorePackage.EDATE:
-        return (Date)getValue(index);
+        return new Date(((java.util.Date)getValue(index)).getTime());
       default:
         throw new OdaException(new IllegalArgumentException(String.valueOf(index)));
     }
@@ -411,7 +411,7 @@ public abstract class ResultSet implements IResultSet
     switch (getMetaData().getColumnType(index))
     {
       case EcorePackage.EDATE:
-        return new Time(((Date)getValue(index)).getTime());
+        return new Time(((java.util.Date)getValue(index)).getTime());
       default:
         throw new OdaException(new IllegalArgumentException(String.valueOf(index)));
     }
@@ -427,7 +427,7 @@ public abstract class ResultSet implements IResultSet
     switch (getMetaData().getColumnType(index))
     {
       case EcorePackage.EDATE:
-        return new Timestamp(((Date)getValue(index)).getTime());
+        return new Timestamp(((java.util.Date)getValue(index)).getTime());
       default:
         throw new OdaException(new IllegalArgumentException(String.valueOf(index)));
     }
