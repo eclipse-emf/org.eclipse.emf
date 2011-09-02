@@ -47,15 +47,16 @@ class XcoreGenerator implements IGenerator {
 		}
 		for (feature : pack.allContentsIterable.filter(typeof(XStructuralFeature))) {
 			val eStructuralFeature = feature.mapping.EStructuralFeature
-			val getter = mappings.getMapping(feature).getter
-			if (getter != null) {
+			val getBody = feature.getBody
+			if (getBody != null) {
+				val getter = mappings.getMapping(feature).getter
 				val appendable = new StringBuilderBasedAppendable()
 				appendable.declareVariable(getter.declaringType, "this");
 				compiler.compile(feature.getBody, appendable, null)
 				eStructuralFeature.EAnnotations.add(createGenModelAnnotation("get", appendable.toString))
 			}
 		}
-		
+
 		generateGenModel(resource.contents.filter(typeof(GenModel)).head, fsa)
 	}
 	

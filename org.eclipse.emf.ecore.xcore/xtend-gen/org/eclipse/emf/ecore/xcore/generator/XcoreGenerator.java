@@ -78,18 +78,20 @@ public class XcoreGenerator implements IGenerator {
           XFeatureMapping _mapping_2 = this.mappings.getMapping(feature);
           EStructuralFeature _eStructuralFeature = _mapping_2.getEStructuralFeature();
           final EStructuralFeature eStructuralFeature = _eStructuralFeature;
-          XFeatureMapping _mapping_3 = this.mappings.getMapping(feature);
-          JvmOperation _getter = _mapping_3.getGetter();
-          final JvmOperation getter = _getter;
-          boolean _operator_notEquals = ObjectExtensions.operator_notEquals(getter, null);
+          XBlockExpression _getBody = feature.getGetBody();
+          final XBlockExpression getBody = _getBody;
+          boolean _operator_notEquals = ObjectExtensions.operator_notEquals(getBody, null);
           if (_operator_notEquals) {
             {
+              XFeatureMapping _mapping_3 = this.mappings.getMapping(feature);
+              JvmOperation _getter = _mapping_3.getGetter();
+              final JvmOperation getter = _getter;
               StringBuilderBasedAppendable _stringBuilderBasedAppendable_1 = new StringBuilderBasedAppendable();
               final StringBuilderBasedAppendable appendable_1 = _stringBuilderBasedAppendable_1;
               JvmDeclaredType _declaringType_1 = getter.getDeclaringType();
               appendable_1.declareVariable(_declaringType_1, "this");
-              XBlockExpression _getBody = feature.getGetBody();
-              this.compiler.compile(_getBody, appendable_1, null);
+              XBlockExpression _getBody_1 = feature.getGetBody();
+              this.compiler.compile(_getBody_1, appendable_1, null);
               EList<EAnnotation> _eAnnotations_1 = eStructuralFeature.getEAnnotations();
               String _string_1 = appendable_1.toString();
               EAnnotation _createGenModelAnnotation_1 = this.createGenModelAnnotation("get", _string_1);
