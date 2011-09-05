@@ -123,6 +123,26 @@ public abstract class AbstractXcoreUiModule extends DefaultUiModule {
 		return org.eclipse.core.resources.ResourcesPlugin.getWorkspace().getRoot();
 	}
 
+	// contributed by org.eclipse.xtext.ui.generator.refactoring.RefactorElementNameFragment
+	public Class<? extends org.eclipse.xtext.ui.refactoring.IRenameRefactoringProvider> bindIRenameRefactoringProvider() {
+		return org.eclipse.xtext.common.types.ui.refactoring.JvmRenameRefactoringProvider.class;
+	}
+
+	// contributed by org.eclipse.xtext.ui.generator.refactoring.RefactorElementNameFragment
+	public Class<? extends org.eclipse.xtext.ui.refactoring.IRenameProcessorAdapter.Factory> bindIRenameProcessorAdapter$Factory() {
+		return org.eclipse.xtext.common.types.ui.refactoring.JavaRenameProcessorAdapter.Factory.class;
+	}
+
+	// contributed by org.eclipse.xtext.ui.generator.refactoring.RefactorElementNameFragment
+	public Class<? extends org.eclipse.xtext.ui.refactoring.ui.IRenameSupport.Factory> bindIRenameSupport$Factory() {
+		return org.eclipse.xtext.common.types.ui.refactoring.JdtAwareRenameSupportFactory.class;
+	}
+
+	// contributed by org.eclipse.xtext.ui.generator.refactoring.RefactorElementNameFragment
+	public Class<? extends org.eclipse.xtext.ui.refactoring.IRenameStrategy.Provider> bindIRenameStrategy$Provider() {
+		return org.eclipse.xtext.common.types.ui.refactoring.participant.JvmMemberRenameStrategy.Provider.class;
+	}
+
 	// contributed by org.eclipse.xtext.generator.types.TypesGeneratorFragment
 	public java.lang.ClassLoader bindClassLoaderToInstance() {
 		return getClass().getClassLoader();

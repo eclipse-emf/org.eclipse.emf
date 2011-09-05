@@ -121,6 +121,11 @@ Workflow {
 				generateMwe = false
 			}
 			
+			// rename refactoring
+			fragment = refactoring.RefactorElementNameFragment {
+				useJdtRefactoring = true
+			}
+			
 			// Xbase support
 			fragment = types.TypesGeneratorFragment {}
 			fragment = xbase.XbaseGeneratorFragment {
