@@ -9,6 +9,7 @@ import "http://www.eclipse.org/xtext/xbase/Xtype" as xtype
 import "http://www.eclipse.org/emf/2011/Xcore"
 
 XPackage returns XPackage:
+	{XPackage}
 	(annotations+=XAnnotation)*
 	'package'
 	name = QualifiedName

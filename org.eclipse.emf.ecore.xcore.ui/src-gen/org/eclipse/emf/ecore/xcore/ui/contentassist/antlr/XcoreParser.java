@@ -270,11 +270,11 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getJvmLowerBoundAccess().getGroup(), "rule__JvmLowerBound__Group__0");
 					put(grammarAccess.getJvmTypeParameterAccess().getGroup(), "rule__JvmTypeParameter__Group__0");
 					put(grammarAccess.getJvmTypeParameterAccess().getGroup_1_0(), "rule__JvmTypeParameter__Group_1_0__0");
-					put(grammarAccess.getXPackageAccess().getAnnotationsAssignment_0(), "rule__XPackage__AnnotationsAssignment_0");
-					put(grammarAccess.getXPackageAccess().getNameAssignment_2(), "rule__XPackage__NameAssignment_2");
-					put(grammarAccess.getXPackageAccess().getImportDirectivesAssignment_3(), "rule__XPackage__ImportDirectivesAssignment_3");
-					put(grammarAccess.getXPackageAccess().getAnnotationDirectivesAssignment_4(), "rule__XPackage__AnnotationDirectivesAssignment_4");
-					put(grammarAccess.getXPackageAccess().getClassifiersAssignment_5(), "rule__XPackage__ClassifiersAssignment_5");
+					put(grammarAccess.getXPackageAccess().getAnnotationsAssignment_1(), "rule__XPackage__AnnotationsAssignment_1");
+					put(grammarAccess.getXPackageAccess().getNameAssignment_3(), "rule__XPackage__NameAssignment_3");
+					put(grammarAccess.getXPackageAccess().getImportDirectivesAssignment_4(), "rule__XPackage__ImportDirectivesAssignment_4");
+					put(grammarAccess.getXPackageAccess().getAnnotationDirectivesAssignment_5(), "rule__XPackage__AnnotationDirectivesAssignment_5");
+					put(grammarAccess.getXPackageAccess().getClassifiersAssignment_6(), "rule__XPackage__ClassifiersAssignment_6");
 					put(grammarAccess.getXAnnotationAccess().getSourceAssignment_1(), "rule__XAnnotation__SourceAssignment_1");
 					put(grammarAccess.getXAnnotationAccess().getDetailsAssignment_2_1(), "rule__XAnnotation__DetailsAssignment_2_1");
 					put(grammarAccess.getXAnnotationAccess().getDetailsAssignment_2_2_1(), "rule__XAnnotation__DetailsAssignment_2_2_1");

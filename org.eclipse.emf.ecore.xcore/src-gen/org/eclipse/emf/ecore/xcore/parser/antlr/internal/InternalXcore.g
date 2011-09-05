@@ -78,40 +78,46 @@ ruleXPackage returns [EObject current=null]
     }
     @after { leaveRule(); }:
 ((
+    {
+        $current = forceCreateModelElement(
+            grammarAccess.getXPackageAccess().getXPackageAction_0(),
+            $current);
+    }
+)(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getXPackageAccess().getAnnotationsXAnnotationParserRuleCall_0_0()); 
+	        newCompositeNode(grammarAccess.getXPackageAccess().getAnnotationsXAnnotationParserRuleCall_1_0()); 
 	    }
-		lv_annotations_0_0=ruleXAnnotation		{
+		lv_annotations_1_0=ruleXAnnotation		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getXPackageRule());
 	        }
        		add(
        			$current, 
        			"annotations",
-        		lv_annotations_0_0, 
+        		lv_annotations_1_0, 
         		"XAnnotation");
 	        afterParserOrEnumRuleCall();
 	    }
 
 )
-)*	otherlv_1='package' 
+)*	otherlv_2='package' 
     {
-    	newLeafNode(otherlv_1, grammarAccess.getXPackageAccess().getPackageKeyword_1());
+    	newLeafNode(otherlv_2, grammarAccess.getXPackageAccess().getPackageKeyword_2());
     }
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getXPackageAccess().getNameQualifiedNameParserRuleCall_2_0()); 
+	        newCompositeNode(grammarAccess.getXPackageAccess().getNameQualifiedNameParserRuleCall_3_0()); 
 	    }
-		lv_name_2_0=ruleQualifiedName		{
+		lv_name_3_0=ruleQualifiedName		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getXPackageRule());
 	        }
        		set(
        			$current, 
        			"name",
-        		lv_name_2_0, 
+        		lv_name_3_0, 
         		"QualifiedName");
 	        afterParserOrEnumRuleCall();
 	    }
@@ -120,16 +126,16 @@ ruleXPackage returns [EObject current=null]
 )(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getXPackageAccess().getImportDirectivesXImportDirectiveParserRuleCall_3_0()); 
+	        newCompositeNode(grammarAccess.getXPackageAccess().getImportDirectivesXImportDirectiveParserRuleCall_4_0()); 
 	    }
-		lv_importDirectives_3_0=ruleXImportDirective		{
+		lv_importDirectives_4_0=ruleXImportDirective		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getXPackageRule());
 	        }
        		add(
        			$current, 
        			"importDirectives",
-        		lv_importDirectives_3_0, 
+        		lv_importDirectives_4_0, 
         		"XImportDirective");
 	        afterParserOrEnumRuleCall();
 	    }
@@ -138,16 +144,16 @@ ruleXPackage returns [EObject current=null]
 )*(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getXPackageAccess().getAnnotationDirectivesXAnnotationDirectiveParserRuleCall_4_0()); 
+	        newCompositeNode(grammarAccess.getXPackageAccess().getAnnotationDirectivesXAnnotationDirectiveParserRuleCall_5_0()); 
 	    }
-		lv_annotationDirectives_4_0=ruleXAnnotationDirective		{
+		lv_annotationDirectives_5_0=ruleXAnnotationDirective		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getXPackageRule());
 	        }
        		add(
        			$current, 
        			"annotationDirectives",
-        		lv_annotationDirectives_4_0, 
+        		lv_annotationDirectives_5_0, 
         		"XAnnotationDirective");
 	        afterParserOrEnumRuleCall();
 	    }
@@ -156,16 +162,16 @@ ruleXPackage returns [EObject current=null]
 )*(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getXPackageAccess().getClassifiersXClassifierParserRuleCall_5_0()); 
+	        newCompositeNode(grammarAccess.getXPackageAccess().getClassifiersXClassifierParserRuleCall_6_0()); 
 	    }
-		lv_classifiers_5_0=ruleXClassifier		{
+		lv_classifiers_6_0=ruleXClassifier		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getXPackageRule());
 	        }
        		add(
        			$current, 
        			"classifiers",
-        		lv_classifiers_5_0, 
+        		lv_classifiers_6_0, 
         		"XClassifier");
 	        afterParserOrEnumRuleCall();
 	    }

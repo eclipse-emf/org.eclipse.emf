@@ -52,7 +52,7 @@ public class XcoreFormatter extends AbstractDeclarativeFormatter {
       c.setNoSpace().before(pair.getSecond());
     }
     c.setLinewrap(1).after(f.getXImportDirectiveRule());
-    c.setLinewrap(2).after(f.getXPackageAccess().getImportDirectivesXImportDirectiveParserRuleCall_3_0());
+    c.setLinewrap(2).after(f.getXPackageAccess().getImportDirectivesXImportDirectiveParserRuleCall_4_0());
     
     c.setNoSpace().before(f.getXGenericTypeAccess().getLessThanSignKeyword_1_0());
       
@@ -64,10 +64,10 @@ public class XcoreFormatter extends AbstractDeclarativeFormatter {
     c.setNoSpace().after(f.getXStringToStringMapEntryAccess().getEqualsSignKeyword_1());
     
     c.setLinewrap(1).after(f.getXAnnotationDirectiveRule());
-    c.setLinewrap(2).after(f.getXPackageAccess().getAnnotationDirectivesXAnnotationDirectiveParserRuleCall_4_0());
+    c.setLinewrap(2).after(f.getXPackageAccess().getAnnotationDirectivesXAnnotationDirectiveParserRuleCall_5_0());
     
     c.setNoSpace().before(f.getXOperationAccess().getLeftParenthesisKeyword_7());
-    c.setLinewrap(2).after(f.getXPackageAccess().getNameAssignment_2());
+    c.setLinewrap(2).after(f.getXPackageAccess().getNameAssignment_3());
     c.setLinewrap(2).after(f.getXClassRule());
     c.setLinewrap(2).after(f.getXDataTypeRule());
     c.setLinewrap(2).after(f.getXEnumRule());

@@ -24,6 +24,11 @@
         <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XPackage"/>
       </type>
       <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Action">
+          <type metamodel="/0/@metamodelDeclarations.5">
+            <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XPackage"/>
+          </type>
+        </elements>
         <elements xsi:type="xtext:Assignment" cardinality="*" feature="annotations" operator="+=">
           <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.1"/>
         </elements>

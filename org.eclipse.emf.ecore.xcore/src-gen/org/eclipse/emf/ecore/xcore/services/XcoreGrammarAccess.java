@@ -21,59 +21,63 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public class XPackageElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "XPackage");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Assignment cAnnotationsAssignment_0 = (Assignment)cGroup.eContents().get(0);
-		private final RuleCall cAnnotationsXAnnotationParserRuleCall_0_0 = (RuleCall)cAnnotationsAssignment_0.eContents().get(0);
-		private final Keyword cPackageKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cNameAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cNameQualifiedNameParserRuleCall_2_0 = (RuleCall)cNameAssignment_2.eContents().get(0);
-		private final Assignment cImportDirectivesAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cImportDirectivesXImportDirectiveParserRuleCall_3_0 = (RuleCall)cImportDirectivesAssignment_3.eContents().get(0);
-		private final Assignment cAnnotationDirectivesAssignment_4 = (Assignment)cGroup.eContents().get(4);
-		private final RuleCall cAnnotationDirectivesXAnnotationDirectiveParserRuleCall_4_0 = (RuleCall)cAnnotationDirectivesAssignment_4.eContents().get(0);
-		private final Assignment cClassifiersAssignment_5 = (Assignment)cGroup.eContents().get(5);
-		private final RuleCall cClassifiersXClassifierParserRuleCall_5_0 = (RuleCall)cClassifiersAssignment_5.eContents().get(0);
+		private final Action cXPackageAction_0 = (Action)cGroup.eContents().get(0);
+		private final Assignment cAnnotationsAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cAnnotationsXAnnotationParserRuleCall_1_0 = (RuleCall)cAnnotationsAssignment_1.eContents().get(0);
+		private final Keyword cPackageKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cNameAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cNameQualifiedNameParserRuleCall_3_0 = (RuleCall)cNameAssignment_3.eContents().get(0);
+		private final Assignment cImportDirectivesAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cImportDirectivesXImportDirectiveParserRuleCall_4_0 = (RuleCall)cImportDirectivesAssignment_4.eContents().get(0);
+		private final Assignment cAnnotationDirectivesAssignment_5 = (Assignment)cGroup.eContents().get(5);
+		private final RuleCall cAnnotationDirectivesXAnnotationDirectiveParserRuleCall_5_0 = (RuleCall)cAnnotationDirectivesAssignment_5.eContents().get(0);
+		private final Assignment cClassifiersAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cClassifiersXClassifierParserRuleCall_6_0 = (RuleCall)cClassifiersAssignment_6.eContents().get(0);
 		
 		//XPackage:
-		//	annotations+=XAnnotation* "package" name=QualifiedName importDirectives+=XImportDirective*
+		//	{XPackage} annotations+=XAnnotation* "package" name=QualifiedName importDirectives+=XImportDirective*
 		//	annotationDirectives+=XAnnotationDirective* classifiers+=XClassifier*;
 		public ParserRule getRule() { return rule; }
 
-		//annotations+=XAnnotation* "package" name=QualifiedName importDirectives+=XImportDirective*
+		//{XPackage} annotations+=XAnnotation* "package" name=QualifiedName importDirectives+=XImportDirective*
 		//annotationDirectives+=XAnnotationDirective* classifiers+=XClassifier*
 		public Group getGroup() { return cGroup; }
 
+		//{XPackage}
+		public Action getXPackageAction_0() { return cXPackageAction_0; }
+
 		//annotations+=XAnnotation*
-		public Assignment getAnnotationsAssignment_0() { return cAnnotationsAssignment_0; }
+		public Assignment getAnnotationsAssignment_1() { return cAnnotationsAssignment_1; }
 
 		//XAnnotation
-		public RuleCall getAnnotationsXAnnotationParserRuleCall_0_0() { return cAnnotationsXAnnotationParserRuleCall_0_0; }
+		public RuleCall getAnnotationsXAnnotationParserRuleCall_1_0() { return cAnnotationsXAnnotationParserRuleCall_1_0; }
 
 		//"package"
-		public Keyword getPackageKeyword_1() { return cPackageKeyword_1; }
+		public Keyword getPackageKeyword_2() { return cPackageKeyword_2; }
 
 		//name=QualifiedName
-		public Assignment getNameAssignment_2() { return cNameAssignment_2; }
+		public Assignment getNameAssignment_3() { return cNameAssignment_3; }
 
 		//QualifiedName
-		public RuleCall getNameQualifiedNameParserRuleCall_2_0() { return cNameQualifiedNameParserRuleCall_2_0; }
+		public RuleCall getNameQualifiedNameParserRuleCall_3_0() { return cNameQualifiedNameParserRuleCall_3_0; }
 
 		//importDirectives+=XImportDirective*
-		public Assignment getImportDirectivesAssignment_3() { return cImportDirectivesAssignment_3; }
+		public Assignment getImportDirectivesAssignment_4() { return cImportDirectivesAssignment_4; }
 
 		//XImportDirective
-		public RuleCall getImportDirectivesXImportDirectiveParserRuleCall_3_0() { return cImportDirectivesXImportDirectiveParserRuleCall_3_0; }
+		public RuleCall getImportDirectivesXImportDirectiveParserRuleCall_4_0() { return cImportDirectivesXImportDirectiveParserRuleCall_4_0; }
 
 		//annotationDirectives+=XAnnotationDirective*
-		public Assignment getAnnotationDirectivesAssignment_4() { return cAnnotationDirectivesAssignment_4; }
+		public Assignment getAnnotationDirectivesAssignment_5() { return cAnnotationDirectivesAssignment_5; }
 
 		//XAnnotationDirective
-		public RuleCall getAnnotationDirectivesXAnnotationDirectiveParserRuleCall_4_0() { return cAnnotationDirectivesXAnnotationDirectiveParserRuleCall_4_0; }
+		public RuleCall getAnnotationDirectivesXAnnotationDirectiveParserRuleCall_5_0() { return cAnnotationDirectivesXAnnotationDirectiveParserRuleCall_5_0; }
 
 		//classifiers+=XClassifier*
-		public Assignment getClassifiersAssignment_5() { return cClassifiersAssignment_5; }
+		public Assignment getClassifiersAssignment_6() { return cClassifiersAssignment_6; }
 
 		//XClassifier
-		public RuleCall getClassifiersXClassifierParserRuleCall_5_0() { return cClassifiersXClassifierParserRuleCall_5_0; }
+		public RuleCall getClassifiersXClassifierParserRuleCall_6_0() { return cClassifiersXClassifierParserRuleCall_6_0; }
 	}
 
 	public class XAnnotationElements extends AbstractParserRuleElementFinder {
@@ -2018,7 +2022,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 
 	
 	//XPackage:
-	//	annotations+=XAnnotation* "package" name=QualifiedName importDirectives+=XImportDirective*
+	//	{XPackage} annotations+=XAnnotation* "package" name=QualifiedName importDirectives+=XImportDirective*
 	//	annotationDirectives+=XAnnotationDirective* classifiers+=XClassifier*;
 	public XPackageElements getXPackageAccess() {
 		return (pXPackage != null) ? pXPackage : (pXPackage = new XPackageElements());
