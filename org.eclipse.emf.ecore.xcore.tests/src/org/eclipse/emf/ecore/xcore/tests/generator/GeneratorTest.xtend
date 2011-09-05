@@ -14,6 +14,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
+import org.eclipse.xtext.generator.IFileSystemAccess
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(XcoreInjectorProvider))
@@ -41,6 +42,6 @@ class GeneratorTest {
 		xcoreGenerator.doGenerate(xPackage.eResource, inmemFsa)
 		assertEquals(inmemFsa.files.keySet.toString, 8, inmemFsa.files.size)
 		
-		assertNotNull(inmemFsa.files.get('test/util/TestSwitch.java'))
+		assertNotNull(inmemFsa.files.get(IFileSystemAccess::DEFAULT_OUTPUT+'test/util/TestSwitch.java'))
 	}
 }
