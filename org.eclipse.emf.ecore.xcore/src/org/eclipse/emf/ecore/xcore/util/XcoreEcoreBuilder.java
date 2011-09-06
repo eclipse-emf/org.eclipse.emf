@@ -95,20 +95,23 @@ public class XcoreEcoreBuilder
     mapper.getToXcoreMapping(ePackage).setXcoreElement(xPackage);
     handleAnnotations(xPackage, ePackage);
     String name = xPackage.getName();
-    String basePackage;
-    int index = name.lastIndexOf(".");
-    if (index == -1)
+    String basePackage = null;
+    if (name != null)
     {
-      basePackage = null;
-      ePackage.setName(name);
+      int index = name.lastIndexOf(".");
+      if (index == -1)
+      {
+        basePackage = null;
+        ePackage.setName(name);
+      }
+      else
+      {
+        basePackage = name.substring(0, index);
+        ePackage.setName(name.substring(index + 1));
+      }
+      ePackage.setNsURI(name);
+      ePackage.setNsPrefix(ePackage.getName());
     }
-    else
-    {
-      basePackage = name.substring(0, index);
-      ePackage.setName(name.substring(index + 1));
-    }
-    ePackage.setNsURI(name);
-    ePackage.setNsPrefix(ePackage.getName());
 
     for (XClassifier xClassifier : xPackage.getClassifiers())
     {
@@ -418,7 +421,11 @@ public class XcoreEcoreBuilder
            }
            for (GenFeature key : xReference.getKeys())
            {
-             eReference.getEKeys().add((EAttribute)key.getEcoreFeature());
+             EStructuralFeature eAttribute = key.getEcoreFeature();
+             if (eAttribute instanceof EAttribute)
+             {
+						   eReference.getEKeys().add((EAttribute)eAttribute);
+						 }
            }
          }
        });

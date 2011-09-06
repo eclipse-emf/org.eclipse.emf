@@ -40223,26 +40223,26 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__XClosure__Group_2_0_0__0__Impl"
-    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13614:1: rule__XClosure__Group_2_0_0__0__Impl : ( ( rule__XClosure__FormalParametersAssignment_2_0_0_0 ) ) ;
+    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13614:1: rule__XClosure__Group_2_0_0__0__Impl : ( ( rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_0 ) ) ;
     public final void rule__XClosure__Group_2_0_0__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13618:1: ( ( ( rule__XClosure__FormalParametersAssignment_2_0_0_0 ) ) )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13619:1: ( ( rule__XClosure__FormalParametersAssignment_2_0_0_0 ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13618:1: ( ( ( rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_0 ) ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13619:1: ( ( rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_0 ) )
             {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13619:1: ( ( rule__XClosure__FormalParametersAssignment_2_0_0_0 ) )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13620:1: ( rule__XClosure__FormalParametersAssignment_2_0_0_0 )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13619:1: ( ( rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_0 ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13620:1: ( rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_0 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getXClosureAccess().getFormalParametersAssignment_2_0_0_0()); 
+               before(grammarAccess.getXClosureAccess().getDeclaredFormalParametersAssignment_2_0_0_0()); 
             }
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13621:1: ( rule__XClosure__FormalParametersAssignment_2_0_0_0 )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13621:2: rule__XClosure__FormalParametersAssignment_2_0_0_0
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13621:1: ( rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_0 )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13621:2: rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_0
             {
-            pushFollow(FollowSets001.FOLLOW_rule__XClosure__FormalParametersAssignment_2_0_0_0_in_rule__XClosure__Group_2_0_0__0__Impl27595);
-            rule__XClosure__FormalParametersAssignment_2_0_0_0();
+            pushFollow(FollowSets001.FOLLOW_rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_0_in_rule__XClosure__Group_2_0_0__0__Impl27595);
+            rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_0();
 
             state._fsp--;
             if (state.failed) return ;
@@ -40250,7 +40250,7 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getXClosureAccess().getFormalParametersAssignment_2_0_0_0()); 
+               after(grammarAccess.getXClosureAccess().getDeclaredFormalParametersAssignment_2_0_0_0()); 
             }
 
             }
@@ -40488,26 +40488,26 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__XClosure__Group_2_0_0_1__1__Impl"
-    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13705:1: rule__XClosure__Group_2_0_0_1__1__Impl : ( ( rule__XClosure__FormalParametersAssignment_2_0_0_1_1 ) ) ;
+    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13705:1: rule__XClosure__Group_2_0_0_1__1__Impl : ( ( rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_1_1 ) ) ;
     public final void rule__XClosure__Group_2_0_0_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13709:1: ( ( ( rule__XClosure__FormalParametersAssignment_2_0_0_1_1 ) ) )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13710:1: ( ( rule__XClosure__FormalParametersAssignment_2_0_0_1_1 ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13709:1: ( ( ( rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_1_1 ) ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13710:1: ( ( rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_1_1 ) )
             {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13710:1: ( ( rule__XClosure__FormalParametersAssignment_2_0_0_1_1 ) )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13711:1: ( rule__XClosure__FormalParametersAssignment_2_0_0_1_1 )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13710:1: ( ( rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_1_1 ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13711:1: ( rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_1_1 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getXClosureAccess().getFormalParametersAssignment_2_0_0_1_1()); 
+               before(grammarAccess.getXClosureAccess().getDeclaredFormalParametersAssignment_2_0_0_1_1()); 
             }
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13712:1: ( rule__XClosure__FormalParametersAssignment_2_0_0_1_1 )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13712:2: rule__XClosure__FormalParametersAssignment_2_0_0_1_1
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13712:1: ( rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_1_1 )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:13712:2: rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_1_1
             {
-            pushFollow(FollowSets001.FOLLOW_rule__XClosure__FormalParametersAssignment_2_0_0_1_1_in_rule__XClosure__Group_2_0_0_1__1__Impl27776);
-            rule__XClosure__FormalParametersAssignment_2_0_0_1_1();
+            pushFollow(FollowSets001.FOLLOW_rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_1_1_in_rule__XClosure__Group_2_0_0_1__1__Impl27776);
+            rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_1_1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -40515,7 +40515,7 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getXClosureAccess().getFormalParametersAssignment_2_0_0_1_1()); 
+               after(grammarAccess.getXClosureAccess().getDeclaredFormalParametersAssignment_2_0_0_1_1()); 
             }
 
             }
@@ -41458,26 +41458,26 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__XShortClosure__Group_0_0_1__0__Impl"
-    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14049:1: rule__XShortClosure__Group_0_0_1__0__Impl : ( ( rule__XShortClosure__FormalParametersAssignment_0_0_1_0 ) ) ;
+    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14049:1: rule__XShortClosure__Group_0_0_1__0__Impl : ( ( rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_0 ) ) ;
     public final void rule__XShortClosure__Group_0_0_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14053:1: ( ( ( rule__XShortClosure__FormalParametersAssignment_0_0_1_0 ) ) )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14054:1: ( ( rule__XShortClosure__FormalParametersAssignment_0_0_1_0 ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14053:1: ( ( ( rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_0 ) ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14054:1: ( ( rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_0 ) )
             {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14054:1: ( ( rule__XShortClosure__FormalParametersAssignment_0_0_1_0 ) )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14055:1: ( rule__XShortClosure__FormalParametersAssignment_0_0_1_0 )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14054:1: ( ( rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_0 ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14055:1: ( rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_0 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getXShortClosureAccess().getFormalParametersAssignment_0_0_1_0()); 
+               before(grammarAccess.getXShortClosureAccess().getDeclaredFormalParametersAssignment_0_0_1_0()); 
             }
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14056:1: ( rule__XShortClosure__FormalParametersAssignment_0_0_1_0 )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14056:2: rule__XShortClosure__FormalParametersAssignment_0_0_1_0
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14056:1: ( rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_0 )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14056:2: rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_0
             {
-            pushFollow(FollowSets001.FOLLOW_rule__XShortClosure__FormalParametersAssignment_0_0_1_0_in_rule__XShortClosure__Group_0_0_1__0__Impl28454);
-            rule__XShortClosure__FormalParametersAssignment_0_0_1_0();
+            pushFollow(FollowSets001.FOLLOW_rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_0_in_rule__XShortClosure__Group_0_0_1__0__Impl28454);
+            rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_0();
 
             state._fsp--;
             if (state.failed) return ;
@@ -41485,7 +41485,7 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getXShortClosureAccess().getFormalParametersAssignment_0_0_1_0()); 
+               after(grammarAccess.getXShortClosureAccess().getDeclaredFormalParametersAssignment_0_0_1_0()); 
             }
 
             }
@@ -41723,26 +41723,26 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__XShortClosure__Group_0_0_1_1__1__Impl"
-    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14140:1: rule__XShortClosure__Group_0_0_1_1__1__Impl : ( ( rule__XShortClosure__FormalParametersAssignment_0_0_1_1_1 ) ) ;
+    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14140:1: rule__XShortClosure__Group_0_0_1_1__1__Impl : ( ( rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_1_1 ) ) ;
     public final void rule__XShortClosure__Group_0_0_1_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14144:1: ( ( ( rule__XShortClosure__FormalParametersAssignment_0_0_1_1_1 ) ) )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14145:1: ( ( rule__XShortClosure__FormalParametersAssignment_0_0_1_1_1 ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14144:1: ( ( ( rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_1_1 ) ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14145:1: ( ( rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_1_1 ) )
             {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14145:1: ( ( rule__XShortClosure__FormalParametersAssignment_0_0_1_1_1 ) )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14146:1: ( rule__XShortClosure__FormalParametersAssignment_0_0_1_1_1 )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14145:1: ( ( rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_1_1 ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14146:1: ( rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_1_1 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getXShortClosureAccess().getFormalParametersAssignment_0_0_1_1_1()); 
+               before(grammarAccess.getXShortClosureAccess().getDeclaredFormalParametersAssignment_0_0_1_1_1()); 
             }
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14147:1: ( rule__XShortClosure__FormalParametersAssignment_0_0_1_1_1 )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14147:2: rule__XShortClosure__FormalParametersAssignment_0_0_1_1_1
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14147:1: ( rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_1_1 )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:14147:2: rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_1_1
             {
-            pushFollow(FollowSets001.FOLLOW_rule__XShortClosure__FormalParametersAssignment_0_0_1_1_1_in_rule__XShortClosure__Group_0_0_1_1__1__Impl28635);
-            rule__XShortClosure__FormalParametersAssignment_0_0_1_1_1();
+            pushFollow(FollowSets001.FOLLOW_rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_1_1_in_rule__XShortClosure__Group_0_0_1_1__1__Impl28635);
+            rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_1_1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -41750,7 +41750,7 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getXShortClosureAccess().getFormalParametersAssignment_0_0_1_1_1()); 
+               after(grammarAccess.getXShortClosureAccess().getDeclaredFormalParametersAssignment_0_0_1_1_1()); 
             }
 
             }
@@ -67453,9 +67453,9 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__XMemberFeatureCall__MemberCallArgumentsAssignment_1_1_4"
 
 
-    // $ANTLR start "rule__XClosure__FormalParametersAssignment_2_0_0_0"
-    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:23318:1: rule__XClosure__FormalParametersAssignment_2_0_0_0 : ( ruleJvmFormalParameter ) ;
-    public final void rule__XClosure__FormalParametersAssignment_2_0_0_0() throws RecognitionException {
+    // $ANTLR start "rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_0"
+    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:23318:1: rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_0 : ( ruleJvmFormalParameter ) ;
+    public final void rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
@@ -67467,15 +67467,15 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
             // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:23324:1: ruleJvmFormalParameter
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getXClosureAccess().getFormalParametersJvmFormalParameterParserRuleCall_2_0_0_0_0()); 
+               before(grammarAccess.getXClosureAccess().getDeclaredFormalParametersJvmFormalParameterParserRuleCall_2_0_0_0_0()); 
             }
-            pushFollow(FollowSets001.FOLLOW_ruleJvmFormalParameter_in_rule__XClosure__FormalParametersAssignment_2_0_0_048391);
+            pushFollow(FollowSets001.FOLLOW_ruleJvmFormalParameter_in_rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_048391);
             ruleJvmFormalParameter();
 
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getXClosureAccess().getFormalParametersJvmFormalParameterParserRuleCall_2_0_0_0_0()); 
+               after(grammarAccess.getXClosureAccess().getDeclaredFormalParametersJvmFormalParameterParserRuleCall_2_0_0_0_0()); 
             }
 
             }
@@ -67495,12 +67495,12 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__XClosure__FormalParametersAssignment_2_0_0_0"
+    // $ANTLR end "rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_0"
 
 
-    // $ANTLR start "rule__XClosure__FormalParametersAssignment_2_0_0_1_1"
-    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:23333:1: rule__XClosure__FormalParametersAssignment_2_0_0_1_1 : ( ruleJvmFormalParameter ) ;
-    public final void rule__XClosure__FormalParametersAssignment_2_0_0_1_1() throws RecognitionException {
+    // $ANTLR start "rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_1_1"
+    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:23333:1: rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_1_1 : ( ruleJvmFormalParameter ) ;
+    public final void rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
@@ -67512,15 +67512,15 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
             // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:23339:1: ruleJvmFormalParameter
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getXClosureAccess().getFormalParametersJvmFormalParameterParserRuleCall_2_0_0_1_1_0()); 
+               before(grammarAccess.getXClosureAccess().getDeclaredFormalParametersJvmFormalParameterParserRuleCall_2_0_0_1_1_0()); 
             }
-            pushFollow(FollowSets001.FOLLOW_ruleJvmFormalParameter_in_rule__XClosure__FormalParametersAssignment_2_0_0_1_148422);
+            pushFollow(FollowSets001.FOLLOW_ruleJvmFormalParameter_in_rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_1_148422);
             ruleJvmFormalParameter();
 
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getXClosureAccess().getFormalParametersJvmFormalParameterParserRuleCall_2_0_0_1_1_0()); 
+               after(grammarAccess.getXClosureAccess().getDeclaredFormalParametersJvmFormalParameterParserRuleCall_2_0_0_1_1_0()); 
             }
 
             }
@@ -67540,7 +67540,7 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__XClosure__FormalParametersAssignment_2_0_0_1_1"
+    // $ANTLR end "rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_1_1"
 
 
     // $ANTLR start "rule__XClosure__ExplicitSyntaxAssignment_2_0_1"
@@ -67686,9 +67686,9 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__XExpressionInClosure__ExpressionsAssignment_1_0"
 
 
-    // $ANTLR start "rule__XShortClosure__FormalParametersAssignment_0_0_1_0"
-    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:23401:1: rule__XShortClosure__FormalParametersAssignment_0_0_1_0 : ( ruleJvmFormalParameter ) ;
-    public final void rule__XShortClosure__FormalParametersAssignment_0_0_1_0() throws RecognitionException {
+    // $ANTLR start "rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_0"
+    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:23401:1: rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_0 : ( ruleJvmFormalParameter ) ;
+    public final void rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
@@ -67700,15 +67700,15 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
             // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:23407:1: ruleJvmFormalParameter
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getXShortClosureAccess().getFormalParametersJvmFormalParameterParserRuleCall_0_0_1_0_0()); 
+               before(grammarAccess.getXShortClosureAccess().getDeclaredFormalParametersJvmFormalParameterParserRuleCall_0_0_1_0_0()); 
             }
-            pushFollow(FollowSets001.FOLLOW_ruleJvmFormalParameter_in_rule__XShortClosure__FormalParametersAssignment_0_0_1_048559);
+            pushFollow(FollowSets001.FOLLOW_ruleJvmFormalParameter_in_rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_048559);
             ruleJvmFormalParameter();
 
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getXShortClosureAccess().getFormalParametersJvmFormalParameterParserRuleCall_0_0_1_0_0()); 
+               after(grammarAccess.getXShortClosureAccess().getDeclaredFormalParametersJvmFormalParameterParserRuleCall_0_0_1_0_0()); 
             }
 
             }
@@ -67728,12 +67728,12 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__XShortClosure__FormalParametersAssignment_0_0_1_0"
+    // $ANTLR end "rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_0"
 
 
-    // $ANTLR start "rule__XShortClosure__FormalParametersAssignment_0_0_1_1_1"
-    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:23416:1: rule__XShortClosure__FormalParametersAssignment_0_0_1_1_1 : ( ruleJvmFormalParameter ) ;
-    public final void rule__XShortClosure__FormalParametersAssignment_0_0_1_1_1() throws RecognitionException {
+    // $ANTLR start "rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_1_1"
+    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:23416:1: rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_1_1 : ( ruleJvmFormalParameter ) ;
+    public final void rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
@@ -67745,15 +67745,15 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
             // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:23422:1: ruleJvmFormalParameter
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getXShortClosureAccess().getFormalParametersJvmFormalParameterParserRuleCall_0_0_1_1_1_0()); 
+               before(grammarAccess.getXShortClosureAccess().getDeclaredFormalParametersJvmFormalParameterParserRuleCall_0_0_1_1_1_0()); 
             }
-            pushFollow(FollowSets001.FOLLOW_ruleJvmFormalParameter_in_rule__XShortClosure__FormalParametersAssignment_0_0_1_1_148590);
+            pushFollow(FollowSets001.FOLLOW_ruleJvmFormalParameter_in_rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_1_148590);
             ruleJvmFormalParameter();
 
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getXShortClosureAccess().getFormalParametersJvmFormalParameterParserRuleCall_0_0_1_1_1_0()); 
+               after(grammarAccess.getXShortClosureAccess().getDeclaredFormalParametersJvmFormalParameterParserRuleCall_0_0_1_1_1_0()); 
             }
 
             }
@@ -67773,7 +67773,7 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__XShortClosure__FormalParametersAssignment_0_0_1_1_1"
+    // $ANTLR end "rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_1_1"
 
 
     // $ANTLR start "rule__XShortClosure__ExplicitSyntaxAssignment_0_0_2"
@@ -73889,8 +73889,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA4_specialS =
         "\54\uffff}>";
     static final String[] DFA4_transitionS = {
-            "\1\4\11\uffff\1\4\3\uffff\4\4\22\uffff\1\1\22\uffff\1\2\31\uffff"+
-            "\1\3\3\uffff\10\4\4\3",
+            "\1\4\11\uffff\1\4\3\uffff\4\4\22\uffff\1\1\22\uffff\1\2\31"+
+            "\uffff\1\3\3\uffff\10\4\4\3",
             "\1\5\11\uffff\1\12\3\uffff\1\6\1\7\1\10\1\11",
             "",
             "",
@@ -74059,9 +74059,9 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA28_specialS =
         "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\30\uffff}>";
     static final String[] DFA28_transitionS = {
-            "\1\12\1\1\1\12\10\uffff\1\6\2\uffff\1\12\1\2\1\3\1\4\1\5\5\uffff"+
-            "\1\12\2\uffff\1\12\3\uffff\1\12\2\uffff\2\12\2\uffff\1\7\12"+
-            "\uffff\1\12\11\uffff\1\12\3\uffff\1\12\1\uffff\1\12\3\uffff"+
+            "\1\12\1\1\1\12\10\uffff\1\6\2\uffff\1\12\1\2\1\3\1\4\1\5\5"+
+            "\uffff\1\12\2\uffff\1\12\3\uffff\1\12\2\uffff\2\12\2\uffff\1"+
+            "\7\12\uffff\1\12\11\uffff\1\12\3\uffff\1\12\1\uffff\1\12\3\uffff"+
             "\3\12\1\uffff\6\12\2\uffff\1\10\22\uffff\1\10\1\uffff\1\12",
             "\1\uffff",
             "\1\uffff",
@@ -74418,9 +74418,9 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA34_specialS =
         "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\30\uffff}>";
     static final String[] DFA34_transitionS = {
-            "\1\12\1\1\1\12\10\uffff\1\6\2\uffff\1\12\1\2\1\3\1\4\1\5\5\uffff"+
-            "\1\12\2\uffff\1\12\3\uffff\1\12\2\uffff\2\12\2\uffff\1\7\12"+
-            "\uffff\1\12\11\uffff\1\12\3\uffff\1\12\1\uffff\1\12\3\uffff"+
+            "\1\12\1\1\1\12\10\uffff\1\6\2\uffff\1\12\1\2\1\3\1\4\1\5\5"+
+            "\uffff\1\12\2\uffff\1\12\3\uffff\1\12\2\uffff\2\12\2\uffff\1"+
+            "\7\12\uffff\1\12\11\uffff\1\12\3\uffff\1\12\1\uffff\1\12\3\uffff"+
             "\3\12\1\uffff\6\12\2\uffff\1\10\22\uffff\1\10\1\uffff\1\12",
             "\1\uffff",
             "\1\uffff",
@@ -74617,9 +74617,9 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA36_specialS =
         "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\30\uffff}>";
     static final String[] DFA36_transitionS = {
-            "\1\12\1\1\1\12\10\uffff\1\6\2\uffff\1\12\1\2\1\3\1\4\1\5\5\uffff"+
-            "\1\12\2\uffff\1\12\3\uffff\1\12\2\uffff\2\12\2\uffff\1\7\12"+
-            "\uffff\1\12\11\uffff\1\12\3\uffff\1\12\1\uffff\1\12\3\uffff"+
+            "\1\12\1\1\1\12\10\uffff\1\6\2\uffff\1\12\1\2\1\3\1\4\1\5\5"+
+            "\uffff\1\12\2\uffff\1\12\3\uffff\1\12\2\uffff\2\12\2\uffff\1"+
+            "\7\12\uffff\1\12\11\uffff\1\12\3\uffff\1\12\1\uffff\1\12\3\uffff"+
             "\3\12\1\uffff\6\12\2\uffff\1\10\22\uffff\1\10\1\uffff\1\12",
             "\1\uffff",
             "\1\uffff",
@@ -75097,9 +75097,9 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA119_specialS =
         "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\33\uffff}>";
     static final String[] DFA119_transitionS = {
-            "\1\12\1\1\1\12\10\uffff\1\6\2\uffff\1\12\1\2\1\3\1\4\1\5\5\uffff"+
-            "\1\12\2\uffff\1\12\3\uffff\1\12\1\uffff\3\12\2\uffff\1\7\12"+
-            "\uffff\1\12\11\uffff\2\12\2\uffff\1\12\1\uffff\1\12\3\uffff"+
+            "\1\12\1\1\1\12\10\uffff\1\6\2\uffff\1\12\1\2\1\3\1\4\1\5\5"+
+            "\uffff\1\12\2\uffff\1\12\3\uffff\1\12\1\uffff\3\12\2\uffff\1"+
+            "\7\12\uffff\1\12\11\uffff\2\12\2\uffff\1\12\1\uffff\1\12\3\uffff"+
             "\3\12\1\uffff\6\12\2\uffff\1\10\22\uffff\1\10\2\12",
             "\1\uffff",
             "\1\uffff",
@@ -75718,9 +75718,9 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA146_acceptS =
         "\36\uffff\1\2\41\uffff\1\1";
     static final String DFA146_specialS =
-        "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1\14"+
-        "\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24\1\25\1\26\1\27\1\30\1\31"+
-        "\1\32\1\33\1\34\43\uffff}>";
+        "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1"+
+        "\14\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24\1\25\1\26\1\27\1\30"+
+        "\1\31\1\32\1\33\1\34\43\uffff}>";
     static final String[] DFA146_transitionS = {
             "\1\22\1\1\1\24\5\uffff\3\36\1\6\1\uffff\1\36\1\11\1\2\1\3\1"+
             "\4\1\5\5\36\1\15\2\36\1\10\3\36\1\7\2\36\1\16\1\20\2\uffff\1"+
@@ -76285,8 +76285,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA149_specialS =
         "\3\uffff\1\1\1\5\1\0\1\4\1\3\1\2\1\uffff}>";
     static final String[] DFA149_transitionS = {
-            "\3\1\4\uffff\5\1\1\uffff\23\1\1\2\3\1\1\uffff\11\1\1\uffff\5"+
-            "\1\7\uffff\15\1\1\uffff\11\1\1\uffff\3\1\14\uffff\2\1\1\uffff"+
+            "\3\1\4\uffff\5\1\1\uffff\23\1\1\2\3\1\1\uffff\11\1\1\uffff"+
+            "\5\1\7\uffff\15\1\1\uffff\11\1\1\uffff\3\1\14\uffff\2\1\1\uffff"+
             "\2\1",
             "",
             "\1\3\11\uffff\1\10\3\uffff\1\4\1\5\1\6\1\7\5\uffff\1\1",
@@ -76446,8 +76446,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA153_specialS =
         "\1\uffff\1\0\107\uffff}>";
     static final String[] DFA153_transitionS = {
-            "\3\2\5\uffff\4\2\1\uffff\13\2\1\1\13\2\1\uffff\4\2\3\uffff\2"+
-            "\2\1\uffff\5\2\7\uffff\15\2\1\uffff\11\2\1\uffff\3\2\14\uffff"+
+            "\3\2\5\uffff\4\2\1\uffff\13\2\1\1\13\2\1\uffff\4\2\3\uffff"+
+            "\2\2\1\uffff\5\2\7\uffff\15\2\1\uffff\11\2\1\uffff\3\2\14\uffff"+
             "\2\2\1\uffff\2\2",
             "\1\uffff",
             "",
@@ -76595,8 +76595,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA159_specialS =
         "\1\0\11\uffff}>";
     static final String[] DFA159_transitionS = {
-            "\1\11\11\uffff\1\11\3\uffff\4\11\103\uffff\1\1\1\2\1\3\1\4\1"+
-            "\5\1\6\1\7\1\10",
+            "\1\11\11\uffff\1\11\3\uffff\4\11\103\uffff\1\1\1\2\1\3\1\4"+
+            "\1\5\1\6\1\7\1\10",
             "",
             "",
             "",
@@ -76694,8 +76694,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA161_specialS =
         "\1\0\11\uffff}>";
     static final String[] DFA161_transitionS = {
-            "\1\11\11\uffff\1\11\3\uffff\4\11\103\uffff\1\1\1\2\1\3\1\4\1"+
-            "\5\1\6\1\7\1\10",
+            "\1\11\11\uffff\1\11\3\uffff\4\11\103\uffff\1\1\1\2\1\3\1\4"+
+            "\1\5\1\6\1\7\1\10",
             "",
             "",
             "",
@@ -76793,8 +76793,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA162_specialS =
         "\1\0\11\uffff}>";
     static final String[] DFA162_transitionS = {
-            "\1\11\11\uffff\1\11\3\uffff\4\11\103\uffff\1\1\1\2\1\3\1\4\1"+
-            "\5\1\6\1\7\1\10",
+            "\1\11\11\uffff\1\11\3\uffff\4\11\103\uffff\1\1\1\2\1\3\1\4"+
+            "\1\5\1\6\1\7\1\10",
             "",
             "",
             "",
@@ -76892,8 +76892,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA163_specialS =
         "\1\0\11\uffff}>";
     static final String[] DFA163_transitionS = {
-            "\1\11\11\uffff\1\11\3\uffff\4\11\103\uffff\1\1\1\2\1\3\1\4\1"+
-            "\5\1\6\1\7\1\10",
+            "\1\11\11\uffff\1\11\3\uffff\4\11\103\uffff\1\1\1\2\1\3\1\4"+
+            "\1\5\1\6\1\7\1\10",
             "",
             "",
             "",
@@ -76991,8 +76991,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA164_specialS =
         "\1\0\11\uffff}>";
     static final String[] DFA164_transitionS = {
-            "\1\11\11\uffff\1\11\3\uffff\4\11\103\uffff\1\1\1\2\1\3\1\4\1"+
-            "\5\1\6\1\7\1\10",
+            "\1\11\11\uffff\1\11\3\uffff\4\11\103\uffff\1\1\1\2\1\3\1\4"+
+            "\1\5\1\6\1\7\1\10",
             "",
             "",
             "",
@@ -77090,8 +77090,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA165_specialS =
         "\1\0\11\uffff}>";
     static final String[] DFA165_transitionS = {
-            "\1\11\11\uffff\1\11\3\uffff\4\11\103\uffff\1\1\1\2\1\3\1\4\1"+
-            "\5\1\6\1\7\1\10",
+            "\1\11\11\uffff\1\11\3\uffff\4\11\103\uffff\1\1\1\2\1\3\1\4"+
+            "\1\5\1\6\1\7\1\10",
             "",
             "",
             "",
@@ -77189,8 +77189,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA166_specialS =
         "\1\0\11\uffff}>";
     static final String[] DFA166_transitionS = {
-            "\1\11\11\uffff\1\11\3\uffff\4\11\103\uffff\1\1\1\2\1\3\1\4\1"+
-            "\5\1\6\1\7\1\10",
+            "\1\11\11\uffff\1\11\3\uffff\4\11\103\uffff\1\1\1\2\1\3\1\4"+
+            "\1\5\1\6\1\7\1\10",
             "",
             "",
             "",
@@ -77288,8 +77288,8 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
     static final String DFA167_specialS =
         "\1\0\11\uffff}>";
     static final String[] DFA167_transitionS = {
-            "\1\11\11\uffff\1\11\3\uffff\4\11\103\uffff\1\1\1\2\1\3\1\4\1"+
-            "\5\1\6\1\7\1\10",
+            "\1\11\11\uffff\1\11\3\uffff\4\11\103\uffff\1\1\1\2\1\3\1\4"+
+            "\1\5\1\6\1\7\1\10",
             "",
             "",
             "",
@@ -78567,14 +78567,14 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         public static final BitSet FOLLOW_rule__XClosure__ExplicitSyntaxAssignment_2_0_1_in_rule__XClosure__Group_2_0__1__Impl27531 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XClosure__Group_2_0_0__0__Impl_in_rule__XClosure__Group_2_0_0__027565 = new BitSet(new long[]{0x0000100000000000L});
         public static final BitSet FOLLOW_rule__XClosure__Group_2_0_0__1_in_rule__XClosure__Group_2_0_0__027568 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_rule__XClosure__FormalParametersAssignment_2_0_0_0_in_rule__XClosure__Group_2_0_0__0__Impl27595 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_0_in_rule__XClosure__Group_2_0_0__0__Impl27595 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XClosure__Group_2_0_0__1__Impl_in_rule__XClosure__Group_2_0_0__127625 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XClosure__Group_2_0_0_1__0_in_rule__XClosure__Group_2_0_0__1__Impl27652 = new BitSet(new long[]{0x0000100000000002L});
         public static final BitSet FOLLOW_rule__XClosure__Group_2_0_0_1__0__Impl_in_rule__XClosure__Group_2_0_0_1__027687 = new BitSet(new long[]{0x0000040000788020L,0x0000000000200000L});
         public static final BitSet FOLLOW_rule__XClosure__Group_2_0_0_1__1_in_rule__XClosure__Group_2_0_0_1__027690 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_44_in_rule__XClosure__Group_2_0_0_1__0__Impl27718 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XClosure__Group_2_0_0_1__1__Impl_in_rule__XClosure__Group_2_0_0_1__127749 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_rule__XClosure__FormalParametersAssignment_2_0_0_1_1_in_rule__XClosure__Group_2_0_0_1__1__Impl27776 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_1_1_in_rule__XClosure__Group_2_0_0_1__1__Impl27776 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XExpressionInClosure__Group__0__Impl_in_rule__XExpressionInClosure__Group__027810 = new BitSet(new long[]{0x802004E8907C8070L,0x000007000027EE28L});
         public static final BitSet FOLLOW_rule__XExpressionInClosure__Group__1_in_rule__XExpressionInClosure__Group__027813 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XExpressionInClosure__Group__1__Impl_in_rule__XExpressionInClosure__Group__127871 = new BitSet(new long[]{0x0000000000000002L});
@@ -78600,14 +78600,14 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         public static final BitSet FOLLOW_rule__XShortClosure__ExplicitSyntaxAssignment_0_0_2_in_rule__XShortClosure__Group_0_0__2__Impl28388 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XShortClosure__Group_0_0_1__0__Impl_in_rule__XShortClosure__Group_0_0_1__028424 = new BitSet(new long[]{0x0000100000000000L});
         public static final BitSet FOLLOW_rule__XShortClosure__Group_0_0_1__1_in_rule__XShortClosure__Group_0_0_1__028427 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_rule__XShortClosure__FormalParametersAssignment_0_0_1_0_in_rule__XShortClosure__Group_0_0_1__0__Impl28454 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_0_in_rule__XShortClosure__Group_0_0_1__0__Impl28454 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XShortClosure__Group_0_0_1__1__Impl_in_rule__XShortClosure__Group_0_0_1__128484 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XShortClosure__Group_0_0_1_1__0_in_rule__XShortClosure__Group_0_0_1__1__Impl28511 = new BitSet(new long[]{0x0000100000000002L});
         public static final BitSet FOLLOW_rule__XShortClosure__Group_0_0_1_1__0__Impl_in_rule__XShortClosure__Group_0_0_1_1__028546 = new BitSet(new long[]{0x0000040000788020L,0x0000000000200000L});
         public static final BitSet FOLLOW_rule__XShortClosure__Group_0_0_1_1__1_in_rule__XShortClosure__Group_0_0_1_1__028549 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_44_in_rule__XShortClosure__Group_0_0_1_1__0__Impl28577 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XShortClosure__Group_0_0_1_1__1__Impl_in_rule__XShortClosure__Group_0_0_1_1__128608 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_rule__XShortClosure__FormalParametersAssignment_0_0_1_1_1_in_rule__XShortClosure__Group_0_0_1_1__1__Impl28635 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_1_1_in_rule__XShortClosure__Group_0_0_1_1__1__Impl28635 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XParenthesizedExpression__Group__0__Impl_in_rule__XParenthesizedExpression__Group__028669 = new BitSet(new long[]{0x802004E8907C8070L,0x000006000007EE28L});
         public static final BitSet FOLLOW_rule__XParenthesizedExpression__Group__1_in_rule__XParenthesizedExpression__Group__028672 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_42_in_rule__XParenthesizedExpression__Group__0__Impl28700 = new BitSet(new long[]{0x0000000000000002L});
@@ -79287,13 +79287,13 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         public static final BitSet FOLLOW_ruleXExpression_in_rule__XMemberFeatureCall__MemberCallArgumentsAssignment_1_1_3_1_1_048298 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXExpression_in_rule__XMemberFeatureCall__MemberCallArgumentsAssignment_1_1_3_1_1_1_148329 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXClosure_in_rule__XMemberFeatureCall__MemberCallArgumentsAssignment_1_1_448360 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleJvmFormalParameter_in_rule__XClosure__FormalParametersAssignment_2_0_0_048391 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleJvmFormalParameter_in_rule__XClosure__FormalParametersAssignment_2_0_0_1_148422 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleJvmFormalParameter_in_rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_048391 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleJvmFormalParameter_in_rule__XClosure__DeclaredFormalParametersAssignment_2_0_0_1_148422 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_104_in_rule__XClosure__ExplicitSyntaxAssignment_2_0_148458 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXExpressionInClosure_in_rule__XClosure__ExpressionAssignment_348497 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXExpressionInsideBlock_in_rule__XExpressionInClosure__ExpressionsAssignment_1_048528 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleJvmFormalParameter_in_rule__XShortClosure__FormalParametersAssignment_0_0_1_048559 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleJvmFormalParameter_in_rule__XShortClosure__FormalParametersAssignment_0_0_1_1_148590 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleJvmFormalParameter_in_rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_048559 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleJvmFormalParameter_in_rule__XShortClosure__DeclaredFormalParametersAssignment_0_0_1_1_148590 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_104_in_rule__XShortClosure__ExplicitSyntaxAssignment_0_0_248626 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXExpression_in_rule__XShortClosure__ExpressionAssignment_148665 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXExpression_in_rule__XIfExpression__IfAssignment_348696 = new BitSet(new long[]{0x0000000000000002L});

@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyUriConverter;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
 import org.eclipse.xtext.common.types.JvmFormalParameter;
+import org.eclipse.xtext.common.types.JvmGenericArrayTypeReference;
 import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.common.types.JvmMember;
 import org.eclipse.xtext.common.types.JvmOperation;
@@ -256,8 +257,26 @@ public class XcoreJvmInferrer
   
   JvmTypeReference getJvmTypeReference(String instanceTypeName, EObject context)
   {
-    Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName);
-    return getJvmTypeReference((EGenericType)diagnostic.getData().get(0), context);
+  	if (instanceTypeName.contains("<"))
+  	{
+      Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName);
+      return getJvmTypeReference((EGenericType)diagnostic.getData().get(0), context);
+  	}
+  	else if (instanceTypeName.endsWith("[]"))
+  	{
+  		JvmGenericArrayTypeReference jvmGenericArrayTypeReference = TypesFactory.eINSTANCE.createJvmGenericArrayTypeReference();
+  		jvmGenericArrayTypeReference.setComponentType(getJvmTypeReference(instanceTypeName.substring(0, instanceTypeName.length() - 2), context));
+  		return jvmGenericArrayTypeReference;
+  	}
+  	else
+  	{
+      QualifiedName qualifiedName = nameConverter.toQualifiedName(instanceTypeName);
+      JvmGenericType jvmGenericType = TypesFactory.eINSTANCE.createJvmGenericType();
+      proxyUriConverter.installProxyURI(context.eResource().getURI(), jvmGenericType, qualifiedName);
+      JvmParameterizedTypeReference jvmParameterizedTypeReference = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+      jvmParameterizedTypeReference.setType(jvmGenericType);
+      return jvmParameterizedTypeReference;
+  	}
   }
 
   JvmTypeReference getJvmTypeReference(EGenericType eGenericType, EObject context)
@@ -294,11 +313,15 @@ public class XcoreJvmInferrer
 		  }
 		  else
   		{
-        QualifiedName qualifiedName = nameConverter.toQualifiedName(instanceTypeName);
-      	JvmGenericType jvmGenericType = TypesFactory.eINSTANCE.createJvmGenericType();
-      	proxyUriConverter.installProxyURI(context.eResource().getURI(), jvmGenericType, qualifiedName);
-      	jvmParameterizedTypeReference = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
-      	jvmParameterizedTypeReference.setType(jvmGenericType);
+		  	JvmTypeReference jvmTypeReference = getJvmTypeReference(instanceTypeName, context);
+		  	if (jvmTypeReference instanceof JvmParameterizedTypeReference)
+		  	{
+		  	  jvmParameterizedTypeReference = (JvmParameterizedTypeReference)jvmTypeReference;
+		  	}
+		  	else
+		  	{
+		  		return jvmTypeReference;
+		  	}
   		}
     	jvmParameterizedTypeReference.getArguments().addAll(arguments);
     	return jvmParameterizedTypeReference;

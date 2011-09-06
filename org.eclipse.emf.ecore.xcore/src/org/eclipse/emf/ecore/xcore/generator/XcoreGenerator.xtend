@@ -39,11 +39,14 @@ class XcoreGenerator implements IGenerator {
 		// install operation bodies
 		for (op : pack.allContentsIterable.filter(typeof(XOperation))) {
 			val eOperation = op.mapping.EOperation
-			val appendable = new StringBuilderBasedAppendable()
-			appendable.declareVariable(mappings.getMapping(op).jvmOperation.declaringType, "this");
-//			val expectedType = op.jvmOperation.returnType
-			compiler.compile(op.body, appendable, null)
-			eOperation.EAnnotations.add(createGenModelAnnotation("body", appendable.toString))
+			val body = op.body
+			if (body != null)
+			{
+				val appendable = new StringBuilderBasedAppendable()
+				appendable.declareVariable(mappings.getMapping(op).jvmOperation.declaringType, "this");
+				compiler.compile(body, appendable, null)
+				eOperation.EAnnotations.add(createGenModelAnnotation("body", appendable.toString))
+			}
 		}
 		for (feature : pack.allContentsIterable.filter(typeof(XStructuralFeature))) {
 			val eStructuralFeature = feature.mapping.EStructuralFeature

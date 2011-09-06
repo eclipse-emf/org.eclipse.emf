@@ -27,7 +27,7 @@ public class XcoreQualifiedNameProvider extends DefaultDeclarativeQualifiedNameP
     {
     	JvmType type = (JvmType) eObject;
     	String typeName = type.getQualifiedName();
-    	return nameConverter.toQualifiedName(typeName);
+    	return typeName == null ? null : nameConverter.toQualifiedName(typeName);
     }
     else
     {

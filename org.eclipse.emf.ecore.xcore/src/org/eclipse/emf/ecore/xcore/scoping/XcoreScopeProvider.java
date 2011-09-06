@@ -131,7 +131,11 @@ public class XcoreScopeProvider extends XbaseScopeProvider
 							{
 								if (opposite.isReferenceType())
 								{
-									result.add(new EObjectDescription(QualifiedName.create(opposite.getName()), opposite, null));
+									String name = opposite.getName();
+									if (name != null)
+									{
+									  result.add(new EObjectDescription(QualifiedName.create(name), opposite, null));
+									}
 								}
 							}
 						}
@@ -158,7 +162,11 @@ public class XcoreScopeProvider extends XbaseScopeProvider
 							{
 								if (!key.isReferenceType())
 								{
-									result.add(new EObjectDescription(QualifiedName.create(key.getName()), key, null));
+									String name = key.getName();
+									if (name != null)
+									{
+									  result.add(new EObjectDescription(QualifiedName.create(name), key, null));
+									}
 								}
 							}
 						}
@@ -178,8 +186,7 @@ public class XcoreScopeProvider extends XbaseScopeProvider
 					{
 						for (final GenTypeParameter genTypeParameter : genTypeParameters)
 						{
-							result.add(new EObjectDescription(QualifiedName.create(genTypeParameter.getName()), genTypeParameter,
-							    null));
+							result.add(new EObjectDescription(QualifiedName.create(genTypeParameter.getName()), genTypeParameter, null));
 						}
 					}
 
@@ -192,11 +199,18 @@ public class XcoreScopeProvider extends XbaseScopeProvider
 							if (eObject instanceof XOperation)
 							{
 								GenOperation genOperation = mapper.getMapping((XOperation)eObject).getGenOperation();
-								handleGenTypeParameters(result, genOperation.getGenTypeParameters());
-							} else if (eObject instanceof XClass)
+								if (genOperation != null)
+								{
+								  handleGenTypeParameters(result, genOperation.getGenTypeParameters());
+								}
+							} 
+							else if (eObject instanceof XClass)
 							{
 								GenClassifier genClassifier = mapper.getMapping((XClass)eObject).getGenClass();
-								handleGenTypeParameters(result, genClassifier.getGenTypeParameters());
+								if (genClassifier != null)
+								{
+								  handleGenTypeParameters(result, genClassifier.getGenTypeParameters());
+								}
 								break;
 							}
 						}

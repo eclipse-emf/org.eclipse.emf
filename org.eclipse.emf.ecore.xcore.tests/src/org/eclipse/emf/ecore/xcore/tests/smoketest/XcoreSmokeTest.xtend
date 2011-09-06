@@ -24,10 +24,20 @@ class XcoreSmokeTest extends AbstractSmokeTest {
 	override Iterable<String> getSmokeTestModels() {
 		newArrayList('''
 			package foo 
+			import org.eclipse.emf.ecore.EObject
+			import org.eclipse.emf.ecore.EEList
 			class Stuff {
 				String x
-				contains Person p
+				contains OtherStuff otherStuff opposite parent keys x
 			}
+			class OtherStuff {
+				container Stuff parent opposite otherStuff
+				int x
+				transient EEList<Integer> ints
+				refers Stuff stuff 
+				refers EObject data
+			}
+			type ListOfStringArray wraps java.util.List<String[]>
 		'''.toString)
 	}
 	

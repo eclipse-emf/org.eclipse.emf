@@ -57,18 +57,24 @@ public class XcoreGenerator implements IGenerator {
           XOperationMapping _mapping = this.mappings.getMapping(op);
           EOperation _eOperation = _mapping.getEOperation();
           final EOperation eOperation = _eOperation;
-          StringBuilderBasedAppendable _stringBuilderBasedAppendable = new StringBuilderBasedAppendable();
-          final StringBuilderBasedAppendable appendable = _stringBuilderBasedAppendable;
-          XOperationMapping _mapping_1 = this.mappings.getMapping(op);
-          JvmOperation _jvmOperation = _mapping_1.getJvmOperation();
-          JvmDeclaredType _declaringType = _jvmOperation.getDeclaringType();
-          appendable.declareVariable(_declaringType, "this");
           XBlockExpression _body = op.getBody();
-          this.compiler.compile(_body, appendable, null);
-          EList<EAnnotation> _eAnnotations = eOperation.getEAnnotations();
-          String _string = appendable.toString();
-          EAnnotation _createGenModelAnnotation = this.createGenModelAnnotation("body", _string);
-          _eAnnotations.add(_createGenModelAnnotation);
+          final XBlockExpression body = _body;
+          boolean _operator_notEquals = ObjectExtensions.operator_notEquals(body, null);
+          if (_operator_notEquals) {
+            {
+              StringBuilderBasedAppendable _stringBuilderBasedAppendable = new StringBuilderBasedAppendable();
+              final StringBuilderBasedAppendable appendable = _stringBuilderBasedAppendable;
+              XOperationMapping _mapping_1 = this.mappings.getMapping(op);
+              JvmOperation _jvmOperation = _mapping_1.getJvmOperation();
+              JvmDeclaredType _declaringType = _jvmOperation.getDeclaringType();
+              appendable.declareVariable(_declaringType, "this");
+              this.compiler.compile(body, appendable, null);
+              EList<EAnnotation> _eAnnotations = eOperation.getEAnnotations();
+              String _string = appendable.toString();
+              EAnnotation _createGenModelAnnotation = this.createGenModelAnnotation("body", _string);
+              _eAnnotations.add(_createGenModelAnnotation);
+            }
+          }
         }
       }
       Iterable<EObject> _allContentsIterable_1 = EObjectExtensions.allContentsIterable(pack);
@@ -80,8 +86,8 @@ public class XcoreGenerator implements IGenerator {
           final EStructuralFeature eStructuralFeature = _eStructuralFeature;
           XBlockExpression _getBody = feature.getGetBody();
           final XBlockExpression getBody = _getBody;
-          boolean _operator_notEquals = ObjectExtensions.operator_notEquals(getBody, null);
-          if (_operator_notEquals) {
+          boolean _operator_notEquals_1 = ObjectExtensions.operator_notEquals(getBody, null);
+          if (_operator_notEquals_1) {
             {
               XFeatureMapping _mapping_3 = this.mappings.getMapping(feature);
               JvmOperation _getter = _mapping_3.getGetter();

@@ -278,12 +278,6 @@ public class EcoreXcoreBuilder
     String instanceTypeName = eClassifier.getInstanceTypeName();
     if (instanceTypeName != null)
     {
-      // TODO
-      int index = instanceTypeName.indexOf('[');
-      if (index != -1)
-      {
-        instanceTypeName = instanceTypeName.substring(0, index);
-      }
       final String finalInstanceTypeName = instanceTypeName;
       runnables.add
         (new Runnable()
