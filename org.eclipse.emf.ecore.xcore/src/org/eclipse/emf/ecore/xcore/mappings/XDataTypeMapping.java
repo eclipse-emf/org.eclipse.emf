@@ -3,53 +3,64 @@ package org.eclipse.emf.ecore.xcore.mappings;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.xtext.common.types.JvmGenericType;
+import org.eclipse.xtext.common.types.JvmOperation;
+import org.eclipse.xtext.common.types.JvmTypeReference;
 
 public class XDataTypeMapping extends AbstractMapping
 {
-	 private EDataType eDataType;
-	 private GenDataType genDataType;
-	 private JvmGenericType interfaceType;
-	 private JvmGenericType dataType;
-   
-	public EDataType getEDataType()
+  private EDataType eDataType;
+  private GenDataType genDataType;
+  private JvmTypeReference dataType;
+  private JvmOperation creator;
+  private JvmOperation converter;
+
+  public EDataType getEDataType()
   {
-  	return eDataType;
+    return eDataType;
   }
 
-	public void setEDataType(EDataType eDataType)
+  public void setEDataType(EDataType eDataType)
   {
-  	this.eDataType = eDataType;
+    this.eDataType = eDataType;
   }
 
-	public GenDataType getGenDataType()
+  public GenDataType getGenDataType()
   {
-  	return genDataType;
+    return genDataType;
   }
 
-	public void setGenDataType(GenDataType genDataType)
+  public void setGenDataType(GenDataType genDataType)
   {
-  	this.genDataType = genDataType;
+    this.genDataType = genDataType;
   }
 
-	public JvmGenericType getInterfaceType()
+  public JvmTypeReference getDataType()
   {
-  	return interfaceType;
+    return dataType;
   }
 
-	public void setInterfaceType(JvmGenericType interfaceType)
+  public void setDataType(JvmTypeReference dataType)
   {
-  	this.interfaceType = interfaceType;
+    this.dataType = dataType;
   }
 
-	public JvmGenericType getDataType()
+  public JvmOperation getCreator()
   {
-  	return dataType;
+    return creator;
   }
 
-	public void setDataType(JvmGenericType dataType)
+  public void setCreator(JvmOperation creator)
   {
-  	this.dataType = dataType;
+    this.creator = creator;
   }
-   
-   
+
+  public JvmOperation getConverter()
+  {
+    return converter;
+  }
+
+  public void setConverter(JvmOperation converter)
+  {
+    this.converter = converter;
+  }
 }

@@ -98,6 +98,7 @@ public class XcoreResource extends XbaseResource {
       xcoreEcoreBuilder.link(); 
       genModelBuilder.initializeUsedGenPackages(genModel);
       super.getContents().addAll(jvmInferrer.getDeclaredTypes(model));
+      super.getContents().addAll(jvmInferrer.getTypeReferences(model));
       getCache().clear(this);
     }
 	}

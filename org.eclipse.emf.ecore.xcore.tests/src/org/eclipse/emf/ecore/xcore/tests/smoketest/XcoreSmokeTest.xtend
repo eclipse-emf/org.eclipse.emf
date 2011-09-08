@@ -36,6 +36,7 @@ class XcoreSmokeTest extends AbstractSmokeTest {
 				transient EEList<Integer> ints
 				refers Stuff stuff 
 				refers EObject data
+				op int bar() { x + 1 }
 			}
 			type ListOfStringArray wraps java.util.List<String[]>
 		'''.toString)

@@ -14,6 +14,9 @@ import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 
 public class XcoreMapper
 {
+	public XDataType getXDataType(EObject element) {
+		return (XDataType) getXcoreElement(element);
+	}
 	public XClass getXClass(EObject element) {
 		return (XClass) getXcoreElement(element);
 	}

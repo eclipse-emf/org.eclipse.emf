@@ -22,6 +22,10 @@ import org.eclipse.xtext.xbase.compiler.XbaseCompiler
 import static extension org.eclipse.xtext.xtend2.lib.EObjectExtensions.*
 import com.google.inject.Provider
 import org.eclipse.emf.ecore.xcore.XStructuralFeature
+import org.eclipse.xtext.xbase.compiler.ImportManager
+import org.eclipse.emf.ecore.EDataType
+import org.eclipse.emf.ecore.xcore.XDataType
+import org.eclipse.xtext.common.types.util.TypeReferences
 
 class XcoreGenerator implements IGenerator {
 	
@@ -34,6 +38,9 @@ class XcoreGenerator implements IGenerator {
 	@Inject
 	Provider<XcoreGeneratorImpl> xcoreGeneratorImplProvider
 	
+	@Inject
+    TypeReferences typeReferences
+	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		val pack = resource.contents.head as XPackage
 		// install operation bodies
@@ -42,25 +49,58 @@ class XcoreGenerator implements IGenerator {
 			val body = op.body
 			if (body != null)
 			{
-				val appendable = new StringBuilderBasedAppendable()
+				val appendable = createAppendable
 				appendable.declareVariable(mappings.getMapping(op).jvmOperation.declaringType, "this");
 				compiler.compile(body, appendable, null)
-				eOperation.EAnnotations.add(createGenModelAnnotation("body", appendable.toString))
+				eOperation.EAnnotations.add(createGenModelAnnotation("body", extractBody(appendable.toString)))
 			}
 		}
+		// install feature accessors
 		for (feature : pack.allContentsIterable.filter(typeof(XStructuralFeature))) {
 			val eStructuralFeature = feature.mapping.EStructuralFeature
 			val getBody = feature.getBody
 			if (getBody != null) {
 				val getter = mappings.getMapping(feature).getter
-				val appendable = new StringBuilderBasedAppendable()
+				val appendable = createAppendable
 				appendable.declareVariable(getter.declaringType, "this");
-				compiler.compile(feature.getBody, appendable, null)
-				eStructuralFeature.EAnnotations.add(createGenModelAnnotation("get", appendable.toString))
+				compiler.compile(getBody, appendable, null)
+				eStructuralFeature.EAnnotations.add(createGenModelAnnotation("get", extractBody(appendable.toString)))
+			}
+		}
+		// install data type converters
+		for (dataType : pack.allContentsIterable.filter(typeof(XDataType))) {
+			val eDataType = dataType.mapping.EDataType
+			val createBody = dataType.createBody
+			if (createBody != null) {
+				val appendable = createAppendable
+				appendable.declareVariable(dataType.mapping.dataType, "it");
+				compiler.compile(createBody, appendable, null)
+				eDataType.EAnnotations.add(createGenModelAnnotation("create", appendable.toString))
+			}
+			val convertBody = dataType.convertBody
+			if (convertBody != null) {
+				val appendable = createAppendable
+				appendable.declareVariable(typeReferences.getTypeForName("java.lang.String", dataType), "it");
+				compiler.compile(convertBody, appendable, null)
+				eDataType.EAnnotations.add(createGenModelAnnotation("convert", extractBody(appendable.toString)))
 			}
 		}
 
 		generateGenModel(resource.contents.filter(typeof(GenModel)).head, fsa)
+	}
+	
+	def createAppendable() {
+		new XcoreAppendable()
+	}
+	
+	def extractBody(String body) {
+		var result = if (body.startsWith("\n")) body.substring(1) else body
+		if (result.startsWith("{\n")) {
+			result = result.replace("\n\t", "\n")
+			result.substring(1, result.length - 2)
+		} else {
+			result
+		}
 	}
 	
 	def generateGenModel(GenModel genModel, IFileSystemAccess fsa) {

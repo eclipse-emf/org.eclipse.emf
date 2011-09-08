@@ -60,6 +60,9 @@ public class XcoreSmokeTest extends AbstractSmokeTest {
     _builder.append("\t");
     _builder.append("refers EObject data");
     _builder.newLine();
+    _builder.append("\t");
+    _builder.append("op int bar() { x + 1 }");
+    _builder.newLine();
     _builder.append("}");
     _builder.newLine();
     _builder.append("type ListOfStringArray wraps java.util.List<String[]>");

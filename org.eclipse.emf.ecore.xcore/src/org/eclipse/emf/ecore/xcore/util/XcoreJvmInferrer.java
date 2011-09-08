@@ -23,10 +23,12 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xcore.XClass;
+import org.eclipse.emf.ecore.xcore.XDataType;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XDataTypeMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyUriConverter;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
@@ -96,13 +98,47 @@ public class XcoreJvmInferrer
     }
     else if (genClassifier instanceof GenEnum)
     {
-      
-    }
-    else if (genClassifier instanceof EDataType)
-    {
-      
+    	// TODO
     }
     return result;
+  }
+
+  public List<? extends JvmTypeReference> getTypeReferences(XPackage xPackage)
+  {
+  	GenPackage genPackage = mapper.getMapping(xPackage).getGenPackage();
+    return getTypeReferences(genPackage);
+  }
+
+  public List<? extends JvmTypeReference> getTypeReferences(GenPackage genPackage)
+  {
+    ArrayList<JvmTypeReference> result = new ArrayList<JvmTypeReference>();
+    for (GenClassifier genClassifier : genPackage.getGenClassifiers())
+    {
+      JvmTypeReference jvmTypeReference = getTypeReference(genClassifier);
+      if (jvmTypeReference != null)
+      {
+			  result.add(jvmTypeReference);
+      }
+    }
+    return result;
+  }
+
+  public JvmTypeReference getTypeReference(GenClassifier genClassifier)
+  {
+    if (genClassifier instanceof GenDataType)
+    {
+    	GenDataType genDataType = (GenDataType)genClassifier;
+      final XDataType xDataType = mapper.getXDataType(genClassifier);
+		  final XDataTypeMapping mapping = mapper.getMapping(xDataType);
+		  String instanceTypeName = genDataType.getEcoreDataType().getInstanceTypeName();
+		  if (instanceTypeName != null)
+		  {
+			  JvmTypeReference jvmTypeReference = getJvmTypeReference(instanceTypeName, genDataType);
+			  mapping.setDataType(jvmTypeReference);
+			  return jvmTypeReference;
+		  }
+    }
+   	return null;
   }
 
   public List<? extends JvmDeclaredType> getDeclaredTypes(GenClass genClass)
