@@ -199,9 +199,9 @@ public class XcoreInterpreterTest {
       _builder.newLine();
       _builder.append("type URI wraps org.eclipse.emf.common.util.URI ");
       _builder.newLine();
-      _builder.append("create { if (this == null) null else org::eclipse::emf::common::util::URI::createURI(this) } ");
+      _builder.append("create { if (it == null) null else org::eclipse::emf::common::util::URI::createURI(it) } ");
       _builder.newLine();
-      _builder.append("convert { this?.toString  }");
+      _builder.append("convert { it?.toString  }");
       _builder.newLine();
       XPackage _parse = this.parse.parse(_builder);
       final XPackage pack = _parse;

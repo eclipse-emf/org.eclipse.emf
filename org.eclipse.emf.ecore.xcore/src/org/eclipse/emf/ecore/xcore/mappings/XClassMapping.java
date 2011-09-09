@@ -6,19 +6,19 @@ import org.eclipse.xtext.common.types.JvmGenericType;
 
 public class XClassMapping extends AbstractMapping
 {
-	 private EClass eclass;
+	 private EClass eClass;
 	 private GenClass genClass;
 	 private JvmGenericType interfaceType;
 	 private JvmGenericType classType;
    
-	public EClass getEclass()
+	public EClass getEClass()
   {
-  	return eclass;
+  	return eClass;
   }
 
-	public void setEclass(EClass eclass)
+	public void setEClass(EClass eclass)
   {
-  	this.eclass = eclass;
+  	this.eClass = eclass;
   }
 
 	public GenClass getGenClass()

@@ -48,10 +48,10 @@ class XcoreMapperTest {
 		assertEquals(pack,pack.mapping.EPackage.toXcoreMapping.xcoreElement)
 		
 		for (clazz : pack.classifiers.filter(typeof(XClass))) {
-			assertNotNull(clazz.mapping.eclass)
-			assertEquals(clazz.mapping.eclass,clazz.mapping.genClass.ecoreClass)
+			assertNotNull(clazz.mapping.EClass)
+			assertEquals(clazz.mapping.EClass,clazz.mapping.genClass.ecoreClass)
 			assertEquals(clazz,clazz.mapping.genClass.toXcoreMapping.xcoreElement)
-			assertEquals(clazz,clazz.mapping.eclass.toXcoreMapping.xcoreElement)
+			assertEquals(clazz,clazz.mapping.EClass.toXcoreMapping.xcoreElement)
 			
 			for (member : clazz.members) {
 				switch member {

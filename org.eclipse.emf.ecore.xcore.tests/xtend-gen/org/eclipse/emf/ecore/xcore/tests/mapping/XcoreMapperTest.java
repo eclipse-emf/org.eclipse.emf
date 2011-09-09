@@ -104,22 +104,22 @@ public class XcoreMapperTest {
       for (final XClass clazz : _filter) {
         {
           XClassMapping _mapping_5 = this.mapper.getMapping(clazz);
-          EClass _eclass = _mapping_5.getEclass();
-          Assert.assertNotNull(_eclass);
+          EClass _eClass = _mapping_5.getEClass();
+          Assert.assertNotNull(_eClass);
           XClassMapping _mapping_6 = this.mapper.getMapping(clazz);
-          EClass _eclass_1 = _mapping_6.getEclass();
+          EClass _eClass_1 = _mapping_6.getEClass();
           XClassMapping _mapping_7 = this.mapper.getMapping(clazz);
           GenClass _genClass = _mapping_7.getGenClass();
           EClass _ecoreClass = _genClass.getEcoreClass();
-          Assert.assertEquals(_eclass_1, _ecoreClass);
+          Assert.assertEquals(_eClass_1, _ecoreClass);
           XClassMapping _mapping_8 = this.mapper.getMapping(clazz);
           GenClass _genClass_1 = _mapping_8.getGenClass();
           ToXcoreMapping _xcoreMapping_2 = this.mapper.getToXcoreMapping(_genClass_1);
           XNamedElement _xcoreElement_2 = _xcoreMapping_2.getXcoreElement();
           Assert.assertEquals(clazz, _xcoreElement_2);
           XClassMapping _mapping_9 = this.mapper.getMapping(clazz);
-          EClass _eclass_2 = _mapping_9.getEclass();
-          ToXcoreMapping _xcoreMapping_3 = this.mapper.getToXcoreMapping(_eclass_2);
+          EClass _eClass_2 = _mapping_9.getEClass();
+          ToXcoreMapping _xcoreMapping_3 = this.mapper.getToXcoreMapping(_eClass_2);
           XNamedElement _xcoreElement_3 = _xcoreMapping_3.getXcoreElement();
           Assert.assertEquals(clazz, _xcoreElement_3);
           EList<XMember> _members = clazz.getMembers();

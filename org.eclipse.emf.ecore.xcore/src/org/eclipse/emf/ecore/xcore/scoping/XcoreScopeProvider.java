@@ -64,18 +64,24 @@ public class XcoreScopeProvider extends XbaseScopeProvider
       EObject eContainer = context.eContainer();
 			if (eContainer instanceof XDataType)
       {
+       	XDataTypeMapping mapping = mapper.getMapping((XDataType)eContainer);
         if (context.eContainmentFeature() == XcorePackage.Literals.XDATA_TYPE__CREATE_BODY)
         {
-          return 
-            new SimpleScope
-              (parent, 
-               Collections.singleton(EObjectDescription.create(XbaseScopeProvider.IT, typeReferences.getTypeForName("java.lang.String", context).getType())));
+        	JvmOperation creator = mapping.getCreator();
+        	if (creator != null)
+        	{
+        		JvmFormalParameter parameter = creator.getParameters().get(0);
+        		return createLocalScopeForParameter(parameter, parent);
+        	}
         }
         else // if (context.eContainmentFeature() == XcorePackage.Literals.XDATA_TYPE__CONVERT_BODY)
         {
-        	XDataTypeMapping mapping = mapper.getMapping((XDataType)eContainer);
-          return 
-            new SimpleScope(parent, Collections.singleton(EObjectDescription.create(XbaseScopeProvider.IT, mapping.getDataType().getType())));
+        	JvmOperation converter = mapping.getConverter();
+        	if (converter != null)
+        	{
+        		JvmFormalParameter parameter = converter.getParameters().get(0);
+        		return createLocalScopeForParameter(parameter, parent);
+        	}
         }
       }
     }

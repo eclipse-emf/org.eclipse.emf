@@ -26,6 +26,7 @@ import org.eclipse.xtext.xbase.compiler.ImportManager
 import org.eclipse.emf.ecore.EDataType
 import org.eclipse.emf.ecore.xcore.XDataType
 import org.eclipse.xtext.common.types.util.TypeReferences
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 class XcoreGenerator implements IGenerator {
 	
@@ -52,7 +53,7 @@ class XcoreGenerator implements IGenerator {
 				val appendable = createAppendable
 				appendable.declareVariable(mappings.getMapping(op).jvmOperation.declaringType, "this");
 				compiler.compile(body, appendable, null)
-				eOperation.EAnnotations.add(createGenModelAnnotation("body", extractBody(appendable.toString)))
+				EcoreUtil::setAnnotation(eOperation, GenModelPackage::eNS_URI, "body", extractBody(appendable.toString));
 			}
 		}
 		// install feature accessors
@@ -64,25 +65,27 @@ class XcoreGenerator implements IGenerator {
 				val appendable = createAppendable
 				appendable.declareVariable(getter.declaringType, "this");
 				compiler.compile(getBody, appendable, null)
-				eStructuralFeature.EAnnotations.add(createGenModelAnnotation("get", extractBody(appendable.toString)))
+				EcoreUtil::setAnnotation(eStructuralFeature, GenModelPackage::eNS_URI, "get", extractBody(appendable.toString));
 			}
 		}
 		// install data type converters
 		for (dataType : pack.allContentsIterable.filter(typeof(XDataType))) {
 			val eDataType = dataType.mapping.EDataType
 			val createBody = dataType.createBody
-			if (createBody != null) {
+			val creator = dataType.mapping.creator
+			if (createBody != null && creator != null) {
 				val appendable = createAppendable
-				appendable.declareVariable(dataType.mapping.dataType, "it");
+				appendable.declareVariable(creator.parameters.get(0), "it");
 				compiler.compile(createBody, appendable, null)
-				eDataType.EAnnotations.add(createGenModelAnnotation("create", appendable.toString))
+				EcoreUtil::setAnnotation(eDataType, GenModelPackage::eNS_URI, "create", extractBody(appendable.toString));
 			}
 			val convertBody = dataType.convertBody
-			if (convertBody != null) {
+			val converter = dataType.mapping.converter
+			if (convertBody != null && converter != null) {
 				val appendable = createAppendable
-				appendable.declareVariable(typeReferences.getTypeForName("java.lang.String", dataType), "it");
+				appendable.declareVariable(converter.parameters.get(0), "it");
 				compiler.compile(convertBody, appendable, null)
-				eDataType.EAnnotations.add(createGenModelAnnotation("convert", extractBody(appendable.toString)))
+				EcoreUtil::setAnnotation(eDataType, GenModelPackage::eNS_URI, "convert", extractBody(appendable.toString));
 			}
 		}
 
@@ -110,12 +113,5 @@ class XcoreGenerator implements IGenerator {
 		generator.fileSystemAccess = fsa
 		generator.generate(genModel, GenBaseGeneratorAdapter::MODEL_PROJECT_TYPE,
 				new BasicMonitor());
-	}
-	
-	def createGenModelAnnotation(String key, String value) {
-		val result = EcoreFactory::eINSTANCE.createEAnnotation
-		result.source = GenModelPackage::eNS_URI
-		result.details.put(key, value)
-		return result
 	}
 }

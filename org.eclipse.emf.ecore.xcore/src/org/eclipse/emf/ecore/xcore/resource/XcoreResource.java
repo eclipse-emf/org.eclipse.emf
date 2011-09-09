@@ -3,13 +3,16 @@ package org.eclipse.emf.ecore.xcore.resource;
 import java.util.Iterator;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xcore.XModelElement;
 import org.eclipse.emf.ecore.xcore.XPackage;
+import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyUriConverter;
 import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenmodelBuilder;
@@ -47,8 +50,11 @@ public class XcoreResource extends XbaseResource {
   
   @Inject
   private IScopeProvider scopeProvider;
+
+  @Inject
+  private XcoreMapper mapper;
 	
-	protected boolean fullyInitialized = false;
+	protected boolean fullyInitialized;
 	
 	@Override
 	public EList<EObject> getContents() {
@@ -79,6 +85,10 @@ public class XcoreResource extends XbaseResource {
         {
           unload(eObject);
         }
+        else if (eObject instanceof XPackage)
+        {
+        	mapper.unsetMapping((XPackage)eObject);
+        }
       }
       contents.clear();
     }
@@ -98,7 +108,6 @@ public class XcoreResource extends XbaseResource {
       xcoreEcoreBuilder.link(); 
       genModelBuilder.initializeUsedGenPackages(genModel);
       super.getContents().addAll(jvmInferrer.getDeclaredTypes(model));
-      super.getContents().addAll(jvmInferrer.getTypeReferences(model));
       getCache().clear(this);
     }
 	}

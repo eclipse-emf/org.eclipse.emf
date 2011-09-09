@@ -97,8 +97,8 @@ class XcoreInterpreterTest {
 			package foo.bar 
 			
 			type URI wraps org.eclipse.emf.common.util.URI 
-			create { if (this == null) null else org::eclipse::emf::common::util::URI::createURI(this) } 
-			convert { this?.toString  }
+			create { if (it == null) null else org::eclipse::emf::common::util::URI::createURI(it) } 
+			convert { it?.toString  }
 		''')
 		validator.assertNoErrors(pack)
 		val ePackage = pack.eResource.contents.get(2) as EPackage

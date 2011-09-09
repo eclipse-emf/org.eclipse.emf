@@ -301,7 +301,7 @@ public class EcoreXcoreBuilder
   {
     XClass xClass = XcoreFactory.eINSTANCE.createXClass();
     XClassMapping mapping = mapper.getMapping(xClass);
-		mapping.setEclass(eClass);
+		mapping.setEClass(eClass);
 		mapping.setGenClass((GenClass)genModel.findGenClassifier(eClass));
     mapper.getToXcoreMapping(eClass).setXcoreElement(xClass);
     if (eClass.isInterface())

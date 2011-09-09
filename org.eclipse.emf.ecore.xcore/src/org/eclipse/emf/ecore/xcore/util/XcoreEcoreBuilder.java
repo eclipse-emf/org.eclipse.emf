@@ -186,7 +186,7 @@ public class XcoreEcoreBuilder
   EClass getEClass(final XClass xClass)
   {
     final EClass eClass = EcoreFactory.eINSTANCE.createEClass();
-    mapper.getMapping(xClass).setEclass(eClass);
+    mapper.getMapping(xClass).setEClass(eClass);
     mapper.getToXcoreMapping(eClass).setXcoreElement(xClass);
     if (xClass.isInterface())
     {

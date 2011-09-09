@@ -30,7 +30,7 @@ public class XcoreConversionDelegate implements EDataType.Internal.ConversionDel
 		if (convertBody == null)
 			throw new IllegalStateException("coudn't find exeutable Xbase convert body");
 		DefaultEvaluationContext context = new DefaultEvaluationContext();
-		context.newValue(QualifiedName.create("this"), value);
+		context.newValue(QualifiedName.create("it"), value);
 		IEvaluationResult result = interpreter.evaluate(convertBody, context, CancelIndicator.NullImpl);
 		if (result.getException() != null)
 			throw new RuntimeException(result.getException());
@@ -42,7 +42,7 @@ public class XcoreConversionDelegate implements EDataType.Internal.ConversionDel
 		if (createBody == null)
 			throw new IllegalStateException("coudn't find exeutable Xbase create body");
 		DefaultEvaluationContext context = new DefaultEvaluationContext();
-		context.newValue(QualifiedName.create("this"), literal);
+		context.newValue(QualifiedName.create("it"), literal);
 		IEvaluationResult result = interpreter.evaluate(createBody, context, CancelIndicator.NullImpl);
 		if (result.getException() != null)
 			throw new RuntimeException(result.getException());

@@ -16,7 +16,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -82,10 +81,56 @@ public class XcoreJvmInferrer
   public List<? extends JvmDeclaredType> getDeclaredTypes(GenPackage genPackage)
   {
     ArrayList<JvmDeclaredType> result = new ArrayList<JvmDeclaredType>();
+
+    JvmGenericType factoryClass = TypesFactory.eINSTANCE.createJvmGenericType();
+    factoryClass.setSimpleName(genPackage.getFactoryClassName());
+    factoryClass.setPackageName(genPackage.getClassPackageName());
+    factoryClass.setVisibility(JvmVisibility.PUBLIC);
+    result.add(factoryClass);
+
     for (GenClassifier genClassifier : genPackage.getGenClassifiers())
     {
       result.addAll(getDeclaredTypes(genClassifier));
+      if (genClassifier instanceof GenDataType)
+      {
+      	GenDataType genDataType = (GenDataType)genClassifier;
+      	String instanceTypeName = genDataType.getEcoreDataType().getInstanceTypeName();
+      	if (instanceTypeName != null)
+       	{
+          final XDataType xDataType = mapper.getXDataType(genClassifier);
+		      final XDataTypeMapping mapping = mapper.getMapping(xDataType);
+        	if (xDataType.getCreateBody() != null)
+        	{
+          	JvmOperation jvmOperation = TypesFactory.eINSTANCE.createJvmOperation();
+        	  jvmOperation.setVisibility(JvmVisibility.PUBLIC);
+          	jvmOperation.setSimpleName("create" + genDataType.getName());
+          	JvmFormalParameter jvmFormalParameter = TypesFactory.eINSTANCE.createJvmFormalParameter();
+          	jvmFormalParameter.setName("it");
+          	jvmFormalParameter.setParameterType(typeReferences.getTypeForName("java.lang.String", genPackage));
+          	jvmOperation.getParameters().add(jvmFormalParameter);
+  			    JvmTypeReference returnType = getJvmTypeReference(instanceTypeName, genDataType);
+          	jvmOperation.setReturnType(returnType);
+  			    mapping.setCreator(jvmOperation);
+  			    factoryClass.getMembers().add(jvmOperation);
+        	}
+        	if (xDataType.getConvertBody() != null)
+        	{
+          	JvmOperation jvmOperation = TypesFactory.eINSTANCE.createJvmOperation();
+        	  jvmOperation.setVisibility(JvmVisibility.PUBLIC);
+          	jvmOperation.setSimpleName("convert" + genDataType.getName());
+          	JvmFormalParameter jvmFormalParameter = TypesFactory.eINSTANCE.createJvmFormalParameter();
+          	jvmFormalParameter.setName("it");
+  			    JvmTypeReference parameterType = getJvmTypeReference(instanceTypeName, genDataType);
+          	jvmFormalParameter.setParameterType(parameterType);
+          	jvmOperation.getParameters().add(jvmFormalParameter);
+          	jvmOperation.setReturnType(typeReferences.getTypeForName("java.lang.String", genPackage));
+  			    mapping.setConverter(jvmOperation);
+  			    factoryClass.getMembers().add(jvmOperation);
+        	}
+      	}
+      }
     }
+
     return result;
   }
   
@@ -101,44 +146,6 @@ public class XcoreJvmInferrer
     	// TODO
     }
     return result;
-  }
-
-  public List<? extends JvmTypeReference> getTypeReferences(XPackage xPackage)
-  {
-  	GenPackage genPackage = mapper.getMapping(xPackage).getGenPackage();
-    return getTypeReferences(genPackage);
-  }
-
-  public List<? extends JvmTypeReference> getTypeReferences(GenPackage genPackage)
-  {
-    ArrayList<JvmTypeReference> result = new ArrayList<JvmTypeReference>();
-    for (GenClassifier genClassifier : genPackage.getGenClassifiers())
-    {
-      JvmTypeReference jvmTypeReference = getTypeReference(genClassifier);
-      if (jvmTypeReference != null)
-      {
-			  result.add(jvmTypeReference);
-      }
-    }
-    return result;
-  }
-
-  public JvmTypeReference getTypeReference(GenClassifier genClassifier)
-  {
-    if (genClassifier instanceof GenDataType)
-    {
-    	GenDataType genDataType = (GenDataType)genClassifier;
-      final XDataType xDataType = mapper.getXDataType(genClassifier);
-		  final XDataTypeMapping mapping = mapper.getMapping(xDataType);
-		  String instanceTypeName = genDataType.getEcoreDataType().getInstanceTypeName();
-		  if (instanceTypeName != null)
-		  {
-			  JvmTypeReference jvmTypeReference = getJvmTypeReference(instanceTypeName, genDataType);
-			  mapping.setDataType(jvmTypeReference);
-			  return jvmTypeReference;
-		  }
-    }
-   	return null;
   }
 
   public List<? extends JvmDeclaredType> getDeclaredTypes(GenClass genClass)

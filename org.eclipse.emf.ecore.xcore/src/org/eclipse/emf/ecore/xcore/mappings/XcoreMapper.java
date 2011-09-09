@@ -1,12 +1,17 @@
 package org.eclipse.emf.ecore.xcore.mappings;
 
+import java.util.ListIterator;
+
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XClass;
+import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XDataType;
+import org.eclipse.emf.ecore.xcore.XMember;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
@@ -29,6 +34,51 @@ public class XcoreMapper
 	public XPackageMapping getMapping(XPackage aPackage) {
 		return lazyCreateMapping(aPackage, XPackageMapping.class);
 	}
+	
+	public void unsetMapping(XPackage xPackage)
+	{
+		remove(xPackage.eAdapters(), XPackageMapping.class);
+		for (XClassifier xClassifier : xPackage.getClassifiers())
+		{
+			if (xClassifier instanceof XClass)
+			{
+				XClass xClass = (XClass)xClassifier;
+		    remove(xClass.eAdapters(), XClassMapping.class);
+		    for (XMember xMember : xClass.getMembers())
+		    {
+		    	if (xMember instanceof XStructuralFeature)
+		    	{
+		    		XStructuralFeature xStructuralFeature = (XStructuralFeature)xMember;
+		        remove(xStructuralFeature.eAdapters(), XFeatureMapping.class);
+		    	}
+		    	else if (xMember instanceof XOperation)
+		    	{
+		    		XOperation xOperation = (XOperation)xMember;
+		        remove(xOperation.eAdapters(), XOperationMapping.class);
+		    	}
+		    }
+			}
+			else if (xClassifier instanceof XDataType)
+			{
+				XDataType xDataType = (XDataType)xClassifier;
+		    remove(xDataType.eAdapters(), XDataTypeMapping.class);
+			}
+		}
+	}
+	
+	private void remove(EList<Adapter> adapters, Class<?> type)
+	{
+		for (ListIterator<Adapter> i = adapters.listIterator(); i.hasNext(); )
+		{
+			Adapter adapter = i.next();
+			if (adapter.isAdapterForType(type))
+			{
+				i.remove();
+				break;
+			}
+		}
+	}
+
 	public XClassMapping getMapping(XClass clazz) {
 		return lazyCreateMapping(clazz, XClassMapping.class);
 	}
@@ -50,7 +100,7 @@ public class XcoreMapper
 		if (namedElement instanceof XPackage) {
 			return getMapping((XPackage)namedElement).getEPackage();
 		} else if (namedElement instanceof XClass) {
-			return getMapping((XClass)namedElement).getEclass();
+			return getMapping((XClass)namedElement).getEClass();
 		} else if (namedElement instanceof XDataType) {
 			return getMapping((XDataType)namedElement).getEDataType();
 		} else if (namedElement instanceof XStructuralFeature) {
