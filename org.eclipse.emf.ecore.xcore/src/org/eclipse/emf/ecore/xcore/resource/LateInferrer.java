@@ -7,7 +7,7 @@ import org.eclipse.xtext.resource.ILateInitialization;
 public class LateInferrer implements ILateInitialization
 {
 
-	public void doLateInitialization(EList<EObject> resourcesContentsList)
+	public void installLateInitialization(EList<EObject> resourcesContentsList)
   {
   }
 
