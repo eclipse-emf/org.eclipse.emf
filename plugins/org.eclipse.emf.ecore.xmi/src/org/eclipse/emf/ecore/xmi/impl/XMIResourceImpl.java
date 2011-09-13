@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2011 IBM Corporation, CEA, and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,10 +9,11 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
+ *   Kenn Hussey (CEA) - 351783
  *
  * </copyright>
  *
- * $Id: XMIResourceImpl.java,v 1.6 2011/01/26 17:27:14 emerks Exp $
+ * $Id: XMIResourceImpl.java,v 1.7 2011/09/13 17:36:56 khussey Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -114,17 +115,25 @@ public class XMIResourceImpl extends XMLResourceImpl implements XMIResource
     {
       return XMIResource.XMI_URI;
     }
+    else if (version.equals(XMIResource.VERSION_2_1_VALUE))
+    {
+      return XMIResource.XMI_2_1_URI;
+    }
     else
     {
-      return XMIResource.XMI_NAMESPACE_PREFIX + version;
+      return XMIResource.XMI_2_4_NAMESPACE_PREFIX + version;
     }
   }
 
   public void setXMINamespace(String namespace)
   {
-    if (namespace.startsWith(XMIResource.XMI_NAMESPACE_PREFIX))
+    if (namespace.startsWith(XMIResource.XMI_2_4_NAMESPACE_PREFIX))
     {
-      this.setXMIVersion(namespace.substring(XMIResource.XMI_NAMESPACE_PREFIX.length()));
+      this.setXMIVersion(namespace.substring(XMIResource.XMI_2_4_NAMESPACE_PREFIX.length()));
+    }
+    else if (namespace.equals(XMIResource.XMI_2_1_URI))
+    {
+      this.setXMIVersion(XMIResource.VERSION_2_1_VALUE);
     }
     else if (namespace.equals(XMIResource.XMI_URI))
     {

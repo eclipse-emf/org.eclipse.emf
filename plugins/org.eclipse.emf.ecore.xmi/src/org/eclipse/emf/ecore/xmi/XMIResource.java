@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2011 IBM Corporation, CEA, and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,10 +9,11 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
+ *   Kenn Hussey (CEA) - 351783
  *
  * </copyright>
  *
- * $Id: XMIResource.java,v 1.7 2011/01/26 17:26:21 emerks Exp $
+ * $Id: XMIResource.java,v 1.8 2011/09/13 17:36:56 khussey Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -70,7 +71,11 @@ public interface XMIResource extends XMLResource
 
   String VERSION_VALUE = "2.0";
 
+  String VERSION_2_1_VALUE = "2.1";
+
   String XMI_NAMESPACE_PREFIX = "http://schema.omg.org/spec/XMI/";
+
+  String XMI_2_4_NAMESPACE_PREFIX = "http://www.omg.org/spec/XMI/";
 
   String XMI_NS = "xmi";
 
@@ -79,6 +84,8 @@ public interface XMIResource extends XMLResource
   String XMI_TAG_NAME = "XMI";
 
   String XMI_URI = ExtendedMetaData.XMI_URI;
+
+  String XMI_2_1_URI = XMI_NAMESPACE_PREFIX + VERSION_2_1_VALUE;
 
   /**
    * @return XMI version

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2007 IBM Corporation and others.
+ * Copyright (c) 2007-2011 IBM Corporation, CEA, and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,10 +9,11 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
+ *   Kenn Hussey (CEA) - 351783
  *
  * </copyright>
  *
- * $Id: XMLContentHandlerImpl.java,v 1.5 2009/10/20 09:47:00 emerks Exp $
+ * $Id: XMLContentHandlerImpl.java,v 1.6 2011/09/13 17:36:56 khussey Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -70,7 +71,8 @@ public class XMLContentHandlerImpl extends ContentHandlerImpl
   {
     return
       namespace != null &&
-        (namespace.startsWith(XMIResource.XMI_NAMESPACE_PREFIX) ||
+        (namespace.startsWith(XMIResource.XMI_2_4_NAMESPACE_PREFIX) ||
+           namespace.equals(XMIResource.XMI_2_1_URI) ||
            namespace.equals(XMIResource.XMI_URI));
   }
 
