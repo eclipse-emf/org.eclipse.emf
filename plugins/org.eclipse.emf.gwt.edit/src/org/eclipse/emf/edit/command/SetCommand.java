@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.2 2010/04/28 20:38:32 khussey Exp $
+ * $Id: SetCommand.java,v 1.2.4.1 2011/09/13 15:26:27 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
@@ -515,7 +516,9 @@ public class SetCommand extends AbstractOverrideableCommand
 
       // Is the feature an attribute of the owner...
       //
-      if (eMetaObject.getEAllStructuralFeatures().contains(feature)) 
+      EList<EStructuralFeature> eAllStructuralFeatures = eMetaObject.getEAllStructuralFeatures();
+      if (eAllStructuralFeatures.contains(feature) ||
+            eAllStructuralFeatures.contains(ExtendedMetaData.INSTANCE.getAffiliation(eMetaObject, feature)))
       {
         // If must be of this type then.
         //
