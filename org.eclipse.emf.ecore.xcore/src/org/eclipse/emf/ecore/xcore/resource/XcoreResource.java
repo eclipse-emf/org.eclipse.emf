@@ -3,14 +3,12 @@ package org.eclipse.emf.ecore.xcore.resource;
 import java.util.Iterator;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xcore.XModelElement;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyUriConverter;
@@ -21,7 +19,6 @@ import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
-import org.eclipse.xtext.parser.IParseResult;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.IScopeProvider;
@@ -54,26 +51,10 @@ public class XcoreResource extends XbaseResource {
   @Inject
   private XcoreMapper mapper;
 	
-	protected boolean fullyInitialized;
-	
-	@Override
-	public EList<EObject> getContents() {
-		if (!isLoading && !isUpdating && !fullyInitialized) {
-			try {
-				eSetDeliver(false);
-				isLoading = true;
-				lateInitialize();
-				fullyInitialized = true;
-			} finally {
-				isLoading = false;
-				eSetDeliver(true);
-			}
-		}
-		return super.getContents();
-	}
-	
-	@Override
-	protected void updateInternalState(IParseResult parseResult) {
+  
+  @Override
+  protected void discardLateInitializedState()
+  {
     EList<EObject> contents = getContents();
     int size = contents.size();
     if (size > 1)
@@ -90,13 +71,10 @@ public class XcoreResource extends XbaseResource {
         	mapper.unsetMapping((XPackage)eObject);
         }
       }
-      contents.clear();
     }
-    fullyInitialized = false;
-		super.updateInternalState(parseResult);
 	}
 	
-	protected void lateInitialize() 
+	protected void installLateInitializedState() 
 	{
 		if (getParseResult() != null && getParseResult().getRootASTElement() instanceof XPackage)
     {

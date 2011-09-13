@@ -6,7 +6,6 @@ package org.eclipse.emf.ecore.xcore;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xcore.conversion.FixedQualifiedNameValueConverter;
 import org.eclipse.emf.ecore.xcore.conversion.ValueConverterService;
-import org.eclipse.emf.ecore.xcore.linking.XcoreLazyLinker;
 import org.eclipse.emf.ecore.xcore.resource.XcoreResource;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreIdentifableSimpleNameProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvider;
@@ -17,10 +16,10 @@ import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnosticConverter;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnostician;
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.conversion.impl.QualifiedNameValueConverter;
-import org.eclipse.xtext.linking.ILinker;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.parser.antlr.IReferableElementsUnloader;
 import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
+import org.eclipse.xtext.resource.ILateInitialization;
 import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.scoping.IScopeProvider;
@@ -39,11 +38,6 @@ import com.google.inject.name.Names;
  */
 public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcoreRuntimeModule 
 {
-  @Override
-  public Class<? extends ILinker> bindILinker() 
-  {
-    return XcoreLazyLinker.class;
-  }
   
   @Override
   public Class<? extends ISerializer> bindISerializer()
@@ -72,6 +66,12 @@ public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcor
   public void configureIScopeProviderDelegate(Binder binder)
   {
     binder.bind(IScopeProvider.class).annotatedWith(Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(XcoreImportedNamespaceAwareScopeProvider.class);
+  }
+  
+  @Override
+  public Class<? extends IScopeProvider> bindIScopeProvider()
+  {
+    return org.eclipse.emf.ecore.xcore.scoping.XcoreScopeProvider.class;
   }
   
   public Class<? extends IResourceDescription.Manager> bindIResourceDescriptionManager() 
@@ -109,5 +109,11 @@ public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcor
 	
 	public Class<? extends QualifiedNameValueConverter> bindFixedQualifiedNameValueConverter() {
 		return FixedQualifiedNameValueConverter.class;
+	}
+	
+	@Override
+	public Class<? extends ILateInitialization> bindILateInitialization()
+	{
+	  return org.eclipse.emf.ecore.xcore.resource.LateInferrer.class;
 	}
 }
