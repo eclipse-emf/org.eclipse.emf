@@ -1,21 +1,10 @@
 package org.eclipse.emf.ecore.xcore.resource;
 
-import java.util.Iterator;
-
-import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xcore.XPackage;
-import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyUriConverter;
-import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder;
-import org.eclipse.emf.ecore.xcore.util.XcoreGenmodelBuilder;
-import org.eclipse.emf.ecore.xcore.util.XcoreJvmInferrer;
-import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -26,7 +15,6 @@ import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.xbase.resource.XbaseResource;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 public class XcoreResource extends XbaseResource {
 	
@@ -37,58 +25,8 @@ public class XcoreResource extends XbaseResource {
 	private IQualifiedNameProvider nameProvider; 
 	
   @Inject
-  private XcoreJvmInferrer jvmInferrer;
-  
-  @Inject
-  private XcoreGenmodelBuilder genModelBuilder;
-  
-  @Inject
-  private Provider<XcoreEcoreBuilder> xcoreEcoreBuilderProvider;
-  
-  @Inject
   private IScopeProvider scopeProvider;
 
-  @Inject
-  private XcoreMapper mapper;
-	
-  
-  @Override
-  protected void discardLateInitializedState()
-  {
-    EList<EObject> contents = getContents();
-    int size = contents.size();
-    if (size > 1)
-    {
-  		for (Iterator<EObject> i = contents.iterator(); i.hasNext(); )
-      {
-        EObject eObject = i.next();
-        if (eObject instanceof EPackage || eObject instanceof GenModel || eObject instanceof JvmGenericType)
-        {
-          unload(eObject);
-        }
-        else if (eObject instanceof XPackage)
-        {
-        	mapper.unsetMapping((XPackage)eObject);
-        }
-      }
-    }
-	}
-	
-	protected void installLateInitializedState() 
-	{
-		if (getParseResult() != null && getParseResult().getRootASTElement() instanceof XPackage)
-    {
-			XPackage model = (XPackage) getParseResult().getRootASTElement();
-      XcoreEcoreBuilder xcoreEcoreBuilder = xcoreEcoreBuilderProvider.get();
-      EPackage ePackage = xcoreEcoreBuilder.getEPackage(model);
-      super.getContents().add(ePackage);
-      GenModel genModel = genModelBuilder.getGenModel(model);
-      xcoreEcoreBuilder.link(); 
-      genModelBuilder.initializeUsedGenPackages(genModel);
-      super.getContents().addAll(jvmInferrer.getDeclaredTypes(model));
-      getCache().clear(this);
-    }
-	}
 	
 	@Override
 	public synchronized EObject getEObject(String uriFragment) {

@@ -123,6 +123,11 @@ public abstract class AbstractXcoreUiModule extends DefaultUiModule {
 		return org.eclipse.core.resources.ResourcesPlugin.getWorkspace().getRoot();
 	}
 
+	// contributed by org.eclipse.xtext.generator.generator.GeneratorFragment
+	public void configureBuilderPreferenceStoreInitializer(com.google.inject.Binder binder) {
+		binder.bind(org.eclipse.xtext.ui.editor.preferences.IPreferenceStoreInitializer.class).to(org.eclipse.xtext.builder.preferences.BuilderPreferenceAccess.Initializer.class);
+	}
+
 	// contributed by org.eclipse.xtext.ui.generator.refactoring.RefactorElementNameFragment
 	public Class<? extends org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage> bindLanguageRootPreferencePage() {
 		return org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage.class;

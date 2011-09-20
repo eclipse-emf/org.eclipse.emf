@@ -205,7 +205,16 @@
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant">
       </participant>
    </extension>
-   
+   <extension
+            point="org.eclipse.ui.preferencePages">
+        <page
+            category="org.eclipse.emf.ecore.xcore.Xcore"
+            class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+            id="org.eclipse.emf.ecore.xcore.Xcore.builder"
+            name="Builder">
+            <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
+        </page>
+    </extension>
    <!-- MANUAL ADDITIONS -->
    
    <extension point="org.eclipse.ui.popupMenus">
@@ -273,7 +282,6 @@
     <extension point="org.eclipse.ui.views">
         <view id="org.eclipse.emf.ecore.xcore.ui.EOperationInvocationView"
              name="Operation Invocation View"
-          class="org.eclipse.emf.ecore.xcore.ui.EOperationInvocationView"
-          icon="icons\view.gif"/>
+          class="org.eclipse.emf.ecore.xcore.ui.EOperationInvocationView"/>
     </extension>
 </plugin>

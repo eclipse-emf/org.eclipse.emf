@@ -349,7 +349,7 @@ public class ParsingTest extends Object {
       final XAttribute attribute = ((XAttribute) _head_1);
       XGenericType _type = attribute.getType();
       GenBase _type_1 = _type.getType();
-      Assert.assertTrue((_type_1 instanceof org.eclipse.emf.codegen.ecore.genmodel.GenClassifier));
+      Assert.assertTrue((_type_1 instanceof GenClassifier));
       XGenericType _type_2 = attribute.getType();
       GenBase _type_3 = _type_2.getType();
       String _name = ((GenClassifier) _type_3).getName();
