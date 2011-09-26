@@ -1,6 +1,7 @@
 package org.eclipse.emf.ecore.xcore.resource;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.EList;
@@ -18,6 +19,8 @@ import org.eclipse.xtext.resource.IDerivedStateComputer;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import static com.google.common.collect.Lists.*;
 
 public class LateInferrer implements IDerivedStateComputer
 {
@@ -58,17 +61,20 @@ public class LateInferrer implements IDerivedStateComputer
 		int size = contents.size();
 		if (size > 1)
 		{
+			List<EObject> toBeRemoved = newArrayList(); 
 			for (Iterator<EObject> i = contents.iterator(); i.hasNext();)
 			{
 				EObject eObject = i.next();
 				if (eObject instanceof EPackage || eObject instanceof GenModel || eObject instanceof JvmGenericType)
 				{
 					unloader.unloadRoot(eObject);
+					toBeRemoved.add(eObject);
 				} else if (eObject instanceof XPackage)
 				{
 					mapper.unsetMapping((XPackage) eObject);
 				}
 			}
+			contents.removeAll(toBeRemoved);
 		}
 	}
 

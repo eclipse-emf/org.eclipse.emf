@@ -16,13 +16,13 @@ import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnosticConverter;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnostician;
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.conversion.impl.QualifiedNameValueConverter;
+import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.parser.antlr.IReferableElementsUnloader;
 import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
 import org.eclipse.xtext.resource.IDerivedStateComputer;
-import org.eclipse.xtext.resource.IResourceDescription;
-import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.IResourceDescription.Manager;
+import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.serializer.ISerializer;
@@ -117,5 +117,11 @@ public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcor
 	public Class<? extends IDerivedStateComputer> bindIDerivedStateComputer()
 	{
 	  return org.eclipse.emf.ecore.xcore.resource.LateInferrer.class;
+	}
+	
+	@Override
+	public Class<? extends IGenerator> bindIGenerator()
+	{
+	  return org.eclipse.emf.ecore.xcore.generator.XcoreGenerator.class;
 	}
 }

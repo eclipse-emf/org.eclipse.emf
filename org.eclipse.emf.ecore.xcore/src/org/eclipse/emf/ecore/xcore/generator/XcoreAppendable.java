@@ -1,7 +1,6 @@
 package org.eclipse.emf.ecore.xcore.generator;
 
 import org.eclipse.xtext.xbase.compiler.IAppendable;
-import org.eclipse.xtext.xbase.compiler.ImportManager;
 import org.eclipse.xtext.xbase.compiler.StringBuilderBasedAppendable;
 
 public class XcoreAppendable extends StringBuilderBasedAppendable

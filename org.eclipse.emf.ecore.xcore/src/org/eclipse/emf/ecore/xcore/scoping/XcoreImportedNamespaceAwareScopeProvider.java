@@ -26,6 +26,8 @@ import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.AbstractEObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
+import org.eclipse.xtext.resource.IResourceDescription;
+import org.eclipse.xtext.resource.ISelectable;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractScope;
 import org.eclipse.xtext.scoping.impl.ImportNormalizer;
@@ -48,7 +50,10 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
   private IQualifiedNameConverter nameConverter;
   
   @Inject
-  Provider<EcoreXcoreBuilder> ecoreXcoreBuilderProvider;
+  private Provider<EcoreXcoreBuilder> ecoreXcoreBuilderProvider;
+  
+  @Inject
+  private IResourceDescription.Manager manager;
 
   @Override
   protected List<ImportNormalizer> internalGetImportedNamespaceResolvers(EObject context, boolean ignoreCase)
@@ -204,5 +209,12 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
      return globalScope;
     }
   
+  }
+  
+  @Override
+  protected ISelectable internalGetAllDescriptions(Resource resource)
+  {
+  	IResourceDescription description = manager.getResourceDescription(resource);
+  	return description;
   }
 }
