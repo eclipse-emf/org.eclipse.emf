@@ -1,12 +1,14 @@
 package org.eclipse.emf.ecore.xcore.scoping;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.xcore.XClass;
+import org.eclipse.emf.ecore.xcore.XDataType;
 import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.common.types.TypesFactory;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
@@ -43,6 +45,15 @@ public class XcoreResourceDescriptionStrategy extends DefaultResourceDescription
 				createGenModelDescription(eObject.eResource().getURI(), acceptor, qn);
 				createEcoreDescription(eObject.eResource().getURI(), acceptor, qn);
 				createJvmTypesDescription(eObject.eResource().getURI(), acceptor, qn);
+			}
+			return false;
+		}
+		if (eObject instanceof XDataType) {
+			QualifiedName qn = nameProvider.getFullyQualifiedName(eObject);
+			if (qn != null) {
+				GenDataType genDatatype = genFactory.createGenDataType();
+				proxyTool.installProxyURI(eObject.eResource().getURI(), genDatatype, qn);
+				acceptor.accept(EObjectDescription.create(qn, genDatatype));
 			}
 			return false;
 		}
