@@ -32,7 +32,7 @@ public class XcoreResource extends XbaseResource {
 	public synchronized EObject getEObject(String uriFragment) {
 		Pair<EClass,QualifiedName> fragmentInfo = proxyConverter.decodeFragment(uriFragment);
 		if (fragmentInfo != null) {
-			return findEObject(fragmentInfo.getFirst(), fragmentInfo.getSecond());
+			return findEObject(fragmentInfo.getFirst(), fragmentInfo.getSecond(), uriFragment);
 		} else {
 			return super.getEObject(uriFragment);
 		}
@@ -43,11 +43,12 @@ public class XcoreResource extends XbaseResource {
 	 * 
 	 * TODO optimize
 	 */
-	protected EObject findEObject(EClass clazz, QualifiedName name) {
+	protected EObject findEObject(EClass clazz, QualifiedName name, String uriFragment) {
 		if (clazz == TypesPackage.Literals.JVM_GENERIC_TYPE) {
 			IScope scope = scopeProvider.getScope(getContents().get(0), TypesPackage.Literals.JVM_PARAMETERIZED_TYPE_REFERENCE__TYPE);
 			final IEObjectDescription desc = scope.getSingleElement(name);
-			return desc == null ? null : desc.getEObjectOrProxy();
+			if (desc != null && !uriFragment.equals(desc.getEObjectURI().fragment()))
+				return desc.getEObjectOrProxy();
 		}
 		TreeIterator<EObject> iterator = EcoreUtil.getAllContents(this, false);
 		while (iterator.hasNext()) {

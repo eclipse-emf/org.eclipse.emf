@@ -1,5 +1,6 @@
 package org.eclipse.emf.ecore.xcore.typing;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
@@ -15,6 +16,16 @@ public class XcoreTypeProvider extends XbaseTypeProvider
 	
 	@Inject
 	private XcoreMapper mapper;
+	
+	@Override
+	protected JvmTypeReference expectedTypeDispatcherInvoke(EObject container, EReference reference, int index,
+	    boolean rawType)
+	{
+	  if (container instanceof XOperation) {
+	  	return _expectedType((XOperation)container, reference, index, rawType);
+	  }
+	  return super.expectedTypeDispatcherInvoke(container, reference, index, rawType);
+	}
 	
 	protected JvmTypeReference _expectedType(XOperation expr, EReference reference, int index, boolean rawType)
 	{
