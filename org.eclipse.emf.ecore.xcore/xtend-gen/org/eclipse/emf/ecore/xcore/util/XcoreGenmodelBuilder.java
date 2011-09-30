@@ -195,6 +195,11 @@ public class XcoreGenmodelBuilder {
             XNamedElement _xcoreElement = _xcoreMapping.getXcoreElement();
             GenBase _gen = this.mapper.getGen(_xcoreElement);
             GenPackage usedGenPackage = ((GenPackage) _gen);
+            boolean _operator_equals_1 = ObjectExtensions.operator_equals(usedGenPackage, null);
+            if (_operator_equals_1) {
+              GenPackage _findLocalGenPackage = this.findLocalGenPackage(referencedEPackage);
+              usedGenPackage = _findLocalGenPackage;
+            }
             boolean _operator_notEquals = ObjectExtensions.operator_notEquals(usedGenPackage, null);
             if (_operator_notEquals) {
               EList<GenPackage> _usedGenPackages = genModel.getUsedGenPackages();
@@ -246,5 +251,28 @@ public class XcoreGenmodelBuilder {
         }
       }
     }
+  }
+  
+  public GenPackage findLocalGenPackage(final EPackage ePackage) {
+    GenPackage _xifexpression = null;
+    Resource _eResource = ePackage.eResource();
+    boolean _operator_notEquals = ObjectExtensions.operator_notEquals(_eResource, null);
+    if (_operator_notEquals) {
+      Resource _eResource_1 = ePackage.eResource();
+      EList<EObject> _contents = _eResource_1.getContents();
+      for (final EObject content : _contents) {
+        if ((content instanceof GenModel)) {
+          {
+            GenPackage _findGenPackage = ((GenModel) content).findGenPackage(ePackage);
+            final GenPackage genPackage = _findGenPackage;
+            boolean _operator_notEquals_1 = ObjectExtensions.operator_notEquals(genPackage, null);
+            if (_operator_notEquals_1) {
+              return genPackage;
+            }
+          }
+        }
+      }
+    }
+    return _xifexpression;
   }
 }

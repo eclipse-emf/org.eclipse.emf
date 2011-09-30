@@ -43,12 +43,13 @@ public class XcoreResourceDescription extends DefaultResourceDescription
 		Resource resource = getResource();
 		if (resource instanceof XtextResource)
 		{
-			if (resource.isLoaded())
+			if (!resource.isLoaded())
 			{
 				try
 				{
 					resource.load(null);
-				} catch (IOException e)
+				} 
+				catch (IOException e)
 				{
 					log.error(e.getMessage(), e);
 					return Collections.<IEObjectDescription> emptyList();

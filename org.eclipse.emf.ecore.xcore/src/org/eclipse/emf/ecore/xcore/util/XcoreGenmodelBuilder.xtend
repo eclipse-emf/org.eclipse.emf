@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.xcore.XStructuralFeature
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper
 
 import static extension org.eclipse.xtext.xtend2.lib.EObjectExtensions.*
+import org.eclipse.emf.ecore.xcore.resource.XcoreResource
 
 class XcoreGenmodelBuilder {
 	
@@ -101,6 +102,10 @@ class XcoreGenmodelBuilder {
      	  if (genModel.findGenPackage(referencedEPackage) == null)
      	  {
      	  	var usedGenPackage = mapper.getGen(mapper.getToXcoreMapping(referencedEPackage).xcoreElement) as GenPackage
+     	  	if (usedGenPackage == null)
+     	  	{
+     	  		usedGenPackage = findLocalGenPackage(referencedEPackage);
+     	  	}
      	  	if (usedGenPackage != null)
      	  	{
      	  	  genModel.usedGenPackages.add(usedGenPackage);
@@ -127,5 +132,22 @@ class XcoreGenmodelBuilder {
      	  	}
      	  }
      	}
+	}
+	
+	def findLocalGenPackage(EPackage ePackage) {
+  	    if (ePackage.eResource != null)
+   	  	{
+   	  		for (content : ePackage.eResource.contents)
+   	  		{
+   	  			if (content instanceof GenModel)
+   	  			{
+   	  				val genPackage = (content as GenModel).findGenPackage(ePackage)
+   	  				if (genPackage != null)
+   	  				{
+  	  					return genPackage;
+   	  				}
+   	  			}
+   	  		}
+  	  	}
 	}
 }

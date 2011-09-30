@@ -154,7 +154,8 @@ public class XcoreScopeProvider extends XbaseScopeProvider
 					return result;
 				}
 			};
-		} else if (reference == XcorePackage.Literals.XREFERENCE__KEYS)
+		} 
+		else if (reference == XcorePackage.Literals.XREFERENCE__KEYS)
 		{
 			return new AbstractScope(IScope.NULLSCOPE, false)
 			{
@@ -189,7 +190,8 @@ public class XcoreScopeProvider extends XbaseScopeProvider
 				}
 			};
 
-		} else
+		} 
+		else
 		{
 			IScope scope = super.getScope(context, reference);
 			if (reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE)
@@ -231,7 +233,8 @@ public class XcoreScopeProvider extends XbaseScopeProvider
 						return result;
 					}
 				};
-			} else
+			} 
+			else
 			{
 				return scope;
 			}

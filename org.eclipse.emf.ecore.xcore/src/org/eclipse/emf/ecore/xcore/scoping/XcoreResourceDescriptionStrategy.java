@@ -7,6 +7,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XDataType;
 import org.eclipse.xtext.common.types.JvmGenericType;
@@ -42,9 +43,10 @@ public class XcoreResourceDescriptionStrategy extends DefaultResourceDescription
 		if (eObject instanceof XClass) {
 			QualifiedName qn = nameProvider.getFullyQualifiedName(eObject);
 			if (qn != null) {
-				createGenModelDescription(eObject.eResource().getURI(), acceptor, qn);
-				createEcoreDescription(eObject.eResource().getURI(), acceptor, qn);
-				createJvmTypesDescription(eObject.eResource().getURI(), acceptor, qn);
+		    URI uri = eObject.eResource().getURI();
+				createGenModelDescription(uri, acceptor, qn);
+				createEcoreDescription(uri, acceptor, qn);
+				createJvmTypesDescription(uri, acceptor, qn);
 			}
 			return false;
 		}
@@ -57,6 +59,13 @@ public class XcoreResourceDescriptionStrategy extends DefaultResourceDescription
 			}
 			return false;
 		}
+		if (eObject instanceof XAnnotationDirective)
+		{
+			QualifiedName qn = nameProvider.getFullyQualifiedName(eObject);
+			if (qn != null) {
+				acceptor.accept(EObjectDescription.create(qn, eObject));
+			}
+		}
 		return true;
 	}
 
@@ -65,6 +74,11 @@ public class XcoreResourceDescriptionStrategy extends DefaultResourceDescription
 		proxyTool.installProxyURI(resourceURI, theInterface, qn);
 		acceptor.accept(EObjectDescription.create(qn, theInterface));
 		
+		// TODO This isn't right.
+		// It's bad new have logic like this in multiple places.
+		// We need to know the proper package name which only the GenPackage knows.
+		// It's even possible that separate interface and implement classes is suppressed...
+		//
 		QualifiedName implClassName = QualifiedName.create(qn.toString()+"Impl"); 
 		JvmGenericType theImplClass = typesFactory.createJvmGenericType();
 		proxyTool.installProxyURI(resourceURI, theImplClass, implClassName);
