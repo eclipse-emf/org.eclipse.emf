@@ -9,6 +9,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
@@ -257,6 +258,70 @@ public class XcoreInterpreterTest {
       EStructuralFeature _eStructuralFeature_1 = fooClass.getEStructuralFeature("alias");
       Object _eGet = foo.eGet(_eStructuralFeature_1);
       Assert.assertEquals("Sven", _eGet);
+    }
+  }
+  
+  @Test
+  public void testEnum() throws Exception {
+    {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo.bar");
+      _builder.newLine();
+      _builder.append("enum NodeKind { Singleton Root Intermediate Leaf }");
+      _builder.newLine();
+      _builder.append("class Node");
+      _builder.newLine();
+      _builder.append("{");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("refers Node parent opposite children");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("contains Node[0..*] children opposite parent");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("op boolean hasChildren() { !children.empty }");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("/*");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("transient volatile derived readonly NodeKind nodeKind");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("get");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("{");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("if (hasChildren()) {if (parent == null) {NodeKind::ROOT} else {NodeKind::INTERMEDIATE}}");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("else {if (parent == null) {NodeKind::SINGLETON} else {NodeKind::LEAF}}");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("*/");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      XPackage _parse = this.parse.parse(_builder);
+      final XPackage pack = _parse;
+      this.validator.assertNoErrors(pack);
+      Resource _eResource = pack.eResource();
+      EList<EObject> _contents = _eResource.getContents();
+      EObject _get = _contents.get(2);
+      final EPackage ePackage = ((EPackage) _get);
+      EClassifier _eClassifier = ePackage.getEClassifier("NodeKind");
+      final EEnum nodeKindEnum = ((EEnum) _eClassifier);
+      EClassifier _eClassifier_1 = ePackage.getEClassifier("Node");
+      final EClass nodeClass = ((EClass) _eClassifier_1);
+      EFactory _eFactoryInstance = ePackage.getEFactoryInstance();
+      EObject _create = _eFactoryInstance.create(nodeClass);
+      final EObject node = _create;
     }
   }
 }

@@ -29,10 +29,12 @@ public class LazyCreationProxyUriConverter {
 		EClass genClass = GenModelPackage.Literals.GEN_CLASS;
 		EClass genDatatype = GenModelPackage.Literals.GEN_DATA_TYPE;
 		EClass jvmGenericType = TypesPackage.Literals.JVM_GENERIC_TYPE;
+		EClass jvmEnumerationType = TypesPackage.Literals.JVM_ENUMERATION_TYPE;
 		types.put(eclass.getName(), eclass);
 		types.put(genClass.getName(), genClass);
 		types.put(genDatatype.getName(), genDatatype);
 		types.put(jvmGenericType.getName(), jvmGenericType);
+		types.put(jvmEnumerationType.getName(), jvmEnumerationType);
 	}
 
 	public void installProxyURI(URI resourceURI, EObject eobject, QualifiedName name) {

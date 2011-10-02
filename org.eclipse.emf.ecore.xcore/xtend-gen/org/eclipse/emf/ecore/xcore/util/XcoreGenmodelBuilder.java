@@ -7,6 +7,7 @@ import java.util.Set;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
+import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
@@ -17,6 +18,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
@@ -25,6 +27,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XDataType;
+import org.eclipse.emf.ecore.xcore.XEnumLiteral;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
@@ -32,6 +35,7 @@ import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.mappings.ToXcoreMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XDataTypeMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XEnumLiteralMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XPackageMapping;
@@ -147,6 +151,22 @@ public class XcoreGenmodelBuilder {
             _mapping_4.setGenOperation(genElement_6);
             ToXcoreMapping _xcoreMapping_9 = this.mapper.getToXcoreMapping(genElement_6);
             _xcoreMapping_9.setXcoreElement(xOperation);
+          }
+        }
+      }
+      if (!matched) {
+        if (genElement_1 instanceof GenEnumLiteral) {
+          final GenEnumLiteral genElement_7 = (GenEnumLiteral) genElement_1;
+          matched=true;
+          {
+            EEnumLiteral _ecoreEnumLiteral = genElement_7.getEcoreEnumLiteral();
+            ToXcoreMapping _xcoreMapping_10 = this.mapper.getToXcoreMapping(_ecoreEnumLiteral);
+            XNamedElement _xcoreElement_5 = _xcoreMapping_10.getXcoreElement();
+            final XEnumLiteral xEnumLiteral = ((XEnumLiteral) _xcoreElement_5);
+            XEnumLiteralMapping _mapping_5 = this.mapper.getMapping(xEnumLiteral);
+            _mapping_5.setGenEnumLiteral(genElement_7);
+            ToXcoreMapping _xcoreMapping_11 = this.mapper.getToXcoreMapping(genElement_7);
+            _xcoreMapping_11.setXcoreElement(xEnumLiteral);
           }
         }
       }

@@ -16,6 +16,8 @@ import org.junit.runner.RunWith
 import static org.junit.Assert.*
 import org.eclipse.emf.ecore.EDataType
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.EEnum
+import org.eclipse.xtext.resource.XtextResourceSet
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(XcoreInjectorProvider))
@@ -124,5 +126,32 @@ class XcoreInterpreterTest {
 		val foo = ePackage.EFactoryInstance.create(fooClass)
 		foo.eSet(fooClass.getEStructuralFeature("name"), "Sven");
 		assertEquals("Sven", foo.eGet(fooClass.getEStructuralFeature("alias")));
+	}
+	@Test
+	def void testEnum() {
+		val pack = parse.parse('''
+			package foo.bar
+			enum NodeKind { Singleton Root Intermediate Leaf }
+			class Node
+			{
+				refers Node parent opposite children
+				contains Node[0..*] children opposite parent
+				op boolean hasChildren() { !children.empty }
+				/*
+				transient volatile derived readonly NodeKind nodeKind
+				get
+				{
+					if (hasChildren()) {if (parent == null) {NodeKind::ROOT} else {NodeKind::INTERMEDIATE}}
+					else {if (parent == null) {NodeKind::SINGLETON} else {NodeKind::LEAF}}
+				}
+				*/
+			}
+		''')
+		validator.assertNoErrors(pack)
+		val ePackage = pack.eResource.contents.get(2) as EPackage
+		val nodeKindEnum = ePackage.getEClassifier("NodeKind") as EEnum
+		val nodeClass = ePackage.getEClassifier("Node") as EClass
+		val node = ePackage.EFactoryInstance.create(nodeClass)
+		// assertEquals(nodeKindEnum.getEEnumLiteral("Root"), node.eGet(nodeClass.getEStructuralFeature("nodeKind")));
 	}
 }

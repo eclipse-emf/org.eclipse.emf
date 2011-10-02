@@ -11,6 +11,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XDataType;
+import org.eclipse.emf.ecore.xcore.XEnum;
+import org.eclipse.emf.ecore.xcore.XEnumLiteral;
 import org.eclipse.emf.ecore.xcore.XMember;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XOperation;
@@ -22,6 +24,9 @@ public class XcoreMapper
 	public XDataType getXDataType(EObject element) {
 		return (XDataType) getXcoreElement(element);
 	}
+	public XEnum getXEnum(EObject element) {
+		return (XEnum) getXcoreElement(element);
+	}
 	public XClass getXClass(EObject element) {
 		return (XClass) getXcoreElement(element);
 	}
@@ -30,6 +35,9 @@ public class XcoreMapper
 	}
 	public XStructuralFeature getXFeature(EObject element) {
 		return (XStructuralFeature) getXcoreElement(element);
+	}
+	public XEnumLiteral getXEnumLiteral(EObject element) {
+		return (XEnumLiteral) getXcoreElement(element);
 	}
 	public XPackageMapping getMapping(XPackage aPackage) {
 		return lazyCreateMapping(aPackage, XPackageMapping.class);
@@ -90,6 +98,9 @@ public class XcoreMapper
 	}
 	public XDataTypeMapping getMapping(XDataType derivedElement) {
 		return lazyCreateMapping(derivedElement, XDataTypeMapping.class);
+	}
+	public XEnumLiteralMapping getMapping(XEnumLiteral enumLiteral) {
+		return lazyCreateMapping(enumLiteral, XEnumLiteralMapping.class);
 	}
 	
 	public ToXcoreMapping getToXcoreMapping(EObject derivedElement) {

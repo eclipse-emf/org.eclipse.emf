@@ -32,9 +32,12 @@ public class GenmodelQualifiedNameProvider extends IQualifiedNameProvider.Abstra
 		} else if (obj instanceof GenClassifier) {
 			GenClassifier classifier = (GenClassifier) obj;
 			GenPackage genPackage = classifier.getGenPackage();
-			String packageName = genPackage.getQualifiedPackageName();
-			String classifierName = classifier.getName();
-			return qualifiedNameConverter.toQualifiedName(packageName).append(classifierName);
+			if (genPackage != null)
+  		{
+  			String packageName = genPackage.getQualifiedPackageName();
+  			String classifierName = classifier.getName();
+  			return qualifiedNameConverter.toQualifiedName(packageName).append(classifierName);
+  		}
 		}
 		return null;
 	}

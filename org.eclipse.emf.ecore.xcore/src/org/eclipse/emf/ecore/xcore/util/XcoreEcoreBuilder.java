@@ -513,8 +513,7 @@ public class XcoreEcoreBuilder
   {
     EEnumLiteral eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
     mapper.getToXcoreMapping(eEnumLiteral).setXcoreElement(xEnumLiteral);
-    //TODO
-//    map(eEnumLiteral, xEnumLiteral);
+    mapper.getMapping(xEnumLiteral).setEEnumLiteral(eEnumLiteral);
     handleAnnotations(xEnumLiteral, eEnumLiteral);
     eEnumLiteral.setName(xEnumLiteral.getName());
     eEnumLiteral.setLiteral(xEnumLiteral.getLiteral());

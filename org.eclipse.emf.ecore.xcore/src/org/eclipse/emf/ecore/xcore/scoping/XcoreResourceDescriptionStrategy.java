@@ -10,6 +10,8 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XDataType;
+import org.eclipse.emf.ecore.xcore.XEnum;
+import org.eclipse.xtext.common.types.JvmEnumerationType;
 import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.common.types.TypesFactory;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
@@ -53,9 +55,14 @@ public class XcoreResourceDescriptionStrategy extends DefaultResourceDescription
 		if (eObject instanceof XDataType) {
 			QualifiedName qn = nameProvider.getFullyQualifiedName(eObject);
 			if (qn != null) {
+		    URI uri = eObject.eResource().getURI();
 				GenDataType genDatatype = genFactory.createGenDataType();
-				proxyTool.installProxyURI(eObject.eResource().getURI(), genDatatype, qn);
+				proxyTool.installProxyURI(uri, genDatatype, qn);
 				acceptor.accept(EObjectDescription.create(qn, genDatatype));
+			  if (eObject instanceof XEnum)
+			  {
+				  createJvmEnumDescription(uri, acceptor, qn);
+			  }
 			}
 			return false;
 		}
@@ -83,6 +90,12 @@ public class XcoreResourceDescriptionStrategy extends DefaultResourceDescription
 		JvmGenericType theImplClass = typesFactory.createJvmGenericType();
 		proxyTool.installProxyURI(resourceURI, theImplClass, implClassName);
 		acceptor.accept(EObjectDescription.create(implClassName, theImplClass));
+	}
+	
+	protected void createJvmEnumDescription(URI resourceURI, IAcceptor<IEObjectDescription> acceptor, QualifiedName qn) {
+		JvmEnumerationType theEnum = typesFactory.createJvmEnumerationType();
+		proxyTool.installProxyURI(resourceURI, theEnum, qn);
+		acceptor.accept(EObjectDescription.create(qn, theEnum));
 	}
 
 	protected void createEcoreDescription(URI resourceURI, IAcceptor<IEObjectDescription> acceptor, QualifiedName qn) {

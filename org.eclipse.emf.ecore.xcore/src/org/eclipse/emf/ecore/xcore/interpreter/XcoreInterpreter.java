@@ -4,14 +4,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.xcore.XEnumLiteral;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.mappings.ToXcoreMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
+import org.eclipse.xtext.common.types.JvmField;
 import org.eclipse.xtext.common.types.JvmOperation;
 import org.eclipse.xtext.xbase.interpreter.impl.EvaluationException;
 import org.eclipse.xtext.xbase.interpreter.impl.XbaseInterpreter;
@@ -27,16 +30,20 @@ public class XcoreInterpreter extends XbaseInterpreter
 	@Override
 	protected Object invokeOperation(JvmOperation operation, Object receiver, List<Object> argumentValues)
 	{
-		if (receiver instanceof EObject) {
+		if (receiver instanceof EObject) 
+		{
 			ToXcoreMapping mapping = mapper.getToXcoreMapping(operation);
-			if (mapping != null) {
+			if (mapping != null) 
+			{
 				XNamedElement element = mapping.getXcoreElement();
-				if (element instanceof XOperation) {
+				if (element instanceof XOperation) 
+				{
 					EOperation op = mapper.getMapping((XOperation)element).getEOperation();
 					try
 					{
 						return ((EObject)receiver).eInvoke(op, new BasicEList<Object>(argumentValues));
-					} catch (InvocationTargetException e)
+					} 
+					catch (InvocationTargetException e)
 					{
 						throw new EvaluationException(e);
 					}
@@ -50,7 +57,8 @@ public class XcoreInterpreter extends XbaseInterpreter
   					try
   					{
   						return ((EObject)receiver).eGet(feature);
-  					} catch (Throwable e)
+  					} 
+  					catch (Throwable e)
   					{
   						throw new EvaluationException(e);
   					}
@@ -61,7 +69,8 @@ public class XcoreInterpreter extends XbaseInterpreter
   					{
   						((EObject)receiver).eSet(feature, argumentValues.get(0));
   						return null;
-  					} catch (Throwable e)
+  					} 
+  					catch (Throwable e)
   					{
   						throw new EvaluationException(e);
   					}
@@ -70,5 +79,21 @@ public class XcoreInterpreter extends XbaseInterpreter
 			}
 		} 
 	  return super.invokeOperation(operation, receiver, argumentValues);
+	}
+	
+	@Override
+	protected Object featureCallField(JvmField jvmField, Object receiver)
+	{
+		ToXcoreMapping mapping = mapper.getToXcoreMapping(jvmField);
+		XNamedElement xcoreElement = mapping.getXcoreElement();
+		if (xcoreElement instanceof XEnumLiteral)
+		{
+			EEnumLiteral literal = mapper.getMapping((XEnumLiteral)xcoreElement).getEEnumLiteral();
+			if (literal != null)
+			{
+				return literal;
+			}
+		}
+	  return super.featureCallField(jvmField, receiver);
 	}
 }

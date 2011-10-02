@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper
 
 import static extension org.eclipse.xtext.xtend2.lib.EObjectExtensions.*
 import org.eclipse.emf.ecore.xcore.resource.XcoreResource
+import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral
+import org.eclipse.emf.ecore.xcore.XEnumLiteral
 
 class XcoreGenmodelBuilder {
 	
@@ -70,6 +72,12 @@ class XcoreGenmodelBuilder {
        			val xOperation = genElement.ecoreOperation.toXcoreMapping.xcoreElement as XOperation
  				xOperation.mapping.genOperation = genElement
  				genElement.toXcoreMapping.xcoreElement = xOperation    			
+       		}
+       		GenEnumLiteral :
+       		{
+       			val xEnumLiteral = genElement.ecoreEnumLiteral.toXcoreMapping.xcoreElement as XEnumLiteral
+       			xEnumLiteral.mapping.genEnumLiteral = genElement
+       			genElement.toXcoreMapping.xcoreElement = xEnumLiteral
        		}
        	}
        }

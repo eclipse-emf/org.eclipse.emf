@@ -8,6 +8,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
+import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -23,14 +24,19 @@ import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XDataType;
+import org.eclipse.emf.ecore.xcore.XEnum;
+import org.eclipse.emf.ecore.xcore.XEnumLiteral;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XDataTypeMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XEnumLiteralMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyUriConverter;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
+import org.eclipse.xtext.common.types.JvmEnumerationLiteral;
+import org.eclipse.xtext.common.types.JvmEnumerationType;
 import org.eclipse.xtext.common.types.JvmFormalParameter;
 import org.eclipse.xtext.common.types.JvmGenericArrayTypeReference;
 import org.eclipse.xtext.common.types.JvmGenericType;
@@ -143,9 +149,52 @@ public class XcoreJvmInferrer
     }
     else if (genClassifier instanceof GenEnum)
     {
-    	// TODO
+      result.add(getDeclaredType((GenEnum)genClassifier));
     }
     return result;
+  }
+
+  public JvmDeclaredType getDeclaredType(GenEnum genEnum)
+  {
+    final XEnum xEnum = mapper.getXEnum(genEnum);
+		final XDataTypeMapping mapping = mapper.getMapping(xEnum);
+    JvmDeclaredType jvmDeclaredType;
+		if (genEnum.getGenModel().useGenerics())
+		{
+			JvmEnumerationType jvmEnumerationType = TypesFactory.eINSTANCE.createJvmEnumerationType();
+			jvmEnumerationType.setFinal(true);
+			jvmDeclaredType = jvmEnumerationType;
+			for (GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals())
+			{
+				XEnumLiteral xEnumLiteral = mapper.getXEnumLiteral(genEnumLiteral);
+				JvmEnumerationLiteral jvmEnumerationLiteral = TypesFactory.eINSTANCE.createJvmEnumerationLiteral();
+				jvmEnumerationLiteral.setStatic(true);
+				jvmEnumerationLiteral.setFinal(true);
+				jvmEnumerationLiteral.setSimpleName(genEnumLiteral.getEnumLiteralInstanceConstantName());
+        jvmEnumerationLiteral.setVisibility(JvmVisibility.PUBLIC);
+        JvmParameterizedTypeReference jvmParameterizedTypeReference = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+        jvmParameterizedTypeReference.setType(jvmDeclaredType);
+        jvmEnumerationLiteral.setType(jvmParameterizedTypeReference);
+				jvmEnumerationType.getMembers().add(jvmEnumerationLiteral);
+	      mapper.getToXcoreMapping(jvmEnumerationLiteral).setXcoreElement(xEnumLiteral);
+			}
+		}
+		else
+		{
+      JvmGenericType jvmGenericType = TypesFactory.eINSTANCE.createJvmGenericType();
+			jvmDeclaredType = jvmGenericType;
+			// TODO
+      return jvmGenericType;
+		}
+		jvmDeclaredType.setSimpleName(genEnum.getName());
+    jvmDeclaredType.setPackageName(genEnum.getGenPackage().getInterfacePackageName());
+    jvmDeclaredType.setVisibility(JvmVisibility.PUBLIC);
+    JvmParameterizedTypeReference jvmParameterizedTypeReference = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+    jvmParameterizedTypeReference.setType(jvmDeclaredType);
+    mapping.setDataType(jvmParameterizedTypeReference);
+    mapping.setEDataType(genEnum.getEcoreEnum());
+	  mapper.getToXcoreMapping(jvmDeclaredType).setXcoreElement(xEnum);
+    return jvmDeclaredType;
   }
 
   public List<? extends JvmDeclaredType> getDeclaredTypes(GenClass genClass)
