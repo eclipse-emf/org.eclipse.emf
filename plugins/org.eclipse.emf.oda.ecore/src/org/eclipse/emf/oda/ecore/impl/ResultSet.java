@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResultSet.java,v 1.3 2011/09/01 02:07:34 khussey Exp $
+ * $Id: ResultSet.java,v 1.4 2011/10/03 15:21:05 khussey Exp $
  */
 package org.eclipse.emf.oda.ecore.impl;
 
@@ -314,7 +314,8 @@ public abstract class ResultSet implements IResultSet
     switch (getMetaData().getColumnType(index))
     {
       default:
-        return String.valueOf(getValue(index));
+        Object value = getValue(index);
+        return wasNull ? null : String.valueOf(value);
     }
   }
 
@@ -329,19 +330,34 @@ public abstract class ResultSet implements IResultSet
     {
       case EcorePackage.EBYTE:
       case EcorePackage.EBYTE_OBJECT:
-        return new Integer((Byte)getValue(index));
+      {
+        Object value = getValue(index);
+        return wasNull ? 0 : new Integer((Byte)value);
+      }
       case EcorePackage.ECHAR:
       case EcorePackage.ECHARACTER_OBJECT:
-        return new Integer((Character)getValue(index));
+      {
+        Object value = getValue(index);
+        return wasNull ? 0 : new Integer((Character)value);
+      }
       case EcorePackage.EINT:
       case EcorePackage.EINTEGER_OBJECT:
-        return (Integer)getValue(index);
+      {
+        Object value = getValue(index);
+        return wasNull ? 0 : (Integer)value;
+      }
       case EcorePackage.ESHORT:
       case EcorePackage.ESHORT_OBJECT:
-        return new Integer((Short)getValue(index));
+      {
+        Object value = getValue(index);
+        return wasNull ? 0 : new Integer((Short)value);
+      }
       case EcorePackage.ELONG:
       case EcorePackage.ELONG_OBJECT:
-        return new Integer(((Long)getValue(index)).intValue());
+      {
+        Object value = getValue(index);
+        return wasNull ? 0 : new Integer(((Long)value).intValue());
+      }
       default:
         throw new OdaException(new IllegalArgumentException(String.valueOf(index)));
     }
@@ -358,10 +374,16 @@ public abstract class ResultSet implements IResultSet
     {
       case EcorePackage.EDOUBLE:
       case EcorePackage.EDOUBLE_OBJECT:
-        return (Double)getValue(index);
+      {
+        Object value = getValue(index);
+        return wasNull ? 0 : (Double)value;
+      }
       case EcorePackage.EFLOAT:
       case EcorePackage.EFLOAT_OBJECT:
-        return new Double((Float)getValue(index));
+      {
+        Object value = getValue(index);
+        return wasNull ? 0 : new Double((Float)value);
+      }
       default:
         throw new OdaException(new IllegalArgumentException(String.valueOf(index)));
     }
@@ -379,7 +401,8 @@ public abstract class ResultSet implements IResultSet
       case EcorePackage.EBIG_DECIMAL:
         return (BigDecimal)getValue(index);
       case EcorePackage.EBIG_INTEGER:
-        return new BigDecimal((BigInteger)getValue(index));
+        Object value = getValue(index);
+        return wasNull ? null : new BigDecimal((BigInteger)value);
       default:
         throw new OdaException(new IllegalArgumentException(String.valueOf(index)));
     }
@@ -395,7 +418,8 @@ public abstract class ResultSet implements IResultSet
     switch (getMetaData().getColumnType(index))
     {
       case EcorePackage.EDATE:
-        return new Date(((java.util.Date)getValue(index)).getTime());
+        Object value = getValue(index);
+        return wasNull ? null : new Date(((java.util.Date)value).getTime());
       default:
         throw new OdaException(new IllegalArgumentException(String.valueOf(index)));
     }
@@ -411,7 +435,8 @@ public abstract class ResultSet implements IResultSet
     switch (getMetaData().getColumnType(index))
     {
       case EcorePackage.EDATE:
-        return new Time(((java.util.Date)getValue(index)).getTime());
+        Object value = getValue(index);
+        return wasNull ? null : new Time(((java.util.Date)value).getTime());
       default:
         throw new OdaException(new IllegalArgumentException(String.valueOf(index)));
     }
@@ -427,7 +452,8 @@ public abstract class ResultSet implements IResultSet
     switch (getMetaData().getColumnType(index))
     {
       case EcorePackage.EDATE:
-        return new Timestamp(((java.util.Date)getValue(index)).getTime());
+        Object value = getValue(index);
+        return wasNull ? null : new Timestamp(((java.util.Date)value).getTime());
       default:
         throw new OdaException(new IllegalArgumentException(String.valueOf(index)));
     }
@@ -443,7 +469,8 @@ public abstract class ResultSet implements IResultSet
     switch (getMetaData().getColumnType(index))
     {
       case EcorePackage.EBYTE_ARRAY:
-        return new Blob((byte[])getValue(index));
+        Object value = getValue(index);
+        return wasNull ? null : new Blob((byte[])value);
       default:
         throw new OdaException(new IllegalArgumentException(String.valueOf(index)));
     }
@@ -459,7 +486,8 @@ public abstract class ResultSet implements IResultSet
     switch (getMetaData().getColumnType(index))
     {
       case EcorePackage.ESTRING:
-        return new Clob((String)getValue(index));
+        Object value = getValue(index);
+        return wasNull ? null : new Clob((String)value);
       default:
         throw new OdaException(new IllegalArgumentException(String.valueOf(index)));
     }
@@ -476,7 +504,8 @@ public abstract class ResultSet implements IResultSet
     {
       case EcorePackage.EBOOLEAN:
       case EcorePackage.EBOOLEAN_OBJECT:
-        return (Boolean)getValue(index);
+        Object value = getValue(index);
+        return wasNull ? Boolean.FALSE : (Boolean)value;
       default:
         throw new OdaException(new IllegalArgumentException(String.valueOf(index)));
     }
