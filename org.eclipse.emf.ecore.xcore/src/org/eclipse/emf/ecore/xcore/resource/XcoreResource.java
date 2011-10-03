@@ -1,6 +1,7 @@
 package org.eclipse.emf.ecore.xcore.resource;
 
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -47,8 +48,11 @@ public class XcoreResource extends XbaseResource {
 		if (clazz == TypesPackage.Literals.JVM_GENERIC_TYPE) {
 			IScope scope = scopeProvider.getScope(getContents().get(0), TypesPackage.Literals.JVM_PARAMETERIZED_TYPE_REFERENCE__TYPE);
 			final IEObjectDescription desc = scope.getSingleElement(name);
-			if (desc != null && !uriFragment.equals(desc.getEObjectURI().fragment()))
-				return desc.getEObjectOrProxy();
+			if (desc != null) {
+				URI uri = desc.getEObjectURI();
+				if (!uriFragment.equals(uri.fragment()) || !uri.trimFragment().equals(getURI()))
+					return desc.getEObjectOrProxy();
+			}
 		}
 		TreeIterator<EObject> iterator = EcoreUtil.getAllContents(this, false);
 		while (iterator.hasNext()) {

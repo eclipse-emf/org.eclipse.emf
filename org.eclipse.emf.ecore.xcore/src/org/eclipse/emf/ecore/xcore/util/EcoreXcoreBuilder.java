@@ -5,9 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
+import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
+import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -51,7 +55,11 @@ import org.eclipse.emf.ecore.xcore.XTypedElement;
 import org.eclipse.emf.ecore.xcore.XcoreFactory;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XDataTypeMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XEnumLiteralMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XPackageMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.xbase.XBlockExpression;
 
@@ -77,7 +85,8 @@ public class EcoreXcoreBuilder
   public XPackage getXPackage(EPackage ePackage)
   {
     XPackage xPackage = XcoreFactory.eINSTANCE.createXPackage();
-    mapper.getMapping(xPackage).setEPackage(ePackage);
+    XPackageMapping mapping = mapper.getMapping(xPackage);
+		mapping.setEPackage(ePackage);
     mapper.getToXcoreMapping(ePackage).setXcoreElement(xPackage);
     handleAnnotations(ePackage, xPackage);
 		String name = ePackage.getName();
@@ -86,7 +95,10 @@ public class EcoreXcoreBuilder
 		{
 			nsPrefix = null;
 		}
-    String basePackage = genModel.findGenPackage(ePackage).getBasePackage();
+    GenPackage genPackage = genModel.findGenPackage(ePackage);
+    mapping.setGenPackage(genPackage);
+    mapper.getToXcoreMapping(genPackage).setXcoreElement(xPackage);
+		String basePackage = genPackage.getBasePackage();
     if (basePackage != null && basePackage.length() > 0)
     {
     	name = basePackage + "." + name;
@@ -302,8 +314,10 @@ public class EcoreXcoreBuilder
     XClass xClass = XcoreFactory.eINSTANCE.createXClass();
     XClassMapping mapping = mapper.getMapping(xClass);
 		mapping.setEClass(eClass);
-		mapping.setGenClass((GenClass)genModel.findGenClassifier(eClass));
+		GenClass genClass = (GenClass)genModel.findGenClassifier(eClass);
+		mapping.setGenClass(genClass);
     mapper.getToXcoreMapping(eClass).setXcoreElement(xClass);
+    mapper.getToXcoreMapping(genClass).setXcoreElement(xClass);
     if (eClass.isInterface())
     {
       xClass.setInterface(true);
@@ -346,8 +360,10 @@ public class EcoreXcoreBuilder
     XOperation xOperation = XcoreFactory.eINSTANCE.createXOperation();
     XOperationMapping mapping = mapper.getMapping(xOperation);
 		mapping.setEOperation(eOperation);
-		mapping.setGenOperation((GenOperation)genModel.findGenOperation(eOperation));
+		GenOperation genOperation = (GenOperation)genModel.findGenOperation(eOperation);
+		mapping.setGenOperation(genOperation);
     mapper.getToXcoreMapping(eOperation).setXcoreElement(xOperation);
+    mapper.getToXcoreMapping(genOperation).setXcoreElement(xOperation);
     handleXTypedElement(xOperation, eOperation);
     for (EParameter eParameter : eOperation.getEParameters())
     {
@@ -523,8 +539,12 @@ public class EcoreXcoreBuilder
   XReference getXReference(EReference eReference)
   {
     final XReference xReference = XcoreFactory.eINSTANCE.createXReference();
-    mapper.getMapping(xReference).setEStructuralFeature(eReference);
+    XFeatureMapping mapping = mapper.getMapping(xReference);
+		mapping.setEStructuralFeature(eReference);
+    GenFeature genFeature = genModel.findGenFeature(eReference);
+    mapping.setGenFeature(genFeature);
     mapper.getToXcoreMapping(eReference).setXcoreElement(xReference);
+    mapper.getToXcoreMapping(genFeature).setXcoreElement(xReference);
     if (eReference.isContainment())
     {
       xReference.setContainment(true);
@@ -562,8 +582,12 @@ public class EcoreXcoreBuilder
   XAttribute getXAttribute(EAttribute eAttribute)
   {
     final XAttribute xAttribute = XcoreFactory.eINSTANCE.createXAttribute();
-    mapper.getMapping(xAttribute).setEStructuralFeature(eAttribute);
+    XFeatureMapping mapping = mapper.getMapping(xAttribute);
+		mapping.setEStructuralFeature(eAttribute);
+		GenFeature genFeature = genModel.findGenFeature(eAttribute);
+		mapping.setGenFeature(genFeature);
     mapper.getToXcoreMapping(eAttribute).setXcoreElement(xAttribute);
+    mapper.getToXcoreMapping(genFeature).setXcoreElement(xAttribute);
     if (eAttribute.isID())
     {
       xAttribute.setID(true);
@@ -605,16 +629,24 @@ public class EcoreXcoreBuilder
   XDataType getXDataType(EDataType eDataType)
   {
     XDataType xDataType = XcoreFactory.eINSTANCE.createXDataType();
-    mapper.getMapping(xDataType).setEDataType(eDataType);
+    XDataTypeMapping mapping = mapper.getMapping(xDataType);
+		mapping.setEDataType(eDataType);
+		GenDataType genDataType = (GenDataType)genModel.findGenClassifier(eDataType);
+		mapping.setGenDataType(genDataType);
     mapper.getToXcoreMapping(eDataType).setXcoreElement(xDataType);
+    mapper.getToXcoreMapping(genDataType).setXcoreElement(xDataType);
     return xDataType;
   }
 
   XEnum getXEnum(EEnum eEnum)
   {
     XEnum xEnum = XcoreFactory.eINSTANCE.createXEnum();
-    mapper.getMapping(xEnum).setEDataType(eEnum);
+    XDataTypeMapping mapping = mapper.getMapping(xEnum);
+		mapping.setEDataType(eEnum);
+		GenDataType genDataType = (GenDataType)genModel.findGenClassifier(eEnum);
+		mapping.setGenDataType(genDataType);
     mapper.getToXcoreMapping(eEnum).setXcoreElement(xEnum);
+    mapper.getToXcoreMapping(genDataType).setXcoreElement(xEnum);
     for (EEnumLiteral eEnumLiteral : eEnum.getELiterals())
     {
       xEnum.getLiterals().add(getXEnumLiteral(eEnumLiteral));
@@ -625,6 +657,9 @@ public class EcoreXcoreBuilder
   XEnumLiteral getXEnumLiteral(EEnumLiteral eEnumLiteral)
   {
     XEnumLiteral xEnumLiteral = XcoreFactory.eINSTANCE.createXEnumLiteral();
+    XEnumLiteralMapping mapping = mapper.getMapping(xEnumLiteral);
+    mapping.setEEnumLiteral(eEnumLiteral);
+    // GenEnumLiteral genEnumLiteral = genModel.fi
     // TODO
     // map(xEnumLiteral, eEnumLiteral);
     handleAnnotations(eEnumLiteral, xEnumLiteral);

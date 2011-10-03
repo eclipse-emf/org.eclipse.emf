@@ -19,9 +19,11 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.util.EcoreXcoreBuilder;
+import org.eclipse.emf.ecore.xcore.util.XcoreJvmInferrer;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.AbstractEObjectDescription;
@@ -42,16 +44,19 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
 {
   private static final URI ECORE_XCORE_URI = URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.xcore");
   private static final URI ECORE_GEN_MODEL_URI = 
-  		EMFPlugin.IS_ECLIPSE_RUNNING ?
-  			URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel"):
-  			URI.createURI(EcorePlugin.INSTANCE.getBaseURL().toString() + "model/Ecore.genmodel");
+      EMFPlugin.IS_ECLIPSE_RUNNING ?
+        URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel"):
+        URI.createURI(EcorePlugin.INSTANCE.getBaseURL().toString() + "model/Ecore.genmodel");
   
   @Inject
   private IQualifiedNameConverter nameConverter;
   
   @Inject
   private Provider<EcoreXcoreBuilder> ecoreXcoreBuilderProvider;
-  
+
+  @Inject
+  private XcoreJvmInferrer jvmInferrer;
+
   @Inject
   private IResourceDescription.Manager manager;
 
@@ -140,24 +145,24 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
                      
                    public URI getEObjectURI()
                    {
-                  	 IEObjectDescription element = getElement();
-                  	 return element == null ? getSyntheticEObjectURI() : element.getEObjectURI();
+                     IEObjectDescription element = getElement();
+                     return element == null ? getSyntheticEObjectURI() : element.getEObjectURI();
                    }
                      
                    public EObject getEObjectOrProxy()
                    {
-                  	 IEObjectDescription element = getElement();
-                  	 if (element == null)
-                  	 {
+                     IEObjectDescription element = getElement();
+                     if (element == null)
+                     {
                        InternalEObject genDataType = (InternalEObject)GenModelFactory.eINSTANCE.createGenDataType();
                        genDataType.eSetProxyURI(getSyntheticEObjectURI());
                        return genDataType;
-                  		 
-                  	 }
-                  	 else
-                  	 {
-                  		 return element.getEObjectOrProxy();
-                  	 }
+                       
+                     }
+                     else
+                     {
+                       return element.getEObjectOrProxy();
+                     }
                    }
                      
                    public EClass getEClass()
@@ -167,36 +172,38 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
                    
                    protected URI getSyntheticEObjectURI()
                    {
-                  	 return ECORE_XCORE_URI.appendFragment("/1/ecore/" + eDataType.getName());
+                     return ECORE_XCORE_URI.appendFragment("/1/ecore/" + eDataType.getName());
                    }
 
                    protected IEObjectDescription getElement()
                    {
-                  	 IEObjectDescription element = globalScope.getSingleElement(actualQualifiedName);
-                  	 if (element == null)
-                  	 {
-                 	     ResourceSet resourceSet = context.getResourceSet();
-					             Resource ecoreXcoreResource = resourceSet.getResource(ECORE_XCORE_URI, false);
-					             if (ecoreXcoreResource == null)
-					             {
-					               Resource genModelResource = resourceSet.getResource(ECORE_GEN_MODEL_URI, true);
-                 	       GenModel genModel = (GenModel)genModelResource.getContents().get(0);
-					               ecoreXcoreResource = resourceSet.getResource(ECORE_XCORE_URI, false);
-					               EPackage ePackage = genModel.getGenPackages().get(0).getEcorePackage();
-					               Resource ecoreResource = ePackage.eResource();
-					               EcoreXcoreBuilder ecoreXcoreBuilder = ecoreXcoreBuilderProvider.get();
-					               ecoreXcoreBuilder.initialize(genModel);
-					               XPackage xPackage = ecoreXcoreBuilder.getXPackage(ePackage);
-					               ecoreXcoreResource = resourceSet.createResource(ECORE_XCORE_URI);
-					               ecoreXcoreResource.getContents().add(xPackage);
-					               ecoreXcoreResource.getContents().add(genModel);
-					               ecoreXcoreResource.getContents().add(ePackage);
-					               ecoreXcoreBuilder.link();
-					               resourceSet.getResources().remove(genModelResource);
-					               resourceSet.getResources().remove(ecoreResource);
-					             }
-                  	 }
-                  	 return element;
+                     IEObjectDescription element = globalScope.getSingleElement(actualQualifiedName);
+                     if (element == null)
+                     {
+                       ResourceSet resourceSet = context.getResourceSet();
+                       Resource ecoreXcoreResource = resourceSet.getResource(ECORE_XCORE_URI, false);
+                       if (ecoreXcoreResource == null)
+                       {
+                         Resource genModelResource = resourceSet.getResource(ECORE_GEN_MODEL_URI, true);
+                         GenModel genModel = (GenModel)genModelResource.getContents().get(0);
+                         ecoreXcoreResource = resourceSet.getResource(ECORE_XCORE_URI, false);
+                         EPackage ePackage = genModel.getGenPackages().get(0).getEcorePackage();
+                         Resource ecoreResource = ePackage.eResource();
+                         EcoreXcoreBuilder ecoreXcoreBuilder = ecoreXcoreBuilderProvider.get();
+                         ecoreXcoreBuilder.initialize(genModel);
+                         EcoreUtil.resolveAll(genModel);
+                         XPackage xPackage = ecoreXcoreBuilder.getXPackage(ePackage);
+                         ecoreXcoreResource = resourceSet.createResource(ECORE_XCORE_URI);
+                         ecoreXcoreResource.getContents().add(xPackage);
+                         ecoreXcoreResource.getContents().add(genModel);
+                         ecoreXcoreResource.getContents().add(ePackage);
+                         ecoreXcoreBuilder.link();
+                         ecoreXcoreResource.getContents().addAll(jvmInferrer.getDeclaredTypes(xPackage));
+                         resourceSet.getResources().remove(genModelResource);
+                         resourceSet.getResources().remove(ecoreResource);
+                       }
+                     }
+                     return element;
                    }
                  });
              }
@@ -214,7 +221,7 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
   @Override
   protected ISelectable internalGetAllDescriptions(Resource resource)
   {
-  	IResourceDescription description = manager.getResourceDescription(resource);
-  	return description;
+    IResourceDescription description = manager.getResourceDescription(resource);
+    return description;
   }
 }

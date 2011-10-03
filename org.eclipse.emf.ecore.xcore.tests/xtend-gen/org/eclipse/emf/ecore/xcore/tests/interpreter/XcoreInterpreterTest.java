@@ -3,6 +3,7 @@ package org.eclipse.emf.ecore.xcore.tests.interpreter;
 import com.google.inject.Inject;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -10,6 +11,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
@@ -283,9 +285,6 @@ public class XcoreInterpreterTest {
       _builder.append("op boolean hasChildren() { !children.empty }");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("/*");
-      _builder.newLine();
-      _builder.append("\t");
       _builder.append("transient volatile derived readonly NodeKind nodeKind");
       _builder.newLine();
       _builder.append("\t");
@@ -303,9 +302,6 @@ public class XcoreInterpreterTest {
       _builder.append("\t");
       _builder.append("}");
       _builder.newLine();
-      _builder.append("\t");
-      _builder.append("*/");
-      _builder.newLine();
       _builder.append("}");
       _builder.newLine();
       XPackage _parse = this.parse.parse(_builder);
@@ -322,6 +318,20 @@ public class XcoreInterpreterTest {
       EFactory _eFactoryInstance = ePackage.getEFactoryInstance();
       EObject _create = _eFactoryInstance.create(nodeClass);
       final EObject node = _create;
+      EEnumLiteral _eEnumLiteral = nodeKindEnum.getEEnumLiteral("Singleton");
+      EStructuralFeature _eStructuralFeature = nodeClass.getEStructuralFeature("nodeKind");
+      Object _eGet = node.eGet(_eStructuralFeature);
+      Assert.assertEquals(_eEnumLiteral, _eGet);
+      EFactory _eFactoryInstance_1 = ePackage.getEFactoryInstance();
+      EObject _create_1 = _eFactoryInstance_1.create(nodeClass);
+      final EObject childNode = _create_1;
+      EStructuralFeature _eStructuralFeature_1 = nodeClass.getEStructuralFeature("children");
+      Object _eGet_1 = node.eGet(_eStructuralFeature_1);
+      ((List) _eGet_1).add(childNode);
+      EEnumLiteral _eEnumLiteral_1 = nodeKindEnum.getEEnumLiteral("Root");
+      EStructuralFeature _eStructuralFeature_2 = nodeClass.getEStructuralFeature("nodeKind");
+      Object _eGet_2 = node.eGet(_eStructuralFeature_2);
+      Assert.assertEquals(_eEnumLiteral_1, _eGet_2);
     }
   }
 }

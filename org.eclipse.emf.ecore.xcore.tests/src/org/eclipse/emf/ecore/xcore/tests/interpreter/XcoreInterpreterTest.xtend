@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EDataType
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EEnum
 import org.eclipse.xtext.resource.XtextResourceSet
+import java.util.List
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(XcoreInjectorProvider))
@@ -137,14 +138,12 @@ class XcoreInterpreterTest {
 				refers Node parent opposite children
 				contains Node[0..*] children opposite parent
 				op boolean hasChildren() { !children.empty }
-				/*
 				transient volatile derived readonly NodeKind nodeKind
 				get
 				{
 					if (hasChildren()) {if (parent == null) {NodeKind::ROOT} else {NodeKind::INTERMEDIATE}}
 					else {if (parent == null) {NodeKind::SINGLETON} else {NodeKind::LEAF}}
 				}
-				*/
 			}
 		''')
 		validator.assertNoErrors(pack)
@@ -152,6 +151,9 @@ class XcoreInterpreterTest {
 		val nodeKindEnum = ePackage.getEClassifier("NodeKind") as EEnum
 		val nodeClass = ePackage.getEClassifier("Node") as EClass
 		val node = ePackage.EFactoryInstance.create(nodeClass)
-		// assertEquals(nodeKindEnum.getEEnumLiteral("Root"), node.eGet(nodeClass.getEStructuralFeature("nodeKind")));
+		assertEquals(nodeKindEnum.getEEnumLiteral("Singleton"), node.eGet(nodeClass.getEStructuralFeature("nodeKind")));
+		val childNode = ePackage.EFactoryInstance.create(nodeClass)
+		(node.eGet(nodeClass.getEStructuralFeature("children")) as List).add(childNode);
+		assertEquals(nodeKindEnum.getEEnumLiteral("Root"), node.eGet(nodeClass.getEStructuralFeature("nodeKind")));
 	}
 }
