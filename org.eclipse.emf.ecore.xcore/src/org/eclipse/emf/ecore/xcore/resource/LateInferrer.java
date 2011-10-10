@@ -61,17 +61,18 @@ public class LateInferrer implements IDerivedStateComputer
 		int size = contents.size();
 		if (size > 1)
 		{
-			List<EObject> toBeRemoved = newArrayList(); 
+			List<EObject> toBeRemoved = newArrayList();
 			for (Iterator<EObject> i = contents.iterator(); i.hasNext();)
 			{
 				EObject eObject = i.next();
-				if (eObject instanceof EPackage || eObject instanceof GenModel || eObject instanceof JvmGenericType)
+				if (eObject instanceof XPackage)
+				{
+					mapper.unsetMapping((XPackage) eObject);
+				}
+				else
 				{
 					unloader.unloadRoot(eObject);
 					toBeRemoved.add(eObject);
-				} else if (eObject instanceof XPackage)
-				{
-					mapper.unsetMapping((XPackage) eObject);
 				}
 			}
 			contents.removeAll(toBeRemoved);
