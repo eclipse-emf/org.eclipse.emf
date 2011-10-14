@@ -28,11 +28,13 @@ public class LazyCreationProxyUriConverter {
 		EClass eclass = EcorePackage.Literals.ECLASS;
 		EClass genClass = GenModelPackage.Literals.GEN_CLASS;
 		EClass genDatatype = GenModelPackage.Literals.GEN_DATA_TYPE;
+		EClass genEnum = GenModelPackage.Literals.GEN_ENUM;
 		EClass jvmGenericType = TypesPackage.Literals.JVM_GENERIC_TYPE;
 		EClass jvmEnumerationType = TypesPackage.Literals.JVM_ENUMERATION_TYPE;
 		types.put(eclass.getName(), eclass);
 		types.put(genClass.getName(), genClass);
 		types.put(genDatatype.getName(), genDatatype);
+		types.put(genEnum.getName(), genEnum);
 		types.put(jvmGenericType.getName(), jvmGenericType);
 		types.put(jvmEnumerationType.getName(), jvmEnumerationType);
 	}
