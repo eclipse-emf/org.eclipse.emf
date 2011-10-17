@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
+import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -643,13 +644,17 @@ public class EcoreXcoreBuilder
     XEnum xEnum = XcoreFactory.eINSTANCE.createXEnum();
     XDataTypeMapping mapping = mapper.getMapping(xEnum);
 		mapping.setEDataType(eEnum);
-		GenDataType genDataType = (GenDataType)genModel.findGenClassifier(eEnum);
-		mapping.setGenDataType(genDataType);
+		GenEnum genEnum = (GenEnum)genModel.findGenClassifier(eEnum);
+		mapping.setGenDataType(genEnum);
     mapper.getToXcoreMapping(eEnum).setXcoreElement(xEnum);
-    mapper.getToXcoreMapping(genDataType).setXcoreElement(xEnum);
+    mapper.getToXcoreMapping(genEnum).setXcoreElement(xEnum);
     for (EEnumLiteral eEnumLiteral : eEnum.getELiterals())
     {
-      xEnum.getLiterals().add(getXEnumLiteral(eEnumLiteral));
+      XEnumLiteral xEnumLiteral = getXEnumLiteral(eEnumLiteral);
+      GenEnumLiteral genEnumLiteral = genEnum.getGenEnumLiteral(eEnumLiteral.getLiteral());
+      mapper.getToXcoreMapping(eEnumLiteral).setXcoreElement(xEnumLiteral);
+      mapper.getToXcoreMapping(genEnumLiteral).setXcoreElement(xEnumLiteral);
+			xEnum.getLiterals().add(xEnumLiteral);
     }
     return xEnum;
   }
@@ -659,9 +664,6 @@ public class EcoreXcoreBuilder
     XEnumLiteral xEnumLiteral = XcoreFactory.eINSTANCE.createXEnumLiteral();
     XEnumLiteralMapping mapping = mapper.getMapping(xEnumLiteral);
     mapping.setEEnumLiteral(eEnumLiteral);
-    // GenEnumLiteral genEnumLiteral = genModel.fi
-    // TODO
-    // map(xEnumLiteral, eEnumLiteral);
     handleAnnotations(eEnumLiteral, xEnumLiteral);
     xEnumLiteral.setName(eEnumLiteral.getName());
     if (!eEnumLiteral.getName().equals(eEnumLiteral.getLiteral()))

@@ -211,7 +211,7 @@
             category="org.eclipse.emf.ecore.xcore.Xcore"
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
             id="org.eclipse.emf.ecore.xcore.Xcore.builder"
-            name="Builder">
+            name="Building">
             <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
         </page>
     </extension>

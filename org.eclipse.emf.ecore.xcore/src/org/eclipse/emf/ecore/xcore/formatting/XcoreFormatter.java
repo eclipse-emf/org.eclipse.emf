@@ -7,6 +7,10 @@ import org.eclipse.xtext.formatting.impl.AbstractDeclarativeFormatter;
 import org.eclipse.xtext.formatting.impl.FormattingConfig;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.util.Pair;
+import org.eclipse.xtext.xbase.formatting.XbaseFormatter;
+import org.eclipse.xtext.xbase.services.XbaseGrammarAccess;
+
+import com.google.inject.Inject;
 
 /**
  * This class contains custom formatting description.
@@ -16,11 +20,14 @@ import org.eclipse.xtext.util.Pair;
  * 
  * Also see {@link org.eclipse.xtext.xtext.XtextFormattingTokenSerializer} as an example
  */
-public class XcoreFormatter extends AbstractDeclarativeFormatter {
+public class XcoreFormatter extends XbaseFormatter {
+  @Inject
+  XbaseGrammarAccess xbaseGrammarAccess;
 	
   @Override
   protected void configureFormatting(FormattingConfig c)
   {
+    // configure(c, xbaseGrammarAccess);
   	c.setAutoLinewrap(140);
     org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess f = (org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess)getGrammarAccess();
     for (Pair<Keyword, Keyword> pair : f.findKeywordPairs("{", "}"))
