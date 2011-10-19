@@ -1,16 +1,20 @@
 package org.eclipse.emf.ecore.xcore.scoping;
 
+import java.util.Collections;
+
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XDataType;
 import org.eclipse.emf.ecore.xcore.XEnum;
+import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.xtext.common.types.JvmEnumerationType;
 import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.common.types.TypesFactory;
@@ -42,6 +46,12 @@ public class XcoreResourceDescriptionStrategy extends DefaultResourceDescription
 	
 	@Override
 	public boolean createEObjectDescriptions(EObject eObject, IAcceptor<IEObjectDescription> acceptor) {
+		if (eObject instanceof XPackage) {
+			QualifiedName qn = nameProvider.getFullyQualifiedName(eObject);
+			qn = QualifiedName.create(qn.toString());
+			URI uri = eObject.eResource().getURI();
+			createEPackageDescription(uri, acceptor, qn);
+		}
 		if (eObject instanceof XClass) {
 			QualifiedName qn = nameProvider.getFullyQualifiedName(eObject);
 			if (qn != null) {
@@ -102,6 +112,12 @@ public class XcoreResourceDescriptionStrategy extends DefaultResourceDescription
 		EClass eclass = ecoreFactory.createEClass();
 		proxyTool.installProxyURI(resourceURI, eclass, qn);
 		acceptor.accept(EObjectDescription.create(qn, eclass));
+	}
+	
+	protected void createEPackageDescription(URI resourceURI, IAcceptor<IEObjectDescription> acceptor, QualifiedName qn) {
+		EPackage ePackage = ecoreFactory.createEPackage();
+		proxyTool.installProxyURI(resourceURI, ePackage, qn);
+		acceptor.accept(EObjectDescription.create(qn, ePackage, Collections.singletonMap("nsURI", "true")));
 	}
 
 	protected void createGenModelDescription(URI resourceURI, IAcceptor<IEObjectDescription> acceptor, QualifiedName qn) {

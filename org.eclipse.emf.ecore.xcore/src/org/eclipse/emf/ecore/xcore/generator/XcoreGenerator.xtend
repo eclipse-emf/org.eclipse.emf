@@ -4,29 +4,24 @@
 package org.eclipse.emf.ecore.xcore.generator
 
 import com.google.inject.Inject
-import org.eclipse.emf.codegen.ecore.generator.Generator
+import com.google.inject.Provider
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter
 import org.eclipse.emf.common.util.BasicMonitor
-import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.emf.ecore.xcore.XDataType
 import org.eclipse.emf.ecore.xcore.XOperation
 import org.eclipse.emf.ecore.xcore.XPackage
+import org.eclipse.emf.ecore.xcore.XStructuralFeature
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper
+import org.eclipse.xtext.common.types.util.TypeReferences
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
-import org.eclipse.xtext.xbase.compiler.StringBuilderBasedAppendable
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler
 
 import static extension org.eclipse.xtext.xtend2.lib.EObjectExtensions.*
-import com.google.inject.Provider
-import org.eclipse.emf.ecore.xcore.XStructuralFeature
-import org.eclipse.xtext.xbase.compiler.ImportManager
-import org.eclipse.emf.ecore.EDataType
-import org.eclipse.emf.ecore.xcore.XDataType
-import org.eclipse.xtext.common.types.util.TypeReferences
-import org.eclipse.emf.ecore.util.EcoreUtil
 
 class XcoreGenerator implements IGenerator {
 	
