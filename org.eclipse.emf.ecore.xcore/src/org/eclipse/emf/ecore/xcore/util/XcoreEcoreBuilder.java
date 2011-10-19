@@ -484,6 +484,17 @@ public class XcoreEcoreBuilder
     	settingDelegate.initialize(getBody, setBody, isSetBody, unsetBody, eStructuralFeature);
     	((EStructuralFeature.Internal)eStructuralFeature).setSettingDelegate(settingDelegate);
     }
+
+    if (getBody != null)
+    {
+   	  eStructuralFeature.setTransient(true);
+    	eStructuralFeature.setVolatile(true);
+    	eStructuralFeature.setDerived(true);
+      if (setBody == null)
+      {
+    	  eStructuralFeature.setChangeable(false);
+      }
+    }
   }
 
   EDataType getEDataType(XDataType xDataType)

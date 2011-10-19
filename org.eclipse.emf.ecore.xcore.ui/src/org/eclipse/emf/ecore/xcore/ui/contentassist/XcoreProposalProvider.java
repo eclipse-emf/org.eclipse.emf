@@ -8,7 +8,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.xcore.XClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XReference;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
@@ -47,6 +47,36 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
   private XcoreMapper mapper;
 
   @Override
+  public void completeXReference_Opposite
+    (EObject model, 
+     Assignment assignment, 
+     ContentAssistContext context, 
+     ICompletionProposalAcceptor acceptor) 
+  {
+    final IReplacementTextApplier textApplier = 
+        new OppositeReplacementTextApplier
+          ((XReference)model,
+           context.getViewer(),
+           xcoreScopeProvider.getScope(model, XcorePackage.Literals.XREFERENCE__OPPOSITE),
+           mapper,
+           qualifiedNameConverter,
+           qualifiedNameValueConverter);
+    final ICompletionProposalAcceptor oppositeAware = new ICompletionProposalAcceptor.Delegate(acceptor)
+      {
+        @Override
+        public void accept(ICompletionProposal proposal)
+        {
+          if (proposal instanceof ConfigurableCompletionProposal && textApplier != null)
+          {
+            ((ConfigurableCompletionProposal)proposal).setTextApplier(textApplier);
+          }
+          super.accept(proposal);
+        }
+      };
+    super.completeXReference_Opposite(model, assignment, context, oppositeAware);
+  }
+
+  @Override
   public void completeXGenericType_Type(
     EObject model,
     Assignment assignment,
@@ -83,18 +113,19 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
     if (reference == XcorePackage.Literals.XREFERENCE__OPPOSITE)
     {
       XReference xReference = (XReference)contentAssistContext.getCurrentModel();
-      final XClass xClass = xReference.getContainingClass();
-      final EClass eClass = mapper.getMapping(xClass).getEClass();
+      final EStructuralFeature eReference = mapper.getMapping(xReference).getEStructuralFeature();
+      final EClass eClass = eReference.getEContainingClass();
       final Predicate<IEObjectDescription> baseFilter = filter;
       filter =
-       new Predicate<IEObjectDescription>()
+        new Predicate<IEObjectDescription>()
         {
           public boolean apply(IEObjectDescription input) 
           { 
             // Filter out features that aren't of the correct type to be a valid opposite.
             //
             GenFeature genFeature = (GenFeature)input.getEObjectOrProxy();
-            return genFeature.getEcoreFeature().getEType() == eClass && baseFilter.apply(input);
+            EStructuralFeature eStructuralFeature = genFeature.getEcoreFeature();
+            return eStructuralFeature.getEType() == eClass && eStructuralFeature != eReference && baseFilter.apply(input);
           }
         };
     }

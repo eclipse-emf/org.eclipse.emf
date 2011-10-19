@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.xcore.XGenericType;
 
 @SuppressWarnings("all")
 public class XcoreExtensions {
-  
   public GenClass getGenClass(final XGenericType type) {
     GenClass _switchResult = null;
     GenBase _type = type.getType();

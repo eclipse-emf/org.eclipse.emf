@@ -24,7 +24,6 @@ import org.junit.runner.RunWith;
 @RunWith(XtextRunner.class)
 @InjectWith(XcoreInjectorProvider.class)
 public class GeneratorTest {
-  
   @Inject
   private ParseHelper<XPackage> parser;
   
@@ -39,7 +38,6 @@ public class GeneratorTest {
   
   @Test
   public void testGenerator() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package test");
       _builder.newLine();
@@ -61,6 +59,5 @@ public class GeneratorTest {
       String _operator_plus = StringExtensions.operator_plus(IFileSystemAccess.DEFAULT_OUTPUT, "test/util/TestSwitch.java");
       CharSequence _get = _files_2.get(_operator_plus);
       Assert.assertNotNull(_get);
-    }
   }
 }

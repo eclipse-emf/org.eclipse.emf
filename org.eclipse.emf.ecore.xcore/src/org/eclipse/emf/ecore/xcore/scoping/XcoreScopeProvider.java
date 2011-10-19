@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
@@ -17,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XDataType;
+import org.eclipse.emf.ecore.xcore.XGenericType;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XReference;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
@@ -26,7 +28,7 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
 import org.eclipse.xtext.common.types.JvmFormalParameter;
 import org.eclipse.xtext.common.types.JvmOperation;
-import org.eclipse.xtext.naming.QualifiedName;
+import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
@@ -51,6 +53,9 @@ public class XcoreScopeProvider extends XbaseScopeProvider
 {
 	@Inject
 	private XcoreMapper mapper;
+ 
+	@Inject
+	private IQualifiedNameConverter qualifiedNameConverter;
 
 	protected IScope createLocalVarScope(IScope parent, LocalVariableScopeContext scopeContext)
 	{
@@ -97,7 +102,7 @@ public class XcoreScopeProvider extends XbaseScopeProvider
 			{
 				for (JvmFormalParameter param : op.getParameters())
 				{
-					list.add(EObjectDescription.create(QualifiedName.create(param.getName()), param, null));
+					list.add(EObjectDescription.create(qualifiedNameConverter.toQualifiedName(param.getName()), param, null));
 				}
 				return super.createLocalVarScope(new SimpleScope(parent, list), scopeContext);
 			}
@@ -130,13 +135,14 @@ public class XcoreScopeProvider extends XbaseScopeProvider
 					ArrayList<IEObjectDescription> result = new ArrayList<IEObjectDescription>();
 					if (context instanceof XReference)
 					{
-						XReference ref = (XReference) context;
-						GenFeature genFeature = mapper.getMapping(ref).getGenFeature();
-						if (genFeature != null)
-						{
-							GenClass genClass = genFeature.getTypeGenClass();
-							if (genClass != null)
-							{
+						XReference xReference = (XReference) context;
+            XGenericType type = xReference.getType();
+            if (type != null)
+            {
+              GenBase genType = type.getType();
+              if (genType instanceof GenClass)
+              {
+							  GenClass genClass = (GenClass)genType;
 								for (GenFeature opposite : genClass.getGenFeatures())
 								{
 									if (opposite.isReferenceType())
@@ -144,12 +150,12 @@ public class XcoreScopeProvider extends XbaseScopeProvider
 										String name = opposite.getName();
 										if (name != null)
 										{
-											result.add(new EObjectDescription(QualifiedName.create(name), opposite, null));
+											result.add(new EObjectDescription(qualifiedNameConverter.toQualifiedName(name), opposite, null));
 										}
 									}
 								}
 							}
-						}
+            }
 					}
 					return result;
 				}
@@ -179,7 +185,7 @@ public class XcoreScopeProvider extends XbaseScopeProvider
 										String name = key.getName();
 										if (name != null)
 										{
-											result.add(new EObjectDescription(QualifiedName.create(name), key, null));
+											result.add(new EObjectDescription(qualifiedNameConverter.toQualifiedName(name), key, null));
 										}
 									}
 								}
@@ -202,7 +208,7 @@ public class XcoreScopeProvider extends XbaseScopeProvider
 					{
 						for (final GenTypeParameter genTypeParameter : genTypeParameters)
 						{
-							result.add(new EObjectDescription(QualifiedName.create(genTypeParameter.getName()), genTypeParameter,
+							result.add(new EObjectDescription(qualifiedNameConverter.toQualifiedName(genTypeParameter.getName()), genTypeParameter,
 							    null));
 						}
 					}

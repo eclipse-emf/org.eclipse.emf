@@ -18,13 +18,15 @@ import org.junit.runner.RunWith;
 @RunWith(XtextRunner.class)
 @InjectWith(XcoreInjectorProvider.class)
 public class XcoreSmokeTest extends AbstractSmokeTest {
-  
   @Inject
   private ParseHelper<EObject> parser;
   
   @Inject
   private ValidationTestHelper validationTestHelper;
   
+  /**
+   * The models don't neccessarily need to be proper Xcore models.
+   */
   public Iterable<String> getSmokeTestModels() {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("package foo ");

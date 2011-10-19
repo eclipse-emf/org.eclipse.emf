@@ -40,6 +40,7 @@ import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XPackageMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
+import org.eclipse.emf.ecore.xcore.util.XcoreGenModelInitializer;
 import org.eclipse.xtext.xbase.lib.ComparableExtensions;
 import org.eclipse.xtext.xbase.lib.IntegerExtensions;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
@@ -47,12 +48,13 @@ import org.eclipse.xtext.xtend2.lib.EObjectExtensions;
 
 @SuppressWarnings("all")
 public class XcoreGenmodelBuilder {
-  
   @Inject
   private XcoreMapper mapper;
   
+  @Inject
+  private XcoreGenModelInitializer genModelInitializer;
+  
   public GenModel getGenModel(final XPackage pack) {
-    {
       XPackageMapping _mapping = this.mapper.getMapping(pack);
       EPackage _ePackage = _mapping.getEPackage();
       final EPackage ePackage = _ePackage;
@@ -63,10 +65,9 @@ public class XcoreGenmodelBuilder {
       Resource _eResource = pack.eResource();
       EList<EObject> _contents = _eResource.getContents();
       _contents.add(1, genModel);
-      genModel.initialize();
+      this.genModelInitializer.initialize(genModel);
       this.buildMap(genModel);
       return genModel;
-    }
   }
   
   public void buildMap(final GenModel genModel) {
@@ -174,7 +175,6 @@ public class XcoreGenmodelBuilder {
   }
   
   public void initializeUsedGenPackages(final GenModel genModel) {
-    {
       HashSet<EPackage> _hashSet = new HashSet<EPackage>();
       final HashSet<EPackage> referencedEPackages = _hashSet;
       EList<GenPackage> _genPackages = genModel.getGenPackages();
@@ -270,7 +270,6 @@ public class XcoreGenmodelBuilder {
           }
         }
       }
-    }
   }
   
   public GenPackage findLocalGenPackage(final EPackage ePackage) {

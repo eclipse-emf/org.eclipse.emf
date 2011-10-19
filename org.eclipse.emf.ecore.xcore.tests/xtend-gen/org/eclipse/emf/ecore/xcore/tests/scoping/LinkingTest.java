@@ -28,13 +28,11 @@ import org.junit.runner.RunWith;
 @RunWith(XtextRunner.class)
 @InjectWith(XcoreInjectorProvider.class)
 public class LinkingTest {
-  
   @Inject
   private ParseHelper<XPackage> parser;
   
   @Test
   public void linkVoidReturnType() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo");
       _builder.newLine();
@@ -62,12 +60,10 @@ public class LinkingTest {
       Assert.assertFalse(_eIsProxy);
       String _qualifiedName = intType.getQualifiedName();
       Assert.assertEquals("int", _qualifiedName);
-    }
   }
   
   @Test
   public void linkQualifiedStringType() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo");
       _builder.newLine();
@@ -95,12 +91,10 @@ public class LinkingTest {
       Assert.assertFalse(_eIsProxy);
       String _qualifiedName = stringType.getQualifiedName();
       Assert.assertEquals("java.lang.String", _qualifiedName);
-    }
   }
   
   @Test
   public void linkInternalDefinedType() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo");
       _builder.newLine();
@@ -128,12 +122,10 @@ public class LinkingTest {
       Assert.assertFalse(_eIsProxy);
       String _qualifiedName = stringType.getQualifiedName();
       Assert.assertEquals("foo.Bar", _qualifiedName);
-    }
   }
   
   @Test
   public void linkFeatureCallType() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo");
       _builder.newLine();
@@ -162,7 +154,6 @@ public class LinkingTest {
       Assert.assertFalse(_eIsProxy);
       String _simpleName = feature.getSimpleName();
       Assert.assertEquals("operator_plus", _simpleName);
-    }
   }
   
   public XVariableDeclaration firstVariableDeclaration(final XPackage pack) {

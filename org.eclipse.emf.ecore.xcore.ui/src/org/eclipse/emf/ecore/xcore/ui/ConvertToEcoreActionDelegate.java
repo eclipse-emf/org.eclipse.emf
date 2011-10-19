@@ -160,8 +160,14 @@ public class ConvertToEcoreActionDelegate extends ActionDelegate
 
                 try
                 {
-                  workbenchPage.openEditor(new FileEditorInput(ecoreFile), workbenchWindow.getWorkbench().getEditorRegistry().getDefaultEditor(ecoreFile.getFullPath().toString(), Platform.getContentTypeManager().getContentType("org.eclipse.emf.ecore")).getId());
-                  workbenchPage.openEditor(new FileEditorInput(genModelFile), workbenchWindow.getWorkbench().getEditorRegistry().getDefaultEditor(genModelFile.getFullPath().toString(), Platform.getContentTypeManager().getContentType("org.eclipse.emf.ecore")).getId());
+                  workbenchPage.openEditor
+                    (new FileEditorInput(ecoreFile), 
+                     workbenchWindow.getWorkbench().getEditorRegistry().getDefaultEditor
+                       (ecoreFile.getFullPath().toString(), Platform.getContentTypeManager().getContentType(EcorePackage.eCONTENT_TYPE)).getId());
+                  workbenchPage.openEditor
+                    (new FileEditorInput(genModelFile), 
+                     workbenchWindow.getWorkbench().getEditorRegistry().getDefaultEditor
+                       (genModelFile.getFullPath().toString(), Platform.getContentTypeManager().getContentType(GenModelPackage.eCONTENT_TYPE)).getId());
                 }
                 catch (PartInitException pie)
                 {

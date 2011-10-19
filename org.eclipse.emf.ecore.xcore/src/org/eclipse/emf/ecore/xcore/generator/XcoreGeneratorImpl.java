@@ -29,6 +29,7 @@ public class XcoreGeneratorImpl extends Generator
 		if (input instanceof GenModel) {
 			final GenModel genModel = (GenModel) input;
 			genModel.setModelDirectory(OUTPUT_DIR_MARKER);
+      genModel.setModelPluginID(null);
 			genModel.unsetEditDirectory();
 			genModel.unsetEditPluginClass();
 			genModel.unsetEditorDirectory();

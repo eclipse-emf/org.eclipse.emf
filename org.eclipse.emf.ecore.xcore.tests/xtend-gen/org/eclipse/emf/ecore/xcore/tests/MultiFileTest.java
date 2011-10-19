@@ -33,7 +33,6 @@ import org.junit.runner.RunWith;
 @RunWith(XtextRunner.class)
 @InjectWith(XcoreInjectorProvider.class)
 public class MultiFileTest {
-  
   @Inject
   private XtextResourceSet resourceSet;
   
@@ -48,7 +47,6 @@ public class MultiFileTest {
   
   @Test
   public void testReferenceBetweenTwoModels() throws IOException {
-    {
       URI _createURI = URI.createURI("file:/modelA.xcore");
       Resource _createResource = this.resourceSet.createResource(_createURI);
       final Resource resourceA = _createResource;
@@ -98,12 +96,10 @@ public class MultiFileTest {
       final GenBase referencedGenClass = _type_1;
       String _name = ((GenClass) referencedGenClass).getName();
       Assert.assertEquals("TypeB", _name);
-    }
   }
   
   @Test
   public void testBidirectionalReferenceBetweenTwoModels() throws IOException {
-    {
       URI _createURI = URI.createURI("file:/modelA.xcore");
       Resource _createResource = this.resourceSet.createResource(_createURI);
       final Resource resourceA = _createResource;
@@ -164,6 +160,5 @@ public class MultiFileTest {
       GenFeature _opposite_1 = ((XReference) _xFeature).getOpposite();
       XStructuralFeature _xFeature_1 = this.mapper.getXFeature(_opposite_1);
       Assert.assertEquals(ref, _xFeature_1);
-    }
   }
 }

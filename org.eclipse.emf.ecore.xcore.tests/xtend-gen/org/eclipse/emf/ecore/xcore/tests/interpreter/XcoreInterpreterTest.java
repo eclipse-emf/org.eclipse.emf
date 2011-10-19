@@ -35,7 +35,6 @@ import org.junit.runner.RunWith;
 @RunWith(XtextRunner.class)
 @InjectWith(XcoreInjectorProvider.class)
 public class XcoreInterpreterTest {
-  
   @Inject
   private ParseHelper<XPackage> parse;
   
@@ -44,7 +43,6 @@ public class XcoreInterpreterTest {
   
   @Test
   public void testInterpretation() throws Exception, InvocationTargetException {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo.bar");
       _builder.newLine();
@@ -80,12 +78,10 @@ public class XcoreInterpreterTest {
       BasicEList<String> _basicEList = new BasicEList<String>(_newArrayList);
       Object _eInvoke = foo.eInvoke(_head, _basicEList);
       Assert.assertEquals("Foo says hi to Bar", _eInvoke);
-    }
   }
   
   @Test
   public void testInterpretation_2() throws Exception, InvocationTargetException {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo.bar");
       _builder.newLine();
@@ -132,12 +128,10 @@ public class XcoreInterpreterTest {
       BasicEList<String> _basicEList = new BasicEList<String>(_newArrayList);
       Object _eInvoke = foo.eInvoke(_head, _basicEList);
       Assert.assertEquals("call1call2call1Bar", _eInvoke);
-    }
   }
   
   @Test
   public void testFeatureAccessors() throws Exception, InvocationTargetException {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo.bar");
       _builder.newLine();
@@ -190,12 +184,10 @@ public class XcoreInterpreterTest {
       EOperation _get_1 = _eOperations_1.get(1);
       Object _eInvoke = foo.eInvoke(_get_1, null);
       Assert.assertEquals("Bar", _eInvoke);
-    }
   }
   
   @Test
   public void testConversionDelegates() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo.bar ");
       _builder.newLine();
@@ -222,12 +214,10 @@ public class XcoreInterpreterTest {
       EFactory _eFactoryInstance_1 = ePackage.getEFactoryInstance();
       String _convertToString = _eFactoryInstance_1.convertToString(uriDataType, uri);
       Assert.assertEquals(literal, _convertToString);
-    }
   }
   
   @Test
   public void testSettingDelegates() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo.bar");
       _builder.newLine();
@@ -260,12 +250,10 @@ public class XcoreInterpreterTest {
       EStructuralFeature _eStructuralFeature_1 = fooClass.getEStructuralFeature("alias");
       Object _eGet = foo.eGet(_eStructuralFeature_1);
       Assert.assertEquals("Sven", _eGet);
-    }
   }
   
   @Test
   public void testEnum() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo.bar");
       _builder.newLine();
@@ -332,6 +320,5 @@ public class XcoreInterpreterTest {
       EStructuralFeature _eStructuralFeature_2 = nodeClass.getEStructuralFeature("nodeKind");
       Object _eGet_2 = node.eGet(_eStructuralFeature_2);
       Assert.assertEquals(_eEnumLiteral_1, _eGet_2);
-    }
   }
 }

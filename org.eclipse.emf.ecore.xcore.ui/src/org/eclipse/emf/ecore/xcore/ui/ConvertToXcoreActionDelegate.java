@@ -55,6 +55,7 @@ import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcoreFactory;
 import org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator;
 import org.eclipse.emf.ecore.xcore.util.EcoreXcoreBuilder;
+import org.eclipse.emf.ecore.xcore.util.XcoreGenModelInitializer;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenmodelBuilder;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.action.IAction;
@@ -89,6 +90,9 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
   @Inject
   XcoreGenmodelBuilder genModelBuilder;
   
+  @Inject
+  XcoreGenModelInitializer genModelInitializer;
+
   protected EPackage getInputEPackage(IStructuredSelection structuredSelection)
   {
     Object element = structuredSelection.getFirstElement();
@@ -170,7 +174,7 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
                 final GenModel genModel =  GenModelFactory.eINSTANCE.createGenModel();
                 genModel.initialize(Collections.singleton(inputEPackage));
                 genModelResource.getContents().add(genModel);
-                genModel.initialize();
+                genModelInitializer.initialize(genModel);
                 new Object() 
                 {
                   void visit(GenBase genBase1, GenBase genBase2)

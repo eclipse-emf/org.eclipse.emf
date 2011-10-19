@@ -11,33 +11,32 @@ public class XcoreAppendable extends StringBuilderBasedAppendable
 	}
 	
 	@Override
-	public IAppendable append(Object object)
+	public IAppendable append(String string)
 	{
-		if (object instanceof String)
+		if (string.startsWith(" else") || string.startsWith(" catch") || string.startsWith(" finally") || string.startsWith("\n"))
 		{
-			String string = (String)object;
-			if (string.startsWith(" else") || string.startsWith(" catch") || string.startsWith(" finally") || string.startsWith("\n"))
-			{
-				return super.append("\n").append(string.substring(1));
-			}
-			else if (string.endsWith(" {"))
-			{
-				return super.append(string.substring(0, string.length() - 2)).append("\n{");
-			}
-			else if (string.endsWith(" { "))
-			{
-				return super.append(string.substring(0, string.length() - 3)).append("\n{");
-			}
-			else if (string.startsWith("} "))
-			{
-				return super.append("}\n").append(string.substring(2));
-			}
-			else if (string.endsWith("finally "))
-			{
-				return super.append(string.substring(0, string.length() - 1)).append("\n");
-			}
+			return super.append("\n").append(string.substring(1));
 		}
-    return super.append(object);
-	}
+		else if (string.endsWith(" {"))
+		{
+			return super.append(string.substring(0, string.length() - 2)).append("\n{");
+		}
+		else if (string.endsWith(" { "))
+		{
+			return super.append(string.substring(0, string.length() - 3)).append("\n{");
+		}
+		else if (string.startsWith("} "))
+		{
+			return super.append("}\n").append(string.substring(2));
+		}
+		else if (string.endsWith("finally "))
+		{
+			return super.append(string.substring(0, string.length() - 1)).append("\n");
+		}
+		else
+		{
+			return super.append(string);
+		}
+  }
 
 }

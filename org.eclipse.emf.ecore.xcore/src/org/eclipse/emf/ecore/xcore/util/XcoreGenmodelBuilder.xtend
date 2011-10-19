@@ -21,20 +21,20 @@ import org.eclipse.emf.ecore.xcore.XStructuralFeature
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper
 
 import static extension org.eclipse.xtext.xtend2.lib.EObjectExtensions.*
-import org.eclipse.emf.ecore.xcore.resource.XcoreResource
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral
 import org.eclipse.emf.ecore.xcore.XEnumLiteral
 
 class XcoreGenmodelBuilder {
 	
 	@Inject extension XcoreMapper mapper
+    @Inject XcoreGenModelInitializer genModelInitializer
 	
 	def GenModel getGenModel(XPackage pack) {
 		val ePackage = pack.mapping.getEPackage
 		val genModel =  GenModelFactory::eINSTANCE.createGenModel();
       	genModel.initialize(Collections::singleton(ePackage));
       	pack.eResource.getContents().add(1, genModel);
-      	genModel.initialize();
+      	genModelInitializer.initialize(genModel);
       	buildMap(genModel);
       	return genModel
    	}

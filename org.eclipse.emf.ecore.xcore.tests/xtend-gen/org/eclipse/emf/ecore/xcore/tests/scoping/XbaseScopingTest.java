@@ -15,7 +15,6 @@ import org.junit.runner.RunWith;
 @RunWith(XtextRunner.class)
 @InjectWith(XcoreInjectorProvider.class)
 public class XbaseScopingTest {
-  
   @Inject
   private ParseHelper<XPackage> parser;
   
@@ -24,7 +23,6 @@ public class XbaseScopingTest {
   
   @Test
   public void testLinkToThis() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo.bar");
       _builder.newLine();
@@ -45,6 +43,5 @@ public class XbaseScopingTest {
       XPackage _parse = this.parser.parse(_builder);
       final XPackage pack = _parse;
       this.validator.assertNoErrors(pack);
-    }
   }
 }

@@ -39,8 +39,7 @@ import org.junit.runner.RunWith;
 @SuppressWarnings("all")
 @RunWith(XtextRunner.class)
 @InjectWith(XcoreInjectorProvider.class)
-public class ParsingTest extends Object {
-  
+public class ParsingTest {
   @Inject
   private ParseHelper<XPackage> parser;
   
@@ -52,17 +51,14 @@ public class ParsingTest extends Object {
   
   @Test
   public void parseSimpleFile() throws Exception {
-    {
       XPackage _parse = this.parser.parse("package foo");
       final XPackage parse = _parse;
       String _name = parse.getName();
       Assert.assertEquals("foo", _name);
-    }
   }
   
   @Test
   public void testJvmTypes() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo ");
       _builder.newLine();
@@ -80,12 +76,10 @@ public class ParsingTest extends Object {
       Resource _eResource = pack.eResource();
       EcoreUtil.resolveAll(_eResource);
       this.vth.assertNoErrors(pack);
-    }
   }
   
   @Test
   public void testSuperTypeLinking_1() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo ");
       _builder.newLine();
@@ -103,12 +97,10 @@ public class ParsingTest extends Object {
       GenClass _genClass = this.exts.getGenClass(_head);
       String _name = _genClass.getName();
       Assert.assertEquals("A", _name);
-    }
   }
   
   @Test
   public void testSuperTypeLinking_2() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo ");
       _builder.newLine();
@@ -126,12 +118,10 @@ public class ParsingTest extends Object {
       GenClass _genClass = this.exts.getGenClass(_head);
       String _name = _genClass.getName();
       Assert.assertEquals("A", _name);
-    }
   }
   
   @Test
   public void testReferenceToAnnotation() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo ");
       _builder.newLine();
@@ -152,12 +142,10 @@ public class ParsingTest extends Object {
       XAnnotation _head_1 = IterableExtensions.<XAnnotation>head(_annotations);
       XAnnotationDirective _source = _head_1.getSource();
       Assert.assertEquals(_head, _source);
-    }
   }
   
   @Test
   public void testReferenceToOpposite() throws IOException, Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package  foo");
       _builder.newLine();
@@ -267,12 +255,10 @@ public class ParsingTest extends Object {
         int _size_2 = _contents_4.size();
         Assert.assertEquals(elements, _size_2);
       }
-    }
   }
   
   @Test
   public void operationReturnsVoid() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo");
       _builder.newLine();
@@ -297,12 +283,10 @@ public class ParsingTest extends Object {
       Assert.assertTrue(_isEmpty);
       XGenericType _type = operation.getType();
       Assert.assertNull(_type);
-    }
   }
   
   @Test
   public void referenceMayNotBeVoid() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo");
       _builder.newLine();
@@ -323,12 +307,10 @@ public class ParsingTest extends Object {
       int _size = _errors_1.size();
       boolean _operator_lessEqualsThan = ComparableExtensions.<Integer>operator_lessEqualsThan(((Integer)1), ((Integer)_size));
       Assert.assertTrue(_string, _operator_lessEqualsThan);
-    }
   }
   
   @Test
   public void stringResolvesToEString() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo");
       _builder.newLine();
@@ -354,12 +336,10 @@ public class ParsingTest extends Object {
       GenBase _type_3 = _type_2.getType();
       String _name = ((GenClassifier) _type_3).getName();
       Assert.assertEquals("EString", _name);
-    }
   }
   
   @Test
   public void testEcoreDataTypeAliases() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo ");
       _builder.newLine();
@@ -440,6 +420,5 @@ public class ParsingTest extends Object {
       Resource _eResource = pack.eResource();
       EcoreUtil.resolveAll(_eResource);
       this.vth.assertNoErrors(pack);
-    }
   }
 }

@@ -284,4 +284,20 @@
              name="Operation Invocation View"
           class="org.eclipse.emf.ecore.xcore.ui.EOperationInvocationView"/>
     </extension>
+
+    <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.xcore.ui.wizardCategory"
+            name="Xcore"/>
+      <wizard
+            id="org.eclipse.emf.ecore.xcore.ui.EmptyXcoreProjectWizard"
+            name="Xcore Project"
+            class="org.eclipse.emf.ecore.xcore.ui.EmptyXcoreProjectWizard"
+            category="org.eclipse.emf.ecore.xcore.ui.wizardCategory"
+            project="true"
+            icon="platform:/plugin/org.eclipse.emf.codegen.ecore.ui/icons/full/ctool16/NewEmptyEMFProject.gif">
+         <description>Creates an empty Xcore project</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
 </plugin>

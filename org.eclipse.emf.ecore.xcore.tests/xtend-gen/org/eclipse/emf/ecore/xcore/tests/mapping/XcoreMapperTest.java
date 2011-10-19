@@ -37,7 +37,6 @@ import org.junit.runner.RunWith;
 @RunWith(XtextRunner.class)
 @InjectWith(XcoreInjectorProvider.class)
 public class XcoreMapperTest {
-  
   @Inject
   private ParseHelper<XPackage> parser;
   
@@ -46,7 +45,6 @@ public class XcoreMapperTest {
   
   @Test
   public void testMapping() throws Exception {
-    {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package foo.bar");
       _builder.newLine();
@@ -183,6 +181,5 @@ public class XcoreMapperTest {
           }
         }
       }
-    }
   }
 }
