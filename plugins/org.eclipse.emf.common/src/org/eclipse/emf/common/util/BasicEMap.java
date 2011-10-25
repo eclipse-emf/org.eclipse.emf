@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEMap.java,v 1.11 2010/11/05 12:17:13 emerks Exp $
+ * $Id: BasicEMap.java,v 1.12 2011/10/25 17:35:13 emerks Exp $
  */
 package  org.eclipse.emf.common.util;
 
@@ -1294,6 +1294,10 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
 
       expectedModCount = BasicEMap.this.modCount;
       lastEntryCursor = -1;
+      if (cursor == lastCursor && entryCursor != -1)
+      {
+        --entryCursor;
+      }
     }
   }
 
