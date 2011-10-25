@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.76 2011/10/25 12:28:05 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.77 2011/10/25 13:43:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2123,6 +2123,21 @@ public class EcoreUtil
   {
     EqualityHelper equalityHelper = new EqualityHelper();
     return equalityHelper.equals(eObject1, eObject2);
+  }
+
+  /**
+   * Returns <code>true</code> if <code>eObjectList1</code> and <code>eObjectList2</code> contain {@link #equals(EObject, EObject) equal} objects.
+   * <code>false</code> otherwise.
+   * @return whether <code>eObjectList1</code> and <code>eObjectList2</code> contains equal objects
+   * @see EqualityHelper
+   * @see #equals(EObject, EObject)
+   * @since 2.8.0
+   */
+  @SuppressWarnings("unchecked")
+  public static boolean equals(List<? extends EObject> eObjectList1, List<? extends EObject> eObjectList2)
+  {
+    EqualityHelper equalityHelper = new EqualityHelper();
+    return equalityHelper.equals((List<EObject>)eObjectList1, (List<EObject>)eObjectList2);
   }
 
   /**
