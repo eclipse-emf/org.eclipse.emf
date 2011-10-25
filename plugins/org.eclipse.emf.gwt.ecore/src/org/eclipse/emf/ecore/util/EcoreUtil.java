@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.5 2011/05/12 15:08:59 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.6 2011/10/25 13:12:03 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -4300,6 +4300,74 @@ public class EcoreUtil
     {
       if (eOperation.getEAnnotation(invocationDelegate) != null)
         return EOperation.Internal.InvocationDelegate.Factory.Registry.INSTANCE.getFactory(invocationDelegate);
+    }
+    return null;
+  }
+
+  /**
+   * @since 2.8
+   */
+  public static List<String> getConversionDelegates(EPackage ePackage)
+  {
+    EAnnotation eAnnotation = ePackage.getEAnnotation(EcorePackage.eNS_URI);
+    if (eAnnotation != null)
+    {
+      String eDataTypeDelegates = eAnnotation.getDetails().get("conversionDelegates");
+      if (eDataTypeDelegates != null)
+      {
+        List<String> result = new ArrayList<String>();
+        for (String eDataTypeDelegate : eDataTypeDelegates.split("\\w"))
+        {
+          result.add(eDataTypeDelegate);
+        }
+        return result;
+      }
+    }
+    return Collections.emptyList();
+  }
+
+  public static void setConversionDelegates(EPackage ePackage, List<String> eDataTypeDelegates)
+  {
+    EAnnotation eAnnotation = ePackage.getEAnnotation(EcorePackage.eNS_URI);
+    if (eDataTypeDelegates == null || eDataTypeDelegates.isEmpty())
+    {
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("conversionDelegates");
+      }
+    }
+    else
+    {
+      if (eAnnotation == null)
+      {
+        eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+        eAnnotation.setSource(EcorePackage.eNS_URI);
+        ePackage.getEAnnotations().add(eAnnotation);
+      }
+      StringBuffer value = new StringBuffer();
+      for (Iterator<String> i = eDataTypeDelegates.iterator(); i.hasNext();)
+      {
+        value.append(i.next());
+        if (i.hasNext())
+        {
+          value.append(' ');
+        }
+      }
+      eAnnotation.getDetails().put("conversionDelegates", value.toString());
+    }
+  }
+
+  /**
+   * @since 2.8
+   */
+  public static EDataType.Internal.ConversionDelegate.Factory getConversionDelegateFactory(EDataType eDataType)
+  {
+    for (String eDataTypeDelegate : getConversionDelegates(eDataType.getEPackage()))
+    {
+      if (eDataType.getEAnnotation(eDataTypeDelegate) != null)
+      {
+        return EDataType.Internal.ConversionDelegate.Factory.Registry.INSTANCE.getFactory(eDataTypeDelegate);
+      }
     }
     return null;
   }
