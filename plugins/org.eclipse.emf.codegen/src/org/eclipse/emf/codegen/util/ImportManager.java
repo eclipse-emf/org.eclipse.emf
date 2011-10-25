@@ -495,7 +495,7 @@ public class ImportManager
       importedPackages.add(packageName);
       imports.add(importName);
     }
-    else if (!shortNameToImportMap.containsKey(shortName) && (!CodeGenUtil.isJavaDefaultType(shortName)))
+    else if (!shortNameToImportMap.containsKey(shortName) && shouldImport(packageName, shortName, importName))
     {
       shortNameToImportMap.put(shortName, importName);
 
@@ -504,6 +504,16 @@ public class ImportManager
         imports.add(importName);
       }
     }
+  }
+
+  /**
+   * Determines whether the given non-wildcard import should be added.
+   * By default, this returns false if the short name is a built-in Java language type name.
+   * @since 2.8
+   */
+  protected boolean shouldImport(String packageName, String shortName, String importName)
+  {
+    return !CodeGenUtil.isJavaDefaultType(shortName);
   }
 
   /**
