@@ -1192,7 +1192,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic126.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic126.getSource());
     assertEquals("The default value literal '256' must be a valid literal of the attribute's type", removeObjectHashCode(diagnostic126.getMessage()));
-    assertEquals(39, diagnostic126.getCode());
+    assertEquals(38, diagnostic126.getCode());
     assertEquals(1, diagnostic126.getChildren().size());
     assertEquals(1, diagnostic126.getData().size());
     assertNull(diagnostic126.getException());
@@ -1210,7 +1210,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic128.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic128.getSource());
     assertEquals("The default value literal '' must be a valid literal of the attribute's type", removeObjectHashCode(diagnostic128.getMessage()));
-    assertEquals(39, diagnostic128.getCode());
+    assertEquals(38, diagnostic128.getCode());
     assertEquals(0, diagnostic128.getChildren().size());
     assertEquals(1, diagnostic128.getData().size());
     assertNull(diagnostic128.getException());
