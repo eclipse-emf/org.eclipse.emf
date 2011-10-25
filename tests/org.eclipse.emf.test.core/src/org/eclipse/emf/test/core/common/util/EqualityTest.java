@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EqualityTest.java,v 1.9 2010/02/04 20:56:00 emerks Exp $
+ * $Id: EqualityTest.java,v 1.10 2011/10/25 14:25:02 emerks Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -145,7 +145,7 @@ public class EqualityTest extends TestCase
   {
     // basic == and null comparisons
     assertTrue(EcoreUtil.equals(po1, po1));
-    assertTrue(EcoreUtil.equals(null, null));
+    assertTrue(EcoreUtil.equals((EObject)null, (EObject)null));
     assertTrue(!EcoreUtil.equals(null, po1));
     assertTrue(!EcoreUtil.equals(po1, null));
 
