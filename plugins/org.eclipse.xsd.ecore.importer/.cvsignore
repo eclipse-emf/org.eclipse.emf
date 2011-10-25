@@ -6,3 +6,4 @@ temp.folder
 *.jar
 @dot
 *.args
+${buildDirectory}
