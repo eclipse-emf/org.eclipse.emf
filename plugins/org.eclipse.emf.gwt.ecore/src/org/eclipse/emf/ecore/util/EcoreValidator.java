@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.4 2011/05/13 15:08:05 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.5 2011/10/25 17:42:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1454,6 +1454,7 @@ public class EcoreValidator extends EObjectValidator
           }
         }.parseInstanceTypeName(instanceTypeName);
     String formattedName = null;
+    @SuppressWarnings("null")
     boolean result =
       instanceTypeName != null ?
         typeBuilderDiagnostic.getSeverity() == Diagnostic.OK  && 
@@ -2582,7 +2583,7 @@ public class EcoreValidator extends EObjectValidator
         createDiagnostic
          (Diagnostic.ERROR,
           DIAGNOSTIC_SOURCE,
-          VALID_LOWER_BOUND,
+          VALID_DEFAULT_VALUE_LITERAL,
           "_UI_EStructuralFeatureValidDefaultValueLiteral_diagnostic",
           new Object[] { defaultValueLiteral },
           new Object[] { eStructuralFeature },

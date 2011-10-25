@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.3 2011/01/12 16:24:24 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.4 2011/10/25 17:42:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1608,7 +1608,7 @@ public class EObjectValidator implements EValidator
          {
            getValueLabel(eDataType, value, context),
            value == null ? "<null>" : value.getClass().getName(),
-           eDataType.getInstanceClass().getName()
+           eDataType.getInstanceClassName()
          },
          new Object [] { value, eDataType },
          context));
