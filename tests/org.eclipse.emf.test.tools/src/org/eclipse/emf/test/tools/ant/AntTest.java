@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.32 2009/03/20 21:45:27 davidms Exp $
+ * $Id: AntTest.java,v 1.33 2011/10/25 17:19:44 emerks Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.tools.AllSuites;
 import org.eclipse.emf.test.tools.AntUtil;
+import org.eclipse.jdt.core.JavaCore;
 
 public class AntTest extends TestCase
 {
@@ -277,9 +278,10 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/creation/library.rose");
     File antScript = new File(rootDir, "build/build.xml");
     
-    String[] testTokenReplacements = new String[2];
+    String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
+    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\"", testTokenReplacements);    
   }
@@ -308,9 +310,10 @@ public class AntTest extends TestCase
     AntUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
     AntUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
-    String[] testTokenReplacements = new String[2];
+    String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
+    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
            
     adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\" rose", testTokenReplacements);
@@ -337,9 +340,10 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/creation/library.xsd");
     File antScript = new File(rootDir, "build/codeGenFromXSD.xml");
 
-    String[] testTokenReplacements = new String[2];
+    String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = rootDir.getName();
+    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\"", testTokenReplacements);
   }
@@ -368,9 +372,10 @@ public class AntTest extends TestCase
     AntUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
     AntUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
-    String[] testTokenReplacements = new String[2];
+    String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = rootDir.getName();
+    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
         
     adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\" xsd", testTokenReplacements);
@@ -394,8 +399,9 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/creation/library.xsds");
     File antScript = new File(rootDir, "build/codeGenFromMultipleXSD.xml");
 
-    String[] testTokenReplacements = new String[1];
+    String[] testTokenReplacements = new String[2];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
+    testTokenReplacements[1] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\"", testTokenReplacements);
   }
@@ -430,9 +436,10 @@ public class AntTest extends TestCase
     AntUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
     AntUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
-    String[] testTokenReplacements = new String[2];
+    String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = testTokenReplacements[0].charAt(1) == ':' ? "/" : "";
+    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
            
     adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\" xsds", testTokenReplacements);
@@ -462,9 +469,10 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/creation/library.ecore");
     File antScript = new File(rootDir, "build/build.xml");
     
-    String[] testTokenReplacements = new String[2];
+    String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
+    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\"", testTokenReplacements);
   }
@@ -493,9 +501,10 @@ public class AntTest extends TestCase
     AntUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
     AntUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
-    String[] testTokenReplacements = new String[2];
+    String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
+    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
            
     adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\" ecore", testTokenReplacements);
@@ -524,9 +533,10 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/creation/library.java");
     File antScript = new File(rootDir, "build/build.xml");
     
-    String[] testTokenReplacements = new String[2];
+    String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = "/library.java." + directorySegment + "/src";
     testTokenReplacements[1] = File.separator;
+    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\"", testTokenReplacements);
   }
@@ -555,9 +565,10 @@ public class AntTest extends TestCase
     AntUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
     AntUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
-    String[] testTokenReplacements = new String[2];
+    String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
+    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
            
     adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\" java", testTokenReplacements);
@@ -604,7 +615,7 @@ public class AntTest extends TestCase
     File[] children = expectedDir.listFiles();
     for (int i = 0, maxi = children.length; i < maxi; i++)
     {
-      if (children[i].isFile())
+      if (children[i].isFile() /* &&  !".classpath".equals(children[i].getName())*/)
       {
         String file = children[i].getAbsolutePath().substring(rootExpectedDir.getAbsolutePath().length());
         assertGeneratedFile(rootDir, rootExpectedDir, file, testTokenReplacements);
