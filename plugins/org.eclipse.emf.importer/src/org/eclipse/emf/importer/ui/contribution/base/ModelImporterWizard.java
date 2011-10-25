@@ -19,8 +19,10 @@ package org.eclipse.emf.importer.ui.contribution.base;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.PartInitException;
 
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
@@ -45,6 +47,17 @@ public abstract class ModelImporterWizard extends ModelConverterWizard implement
   protected IPath genModelContainerPath;
   protected IPath projectLocation;
   protected IPath projectPath;
+  protected IWorkingSet[] workingSets;
+
+  public IWorkingSet[] getWorkingSets()
+  {
+    return workingSets;
+  }
+
+  public void setWorkingSets(IWorkingSet[] workingSets)
+  {
+    this.workingSets = workingSets;
+  }
 
   public ModelImporter getModelImporter()
   {
@@ -148,6 +161,12 @@ public abstract class ModelImporterWizard extends ModelConverterWizard implement
   {
     getModelImporter().prepareGenModelAndEPackages(monitor);
     getModelImporter().saveGenModelAndEPackages(monitor);
+
+    IWorkingSet[] workingSets = getWorkingSets();
+    if (workingSets != null)
+    {
+      workbench.getWorkingSetManager().addToWorkingSets(ResourcesPlugin.getWorkspace().getRoot().getProject(getModelImporter().getModelProjectName()), workingSets);
+    }
     return Diagnostic.OK_INSTANCE;
   }
   

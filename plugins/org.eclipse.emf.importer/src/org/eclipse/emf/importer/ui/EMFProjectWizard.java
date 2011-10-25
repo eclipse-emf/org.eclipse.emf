@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.9 2006/12/28 06:53:13 marcelop Exp $
+ * $Id: EMFProjectWizard.java,v 1.10 2011/10/25 17:49:40 emerks Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -21,6 +21,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
@@ -37,6 +38,7 @@ public class EMFProjectWizard extends EMFModelWizard
 {
   protected IPath projectLocation;
   protected IPath projectPath;
+  protected WizardNewProjectCreationPage newProjectCreationPage;
 
   public EMFProjectWizard()
   {
@@ -53,7 +55,7 @@ public class EMFProjectWizard extends EMFModelWizard
   @Override
   public void addPages()
   {
-    WizardNewProjectCreationPage page = new WizardNewProjectCreationPage("NewProjectCreationPage")
+    newProjectCreationPage = new WizardNewProjectCreationPage("NewProjectCreationPage")
       {
         @Override
         protected boolean validatePage()
@@ -70,16 +72,26 @@ public class EMFProjectWizard extends EMFModelWizard
             return false;
           }
         }
+
+        @Override
+        public void createControl(Composite parent)
+        {
+          super.createControl(parent);
+          createWorkingSetGroup
+            ((Composite) getControl(), 
+             selection, 
+             new String[] { "org.eclipse.jdt.ui.JavaWorkingSetPage", "org.eclipse.pde.ui.pluginWorkingSet", "org.eclipse.ui.resourceWorkingSetPage"});
+        }
       };
-    page.setTitle(ImporterPlugin.INSTANCE.getString("_UI_EMFProjectWizard_name"));
-    page.setDescription(ImporterPlugin.INSTANCE.getString("_UI_CreateEMFProject_label"));
-    addPage(page);
+    newProjectCreationPage.setTitle(ImporterPlugin.INSTANCE.getString("_UI_EMFProjectWizard_name"));
+    newProjectCreationPage.setDescription(ImporterPlugin.INSTANCE.getString("_UI_CreateEMFProject_label"));
+    addPage(newProjectCreationPage);
 
     if (defaultPath != null)
     {
       String path = defaultPath.removeLastSegments(defaultPath.segmentCount()-1).toString();
-      page.setInitialProjectName(path.charAt(0) == '/' ? path.substring(1) : path);
-      page.setPageComplete(page.isPageComplete());    
+      newProjectCreationPage.setInitialProjectName(path.charAt(0) == '/' ? path.substring(1) : path);
+      newProjectCreationPage.setPageComplete(newProjectCreationPage.isPageComplete());    
     }
     
     addSelectionPage();
@@ -103,6 +115,10 @@ public class EMFProjectWizard extends EMFModelWizard
     if (isValidNewValue(projectPath, modelImporterWizard.getGenModelProjectPath()))
     {
       modelImporterWizard.setGenModelProjectPath(projectPath);
+    }
+    if (isValidNewValue(newProjectCreationPage.getSelectedWorkingSets(), modelImporterWizard.getWorkingSets()))
+    {
+      modelImporterWizard.setWorkingSets(newProjectCreationPage.getSelectedWorkingSets());
     }
   }
 }

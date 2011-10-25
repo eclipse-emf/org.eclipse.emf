@@ -21,6 +21,7 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.ui.INewWizard;
+import org.eclipse.ui.IWorkingSet;
 
 
 /**
@@ -47,4 +48,14 @@ public interface IModelImporterWizard extends INewWizard
   String getGenModelFileName();
   
   List<String> getFileExtensions();
+
+  /**
+   * @since 3.3
+   */
+  void setWorkingSets(IWorkingSet[] workingSets);
+
+  /**
+   * @since 3.3
+   */
+  IWorkingSet[] getWorkingSets();
 }
