@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.27 2011/10/25 07:01:43 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.28 2011/10/25 12:28:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -574,6 +574,7 @@ public class EcorePlugin  extends EMFPlugin
       new SettingDelegateFactoryRegistryReader().readRegistry();
       new InvocationDelegateFactoryRegistryReader().readRegistry();
       new QueryDelegateFactoryRegistryReader().readRegistry();
+      new ConversionDelegateFactoryRegistryReader().readRegistry();
     }
   }
 
@@ -638,4 +639,5 @@ public class EcorePlugin  extends EMFPlugin
   public static final String SETTING_DELEGATE_PPID = "setting_delegate";
   public static final String INVOCATION_DELEGATE_PPID = "invocation_delegate";
   public static final String QUERY_DELEGATE_PPID = "query_delegate";
+  public static final String CONVERSION_DELEGATE_PPID = "conversion_delegate";
 }

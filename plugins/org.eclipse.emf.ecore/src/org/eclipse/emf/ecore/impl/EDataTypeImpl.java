@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EDataTypeImpl.java,v 1.12 2008/12/22 14:24:54 emerks Exp $
+ * $Id: EDataTypeImpl.java,v 1.13 2011/10/25 12:28:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -25,11 +26,13 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>EData Type</b></em>'.
+ * @extends EDataType.Internal
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
@@ -40,7 +43,7 @@ import org.eclipse.emf.ecore.EcorePackage;
  *
  * @generated
  */
-public class EDataTypeImpl extends EClassifierImpl implements EDataType
+public class EDataTypeImpl extends EClassifierImpl implements EDataType, EDataType.Internal
 {
   /**
    * The default value of the '{@link #isSerializable() <em>Serializable</em>}' attribute.
@@ -324,6 +327,37 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
     result.append((eFlags & SERIALIZABLE_EFLAG) != 0);
     result.append(')');
     return result.toString();
+  }
+
+  protected ConversionDelegate conversionDelegate;
+  protected boolean conversionDelegateIsSet;
+
+  public ConversionDelegate getConversionDelegate()
+  {
+    if (!conversionDelegateIsSet)
+    {
+      List<String> conversionDelegates = EcoreUtil.getConversionDelegates(getEPackage());
+      if (!conversionDelegates.isEmpty())
+      {
+        for (String eDataTypeDelegateUri : conversionDelegates)
+        {
+          String body = EcoreUtil.getAnnotation(this, eDataTypeDelegateUri, "createFromString");
+          if (body != null)
+          {
+            EDataType.Internal.ConversionDelegate.Factory eDataTypeDelegateFactory = EcoreUtil.getConversionDelegateFactory(this);
+            conversionDelegate = eDataTypeDelegateFactory.createConversionDelegate(this);
+            conversionDelegateIsSet = true;
+          }
+        }
+      }
+    }
+    return conversionDelegate;
+  }
+
+  public void setConversionDelegate(ConversionDelegate conversionDelegate)
+  {
+    this.conversionDelegate = conversionDelegate;
+    conversionDelegateIsSet = conversionDelegate != null;
   }
 
 }

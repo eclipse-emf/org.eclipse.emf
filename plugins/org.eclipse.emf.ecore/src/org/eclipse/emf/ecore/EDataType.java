@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EDataType.java,v 1.4 2007/06/14 18:32:46 emerks Exp $
+ * $Id: EDataType.java,v 1.5 2011/10/25 12:28:05 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -69,5 +71,104 @@ public interface EDataType extends EClassifier
    * @generated
    */
   void setSerializable(boolean value);
+
+  /**
+   * Internal API implemented by all data types.
+   * @since 2.8
+   */
+  interface Internal extends EDataType, InternalEObject
+  {
+    /**
+     * An API for converting values of the data type to and from a string representation.
+     */
+    interface ConversionDelegate
+    {
+      /**
+       * A factory for creating conversion delegates.
+       */
+      interface Factory
+      {
+        /**
+         * Creates a conversion delegate for the given EDataType.
+         * @param eDataType the EDataType for which a conversion delegate is to be created.
+         * @return a new conversion delegate for the given EDataType.
+         */
+        ConversionDelegate createConversionDelegate(EDataType eDataType);
+
+        /**
+         * A <code>Factory</code> wrapper that is used by the {@link Factory.Registry}.
+         */
+        interface Descriptor
+        {
+          Factory getFactory();
+        }
+
+        /**
+         * A registry of factories for creating conversion delegates.
+         */
+        interface Registry extends Map<String, Object>
+        {
+          Registry INSTANCE = new Impl();
+
+          Factory getFactory(String uri);
+
+          class Impl extends HashMap<String, Object> implements Registry
+          {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Object get(Object key)
+            {
+              Object factory = super.get(key);
+              if (factory instanceof Descriptor)
+              {
+                Descriptor factoryDescriptor = (Descriptor)factory;
+                factory = factoryDescriptor.getFactory();
+                put((String)key, factory);
+                return factory;
+              }
+              else
+              {
+                return factory;
+              }
+            }
+
+            public Factory getFactory(String uri)
+            {
+              return (Factory)get(uri);
+            }
+          }
+        }
+      }
+
+      /**
+       * Converts a value of the data type to a string literal.
+       * @param value the value to be converted.
+       * @return the literal representation of the value.
+       */
+      String convertToString(Object value);
+
+      /**
+       * Creates a value of the data type from a string literal.
+       * @param literal the string literal to be converted.
+       * @return the value of the literal representation.
+       */
+      Object createFromString(String literal);
+    }
+
+    /**
+     * Returns the delegate for this data type.
+     * A default delegate implementation need not be available,
+     * so this might <code>null</code>.
+     * @return the delegate for this feature.
+     */
+    ConversionDelegate getConversionDelegate();
+
+    /**
+     * Sets the specialized delegate for this data type.
+     * @param settingDelegate the specialized delegate.
+     */
+    void setConversionDelegate(ConversionDelegate conversionDelegate);
+  }
 
 } //EDataType

@@ -14,6 +14,7 @@
    <extension-point id="setting_delegate" name="%_UI_SettingDelegateRegistry_extensionpoint" schema="schema/setting_delegate.exsd"/>
    <extension-point id="invocation_delegate" name="%_UI_InvocationDelegateRegistry_extensionpoint" schema="schema/invocation_delegate.exsd"/>
    <extension-point id="query_delegate" name="%_UI_QueryDelegateRegistry_extensionpoint" schema="schema/query_delegate.exsd"/>
+   <extension-point id="conversion_delegate" name="%_UI_ConversionDelegateRegistry_extensionpoint" schema="schema/conversion_delegate.exsd"/>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package

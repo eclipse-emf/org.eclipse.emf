@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.30 2010/07/20 22:12:48 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.31 2011/10/25 12:28:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -359,6 +359,12 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
       throw new IllegalArgumentException("The value '" + stringValue + "' does not match any member types of the union datatype '" + eDataType.getName() + "'");
     }
 
+    EDataType.Internal.ConversionDelegate conversionDelegate = ((EDataType.Internal)eDataType).getConversionDelegate();
+    if (conversionDelegate != null)
+    {
+      return conversionDelegate.createFromString(stringValue);
+    }
+
     Class<?> c = EcoreUtil.wrapperClassFor(eDataType.getInstanceClass());
     if (c == null) return null;
 
@@ -521,6 +527,12 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
         }
       }
       throw new IllegalArgumentException("Invalid value: '" + objectValue + "' for datatype :"+eDataType.getName());
+    }
+
+    EDataType.Internal.ConversionDelegate conversionDelegate = ((EDataType.Internal)eDataType).getConversionDelegate();
+    if (conversionDelegate != null)
+    {
+      return conversionDelegate.convertToString(objectValue);
     }
 
     if (objectValue == null)
