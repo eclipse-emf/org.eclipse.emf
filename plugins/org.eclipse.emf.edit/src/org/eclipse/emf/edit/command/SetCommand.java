@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.18.2.1 2011/09/13 15:26:25 emerks Exp $
+ * $Id: SetCommand.java,v 1.18.2.2 2011/10/25 06:55:25 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -522,7 +522,7 @@ public class SetCommand extends AbstractOverrideableCommand
       //
       EList<EStructuralFeature> eAllStructuralFeatures = eMetaObject.getEAllStructuralFeatures();
       if (eAllStructuralFeatures.contains(feature) ||
-            eAllStructuralFeatures.contains(ExtendedMetaData.INSTANCE.getAffiliation(eMetaObject, feature)))
+            feature != null && eAllStructuralFeatures.contains(ExtendedMetaData.INSTANCE.getAffiliation(eMetaObject, feature)))
       {
         // If must be of this type then.
         //
