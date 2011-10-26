@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StringSegment.java,v 1.7 2007/03/20 13:54:02 emerks Exp $
+ * $Id: StringSegment.java,v 1.8 2011/10/26 08:05:03 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -66,6 +66,8 @@ public class StringSegment extends BasicEList<StringSegment.Element>
   protected Writer temporaryFile;
 
   protected int bufferPosition;
+
+  protected String firstString;
 
   public StringSegment()
   {
@@ -133,6 +135,10 @@ public class StringSegment extends BasicEList<StringSegment.Element>
     //
     if (temporaryFile != null)
     {
+      if (firstString == null)
+      {
+        firstString = newString;
+      }
       int length = newString.length();
       if (length + bufferPosition >= buffer.length)
       {

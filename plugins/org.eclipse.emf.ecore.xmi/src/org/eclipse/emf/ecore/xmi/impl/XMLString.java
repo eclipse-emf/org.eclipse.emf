@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLString.java,v 1.14 2009/04/08 10:25:01 emerks Exp $
+ * $Id: XMLString.java,v 1.15 2011/10/26 08:05:03 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -658,11 +658,36 @@ public class XMLString extends StringSegment
     currentLineWidth = 0;
   }
 
+  /**
+   * Once the document is complete, 
+   * in particular once the namespace declarations have been added at the mark location,
+   * we should try to insert a line break  after those declarations.
+   */
+  public void complete()
+  {
+    if (currentLineWidth > lineWidth)
+    {
+      if (" ".equals(firstString))
+      {
+        addLine();
+        add("   ");
+      }
+      else if (cursorIndex + 1 < data.length)
+      {
+        Element element = (Element)data[cursorIndex + 1];
+        if (element != null && element.size > 0 && " ".equals(element.data[0]))
+        {
+          addLine();
+          add("   ");
+        }
+      }
+    }
+  }
+
   @Override
   public Object mark()
   {
     markedLineWidth = currentLineWidth;
-    currentLineWidth = lineWidth - 2;
     return super.mark();
   }
 

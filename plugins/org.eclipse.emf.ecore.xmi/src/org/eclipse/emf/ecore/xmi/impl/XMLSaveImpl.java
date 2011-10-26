@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.83 2011/05/20 14:06:44 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.84 2011/10/26 08:05:03 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -965,6 +965,10 @@ public class XMLSaveImpl implements XMLSave
       {
         ((Element)currentNode).setAttributeNS(XMLResource.XSI_URI, XSI_NO_NAMESPACE_SCHEMA_LOCATION, xsiNoNamespaceSchemaLocation);
       }
+    }
+    if (!toDOM)
+    {
+      doc.complete();
     }
   }
 
