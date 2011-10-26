@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.40 2010/08/24 16:59:38 emerks Exp $
+ * $Id: Generator.java,v 1.41 2011/10/26 08:36:45 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -841,13 +841,9 @@ public class Generator extends CodeGen
   
             String jreContainer = JavaRuntime.JRE_CONTAINER;
             String complianceLevel = CodeGenUtil.EclipseUtil.getJavaComplianceLevel(project);
-            if ("1.5".equals(complianceLevel))
+            if (!"1.4".equals(complianceLevel))
             {
-              jreContainer += "/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5";
-            }
-            else if ("1.6".equals(complianceLevel))
-            {
-              jreContainer += "/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6";
+              jreContainer += "/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-" + complianceLevel;
             }
             classpathEntries.add(JavaCore.newContainerEntry(new Path(jreContainer)));
           }
