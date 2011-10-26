@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIHandlerTest.java,v 1.6 2008/02/25 15:09:13 emerks Exp $
+ * $Id: URIHandlerTest.java,v 1.7 2011/10/26 08:32:20 emerks Exp $
  */
 
 package org.eclipse.emf.test.xml.xmi;
@@ -157,7 +157,8 @@ public class URIHandlerTest extends TestCase
          "<!ENTITY first \"../first.library\">" + LF +
          "<!ENTITY second \"../second.library\">" + LF +
          "]>" + LF +
-         "<org.eclipse.emf.test.models.library:Library xmlns:org.eclipse.emf.test.models.library=\"http:///org.eclipse.emf.test.models/Library\" name=\"main\">" + LF +
+         "<org.eclipse.emf.test.models.library:Library xmlns:org.eclipse.emf.test.models.library=\"http:///org.eclipse.emf.test.models/Library\"" + LF +
+         "    name=\"main\">" + LF +
          "  <writers name=\"First Author\" books=\"&first;#//@books.0\"/>" + LF +
          "  <writers name=\"Second Author\" books=\"&second;#//@books.0\"/>" + LF +
          "</org.eclipse.emf.test.models.library:Library>" + LF,
