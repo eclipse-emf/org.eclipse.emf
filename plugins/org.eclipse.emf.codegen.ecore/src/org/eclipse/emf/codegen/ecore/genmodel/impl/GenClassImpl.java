@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.110 2011/01/21 07:19:09 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.111 2011/10/26 11:30:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1288,7 +1288,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public boolean isEObject()
   {
-    return getName().equals("EObject") && getGenPackage().isEcorePackage();
+    return "EObject".equals(getName()) && getGenPackage().isEcorePackage();
   }
 
   public boolean isEObjectExtension()

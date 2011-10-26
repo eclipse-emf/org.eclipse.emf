@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="Class" version="$Id: Class.javajet,v 1.93 2011/08/29 20:16:46 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="Class" version="$Id: Class.javajet,v 1.94 2011/10/26 11:30:36 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -722,6 +722,8 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
         <%}%>
       <%} else if (genClass.getGetAccessorOperation(genFeature) != null) {%>
 		<%=genClass.getGetAccessorOperation(genFeature).getBody(genModel.getIndentation(stringBuffer))%>
+      <%} else if (genFeature.hasGetterBody()) {%>
+		<%=genFeature.getGetterBody(genModel.getIndentation(stringBuffer))%>
       <%} else {%>
 <%@ include file="Class/getGenFeature.TODO.override.javajetinc" fail="alternative" %>
 <%@ start %>

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.117 2011/01/06 21:03:33 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.118 2011/10/26 11:30:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -29,8 +29,17 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.jar.Manifest;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.ToolFactory;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
 
@@ -75,13 +84,18 @@ import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
+import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -2127,36 +2141,41 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   public void setImportManager(ImportManager importManager)
   {
-    this.importManager = importManager;
-
-    // We also need to set it on any GenModels holding any used or static packages that may be refered to.
+    // Avoid doing this cyclically.
     //
-    for (GenPackage genPackage : getUsedGenPackages())
+    if (this.importManager != importManager)
     {
-      genPackage.getGenModel().setImportManager(importManager);
-    }
-
-    for (GenPackage genPackage : getStaticGenPackages())
-    {
-      genPackage.getGenModel().setImportManager(importManager);
-    }
-
-    // And we need to set it on any cached GenModels holding the special Ecore and XML packages.
-    //
-    GenPackage ecore = getEcoreGenPackage();
-    if (ecore != null && ecore.getGenModel().getImportManager() != importManager)
-    {
-      ecore.getGenModel().setImportManager(importManager);
-    }
-    GenPackage xmlType = getXMLTypeGenPackage();
-    if (xmlType != null && xmlType.getGenModel().getImportManager() != importManager)
-    {
-      xmlType.getGenModel().setImportManager(importManager);
-    }
-    GenPackage xmlNamespace = getXMLNamespaceGenPackage();
-    if (xmlNamespace != null && xmlNamespace.getGenModel().getImportManager() != importManager)
-    {
-      xmlNamespace.getGenModel().setImportManager(importManager);
+      this.importManager = importManager;
+  
+      // We also need to set it on any GenModels holding any used or static packages that may be refered to.
+      //
+      for (GenPackage genPackage : getUsedGenPackages())
+      {
+        genPackage.getGenModel().setImportManager(importManager);
+      }
+  
+      for (GenPackage genPackage : getStaticGenPackages())
+      {
+        genPackage.getGenModel().setImportManager(importManager);
+      }
+  
+      // And we need to set it on any cached GenModels holding the special Ecore and XML packages.
+      //
+      GenPackage ecore = getEcoreGenPackage();
+      if (ecore != null && ecore.getGenModel().getImportManager() != importManager)
+      {
+        ecore.getGenModel().setImportManager(importManager);
+      }
+      GenPackage xmlType = getXMLTypeGenPackage();
+      if (xmlType != null && xmlType.getGenModel().getImportManager() != importManager)
+      {
+        xmlType.getGenModel().setImportManager(importManager);
+      }
+      GenPackage xmlNamespace = getXMLNamespaceGenPackage();
+      if (xmlNamespace != null && xmlNamespace.getGenModel().getImportManager() != importManager)
+      {
+        xmlNamespace.getGenModel().setImportManager(importManager);
+      }
     }
   }
 
@@ -2173,26 +2192,31 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public void setLineDelimiter(String lineDelimiter)
   {
-    this.lineDelimiter = lineDelimiter;
-    if (importManager != null)
-    {
-      importManager.setLineDelimiter(lineDelimiter);
-    }
-
-    // We also need to set it on any GenModels holding any used or static packages that may be refered to.
+    // Avoid cycles
     //
-    for (GenPackage genPackage : getUsedGenPackages())
+    if (this.lineDelimiter != lineDelimiter)
     {
-      genPackage.getGenModel().setLineDelimiter(lineDelimiter);
+      this.lineDelimiter = lineDelimiter;
+      if (importManager != null)
+      {
+        importManager.setLineDelimiter(lineDelimiter);
+      }
+  
+      // We also need to set it on any GenModels holding any used or static packages that may be refered to.
+      //
+      for (GenPackage genPackage : getUsedGenPackages())
+      {
+        genPackage.getGenModel().setLineDelimiter(lineDelimiter);
+      }
+  
+      for (GenPackage genPackage : getStaticGenPackages())
+      {
+        genPackage.getGenModel().setLineDelimiter(lineDelimiter);
+      }
+  
+      // There was previously code intended to set it on the cached GenModels holding the special Ecore and XML packages,
+      // but it erroneously set the import manager. So, it seems that was not necessary.
     }
-
-    for (GenPackage genPackage : getStaticGenPackages())
-    {
-      genPackage.getGenModel().setLineDelimiter(lineDelimiter);
-    }
-
-    // There was previously code intended to set it on the cached GenModels holding the special Ecore and XML packages,
-    // but it erroneously set the import manager. So, it seems that was not necessary.
   }
 
   public String getDriverNumber()
@@ -2555,7 +2579,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
-  @SuppressWarnings("rawtypes")
   @Deprecated
   public void setMethod(JETEmitter jetEmitter, String className)
   {
@@ -2563,7 +2586,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       try
       {
-        Class emitterClass = getClass().getClassLoader().loadClass(className);
+        Class<?> emitterClass = getClass().getClassLoader().loadClass(className);
         Method emitterMethod = emitterClass.getDeclaredMethod("generate", OBJECT_ARGUMENT);
         jetEmitter.setMethod(emitterMethod);
       }
@@ -8995,7 +9018,47 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return super.findGenClassifier(classifier);
   }
+
+  @Override
+  public GenFeature findGenFeature(EStructuralFeature feature)
+  {
+    return super.findGenFeature(feature);
+  }
+
+  @Override
+  public GenOperation findGenOperation(EOperation operation)
+  {
+    return super.findGenOperation(operation);
+  }
   
+  public GenTypeParameter findGenTypeParameter(ETypeParameter eTypeParameter)
+  {
+    for (EObject eObject = eTypeParameter.eContainer(); eObject != null; eObject = eObject.eContainer())
+    {
+      if (eObject instanceof EOperation)
+      {
+        EOperation eOperation = (EOperation)eObject;
+        int index = eOperation.getETypeParameters().indexOf(eTypeParameter);
+        if (index != -1)
+        {
+          GenOperation genOperation = findGenOperation(eOperation);
+          return genOperation.getGenTypeParameters().get(index);
+        }
+      }
+      else if (eObject instanceof EClassifier)
+      {
+        EClassifier eClassifier = (EClassifier)eObject;
+        int index = eClassifier.getETypeParameters().indexOf(eTypeParameter);
+        if (index != -1)
+        {
+          GenClassifier genClassifier = findGenClassifier(eClassifier);
+          return genClassifier.getGenTypeParameters().get(index);
+        }
+      }
+    }
+    return null;
+  }
+
   public boolean isSuppressedAnnotation(String source)
   {
     return isSuppressGenModelAnnotations() && GenModelPackage.eNS_URI.equals(source);
@@ -9201,7 +9264,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public void setMainGenModel(GenModel genModel)
   {
-    mainGenModel = genModel;
+    // Avoid creating a cycle.
+    // 
+    if (genModel == null || genModel.getMainGenModel() != this)
+    {
+      mainGenModel = genModel;
+    }
   }
 
   protected boolean isMainGenModel()
@@ -9376,6 +9444,164 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public String getEditorHomePageName()
   {
     return getEditorModuleName();
+  }
+
+  public void initialize()
+  {
+    Resource resource = eResource();
+    if (resource != null)
+    {
+      URI uri = resource.getURI();
+      setModelDirectory(EclipseHelper.getModelDirectory(uri));
+      setComplianceLevel(EclipseHelper.getComplianceLevel(uri));
+      setModelPluginID(EclipseHelper.getPluginID(uri));
+    }
+    setOperationReflection(true);
+    setMinimalReflectiveMethods(true);
+    setRootExtendsClass("org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container");
+    GenPackage mainGenPackage = getMainGenPackage();
+    setModelName(mainGenPackage.getPrefix());
+    GenRuntimeVersion[] values = GenRuntimeVersion.values();
+    setRuntimeVersion(values[values.length - 1]);
+
+    handleAnnotations(this, mainGenPackage.getEcorePackage());
+    for (TreeIterator<EObject> i = eAllContents(); i.hasNext();)
+    {
+      EObject content = i.next();
+      if (content instanceof GenBase)
+      {
+        GenBase genBase = (GenBase)content;
+        EModelElement eModelElement = genBase.getEcoreModelElement();
+        if (eModelElement != null)
+        {
+          handleAnnotations(genBase, eModelElement);
+        }
+      }
+    }
+  }
+
+  /**
+   * @since 2.8
+   */
+  protected void handleAnnotations(GenBase genBase, EModelElement eModelElement)
+  {
+    EAnnotation eAnnotation = eModelElement.getEAnnotation(GenModelPackage.eNS_URI);
+    if (eAnnotation != null)
+    {
+      EClass eClass = genBase.eClass();
+      for (Map.Entry<String, String> entry : eAnnotation.getDetails())
+      {
+        EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(entry.getKey());
+        if (eStructuralFeature instanceof EAttribute)
+        {
+          EAttribute eAttribute = (EAttribute)eStructuralFeature;
+          genBase.eSet(eStructuralFeature, EcoreUtil.createFromString(eAttribute.getEAttributeType(), entry.getValue()));
+        }
+      }
+    }
+  }
+
+  private static class EclipseHelper
+  {
+    static String getModelDirectory(URI uri)
+    {
+      if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
+      {
+        try
+        {
+          IWorkspace workspace = ResourcesPlugin.getWorkspace();
+          IProject project = workspace.getRoot().getProject(uri.segment(1));
+          IJavaProject javaProject = JavaCore.create(project);
+          IClasspathEntry[] classpath = javaProject.getRawClasspath();
+          IClasspathEntry bestEntry = null;
+          for (IClasspathEntry classpathEntry : classpath)
+          {
+            if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_SOURCE)
+            {
+              // Look for the first entry that's Java source.
+              if (bestEntry == null)
+              {
+                bestEntry = classpathEntry;
+              }
+              // If there's a src-gen entry, prefer that over all others.
+              //
+              else if (classpathEntry.getPath().toString().endsWith("src-gen"))
+              {
+                bestEntry = classpathEntry;
+              }
+            }
+          }
+          return bestEntry == null ? project.getFullPath() + "/src" : bestEntry.getPath().toString();
+        }
+        catch (Exception exception)
+        {
+          CodeGenEcorePlugin.INSTANCE.log(exception);
+        }
+      }
+      return null;
+    }
+
+    static GenJDKLevel getComplianceLevel(URI uri)
+    {
+      if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
+      {
+        try
+        {
+          IWorkspace workspace = ResourcesPlugin.getWorkspace();
+          IProject project = workspace.getRoot().getProject(uri.segment(2));
+          String complianceLevel = CodeGenUtil.EclipseUtil.getJavaComplianceLevel(project);
+          if ("1.5".equals(complianceLevel))
+          {
+            return GenJDKLevel.JDK50_LITERAL;
+          }
+          else if ("1.6".equals(complianceLevel))
+          {
+            return GenJDKLevel.JDK60_LITERAL;
+          }
+          else if ("1.4".equals(complianceLevel))
+          {
+            return GenJDKLevel.JDK14_LITERAL;
+          }
+        }
+        catch (Exception exception)
+        {
+          CodeGenEcorePlugin.INSTANCE.log(exception);
+        }
+      }
+      return GenJDKLevel.JDK50_LITERAL;
+    }
+
+    static String getPluginID(URI uri)
+    {
+      String pluginID = uri != null && uri.segmentCount() > 2 ? uri.segment(1) : null;
+      if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
+      {
+        try
+        {
+          IWorkspace workspace = ResourcesPlugin.getWorkspace();
+          IFile manifestFile = workspace.getRoot().getFile(new Path(pluginID + "/META-INF/MANIFEST.MF"));
+          if (manifestFile.exists())
+          {
+            Manifest manifest = new Manifest(manifestFile.getContents());
+            String name = manifest.getMainAttributes().getValue("Bundle-SymbolicName");
+            if (name != null)
+            {
+               int index = name.indexOf(';');
+               if (index > 0) 
+               {
+                  name = name.substring(0, index);
+               }
+               pluginID = name.trim();
+            }
+          }
+        }
+        catch (Exception exception)
+        {
+          CodeGenEcorePlugin.INSTANCE.log(exception);
+        }
+      }
+      return pluginID;
+    }
   }
 
 } //GenModelImpl

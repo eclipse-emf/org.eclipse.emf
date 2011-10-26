@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.41 2010/06/04 14:14:15 khussey Exp $
+ * $Id: GenOperationImpl.java,v 1.42 2011/10/26 11:30:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -937,44 +937,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
 
   public String getBody(String indentation)
   {
-    String body = getBody();
-    if (body != null)
-    {
-      StringBuffer stringBuffer = new StringBuffer(indent(body, indentation));
-
-      for (int i = 0; i < stringBuffer.length(); )
-      {
-        // EATM in JDK 1.4 there will be an indexOf on StringBuffer.
-        //
-        String string = stringBuffer.toString();
-        int start = string.indexOf("<%", i);
-        if (start == -1)
-        {
-          break;
-        }
-        else
-        {
-          int end = string.indexOf("%>", start + 2);
-          if (end == -1)
-          {
-            break;
-          }
-          else
-          {
-            String qualifiedName = stringBuffer.substring(start + 2, end);
-            String importedName = getGenModel().getImportedName(qualifiedName);
-            stringBuffer.replace(start, end + 2, importedName);
-            i += importedName.length();
-          }
-        }
-      }
-
-      return stringBuffer.toString();
-    }
-    else
-    {
-      return null;
-    }
+    return indentAndImport(getBody(), indentation);
   }
 
   protected String getInvariantExpression()
@@ -1086,7 +1049,8 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
 
   public boolean isOverrideOf(GenClass context, GenOperation genOperation)
   {
-    if (genOperation.getName().equals(getName()))
+    String operationName = genOperation.getName();
+    if (operationName != null && operationName.equals(getName()))
     {
       List<GenParameter> parameters = getGenParameters();
       List<GenParameter> otherParameters = genOperation.getGenParameters();

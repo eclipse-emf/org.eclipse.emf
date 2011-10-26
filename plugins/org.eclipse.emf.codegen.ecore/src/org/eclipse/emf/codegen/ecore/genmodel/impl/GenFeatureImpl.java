@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.61 2010/02/22 15:30:16 khussey Exp $
+ * $Id: GenFeatureImpl.java,v 1.62 2011/10/26 11:30:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -37,6 +37,7 @@ import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -1914,4 +1915,22 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     }
     return false;
   }
+
+  protected String getGetterBody()
+  {
+    EStructuralFeature eStructuralFeature = getEcoreFeature();
+    EAnnotation eAnnotation = eStructuralFeature.getEAnnotation(GenModelPackage.eNS_URI);
+    return eAnnotation == null ? null : (String)eAnnotation.getDetails().get("get");
+  }
+
+  public boolean hasGetterBody()
+  {
+    return getGetterBody() != null;
+  }
+
+  public String getGetterBody(String indentation)
+  {
+    return indentAndImport(getGetterBody(), indentation);
+  }
+
 } //GenFeatureImpl

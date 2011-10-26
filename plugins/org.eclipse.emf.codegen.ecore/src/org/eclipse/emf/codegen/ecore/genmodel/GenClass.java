@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.36 2011/01/21 07:19:08 emerks Exp $
+ * $Id: GenClass.java,v 1.37 2011/10/26 11:30:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -624,4 +624,11 @@ public interface GenClass extends GenClassifier
    * @since 2.4
    */
   boolean hasCollidingUnsetAccessorOperation(GenFeature genFeature);
+
+  /**
+   * Returns a list that corresponds to {@link #getInterfaceExtends()}.
+   * @since 2.8
+   */
+  List<String> getQualifiedInterfaceExtendsList();
+  
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.69 2010/08/24 16:59:38 emerks Exp $
+ * $Id: GenModel.java,v 1.70 2011/10/26 11:30:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -32,7 +32,10 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
 
@@ -2794,4 +2797,25 @@ public interface GenModel extends GenBase
    * @since 2.7
    */
   String getQualifiedEditorEntryPointClassName();
+
+  /**
+   * Set up reasonable initial defaults.
+   * @since 2.8
+   */
+  void initialize();
+
+  /**
+   * @since 2.8
+   */
+  GenTypeParameter findGenTypeParameter(ETypeParameter eTypeParameter);
+
+  /**
+   * @since 2.8
+   */
+  GenFeature findGenFeature(EStructuralFeature eStructuralFeature);
+
+  /**
+   * @since 2.8
+   */
+  GenOperation findGenOperation(EOperation eOperation);
 }

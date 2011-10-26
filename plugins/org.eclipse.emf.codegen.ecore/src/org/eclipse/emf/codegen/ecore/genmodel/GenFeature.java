@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.27 2009/11/16 19:26:45 khussey Exp $
+ * $Id: GenFeature.java,v 1.28 2011/10/26 11:30:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -452,4 +452,14 @@ public interface GenFeature extends GenTypedElement
    * @since 2.6
    */
   boolean hasSettingDelegate();
+
+  /**
+   * @since 2.8
+   */
+  boolean hasGetterBody();
+
+  /**
+   * @since 2.8
+   */
+  String getGetterBody(String indentation);
 }

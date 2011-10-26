@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypeParameterImpl.java,v 1.5 2007/06/11 21:09:49 emerks Exp $
+ * $Id: GenTypeParameterImpl.java,v 1.6 2011/10/26 11:30:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -23,6 +23,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -251,6 +252,12 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
       appendModelSetting(result, getName(), "bounds", type.toString().trim());
     }
     return result.toString().trim();
+  }
+  
+  @Override
+  public EModelElement getEcoreModelElement()
+  {
+    return getEcoreTypeParameter();
   }
 
 } //GenTypeParameterImpl

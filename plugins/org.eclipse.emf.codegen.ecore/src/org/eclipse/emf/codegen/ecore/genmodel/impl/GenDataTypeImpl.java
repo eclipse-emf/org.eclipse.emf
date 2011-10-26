@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.39 2011/01/17 20:47:48 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.40 2011/10/26 11:30:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -31,6 +31,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.UniqueEList;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -350,8 +351,9 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public String getImportedParameterizedObjectInstanceClassName()
   {
-    String result = getObjectInstanceClassName();
-    if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    boolean erased = getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50;
+    String result = getImportedType(null, getEcoreDataType(), true, erased);
+    if (!erased)
     {
       if (getEffectiveItemType() != null)
       {
@@ -1168,5 +1170,39 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       result = cast;
     }
     return result.toString();
+  }
+
+  protected String getCreatorBody()
+  {
+    EDataType eDataType = getEcoreDataType();
+    EAnnotation eAnnotation = eDataType.getEAnnotation(GenModelPackage.eNS_URI);
+    return eAnnotation == null ? null : (String)eAnnotation.getDetails().get("create");
+  }
+
+  public boolean hasCreatorBody()
+  {
+    return getCreatorBody() != null;
+  }
+
+  public String getCreatorBody(String indentation)
+  {
+    return indentAndImport(getCreatorBody(), indentation);
+  }
+
+  protected String getConverterBody()
+  {
+    EDataType eDataType = getEcoreDataType();
+    EAnnotation eAnnotation = eDataType.getEAnnotation(GenModelPackage.eNS_URI);
+    return eAnnotation == null ? null : (String)eAnnotation.getDetails().get("convert");
+  }
+
+  public boolean hasConverterBody()
+  {
+    return getConverterBody() != null;
+  }
+
+  public String getConverterBody(String indentation)
+  {
+    return indentAndImport(getConverterBody(), indentation);
   }
 }

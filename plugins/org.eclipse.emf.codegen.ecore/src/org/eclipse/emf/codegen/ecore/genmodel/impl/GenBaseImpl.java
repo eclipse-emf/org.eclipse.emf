@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.75 2010/10/18 12:44:41 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.76 2011/10/26 11:30:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3532,4 +3532,46 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
     return false;
   }
+
+  /**
+   * @since 2.8
+   */
+  protected String indentAndImport(String body, String indentation)
+  {
+    if (body != null)
+    {
+      StringBuffer stringBuffer = new StringBuffer(indent(body, indentation));
+
+      for (int i = 0; i < stringBuffer.length(); )
+      {
+        int start = stringBuffer.indexOf("<%", i);
+        if (start == -1)
+        {
+          break;
+        }
+        else
+        {
+          int end = stringBuffer.indexOf("%>", start + 2);
+          if (end == -1)
+          {
+            break;
+          }
+          else
+          {
+            String qualifiedName = stringBuffer.substring(start + 2, end);
+            String importedName = getGenModel().getImportedName(qualifiedName);
+            stringBuffer.replace(start, end + 2, importedName);
+            i += importedName.length();
+          }
+        }
+      }
+
+      return stringBuffer.toString();
+    }
+    else
+    {
+      return null;
+    }
+  }
+
 }

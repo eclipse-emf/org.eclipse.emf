@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataType.java,v 1.11 2008/05/04 17:03:27 emerks Exp $
+ * $Id: GenDataType.java,v 1.12 2011/10/26 11:30:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -121,4 +121,24 @@ public interface GenDataType extends GenClassifier
   void initialize(EDataType eDataType);
 
   boolean reconcile(GenDataType oldGenDataVersion);
+
+  /**
+   * @since 2.8
+   */
+  boolean hasCreatorBody();
+
+  /**
+   * @since 2.8
+   */
+  String getCreatorBody(String indentation);
+
+  /**
+   * @since 2.8
+   */
+  boolean hasConverterBody();
+
+  /**
+   * @since 2.8
+   */
+  String getConverterBody(String indentation);
 }

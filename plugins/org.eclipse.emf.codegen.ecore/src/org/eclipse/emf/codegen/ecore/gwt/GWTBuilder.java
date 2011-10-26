@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GWTBuilder.java,v 1.3 2010/10/01 14:32:58 emerks Exp $
+ * $Id: GWTBuilder.java,v 1.4 2011/10/26 11:30:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.gwt;
 
@@ -177,13 +177,19 @@ public class GWTBuilder extends IncrementalProjectBuilder
       IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(targetURI.toPlatformString(true)));
       if (file.exists() && !file.isDerived())
       {
-        file.setDerived(true, null);
+        setDerived(file);
       }
     }
     catch (CoreException exception)
     {
       CodeGenEcorePlugin.INSTANCE.log(exception);
     }
+  }
+  
+  @SuppressWarnings("deprecation")
+  private void setDerived(IFile file) throws CoreException
+  {
+    file.setDerived(false);
   }
 
   @Override

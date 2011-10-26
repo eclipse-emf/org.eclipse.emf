@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.95 2010/02/04 20:56:54 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.96 2011/10/26 11:30:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2284,13 +2284,13 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       collectPackages(simpleDependencies, usedGenPackages, 1);
       addAll(simpleDependencies);
       
-      interDependencies = new ArrayList<GenPackage>();
+      interDependencies = new UniqueEList<GenPackage>();
       collectPackages(interDependencies, getGenModel().getGenPackages(), -1);
       interDependencies.remove(GenPackageImpl.this);
       addAll(interDependencies);
 
-      loadInterDependencies = new ArrayList<GenPackage>();
-      buildInterDependencies = new ArrayList<GenPackage>();
+      loadInterDependencies = new UniqueEList<GenPackage>();
+      buildInterDependencies = new UniqueEList<GenPackage>();
       for (GenPackage genPackage : interDependencies)
       {
         if (genPackage.isLoadedInitialization())
@@ -2372,6 +2372,30 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
       initializationDependencies.remove(GenPackageImpl.this);
       initializationDependencies.remove(findGenPackage(EcorePackage.eINSTANCE));
+
+      // These are used packages for which there is a cyclic dependency.
+      // So they're not really simple dependencies.
+      //
+      for (GenPackage genPackage : initializationDependencies)
+      {
+        if (simpleDependencies.contains(genPackage))
+        {
+          GenModel genModel = genPackage.getGenModel();
+          if (genModel != getGenModel() && genModel.getAllUsedGenPackagesWithClassifiers().contains(GenPackageImpl.this))
+          {
+            simpleDependencies.remove(genPackage);
+            interDependencies.add(genPackage);
+            if (genPackage.isLoadedInitialization())
+            {
+              loadInterDependencies.add(genPackage);
+            }
+            else
+            {
+              buildInterDependencies.add(genPackage);
+            }
+          }
+        }
+      }
     }
 
     protected void handle(EList<EGenericType> eGenericTypes)
@@ -3177,7 +3201,6 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
-  @SuppressWarnings("rawtypes")
   @Deprecated
   protected void generateXSD(String type)
   {
@@ -3186,7 +3209,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     {
       try
       {
-        Class theGeneratorClass = 
+        Class<?> theGeneratorClass = 
           xsdPlugin.loadClass
             ("org.eclipse.xsd.ecore.Ecore" + type + "SchemaBuilder");
 
@@ -3201,11 +3224,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           {
             try
             {
-              Class theMapperInterface = 
+              Class<?> theMapperInterface = 
                 xsdPlugin.loadClass
                   ("org.eclipse.xsd.ecore.MapBuilder$Mapper");
 
-              Class theMapperClass = 
+              Class<?> theMapperClass = 
                 xsd2ecorePlugin.loadClass
                   ("org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMapper");
   
@@ -3237,12 +3260,12 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
             }
           }
 
-          Collection result = 
-            (Collection)theGeneratorClass.getMethod
+          Collection<?> result = 
+            (Collection<?>)theGeneratorClass.getMethod
               ("generate", 
                new Class [] { EPackage.class }).invoke(generator, new Object [] { getEcorePackage() });
 
-          Iterator i = result.iterator();
+          Iterator<?> i = result.iterator();
           EObject xsdSchema = (EObject)i.next();
 
           ResourceSet resourceSet = new ResourceSetImpl();
