@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.27 2010/03/19 16:47:14 emerks Exp $
+ * $Id: XSDValidateTest.java,v 1.28 2011/10/26 08:05:07 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -656,7 +656,6 @@ public class XSDValidateTest extends TestCase
    */
   public void printValidationErrors() throws Exception
   {
-    int msgErrorCounter = 0;
     ResourceSet resourceSet = loadXSDResource(xsdFile);
     
     // Iterate over all the resources, i.e., the main resource and those that have been included or imported.
@@ -672,7 +671,6 @@ public class XSDValidateTest extends TestCase
         for (XSDDiagnostic xsdDiagnostic : xsdSchema.getAllDiagnostics())
         {
           System.err.println('"' + xsdDiagnostic.getMessage() + '"' + ',');
-          msgErrorCounter++;
         }
       }
     }
