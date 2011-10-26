@@ -262,9 +262,9 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    * @generated
    */
   @SuppressWarnings("unchecked")
-  public List createManyURIsFromString(EDataType eDataType, String initialValue)
+  public List<URI> createManyURIsFromString(EDataType eDataType, String initialValue)
   {
-    return (List)super.createFromString(initialValue);
+    return (List<URI>)super.createFromString(initialValue);
   }
 
   /**
