@@ -16,10 +16,13 @@
  */
 package org.eclipse.emf.codegen.ecore.ui;
 
+import java.io.IOException;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -28,10 +31,12 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.part.ISetSelectionTarget;
@@ -54,10 +59,13 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
   protected IPath genModelContainerPath;
   protected IProject project;
   protected String initialProjectName;
+  protected IStructuredSelection selection;
+  protected WizardNewProjectCreationPage newProjectCreationPage;
 
   public void init(IWorkbench workbench, IStructuredSelection selection)
   {
     this.workbench = workbench;
+    this.selection = selection;
     setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(GenModelEditPlugin.INSTANCE.getImage("full/wizban/NewEmptyEMFProject")));
     setWindowTitle(GenModelEditPlugin.INSTANCE.getString("_UI_NewEmptyProject_title"));
   }
@@ -65,7 +73,7 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
   @Override
   public void addPages()
   {
-    WizardNewProjectCreationPage newProjectCreationPage = new WizardNewProjectCreationPage("NewProjectCreationPage")
+    newProjectCreationPage = new WizardNewProjectCreationPage("NewProjectCreationPage")
       {
         @Override
         protected boolean validatePage()
@@ -83,6 +91,16 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
             return false;
           }
         }
+
+        @Override
+        public void createControl(Composite parent)
+        {
+          super.createControl(parent);
+          createWorkingSetGroup
+            ((Composite) getControl(), 
+             selection, 
+             new String[] { "org.eclipse.jdt.ui.JavaWorkingSetPage", "org.eclipse.pde.ui.pluginWorkingSet", "org.eclipse.ui.resourceWorkingSetPage"});
+        }
       };
       
     newProjectCreationPage.setInitialProjectName(initialProjectName);
@@ -90,8 +108,6 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
     newProjectCreationPage.setDescription(GenModelEditPlugin.INSTANCE.getString("_UI_EmptyProject_description"));
     addPage(newProjectCreationPage);
   }
-  
-  
 
   @Override
   public boolean performFinish()
@@ -103,30 +119,7 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
         {
           try
           {
-            project = Generator.createEMFProject(
-              new Path(genModelContainerPath.toString()),
-              genModelProjectLocation,
-              Collections.<IProject>emptyList(),
-              progressMonitor,
-              Generator.EMF_MODEL_PROJECT_STYLE | Generator.EMF_PLUGIN_PROJECT_STYLE);
-
-            CodeGenUtil.EclipseUtil.findOrCreateContainer
-              (new Path("/" + genModelContainerPath.segment(0) + "/model"), true, genModelProjectLocation, progressMonitor);
-
-            PrintStream manifest = 
-              new PrintStream
-                (URIConverter.INSTANCE.createOutputStream
-                   (URI.createPlatformResourceURI("/" + genModelContainerPath.segment(0) + "/META-INF/MANIFEST.MF", true), null),
-                 false, "UTF-8");
-            manifest.println("Manifest-Version: 1.0");
-            manifest.println("Bundle-ManifestVersion: 2");
-            manifest.print("Bundle-Name: ");
-            manifest.println(genModelContainerPath.segment(0));
-            manifest.print("Bundle-SymbolicName: ");
-            manifest.println(CodeGenUtil.validPluginID(genModelContainerPath.segment(0)));
-            manifest.println("Bundle-Version: 0.1.0");
-            manifest.println("Require-Bundle: org.eclipse.emf.ecore");
-            manifest.close();
+            modifyWorkspace(progressMonitor);
           }
           catch (Exception exception)
           {
@@ -169,8 +162,62 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
     return true;
   }
   
+  public void modifyWorkspace(IProgressMonitor progressMonitor) throws CoreException, UnsupportedEncodingException, IOException
+  {
+     project = Generator.createEMFProject(
+       new Path(genModelContainerPath.toString()),
+       genModelProjectLocation,
+       Collections.<IProject>emptyList(),
+       progressMonitor,
+       Generator.EMF_MODEL_PROJECT_STYLE | Generator.EMF_PLUGIN_PROJECT_STYLE);
+
+     IWorkingSet[] workingSets = newProjectCreationPage.getSelectedWorkingSets();
+     if (workingSets != null)
+     {
+       workbench.getWorkingSetManager().addToWorkingSets(project, workingSets);
+     }
+
+     CodeGenUtil.EclipseUtil.findOrCreateContainer
+       (new Path("/" + genModelContainerPath.segment(0) + "/model"), true, genModelProjectLocation, progressMonitor);
+
+     PrintStream manifest = 
+       new PrintStream
+         (URIConverter.INSTANCE.createOutputStream
+            (URI.createPlatformResourceURI("/" + genModelContainerPath.segment(0) + "/META-INF/MANIFEST.MF", true), null),
+          false, "UTF-8");
+     manifest.println("Manifest-Version: 1.0");
+     manifest.println("Bundle-ManifestVersion: 2");
+     manifest.print("Bundle-Name: ");
+     manifest.println(genModelContainerPath.segment(0));
+     manifest.print("Bundle-SymbolicName: ");
+     manifest.println(CodeGenUtil.validPluginID(genModelContainerPath.segment(0)));
+     manifest.println("Bundle-Version: 0.1.0");
+     manifest.print("Require-Bundle: ");
+     String[] requiredBundles = getRequiredBundles();
+     for (int i = 0, size = requiredBundles.length; i < size; )
+     {
+       manifest.print(requiredBundles[i]);
+       if (++i == size)
+       {
+         manifest.println();
+         break;
+       }
+       else
+       {
+         manifest.println(",");
+         manifest.print(" ");
+       }
+     }
+     manifest.close();
+  }
+
   public void setInitialProjectName(String value)
   {
     initialProjectName = value;
+  }
+
+  protected String[] getRequiredBundles()
+  {
+    return new String [] { "org.eclipse.emf.ecore" };
   }
 }
