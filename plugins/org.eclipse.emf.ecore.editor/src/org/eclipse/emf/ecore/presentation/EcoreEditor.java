@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.62 2011/05/12 20:21:12 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.63 2011/10/26 11:30:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +33,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -113,6 +115,7 @@ import org.eclipse.emf.common.command.CommandStackListener;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 
 import org.eclipse.emf.common.ui.MarkerHelper;
 
@@ -131,10 +134,12 @@ import org.eclipse.emf.ecore.EValidator;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -762,7 +767,7 @@ public class EcoreEditor
    * This sets up the editing domain for the model editor.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected void initializeEditingDomain()
   {
@@ -808,9 +813,48 @@ public class EcoreEditor
          }
        });
 
+    ResourceSet resourceSet = null;
+    try
+    {
+      Class<?> xtextResourceSetClass = CommonPlugin.loadClass("org.eclipse.xtext", "org.eclipse.xtext.resource.XtextResourceSet");
+      
+      resourceSet = (ResourceSet)xtextResourceSetClass.newInstance();
+    }
+    catch (Exception e)
+    {
+      resourceSet = new ResourceSetImpl();
+    }
+    class EditingDomainProvider extends AdapterImpl implements IEditingDomainProvider
+    {
+      public EditingDomain getEditingDomain()
+      {
+        return editingDomain;
+      }
+      @Override
+      public boolean isAdapterForType(Object type)
+      {
+        return IEditingDomainProvider.class.equals(type);
+      }
+    }
+    resourceSet.eAdapters().add(new EditingDomainProvider());
+
     // Create the editing domain with a special command stack.
     //
-    editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
+    editingDomain = 
+      new AdapterFactoryEditingDomain(adapterFactory, commandStack, resourceSet)
+      {
+        {
+          resourceToReadOnlyMap = new HashMap<Resource, Boolean>();
+        }
+        @Override
+        public boolean isReadOnly(Resource resource)
+        {
+          return 
+            "java".equals(resource.getURI().scheme()) || 
+            "xcore".equals(resource.getURI().fileExtension()) ||
+            super.isReadOnly(resource);
+        }
+      };
   }
 
   /**
@@ -1083,7 +1127,12 @@ public class EcoreEditor
 
     if (!editingDomain.getResourceSet().getResources().isEmpty())
     {
-      for (Iterator<EObject> i = editingDomain.getResourceSet().getResources().get(0).getAllContents(); i.hasNext(); )
+      Resource resource = editingDomain.getResourceSet().getResources().get(0);
+      if (getActionBarContributor() instanceof EcoreActionBarContributor.Reflective && resource instanceof XMLResource)
+      {
+        ((XMLResource)resource).getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, 10);
+      }
+      for (Iterator<EObject> i = resource.getAllContents(); i.hasNext(); )
       {
         EObject eObject = i.next();
         if (eObject instanceof ETypeParameter || eObject instanceof EGenericType && !((EGenericType)eObject).getETypeArguments().isEmpty())
@@ -1637,10 +1686,9 @@ public class EcoreEditor
    * This is called during startup.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
-  @Override
-  public void init(IEditorSite site, IEditorInput editorInput)
+  public void initGen(IEditorSite site, IEditorInput editorInput)
   {
     setSite(site);
     setInputWithNotify(editorInput);
@@ -1648,6 +1696,26 @@ public class EcoreEditor
     site.setSelectionProvider(this);
     site.getPage().addPartListener(partListener);
     ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
+  }
+
+  @Override
+  public void init(IEditorSite site, IEditorInput editorInput)
+  {
+    initGen(site, editorInput);
+    try
+    {
+      ResourceSet resourceSet = editingDomain.getResourceSet();
+      Method setClasspathURIContextMethod = resourceSet.getClass().getMethod("setClasspathURIContext", Object.class);
+      Class<?> javaCoreClass = CommonPlugin.loadClass("org.eclipse.jdt.core", "org.eclipse.jdt.core.JavaCore");
+      IProject project = ((IFileEditorInput)editorInput).getFile().getProject();
+      Method createMethod = javaCoreClass.getMethod("create", IProject.class);
+      Object javaProject = createMethod.invoke(null, project);
+      setClasspathURIContextMethod.invoke(resourceSet, javaProject);
+    }
+    catch (Exception exception)
+    {
+      // Ignore missing Xtext
+    }
   }
 
   /**
