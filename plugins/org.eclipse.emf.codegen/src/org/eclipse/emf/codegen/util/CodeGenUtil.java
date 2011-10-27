@@ -926,11 +926,16 @@ public class CodeGenUtil
       // Ignore
     }
       
+    FacadeHelper result = null;
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
     {
-      return EclipseHelper.instantiateRegisteredFacadeHelper(facadeHelperClass);
+      result = EclipseHelper.instantiateRegisteredFacadeHelper(facadeHelperClass);
     }
-    return null;
+    if (result == null)
+    {
+      CodeGenPlugin.INSTANCE.log(new Exception("Unable to instantiate a facade helper for " + facadeHelperClass));
+    }
+    return result;
   }
 
   /**
