@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.19 2009/09/29 13:44:23 davidms Exp $
+ * $Id: PropertyDescriptor.java,v 1.20 2011/10/27 08:57:01 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -504,11 +504,19 @@ public class PropertyDescriptor implements IPropertyDescriptor
                 }
               };
           }
-          else if (eDataType.getInstanceClass() == Boolean.class || eDataType.getInstanceClass() == Boolean.TYPE)
+          else if (eDataType.getInstanceClass() == Boolean.class) 
           {
             result = new ExtendedComboBoxCellEditor(
               composite,
-              Arrays.asList(new Object []{ Boolean.FALSE, Boolean.TRUE }),
+              Arrays.asList(new Object [] { null, Boolean.FALSE, Boolean.TRUE }),
+              getEditLabelProvider(),
+              itemPropertyDescriptor.isSortChoices(object));
+          }
+          else if (eDataType.getInstanceClass() == Boolean.TYPE)
+          {
+            result = new ExtendedComboBoxCellEditor(
+              composite,
+              Arrays.asList(new Object [] { Boolean.FALSE, Boolean.TRUE }),
               getEditLabelProvider(),
               itemPropertyDescriptor.isSortChoices(object));
           }
