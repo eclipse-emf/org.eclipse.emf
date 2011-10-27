@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListDifferenceAnalyzer.java,v 1.5 2011/08/29 20:14:52 khussey Exp $
+ * $Id: ListDifferenceAnalyzer.java,v 1.6 2011/10/27 17:17:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -106,7 +106,7 @@ public class ListDifferenceAnalyzer
           // Get the new value at the index and compare it to the old value.
           //
           Object newValue = newList.get(j);
-          if (oldValue == null ? newValue == null : oldValue == newValue || oldValue.equals(newValue))
+          if (equal(oldValue, newValue))
           {
             // If they're equal, indicate that the new value at the index j matches the old value at index i.
             //
@@ -325,6 +325,15 @@ public class ListDifferenceAnalyzer
         }
       }
     }
+  }
+
+  /**
+   * Used by {@link #createListChanges(EList, EList, EList)} to decide whether the old value is considered equal to the new value.
+   * @since 2.8
+   */
+  protected boolean equal(Object oldValue, Object newValue)
+  {
+    return oldValue == null ? newValue == null : oldValue == newValue || oldValue.equals(newValue);
   }
 
   /**
