@@ -68,7 +68,7 @@
                   The generator adapter factory to contribute. This class must implement &lt;code&gt;org.eclipse.emf.codegen.generator.GeneratorAdapterFactory&lt;/code&gt; and have a no-argument constructor.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.emf.codegen.generator.GeneratorAdapterFactory"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.codegen.generator.GeneratorAdapterFactory"/>
                </appInfo>
             </annotation>
          </attribute>
