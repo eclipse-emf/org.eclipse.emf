@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.29 2011/01/19 01:59:11 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.30 2011/10/27 12:10:09 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -282,6 +282,29 @@ public class EcoreSchemaBuilder extends MapBuilder
     }
   }
 
+  /**
+   * Handle difference lexical representations for default values,
+   * in particular, positive and negative infinity for float and double.
+   * @since 2.8
+   */
+  protected String transformDefaultValue(XSDSimpleTypeDefinition xsdSimpleTypeDefinition, String defaultValue)
+  {
+    XSDSimpleTypeDefinition primitiveTypeDefinition = xsdSimpleTypeDefinition.getPrimitiveTypeDefinition();
+    if (primitiveTypeDefinition.hasNameAndTargetNamespace("float", defaultXMLSchemaNamespace) ||
+          primitiveTypeDefinition.hasNameAndTargetNamespace("double", defaultXMLSchemaNamespace))
+    {
+      if ("Infinity".equals(defaultValue))
+      {
+        return "INF";
+      }
+      else if ("-Infinity".equals(defaultValue))
+      {
+        return "-INF";
+      }
+    }
+    return defaultValue;
+  }
+
   protected XSDElementDeclaration buildGlobalElement(XSDSchema xsdSchema, EStructuralFeature eStructuralFeature)
   {
     XSDElementDeclaration xsdElementDeclaration = XSDFactory.eINSTANCE.createXSDElementDeclaration();
@@ -314,7 +337,7 @@ public class EcoreSchemaBuilder extends MapBuilder
     if (defaultValue != null)
     {
       xsdElementDeclaration.setConstraint(XSDConstraint.DEFAULT_LITERAL);
-      xsdElementDeclaration.setLexicalValue(defaultValue);
+      xsdElementDeclaration.setLexicalValue(transformDefaultValue((XSDSimpleTypeDefinition)xsdElementDeclaration.getTypeDefinition(), defaultValue));
     }
 
     xsdSchema.getContents().add(xsdElementDeclaration);
@@ -343,7 +366,7 @@ public class EcoreSchemaBuilder extends MapBuilder
     if (defaultValue != null)
     {
       xsdAttributeDeclaration.setConstraint(XSDConstraint.DEFAULT_LITERAL);
-      xsdAttributeDeclaration.setLexicalValue(defaultValue);
+      xsdAttributeDeclaration.setLexicalValue(transformDefaultValue(xsdAttributeDeclaration.getTypeDefinition(), defaultValue));
     }
 
     xsdSchema.getContents().add(xsdAttributeDeclaration);
@@ -1143,13 +1166,13 @@ public class EcoreSchemaBuilder extends MapBuilder
         if (isRef)
         {
           xsdAttriuteUse.setConstraint(XSDConstraint.DEFAULT_LITERAL);
-          xsdAttriuteUse.setLexicalValue(defaultValue);
+          xsdAttriuteUse.setLexicalValue(transformDefaultValue(xsdAttriuteUse.getAttributeDeclaration().getTypeDefinition(), defaultValue));
         }
         else
         {
           XSDAttributeDeclaration xsdAttributeDeclaration = xsdAttriuteUse.getAttributeDeclaration();
           xsdAttributeDeclaration.setConstraint(XSDConstraint.DEFAULT_LITERAL);
-          xsdAttributeDeclaration.setLexicalValue(defaultValue);
+          xsdAttributeDeclaration.setLexicalValue(transformDefaultValue(xsdAttributeDeclaration.getTypeDefinition(), defaultValue));
         }
       }
       else
@@ -1406,15 +1429,15 @@ public class EcoreSchemaBuilder extends MapBuilder
         xsdElementDeclaration.setForm(XSDForm.QUALIFIED_LITERAL);
       }
 
+      XSDTypeDefinition xsdTypeDefinition =
+        xsdComplexTypeDefinition.resolveTypeDefinitionURI(getURI(eType));
+
       String defaultValue = eStructuralFeature.getDefaultValueLiteral();
       if (defaultValue != null)
       {
         xsdElementDeclaration.setConstraint(XSDConstraint.DEFAULT_LITERAL);
-        xsdElementDeclaration.setLexicalValue(defaultValue);
+        xsdElementDeclaration.setLexicalValue(transformDefaultValue((XSDSimpleTypeDefinition)xsdTypeDefinition, defaultValue));
       }
-
-      XSDTypeDefinition xsdTypeDefinition =
-        xsdComplexTypeDefinition.resolveTypeDefinitionURI(getURI(eType));
 
       if (eStructuralFeature instanceof EReference)
       {

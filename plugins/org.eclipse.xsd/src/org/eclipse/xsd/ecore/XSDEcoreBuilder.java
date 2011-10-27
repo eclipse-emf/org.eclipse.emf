@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.104 2011/05/12 21:40:47 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.105 2011/10/27 12:10:09 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1913,7 +1913,7 @@ public class XSDEcoreBuilder extends MapBuilder
           {
             defaultValue = xsdAttributeUse.getLexicalValue();
           }
-          eAttribute.setDefaultValueLiteral(defaultValue);
+          setDefaultValueLiteral(eAttribute, defaultValue);
           initialize(eAttribute, (XSDSimpleTypeDefinition)getEffectiveTypeDefinition(xsdAttributeUse, xsdAttributeDeclaration));
         }
         else if (xsdComponent instanceof XSDAttributeDeclaration)
@@ -1923,7 +1923,7 @@ public class XSDEcoreBuilder extends MapBuilder
           extendedMetaData.setName(eAttribute, xsdAttributeDeclaration.getName());
           extendedMetaData.setNamespace(eAttribute, xsdAttributeDeclaration.getTargetNamespace());
 
-          eAttribute.setDefaultValueLiteral(xsdAttributeDeclaration.getLexicalValue());
+          setDefaultValueLiteral(eAttribute, xsdAttributeDeclaration.getLexicalValue());
           initialize(eAttribute, (XSDSimpleTypeDefinition)getEffectiveTypeDefinition(null, xsdAttributeDeclaration));
         }
         else if (xsdComponent instanceof XSDParticle)
@@ -1936,7 +1936,7 @@ public class XSDEcoreBuilder extends MapBuilder
             extendedMetaData.setName(eAttribute, xsdElementDeclaration.getName());
             extendedMetaData.setNamespace(eAttribute, xsdElementDeclaration.getTargetNamespace());
 
-            eAttribute.setDefaultValueLiteral(xsdElementDeclaration.getLexicalValue());
+            setDefaultValueLiteral(eAttribute, xsdElementDeclaration.getLexicalValue());
             XSDTypeDefinition xsdType = getEffectiveTypeDefinition(xsdComponent, xsdElementDeclaration);
             if (xsdType instanceof XSDSimpleTypeDefinition)
             {
@@ -1988,7 +1988,7 @@ public class XSDEcoreBuilder extends MapBuilder
           extendedMetaData.setName(eAttribute, xsdElementDeclaration.getName());
           extendedMetaData.setNamespace(eAttribute, xsdElementDeclaration.getTargetNamespace());
 
-          eAttribute.setDefaultValueLiteral(xsdElementDeclaration.getLexicalValue());
+          setDefaultValueLiteral(eAttribute, xsdElementDeclaration.getLexicalValue());
           XSDTypeDefinition xsdType = getEffectiveTypeDefinition(null, xsdElementDeclaration);
           if (xsdType instanceof XSDSimpleTypeDefinition)
           {
@@ -2387,8 +2387,9 @@ public class XSDEcoreBuilder extends MapBuilder
     {
       // Set the default to the first enumeration's value.
       //
-      eAttribute.setDefaultValueLiteral
-        (xsdSimpleTypeDefinition.getNormalizedLiteral
+      setDefaultValueLiteral
+        (eAttribute,
+         xsdSimpleTypeDefinition.getNormalizedLiteral
           ((xsdSimpleTypeDefinition.
              getEffectiveEnumerationFacet().
              getSimpleTypeDefinition().
@@ -3432,6 +3433,35 @@ public class XSDEcoreBuilder extends MapBuilder
       throw new RuntimeException(exception);
     }
     return writer.toString();
+  }
+
+  /**
+   * Handle difference lexical representations for default values,
+   * in particular, positive and negative infinity for float and double.
+   * @since 2.8
+   */
+  protected void setDefaultValueLiteral(EAttribute eAttribute, String defaultValue)
+  {
+    EDataType eAttributeType = eAttribute.getEAttributeType();
+    if (eAttributeType != null)
+    {
+      String instanceTypeName = eAttributeType.getInstanceTypeName();
+      if (instanceTypeName == "java.lang.Float" || 
+            instanceTypeName == "java.lang.Double" || 
+            instanceTypeName == "float" || 
+            instanceTypeName == "double")
+      {
+        if ("INF".equals(defaultValue))
+        {
+          defaultValue = "Infinity";
+        }
+        else if ("-INF".equals(defaultValue))
+        {
+          defaultValue = "-Infinity";
+        }
+      }
+    }
+    eAttribute.setDefaultValueLiteral(defaultValue);
   }
 
   protected void setAnnotations(EModelElement eModelElement, XSDConcreteComponent xsdComponent)

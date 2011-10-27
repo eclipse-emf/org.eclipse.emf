@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDoubleType.java,v 1.9 2008/12/22 14:25:48 emerks Exp $
+ * $Id: XSDDoubleType.java,v 1.10 2011/10/27 12:10:09 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -27,7 +27,7 @@ public class XSDDoubleType extends XSDAnySimpleType
   {
     try 
     {
-      if ("Nan".equals(literal))
+      if ("NaN".equals(literal))
       {
         return NaN;
       }
@@ -38,6 +38,12 @@ public class XSDDoubleType extends XSDAnySimpleType
       else if ("INF".equals(literal))
       {
         return POSITIVE_INFINITY;
+      }
+      else if (literal != null && literal.contains("Infinity"))
+      {
+        // Be sure to treat Java's infinity representation as invalid.
+        //
+        return null;
       }
       else
       {
