@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.33 2011/10/25 17:19:44 emerks Exp $
+ * $Id: AntTest.java,v 1.34 2011/10/27 10:09:04 emerks Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -281,7 +281,7 @@ public class AntTest extends TestCase
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
-    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
+    testTokenReplacements[2] = getVMType();
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\"", testTokenReplacements);    
   }
@@ -313,7 +313,7 @@ public class AntTest extends TestCase
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
-    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
+    testTokenReplacements[2] = getVMType();
            
     adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\" rose", testTokenReplacements);
@@ -343,7 +343,7 @@ public class AntTest extends TestCase
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = rootDir.getName();
-    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
+    testTokenReplacements[2] = getVMType();
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\"", testTokenReplacements);
   }
@@ -375,7 +375,7 @@ public class AntTest extends TestCase
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = rootDir.getName();
-    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
+    testTokenReplacements[2] = getVMType();
         
     adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\" xsd", testTokenReplacements);
@@ -401,7 +401,7 @@ public class AntTest extends TestCase
 
     String[] testTokenReplacements = new String[2];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
-    testTokenReplacements[1] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
+    testTokenReplacements[1] = getVMType();
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\"", testTokenReplacements);
   }
@@ -439,7 +439,7 @@ public class AntTest extends TestCase
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = testTokenReplacements[0].charAt(1) == ':' ? "/" : "";
-    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
+    testTokenReplacements[2] = getVMType();
            
     adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\" xsds", testTokenReplacements);
@@ -472,7 +472,7 @@ public class AntTest extends TestCase
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
-    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
+    testTokenReplacements[2] = getVMType();
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\"", testTokenReplacements);
   }
@@ -504,7 +504,7 @@ public class AntTest extends TestCase
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
-    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
+    testTokenReplacements[2] = getVMType();
            
     adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\" ecore", testTokenReplacements);
@@ -536,7 +536,7 @@ public class AntTest extends TestCase
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = "/library.java." + directorySegment + "/src";
     testTokenReplacements[1] = File.separator;
-    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
+    testTokenReplacements[2] = getVMType();
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\"", testTokenReplacements);
   }
@@ -568,7 +568,7 @@ public class AntTest extends TestCase
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
-    testTokenReplacements[2] = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
+    testTokenReplacements[2] = getVMType();
            
     adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
     runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\" java", testTokenReplacements);
@@ -723,4 +723,17 @@ public class AntTest extends TestCase
       }
     }
   }  
+  
+  protected String getVMType()
+  {
+    String compilerCompliance = JavaCore.getOption(JavaCore.COMPILER_COMPLIANCE);
+    if (compilerCompliance.equals("1.5"))
+    {
+      return "J2SE-1.5";
+    }
+    else
+    {
+      return "JavaSE-" + compilerCompliance;
+    }
+  }
 }
