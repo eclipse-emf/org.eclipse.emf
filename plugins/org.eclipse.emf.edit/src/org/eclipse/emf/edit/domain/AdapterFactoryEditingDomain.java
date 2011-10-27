@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.29 2009/02/09 12:46:21 emerks Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.30 2011/10/27 17:03:38 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -809,7 +809,8 @@ public class AdapterFactoryEditingDomain implements EditingDomain
       Boolean result = resourceToReadOnlyMap.get(resource);
       if (result == null && resource != null)
       {
-        Map<String, ?> attributes = (resource.getResourceSet() == null ? resourceSet : resource.getResourceSet()).getURIConverter().getAttributes(resource.getURI(), null);
+        Map<?, ?> options = Collections.singletonMap(URIConverter.OPTION_REQUESTED_ATTRIBUTES, Collections.singleton(URIConverter.ATTRIBUTE_READ_ONLY));
+		Map<String, ?> attributes = (resource.getResourceSet() == null ? resourceSet : resource.getResourceSet()).getURIConverter().getAttributes(resource.getURI(), options);
         result = Boolean.TRUE.equals(attributes.get(URIConverter.ATTRIBUTE_READ_ONLY));
         resourceToReadOnlyMap.put(resource, result);
       }
