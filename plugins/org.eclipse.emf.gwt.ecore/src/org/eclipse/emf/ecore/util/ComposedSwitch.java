@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComposedSwitch.java,v 1.1 2011/01/20 01:10:14 emerks Exp $
+ * $Id: ComposedSwitch.java,v 1.2 2011/10/27 16:21:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -99,12 +99,25 @@ public class ComposedSwitch<T> extends Switch<T>
     }
     else
     {
-      T result = delegate.doSwitch(theEClass, theEObject);
+      T result = delegatedDoSwitch(delegate, theEClass, theEObject);
       return result == null ? defaultCase(theEObject) : result;
     }
   }
 
-  private Switch<T> findDelegate(EPackage ePackage)
+  /**
+   * Call delegate.{@link Switch#doSwitch(EClass, EObject) doSwitch}(theEClass, theEObject).
+   * @since 2.8
+   */
+  protected T delegatedDoSwitch(Switch<T> delegate, EClass theEClass, EObject theEObject)
+  {
+    return delegate.doSwitch(theEClass, theEObject);
+  }
+
+  /**
+   * Finds a suitable delegate for the given package.
+   * @since 2.8
+   */
+  protected Switch<T> findDelegate(EPackage ePackage)
   {
     synchronized (switches)
     {
