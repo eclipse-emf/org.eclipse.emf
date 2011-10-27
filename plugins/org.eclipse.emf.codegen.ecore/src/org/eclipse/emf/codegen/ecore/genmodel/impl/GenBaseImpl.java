@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.76 2011/10/26 11:30:35 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.77 2011/10/27 10:50:54 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1301,13 +1301,17 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
     if ("org.eclipse.emf.common.util.Enumerator".equals(eType.getInstanceClassName()))
     {
-      EDataType baseType = getExtendedMetaData().getBaseType((EDataType)eType);
-      if (baseType instanceof EEnum)
+      for (EDataType baseType = getExtendedMetaData().getBaseType((EDataType)eType);
+           baseType != null;
+           baseType = getExtendedMetaData().getBaseType(baseType))
       {
-        GenEnum genEnum = findGenEnum((EEnum)baseType);
-        if (genEnum != null)
+        if (baseType instanceof EEnum)
         {
-          return genEnum.getQualifiedName();
+          GenEnum genEnum = findGenEnum((EEnum)baseType);
+          if (genEnum != null)
+          {
+            return genEnum.getQualifiedName();
+          }
         }
       }
     }
