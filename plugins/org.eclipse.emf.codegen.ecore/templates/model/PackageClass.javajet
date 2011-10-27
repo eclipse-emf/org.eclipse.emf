@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.52 2011/04/08 21:15:57 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.53 2011/10/27 16:44:17 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -376,11 +376,11 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	 */
 	public static void initializeRegistryHelpers()
 	{
-    <%for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {%>
+    <%Set<String> helpers = new HashSet<String>(); for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {%>
       <%if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;%>
-        <%if (!genClass.isDynamic()) {%>
+        <%if (!genClass.isDynamic()) { String theClass = genClass.isMapEntry() ? genClass.getImportedClassName() : genClass.getRawImportedInterfaceName(); if (helpers.add(theClass)) {%>
 		<%=genModel.getImportedName("org.eclipse.emf.common.util.Reflect")%>.register
-			(<%=genClass.isMapEntry() ? genClass.getImportedClassName() : genClass.getRawImportedInterfaceName()%>.class, 
+			(<%=theClass%>.class, 
 			 new <%=genModel.getImportedName("org.eclipse.emf.common.util.Reflect")%>.Helper() 
 			 {
 				 public boolean isInstance(Object instance)
@@ -390,34 +390,35 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 
 				 public Object newArrayInstance(int size)
 				 {
-					 return new <%=genClass.isMapEntry() ? genClass.getImportedClassName() : genClass.getRawImportedInterfaceName()%>[size];
+					 return new <%=theClass%>[size];
 				 }
 			 });
-        <%}%>
+        <%}}%>
       <%} else if (genClassifier instanceof GenDataType) { GenDataType genDataType = (GenDataType)genClassifier;%>
-        <%if (!genDataType.isPrimitiveType() && !genDataType.isObjectType()) {%>
+        <%if (!genDataType.isPrimitiveType() && !genDataType.isObjectType()) { String theClass = genDataType.getRawImportedInstanceClassName(); if (helpers.add(theClass)) { %>
 		<%=genModel.getImportedName("org.eclipse.emf.common.util.Reflect")%>.register
-			(<%=genDataType.getRawImportedInstanceClassName()%>.class, 
+			(<%=theClass%>.class, 
 			 new <%=genModel.getImportedName("org.eclipse.emf.common.util.Reflect")%>.Helper() 
 			 {
 				 public boolean isInstance(Object instance)
 				 {
-					 return instance instanceof <%=genDataType.getRawImportedInstanceClassName()%>;
+					 return instance instanceof <%=theClass%>;
 				 }
 
 				 public Object newArrayInstance(int size)
 				 {
-        <%if (genDataType.isArrayType()) { String componentType = genDataType.getRawImportedInstanceClassName(); String indices = ""; while(componentType.endsWith("[]")) { componentType = componentType.substring(0, componentType.length() - 2); indices += "[]";}%>
+        <%if (genDataType.isArrayType()) { String componentType = theClass; String indices = ""; while(componentType.endsWith("[]")) { componentType = componentType.substring(0, componentType.length() - 2); indices += "[]";}%>
 					 return new <%=componentType%>[size]<%=indices%>;
         <%} else {%>
-					 return new <%=genDataType.getRawImportedInstanceClassName()%>[size];
+					 return new <%=theClass%>[size];
         <%}%>
 				 }
 		});
-        <%}%>
+        <%}}%>
       <%}%>
     <%}%>
 	}
+
 
 	/**
 	 * <!-- begin-user-doc -->

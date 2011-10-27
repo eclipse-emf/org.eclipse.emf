@@ -201,7 +201,7 @@ public class PackageClass
   protected final String TEXT_181 = NL + "\t\t\t\t\t return new ";
   protected final String TEXT_182 = "[size];";
   protected final String TEXT_183 = NL + "\t\t\t\t }" + NL + "\t\t});";
-  protected final String TEXT_184 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static class WhiteList implements ";
+  protected final String TEXT_184 = NL + "\t}" + NL + "" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static class WhiteList implements ";
   protected final String TEXT_185 = ", EBasicWhiteList" + NL + "\t{";
   protected final String TEXT_186 = NL + "\t\t/**" + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @generated" + NL + "\t\t */" + NL + "\t\tprotected ";
   protected final String TEXT_187 = " ";
@@ -1124,33 +1124,33 @@ public class PackageClass
     stringBuffer.append(TEXT_165);
     if (genModel.getRuntimePlatform() == GenRuntimePlatform.GWT) {
     stringBuffer.append(TEXT_166);
-    for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {
+    Set<String> helpers = new HashSet<String>(); for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {
     if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;
-    if (!genClass.isDynamic()) {
+    if (!genClass.isDynamic()) { String theClass = genClass.isMapEntry() ? genClass.getImportedClassName() : genClass.getRawImportedInterfaceName(); if (helpers.add(theClass)) {
     stringBuffer.append(TEXT_167);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.Reflect"));
     stringBuffer.append(TEXT_168);
-    stringBuffer.append(genClass.isMapEntry() ? genClass.getImportedClassName() : genClass.getRawImportedInterfaceName());
+    stringBuffer.append(theClass);
     stringBuffer.append(TEXT_169);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.Reflect"));
     stringBuffer.append(TEXT_170);
     stringBuffer.append(genClass.isMapEntry() ? genClass.getImportedClassName() : genClass.getRawImportedInterfaceName() + genClass.getInterfaceWildTypeArguments());
     stringBuffer.append(TEXT_171);
-    stringBuffer.append(genClass.isMapEntry() ? genClass.getImportedClassName() : genClass.getRawImportedInterfaceName());
+    stringBuffer.append(theClass);
     stringBuffer.append(TEXT_172);
-    }
+    }}
     } else if (genClassifier instanceof GenDataType) { GenDataType genDataType = (GenDataType)genClassifier;
-    if (!genDataType.isPrimitiveType() && !genDataType.isObjectType()) {
+    if (!genDataType.isPrimitiveType() && !genDataType.isObjectType()) { String theClass = genDataType.getRawImportedInstanceClassName(); if (helpers.add(theClass)) { 
     stringBuffer.append(TEXT_173);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.Reflect"));
     stringBuffer.append(TEXT_174);
-    stringBuffer.append(genDataType.getRawImportedInstanceClassName());
+    stringBuffer.append(theClass);
     stringBuffer.append(TEXT_175);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.Reflect"));
     stringBuffer.append(TEXT_176);
-    stringBuffer.append(genDataType.getRawImportedInstanceClassName());
+    stringBuffer.append(theClass);
     stringBuffer.append(TEXT_177);
-    if (genDataType.isArrayType()) { String componentType = genDataType.getRawImportedInstanceClassName(); String indices = ""; while(componentType.endsWith("[]")) { componentType = componentType.substring(0, componentType.length() - 2); indices += "[]";}
+    if (genDataType.isArrayType()) { String componentType = theClass; String indices = ""; while(componentType.endsWith("[]")) { componentType = componentType.substring(0, componentType.length() - 2); indices += "[]";}
     stringBuffer.append(TEXT_178);
     stringBuffer.append(componentType);
     stringBuffer.append(TEXT_179);
@@ -1158,11 +1158,11 @@ public class PackageClass
     stringBuffer.append(TEXT_180);
     } else {
     stringBuffer.append(TEXT_181);
-    stringBuffer.append(genDataType.getRawImportedInstanceClassName());
+    stringBuffer.append(theClass);
     stringBuffer.append(TEXT_182);
     }
     stringBuffer.append(TEXT_183);
-    }
+    }}
     }
     }
     stringBuffer.append(TEXT_184);
