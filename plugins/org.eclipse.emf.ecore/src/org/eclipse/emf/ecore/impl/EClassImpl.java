@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.49 2010/11/12 13:32:41 emerks Exp $
+ * $Id: EClassImpl.java,v 1.50 2011/10/27 08:39:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -813,7 +813,10 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
               EReference eReference = (EReference)eStructuralFeature;
               if (eReference.isContainment())
               {
-                if (!eReference.isDerived())
+                // Include derived relations only if they won't also come from mixed or a group.
+                //
+                if (!eReference.isDerived() || 
+                      !isMixed && EcoreUtil.getAnnotation(eReference, ExtendedMetaData.ANNOTATION_URI, "group") == null)
                 {
                   containmentsList.add(eReference);
                 }
