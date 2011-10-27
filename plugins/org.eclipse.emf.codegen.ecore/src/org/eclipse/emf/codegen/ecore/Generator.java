@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.42 2011/10/27 10:09:02 emerks Exp $
+ * $Id: Generator.java,v 1.43 2011/10/27 16:56:50 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -100,6 +100,7 @@ public class Generator extends CodeGen
     System.out.println("  [-codeFormatting { default | <profile-file> } ]");
     System.out.println("  [-model] [-edit] [-editor] [-tests]");
     System.out.println("  [-autoBuild <true|false>]");
+    System.out.println("  [-reconile]");
     System.out.println("  <genmodel-file>");
     System.out.println("  [ <target-root-directory> ]");
     System.out.println("");
@@ -214,6 +215,7 @@ public class Generator extends CodeGen
                   boolean edit = false;
                   boolean editor = false;
                   boolean tests = false;
+                  boolean reconcile = false;
                   Boolean autoBuild = null;
                   
                   int index = 0;
@@ -272,6 +274,10 @@ public class Generator extends CodeGen
                     {
                       tests = true;
                     }
+                    else if (arguments[index].equalsIgnoreCase("-reconcile"))
+                    {
+                      reconcile = true;
+                    }
                     else
                     {
                       throw new CoreException(
@@ -322,6 +328,14 @@ public class Generator extends CodeGen
                   Resource genModelResource = resourceSet.getResource(genModelURI, true);
                   GenModel genModel = (GenModel)genModelResource.getContents().get(0);
   
+                  if (reconcile)
+                  {
+                    boolean reconcileSuccessful = genModel.reconcile();
+                    if (!reconcileSuccessful)
+                    {
+                      generator.printStatus("", new Status(IStatus.WARNING, CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(), "Can't reconcile the generator model."));
+                    }
+                  }
                   IStatus status = genModel.validate();
                   if (!status.isOK())
                   {
