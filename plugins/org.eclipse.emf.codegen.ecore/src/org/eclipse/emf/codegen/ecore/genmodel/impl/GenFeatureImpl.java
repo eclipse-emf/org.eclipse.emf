@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.62 2011/10/26 11:30:35 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.63 2011/10/27 09:05:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1836,7 +1836,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
 
   public boolean isField()
   {
-    return !isContainer() && !isVolatile();
+    return !isContainer() && !isVolatile() && !hasSettingDelegate();
   }
 
   public boolean isESetField()
