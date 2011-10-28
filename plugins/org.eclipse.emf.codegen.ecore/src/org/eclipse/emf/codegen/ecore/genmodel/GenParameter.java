@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameter.java,v 1.7 2008/05/04 17:03:27 emerks Exp $
+ * $Id: GenParameter.java,v 1.8 2011/10/28 01:20:13 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -92,4 +92,10 @@ public interface GenParameter extends GenTypedElement
   String getQualifiedModelInfo();
 
   boolean reconcile(GenParameter oldGenParameterVersion);
+  
+  /**
+   * Returns whether the parameter's type depends on the parameter's operation's type parameters.
+   * @since 2.8
+   */
+  boolean usesOperationTypeParameters();
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameterImpl.java,v 1.21 2010/03/15 20:38:38 emerks Exp $
+ * $Id: GenParameterImpl.java,v 1.22 2011/10/28 01:20:13 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -24,9 +24,14 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -392,5 +397,28 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
     {
       return true;
     }
+  }
+
+  public boolean usesOperationTypeParameters()
+  {
+    EParameter eParameter = getEcoreParameter();
+    for (TreeIterator<EObject> i = eParameter.eAllContents(); i.hasNext();)
+    {
+      EObject eObject = i.next();
+      if (eObject instanceof EGenericType)
+      {
+        EGenericType eGenericType = (EGenericType)eObject;
+        ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
+        if (eTypeParameter != null && eTypeParameter.eContainer() instanceof EOperation)
+        {
+          return true;
+        }
+      }
+      else
+      {
+        i.prune();
+      }
+    }
+    return false;
   }
 }
