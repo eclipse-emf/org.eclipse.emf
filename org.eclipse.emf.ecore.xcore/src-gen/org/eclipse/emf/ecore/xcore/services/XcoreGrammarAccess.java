@@ -182,24 +182,40 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "XImportDirective");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cImportKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cImportedNamespaceAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0 = (RuleCall)cImportedNamespaceAssignment_1.eContents().get(0);
+		private final Alternatives cAlternatives_1 = (Alternatives)cGroup.eContents().get(1);
+		private final Assignment cImportedNamespaceAssignment_1_0 = (Assignment)cAlternatives_1.eContents().get(0);
+		private final RuleCall cImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0_0 = (RuleCall)cImportedNamespaceAssignment_1_0.eContents().get(0);
+		private final Assignment cImportedObjectAssignment_1_1 = (Assignment)cAlternatives_1.eContents().get(1);
+		private final CrossReference cImportedObjectEObjectCrossReference_1_1_0 = (CrossReference)cImportedObjectAssignment_1_1.eContents().get(0);
+		private final RuleCall cImportedObjectEObjectQualifiedNameParserRuleCall_1_1_0_1 = (RuleCall)cImportedObjectEObjectCrossReference_1_1_0.eContents().get(1);
 		
 		//XImportDirective:
-		//	"import" importedNamespace=QualifiedNameWithWildcard;
+		//	"import" (importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName]);
 		public ParserRule getRule() { return rule; }
 
-		//"import" importedNamespace=QualifiedNameWithWildcard
+		//"import" (importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName])
 		public Group getGroup() { return cGroup; }
 
 		//"import"
 		public Keyword getImportKeyword_0() { return cImportKeyword_0; }
 
+		//importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName]
+		public Alternatives getAlternatives_1() { return cAlternatives_1; }
+
 		//importedNamespace=QualifiedNameWithWildcard
-		public Assignment getImportedNamespaceAssignment_1() { return cImportedNamespaceAssignment_1; }
+		public Assignment getImportedNamespaceAssignment_1_0() { return cImportedNamespaceAssignment_1_0; }
 
 		//QualifiedNameWithWildcard
-		public RuleCall getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0() { return cImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0; }
+		public RuleCall getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0_0() { return cImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0_0; }
+
+		//importedObject=[EObject|QualifiedName]
+		public Assignment getImportedObjectAssignment_1_1() { return cImportedObjectAssignment_1_1; }
+
+		//[EObject|QualifiedName]
+		public CrossReference getImportedObjectEObjectCrossReference_1_1_0() { return cImportedObjectEObjectCrossReference_1_1_0; }
+
+		//QualifiedName
+		public RuleCall getImportedObjectEObjectQualifiedNameParserRuleCall_1_1_0_1() { return cImportedObjectEObjectQualifiedNameParserRuleCall_1_1_0_1; }
 	}
 
 	public class QualifiedNameWithWildcardElements extends AbstractParserRuleElementFinder {
@@ -209,16 +225,16 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cFullStopAsteriskKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		
 		//QualifiedNameWithWildcard:
-		//	QualifiedName ".*"?;
+		//	QualifiedName ".*";
 		public ParserRule getRule() { return rule; }
 
-		//QualifiedName ".*"?
+		//QualifiedName ".*"
 		public Group getGroup() { return cGroup; }
 
 		//QualifiedName
 		public RuleCall getQualifiedNameParserRuleCall_0() { return cQualifiedNameParserRuleCall_0; }
 
-		//".*"?
+		//".*"
 		public Keyword getFullStopAsteriskKeyword_1() { return cFullStopAsteriskKeyword_1; }
 	}
 
@@ -1769,17 +1785,15 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cTypeArgumentsXGenericTypeArgumentParserRuleCall_1_2_1_0 = (RuleCall)cTypeArgumentsAssignment_1_2_1.eContents().get(0);
 		private final Keyword cGreaterThanSignKeyword_1_3 = (Keyword)cGroup_1.eContents().get(3);
 		
-		//XGenericType: // classifier=[XClassifier|QualifiedName] (=>'<' typeArguments+=XGenericTypeArgument (',' typeArguments+=XGenericTypeArgument)* '>')?
+		//XGenericType:
 		//	type=[genmodel::GenBase|XQualifiedName] ("<" typeArguments+=XGenericTypeArgument (","
 		//	typeArguments+=XGenericTypeArgument)* ">")?;
 		public ParserRule getRule() { return rule; }
 
-		//// classifier=[XClassifier|QualifiedName] (=>'<' typeArguments+=XGenericTypeArgument (',' typeArguments+=XGenericTypeArgument)* '>')?
 		//type=[genmodel::GenBase|XQualifiedName] ("<" typeArguments+=XGenericTypeArgument (","
 		//typeArguments+=XGenericTypeArgument)* ">")?
 		public Group getGroup() { return cGroup; }
 
-		//// classifier=[XClassifier|QualifiedName] (=>'<' typeArguments+=XGenericTypeArgument (',' typeArguments+=XGenericTypeArgument)* '>')?
 		//type=[genmodel::GenBase|XQualifiedName]
 		public Assignment getTypeAssignment_0() { return cTypeAssignment_0; }
 
@@ -2054,7 +2068,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//XImportDirective:
-	//	"import" importedNamespace=QualifiedNameWithWildcard;
+	//	"import" (importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName]);
 	public XImportDirectiveElements getXImportDirectiveAccess() {
 		return (pXImportDirective != null) ? pXImportDirective : (pXImportDirective = new XImportDirectiveElements());
 	}
@@ -2064,7 +2078,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//QualifiedNameWithWildcard:
-	//	QualifiedName ".*"?;
+	//	QualifiedName ".*";
 	public QualifiedNameWithWildcardElements getQualifiedNameWithWildcardAccess() {
 		return (pQualifiedNameWithWildcard != null) ? pQualifiedNameWithWildcard : (pQualifiedNameWithWildcard = new QualifiedNameWithWildcardElements());
 	}
@@ -2247,7 +2261,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		return getXBlockExpressionAccess().getRule();
 	}
 
-	//XGenericType: // classifier=[XClassifier|QualifiedName] (=>'<' typeArguments+=XGenericTypeArgument (',' typeArguments+=XGenericTypeArgument)* '>')?
+	//XGenericType:
 	//	type=[genmodel::GenBase|XQualifiedName] ("<" typeArguments+=XGenericTypeArgument (","
 	//	typeArguments+=XGenericTypeArgument)* ">")?;
 	public XGenericTypeElements getXGenericTypeAccess() {

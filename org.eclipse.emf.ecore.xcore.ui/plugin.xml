@@ -71,6 +71,19 @@
         </page>
     </extension>
     <extension
+            point="org.eclipse.ui.propertyPages">
+        <page
+            class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+            id="org.eclipse.emf.ecore.xcore.Xcore"
+            name="Xcore">
+            <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
+            <enabledWhen>
+	            <adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+	        <filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
+        </page>
+    </extension>
+    <extension
         point="org.eclipse.ui.keywords">
         <keyword
             id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"
@@ -198,7 +211,7 @@
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator">
       </markerResolutionGenerator>
    </extension>
-   
+
    <extension
          point="org.eclipse.xtext.builder.participant">
       <participant
@@ -210,11 +223,59 @@
         <page
             category="org.eclipse.emf.ecore.xcore.Xcore"
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
-            id="org.eclipse.emf.ecore.xcore.Xcore.builder"
-            name="Builder">
+            id="org.eclipse.emf.ecore.xcore.Xcore.compiler.preferencePage"
+            name="Compiler">
             <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
         </page>
     </extension>
+    <extension
+            point="org.eclipse.ui.propertyPages">
+        <page
+            category="org.eclipse.emf.ecore.xcore.Xcore"
+            class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+            id="org.eclipse.emf.ecore.xcore.Xcore.compiler.propertyPage"
+            name="Compiler">
+            <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
+            <enabledWhen>
+	            <adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+	        <filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
+        </page>
+    </extension>
+   	<!-- Rename Refactoring -->
+	<extension point="org.eclipse.ui.handlers">
+		<handler 
+			class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.IRenameElementHandler"
+			commandId="org.eclipse.xtext.ui.refactoring.RenameElement">
+			<activeWhen>
+				<reference
+					definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
+				</reference>
+			</activeWhen>
+		</handler>
+	</extension>
+    <extension point="org.eclipse.ui.menus">
+         <menuContribution
+            locationURI="popup:#TextEditorContext?after=group.edit">
+         <command commandId="org.eclipse.xtext.ui.refactoring.RenameElement"
+               style="push">
+            <visibleWhen checkEnabled="false">
+               <reference
+                     definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
+               </reference>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension point="org.eclipse.ui.preferencePages">
+	    <page
+	        category="org.eclipse.emf.ecore.xcore.Xcore"
+	        class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
+	        id="org.eclipse.emf.ecore.xcore.Xcore.refactoring"
+	        name="Refactoring">
+	        <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
+	    </page>
+	</extension>
    <!-- MANUAL ADDITIONS -->
    
    <extension point="org.eclipse.ui.popupMenus">

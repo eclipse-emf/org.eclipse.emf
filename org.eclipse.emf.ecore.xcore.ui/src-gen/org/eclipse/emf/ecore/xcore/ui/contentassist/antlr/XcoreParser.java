@@ -37,6 +37,7 @@ public class XcoreParser extends AbstractContentAssistParser {
 			nameMappings = new HashMap<AbstractElement, String>() {
 				private static final long serialVersionUID = 1L;
 				{
+					put(grammarAccess.getXImportDirectiveAccess().getAlternatives_1(), "rule__XImportDirective__Alternatives_1");
 					put(grammarAccess.getXClassifierAccess().getAlternatives(), "rule__XClassifier__Alternatives");
 					put(grammarAccess.getXClassAccess().getAlternatives_2(), "rule__XClass__Alternatives_2");
 					put(grammarAccess.getXMemberAccess().getAlternatives(), "rule__XMember__Alternatives");
@@ -281,7 +282,8 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXAnnotationAccess().getDetailsAssignment_2_2_1(), "rule__XAnnotation__DetailsAssignment_2_2_1");
 					put(grammarAccess.getXStringToStringMapEntryAccess().getKeyAssignment_0(), "rule__XStringToStringMapEntry__KeyAssignment_0");
 					put(grammarAccess.getXStringToStringMapEntryAccess().getValueAssignment_2(), "rule__XStringToStringMapEntry__ValueAssignment_2");
-					put(grammarAccess.getXImportDirectiveAccess().getImportedNamespaceAssignment_1(), "rule__XImportDirective__ImportedNamespaceAssignment_1");
+					put(grammarAccess.getXImportDirectiveAccess().getImportedNamespaceAssignment_1_0(), "rule__XImportDirective__ImportedNamespaceAssignment_1_0");
+					put(grammarAccess.getXImportDirectiveAccess().getImportedObjectAssignment_1_1(), "rule__XImportDirective__ImportedObjectAssignment_1_1");
 					put(grammarAccess.getXAnnotationDirectiveAccess().getSourceURIAssignment_1(), "rule__XAnnotationDirective__SourceURIAssignment_1");
 					put(grammarAccess.getXAnnotationDirectiveAccess().getNameAssignment_3(), "rule__XAnnotationDirective__NameAssignment_3");
 					put(grammarAccess.getXDataTypeAccess().getAnnotationsAssignment_0(), "rule__XDataType__AnnotationsAssignment_0");

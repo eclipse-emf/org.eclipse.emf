@@ -30,11 +30,11 @@ XStringToStringMapEntry:
 ;
 
 XImportDirective:
-	'import' importedNamespace=QualifiedNameWithWildcard
+	'import' (importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName])
 ;
 
 QualifiedNameWithWildcard:
-  QualifiedName '.*'?
+  QualifiedName '.*'
 ;
 
 XAnnotationDirective:
@@ -209,7 +209,6 @@ XBlockExpression returns xbase::XBlockExpression:
 ;
 
 XGenericType returns XGenericType:
-  // classifier=[XClassifier|QualifiedName] (=>'<' typeArguments+=XGenericTypeArgument (',' typeArguments+=XGenericTypeArgument)* '>')?
   type=[genmodel::GenBase|XQualifiedName] (=>'<' typeArguments+=XGenericTypeArgument (',' typeArguments+=XGenericTypeArgument)* '>')?
 ;
 

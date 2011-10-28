@@ -629,6 +629,16 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EReference getXImportDirective_ImportedObject()
+  {
+    return (EReference)xImportDirectiveEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getXMember()
   {
     return xMemberEClass;
@@ -1148,6 +1158,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
 
     xImportDirectiveEClass = createEClass(XIMPORT_DIRECTIVE);
     createEAttribute(xImportDirectiveEClass, XIMPORT_DIRECTIVE__IMPORTED_NAMESPACE);
+    createEReference(xImportDirectiveEClass, XIMPORT_DIRECTIVE__IMPORTED_OBJECT);
 
     xMemberEClass = createEClass(XMEMBER);
     createEReference(xMemberEClass, XMEMBER__CONTAINING_CLASS);
@@ -1306,7 +1317,8 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     initEReference(getXGenericType_Type(), theGenModelPackage.getGenBase(), null, "type", null, 0, 1, XGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xImportDirectiveEClass, XImportDirective.class, "XImportDirective", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getXImportDirective_ImportedNamespace(), theEcorePackage.getEString(), "importedNamespace", null, 1, 1, XImportDirective.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXImportDirective_ImportedNamespace(), theEcorePackage.getEString(), "importedNamespace", null, 0, 1, XImportDirective.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXImportDirective_ImportedObject(), theEcorePackage.getEObject(), null, "importedObject", null, 0, 1, XImportDirective.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xMemberEClass, XMember.class, "XMember", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getXMember_ContainingClass(), this.getXClass(), this.getXClass_Members(), "containingClass", null, 0, 1, XMember.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

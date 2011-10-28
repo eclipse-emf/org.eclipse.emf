@@ -71,6 +71,19 @@
         </page>
     </extension>
     <extension
+            point="org.eclipse.ui.propertyPages">
+        <page
+            class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+            id="org.eclipse.emf.ecore.xcore.Xcore"
+            name="Xcore">
+            <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
+            <enabledWhen>
+	            <adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+	        <filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
+        </page>
+    </extension>
+    <extension
         point="org.eclipse.ui.keywords">
         <keyword
             id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"
@@ -210,9 +223,23 @@
         <page
             category="org.eclipse.emf.ecore.xcore.Xcore"
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
-            id="org.eclipse.emf.ecore.xcore.Xcore.builder"
-            name="Building">
+            id="org.eclipse.emf.ecore.xcore.Xcore.compiler.preferencePage"
+            name="Compiler">
             <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
+        </page>
+    </extension>
+    <extension
+            point="org.eclipse.ui.propertyPages">
+        <page
+            category="org.eclipse.emf.ecore.xcore.Xcore"
+            class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+            id="org.eclipse.emf.ecore.xcore.Xcore.compiler.propertyPage"
+            name="Compiler">
+            <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
+            <enabledWhen>
+	            <adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+	        <filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
         </page>
     </extension>
    	<!-- Rename Refactoring -->
@@ -240,6 +267,15 @@
          </command>
       </menuContribution>
    </extension>
+   <extension point="org.eclipse.ui.preferencePages">
+	    <page
+	        category="org.eclipse.emf.ecore.xcore.Xcore"
+	        class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
+	        id="org.eclipse.emf.ecore.xcore.Xcore.refactoring"
+	        name="Refactoring">
+	        <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
+	    </page>
+	</extension>
 
 
 </plugin>

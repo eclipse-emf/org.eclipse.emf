@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.util.EcoreXcoreBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreJvmInferrer;
+import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.AbstractEObjectDescription;
@@ -33,10 +34,11 @@ import org.eclipse.xtext.resource.ISelectable;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractScope;
 import org.eclipse.xtext.scoping.impl.ImportNormalizer;
+import org.eclipse.xtext.scoping.impl.ImportScope;
 import org.eclipse.xtext.scoping.impl.ImportedNamespaceAwareLocalScopeProvider;
 import org.eclipse.xtext.util.Strings;
 
-import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -61,18 +63,105 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
   private IResourceDescription.Manager manager;
 
   @Override
+  protected IScope getResourceScope(IScope parent, EObject context, EReference reference)
+  {
+    IScope resourceScope = super.getResourceScope(parent, context, reference);
+    if (reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE)
+    {
+      return 
+        new ImportScope
+         (getImplicitImports(false), 
+      		new EClassifierScope(resourceScope, context.eResource().getResourceSet(), nameConverter, ecoreXcoreBuilderProvider, jvmInferrer),
+    		  null, 
+    		  GenModelPackage.Literals.GEN_BASE, 
+    		  false);
+    }
+    else
+    {
+      return resourceScope;
+    }
+  }
+  
+  @Override
+  public IScope getScope(EObject context, EReference reference)
+  {
+    if (reference == XcorePackage.Literals.XIMPORT_DIRECTIVE__IMPORTED_OBJECT)
+    {
+      final IScope classifierScope = getResourceScope(context.eResource(), XcorePackage.Literals.XGENERIC_TYPE__TYPE);
+      final IScope annotationScope = getResourceScope(context.eResource(), XcorePackage.Literals.XANNOTATION__SOURCE);
+      final IScope jvmTypeScope = getResourceScope(context.eResource(), TypesPackage.Literals.JVM_PARAMETERIZED_TYPE_REFERENCE__TYPE);
+      return 
+      	new IScope()
+        {
+					public IEObjectDescription getSingleElement(QualifiedName name)
+          {
+            IEObjectDescription result = classifierScope.getSingleElement(name); 
+            if (result == null)
+            {
+               result = annotationScope.getSingleElement(name);
+            }
+            if (result == null)
+            {
+               result = jvmTypeScope.getSingleElement(name);
+            }
+	          return result;
+          }
+
+					public Iterable<IEObjectDescription> getElements(QualifiedName name)
+          {
+            return Iterables.concat(classifierScope.getElements(name), annotationScope.getElements(name), jvmTypeScope.getElements(name));
+          }
+
+					public IEObjectDescription getSingleElement(EObject object)
+          {
+            IEObjectDescription result = classifierScope.getSingleElement(object); 
+            if (result == null)
+            {
+               result = annotationScope.getSingleElement(object);
+            }
+            if (result == null)
+            {
+               result = jvmTypeScope.getSingleElement(object);
+            }
+	          return result;
+          }
+
+					public Iterable<IEObjectDescription> getElements(EObject object)
+          {
+            return Iterables.concat(classifierScope.getElements(object), annotationScope.getElements(object), jvmTypeScope.getElements(object));
+          }
+
+					public Iterable<IEObjectDescription> getAllElements()
+          {
+            return Iterables.concat(classifierScope.getAllElements(), annotationScope.getAllElements(), jvmTypeScope.getAllElements());
+          }
+        };
+    }
+    else
+    {
+      return super.getScope(context, reference);
+    }
+  }
+
+  @Override
   protected List<ImportNormalizer> internalGetImportedNamespaceResolvers(EObject context, boolean ignoreCase)
   {
     if (!(context instanceof XPackage))
-      return Collections.emptyList();
-    List<ImportNormalizer> importedNamespaceResolvers = super.internalGetImportedNamespaceResolvers(context, ignoreCase);
-    String name = ((XPackage)context).getName();
-    if (!Strings.isEmpty(name)) 
     {
-      importedNamespaceResolvers.add(new ImportNormalizer(nameConverter.toQualifiedName(name), true, ignoreCase));
+      return Collections.emptyList();
     }
-    return importedNamespaceResolvers;
+    else
+    {
+      List<ImportNormalizer> importedNamespaceResolvers = super.internalGetImportedNamespaceResolvers(context, ignoreCase);
+      String name = ((XPackage)context).getName();
+      if (!Strings.isEmpty(name)) 
+      {
+        importedNamespaceResolvers.add(new ImportNormalizer(nameConverter.toQualifiedName(name), true, ignoreCase));
+      }
+      return importedNamespaceResolvers;
+    }
   }
+
   @Override
   protected boolean isRelativeImport()
   {
@@ -84,144 +173,150 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
   {
    return Collections.singletonList(new ImportNormalizer(nameConverter.toQualifiedName("java.lang"), true, ignoreCase));
   }
-  
-  protected static final EDataType [] IMPLICIT_ALIASES = 
-    new EDataType[] 
-    {
-      EcorePackage.Literals.EBIG_DECIMAL,
-      EcorePackage.Literals.EBIG_INTEGER,
-      EcorePackage.Literals.EBOOLEAN,
-      EcorePackage.Literals.EBOOLEAN_OBJECT,
-      EcorePackage.Literals.EBYTE,
-      EcorePackage.Literals.EBYTE_OBJECT,
-      EcorePackage.Literals.ECHAR,
-      EcorePackage.Literals.ECHARACTER_OBJECT,
-      EcorePackage.Literals.EDATE,
-      EcorePackage.Literals.EDOUBLE,
-      EcorePackage.Literals.EDOUBLE_OBJECT,
-      EcorePackage.Literals.EFLOAT,
-      EcorePackage.Literals.EFLOAT_OBJECT,
-      EcorePackage.Literals.EINT,
-      EcorePackage.Literals.EINTEGER_OBJECT,
-      EcorePackage.Literals.EJAVA_CLASS,
-      EcorePackage.Literals.EJAVA_OBJECT,
-      EcorePackage.Literals.ELONG,
-      EcorePackage.Literals.ELONG_OBJECT,
-      EcorePackage.Literals.ESHORT,
-      EcorePackage.Literals.ESHORT_OBJECT,
-      EcorePackage.Literals.ESTRING,
-    };
 
-  @Override
-  protected IScope getGlobalScope(final Resource context, EReference reference, Predicate<IEObjectDescription> filter)
-  {
-    final IScope globalScope = super.getGlobalScope(context, reference, filter);
-    if (reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE)
-    {
-      return
-        new AbstractScope(globalScope, false)
-        {
-          @Override
-          protected Iterable<IEObjectDescription> getAllLocalElements()
-          {
-            ArrayList<IEObjectDescription> result = new ArrayList<IEObjectDescription>();
-            for (final EDataType eDataType : IMPLICIT_ALIASES)
-            {
-              String instanceClassName = eDataType.getInstanceClassName();
-              final QualifiedName actualQualifiedName = QualifiedName.create("org", "eclipse", "emf", "ecore", eDataType.getName());
-              final QualifiedName qualifiedName = nameConverter.toQualifiedName(instanceClassName);
-              result.add
-                (new AbstractEObjectDescription()
-                 {
-                   public QualifiedName getQualifiedName()
-                   {
-                     return qualifiedName;
-                   }
-                     
-                   public QualifiedName getName()
-                   {
-                     return qualifiedName;
-                   }
-                     
-                   public URI getEObjectURI()
-                   {
-                     IEObjectDescription element = getElement();
-                     return element == null ? getSyntheticEObjectURI() : element.getEObjectURI();
-                   }
-                     
-                   public EObject getEObjectOrProxy()
-                   {
-                     IEObjectDescription element = getElement();
-                     if (element == null)
-                     {
-                       InternalEObject genDataType = (InternalEObject)GenModelFactory.eINSTANCE.createGenDataType();
-                       genDataType.eSetProxyURI(getSyntheticEObjectURI());
-                       return genDataType;
-                       
-                     }
-                     else
-                     {
-                       return element.getEObjectOrProxy();
-                     }
-                   }
-                     
-                   public EClass getEClass()
-                   {
-                     return GenModelPackage.Literals.GEN_DATA_TYPE;
-                   }
-                   
-                   protected URI getSyntheticEObjectURI()
-                   {
-                     return ECORE_XCORE_URI.appendFragment("/1/ecore/" + eDataType.getName());
-                   }
-
-                   protected IEObjectDescription getElement()
-                   {
-                     IEObjectDescription element = globalScope.getSingleElement(actualQualifiedName);
-                     if (element == null)
-                     {
-                       ResourceSet resourceSet = context.getResourceSet();
-                       Resource ecoreXcoreResource = resourceSet.getResource(ECORE_XCORE_URI, false);
-                       if (ecoreXcoreResource == null)
-                       {
-                         Resource genModelResource = resourceSet.getResource(ECORE_GEN_MODEL_URI, true);
-                         GenModel genModel = (GenModel)genModelResource.getContents().get(0);
-                         ecoreXcoreResource = resourceSet.getResource(ECORE_XCORE_URI, false);
-                         EPackage ePackage = genModel.getGenPackages().get(0).getEcorePackage();
-                         Resource ecoreResource = ePackage.eResource();
-                         EcoreXcoreBuilder ecoreXcoreBuilder = ecoreXcoreBuilderProvider.get();
-                         ecoreXcoreBuilder.initialize(genModel);
-                         EcoreUtil.resolveAll(genModel);
-                         XPackage xPackage = ecoreXcoreBuilder.getXPackage(ePackage);
-                         ecoreXcoreResource = resourceSet.createResource(ECORE_XCORE_URI);
-                         ecoreXcoreResource.getContents().add(xPackage);
-                         ecoreXcoreResource.getContents().add(genModel);
-                         ecoreXcoreResource.getContents().add(ePackage);
-                         ecoreXcoreBuilder.link();
-                         ecoreXcoreResource.getContents().addAll(jvmInferrer.getDeclaredTypes(xPackage));
-                         resourceSet.getResources().remove(genModelResource);
-                         resourceSet.getResources().remove(ecoreResource);
-                       }
-                     }
-                     return element;
-                   }
-                 });
-             }
-             return result;
-           }
-        };
-    }
-    else
-    {
-     return globalScope;
-    }
-  
-  }
-  
   @Override
   protected ISelectable internalGetAllDescriptions(Resource resource)
   {
     IResourceDescription description = manager.getResourceDescription(resource);
     return description;
+  }
+  
+  protected static class EClassifierScope extends AbstractScope
+  {
+    protected static final EDataType [] IMPLICIT_ALIASES = 
+      new EDataType[] 
+      {
+        EcorePackage.Literals.EBIG_DECIMAL,
+        EcorePackage.Literals.EBIG_INTEGER,
+        EcorePackage.Literals.EBOOLEAN,
+        EcorePackage.Literals.EBOOLEAN_OBJECT,
+        EcorePackage.Literals.EBYTE,
+        EcorePackage.Literals.EBYTE_OBJECT,
+        EcorePackage.Literals.ECHAR,
+        EcorePackage.Literals.ECHARACTER_OBJECT,
+        EcorePackage.Literals.EDATE,
+        EcorePackage.Literals.EDOUBLE,
+        EcorePackage.Literals.EDOUBLE_OBJECT,
+        EcorePackage.Literals.EFLOAT,
+        EcorePackage.Literals.EFLOAT_OBJECT,
+        EcorePackage.Literals.EINT,
+        EcorePackage.Literals.EINTEGER_OBJECT,
+        EcorePackage.Literals.EJAVA_CLASS,
+        EcorePackage.Literals.EJAVA_OBJECT,
+        EcorePackage.Literals.ELONG,
+        EcorePackage.Literals.ELONG_OBJECT,
+        EcorePackage.Literals.ESHORT,
+        EcorePackage.Literals.ESHORT_OBJECT,
+        EcorePackage.Literals.ESTRING,
+      };
+
+    private ResourceSet resourceSet;
+    private IQualifiedNameConverter nameConverter;
+    private Provider<EcoreXcoreBuilder> ecoreXcoreBuilderProvider;
+    private XcoreJvmInferrer jvmInferrer;
+    
+    public EClassifierScope
+      (IScope parent, 
+       ResourceSet resourceSet,
+       IQualifiedNameConverter nameConverter, 
+       Provider<EcoreXcoreBuilder> ecoreXcoreBuilderProvider, 
+       XcoreJvmInferrer jvmInferrer)
+  
+    {
+      super(parent, false);
+      this.resourceSet = resourceSet;
+      this.nameConverter = nameConverter;
+      this.ecoreXcoreBuilderProvider = ecoreXcoreBuilderProvider;
+      this.jvmInferrer = jvmInferrer;
+    }
+ 
+    @Override
+    protected Iterable<IEObjectDescription> getAllLocalElements()
+    {
+      ArrayList<IEObjectDescription> result = new ArrayList<IEObjectDescription>();
+      for (final EDataType eDataType : IMPLICIT_ALIASES)
+      {
+        String instanceClassName = eDataType.getInstanceClassName();
+        final QualifiedName actualQualifiedName = QualifiedName.create("org", "eclipse", "emf", "ecore", eDataType.getName());
+        final QualifiedName qualifiedName = nameConverter.toQualifiedName(instanceClassName);
+        AbstractEObjectDescription eObjectDescription = 
+          new AbstractEObjectDescription()
+          {
+            public QualifiedName getQualifiedName()
+            {
+              return qualifiedName;
+            }
+                     
+            public QualifiedName getName()
+            {
+              return qualifiedName;
+            }
+                     
+            public URI getEObjectURI()
+            {
+              IEObjectDescription element = getElement();
+              return element == null ? getSyntheticEObjectURI() : element.getEObjectURI();
+            }
+                     
+            public EObject getEObjectOrProxy()
+            {
+              IEObjectDescription element = getElement();
+              if (element == null)
+              {
+                InternalEObject genDataType = (InternalEObject)GenModelFactory.eINSTANCE.createGenDataType();
+                genDataType.eSetProxyURI(getSyntheticEObjectURI());
+                return genDataType;
+                       
+              }
+              else
+              {
+                return element.getEObjectOrProxy();
+              }
+            }
+                     
+            public EClass getEClass()
+            {
+              return GenModelPackage.Literals.GEN_DATA_TYPE;
+            }
+                   
+            protected URI getSyntheticEObjectURI()
+            {
+              return ECORE_XCORE_URI.appendFragment("/1/ecore/" + eDataType.getName());
+            }
+  
+            protected IEObjectDescription getElement()
+            {
+              IEObjectDescription element = getParent().getSingleElement(actualQualifiedName);
+              if (element == null)
+              {
+                Resource ecoreXcoreResource = resourceSet.getResource(ECORE_XCORE_URI, false);
+                if (ecoreXcoreResource == null)
+                {
+                  Resource genModelResource = resourceSet.getResource(ECORE_GEN_MODEL_URI, true);
+                  GenModel genModel = (GenModel)genModelResource.getContents().get(0);
+                  ecoreXcoreResource = resourceSet.getResource(ECORE_XCORE_URI, false);
+                  EPackage ePackage = genModel.getGenPackages().get(0).getEcorePackage();
+                  Resource ecoreResource = ePackage.eResource();
+                  EcoreXcoreBuilder ecoreXcoreBuilder = ecoreXcoreBuilderProvider.get();
+                  ecoreXcoreBuilder.initialize(genModel);
+                  EcoreUtil.resolveAll(genModel);
+                  XPackage xPackage = ecoreXcoreBuilder.getXPackage(ePackage);
+                  ecoreXcoreResource = resourceSet.createResource(ECORE_XCORE_URI);
+                  ecoreXcoreResource.getContents().add(xPackage);
+                  ecoreXcoreResource.getContents().add(genModel);
+                  ecoreXcoreResource.getContents().add(ePackage);
+                  ecoreXcoreBuilder.link();
+                  ecoreXcoreResource.getContents().addAll(jvmInferrer.getDeclaredTypes(xPackage));
+                  resourceSet.getResources().remove(genModelResource);
+                  resourceSet.getResources().remove(ecoreResource);
+                }
+              }
+              return element;
+            }
+          };
+			  result.add(eObjectDescription);
+      }
+      return result;
+    }
   }
 }

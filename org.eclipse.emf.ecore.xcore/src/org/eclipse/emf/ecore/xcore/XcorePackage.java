@@ -1229,13 +1229,22 @@ public interface XcorePackage extends EPackage
   int XIMPORT_DIRECTIVE__IMPORTED_NAMESPACE = XMODEL_ELEMENT_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>Imported Object</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XIMPORT_DIRECTIVE__IMPORTED_OBJECT = XMODEL_ELEMENT_FEATURE_COUNT + 1;
+
+  /**
    * The number of structural features of the '<em>XImport Directive</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int XIMPORT_DIRECTIVE_FEATURE_COUNT = XMODEL_ELEMENT_FEATURE_COUNT + 1;
+  int XIMPORT_DIRECTIVE_FEATURE_COUNT = XMODEL_ELEMENT_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XOperationImpl <em>XOperation</em>}' class.
@@ -2187,6 +2196,17 @@ public interface XcorePackage extends EPackage
   EAttribute getXImportDirective_ImportedNamespace();
 
   /**
+   * Returns the meta object for the reference '{@link org.eclipse.emf.ecore.xcore.XImportDirective#getImportedObject <em>Imported Object</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Imported Object</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XImportDirective#getImportedObject()
+   * @see #getXImportDirective()
+   * @generated
+   */
+  EReference getXImportDirective_ImportedObject();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XMember <em>XMember</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2993,6 +3013,14 @@ public interface XcorePackage extends EPackage
      * @generated
      */
     EAttribute XIMPORT_DIRECTIVE__IMPORTED_NAMESPACE = eINSTANCE.getXImportDirective_ImportedNamespace();
+
+    /**
+     * The meta object literal for the '<em><b>Imported Object</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XIMPORT_DIRECTIVE__IMPORTED_OBJECT = eINSTANCE.getXImportDirective_ImportedObject();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XMemberImpl <em>XMember</em>}' class.

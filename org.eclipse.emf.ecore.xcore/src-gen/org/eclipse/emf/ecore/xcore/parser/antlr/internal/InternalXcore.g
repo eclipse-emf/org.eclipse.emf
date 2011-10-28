@@ -351,10 +351,10 @@ ruleXImportDirective returns [EObject current=null]
     {
     	newLeafNode(otherlv_0, grammarAccess.getXImportDirectiveAccess().getImportKeyword_0());
     }
-(
+((
 (
 		{ 
-	        newCompositeNode(grammarAccess.getXImportDirectiveAccess().getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0()); 
+	        newCompositeNode(grammarAccess.getXImportDirectiveAccess().getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0_0()); 
 	    }
 		lv_importedNamespace_1_0=ruleQualifiedNameWithWildcard		{
 	        if ($current==null) {
@@ -369,7 +369,23 @@ ruleXImportDirective returns [EObject current=null]
 	    }
 
 )
-))
+)
+    |(
+(
+		{
+			if ($current==null) {
+	            $current = createModelElement(grammarAccess.getXImportDirectiveRule());
+	        }
+        }
+		{ 
+	        newCompositeNode(grammarAccess.getXImportDirectiveAccess().getImportedObjectEObjectCrossReference_1_1_0()); 
+	    }
+		ruleQualifiedName		{ 
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)))
 ;
 
 
@@ -401,13 +417,13 @@ ruleQualifiedNameWithWildcard returns [AntlrDatatypeRuleToken current=new AntlrD
     { 
         afterParserOrEnumRuleCall();
     }
-(
+
 	kw='.*' 
     {
         $current.merge(kw);
         newLeafNode(kw, grammarAccess.getQualifiedNameWithWildcardAccess().getFullStopAsteriskKeyword_1()); 
     }
-)?)
+)
     ;
 
 
