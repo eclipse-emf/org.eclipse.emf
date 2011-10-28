@@ -11,7 +11,7 @@ public class XcoreImportManager extends ImportManager
 {
 	public XcoreImportManager()
   {
-	  super(false, "\t");
+	  super(false);
   }
 
 	@Override

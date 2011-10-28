@@ -1,9 +1,9 @@
 package org.eclipse.emf.ecore.xcore.scoping;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtext.resource.DerivedStateAwareResourceDescriptionManager;
 import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
 import org.eclipse.xtext.resource.IResourceDescription;
-import org.eclipse.xtext.resource.impl.DefaultResourceDescriptionManager;
 
 import com.google.inject.Singleton;
 
@@ -14,14 +14,11 @@ import com.google.inject.Singleton;
  * @author Sebastian Zarnekow
  */
 @Singleton
-public class XcoreResourceDescriptionManager extends DefaultResourceDescriptionManager
+public class XcoreResourceDescriptionManager extends DerivedStateAwareResourceDescriptionManager
 {
-
-	@Override
-	protected IResourceDescription internalGetResourceDescription(Resource resource,
-	    IDefaultResourceDescriptionStrategy strategy)
-	{
+  @Override
+  protected IResourceDescription createResourceDescription(Resource resource, IDefaultResourceDescriptionStrategy strategy)
+  {
 		return new XcoreResourceDescription(resource, strategy, getCache());
-	}
-	
+  }
 }

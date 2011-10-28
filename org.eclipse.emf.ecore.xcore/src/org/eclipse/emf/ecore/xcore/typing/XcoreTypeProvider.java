@@ -18,13 +18,12 @@ public class XcoreTypeProvider extends XbaseTypeProvider
 	private XcoreMapper mapper;
 	
 	@Override
-	protected JvmTypeReference expectedTypeDispatcherInvoke(EObject container, EReference reference, int index,
-	    boolean rawType)
+	protected JvmTypeReference _expectedType(EObject container, EReference reference, int index, boolean rawType)
 	{
 	  if (container instanceof XOperation) {
 	  	return _expectedType((XOperation)container, reference, index, rawType);
 	  }
-	  return super.expectedTypeDispatcherInvoke(container, reference, index, rawType);
+	  return super._expectedType(container, reference, index, rawType);
 	}
 	
 	protected JvmTypeReference _expectedType(XOperation expr, EReference reference, int index, boolean rawType)
