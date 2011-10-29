@@ -1,5 +1,3 @@
-// XPECT noValidationErrors
-
 package foo
 
 class Foo {}
@@ -7,24 +5,21 @@ class Bar<T> {}
 class Baz {}
 
 // FIXME: these scopes should not contain EDataTypes
-/* __XPECT scopeAllElements at Foo ---
-Bar, Baz, Class, Class1, Class2, Class3, Foo, Object,
-foo.Bar, foo.Baz, foo.Class1, foo.Class2, foo.Class3, foo.Foo,  
-java.lang.Object
+/* XPECT scopeAllElements at Foo ---
+Bar, Baz, Class, Class1, Class2, Class3, Foo, 
+foo.Bar, foo.Baz, foo.Class1, foo.Class2, foo.Class3, foo.Foo, ...
 --- */
 class Class1 extends Foo {}
 
 
-/* __XPECT scopeAllElements at Foo ---
-Bar, Baz, Class, Class1, Class2, Class3, Foo, Object,
-foo.Bar, foo.Baz, foo.Class1, foo.Class2, foo.Class3, foo.Foo,  
-java.lang.Object
+/* XPECT scopeAllElements at Foo ---
+Bar, Baz, Class, Class1, Class2, Class3, Foo, 
+foo.Bar, foo.Baz, foo.Class1, foo.Class2, foo.Class3, foo.Foo, ...
 --- */
 class Class2 extends Bar<Foo> {}
 
-/* __XPECT scopeAllElements at Foo ---
-Bar, Baz, Class, Class1, Class2, Class3, Foo, Object,
-foo.Bar, foo.Baz, foo.Class1, foo.Class2, foo.Class3, foo.Foo,  
-java.lang.Object
+/* XPECT scopeAllElements at Foo ---
+Bar, Baz, Class, Class1, Class2, Class3, Foo, 
+foo.Bar, foo.Baz, foo.Class1, foo.Class2, foo.Class3, foo.Foo, ...
 --- */
 class Class3<T extends Foo> {}

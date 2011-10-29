@@ -1,7 +1,5 @@
 package foo
 
-// XPECT noValidationErrors
-
 class X
 {
 	/* XPECT genBase at x ---

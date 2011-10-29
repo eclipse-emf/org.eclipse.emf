@@ -1,5 +1,3 @@
-// XPECT noValidationErrors
-
 /* XPECT eNamedElement ---
 	EPackage {
 		name = 'foo'
