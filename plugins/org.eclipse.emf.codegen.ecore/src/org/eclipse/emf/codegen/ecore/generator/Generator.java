@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.13 2010/02/04 20:56:54 emerks Exp $
+ * $Id: Generator.java,v 1.14 2011/10/30 09:22:51 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
@@ -36,6 +37,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.jdt.core.JavaCore;
 
 
 /**
@@ -289,13 +291,37 @@ public class Generator
     }
 
     String facadeHelperClass = options.mergerFacadeHelperClass;
-    if (!badFacadeHelperClasses.contains(facadeHelperClass) &&
-           (jControlModel.getFacadeHelper() == null || !jControlModel.getFacadeHelper().getClass().getName().equals(facadeHelperClass)))
+    if (!badFacadeHelperClasses.contains(facadeHelperClass) && 
+          (jControlModel.getFacadeHelper() == null || !jControlModel.getFacadeHelper().getClass().getName().equals(facadeHelperClass)))
     {
       FacadeHelper facadeHelper = CodeGenUtil.instantiateFacadeHelper(facadeHelperClass); 
       if (facadeHelper == null)
       {
         badFacadeHelperClasses.add(facadeHelperClass);
+      }
+      else 
+      {
+        if (input instanceof GenModel)
+        {
+          switch (((GenModel)input).getComplianceLevel())
+          {
+            case JDK14_LITERAL:
+            {
+              facadeHelper.setCompilerCompliance(JavaCore.VERSION_1_4);
+              break;
+            }
+            case JDK50_LITERAL:
+            {
+              facadeHelper.setCompilerCompliance(JavaCore.VERSION_1_5); 
+              break;
+            }
+            case JDK60_LITERAL: 
+            {
+              facadeHelper.setCompilerCompliance(JavaCore.VERSION_1_6); 
+              break;
+            }
+          }
+        }
       }
       jControlModel.initialize(facadeHelper, options.mergeRulesURI);
     }
