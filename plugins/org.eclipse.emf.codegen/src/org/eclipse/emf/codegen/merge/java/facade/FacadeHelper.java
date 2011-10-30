@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeHelper.java,v 1.11 2008/04/02 19:07:28 marcelop Exp $
+ * $Id: FacadeHelper.java,v 1.12 2011/10/30 09:22:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -24,13 +24,20 @@ import java.util.Map;
 
 import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.jdt.core.JavaCore;
 
 public abstract class FacadeHelper
 {
   protected static final String CLASS_PREFIX = "org.eclipse.emf.codegen.merge.java.facade.J";
   
   protected JControlModel controlModel;
+
   protected Map<Object, JNode> objectToNodeMap;
+
+  /**
+   * @since 2.8
+   */
+  protected String compilerCompliance;
   
   public void reset()
   {
@@ -496,5 +503,25 @@ public abstract class FacadeHelper
   public boolean isSibilingTraversalExpensive()
   {
     return true;
+  }
+
+  /**
+   * Returns the required Java {@link JavaCore#COMPILER_COMPLIANCE compiler compliance} level.
+   * @return the required Java compiler compliance level.
+   * @since 2.8
+   */
+  public String getCompilerCompliance()
+  {
+    return compilerCompliance;
+  }
+
+  /**
+   * Specify the required Java {@link JavaCore#COMPILER_COMPLIANCE compiler compliance} level.
+   * @param complierCompliance the required Java compiler compliance level.
+   * @since 2.8
+   */
+  public void setCompilerCompliance(String compilerCompliance) 
+  {
+    this.compilerCompliance = compilerCompliance;
   }
 }

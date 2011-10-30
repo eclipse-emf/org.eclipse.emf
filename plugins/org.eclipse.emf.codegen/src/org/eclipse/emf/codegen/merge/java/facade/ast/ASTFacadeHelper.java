@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTFacadeHelper.java,v 1.17 2010/02/04 20:56:37 emerks Exp $
+ * $Id: ASTFacadeHelper.java,v 1.18 2011/10/30 09:22:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -374,15 +374,25 @@ public class ASTFacadeHelper extends FacadeHelper
   @SuppressWarnings("unchecked")
   private Map<?, ?> getDefaultJavaCoreOptions()
   {
-    Map<Object, String> javaCoreOptions = JavaCore.getDefaultOptions();
+    Map<Object, String> javaCoreOptions = JavaCore.getOptions();
 
-    // Set of options that we want to copy from the current definition        
-    useCurrentOption(javaCoreOptions, "org.eclipse.jdt.core.compiler.compliance");
-    useCurrentOption(javaCoreOptions, "org.eclipse.jdt.core.compiler.source");
-    useCurrentOption(javaCoreOptions, "org.eclipse.jdt.core.compiler.codegen.targetPlatform");
-    useCurrentOption(javaCoreOptions, DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
-    useCurrentOption(javaCoreOptions, DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE);
-    useCurrentOption(javaCoreOptions, DefaultCodeFormatterConstants.FORMATTER_INDENTATION_SIZE);
+    // Set of options that we want to copy from the current definition or use defaults
+    //
+    if (compilerCompliance != null)
+    {
+      javaCoreOptions.put(JavaCore.COMPILER_COMPLIANCE, compilerCompliance);
+      javaCoreOptions.put(JavaCore.COMPILER_SOURCE, compilerCompliance);
+      javaCoreOptions.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, compilerCompliance);
+    }
+    else
+    {
+      useCurrentOption(javaCoreOptions, JavaCore.COMPILER_COMPLIANCE, "1.5");
+      useCurrentOption(javaCoreOptions, JavaCore.COMPILER_SOURCE, "1.5");
+      useCurrentOption(javaCoreOptions, JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, "1.5");
+    }
+    useCurrentOption(javaCoreOptions, DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
+    useCurrentOption(javaCoreOptions, DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE, "2");
+    useCurrentOption(javaCoreOptions, DefaultCodeFormatterConstants.FORMATTER_INDENTATION_SIZE, "2");
     
     if (getControlModel() != null)
     {
@@ -445,7 +455,26 @@ public class ASTFacadeHelper extends FacadeHelper
   
   protected void useCurrentOption(Map<Object, String> options, String option)
   {
-    options.put(option, JavaCore.getOption(option));
+    useCurrentOption(options, option, null); 
+  }
+
+  /**
+   * @since 2.8
+   * @param options
+   * @param option
+   * @param defaultValue
+   */
+  protected void useCurrentOption(Map<Object, String> options, String option, String defaultValue)
+  {
+    String value = JavaCore.getOption(option);
+    if (value != null)
+    {
+      options.put(option, value);
+    }
+    else if (!options.containsKey(option) && defaultValue != null)
+    {
+      options.put(option, defaultValue);
+    }
   }
   
   @Override

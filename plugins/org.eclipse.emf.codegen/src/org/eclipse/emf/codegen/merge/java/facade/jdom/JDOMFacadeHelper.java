@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMFacadeHelper.java,v 1.10 2010/02/04 20:56:37 emerks Exp $
+ * $Id: JDOMFacadeHelper.java,v 1.11 2011/10/30 09:22:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -40,7 +40,6 @@ import org.eclipse.emf.codegen.merge.java.facade.JMethod;
 import org.eclipse.emf.codegen.merge.java.facade.JNode;
 import org.eclipse.emf.codegen.merge.java.facade.JPackage;
 import org.eclipse.emf.codegen.merge.java.facade.JType;
-import org.eclipse.emf.common.EMFPlugin;
 
 @SuppressWarnings({"deprecation", "unchecked", "rawtypes"})
 public class JDOMFacadeHelper extends FacadeHelper
@@ -63,12 +62,6 @@ public class JDOMFacadeHelper extends FacadeHelper
   {
     jdomFactory = null;
     super.reset();
-  }
-  
-  @Override
-  public boolean canMerge()
-  {
-    return EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE;
   }
   
   protected DOMFactory getJDOMFactory()
@@ -101,21 +94,24 @@ public class JDOMFacadeHelper extends FacadeHelper
   public JCompilationUnit createCompilationUnit(String name, String contents)
   {
     String sourceCompatibility = JavaCore.getOption(JavaCore.COMPILER_SOURCE);
-    if ("1.4".compareTo(sourceCompatibility) < 0)
+    if (sourceCompatibility != null)
     {
-      if (isForcedSourceCompatibility())
+      if ("1.4".compareTo(sourceCompatibility) < 0)
       {
-        adjustSourceCompatibility("1.4");
+        if (isForcedSourceCompatibility())
+        {
+          adjustSourceCompatibility("1.4");
+        }
+        else
+        {
+          sourceCompatibility = null;
+          CodeGenPlugin.INSTANCE.log(CodeGenPlugin.INSTANCE.getString("_UI_JDOMInvalidSourceCompatibility_message"));
+        }
       }
       else
       {
         sourceCompatibility = null;
-        CodeGenPlugin.INSTANCE.log(CodeGenPlugin.INSTANCE.getString("_UI_JDOMInvalidSourceCompatibility_message"));
       }
-    }
-    else
-    {
-      sourceCompatibility = null;
     }
     
     JDOMJCompilationUnit compilationUnit = (JDOMJCompilationUnit)convertToNode(getJDOMFactory().createCompilationUnit(contents, name));
