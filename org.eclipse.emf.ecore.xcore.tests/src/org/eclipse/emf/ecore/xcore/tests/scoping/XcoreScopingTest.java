@@ -1,15 +1,15 @@
 package org.eclipse.emf.ecore.xcore.tests.scoping;
 
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.xtext.junit4.InjectWith;
-import org.eclipse.xtext.junit4.parameterized.OffsetHelper;
-import org.eclipse.xtext.junit4.parameterized.Parameter;
+import org.eclipse.xtext.junit4.parameterized.InjectParameter;
+import org.eclipse.xtext.junit4.parameterized.Offset;
+import org.eclipse.xtext.junit4.parameterized.ParameterSyntax;
 import org.eclipse.xtext.junit4.parameterized.ParameterizedXtextRunner;
 import org.eclipse.xtext.junit4.parameterized.ResourceURIs;
 import org.eclipse.xtext.junit4.parameterized.XpectCommaSeparatedValues;
@@ -33,21 +33,17 @@ import com.google.inject.Inject;
 public class XcoreScopingTest
 {
 
+	@InjectParameter
 	private XtextResource resource;
-	private Map<String, String> params;
-	@Inject
-	private OffsetHelper offsetHelper;
+
+	@InjectParameter
+	private Offset offset;
+
 	@Inject
 	private ValidationTestHelper validationHelper;
+
 	@Inject
 	private IScopeProvider scopeProvider;
-
-	public XcoreScopingTest(XtextResource resource, Map<String, String> params)
-	{
-		super();
-		this.resource = resource;
-		this.params = params;
-	}
 
 	@Test
 	public void noValidationIssues()
@@ -56,11 +52,10 @@ public class XcoreScopingTest
 	}
 
 	@XpectCommaSeparatedValues()
-	@Parameter(syntax = "'at' offset=OFFSET")
+	@ParameterSyntax("'at' offset=OFFSET")
 	public List<String> scopeAllElements()
 	{
-		Pair<EObject, EStructuralFeature> objAndFeature = offsetHelper.at(resource, params.get("offset"))
-		    .getEStructuralFeatureByParent();
+		Pair<EObject, EStructuralFeature> objAndFeature = offset.getEStructuralFeatureByParent();
 		Assert.assertTrue(objAndFeature.getSecond() instanceof EReference);
 		Assert.assertFalse(((EReference) objAndFeature.getSecond()).isContainment());
 		IScope scope = scopeProvider.getScope(objAndFeature.getFirst(), (EReference) objAndFeature.getSecond());

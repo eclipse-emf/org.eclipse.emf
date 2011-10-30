@@ -1,7 +1,5 @@
 package org.eclipse.emf.ecore.xcore.tests.genmodel;
 
-import java.util.Map;
-
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
@@ -9,8 +7,9 @@ import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.tests.GenModelFormatter;
 import org.eclipse.xtext.junit4.InjectWith;
-import org.eclipse.xtext.junit4.parameterized.OffsetHelper;
-import org.eclipse.xtext.junit4.parameterized.Parameter;
+import org.eclipse.xtext.junit4.parameterized.InjectParameter;
+import org.eclipse.xtext.junit4.parameterized.Offset;
+import org.eclipse.xtext.junit4.parameterized.ParameterSyntax;
 import org.eclipse.xtext.junit4.parameterized.ParameterizedXtextRunner;
 import org.eclipse.xtext.junit4.parameterized.ResourceURIs;
 import org.eclipse.xtext.junit4.parameterized.XpectString;
@@ -30,18 +29,15 @@ public class XcoreGenModelTest
 
 	@Inject
 	private XcoreMapper mapper;
-	@Inject
-	private OffsetHelper offsetHelper;
-	private Map<String, String> params;
+
+	@InjectParameter
+	private Offset offset;
+
+	@InjectParameter
 	private XtextResource resource;
+
 	@Inject
 	private ValidationTestHelper validationHelper;
-
-	public XcoreGenModelTest(XtextResource resource, Map<String, String> params)
-	{
-		this.resource = resource;
-		this.params = params;
-	}
 
 	@Test
 	public void noValidationIssues()
@@ -50,12 +46,11 @@ public class XcoreGenModelTest
 	}
 
 	@XpectString
-	@Parameter(syntax = "'at' offset=OFFSET")
+	@ParameterSyntax("'at' offset=OFFSET")
 	public String genBase()
 	{
 		EcoreUtil.resolveAll(resource);
-		XNamedElement namedElement = (XNamedElement) offsetHelper.at(resource, params.get("offset")).getEObject();
-		GenBase gen = mapper.getGen(namedElement);
+		GenBase gen = mapper.getGen((XNamedElement) offset.getEObject());
 		return new GenModelFormatter().resolveCrossReferences().format(gen);
 	}
 

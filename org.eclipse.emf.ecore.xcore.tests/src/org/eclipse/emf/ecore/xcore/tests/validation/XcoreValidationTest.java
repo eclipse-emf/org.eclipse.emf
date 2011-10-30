@@ -5,6 +5,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.xtext.junit4.InjectWith;
+import org.eclipse.xtext.junit4.parameterized.InjectParameter;
 import org.eclipse.xtext.junit4.parameterized.ParameterizedXtextRunner;
 import org.eclipse.xtext.junit4.parameterized.ResourceURIs;
 import org.eclipse.xtext.junit4.parameterized.XpectLines;
@@ -51,16 +52,11 @@ import com.google.inject.Inject;
 public class XcoreValidationTest
 {
 
+	@InjectParameter
 	private XtextResource resource;
 
 	@Inject
 	private IResourceValidator validator;
-
-	public XcoreValidationTest(XtextResource resource)
-	{
-		super();
-		this.resource = resource;
-	}
 
 	protected String formatIssue(Issue issue)
 	{
