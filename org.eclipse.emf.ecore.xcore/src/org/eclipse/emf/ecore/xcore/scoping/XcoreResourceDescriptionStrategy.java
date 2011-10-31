@@ -48,9 +48,11 @@ public class XcoreResourceDescriptionStrategy extends DefaultResourceDescription
 	public boolean createEObjectDescriptions(EObject eObject, IAcceptor<IEObjectDescription> acceptor) {
 		if (eObject instanceof XPackage) {
 			QualifiedName qn = nameProvider.getFullyQualifiedName(eObject);
-			qn = QualifiedName.create(qn.toString());
-			URI uri = eObject.eResource().getURI();
-			createEPackageDescription(uri, acceptor, qn);
+      if (qn != null)
+      {
+			  URI uri = eObject.eResource().getURI();
+			  createEPackageDescription(uri, acceptor, qn);
+      }
 		}
 		if (eObject instanceof XClass) {
 			QualifiedName qn = nameProvider.getFullyQualifiedName(eObject);
