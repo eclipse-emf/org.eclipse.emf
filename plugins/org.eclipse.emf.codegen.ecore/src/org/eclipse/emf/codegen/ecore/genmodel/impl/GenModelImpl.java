@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.118 2011/10/26 11:30:35 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.119 2011/11/03 10:36:13 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -9495,7 +9495,21 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         if (eStructuralFeature instanceof EAttribute)
         {
           EAttribute eAttribute = (EAttribute)eStructuralFeature;
-          genBase.eSet(eStructuralFeature, EcoreUtil.createFromString(eAttribute.getEAttributeType(), entry.getValue()));
+          Object value = null;
+          try
+          {
+            value = EcoreUtil.createFromString(eAttribute.getEAttributeType(), entry.getValue());
+          }
+          catch (Exception exception)
+          {
+            // Ignore ill formed values.
+            //
+            continue;
+          }
+          if (value != null)
+          {
+            genBase.eSet(eStructuralFeature, value);
+          }
         }
       }
     }
