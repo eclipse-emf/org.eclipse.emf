@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Diagnostic.java,v 1.5 2006/12/05 20:19:56 emerks Exp $
+ * $Id: Diagnostic.java,v 1.6 2011/11/14 17:06:19 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -41,12 +41,12 @@ public interface Diagnostic
   int WARNING = 0x2;
 
   /**
-   * The bit mask value <code>0x1</code> for a {@link #getSeverity severity} indicating there is an error message.
+   * The bit mask value <code>0x4</code> for a {@link #getSeverity severity} indicating there is an error message.
    */
   int ERROR = 0x4;
 
   /**
-   * The bit mask value <code>0x1</code> for a {@link #getSeverity severity} indicating that the diagnosis was canceled.
+   * The bit mask value <code>0x8</code> for a {@link #getSeverity severity} indicating that the diagnosis was canceled.
    */
   int CANCEL = 0x8;
 
