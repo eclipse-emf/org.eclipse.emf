@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceTest.java,v 1.2 2011/04/07 23:41:08 emerks Exp $
+ * $Id: BinaryResourceTest.java,v 1.3 2011/11/28 08:56:39 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -64,6 +64,7 @@ public class BinaryResourceTest extends TestCase
     ts.addTest(new BinaryResourceTest("testSaveAndLoad1"));
     ts.addTest(new BinaryResourceTest("testSaveAndLoad2"));
     ts.addTest(new BinaryResourceTest("testSaveAndLoadWithXMIResource"));
+    ts.addTest(new BinaryResourceTest("testSaveWithBinaryResourceAndLoadWithXMIResource"));
     ts.addTest(new BinaryResourceTest("testSaveAndLoadNoCache1"));
     ts.addTest(new BinaryResourceTest("testSaveAndLoadNoCache2"));
     return ts;
@@ -155,6 +156,25 @@ public class BinaryResourceTest extends TestCase
   }
 
   public void testSaveAndLoadWithXMIResource() throws Exception
+  {
+    Resource savedResource = new BinaryResourceImpl(resourceURI);
+    savedResource.getContents().addAll(rootObjects);
+    savedResource.save(null);
+    assertTrue(resourceURI.toString(), URIConverter.INSTANCE.exists(resourceURI, null));
+
+    XMLResource loadedResource = new XMIResourceImpl(resourceURI);
+    loadedResource.getDefaultLoadOptions().put(XMLResource.OPTION_BINARY, Boolean.TRUE);
+    loadedResource.load(null);
+    assertTrue(equalityHelper.equals(rootObjects, loadedResource.getContents()));
+    for (int i = 0, size = rootObjects.size(); i < size; ++i)
+    {
+      String loadedURIFragment = loadedResource.getURIFragment(loadedResource.getContents().get(i));
+      assertNotNull(loadedURIFragment);
+      assertEquals(savedResource.getURIFragment(rootObjects.get(i)), loadedURIFragment);
+    }
+  }
+
+  public void testSaveWithBinaryResourceAndLoadWithXMIResource() throws Exception
   {
     XMLResource savedResource = 
       new XMIResourceImpl(resourceURI)
