@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.6 2011/03/31 20:21:28 khussey Exp $
+ * $Id: BasicEObjectImpl.java,v 1.7 2011/11/28 11:34:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -960,16 +960,12 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   public NotificationChain eSetResource(Resource.Internal resource, NotificationChain notifications)
   {
     Resource.Internal oldResource = eDirectResource();
-    if (oldResource != null)
+    // When setting the resource to null we assume that detach has already been called in the resource implementation
+    //
+    if (oldResource != null && resource != null)
     {
       notifications = ((InternalEList<?>)oldResource.getContents()).basicRemove(this, notifications);
-
-      // When setting the resource to null we assume that detach has already been called in the resource implementation
-      //
-      if (resource != null)
-      {
-        oldResource.detached(this);
-      }
+      oldResource.detached(this);
     }
     InternalEObject oldContainer = eInternalContainer();
     if (oldContainer != null)

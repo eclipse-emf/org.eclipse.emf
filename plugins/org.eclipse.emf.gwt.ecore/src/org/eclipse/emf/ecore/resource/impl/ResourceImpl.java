@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.5 2011/05/12 15:08:22 khussey Exp $
+ * $Id: ResourceImpl.java,v 1.6 2011/11/28 11:34:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -425,7 +425,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     public NotificationChain inverseRemove(E object, NotificationChain notifications)
     {
       InternalEObject eObject = (InternalEObject)object;
-      if (ResourceImpl.this.isLoaded)
+      if (ResourceImpl.this.isLoaded || unloadingContents != null)
       {
         ResourceImpl.this.detached(eObject);
       }
