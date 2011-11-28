@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicChangeRecorder.java,v 1.4 2011/04/08 21:17:09 emerks Exp $
+ * $Id: BasicChangeRecorder.java,v 1.5 2011/11/28 09:14:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -194,6 +194,7 @@ public class BasicChangeRecorder extends ListDifferenceAnalyzer
   {
     return isRecording() &&
       !feature.isDerived() &&
+      (isRecordingTransientFeatures() || !feature.isTransient()) &&
       feature != EcorePackage.Literals.ECLASS__ESUPER_TYPES &&
       feature != EcorePackage.Literals.ETYPED_ELEMENT__ETYPE &&
       feature != EcorePackage.Literals.EOPERATION__EEXCEPTIONS &&
