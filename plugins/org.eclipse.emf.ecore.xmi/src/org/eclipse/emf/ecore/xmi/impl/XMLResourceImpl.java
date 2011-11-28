@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.25 2011/04/08 15:12:28 emerks Exp $
+ * $Id: XMLResourceImpl.java,v 1.26 2011/11/28 08:56:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -212,10 +212,14 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       eObjectInputStream.loadResource(this);
 
       // Load the extrinsic ID map.
+      // If this stream wasn't produced by XMLResourceImpl, there won't be a map.
       //
-      for (int i = 0, size = eObjectInputStream.readCompressedInt(); i < size; ++i)
+      if (inputStream.available() > 0)
       {
-        setID(eObjectInputStream.loadEObject(), eObjectInputStream.readString());
+        for (int i = 0, size = eObjectInputStream.readCompressedInt(); i < size; ++i)
+        {
+          setID(eObjectInputStream.loadEObject(), eObjectInputStream.readString());
+        }
       }
 
       if (handler != null)
