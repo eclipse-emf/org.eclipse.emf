@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceAttachmentTest.java,v 1.1 2007/12/23 18:29:24 emerks Exp $
+ * $Id: ResourceAttachmentTest.java,v 1.2 2011/11/28 11:34:54 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -218,7 +219,9 @@ public class ResourceAttachmentTest extends TestCase
   public void testIndirectCrossResourceAttachAndDetach()
   {
     AttachmentTrackingResourceImpl resource1 = new AttachmentTrackingResourceImpl();
+    resource1.setURI(URI.createURI("resource1"));
     AttachmentTrackingResourceImpl resource2 = new AttachmentTrackingResourceImpl();
+    resource2.setURI(URI.createURI("resource2"));
     EObject composite1 = EcoreUtil.create(compositeClass);
     @SuppressWarnings("unchecked")
     List<EObject> children = (List<EObject>)composite1.eGet(compositeChildren);
@@ -256,6 +259,18 @@ public class ResourceAttachmentTest extends TestCase
     // Removing a proxy resolving contained child from a different resource will detach it from the old one and attach it to the one for the container.
     // 
     resource2.getContents().remove(composite2);
+    assertFalse(resource2.attachedEObjects.contains(composite2));
+    assertTrue(resource1.attachedEObjects.contains(composite2));
+    
+    // Add it back in again.
+    //
+    resource2.getContents().add(composite2);
+    assertFalse(resource1.attachedEObjects.contains(composite2));
+    assertTrue(resource2.attachedEObjects.contains(composite2));
+    
+    // Remove it by unloading.
+    //
+    resource2.unload();
     assertFalse(resource2.attachedEObjects.contains(composite2));
     assertTrue(resource1.attachedEObjects.contains(composite2));
   }
