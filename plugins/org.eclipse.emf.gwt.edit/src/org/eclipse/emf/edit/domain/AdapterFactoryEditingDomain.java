@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.3 2011/10/27 17:03:35 emerks Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.4 2011/12/05 14:40:30 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -159,29 +159,32 @@ public class AdapterFactoryEditingDomain implements EditingDomain
    */
   static public EditingDomain getEditingDomainFor(EObject object)
   {
-    Resource resource = object.eResource();
-    if (resource != null)
+    if (object != null)
     {
-      IEditingDomainProvider editingDomainProvider =
-        (IEditingDomainProvider)EcoreUtil.getExistingAdapter(resource, IEditingDomainProvider.class);
-      if (editingDomainProvider != null)
+      Resource resource = object.eResource();
+      if (resource != null)
       {
-        return editingDomainProvider.getEditingDomain();
-      }
-      else
-      {
-        ResourceSet resourceSet = resource.getResourceSet();
-        if (resourceSet instanceof IEditingDomainProvider)
+        IEditingDomainProvider editingDomainProvider =
+          (IEditingDomainProvider)EcoreUtil.getExistingAdapter(resource, IEditingDomainProvider.class);
+        if (editingDomainProvider != null)
         {
-          EditingDomain editingDomain = ((IEditingDomainProvider)resourceSet).getEditingDomain();
-          return editingDomain;
+          return editingDomainProvider.getEditingDomain();
         }
-        else if (resourceSet != null)
+        else
         {
-          editingDomainProvider = (IEditingDomainProvider)EcoreUtil.getExistingAdapter(resourceSet, IEditingDomainProvider.class);
-          if (editingDomainProvider != null)
+          ResourceSet resourceSet = resource.getResourceSet();
+          if (resourceSet instanceof IEditingDomainProvider)
           {
-            return editingDomainProvider.getEditingDomain();
+            EditingDomain editingDomain = ((IEditingDomainProvider)resourceSet).getEditingDomain();
+            return editingDomain;
+          }
+          else if (resourceSet != null)
+          {
+            editingDomainProvider = (IEditingDomainProvider)EcoreUtil.getExistingAdapter(resourceSet, IEditingDomainProvider.class);
+            if (editingDomainProvider != null)
+            {
+              return editingDomainProvider.getEditingDomain();
+            }
           }
         }
       }
