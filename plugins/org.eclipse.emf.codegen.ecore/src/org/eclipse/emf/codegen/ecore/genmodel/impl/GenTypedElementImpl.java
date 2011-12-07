@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.22 2011/11/28 08:16:29 emerks Exp $
+ * $Id: GenTypedElementImpl.java,v 1.23 2011/12/07 18:00:33 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -526,6 +526,10 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
       return true;
     }
     EGenericType actualEGenericType = getEcoreTypedElement().getEGenericType();
+    if (actualEGenericType == null)
+    {
+      return false;
+    }
     String substitutedType = getTypeArgument(context, actualEGenericType, false, false);
     Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(substitutedType);
     EGenericType eGenericType = (EGenericType)diagnostic.getData().get(0);
