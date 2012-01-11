@@ -1,0 +1,24 @@
+package foo
+
+class X
+{
+	/* XPECT genBase at x ---
+		GenFeature {
+			notify = 'false'
+			createChild = 'false'
+			propertySortChoices = 'true'
+			ecoreFeature -> EReference foo::X::x
+		}
+	--- */
+	refers X x opposite y
+	   
+	/* XPECT genBase at y ---
+		GenFeature {
+			notify = 'false'
+			createChild = 'false'
+			propertySortChoices = 'true'
+			ecoreFeature -> EReference foo::X::y
+		}
+	--- */
+	refers X y opposite x
+}

@@ -1,0 +1,12 @@
+package foo
+
+/* XPECT validationIssues ---
+error at ' y' message 'The opposite of a containment reference must not be a containment reference'
+error at ' x' message 'The opposite of a containment reference must not be a containment reference'
+--- */
+
+class A
+{
+	contains A x opposite y
+	contains A y opposite x
+} 

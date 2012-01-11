@@ -1,0 +1,11 @@
+package foo
+
+/* XPECT validationIssues ---
+error at 'y' message 'The opposite of a transient reference must be transient if it is proxy resolving'
+--- */
+
+class A
+{
+	refers transient A x opposite y
+	refers A y opposite x
+} 

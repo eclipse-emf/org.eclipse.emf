@@ -1,0 +1,21 @@
+package foo
+
+/* XPECT validationIssues ---
+error at 'class D extends B, C { }' message 'The generic super types instantiate 'foo.A' inconsistently'
+--- */
+
+class A<T>
+{
+} 
+
+class B extends A<String>
+{
+}
+
+class C extends A<Integer>
+{
+}
+
+class D extends B, C
+{
+}

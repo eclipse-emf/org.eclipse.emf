@@ -1,0 +1,10 @@
+package foo
+
+/* XPECT validationIssues ---
+error at '[2..1]' message 'The lower bound 2 must be less than or equal to the upper bound 1'
+--- */
+
+class A
+{
+	String [2..1] a 
+}

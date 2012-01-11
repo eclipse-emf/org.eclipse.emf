@@ -1,0 +1,10 @@
+package foo
+
+/* XPECT validationIssues ---
+error at 'int' message 'The primitive type 'int' can not be used in this context'
+--- */
+
+class A<T>
+{
+  refers A<int> a
+} 

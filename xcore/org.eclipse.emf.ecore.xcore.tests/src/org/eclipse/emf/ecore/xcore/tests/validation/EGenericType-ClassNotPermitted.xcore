@@ -1,0 +1,10 @@
+package foo
+
+/* XPECT validationIssues ---
+error at 'A' message 'The generic attribute type must not refer to a class'
+--- */
+
+class A
+{
+	A a
+}

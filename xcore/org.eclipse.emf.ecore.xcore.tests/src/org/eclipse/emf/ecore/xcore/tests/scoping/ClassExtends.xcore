@@ -1,0 +1,25 @@
+package foo
+
+class Foo {}
+class Bar<T> {}
+class Baz {}
+
+// FIXME: these scopes should not contain EDataTypes
+/* XPECT scopeAllElements at Foo ---
+Bar, Baz, Class, Class1, Class2, Class3, Foo, 
+foo.Bar, foo.Baz, foo.Class1, foo.Class2, foo.Class3, foo.Foo, ...
+--- */
+class Class1 extends Foo {}
+
+
+/* XPECT scopeAllElements at Foo ---
+Bar, Baz, Class, Class1, Class2, Class3, Foo, 
+foo.Bar, foo.Baz, foo.Class1, foo.Class2, foo.Class3, foo.Foo, ...
+--- */
+class Class2 extends Bar<Foo> {}
+
+/* XPECT scopeAllElements at Foo ---
+Bar, Baz, Class, Class1, Class2, Class3, Foo, 
+foo.Bar, foo.Baz, foo.Class1, foo.Class2, foo.Class3, foo.Foo, ...
+--- */
+class Class3<T extends Foo> {}

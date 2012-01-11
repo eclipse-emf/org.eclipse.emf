@@ -1,0 +1,236 @@
+grammar org.eclipse.emf.ecore.xcore.Xcore 
+  with org.eclipse.xtext.xbase.Xbase 
+
+import "http://www.eclipse.org/emf/2002/Ecore"
+import "http://www.eclipse.org/emf/2002/GenModel" as genmodel
+import "http://www.eclipse.org/xtext/xbase/Xbase" as xbase
+import "http://www.eclipse.org/xtext/common/JavaVMTypes" as javaVMTypes
+import "http://www.eclipse.org/xtext/xbase/Xtype" as xtype
+import "http://www.eclipse.org/emf/2011/Xcore"
+
+XPackage returns XPackage:
+	{XPackage}
+	(annotations+=XAnnotation)*
+	'package'
+	name = QualifiedName
+	(importDirectives += XImportDirective)*
+	(annotationDirectives += XAnnotationDirective)*
+	(classifiers += XClassifier)*
+;
+
+XAnnotation:
+	'@' source=[XAnnotationDirective|ValidID]
+	('(' details+=XStringToStringMapEntry (',' details+=XStringToStringMapEntry)* ')')?
+;
+
+XStringToStringMapEntry:
+	key=QualifiedName
+	'='
+	value=STRING
+;
+
+XImportDirective:
+	'import' (importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName])
+;
+
+QualifiedNameWithWildcard:
+  QualifiedName '.*'
+;
+
+XAnnotationDirective:
+	'annotation' sourceURI=STRING 'as' name=ValidID
+;
+
+XClassifier:
+	XClass |
+	XDataType |
+	XEnum
+;
+
+XDataType:
+	(annotations+=XAnnotation)*
+	'type' name = ID 
+	('<' typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')?
+	'wraps' instanceType=JvmTypeReference
+	(
+	  /*
+	   * In scope for create should be what's visible in XyzFactoryImpl and 'this' will denote the literal value.
+	   * The block expression must yield null or an instance of the wrapped type.
+	   */
+	  (serializable?='create' createBody=XBlockExpression)? &
+	  /*
+	   * In scope for create should be what's visible in XyzFactoryImpl 
+	   * and 'this' will denote an instance of the wrapped type.
+	   * The block expression must yield a java.lang.String.
+	   */
+	  ('convert' convertBody=XBlockExpression)?
+	)
+;
+
+XEnum:
+	(annotations+=XAnnotation)*
+	'enum' name = ID
+	'{'
+	  (literals+=XEnumLiteral ((',')? literals+=XEnumLiteral)*)?
+	'}'
+;
+
+XEnumLiteral:
+	(annotations+=XAnnotation)*
+    name=ID 
+    ('as' literal=STRING)? 
+    ('=' value=INT)?
+;
+
+XClass:
+	{XClass}
+	(annotations+=XAnnotation)*
+	((abstract?='abstract'? 'class') | interface?= 'interface') name = ID
+	('<' typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')?
+	('extends' superTypes+=XGenericType (',' superTypes+=XGenericType)*)?
+	('wraps' instanceType=JvmTypeReference) ?
+	'{'
+	   (members+=XMember)*
+	'}'
+;
+
+XMember:
+	XOperation |
+	XReference |
+	XAttribute
+;
+
+XAttribute:
+	(annotations+=XAnnotation)*
+	(
+	  (unordered?='unordered')? &
+	  (unique?='unique')? &
+	  (readonly?='readonly')? &
+	  (transient?='transient')? &
+	  (volatile?='volatile')? &
+	  (unsettable?='unsettable')? &
+	  (derived?='derived')? &
+	  (iD?='id')?
+	)
+    (type=XGenericType multiplicity=XMultiplicity? | 'void')
+    name=ID
+    ('=' defaultValueLiteral=STRING)?
+	/*
+	 * In scope for getBody should be what's visible in AbcImpl
+	 * and 'this' will denote an instance of the feature's type.
+	 * The block expression must yield a value of the feature's type.
+	 */
+	(('get' getBody=XBlockExpression)? &
+	 ('set' setBody=XBlockExpression)? &
+	 ('isSet' isSetBody=XBlockExpression)? &
+	 ('unset' unsetBody=XBlockExpression)?)
+;
+
+XReference:
+	(annotations+=XAnnotation)*
+	((resolveProxies?='resolving'? & (containment?='contains' | container?='container')) | (local?='local'? & 'refers'))
+	(
+	  (unordered?='unordered')? &
+	  (unique?='unique')? &
+	  (readonly?='readonly')? &
+	  (transient?='transient')? &
+	  (volatile?='volatile')? &
+	  (unsettable?='unsettable')? &
+	  (derived?='derived')?
+	)
+	type=XGenericType
+	multiplicity=XMultiplicity?
+    name=ID
+    (
+      'opposite' opposite=[genmodel::GenFeature|ValidID] 
+    )?
+    (
+      'keys' keys+=[genmodel::GenFeature|ValidID] (',' keys+=[genmodel::GenFeature|ValidID])*
+    )?
+	/*
+	 * In scope for getBody should be what's visible in AbcImpl
+	 * and 'this' will denote an instance of the feature's type.
+	 * The block expression must yield a value of the feature's type.
+	 */
+	(('get' getBody=XBlockExpression)? &
+	 ('set' setBody=XBlockExpression)? &
+	 ('isSet' isSetBody=XBlockExpression)? &
+	 ('unset' unsetBody=XBlockExpression)?)
+;
+
+XOperation:
+	(annotations+=XAnnotation)*
+	'op'
+	(
+	  unordered?='unordered' unique?='unique'? |
+	  unique?='unique' unordered?='unordered'? 
+	)?
+	('<' typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')? 
+	(type=XGenericType | 'void') 
+	multiplicity=XMultiplicity?
+	name=ID 
+	'(' (parameters+=XParameter (',' parameters+=XParameter)*)? ')' 
+	('throws' exceptions+=XGenericType (',' exceptions+=XGenericType)*)?
+	/*
+	 * This is the logic for the operation.
+	 * How are we going to resolve all references that are in scope for Xbase language?
+	 * Will things like variables that are actually there in generated in the Impl class be accessible directly?
+	 */
+	(body=XBlockExpression)?
+;
+
+XParameter:
+	(annotations+=XAnnotation)*
+	(
+	  unordered?='unordered' unique?='unique'? |
+	  unique?='unique' unordered?='unordered'? 
+	)?
+    type=XGenericType 
+    multiplicity=XMultiplicity?
+    name=ID
+;
+
+XTypeParameter :
+	(annotations+=XAnnotation)*
+	name=ID ('extends' bounds+=XGenericType ('&' bounds+=XGenericType)*)?
+;
+
+XMultiplicity returns XMultiplicity:
+	'['
+	('?' | '*' | '+' | (INT ('..' (INT | '?' | '*'))?))?
+	']'
+;
+
+XBlockExpression returns xbase::XBlockExpression:
+ {xbase::XBlockExpression}
+ '{'
+  (expressions+=XExpressionInsideBlock ';'?)*
+ '}'
+;
+
+XGenericType returns XGenericType:
+  type=[genmodel::GenBase|XQualifiedName] (=>'<' typeArguments+=XGenericTypeArgument (',' typeArguments+=XGenericTypeArgument)* '>')?
+;
+
+XGenericTypeArgument returns XGenericType :
+	XGenericType |
+	XGenericWildcardTypeArgument
+;
+
+XGenericWildcardTypeArgument returns XGenericType :
+   {XGenericType}
+   '?' ('extends' upperBound=XGenericType | 'super' lowerBound=XGenericType)?
+;
+
+XQualifiedName:
+	XID ('.' XID)*
+;
+
+XID:
+	ID | 'get' | 'set' | 'isUnSet' | 'isSet' 
+;
+
+ValidID:
+	XID | 'void'
+;
+

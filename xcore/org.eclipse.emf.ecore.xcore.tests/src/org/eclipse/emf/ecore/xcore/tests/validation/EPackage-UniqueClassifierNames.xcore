@@ -1,0 +1,11 @@
+package foo
+
+/* XPECT validationIssues ---
+error at 'class A { }' message 'There may not be two classifiers named 'A''
+--- */
+
+class A
+{
+}
+
+type A wraps java.lang.String

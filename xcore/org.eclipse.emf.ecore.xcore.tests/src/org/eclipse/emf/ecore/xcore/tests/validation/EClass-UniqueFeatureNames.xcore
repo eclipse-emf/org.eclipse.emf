@@ -1,0 +1,19 @@
+package foo
+
+/* XPECT validationIssues ---
+error at 'class C extends A, B { }' message 'There may not be two features named 'a''
+--- */
+
+class A
+{
+  String a
+}
+
+class B
+{
+  String a
+}
+
+class C extends A, B
+{
+}

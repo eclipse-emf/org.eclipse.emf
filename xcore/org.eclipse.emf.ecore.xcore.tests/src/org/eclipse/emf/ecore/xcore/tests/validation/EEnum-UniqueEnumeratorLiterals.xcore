@@ -1,0 +1,11 @@
+package foo
+
+/* XPECT validationIssues ---
+error at 'A as 'x'' message 'There may not be two enumerators with literal value 'x''
+--- */
+
+enum A
+{
+  A as 'x'
+  B as 'x'
+}

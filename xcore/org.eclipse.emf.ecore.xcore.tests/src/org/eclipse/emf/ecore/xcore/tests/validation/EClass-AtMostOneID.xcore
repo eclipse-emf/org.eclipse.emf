@@ -1,0 +1,19 @@
+package foo
+
+/* XPECT validationIssues ---
+error at 'class C extends A, B { }' message 'The features 'id1' and 'id2' cannot both be IDs'
+--- */
+
+class A
+{
+  id String id1
+}
+
+class B
+{
+  id String id2
+}
+
+class C extends A, B
+{
+}

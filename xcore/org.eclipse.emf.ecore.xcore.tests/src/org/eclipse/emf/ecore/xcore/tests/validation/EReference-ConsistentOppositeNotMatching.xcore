@@ -1,0 +1,11 @@
+package foo
+
+/* XPECT validationIssues ---
+error at ' y' message 'The opposite of the opposite may not be a reference different from this one'
+--- */
+
+class A
+{
+	refers A x opposite y
+	refers A y
+} 
