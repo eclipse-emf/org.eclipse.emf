@@ -201,7 +201,7 @@ public class XcoreGenerator implements IGenerator {
           String _replace = result.replace("\n\t", "\n");
           result = _replace;
           int _length = result.length();
-          int _operator_minus = IntegerExtensions.operator_minus(((Integer)_length), ((Integer)2));
+          int _operator_minus = IntegerExtensions.operator_minus(_length, 2);
           String _substring_1 = result.substring(1, _operator_minus);
           _xblockexpression_1 = (_substring_1);
         }

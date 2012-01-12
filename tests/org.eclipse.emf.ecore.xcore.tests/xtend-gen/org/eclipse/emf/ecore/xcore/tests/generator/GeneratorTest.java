@@ -8,14 +8,15 @@ import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.emf.ecore.xcore.generator.XcoreGenerator;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
+import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.InMemoryFileSystemAccess;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.junit4.util.ParseHelper;
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
-import org.eclipse.xtext.xtend2.lib.StringConcatenation;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,27 +38,33 @@ public class GeneratorTest {
   private XcoreGenerator xcoreGenerator;
   
   @Test
-  public void testGenerator() throws Exception {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("package test");
-      _builder.newLine();
-      _builder.append("class X {}");
-      _builder.newLine();
-      XPackage _parse = this.parser.parse(_builder);
-      final XPackage xPackage = _parse;
-      InMemoryFileSystemAccess _inMemoryFileSystemAccess = new InMemoryFileSystemAccess();
-      final InMemoryFileSystemAccess inmemFsa = _inMemoryFileSystemAccess;
-      Resource _eResource = xPackage.eResource();
-      this.xcoreGenerator.doGenerate(_eResource, inmemFsa);
-      Map<String,CharSequence> _files = inmemFsa.getFiles();
-      Set<String> _keySet = _files.keySet();
-      String _string = _keySet.toString();
-      Map<String,CharSequence> _files_1 = inmemFsa.getFiles();
-      int _size = _files_1.size();
-      Assert.assertEquals(_string, 8, _size);
-      Map<String,CharSequence> _files_2 = inmemFsa.getFiles();
-      String _operator_plus = StringExtensions.operator_plus(IFileSystemAccess.DEFAULT_OUTPUT, "test/util/TestSwitch.java");
-      CharSequence _get = _files_2.get(_operator_plus);
-      Assert.assertNotNull(_get);
+  public void testGenerator() {
+    try {
+      {
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append("package test");
+        _builder.newLine();
+        _builder.append("class X {}");
+        _builder.newLine();
+        XPackage _parse = this.parser.parse(_builder);
+        final XPackage xPackage = _parse;
+        InMemoryFileSystemAccess _inMemoryFileSystemAccess = new InMemoryFileSystemAccess();
+        final InMemoryFileSystemAccess inmemFsa = _inMemoryFileSystemAccess;
+        Resource _eResource = xPackage.eResource();
+        this.xcoreGenerator.doGenerate(_eResource, inmemFsa);
+        Map<String,CharSequence> _files = inmemFsa.getFiles();
+        Set<String> _keySet = _files.keySet();
+        String _string = _keySet.toString();
+        Map<String,CharSequence> _files_1 = inmemFsa.getFiles();
+        int _size = _files_1.size();
+        Assert.assertEquals(_string, 8, _size);
+        Map<String,CharSequence> _files_2 = inmemFsa.getFiles();
+        String _operator_plus = StringExtensions.operator_plus(IFileSystemAccess.DEFAULT_OUTPUT, "test/util/TestSwitch.java");
+        CharSequence _get = _files_2.get(_operator_plus);
+        Assert.assertNotNull(_get);
+      }
+    } catch (Exception _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
   }
 }

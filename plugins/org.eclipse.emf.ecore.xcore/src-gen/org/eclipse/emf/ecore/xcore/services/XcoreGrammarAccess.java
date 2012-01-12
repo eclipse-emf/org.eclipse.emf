@@ -332,23 +332,37 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//XDataType:
 		//	annotations+=XAnnotation* "type" name=ID ("<" typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)*
 		//	">")? "wraps" instanceType=JvmTypeReference ((serializable?="create" createBody=XBlockExpression)? / *
+		//
 		//	   * In scope for create should be what's visible in XyzFactoryImpl and 'this' will denote the literal value.
+		//
 		//	   * The block expression must yield null or an instance of the wrapped type.
+		//
 		//	   * / / *
+		//
 		//	   * In scope for create should be what's visible in XyzFactoryImpl 
+		//
 		//	   * and 'this' will denote an instance of the wrapped type.
+		//
 		//	   * The block expression must yield a java.lang.String.
+		//
 		//	   * / & ("convert" convertBody=XBlockExpression)?);
 		public ParserRule getRule() { return rule; }
 
 		//annotations+=XAnnotation* "type" name=ID ("<" typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)* ">")?
 		//"wraps" instanceType=JvmTypeReference ((serializable?="create" createBody=XBlockExpression)? / *
+		//
 		//	   * In scope for create should be what's visible in XyzFactoryImpl and 'this' will denote the literal value.
+		//
 		//	   * The block expression must yield null or an instance of the wrapped type.
+		//
 		//	   * / / *
+		//
 		//	   * In scope for create should be what's visible in XyzFactoryImpl 
+		//
 		//	   * and 'this' will denote an instance of the wrapped type.
+		//
 		//	   * The block expression must yield a java.lang.String.
+		//
 		//	   * / & ("convert" convertBody=XBlockExpression)?)
 		public Group getGroup() { return cGroup; }
 
@@ -404,12 +418,19 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getInstanceTypeJvmTypeReferenceParserRuleCall_5_0() { return cInstanceTypeJvmTypeReferenceParserRuleCall_5_0; }
 
 		//(serializable?="create" createBody=XBlockExpression)? / *
+		//
 		//	   * In scope for create should be what's visible in XyzFactoryImpl and 'this' will denote the literal value.
+		//
 		//	   * The block expression must yield null or an instance of the wrapped type.
+		//
 		//	   * / / *
+		//
 		//	   * In scope for create should be what's visible in XyzFactoryImpl 
+		//
 		//	   * and 'this' will denote an instance of the wrapped type.
+		//
 		//	   * The block expression must yield a java.lang.String.
+		//
 		//	   * / & ("convert" convertBody=XBlockExpression)?
 		public UnorderedGroup getUnorderedGroup_6() { return cUnorderedGroup_6; }
 
@@ -814,9 +835,13 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	annotations+=XAnnotation* (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? &
 		//	transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"? & iD?="id"?)
 		//	(type=XGenericType multiplicity=XMultiplicity? | "void") name=ID ("=" defaultValueLiteral=STRING)? / *
+		//
 		//	 * In scope for getBody should be what's visible in AbcImpl
+		//
 		//	 * and 'this' will denote an instance of the feature's type.
+		//
 		//	 * The block expression must yield a value of the feature's type.
+		//
 		//	 * / (("get" getBody=XBlockExpression)? & ("set" setBody=XBlockExpression)? & ("isSet" isSetBody=XBlockExpression)? &
 		//	("unset" unsetBody=XBlockExpression)?);
 		public ParserRule getRule() { return rule; }
@@ -824,9 +849,13 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//annotations+=XAnnotation* (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? & transient?="transient"?
 		//& volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"? & iD?="id"?) (type=XGenericType
 		//multiplicity=XMultiplicity? | "void") name=ID ("=" defaultValueLiteral=STRING)? / *
+		//
 		//	 * In scope for getBody should be what's visible in AbcImpl
+		//
 		//	 * and 'this' will denote an instance of the feature's type.
+		//
 		//	 * The block expression must yield a value of the feature's type.
+		//
 		//	 * / (("get" getBody=XBlockExpression)? & ("set" setBody=XBlockExpression)? & ("isSet" isSetBody=XBlockExpression)? &
 		//("unset" unsetBody=XBlockExpression)?)
 		public Group getGroup() { return cGroup; }
@@ -1059,9 +1088,13 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) type=XGenericType
 		//	multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
 		//	keys+=[genmodel::GenFeature|ValidID] ("," keys+=[genmodel::GenFeature|ValidID])*)? / *
+		//
 		//	 * In scope for getBody should be what's visible in AbcImpl
+		//
 		//	 * and 'this' will denote an instance of the feature's type.
+		//
 		//	 * The block expression must yield a value of the feature's type.
+		//
 		//	 * / (("get" getBody=XBlockExpression)? & ("set" setBody=XBlockExpression)? & ("isSet" isSetBody=XBlockExpression)? &
 		//	("unset" unsetBody=XBlockExpression)?);
 		public ParserRule getRule() { return rule; }
@@ -1071,9 +1104,13 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) type=XGenericType
 		//multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
 		//keys+=[genmodel::GenFeature|ValidID] ("," keys+=[genmodel::GenFeature|ValidID])*)? / *
+		//
 		//	 * In scope for getBody should be what's visible in AbcImpl
+		//
 		//	 * and 'this' will denote an instance of the feature's type.
+		//
 		//	 * The block expression must yield a value of the feature's type.
+		//
 		//	 * / (("get" getBody=XBlockExpression)? & ("set" setBody=XBlockExpression)? & ("isSet" isSetBody=XBlockExpression)? &
 		//("unset" unsetBody=XBlockExpression)?)
 		public Group getGroup() { return cGroup; }
@@ -1344,9 +1381,13 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	("<" typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)* ">")? (type=XGenericType | "void")
 		//	multiplicity=XMultiplicity? name=ID "(" (parameters+=XParameter ("," parameters+=XParameter)*)? ")" ("throws"
 		//	exceptions+=XGenericType ("," exceptions+=XGenericType)*)? / *
+		//
 		//	 * This is the logic for the operation.
+		//
 		//	 * How are we going to resolve all references that are in scope for Xbase language?
+		//
 		//	 * Will things like variables that are actually there in generated in the Impl class be accessible directly?
+		//
 		//	 * / body=XBlockExpression?;
 		public ParserRule getRule() { return rule; }
 
@@ -1354,9 +1395,13 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//("<" typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)* ">")? (type=XGenericType | "void")
 		//multiplicity=XMultiplicity? name=ID "(" (parameters+=XParameter ("," parameters+=XParameter)*)? ")" ("throws"
 		//exceptions+=XGenericType ("," exceptions+=XGenericType)*)? / *
+		//
 		//	 * This is the logic for the operation.
+		//
 		//	 * How are we going to resolve all references that are in scope for Xbase language?
+		//
 		//	 * Will things like variables that are actually there in generated in the Impl class be accessible directly?
+		//
 		//	 * / body=XBlockExpression?
 		public Group getGroup() { return cGroup; }
 
@@ -2110,12 +2155,19 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	//XDataType:
 	//	annotations+=XAnnotation* "type" name=ID ("<" typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)*
 	//	">")? "wraps" instanceType=JvmTypeReference ((serializable?="create" createBody=XBlockExpression)? / *
+	//
 	//	   * In scope for create should be what's visible in XyzFactoryImpl and 'this' will denote the literal value.
+	//
 	//	   * The block expression must yield null or an instance of the wrapped type.
+	//
 	//	   * / / *
+	//
 	//	   * In scope for create should be what's visible in XyzFactoryImpl 
+	//
 	//	   * and 'this' will denote an instance of the wrapped type.
+	//
 	//	   * The block expression must yield a java.lang.String.
+	//
 	//	   * / & ("convert" convertBody=XBlockExpression)?);
 	public XDataTypeElements getXDataTypeAccess() {
 		return (pXDataType != null) ? pXDataType : (pXDataType = new XDataTypeElements());
@@ -2171,9 +2223,13 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	//	annotations+=XAnnotation* (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? &
 	//	transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"? & iD?="id"?)
 	//	(type=XGenericType multiplicity=XMultiplicity? | "void") name=ID ("=" defaultValueLiteral=STRING)? / *
+	//
 	//	 * In scope for getBody should be what's visible in AbcImpl
+	//
 	//	 * and 'this' will denote an instance of the feature's type.
+	//
 	//	 * The block expression must yield a value of the feature's type.
+	//
 	//	 * / (("get" getBody=XBlockExpression)? & ("set" setBody=XBlockExpression)? & ("isSet" isSetBody=XBlockExpression)? &
 	//	("unset" unsetBody=XBlockExpression)?);
 	public XAttributeElements getXAttributeAccess() {
@@ -2190,9 +2246,13 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	//	transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) type=XGenericType
 	//	multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
 	//	keys+=[genmodel::GenFeature|ValidID] ("," keys+=[genmodel::GenFeature|ValidID])*)? / *
+	//
 	//	 * In scope for getBody should be what's visible in AbcImpl
+	//
 	//	 * and 'this' will denote an instance of the feature's type.
+	//
 	//	 * The block expression must yield a value of the feature's type.
+	//
 	//	 * / (("get" getBody=XBlockExpression)? & ("set" setBody=XBlockExpression)? & ("isSet" isSetBody=XBlockExpression)? &
 	//	("unset" unsetBody=XBlockExpression)?);
 	public XReferenceElements getXReferenceAccess() {
@@ -2208,9 +2268,13 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	//	("<" typeParameters+=XTypeParameter ("," typeParameters+=XTypeParameter)* ">")? (type=XGenericType | "void")
 	//	multiplicity=XMultiplicity? name=ID "(" (parameters+=XParameter ("," parameters+=XParameter)*)? ")" ("throws"
 	//	exceptions+=XGenericType ("," exceptions+=XGenericType)*)? / *
+	//
 	//	 * This is the logic for the operation.
+	//
 	//	 * How are we going to resolve all references that are in scope for Xbase language?
+	//
 	//	 * Will things like variables that are actually there in generated in the Impl class be accessible directly?
+	//
 	//	 * / body=XBlockExpression?;
 	public XOperationElements getXOperationAccess() {
 		return (pXOperation != null) ? pXOperation : (pXOperation = new XOperationElements());
@@ -2883,7 +2947,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//XFunctionTypeRef:
-	//	("(" paramTypes+=JvmTypeReference ("," paramTypes+=JvmTypeReference)* ")")? "=>" returnType=JvmTypeReference;
+	//	("(" (paramTypes+=JvmTypeReference ("," paramTypes+=JvmTypeReference)*)? ")")? "=>" returnType=JvmTypeReference;
 	public XtypeGrammarAccess.XFunctionTypeRefElements getXFunctionTypeRefAccess() {
 		return gaXbase.getXFunctionTypeRefAccess();
 	}

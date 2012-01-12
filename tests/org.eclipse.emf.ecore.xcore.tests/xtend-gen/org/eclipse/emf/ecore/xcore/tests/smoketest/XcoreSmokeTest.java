@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import java.util.ArrayList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
+import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.junit.util.ParseHelper;
 import org.eclipse.xtext.junit.validation.ValidationTestHelper;
 import org.eclipse.xtext.junit4.InjectWith;
@@ -11,7 +12,7 @@ import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.junit4.smoketest.AbstractSmokeTest;
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
-import org.eclipse.xtext.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.junit.runner.RunWith;
 
 @SuppressWarnings("all")
@@ -74,9 +75,13 @@ public class XcoreSmokeTest extends AbstractSmokeTest {
     return _newArrayList;
   }
   
-  public void processModel(final String model) throws Exception {
-    EObject _parse = this.parser.parse(model);
-    this.validationTestHelper.validate(_parse);
+  public void processModel(final String model) {
+    try {
+      EObject _parse = this.parser.parse(model);
+      this.validationTestHelper.validate(_parse);
+    } catch (Exception _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
   }
   
   public void processModelWithoutResourceSet(final String model) {
