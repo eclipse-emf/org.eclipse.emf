@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.eclipse.emf.codegen.ecore.xtext;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.eclipse.emf.codegen.ecore;bundle-version="2.7.0",
- org.eclipse.xtext;bundle-version="2.0.0",
+Require-Bundle: org.eclipse.emf.codegen.ecore,
+ org.eclipse.xtext,
  org.eclipse.core.runtime
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
