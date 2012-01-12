@@ -122,14 +122,14 @@
 
 	<searchPath name="releng">
 		<provider componentTypes="buckminster" readerType="git" source="true" mutable="false">
-			<property key="git.remote.uri" value="${source.repository.location}" />
+			<property key="git.remote.uri" value="${emf.repository.location}" />
 			<uri format="{0},releng/{1}">
 				<bc:propertyRef key="emf.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
 		<provider componentTypes="eclipse.feature" readerType="git" source="true" mutable="false">
-			<property key="git.remote.uri" value="${source.repository.location}" />
+			<property key="git.remote.uri" value="${emf.repository.location}" />
 			<uri format="{0},releng/{1}-feature">
 				<bc:propertyRef key="emf.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
