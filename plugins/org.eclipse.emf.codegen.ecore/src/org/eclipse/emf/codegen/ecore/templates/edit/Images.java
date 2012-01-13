@@ -18,19 +18,17 @@ public class Images
   protected final String TEXT_1 = "";
   protected final String TEXT_2 = "/**";
   protected final String TEXT_3 = NL + " * ";
-  protected final String TEXT_4 = NL + " * <copyright>" + NL + " * </copyright>" + NL + " *" + NL + " * ";
-  protected final String TEXT_5 = "Id";
-  protected final String TEXT_6 = NL + " */" + NL + "package ";
-  protected final String TEXT_7 = ";" + NL;
-  protected final String TEXT_8 = NL + NL + "/**" + NL + " * <!-- begin-user-doc -->" + NL + " * <!-- end-user-doc -->" + NL + " * @generated" + NL + " */" + NL + "public interface ";
-  protected final String TEXT_9 = "Images extends ";
-  protected final String TEXT_10 = NL + "{";
-  protected final String TEXT_11 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\t@Source(\"";
-  protected final String TEXT_12 = "\")" + NL + "\t";
-  protected final String TEXT_13 = " ";
-  protected final String TEXT_14 = "();" + NL;
-  protected final String TEXT_15 = NL + "}";
-  protected final String TEXT_16 = NL;
+  protected final String TEXT_4 = NL + " */" + NL + "package ";
+  protected final String TEXT_5 = ";" + NL;
+  protected final String TEXT_6 = NL + NL + "/**" + NL + " * <!-- begin-user-doc -->" + NL + " * <!-- end-user-doc -->" + NL + " * @generated" + NL + " */" + NL + "public interface ";
+  protected final String TEXT_7 = "Images extends ";
+  protected final String TEXT_8 = NL + "{";
+  protected final String TEXT_9 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\t@Source(\"";
+  protected final String TEXT_10 = "\")" + NL + "\t";
+  protected final String TEXT_11 = " ";
+  protected final String TEXT_12 = "();" + NL;
+  protected final String TEXT_13 = NL + "}";
+  protected final String TEXT_14 = NL;
 
   public String generate(Object argument)
   {
@@ -58,37 +56,32 @@ public class Images
     if (copyrightHolder != null && copyrightHolder.hasCopyright()) {
     stringBuffer.append(TEXT_3);
     stringBuffer.append(copyrightHolder.getCopyright(copyrightHolder.getGenModel().getIndentation(stringBuffer)));
-    } else {
-    stringBuffer.append(TEXT_4);
-    stringBuffer.append("$");
-    stringBuffer.append(TEXT_5);
-    stringBuffer.append("$");
     }}
-    stringBuffer.append(TEXT_6);
+    stringBuffer.append(TEXT_4);
     stringBuffer.append(genModel.getEditPluginPackageName());
-    stringBuffer.append(TEXT_7);
+    stringBuffer.append(TEXT_5);
     genModel.markImportLocation(stringBuffer);
-    stringBuffer.append(TEXT_8);
+    stringBuffer.append(TEXT_6);
     stringBuffer.append(genModel.getEditPluginClassName());
-    stringBuffer.append(TEXT_9);
+    stringBuffer.append(TEXT_7);
     stringBuffer.append(genModel.getImportedName("com.google.gwt.resources.client.ClientBundle"));
-    stringBuffer.append(TEXT_10);
+    stringBuffer.append(TEXT_8);
     for (GenPackage genPackage : genModel.getAllGenAndUsedGenPackagesWithClassifiers()) {
     for (GenClass genClass : genPackage.getGenClasses()) {
     if (genClass.isImage()) { String image = genClass.getItemIconFileName(); image = image.substring(image.lastIndexOf("/icons/") + 1); 
-    stringBuffer.append(TEXT_11);
+    stringBuffer.append(TEXT_9);
     stringBuffer.append(image);
-    stringBuffer.append(TEXT_12);
+    stringBuffer.append(TEXT_10);
     stringBuffer.append(genModel.getImportedName("com.google.gwt.resources.client.ImageResource"));
-    stringBuffer.append(TEXT_13);
+    stringBuffer.append(TEXT_11);
     stringBuffer.append(genClass.getItemIconAccessorName());
-    stringBuffer.append(TEXT_14);
+    stringBuffer.append(TEXT_12);
     }
     }
     }
-    stringBuffer.append(TEXT_15);
+    stringBuffer.append(TEXT_13);
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_16);
+    stringBuffer.append(TEXT_14);
     return stringBuffer.toString();
   }
 }

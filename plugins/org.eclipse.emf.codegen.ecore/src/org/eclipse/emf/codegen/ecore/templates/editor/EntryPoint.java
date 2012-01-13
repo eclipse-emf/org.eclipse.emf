@@ -18,29 +18,27 @@ public class EntryPoint
   protected final String TEXT_1 = "";
   protected final String TEXT_2 = "/**";
   protected final String TEXT_3 = NL + " * ";
-  protected final String TEXT_4 = NL + " * <copyright>" + NL + " * </copyright>" + NL + " *" + NL + " * ";
-  protected final String TEXT_5 = "Id";
-  protected final String TEXT_6 = NL + " */" + NL + "package ";
-  protected final String TEXT_7 = ";" + NL + "" + NL + "import org.eclipse.emf.edit.ui.EditorEntryPoint;";
-  protected final String TEXT_8 = NL + NL + "/**" + NL + " * This is the entry point." + NL + " * <!-- begin-user-doc -->" + NL + " * <!-- end-user-doc -->" + NL + " * @generated" + NL + " */" + NL + "public class ";
-  protected final String TEXT_9 = " extends EditorEntryPoint" + NL + "{";
-  protected final String TEXT_10 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static final ";
-  protected final String TEXT_11 = " copyright = ";
-  protected final String TEXT_12 = ";";
-  protected final String TEXT_13 = NL + "\t";
-  protected final String TEXT_14 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\t@Override" + NL + "\tpublic void onModuleLoad()" + NL + "\t{" + NL + "\t\tsuper.onModuleLoad();" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\t@Override" + NL + "\tprotected void registerPackages(";
-  protected final String TEXT_15 = ".Registry packageRegistry)" + NL + "\t{";
-  protected final String TEXT_16 = NL + "\t\tpackageRegistry.put(";
-  protected final String TEXT_17 = ".eNS_URI, ";
-  protected final String TEXT_18 = ".eINSTANCE);";
-  protected final String TEXT_19 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\t@Override" + NL + "\tprotected void configureItemProviderAdapterFactories(";
-  protected final String TEXT_20 = " adapterFactory)" + NL + "\t{";
-  protected final String TEXT_21 = NL + "\t\tadapterFactory.addAdapterFactory(new ";
-  protected final String TEXT_22 = "());";
-  protected final String TEXT_23 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\t@Override" + NL + "\tprotected String getApplicationTitle()" + NL + "\t{" + NL + "\t\treturn \"";
-  protected final String TEXT_24 = " Application\";";
-  protected final String TEXT_25 = NL + "\t}" + NL + "}";
-  protected final String TEXT_26 = NL;
+  protected final String TEXT_4 = NL + " */" + NL + "package ";
+  protected final String TEXT_5 = ";" + NL + "" + NL + "import org.eclipse.emf.edit.ui.EditorEntryPoint;";
+  protected final String TEXT_6 = NL + NL + "/**" + NL + " * This is the entry point." + NL + " * <!-- begin-user-doc -->" + NL + " * <!-- end-user-doc -->" + NL + " * @generated" + NL + " */" + NL + "public class ";
+  protected final String TEXT_7 = " extends EditorEntryPoint" + NL + "{";
+  protected final String TEXT_8 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static final ";
+  protected final String TEXT_9 = " copyright = ";
+  protected final String TEXT_10 = ";";
+  protected final String TEXT_11 = NL + "\t";
+  protected final String TEXT_12 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\t@Override" + NL + "\tpublic void onModuleLoad()" + NL + "\t{" + NL + "\t\tsuper.onModuleLoad();" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\t@Override" + NL + "\tprotected void registerPackages(";
+  protected final String TEXT_13 = ".Registry packageRegistry)" + NL + "\t{";
+  protected final String TEXT_14 = NL + "\t\tpackageRegistry.put(";
+  protected final String TEXT_15 = ".eNS_URI, ";
+  protected final String TEXT_16 = ".eINSTANCE);";
+  protected final String TEXT_17 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\t@Override" + NL + "\tprotected void configureItemProviderAdapterFactories(";
+  protected final String TEXT_18 = " adapterFactory)" + NL + "\t{";
+  protected final String TEXT_19 = NL + "\t\tadapterFactory.addAdapterFactory(new ";
+  protected final String TEXT_20 = "());";
+  protected final String TEXT_21 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\t@Override" + NL + "\tprotected String getApplicationTitle()" + NL + "\t{" + NL + "\t\treturn \"";
+  protected final String TEXT_22 = " Application\";";
+  protected final String TEXT_23 = NL + "\t}" + NL + "}";
+  protected final String TEXT_24 = NL;
 
   public String generate(Object argument)
   {
@@ -68,53 +66,48 @@ public class EntryPoint
     if (copyrightHolder != null && copyrightHolder.hasCopyright()) {
     stringBuffer.append(TEXT_3);
     stringBuffer.append(copyrightHolder.getCopyright(copyrightHolder.getGenModel().getIndentation(stringBuffer)));
-    } else {
-    stringBuffer.append(TEXT_4);
-    stringBuffer.append("$");
-    stringBuffer.append(TEXT_5);
-    stringBuffer.append("$");
     }}
-    stringBuffer.append(TEXT_6);
+    stringBuffer.append(TEXT_4);
     stringBuffer.append(genModel.getEditorPluginPackageName());
-    stringBuffer.append(TEXT_7);
+    stringBuffer.append(TEXT_5);
     genModel.markImportLocation(stringBuffer);
-    stringBuffer.append(TEXT_8);
+    stringBuffer.append(TEXT_6);
     stringBuffer.append(genModel.getEditorEntryPointClassName());
-    stringBuffer.append(TEXT_9);
+    stringBuffer.append(TEXT_7);
     if (genModel.hasCopyrightField()) {
-    stringBuffer.append(TEXT_10);
+    stringBuffer.append(TEXT_8);
     stringBuffer.append(genModel.getImportedName("java.lang.String"));
-    stringBuffer.append(TEXT_11);
+    stringBuffer.append(TEXT_9);
     stringBuffer.append(genModel.getCopyrightFieldLiteral());
+    stringBuffer.append(TEXT_10);
+    stringBuffer.append(genModel.getNonNLS());
+    stringBuffer.append(TEXT_11);
+    }
     stringBuffer.append(TEXT_12);
-    stringBuffer.append(genModel.getNonNLS());
-    stringBuffer.append(TEXT_13);
-    }
-    stringBuffer.append(TEXT_14);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EPackage"));
+    stringBuffer.append(TEXT_13);
+    for (GenPackage genPackage : genModel.getAllGenAndUsedGenPackagesWithClassifiers()) {
+    stringBuffer.append(TEXT_14);
+    stringBuffer.append(genPackage.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_15);
-    for (GenPackage genPackage : genModel.getAllGenAndUsedGenPackagesWithClassifiers()) {
+    stringBuffer.append(genPackage.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_16);
-    stringBuffer.append(genPackage.getImportedPackageInterfaceName());
+    }
     stringBuffer.append(TEXT_17);
-    stringBuffer.append(genPackage.getImportedPackageInterfaceName());
-    stringBuffer.append(TEXT_18);
-    }
-    stringBuffer.append(TEXT_19);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.edit.provider.ComposedAdapterFactory"));
-    stringBuffer.append(TEXT_20);
+    stringBuffer.append(TEXT_18);
     for (GenPackage genPackage : genModel.getAllGenAndUsedGenPackagesWithClassifiers()) {
-    stringBuffer.append(TEXT_21);
+    stringBuffer.append(TEXT_19);
     stringBuffer.append(genPackage.getImportedItemProviderAdapterFactoryClassName());
-    stringBuffer.append(TEXT_22);
+    stringBuffer.append(TEXT_20);
     }
-    stringBuffer.append(TEXT_23);
+    stringBuffer.append(TEXT_21);
     stringBuffer.append(genModel.getModelName());
-    stringBuffer.append(TEXT_24);
+    stringBuffer.append(TEXT_22);
     stringBuffer.append(genModel.getNonNLS());
-    stringBuffer.append(TEXT_25);
+    stringBuffer.append(TEXT_23);
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_26);
+    stringBuffer.append(TEXT_24);
     return stringBuffer.toString();
   }
 }

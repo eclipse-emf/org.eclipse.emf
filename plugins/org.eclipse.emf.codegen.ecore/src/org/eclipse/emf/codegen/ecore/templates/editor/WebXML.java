@@ -19,13 +19,10 @@ public class WebXML
   protected final String TEXT_2 = NL;
   protected final String TEXT_3 = "<!--";
   protected final String TEXT_4 = NL + " ";
-  protected final String TEXT_5 = NL + " <copyright>" + NL + " </copyright>" + NL;
-  protected final String TEXT_6 = NL + " ";
-  protected final String TEXT_7 = "Id";
-  protected final String TEXT_8 = NL + "-->" + NL + "<web-app>" + NL + "  <servlet>" + NL + "    <servlet-name>uriServlet</servlet-name>" + NL + "    <servlet-class>org.eclipse.emf.server.ecore.resource.URIServiceImpl</servlet-class>" + NL + "  </servlet>" + NL + "  " + NL + "  <servlet-mapping>" + NL + "    <servlet-name>uriServlet</servlet-name>" + NL + "    <url-pattern>/";
-  protected final String TEXT_9 = "/uriService</url-pattern>" + NL + "  </servlet-mapping>" + NL + "" + NL + "  <welcome-file-list>" + NL + "    <welcome-file>";
-  protected final String TEXT_10 = ".html</welcome-file>" + NL + "  </welcome-file-list>" + NL + "</web-app>";
-  protected final String TEXT_11 = NL;
+  protected final String TEXT_5 = NL + "-->" + NL + "<web-app>" + NL + "  <servlet>" + NL + "    <servlet-name>uriServlet</servlet-name>" + NL + "    <servlet-class>org.eclipse.emf.server.ecore.resource.URIServiceImpl</servlet-class>" + NL + "  </servlet>" + NL + "  " + NL + "  <servlet-mapping>" + NL + "    <servlet-name>uriServlet</servlet-name>" + NL + "    <url-pattern>/";
+  protected final String TEXT_6 = "/uriService</url-pattern>" + NL + "  </servlet-mapping>" + NL + "" + NL + "  <welcome-file-list>" + NL + "    <welcome-file>";
+  protected final String TEXT_7 = ".html</welcome-file>" + NL + "  </welcome-file-list>" + NL + "</web-app>";
+  protected final String TEXT_8 = NL;
 
   public String generate(Object argument)
   {
@@ -54,19 +51,13 @@ public class WebXML
     if (copyrightHolder != null && copyrightHolder.hasCopyright()) {
     stringBuffer.append(TEXT_4);
     stringBuffer.append(copyrightHolder.getCopyright(copyrightHolder.getGenModel().getIndentation(stringBuffer)));
-    } else {
-    stringBuffer.append(TEXT_5);
-    stringBuffer.append(TEXT_6);
-    stringBuffer.append("$");
-    stringBuffer.append(TEXT_7);
-    stringBuffer.append("$");
     }}
-    stringBuffer.append(TEXT_8);
+    stringBuffer.append(TEXT_5);
     stringBuffer.append(genModel.getQualifiedEditorModuleName());
-    stringBuffer.append(TEXT_9);
+    stringBuffer.append(TEXT_6);
     stringBuffer.append(genModel.getEditorHomePageName());
-    stringBuffer.append(TEXT_10);
-    stringBuffer.append(TEXT_11);
+    stringBuffer.append(TEXT_7);
+    stringBuffer.append(TEXT_8);
     return stringBuffer.toString();
   }
 }

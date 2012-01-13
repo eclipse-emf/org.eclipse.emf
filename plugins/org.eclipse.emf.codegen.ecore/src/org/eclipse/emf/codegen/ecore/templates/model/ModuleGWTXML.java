@@ -19,15 +19,12 @@ public class ModuleGWTXML
   protected final String TEXT_2 = NL;
   protected final String TEXT_3 = "<!--";
   protected final String TEXT_4 = NL + " ";
-  protected final String TEXT_5 = NL + " <copyright>" + NL + " </copyright>" + NL;
-  protected final String TEXT_6 = NL + " ";
-  protected final String TEXT_7 = "Id";
-  protected final String TEXT_8 = NL + "-->" + NL + "" + NL + "<module>";
-  protected final String TEXT_9 = NL + "  <inherits name=\"";
-  protected final String TEXT_10 = "\" />";
-  protected final String TEXT_11 = NL + "  <source path=\"";
-  protected final String TEXT_12 = "\"/>";
-  protected final String TEXT_13 = NL + "</module>";
+  protected final String TEXT_5 = NL + "-->" + NL + "" + NL + "<module>";
+  protected final String TEXT_6 = NL + "  <inherits name=\"";
+  protected final String TEXT_7 = "\" />";
+  protected final String TEXT_8 = NL + "  <source path=\"";
+  protected final String TEXT_9 = "\"/>";
+  protected final String TEXT_10 = NL + "</module>";
 
   public String generate(Object argument)
   {
@@ -56,25 +53,19 @@ public class ModuleGWTXML
     if (copyrightHolder != null && copyrightHolder.hasCopyright()) {
     stringBuffer.append(TEXT_4);
     stringBuffer.append(copyrightHolder.getCopyright(copyrightHolder.getGenModel().getIndentation(stringBuffer)));
-    } else {
-    stringBuffer.append(TEXT_5);
-    stringBuffer.append(TEXT_6);
-    stringBuffer.append("$");
-    stringBuffer.append(TEXT_7);
-    stringBuffer.append("$");
     }}
-    stringBuffer.append(TEXT_8);
+    stringBuffer.append(TEXT_5);
     for (String inherits : genModel.getModelModuleInherits()) {
-    stringBuffer.append(TEXT_9);
+    stringBuffer.append(TEXT_6);
     stringBuffer.append(inherits);
-    stringBuffer.append(TEXT_10);
+    stringBuffer.append(TEXT_7);
     }
     for (String source : genModel.getModelModuleSources()) {
-    stringBuffer.append(TEXT_11);
+    stringBuffer.append(TEXT_8);
     stringBuffer.append(source);
-    stringBuffer.append(TEXT_12);
+    stringBuffer.append(TEXT_9);
     }
-    stringBuffer.append(TEXT_13);
+    stringBuffer.append(TEXT_10);
     return stringBuffer.toString();
   }
 }

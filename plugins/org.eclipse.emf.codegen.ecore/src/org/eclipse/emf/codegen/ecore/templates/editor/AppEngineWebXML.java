@@ -19,11 +19,8 @@ public class AppEngineWebXML
   protected final String TEXT_2 = NL;
   protected final String TEXT_3 = "<!--";
   protected final String TEXT_4 = NL + " ";
-  protected final String TEXT_5 = NL + " <copyright>" + NL + " </copyright>" + NL;
-  protected final String TEXT_6 = NL + " ";
-  protected final String TEXT_7 = "Id";
-  protected final String TEXT_8 = NL + "-->" + NL + "<appengine-web-app xmlns=\"http://appengine.google.com/ns/1.0\">" + NL + "\t<application>";
-  protected final String TEXT_9 = "-editor</application>" + NL + "\t<version>1</version>" + NL + "</appengine-web-app>";
+  protected final String TEXT_5 = NL + "-->" + NL + "<appengine-web-app xmlns=\"http://appengine.google.com/ns/1.0\">" + NL + "\t<application>";
+  protected final String TEXT_6 = "-editor</application>" + NL + "\t<version>1</version>" + NL + "</appengine-web-app>";
 
   public String generate(Object argument)
   {
@@ -52,16 +49,10 @@ public class AppEngineWebXML
     if (copyrightHolder != null && copyrightHolder.hasCopyright()) {
     stringBuffer.append(TEXT_4);
     stringBuffer.append(copyrightHolder.getCopyright(copyrightHolder.getGenModel().getIndentation(stringBuffer)));
-    } else {
-    stringBuffer.append(TEXT_5);
-    stringBuffer.append(TEXT_6);
-    stringBuffer.append("$");
-    stringBuffer.append(TEXT_7);
-    stringBuffer.append("$");
     }}
-    stringBuffer.append(TEXT_8);
+    stringBuffer.append(TEXT_5);
     stringBuffer.append(genModel.getModelName().toLowerCase().replaceAll("\\s", "-"));
-    stringBuffer.append(TEXT_9);
+    stringBuffer.append(TEXT_6);
     return stringBuffer.toString();
   }
 }

@@ -7,3 +7,4 @@ dev.properties
 *.jar
 *.args
 @dot
+@dot.log

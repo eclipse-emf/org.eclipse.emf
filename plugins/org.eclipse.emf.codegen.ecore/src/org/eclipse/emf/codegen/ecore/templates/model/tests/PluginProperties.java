@@ -15,11 +15,10 @@ public class PluginProperties
 
   public final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
   protected final String TEXT_1 = "# ";
-  protected final String TEXT_2 = NL + "# <copyright>" + NL + "# </copyright>" + NL + "#" + NL + "# ";
-  protected final String TEXT_3 = "Id";
-  protected final String TEXT_4 = NL + NL + "pluginName = ";
-  protected final String TEXT_5 = " Tests" + NL + "providerName = www.example.org";
-  protected final String TEXT_6 = NL;
+  protected final String TEXT_2 = "#";
+  protected final String TEXT_3 = NL + NL + "pluginName = ";
+  protected final String TEXT_4 = " Tests" + NL + "providerName = www.example.org";
+  protected final String TEXT_5 = NL;
 
   public String generate(Object argument)
   {
@@ -47,14 +46,11 @@ public class PluginProperties
     stringBuffer.append(copyrightHolder.getCopyright(copyrightHolder.getGenModel().getIndentation(stringBuffer)));
     } else {
     stringBuffer.append(TEXT_2);
-    stringBuffer.append("$");
-    stringBuffer.append(TEXT_3);
-    stringBuffer.append("$");
     }}
-    stringBuffer.append(TEXT_4);
+    stringBuffer.append(TEXT_3);
     stringBuffer.append(genModel.getModelName());
+    stringBuffer.append(TEXT_4);
     stringBuffer.append(TEXT_5);
-    stringBuffer.append(TEXT_6);
     return stringBuffer.toString();
   }
 }
