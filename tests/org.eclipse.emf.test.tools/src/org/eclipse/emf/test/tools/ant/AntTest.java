@@ -642,11 +642,6 @@ public class AntTest extends TestCase
       }
     }
     String generatedContent = TestUtil.readFile(generatedFile, true);
-    
-    //Remove CVS tags
-    expectedContent = expectedContent.replaceAll("\\$Id.*\\$", "");
-    generatedContent = generatedContent.replaceAll("\\$Id.*\\$", "");
-        
     if (UPDATE_EXPECTED_RESULT_ON_FAILURE)
     {
       try
