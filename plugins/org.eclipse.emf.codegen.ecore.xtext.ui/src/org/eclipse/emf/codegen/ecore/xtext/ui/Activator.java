@@ -8,7 +8,7 @@
 package org.eclipse.emf.codegen.ecore.xtext.ui;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.codegen.ecore.xtext.GenmodelRuntimeModule;
+import org.eclipse.emf.codegen.ecore.xtext.GenModelRuntimeModule;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.ui.shared.SharedStateModule;
 import org.osgi.framework.BundleContext;
@@ -44,8 +44,8 @@ public class Activator extends AbstractUIPlugin {
 	
 	private void initializeEcoreInjector() {
 		injector = Guice.createInjector(
-				Modules.override(Modules.override(new GenmodelRuntimeModule())
-				.with(new GenmodelUiModule(plugin)))
+				Modules.override(Modules.override(new GenModelRuntimeModule())
+				.with(new GenModelUIModule(plugin)))
 				.with(new SharedStateModule()));
 	}
 

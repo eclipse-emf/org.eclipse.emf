@@ -16,7 +16,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
-import org.eclipse.emf.codegen.ecore.xtext.GenmodelRuntimeModule;
+import org.eclipse.emf.codegen.ecore.xtext.GenModelRuntimeModule;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -41,7 +41,7 @@ import com.google.inject.Injector;
  * @author Sven Efftinge - Initial contribution and API
  * @author Jan Koehnlein
  */
-public class GenmodelResourceDescriptionManagerTest extends TestCase {
+public class GenModelResourceDescriptionManagerTest extends TestCase {
 	
 	private GenericResourceDescriptionManager testMe;
 	
@@ -52,7 +52,7 @@ public class GenmodelResourceDescriptionManagerTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Injector injector = Guice.createInjector(new GenmodelRuntimeModule());
+		Injector injector = Guice.createInjector(new GenModelRuntimeModule());
 		testMe = injector.getInstance(GenericResourceDescriptionManager.class);
 		converter = injector.getInstance(IQualifiedNameConverter.class);
 		URI genmodelURI = URI.createURI(EcorePlugin.INSTANCE.getBaseURL().toExternalForm() + "model/Ecore.genmodel");
