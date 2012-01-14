@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2011-2012 Eclipse contributors and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.eclipse.emf.test.ecore.xcore.interpreter
 
 import com.google.inject.Inject
@@ -17,7 +24,6 @@ import static org.junit.Assert.*
 import org.eclipse.emf.ecore.EDataType
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EEnum
-import org.eclipse.xtext.resource.XtextResourceSet
 import java.util.List
 
 @RunWith(typeof(XtextRunner))

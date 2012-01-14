@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2011-2012 Eclipse contributors and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.eclipse.emf.test.ecore.xcore
 
 import org.junit.runner.RunWith
@@ -17,9 +24,7 @@ import org.eclipse.emf.ecore.xcore.XOperation
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.xcore.XAttribute
-import org.eclipse.emf.ecore.xcore.XClassifier
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier
-import org.eclipse.xtext.xtend2.lib.StringConcatenation
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(XcoreInjectorProvider))

@@ -1,4 +1,4 @@
-/*******************************************************************************
+/**
  * Copyright (c) 2008 Hallvard Traetteberg.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     Hallvard Traetteberg - initial API and implementation
- ******************************************************************************/
+ */
 package org.eclipse.emf.ecore.xcore.ui;
 
 import org.eclipse.core.runtime.IAdaptable;

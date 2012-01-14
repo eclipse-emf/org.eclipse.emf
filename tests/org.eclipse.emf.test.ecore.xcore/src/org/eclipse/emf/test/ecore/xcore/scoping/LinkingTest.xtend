@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2011-2012 Eclipse contributors and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.eclipse.emf.test.ecore.xcore.scoping
 
 import static org.junit.Assert.*
@@ -13,7 +20,6 @@ import org.eclipse.emf.ecore.xcore.XPackage
 import org.eclipse.emf.ecore.xcore.XClass
 import org.eclipse.emf.ecore.xcore.XOperation
 import org.eclipse.xtext.xbase.XBlockExpression
-import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XBinaryOperation
 

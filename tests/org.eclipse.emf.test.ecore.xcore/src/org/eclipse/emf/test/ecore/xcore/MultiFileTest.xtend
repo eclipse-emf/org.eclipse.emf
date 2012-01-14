@@ -1,8 +1,14 @@
+/**
+ * Copyright (c) 2011-2012 Eclipse contributors and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.eclipse.emf.test.ecore.xcore
 
 import com.google.inject.Inject
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass
-import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.xcore.XClass
 import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider
@@ -11,7 +17,6 @@ import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper
 import org.eclipse.xtext.resource.IResourceDescriptions
 import org.eclipse.xtext.resource.XtextResourceSet
-import org.eclipse.xtext.resource.impl.ResourceSetBasedResourceDescriptions
 import org.eclipse.xtext.util.StringInputStream
 import org.junit.Test
 import org.junit.runner.RunWith

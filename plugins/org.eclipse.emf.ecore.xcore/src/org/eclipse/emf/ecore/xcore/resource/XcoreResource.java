@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2011-2012 Eclipse contributors and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.eclipse.emf.ecore.xcore.resource;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -7,7 +14,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
-import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyUriConverter;
+import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyURIConverter;
 import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -22,7 +29,7 @@ import com.google.inject.Inject;
 public class XcoreResource extends XbaseResource
 {
 	@Inject
-	private LazyCreationProxyUriConverter proxyConverter;
+	private LazyCreationProxyURIConverter proxyConverter;
 
 	@Inject
 	private IQualifiedNameProvider nameProvider;

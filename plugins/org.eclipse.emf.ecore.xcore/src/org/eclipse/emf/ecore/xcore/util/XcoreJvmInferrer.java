@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2011-2012 Eclipse contributors and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.eclipse.emf.ecore.xcore.util;
 
 import java.util.ArrayList;
@@ -32,7 +39,7 @@ import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XDataTypeMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
-import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyUriConverter;
+import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyURIConverter;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
 import org.eclipse.xtext.common.types.JvmEnumerationLiteral;
 import org.eclipse.xtext.common.types.JvmEnumerationType;
@@ -59,7 +66,7 @@ public class XcoreJvmInferrer
   private TypeReferences typeReferences;
   
   @Inject
-  private LazyCreationProxyUriConverter proxyUriConverter;
+  private LazyCreationProxyURIConverter proxyUriConverter;
   
   @Inject
   private IQualifiedNameConverter nameConverter;
