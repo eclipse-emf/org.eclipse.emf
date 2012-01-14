@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: EcoreImporter.java,v 1.11 2007/02/05 21:58:12 emerks Exp $
  */
 package org.eclipse.emf.importer.ecore;
 

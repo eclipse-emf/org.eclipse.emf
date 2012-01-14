@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: Ecore2EcoreModelWizard.java,v 1.15 2011/01/20 01:10:51 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 

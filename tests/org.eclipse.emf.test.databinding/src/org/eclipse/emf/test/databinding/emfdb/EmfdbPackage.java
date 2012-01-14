@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2009 BestSolution and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   Tom Schindl - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: EmfdbPackage.java,v 1.2 2011/02/08 22:28:33 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding.emfdb;
 

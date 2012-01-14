@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: ResourceSetImpl.java,v 1.13 2008/12/14 17:29:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 

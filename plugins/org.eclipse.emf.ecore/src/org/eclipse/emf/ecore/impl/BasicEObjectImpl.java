@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -10,10 +8,6 @@
  * Contributors: 
  *   IBM - Initial API and implementation
  *   Christian Damus (Zeligsoft) - 255469
- *
- * </copyright>
- *
- * $Id: BasicEObjectImpl.java,v 1.41 2011/11/28 11:34:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 

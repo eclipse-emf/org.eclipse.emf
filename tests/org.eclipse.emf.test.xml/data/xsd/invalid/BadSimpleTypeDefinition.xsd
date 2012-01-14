@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * <copyright>
- * </copyright>
- *
- * $Id: BadSimpleTypeDefinition.xsd,v 1.2 2006/12/11 16:16:41 emerks Exp $
  */
 -->
 <xsd:schema

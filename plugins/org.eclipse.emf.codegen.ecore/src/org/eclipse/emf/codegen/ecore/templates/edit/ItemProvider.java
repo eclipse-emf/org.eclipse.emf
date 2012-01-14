@@ -240,8 +240,6 @@ public class ItemProvider
     final StringBuffer stringBuffer = new StringBuffer();
     
 /**
- * <copyright>
- *
  * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -250,8 +248,6 @@ public class ItemProvider
  *
  * Contributors:
  *   IBM - Initial API and implementation
- *
- * </copyright>
  */
 
     GenClass genClass = (GenClass)argument; GenPackage genPackage = genClass.getGenPackage(); GenModel genModel=genPackage.getGenModel();

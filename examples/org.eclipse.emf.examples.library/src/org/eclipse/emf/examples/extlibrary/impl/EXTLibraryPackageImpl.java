@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: EXTLibraryPackageImpl.java,v 1.7 2009/05/12 15:54:39 davidms Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 

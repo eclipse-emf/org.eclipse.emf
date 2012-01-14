@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2009 Bestsolution.at and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   Tom Schindl<tom.schindl@bestsolution.at> - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: ProjectExplorerPart.java,v 1.6 2009/06/09 07:36:38 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 

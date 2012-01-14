@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2011 Hallvard Traetteberg and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   Hallvard Traetteberg - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: ConversionDelegateFactoryRegistryReader.java,v 1.1 2011/10/25 12:28:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 

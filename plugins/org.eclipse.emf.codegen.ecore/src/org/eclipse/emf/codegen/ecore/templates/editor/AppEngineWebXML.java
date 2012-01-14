@@ -21,14 +21,13 @@ public class AppEngineWebXML
   protected final String TEXT_4 = NL + " ";
   protected final String TEXT_5 = NL + "-->" + NL + "<appengine-web-app xmlns=\"http://appengine.google.com/ns/1.0\">" + NL + "\t<application>";
   protected final String TEXT_6 = "-editor</application>" + NL + "\t<version>1</version>" + NL + "</appengine-web-app>";
+  protected final String TEXT_7 = NL;
 
   public String generate(Object argument)
   {
     final StringBuffer stringBuffer = new StringBuffer();
     
 /**
- * <copyright>
- *
  * Copyright (c) 2010 Ed Merks and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -37,8 +36,6 @@ public class AppEngineWebXML
  * 
  * Contributors: 
  *   Ed Merks - Initial API and implementation
- *
- * </copyright>
  */
 
     GenModel genModel = (GenModel)argument; /* Trick to import java.util.* without warnings */Iterator.class.getName();
@@ -53,6 +50,7 @@ public class AppEngineWebXML
     stringBuffer.append(TEXT_5);
     stringBuffer.append(genModel.getModelName().toLowerCase().replaceAll("\\s", "-"));
     stringBuffer.append(TEXT_6);
+    stringBuffer.append(TEXT_7);
     return stringBuffer.toString();
   }
 }

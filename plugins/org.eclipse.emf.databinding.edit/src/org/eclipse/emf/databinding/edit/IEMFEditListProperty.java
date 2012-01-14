@@ -1,6 +1,4 @@
 /**
- * <copyright> 
- *
  * Copyright (c) 2008 Matthew Hall and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -10,9 +8,6 @@
  * Contributors: 
  *   Matthew Hall - initial API and implementation (bug 195222)
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
- * </copyright>
- *
- * $Id: IEMFEditListProperty.java,v 1.3 2011/04/22 12:56:29 tschindl Exp $
  */
 package org.eclipse.emf.databinding.edit;
 

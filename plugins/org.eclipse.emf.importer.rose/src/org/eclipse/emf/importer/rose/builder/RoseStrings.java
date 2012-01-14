@@ -1,8 +1,12 @@
 /**
- * <copyright>
- * </copyright>
+ * Copyright (c) 2005-2012 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * $Id: RoseStrings.java,v 1.1 2005/05/10 17:40:33 davidms Exp $
+ * Contributors:
+ *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.importer.rose.builder;
 

@@ -65,8 +65,6 @@ public class Properties
     final StringBuffer stringBuffer = new StringBuffer();
     
 /**
- * <copyright>
- *
  * Copyright (c) 2010 Ed Merks and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -75,8 +73,6 @@ public class Properties
  *
  * Contributors:
  *   Ed Merks - Initial API and implementation
- *
- * </copyright>
  */
 
     GenModel genModel = (GenModel)argument; /* Trick to import java.util.* without warnings */Iterator.class.getName();

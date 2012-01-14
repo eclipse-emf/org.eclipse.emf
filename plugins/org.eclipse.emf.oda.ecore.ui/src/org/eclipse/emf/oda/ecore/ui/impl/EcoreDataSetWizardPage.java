@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2010 Kenn Hussey and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   Kenn Hussey - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: EcoreDataSetWizardPage.java,v 1.4 2010/12/22 14:08:59 khussey Exp $
  */
 package org.eclipse.emf.oda.ecore.ui.impl;
 

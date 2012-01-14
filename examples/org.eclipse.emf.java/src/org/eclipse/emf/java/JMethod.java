@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: JMethod.java,v 1.7 2008/05/04 17:03:37 emerks Exp $
  */
 package org.eclipse.emf.java;
 

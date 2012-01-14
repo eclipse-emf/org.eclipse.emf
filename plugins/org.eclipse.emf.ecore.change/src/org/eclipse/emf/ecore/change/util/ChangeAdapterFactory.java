@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: ChangeAdapterFactory.java,v 1.6 2007/10/27 10:29:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 

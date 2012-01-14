@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  *
  * Contributors:
  *   Peter Nehrer and IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: ProcessingInstructionImpl.java,v 1.1 2006/12/09 18:11:39 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 

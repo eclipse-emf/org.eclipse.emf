@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2002-2008 IBM Corporation, Embarcadero Technologies, and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -10,10 +8,6 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *   Kenn Hussey (Embarcadero Technologies) - 218759
- *
- * </copyright>
- *
- * $Id: XMLHandler.java,v 1.94 2010/03/17 13:36:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 

@@ -1,6 +1,4 @@
 /**
- * <copyright> 
- *
  * Copyright (c) 2008 Matthew Hall and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -12,9 +10,6 @@
  *   Martin Frey <martin.frey@logica.com> - bug 256150
  *   Matthew Hall - bug 264307
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
- * </copyright>
- *
- * $Id: EMFPropertyHelper.java,v 1.1 2009/05/23 11:11:32 tschindl Exp $
  */
 package org.eclipse.emf.databinding.internal;
 

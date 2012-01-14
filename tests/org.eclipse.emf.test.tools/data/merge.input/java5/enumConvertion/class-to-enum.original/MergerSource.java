@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id: MergerSource.java,v 1.1 2006/12/31 02:22:16 marcelop Exp $
  */
 package org.eclipse.example.library;
 

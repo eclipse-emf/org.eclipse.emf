@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2010 Kenn Hussey and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   Kenn Hussey - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: QueryDelegate.java,v 1.2 2010/12/03 15:49:49 khussey Exp $
  */
 package org.eclipse.emf.ecore.util;
 

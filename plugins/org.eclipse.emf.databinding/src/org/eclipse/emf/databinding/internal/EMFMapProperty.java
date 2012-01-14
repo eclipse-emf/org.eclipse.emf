@@ -1,6 +1,4 @@
 /**
- * <copyright> 
- *
  * Copyright (c) 2008 Matthew Hall and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -12,9 +10,6 @@
  *   Matthew Hall - bugs 195222, 264307, 265561
  *   Hasan Ceylan  - patch in bug 262160
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
- * </copyright>
- *
- * $Id: EMFMapProperty.java,v 1.4 2010/02/04 20:56:28 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 

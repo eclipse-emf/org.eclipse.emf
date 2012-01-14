@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
@@ -9,10 +7,6 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: DelegatingSet.java,v 1.1 2009/11/25 09:15:05 tschindl Exp $
  */
 package org.eclipse.emf.databinding.internal;
 

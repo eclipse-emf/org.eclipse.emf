@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2009 TIBCO Software Inc. and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   Adrian Price
- *
- * </copyright>
- *
- * $Id: Switch1Factory.java,v 1.1 2011/01/20 01:10:22 emerks Exp $
  */
 package org.eclipse.emf.test.models.switch1;
 

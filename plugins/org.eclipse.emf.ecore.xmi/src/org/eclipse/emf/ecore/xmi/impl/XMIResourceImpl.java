@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2002-2011 IBM Corporation, CEA, and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -10,10 +8,6 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *   Kenn Hussey (CEA) - 351783
- *
- * </copyright>
- *
- * $Id: XMIResourceImpl.java,v 1.7 2011/09/13 17:36:56 khussey Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 

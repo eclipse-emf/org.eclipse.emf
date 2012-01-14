@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: ModelImporterPackagePage.java,v 1.6 2009/05/10 17:33:27 davidms Exp $
  */
 package org.eclipse.emf.importer.ui.contribution.base;
 

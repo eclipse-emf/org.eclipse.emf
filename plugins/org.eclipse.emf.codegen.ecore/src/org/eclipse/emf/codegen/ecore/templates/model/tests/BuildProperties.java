@@ -33,8 +33,6 @@ public class BuildProperties
     final StringBuffer stringBuffer = new StringBuffer();
     
 /**
- * <copyright>
- *
  * Copyright (c) 2005-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -43,8 +41,6 @@ public class BuildProperties
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
- *
- * </copyright>
  */
 
     GenModel genModel = (GenModel)argument;

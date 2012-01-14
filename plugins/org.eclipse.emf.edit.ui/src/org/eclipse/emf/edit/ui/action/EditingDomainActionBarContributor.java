@@ -1,6 +1,4 @@
 /**
- * <copyright> 
- *
  * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: EditingDomainActionBarContributor.java,v 1.15 2009/08/11 20:00:34 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 

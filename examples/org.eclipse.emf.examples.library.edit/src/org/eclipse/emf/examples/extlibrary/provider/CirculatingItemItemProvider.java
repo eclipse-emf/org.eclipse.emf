@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: CirculatingItemItemProvider.java,v 1.7 2008/02/20 22:12:53 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 

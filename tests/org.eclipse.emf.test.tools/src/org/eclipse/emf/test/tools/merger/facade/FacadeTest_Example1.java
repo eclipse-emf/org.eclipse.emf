@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: FacadeTest_Example1.java,v 1.2 2007/01/18 15:53:00 marcelop Exp $
  */
 
 package org.eclipse.emf.test.tools.merger.facade;
@@ -163,8 +157,6 @@ public class FacadeTest_Example1 extends TestCase
     
     StringBuffer expectedHeader = new StringBuffer();
     expectedHeader.append("/**");
-    expectedHeader.append("\n").append(" * <copyright>");
-    expectedHeader.append("\n").append(" *");
     expectedHeader.append("\n").append(" * Copyright (c) 2004-2006 IBM Corporation and others.");
     expectedHeader.append("\n").append(" * All rights reserved.   This program and the accompanying materials");
     expectedHeader.append("\n").append(" * are made available under the terms of the Eclipse Public License v1.0");
@@ -173,8 +165,6 @@ public class FacadeTest_Example1 extends TestCase
     expectedHeader.append("\n").append(" * ");
     expectedHeader.append("\n").append(" * Contributors: "); 
     expectedHeader.append("\n").append(" *   IBM - Initial API and implementation");
-    expectedHeader.append("\n").append(" *");
-    expectedHeader.append("\n").append(" * </copyright>");
     expectedHeader.append("\n").append(" */");
     expectedHeader.append("\n").append("\n  // line comment1 ");
     expectedHeader.append("\n").append("\n/**");

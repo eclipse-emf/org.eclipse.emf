@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2006-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: AbstractExampleInstallerWizard.java,v 1.9 2009/04/16 18:41:06 davidms Exp $
  */
 package org.eclipse.emf.common.ui.wizard;
 

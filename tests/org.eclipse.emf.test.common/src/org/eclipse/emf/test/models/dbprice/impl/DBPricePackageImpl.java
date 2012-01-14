@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2007 IBM Corporation and others.
  * All rights reserved.  This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: DBPricePackageImpl.java,v 1.5 2009/05/12 15:54:44 davidms Exp $
  */
 package org.eclipse.emf.test.models.dbprice.impl;
 

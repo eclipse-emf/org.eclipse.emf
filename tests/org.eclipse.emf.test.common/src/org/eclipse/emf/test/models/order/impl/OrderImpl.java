@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2007 IBM Corporation and others.
  * All rights reserved.  This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: OrderImpl.java,v 1.3 2007/06/02 19:35:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.order.impl;
 

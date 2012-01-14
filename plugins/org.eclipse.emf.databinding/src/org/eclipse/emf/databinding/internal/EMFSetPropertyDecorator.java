@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2009 Tom Schindl and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,9 +7,6 @@
  *
  * Contributors:
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 295683
- * </copyright>
- *
- * $Id: EMFSetPropertyDecorator.java,v 1.1 2009/11/25 09:15:05 tschindl Exp $
  */
 package org.eclipse.emf.databinding.internal;
 

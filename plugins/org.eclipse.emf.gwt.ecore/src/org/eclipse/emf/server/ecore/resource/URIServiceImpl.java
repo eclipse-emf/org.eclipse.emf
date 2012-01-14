@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2010 Ed Merks and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   Ed Merks - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: URIServiceImpl.java,v 1.2 2011/01/24 23:34:17 emerks Exp $
  */
 package org.eclipse.emf.server.ecore.resource;
 

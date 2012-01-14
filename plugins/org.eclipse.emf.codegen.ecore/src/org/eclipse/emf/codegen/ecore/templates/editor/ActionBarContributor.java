@@ -260,14 +260,13 @@ public class ActionBarContributor
   protected final String TEXT_244 = NL + NL + "\t\tsuper.addGlobalActions(menuManager);" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * This ensures that a delete action will clean up all references to deleted objects." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
   protected final String TEXT_245 = NL + "\t@Override";
   protected final String TEXT_246 = NL + "\tprotected boolean removeAllReferencesOnDelete()" + NL + "\t{" + NL + "\t\treturn true;" + NL + "\t}" + NL + "" + NL + "}";
+  protected final String TEXT_247 = NL;
 
   public String generate(Object argument)
   {
     final StringBuffer stringBuffer = new StringBuffer();
     
 /**
- * <copyright>
- *
  * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -276,8 +275,6 @@ public class ActionBarContributor
  *
  * Contributors:
  *   IBM - Initial API and implementation
- *
- * </copyright>
  */
 
     GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();
@@ -805,6 +802,7 @@ if (genModel.isCreationCommands())
     }
     stringBuffer.append(TEXT_246);
     genModel.emitSortedImports();
+    stringBuffer.append(TEXT_247);
     return stringBuffer.toString();
   }
 }

@@ -1,6 +1,4 @@
 /**
- * <copyright> 
- *
  * Copyright (c) 2011 BestSolution.at and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,9 +7,6 @@
  * 
  * Contributors: 
  *   Tom Schindl<tom.schindl@bestsolution.at> - initial API and implementation
- * </copyright>
- *
- * $Id: EMFEditListValueProperty.java,v 1.1 2011/04/22 07:22:41 tschindl Exp $
  */
 package org.eclipse.emf.databinding.edit.internal;
 

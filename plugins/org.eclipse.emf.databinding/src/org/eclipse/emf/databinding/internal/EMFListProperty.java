@@ -1,6 +1,4 @@
 /**
- * <copyright> 
- *
  * Copyright (c) 2008 Matthew Hall and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -11,9 +9,6 @@
  *   Matthew Hall - initial API and implementation (bug 194734)
  *   Matthew Hall - bugs 195222, 264307, 265561
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
- * </copyright>
- *
- * $Id: EMFListProperty.java,v 1.4 2010/04/05 15:30:53 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 

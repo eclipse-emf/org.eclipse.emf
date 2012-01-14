@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: JETTest.java,v 1.6 2007/01/18 15:53:00 marcelop Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -139,7 +133,7 @@ public class JETTest extends TestCase
   protected StringBuffer templateHeader(String lineSeparator)
   {
     StringBuffer text = new StringBuffer();
-    text.append("<%@ jet package=\"jetTest\" imports=\"\" class=\"ATemplateGen\" version=\"$Id: JETTest.java,v 1.6 2007/01/18 15:53:00 marcelop Exp $\"%>").append(lineSeparator);
+    text.append("<%@ jet package=\"jetTest\" imports=\"\" class=\"ATemplateGen\"%>").append(lineSeparator);
     
     text.append("<%").append(lineSeparator);
     text.append("/**").append(lineSeparator);

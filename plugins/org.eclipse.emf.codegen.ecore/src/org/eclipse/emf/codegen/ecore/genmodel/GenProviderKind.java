@@ -1,8 +1,12 @@
 /**
- * <copyright>
- * </copyright>
+ * Copyright (c) 2008-2012 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * $Id: GenProviderKind.java,v 1.4 2008/05/04 17:03:27 emerks Exp $
+ * Contributors:
+ *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 

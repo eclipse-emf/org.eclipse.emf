@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2006-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: HTMLExporter.java,v 1.9 2009/07/22 13:55:26 marcelop Exp $
  */
 package org.eclipse.emf.exporter.html;
 

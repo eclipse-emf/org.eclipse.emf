@@ -25,14 +25,13 @@ public class ModuleGWTXML
   protected final String TEXT_8 = NL + "  <source path=\"";
   protected final String TEXT_9 = "\"/>";
   protected final String TEXT_10 = NL + "</module>";
+  protected final String TEXT_11 = NL;
 
   public String generate(Object argument)
   {
     final StringBuffer stringBuffer = new StringBuffer();
     
 /**
- * <copyright>
- *
  * Copyright (c) 2010 Ed Merks and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -41,8 +40,6 @@ public class ModuleGWTXML
  * 
  * Contributors: 
  *   Ed Merks - Initial API and implementation
- *
- * </copyright>
  */
 
     GenModel genModel = (GenModel)argument; /* Trick to import java.util.* without warnings */Iterator.class.getName();
@@ -66,6 +63,7 @@ public class ModuleGWTXML
     stringBuffer.append(TEXT_9);
     }
     stringBuffer.append(TEXT_10);
+    stringBuffer.append(TEXT_11);
     return stringBuffer.toString();
   }
 }

@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: RegEx.java,v 1.16 2008/05/25 16:46:36 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -1265,7 +1259,6 @@ public final class RegEx
    * <hr width="50%">
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.16 2008/05/25 16:46:36 emerks Exp $
    */
   public static class RegularExpression implements java.io.Serializable {
       private static final long serialVersionUID = 1L;
@@ -7470,7 +7463,6 @@ public final class RegEx
    * A regular expression parser for the XML Shema.
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.16 2008/05/25 16:46:36 emerks Exp $
    */
   static class ParserForXMLSchema extends RegexParser
   {

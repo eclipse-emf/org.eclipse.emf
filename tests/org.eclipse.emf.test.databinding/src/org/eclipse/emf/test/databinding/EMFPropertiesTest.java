@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
@@ -9,10 +7,6 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: EMFPropertiesTest.java,v 1.8 2011/05/12 20:44:07 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding;
 

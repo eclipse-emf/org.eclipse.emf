@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2004-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: ValidateAction.java,v 1.28 2009/04/30 14:24:52 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 

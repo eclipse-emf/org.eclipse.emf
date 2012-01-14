@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2003-2011 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: ChangeDescriptionImpl.java,v 1.24 2011/08/29 20:11:50 khussey Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 

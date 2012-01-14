@@ -1,6 +1,4 @@
 /**
- * <copyright> 
- *
  * Copyright (c) 2007 Brad Reynolds and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -11,9 +9,6 @@
  *   Brad Reynolds - initial API and implementation
  *   Brad Reynolds - bug 147515
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
- * </copyright>
- *
- * $Id: IEMFEditObservable.java,v 1.1 2009/05/23 11:11:30 tschindl Exp $
  */
 package org.eclipse.emf.databinding.edit;
 

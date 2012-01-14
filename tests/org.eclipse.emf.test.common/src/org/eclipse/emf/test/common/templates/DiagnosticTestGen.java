@@ -39,14 +39,13 @@ public class DiagnosticTestGen
   protected final String TEXT_22 = "assertNull(diagnostic";
   protected final String TEXT_23 = ".getException());";
   protected final String TEXT_24 = NL + "\t\t" + NL + "\t\tassertFalse(diagnosticIterator.hasNext());" + NL + "\t}" + NL + "\t" + NL + "\tprotected String toString(Throwable throwable)" + NL + "\t{" + NL + "\t\tStringBuilder sb = new StringBuilder();" + NL + "\t\tsb.append(throwable.getClass().getName());" + NL + "\t\tsb.append(\"#\").append(throwable.getMessage());" + NL + "" + NL + "\t\tThrowable cause = throwable.getCause();" + NL + "\t\tif (cause != null && cause != throwable)" + NL + "\t\t{" + NL + "\t\t\tsb.append(\"--\").append(toString(cause));" + NL + "\t\t}" + NL + "\t\treturn sb.toString();" + NL + "\t}" + NL + "\t" + NL + "\tprotected String removeObjectHashCode(String string)" + NL + "\t{" + NL + "\t\treturn string.replaceAll(\"@\\\\w+\", \"\");" + NL + "\t}" + NL + "}";
+  protected final String TEXT_25 = NL;
 
   public String generate(Object argument)
   {
     final StringBuffer stringBuffer = new StringBuffer();
     
 /**
- * <copyright>
- *
  * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -55,8 +54,6 @@ public class DiagnosticTestGen
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
- *
- * </copyright>
  */
 
     
@@ -167,6 +164,7 @@ public class DiagnosticTestGen
     stringBuffer.append(TEXT_23);
     } if (diagnosticIterator.hasNext()) {stringBuffer.append(NL);}}
     stringBuffer.append(TEXT_24);
+    stringBuffer.append(TEXT_25);
     return stringBuffer.toString();
   }
 }

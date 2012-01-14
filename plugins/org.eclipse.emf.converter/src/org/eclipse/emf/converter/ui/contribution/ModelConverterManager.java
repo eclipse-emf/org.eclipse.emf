@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2005-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: ModelConverterManager.java,v 1.4 2008/04/02 19:00:28 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution;
 

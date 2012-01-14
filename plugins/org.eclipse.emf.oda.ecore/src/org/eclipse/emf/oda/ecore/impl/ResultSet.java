@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2010-2011 Kenn Hussey and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   Kenn Hussey - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: ResultSet.java,v 1.4 2011/10/03 15:21:05 khussey Exp $
  */
 package org.eclipse.emf.oda.ecore.impl;
 

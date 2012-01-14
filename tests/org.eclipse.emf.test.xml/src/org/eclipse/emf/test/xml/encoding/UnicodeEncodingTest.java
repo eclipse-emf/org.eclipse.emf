@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2006 Jesper Steen Møller 
  * 
  * All rights reserved.   This program and the accompanying materials
@@ -10,10 +8,6 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: UnicodeEncodingTest.java,v 1.7 2008/05/07 23:09:09 davidms Exp $
  */
 
 package org.eclipse.emf.test.xml.encoding;

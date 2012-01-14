@@ -16,7 +16,7 @@ public class Validator
 
   public final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
   protected final String TEXT_1 = "";
-  protected final String TEXT_2 = "/**" + NL + " * <copyright>" + NL + " * </copyright>" + NL + " *" + NL + " * ";
+  protected final String TEXT_2 = "/**" + NL + " *" + NL + " * ";
   protected final String TEXT_3 = "Id";
   protected final String TEXT_4 = NL + " */" + NL + "package ";
   protected final String TEXT_5 = ";" + NL;

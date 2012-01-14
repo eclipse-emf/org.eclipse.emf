@@ -1,4 +1,4 @@
-<%@ jet package="org.jetTest" class="SimpleGen" version="$Id: simple.javajet,v 1.1 2007/01/12 20:55:23 marcelop Exp $"%>
+<%@ jet package="org.jetTest" class="SimpleGen"%>
 public class Simple
 {
 	public void main(String[] args)

@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2006-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -10,10 +8,6 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *   Christian Damus (Zeligsoft) - 255469
- *
- * </copyright>
- *
- * $Id: EcoreValidator.java,v 1.5 2011/10/25 17:42:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 

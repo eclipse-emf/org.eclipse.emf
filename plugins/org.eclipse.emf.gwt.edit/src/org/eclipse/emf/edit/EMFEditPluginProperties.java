@@ -1,6 +1,4 @@
 /**
- * <copyright> 
- *
  * Copyright (c) 2010 Ed Merks and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  * 
  * Contributors: 
  *   Ed Merks - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: EMFEditPluginProperties.java,v 1.1 2010/12/12 20:29:46 emerks Exp $
  */
 package org.eclipse.emf.edit;
 

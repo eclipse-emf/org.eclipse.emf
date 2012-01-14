@@ -1,8 +1,6 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SwitchClass" version="$Id: SwitchClass.javajet,v 1.23 2011/01/20 01:10:53 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SwitchClass"%>
 <%
 /**
- * <copyright>
- *
  * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -11,8 +9,6 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
- *
- * </copyright>
  */
 %>
 <%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();%>

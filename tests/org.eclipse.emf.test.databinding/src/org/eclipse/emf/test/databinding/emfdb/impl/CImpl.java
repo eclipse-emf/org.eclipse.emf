@@ -1,8 +1,12 @@
 /**
- * <copyright>
- * </copyright>
+ * Copyright (c) 2011-2012 Eclipse contributors and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * $Id: CImpl.java,v 1.1 2011/02/08 22:28:33 tschindl Exp $
+ * Contributors:
+ *   Eclispe contributors - Initial API and implementation
  */
 package org.eclipse.emf.test.databinding.emfdb.impl;
 

@@ -40,8 +40,6 @@ public class PluginXML
     final StringBuffer stringBuffer = new StringBuffer();
     
 /**
- * <copyright>
- *
  * Copyright (c) 2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -50,8 +48,6 @@ public class PluginXML
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
- *
- * </copyright>
  */
 
     GenModel genModel = (GenModel)argument; /* Trick to import java.util.* without warnings */Iterator.class.getName();

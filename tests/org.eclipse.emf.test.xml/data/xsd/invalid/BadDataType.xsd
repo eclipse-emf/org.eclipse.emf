@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * <copyright>
- * </copyright>
- *
- * $Id: BadDataType.xsd,v 1.5 2008/03/10 14:22:48 emerks Exp $
  */
 -->
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:this="http://www.example.com/Bad" xmlns:xsd1="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.com/Bad">

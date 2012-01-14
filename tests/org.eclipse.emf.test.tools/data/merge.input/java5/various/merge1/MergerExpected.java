@@ -1,6 +1,4 @@
 /**
- * <copyright>
- * </copyright>
  */
 package org.eclipse.example.schoollibrary.presentation;
 

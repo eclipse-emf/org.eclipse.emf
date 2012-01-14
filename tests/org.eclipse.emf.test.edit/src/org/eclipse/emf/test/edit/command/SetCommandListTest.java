@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2008 Tonbeller AG, IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  *
  * Contributors:
  *    Tonbeller - initial API and implementation
- *
- * </copyright>
- *
- * $Id: SetCommandListTest.java,v 1.1 2008/12/02 15:13:42 davidms Exp $
  */
 package org.eclipse.emf.test.edit.command;
 

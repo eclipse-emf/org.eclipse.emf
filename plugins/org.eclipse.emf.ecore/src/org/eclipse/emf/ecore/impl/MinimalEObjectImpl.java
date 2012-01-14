@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2009 Ed Merks and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +7,6 @@
  *
  * Contributors:
  *   Ed Merks - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: MinimalEObjectImpl.java,v 1.3 2010/03/05 15:50:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 

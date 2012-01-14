@@ -1,6 +1,4 @@
 /**
- * <copyright>
- *
  * Copyright (c) 2009 BestSolution.at and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,9 +7,6 @@
  *
  * Contributors:
  *      Tom Schindl<tom.schindl@bestsolution.at> - Initial API and implementation in 262160
- * </copyright>
- *
- * $Id: EWritableList.java,v 1.3 2010/02/04 20:56:28 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
