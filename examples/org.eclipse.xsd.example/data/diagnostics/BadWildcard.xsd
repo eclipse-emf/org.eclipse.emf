@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * <copyright>
- * </copyright>
- *
- * $Id: BadWildcard.xsd,v 1.1 2005/06/13 14:08:22 marcelop Exp $
  */
 -->
 <xsd:schema
