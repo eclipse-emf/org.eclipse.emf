@@ -50,7 +50,7 @@ import org.eclipse.emf.ecore.xcore.XcoreFactory;
 import org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator;
 import org.eclipse.emf.ecore.xcore.util.EcoreXcoreBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelInitializer;
-import org.eclipse.emf.ecore.xcore.util.XcoreGenmodelBuilder;
+import org.eclipse.emf.ecore.xcore.util.XcoreGenModelBuilder;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -82,7 +82,7 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
   Provider<EcoreXcoreBuilder> ecoreXcoreBuilderProvider;
   
   @Inject
-  XcoreGenmodelBuilder genModelBuilder;
+  XcoreGenModelBuilder genModelBuilder;
   
   @Inject
   XcoreGenModelInitializer genModelInitializer;

@@ -10,9 +10,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder;
-import org.eclipse.emf.ecore.xcore.util.XcoreGenmodelBuilder;
+import org.eclipse.emf.ecore.xcore.util.XcoreGenModelBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreJvmInferrer;
-import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.parser.antlr.IReferableElementsUnloader;
 import org.eclipse.xtext.resource.DerivedStateAwareResource;
 import org.eclipse.xtext.resource.IDerivedStateComputer;
@@ -28,7 +27,7 @@ public class LateInferrer implements IDerivedStateComputer
 	private XcoreJvmInferrer jvmInferrer;
 
 	@Inject
-	private XcoreGenmodelBuilder genModelBuilder;
+	private XcoreGenModelBuilder genModelBuilder;
 
 	@Inject
 	private Provider<XcoreEcoreBuilder> xcoreEcoreBuilderProvider;

@@ -71,7 +71,7 @@ public class GenModelResourceDescriptionManagerTest extends TestCase {
 		super.tearDown();
 	}
 	
-	public void testEcoreGenmodel() throws Exception {
+	public void testEcoreGenModel() throws Exception {
 		Map<QualifiedName, IEObjectDescription> index = createIndex(ecoreGenModel);
 		getAndCheckEntry(index, GenModelPackage.Literals.GEN_PACKAGE, "org.eclipse.emf.ecore");
 		IEObjectDescription description = getAndCheckEntry(index, GenModelPackage.Literals.GEN_CLASS, "org.eclipse.emf.ecore.EClass");

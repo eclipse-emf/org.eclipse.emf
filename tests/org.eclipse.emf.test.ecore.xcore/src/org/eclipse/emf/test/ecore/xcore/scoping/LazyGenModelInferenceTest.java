@@ -35,8 +35,8 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 
 @RunWith(XtextRunner.class)
-@InjectWith(LazyGenmodelInferenceTest.MyXcoreInjectorProvider.class)
-public class LazyGenmodelInferenceTest {
+@InjectWith(LazyGenModelInferenceTest.MyXcoreInjectorProvider.class)
+public class LazyGenModelInferenceTest {
 
 	@Inject
 	private Provider<XtextResourceSet> resourceSetProvider;

@@ -46,7 +46,7 @@ import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import org.eclipse.xtext.xtend2.lib.EObjectExtensions;
 
 @SuppressWarnings("all")
-public class XcoreGenmodelBuilder {
+public class XcoreGenModelBuilder {
   @Inject
   private XcoreMapper mapper;
   
