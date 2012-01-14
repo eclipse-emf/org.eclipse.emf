@@ -28,6 +28,7 @@ public class RedoAction extends Action
 
         public void dirtyStateChanged()
         {
+          // Ignore
         }
 
         public void commandStackChanged()

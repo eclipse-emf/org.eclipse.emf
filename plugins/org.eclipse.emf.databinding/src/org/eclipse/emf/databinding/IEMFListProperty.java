@@ -35,6 +35,7 @@ public interface IEMFListProperty extends IEMFProperty, IListProperty
    * <p><b>This API is highly experimental and if possible will get moved upwards to Core-Databinding</b></p>
    * 
    * Delegate used to read/write an element of an observed list
+   * @param <O> 
    * 
    * @since 2.7
    */

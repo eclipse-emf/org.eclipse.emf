@@ -23,7 +23,8 @@ public class XcoreConversionDelegate implements EDataType.Internal.ConversionDel
 	
 	private XBlockExpression createBody;
 	private XBlockExpression convertBody;
-	private EDataType eDataType;
+	@SuppressWarnings("unused")
+  private EDataType eDataType;
 	
 	public void initialize(XBlockExpression createBody, XBlockExpression convertBody, EDataType eDataType)
 	{

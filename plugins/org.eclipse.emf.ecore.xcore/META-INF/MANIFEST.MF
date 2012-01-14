@@ -1,7 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.eclipse.emf.ecore.xcore
-Bundle-Vendor: My Company
+Bundle-Name: %pluginName
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Bundle-Version: 1.0.0
 Bundle-SymbolicName: org.eclipse.emf.ecore.xcore;singleton:=true
 Bundle-ActivationPolicy: lazy

@@ -119,6 +119,7 @@ public abstract class ResultSet implements IResultSet
       return object;
     }
 
+    @Override
     public String toString()
     {
       return StringUtil.getText(object);

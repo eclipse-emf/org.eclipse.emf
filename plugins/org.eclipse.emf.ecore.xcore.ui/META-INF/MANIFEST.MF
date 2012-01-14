@@ -1,7 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Xcore UI
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.emf.ecore.xcore.ui;singleton:=true
+Bundle-Localization: plugin
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator
 Require-Bundle: org.eclipse.ui,

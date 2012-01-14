@@ -99,6 +99,7 @@ public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
 
         public void commandStackChanged()
         {
+          // Ignore
         }
 
       };
@@ -206,30 +207,37 @@ public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
 
     public void partVisible(IWorkbenchPartReference partRef)
     {
+      // Ignore
     }
 
     public void partOpened(IWorkbenchPartReference partRef)
     {
+      // Ignore
     }
 
     public void partInputChanged(IWorkbenchPartReference partRef)
     {
+      // Ignore
     }
 
     public void partHidden(IWorkbenchPartReference partRef)
     {
+      // Ignore
     }
 
     public void partDeactivated(IWorkbenchPartReference partRef)
     {
+      // Ignore
     }
 
     public void partClosed(IWorkbenchPartReference partRef)
     {
+      // Ignore
     }
 
     public void partBroughtToTop(IWorkbenchPartReference partRef)
     {
+      // Ignore
     }
 
     public void partActivated(IWorkbenchPartReference partRef)
@@ -266,6 +274,7 @@ public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
 
   public void doSaveAs()
   {
+      // Ignore
   }
 
   public boolean isDirty()

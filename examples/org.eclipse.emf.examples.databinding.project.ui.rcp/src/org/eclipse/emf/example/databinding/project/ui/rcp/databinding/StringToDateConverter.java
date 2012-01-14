@@ -47,7 +47,7 @@ public class StringToDateConverter extends Converter implements IValidator
 
   public Object convert(Object fromObject)
   {
-    if (fromObject != null && fromObject.toString().trim().length() == 0)
+    if (fromObject == null || fromObject.toString().trim().length() == 0)
     {
       return null;
     }

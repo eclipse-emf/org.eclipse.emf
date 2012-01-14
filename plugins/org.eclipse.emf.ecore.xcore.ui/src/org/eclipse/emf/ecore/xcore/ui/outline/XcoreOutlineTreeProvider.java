@@ -14,5 +14,5 @@ import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider;
  * 
  */
 public class XcoreOutlineTreeProvider extends DefaultOutlineTreeProvider {
-	
+  // No specializations
 }

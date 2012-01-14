@@ -15,7 +15,6 @@ import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
-import org.eclipse.emf.databinding.IEMFListProperty.ListElementAccess;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 

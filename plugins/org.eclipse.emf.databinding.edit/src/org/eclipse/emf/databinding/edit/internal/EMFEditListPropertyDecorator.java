@@ -119,7 +119,7 @@ public class EMFEditListPropertyDecorator extends ListProperty implements IEMFEd
     return new EMFEditListPropertyDecorator(editingDomain, super.values(property), property.getStructuralFeature());
   }
 
-  public IEMFEditValueProperty value(ListElementAccess elementAccess) 
+  public IEMFEditValueProperty value(ListElementAccess<?> elementAccess) 
   {
     return new EMFEditValuePropertyDecorator(editingDomain,new EMFEditListValueProperty(editingDomain,eStructuralFeature,elementAccess), eStructuralFeature);
   }

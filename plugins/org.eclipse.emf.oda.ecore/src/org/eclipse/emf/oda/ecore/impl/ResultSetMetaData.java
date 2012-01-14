@@ -60,6 +60,7 @@ public abstract class ResultSetMetaData implements IResultSetMetaData
       return checkBounds(index) > 1 ? StringUtil.getFeatureText(type.getEStructuralFeature(index - 2)) : super.getColumnLabel(index);
     }
 
+    @Override
     protected EClassifier getColumnClassifier(int index) throws OdaException
     {
       return checkBounds(index) == 1 ? type : type.getEStructuralFeature(index - 2).getEType();
@@ -92,6 +93,7 @@ public abstract class ResultSetMetaData implements IResultSetMetaData
       return FIRST_COLUMN_NAME;
     }
 
+    @Override
     protected EClassifier getColumnClassifier(int index) throws OdaException
     {
       return type;

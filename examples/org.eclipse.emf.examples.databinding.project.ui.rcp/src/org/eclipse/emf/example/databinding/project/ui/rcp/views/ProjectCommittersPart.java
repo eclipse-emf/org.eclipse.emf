@@ -198,5 +198,6 @@ public class ProjectCommittersPart
    */
   public void dispose()
   {
+    // Ignore
   }
 }

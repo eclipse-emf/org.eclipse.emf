@@ -93,7 +93,7 @@ public class LazyCreationProxyUriConverterTest
 			fail();
 		} catch (IllegalArgumentException e)
 		{
-
+			// Ignore
 		}
 	}
 
@@ -109,7 +109,7 @@ public class LazyCreationProxyUriConverterTest
 			fail();
 		} catch (IllegalArgumentException e)
 		{
-
+			// Ignore
 		}
 	}
 }

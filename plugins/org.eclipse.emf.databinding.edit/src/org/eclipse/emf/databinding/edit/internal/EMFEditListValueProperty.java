@@ -27,7 +27,7 @@ public class EMFEditListValueProperty extends EMFListValueProperty
 {
   private EditingDomain editingDomain;
 
-  public EMFEditListValueProperty(EditingDomain editingDomain, EStructuralFeature eStructuralFeature, ListElementAccess elementAccess)
+  public EMFEditListValueProperty(EditingDomain editingDomain, EStructuralFeature eStructuralFeature, ListElementAccess<?> elementAccess)
   {
     super(eStructuralFeature, elementAccess);
     this.editingDomain = editingDomain;

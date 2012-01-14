@@ -25,12 +25,19 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 
+/**
+ */
 public class EMFListValueProperty extends SimpleValueProperty
 {
   private final EStructuralFeature eStructuralFeature;
+  @SuppressWarnings("rawtypes")
   private final ListElementAccess elementAccess;
 
-  public EMFListValueProperty(EStructuralFeature eStructuralFeature, ListElementAccess elementAccess)
+  /**
+   * @param eStructuralFeature
+   * @param elementAccess
+   */
+  public EMFListValueProperty(EStructuralFeature eStructuralFeature, ListElementAccess<?> elementAccess)
   {
     this.eStructuralFeature = eStructuralFeature;
     this.elementAccess = elementAccess;
@@ -46,6 +53,7 @@ public class EMFListValueProperty extends SimpleValueProperty
   {
     EObject eObject = (EObject)source;
     List< ? > list = (List< ? >)eObject.eGet(eStructuralFeature);
+    @SuppressWarnings("unchecked")
     int idx = elementAccess.getReadValueIndex(list);
     if (idx != WriteData.NO_INDEX)
     {
@@ -58,7 +66,9 @@ public class EMFListValueProperty extends SimpleValueProperty
   protected void doSetValue(Object source, Object value)
   {
     EObject eObject = (EObject)source;
+    @SuppressWarnings("unchecked")
     List<Object> list = (List<Object>)eObject.eGet(eStructuralFeature);
+    @SuppressWarnings("unchecked")
     WriteData data = elementAccess.getWriteValueData(list);
     if (data != null)
     {
@@ -66,6 +76,12 @@ public class EMFListValueProperty extends SimpleValueProperty
     }
   }
 
+  /**
+   * @param source
+   * @param targetList
+   * @param data
+   * @param value
+   */
   protected void doSetListValue(EObject source, List<Object> targetList, WriteData data, Object value)
   {
     if (data.insert)

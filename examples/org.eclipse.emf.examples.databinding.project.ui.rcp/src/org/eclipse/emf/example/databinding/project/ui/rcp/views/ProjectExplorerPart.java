@@ -367,10 +367,12 @@ public class ProjectExplorerPart
 
               public void linkExited(HyperlinkEvent e)
               {
+                // Ignore
               }
 
               public void linkEntered(HyperlinkEvent e)
               {
+                // Ignore
               }
 
               public void linkActivated(HyperlinkEvent e)
@@ -392,10 +394,12 @@ public class ProjectExplorerPart
 
               public void linkExited(HyperlinkEvent e)
               {
+                // Ignore
               }
 
               public void linkEntered(HyperlinkEvent e)
               {
+                // Ignore
               }
 
               public void linkActivated(HyperlinkEvent e)
@@ -455,10 +459,12 @@ public class ProjectExplorerPart
 
               public void linkExited(HyperlinkEvent e)
               {
+                // Ignore
               }
 
               public void linkEntered(HyperlinkEvent e)
               {
+                // Ignore
               }
 
               public void linkActivated(HyperlinkEvent e)
@@ -527,6 +533,7 @@ public class ProjectExplorerPart
 
     public void preExecute(String commandId, ExecutionEvent event)
     {
+      // Ignore
     }
 
     public void postExecuteSuccess(String commandId, Object returnValue)
@@ -555,10 +562,12 @@ public class ProjectExplorerPart
 
     public void postExecuteFailure(String commandId, ExecutionException exception)
     {
+      // Ignore
     }
 
     public void notHandled(String commandId, NotHandledException exception)
     {
+      // Ignore
     }
   }
 }

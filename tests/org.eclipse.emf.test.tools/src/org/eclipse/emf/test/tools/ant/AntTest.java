@@ -131,7 +131,10 @@ public class AntTest extends TestCase
     }
     
     assertNotNull(examplesDir);
-    assert examplesDir != null;
+    if (examplesDir == null)
+    {
+      throw new AssertionError("examplesDir can't be null");
+    }
     if (!examplesDir.isDirectory() && emfAntSourcePluginDir != null)
     {
       examplesDir = new File(emfAntSourcePluginDir + "/examples");
@@ -148,6 +151,10 @@ public class AntTest extends TestCase
     
     assertNotNull(libraryDir);
     assert libraryDir != null;
+    if (libraryDir == null)
+    {
+      throw new AssertionError("libraryDir can't be null");
+    }
     if (!libraryDir.isDirectory() && roseImporterSourcePluginDir != null)
     {
       libraryDir = new File(roseImporterSourcePluginDir + "/examples/library");
@@ -166,6 +173,10 @@ public class AntTest extends TestCase
     
     assertNotNull(libraryDir);
     assert libraryDir != null;
+    if (libraryDir == null)
+    {
+      throw new AssertionError("libraryDir can't be null");
+    }
     if (!libraryDir.isDirectory() && xsdImporterSourcePluginDir != null)
     {
       libraryDir = new File(xsdImporterSourcePluginDir + "/examples/library");
@@ -186,7 +197,10 @@ public class AntTest extends TestCase
     }
     
     assertNotNull(libraryDir);
-    assert libraryDir != null;
+    if (libraryDir == null)
+    {
+      throw new AssertionError("libraryDir can't be null");
+    }
     if (!libraryDir.isDirectory() && ecoreImporterSourcePluginDir != null)
     {
       libraryDir = new File(ecoreImporterSourcePluginDir + "/examples/library");
@@ -204,7 +218,10 @@ public class AntTest extends TestCase
     }
     
     assertNotNull(libraryDir);
-    assert libraryDir != null;
+    if (libraryDir == null)
+    {
+      throw new AssertionError("libraryDir can't be null");
+    }
     if (!libraryDir.isDirectory() && javaImporterSourcePluginDir != null)
     {
       libraryDir = new File(javaImporterSourcePluginDir + "/examples/library");

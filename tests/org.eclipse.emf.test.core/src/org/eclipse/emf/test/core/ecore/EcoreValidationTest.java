@@ -2321,6 +2321,7 @@ public class EcoreValidationTest extends TestCase
 
           class HolderCase1<E, F extends E, H extends Container<E>>
           {
+            @SuppressWarnings("unused")
             <E1, F1 extends E1, G1 extends Container<E1>> void foo(HolderCase1<E1, F1, G1> x)
             {
               this.foo(x);
@@ -2356,6 +2357,7 @@ public class EcoreValidationTest extends TestCase
 
           class HolderCase2<E, F extends E, H extends Container<E>>
           {
+            @SuppressWarnings("unused")
             <E1, F1 extends E1, G1 extends Container<E1>> void foo(HolderCase2<?, ?, ?> x)
             {
               this.foo(x);
@@ -2571,6 +2573,7 @@ public class EcoreValidationTest extends TestCase
 
           class HolderCase7<E, F extends E, H extends Container<? extends E>>
           {
+            @SuppressWarnings("unused")
             <E1, F1 extends E1, G1 extends Container<E1>> void foo(HolderCase7<E1, F1, Container<F1>> x)
             {
               this.foo(x);

@@ -109,6 +109,7 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
     super.completeXGenericType_Type(model, assignment, context, scopeAware);
   }
   
+  @SuppressWarnings("restriction")
   @Override
   protected void lookupCrossReference(CrossReference crossReference, EReference reference,
     ContentAssistContext contentAssistContext, ICompletionProposalAcceptor acceptor,

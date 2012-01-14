@@ -55,7 +55,7 @@ public class EMFMultiListProperty extends MultiListProperty implements IEMFListP
     return null;
   }
   
-  public IEMFValueProperty value(ListElementAccess elementAccess) {
+  public IEMFValueProperty value(ListElementAccess<?> elementAccess) {
 		throw new UnsupportedOperationException();
 	}
 }

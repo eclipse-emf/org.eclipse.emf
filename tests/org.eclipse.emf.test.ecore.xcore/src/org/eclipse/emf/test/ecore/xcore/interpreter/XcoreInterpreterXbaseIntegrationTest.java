@@ -33,7 +33,8 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
 	@Inject
 	private ValidationTestHelper validator;
 
-	protected Object invokeXbaseExpression(String expression) throws Exception {
+	@Override
+  protected Object invokeXbaseExpression(String expression) throws Exception {
 		XPackage pack = parser.parse("package foo class Bar { op Object foo() { "+expression+" } }");
 		validator.assertNoErrors(pack);
 		EPackage ePack = (EPackage) pack.eResource().getContents().get(2);
@@ -45,17 +46,21 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
 	@Override
 	public void testShortCircuitBooleanExpression_03() throws Exception
 	{
+		// Ignore
 	}
 	@Override
 	public void testShortCircuitBooleanExpression_04() throws Exception
 	{
+		// Ignore
 	}
 	@Override
 	public void testFunctionConversion_00() throws Exception
 	{
+		// Ignore
 	}
 	@Override
 	public void testMapConstruction_01() throws Exception
 	{
+		// Ignore
 	}
 }

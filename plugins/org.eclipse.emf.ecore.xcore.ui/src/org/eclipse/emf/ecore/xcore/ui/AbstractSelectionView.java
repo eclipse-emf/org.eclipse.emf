@@ -38,11 +38,13 @@ public abstract class AbstractSelectionView extends ViewPart {
 	protected IEditingDomainProvider editingDomainProvider;
 	protected ISelectionProvider selectionProvider;
 	
-	public void init(IViewSite site) throws PartInitException {
+	@Override
+  public void init(IViewSite site) throws PartInitException {
 		super.init(site);
 		getSite().getWorkbenchWindow().getPartService().addPartListener(partListener);
 	}
-	public void dispose() {
+	@Override
+  public void dispose() {
 		getSite().getWorkbenchWindow().getPartService().removePartListener(partListener);
 		setEditingDomainProvider(null);
 		super.dispose();
@@ -72,18 +74,17 @@ public abstract class AbstractSelectionView extends ViewPart {
 		if (this.editingDomainProvider == editingDomainProvider) {
 			return;
 		}
-		if (this.editingDomainProvider != null) {
-		}
 		this.editingDomainProvider = editingDomainProvider;
-		if (this.editingDomainProvider != null) {
-		}
 		updateView();
 	}
 
 	protected void updateView() {
+	  // Ignore
 	}
 	
-	public Object getAdapter(Class type) {
+	@SuppressWarnings("rawtypes")
+  @Override
+  public Object getAdapter(Class type) {
 		Object o =  super.getAdapter(type);
 		if (o == null && editingDomainProvider instanceof IAdaptable) {
 			o = ((IAdaptable)editingDomainProvider).getAdapter(type);
@@ -96,13 +97,14 @@ public abstract class AbstractSelectionView extends ViewPart {
 		setEditingDomainProvider(getAdapter(part, IEditingDomainProvider.class));
 	}
 
-	protected <T> T getAdapter(IWorkbenchPart part, Class<T> c) {
+	@SuppressWarnings("unchecked")
+  protected <T> T getAdapter(IWorkbenchPart part, Class<T> c) {
 		IWorkbenchPage workbenchPage = getViewSite().getWorkbenchWindow().getActivePage();
 		if (workbenchPage == null) {
 			return null;
 		}
 		IEditorPart editorPart = workbenchPage.getActiveEditor();
-		return (editorPart != null ? (T)editorPart.getAdapter(c) : null);
+		return (T)(editorPart != null ? editorPart.getAdapter(c) : null);
 	}
 	
 	private IPartListener partListener = new IPartListener() {
@@ -131,8 +133,7 @@ public abstract class AbstractSelectionView extends ViewPart {
 	protected void selectionChanged(ISelection selection) {
 		Object oldSelection = this.selection;
 		this.selection = null;
-		if (selection.isEmpty()) {
-		} else if (selection instanceof IStructuredSelection) {
+		if (!selection.isEmpty() && selection instanceof IStructuredSelection) {
 			Object o = ((IStructuredSelection)selection).getFirstElement();
 			if (isValidSelection(o)) {
 				this.selection = o;
@@ -159,7 +160,8 @@ public abstract class AbstractSelectionView extends ViewPart {
 		});
 	}
 
-	public void createPartControl(Composite parent) {
+	@Override
+  public void createPartControl(Composite parent) {
 		textActionHandler = new TextActionHandler(getViewSite().getActionBars());
 		createActions();
 		createMenu();
@@ -177,17 +179,20 @@ public abstract class AbstractSelectionView extends ViewPart {
 	}
 
 	protected void createActions() {
+	  // Do nothing.
 	}
 
 	private void createMenu() {
 		createMenu(getViewSite().getActionBars().getMenuManager());
 	}
 	protected void createMenu(IMenuManager mgr) {
+	  // Do nothing.
 	}
 
 	private void createToolbar() {
 		createToolbar(getViewSite().getActionBars().getToolBarManager());
 	}
 	protected void createToolbar(IToolBarManager mgr) {
+	  // Do nothing.
 	}
 }

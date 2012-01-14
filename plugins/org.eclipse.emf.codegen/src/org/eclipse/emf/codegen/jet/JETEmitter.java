@@ -514,7 +514,7 @@ public class JETEmitter
                 // Compute the URL for where the classes for this project will be located.
                 //
                 IJavaProject javaProject = JavaCore.create(project);
-                urls.add(new File(project.getLocation() + "/" + javaProject.getOutputLocation().removeFirstSegments(1) + "/").toURL());
+                urls.add(new File(project.getLocation() + "/" + javaProject.getOutputLocation().removeFirstSegments(1) + "/").toURI().toURL());
                 
                 // Compute the URLs for all the output folder of all the project dependencies.
                 //
@@ -525,7 +525,7 @@ public class JETEmitter
                     IPath projectPath = classpathEntry.getPath();
                     IProject otherProject = workspace.getRoot().getProject(projectPath.segment(0));
                     IJavaProject otherJavaProject = JavaCore.create(otherProject);
-                    urls.add(new File(otherProject.getLocation() + "/" + otherJavaProject.getOutputLocation().removeFirstSegments(1) + "/").toURL());
+                    urls.add(new File(otherProject.getLocation() + "/" + otherJavaProject.getOutputLocation().removeFirstSegments(1) + "/").toURI().toURL());
                   }
                 }
   
@@ -792,7 +792,7 @@ public class JETEmitter
           // Construct a proper URL for relative lookup.
           //
           List<URL> urls = new ArrayList<URL>();
-          urls.add(new File(project.getLocation() + "/" + javaProject.getOutputLocation().removeFirstSegments(1) + "/").toURL());
+          urls.add(new File(project.getLocation() + "/" + javaProject.getOutputLocation().removeFirstSegments(1) + "/").toURI().toURL());
           
           // Determine all the bundles that this project depends on.
           //
@@ -896,7 +896,7 @@ public class JETEmitter
           IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(pluginID);
           if (project != null)
           {
-            classpathURL = new File(project.getLocation()+ "/.classpath").toURL();
+            classpathURL = new File(project.getLocation()+ "/.classpath").toURI().toURL();
           }
         }
         catch (MalformedURLException exception)

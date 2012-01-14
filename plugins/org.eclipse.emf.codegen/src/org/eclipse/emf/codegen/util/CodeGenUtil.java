@@ -1025,7 +1025,7 @@ public class CodeGenUtil
       try
       {
         Bundle bundle = Platform.getBundle(pluginID);
-        String requires = (String)bundle.getHeaders().get(Constants.BUNDLE_CLASSPATH);
+        String requires = bundle.getHeaders().get(Constants.BUNDLE_CLASSPATH);
         if (requires == null)
         {
           requires = ".";

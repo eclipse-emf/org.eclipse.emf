@@ -435,6 +435,7 @@ public class EMFEditPropertiesTest extends TestCase
     IEMFEditValueProperty valueProp = prop.value(new ListElementAccess<Object>()
       {
 
+        @Override
         public int getReadValueIndex(List< Object > list)
         {
           return 0;

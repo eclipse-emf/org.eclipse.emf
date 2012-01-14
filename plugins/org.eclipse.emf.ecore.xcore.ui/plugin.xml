@@ -11,7 +11,7 @@
             default="true"
             extensions="xcore"
             id="org.eclipse.emf.ecore.xcore.Xcore"
-            name="Xcore Editor">
+            name="%editor.name">
         </editor>
     </extension>
     <extension
@@ -52,21 +52,21 @@
         <page
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
             id="org.eclipse.emf.ecore.xcore.Xcore"
-            name="Xcore">
+            name="%page.name">
             <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
         </page>
         <page
             category="org.eclipse.emf.ecore.xcore.Xcore"
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.editor.syntaxcoloring.SyntaxColoringPreferencePage"
             id="org.eclipse.emf.ecore.xcore.Xcore.coloring"
-            name="Syntax Coloring">
+            name="%page.name.0">
             <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
         </page>
         <page
             category="org.eclipse.emf.ecore.xcore.Xcore"
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.editor.templates.XtextTemplatePreferencePage"
             id="org.eclipse.emf.ecore.xcore.Xcore.templates"
-            name="Templates">
+            name="%page.name.1">
             <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
         </page>
     </extension>
@@ -75,7 +75,7 @@
         <page
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
             id="org.eclipse.emf.ecore.xcore.Xcore"
-            name="Xcore">
+            name="%page.name.2">
             <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
             <enabledWhen>
 	            <adapt type="org.eclipse.core.resources.IProject"/>
@@ -87,14 +87,14 @@
         point="org.eclipse.ui.keywords">
         <keyword
             id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"
-            label="Xcore"/>
+            label="%keyword.label"/>
     </extension>
     <extension
          point="org.eclipse.ui.commands">
       <command
-            description="Trigger expensive validation"
+            description="%command.description"
             id="org.eclipse.emf.ecore.xcore.Xcore.validate"
-            name="Validate">
+            name="%command.name">
       </command>
     </extension>
     <extension point="org.eclipse.ui.menus">
@@ -103,7 +103,7 @@
              <command
                  commandId="org.eclipse.emf.ecore.xcore.Xcore.validate"
                  style="push"
-                 tooltip="Trigger expensive validation">
+                 tooltip="%command.tooltip">
             <visibleWhen checkEnabled="false">
                 <reference
                     definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
@@ -168,9 +168,9 @@
 	<extension
 		point="org.eclipse.ui.commands">
 		<command
-			description="Open the quick outline."
+			description="%command.description.0"
 			id="org.eclipse.xtext.ui.editor.outline.QuickOutline"
-			name="Quick Outline">
+			name="%command.name.0">
 		</command>
 	</extension>
 	<extension point="org.eclipse.ui.menus">
@@ -178,7 +178,7 @@
 			locationURI="popup:#TextEditorContext?after=group.open">
 			<command commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline"
 				style="push"
-				tooltip="Open Quick Outline">
+				tooltip="%command.tooltip.0">
 				<visibleWhen checkEnabled="false">
 					<reference definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened"/>
 				</visibleWhen>
@@ -195,7 +195,7 @@
   <extension point="org.eclipse.compare.contentMergeViewers">
     <viewer id="org.eclipse.emf.ecore.xcore.Xcore.compare.contentMergeViewers"
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
-            extensions="xcore" label="Xcore Compare">
+            extensions="xcore" label="%viewer.label">
      </viewer>
   </extension>
   <extension point="org.eclipse.ui.editors.documentProviders">
@@ -224,7 +224,7 @@
             category="org.eclipse.emf.ecore.xcore.Xcore"
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
             id="org.eclipse.emf.ecore.xcore.Xcore.compiler.preferencePage"
-            name="Compiler">
+            name="%page.name.3">
             <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
         </page>
     </extension>
@@ -234,7 +234,7 @@
             category="org.eclipse.emf.ecore.xcore.Xcore"
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
             id="org.eclipse.emf.ecore.xcore.Xcore.compiler.propertyPage"
-            name="Compiler">
+            name="%page.name.4">
             <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
             <enabledWhen>
 	            <adapt type="org.eclipse.core.resources.IProject"/>
@@ -272,7 +272,7 @@
 	        category="org.eclipse.emf.ecore.xcore.Xcore"
 	        class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
 	        id="org.eclipse.emf.ecore.xcore.Xcore.refactoring"
-	        name="Refactoring">
+	        name="%page.name.5">
 	        <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
 	    </page>
 	</extension>
@@ -283,7 +283,7 @@
             objectClass="org.eclipse.core.resources.IFile"
             nameFilter="*.xcore"
             id="org.eclipse.emf.ecore.xcore.ui.ConvertToEcoreActionID">
-         <action label="Convert to Ecore"
+         <action label="%action.label"
                class="org.eclipse.emf.ecore.xcore.ui.ConvertToEcoreActionDelegate"
                menubarPath="additions" 
                enablesFor="1"
@@ -296,7 +296,7 @@
             objectClass="org.eclipse.core.resources.IFile"
             nameFilter="*.genmodel"
             id="org.eclipse.emf.ecore.xcore.ui.ConvertGenModelToXcoreActionID">
-         <action label="Convert to Xcore"
+         <action label="%action.label.0"
                class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.emf.ecore.xcore.ui.ConvertToXcoreActionDelegate"
                menubarPath="additions" 
                enablesFor="1"
@@ -318,9 +318,9 @@
 
     <extension point="org.eclipse.ui.commands">
       <command
-            description="Create a dynamic instance of the selected class"
+            description="%command.description.1"
             id="org.eclipse.emf.ecore.xcore.ui.CreateDynamicInstance"
-            name="Create Dynamic Instance...">
+            name="%command.name.1">
       </command>
     </extension>
 
@@ -330,7 +330,7 @@
              <command
                  commandId="org.eclipse.emf.ecore.xcore.ui.CreateDynamicInstance"
                  style="push"
-                 tooltip="Create a dynamic instance">
+                 tooltip="%command.tooltip.1">
             <visibleWhen checkEnabled="false">
                 <reference
                     definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
@@ -342,22 +342,22 @@
 
     <extension point="org.eclipse.ui.views">
         <view id="org.eclipse.emf.ecore.xcore.ui.EOperationInvocationView"
-             name="Operation Invocation View"
+             name="%view.name"
           class="org.eclipse.emf.ecore.xcore.ui.EOperationInvocationView"/>
     </extension>
 
     <extension point="org.eclipse.ui.newWizards">
       <category
             id="org.eclipse.emf.ecore.xcore.ui.wizardCategory"
-            name="Xcore"/>
+            name="%category.name"/>
       <wizard
             id="org.eclipse.emf.ecore.xcore.ui.EmptyXcoreProjectWizard"
-            name="Xcore Project"
+            name="%wizard.name"
             class="org.eclipse.emf.ecore.xcore.ui.EmptyXcoreProjectWizard"
             category="org.eclipse.emf.ecore.xcore.ui.wizardCategory"
             project="true"
             icon="platform:/plugin/org.eclipse.emf.codegen.ecore.ui/icons/full/ctool16/NewEmptyEMFProject.gif">
-         <description>Creates an empty Xcore project</description>
+         <description>%wizard.description</description>
          <selection class="org.eclipse.core.resources.IResource"/>
       </wizard>
    </extension>

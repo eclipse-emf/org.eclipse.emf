@@ -28,6 +28,7 @@ public class UndoAction extends Action
 
         public void dirtyStateChanged()
         {
+          // Ignore
         }
 
         public void commandStackChanged()

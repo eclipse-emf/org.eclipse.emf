@@ -414,6 +414,7 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
 
         public void dispose()
         {
+          // Ignore
         }
 
         @SuppressWarnings("unchecked")
@@ -426,6 +427,7 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
       {
         public void removeListener(ILabelProviderListener listener)
         {
+          // Ignore
         }
 
         public boolean isLabelProperty(Object element, String property)
@@ -435,10 +437,12 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
 
         public void dispose()
         {
+          // Ignore
         }
 
         public void addListener(ILabelProviderListener listener)
         {
+          // Ignore
         }
 
         public String getColumnText(Object element, int columnIndex)
@@ -986,7 +990,7 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
     QueryDelegate.Factory factory = (QueryDelegate.Factory)QueryDelegate.Factory.Registry.INSTANCE.get(getQueryDelegate());
     boolean isValid = factory != null;
 
-    if (isValid)
+    if (factory != null)
     {
       EClassifier context = getContextType();
       isValid = context != null;

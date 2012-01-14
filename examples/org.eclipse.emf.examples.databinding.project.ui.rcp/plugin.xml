@@ -14,7 +14,7 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            name="RCP Perspective"
+            name="%perspective.name"
             class="org.eclipse.emf.example.databinding.project.ui.rcp.Perspective"
             id="org.eclipse.emf.example.project.ui.rcp.perspective">
       </perspective>
@@ -25,7 +25,7 @@
             allowMultiple="true"
             class="org.eclipse.emf.example.databinding.project.ui.rcp.views.ProjectAdminViewPart"
             id="org.eclipse.emf.example.databinding.project.ui.rcp.views.ProjectAdminViewPart"
-            name="Project Administration"
+            name="%view.name"
             restorable="true">
       </view>
    </extension>
@@ -51,20 +51,20 @@
          point="org.eclipse.ui.commands">
       <command
             id="org.eclipse.emf.examples.databinding.project.ui.rcp.newperson"
-            name="New Person">
+            name="%command.name">
          <commandParameter
                id="org.eclipse.emf.examples.databinding.project.ui.rcp.person.action"
-               name="Action"
+               name="%commandParameter.name"
                optional="true"
                values="org.eclipse.emf.example.databinding.project.ui.rcp.handlers.PersonParamValues">
          </commandParameter>
       </command>
       <command
             id="org.eclipse.emf.examples.databinding.project.ui.rcp.editperson"
-            name="Edit Person">
+            name="%command.name.0">
          <commandParameter
                id="org.eclipse.emf.examples.databinding.project.ui.rcp.person.action"
-               name="Action"
+               name="%commandParameter.name.0"
                optional="true"
                values="org.eclipse.emf.example.databinding.project.ui.rcp.handlers.PersonParamValues">
          </commandParameter>
@@ -72,28 +72,28 @@
       <command
             defaultHandler="org.eclipse.emf.example.databinding.project.ui.rcp.handlers.OpenXMIHandler"
             id="org.eclipse.emf.examples.databinding.project.ui.rcp.openxmi"
-            name="Open XMI">
+            name="%command.name.1">
       </command>
       <command
             defaultHandler="org.eclipse.emf.example.databinding.project.ui.rcp.handlers.NewXMIHandler"
             id="org.eclipse.emf.examples.databinding.project.ui.rcp.newxmi"
-            name="New XMI">
+            name="%command.name.2">
       </command>
       <command
             id="org.eclipse.emf.examples.databinding.project.ui.rcp.createtopproject"
-            name="New Toplevel Project">
+            name="%command.name.3">
       </command>
       <command
             id="org.eclipse.emf.examples.databinding.project.ui.rcp.createsubproject"
-            name="New Sublevel Project">
+            name="%command.name.4">
       </command>
       <command
             id="org.eclipse.emf.examples.databinding.project.ui.rcp.newcommittership"
-            name="New Committership">
+            name="%command.name.5">
       </command>
       <command
             id="org.eclipse.emf.examples.databinding.project.ui.rcp.editcommittership"
-            name="Edit Committership">
+            name="%command.name.6">
       </command>
    </extension>
    <extension
@@ -102,7 +102,7 @@
             locationURI="popup:org.eclipse.emf.examples.databinding.project.ui.rcp.projectexp?after=additions">
          <command
                commandId="org.eclipse.emf.examples.databinding.project.ui.rcp.editperson"
-               label="Edit Person"
+               label="%command.label"
                style="push">
             <parameter
                   name="org.eclipse.emf.examples.databinding.project.ui.rcp.person.action"
@@ -114,7 +114,7 @@
          </command>
          <command
                commandId="org.eclipse.emf.examples.databinding.project.ui.rcp.newcommittership"
-               label="Add Committership"
+               label="%command.label.0"
                style="push">
             <visibleWhen
                   checkEnabled="true">
@@ -137,7 +137,7 @@
          </command>
          <command
                commandId="org.eclipse.emf.examples.databinding.project.ui.rcp.editcommittership"
-               label="Edit Committership"
+               label="%command.label.1"
                style="push">
             <visibleWhen
                   checkEnabled="true">
@@ -145,7 +145,7 @@
          </command>
          <command
                commandId="org.eclipse.emf.examples.databinding.project.ui.rcp.createsubproject"
-               label="Add Subproject"
+               label="%command.label.2"
                style="push">
             <visibleWhen
                   checkEnabled="true">
@@ -171,7 +171,7 @@
             locationURI="menu:open?after=additions">
          <command
                commandId="org.eclipse.emf.examples.databinding.project.ui.rcp.openxmi"
-               label="XMI Resource ..."
+               label="%command.label.3"
                style="push">
          </command>
       </menuContribution>
@@ -179,7 +179,7 @@
             locationURI="menu:new?before=after_resource">
          <command
                commandId="org.eclipse.emf.examples.databinding.project.ui.rcp.newxmi"
-               label="XMI Resource ..."
+               label="%command.label.4"
                style="push">
          </command>
       </menuContribution>
@@ -187,7 +187,7 @@
             locationURI="menu:new?after=after_resource">
          <command
                commandId="org.eclipse.emf.examples.databinding.project.ui.rcp.createsubproject"
-               label="Sublevel Project"
+               label="%command.label.5"
                style="push">
          </command>
       </menuContribution>
@@ -195,7 +195,7 @@
             locationURI="menu:new?after=after_resource">
          <command
                commandId="org.eclipse.emf.examples.databinding.project.ui.rcp.createtopproject"
-               label="Toplevel Project"
+               label="%command.label.6"
                style="push">
          </command>
       </menuContribution>
@@ -203,7 +203,7 @@
             locationURI="menu:new?after=after_resource">
          <command
                commandId="org.eclipse.emf.examples.databinding.project.ui.rcp.newperson"
-               label="Person ..."
+               label="%command.label.7"
                style="push">
             <parameter
                   name="org.eclipse.emf.examples.databinding.project.ui.rcp.person.action"

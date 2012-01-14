@@ -196,5 +196,5 @@ public class CommitterShipDialog extends TitleAreaDialog
 
       return null;
     }
-  };
+  }
 }

@@ -137,7 +137,7 @@ public class Query implements IQuery
 
     try
     {
-      factory = (QueryDelegate.Factory)QueryDelegate.Factory.Registry.INSTANCE.get((String)specification.getProperty(DELEGATE_PROPERTY_NAME));
+      factory = (QueryDelegate.Factory)QueryDelegate.Factory.Registry.INSTANCE.get(specification.getProperty(DELEGATE_PROPERTY_NAME));
 
       ResourceSet resourceSet = connection.getResourceSet();
 

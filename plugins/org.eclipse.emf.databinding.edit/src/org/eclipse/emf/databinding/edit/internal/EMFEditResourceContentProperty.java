@@ -42,7 +42,7 @@ public class EMFEditResourceContentProperty extends EMFResourceContentProperty
     this.editingDomain = editingDomain;
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   protected void doSetList(Object source, List list, ListDiff diff)
   {

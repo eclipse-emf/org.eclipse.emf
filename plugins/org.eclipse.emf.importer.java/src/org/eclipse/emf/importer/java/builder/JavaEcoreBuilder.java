@@ -598,7 +598,7 @@ public class JavaEcoreBuilder
       Bundle bundle = Platform.getBundle(pluginID);
       if (bundle != null)
       {
-        String requires = (String)bundle.getHeaders().get(Constants.REQUIRE_BUNDLE);
+        String requires = bundle.getHeaders().get(Constants.REQUIRE_BUNDLE);
         if (requires != null)
         {
           ManifestElement[] elements = ManifestElement.parseHeader(Constants.REQUIRE_BUNDLE, requires);

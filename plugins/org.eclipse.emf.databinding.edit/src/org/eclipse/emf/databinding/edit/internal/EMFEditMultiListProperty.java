@@ -69,7 +69,7 @@ public class EMFEditMultiListProperty extends MultiListProperty implements IEMFE
     return editingDomain;
   }
 
-  public IEMFEditValueProperty value(ListElementAccess elementAccess)
+  public IEMFEditValueProperty value(ListElementAccess<?> elementAccess)
   {
     throw new UnsupportedOperationException();
   }

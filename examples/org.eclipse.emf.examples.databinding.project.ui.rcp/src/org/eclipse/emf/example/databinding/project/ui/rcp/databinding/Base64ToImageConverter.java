@@ -18,6 +18,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
 
 
 /**
@@ -59,7 +60,7 @@ public class Base64ToImageConverter extends Converter
       }
       catch (IOException e)
       {
-
+        Activator.getDefault().log(e);
       }
 
       lastImage = img;

@@ -10,12 +10,10 @@
  */
 package org.eclipse.emf.ecore.xcore.ui;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -49,13 +47,15 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 
 public class EOperationInvocationView extends AbstractSelectionView {
 
-	public void dispose() {
+	@Override
+  public void dispose() {
 		propertySheetPage.dispose();
 		propertySheetPage.dispose();
 		super.dispose();
 	}
 
-	protected boolean isValidSelection(Object o) {
+	@Override
+  protected boolean isValidSelection(Object o) {
 		return o instanceof EObject;
 	}
 
@@ -76,7 +76,8 @@ public class EOperationInvocationView extends AbstractSelectionView {
 			super(operationOwner);
 		}
 
-		public void dispose() {
+		@Override
+    public void dispose() {
 			super.dispose();
 			operation = null;
 			argumentsInstance = null;
@@ -107,7 +108,8 @@ public class EOperationInvocationView extends AbstractSelectionView {
 			return true;
 		}
 
-		protected void doExecute() {
+		@Override
+    protected void doExecute() {
 			try {
 				result = getOperationOwner().eInvoke(operation, argumentList);
 				affectedObjects = operation.isMany() ? (Collection<?>)result : Collections.singleton(result);
@@ -174,7 +176,8 @@ public class EOperationInvocationView extends AbstractSelectionView {
 		return item;
 	}
 	
-	protected void updateView() {
+	@Override
+  protected void updateView() {
 		EObject selection = getSelectedEObject();
 		EClass eClass = null;
 		if (selection == null) {
@@ -308,7 +311,8 @@ public class EOperationInvocationView extends AbstractSelectionView {
 	private Combo operationsCombo;
 	private PropertySheetPage propertySheetPage;
 
-	public void createPartControl(Composite parent) {
+	@Override
+  public void createPartControl(Composite parent) {
 		parentShell = parent.getShell();
 		super.createPartControl(parent);
 		parent.setLayout(new GridLayout(2, false));
@@ -316,7 +320,8 @@ public class EOperationInvocationView extends AbstractSelectionView {
 		operationsCombo = new Combo(parent, SWT.READ_ONLY | SWT.DROP_DOWN);
 		operationsCombo.setText(nullItem);
 		operationsCombo.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
+			@Override
+      public void widgetSelected(SelectionEvent e) {
 				operationSelected(operationsCombo.getSelectionIndex());
 			}
 		});
@@ -325,7 +330,8 @@ public class EOperationInvocationView extends AbstractSelectionView {
 		invokeButton.setText("Invoke!");
 		invokeButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
 		invokeButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
+			@Override
+      public void widgetSelected(SelectionEvent e) {
 				EOperationInvocation invocation = currentInvocation;
 				currentInvocation = null;
 				if (invocation != null) {

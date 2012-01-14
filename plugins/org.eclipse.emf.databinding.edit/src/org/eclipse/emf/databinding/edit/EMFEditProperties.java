@@ -28,7 +28,6 @@ import org.eclipse.emf.databinding.edit.internal.EMFEditSetProperty;
 import org.eclipse.emf.databinding.edit.internal.EMFEditSetPropertyDecorator;
 import org.eclipse.emf.databinding.edit.internal.EMFEditValueProperty;
 import org.eclipse.emf.databinding.edit.internal.EMFEditValuePropertyDecorator;
-import org.eclipse.emf.databinding.internal.EMFResourceContentProperty;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;

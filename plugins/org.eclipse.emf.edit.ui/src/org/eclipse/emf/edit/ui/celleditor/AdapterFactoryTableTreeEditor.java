@@ -612,11 +612,9 @@ System.out.println("paint");
     {
       event.gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
       event.gc.setBackground(display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-      int baseX = itemBounds.width - itemBounds.height / 2 - 1;
       int baseY = 0;
       if (isDown())
       {
-        baseX += 1;
         baseY += 1;
       }
       event.gc.drawString("...", itemBounds.width - (itemBounds.height + event.gc.stringExtent("...").x) / 2, baseY);

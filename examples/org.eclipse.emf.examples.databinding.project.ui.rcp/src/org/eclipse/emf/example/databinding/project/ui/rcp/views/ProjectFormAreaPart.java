@@ -137,7 +137,7 @@ public class ProjectFormAreaPart
     IWidgetValueProperty prop = WidgetProperties.text(SWT.Modify);
 
     {
-      final IEMFValueProperty shortProp = EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PROJECT__SHORTNAME);;
+      final IEMFValueProperty shortProp = EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PROJECT__SHORTNAME);
       toolkit.createLabel(body, "&Short name");
       Text t = toolkit.createText(body, "");
       t.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false, 2, 1));

@@ -214,6 +214,7 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
               {
                 // TODO what about no GenModel?
                 // We'd want to create one and use that...
+                throw new RuntimeException("No GenModel");
               }
               
               EcoreXcoreBuilder ecoreXcoreBuilder = ecoreXcoreBuilderProvider.get();

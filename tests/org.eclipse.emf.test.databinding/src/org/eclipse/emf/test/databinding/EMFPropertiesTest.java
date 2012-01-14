@@ -87,6 +87,7 @@ public class EMFPropertiesTest extends TestCase
       FeaturePath.fromList(EmfdbPackage.Literals.A__BLIST, EmfdbPackage.Literals.B__STRING);
       fail("Traversing list feature");
     } catch (IllegalArgumentException e) {
+      // Ignore
     }
   }
 
@@ -275,6 +276,7 @@ public class EMFPropertiesTest extends TestCase
     IEMFValueProperty valueProp = prop.value(new ListElementAccess<Object>()
       {
 
+        @Override
         public int getReadValueIndex(List< Object > list)
         {
           return 0;
@@ -320,6 +322,7 @@ public class EMFPropertiesTest extends TestCase
       });
   }
 
+  @SuppressWarnings("unchecked")
   public void _testMapProperty()
   {
     A a = (A)resource.getContents().get(0);

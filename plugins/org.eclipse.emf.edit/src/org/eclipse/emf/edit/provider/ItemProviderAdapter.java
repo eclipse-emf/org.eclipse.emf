@@ -364,7 +364,7 @@ public class ItemProviderAdapter
           {
             store.getList(feature).add(child);
           }
-          else
+          else if (result != null)
           {
             result.add(child);
           }
@@ -381,7 +381,7 @@ public class ItemProviderAdapter
           {
             store.setValue(feature, child);
           }
-          else
+          else if (result != null)
           {
             result.add(child);
           }
@@ -1707,7 +1707,7 @@ public class ItemProviderAdapter
     Object sibling = selectionObject;
     EStructuralFeature siblingFeature = getChildFeature(owner, sibling);
 
-    if (siblingFeature != null && FeatureMapUtil.isFeatureMap(siblingFeature))
+    if (sibling != null && siblingFeature != null && FeatureMapUtil.isFeatureMap(siblingFeature))
     {
       FeatureMap.Entry entry = (FeatureMap.Entry)sibling;
       siblingFeature = entry.getEStructuralFeature();

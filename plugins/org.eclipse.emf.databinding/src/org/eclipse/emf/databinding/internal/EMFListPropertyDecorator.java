@@ -65,7 +65,7 @@ public class EMFListPropertyDecorator extends ListProperty implements IEMFListPr
     return new EMFListPropertyDecorator(super.values(property), property.getStructuralFeature());
   }
 
-  public IEMFValueProperty value(ListElementAccess elementAccess)
+  public IEMFValueProperty value(ListElementAccess<?> elementAccess)
   {
     return new EMFValuePropertyDecorator(new EMFListValueProperty(eStructuralFeature, elementAccess), eStructuralFeature);
   }

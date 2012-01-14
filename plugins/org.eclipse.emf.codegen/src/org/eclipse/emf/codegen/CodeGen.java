@@ -155,7 +155,7 @@ public class CodeGen
                 File file = new File(templateFile);
                 if (file.exists())
                 {
-                  templateFile = file.getAbsoluteFile().toURL().toString();
+                  templateFile = file.getAbsoluteFile().toURI().toURL().toString();
                 }
                 IPath targetPath = new Path(new File(arguments[1]).getAbsolutePath());
                 progressMonitor.beginTask("", 5);

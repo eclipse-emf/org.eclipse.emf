@@ -27,8 +27,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public abstract class AbstractSequentialInternalEList<E> extends AbstractSequentialList<E> implements InternalEList<E>
 {
-  private static final long serialVersionUID = 1L;
-
   protected AbstractSequentialInternalEList()
   {
     super();
@@ -75,8 +73,6 @@ public abstract class AbstractSequentialInternalEList<E> extends AbstractSequent
     return
       new AbstractSequentialList<E>()
       {
-        private static final long serialVersionUID = 1L;
-
         @Override
         public ListIterator<E> listIterator(int index)
         {

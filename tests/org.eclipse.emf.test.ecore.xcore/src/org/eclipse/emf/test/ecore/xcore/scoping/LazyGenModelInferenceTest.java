@@ -59,7 +59,8 @@ public class LazyGenModelInferenceTest {
 					@Override
 					public Injector createInjector() {
 						return Guice.createInjector(new org.eclipse.emf.ecore.xcore.XcoreRuntimeModule() {
-							public Class<? extends XtextResource> bindXtextResource() {
+							@Override
+              public Class<? extends XtextResource> bindXtextResource() {
 								return InspectableXcoreResource.class;
 							}
 						});
@@ -139,7 +140,7 @@ public class LazyGenModelInferenceTest {
 		assertFalse(genclass.hasNext());
 
 		assertEquals(1, resource.getContentsUnsafe().size());
-		assertFalse(((InspectableXcoreResource) resource).isFullyInitialized());
+		assertFalse(resource.isFullyInitialized());
 	}
 
 }

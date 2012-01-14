@@ -81,7 +81,6 @@ public class ChangeDescriptionReverseTest extends TestCase
       Resource changeDescriptionResource = finalResourceSet.createResource(URI.createURI("changes.change"));
       changeDescriptionResource.getContents().add(changeDescription);
       ByteArrayOutputStream out = new ByteArrayOutputStream();
-      changeDescriptionResource.save(System.out, null);
       changeDescriptionResource.save(out, null);
       changeDescriptionResource.getContents().clear();
       changeDescriptionResource.unload();

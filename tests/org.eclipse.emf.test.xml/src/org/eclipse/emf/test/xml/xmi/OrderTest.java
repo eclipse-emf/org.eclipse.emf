@@ -112,7 +112,6 @@ public class OrderTest extends TestCase
       options.put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.FALSE);
       options.put(XMLResource.OPTION_EXTENDED_META_DATA, ExtendedMetaData.INSTANCE);
       resource.load(document, options);
-      resource.save(System.err, null);
       resource.save(out, null);
       resource.unload();
       String result2 = stringWriter.toString();
