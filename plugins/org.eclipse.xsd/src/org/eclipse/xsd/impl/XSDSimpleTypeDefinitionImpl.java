@@ -3986,10 +3986,8 @@ public class XSDSimpleTypeDefinitionImpl
           {
             List<Object> list = new ArrayList<Object>();
             assessment.value = list;
-            int length = 0;
             for (StringTokenizer tokens = new StringTokenizer(assessment.normalizedLiteral, " "); 
-                 tokens.hasMoreTokens(); 
-                 ++length)
+                 tokens.hasMoreTokens();  )
             {
               AssessmentImpl nestedAssessment = new AssessmentImpl(assessment.context, assessment.node, assessment.yield);
               nestedAssessment.literal = nestedAssessment.normalizedLiteral = tokens.nextToken();
