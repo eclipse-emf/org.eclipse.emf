@@ -14,7 +14,7 @@ public class XcoreAppendable extends StringBuilderBasedAppendable
 {
 	public XcoreAppendable()
 	{
-		super(new XcoreImportManager(), "\t");
+		super(new XcoreImportManager(), "\t", "\n");
 	}
 	
 	@Override

@@ -31,8 +31,7 @@ public class XcoreParser extends AbstractContentAssistParser {
 		return result;
 	}
 	
-	@SuppressWarnings("restriction")
-  @Override
+	@Override
 	protected String getRuleName(AbstractElement element) {
 		if (nameMappings == null) {
 			nameMappings = new HashMap<AbstractElement, String>() {
