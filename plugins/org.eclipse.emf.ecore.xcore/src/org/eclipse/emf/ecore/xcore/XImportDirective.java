@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore;
 
+
 import org.eclipse.emf.ecore.EObject;
 
 

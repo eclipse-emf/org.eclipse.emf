@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.util;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -63,27 +64,28 @@ import org.eclipse.xtext.xbase.XBlockExpression;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+
 public class XcoreEcoreBuilder
 {
-	@Inject
-	private XcoreMapper mapper;
-	
-	@Inject
-	private Provider<XcoreInvocationDelegate> operationDelegateProvider;
-	
-	@Inject
-	private Provider<XcoreSettingDelegate> settingDelegateProvider;
+  @Inject
+  private XcoreMapper mapper;
 
-	@Inject
-	private Provider<XcoreConversionDelegate> conversionDelegateProvider;
-	
+  @Inject
+  private Provider<XcoreInvocationDelegate> operationDelegateProvider;
+
+  @Inject
+  private Provider<XcoreSettingDelegate> settingDelegateProvider;
+
+  @Inject
+  private Provider<XcoreConversionDelegate> conversionDelegateProvider;
+
   List<Runnable> runnables = new ArrayList<Runnable>();
-  
+
   public void link()
   {
     // Hook up local references.
     //
-    List<Runnable>  currentRunnables = new ArrayList<Runnable>(runnables);
+    List<Runnable> currentRunnables = new ArrayList<Runnable>(runnables);
     runnables.clear();
     for (Runnable runnable : currentRunnables)
     {
@@ -125,7 +127,7 @@ public class XcoreEcoreBuilder
       EClassifier eClassifier = getEClassifier(xClassifier);
       ePackage.getEClassifiers().add(eClassifier);
     }
-    
+
     for (XAnnotationDirective xAnnotationDirective : xPackage.getAnnotationDirectives())
     {
       EcoreUtil.setAnnotation(ePackage, XcorePackage.eNS_URI, xAnnotationDirective.getName(), xAnnotationDirective.getSourceURI());
@@ -138,17 +140,17 @@ public class XcoreEcoreBuilder
 
     return ePackage;
   }
-  
+
   void handleAnnotations(XModelElement xModelElement, EModelElement eModelElement)
   {
     for (XAnnotation xAnnotation : xModelElement.getAnnotations())
     {
       EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-//      map(eAnnotation, xAnnotation);
+      //      map(eAnnotation, xAnnotation);
       XAnnotationDirective source = xAnnotation.getSource();
       if (source != null)
       {
-			  String sourceURI = source.getSourceURI();
+        String sourceURI = source.getSourceURI();
         eAnnotation.setSource(sourceURI);
       }
       for (Map.Entry<String, String> detail : xAnnotation.getDetails())
@@ -158,30 +160,25 @@ public class XcoreEcoreBuilder
       eModelElement.getEAnnotations().add(eAnnotation);
     }
   }
-  
+
   EClassifier getEClassifier(final XClassifier xClassifier)
   {
-    final EClassifier eClassifier =
-      xClassifier instanceof XClass ?
-        getEClass((XClass)xClassifier) :
-        xClassifier instanceof XEnum ?
-          getEEnum((XEnum)xClassifier) :
-          getEDataType((XDataType)xClassifier);
+    final EClassifier eClassifier = xClassifier instanceof XClass ? getEClass((XClass)xClassifier) : xClassifier instanceof XEnum
+      ? getEEnum((XEnum)xClassifier) : getEDataType((XDataType)xClassifier);
     handleAnnotations(xClassifier, eClassifier);
     eClassifier.setName(xClassifier.getName());
-    runnables.add
-      (new Runnable()
-       {
-         public void run()
-         {
-           JvmTypeReference instanceType = xClassifier.getInstanceType();
-           if (instanceType != null)
-           {
-             String instanceTypeName = instanceType.getIdentifier();
-             eClassifier.setInstanceTypeName(instanceTypeName);
-           }
-         }
-       });
+    runnables.add(new Runnable()
+      {
+        public void run()
+        {
+          JvmTypeReference instanceType = xClassifier.getInstanceType();
+          if (instanceType != null)
+          {
+            String instanceTypeName = instanceType.getIdentifier();
+            eClassifier.setInstanceTypeName(instanceTypeName);
+          }
+        }
+      });
     for (XTypeParameter xTypeParameter : xClassifier.getTypeParameters())
     {
       ETypeParameter eTypeParameter = getETypeParameter(xTypeParameter);
@@ -254,23 +251,23 @@ public class XcoreEcoreBuilder
     XBlockExpression body = xOperation.getBody();
     if (body != null)
     {
-    	final XcoreInvocationDelegate invocationDelegate = operationDelegateProvider.get();
-    	invocationDelegate.initialize(body, eOperation);
-			((EOperation.Internal)eOperation).setInvocationDelegate(invocationDelegate);
-			
-//      EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-//      eAnnotation.setSource(EcorePackage.eNS_URI);
-//      eAnnotation.getReferences().add(body);
-//      eOperation.getEAnnotations().add(eAnnotation);
+      final XcoreInvocationDelegate invocationDelegate = operationDelegateProvider.get();
+      invocationDelegate.initialize(body, eOperation);
+      ((EOperation.Internal)eOperation).setInvocationDelegate(invocationDelegate);
+
+      //      EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+      //      eAnnotation.setSource(EcorePackage.eNS_URI);
+      //      eAnnotation.getReferences().add(body);
+      //      eOperation.getEAnnotations().add(eAnnotation);
     }
     return eOperation;
   }
-  
+
   EParameter getEParameter(XParameter xParameter)
   {
     EParameter eParameter = EcoreFactory.eINSTANCE.createEParameter();
     // TODO
-//    map(eParameter, xParameter);
+    //    map(eParameter, xParameter);
     eParameter.setUnique(false);
     handleETypedElement(eParameter, xParameter);
     return eParameter;
@@ -281,7 +278,7 @@ public class XcoreEcoreBuilder
     ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
     mapper.getToXcoreMapping(eTypeParameter).setXcoreElement(xTypeParameter);
     //TODO
-//    map(eTypeParameter, xTypeParameter);
+    //    map(eTypeParameter, xTypeParameter);
     handleAnnotations(xTypeParameter, eTypeParameter);
     eTypeParameter.setName(xTypeParameter.getName());
     for (XGenericType xGenericType : xTypeParameter.getBounds())
@@ -360,7 +357,7 @@ public class XcoreEcoreBuilder
     else
     {
       final EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
-//      map(eGenericType, xGenericType);
+      //      map(eGenericType, xGenericType);
       XGenericType lowerBound = xGenericType.getLowerBound();
       if (lowerBound != null)
       {
@@ -375,23 +372,22 @@ public class XcoreEcoreBuilder
       {
         eGenericType.getETypeArguments().add(getEGenericType(typeArgument));
       }
-       
-      runnables.add
-        (new Runnable()
-         {
-           public void run()
-           {
-             GenBase type = xGenericType.getType();
-             if (type instanceof GenTypeParameter)
-             {
-               eGenericType.setETypeParameter(((GenTypeParameter)type).getEcoreTypeParameter());
-             }
-             else if (type instanceof GenClassifier)
-             {
-               eGenericType.setEClassifier(((GenClassifier)type).getEcoreClassifier());
-             }
-           }
-         });
+
+      runnables.add(new Runnable()
+        {
+          public void run()
+          {
+            GenBase type = xGenericType.getType();
+            if (type instanceof GenTypeParameter)
+            {
+              eGenericType.setETypeParameter(((GenTypeParameter)type).getEcoreTypeParameter());
+            }
+            else if (type instanceof GenClassifier)
+            {
+              eGenericType.setEClassifier(((GenClassifier)type).getEcoreClassifier());
+            }
+          }
+        });
       return eGenericType;
     }
   }
@@ -415,31 +411,29 @@ public class XcoreEcoreBuilder
     }
 
     handleEStructuralFeature(eReference, xReference);
-    
-    runnables.add
-      (new Runnable()
-       {
-         public void run()
-         {
-           GenFeature opposite = xReference.getOpposite();
-           if (opposite != null)
-           {
-             eReference.setEOpposite((EReference)opposite.getEcoreFeature());
-           }
-           for (GenFeature key : xReference.getKeys())
-           {
-             EStructuralFeature eAttribute = key.getEcoreFeature();
-             if (eAttribute instanceof EAttribute)
-             {
-						   eReference.getEKeys().add((EAttribute)eAttribute);
-						 }
-           }
-         }
-       });
-    
+
+    runnables.add(new Runnable()
+      {
+        public void run()
+        {
+          GenFeature opposite = xReference.getOpposite();
+          if (opposite != null)
+          {
+            eReference.setEOpposite((EReference)opposite.getEcoreFeature());
+          }
+          for (GenFeature key : xReference.getKeys())
+          {
+            EStructuralFeature eAttribute = key.getEcoreFeature();
+            if (eAttribute instanceof EAttribute)
+            {
+              eReference.getEKeys().add((EAttribute)eAttribute);
+            }
+          }
+        }
+      });
+
     return eReference;
   }
-  
 
   EAttribute getEAttribute(final XAttribute xAttribute)
   {
@@ -455,7 +449,7 @@ public class XcoreEcoreBuilder
     handleEStructuralFeature(eAttribute, xAttribute);
     return eAttribute;
   }
-  
+
   void handleEStructuralFeature(EStructuralFeature eStructuralFeature, XStructuralFeature xStructuralFeature)
   {
     eStructuralFeature.setName(xStructuralFeature.getName());
@@ -487,19 +481,19 @@ public class XcoreEcoreBuilder
     XBlockExpression unsetBody = xStructuralFeature.getUnsetBody();
     if (getBody != null || setBody != null || isSetBody != null || unsetBody != null)
     {
-    	XcoreSettingDelegate settingDelegate = settingDelegateProvider.get();
-    	settingDelegate.initialize(getBody, setBody, isSetBody, unsetBody, eStructuralFeature);
-    	((EStructuralFeature.Internal)eStructuralFeature).setSettingDelegate(settingDelegate);
+      XcoreSettingDelegate settingDelegate = settingDelegateProvider.get();
+      settingDelegate.initialize(getBody, setBody, isSetBody, unsetBody, eStructuralFeature);
+      ((EStructuralFeature.Internal)eStructuralFeature).setSettingDelegate(settingDelegate);
     }
 
     if (getBody != null)
     {
-   	  eStructuralFeature.setTransient(true);
-    	eStructuralFeature.setVolatile(true);
-    	eStructuralFeature.setDerived(true);
+      eStructuralFeature.setTransient(true);
+      eStructuralFeature.setVolatile(true);
+      eStructuralFeature.setDerived(true);
       if (setBody == null)
       {
-    	  eStructuralFeature.setChangeable(false);
+        eStructuralFeature.setChangeable(false);
       }
     }
   }
@@ -509,8 +503,8 @@ public class XcoreEcoreBuilder
     EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
     mapper.getMapping(xDataType).setEDataType(eDataType);
     mapper.getToXcoreMapping(eDataType).setXcoreElement(xDataType);
-   	XcoreConversionDelegate conversionDelegate = conversionDelegateProvider.get();
-   	conversionDelegate.initialize(xDataType.getCreateBody(), xDataType.getConvertBody(), eDataType);
+    XcoreConversionDelegate conversionDelegate = conversionDelegateProvider.get();
+    conversionDelegate.initialize(xDataType.getCreateBody(), xDataType.getConvertBody(), eDataType);
     ((EDataType.Internal)eDataType).setConversionDelegate(conversionDelegate);
     return eDataType;
   }

@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.scoping;
 
+
 import static com.google.common.collect.Lists.newArrayList;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ import org.eclipse.xtext.resource.impl.DefaultResourceDescription;
 import org.eclipse.xtext.util.IAcceptor;
 import org.eclipse.xtext.util.IResourceScopeCache;
 
+
 /**
  * This implementation ensures that the contents of the resource is not queried
  * to compute the exported elements.
@@ -34,58 +36,58 @@ import org.eclipse.xtext.util.IResourceScopeCache;
 public class XcoreResourceDescription extends DefaultResourceDescription
 {
 
-	private final static Logger log = Logger.getLogger(XcoreResourceDescription.class);
-	private final IDefaultResourceDescriptionStrategy strategy;
+  private final static Logger log = Logger.getLogger(XcoreResourceDescription.class);
 
-	public XcoreResourceDescription(Resource resource, IDefaultResourceDescriptionStrategy strategy,
-	    IResourceScopeCache cache)
-	{
-		super(resource, strategy, cache);
-		this.strategy = strategy;
-	}
+  private final IDefaultResourceDescriptionStrategy strategy;
 
-	@Override
-	protected List<IEObjectDescription> computeExportedObjects()
-	{
-		Resource resource = getResource();
-		if (resource instanceof XtextResource)
-		{
-			if (!resource.isLoaded())
-			{
-				try
-				{
-					resource.load(null);
-				} 
-				catch (IOException e)
-				{
-					log.error(e.getMessage(), e);
-					return Collections.<IEObjectDescription> emptyList();
-				}
-			}
-			IParseResult parseResult = ((XtextResource) resource).getParseResult();
-			if (parseResult != null && parseResult.getRootASTElement() != null)
-			{
-				final List<IEObjectDescription> result = newArrayList();
-				IAcceptor<IEObjectDescription> acceptor = new IAcceptor<IEObjectDescription>()
-				{
-					public void accept(IEObjectDescription description)
-					{
-						result.add(description);
-					}
-				};
-				TreeIterator<EObject> allProperContents = EcoreUtil2.eAll(parseResult.getRootASTElement());
-				while (allProperContents.hasNext())
-				{
-					EObject content = allProperContents.next();
-					if (!strategy.createEObjectDescriptions(content, acceptor))
-					{
-						allProperContents.prune();
-					}
-				}
-				return result;
-			}
-		}
-		return super.computeExportedObjects();
-	}
+  public XcoreResourceDescription(Resource resource, IDefaultResourceDescriptionStrategy strategy, IResourceScopeCache cache)
+  {
+    super(resource, strategy, cache);
+    this.strategy = strategy;
+  }
+
+  @Override
+  protected List<IEObjectDescription> computeExportedObjects()
+  {
+    Resource resource = getResource();
+    if (resource instanceof XtextResource)
+    {
+      if (!resource.isLoaded())
+      {
+        try
+        {
+          resource.load(null);
+        }
+        catch (IOException e)
+        {
+          log.error(e.getMessage(), e);
+          return Collections.<IEObjectDescription> emptyList();
+        }
+      }
+      IParseResult parseResult = ((XtextResource)resource).getParseResult();
+      if (parseResult != null && parseResult.getRootASTElement() != null)
+      {
+        final List<IEObjectDescription> result = newArrayList();
+        IAcceptor<IEObjectDescription> acceptor = new IAcceptor<IEObjectDescription>()
+          {
+            public void accept(IEObjectDescription description)
+            {
+              result.add(description);
+            }
+          };
+        TreeIterator<EObject> allProperContents = EcoreUtil2.eAll(parseResult.getRootASTElement());
+        while (allProperContents.hasNext())
+        {
+          EObject content = allProperContents.next();
+          if (!strategy.createEObjectDescriptions(content, acceptor))
+          {
+            allProperContents.prune();
+          }
+        }
+        return result;
+      }
+    }
+    return super.computeExportedObjects();
+  }
 
 }

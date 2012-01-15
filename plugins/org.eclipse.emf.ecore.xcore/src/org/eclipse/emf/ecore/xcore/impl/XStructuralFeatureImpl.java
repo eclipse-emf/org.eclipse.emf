@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.impl;
 
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 
 import org.eclipse.xtext.xbase.XBlockExpression;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -340,8 +342,16 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
     getBody = newGetBody;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__GET_BODY, oldGetBody, newGetBody);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
+      ENotificationImpl notification = new ENotificationImpl(
+        this,
+        Notification.SET,
+        XcorePackage.XSTRUCTURAL_FEATURE__GET_BODY,
+        oldGetBody,
+        newGetBody);
+      if (msgs == null)
+        msgs = notification;
+      else
+        msgs.add(notification);
     }
     return msgs;
   }
@@ -357,11 +367,20 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
     {
       NotificationChain msgs = null;
       if (getBody != null)
-        msgs = ((InternalEObject)getBody).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XSTRUCTURAL_FEATURE__GET_BODY, null, msgs);
+        msgs = ((InternalEObject)getBody).eInverseRemove(
+          this,
+          EOPPOSITE_FEATURE_BASE - XcorePackage.XSTRUCTURAL_FEATURE__GET_BODY,
+          null,
+          msgs);
       if (newGetBody != null)
-        msgs = ((InternalEObject)newGetBody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XSTRUCTURAL_FEATURE__GET_BODY, null, msgs);
+        msgs = ((InternalEObject)newGetBody).eInverseAdd(
+          this,
+          EOPPOSITE_FEATURE_BASE - XcorePackage.XSTRUCTURAL_FEATURE__GET_BODY,
+          null,
+          msgs);
       msgs = basicSetGetBody(newGetBody, msgs);
-      if (msgs != null) msgs.dispatch();
+      if (msgs != null)
+        msgs.dispatch();
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__GET_BODY, newGetBody, newGetBody));
@@ -388,8 +407,16 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
     setBody = newSetBody;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__SET_BODY, oldSetBody, newSetBody);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
+      ENotificationImpl notification = new ENotificationImpl(
+        this,
+        Notification.SET,
+        XcorePackage.XSTRUCTURAL_FEATURE__SET_BODY,
+        oldSetBody,
+        newSetBody);
+      if (msgs == null)
+        msgs = notification;
+      else
+        msgs.add(notification);
     }
     return msgs;
   }
@@ -405,11 +432,20 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
     {
       NotificationChain msgs = null;
       if (setBody != null)
-        msgs = ((InternalEObject)setBody).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XSTRUCTURAL_FEATURE__SET_BODY, null, msgs);
+        msgs = ((InternalEObject)setBody).eInverseRemove(
+          this,
+          EOPPOSITE_FEATURE_BASE - XcorePackage.XSTRUCTURAL_FEATURE__SET_BODY,
+          null,
+          msgs);
       if (newSetBody != null)
-        msgs = ((InternalEObject)newSetBody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XSTRUCTURAL_FEATURE__SET_BODY, null, msgs);
+        msgs = ((InternalEObject)newSetBody).eInverseAdd(
+          this,
+          EOPPOSITE_FEATURE_BASE - XcorePackage.XSTRUCTURAL_FEATURE__SET_BODY,
+          null,
+          msgs);
       msgs = basicSetSetBody(newSetBody, msgs);
-      if (msgs != null) msgs.dispatch();
+      if (msgs != null)
+        msgs.dispatch();
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__SET_BODY, newSetBody, newSetBody));
@@ -436,8 +472,16 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
     isSetBody = newIsSetBody;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__IS_SET_BODY, oldIsSetBody, newIsSetBody);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
+      ENotificationImpl notification = new ENotificationImpl(
+        this,
+        Notification.SET,
+        XcorePackage.XSTRUCTURAL_FEATURE__IS_SET_BODY,
+        oldIsSetBody,
+        newIsSetBody);
+      if (msgs == null)
+        msgs = notification;
+      else
+        msgs.add(notification);
     }
     return msgs;
   }
@@ -453,11 +497,20 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
     {
       NotificationChain msgs = null;
       if (isSetBody != null)
-        msgs = ((InternalEObject)isSetBody).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XSTRUCTURAL_FEATURE__IS_SET_BODY, null, msgs);
+        msgs = ((InternalEObject)isSetBody).eInverseRemove(
+          this,
+          EOPPOSITE_FEATURE_BASE - XcorePackage.XSTRUCTURAL_FEATURE__IS_SET_BODY,
+          null,
+          msgs);
       if (newIsSetBody != null)
-        msgs = ((InternalEObject)newIsSetBody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XSTRUCTURAL_FEATURE__IS_SET_BODY, null, msgs);
+        msgs = ((InternalEObject)newIsSetBody).eInverseAdd(
+          this,
+          EOPPOSITE_FEATURE_BASE - XcorePackage.XSTRUCTURAL_FEATURE__IS_SET_BODY,
+          null,
+          msgs);
       msgs = basicSetIsSetBody(newIsSetBody, msgs);
-      if (msgs != null) msgs.dispatch();
+      if (msgs != null)
+        msgs.dispatch();
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__IS_SET_BODY, newIsSetBody, newIsSetBody));
@@ -484,8 +537,16 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
     unsetBody = newUnsetBody;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__UNSET_BODY, oldUnsetBody, newUnsetBody);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
+      ENotificationImpl notification = new ENotificationImpl(
+        this,
+        Notification.SET,
+        XcorePackage.XSTRUCTURAL_FEATURE__UNSET_BODY,
+        oldUnsetBody,
+        newUnsetBody);
+      if (msgs == null)
+        msgs = notification;
+      else
+        msgs.add(notification);
     }
     return msgs;
   }
@@ -501,11 +562,20 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
     {
       NotificationChain msgs = null;
       if (unsetBody != null)
-        msgs = ((InternalEObject)unsetBody).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XSTRUCTURAL_FEATURE__UNSET_BODY, null, msgs);
+        msgs = ((InternalEObject)unsetBody).eInverseRemove(
+          this,
+          EOPPOSITE_FEATURE_BASE - XcorePackage.XSTRUCTURAL_FEATURE__UNSET_BODY,
+          null,
+          msgs);
       if (newUnsetBody != null)
-        msgs = ((InternalEObject)newUnsetBody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XSTRUCTURAL_FEATURE__UNSET_BODY, null, msgs);
+        msgs = ((InternalEObject)newUnsetBody).eInverseAdd(
+          this,
+          EOPPOSITE_FEATURE_BASE - XcorePackage.XSTRUCTURAL_FEATURE__UNSET_BODY,
+          null,
+          msgs);
       msgs = basicSetUnsetBody(newUnsetBody, msgs);
-      if (msgs != null) msgs.dispatch();
+      if (msgs != null)
+        msgs.dispatch();
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__UNSET_BODY, newUnsetBody, newUnsetBody));
@@ -522,13 +592,13 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
     switch (featureID)
     {
       case XcorePackage.XSTRUCTURAL_FEATURE__GET_BODY:
-        return basicSetGetBody(null, msgs);
+      return basicSetGetBody(null, msgs);
       case XcorePackage.XSTRUCTURAL_FEATURE__SET_BODY:
-        return basicSetSetBody(null, msgs);
+      return basicSetSetBody(null, msgs);
       case XcorePackage.XSTRUCTURAL_FEATURE__IS_SET_BODY:
-        return basicSetIsSetBody(null, msgs);
+      return basicSetIsSetBody(null, msgs);
       case XcorePackage.XSTRUCTURAL_FEATURE__UNSET_BODY:
-        return basicSetUnsetBody(null, msgs);
+      return basicSetUnsetBody(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -544,23 +614,23 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
     switch (featureID)
     {
       case XcorePackage.XSTRUCTURAL_FEATURE__READONLY:
-        return isReadonly();
+      return isReadonly();
       case XcorePackage.XSTRUCTURAL_FEATURE__VOLATILE:
-        return isVolatile();
+      return isVolatile();
       case XcorePackage.XSTRUCTURAL_FEATURE__TRANSIENT:
-        return isTransient();
+      return isTransient();
       case XcorePackage.XSTRUCTURAL_FEATURE__UNSETTABLE:
-        return isUnsettable();
+      return isUnsettable();
       case XcorePackage.XSTRUCTURAL_FEATURE__DERIVED:
-        return isDerived();
+      return isDerived();
       case XcorePackage.XSTRUCTURAL_FEATURE__GET_BODY:
-        return getGetBody();
+      return getGetBody();
       case XcorePackage.XSTRUCTURAL_FEATURE__SET_BODY:
-        return getSetBody();
+      return getSetBody();
       case XcorePackage.XSTRUCTURAL_FEATURE__IS_SET_BODY:
-        return getIsSetBody();
+      return getIsSetBody();
       case XcorePackage.XSTRUCTURAL_FEATURE__UNSET_BODY:
-        return getUnsetBody();
+      return getUnsetBody();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -576,32 +646,32 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
     switch (featureID)
     {
       case XcorePackage.XSTRUCTURAL_FEATURE__READONLY:
-        setReadonly((Boolean)newValue);
-        return;
+      setReadonly((Boolean)newValue);
+      return;
       case XcorePackage.XSTRUCTURAL_FEATURE__VOLATILE:
-        setVolatile((Boolean)newValue);
-        return;
+      setVolatile((Boolean)newValue);
+      return;
       case XcorePackage.XSTRUCTURAL_FEATURE__TRANSIENT:
-        setTransient((Boolean)newValue);
-        return;
+      setTransient((Boolean)newValue);
+      return;
       case XcorePackage.XSTRUCTURAL_FEATURE__UNSETTABLE:
-        setUnsettable((Boolean)newValue);
-        return;
+      setUnsettable((Boolean)newValue);
+      return;
       case XcorePackage.XSTRUCTURAL_FEATURE__DERIVED:
-        setDerived((Boolean)newValue);
-        return;
+      setDerived((Boolean)newValue);
+      return;
       case XcorePackage.XSTRUCTURAL_FEATURE__GET_BODY:
-        setGetBody((XBlockExpression)newValue);
-        return;
+      setGetBody((XBlockExpression)newValue);
+      return;
       case XcorePackage.XSTRUCTURAL_FEATURE__SET_BODY:
-        setSetBody((XBlockExpression)newValue);
-        return;
+      setSetBody((XBlockExpression)newValue);
+      return;
       case XcorePackage.XSTRUCTURAL_FEATURE__IS_SET_BODY:
-        setIsSetBody((XBlockExpression)newValue);
-        return;
+      setIsSetBody((XBlockExpression)newValue);
+      return;
       case XcorePackage.XSTRUCTURAL_FEATURE__UNSET_BODY:
-        setUnsetBody((XBlockExpression)newValue);
-        return;
+      setUnsetBody((XBlockExpression)newValue);
+      return;
     }
     super.eSet(featureID, newValue);
   }
@@ -617,32 +687,32 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
     switch (featureID)
     {
       case XcorePackage.XSTRUCTURAL_FEATURE__READONLY:
-        setReadonly(READONLY_EDEFAULT);
-        return;
+      setReadonly(READONLY_EDEFAULT);
+      return;
       case XcorePackage.XSTRUCTURAL_FEATURE__VOLATILE:
-        setVolatile(VOLATILE_EDEFAULT);
-        return;
+      setVolatile(VOLATILE_EDEFAULT);
+      return;
       case XcorePackage.XSTRUCTURAL_FEATURE__TRANSIENT:
-        setTransient(TRANSIENT_EDEFAULT);
-        return;
+      setTransient(TRANSIENT_EDEFAULT);
+      return;
       case XcorePackage.XSTRUCTURAL_FEATURE__UNSETTABLE:
-        setUnsettable(UNSETTABLE_EDEFAULT);
-        return;
+      setUnsettable(UNSETTABLE_EDEFAULT);
+      return;
       case XcorePackage.XSTRUCTURAL_FEATURE__DERIVED:
-        setDerived(DERIVED_EDEFAULT);
-        return;
+      setDerived(DERIVED_EDEFAULT);
+      return;
       case XcorePackage.XSTRUCTURAL_FEATURE__GET_BODY:
-        setGetBody((XBlockExpression)null);
-        return;
+      setGetBody((XBlockExpression)null);
+      return;
       case XcorePackage.XSTRUCTURAL_FEATURE__SET_BODY:
-        setSetBody((XBlockExpression)null);
-        return;
+      setSetBody((XBlockExpression)null);
+      return;
       case XcorePackage.XSTRUCTURAL_FEATURE__IS_SET_BODY:
-        setIsSetBody((XBlockExpression)null);
-        return;
+      setIsSetBody((XBlockExpression)null);
+      return;
       case XcorePackage.XSTRUCTURAL_FEATURE__UNSET_BODY:
-        setUnsetBody((XBlockExpression)null);
-        return;
+      setUnsetBody((XBlockExpression)null);
+      return;
     }
     super.eUnset(featureID);
   }
@@ -658,23 +728,23 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
     switch (featureID)
     {
       case XcorePackage.XSTRUCTURAL_FEATURE__READONLY:
-        return readonly != READONLY_EDEFAULT;
+      return readonly != READONLY_EDEFAULT;
       case XcorePackage.XSTRUCTURAL_FEATURE__VOLATILE:
-        return volatile_ != VOLATILE_EDEFAULT;
+      return volatile_ != VOLATILE_EDEFAULT;
       case XcorePackage.XSTRUCTURAL_FEATURE__TRANSIENT:
-        return transient_ != TRANSIENT_EDEFAULT;
+      return transient_ != TRANSIENT_EDEFAULT;
       case XcorePackage.XSTRUCTURAL_FEATURE__UNSETTABLE:
-        return unsettable != UNSETTABLE_EDEFAULT;
+      return unsettable != UNSETTABLE_EDEFAULT;
       case XcorePackage.XSTRUCTURAL_FEATURE__DERIVED:
-        return derived != DERIVED_EDEFAULT;
+      return derived != DERIVED_EDEFAULT;
       case XcorePackage.XSTRUCTURAL_FEATURE__GET_BODY:
-        return getBody != null;
+      return getBody != null;
       case XcorePackage.XSTRUCTURAL_FEATURE__SET_BODY:
-        return setBody != null;
+      return setBody != null;
       case XcorePackage.XSTRUCTURAL_FEATURE__IS_SET_BODY:
-        return isSetBody != null;
+      return isSetBody != null;
       case XcorePackage.XSTRUCTURAL_FEATURE__UNSET_BODY:
-        return unsetBody != null;
+      return unsetBody != null;
     }
     return super.eIsSet(featureID);
   }
@@ -687,7 +757,8 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
   @Override
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+    if (eIsProxy())
+      return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (readonly: ");

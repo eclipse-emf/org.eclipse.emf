@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.impl;
 
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -18,6 +19,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.xcore.XEnum;
 import org.eclipse.emf.ecore.xcore.XEnumLiteral;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -150,7 +152,8 @@ public class XEnumLiteralImpl extends XNamedElementImpl implements XEnumLiteral
    */
   public XEnum getEnum()
   {
-    if (eContainerFeatureID() != XcorePackage.XENUM_LITERAL__ENUM) return null;
+    if (eContainerFeatureID() != XcorePackage.XENUM_LITERAL__ENUM)
+      return null;
     return (XEnum)eContainer();
   }
 
@@ -165,9 +168,9 @@ public class XEnumLiteralImpl extends XNamedElementImpl implements XEnumLiteral
     switch (featureID)
     {
       case XcorePackage.XENUM_LITERAL__ENUM:
-        if (eInternalContainer() != null)
-          msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, XcorePackage.XENUM_LITERAL__ENUM, msgs);
+      if (eInternalContainer() != null)
+        msgs = eBasicRemoveFromContainer(msgs);
+      return eBasicSetContainer(otherEnd, XcorePackage.XENUM_LITERAL__ENUM, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -183,7 +186,7 @@ public class XEnumLiteralImpl extends XNamedElementImpl implements XEnumLiteral
     switch (featureID)
     {
       case XcorePackage.XENUM_LITERAL__ENUM:
-        return eBasicSetContainer(null, XcorePackage.XENUM_LITERAL__ENUM, msgs);
+      return eBasicSetContainer(null, XcorePackage.XENUM_LITERAL__ENUM, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -199,7 +202,7 @@ public class XEnumLiteralImpl extends XNamedElementImpl implements XEnumLiteral
     switch (eContainerFeatureID())
     {
       case XcorePackage.XENUM_LITERAL__ENUM:
-        return eInternalContainer().eInverseRemove(this, XcorePackage.XENUM__LITERALS, XEnum.class, msgs);
+      return eInternalContainer().eInverseRemove(this, XcorePackage.XENUM__LITERALS, XEnum.class, msgs);
     }
     return super.eBasicRemoveFromContainerFeature(msgs);
   }
@@ -215,11 +218,11 @@ public class XEnumLiteralImpl extends XNamedElementImpl implements XEnumLiteral
     switch (featureID)
     {
       case XcorePackage.XENUM_LITERAL__VALUE:
-        return getValue();
+      return getValue();
       case XcorePackage.XENUM_LITERAL__LITERAL:
-        return getLiteral();
+      return getLiteral();
       case XcorePackage.XENUM_LITERAL__ENUM:
-        return getEnum();
+      return getEnum();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -235,11 +238,11 @@ public class XEnumLiteralImpl extends XNamedElementImpl implements XEnumLiteral
     switch (featureID)
     {
       case XcorePackage.XENUM_LITERAL__VALUE:
-        setValue((Integer)newValue);
-        return;
+      setValue((Integer)newValue);
+      return;
       case XcorePackage.XENUM_LITERAL__LITERAL:
-        setLiteral((String)newValue);
-        return;
+      setLiteral((String)newValue);
+      return;
     }
     super.eSet(featureID, newValue);
   }
@@ -255,11 +258,11 @@ public class XEnumLiteralImpl extends XNamedElementImpl implements XEnumLiteral
     switch (featureID)
     {
       case XcorePackage.XENUM_LITERAL__VALUE:
-        setValue(VALUE_EDEFAULT);
-        return;
+      setValue(VALUE_EDEFAULT);
+      return;
       case XcorePackage.XENUM_LITERAL__LITERAL:
-        setLiteral(LITERAL_EDEFAULT);
-        return;
+      setLiteral(LITERAL_EDEFAULT);
+      return;
     }
     super.eUnset(featureID);
   }
@@ -275,11 +278,11 @@ public class XEnumLiteralImpl extends XNamedElementImpl implements XEnumLiteral
     switch (featureID)
     {
       case XcorePackage.XENUM_LITERAL__VALUE:
-        return value != VALUE_EDEFAULT;
+      return value != VALUE_EDEFAULT;
       case XcorePackage.XENUM_LITERAL__LITERAL:
-        return LITERAL_EDEFAULT == null ? literal != null : !LITERAL_EDEFAULT.equals(literal);
+      return LITERAL_EDEFAULT == null ? literal != null : !LITERAL_EDEFAULT.equals(literal);
       case XcorePackage.XENUM_LITERAL__ENUM:
-        return getEnum() != null;
+      return getEnum() != null;
     }
     return super.eIsSet(featureID);
   }
@@ -292,7 +295,8 @@ public class XEnumLiteralImpl extends XNamedElementImpl implements XEnumLiteral
   @Override
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+    if (eIsProxy())
+      return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (value: ");

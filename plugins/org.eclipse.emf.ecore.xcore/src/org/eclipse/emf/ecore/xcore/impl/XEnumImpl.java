@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.impl;
 
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -22,6 +23,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xcore.XEnum;
 import org.eclipse.emf.ecore.xcore.XEnumLiteral;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -78,7 +80,11 @@ public class XEnumImpl extends XDataTypeImpl implements XEnum
   {
     if (literals == null)
     {
-      literals = new EObjectContainmentWithInverseEList<XEnumLiteral>(XEnumLiteral.class, this, XcorePackage.XENUM__LITERALS, XcorePackage.XENUM_LITERAL__ENUM);
+      literals = new EObjectContainmentWithInverseEList<XEnumLiteral>(
+        XEnumLiteral.class,
+        this,
+        XcorePackage.XENUM__LITERALS,
+        XcorePackage.XENUM_LITERAL__ENUM);
     }
     return literals;
   }
@@ -95,7 +101,7 @@ public class XEnumImpl extends XDataTypeImpl implements XEnum
     switch (featureID)
     {
       case XcorePackage.XENUM__LITERALS:
-        return ((InternalEList<InternalEObject>)(InternalEList<?>)getLiterals()).basicAdd(otherEnd, msgs);
+      return ((InternalEList<InternalEObject>)(InternalEList<?>)getLiterals()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -111,7 +117,7 @@ public class XEnumImpl extends XDataTypeImpl implements XEnum
     switch (featureID)
     {
       case XcorePackage.XENUM__LITERALS:
-        return ((InternalEList<?>)getLiterals()).basicRemove(otherEnd, msgs);
+      return ((InternalEList<?>)getLiterals()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -127,7 +133,7 @@ public class XEnumImpl extends XDataTypeImpl implements XEnum
     switch (featureID)
     {
       case XcorePackage.XENUM__LITERALS:
-        return getLiterals();
+      return getLiterals();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -144,9 +150,9 @@ public class XEnumImpl extends XDataTypeImpl implements XEnum
     switch (featureID)
     {
       case XcorePackage.XENUM__LITERALS:
-        getLiterals().clear();
-        getLiterals().addAll((Collection<? extends XEnumLiteral>)newValue);
-        return;
+      getLiterals().clear();
+      getLiterals().addAll((Collection<? extends XEnumLiteral>)newValue);
+      return;
     }
     super.eSet(featureID, newValue);
   }
@@ -162,8 +168,8 @@ public class XEnumImpl extends XDataTypeImpl implements XEnum
     switch (featureID)
     {
       case XcorePackage.XENUM__LITERALS:
-        getLiterals().clear();
-        return;
+      getLiterals().clear();
+      return;
     }
     super.eUnset(featureID);
   }
@@ -179,7 +185,7 @@ public class XEnumImpl extends XDataTypeImpl implements XEnum
     switch (featureID)
     {
       case XcorePackage.XENUM__LITERALS:
-        return literals != null && !literals.isEmpty();
+      return literals != null && !literals.isEmpty();
     }
     return super.eIsSet(featureID);
   }

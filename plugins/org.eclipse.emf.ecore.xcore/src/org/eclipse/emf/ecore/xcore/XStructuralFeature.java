@@ -7,7 +7,9 @@
  */
 package org.eclipse.emf.ecore.xcore;
 
+
 import org.eclipse.xtext.xbase.XBlockExpression;
+
 
 /**
  * <!-- begin-user-doc -->

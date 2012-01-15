@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.impl;
 
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -25,6 +26,7 @@ import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XImportDirective;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -103,7 +105,10 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
   {
     if (importDirectives == null)
     {
-      importDirectives = new EObjectContainmentEList<XImportDirective>(XImportDirective.class, this, XcorePackage.XPACKAGE__IMPORT_DIRECTIVES);
+      importDirectives = new EObjectContainmentEList<XImportDirective>(
+        XImportDirective.class,
+        this,
+        XcorePackage.XPACKAGE__IMPORT_DIRECTIVES);
     }
     return importDirectives;
   }
@@ -117,7 +122,10 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
   {
     if (annotationDirectives == null)
     {
-      annotationDirectives = new EObjectContainmentEList<XAnnotationDirective>(XAnnotationDirective.class, this, XcorePackage.XPACKAGE__ANNOTATION_DIRECTIVES);
+      annotationDirectives = new EObjectContainmentEList<XAnnotationDirective>(
+        XAnnotationDirective.class,
+        this,
+        XcorePackage.XPACKAGE__ANNOTATION_DIRECTIVES);
     }
     return annotationDirectives;
   }
@@ -131,7 +139,11 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
   {
     if (classifiers == null)
     {
-      classifiers = new EObjectContainmentWithInverseEList<XClassifier>(XClassifier.class, this, XcorePackage.XPACKAGE__CLASSIFIERS, XcorePackage.XCLASSIFIER__PACKAGE);
+      classifiers = new EObjectContainmentWithInverseEList<XClassifier>(
+        XClassifier.class,
+        this,
+        XcorePackage.XPACKAGE__CLASSIFIERS,
+        XcorePackage.XCLASSIFIER__PACKAGE);
     }
     return classifiers;
   }
@@ -148,7 +160,7 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
     switch (featureID)
     {
       case XcorePackage.XPACKAGE__CLASSIFIERS:
-        return ((InternalEList<InternalEObject>)(InternalEList<?>)getClassifiers()).basicAdd(otherEnd, msgs);
+      return ((InternalEList<InternalEObject>)(InternalEList<?>)getClassifiers()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -164,11 +176,11 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
     switch (featureID)
     {
       case XcorePackage.XPACKAGE__IMPORT_DIRECTIVES:
-        return ((InternalEList<?>)getImportDirectives()).basicRemove(otherEnd, msgs);
+      return ((InternalEList<?>)getImportDirectives()).basicRemove(otherEnd, msgs);
       case XcorePackage.XPACKAGE__ANNOTATION_DIRECTIVES:
-        return ((InternalEList<?>)getAnnotationDirectives()).basicRemove(otherEnd, msgs);
+      return ((InternalEList<?>)getAnnotationDirectives()).basicRemove(otherEnd, msgs);
       case XcorePackage.XPACKAGE__CLASSIFIERS:
-        return ((InternalEList<?>)getClassifiers()).basicRemove(otherEnd, msgs);
+      return ((InternalEList<?>)getClassifiers()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -184,11 +196,11 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
     switch (featureID)
     {
       case XcorePackage.XPACKAGE__IMPORT_DIRECTIVES:
-        return getImportDirectives();
+      return getImportDirectives();
       case XcorePackage.XPACKAGE__ANNOTATION_DIRECTIVES:
-        return getAnnotationDirectives();
+      return getAnnotationDirectives();
       case XcorePackage.XPACKAGE__CLASSIFIERS:
-        return getClassifiers();
+      return getClassifiers();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -205,17 +217,17 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
     switch (featureID)
     {
       case XcorePackage.XPACKAGE__IMPORT_DIRECTIVES:
-        getImportDirectives().clear();
-        getImportDirectives().addAll((Collection<? extends XImportDirective>)newValue);
-        return;
+      getImportDirectives().clear();
+      getImportDirectives().addAll((Collection<? extends XImportDirective>)newValue);
+      return;
       case XcorePackage.XPACKAGE__ANNOTATION_DIRECTIVES:
-        getAnnotationDirectives().clear();
-        getAnnotationDirectives().addAll((Collection<? extends XAnnotationDirective>)newValue);
-        return;
+      getAnnotationDirectives().clear();
+      getAnnotationDirectives().addAll((Collection<? extends XAnnotationDirective>)newValue);
+      return;
       case XcorePackage.XPACKAGE__CLASSIFIERS:
-        getClassifiers().clear();
-        getClassifiers().addAll((Collection<? extends XClassifier>)newValue);
-        return;
+      getClassifiers().clear();
+      getClassifiers().addAll((Collection<? extends XClassifier>)newValue);
+      return;
     }
     super.eSet(featureID, newValue);
   }
@@ -231,14 +243,14 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
     switch (featureID)
     {
       case XcorePackage.XPACKAGE__IMPORT_DIRECTIVES:
-        getImportDirectives().clear();
-        return;
+      getImportDirectives().clear();
+      return;
       case XcorePackage.XPACKAGE__ANNOTATION_DIRECTIVES:
-        getAnnotationDirectives().clear();
-        return;
+      getAnnotationDirectives().clear();
+      return;
       case XcorePackage.XPACKAGE__CLASSIFIERS:
-        getClassifiers().clear();
-        return;
+      getClassifiers().clear();
+      return;
     }
     super.eUnset(featureID);
   }
@@ -254,11 +266,11 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
     switch (featureID)
     {
       case XcorePackage.XPACKAGE__IMPORT_DIRECTIVES:
-        return importDirectives != null && !importDirectives.isEmpty();
+      return importDirectives != null && !importDirectives.isEmpty();
       case XcorePackage.XPACKAGE__ANNOTATION_DIRECTIVES:
-        return annotationDirectives != null && !annotationDirectives.isEmpty();
+      return annotationDirectives != null && !annotationDirectives.isEmpty();
       case XcorePackage.XPACKAGE__CLASSIFIERS:
-        return classifiers != null && !classifiers.isEmpty();
+      return classifiers != null && !classifiers.isEmpty();
     }
     return super.eIsSet(featureID);
   }

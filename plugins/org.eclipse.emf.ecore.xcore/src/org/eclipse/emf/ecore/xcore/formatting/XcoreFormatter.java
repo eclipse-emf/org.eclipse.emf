@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.formatting;
 
+
 import org.eclipse.xtext.formatting.impl.FormattingConfig;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.util.Pair;
@@ -14,6 +15,7 @@ import org.eclipse.xtext.xbase.formatting.XbaseFormatter;
 import org.eclipse.xtext.xbase.services.XbaseGrammarAccess;
 
 import com.google.inject.Inject;
+
 
 /**
  * This class contains custom formatting description.
@@ -23,15 +25,16 @@ import com.google.inject.Inject;
  * 
  * Also see {@link org.eclipse.xtext.xtext.XtextFormattingTokenSerializer} as an example
  */
-public class XcoreFormatter extends XbaseFormatter {
+public class XcoreFormatter extends XbaseFormatter
+{
   @Inject
   XbaseGrammarAccess xbaseGrammarAccess;
-	
+
   @Override
   protected void configureFormatting(FormattingConfig c)
   {
     // configure(c, xbaseGrammarAccess);
-  	c.setAutoLinewrap(140);
+    c.setAutoLinewrap(140);
     org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess f = (org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess)getGrammarAccess();
     for (Pair<Keyword, Keyword> pair : f.findKeywordPairs("{", "}"))
     {
@@ -63,19 +66,19 @@ public class XcoreFormatter extends XbaseFormatter {
     }
     c.setLinewrap(1).after(f.getXImportDirectiveRule());
     c.setLinewrap(2).after(f.getXPackageAccess().getImportDirectivesXImportDirectiveParserRuleCall_4_0());
-    
+
     c.setNoSpace().before(f.getXGenericTypeAccess().getLessThanSignKeyword_1_0());
-      
+
     c.setNoSpace().after(f.getXAnnotationAccess().getCommercialAtKeyword_0());
     c.setNoSpace().before(f.getXAnnotationAccess().getLeftParenthesisKeyword_2_0());
     c.setLinewrap(1).before(f.getXAnnotationRule());
     c.setLinewrap(1).after(f.getXAnnotationRule());
     c.setNoSpace().before(f.getXStringToStringMapEntryAccess().getEqualsSignKeyword_1());
     c.setNoSpace().after(f.getXStringToStringMapEntryAccess().getEqualsSignKeyword_1());
-    
+
     c.setLinewrap(1).after(f.getXAnnotationDirectiveRule());
     c.setLinewrap(2).after(f.getXPackageAccess().getAnnotationDirectivesXAnnotationDirectiveParserRuleCall_5_0());
-    
+
     c.setNoSpace().before(f.getXOperationAccess().getLeftParenthesisKeyword_7());
     c.setLinewrap(2).after(f.getXPackageAccess().getNameAssignment_3());
     c.setLinewrap(2).after(f.getXClassRule());

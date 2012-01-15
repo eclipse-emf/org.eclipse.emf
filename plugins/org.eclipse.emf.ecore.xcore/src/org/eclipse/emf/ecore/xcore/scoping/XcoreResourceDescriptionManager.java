@@ -7,12 +7,14 @@
  */
 package org.eclipse.emf.ecore.xcore.scoping;
 
+
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.DerivedStateAwareResourceDescriptionManager;
 import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
 import org.eclipse.xtext.resource.IResourceDescription;
 
 import com.google.inject.Singleton;
+
 
 /**
  * The resource description manager for Xcore resources. It produces an {@link XcoreResourceDescription} 
@@ -26,6 +28,6 @@ public class XcoreResourceDescriptionManager extends DerivedStateAwareResourceDe
   @Override
   protected IResourceDescription createResourceDescription(Resource resource, IDefaultResourceDescriptionStrategy strategy)
   {
-		return new XcoreResourceDescription(resource, strategy, getCache());
+    return new XcoreResourceDescription(resource, strategy, getCache());
   }
 }

@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.test.ecore.xcore.scoping;
 
+
 import java.util.Iterator;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -26,37 +27,35 @@ import com.google.inject.Inject;
 
 import static org.junit.Assert.*;
 
+
 @RunWith(XtextRunner.class)
 @InjectWith(XcoreInjectorProvider.class)
 public class ResourceDescriptionManagerTest
 {
 
-	@Inject
-	private ParseHelper<XPackage> parser;
+  @Inject
+  private ParseHelper<XPackage> parser;
 
-	@Inject
-	private IResourceDescription.Manager descriptionManager;
+  @Inject
+  private IResourceDescription.Manager descriptionManager;
 
-	@Test
-	public void testCreateResourceDescription() throws Exception
-	{
-		XPackage xcorePackage = parser.parse("package foo.bar class Baz {}");
-		IResourceDescription resourceDescription = descriptionManager.getResourceDescription(xcorePackage.eResource());
+  @Test
+  public void testCreateResourceDescription() throws Exception
+  {
+    XPackage xcorePackage = parser.parse("package foo.bar class Baz {}");
+    IResourceDescription resourceDescription = descriptionManager.getResourceDescription(xcorePackage.eResource());
 
-		Iterator<IEObjectDescription> eclass = resourceDescription.getExportedObjectsByType(EcorePackage.Literals.ECLASS)
-		    .iterator();
-		Iterator<IEObjectDescription> genclass = resourceDescription.getExportedObjectsByType(
-		    GenModelPackage.Literals.GEN_CLASS).iterator();
-		Iterator<IEObjectDescription> jvmTypes = resourceDescription.getExportedObjectsByType(
-		    TypesPackage.Literals.JVM_GENERIC_TYPE).iterator();
-		final String expected = "foo.bar.Baz";
-		assertEquals(expected, eclass.next().getName().toString());
-		assertFalse(eclass.hasNext());
-		assertEquals(expected, genclass.next().getName().toString());
-		assertFalse(genclass.hasNext());
-		assertEquals(expected, jvmTypes.next().getName().toString());
-		assertEquals(expected + "Impl", jvmTypes.next().getName().toString());
-		assertFalse(genclass.hasNext());
-	}
-	
+    Iterator<IEObjectDescription> eclass = resourceDescription.getExportedObjectsByType(EcorePackage.Literals.ECLASS).iterator();
+    Iterator<IEObjectDescription> genclass = resourceDescription.getExportedObjectsByType(GenModelPackage.Literals.GEN_CLASS).iterator();
+    Iterator<IEObjectDescription> jvmTypes = resourceDescription.getExportedObjectsByType(TypesPackage.Literals.JVM_GENERIC_TYPE).iterator();
+    final String expected = "foo.bar.Baz";
+    assertEquals(expected, eclass.next().getName().toString());
+    assertFalse(eclass.hasNext());
+    assertEquals(expected, genclass.next().getName().toString());
+    assertFalse(genclass.hasNext());
+    assertEquals(expected, jvmTypes.next().getName().toString());
+    assertEquals(expected + "Impl", jvmTypes.next().getName().toString());
+    assertFalse(genclass.hasNext());
+  }
+
 }

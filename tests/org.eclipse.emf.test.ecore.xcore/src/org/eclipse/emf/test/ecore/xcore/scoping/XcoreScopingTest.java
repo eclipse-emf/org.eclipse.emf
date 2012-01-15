@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.test.ecore.xcore.scoping;
 
+
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -33,6 +34,7 @@ import org.junit.runner.RunWith;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
+
 @SuppressWarnings("restriction")
 @InjectWith(XcoreInjectorProvider.class)
 @RunWith(ParameterizedXtextRunner.class)
@@ -40,36 +42,36 @@ import com.google.inject.Inject;
 public class XcoreScopingTest
 {
 
-	@InjectParameter
-	private XtextResource resource;
+  @InjectParameter
+  private XtextResource resource;
 
-	@InjectParameter
-	private Offset offset;
+  @InjectParameter
+  private Offset offset;
 
-	@Inject
-	private ValidationTestHelper validationHelper;
+  @Inject
+  private ValidationTestHelper validationHelper;
 
-	@Inject
-	private IScopeProvider scopeProvider;
+  @Inject
+  private IScopeProvider scopeProvider;
 
-	@Test
-	public void noValidationIssues()
-	{
-		validationHelper.assertNoIssues(resource.getContents().get(0));
-	}
+  @Test
+  public void noValidationIssues()
+  {
+    validationHelper.assertNoIssues(resource.getContents().get(0));
+  }
 
-	@XpectCommaSeparatedValues()
-	@ParameterSyntax("'at' offset=OFFSET")
-	public List<String> scopeAllElements()
-	{
-		Pair<EObject, EStructuralFeature> objAndFeature = offset.getEStructuralFeatureByParent();
-		Assert.assertTrue(objAndFeature.getSecond() instanceof EReference);
-		Assert.assertFalse(((EReference) objAndFeature.getSecond()).isContainment());
-		IScope scope = scopeProvider.getScope(objAndFeature.getFirst(), (EReference) objAndFeature.getSecond());
-		List<String> result = Lists.newArrayList();
-		for (IEObjectDescription desc : scope.getAllElements())
-			result.add(desc.getName().toString());
-		return result;
-	}
+  @XpectCommaSeparatedValues()
+  @ParameterSyntax("'at' offset=OFFSET")
+  public List<String> scopeAllElements()
+  {
+    Pair<EObject, EStructuralFeature> objAndFeature = offset.getEStructuralFeatureByParent();
+    Assert.assertTrue(objAndFeature.getSecond() instanceof EReference);
+    Assert.assertFalse(((EReference)objAndFeature.getSecond()).isContainment());
+    IScope scope = scopeProvider.getScope(objAndFeature.getFirst(), (EReference)objAndFeature.getSecond());
+    List<String> result = Lists.newArrayList();
+    for (IEObjectDescription desc : scope.getAllElements())
+      result.add(desc.getName().toString());
+    return result;
+  }
 
 }

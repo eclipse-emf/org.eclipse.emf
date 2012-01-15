@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.ui.contentassist;
 
+
 import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
@@ -26,22 +27,28 @@ import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal;
 import org.eclipse.xtext.ui.editor.contentassist.ReplacementTextApplier;
 
+
 public class OppositeReplacementTextApplier extends ReplacementTextApplier
 {
   protected XReference xReference;
+
   protected ITextViewer viewer;
+
   protected IScope scope;
+
   protected XcoreMapper mapper;
+
   protected IQualifiedNameConverter qualifiedNameConverter;
+
   protected IValueConverter<String> qualifiedNameValueConverter;
 
-  public OppositeReplacementTextApplier
-    (XReference xReference,
-     ITextViewer viewer,
-     IScope scope,
-     XcoreMapper mapper,
-     IQualifiedNameConverter qualifiedNameConverter,
-     IValueConverter<String> qualifiedNameValueConverter)
+  public OppositeReplacementTextApplier(
+    XReference xReference,
+    ITextViewer viewer,
+    IScope scope,
+    XcoreMapper mapper,
+    IQualifiedNameConverter qualifiedNameConverter,
+    IValueConverter<String> qualifiedNameValueConverter)
   {
     this.xReference = xReference;
     this.viewer = viewer;
@@ -58,7 +65,9 @@ public class OppositeReplacementTextApplier extends ReplacementTextApplier
     proposal.setCursorPosition(replacementString.length());
     int replacementOffset = proposal.getReplacementOffset();
 
-    IEObjectDescription oppositeDescription = scope.getSingleElement(qualifiedNameConverter.toQualifiedName(qualifiedNameValueConverter.toValue(replacementString, null)));
+    IEObjectDescription oppositeDescription = scope.getSingleElement(qualifiedNameConverter.toQualifiedName(qualifiedNameValueConverter.toValue(
+      replacementString,
+      null)));
     EObject opposite = oppositeDescription.getEObjectOrProxy();
     if (opposite instanceof GenFeature && opposite.eResource() == xReference.eResource())
     {

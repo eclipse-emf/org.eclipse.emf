@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.test.ecore.xcore.genmodel;
 
+
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
@@ -27,6 +28,7 @@ import org.junit.runner.RunWith;
 
 import com.google.inject.Inject;
 
+
 @SuppressWarnings("restriction")
 @InjectWith(XcoreInjectorProvider.class)
 @RunWith(ParameterizedXtextRunner.class)
@@ -34,31 +36,31 @@ import com.google.inject.Inject;
 public class XcoreGenModelTest
 {
 
-	@Inject
-	private XcoreMapper mapper;
+  @Inject
+  private XcoreMapper mapper;
 
-	@InjectParameter
-	private Offset offset;
+  @InjectParameter
+  private Offset offset;
 
-	@InjectParameter
-	private XtextResource resource;
+  @InjectParameter
+  private XtextResource resource;
 
-	@Inject
-	private ValidationTestHelper validationHelper;
+  @Inject
+  private ValidationTestHelper validationHelper;
 
-	@Test
-	public void noValidationIssues()
-	{
-		validationHelper.assertNoIssues(resource.getContents().get(0));
-	}
+  @Test
+  public void noValidationIssues()
+  {
+    validationHelper.assertNoIssues(resource.getContents().get(0));
+  }
 
-	@XpectString
-	@ParameterSyntax("'at' offset=OFFSET")
-	public String genBase()
-	{
-		EcoreUtil.resolveAll(resource);
-		GenBase gen = mapper.getGen((XNamedElement) offset.getEObject());
-		return new GenModelFormatter().resolveCrossReferences().format(gen);
-	}
+  @XpectString
+  @ParameterSyntax("'at' offset=OFFSET")
+  public String genBase()
+  {
+    EcoreUtil.resolveAll(resource);
+    GenBase gen = mapper.getGen((XNamedElement)offset.getEObject());
+    return new GenModelFormatter().resolveCrossReferences().format(gen);
+  }
 
 }

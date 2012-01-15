@@ -7,7 +7,9 @@
  */
 package org.eclipse.emf.ecore.xcore;
 
+
 import org.eclipse.emf.common.util.EMap;
+
 
 /**
  * <!-- begin-user-doc -->

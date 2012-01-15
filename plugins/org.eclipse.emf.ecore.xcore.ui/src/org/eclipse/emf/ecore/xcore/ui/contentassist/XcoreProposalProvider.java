@@ -46,25 +46,24 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
 
   @Inject
   QualifiedNameValueConverter qualifiedNameValueConverter;
-  
+
   @Inject
   private XcoreMapper mapper;
 
   @Override
-  public void completeXReference_Opposite
-    (EObject model, 
-     Assignment assignment, 
-     ContentAssistContext context, 
-     ICompletionProposalAcceptor acceptor) 
+  public void completeXReference_Opposite(
+    EObject model,
+    Assignment assignment,
+    ContentAssistContext context,
+    ICompletionProposalAcceptor acceptor)
   {
-    final IReplacementTextApplier textApplier = 
-        new OppositeReplacementTextApplier
-          ((XReference)model,
-           context.getViewer(),
-           xcoreScopeProvider.getScope(model, XcorePackage.Literals.XREFERENCE__OPPOSITE),
-           mapper,
-           qualifiedNameConverter,
-           qualifiedNameValueConverter);
+    final IReplacementTextApplier textApplier = new OppositeReplacementTextApplier(
+      (XReference)model,
+      context.getViewer(),
+      xcoreScopeProvider.getScope(model, XcorePackage.Literals.XREFERENCE__OPPOSITE),
+      mapper,
+      qualifiedNameConverter,
+      qualifiedNameValueConverter);
     final ICompletionProposalAcceptor oppositeAware = new ICompletionProposalAcceptor.Delegate(acceptor)
       {
         @Override
@@ -108,10 +107,13 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
       };
     super.completeXGenericType_Type(model, assignment, context, scopeAware);
   }
-  
+
   @Override
-  protected void lookupCrossReference(CrossReference crossReference, EReference reference,
-    ContentAssistContext contentAssistContext, ICompletionProposalAcceptor acceptor,
+  protected void lookupCrossReference(
+    CrossReference crossReference,
+    EReference reference,
+    ContentAssistContext contentAssistContext,
+    ICompletionProposalAcceptor acceptor,
     Predicate<IEObjectDescription> filter)
   {
     if (reference == XcorePackage.Literals.XREFERENCE__OPPOSITE)
@@ -120,11 +122,10 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
       final EStructuralFeature eReference = mapper.getMapping(xReference).getEStructuralFeature();
       final EClass eClass = eReference.getEContainingClass();
       final Predicate<IEObjectDescription> baseFilter = filter;
-      filter =
-        new Predicate<IEObjectDescription>()
+      filter = new Predicate<IEObjectDescription>()
         {
-          public boolean apply(IEObjectDescription input) 
-          { 
+          public boolean apply(IEObjectDescription input)
+          {
             // Filter out features that aren't of the correct type to be a valid opposite.
             //
             GenFeature genFeature = (GenFeature)input.getEObjectOrProxy();
@@ -133,6 +134,6 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
           }
         };
     }
-    super.lookupCrossReference (crossReference, reference, contentAssistContext, acceptor, filter);
+    super.lookupCrossReference(crossReference, reference, contentAssistContext, acceptor, filter);
   }
 }

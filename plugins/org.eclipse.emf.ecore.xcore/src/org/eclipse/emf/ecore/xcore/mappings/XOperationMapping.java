@@ -7,45 +7,48 @@
  */
 package org.eclipse.emf.ecore.xcore.mappings;
 
+
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.xtext.common.types.JvmOperation;
 
+
 public class XOperationMapping extends AbstractMapping
 {
-	private EOperation eOperation;
-	private GenOperation genOperation;
-	private JvmOperation jvmOperation;
+  private EOperation eOperation;
 
-	public EOperation getEOperation()
+  private GenOperation genOperation;
+
+  private JvmOperation jvmOperation;
+
+  public EOperation getEOperation()
   {
-  	return eOperation;
+    return eOperation;
   }
 
-	public void setEOperation(EOperation eOperation)
+  public void setEOperation(EOperation eOperation)
   {
-  	this.eOperation = eOperation;
+    this.eOperation = eOperation;
   }
 
-	public GenOperation getGenOperation()
+  public GenOperation getGenOperation()
   {
-  	return genOperation;
+    return genOperation;
   }
 
-	public void setGenOperation(GenOperation genOperation)
+  public void setGenOperation(GenOperation genOperation)
   {
-  	this.genOperation = genOperation;
+    this.genOperation = genOperation;
   }
 
-	public JvmOperation getJvmOperation()
+  public JvmOperation getJvmOperation()
   {
-  	return jvmOperation;
+    return jvmOperation;
   }
 
-	public void setJvmOperation(JvmOperation jvmOperation)
+  public void setJvmOperation(JvmOperation jvmOperation)
   {
-  	this.jvmOperation = jvmOperation;
+    this.jvmOperation = jvmOperation;
   }
-	
-	
+
 }

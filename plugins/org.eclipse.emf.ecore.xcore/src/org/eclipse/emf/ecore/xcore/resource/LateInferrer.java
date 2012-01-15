@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.resource;
 
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,61 +29,62 @@ import com.google.inject.Provider;
 
 import static com.google.common.collect.Lists.*;
 
+
 public class LateInferrer implements IDerivedStateComputer
 {
-	@Inject
-	private XcoreJvmInferrer jvmInferrer;
+  @Inject
+  private XcoreJvmInferrer jvmInferrer;
 
-	@Inject
-	private XcoreGenModelBuilder genModelBuilder;
+  @Inject
+  private XcoreGenModelBuilder genModelBuilder;
 
-	@Inject
-	private Provider<XcoreEcoreBuilder> xcoreEcoreBuilderProvider;
+  @Inject
+  private Provider<XcoreEcoreBuilder> xcoreEcoreBuilderProvider;
 
-	@Inject
-	private XcoreMapper mapper;
+  @Inject
+  private XcoreMapper mapper;
 
-	@Inject
-	private IReferableElementsUnloader unloader;
+  @Inject
+  private IReferableElementsUnloader unloader;
 
-	public void installDerivedState(DerivedStateAwareResource resource, boolean preLinkingPhase)
-	{
-		if (resource.getParseResult() != null && resource.getParseResult().getRootASTElement() instanceof XPackage)
-		{
-			XPackage model = (XPackage) resource.getParseResult().getRootASTElement();
-			XcoreEcoreBuilder xcoreEcoreBuilder = xcoreEcoreBuilderProvider.get();
-			EPackage ePackage = xcoreEcoreBuilder.getEPackage(model);
-			resource.getContents().add(ePackage);
-			GenModel genModel = genModelBuilder.getGenModel(model);
-			xcoreEcoreBuilder.link();
-			genModelBuilder.initializeUsedGenPackages(genModel);
-			resource.getContents().addAll(jvmInferrer.getDeclaredTypes(model));
-			resource.getCache().clear(resource);
-		}
-	}
+  public void installDerivedState(DerivedStateAwareResource resource, boolean preLinkingPhase)
+  {
+    if (resource.getParseResult() != null && resource.getParseResult().getRootASTElement() instanceof XPackage)
+    {
+      XPackage model = (XPackage)resource.getParseResult().getRootASTElement();
+      XcoreEcoreBuilder xcoreEcoreBuilder = xcoreEcoreBuilderProvider.get();
+      EPackage ePackage = xcoreEcoreBuilder.getEPackage(model);
+      resource.getContents().add(ePackage);
+      GenModel genModel = genModelBuilder.getGenModel(model);
+      xcoreEcoreBuilder.link();
+      genModelBuilder.initializeUsedGenPackages(genModel);
+      resource.getContents().addAll(jvmInferrer.getDeclaredTypes(model));
+      resource.getCache().clear(resource);
+    }
+  }
 
-	public void discardDerivedState(DerivedStateAwareResource resource)
-	{
-		EList<EObject> contents = resource.getContents();
-		int size = contents.size();
-		if (size > 1)
-		{
-			List<EObject> toBeRemoved = newArrayList();
-			for (Iterator<EObject> i = contents.iterator(); i.hasNext();)
-			{
-				EObject eObject = i.next();
-				if (eObject instanceof XPackage)
-				{
-					mapper.unsetMapping((XPackage) eObject);
-				}
-				else
-				{
-					unloader.unloadRoot(eObject);
-					toBeRemoved.add(eObject);
-				}
-			}
-			contents.removeAll(toBeRemoved);
-		}
-	}
+  public void discardDerivedState(DerivedStateAwareResource resource)
+  {
+    EList<EObject> contents = resource.getContents();
+    int size = contents.size();
+    if (size > 1)
+    {
+      List<EObject> toBeRemoved = newArrayList();
+      for (Iterator<EObject> i = contents.iterator(); i.hasNext();)
+      {
+        EObject eObject = i.next();
+        if (eObject instanceof XPackage)
+        {
+          mapper.unsetMapping((XPackage)eObject);
+        }
+        else
+        {
+          unloader.unloadRoot(eObject);
+          toBeRemoved.add(eObject);
+        }
+      }
+      contents.removeAll(toBeRemoved);
+    }
+  }
 
 }

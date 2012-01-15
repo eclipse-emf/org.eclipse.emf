@@ -7,59 +7,72 @@
  */
 package org.eclipse.emf.ecore.xcore.mappings;
 
+
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.common.types.JvmField;
 import org.eclipse.xtext.common.types.JvmOperation;
 
+
 public class XFeatureMapping extends AbstractMapping
 {
-	private GenFeature genFeature;
-	private JvmField field;
-	private JvmOperation getter;
-	private JvmOperation setter;
-	private EStructuralFeature eStructuralFeature;
-	
-	public GenFeature getGenFeature()
+  private GenFeature genFeature;
+
+  private JvmField field;
+
+  private JvmOperation getter;
+
+  private JvmOperation setter;
+
+  private EStructuralFeature eStructuralFeature;
+
+  public GenFeature getGenFeature()
   {
-  	return genFeature;
+    return genFeature;
   }
-	public void setGenFeature(GenFeature genFeature)
+
+  public void setGenFeature(GenFeature genFeature)
   {
-  	this.genFeature = genFeature;
+    this.genFeature = genFeature;
   }
-	public JvmField getField()
+
+  public JvmField getField()
   {
-  	return field;
+    return field;
   }
-	public void setField(JvmField field)
+
+  public void setField(JvmField field)
   {
-  	this.field = field;
+    this.field = field;
   }
-	public JvmOperation getGetter()
+
+  public JvmOperation getGetter()
   {
-  	return getter;
+    return getter;
   }
-	public void setGetter(JvmOperation getter)
+
+  public void setGetter(JvmOperation getter)
   {
-  	this.getter = getter;
+    this.getter = getter;
   }
-	public JvmOperation getSetter()
+
+  public JvmOperation getSetter()
   {
-  	return setter;
+    return setter;
   }
-	public void setSetter(JvmOperation setter)
+
+  public void setSetter(JvmOperation setter)
   {
-  	this.setter = setter;
+    this.setter = setter;
   }
-	
-	public EStructuralFeature getEStructuralFeature()
+
+  public EStructuralFeature getEStructuralFeature()
   {
-	  return eStructuralFeature;
+    return eStructuralFeature;
   }
-	
-	public void setEStructuralFeature(EStructuralFeature eStructuralFeature)
+
+  public void setEStructuralFeature(EStructuralFeature eStructuralFeature)
   {
-	  this.eStructuralFeature = eStructuralFeature;
+    this.eStructuralFeature = eStructuralFeature;
   }
 }

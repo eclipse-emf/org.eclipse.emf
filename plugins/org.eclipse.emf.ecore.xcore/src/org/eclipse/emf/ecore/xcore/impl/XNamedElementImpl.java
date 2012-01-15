@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.impl;
 
+
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -15,6 +16,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -106,7 +108,7 @@ public abstract class XNamedElementImpl extends XModelElementImpl implements XNa
     switch (featureID)
     {
       case XcorePackage.XNAMED_ELEMENT__NAME:
-        return getName();
+      return getName();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -122,8 +124,8 @@ public abstract class XNamedElementImpl extends XModelElementImpl implements XNa
     switch (featureID)
     {
       case XcorePackage.XNAMED_ELEMENT__NAME:
-        setName((String)newValue);
-        return;
+      setName((String)newValue);
+      return;
     }
     super.eSet(featureID, newValue);
   }
@@ -139,8 +141,8 @@ public abstract class XNamedElementImpl extends XModelElementImpl implements XNa
     switch (featureID)
     {
       case XcorePackage.XNAMED_ELEMENT__NAME:
-        setName(NAME_EDEFAULT);
-        return;
+      setName(NAME_EDEFAULT);
+      return;
     }
     super.eUnset(featureID);
   }
@@ -156,7 +158,7 @@ public abstract class XNamedElementImpl extends XModelElementImpl implements XNa
     switch (featureID)
     {
       case XcorePackage.XNAMED_ELEMENT__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
     }
     return super.eIsSet(featureID);
   }
@@ -169,7 +171,8 @@ public abstract class XNamedElementImpl extends XModelElementImpl implements XNa
   @Override
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+    if (eIsProxy())
+      return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (name: ");

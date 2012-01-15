@@ -7,18 +7,22 @@
  */
 package org.eclipse.emf.ecore.xcore.ui.refactoring;
 
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.DefaultJvmModelRenameStrategy;
+
 
 /**
  * Encapsulates the model changes of a rename refactoring.  
  */
-public class XcoreRenameStrategy extends DefaultJvmModelRenameStrategy {
+public class XcoreRenameStrategy extends DefaultJvmModelRenameStrategy
+{
 
-	@Override
-	protected void setInferredJvmElementName(String name, EObject renamedSourceElement) {
-		/*
-		 * TODO: rename inferred elements as you would in IJvmModelInferrer 
-		 */
-	}
+  @Override
+  protected void setInferredJvmElementName(String name, EObject renamedSourceElement)
+  {
+    /*
+     * TODO: rename inferred elements as you would in IJvmModelInferrer 
+     */
+  }
 }

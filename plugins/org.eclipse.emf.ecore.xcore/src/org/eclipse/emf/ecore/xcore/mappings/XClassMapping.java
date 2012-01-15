@@ -7,56 +7,60 @@
  */
 package org.eclipse.emf.ecore.xcore.mappings;
 
+
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.xtext.common.types.JvmGenericType;
 
+
 public class XClassMapping extends AbstractMapping
 {
-	 private EClass eClass;
-	 private GenClass genClass;
-	 private JvmGenericType interfaceType;
-	 private JvmGenericType classType;
-   
-	public EClass getEClass()
+  private EClass eClass;
+
+  private GenClass genClass;
+
+  private JvmGenericType interfaceType;
+
+  private JvmGenericType classType;
+
+  public EClass getEClass()
   {
-  	return eClass;
+    return eClass;
   }
 
-	public void setEClass(EClass eclass)
+  public void setEClass(EClass eclass)
   {
-  	this.eClass = eclass;
+    this.eClass = eclass;
   }
 
-	public GenClass getGenClass()
+  public GenClass getGenClass()
   {
-  	return genClass;
+    return genClass;
   }
 
-	public void setGenClass(GenClass genClass)
+  public void setGenClass(GenClass genClass)
   {
-  	this.genClass = genClass;
+    this.genClass = genClass;
   }
 
-	public JvmGenericType getInterfaceType()
+  public JvmGenericType getInterfaceType()
   {
-  	return interfaceType;
+    return interfaceType;
   }
 
-	public void setInterfaceType(JvmGenericType interfaceType)
+  public void setInterfaceType(JvmGenericType interfaceType)
   {
-  	this.interfaceType = interfaceType;
+    this.interfaceType = interfaceType;
   }
 
-	public JvmGenericType getClassType()
+  public JvmGenericType getClassType()
   {
-  	return classType;
+    return classType;
   }
 
-	public void setClassType(JvmGenericType classType)
+  public void setClassType(JvmGenericType classType)
   {
-  	this.classType = classType;
+    this.classType = classType;
   }
-   
-   
+
 }

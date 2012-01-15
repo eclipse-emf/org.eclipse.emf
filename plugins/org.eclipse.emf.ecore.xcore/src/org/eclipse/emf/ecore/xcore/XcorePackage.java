@@ -7,11 +7,13 @@
  */
 package org.eclipse.emf.ecore.xcore;
 
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -1819,7 +1821,6 @@ public interface XcorePackage extends EPackage
    * @generated
    */
   int XMULTIPLICITY = 21;
-
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XAnnotation <em>XAnnotation</em>}'.

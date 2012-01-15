@@ -7,8 +7,10 @@
  */
 package org.eclipse.emf.ecore.xcore;
 
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtext.common.types.JvmTypeReference;
+
 
 /**
  * <!-- begin-user-doc -->

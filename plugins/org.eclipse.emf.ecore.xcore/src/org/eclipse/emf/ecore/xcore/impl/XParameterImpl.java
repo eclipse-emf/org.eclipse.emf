@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.impl;
 
+
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
@@ -15,6 +16,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XParameter;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -59,7 +61,8 @@ public class XParameterImpl extends XTypedElementImpl implements XParameter
    */
   public XOperation getOperation()
   {
-    if (eContainerFeatureID() != XcorePackage.XPARAMETER__OPERATION) return null;
+    if (eContainerFeatureID() != XcorePackage.XPARAMETER__OPERATION)
+      return null;
     return (XOperation)eContainer();
   }
 
@@ -74,9 +77,9 @@ public class XParameterImpl extends XTypedElementImpl implements XParameter
     switch (featureID)
     {
       case XcorePackage.XPARAMETER__OPERATION:
-        if (eInternalContainer() != null)
-          msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, XcorePackage.XPARAMETER__OPERATION, msgs);
+      if (eInternalContainer() != null)
+        msgs = eBasicRemoveFromContainer(msgs);
+      return eBasicSetContainer(otherEnd, XcorePackage.XPARAMETER__OPERATION, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -92,7 +95,7 @@ public class XParameterImpl extends XTypedElementImpl implements XParameter
     switch (featureID)
     {
       case XcorePackage.XPARAMETER__OPERATION:
-        return eBasicSetContainer(null, XcorePackage.XPARAMETER__OPERATION, msgs);
+      return eBasicSetContainer(null, XcorePackage.XPARAMETER__OPERATION, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -108,7 +111,7 @@ public class XParameterImpl extends XTypedElementImpl implements XParameter
     switch (eContainerFeatureID())
     {
       case XcorePackage.XPARAMETER__OPERATION:
-        return eInternalContainer().eInverseRemove(this, XcorePackage.XOPERATION__PARAMETERS, XOperation.class, msgs);
+      return eInternalContainer().eInverseRemove(this, XcorePackage.XOPERATION__PARAMETERS, XOperation.class, msgs);
     }
     return super.eBasicRemoveFromContainerFeature(msgs);
   }
@@ -124,7 +127,7 @@ public class XParameterImpl extends XTypedElementImpl implements XParameter
     switch (featureID)
     {
       case XcorePackage.XPARAMETER__OPERATION:
-        return getOperation();
+      return getOperation();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -140,7 +143,7 @@ public class XParameterImpl extends XTypedElementImpl implements XParameter
     switch (featureID)
     {
       case XcorePackage.XPARAMETER__OPERATION:
-        return getOperation() != null;
+      return getOperation() != null;
     }
     return super.eIsSet(featureID);
   }

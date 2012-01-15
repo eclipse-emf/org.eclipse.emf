@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.impl;
 
+
 import java.util.Collection;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
@@ -27,6 +28,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.emf.ecore.xcore.XGenericType;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -128,8 +130,16 @@ public class XGenericTypeImpl extends EObjectImpl implements XGenericType
     upperBound = newUpperBound;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XcorePackage.XGENERIC_TYPE__UPPER_BOUND, oldUpperBound, newUpperBound);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
+      ENotificationImpl notification = new ENotificationImpl(
+        this,
+        Notification.SET,
+        XcorePackage.XGENERIC_TYPE__UPPER_BOUND,
+        oldUpperBound,
+        newUpperBound);
+      if (msgs == null)
+        msgs = notification;
+      else
+        msgs.add(notification);
     }
     return msgs;
   }
@@ -145,11 +155,20 @@ public class XGenericTypeImpl extends EObjectImpl implements XGenericType
     {
       NotificationChain msgs = null;
       if (upperBound != null)
-        msgs = ((InternalEObject)upperBound).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XGENERIC_TYPE__UPPER_BOUND, null, msgs);
+        msgs = ((InternalEObject)upperBound).eInverseRemove(
+          this,
+          EOPPOSITE_FEATURE_BASE - XcorePackage.XGENERIC_TYPE__UPPER_BOUND,
+          null,
+          msgs);
       if (newUpperBound != null)
-        msgs = ((InternalEObject)newUpperBound).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XGENERIC_TYPE__UPPER_BOUND, null, msgs);
+        msgs = ((InternalEObject)newUpperBound).eInverseAdd(
+          this,
+          EOPPOSITE_FEATURE_BASE - XcorePackage.XGENERIC_TYPE__UPPER_BOUND,
+          null,
+          msgs);
       msgs = basicSetUpperBound(newUpperBound, msgs);
-      if (msgs != null) msgs.dispatch();
+      if (msgs != null)
+        msgs.dispatch();
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XGENERIC_TYPE__UPPER_BOUND, newUpperBound, newUpperBound));
@@ -190,8 +209,16 @@ public class XGenericTypeImpl extends EObjectImpl implements XGenericType
     lowerBound = newLowerBound;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XcorePackage.XGENERIC_TYPE__LOWER_BOUND, oldLowerBound, newLowerBound);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
+      ENotificationImpl notification = new ENotificationImpl(
+        this,
+        Notification.SET,
+        XcorePackage.XGENERIC_TYPE__LOWER_BOUND,
+        oldLowerBound,
+        newLowerBound);
+      if (msgs == null)
+        msgs = notification;
+      else
+        msgs.add(notification);
     }
     return msgs;
   }
@@ -207,11 +234,20 @@ public class XGenericTypeImpl extends EObjectImpl implements XGenericType
     {
       NotificationChain msgs = null;
       if (lowerBound != null)
-        msgs = ((InternalEObject)lowerBound).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XGENERIC_TYPE__LOWER_BOUND, null, msgs);
+        msgs = ((InternalEObject)lowerBound).eInverseRemove(
+          this,
+          EOPPOSITE_FEATURE_BASE - XcorePackage.XGENERIC_TYPE__LOWER_BOUND,
+          null,
+          msgs);
       if (newLowerBound != null)
-        msgs = ((InternalEObject)newLowerBound).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XGENERIC_TYPE__LOWER_BOUND, null, msgs);
+        msgs = ((InternalEObject)newLowerBound).eInverseAdd(
+          this,
+          EOPPOSITE_FEATURE_BASE - XcorePackage.XGENERIC_TYPE__LOWER_BOUND,
+          null,
+          msgs);
       msgs = basicSetLowerBound(newLowerBound, msgs);
-      if (msgs != null) msgs.dispatch();
+      if (msgs != null)
+        msgs.dispatch();
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XGENERIC_TYPE__LOWER_BOUND, newLowerBound, newLowerBound));
@@ -271,11 +307,11 @@ public class XGenericTypeImpl extends EObjectImpl implements XGenericType
     switch (featureID)
     {
       case XcorePackage.XGENERIC_TYPE__UPPER_BOUND:
-        return basicSetUpperBound(null, msgs);
+      return basicSetUpperBound(null, msgs);
       case XcorePackage.XGENERIC_TYPE__TYPE_ARGUMENTS:
-        return ((InternalEList<?>)getTypeArguments()).basicRemove(otherEnd, msgs);
+      return ((InternalEList<?>)getTypeArguments()).basicRemove(otherEnd, msgs);
       case XcorePackage.XGENERIC_TYPE__LOWER_BOUND:
-        return basicSetLowerBound(null, msgs);
+      return basicSetLowerBound(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -291,14 +327,15 @@ public class XGenericTypeImpl extends EObjectImpl implements XGenericType
     switch (featureID)
     {
       case XcorePackage.XGENERIC_TYPE__UPPER_BOUND:
-        return getUpperBound();
+      return getUpperBound();
       case XcorePackage.XGENERIC_TYPE__TYPE_ARGUMENTS:
-        return getTypeArguments();
+      return getTypeArguments();
       case XcorePackage.XGENERIC_TYPE__LOWER_BOUND:
-        return getLowerBound();
+      return getLowerBound();
       case XcorePackage.XGENERIC_TYPE__TYPE:
-        if (resolve) return getType();
-        return basicGetType();
+      if (resolve)
+        return getType();
+      return basicGetType();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -315,18 +352,18 @@ public class XGenericTypeImpl extends EObjectImpl implements XGenericType
     switch (featureID)
     {
       case XcorePackage.XGENERIC_TYPE__UPPER_BOUND:
-        setUpperBound((XGenericType)newValue);
-        return;
+      setUpperBound((XGenericType)newValue);
+      return;
       case XcorePackage.XGENERIC_TYPE__TYPE_ARGUMENTS:
-        getTypeArguments().clear();
-        getTypeArguments().addAll((Collection<? extends XGenericType>)newValue);
-        return;
+      getTypeArguments().clear();
+      getTypeArguments().addAll((Collection<? extends XGenericType>)newValue);
+      return;
       case XcorePackage.XGENERIC_TYPE__LOWER_BOUND:
-        setLowerBound((XGenericType)newValue);
-        return;
+      setLowerBound((XGenericType)newValue);
+      return;
       case XcorePackage.XGENERIC_TYPE__TYPE:
-        setType((GenBase)newValue);
-        return;
+      setType((GenBase)newValue);
+      return;
     }
     super.eSet(featureID, newValue);
   }
@@ -342,17 +379,17 @@ public class XGenericTypeImpl extends EObjectImpl implements XGenericType
     switch (featureID)
     {
       case XcorePackage.XGENERIC_TYPE__UPPER_BOUND:
-        setUpperBound((XGenericType)null);
-        return;
+      setUpperBound((XGenericType)null);
+      return;
       case XcorePackage.XGENERIC_TYPE__TYPE_ARGUMENTS:
-        getTypeArguments().clear();
-        return;
+      getTypeArguments().clear();
+      return;
       case XcorePackage.XGENERIC_TYPE__LOWER_BOUND:
-        setLowerBound((XGenericType)null);
-        return;
+      setLowerBound((XGenericType)null);
+      return;
       case XcorePackage.XGENERIC_TYPE__TYPE:
-        setType((GenBase)null);
-        return;
+      setType((GenBase)null);
+      return;
     }
     super.eUnset(featureID);
   }
@@ -368,13 +405,13 @@ public class XGenericTypeImpl extends EObjectImpl implements XGenericType
     switch (featureID)
     {
       case XcorePackage.XGENERIC_TYPE__UPPER_BOUND:
-        return upperBound != null;
+      return upperBound != null;
       case XcorePackage.XGENERIC_TYPE__TYPE_ARGUMENTS:
-        return typeArguments != null && !typeArguments.isEmpty();
+      return typeArguments != null && !typeArguments.isEmpty();
       case XcorePackage.XGENERIC_TYPE__LOWER_BOUND:
-        return lowerBound != null;
+      return lowerBound != null;
       case XcorePackage.XGENERIC_TYPE__TYPE:
-        return type != null;
+      return type != null;
     }
     return super.eIsSet(featureID);
   }

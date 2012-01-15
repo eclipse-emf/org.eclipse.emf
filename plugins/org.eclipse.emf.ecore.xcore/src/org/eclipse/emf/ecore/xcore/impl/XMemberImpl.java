@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.impl;
 
+
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
@@ -15,6 +16,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XMember;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -59,7 +61,8 @@ public abstract class XMemberImpl extends XTypedElementImpl implements XMember
    */
   public XClass getContainingClass()
   {
-    if (eContainerFeatureID() != XcorePackage.XMEMBER__CONTAINING_CLASS) return null;
+    if (eContainerFeatureID() != XcorePackage.XMEMBER__CONTAINING_CLASS)
+      return null;
     return (XClass)eContainer();
   }
 
@@ -74,9 +77,9 @@ public abstract class XMemberImpl extends XTypedElementImpl implements XMember
     switch (featureID)
     {
       case XcorePackage.XMEMBER__CONTAINING_CLASS:
-        if (eInternalContainer() != null)
-          msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, XcorePackage.XMEMBER__CONTAINING_CLASS, msgs);
+      if (eInternalContainer() != null)
+        msgs = eBasicRemoveFromContainer(msgs);
+      return eBasicSetContainer(otherEnd, XcorePackage.XMEMBER__CONTAINING_CLASS, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -92,7 +95,7 @@ public abstract class XMemberImpl extends XTypedElementImpl implements XMember
     switch (featureID)
     {
       case XcorePackage.XMEMBER__CONTAINING_CLASS:
-        return eBasicSetContainer(null, XcorePackage.XMEMBER__CONTAINING_CLASS, msgs);
+      return eBasicSetContainer(null, XcorePackage.XMEMBER__CONTAINING_CLASS, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -108,7 +111,7 @@ public abstract class XMemberImpl extends XTypedElementImpl implements XMember
     switch (eContainerFeatureID())
     {
       case XcorePackage.XMEMBER__CONTAINING_CLASS:
-        return eInternalContainer().eInverseRemove(this, XcorePackage.XCLASS__MEMBERS, XClass.class, msgs);
+      return eInternalContainer().eInverseRemove(this, XcorePackage.XCLASS__MEMBERS, XClass.class, msgs);
     }
     return super.eBasicRemoveFromContainerFeature(msgs);
   }
@@ -124,7 +127,7 @@ public abstract class XMemberImpl extends XTypedElementImpl implements XMember
     switch (featureID)
     {
       case XcorePackage.XMEMBER__CONTAINING_CLASS:
-        return getContainingClass();
+      return getContainingClass();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -140,7 +143,7 @@ public abstract class XMemberImpl extends XTypedElementImpl implements XMember
     switch (featureID)
     {
       case XcorePackage.XMEMBER__CONTAINING_CLASS:
-        return getContainingClass() != null;
+      return getContainingClass() != null;
     }
     return super.eIsSet(featureID);
   }

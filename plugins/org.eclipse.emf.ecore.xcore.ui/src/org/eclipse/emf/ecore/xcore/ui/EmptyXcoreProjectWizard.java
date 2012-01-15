@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.ui;
 
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -21,6 +22,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.xtext.ui.XtextProjectHelper;
 
+
 public class EmptyXcoreProjectWizard extends EmptyProjectWizard
 {
   @Override
@@ -34,10 +36,10 @@ public class EmptyXcoreProjectWizard extends EmptyProjectWizard
     newNatureIds[natureIds.length] = XtextProjectHelper.NATURE_ID;
     projectDescription.setNatureIds(newNatureIds);
     project.setDescription(projectDescription, progressMonitor);
-    
+
     IJavaProject javaProject = JavaCore.create(project);
-        IClasspathEntry[] classpath = javaProject.getRawClasspath();
-    IClasspathEntry[] newClasspath = new IClasspathEntry[classpath.length + 1];
+    IClasspathEntry[] classpath = javaProject.getRawClasspath();
+    IClasspathEntry[] newClasspath = new IClasspathEntry [classpath.length + 1];
     for (int i = 0, index = 0, length = newClasspath.length; index < length; ++i, ++index)
     {
       newClasspath[index] = classpath[i];
@@ -56,7 +58,7 @@ public class EmptyXcoreProjectWizard extends EmptyProjectWizard
   @Override
   protected String[] getRequiredBundles()
   {
-    return new String[] { "org.eclipse.emf.ecore", "org.eclipse.xtext.xbase.lib" };
+    return new String []{ "org.eclipse.emf.ecore", "org.eclipse.xtext.xbase.lib" };
   }
 
 }

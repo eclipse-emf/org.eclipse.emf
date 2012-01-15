@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.codegen.ecore.xtext.ui;
 
+
 import org.apache.log4j.Logger;
 import org.eclipse.emf.codegen.ecore.xtext.GenModelRuntimeModule;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -17,64 +18,73 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.util.Modules;
 
+
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends AbstractUIPlugin {
+public class Activator extends AbstractUIPlugin
+{
 
-	private static final Logger logger = Logger.getLogger(Activator.class);
-	
-	// The plug-in ID
-	public static final String PLUGIN_ID = "org.eclipse.emf.codegen.ecore.xtext.ui"; //$NON-NLS-1$
+  private static final Logger logger = Logger.getLogger(Activator.class);
 
-	// The shared instance
-	private static Activator plugin;
+  // The plug-in ID
+  public static final String PLUGIN_ID = "org.eclipse.emf.codegen.ecore.xtext.ui"; //$NON-NLS-1$
 
-	private Injector injector;
-	
-	/**
-	 * The constructor
-	 */
-	public Activator() {
-	}
-	
-	public Injector getInjector() {
-		return injector;
-	}
-	
-	private void initializeEcoreInjector() {
-		injector = Guice.createInjector(
-				Modules.override(Modules.override(new GenModelRuntimeModule())
-				.with(new GenModelUIModule(plugin)))
-				.with(new SharedStateModule()));
-	}
+  // The shared instance
+  private static Activator plugin;
 
-	@Override
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-		plugin = this;
-		try {
-			initializeEcoreInjector();
-		} catch(Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
-		}
-	}
+  private Injector injector;
 
-	@Override
-	public void stop(BundleContext context) throws Exception {
-		plugin = null;
-		injector = null;
-		super.stop(context);
-	}
+  /**
+   * The constructor
+   */
+  public Activator()
+  {
+  }
 
-	/**
-	 * Returns the shared instance
-	 *
-	 * @return the shared instance
-	 */
-	public static Activator getDefault() {
-		return plugin;
-	}
+  public Injector getInjector()
+  {
+    return injector;
+  }
+
+  private void initializeEcoreInjector()
+  {
+    injector = Guice.createInjector(Modules.override(Modules.override(new GenModelRuntimeModule()).with(new GenModelUIModule(plugin))).with(
+      new SharedStateModule()));
+  }
+
+  @Override
+  public void start(BundleContext context) throws Exception
+  {
+    super.start(context);
+    plugin = this;
+    try
+    {
+      initializeEcoreInjector();
+    }
+    catch (Exception e)
+    {
+      logger.error(e.getMessage(), e);
+      throw e;
+    }
+  }
+
+  @Override
+  public void stop(BundleContext context) throws Exception
+  {
+    plugin = null;
+    injector = null;
+    super.stop(context);
+  }
+
+  /**
+   * Returns the shared instance
+   *
+   * @return the shared instance
+   */
+  public static Activator getDefault()
+  {
+    return plugin;
+  }
 
 }

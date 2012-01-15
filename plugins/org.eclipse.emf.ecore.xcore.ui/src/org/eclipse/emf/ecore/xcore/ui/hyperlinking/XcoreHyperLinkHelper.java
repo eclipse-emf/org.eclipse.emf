@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.ui.hyperlinking;
 
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
@@ -17,6 +18,7 @@ import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkAcceptor;
 
 import com.google.inject.Inject;
 
+
 public class XcoreHyperLinkHelper extends TypeAwareHyperlinkHelper
 {
   @Inject
@@ -25,11 +27,12 @@ public class XcoreHyperLinkHelper extends TypeAwareHyperlinkHelper
   @Override
   public void createHyperlinksTo(XtextResource from, Region region, EObject to, IHyperlinkAcceptor acceptor)
   {
-	XNamedElement element = mapper.getToXcoreMapping(to).getXcoreElement();
+    XNamedElement element = mapper.getToXcoreMapping(to).getXcoreElement();
     if (element != null)
     {
-        super.createHyperlinksTo(from, region, element, acceptor);
-    } else
+      super.createHyperlinksTo(from, region, element, acceptor);
+    }
+    else
     {
       super.createHyperlinksTo(from, region, to, acceptor);
     }

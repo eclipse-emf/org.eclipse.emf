@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.codegen.ecore.xtext;
 
+
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.ecore.EObject;
@@ -16,31 +17,36 @@ import org.eclipse.xtext.naming.QualifiedName;
 
 import com.google.inject.Inject;
 
+
 /**
  * @author Sebastian Zarnekow - Initial contribution and API
  */
-public class GenModelQualifiedNameProvider extends IQualifiedNameProvider.AbstractImpl {
+public class GenModelQualifiedNameProvider extends IQualifiedNameProvider.AbstractImpl
+{
 
-	@Inject
-	private IQualifiedNameConverter qualifiedNameConverter;
-	
-	public QualifiedName getFullyQualifiedName(final EObject obj) {
-		if (obj instanceof GenPackage) {
-			String packageName = ((GenPackage) obj).getQualifiedPackageName();
-			return qualifiedNameConverter.toQualifiedName(packageName);
-			
-		} else if (obj instanceof GenClassifier) {
-			GenClassifier classifier = (GenClassifier) obj;
-			GenPackage genPackage = classifier.getGenPackage();
-			if (genPackage != null)
-  		{
-  			String packageName = genPackage.getQualifiedPackageName();
-  			String classifierName = classifier.getName();
-  			return qualifiedNameConverter.toQualifiedName(packageName).append(classifierName);
-  		}
-		}
-		return null;
-	}
+  @Inject
+  private IQualifiedNameConverter qualifiedNameConverter;
 
-	
+  public QualifiedName getFullyQualifiedName(final EObject obj)
+  {
+    if (obj instanceof GenPackage)
+    {
+      String packageName = ((GenPackage)obj).getQualifiedPackageName();
+      return qualifiedNameConverter.toQualifiedName(packageName);
+
+    }
+    else if (obj instanceof GenClassifier)
+    {
+      GenClassifier classifier = (GenClassifier)obj;
+      GenPackage genPackage = classifier.getGenPackage();
+      if (genPackage != null)
+      {
+        String packageName = genPackage.getQualifiedPackageName();
+        String classifierName = classifier.getName();
+        return qualifiedNameConverter.toQualifiedName(packageName).append(classifierName);
+      }
+    }
+    return null;
+  }
+
 }

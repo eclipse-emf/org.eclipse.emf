@@ -80,10 +80,10 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
 {
   @Inject
   Provider<EcoreXcoreBuilder> ecoreXcoreBuilderProvider;
-  
+
   @Inject
   XcoreGenModelBuilder genModelBuilder;
-  
+
   @Inject
   XcoreGenModelInitializer genModelInitializer;
 
@@ -99,17 +99,15 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
       resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
       if ("ecore".equals(file.getFullPath().getFileExtension()))
       {
-        return
-          (EPackage)EcoreUtil.getObjectByType
-            (resourceSet.getResource(URI.createPlatformResourceURI(file.getFullPath().toString(), true), true).getContents(),
-             EcorePackage.Literals.EPACKAGE);
+        return (EPackage)EcoreUtil.getObjectByType(
+          resourceSet.getResource(URI.createPlatformResourceURI(file.getFullPath().toString(), true), true).getContents(),
+          EcorePackage.Literals.EPACKAGE);
       }
       else if ("genmodel".equals(file.getFullPath().getFileExtension()))
       {
-        GenModel genModel = 
-          (GenModel)EcoreUtil.getObjectByType
-            (resourceSet.getResource(URI.createPlatformResourceURI(file.getFullPath().toString(), true), true).getContents(),
-             GenModelPackage.Literals.GEN_MODEL);
+        GenModel genModel = (GenModel)EcoreUtil.getObjectByType(
+          resourceSet.getResource(URI.createPlatformResourceURI(file.getFullPath().toString(), true), true).getContents(),
+          GenModelPackage.Literals.GEN_MODEL);
         if (genModel.getGenPackages().size() == 1)
         {
           return genModel.getGenPackages().get(0).getEcorePackage();
@@ -122,12 +120,10 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
 
   protected IFile getFile(Resource resource)
   {
-      URI uri = resource.getURI();
-      uri = resource.getResourceSet().getURIConverter().normalize(uri);
-      String platformResourceString = uri.toPlatformString(true);
-      return platformResourceString != null ?
-        ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourceString)) :
-        null;
+    URI uri = resource.getURI();
+    uri = resource.getResourceSet().getURIConverter().normalize(uri);
+    String platformResourceString = uri.toPlatformString(true);
+    return platformResourceString != null ? ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourceString)) : null;
   }
 
   /*
@@ -149,8 +145,7 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
     ProgressMonitorDialog dialog = new ProgressMonitorDialog(workbenchWindow.getShell());
     try
     {
-      dialog.run(false, true,
-        new WorkspaceModifyOperation()
+      dialog.run(false, true, new WorkspaceModifyOperation()
         {
           @Override
           protected void execute(IProgressMonitor progressMonitor)
@@ -158,57 +153,58 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
             try
             {
               progressMonitor.beginTask("", 1);
-              
+
               Resource genModelResource = inputResource.getResourceSet().getResources().get(0);
               GenModel inputGenModel = null;
               if (genModelResource != inputResource)
               {
                 inputGenModel = (GenModel)genModelResource.getContents().get(0);
                 inputGenModel.reconcile();
-                final GenModel genModel =  GenModelFactory.eINSTANCE.createGenModel();
+                final GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
                 genModel.initialize(Collections.singleton(inputEPackage));
                 genModelResource.getContents().add(genModel);
                 genModelInitializer.initialize(genModel);
-                new Object() 
-                {
-                  void visit(GenBase genBase1, GenBase genBase2)
+                new Object()
                   {
-                    if (genBase1.eClass() == genBase2.eClass())
+                    void visit(GenBase genBase1, GenBase genBase2)
                     {
-                      for (EAttribute eAttribute : genBase1.eClass().getEAllAttributes())
+                      if (genBase1.eClass() == genBase2.eClass())
                       {
-                        // TODO
-                        if (!eAttribute.isMany() && genBase1.eIsSet(eAttribute))
+                        for (EAttribute eAttribute : genBase1.eClass().getEAllAttributes())
                         {
-                          Object value1 = genBase1.eGet(eAttribute);
-                          Object value2 = genBase2.eGet(eAttribute);
-                          if (value1 == null ? value2 != null : !value1.equals(value2))
+                          // TODO
+                          if (!eAttribute.isMany() && genBase1.eIsSet(eAttribute))
                           {
-                            EModelElement eModelElement = genBase2.getEcoreModelElement();
-                            if (eModelElement == null)
+                            Object value1 = genBase1.eGet(eAttribute);
+                            Object value2 = genBase2.eGet(eAttribute);
+                            if (value1 == null ? value2 != null : !value1.equals(value2))
                             {
-                              eModelElement = genModel.getGenPackages().get(0).getEcorePackage();
+                              EModelElement eModelElement = genBase2.getEcoreModelElement();
+                              if (eModelElement == null)
+                              {
+                                eModelElement = genModel.getGenPackages().get(0).getEcorePackage();
+                              }
+                              EcoreUtil.setAnnotation(
+                                eModelElement,
+                                GenModelPackage.eNS_URI,
+                                eAttribute.getName(),
+                                EcoreUtil.convertToString(eAttribute.getEAttributeType(), value1));
                             }
-                            EcoreUtil.setAnnotation
-                              (eModelElement, 
-                               GenModelPackage.eNS_URI, 
-                               eAttribute.getName(), 
-                               EcoreUtil.convertToString(eAttribute.getEAttributeType(), value1));
-                          }
-                          for (Iterator<EObject> i = genBase1.eContents().iterator(), j = genBase2.eContents().iterator(); i.hasNext() && j.hasNext(); )
-                          {
-                            EObject content1 = i.next();
-                            EObject content2 = j.next();
-                            if (content1 instanceof GenBase && content2 instanceof GenBase)
+                            for (Iterator<EObject> i = genBase1.eContents().iterator(), j = genBase2.eContents().iterator(); i.hasNext()
+                              && j.hasNext();)
                             {
-                              visit((GenBase)content1, (GenBase)content2);
+                              EObject content1 = i.next();
+                              EObject content2 = j.next();
+                              if (content1 instanceof GenBase && content2 instanceof GenBase)
+                              {
+                                visit((GenBase)content1, (GenBase)content2);
+                              }
                             }
                           }
                         }
                       }
                     }
-                  }
-                }.visit(inputGenModel, genModel);
+                  }.visit(inputGenModel, genModel);
               }
               else
               {
@@ -216,7 +212,7 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
                 // We'd want to create one and use that...
                 throw new RuntimeException("No GenModel");
               }
-              
+
               EcoreXcoreBuilder ecoreXcoreBuilder = ecoreXcoreBuilderProvider.get();
               ecoreXcoreBuilder.initialize(inputGenModel);
               XPackage xPackage = ecoreXcoreBuilder.getXPackage(inputEPackage);
@@ -240,9 +236,8 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
               }
               ecoreXcoreBuilder.link();
               genModelBuilder.buildMap(inputGenModel);
-              
-              ImportManager importManager = 
-                new ImportManager(inputGenModel.getGenPackages().get(0).getInterfacePackageName())
+
+              ImportManager importManager = new ImportManager(inputGenModel.getGenPackages().get(0).getInterfacePackageName())
                 {
                   @Override
                   protected boolean shouldImport(String packageName, String shortName, String importName)
@@ -250,7 +245,7 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
                     return true;
                   }
                 };
-              for (Iterator<EObject> i = inputEPackage.eAllContents(); i.hasNext(); )
+              for (Iterator<EObject> i = inputEPackage.eAllContents(); i.hasNext();)
               {
                 EObject eObject = i.next();
                 if (eObject instanceof EGenericType)
@@ -274,7 +269,7 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
 
               try
               {
-                Map<Object, Object> options  = new HashMap<Object, Object>();
+                Map<Object, Object> options = new HashMap<Object, Object>();
                 SaveOptions.newBuilder().format().noValidation().getOptions().addTo(options);
                 outputResource.save(options);
 
@@ -296,16 +291,22 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
 
                 try
                 {
-                  workbenchPage.openEditor(new FileEditorInput(file), workbenchWindow.getWorkbench().getEditorRegistry().getDefaultEditor(file.getFullPath().toString(), Platform.getContentTypeManager().getContentType("org.eclipse.emf.ecore")).getId());
+                  workbenchPage.openEditor(
+                    new FileEditorInput(file),
+                    workbenchWindow.getWorkbench().getEditorRegistry().getDefaultEditor(
+                      file.getFullPath().toString(),
+                      Platform.getContentTypeManager().getContentType("org.eclipse.emf.ecore")).getId());
                 }
                 catch (PartInitException pie)
                 {
-                  XcoreActivator.getInstance().getLog().log(new Status(IStatus.WARNING, "org.eclipse.emf.ecore.xcore.ui", 0, pie.getLocalizedMessage(), pie));
+                  XcoreActivator.getInstance().getLog().log(
+                    new Status(IStatus.WARNING, "org.eclipse.emf.ecore.xcore.ui", 0, pie.getLocalizedMessage(), pie));
                 }
               }
               catch (IOException ioe)
               {
-                XcoreActivator.getInstance().getLog().log(new Status(IStatus.WARNING, "org.eclipse.emf.ecore.xcore.ui", 0, ioe.getLocalizedMessage(), ioe));
+                XcoreActivator.getInstance().getLog().log(
+                  new Status(IStatus.WARNING, "org.eclipse.emf.ecore.xcore.ui", 0, ioe.getLocalizedMessage(), ioe));
               }
             }
             finally
@@ -321,7 +322,8 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
     }
     catch (InvocationTargetException ite)
     {
-      XcoreActivator.getInstance().getLog().log(new Status(IStatus.WARNING, "org.eclipse.emf.ecore.xcore.ui", 0, ite.getLocalizedMessage(), ite));
+      XcoreActivator.getInstance().getLog().log(
+        new Status(IStatus.WARNING, "org.eclipse.emf.ecore.xcore.ui", 0, ite.getLocalizedMessage(), ite));
     }
   }
 

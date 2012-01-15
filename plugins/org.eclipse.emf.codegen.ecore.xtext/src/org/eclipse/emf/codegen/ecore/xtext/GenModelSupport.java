@@ -7,9 +7,11 @@
  */
 package org.eclipse.emf.codegen.ecore.xtext;
 
+
 import org.eclipse.xtext.resource.generic.AbstractGenericResourceSupport;
 
 import com.google.inject.Module;
+
 
 /**
  * 
@@ -35,11 +37,13 @@ import com.google.inject.Module;
  * 
  * @author Sven Efftinge - Initial contribution and API
  */
-public class GenModelSupport extends AbstractGenericResourceSupport {
+public class GenModelSupport extends AbstractGenericResourceSupport
+{
 
-	@Override
-	protected Module createGuiceModule() {
-		return new GenModelRuntimeModule();
-	}
+  @Override
+  protected Module createGuiceModule()
+  {
+    return new GenModelRuntimeModule();
+  }
 
 }

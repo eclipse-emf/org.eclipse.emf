@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.impl;
 
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -24,6 +25,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xcore.XAnnotation;
 import org.eclipse.emf.ecore.xcore.XModelElement;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -80,7 +82,11 @@ public abstract class XModelElementImpl extends EObjectImpl implements XModelEle
   {
     if (annotations == null)
     {
-      annotations = new EObjectContainmentWithInverseEList<XAnnotation>(XAnnotation.class, this, XcorePackage.XMODEL_ELEMENT__ANNOTATIONS, XcorePackage.XANNOTATION__MODEL_ELEMENT);
+      annotations = new EObjectContainmentWithInverseEList<XAnnotation>(
+        XAnnotation.class,
+        this,
+        XcorePackage.XMODEL_ELEMENT__ANNOTATIONS,
+        XcorePackage.XANNOTATION__MODEL_ELEMENT);
     }
     return annotations;
   }
@@ -97,7 +103,7 @@ public abstract class XModelElementImpl extends EObjectImpl implements XModelEle
     switch (featureID)
     {
       case XcorePackage.XMODEL_ELEMENT__ANNOTATIONS:
-        return ((InternalEList<InternalEObject>)(InternalEList<?>)getAnnotations()).basicAdd(otherEnd, msgs);
+      return ((InternalEList<InternalEObject>)(InternalEList<?>)getAnnotations()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -113,7 +119,7 @@ public abstract class XModelElementImpl extends EObjectImpl implements XModelEle
     switch (featureID)
     {
       case XcorePackage.XMODEL_ELEMENT__ANNOTATIONS:
-        return ((InternalEList<?>)getAnnotations()).basicRemove(otherEnd, msgs);
+      return ((InternalEList<?>)getAnnotations()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -129,7 +135,7 @@ public abstract class XModelElementImpl extends EObjectImpl implements XModelEle
     switch (featureID)
     {
       case XcorePackage.XMODEL_ELEMENT__ANNOTATIONS:
-        return getAnnotations();
+      return getAnnotations();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -146,9 +152,9 @@ public abstract class XModelElementImpl extends EObjectImpl implements XModelEle
     switch (featureID)
     {
       case XcorePackage.XMODEL_ELEMENT__ANNOTATIONS:
-        getAnnotations().clear();
-        getAnnotations().addAll((Collection<? extends XAnnotation>)newValue);
-        return;
+      getAnnotations().clear();
+      getAnnotations().addAll((Collection<? extends XAnnotation>)newValue);
+      return;
     }
     super.eSet(featureID, newValue);
   }
@@ -164,8 +170,8 @@ public abstract class XModelElementImpl extends EObjectImpl implements XModelEle
     switch (featureID)
     {
       case XcorePackage.XMODEL_ELEMENT__ANNOTATIONS:
-        getAnnotations().clear();
-        return;
+      getAnnotations().clear();
+      return;
     }
     super.eUnset(featureID);
   }
@@ -181,7 +187,7 @@ public abstract class XModelElementImpl extends EObjectImpl implements XModelEle
     switch (featureID)
     {
       case XcorePackage.XMODEL_ELEMENT__ANNOTATIONS:
-        return annotations != null && !annotations.isEmpty();
+      return annotations != null && !annotations.isEmpty();
     }
     return super.eIsSet(featureID);
   }

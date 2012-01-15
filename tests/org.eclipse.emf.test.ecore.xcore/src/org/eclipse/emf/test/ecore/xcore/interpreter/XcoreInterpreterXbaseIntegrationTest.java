@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.test.ecore.xcore.interpreter;
 
+
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -22,45 +23,50 @@ import org.junit.runner.RunWith;
 
 import com.google.inject.Inject;
 
+
 @RunWith(XtextRunner.class)
 @InjectWith(XcoreInjectorProvider.class)
 public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluationTest
 {
-	
-	@Inject
-	private ParseHelper<XPackage> parser;
-	
-	@Inject
-	private ValidationTestHelper validator;
 
-	@Override
-  protected Object invokeXbaseExpression(String expression) throws Exception {
-		XPackage pack = parser.parse("package foo class Bar { op Object foo() { "+expression+" } }");
-		validator.assertNoErrors(pack);
-		EPackage ePack = (EPackage) pack.eResource().getContents().get(2);
-		EClass barClass = (EClass) ePack.getEClassifier("Bar");
-		EObject eObject = ePack.getEFactoryInstance().create(barClass);
-		return eObject.eInvoke(barClass.getEOperations().get(0), new BasicEList<Object>());
-	}
-	
-	@Override
-	public void testShortCircuitBooleanExpression_03() throws Exception
-	{
-		// Ignore
-	}
-	@Override
-	public void testShortCircuitBooleanExpression_04() throws Exception
-	{
-		// Ignore
-	}
-	@Override
-	public void testFunctionConversion_00() throws Exception
-	{
-		// Ignore
-	}
-	@Override
-	public void testMapConstruction_01() throws Exception
-	{
-		// Ignore
-	}
+  @Inject
+  private ParseHelper<XPackage> parser;
+
+  @Inject
+  private ValidationTestHelper validator;
+
+  @Override
+  protected Object invokeXbaseExpression(String expression) throws Exception
+  {
+    XPackage pack = parser.parse("package foo class Bar { op Object foo() { " + expression + " } }");
+    validator.assertNoErrors(pack);
+    EPackage ePack = (EPackage)pack.eResource().getContents().get(2);
+    EClass barClass = (EClass)ePack.getEClassifier("Bar");
+    EObject eObject = ePack.getEFactoryInstance().create(barClass);
+    return eObject.eInvoke(barClass.getEOperations().get(0), new BasicEList<Object>());
+  }
+
+  @Override
+  public void testShortCircuitBooleanExpression_03() throws Exception
+  {
+    // Ignore
+  }
+
+  @Override
+  public void testShortCircuitBooleanExpression_04() throws Exception
+  {
+    // Ignore
+  }
+
+  @Override
+  public void testFunctionConversion_00() throws Exception
+  {
+    // Ignore
+  }
+
+  @Override
+  public void testMapConstruction_01() throws Exception
+  {
+    // Ignore
+  }
 }

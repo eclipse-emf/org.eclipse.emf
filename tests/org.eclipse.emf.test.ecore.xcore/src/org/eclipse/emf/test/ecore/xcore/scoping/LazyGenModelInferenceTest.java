@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.test.ecore.xcore.scoping;
 
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -41,106 +42,122 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 
+
 @RunWith(XtextRunner.class)
 @InjectWith(LazyGenModelInferenceTest.MyXcoreInjectorProvider.class)
-public class LazyGenModelInferenceTest {
+public class LazyGenModelInferenceTest
+{
 
-	@Inject
-	private Provider<XtextResourceSet> resourceSetProvider;
+  @Inject
+  private Provider<XtextResourceSet> resourceSetProvider;
 
-	public static class MyXcoreInjectorProvider extends XcoreInjectorProvider {
+  public static class MyXcoreInjectorProvider extends XcoreInjectorProvider
+  {
 
-		private Injector injector;
+    private Injector injector;
 
-		@Override
-		public Injector getInjector() {
-			if (injector == null) {
-				this.injector = new XcoreStandaloneSetup() {
-					@Override
-					public Injector createInjector() {
-						return Guice.createInjector(new org.eclipse.emf.ecore.xcore.XcoreRuntimeModule() {
-							@Override
-              public Class<? extends XtextResource> bindXtextResource() {
-								return InspectableXcoreResource.class;
-							}
-						});
-					}
-				}.createInjectorAndDoEMFRegistration();
-			}
-			return injector;
-		}
+    @Override
+    public Injector getInjector()
+    {
+      if (injector == null)
+      {
+        this.injector = new XcoreStandaloneSetup()
+          {
+            @Override
+            public Injector createInjector()
+            {
+              return Guice.createInjector(new org.eclipse.emf.ecore.xcore.XcoreRuntimeModule()
+                {
+                  @Override
+                  public Class<? extends XtextResource> bindXtextResource()
+                  {
+                    return InspectableXcoreResource.class;
+                  }
+                });
+            }
+          }.createInjectorAndDoEMFRegistration();
+      }
+      return injector;
+    }
 
-		@Override
-		public void setupRegistry() {
-			super.setupRegistry();
-			if (injector != null) {
-				new XcoreStandaloneSetup().register(injector);
-			}
-		}
-	}
+    @Override
+    public void setupRegistry()
+    {
+      super.setupRegistry();
+      if (injector != null)
+      {
+        new XcoreStandaloneSetup().register(injector);
+      }
+    }
+  }
 
-	public static class InspectableXcoreResource extends XcoreResource {
+  public static class InspectableXcoreResource extends XcoreResource
+  {
 
-		public EList<EObject> getContentsUnsafe() {
-			return contents;
-		}
-		
-		public boolean isFullyInitialized() {
-			return fullyInitialized;
-		}
+    public EList<EObject> getContentsUnsafe()
+    {
+      return contents;
+    }
 
-	}
+    public boolean isFullyInitialized()
+    {
+      return fullyInitialized;
+    }
 
-	@Test
-	public void testSetup() {
-		XtextResourceSet resourceSet = resourceSetProvider.get();
-		Resource resource = resourceSet.createResource(URI.createURI("foo.xcore"));
-		assertTrue(resource.toString(), resource instanceof InspectableXcoreResource);
-		assertNull(((InspectableXcoreResource) resource).getContentsUnsafe());
-		assertFalse(((InspectableXcoreResource) resource).isFullyInitialized());
-	}
+  }
 
-	@Test
-	public void testContentsWithoutDerived() throws IOException {
-		XtextResourceSet resourceSet = resourceSetProvider.get();
-		Resource resource = resourceSet.createResource(URI.createURI("foo.xcore"));
-		resource.load(new StringInputStream("package foo.bar class Baz {}"), null);
-		assertEquals(1, ((InspectableXcoreResource) resource).getContentsUnsafe().size());
-		assertFalse(((InspectableXcoreResource) resource).isFullyInitialized());
-	}
+  @Test
+  public void testSetup()
+  {
+    XtextResourceSet resourceSet = resourceSetProvider.get();
+    Resource resource = resourceSet.createResource(URI.createURI("foo.xcore"));
+    assertTrue(resource.toString(), resource instanceof InspectableXcoreResource);
+    assertNull(((InspectableXcoreResource)resource).getContentsUnsafe());
+    assertFalse(((InspectableXcoreResource)resource).isFullyInitialized());
+  }
 
-	@Test
-	public void testContentsWithDerived() throws IOException {
-		XtextResourceSet resourceSet = resourceSetProvider.get();
-		Resource resource = resourceSet.createResource(URI.createURI("foo.xcore"));
-		resource.load(new StringInputStream("package foo.bar class Baz {}"), null);
-		assertTrue(1 < resource.getContents().size());
-		assertTrue(((InspectableXcoreResource) resource).isFullyInitialized());
-	}
+  @Test
+  public void testContentsWithoutDerived() throws IOException
+  {
+    XtextResourceSet resourceSet = resourceSetProvider.get();
+    Resource resource = resourceSet.createResource(URI.createURI("foo.xcore"));
+    resource.load(new StringInputStream("package foo.bar class Baz {}"), null);
+    assertEquals(1, ((InspectableXcoreResource)resource).getContentsUnsafe().size());
+    assertFalse(((InspectableXcoreResource)resource).isFullyInitialized());
+  }
 
-	public void testResourceDescriptionManagerDoesNotResolve() throws IOException {
-		XtextResourceSet resourceSet = resourceSetProvider.get();
-		InspectableXcoreResource resource = (InspectableXcoreResource) resourceSet.createResource(URI.createURI("foo.xcore"));
-		resource.load(new StringInputStream("package foo.bar class Baz {}"), null);
-		Manager manager = resource.getResourceServiceProvider().getResourceDescriptionManager();
-		IResourceDescription resourceDescription = manager.getResourceDescription(resource);
+  @Test
+  public void testContentsWithDerived() throws IOException
+  {
+    XtextResourceSet resourceSet = resourceSetProvider.get();
+    Resource resource = resourceSet.createResource(URI.createURI("foo.xcore"));
+    resource.load(new StringInputStream("package foo.bar class Baz {}"), null);
+    assertTrue(1 < resource.getContents().size());
+    assertTrue(((InspectableXcoreResource)resource).isFullyInitialized());
+  }
 
-		Iterator<IEObjectDescription> eclass = resourceDescription.getExportedObjectsByType(EcorePackage.Literals.ECLASS).iterator();
-		Iterator<IEObjectDescription> genclass = resourceDescription.getExportedObjectsByType(GenModelPackage.Literals.GEN_CLASS)
-				.iterator();
-		Iterator<IEObjectDescription> jvmTypes = resourceDescription.getExportedObjectsByType(TypesPackage.Literals.JVM_GENERIC_TYPE)
-				.iterator();
-		final String expected = "foo.bar.Baz";
-		assertEquals(expected, eclass.next().getName().toString());
-		assertFalse(eclass.hasNext());
-		assertEquals(expected, genclass.next().getName().toString());
-		assertFalse(genclass.hasNext());
-		assertEquals(expected, jvmTypes.next().getName().toString());
-		assertEquals(expected + "Impl", jvmTypes.next().getName().toString());
-		assertFalse(genclass.hasNext());
+  public void testResourceDescriptionManagerDoesNotResolve() throws IOException
+  {
+    XtextResourceSet resourceSet = resourceSetProvider.get();
+    InspectableXcoreResource resource = (InspectableXcoreResource)resourceSet.createResource(URI.createURI("foo.xcore"));
+    resource.load(new StringInputStream("package foo.bar class Baz {}"), null);
+    Manager manager = resource.getResourceServiceProvider().getResourceDescriptionManager();
+    IResourceDescription resourceDescription = manager.getResourceDescription(resource);
 
-		assertEquals(1, resource.getContentsUnsafe().size());
-		assertFalse(resource.isFullyInitialized());
-	}
+    Iterator<IEObjectDescription> eclass = resourceDescription.getExportedObjectsByType(EcorePackage.Literals.ECLASS).iterator();
+    Iterator<IEObjectDescription> genclass = resourceDescription.getExportedObjectsByType(GenModelPackage.Literals.GEN_CLASS).iterator();
+    Iterator<IEObjectDescription> jvmTypes = resourceDescription.getExportedObjectsByType(TypesPackage.Literals.JVM_GENERIC_TYPE).iterator();
+    final String expected = "foo.bar.Baz";
+    assertEquals(expected, eclass.next().getName().toString());
+    assertFalse(eclass.hasNext());
+    assertEquals(expected, genclass.next().getName().toString());
+    assertFalse(genclass.hasNext());
+    assertEquals(expected, jvmTypes.next().getName().toString());
+    assertEquals(expected + "Impl", jvmTypes.next().getName().toString());
+    assertFalse(genclass.hasNext());
+
+    assertEquals(1, resource.getContentsUnsafe().size());
+    assertFalse(resource.isFullyInitialized());
+  }
 
 }

@@ -67,10 +67,9 @@ public class ConvertToEcoreActionDelegate extends ActionDelegate
         XtextResourceSet resourceSet = new XtextResourceSet();
         IProject project = file.getProject();
         resourceSet.setClasspathURIContext(JavaCore.create(project));
-        return
-          (XPackage)EcoreUtil.getObjectByType
-            (resourceSet.getResource(URI.createPlatformResourceURI(file.getFullPath().toString(), true), true).getContents(),
-             XcorePackage.Literals.XPACKAGE);
+        return (XPackage)EcoreUtil.getObjectByType(
+          resourceSet.getResource(URI.createPlatformResourceURI(file.getFullPath().toString(), true), true).getContents(),
+          XcorePackage.Literals.XPACKAGE);
       }
     }
 
@@ -79,12 +78,10 @@ public class ConvertToEcoreActionDelegate extends ActionDelegate
 
   protected IFile getFile(Resource resource)
   {
-      URI uri = resource.getURI();
-      uri = resource.getResourceSet().getURIConverter().normalize(uri);
-      String platformResourceString = uri.toPlatformString(true);
-      return platformResourceString != null ?
-        ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourceString)) :
-        null;
+    URI uri = resource.getURI();
+    uri = resource.getResourceSet().getURIConverter().normalize(uri);
+    String platformResourceString = uri.toPlatformString(true);
+    return platformResourceString != null ? ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourceString)) : null;
   }
 
   /*
@@ -109,8 +106,7 @@ public class ConvertToEcoreActionDelegate extends ActionDelegate
     ProgressMonitorDialog dialog = new ProgressMonitorDialog(workbenchWindow.getShell());
     try
     {
-      dialog.run(false, true,
-        new WorkspaceModifyOperation()
+      dialog.run(false, true, new WorkspaceModifyOperation()
         {
           @Override
           protected void execute(IProgressMonitor progressMonitor)
@@ -120,15 +116,19 @@ public class ConvertToEcoreActionDelegate extends ActionDelegate
               progressMonitor.beginTask("", 1);
 
               // outputResource.getContents().add(new XcoreEcoreBuilder().getEPackage(inputXPackage));
-              Resource ecoreXcore = resourceSet.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.xcore"), false);
+              Resource ecoreXcore = resourceSet.getResource(
+                URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.xcore"),
+                false);
               if (ecoreXcore != null)
               {
                 Resource ecore = resourceSet.createResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"));
                 ecore.getContents().add(ecoreXcore.getContents().get(2));
               }
 
-              ecoreOutputResource.getContents().add((EPackage)EcoreUtil.getObjectByType(inputResource.getContents(), EcorePackage.Literals.EPACKAGE));
-              genModelOutputResource.getContents().add((GenModel)EcoreUtil.getObjectByType(inputResource.getContents(), GenModelPackage.Literals.GEN_MODEL));
+              ecoreOutputResource.getContents().add(
+                (EPackage)EcoreUtil.getObjectByType(inputResource.getContents(), EcorePackage.Literals.EPACKAGE));
+              genModelOutputResource.getContents().add(
+                (GenModel)EcoreUtil.getObjectByType(inputResource.getContents(), GenModelPackage.Literals.GEN_MODEL));
 
               try
               {
@@ -154,23 +154,27 @@ public class ConvertToEcoreActionDelegate extends ActionDelegate
 
                 try
                 {
-                  workbenchPage.openEditor
-                    (new FileEditorInput(ecoreFile), 
-                     workbenchWindow.getWorkbench().getEditorRegistry().getDefaultEditor
-                       (ecoreFile.getFullPath().toString(), Platform.getContentTypeManager().getContentType(EcorePackage.eCONTENT_TYPE)).getId());
-                  workbenchPage.openEditor
-                    (new FileEditorInput(genModelFile), 
-                     workbenchWindow.getWorkbench().getEditorRegistry().getDefaultEditor
-                       (genModelFile.getFullPath().toString(), Platform.getContentTypeManager().getContentType(GenModelPackage.eCONTENT_TYPE)).getId());
+                  workbenchPage.openEditor(
+                    new FileEditorInput(ecoreFile),
+                    workbenchWindow.getWorkbench().getEditorRegistry().getDefaultEditor(
+                      ecoreFile.getFullPath().toString(),
+                      Platform.getContentTypeManager().getContentType(EcorePackage.eCONTENT_TYPE)).getId());
+                  workbenchPage.openEditor(
+                    new FileEditorInput(genModelFile),
+                    workbenchWindow.getWorkbench().getEditorRegistry().getDefaultEditor(
+                      genModelFile.getFullPath().toString(),
+                      Platform.getContentTypeManager().getContentType(GenModelPackage.eCONTENT_TYPE)).getId());
                 }
                 catch (PartInitException pie)
                 {
-                  XcoreActivator.getInstance().getLog().log(new Status(IStatus.WARNING, "org.eclipse.emf.ecore.xcore.ui", 0, pie.getLocalizedMessage(), pie));
+                  XcoreActivator.getInstance().getLog().log(
+                    new Status(IStatus.WARNING, "org.eclipse.emf.ecore.xcore.ui", 0, pie.getLocalizedMessage(), pie));
                 }
               }
               catch (IOException ioe)
               {
-                XcoreActivator.getInstance().getLog().log(new Status(IStatus.WARNING, "org.eclipse.emf.ecore.xcore.ui", 0, ioe.getLocalizedMessage(), ioe));
+                XcoreActivator.getInstance().getLog().log(
+                  new Status(IStatus.WARNING, "org.eclipse.emf.ecore.xcore.ui", 0, ioe.getLocalizedMessage(), ioe));
               }
             }
             finally
@@ -186,7 +190,8 @@ public class ConvertToEcoreActionDelegate extends ActionDelegate
     }
     catch (InvocationTargetException ite)
     {
-      XcoreActivator.getInstance().getLog().log(new Status(IStatus.WARNING, "org.eclipse.emf.ecore.xcore.ui", 0, ite.getLocalizedMessage(), ite));
+      XcoreActivator.getInstance().getLog().log(
+        new Status(IStatus.WARNING, "org.eclipse.emf.ecore.xcore.ui", 0, ite.getLocalizedMessage(), ite));
     }
   }
 

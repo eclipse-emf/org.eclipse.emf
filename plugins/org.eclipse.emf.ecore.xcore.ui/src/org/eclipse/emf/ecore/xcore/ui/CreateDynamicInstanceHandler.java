@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.ui;
 
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -31,59 +32,58 @@ import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
 import com.google.inject.Inject;
 
+
 public class CreateDynamicInstanceHandler extends AbstractHandler
 {
   protected static final URI PLATFORM_RESOURCE = URI.createPlatformResourceURI("/", false);
-  
+
   @Inject
   protected EObjectAtOffsetHelper eObjectAtOffsetHelper;
-  
+
   @Inject
   private XcoreMapper mapper;
-  
+
   public Object execute(ExecutionEvent event) throws ExecutionException
   {
     XtextEditor xtextEditor = EditorUtils.getActiveXtextEditor(event);
-    final ITextSelection selection = (ITextSelection) xtextEditor.getSelectionProvider().getSelection();
+    final ITextSelection selection = (ITextSelection)xtextEditor.getSelectionProvider().getSelection();
     // EObject element = eObjectAtOffsetHelper.resolveElementAt(localResource, selection.getOffset());
-    xtextEditor.getDocument().readOnly
-      (new IUnitOfWork<Object, XtextResource>() 
-       {
-         public Object exec(XtextResource localResource) throws Exception 
-         {
-           Object element = eObjectAtOffsetHelper.resolveElementAt(localResource, selection.getOffset());
-           if (element instanceof XClass)
-           {
-             EClass eClass = (EClass)mapper.getEcore((XClass)element);
-             if (eClass != null)
-             {
-               URI uri = eClass.eResource().getURI();
-               IStructuredSelection selection = StructuredSelection.EMPTY;
-               if (uri != null && uri.isHierarchical())
-               {
-                 if (uri.isRelative() || (uri = uri.deresolve(PLATFORM_RESOURCE)).isRelative())
-                 {
-                   IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uri.toString()));
-                   if (file.exists())
-                   {
-                     selection = new StructuredSelection(file);
-                   }
-                 }
-               }
-    
-               DynamicModelWizard dynamicModelWizard = new DynamicModelWizard(eClass);
-               dynamicModelWizard.init(PlatformUI.getWorkbench(), selection);
-               WizardDialog wizardDialog = 
-                 new WizardDialog
-                   (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),  
-                    dynamicModelWizard);
-    
-               wizardDialog.open();
-             }
-           } 
-           return null;
-         }
-       });
+    xtextEditor.getDocument().readOnly(new IUnitOfWork<Object, XtextResource>()
+      {
+        public Object exec(XtextResource localResource) throws Exception
+        {
+          Object element = eObjectAtOffsetHelper.resolveElementAt(localResource, selection.getOffset());
+          if (element instanceof XClass)
+          {
+            EClass eClass = (EClass)mapper.getEcore((XClass)element);
+            if (eClass != null)
+            {
+              URI uri = eClass.eResource().getURI();
+              IStructuredSelection selection = StructuredSelection.EMPTY;
+              if (uri != null && uri.isHierarchical())
+              {
+                if (uri.isRelative() || (uri = uri.deresolve(PLATFORM_RESOURCE)).isRelative())
+                {
+                  IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uri.toString()));
+                  if (file.exists())
+                  {
+                    selection = new StructuredSelection(file);
+                  }
+                }
+              }
+
+              DynamicModelWizard dynamicModelWizard = new DynamicModelWizard(eClass);
+              dynamicModelWizard.init(PlatformUI.getWorkbench(), selection);
+              WizardDialog wizardDialog = new WizardDialog(
+                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                dynamicModelWizard);
+
+              wizardDialog.open();
+            }
+          }
+          return null;
+        }
+      });
     return null;
   }
 }

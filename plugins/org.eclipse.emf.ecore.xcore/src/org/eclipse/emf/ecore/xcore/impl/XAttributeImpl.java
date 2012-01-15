@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.impl;
 
+
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -15,6 +16,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.xcore.XAttribute;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -113,7 +115,12 @@ public class XAttributeImpl extends XStructuralFeatureImpl implements XAttribute
     String oldDefaultValueLiteral = defaultValueLiteral;
     defaultValueLiteral = newDefaultValueLiteral;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XATTRIBUTE__DEFAULT_VALUE_LITERAL, oldDefaultValueLiteral, defaultValueLiteral));
+      eNotify(new ENotificationImpl(
+        this,
+        Notification.SET,
+        XcorePackage.XATTRIBUTE__DEFAULT_VALUE_LITERAL,
+        oldDefaultValueLiteral,
+        defaultValueLiteral));
   }
 
   /**
@@ -150,9 +157,9 @@ public class XAttributeImpl extends XStructuralFeatureImpl implements XAttribute
     switch (featureID)
     {
       case XcorePackage.XATTRIBUTE__DEFAULT_VALUE_LITERAL:
-        return getDefaultValueLiteral();
+      return getDefaultValueLiteral();
       case XcorePackage.XATTRIBUTE__ID:
-        return isID();
+      return isID();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -168,11 +175,11 @@ public class XAttributeImpl extends XStructuralFeatureImpl implements XAttribute
     switch (featureID)
     {
       case XcorePackage.XATTRIBUTE__DEFAULT_VALUE_LITERAL:
-        setDefaultValueLiteral((String)newValue);
-        return;
+      setDefaultValueLiteral((String)newValue);
+      return;
       case XcorePackage.XATTRIBUTE__ID:
-        setID((Boolean)newValue);
-        return;
+      setID((Boolean)newValue);
+      return;
     }
     super.eSet(featureID, newValue);
   }
@@ -188,11 +195,11 @@ public class XAttributeImpl extends XStructuralFeatureImpl implements XAttribute
     switch (featureID)
     {
       case XcorePackage.XATTRIBUTE__DEFAULT_VALUE_LITERAL:
-        setDefaultValueLiteral(DEFAULT_VALUE_LITERAL_EDEFAULT);
-        return;
+      setDefaultValueLiteral(DEFAULT_VALUE_LITERAL_EDEFAULT);
+      return;
       case XcorePackage.XATTRIBUTE__ID:
-        setID(ID_EDEFAULT);
-        return;
+      setID(ID_EDEFAULT);
+      return;
     }
     super.eUnset(featureID);
   }
@@ -208,9 +215,10 @@ public class XAttributeImpl extends XStructuralFeatureImpl implements XAttribute
     switch (featureID)
     {
       case XcorePackage.XATTRIBUTE__DEFAULT_VALUE_LITERAL:
-        return DEFAULT_VALUE_LITERAL_EDEFAULT == null ? defaultValueLiteral != null : !DEFAULT_VALUE_LITERAL_EDEFAULT.equals(defaultValueLiteral);
+      return DEFAULT_VALUE_LITERAL_EDEFAULT == null
+        ? defaultValueLiteral != null : !DEFAULT_VALUE_LITERAL_EDEFAULT.equals(defaultValueLiteral);
       case XcorePackage.XATTRIBUTE__ID:
-        return iD != ID_EDEFAULT;
+      return iD != ID_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -223,7 +231,8 @@ public class XAttributeImpl extends XStructuralFeatureImpl implements XAttribute
   @Override
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+    if (eIsProxy())
+      return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (defaultValueLiteral: ");

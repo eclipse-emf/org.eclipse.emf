@@ -20,130 +20,158 @@ import org.eclipse.xtext.xbase.interpreter.impl.DefaultEvaluationContext;
 
 import com.google.inject.Inject;
 
+
 public class XcoreSettingDelegate implements EStructuralFeature.Internal.SettingDelegate
 {
-	@Inject
-	private XcoreInterpreter interpreter;
-	
-	private XBlockExpression getBody;
-	private XBlockExpression setBody;
-	private XBlockExpression isSetBody;
-	private XBlockExpression unsetBody;
-	private EStructuralFeature eStructuralFeature;
-	
-	public void initialize(XBlockExpression getBody, XBlockExpression setBody, XBlockExpression isSetBody, XBlockExpression unsetBody, EStructuralFeature eStructuralFeature)
-	{
-		this.getBody = getBody;
-		this.setBody = setBody;
-		this.isSetBody = isSetBody;
-		this.unsetBody = unsetBody;
-		this.eStructuralFeature = eStructuralFeature;
-	}
+  @Inject
+  private XcoreInterpreter interpreter;
 
-	public EStructuralFeature.Setting dynamicSetting(final InternalEObject owner, final EStructuralFeature.Internal.DynamicValueHolder settings, final int dynamicFeatureID)
+  private XBlockExpression getBody;
+
+  private XBlockExpression setBody;
+
+  private XBlockExpression isSetBody;
+
+  private XBlockExpression unsetBody;
+
+  private EStructuralFeature eStructuralFeature;
+
+  public void initialize(
+    XBlockExpression getBody,
+    XBlockExpression setBody,
+    XBlockExpression isSetBody,
+    XBlockExpression unsetBody,
+    EStructuralFeature eStructuralFeature)
   {
-		return
-		  new EStructuralFeature.Setting()
-  		{
-  			public void unset()
-  			{
-  				dynamicUnset(owner, settings, dynamicFeatureID);
-  			}
-  			
-  			public void set(Object newValue)
-  			{
-  				dynamicSet(owner, settings, dynamicFeatureID, newValue);
-  			}
-  			
-  			public boolean isSet()
-  			{
-  				return dynamicIsSet(owner, settings, dynamicFeatureID);
-  			}
-  			
-  			public EStructuralFeature getEStructuralFeature()
-  			{
-  				return eStructuralFeature;
-  			}
-  			
-  			public EObject getEObject()
-  			{
-  				return owner;
-  			}
-  			
-  			public Object get(boolean resolve)
-  			{
-  				return dynamicGet(owner, settings, dynamicFeatureID, resolve, false);
-  			}
-  		};
+    this.getBody = getBody;
+    this.setBody = setBody;
+    this.isSetBody = isSetBody;
+    this.unsetBody = unsetBody;
+    this.eStructuralFeature = eStructuralFeature;
   }
 
-	public Object dynamicGet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int dynamicFeatureID, boolean resolve,
-      boolean coreType)
+  public EStructuralFeature.Setting dynamicSetting(
+    final InternalEObject owner,
+    final EStructuralFeature.Internal.DynamicValueHolder settings,
+    final int dynamicFeatureID)
   {
-		if (getBody == null)
-			throw new IllegalStateException("coudn't find exeutable Xbase get body");
-		DefaultEvaluationContext context = new DefaultEvaluationContext();
-		context.newValue(QualifiedName.create("this"), owner);
-		IEvaluationResult result = interpreter.evaluate(getBody, context, CancelIndicator.NullImpl);
-		if (result.getException() != null)
-			throw new RuntimeException(result.getException());
-	  return result.getResult();
+    return new EStructuralFeature.Setting()
+      {
+        public void unset()
+        {
+          dynamicUnset(owner, settings, dynamicFeatureID);
+        }
+
+        public void set(Object newValue)
+        {
+          dynamicSet(owner, settings, dynamicFeatureID, newValue);
+        }
+
+        public boolean isSet()
+        {
+          return dynamicIsSet(owner, settings, dynamicFeatureID);
+        }
+
+        public EStructuralFeature getEStructuralFeature()
+        {
+          return eStructuralFeature;
+        }
+
+        public EObject getEObject()
+        {
+          return owner;
+        }
+
+        public Object get(boolean resolve)
+        {
+          return dynamicGet(owner, settings, dynamicFeatureID, resolve, false);
+        }
+      };
   }
 
-	public void dynamicSet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int dynamicFeatureID, Object newValue)
+  public Object dynamicGet(
+    InternalEObject owner,
+    EStructuralFeature.Internal.DynamicValueHolder settings,
+    int dynamicFeatureID,
+    boolean resolve,
+    boolean coreType)
   {
-		if (setBody == null)
-			throw new IllegalStateException("coudn't find exeutable Xbase set body");
-		DefaultEvaluationContext context = new DefaultEvaluationContext();
-		context.newValue(QualifiedName.create("this"), owner);
-  	context.newValue(QualifiedName.create("newValue"), newValue);
-		IEvaluationResult result = interpreter.evaluate(setBody, context, CancelIndicator.NullImpl);
-		if (result.getException() != null)
-			throw new RuntimeException(result.getException());
-	  settings.dynamicSet(dynamicFeatureID, result.getResult());
+    if (getBody == null)
+      throw new IllegalStateException("coudn't find exeutable Xbase get body");
+    DefaultEvaluationContext context = new DefaultEvaluationContext();
+    context.newValue(QualifiedName.create("this"), owner);
+    IEvaluationResult result = interpreter.evaluate(getBody, context, CancelIndicator.NullImpl);
+    if (result.getException() != null)
+      throw new RuntimeException(result.getException());
+    return result.getResult();
   }
 
-	public boolean dynamicIsSet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int dynamicFeatureID)
+  public void dynamicSet(
+    InternalEObject owner,
+    EStructuralFeature.Internal.DynamicValueHolder settings,
+    int dynamicFeatureID,
+    Object newValue)
   {
-		if (isSetBody == null)
-		{
-	    return settings.dynamicGet(dynamicFeatureID) != null;
-		}
-		else
-		{
-		  DefaultEvaluationContext context = new DefaultEvaluationContext();
-		  context.newValue(QualifiedName.create("this"), owner);
-		  IEvaluationResult result = interpreter.evaluate(isSetBody, context, CancelIndicator.NullImpl);
-		  if (result.getException() != null)
-			  throw new RuntimeException(result.getException());
-	    return (Boolean)result.getResult();
-		}
+    if (setBody == null)
+      throw new IllegalStateException("coudn't find exeutable Xbase set body");
+    DefaultEvaluationContext context = new DefaultEvaluationContext();
+    context.newValue(QualifiedName.create("this"), owner);
+    context.newValue(QualifiedName.create("newValue"), newValue);
+    IEvaluationResult result = interpreter.evaluate(setBody, context, CancelIndicator.NullImpl);
+    if (result.getException() != null)
+      throw new RuntimeException(result.getException());
+    settings.dynamicSet(dynamicFeatureID, result.getResult());
   }
 
-	public void dynamicUnset(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int dynamicFeatureID)
+  public boolean dynamicIsSet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int dynamicFeatureID)
   {
-		if (unsetBody != null)
-		{
-		  DefaultEvaluationContext context = new DefaultEvaluationContext();
-		  context.newValue(QualifiedName.create("this"), owner);
-		  IEvaluationResult result = interpreter.evaluate(unsetBody, context, CancelIndicator.NullImpl);
-		  if (result.getException() != null)
-		  {
-			  throw new RuntimeException(result.getException());
-		  }
-		}
-	  settings.dynamicUnset(dynamicFeatureID);
+    if (isSetBody == null)
+    {
+      return settings.dynamicGet(dynamicFeatureID) != null;
+    }
+    else
+    {
+      DefaultEvaluationContext context = new DefaultEvaluationContext();
+      context.newValue(QualifiedName.create("this"), owner);
+      IEvaluationResult result = interpreter.evaluate(isSetBody, context, CancelIndicator.NullImpl);
+      if (result.getException() != null)
+        throw new RuntimeException(result.getException());
+      return (Boolean)result.getResult();
+    }
   }
 
-	public NotificationChain dynamicInverseAdd
-	  (InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int dynamicFeatureID, InternalEObject otherEnd, NotificationChain notifications)
+  public void dynamicUnset(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int dynamicFeatureID)
   {
-		throw new UnsupportedOperationException("updates aren't supported");
+    if (unsetBody != null)
+    {
+      DefaultEvaluationContext context = new DefaultEvaluationContext();
+      context.newValue(QualifiedName.create("this"), owner);
+      IEvaluationResult result = interpreter.evaluate(unsetBody, context, CancelIndicator.NullImpl);
+      if (result.getException() != null)
+      {
+        throw new RuntimeException(result.getException());
+      }
+    }
+    settings.dynamicUnset(dynamicFeatureID);
   }
 
-	public NotificationChain dynamicInverseRemove
-	  (InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int dynamicFeatureID, InternalEObject otherEnd, NotificationChain notifications)
+  public NotificationChain dynamicInverseAdd(
+    InternalEObject owner,
+    EStructuralFeature.Internal.DynamicValueHolder settings,
+    int dynamicFeatureID,
+    InternalEObject otherEnd,
+    NotificationChain notifications)
   {
-		throw new UnsupportedOperationException("updates aren't supported");
+    throw new UnsupportedOperationException("updates aren't supported");
+  }
+
+  public NotificationChain dynamicInverseRemove(
+    InternalEObject owner,
+    EStructuralFeature.Internal.DynamicValueHolder settings,
+    int dynamicFeatureID,
+    InternalEObject otherEnd,
+    NotificationChain notifications)
+  {
+    throw new UnsupportedOperationException("updates aren't supported");
   }
 }

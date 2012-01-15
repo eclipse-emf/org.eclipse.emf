@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.impl;
 
+
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -21,6 +22,7 @@ import org.eclipse.emf.ecore.xcore.XImportDirective;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -128,7 +130,12 @@ public class XImportDirectiveImpl extends XModelElementImpl implements XImportDi
     String oldImportedNamespace = importedNamespace;
     importedNamespace = newImportedNamespace;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XIMPORT_DIRECTIVE__IMPORTED_NAMESPACE, oldImportedNamespace, importedNamespace));
+      eNotify(new ENotificationImpl(
+        this,
+        Notification.SET,
+        XcorePackage.XIMPORT_DIRECTIVE__IMPORTED_NAMESPACE,
+        oldImportedNamespace,
+        importedNamespace));
   }
 
   /**
@@ -145,7 +152,12 @@ public class XImportDirectiveImpl extends XModelElementImpl implements XImportDi
       if (importedObject != oldImportedObject)
       {
         if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, XcorePackage.XIMPORT_DIRECTIVE__IMPORTED_OBJECT, oldImportedObject, importedObject));
+          eNotify(new ENotificationImpl(
+            this,
+            Notification.RESOLVE,
+            XcorePackage.XIMPORT_DIRECTIVE__IMPORTED_OBJECT,
+            oldImportedObject,
+            importedObject));
       }
     }
     return importedObject;
@@ -171,7 +183,12 @@ public class XImportDirectiveImpl extends XModelElementImpl implements XImportDi
     EObject oldImportedObject = importedObject;
     importedObject = newImportedObject;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XIMPORT_DIRECTIVE__IMPORTED_OBJECT, oldImportedObject, importedObject));
+      eNotify(new ENotificationImpl(
+        this,
+        Notification.SET,
+        XcorePackage.XIMPORT_DIRECTIVE__IMPORTED_OBJECT,
+        oldImportedObject,
+        importedObject));
   }
 
   /**
@@ -185,10 +202,11 @@ public class XImportDirectiveImpl extends XModelElementImpl implements XImportDi
     switch (featureID)
     {
       case XcorePackage.XIMPORT_DIRECTIVE__IMPORTED_NAMESPACE:
-        return getImportedNamespace();
+      return getImportedNamespace();
       case XcorePackage.XIMPORT_DIRECTIVE__IMPORTED_OBJECT:
-        if (resolve) return getImportedObject();
-        return basicGetImportedObject();
+      if (resolve)
+        return getImportedObject();
+      return basicGetImportedObject();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -204,11 +222,11 @@ public class XImportDirectiveImpl extends XModelElementImpl implements XImportDi
     switch (featureID)
     {
       case XcorePackage.XIMPORT_DIRECTIVE__IMPORTED_NAMESPACE:
-        setImportedNamespace((String)newValue);
-        return;
+      setImportedNamespace((String)newValue);
+      return;
       case XcorePackage.XIMPORT_DIRECTIVE__IMPORTED_OBJECT:
-        setImportedObject((EObject)newValue);
-        return;
+      setImportedObject((EObject)newValue);
+      return;
     }
     super.eSet(featureID, newValue);
   }
@@ -224,11 +242,11 @@ public class XImportDirectiveImpl extends XModelElementImpl implements XImportDi
     switch (featureID)
     {
       case XcorePackage.XIMPORT_DIRECTIVE__IMPORTED_NAMESPACE:
-        setImportedNamespace(IMPORTED_NAMESPACE_EDEFAULT);
-        return;
+      setImportedNamespace(IMPORTED_NAMESPACE_EDEFAULT);
+      return;
       case XcorePackage.XIMPORT_DIRECTIVE__IMPORTED_OBJECT:
-        setImportedObject((EObject)null);
-        return;
+      setImportedObject((EObject)null);
+      return;
     }
     super.eUnset(featureID);
   }
@@ -244,9 +262,9 @@ public class XImportDirectiveImpl extends XModelElementImpl implements XImportDi
     switch (featureID)
     {
       case XcorePackage.XIMPORT_DIRECTIVE__IMPORTED_NAMESPACE:
-        return IMPORTED_NAMESPACE_EDEFAULT == null ? importedNamespace != null : !IMPORTED_NAMESPACE_EDEFAULT.equals(importedNamespace);
+      return IMPORTED_NAMESPACE_EDEFAULT == null ? importedNamespace != null : !IMPORTED_NAMESPACE_EDEFAULT.equals(importedNamespace);
       case XcorePackage.XIMPORT_DIRECTIVE__IMPORTED_OBJECT:
-        return importedObject != null;
+      return importedObject != null;
     }
     return super.eIsSet(featureID);
   }
@@ -259,7 +277,8 @@ public class XImportDirectiveImpl extends XModelElementImpl implements XImportDi
   @Override
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+    if (eIsProxy())
+      return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (importedNamespace: ");

@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.test.ecore.xcore.validation;
 
+
 import java.util.List;
 
 import org.eclipse.emf.ecore.util.EcoreValidator;
@@ -25,6 +26,7 @@ import org.junit.runner.RunWith;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+
 
 /**
  * There are cases not covered because the grammar doesn't allow it, i.e.,
@@ -59,36 +61,36 @@ import com.google.inject.Inject;
 public class XcoreValidationTest
 {
 
-	@InjectParameter
-	private XtextResource resource;
+  @InjectParameter
+  private XtextResource resource;
 
-	@Inject
-	private IResourceValidator validator;
+  @Inject
+  private IResourceValidator validator;
 
-	protected String formatIssue(Issue issue)
-	{
-		StringBuilder result = new StringBuilder();
-		result.append(issue.getSeverity().name().toLowerCase());
-		if (issue.getOffset() != null && issue.getLength() != null)
-		{
-			result.append(" at '");
-			result.append(resource.getParseResult().getRootNode().getText()
-			    .substring(issue.getOffset(), issue.getOffset() + issue.getLength()));
-			result.append("' ");
-		} else
-			result.append(" ");
-		result.append("message '");
-		result.append(issue.getMessage());
-		result.append("'");
-		return result.toString();
-	}
+  protected String formatIssue(Issue issue)
+  {
+    StringBuilder result = new StringBuilder();
+    result.append(issue.getSeverity().name().toLowerCase());
+    if (issue.getOffset() != null && issue.getLength() != null)
+    {
+      result.append(" at '");
+      result.append(resource.getParseResult().getRootNode().getText().substring(issue.getOffset(), issue.getOffset() + issue.getLength()));
+      result.append("' ");
+    }
+    else
+      result.append(" ");
+    result.append("message '");
+    result.append(issue.getMessage());
+    result.append("'");
+    return result.toString();
+  }
 
-	@XpectLines()
-	public List<String> validationIssues()
-	{
-		List<String> result = Lists.newArrayList();
-		for (Issue issue : validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl))
-			result.add(formatIssue(issue));
-		return result;
-	}
+  @XpectLines()
+  public List<String> validationIssues()
+  {
+    List<String> result = Lists.newArrayList();
+    for (Issue issue : validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl))
+      result.add(formatIssue(issue));
+    return result;
+  }
 }

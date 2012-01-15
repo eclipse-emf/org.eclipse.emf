@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.test.ecore.xcore.ecore;
 
+
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
@@ -26,6 +27,7 @@ import org.junit.runner.RunWith;
 
 import com.google.inject.Inject;
 
+
 @SuppressWarnings("restriction")
 @InjectWith(XcoreInjectorProvider.class)
 @RunWith(ParameterizedXtextRunner.class)
@@ -33,30 +35,30 @@ import com.google.inject.Inject;
 public class XcoreEcoreTest
 {
 
-	@Inject
-	private XcoreMapper mapper;
+  @Inject
+  private XcoreMapper mapper;
 
-	@InjectParameter
-	private Offset offset;
+  @InjectParameter
+  private Offset offset;
 
-	@InjectParameter
-	private XtextResource resource;
+  @InjectParameter
+  private XtextResource resource;
 
-	@Inject
-	private ValidationTestHelper validationHelper;
+  @Inject
+  private ValidationTestHelper validationHelper;
 
-	@Test
-	public void noValidationIssues()
-	{
-		validationHelper.assertNoIssues(resource.getContents().get(0));
-	}
+  @Test
+  public void noValidationIssues()
+  {
+    validationHelper.assertNoIssues(resource.getContents().get(0));
+  }
 
-	@XpectString
-	public String eNamedElement()
-	{
-		EcoreUtil.resolveAll(resource);
-		ENamedElement gen = mapper.getEcore((XNamedElement) offset.getEObject());
-		return new GenModelFormatter().resolveCrossReferences().format(gen);
-	}
+  @XpectString
+  public String eNamedElement()
+  {
+    EcoreUtil.resolveAll(resource);
+    ENamedElement gen = mapper.getEcore((XNamedElement)offset.getEObject());
+    return new GenModelFormatter().resolveCrossReferences().format(gen);
+  }
 
 }

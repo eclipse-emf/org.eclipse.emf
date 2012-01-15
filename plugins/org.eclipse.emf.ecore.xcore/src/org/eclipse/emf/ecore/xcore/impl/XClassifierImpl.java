@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.ecore.xcore.impl;
 
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -27,6 +28,7 @@ import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.xtext.common.types.JvmTypeReference;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -107,8 +109,16 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
     instanceType = newInstanceType;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XcorePackage.XCLASSIFIER__INSTANCE_TYPE, oldInstanceType, newInstanceType);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
+      ENotificationImpl notification = new ENotificationImpl(
+        this,
+        Notification.SET,
+        XcorePackage.XCLASSIFIER__INSTANCE_TYPE,
+        oldInstanceType,
+        newInstanceType);
+      if (msgs == null)
+        msgs = notification;
+      else
+        msgs.add(notification);
     }
     return msgs;
   }
@@ -124,11 +134,20 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
     {
       NotificationChain msgs = null;
       if (instanceType != null)
-        msgs = ((InternalEObject)instanceType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XCLASSIFIER__INSTANCE_TYPE, null, msgs);
+        msgs = ((InternalEObject)instanceType).eInverseRemove(
+          this,
+          EOPPOSITE_FEATURE_BASE - XcorePackage.XCLASSIFIER__INSTANCE_TYPE,
+          null,
+          msgs);
       if (newInstanceType != null)
-        msgs = ((InternalEObject)newInstanceType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XCLASSIFIER__INSTANCE_TYPE, null, msgs);
+        msgs = ((InternalEObject)newInstanceType).eInverseAdd(
+          this,
+          EOPPOSITE_FEATURE_BASE - XcorePackage.XCLASSIFIER__INSTANCE_TYPE,
+          null,
+          msgs);
       msgs = basicSetInstanceType(newInstanceType, msgs);
-      if (msgs != null) msgs.dispatch();
+      if (msgs != null)
+        msgs.dispatch();
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XCLASSIFIER__INSTANCE_TYPE, newInstanceType, newInstanceType));
@@ -141,7 +160,8 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
    */
   public XPackage getPackage()
   {
-    if (eContainerFeatureID() != XcorePackage.XCLASSIFIER__PACKAGE) return null;
+    if (eContainerFeatureID() != XcorePackage.XCLASSIFIER__PACKAGE)
+      return null;
     return (XPackage)eContainer();
   }
 
@@ -170,9 +190,9 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
     switch (featureID)
     {
       case XcorePackage.XCLASSIFIER__PACKAGE:
-        if (eInternalContainer() != null)
-          msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, XcorePackage.XCLASSIFIER__PACKAGE, msgs);
+      if (eInternalContainer() != null)
+        msgs = eBasicRemoveFromContainer(msgs);
+      return eBasicSetContainer(otherEnd, XcorePackage.XCLASSIFIER__PACKAGE, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -188,11 +208,11 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
     switch (featureID)
     {
       case XcorePackage.XCLASSIFIER__INSTANCE_TYPE:
-        return basicSetInstanceType(null, msgs);
+      return basicSetInstanceType(null, msgs);
       case XcorePackage.XCLASSIFIER__PACKAGE:
-        return eBasicSetContainer(null, XcorePackage.XCLASSIFIER__PACKAGE, msgs);
+      return eBasicSetContainer(null, XcorePackage.XCLASSIFIER__PACKAGE, msgs);
       case XcorePackage.XCLASSIFIER__TYPE_PARAMETERS:
-        return ((InternalEList<?>)getTypeParameters()).basicRemove(otherEnd, msgs);
+      return ((InternalEList<?>)getTypeParameters()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -208,7 +228,7 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
     switch (eContainerFeatureID())
     {
       case XcorePackage.XCLASSIFIER__PACKAGE:
-        return eInternalContainer().eInverseRemove(this, XcorePackage.XPACKAGE__CLASSIFIERS, XPackage.class, msgs);
+      return eInternalContainer().eInverseRemove(this, XcorePackage.XPACKAGE__CLASSIFIERS, XPackage.class, msgs);
     }
     return super.eBasicRemoveFromContainerFeature(msgs);
   }
@@ -224,11 +244,11 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
     switch (featureID)
     {
       case XcorePackage.XCLASSIFIER__INSTANCE_TYPE:
-        return getInstanceType();
+      return getInstanceType();
       case XcorePackage.XCLASSIFIER__PACKAGE:
-        return getPackage();
+      return getPackage();
       case XcorePackage.XCLASSIFIER__TYPE_PARAMETERS:
-        return getTypeParameters();
+      return getTypeParameters();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -245,12 +265,12 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
     switch (featureID)
     {
       case XcorePackage.XCLASSIFIER__INSTANCE_TYPE:
-        setInstanceType((JvmTypeReference)newValue);
-        return;
+      setInstanceType((JvmTypeReference)newValue);
+      return;
       case XcorePackage.XCLASSIFIER__TYPE_PARAMETERS:
-        getTypeParameters().clear();
-        getTypeParameters().addAll((Collection<? extends XTypeParameter>)newValue);
-        return;
+      getTypeParameters().clear();
+      getTypeParameters().addAll((Collection<? extends XTypeParameter>)newValue);
+      return;
     }
     super.eSet(featureID, newValue);
   }
@@ -266,11 +286,11 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
     switch (featureID)
     {
       case XcorePackage.XCLASSIFIER__INSTANCE_TYPE:
-        setInstanceType((JvmTypeReference)null);
-        return;
+      setInstanceType((JvmTypeReference)null);
+      return;
       case XcorePackage.XCLASSIFIER__TYPE_PARAMETERS:
-        getTypeParameters().clear();
-        return;
+      getTypeParameters().clear();
+      return;
     }
     super.eUnset(featureID);
   }
@@ -286,11 +306,11 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
     switch (featureID)
     {
       case XcorePackage.XCLASSIFIER__INSTANCE_TYPE:
-        return instanceType != null;
+      return instanceType != null;
       case XcorePackage.XCLASSIFIER__PACKAGE:
-        return getPackage() != null;
+      return getPackage() != null;
       case XcorePackage.XCLASSIFIER__TYPE_PARAMETERS:
-        return typeParameters != null && !typeParameters.isEmpty();
+      return typeParameters != null && !typeParameters.isEmpty();
     }
     return super.eIsSet(featureID);
   }
