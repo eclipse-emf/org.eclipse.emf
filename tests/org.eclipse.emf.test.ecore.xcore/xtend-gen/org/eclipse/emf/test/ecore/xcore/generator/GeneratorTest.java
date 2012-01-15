@@ -7,14 +7,12 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.emf.ecore.xcore.generator.XcoreGenerator;
-import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.InMemoryFileSystemAccess;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.junit4.util.ParseHelper;
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
 import org.junit.Assert;
@@ -27,12 +25,6 @@ import org.junit.runner.RunWith;
 public class GeneratorTest {
   @Inject
   private ParseHelper<XPackage> parser;
-  
-  @Inject
-  private ValidationTestHelper validator;
-  
-  @Inject
-  private XcoreMapper mapper;
   
   @Inject
   private XcoreGenerator xcoreGenerator;

@@ -41,6 +41,7 @@ import com.google.inject.name.Names;
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
+ @SuppressWarnings("restriction")
 public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcoreRuntimeModule 
 {
   
@@ -101,7 +102,8 @@ public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcor
 		return XcoreDiagnosticConverter.class;
 	}
 	
-	@SingletonBinding
+	@Override
+    @SingletonBinding
 	public Class<? extends Diagnostician> bindDiagnostician() 
 	{
 	  return XcoreDiagnostician.class;

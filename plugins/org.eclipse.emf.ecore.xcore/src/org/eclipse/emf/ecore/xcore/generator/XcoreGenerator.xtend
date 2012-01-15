@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.xcore.XOperation
 import org.eclipse.emf.ecore.xcore.XPackage
 import org.eclipse.emf.ecore.xcore.XStructuralFeature
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper
-import org.eclipse.xtext.common.types.util.TypeReferences
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler
@@ -37,9 +36,6 @@ class XcoreGenerator implements IGenerator {
 	
 	@Inject
 	Provider<XcoreGeneratorImpl> xcoreGeneratorImplProvider
-	
-	@Inject
-    TypeReferences typeReferences
 	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		val pack = resource.contents.head as XPackage

@@ -27,7 +27,6 @@ import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
 import org.eclipse.xtext.common.types.JvmFormalParameter;
 import org.eclipse.xtext.common.types.JvmOperation;
-import org.eclipse.xtext.common.types.util.TypeReferences;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.xbase.XBlockExpression;
@@ -48,9 +47,6 @@ public class XcoreGenerator implements IGenerator {
   
   @Inject
   private Provider<XcoreGeneratorImpl> xcoreGeneratorImplProvider;
-  
-  @Inject
-  private TypeReferences typeReferences;
   
   public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
       EList<EObject> _contents = resource.getContents();

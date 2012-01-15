@@ -52,7 +52,8 @@ public class XcoreDiagnostician extends CancelableDiagnostician
 			StringBuilder result = new StringBuilder();
 			new EcoreUtil.EGenericTypeConverter()
 			{
-				protected String getInstanceTypeName(EClassifier eClassifier) 
+				@Override
+                protected String getInstanceTypeName(EClassifier eClassifier) 
 				{
 					return getObjectLabel(eClassifier);
 				}

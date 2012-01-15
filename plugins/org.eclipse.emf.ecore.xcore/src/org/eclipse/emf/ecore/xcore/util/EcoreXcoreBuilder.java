@@ -368,7 +368,7 @@ public class EcoreXcoreBuilder
     XOperation xOperation = XcoreFactory.eINSTANCE.createXOperation();
     XOperationMapping mapping = mapper.getMapping(xOperation);
 		mapping.setEOperation(eOperation);
-		GenOperation genOperation = (GenOperation)genModel.findGenOperation(eOperation);
+		GenOperation genOperation = genModel.findGenOperation(eOperation);
 		mapping.setGenOperation(genOperation);
     mapper.getToXcoreMapping(eOperation).setXcoreElement(xOperation);
     mapper.getToXcoreMapping(genOperation).setXcoreElement(xOperation);

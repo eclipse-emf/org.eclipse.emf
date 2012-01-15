@@ -61,7 +61,8 @@ public class XcoreScopeProvider extends XbaseScopeProvider
 	@Inject
 	private IQualifiedNameConverter qualifiedNameConverter;
 
-	protected IScope createLocalVarScope(IScope parent, LocalVariableScopeContext scopeContext)
+	@Override
+  protected IScope createLocalVarScope(IScope parent, LocalVariableScopeContext scopeContext)
 	{
 		EObject context = scopeContext.getContext();
 		if (context instanceof XBlockExpression)
@@ -114,7 +115,8 @@ public class XcoreScopeProvider extends XbaseScopeProvider
 		return super.createLocalVarScope(parent, scopeContext);
 	}
 
-	protected JvmDeclaredType getContextType(EObject call)
+	@Override
+  protected JvmDeclaredType getContextType(EObject call)
 	{
 		if (call == null)
 			return null;

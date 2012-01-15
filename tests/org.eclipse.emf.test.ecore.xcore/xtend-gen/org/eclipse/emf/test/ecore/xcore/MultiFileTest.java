@@ -19,7 +19,6 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
-import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.util.StringInputStream;
 import org.eclipse.xtext.xbase.lib.Exceptions;
@@ -38,9 +37,6 @@ public class MultiFileTest {
   
   @Inject
   private ValidationTestHelper validator;
-  
-  @Inject
-  private IResourceDescriptions descriptions;
   
   @Inject
   private XcoreMapper mapper;

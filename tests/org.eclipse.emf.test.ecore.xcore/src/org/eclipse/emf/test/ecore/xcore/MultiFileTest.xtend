@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper
-import org.eclipse.xtext.resource.IResourceDescriptions
 import org.eclipse.xtext.resource.XtextResourceSet
 import org.eclipse.xtext.util.StringInputStream
 import org.junit.Test
@@ -36,9 +35,6 @@ class MultiFileTest {
 	
 	@Inject
 	ValidationTestHelper validator
-	
-	@Inject
-	IResourceDescriptions descriptions
 	
 	@Inject
 	extension XcoreMapper mapper

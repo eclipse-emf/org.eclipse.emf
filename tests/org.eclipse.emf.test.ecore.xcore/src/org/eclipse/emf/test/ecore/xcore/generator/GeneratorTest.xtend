@@ -11,12 +11,10 @@ import com.google.inject.Inject
 import org.eclipse.emf.ecore.xcore.XPackage
 import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider
 import org.eclipse.emf.ecore.xcore.generator.XcoreGenerator
-import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper
 import org.eclipse.xtext.generator.InMemoryFileSystemAccess
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.junit4.util.ParseHelper
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -29,12 +27,6 @@ class GeneratorTest {
 	
 	@Inject
 	ParseHelper<XPackage> parser
-	
-	@Inject
-	ValidationTestHelper validator
-	
-	@Inject
-	extension XcoreMapper mapper
 	
 	@Inject
 	XcoreGenerator xcoreGenerator
