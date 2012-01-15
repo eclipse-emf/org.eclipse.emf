@@ -14,7 +14,9 @@ import org.eclipse.xtext.ui.generator.*
 var grammarURI = "classpath:/org/eclipse/emf/ecore/xcore/Xcore.xtext"
 var file.extensions = "xcore"
 var projectName = "org.eclipse.emf.ecore.xcore"
+var testProjectName = "org.eclipse.emf.test.ecore.xcore"
 var runtimeProject = "../${projectName}"
+var testProject = "../../tests/${testProjectName}"
 
 Workflow {
 	bean = StandaloneSetup {
@@ -34,10 +36,14 @@ Workflow {
 		directory = "${runtimeProject}.ui/src-gen"
 	}
 
+	component = DirectoryCleaner {
+		directory = "${testProject}/src-gen"
+	}
+
 	component = Generator {
 		pathRtProject = runtimeProject
 		pathUiProject = "${runtimeProject}.ui"
-		pathTestProject = "${runtimeProject}.tests"
+		pathTestProject = testProject 
 		projectNameRt = projectName
 		projectNameUi = "${projectName}.ui"
 		language = {
