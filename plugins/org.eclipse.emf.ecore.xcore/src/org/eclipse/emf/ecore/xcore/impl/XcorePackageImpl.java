@@ -251,12 +251,10 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    */
   public static XcorePackage init()
   {
-    if (isInited)
-      return (XcorePackage)EPackage.Registry.INSTANCE.getEPackage(XcorePackage.eNS_URI);
+    if (isInited) return (XcorePackage)EPackage.Registry.INSTANCE.getEPackage(XcorePackage.eNS_URI);
 
     // Obtain or create and register package
-    XcorePackageImpl theXcorePackage = (XcorePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof XcorePackageImpl
-      ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XcorePackageImpl());
+    XcorePackageImpl theXcorePackage = (XcorePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof XcorePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XcorePackageImpl());
 
     isInited = true;
 
@@ -273,6 +271,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     // Mark meta-data to indicate it can't be changed
     theXcorePackage.freeze();
 
+  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(XcorePackage.eNS_URI, theXcorePackage);
     return theXcorePackage;
@@ -1114,8 +1113,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    */
   public void createPackageContents()
   {
-    if (isCreated)
-      return;
+    if (isCreated) return;
     isCreated = true;
 
     // Create classes and their features
@@ -1240,8 +1238,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    */
   public void initializePackageContents()
   {
-    if (isInitialized)
-      return;
+    if (isInitialized) return;
     isInitialized = true;
 
     // Initialize package
@@ -1281,1078 +1278,105 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
 
     // Initialize classes and features; add operations and parameters
     initEClass(xAnnotationEClass, XAnnotation.class, "XAnnotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(
-      getXAnnotation_Source(),
-      this.getXAnnotationDirective(),
-      null,
-      "source",
-      null,
-      0,
-      1,
-      XAnnotation.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXAnnotation_Details(),
-      this.getXStringToStringMapEntry(),
-      null,
-      "details",
-      null,
-      0,
-      -1,
-      XAnnotation.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXAnnotation_ModelElement(),
-      this.getXModelElement(),
-      this.getXModelElement_Annotations(),
-      "modelElement",
-      null,
-      0,
-      1,
-      XAnnotation.class,
-      IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEReference(getXAnnotation_Source(), this.getXAnnotationDirective(), null, "source", null, 0, 1, XAnnotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXAnnotation_Details(), this.getXStringToStringMapEntry(), null, "details", null, 0, -1, XAnnotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXAnnotation_ModelElement(), this.getXModelElement(), this.getXModelElement_Annotations(), "modelElement", null, 0, 1, XAnnotation.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(
-      xAnnotationDirectiveEClass,
-      XAnnotationDirective.class,
-      "XAnnotationDirective",
-      !IS_ABSTRACT,
-      !IS_INTERFACE,
-      IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(
-      getXAnnotationDirective_SourceURI(),
-      theEcorePackage.getEString(),
-      "sourceURI",
-      null,
-      0,
-      1,
-      XAnnotationDirective.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEClass(xAnnotationDirectiveEClass, XAnnotationDirective.class, "XAnnotationDirective", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getXAnnotationDirective_SourceURI(), theEcorePackage.getEString(), "sourceURI", null, 0, 1, XAnnotationDirective.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xAttributeEClass, XAttribute.class, "XAttribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(
-      getXAttribute_DefaultValueLiteral(),
-      theEcorePackage.getEString(),
-      "defaultValueLiteral",
-      null,
-      0,
-      1,
-      XAttribute.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getXAttribute_ID(),
-      theEcorePackage.getEBoolean(),
-      "iD",
-      null,
-      0,
-      1,
-      XAttribute.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEAttribute(getXAttribute_DefaultValueLiteral(), theEcorePackage.getEString(), "defaultValueLiteral", null, 0, 1, XAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXAttribute_ID(), theEcorePackage.getEBoolean(), "iD", null, 0, 1, XAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xClassEClass, XClass.class, "XClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(
-      getXClass_Abstract(),
-      theEcorePackage.getEBoolean(),
-      "abstract",
-      null,
-      0,
-      1,
-      XClass.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getXClass_Interface(),
-      theEcorePackage.getEBoolean(),
-      "interface",
-      null,
-      0,
-      1,
-      XClass.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXClass_Members(),
-      this.getXMember(),
-      this.getXMember_ContainingClass(),
-      "members",
-      null,
-      0,
-      -1,
-      XClass.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXClass_SuperTypes(),
-      this.getXGenericType(),
-      null,
-      "superTypes",
-      null,
-      0,
-      -1,
-      XClass.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEAttribute(getXClass_Abstract(), theEcorePackage.getEBoolean(), "abstract", null, 0, 1, XClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXClass_Interface(), theEcorePackage.getEBoolean(), "interface", null, 0, 1, XClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXClass_Members(), this.getXMember(), this.getXMember_ContainingClass(), "members", null, 0, -1, XClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXClass_SuperTypes(), this.getXGenericType(), null, "superTypes", null, 0, -1, XClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xClassifierEClass, XClassifier.class, "XClassifier", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(
-      getXClassifier_InstanceType(),
-      theTypesPackage.getJvmTypeReference(),
-      null,
-      "instanceType",
-      null,
-      0,
-      1,
-      XClassifier.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXClassifier_Package(),
-      this.getXPackage(),
-      this.getXPackage_Classifiers(),
-      "package",
-      null,
-      0,
-      1,
-      XClassifier.class,
-      IS_TRANSIENT,
-      !IS_VOLATILE,
-      !IS_CHANGEABLE,
-      !IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXClassifier_TypeParameters(),
-      this.getXTypeParameter(),
-      null,
-      "typeParameters",
-      null,
-      0,
-      -1,
-      XClassifier.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEReference(getXClassifier_InstanceType(), theTypesPackage.getJvmTypeReference(), null, "instanceType", null, 0, 1, XClassifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXClassifier_Package(), this.getXPackage(), this.getXPackage_Classifiers(), "package", null, 0, 1, XClassifier.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXClassifier_TypeParameters(), this.getXTypeParameter(), null, "typeParameters", null, 0, -1, XClassifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xDataTypeEClass, XDataType.class, "XDataType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(
-      getXDataType_Serializable(),
-      theEcorePackage.getEBoolean(),
-      "serializable",
-      "true",
-      0,
-      1,
-      XDataType.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXDataType_CreateBody(),
-      theXbasePackage.getXBlockExpression(),
-      null,
-      "createBody",
-      null,
-      0,
-      1,
-      XDataType.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXDataType_ConvertBody(),
-      theXbasePackage.getXBlockExpression(),
-      null,
-      "convertBody",
-      null,
-      0,
-      1,
-      XDataType.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEAttribute(getXDataType_Serializable(), theEcorePackage.getEBoolean(), "serializable", "true", 0, 1, XDataType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXDataType_CreateBody(), theXbasePackage.getXBlockExpression(), null, "createBody", null, 0, 1, XDataType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXDataType_ConvertBody(), theXbasePackage.getXBlockExpression(), null, "convertBody", null, 0, 1, XDataType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xEnumEClass, XEnum.class, "XEnum", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(
-      getXEnum_Literals(),
-      this.getXEnumLiteral(),
-      this.getXEnumLiteral_Enum(),
-      "literals",
-      null,
-      0,
-      -1,
-      XEnum.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEReference(getXEnum_Literals(), this.getXEnumLiteral(), this.getXEnumLiteral_Enum(), "literals", null, 0, -1, XEnum.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xEnumLiteralEClass, XEnumLiteral.class, "XEnumLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(
-      getXEnumLiteral_Value(),
-      theEcorePackage.getEInt(),
-      "value",
-      null,
-      0,
-      1,
-      XEnumLiteral.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getXEnumLiteral_Literal(),
-      theEcorePackage.getEString(),
-      "literal",
-      null,
-      0,
-      1,
-      XEnumLiteral.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXEnumLiteral_Enum(),
-      this.getXEnum(),
-      this.getXEnum_Literals(),
-      "enum",
-      null,
-      0,
-      1,
-      XEnumLiteral.class,
-      IS_TRANSIENT,
-      !IS_VOLATILE,
-      !IS_CHANGEABLE,
-      !IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEAttribute(getXEnumLiteral_Value(), theEcorePackage.getEInt(), "value", null, 0, 1, XEnumLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXEnumLiteral_Literal(), theEcorePackage.getEString(), "literal", null, 0, 1, XEnumLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXEnumLiteral_Enum(), this.getXEnum(), this.getXEnum_Literals(), "enum", null, 0, 1, XEnumLiteral.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xGenericTypeEClass, XGenericType.class, "XGenericType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(
-      getXGenericType_UpperBound(),
-      this.getXGenericType(),
-      null,
-      "upperBound",
-      null,
-      0,
-      1,
-      XGenericType.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXGenericType_TypeArguments(),
-      this.getXGenericType(),
-      null,
-      "typeArguments",
-      null,
-      0,
-      -1,
-      XGenericType.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXGenericType_LowerBound(),
-      this.getXGenericType(),
-      null,
-      "lowerBound",
-      null,
-      0,
-      1,
-      XGenericType.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXGenericType_Type(),
-      theGenModelPackage.getGenBase(),
-      null,
-      "type",
-      null,
-      0,
-      1,
-      XGenericType.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_COMPOSITE,
-      IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEReference(getXGenericType_UpperBound(), this.getXGenericType(), null, "upperBound", null, 0, 1, XGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXGenericType_TypeArguments(), this.getXGenericType(), null, "typeArguments", null, 0, -1, XGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXGenericType_LowerBound(), this.getXGenericType(), null, "lowerBound", null, 0, 1, XGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXGenericType_Type(), theGenModelPackage.getGenBase(), null, "type", null, 0, 1, XGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xImportDirectiveEClass, XImportDirective.class, "XImportDirective", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(
-      getXImportDirective_ImportedNamespace(),
-      theEcorePackage.getEString(),
-      "importedNamespace",
-      null,
-      0,
-      1,
-      XImportDirective.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXImportDirective_ImportedObject(),
-      theEcorePackage.getEObject(),
-      null,
-      "importedObject",
-      null,
-      0,
-      1,
-      XImportDirective.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_COMPOSITE,
-      IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEAttribute(getXImportDirective_ImportedNamespace(), theEcorePackage.getEString(), "importedNamespace", null, 0, 1, XImportDirective.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXImportDirective_ImportedObject(), theEcorePackage.getEObject(), null, "importedObject", null, 0, 1, XImportDirective.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xMemberEClass, XMember.class, "XMember", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(
-      getXMember_ContainingClass(),
-      this.getXClass(),
-      this.getXClass_Members(),
-      "containingClass",
-      null,
-      0,
-      1,
-      XMember.class,
-      IS_TRANSIENT,
-      !IS_VOLATILE,
-      !IS_CHANGEABLE,
-      !IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEReference(getXMember_ContainingClass(), this.getXClass(), this.getXClass_Members(), "containingClass", null, 0, 1, XMember.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xModelElementEClass, XModelElement.class, "XModelElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(
-      getXModelElement_Annotations(),
-      this.getXAnnotation(),
-      this.getXAnnotation_ModelElement(),
-      "annotations",
-      null,
-      0,
-      -1,
-      XModelElement.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEReference(getXModelElement_Annotations(), this.getXAnnotation(), this.getXAnnotation_ModelElement(), "annotations", null, 0, -1, XModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xNamedElementEClass, XNamedElement.class, "XNamedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(
-      getXNamedElement_Name(),
-      theEcorePackage.getEString(),
-      "name",
-      null,
-      0,
-      1,
-      XNamedElement.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEAttribute(getXNamedElement_Name(), theEcorePackage.getEString(), "name", null, 0, 1, XNamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xOperationEClass, XOperation.class, "XOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(
-      getXOperation_TypeParameters(),
-      this.getXTypeParameter(),
-      null,
-      "typeParameters",
-      null,
-      0,
-      -1,
-      XOperation.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXOperation_Parameters(),
-      this.getXParameter(),
-      this.getXParameter_Operation(),
-      "parameters",
-      null,
-      0,
-      -1,
-      XOperation.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXOperation_Exceptions(),
-      this.getXGenericType(),
-      null,
-      "exceptions",
-      null,
-      0,
-      -1,
-      XOperation.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXOperation_Body(),
-      theXbasePackage.getXBlockExpression(),
-      null,
-      "body",
-      null,
-      0,
-      1,
-      XOperation.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEReference(getXOperation_TypeParameters(), this.getXTypeParameter(), null, "typeParameters", null, 0, -1, XOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXOperation_Parameters(), this.getXParameter(), this.getXParameter_Operation(), "parameters", null, 0, -1, XOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXOperation_Exceptions(), this.getXGenericType(), null, "exceptions", null, 0, -1, XOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXOperation_Body(), theXbasePackage.getXBlockExpression(), null, "body", null, 0, 1, XOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xPackageEClass, XPackage.class, "XPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(
-      getXPackage_ImportDirectives(),
-      this.getXImportDirective(),
-      null,
-      "importDirectives",
-      null,
-      0,
-      -1,
-      XPackage.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXPackage_AnnotationDirectives(),
-      this.getXAnnotationDirective(),
-      null,
-      "annotationDirectives",
-      null,
-      0,
-      -1,
-      XPackage.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXPackage_Classifiers(),
-      this.getXClassifier(),
-      this.getXClassifier_Package(),
-      "classifiers",
-      null,
-      0,
-      -1,
-      XPackage.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEReference(getXPackage_ImportDirectives(), this.getXImportDirective(), null, "importDirectives", null, 0, -1, XPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXPackage_AnnotationDirectives(), this.getXAnnotationDirective(), null, "annotationDirectives", null, 0, -1, XPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXPackage_Classifiers(), this.getXClassifier(), this.getXClassifier_Package(), "classifiers", null, 0, -1, XPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xParameterEClass, XParameter.class, "XParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(
-      getXParameter_Operation(),
-      this.getXOperation(),
-      this.getXOperation_Parameters(),
-      "operation",
-      null,
-      0,
-      1,
-      XParameter.class,
-      IS_TRANSIENT,
-      !IS_VOLATILE,
-      !IS_CHANGEABLE,
-      !IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEReference(getXParameter_Operation(), this.getXOperation(), this.getXOperation_Parameters(), "operation", null, 0, 1, XParameter.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xReferenceEClass, XReference.class, "XReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(
-      getXReference_Container(),
-      theEcorePackage.getEBoolean(),
-      "container",
-      null,
-      0,
-      1,
-      XReference.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getXReference_Containment(),
-      theEcorePackage.getEBoolean(),
-      "containment",
-      null,
-      0,
-      1,
-      XReference.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getXReference_ResolveProxies(),
-      theEcorePackage.getEBoolean(),
-      "resolveProxies",
-      null,
-      0,
-      1,
-      XReference.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getXReference_Local(),
-      theEcorePackage.getEBoolean(),
-      "local",
-      null,
-      0,
-      1,
-      XReference.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXReference_Opposite(),
-      theGenModelPackage.getGenFeature(),
-      null,
-      "opposite",
-      null,
-      0,
-      1,
-      XReference.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_COMPOSITE,
-      IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXReference_Keys(),
-      theGenModelPackage.getGenFeature(),
-      null,
-      "keys",
-      null,
-      0,
-      -1,
-      XReference.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_COMPOSITE,
-      IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEAttribute(getXReference_Container(), theEcorePackage.getEBoolean(), "container", null, 0, 1, XReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXReference_Containment(), theEcorePackage.getEBoolean(), "containment", null, 0, 1, XReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXReference_ResolveProxies(), theEcorePackage.getEBoolean(), "resolveProxies", null, 0, 1, XReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXReference_Local(), theEcorePackage.getEBoolean(), "local", null, 0, 1, XReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXReference_Opposite(), theGenModelPackage.getGenFeature(), null, "opposite", null, 0, 1, XReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXReference_Keys(), theGenModelPackage.getGenFeature(), null, "keys", null, 0, -1, XReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(
-      xStringToStringMapEntryEClass,
-      Map.Entry.class,
-      "XStringToStringMapEntry",
-      !IS_ABSTRACT,
-      !IS_INTERFACE,
-      !IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(
-      getXStringToStringMapEntry_Key(),
-      theEcorePackage.getEString(),
-      "key",
-      null,
-      0,
-      1,
-      Map.Entry.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getXStringToStringMapEntry_Value(),
-      theEcorePackage.getEString(),
-      "value",
-      null,
-      0,
-      1,
-      Map.Entry.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEClass(xStringToStringMapEntryEClass, Map.Entry.class, "XStringToStringMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getXStringToStringMapEntry_Key(), theEcorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXStringToStringMapEntry_Value(), theEcorePackage.getEString(), "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(
-      xStructuralFeatureEClass,
-      XStructuralFeature.class,
-      "XStructuralFeature",
-      IS_ABSTRACT,
-      !IS_INTERFACE,
-      IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(
-      getXStructuralFeature_Readonly(),
-      theEcorePackage.getEBoolean(),
-      "readonly",
-      null,
-      0,
-      1,
-      XStructuralFeature.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getXStructuralFeature_Volatile(),
-      theEcorePackage.getEBoolean(),
-      "volatile",
-      null,
-      0,
-      1,
-      XStructuralFeature.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getXStructuralFeature_Transient(),
-      theEcorePackage.getEBoolean(),
-      "transient",
-      null,
-      0,
-      1,
-      XStructuralFeature.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getXStructuralFeature_Unsettable(),
-      theEcorePackage.getEBoolean(),
-      "unsettable",
-      null,
-      0,
-      1,
-      XStructuralFeature.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getXStructuralFeature_Derived(),
-      theEcorePackage.getEBoolean(),
-      "derived",
-      null,
-      0,
-      1,
-      XStructuralFeature.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXStructuralFeature_GetBody(),
-      theXbasePackage.getXBlockExpression(),
-      null,
-      "getBody",
-      null,
-      0,
-      1,
-      XStructuralFeature.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXStructuralFeature_SetBody(),
-      theXbasePackage.getXBlockExpression(),
-      null,
-      "setBody",
-      null,
-      0,
-      1,
-      XStructuralFeature.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXStructuralFeature_IsSetBody(),
-      theXbasePackage.getXBlockExpression(),
-      null,
-      "isSetBody",
-      null,
-      0,
-      1,
-      XStructuralFeature.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXStructuralFeature_UnsetBody(),
-      theXbasePackage.getXBlockExpression(),
-      null,
-      "unsetBody",
-      null,
-      0,
-      1,
-      XStructuralFeature.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEClass(xStructuralFeatureEClass, XStructuralFeature.class, "XStructuralFeature", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getXStructuralFeature_Readonly(), theEcorePackage.getEBoolean(), "readonly", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXStructuralFeature_Volatile(), theEcorePackage.getEBoolean(), "volatile", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXStructuralFeature_Transient(), theEcorePackage.getEBoolean(), "transient", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXStructuralFeature_Unsettable(), theEcorePackage.getEBoolean(), "unsettable", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXStructuralFeature_Derived(), theEcorePackage.getEBoolean(), "derived", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXStructuralFeature_GetBody(), theXbasePackage.getXBlockExpression(), null, "getBody", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXStructuralFeature_SetBody(), theXbasePackage.getXBlockExpression(), null, "setBody", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXStructuralFeature_IsSetBody(), theXbasePackage.getXBlockExpression(), null, "isSetBody", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXStructuralFeature_UnsetBody(), theXbasePackage.getXBlockExpression(), null, "unsetBody", null, 0, 1, XStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xTypedElementEClass, XTypedElement.class, "XTypedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(
-      getXTypedElement_Unordered(),
-      theEcorePackage.getEBoolean(),
-      "unordered",
-      null,
-      0,
-      1,
-      XTypedElement.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getXTypedElement_Unique(),
-      theEcorePackage.getEBoolean(),
-      "unique",
-      null,
-      0,
-      1,
-      XTypedElement.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getXTypedElement_Type(),
-      this.getXGenericType(),
-      null,
-      "type",
-      null,
-      0,
-      1,
-      XTypedElement.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getXTypedElement_Multiplicity(),
-      this.getXMultiplicity(),
-      "multiplicity",
-      null,
-      0,
-      1,
-      XTypedElement.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEAttribute(getXTypedElement_Unordered(), theEcorePackage.getEBoolean(), "unordered", null, 0, 1, XTypedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXTypedElement_Unique(), theEcorePackage.getEBoolean(), "unique", null, 0, 1, XTypedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXTypedElement_Type(), this.getXGenericType(), null, "type", null, 0, 1, XTypedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXTypedElement_Multiplicity(), this.getXMultiplicity(), "multiplicity", null, 0, 1, XTypedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xTypeParameterEClass, XTypeParameter.class, "XTypeParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(
-      getXTypeParameter_Bounds(),
-      this.getXGenericType(),
-      null,
-      "bounds",
-      null,
-      0,
-      -1,
-      XTypeParameter.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEReference(getXTypeParameter_Bounds(), this.getXGenericType(), null, "bounds", null, 0, -1, XTypeParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize data types
     initEDataType(xMultiplicityEDataType, int[].class, "XMultiplicity", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

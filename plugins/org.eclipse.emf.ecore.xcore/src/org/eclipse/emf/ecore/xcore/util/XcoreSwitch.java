@@ -85,271 +85,199 @@ public class XcoreSwitch<T> extends Switch<T>
       {
         XAnnotation xAnnotation = (XAnnotation)theEObject;
         T result = caseXAnnotation(xAnnotation);
-        if (result == null)
-          result = caseXModelElement(xAnnotation);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXModelElement(xAnnotation);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XANNOTATION_DIRECTIVE:
       {
         XAnnotationDirective xAnnotationDirective = (XAnnotationDirective)theEObject;
         T result = caseXAnnotationDirective(xAnnotationDirective);
-        if (result == null)
-          result = caseXNamedElement(xAnnotationDirective);
-        if (result == null)
-          result = caseXModelElement(xAnnotationDirective);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXNamedElement(xAnnotationDirective);
+        if (result == null) result = caseXModelElement(xAnnotationDirective);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XATTRIBUTE:
       {
         XAttribute xAttribute = (XAttribute)theEObject;
         T result = caseXAttribute(xAttribute);
-        if (result == null)
-          result = caseXStructuralFeature(xAttribute);
-        if (result == null)
-          result = caseXMember(xAttribute);
-        if (result == null)
-          result = caseXTypedElement(xAttribute);
-        if (result == null)
-          result = caseXNamedElement(xAttribute);
-        if (result == null)
-          result = caseXModelElement(xAttribute);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXStructuralFeature(xAttribute);
+        if (result == null) result = caseXMember(xAttribute);
+        if (result == null) result = caseXTypedElement(xAttribute);
+        if (result == null) result = caseXNamedElement(xAttribute);
+        if (result == null) result = caseXModelElement(xAttribute);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XCLASS:
       {
         XClass xClass = (XClass)theEObject;
         T result = caseXClass(xClass);
-        if (result == null)
-          result = caseXClassifier(xClass);
-        if (result == null)
-          result = caseXNamedElement(xClass);
-        if (result == null)
-          result = caseXModelElement(xClass);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXClassifier(xClass);
+        if (result == null) result = caseXNamedElement(xClass);
+        if (result == null) result = caseXModelElement(xClass);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XCLASSIFIER:
       {
         XClassifier xClassifier = (XClassifier)theEObject;
         T result = caseXClassifier(xClassifier);
-        if (result == null)
-          result = caseXNamedElement(xClassifier);
-        if (result == null)
-          result = caseXModelElement(xClassifier);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXNamedElement(xClassifier);
+        if (result == null) result = caseXModelElement(xClassifier);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XDATA_TYPE:
       {
         XDataType xDataType = (XDataType)theEObject;
         T result = caseXDataType(xDataType);
-        if (result == null)
-          result = caseXClassifier(xDataType);
-        if (result == null)
-          result = caseXNamedElement(xDataType);
-        if (result == null)
-          result = caseXModelElement(xDataType);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXClassifier(xDataType);
+        if (result == null) result = caseXNamedElement(xDataType);
+        if (result == null) result = caseXModelElement(xDataType);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XENUM:
       {
         XEnum xEnum = (XEnum)theEObject;
         T result = caseXEnum(xEnum);
-        if (result == null)
-          result = caseXDataType(xEnum);
-        if (result == null)
-          result = caseXClassifier(xEnum);
-        if (result == null)
-          result = caseXNamedElement(xEnum);
-        if (result == null)
-          result = caseXModelElement(xEnum);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXDataType(xEnum);
+        if (result == null) result = caseXClassifier(xEnum);
+        if (result == null) result = caseXNamedElement(xEnum);
+        if (result == null) result = caseXModelElement(xEnum);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XENUM_LITERAL:
       {
         XEnumLiteral xEnumLiteral = (XEnumLiteral)theEObject;
         T result = caseXEnumLiteral(xEnumLiteral);
-        if (result == null)
-          result = caseXNamedElement(xEnumLiteral);
-        if (result == null)
-          result = caseXModelElement(xEnumLiteral);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXNamedElement(xEnumLiteral);
+        if (result == null) result = caseXModelElement(xEnumLiteral);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XGENERIC_TYPE:
       {
         XGenericType xGenericType = (XGenericType)theEObject;
         T result = caseXGenericType(xGenericType);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XIMPORT_DIRECTIVE:
       {
         XImportDirective xImportDirective = (XImportDirective)theEObject;
         T result = caseXImportDirective(xImportDirective);
-        if (result == null)
-          result = caseXModelElement(xImportDirective);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXModelElement(xImportDirective);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XMEMBER:
       {
         XMember xMember = (XMember)theEObject;
         T result = caseXMember(xMember);
-        if (result == null)
-          result = caseXTypedElement(xMember);
-        if (result == null)
-          result = caseXNamedElement(xMember);
-        if (result == null)
-          result = caseXModelElement(xMember);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXTypedElement(xMember);
+        if (result == null) result = caseXNamedElement(xMember);
+        if (result == null) result = caseXModelElement(xMember);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XMODEL_ELEMENT:
       {
         XModelElement xModelElement = (XModelElement)theEObject;
         T result = caseXModelElement(xModelElement);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XNAMED_ELEMENT:
       {
         XNamedElement xNamedElement = (XNamedElement)theEObject;
         T result = caseXNamedElement(xNamedElement);
-        if (result == null)
-          result = caseXModelElement(xNamedElement);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXModelElement(xNamedElement);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XOPERATION:
       {
         XOperation xOperation = (XOperation)theEObject;
         T result = caseXOperation(xOperation);
-        if (result == null)
-          result = caseXMember(xOperation);
-        if (result == null)
-          result = caseXTypedElement(xOperation);
-        if (result == null)
-          result = caseXNamedElement(xOperation);
-        if (result == null)
-          result = caseXModelElement(xOperation);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXMember(xOperation);
+        if (result == null) result = caseXTypedElement(xOperation);
+        if (result == null) result = caseXNamedElement(xOperation);
+        if (result == null) result = caseXModelElement(xOperation);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XPACKAGE:
       {
         XPackage xPackage = (XPackage)theEObject;
         T result = caseXPackage(xPackage);
-        if (result == null)
-          result = caseXNamedElement(xPackage);
-        if (result == null)
-          result = caseXModelElement(xPackage);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXNamedElement(xPackage);
+        if (result == null) result = caseXModelElement(xPackage);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XPARAMETER:
       {
         XParameter xParameter = (XParameter)theEObject;
         T result = caseXParameter(xParameter);
-        if (result == null)
-          result = caseXTypedElement(xParameter);
-        if (result == null)
-          result = caseXNamedElement(xParameter);
-        if (result == null)
-          result = caseXModelElement(xParameter);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXTypedElement(xParameter);
+        if (result == null) result = caseXNamedElement(xParameter);
+        if (result == null) result = caseXModelElement(xParameter);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XREFERENCE:
       {
         XReference xReference = (XReference)theEObject;
         T result = caseXReference(xReference);
-        if (result == null)
-          result = caseXStructuralFeature(xReference);
-        if (result == null)
-          result = caseXMember(xReference);
-        if (result == null)
-          result = caseXTypedElement(xReference);
-        if (result == null)
-          result = caseXNamedElement(xReference);
-        if (result == null)
-          result = caseXModelElement(xReference);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXStructuralFeature(xReference);
+        if (result == null) result = caseXMember(xReference);
+        if (result == null) result = caseXTypedElement(xReference);
+        if (result == null) result = caseXNamedElement(xReference);
+        if (result == null) result = caseXModelElement(xReference);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XSTRING_TO_STRING_MAP_ENTRY:
       {
-        @SuppressWarnings("unchecked")
-        Map.Entry<String, String> xStringToStringMapEntry = (Map.Entry<String, String>)theEObject;
+        @SuppressWarnings("unchecked") Map.Entry<String, String> xStringToStringMapEntry = (Map.Entry<String, String>)theEObject;
         T result = caseXStringToStringMapEntry(xStringToStringMapEntry);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XSTRUCTURAL_FEATURE:
       {
         XStructuralFeature xStructuralFeature = (XStructuralFeature)theEObject;
         T result = caseXStructuralFeature(xStructuralFeature);
-        if (result == null)
-          result = caseXMember(xStructuralFeature);
-        if (result == null)
-          result = caseXTypedElement(xStructuralFeature);
-        if (result == null)
-          result = caseXNamedElement(xStructuralFeature);
-        if (result == null)
-          result = caseXModelElement(xStructuralFeature);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXMember(xStructuralFeature);
+        if (result == null) result = caseXTypedElement(xStructuralFeature);
+        if (result == null) result = caseXNamedElement(xStructuralFeature);
+        if (result == null) result = caseXModelElement(xStructuralFeature);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XTYPED_ELEMENT:
       {
         XTypedElement xTypedElement = (XTypedElement)theEObject;
         T result = caseXTypedElement(xTypedElement);
-        if (result == null)
-          result = caseXNamedElement(xTypedElement);
-        if (result == null)
-          result = caseXModelElement(xTypedElement);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXNamedElement(xTypedElement);
+        if (result == null) result = caseXModelElement(xTypedElement);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XcorePackage.XTYPE_PARAMETER:
       {
         XTypeParameter xTypeParameter = (XTypeParameter)theEObject;
         T result = caseXTypeParameter(xTypeParameter);
-        if (result == null)
-          result = caseXNamedElement(xTypeParameter);
-        if (result == null)
-          result = caseXModelElement(xTypeParameter);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = caseXNamedElement(xTypeParameter);
+        if (result == null) result = caseXModelElement(xTypeParameter);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      default:
-      return defaultCase(theEObject);
+      default: return defaultCase(theEObject);
     }
   }
 

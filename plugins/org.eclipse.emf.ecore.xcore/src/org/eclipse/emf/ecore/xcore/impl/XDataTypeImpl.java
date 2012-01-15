@@ -144,16 +144,8 @@ public class XDataTypeImpl extends XClassifierImpl implements XDataType
     createBody = newCreateBody;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(
-        this,
-        Notification.SET,
-        XcorePackage.XDATA_TYPE__CREATE_BODY,
-        oldCreateBody,
-        newCreateBody);
-      if (msgs == null)
-        msgs = notification;
-      else
-        msgs.add(notification);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XcorePackage.XDATA_TYPE__CREATE_BODY, oldCreateBody, newCreateBody);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
   }
@@ -173,8 +165,7 @@ public class XDataTypeImpl extends XClassifierImpl implements XDataType
       if (newCreateBody != null)
         msgs = ((InternalEObject)newCreateBody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XDATA_TYPE__CREATE_BODY, null, msgs);
       msgs = basicSetCreateBody(newCreateBody, msgs);
-      if (msgs != null)
-        msgs.dispatch();
+      if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XDATA_TYPE__CREATE_BODY, newCreateBody, newCreateBody));
@@ -201,16 +192,8 @@ public class XDataTypeImpl extends XClassifierImpl implements XDataType
     convertBody = newConvertBody;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(
-        this,
-        Notification.SET,
-        XcorePackage.XDATA_TYPE__CONVERT_BODY,
-        oldConvertBody,
-        newConvertBody);
-      if (msgs == null)
-        msgs = notification;
-      else
-        msgs.add(notification);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XcorePackage.XDATA_TYPE__CONVERT_BODY, oldConvertBody, newConvertBody);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
   }
@@ -226,20 +209,11 @@ public class XDataTypeImpl extends XClassifierImpl implements XDataType
     {
       NotificationChain msgs = null;
       if (convertBody != null)
-        msgs = ((InternalEObject)convertBody).eInverseRemove(
-          this,
-          EOPPOSITE_FEATURE_BASE - XcorePackage.XDATA_TYPE__CONVERT_BODY,
-          null,
-          msgs);
+        msgs = ((InternalEObject)convertBody).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XDATA_TYPE__CONVERT_BODY, null, msgs);
       if (newConvertBody != null)
-        msgs = ((InternalEObject)newConvertBody).eInverseAdd(
-          this,
-          EOPPOSITE_FEATURE_BASE - XcorePackage.XDATA_TYPE__CONVERT_BODY,
-          null,
-          msgs);
+        msgs = ((InternalEObject)newConvertBody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XDATA_TYPE__CONVERT_BODY, null, msgs);
       msgs = basicSetConvertBody(newConvertBody, msgs);
-      if (msgs != null)
-        msgs.dispatch();
+      if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XDATA_TYPE__CONVERT_BODY, newConvertBody, newConvertBody));
@@ -256,9 +230,9 @@ public class XDataTypeImpl extends XClassifierImpl implements XDataType
     switch (featureID)
     {
       case XcorePackage.XDATA_TYPE__CREATE_BODY:
-      return basicSetCreateBody(null, msgs);
+        return basicSetCreateBody(null, msgs);
       case XcorePackage.XDATA_TYPE__CONVERT_BODY:
-      return basicSetConvertBody(null, msgs);
+        return basicSetConvertBody(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -274,11 +248,11 @@ public class XDataTypeImpl extends XClassifierImpl implements XDataType
     switch (featureID)
     {
       case XcorePackage.XDATA_TYPE__SERIALIZABLE:
-      return isSerializable();
+        return isSerializable();
       case XcorePackage.XDATA_TYPE__CREATE_BODY:
-      return getCreateBody();
+        return getCreateBody();
       case XcorePackage.XDATA_TYPE__CONVERT_BODY:
-      return getConvertBody();
+        return getConvertBody();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -294,14 +268,14 @@ public class XDataTypeImpl extends XClassifierImpl implements XDataType
     switch (featureID)
     {
       case XcorePackage.XDATA_TYPE__SERIALIZABLE:
-      setSerializable((Boolean)newValue);
-      return;
+        setSerializable((Boolean)newValue);
+        return;
       case XcorePackage.XDATA_TYPE__CREATE_BODY:
-      setCreateBody((XBlockExpression)newValue);
-      return;
+        setCreateBody((XBlockExpression)newValue);
+        return;
       case XcorePackage.XDATA_TYPE__CONVERT_BODY:
-      setConvertBody((XBlockExpression)newValue);
-      return;
+        setConvertBody((XBlockExpression)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -317,14 +291,14 @@ public class XDataTypeImpl extends XClassifierImpl implements XDataType
     switch (featureID)
     {
       case XcorePackage.XDATA_TYPE__SERIALIZABLE:
-      setSerializable(SERIALIZABLE_EDEFAULT);
-      return;
+        setSerializable(SERIALIZABLE_EDEFAULT);
+        return;
       case XcorePackage.XDATA_TYPE__CREATE_BODY:
-      setCreateBody((XBlockExpression)null);
-      return;
+        setCreateBody((XBlockExpression)null);
+        return;
       case XcorePackage.XDATA_TYPE__CONVERT_BODY:
-      setConvertBody((XBlockExpression)null);
-      return;
+        setConvertBody((XBlockExpression)null);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -340,11 +314,11 @@ public class XDataTypeImpl extends XClassifierImpl implements XDataType
     switch (featureID)
     {
       case XcorePackage.XDATA_TYPE__SERIALIZABLE:
-      return serializable != SERIALIZABLE_EDEFAULT;
+        return serializable != SERIALIZABLE_EDEFAULT;
       case XcorePackage.XDATA_TYPE__CREATE_BODY:
-      return createBody != null;
+        return createBody != null;
       case XcorePackage.XDATA_TYPE__CONVERT_BODY:
-      return convertBody != null;
+        return convertBody != null;
     }
     return super.eIsSet(featureID);
   }
@@ -357,8 +331,7 @@ public class XDataTypeImpl extends XClassifierImpl implements XDataType
   @Override
   public String toString()
   {
-    if (eIsProxy())
-      return super.toString();
+    if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (serializable: ");

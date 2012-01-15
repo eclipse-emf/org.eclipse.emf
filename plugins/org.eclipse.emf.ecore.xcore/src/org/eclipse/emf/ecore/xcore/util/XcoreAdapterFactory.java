@@ -87,127 +87,106 @@ public class XcoreAdapterFactory extends AdapterFactoryImpl
       {
         return createXAnnotationAdapter();
       }
-
       @Override
       public Adapter caseXAnnotationDirective(XAnnotationDirective object)
       {
         return createXAnnotationDirectiveAdapter();
       }
-
       @Override
       public Adapter caseXAttribute(XAttribute object)
       {
         return createXAttributeAdapter();
       }
-
       @Override
       public Adapter caseXClass(XClass object)
       {
         return createXClassAdapter();
       }
-
       @Override
       public Adapter caseXClassifier(XClassifier object)
       {
         return createXClassifierAdapter();
       }
-
       @Override
       public Adapter caseXDataType(XDataType object)
       {
         return createXDataTypeAdapter();
       }
-
       @Override
       public Adapter caseXEnum(XEnum object)
       {
         return createXEnumAdapter();
       }
-
       @Override
       public Adapter caseXEnumLiteral(XEnumLiteral object)
       {
         return createXEnumLiteralAdapter();
       }
-
       @Override
       public Adapter caseXGenericType(XGenericType object)
       {
         return createXGenericTypeAdapter();
       }
-
       @Override
       public Adapter caseXImportDirective(XImportDirective object)
       {
         return createXImportDirectiveAdapter();
       }
-
       @Override
       public Adapter caseXMember(XMember object)
       {
         return createXMemberAdapter();
       }
-
       @Override
       public Adapter caseXModelElement(XModelElement object)
       {
         return createXModelElementAdapter();
       }
-
       @Override
       public Adapter caseXNamedElement(XNamedElement object)
       {
         return createXNamedElementAdapter();
       }
-
       @Override
       public Adapter caseXOperation(XOperation object)
       {
         return createXOperationAdapter();
       }
-
       @Override
       public Adapter caseXPackage(XPackage object)
       {
         return createXPackageAdapter();
       }
-
       @Override
       public Adapter caseXParameter(XParameter object)
       {
         return createXParameterAdapter();
       }
-
       @Override
       public Adapter caseXReference(XReference object)
       {
         return createXReferenceAdapter();
       }
-
       @Override
       public Adapter caseXStringToStringMapEntry(Map.Entry<String, String> object)
       {
         return createXStringToStringMapEntryAdapter();
       }
-
       @Override
       public Adapter caseXStructuralFeature(XStructuralFeature object)
       {
         return createXStructuralFeatureAdapter();
       }
-
       @Override
       public Adapter caseXTypedElement(XTypedElement object)
       {
         return createXTypedElementAdapter();
       }
-
       @Override
       public Adapter caseXTypeParameter(XTypeParameter object)
       {
         return createXTypeParameterAdapter();
       }
-
       @Override
       public Adapter defaultCase(EObject object)
       {

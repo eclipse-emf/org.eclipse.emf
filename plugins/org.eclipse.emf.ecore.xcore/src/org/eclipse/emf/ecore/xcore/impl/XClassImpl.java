@@ -184,11 +184,7 @@ public class XClassImpl extends XClassifierImpl implements XClass
   {
     if (members == null)
     {
-      members = new EObjectContainmentWithInverseEList<XMember>(
-        XMember.class,
-        this,
-        XcorePackage.XCLASS__MEMBERS,
-        XcorePackage.XMEMBER__CONTAINING_CLASS);
+      members = new EObjectContainmentWithInverseEList<XMember>(XMember.class, this, XcorePackage.XCLASS__MEMBERS, XcorePackage.XMEMBER__CONTAINING_CLASS);
     }
     return members;
   }
@@ -214,8 +210,7 @@ public class XClassImpl extends XClassifierImpl implements XClass
    */
   public void unsetSuperTypes()
   {
-    if (superTypes != null)
-      ((InternalEList.Unsettable<?>)superTypes).unset();
+    if (superTypes != null) ((InternalEList.Unsettable<?>)superTypes).unset();
   }
 
   /**
@@ -240,7 +235,7 @@ public class XClassImpl extends XClassifierImpl implements XClass
     switch (featureID)
     {
       case XcorePackage.XCLASS__MEMBERS:
-      return ((InternalEList<InternalEObject>)(InternalEList<?>)getMembers()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getMembers()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -256,9 +251,9 @@ public class XClassImpl extends XClassifierImpl implements XClass
     switch (featureID)
     {
       case XcorePackage.XCLASS__MEMBERS:
-      return ((InternalEList<?>)getMembers()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getMembers()).basicRemove(otherEnd, msgs);
       case XcorePackage.XCLASS__SUPER_TYPES:
-      return ((InternalEList<?>)getSuperTypes()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getSuperTypes()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -274,13 +269,13 @@ public class XClassImpl extends XClassifierImpl implements XClass
     switch (featureID)
     {
       case XcorePackage.XCLASS__ABSTRACT:
-      return isAbstract();
+        return isAbstract();
       case XcorePackage.XCLASS__INTERFACE:
-      return isInterface();
+        return isInterface();
       case XcorePackage.XCLASS__MEMBERS:
-      return getMembers();
+        return getMembers();
       case XcorePackage.XCLASS__SUPER_TYPES:
-      return getSuperTypes();
+        return getSuperTypes();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -297,19 +292,19 @@ public class XClassImpl extends XClassifierImpl implements XClass
     switch (featureID)
     {
       case XcorePackage.XCLASS__ABSTRACT:
-      setAbstract((Boolean)newValue);
-      return;
+        setAbstract((Boolean)newValue);
+        return;
       case XcorePackage.XCLASS__INTERFACE:
-      setInterface((Boolean)newValue);
-      return;
+        setInterface((Boolean)newValue);
+        return;
       case XcorePackage.XCLASS__MEMBERS:
-      getMembers().clear();
-      getMembers().addAll((Collection<? extends XMember>)newValue);
-      return;
+        getMembers().clear();
+        getMembers().addAll((Collection<? extends XMember>)newValue);
+        return;
       case XcorePackage.XCLASS__SUPER_TYPES:
-      getSuperTypes().clear();
-      getSuperTypes().addAll((Collection<? extends XGenericType>)newValue);
-      return;
+        getSuperTypes().clear();
+        getSuperTypes().addAll((Collection<? extends XGenericType>)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -325,17 +320,17 @@ public class XClassImpl extends XClassifierImpl implements XClass
     switch (featureID)
     {
       case XcorePackage.XCLASS__ABSTRACT:
-      setAbstract(ABSTRACT_EDEFAULT);
-      return;
+        setAbstract(ABSTRACT_EDEFAULT);
+        return;
       case XcorePackage.XCLASS__INTERFACE:
-      setInterface(INTERFACE_EDEFAULT);
-      return;
+        setInterface(INTERFACE_EDEFAULT);
+        return;
       case XcorePackage.XCLASS__MEMBERS:
-      getMembers().clear();
-      return;
+        getMembers().clear();
+        return;
       case XcorePackage.XCLASS__SUPER_TYPES:
-      unsetSuperTypes();
-      return;
+        unsetSuperTypes();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -351,13 +346,13 @@ public class XClassImpl extends XClassifierImpl implements XClass
     switch (featureID)
     {
       case XcorePackage.XCLASS__ABSTRACT:
-      return abstract_ != ABSTRACT_EDEFAULT;
+        return abstract_ != ABSTRACT_EDEFAULT;
       case XcorePackage.XCLASS__INTERFACE:
-      return interface_ != INTERFACE_EDEFAULT;
+        return interface_ != INTERFACE_EDEFAULT;
       case XcorePackage.XCLASS__MEMBERS:
-      return members != null && !members.isEmpty();
+        return members != null && !members.isEmpty();
       case XcorePackage.XCLASS__SUPER_TYPES:
-      return isSetSuperTypes();
+        return isSetSuperTypes();
     }
     return super.eIsSet(featureID);
   }
@@ -370,8 +365,7 @@ public class XClassImpl extends XClassifierImpl implements XClass
   @Override
   public String toString()
   {
-    if (eIsProxy())
-      return super.toString();
+    if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (abstract: ");

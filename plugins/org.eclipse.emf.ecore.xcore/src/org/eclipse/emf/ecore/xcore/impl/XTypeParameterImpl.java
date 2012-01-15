@@ -96,7 +96,7 @@ public class XTypeParameterImpl extends XNamedElementImpl implements XTypeParame
     switch (featureID)
     {
       case XcorePackage.XTYPE_PARAMETER__BOUNDS:
-      return ((InternalEList<?>)getBounds()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getBounds()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -112,7 +112,7 @@ public class XTypeParameterImpl extends XNamedElementImpl implements XTypeParame
     switch (featureID)
     {
       case XcorePackage.XTYPE_PARAMETER__BOUNDS:
-      return getBounds();
+        return getBounds();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -129,9 +129,9 @@ public class XTypeParameterImpl extends XNamedElementImpl implements XTypeParame
     switch (featureID)
     {
       case XcorePackage.XTYPE_PARAMETER__BOUNDS:
-      getBounds().clear();
-      getBounds().addAll((Collection<? extends XGenericType>)newValue);
-      return;
+        getBounds().clear();
+        getBounds().addAll((Collection<? extends XGenericType>)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -147,8 +147,8 @@ public class XTypeParameterImpl extends XNamedElementImpl implements XTypeParame
     switch (featureID)
     {
       case XcorePackage.XTYPE_PARAMETER__BOUNDS:
-      getBounds().clear();
-      return;
+        getBounds().clear();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -164,7 +164,7 @@ public class XTypeParameterImpl extends XNamedElementImpl implements XTypeParame
     switch (featureID)
     {
       case XcorePackage.XTYPE_PARAMETER__BOUNDS:
-      return bounds != null && !bounds.isEmpty();
+        return bounds != null && !bounds.isEmpty();
     }
     return super.eIsSet(featureID);
   }

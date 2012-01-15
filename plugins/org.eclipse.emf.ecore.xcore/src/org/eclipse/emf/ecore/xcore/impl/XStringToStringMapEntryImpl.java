@@ -36,7 +36,7 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  *
  * @generated
  */
-public class XStringToStringMapEntryImpl extends EObjectImpl implements BasicEMap.Entry<String, String>
+public class XStringToStringMapEntryImpl extends EObjectImpl implements BasicEMap.Entry<String,String>
 {
   /**
    * The default value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
@@ -156,9 +156,9 @@ public class XStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
     switch (featureID)
     {
       case XcorePackage.XSTRING_TO_STRING_MAP_ENTRY__KEY:
-      return getTypedKey();
+        return getTypedKey();
       case XcorePackage.XSTRING_TO_STRING_MAP_ENTRY__VALUE:
-      return getTypedValue();
+        return getTypedValue();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -174,11 +174,11 @@ public class XStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
     switch (featureID)
     {
       case XcorePackage.XSTRING_TO_STRING_MAP_ENTRY__KEY:
-      setTypedKey((String)newValue);
-      return;
+        setTypedKey((String)newValue);
+        return;
       case XcorePackage.XSTRING_TO_STRING_MAP_ENTRY__VALUE:
-      setTypedValue((String)newValue);
-      return;
+        setTypedValue((String)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -194,11 +194,11 @@ public class XStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
     switch (featureID)
     {
       case XcorePackage.XSTRING_TO_STRING_MAP_ENTRY__KEY:
-      setTypedKey(KEY_EDEFAULT);
-      return;
+        setTypedKey(KEY_EDEFAULT);
+        return;
       case XcorePackage.XSTRING_TO_STRING_MAP_ENTRY__VALUE:
-      setTypedValue(VALUE_EDEFAULT);
-      return;
+        setTypedValue(VALUE_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -214,9 +214,9 @@ public class XStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
     switch (featureID)
     {
       case XcorePackage.XSTRING_TO_STRING_MAP_ENTRY__KEY:
-      return KEY_EDEFAULT == null ? key != null : !KEY_EDEFAULT.equals(key);
+        return KEY_EDEFAULT == null ? key != null : !KEY_EDEFAULT.equals(key);
       case XcorePackage.XSTRING_TO_STRING_MAP_ENTRY__VALUE:
-      return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+        return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
     }
     return super.eIsSet(featureID);
   }
@@ -229,8 +229,7 @@ public class XStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
   @Override
   public String toString()
   {
-    if (eIsProxy())
-      return super.toString();
+    if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (key: ");

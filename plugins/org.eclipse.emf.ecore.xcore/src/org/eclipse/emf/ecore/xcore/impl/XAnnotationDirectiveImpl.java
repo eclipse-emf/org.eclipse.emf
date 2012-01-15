@@ -108,7 +108,7 @@ public class XAnnotationDirectiveImpl extends XNamedElementImpl implements XAnno
     switch (featureID)
     {
       case XcorePackage.XANNOTATION_DIRECTIVE__SOURCE_URI:
-      return getSourceURI();
+        return getSourceURI();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -124,8 +124,8 @@ public class XAnnotationDirectiveImpl extends XNamedElementImpl implements XAnno
     switch (featureID)
     {
       case XcorePackage.XANNOTATION_DIRECTIVE__SOURCE_URI:
-      setSourceURI((String)newValue);
-      return;
+        setSourceURI((String)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -141,8 +141,8 @@ public class XAnnotationDirectiveImpl extends XNamedElementImpl implements XAnno
     switch (featureID)
     {
       case XcorePackage.XANNOTATION_DIRECTIVE__SOURCE_URI:
-      setSourceURI(SOURCE_URI_EDEFAULT);
-      return;
+        setSourceURI(SOURCE_URI_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -158,7 +158,7 @@ public class XAnnotationDirectiveImpl extends XNamedElementImpl implements XAnno
     switch (featureID)
     {
       case XcorePackage.XANNOTATION_DIRECTIVE__SOURCE_URI:
-      return SOURCE_URI_EDEFAULT == null ? sourceURI != null : !SOURCE_URI_EDEFAULT.equals(sourceURI);
+        return SOURCE_URI_EDEFAULT == null ? sourceURI != null : !SOURCE_URI_EDEFAULT.equals(sourceURI);
     }
     return super.eIsSet(featureID);
   }
@@ -171,8 +171,7 @@ public class XAnnotationDirectiveImpl extends XNamedElementImpl implements XAnno
   @Override
   public String toString()
   {
-    if (eIsProxy())
-      return super.toString();
+    if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (sourceURI: ");

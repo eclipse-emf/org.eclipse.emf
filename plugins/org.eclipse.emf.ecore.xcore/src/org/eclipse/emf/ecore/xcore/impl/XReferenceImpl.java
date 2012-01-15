@@ -328,19 +328,18 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
     switch (featureID)
     {
       case XcorePackage.XREFERENCE__CONTAINER:
-      return isContainer();
+        return isContainer();
       case XcorePackage.XREFERENCE__CONTAINMENT:
-      return isContainment();
+        return isContainment();
       case XcorePackage.XREFERENCE__RESOLVE_PROXIES:
-      return isResolveProxies();
+        return isResolveProxies();
       case XcorePackage.XREFERENCE__LOCAL:
-      return isLocal();
+        return isLocal();
       case XcorePackage.XREFERENCE__OPPOSITE:
-      if (resolve)
-        return getOpposite();
-      return basicGetOpposite();
+        if (resolve) return getOpposite();
+        return basicGetOpposite();
       case XcorePackage.XREFERENCE__KEYS:
-      return getKeys();
+        return getKeys();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -357,24 +356,24 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
     switch (featureID)
     {
       case XcorePackage.XREFERENCE__CONTAINER:
-      setContainer((Boolean)newValue);
-      return;
+        setContainer((Boolean)newValue);
+        return;
       case XcorePackage.XREFERENCE__CONTAINMENT:
-      setContainment((Boolean)newValue);
-      return;
+        setContainment((Boolean)newValue);
+        return;
       case XcorePackage.XREFERENCE__RESOLVE_PROXIES:
-      setResolveProxies((Boolean)newValue);
-      return;
+        setResolveProxies((Boolean)newValue);
+        return;
       case XcorePackage.XREFERENCE__LOCAL:
-      setLocal((Boolean)newValue);
-      return;
+        setLocal((Boolean)newValue);
+        return;
       case XcorePackage.XREFERENCE__OPPOSITE:
-      setOpposite((GenFeature)newValue);
-      return;
+        setOpposite((GenFeature)newValue);
+        return;
       case XcorePackage.XREFERENCE__KEYS:
-      getKeys().clear();
-      getKeys().addAll((Collection<? extends GenFeature>)newValue);
-      return;
+        getKeys().clear();
+        getKeys().addAll((Collection<? extends GenFeature>)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -390,23 +389,23 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
     switch (featureID)
     {
       case XcorePackage.XREFERENCE__CONTAINER:
-      setContainer(CONTAINER_EDEFAULT);
-      return;
+        setContainer(CONTAINER_EDEFAULT);
+        return;
       case XcorePackage.XREFERENCE__CONTAINMENT:
-      setContainment(CONTAINMENT_EDEFAULT);
-      return;
+        setContainment(CONTAINMENT_EDEFAULT);
+        return;
       case XcorePackage.XREFERENCE__RESOLVE_PROXIES:
-      setResolveProxies(RESOLVE_PROXIES_EDEFAULT);
-      return;
+        setResolveProxies(RESOLVE_PROXIES_EDEFAULT);
+        return;
       case XcorePackage.XREFERENCE__LOCAL:
-      setLocal(LOCAL_EDEFAULT);
-      return;
+        setLocal(LOCAL_EDEFAULT);
+        return;
       case XcorePackage.XREFERENCE__OPPOSITE:
-      setOpposite((GenFeature)null);
-      return;
+        setOpposite((GenFeature)null);
+        return;
       case XcorePackage.XREFERENCE__KEYS:
-      getKeys().clear();
-      return;
+        getKeys().clear();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -422,17 +421,17 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
     switch (featureID)
     {
       case XcorePackage.XREFERENCE__CONTAINER:
-      return container != CONTAINER_EDEFAULT;
+        return container != CONTAINER_EDEFAULT;
       case XcorePackage.XREFERENCE__CONTAINMENT:
-      return containment != CONTAINMENT_EDEFAULT;
+        return containment != CONTAINMENT_EDEFAULT;
       case XcorePackage.XREFERENCE__RESOLVE_PROXIES:
-      return resolveProxies != RESOLVE_PROXIES_EDEFAULT;
+        return resolveProxies != RESOLVE_PROXIES_EDEFAULT;
       case XcorePackage.XREFERENCE__LOCAL:
-      return local != LOCAL_EDEFAULT;
+        return local != LOCAL_EDEFAULT;
       case XcorePackage.XREFERENCE__OPPOSITE:
-      return opposite != null;
+        return opposite != null;
       case XcorePackage.XREFERENCE__KEYS:
-      return keys != null && !keys.isEmpty();
+        return keys != null && !keys.isEmpty();
     }
     return super.eIsSet(featureID);
   }
@@ -445,8 +444,7 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
   @Override
   public String toString()
   {
-    if (eIsProxy())
-      return super.toString();
+    if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (container: ");

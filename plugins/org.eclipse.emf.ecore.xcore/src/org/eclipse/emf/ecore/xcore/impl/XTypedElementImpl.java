@@ -208,17 +208,8 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
     typeESet = true;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(
-        this,
-        Notification.SET,
-        XcorePackage.XTYPED_ELEMENT__TYPE,
-        oldType,
-        newType,
-        !oldTypeESet);
-      if (msgs == null)
-        msgs = notification;
-      else
-        msgs.add(notification);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XcorePackage.XTYPED_ELEMENT__TYPE, oldType, newType, !oldTypeESet);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
   }
@@ -238,8 +229,7 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
       if (newType != null)
         msgs = ((InternalEObject)newType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XTYPED_ELEMENT__TYPE, null, msgs);
       msgs = basicSetType(newType, msgs);
-      if (msgs != null)
-        msgs.dispatch();
+      if (msgs != null) msgs.dispatch();
     }
     else
     {
@@ -263,17 +253,8 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
     typeESet = false;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(
-        this,
-        Notification.UNSET,
-        XcorePackage.XTYPED_ELEMENT__TYPE,
-        oldType,
-        null,
-        oldTypeESet);
-      if (msgs == null)
-        msgs = notification;
-      else
-        msgs.add(notification);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.UNSET, XcorePackage.XTYPED_ELEMENT__TYPE, oldType, null, oldTypeESet);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
   }
@@ -290,8 +271,7 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
       NotificationChain msgs = null;
       msgs = ((InternalEObject)type).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XTYPED_ELEMENT__TYPE, null, msgs);
       msgs = basicUnsetType(msgs);
-      if (msgs != null)
-        msgs.dispatch();
+      if (msgs != null) msgs.dispatch();
     }
     else
     {
@@ -346,7 +326,7 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
     switch (featureID)
     {
       case XcorePackage.XTYPED_ELEMENT__TYPE:
-      return basicUnsetType(msgs);
+        return basicUnsetType(msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -362,13 +342,13 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
     switch (featureID)
     {
       case XcorePackage.XTYPED_ELEMENT__UNORDERED:
-      return isUnordered();
+        return isUnordered();
       case XcorePackage.XTYPED_ELEMENT__UNIQUE:
-      return isUnique();
+        return isUnique();
       case XcorePackage.XTYPED_ELEMENT__TYPE:
-      return getType();
+        return getType();
       case XcorePackage.XTYPED_ELEMENT__MULTIPLICITY:
-      return getMultiplicity();
+        return getMultiplicity();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -384,17 +364,17 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
     switch (featureID)
     {
       case XcorePackage.XTYPED_ELEMENT__UNORDERED:
-      setUnordered((Boolean)newValue);
-      return;
+        setUnordered((Boolean)newValue);
+        return;
       case XcorePackage.XTYPED_ELEMENT__UNIQUE:
-      setUnique((Boolean)newValue);
-      return;
+        setUnique((Boolean)newValue);
+        return;
       case XcorePackage.XTYPED_ELEMENT__TYPE:
-      setType((XGenericType)newValue);
-      return;
+        setType((XGenericType)newValue);
+        return;
       case XcorePackage.XTYPED_ELEMENT__MULTIPLICITY:
-      setMultiplicity((int[])newValue);
-      return;
+        setMultiplicity((int[])newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -410,17 +390,17 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
     switch (featureID)
     {
       case XcorePackage.XTYPED_ELEMENT__UNORDERED:
-      setUnordered(UNORDERED_EDEFAULT);
-      return;
+        setUnordered(UNORDERED_EDEFAULT);
+        return;
       case XcorePackage.XTYPED_ELEMENT__UNIQUE:
-      setUnique(UNIQUE_EDEFAULT);
-      return;
+        setUnique(UNIQUE_EDEFAULT);
+        return;
       case XcorePackage.XTYPED_ELEMENT__TYPE:
-      unsetType();
-      return;
+        unsetType();
+        return;
       case XcorePackage.XTYPED_ELEMENT__MULTIPLICITY:
-      setMultiplicity(MULTIPLICITY_EDEFAULT);
-      return;
+        setMultiplicity(MULTIPLICITY_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -436,13 +416,13 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
     switch (featureID)
     {
       case XcorePackage.XTYPED_ELEMENT__UNORDERED:
-      return unordered != UNORDERED_EDEFAULT;
+        return unordered != UNORDERED_EDEFAULT;
       case XcorePackage.XTYPED_ELEMENT__UNIQUE:
-      return unique != UNIQUE_EDEFAULT;
+        return unique != UNIQUE_EDEFAULT;
       case XcorePackage.XTYPED_ELEMENT__TYPE:
-      return isSetType();
+        return isSetType();
       case XcorePackage.XTYPED_ELEMENT__MULTIPLICITY:
-      return MULTIPLICITY_EDEFAULT == null ? multiplicity != null : !MULTIPLICITY_EDEFAULT.equals(multiplicity);
+        return MULTIPLICITY_EDEFAULT == null ? multiplicity != null : !MULTIPLICITY_EDEFAULT.equals(multiplicity);
     }
     return super.eIsSet(featureID);
   }
@@ -455,8 +435,7 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
   @Override
   public String toString()
   {
-    if (eIsProxy())
-      return super.toString();
+    if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (unordered: ");

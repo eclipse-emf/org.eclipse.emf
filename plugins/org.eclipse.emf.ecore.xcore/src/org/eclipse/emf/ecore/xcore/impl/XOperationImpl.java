@@ -135,11 +135,7 @@ public class XOperationImpl extends XMemberImpl implements XOperation
   {
     if (parameters == null)
     {
-      parameters = new EObjectContainmentWithInverseEList<XParameter>(
-        XParameter.class,
-        this,
-        XcorePackage.XOPERATION__PARAMETERS,
-        XcorePackage.XPARAMETER__OPERATION);
+      parameters = new EObjectContainmentWithInverseEList<XParameter>(XParameter.class, this, XcorePackage.XOPERATION__PARAMETERS, XcorePackage.XPARAMETER__OPERATION);
     }
     return parameters;
   }
@@ -165,8 +161,7 @@ public class XOperationImpl extends XMemberImpl implements XOperation
    */
   public void unsetExceptions()
   {
-    if (exceptions != null)
-      ((InternalEList.Unsettable<?>)exceptions).unset();
+    if (exceptions != null) ((InternalEList.Unsettable<?>)exceptions).unset();
   }
 
   /**
@@ -201,10 +196,7 @@ public class XOperationImpl extends XMemberImpl implements XOperation
     if (eNotificationRequired())
     {
       ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XcorePackage.XOPERATION__BODY, oldBody, newBody);
-      if (msgs == null)
-        msgs = notification;
-      else
-        msgs.add(notification);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
   }
@@ -224,8 +216,7 @@ public class XOperationImpl extends XMemberImpl implements XOperation
       if (newBody != null)
         msgs = ((InternalEObject)newBody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - XcorePackage.XOPERATION__BODY, null, msgs);
       msgs = basicSetBody(newBody, msgs);
-      if (msgs != null)
-        msgs.dispatch();
+      if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XOPERATION__BODY, newBody, newBody));
@@ -243,7 +234,7 @@ public class XOperationImpl extends XMemberImpl implements XOperation
     switch (featureID)
     {
       case XcorePackage.XOPERATION__PARAMETERS:
-      return ((InternalEList<InternalEObject>)(InternalEList<?>)getParameters()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getParameters()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -259,13 +250,13 @@ public class XOperationImpl extends XMemberImpl implements XOperation
     switch (featureID)
     {
       case XcorePackage.XOPERATION__TYPE_PARAMETERS:
-      return ((InternalEList<?>)getTypeParameters()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getTypeParameters()).basicRemove(otherEnd, msgs);
       case XcorePackage.XOPERATION__PARAMETERS:
-      return ((InternalEList<?>)getParameters()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getParameters()).basicRemove(otherEnd, msgs);
       case XcorePackage.XOPERATION__EXCEPTIONS:
-      return ((InternalEList<?>)getExceptions()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getExceptions()).basicRemove(otherEnd, msgs);
       case XcorePackage.XOPERATION__BODY:
-      return basicSetBody(null, msgs);
+        return basicSetBody(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -281,13 +272,13 @@ public class XOperationImpl extends XMemberImpl implements XOperation
     switch (featureID)
     {
       case XcorePackage.XOPERATION__TYPE_PARAMETERS:
-      return getTypeParameters();
+        return getTypeParameters();
       case XcorePackage.XOPERATION__PARAMETERS:
-      return getParameters();
+        return getParameters();
       case XcorePackage.XOPERATION__EXCEPTIONS:
-      return getExceptions();
+        return getExceptions();
       case XcorePackage.XOPERATION__BODY:
-      return getBody();
+        return getBody();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -304,20 +295,20 @@ public class XOperationImpl extends XMemberImpl implements XOperation
     switch (featureID)
     {
       case XcorePackage.XOPERATION__TYPE_PARAMETERS:
-      getTypeParameters().clear();
-      getTypeParameters().addAll((Collection<? extends XTypeParameter>)newValue);
-      return;
+        getTypeParameters().clear();
+        getTypeParameters().addAll((Collection<? extends XTypeParameter>)newValue);
+        return;
       case XcorePackage.XOPERATION__PARAMETERS:
-      getParameters().clear();
-      getParameters().addAll((Collection<? extends XParameter>)newValue);
-      return;
+        getParameters().clear();
+        getParameters().addAll((Collection<? extends XParameter>)newValue);
+        return;
       case XcorePackage.XOPERATION__EXCEPTIONS:
-      getExceptions().clear();
-      getExceptions().addAll((Collection<? extends XGenericType>)newValue);
-      return;
+        getExceptions().clear();
+        getExceptions().addAll((Collection<? extends XGenericType>)newValue);
+        return;
       case XcorePackage.XOPERATION__BODY:
-      setBody((XBlockExpression)newValue);
-      return;
+        setBody((XBlockExpression)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -333,17 +324,17 @@ public class XOperationImpl extends XMemberImpl implements XOperation
     switch (featureID)
     {
       case XcorePackage.XOPERATION__TYPE_PARAMETERS:
-      getTypeParameters().clear();
-      return;
+        getTypeParameters().clear();
+        return;
       case XcorePackage.XOPERATION__PARAMETERS:
-      getParameters().clear();
-      return;
+        getParameters().clear();
+        return;
       case XcorePackage.XOPERATION__EXCEPTIONS:
-      unsetExceptions();
-      return;
+        unsetExceptions();
+        return;
       case XcorePackage.XOPERATION__BODY:
-      setBody((XBlockExpression)null);
-      return;
+        setBody((XBlockExpression)null);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -359,13 +350,13 @@ public class XOperationImpl extends XMemberImpl implements XOperation
     switch (featureID)
     {
       case XcorePackage.XOPERATION__TYPE_PARAMETERS:
-      return typeParameters != null && !typeParameters.isEmpty();
+        return typeParameters != null && !typeParameters.isEmpty();
       case XcorePackage.XOPERATION__PARAMETERS:
-      return parameters != null && !parameters.isEmpty();
+        return parameters != null && !parameters.isEmpty();
       case XcorePackage.XOPERATION__EXCEPTIONS:
-      return isSetExceptions();
+        return isSetExceptions();
       case XcorePackage.XOPERATION__BODY:
-      return body != null;
+        return body != null;
     }
     return super.eIsSet(featureID);
   }

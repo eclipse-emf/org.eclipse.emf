@@ -119,11 +119,7 @@ public class XAnnotationImpl extends XModelElementImpl implements XAnnotation
   {
     if (details == null)
     {
-      details = new EcoreEMap<String, String>(
-        XcorePackage.Literals.XSTRING_TO_STRING_MAP_ENTRY,
-        XStringToStringMapEntryImpl.class,
-        this,
-        XcorePackage.XANNOTATION__DETAILS);
+      details = new EcoreEMap<String,String>(XcorePackage.Literals.XSTRING_TO_STRING_MAP_ENTRY, XStringToStringMapEntryImpl.class, this, XcorePackage.XANNOTATION__DETAILS);
     }
     return details;
   }
@@ -135,8 +131,7 @@ public class XAnnotationImpl extends XModelElementImpl implements XAnnotation
    */
   public XModelElement getModelElement()
   {
-    if (eContainerFeatureID() != XcorePackage.XANNOTATION__MODEL_ELEMENT)
-      return null;
+    if (eContainerFeatureID() != XcorePackage.XANNOTATION__MODEL_ELEMENT) return null;
     return (XModelElement)eContainer();
   }
 
@@ -158,8 +153,7 @@ public class XAnnotationImpl extends XModelElementImpl implements XAnnotation
    */
   public void setModelElement(XModelElement newModelElement)
   {
-    if (newModelElement != eInternalContainer()
-      || (eContainerFeatureID() != XcorePackage.XANNOTATION__MODEL_ELEMENT && newModelElement != null))
+    if (newModelElement != eInternalContainer() || (eContainerFeatureID() != XcorePackage.XANNOTATION__MODEL_ELEMENT && newModelElement != null))
     {
       if (EcoreUtil.isAncestor(this, newModelElement))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -169,8 +163,7 @@ public class XAnnotationImpl extends XModelElementImpl implements XAnnotation
       if (newModelElement != null)
         msgs = ((InternalEObject)newModelElement).eInverseAdd(this, XcorePackage.XMODEL_ELEMENT__ANNOTATIONS, XModelElement.class, msgs);
       msgs = basicSetModelElement(newModelElement, msgs);
-      if (msgs != null)
-        msgs.dispatch();
+      if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XANNOTATION__MODEL_ELEMENT, newModelElement, newModelElement));
@@ -187,9 +180,9 @@ public class XAnnotationImpl extends XModelElementImpl implements XAnnotation
     switch (featureID)
     {
       case XcorePackage.XANNOTATION__MODEL_ELEMENT:
-      if (eInternalContainer() != null)
-        msgs = eBasicRemoveFromContainer(msgs);
-      return basicSetModelElement((XModelElement)otherEnd, msgs);
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return basicSetModelElement((XModelElement)otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -205,9 +198,9 @@ public class XAnnotationImpl extends XModelElementImpl implements XAnnotation
     switch (featureID)
     {
       case XcorePackage.XANNOTATION__DETAILS:
-      return ((InternalEList<?>)getDetails()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getDetails()).basicRemove(otherEnd, msgs);
       case XcorePackage.XANNOTATION__MODEL_ELEMENT:
-      return basicSetModelElement(null, msgs);
+        return basicSetModelElement(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -223,7 +216,7 @@ public class XAnnotationImpl extends XModelElementImpl implements XAnnotation
     switch (eContainerFeatureID())
     {
       case XcorePackage.XANNOTATION__MODEL_ELEMENT:
-      return eInternalContainer().eInverseRemove(this, XcorePackage.XMODEL_ELEMENT__ANNOTATIONS, XModelElement.class, msgs);
+        return eInternalContainer().eInverseRemove(this, XcorePackage.XMODEL_ELEMENT__ANNOTATIONS, XModelElement.class, msgs);
     }
     return super.eBasicRemoveFromContainerFeature(msgs);
   }
@@ -239,14 +232,12 @@ public class XAnnotationImpl extends XModelElementImpl implements XAnnotation
     switch (featureID)
     {
       case XcorePackage.XANNOTATION__SOURCE:
-      return getSource();
+        return getSource();
       case XcorePackage.XANNOTATION__DETAILS:
-      if (coreType)
-        return getDetails();
-      else
-        return getDetails().map();
+        if (coreType) return getDetails();
+        else return getDetails().map();
       case XcorePackage.XANNOTATION__MODEL_ELEMENT:
-      return getModelElement();
+        return getModelElement();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -262,14 +253,14 @@ public class XAnnotationImpl extends XModelElementImpl implements XAnnotation
     switch (featureID)
     {
       case XcorePackage.XANNOTATION__SOURCE:
-      setSource((XAnnotationDirective)newValue);
-      return;
+        setSource((XAnnotationDirective)newValue);
+        return;
       case XcorePackage.XANNOTATION__DETAILS:
-      ((EStructuralFeature.Setting)getDetails()).set(newValue);
-      return;
+        ((EStructuralFeature.Setting)getDetails()).set(newValue);
+        return;
       case XcorePackage.XANNOTATION__MODEL_ELEMENT:
-      setModelElement((XModelElement)newValue);
-      return;
+        setModelElement((XModelElement)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -285,14 +276,14 @@ public class XAnnotationImpl extends XModelElementImpl implements XAnnotation
     switch (featureID)
     {
       case XcorePackage.XANNOTATION__SOURCE:
-      setSource((XAnnotationDirective)null);
-      return;
+        setSource((XAnnotationDirective)null);
+        return;
       case XcorePackage.XANNOTATION__DETAILS:
-      getDetails().clear();
-      return;
+        getDetails().clear();
+        return;
       case XcorePackage.XANNOTATION__MODEL_ELEMENT:
-      setModelElement((XModelElement)null);
-      return;
+        setModelElement((XModelElement)null);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -308,11 +299,11 @@ public class XAnnotationImpl extends XModelElementImpl implements XAnnotation
     switch (featureID)
     {
       case XcorePackage.XANNOTATION__SOURCE:
-      return source != null;
+        return source != null;
       case XcorePackage.XANNOTATION__DETAILS:
-      return details != null && !details.isEmpty();
+        return details != null && !details.isEmpty();
       case XcorePackage.XANNOTATION__MODEL_ELEMENT:
-      return getModelElement() != null;
+        return getModelElement() != null;
     }
     return super.eIsSet(featureID);
   }

@@ -40,7 +40,7 @@ public class XcoreFactoryImpl extends EFactoryImpl implements XcoreFactory
   {
     try
     {
-      XcoreFactory theXcoreFactory = (XcoreFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2011/Xcore");
+      XcoreFactory theXcoreFactory = (XcoreFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2011/Xcore"); 
       if (theXcoreFactory != null)
       {
         return theXcoreFactory;
@@ -74,38 +74,23 @@ public class XcoreFactoryImpl extends EFactoryImpl implements XcoreFactory
   {
     switch (eClass.getClassifierID())
     {
-      case XcorePackage.XANNOTATION:
-      return createXAnnotation();
-      case XcorePackage.XANNOTATION_DIRECTIVE:
-      return createXAnnotationDirective();
-      case XcorePackage.XATTRIBUTE:
-      return createXAttribute();
-      case XcorePackage.XCLASS:
-      return createXClass();
-      case XcorePackage.XDATA_TYPE:
-      return createXDataType();
-      case XcorePackage.XENUM:
-      return createXEnum();
-      case XcorePackage.XENUM_LITERAL:
-      return createXEnumLiteral();
-      case XcorePackage.XGENERIC_TYPE:
-      return createXGenericType();
-      case XcorePackage.XIMPORT_DIRECTIVE:
-      return createXImportDirective();
-      case XcorePackage.XOPERATION:
-      return createXOperation();
-      case XcorePackage.XPACKAGE:
-      return createXPackage();
-      case XcorePackage.XPARAMETER:
-      return createXParameter();
-      case XcorePackage.XREFERENCE:
-      return createXReference();
-      case XcorePackage.XSTRING_TO_STRING_MAP_ENTRY:
-      return (EObject)createXStringToStringMapEntry();
-      case XcorePackage.XTYPE_PARAMETER:
-      return createXTypeParameter();
+      case XcorePackage.XANNOTATION: return createXAnnotation();
+      case XcorePackage.XANNOTATION_DIRECTIVE: return createXAnnotationDirective();
+      case XcorePackage.XATTRIBUTE: return createXAttribute();
+      case XcorePackage.XCLASS: return createXClass();
+      case XcorePackage.XDATA_TYPE: return createXDataType();
+      case XcorePackage.XENUM: return createXEnum();
+      case XcorePackage.XENUM_LITERAL: return createXEnumLiteral();
+      case XcorePackage.XGENERIC_TYPE: return createXGenericType();
+      case XcorePackage.XIMPORT_DIRECTIVE: return createXImportDirective();
+      case XcorePackage.XOPERATION: return createXOperation();
+      case XcorePackage.XPACKAGE: return createXPackage();
+      case XcorePackage.XPARAMETER: return createXParameter();
+      case XcorePackage.XREFERENCE: return createXReference();
+      case XcorePackage.XSTRING_TO_STRING_MAP_ENTRY: return (EObject)createXStringToStringMapEntry();
+      case XcorePackage.XTYPE_PARAMETER: return createXTypeParameter();
       default:
-      throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
   }
 
@@ -120,9 +105,9 @@ public class XcoreFactoryImpl extends EFactoryImpl implements XcoreFactory
     switch (eDataType.getClassifierID())
     {
       case XcorePackage.XMULTIPLICITY:
-      return createXMultiplicityFromString(eDataType, initialValue);
+        return createXMultiplicityFromString(eDataType, initialValue);
       default:
-      throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
   }
 
@@ -137,9 +122,9 @@ public class XcoreFactoryImpl extends EFactoryImpl implements XcoreFactory
     switch (eDataType.getClassifierID())
     {
       case XcorePackage.XMULTIPLICITY:
-      return convertXMultiplicityToString(eDataType, instanceValue);
+        return convertXMultiplicityToString(eDataType, instanceValue);
       default:
-      throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
   }
 
