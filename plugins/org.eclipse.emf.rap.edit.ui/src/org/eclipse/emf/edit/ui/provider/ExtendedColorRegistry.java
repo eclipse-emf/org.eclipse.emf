@@ -35,6 +35,7 @@ public class ExtendedColorRegistry
 {
   public static final ExtendedColorRegistry INSTANCE = new ExtendedColorRegistry()
     {
+      @Override
       public Color getColor(Color foregroundColor, Color backgroundColor, Object object)
       {
         return ((ExtendedColorRegistry)SessionSingletonBase.getInstance(ExtendedColorRegistry.class)).getColor(

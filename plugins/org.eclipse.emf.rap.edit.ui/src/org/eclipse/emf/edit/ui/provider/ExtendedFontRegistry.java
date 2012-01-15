@@ -36,6 +36,7 @@ public class ExtendedFontRegistry
 
   public static final ExtendedFontRegistry INSTANCE = new ExtendedFontRegistry()
     {
+      @Override
       public Font getFont(Font baseFont, Object object)
       {
         return ((ExtendedFontRegistry)SessionSingletonBase.getInstance(ExtendedFontRegistry.class)).getFont(baseFont, object);

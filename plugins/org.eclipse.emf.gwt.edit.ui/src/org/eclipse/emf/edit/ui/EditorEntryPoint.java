@@ -593,7 +593,7 @@ public abstract class EditorEntryPoint implements EntryPoint
                   sb.append("px;'>");
                   sb.append("<div style=\"position:absolute;left:0px;top:0px;height:100%;");
                   sb.append("width:").append(imageResource.getWidth()).append("px;");
-                  sb.append("background:url('").append(imageResource.getURL()).append("') ");
+                  sb.append("background:url('").append(imageResource.getSafeUri()).append("') ");
                   sb.append("no-repeat scroll center center transparent;");
                   sb.append("\"></div>");
                   sb.append(itemDelegator.getText(value));
@@ -625,7 +625,7 @@ public abstract class EditorEntryPoint implements EntryPoint
                     ImageResource nestedImage = (ImageResource)images.get(i++);
                     sb.append("<div style=\"position:absolute;left:").append(drawPoint.x).append("px;top:").append(drawPoint.y).append("px;height:100%;");
                     sb.append("width:").append(nestedImage.getWidth()).append("px;");
-                    sb.append("background:url('").append(nestedImage.getURL()).append("') ");
+                    sb.append("background:url('").append(nestedImage.getSafeUri()).append("') ");
                     sb.append("no-repeat scroll center center transparent;");
                     sb.append("\"></div>");
                   }

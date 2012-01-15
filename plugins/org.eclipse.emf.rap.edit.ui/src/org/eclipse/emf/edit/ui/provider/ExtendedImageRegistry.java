@@ -47,11 +47,13 @@ public class ExtendedImageRegistry
 {
   public static final ExtendedImageRegistry INSTANCE = new ExtendedImageRegistry()
     {
+      @Override
       public Image getImage(Object object)
       {
         return getInstance().getImage(object);
       }
 
+      @Override
       public ImageDescriptor getImageDescriptor(Object object)
       {
         return getInstance().getImageDescriptor(object);

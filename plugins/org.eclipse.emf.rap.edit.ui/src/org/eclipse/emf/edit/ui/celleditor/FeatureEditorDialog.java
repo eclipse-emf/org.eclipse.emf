@@ -258,16 +258,18 @@ public class FeatureEditorDialog extends Dialog
           }
         };
       choiceTableViewer.addFilter(filter);
-      assert patternText != null;
-      patternText.addModifyListener
-        (new ModifyListener()
-         {
-           public void modifyText(ModifyEvent e)
+      if (patternText != null)
+      {
+        patternText.addModifyListener
+          (new ModifyListener()
            {
-             filter.setPattern(((Text)e.widget).getText());
-             choiceTableViewer.refresh();
-           }
-         });
+             public void modifyText(ModifyEvent e)
+             {
+               filter.setPattern(((Text)e.widget).getText());
+               choiceTableViewer.refresh();
+             }
+           });
+      }
       choiceTableViewer.setInput(new ItemProvider(choiceOfValues));
     }
 

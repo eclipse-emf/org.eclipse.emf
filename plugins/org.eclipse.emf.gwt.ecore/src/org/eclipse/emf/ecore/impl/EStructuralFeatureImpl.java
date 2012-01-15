@@ -1891,7 +1891,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         }
 
         InternalEObject internalEObject = (InternalEObject)newValue;
-        if (newValue != null)
+        if (internalEObject != null)
         {
           notifications = 
             internalEObject.eInverseAdd
