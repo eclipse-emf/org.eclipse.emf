@@ -844,9 +844,10 @@ public class EcoreEditor
         public boolean isReadOnly(Resource resource)
         {
           return 
-            "java".equals(resource.getURI().scheme()) || 
-            "xcore".equals(resource.getURI().fileExtension()) ||
-            super.isReadOnly(resource);
+             resource != null &&
+              ("java".equals(resource.getURI().scheme()) || 
+               "xcore".equals(resource.getURI().fileExtension()) ||
+               super.isReadOnly(resource));
         }
       };
   }
