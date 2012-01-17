@@ -2434,6 +2434,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF25);
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF26);
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF27);
+    addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF28);
 
     initEEnum(genRuntimePlatformEEnum, GenRuntimePlatform.class, "GenRuntimePlatform");
     addEEnumLiteral(genRuntimePlatformEEnum, GenRuntimePlatform.IDE);

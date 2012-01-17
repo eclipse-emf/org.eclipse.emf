@@ -28,6 +28,38 @@ public class BasicInternalEList<E> extends BasicEList<E> implements InternalELis
 {
   private static final long serialVersionUID = 1L;
 
+  /**
+   * @since 2.8
+   */
+  public static class Unsettable<E> extends BasicInternalEList<E> implements InternalEList.Unsettable<E>
+  {
+    private static final long serialVersionUID = 1L;
+
+    protected boolean isSet;
+
+    public Unsettable(Class<? extends E> dataClass)
+    {
+      super(dataClass);
+    }
+
+    @Override
+    protected void didChange()
+    {
+      isSet = true;
+    }
+
+    public boolean isSet()
+    {
+      return isSet;
+    }
+
+    public void unset()
+    {
+      clear();
+      isSet = false;
+    }
+  }
+
   protected final Class<? extends E> dataClass;
 
   public BasicInternalEList(Class<? extends E> dataClass)

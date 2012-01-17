@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="genmodel"
-    nsURI="http://www.eclipse.org/emf/2002/GenModel" nsPrefix="genmodel">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="genmodel" nsURI="http://www.eclipse.org/emf/2002/GenModel" nsPrefix="genmodel">
   <eClassifiers xsi:type="ecore:EClass" name="GenModel" eSuperTypes="#//GenBase">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="copyrightText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelDirectory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -316,6 +314,7 @@
     <eLiterals name="EMF25" value="3" literal="2.5"/>
     <eLiterals name="EMF26" value="4" literal="2.6"/>
     <eLiterals name="EMF27" value="5" literal="2.7"/>
+    <eLiterals name="EMF28" value="6" literal="2.8"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="GenRuntimePlatform">
     <eLiterals name="IDE"/>

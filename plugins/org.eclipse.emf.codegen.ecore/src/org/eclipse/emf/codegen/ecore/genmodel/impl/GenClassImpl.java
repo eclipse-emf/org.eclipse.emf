@@ -3160,6 +3160,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     else if (getGenModel().isSuppressNotification())
     {
       sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.BasicInternalEList"));
+      if (getGenModel().getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF28_VALUE)
+      {
+        sb.append(unsettable);
+      }
       if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
       {
         sb.append('<');
