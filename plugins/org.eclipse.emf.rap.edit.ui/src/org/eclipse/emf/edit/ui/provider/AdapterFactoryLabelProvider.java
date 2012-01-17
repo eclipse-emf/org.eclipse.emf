@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -62,7 +62,7 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
   /**
    * An extended version of the adapter factory label provider that also provides for fonts.
    */
-  public static class FontProvider extends AdapterFactoryLabelProvider implements IColorProvider, IFontProvider, ITableColorProvider, ITableFontProvider
+  public static class FontProvider extends AdapterFactoryLabelProvider implements IFontProvider, ITableFontProvider
   {
     /**
      * Construct an instance that wraps the given factory and specifies the given default font.
@@ -89,7 +89,7 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
   /**
    * An extended version of the adapter factory label provider that also provides for colors.
    */
-  public static class ColorProvider extends AdapterFactoryLabelProvider implements IColorProvider, IFontProvider, ITableColorProvider, ITableFontProvider
+  public static class ColorProvider extends AdapterFactoryLabelProvider implements IColorProvider, ITableColorProvider
   {
     /**
      * Construct an instance that wraps the given factory and specifies the given default colors.
