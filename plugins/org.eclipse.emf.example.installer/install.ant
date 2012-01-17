@@ -13,7 +13,7 @@
 		<mkdir dir="${target.directory}" />
 
 		<copy todir="${target.directory}">
-			<fileset dir="${basedir}" />
+			<fileset dir="${basedir}">
 				<exclude name="bin/**" />
 			</fileset>
 		</copy>
