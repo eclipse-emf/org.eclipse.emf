@@ -39,7 +39,7 @@ public class Activator extends AbstractUIPlugin implements ServiceListener
   // The shared instance
   private static Activator plugin;
 
-  private ServiceTracker<?, ?> tracker;
+  private ServiceTracker tracker;
 
   private IModelLoadingService loadingService;
 
@@ -59,7 +59,7 @@ public class Activator extends AbstractUIPlugin implements ServiceListener
     this.context = context;
     plugin = this;
 
-    tracker = new ServiceTracker<Object, Object>(context, IModelLoadingService.class.getName(), null);
+    tracker = new ServiceTracker(context, IModelLoadingService.class.getName(), null);
     tracker.open();
 
     loadingService = (IModelLoadingService)tracker.getService();
@@ -119,7 +119,7 @@ public class Activator extends AbstractUIPlugin implements ServiceListener
 
   public void serviceChanged(ServiceEvent event)
   {
-    ServiceReference<?> sr = event.getServiceReference();
+    ServiceReference sr = event.getServiceReference();
     switch (event.getType())
     {
       case ServiceEvent.REGISTERED: {

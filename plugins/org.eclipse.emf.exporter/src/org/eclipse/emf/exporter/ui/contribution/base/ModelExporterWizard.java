@@ -99,7 +99,7 @@ public abstract class ModelExporterWizard extends ModelConverterWizard
 
   protected void writePreferencesSettings()
   {
-    IEclipsePreferences node = InstanceScope.INSTANCE.getNode(ExporterPlugin.ID);
+    IEclipsePreferences node = new InstanceScope().getNode(ExporterPlugin.ID);
     ModelExporter modelExporter = getModelExporter();
 
     node.putBoolean(PREFERENCE_SAVE_PACKAGE_URI, modelExporter.isSaveEPackageArtifactURI());

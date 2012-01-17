@@ -132,7 +132,7 @@ public abstract class ModelConverterDescriptorSelectionPage extends WizardSelect
   {
     if (descriptor != null)
     {
-      IEclipsePreferences node = InstanceScope.INSTANCE.getNode(ConverterPlugin.ID);
+      IEclipsePreferences node = new InstanceScope().getNode(ConverterPlugin.ID);
       node.put(modelConverterManager.getClass().getName(), descriptor.getID());
       try
       {

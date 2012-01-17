@@ -1586,7 +1586,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
           (Platform.PI_RUNTIME, 
            Platform.PREF_LINE_SEPARATOR, 
            System.getProperty(Platform.PREF_LINE_SEPARATOR), 
-           new IScopeContext[] { new ProjectScope(ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(workspacePath)).getProject()), InstanceScope.INSTANCE });
+           new IScopeContext[] { new ProjectScope(ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(workspacePath)).getProject()), new InstanceScope() });
     }
 
     public static boolean isReadOnly(String workspacePath)
