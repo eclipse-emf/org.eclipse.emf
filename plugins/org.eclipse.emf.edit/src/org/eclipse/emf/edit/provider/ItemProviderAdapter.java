@@ -2566,6 +2566,15 @@ public class ItemProviderAdapter
             // continue to next case
           }
           case Notification.RESOLVE:
+          {
+            // Ignore the notification if we've not yet populated a child at the given index.
+            //
+            if (index != Notification.NO_INDEX && childrenStore.getList(feature).size() <= index)
+            {
+              break;
+            }
+            // continue to next case
+          }
           case Notification.SET:
           {
             Object oldChild = childrenStore.get(feature, index);
