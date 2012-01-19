@@ -53,9 +53,9 @@ public class ResourceDescriptionManagerTest
     assertFalse(eclass.hasNext());
     assertEquals(expected, genclass.next().getName().toString());
     assertFalse(genclass.hasNext());
+    assertEquals("foo.bar.impl.BarFactoryImpl", jvmTypes.next().getName().toString());
     assertEquals(expected, jvmTypes.next().getName().toString());
-    assertEquals(expected + "Impl", jvmTypes.next().getName().toString());
-    assertFalse(genclass.hasNext());
+    assertFalse(jvmTypes.hasNext());
   }
 
 }
