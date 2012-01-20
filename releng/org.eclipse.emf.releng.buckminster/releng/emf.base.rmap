@@ -180,7 +180,7 @@
 		</provider>
 	</searchPath>
 
-	<searchPath name="platform">
+	<searchPath name="platform38">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(resolve.target.platform=true)(build.type=N))"
 		>
@@ -211,6 +211,14 @@
 		</provider>
 	</searchPath>
 
+	<searchPath name="platform">
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
+			<uri format="{0}/eclipse/updates/3.7">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
+	</searchPath>
+
 	<property key="git.clones.root" value="${user.home}/git" />
 	<property key="emf.repository.location" value="git://git.eclipse.org/gitroot/emf/org.eclipse.emf.git" />
 	<property key="emf.clone.root" value="${git.clones.root}/org.eclipse.emf" />
@@ -218,7 +226,7 @@
 	<property key="xsd.clone.root" value="${git.clones.root}/org.eclipse.xsd" />
 
 	<property key="eclipse.download" value="http://download.eclipse.org" />
-	<property key="google.web.toolkit.repository" value="http://commondatastorage.googleapis.com/eclipse_toolreleases/products/gpe/release/2.5.1/3.7" />
+	<property key="google.web.toolkit.repository" value="http://dl.google.com/eclipse/plugin/3.7" />
 
 	<property key="resolve.target.platform" value="true" />
 	<property key="build.type" value="I" />
