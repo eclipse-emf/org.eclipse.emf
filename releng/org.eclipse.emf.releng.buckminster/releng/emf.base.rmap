@@ -17,105 +17,121 @@
 	<locator searchPathRef="platform" />
 
 	<searchPath name="emf">
-		<provider componentTypes="osgi.bundle" readerType="cvs" source="true">
-			<uri format="{0},org.eclipse.emf/org.eclipse.emf/plugins/{1}">
-				<bc:propertyRef key="source.repository.location" />
+		<provider componentTypes="osgi.bundle" readerType="git" source="true">
+			<property key="git.remote.uri" value="${emf.repository.location}" />
+			<uri format="{0},plugins/{1}">
+				<bc:propertyRef key="emf.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
-		<provider componentTypes="eclipse.feature" readerType="cvs" source="true">
-			<uri format="{0},org.eclipse.emf/org.eclipse.emf/features/{1}-feature">
-				<bc:propertyRef key="source.repository.location" />
+		<provider componentTypes="eclipse.feature" readerType="git" source="true">
+			<property key="git.remote.uri" value="${emf.repository.location}" />
+			<uri format="{0},features/{1}-feature">
+				<bc:propertyRef key="emf.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
-		<provider componentTypes="osgi.bundle" readerType="cvs" source="true">
-			<uri format="{0},org.eclipse.emf/org.eclipse.emf/doc/{1}">
-				<bc:propertyRef key="source.repository.location" />
+		<provider componentTypes="osgi.bundle" readerType="git" source="true">
+			<property key="git.remote.uri" value="${emf.repository.location}" />
+			<uri format="{0},doc/{1}">
+				<bc:propertyRef key="emf.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
-		<provider componentTypes="eclipse.feature" readerType="cvs" source="true">
-			<uri format="{0},org.eclipse.emf/org.eclipse.emf/doc/{1}-feature">
-				<bc:propertyRef key="source.repository.location" />
+		<provider componentTypes="eclipse.feature" readerType="git" source="true">
+			<property key="git.remote.uri" value="${emf.repository.location}" />
+			<uri format="{0},doc/{1}-feature">
+				<bc:propertyRef key="emf.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
-		<provider componentTypes="osgi.bundle,unknown" readerType="cvs" source="true">
-			<uri format="{0},org.eclipse.emf/org.eclipse.emf/examples/{1}">
-				<bc:propertyRef key="source.repository.location" />
+		<provider componentTypes="osgi.bundle,unknown" readerType="git" source="true">
+			<property key="git.remote.uri" value="${emf.repository.location}" />
+			<uri format="{0},examples/{1}">
+				<bc:propertyRef key="emf.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
-		<provider componentTypes="eclipse.feature" readerType="cvs" source="true">
-			<uri format="{0},org.eclipse.emf/org.eclipse.emf/examples/{1}-feature">
-				<bc:propertyRef key="source.repository.location" />
+		<provider componentTypes="eclipse.feature" readerType="git" source="true">
+			<property key="git.remote.uri" value="${emf.repository.location}" />
+			<uri format="{0},examples/{1}-feature">
+				<bc:propertyRef key="emf.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
-		<provider componentTypes="osgi.bundle" readerType="cvs" source="true">
-			<uri format="{0},org.eclipse.emf/org.eclipse.emf/tests/{1}">
-				<bc:propertyRef key="source.repository.location" />
+		<provider componentTypes="osgi.bundle" readerType="git" source="true">
+			<property key="git.remote.uri" value="${emf.repository.location}" />
+			<uri format="{0},tests/{1}">
+				<bc:propertyRef key="emf.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
-		<provider componentTypes="eclipse.feature" readerType="cvs" source="true">
-			<uri format="{0},org.eclipse.emf/org.eclipse.emf/tests/{1}-feature">
-				<bc:propertyRef key="source.repository.location" />
+		<provider componentTypes="eclipse.feature" readerType="git" source="true">
+			<property key="git.remote.uri" value="${emf.repository.location}" />
+			<uri format="{0},tests/{1}-feature">
+				<bc:propertyRef key="emf.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
 	</searchPath>
 
 	<searchPath name="xsd">
-		<provider componentTypes="osgi.bundle" readerType="cvs" source="true">
-			<uri format="{0},org.eclipse.mdt/org.eclipse.xsd/plugins/{1}">
-				<bc:propertyRef key="source.repository.location" />
+		<provider componentTypes="osgi.bundle" readerType="git" source="true">
+			<property key="git.remote.uri" value="${xsd.repository.location}" />
+			<uri format="{0},plugins/{1}">
+				<bc:propertyRef key="xsd.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
-		<provider componentTypes="eclipse.feature" readerType="cvs" source="true">
-			<uri format="{0},org.eclipse.mdt/org.eclipse.xsd/features/{1}-feature">
-				<bc:propertyRef key="source.repository.location" />
+		<provider componentTypes="eclipse.feature" readerType="git" source="true">
+			<property key="git.remote.uri" value="${xsd.repository.location}" />
+			<uri format="{0},features/{1}-feature">
+				<bc:propertyRef key="xsd.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
-		<provider componentTypes="osgi.bundle" readerType="cvs" source="true">
-			<uri format="{0},org.eclipse.mdt/org.eclipse.xsd/doc/{1}">
-				<bc:propertyRef key="source.repository.location" />
+		<provider componentTypes="osgi.bundle" readerType="git" source="true">
+			<property key="git.remote.uri" value="${xsd.repository.location}" />
+			<uri format="{0},doc/{1}">
+				<bc:propertyRef key="xsd.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
-		<provider componentTypes="eclipse.feature" readerType="cvs" source="true">
-			<uri format="{0},org.eclipse.mdt/org.eclipse.xsd/doc/{1}-feature">
-				<bc:propertyRef key="source.repository.location" />
+		<provider componentTypes="eclipse.feature" readerType="git" source="true">
+			<property key="git.remote.uri" value="${xsd.repository.location}" />
+			<uri format="{0},doc/{1}-feature">
+				<bc:propertyRef key="xsd.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
-		<provider componentTypes="osgi.bundle,unknown" readerType="cvs" source="true">
-			<uri format="{0},org.eclipse.mdt/org.eclipse.xsd/examples/{1}">
-				<bc:propertyRef key="source.repository.location" />
+		<provider componentTypes="osgi.bundle,unknown" readerType="git" source="true">
+			<property key="git.remote.uri" value="${xsd.repository.location}" />
+			<uri format="{0},examples/{1}">
+				<bc:propertyRef key="xsd.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
-		<provider componentTypes="eclipse.feature" readerType="cvs" source="true">
-			<uri format="{0},org.eclipse.mdt/org.eclipse.xsd/examples/{1}-feature">
-				<bc:propertyRef key="source.repository.location" />
+		<provider componentTypes="eclipse.feature" readerType="git" source="true">
+			<property key="git.remote.uri" value="${xsd.repository.location}" />
+			<uri format="{0},examples/{1}-feature">
+				<bc:propertyRef key="xsd.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
 	</searchPath>
 
 	<searchPath name="releng">
-		<provider componentTypes="buckminster" readerType="cvs" source="true" mutable="false">
-			<uri format="{0},org.eclipse.emf/org.eclipse.emf/releng/{1}">
-				<bc:propertyRef key="source.repository.location" />
+		<provider componentTypes="buckminster" readerType="git" source="true" mutable="false">
+			<property key="git.remote.uri" value="${emf.repository.location}" />
+			<uri format="{0},releng/{1}">
+				<bc:propertyRef key="emf.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
-		<provider componentTypes="eclipse.feature" readerType="cvs" source="true" mutable="false">
-			<uri format="{0},org.eclipse.emf/org.eclipse.emf/releng/{1}-feature">
-				<bc:propertyRef key="source.repository.location" />
+		<provider componentTypes="eclipse.feature" readerType="git" source="true" mutable="false">
+			<property key="git.remote.uri" value="${emf.repository.location}" />
+			<uri format="{0},releng/{1}-feature">
+				<bc:propertyRef key="emf.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
 		</provider>
@@ -148,7 +164,7 @@
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(resolve.target.platform=true)"
 		>
-			<uri format="{0}/rt/rap/1.5/runtime/M1-20110816-0926">
+			<uri format="{0}/rt/rap/1.5/runtime/M4-20111213-2043">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
@@ -195,11 +211,15 @@
 		</provider>
 	</searchPath>
 
-	<property key="source.repository.location" value=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling" />
+	<property key="git.clones.root" value="${user.home}/git" />
+	<property key="emf.repository.location" value="git://git.eclipse.org/gitroot/emf/org.eclipse.emf.git" />
+	<property key="emf.clone.root" value="${git.clones.root}/org.eclipse.emf" />
+	<property key="xsd.repository.location" value="git://git.eclipse.org/gitroot/xsd/org.eclipse.xsd.git" />
+	<property key="xsd.clone.root" value="${git.clones.root}/org.eclipse.xsd" />
 
 	<property key="eclipse.download" value="http://download.eclipse.org" />
 	<property key="google.web.toolkit.repository" value="http://dl.google.com/eclipse/plugin/3.7" />
 
-	<property key="resolve.target.platform" value="false" />
-	<property key="build.type" value="R" />
+	<property key="resolve.target.platform" value="true" />
+	<property key="build.type" value="I" />
 </rmap>
