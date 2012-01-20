@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EObjectValidator;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XGenericType;
@@ -28,8 +29,12 @@ import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XTypedElement;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
+import org.eclipse.xtext.diagnostics.Severity;
 import org.eclipse.xtext.util.IAcceptor;
+import org.eclipse.xtext.validation.AbstractValidationDiagnostic;
+import org.eclipse.xtext.validation.CheckType;
 import org.eclipse.xtext.validation.Issue;
+import org.eclipse.xtext.validation.Issue.IssueImpl;
 import org.eclipse.xtext.xtext.XtextDiagnosticConverter;
 
 import com.google.inject.Inject;
@@ -53,26 +58,73 @@ public class XcoreDiagnosticConverter extends XtextDiagnosticConverter
   @Override
   public void convertValidatorDiagnostic(Diagnostic diagnostic, IAcceptor<Issue> acceptor)
   {
-    if (isEObjectConstraint(diagnostic))
+    if (diagnostic.getSeverity() != Diagnostic.OK)
     {
-      switch (diagnostic.getCode())
+      if (isEObjectConstraint(diagnostic))
       {
-        case EcoreValidator.EOBJECT__EVERY_MULTIPCITY_CONFORMS:
+        switch (diagnostic.getCode())
         {
-          // Ignore the warning about the attribute/reference type not being set; there's always another root cause.
-          // 
-          List<?> data = diagnostic.getData();
-          if (data.contains(EcorePackage.Literals.EATTRIBUTE__EATTRIBUTE_TYPE)
-            || data.contains(EcorePackage.Literals.EREFERENCE__EREFERENCE_TYPE))
+          case EcoreValidator.EOBJECT__EVERY_MULTIPCITY_CONFORMS:
           {
-            return;
+            // Ignore the warning about the attribute/reference type not being set; there's always another root cause.
+            // 
+            List<?> data = diagnostic.getData();
+            if (data.contains(EcorePackage.Literals.EATTRIBUTE__EATTRIBUTE_TYPE) || data.contains(EcorePackage.Literals.EREFERENCE__EREFERENCE_TYPE))
+            {
+              return;
+            }
+            break;
           }
+        }
+      }
+      
+      IssueImpl issue = new Issue.IssueImpl();
+      switch (diagnostic.getSeverity()) 
+      {
+        case Diagnostic.INFO:
+        {
+          issue.setSeverity(Severity.INFO);
+          break;
+        }
+        case Diagnostic.WARNING:
+        {
+          issue.setSeverity(Severity.WARNING);
+          break;
+        }
+        default:
+        {
+          issue.setSeverity(Severity.ERROR);
           break;
         }
       }
+      IssueLocation locationData = getLocationData(diagnostic);
+      if (locationData != null) 
+      {
+        issue.setLineNumber(locationData.lineNumber);
+        issue.setOffset(locationData.offset);
+        issue.setLength(locationData.length);
+      }
+      EObject causer = getCauser(diagnostic);
+      if (causer != null)
+      {
+        issue.setUriToProblem(EcoreUtil.getURI(causer));
+      }
+      
+      if (diagnostic instanceof AbstractValidationDiagnostic) 
+      {
+        AbstractValidationDiagnostic abstractValidationDiagnostic = (AbstractValidationDiagnostic) diagnostic;
+        issue.setType(abstractValidationDiagnostic.getCheckType());
+        issue.setCode(abstractValidationDiagnostic.getIssueCode());
+        issue.setData(abstractValidationDiagnostic.getIssueData());
+      } 
+      else 
+      {
+        issue.setType(CheckType.FAST);
+        issue.setCode(diagnostic.getSource() + "." + diagnostic.getCode());
+      }
+      issue.setMessage(diagnostic.getMessage());
+      acceptor.accept(issue);
     }
-
-    super.convertValidatorDiagnostic(diagnostic, acceptor);
   }
 
   @Override
@@ -173,14 +225,4 @@ public class XcoreDiagnosticConverter extends XtextDiagnosticConverter
     }
     return result;
   }
-
-  /*
-  @Override
-  protected IssueLocation getLocationData(Diagnostic diagnostic)
-  {
-    // TODO Auto-generated method stub
-    return super.getLocationData(diagnostic);
-  }
-  */
-
 }
