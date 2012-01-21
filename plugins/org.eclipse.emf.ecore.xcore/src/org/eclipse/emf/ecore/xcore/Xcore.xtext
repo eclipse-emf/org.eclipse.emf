@@ -135,7 +135,15 @@ XAttribute:
 
 XReference:
 	(annotations+=XAnnotation)*
-	((resolveProxies?='resolving'? & (containment?='contains' | container?='container')) | (local?='local'? & 'refers'))
+	((resolveProxies?='resolving' containment?='contains') |
+	 (containment?='contains' resolveProxies?='resolving') |
+	 containment?='contains' |
+	 (resolveProxies?='resolving' container?='container') |
+	 (container?='container' resolveProxies?='resolving') |
+	 container?='container' |
+	 (local?='local' 'refers') |
+	 ('refers' local?='local') |
+	 'refers')
 	(
 	  (unordered?='unordered')? &
 	  (unique?='unique')? &
