@@ -17,7 +17,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -34,6 +33,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XAnnotation;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
@@ -118,7 +118,13 @@ public class XcoreEcoreBuilder
         basePackage = name.substring(0, index);
         ePackage.setName(name.substring(index + 1));
       }
-      ePackage.setNsURI(name);
+      
+      // The pre linking phase model won't process the annotations and won't pick up the nsURI in the annotation.
+      // That's particularly problematic because the nsURI is something indexed from this prelinked model.
+      // At least to this for Ecore to avoid inducing a model with circular inheritance.
+      // TODO
+      //
+      ePackage.setNsURI("org.eclipse.emf.ecore".equals(name) ? EcorePackage.eNS_URI : name);
       ePackage.setNsPrefix(ePackage.getName());
     }
 
@@ -150,19 +156,33 @@ public class XcoreEcoreBuilder
          {
            for (XAnnotation xAnnotation : xModelElement.getAnnotations())
            {
-             EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
              //      map(eAnnotation, xAnnotation);
+             String sourceURI = null;
              XAnnotationDirective source = xAnnotation.getSource();
              if (source != null)
              {
-               String sourceURI = source.getSourceURI();
-               eAnnotation.setSource(sourceURI);
+               sourceURI = source.getSourceURI();
              }
+             EClass eClass = EcorePackage.eNS_URI.equals(sourceURI) ? eModelElement.eClass() : null;
+
              for (Map.Entry<String, String> detail : xAnnotation.getDetails())
              {
-               eAnnotation.getDetails().put(detail.getKey(), detail.getValue());
+               String key = detail.getKey();
+               String value = detail.getValue();
+               if (eClass != null)
+               {
+                 EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(key);
+                 if (eStructuralFeature instanceof EAttribute)
+                 {
+                   // Be more careful about exceptions.
+                   // TODO
+                   //
+                   eModelElement.eSet(eStructuralFeature, value);
+                   continue;
+                 }
+               }
+               EcoreUtil.setAnnotation(eModelElement, sourceURI, key, value);
              }
-             eModelElement.getEAnnotations().add(eAnnotation);
            }
          }
        });
