@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.EObject;
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.xcore.XImportDirective;
+import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
@@ -33,6 +35,7 @@ import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl#getImportedNamespace <em>Imported Namespace</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl#getImportedObject <em>Imported Object</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl#getPackage <em>Package</em>}</li>
  * </ul>
  * </p>
  *
@@ -181,6 +184,67 @@ public class XImportDirectiveImpl extends XModelElementImpl implements XImportDi
    * <!-- end-user-doc -->
    * @generated
    */
+  public XPackage getPackage()
+  {
+    if (eContainerFeatureID() != XcorePackage.XIMPORT_DIRECTIVE__PACKAGE) return null;
+    return (XPackage)eContainer();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case XcorePackage.XIMPORT_DIRECTIVE__PACKAGE:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, XcorePackage.XIMPORT_DIRECTIVE__PACKAGE, msgs);
+    }
+    return super.eInverseAdd(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case XcorePackage.XIMPORT_DIRECTIVE__PACKAGE:
+        return eBasicSetContainer(null, XcorePackage.XIMPORT_DIRECTIVE__PACKAGE, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
+  {
+    switch (eContainerFeatureID())
+    {
+      case XcorePackage.XIMPORT_DIRECTIVE__PACKAGE:
+        return eInternalContainer().eInverseRemove(this, XcorePackage.XPACKAGE__IMPORT_DIRECTIVES, XPackage.class, msgs);
+    }
+    return super.eBasicRemoveFromContainerFeature(msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
@@ -191,6 +255,8 @@ public class XImportDirectiveImpl extends XModelElementImpl implements XImportDi
       case XcorePackage.XIMPORT_DIRECTIVE__IMPORTED_OBJECT:
         if (resolve) return getImportedObject();
         return basicGetImportedObject();
+      case XcorePackage.XIMPORT_DIRECTIVE__PACKAGE:
+        return getPackage();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -249,6 +315,8 @@ public class XImportDirectiveImpl extends XModelElementImpl implements XImportDi
         return IMPORTED_NAMESPACE_EDEFAULT == null ? importedNamespace != null : !IMPORTED_NAMESPACE_EDEFAULT.equals(importedNamespace);
       case XcorePackage.XIMPORT_DIRECTIVE__IMPORTED_OBJECT:
         return importedObject != null;
+      case XcorePackage.XIMPORT_DIRECTIVE__PACKAGE:
+        return getPackage() != null;
     }
     return super.eIsSet(featureID);
   }

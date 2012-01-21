@@ -562,7 +562,7 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleXAnnotation"
-    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:197:1: ruleXAnnotation returns [EObject current=null] : (otherlv_0= '@' ( ( ruleValidID ) ) (otherlv_2= '(' ( (lv_details_3_0= ruleXStringToStringMapEntry ) ) (otherlv_4= ',' ( (lv_details_5_0= ruleXStringToStringMapEntry ) ) )* otherlv_6= ')' )? ) ;
+    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:197:1: ruleXAnnotation returns [EObject current=null] : (otherlv_0= '@' ( ( ruleXQualifiedName ) ) (otherlv_2= '(' ( (lv_details_3_0= ruleXStringToStringMapEntry ) ) (otherlv_4= ',' ( (lv_details_5_0= ruleXStringToStringMapEntry ) ) )* otherlv_6= ')' )? ) ;
     public final EObject ruleXAnnotation() throws RecognitionException {
         EObject current = null;
 
@@ -578,11 +578,11 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:200:28: ( (otherlv_0= '@' ( ( ruleValidID ) ) (otherlv_2= '(' ( (lv_details_3_0= ruleXStringToStringMapEntry ) ) (otherlv_4= ',' ( (lv_details_5_0= ruleXStringToStringMapEntry ) ) )* otherlv_6= ')' )? ) )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:201:1: (otherlv_0= '@' ( ( ruleValidID ) ) (otherlv_2= '(' ( (lv_details_3_0= ruleXStringToStringMapEntry ) ) (otherlv_4= ',' ( (lv_details_5_0= ruleXStringToStringMapEntry ) ) )* otherlv_6= ')' )? )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:200:28: ( (otherlv_0= '@' ( ( ruleXQualifiedName ) ) (otherlv_2= '(' ( (lv_details_3_0= ruleXStringToStringMapEntry ) ) (otherlv_4= ',' ( (lv_details_5_0= ruleXStringToStringMapEntry ) ) )* otherlv_6= ')' )? ) )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:201:1: (otherlv_0= '@' ( ( ruleXQualifiedName ) ) (otherlv_2= '(' ( (lv_details_3_0= ruleXStringToStringMapEntry ) ) (otherlv_4= ',' ( (lv_details_5_0= ruleXStringToStringMapEntry ) ) )* otherlv_6= ')' )? )
             {
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:201:1: (otherlv_0= '@' ( ( ruleValidID ) ) (otherlv_2= '(' ( (lv_details_3_0= ruleXStringToStringMapEntry ) ) (otherlv_4= ',' ( (lv_details_5_0= ruleXStringToStringMapEntry ) ) )* otherlv_6= ')' )? )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:201:3: otherlv_0= '@' ( ( ruleValidID ) ) (otherlv_2= '(' ( (lv_details_3_0= ruleXStringToStringMapEntry ) ) (otherlv_4= ',' ( (lv_details_5_0= ruleXStringToStringMapEntry ) ) )* otherlv_6= ')' )?
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:201:1: (otherlv_0= '@' ( ( ruleXQualifiedName ) ) (otherlv_2= '(' ( (lv_details_3_0= ruleXStringToStringMapEntry ) ) (otherlv_4= ',' ( (lv_details_5_0= ruleXStringToStringMapEntry ) ) )* otherlv_6= ')' )? )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:201:3: otherlv_0= '@' ( ( ruleXQualifiedName ) ) (otherlv_2= '(' ( (lv_details_3_0= ruleXStringToStringMapEntry ) ) (otherlv_4= ',' ( (lv_details_5_0= ruleXStringToStringMapEntry ) ) )* otherlv_6= ')' )?
             {
             otherlv_0=(Token)match(input,12,FollowSets000.FOLLOW_12_in_ruleXAnnotation323); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -590,11 +590,11 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
                   	newLeafNode(otherlv_0, grammarAccess.getXAnnotationAccess().getCommercialAtKeyword_0());
                   
             }
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:205:1: ( ( ruleValidID ) )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:206:1: ( ruleValidID )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:205:1: ( ( ruleXQualifiedName ) )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:206:1: ( ruleXQualifiedName )
             {
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:206:1: ( ruleValidID )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:207:3: ruleValidID
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:206:1: ( ruleXQualifiedName )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:207:3: ruleXQualifiedName
             {
             if ( state.backtracking==0 ) {
 
@@ -608,8 +608,8 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
               	        newCompositeNode(grammarAccess.getXAnnotationAccess().getSourceXAnnotationDirectiveCrossReference_1_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleValidID_in_ruleXAnnotation346);
-            ruleValidID();
+            pushFollow(FollowSets000.FOLLOW_ruleXQualifiedName_in_ruleXAnnotation346);
+            ruleXQualifiedName();
 
             state._fsp--;
             if (state.failed) return current;
@@ -24615,64 +24615,69 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
         }
     }
     static final String DFA8_eotS =
-        "\54\uffff";
+        "\61\uffff";
     static final String DFA8_eofS =
-        "\54\uffff";
+        "\61\uffff";
     static final String DFA8_minS =
-        "\1\14\1\5\3\uffff\6\14\1\5\6\20\1\5\1\4\6\20\1\16\1\5\1\14\6\20"+
-        "\1\5\1\4\6\20\1\16";
+        "\1\14\1\5\3\uffff\5\14\2\5\5\14\6\20\1\5\1\4\6\20\1\16\1\5\1\14"+
+        "\6\20\1\5\1\4\6\20\1\16";
     static final String DFA8_maxS =
-        "\1\40\1\102\3\uffff\6\40\1\102\6\101\1\102\1\4\6\101\1\17\1\102"+
+        "\1\40\1\102\3\uffff\5\101\2\102\13\101\1\102\1\4\6\101\1\17\1\102"+
         "\1\40\6\101\1\102\1\4\6\101\1\17";
     static final String DFA8_acceptS =
-        "\2\uffff\1\1\1\2\1\3\47\uffff";
+        "\2\uffff\1\1\1\2\1\3\54\uffff";
     static final String DFA8_specialS =
-        "\54\uffff}>";
+        "\61\uffff}>";
     static final String[] DFA8_transitionS = {
             "\1\1\10\uffff\1\3\5\uffff\1\4\2\uffff\3\2",
-            "\1\5\44\uffff\1\12\1\6\1\7\1\11\24\uffff\1\10",
+            "\1\5\45\uffff\1\6\1\7\1\11\24\uffff\1\10",
             "",
             "",
             "",
-            "\1\1\1\13\7\uffff\1\3\5\uffff\1\4\2\uffff\3\2",
-            "\1\1\1\13\7\uffff\1\3\5\uffff\1\4\2\uffff\3\2",
-            "\1\1\1\13\7\uffff\1\3\5\uffff\1\4\2\uffff\3\2",
-            "\1\1\1\13\7\uffff\1\3\5\uffff\1\4\2\uffff\3\2",
-            "\1\1\1\13\7\uffff\1\3\5\uffff\1\4\2\uffff\3\2",
-            "\1\1\1\13\7\uffff\1\3\5\uffff\1\4\2\uffff\3\2",
-            "\1\14\44\uffff\1\21\1\15\1\16\1\20\24\uffff\1\17",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\24\44\uffff\1\31\1\25\1\26\1\30\24\uffff\1\27",
-            "\1\32",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\33\1\34",
-            "\1\35\44\uffff\1\42\1\36\1\37\1\41\24\uffff\1\40",
+            "\1\1\1\13\7\uffff\1\3\5\uffff\1\4\2\uffff\3\2\40\uffff\1\12",
+            "\1\1\1\13\7\uffff\1\3\5\uffff\1\4\2\uffff\3\2\40\uffff\1\12",
+            "\1\1\1\13\7\uffff\1\3\5\uffff\1\4\2\uffff\3\2\40\uffff\1\12",
+            "\1\1\1\13\7\uffff\1\3\5\uffff\1\4\2\uffff\3\2\40\uffff\1\12",
+            "\1\1\1\13\7\uffff\1\3\5\uffff\1\4\2\uffff\3\2\40\uffff\1\12",
+            "\1\14\45\uffff\1\15\1\16\1\20\24\uffff\1\17",
+            "\1\21\44\uffff\1\26\1\22\1\23\1\25\24\uffff\1\24",
+            "\1\1\1\13\7\uffff\1\3\5\uffff\1\4\2\uffff\3\2\40\uffff\1\12",
+            "\1\1\1\13\7\uffff\1\3\5\uffff\1\4\2\uffff\3\2\40\uffff\1\12",
+            "\1\1\1\13\7\uffff\1\3\5\uffff\1\4\2\uffff\3\2\40\uffff\1\12",
+            "\1\1\1\13\7\uffff\1\3\5\uffff\1\4\2\uffff\3\2\40\uffff\1\12",
+            "\1\1\1\13\7\uffff\1\3\5\uffff\1\4\2\uffff\3\2\40\uffff\1\12",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\31\44\uffff\1\36\1\32\1\33\1\35\24\uffff\1\34",
+            "\1\37",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\40\1\41",
+            "\1\42\44\uffff\1\47\1\43\1\44\1\46\24\uffff\1\45",
             "\1\1\10\uffff\1\3\5\uffff\1\4\2\uffff\3\2",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\45\44\uffff\1\52\1\46\1\47\1\51\24\uffff\1\50",
-            "\1\53",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\33\1\34"
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\52\44\uffff\1\57\1\53\1\54\1\56\24\uffff\1\55",
+            "\1\60",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\40\1\41"
     };
 
     static final short[] DFA8_eot = DFA.unpackEncodedString(DFA8_eotS);
@@ -24709,72 +24714,81 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
         }
     }
     static final String DFA29_eotS =
-        "\54\uffff";
+        "\61\uffff";
     static final String DFA29_eofS =
-        "\54\uffff";
+        "\61\uffff";
     static final String DFA29_minS =
-        "\2\5\3\uffff\7\5\6\20\1\5\1\4\6\20\1\16\2\5\6\20\1\5\1\4\6\20\1"+
-        "\16";
+        "\2\5\3\uffff\14\5\6\20\1\5\1\4\6\20\1\16\2\5\6\20\1\5\1\4\6\20"+
+        "\1\16";
     static final String DFA29_maxS =
-        "\2\102\3\uffff\7\102\6\101\1\102\1\4\6\101\1\17\2\102\6\101\1\102"+
-        "\1\4\6\101\1\17";
+        "\2\102\3\uffff\14\102\6\101\1\102\1\4\6\101\1\17\2\102\6\101\1"+
+        "\102\1\4\6\101\1\17";
     static final String DFA29_acceptS =
-        "\2\uffff\1\1\1\2\1\3\47\uffff";
+        "\2\uffff\1\1\1\2\1\3\54\uffff";
     static final String DFA29_specialS =
-        "\54\uffff}>";
+        "\61\uffff}>";
     static final String[] DFA29_transitionS = {
             "\1\4\6\uffff\1\1\25\uffff\14\4\1\uffff\5\3\2\uffff\1\2\13\uffff"+
             "\1\4",
-            "\1\5\44\uffff\1\12\1\6\1\7\1\11\24\uffff\1\10",
+            "\1\5\45\uffff\1\6\1\7\1\11\24\uffff\1\10",
             "",
             "",
             "",
             "\1\4\6\uffff\1\1\1\13\24\uffff\14\4\1\uffff\5\3\2\uffff\1"+
-            "\2\13\uffff\1\4",
+            "\2\12\uffff\1\12\1\4",
             "\1\4\6\uffff\1\1\1\13\24\uffff\14\4\1\uffff\5\3\2\uffff\1"+
-            "\2\13\uffff\1\4",
+            "\2\12\uffff\1\12\1\4",
             "\1\4\6\uffff\1\1\1\13\24\uffff\14\4\1\uffff\5\3\2\uffff\1"+
-            "\2\13\uffff\1\4",
+            "\2\12\uffff\1\12\1\4",
             "\1\4\6\uffff\1\1\1\13\24\uffff\14\4\1\uffff\5\3\2\uffff\1"+
-            "\2\13\uffff\1\4",
+            "\2\12\uffff\1\12\1\4",
             "\1\4\6\uffff\1\1\1\13\24\uffff\14\4\1\uffff\5\3\2\uffff\1"+
-            "\2\13\uffff\1\4",
+            "\2\12\uffff\1\12\1\4",
+            "\1\14\45\uffff\1\15\1\16\1\20\24\uffff\1\17",
+            "\1\21\44\uffff\1\26\1\22\1\23\1\25\24\uffff\1\24",
             "\1\4\6\uffff\1\1\1\13\24\uffff\14\4\1\uffff\5\3\2\uffff\1"+
-            "\2\13\uffff\1\4",
-            "\1\14\44\uffff\1\21\1\15\1\16\1\20\24\uffff\1\17",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\24\44\uffff\1\31\1\25\1\26\1\30\24\uffff\1\27",
-            "\1\32",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\23\60\uffff\1\22",
-            "\1\33\1\34",
-            "\1\35\44\uffff\1\42\1\36\1\37\1\41\24\uffff\1\40",
+            "\2\12\uffff\1\12\1\4",
+            "\1\4\6\uffff\1\1\1\13\24\uffff\14\4\1\uffff\5\3\2\uffff\1"+
+            "\2\12\uffff\1\12\1\4",
+            "\1\4\6\uffff\1\1\1\13\24\uffff\14\4\1\uffff\5\3\2\uffff\1"+
+            "\2\12\uffff\1\12\1\4",
+            "\1\4\6\uffff\1\1\1\13\24\uffff\14\4\1\uffff\5\3\2\uffff\1"+
+            "\2\12\uffff\1\12\1\4",
+            "\1\4\6\uffff\1\1\1\13\24\uffff\14\4\1\uffff\5\3\2\uffff\1"+
+            "\2\12\uffff\1\12\1\4",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\31\44\uffff\1\36\1\32\1\33\1\35\24\uffff\1\34",
+            "\1\37",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\30\60\uffff\1\27",
+            "\1\40\1\41",
+            "\1\42\44\uffff\1\47\1\43\1\44\1\46\24\uffff\1\45",
             "\1\4\6\uffff\1\1\25\uffff\14\4\1\uffff\5\3\2\uffff\1\2\13"+
             "\uffff\1\4",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\45\44\uffff\1\52\1\46\1\47\1\51\24\uffff\1\50",
-            "\1\53",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\44\60\uffff\1\43",
-            "\1\33\1\34"
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\52\44\uffff\1\57\1\53\1\54\1\56\24\uffff\1\55",
+            "\1\60",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\51\60\uffff\1\50",
+            "\1\40\1\41"
     };
 
     static final short[] DFA29_eot = DFA.unpackEncodedString(DFA29_eotS);
@@ -27306,7 +27320,7 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
     static final String DFA144_acceptS =
         "\1\uffff\1\2\7\uffff\1\1";
     static final String DFA144_specialS =
-        "\3\uffff\1\0\1\5\1\2\1\4\1\3\1\1\1\uffff}>";
+        "\3\uffff\1\1\1\5\1\3\1\2\1\4\1\0\1\uffff}>";
     static final String[] DFA144_transitionS = {
             "\3\1\5\uffff\14\1\1\uffff\10\1\11\uffff\4\1\13\uffff\1\1\1"+
             "\uffff\6\1\1\2\21\1\1\uffff\13\1\1\uffff\13\1",
@@ -27358,21 +27372,6 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA144_3 = input.LA(1);
-
-                         
-                        int index144_3 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred31_InternalXcore()) ) {s = 9;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index144_3);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 1 : 
                         int LA144_8 = input.LA(1);
 
                          
@@ -27387,7 +27386,37 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
                         input.seek(index144_8);
                         if ( s>=0 ) return s;
                         break;
+                    case 1 : 
+                        int LA144_3 = input.LA(1);
+
+                         
+                        int index144_3 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred31_InternalXcore()) ) {s = 9;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index144_3);
+                        if ( s>=0 ) return s;
+                        break;
                     case 2 : 
+                        int LA144_6 = input.LA(1);
+
+                         
+                        int index144_6 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred31_InternalXcore()) ) {s = 9;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index144_6);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 3 : 
                         int LA144_5 = input.LA(1);
 
                          
@@ -27402,7 +27431,7 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
                         input.seek(index144_5);
                         if ( s>=0 ) return s;
                         break;
-                    case 3 : 
+                    case 4 : 
                         int LA144_7 = input.LA(1);
 
                          
@@ -27415,21 +27444,6 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
 
                          
                         input.seek(index144_7);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 4 : 
-                        int LA144_6 = input.LA(1);
-
-                         
-                        int index144_6 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred31_InternalXcore()) ) {s = 9;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index144_6);
                         if ( s>=0 ) return s;
                         break;
                     case 5 : 
@@ -27617,8 +27631,8 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
         public static final BitSet FOLLOW_ruleXClassifier_in_ruleXPackage239 = new BitSet(new long[]{0x00000001C8201802L});
         public static final BitSet FOLLOW_ruleXAnnotation_in_entryRuleXAnnotation276 = new BitSet(new long[]{0x0000000000000000L});
         public static final BitSet FOLLOW_EOF_in_entryRuleXAnnotation286 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_12_in_ruleXAnnotation323 = new BitSet(new long[]{0x00003C0000000020L,0x0000000000000004L});
-        public static final BitSet FOLLOW_ruleValidID_in_ruleXAnnotation346 = new BitSet(new long[]{0x0000000000002002L});
+        public static final BitSet FOLLOW_12_in_ruleXAnnotation323 = new BitSet(new long[]{0x0000380000000020L,0x0000000000000004L});
+        public static final BitSet FOLLOW_ruleXQualifiedName_in_ruleXAnnotation346 = new BitSet(new long[]{0x0000000000002002L});
         public static final BitSet FOLLOW_13_in_ruleXAnnotation359 = new BitSet(new long[]{0x00003C0000000020L,0x0000000000000004L});
         public static final BitSet FOLLOW_ruleXStringToStringMapEntry_in_ruleXAnnotation380 = new BitSet(new long[]{0x000000000000C000L});
         public static final BitSet FOLLOW_14_in_ruleXAnnotation393 = new BitSet(new long[]{0x00003C0000000020L,0x0000000000000004L});

@@ -34,6 +34,7 @@ public interface XPackage extends XNamedElement
   /**
    * Returns the value of the '<em><b>Import Directives</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.ecore.xcore.XImportDirective}.
+   * It is bidirectional and its opposite is '{@link org.eclipse.emf.ecore.xcore.XImportDirective#getPackage <em>Package</em>}'.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Import Directives</em>' containment reference list isn't clear,
@@ -42,7 +43,8 @@ public interface XPackage extends XNamedElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>Import Directives</em>' containment reference list.
    * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXPackage_ImportDirectives()
-   * @model containment="true"
+   * @see org.eclipse.emf.ecore.xcore.XImportDirective#getPackage
+   * @model opposite="package" containment="true"
    * @generated
    */
   EList<XImportDirective> getImportDirectives();
@@ -50,6 +52,7 @@ public interface XPackage extends XNamedElement
   /**
    * Returns the value of the '<em><b>Annotation Directives</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.ecore.xcore.XAnnotationDirective}.
+   * It is bidirectional and its opposite is '{@link org.eclipse.emf.ecore.xcore.XAnnotationDirective#getPackage <em>Package</em>}'.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Annotation Directives</em>' containment reference list isn't clear,
@@ -58,7 +61,8 @@ public interface XPackage extends XNamedElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>Annotation Directives</em>' containment reference list.
    * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXPackage_AnnotationDirectives()
-   * @model containment="true"
+   * @see org.eclipse.emf.ecore.xcore.XAnnotationDirective#getPackage
+   * @model opposite="package" containment="true"
    * @generated
    */
   EList<XAnnotationDirective> getAnnotationDirectives();

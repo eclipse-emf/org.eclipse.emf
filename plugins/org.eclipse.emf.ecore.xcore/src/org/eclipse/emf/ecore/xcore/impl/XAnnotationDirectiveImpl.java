@@ -10,11 +10,14 @@ package org.eclipse.emf.ecore.xcore.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
+import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 
 
@@ -26,6 +29,7 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XAnnotationDirectiveImpl#getSourceURI <em>Source URI</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XAnnotationDirectiveImpl#getPackage <em>Package</em>}</li>
  * </ul>
  * </p>
  *
@@ -102,6 +106,67 @@ public class XAnnotationDirectiveImpl extends XNamedElementImpl implements XAnno
    * <!-- end-user-doc -->
    * @generated
    */
+  public XPackage getPackage()
+  {
+    if (eContainerFeatureID() != XcorePackage.XANNOTATION_DIRECTIVE__PACKAGE) return null;
+    return (XPackage)eContainer();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case XcorePackage.XANNOTATION_DIRECTIVE__PACKAGE:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, XcorePackage.XANNOTATION_DIRECTIVE__PACKAGE, msgs);
+    }
+    return super.eInverseAdd(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case XcorePackage.XANNOTATION_DIRECTIVE__PACKAGE:
+        return eBasicSetContainer(null, XcorePackage.XANNOTATION_DIRECTIVE__PACKAGE, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
+  {
+    switch (eContainerFeatureID())
+    {
+      case XcorePackage.XANNOTATION_DIRECTIVE__PACKAGE:
+        return eInternalContainer().eInverseRemove(this, XcorePackage.XPACKAGE__ANNOTATION_DIRECTIVES, XPackage.class, msgs);
+    }
+    return super.eBasicRemoveFromContainerFeature(msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
@@ -109,6 +174,8 @@ public class XAnnotationDirectiveImpl extends XNamedElementImpl implements XAnno
     {
       case XcorePackage.XANNOTATION_DIRECTIVE__SOURCE_URI:
         return getSourceURI();
+      case XcorePackage.XANNOTATION_DIRECTIVE__PACKAGE:
+        return getPackage();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -159,6 +226,8 @@ public class XAnnotationDirectiveImpl extends XNamedElementImpl implements XAnno
     {
       case XcorePackage.XANNOTATION_DIRECTIVE__SOURCE_URI:
         return SOURCE_URI_EDEFAULT == null ? sourceURI != null : !SOURCE_URI_EDEFAULT.equals(sourceURI);
+      case XcorePackage.XANNOTATION_DIRECTIVE__PACKAGE:
+        return getPackage() != null;
     }
     return super.eIsSet(featureID);
   }

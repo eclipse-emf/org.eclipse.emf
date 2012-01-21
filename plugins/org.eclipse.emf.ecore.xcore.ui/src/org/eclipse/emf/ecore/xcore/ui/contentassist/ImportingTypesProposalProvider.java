@@ -40,40 +40,29 @@ import com.google.inject.Inject;
  */
 public class ImportingTypesProposalProvider extends JdtTypesProposalProvider
 {
-
   @Inject
   private QualifiedNameValueConverter qualifiedNameValueConverter;
 
   @Override
-  protected IReplacementTextApplier createTextApplier(
-    ContentAssistContext context,
-    IScope typeScope,
-    IQualifiedNameConverter qualifiedNameConverter,
-    IValueConverter<String> valueConverter)
+  protected IReplacementTextApplier createTextApplier(ContentAssistContext context, IScope typeScope, IQualifiedNameConverter qualifiedNameConverter, IValueConverter<String> valueConverter)
   {
-    return new FQNImporter(
-      context.getResource(),
-      context.getViewer(),
-      typeScope,
-      qualifiedNameConverter,
-      valueConverter,
-      qualifiedNameValueConverter);
+    return 
+     new FQNImporter
+       (context.getResource(),
+        context.getViewer(),
+        typeScope,
+        qualifiedNameConverter,
+        valueConverter,
+        qualifiedNameValueConverter);
   }
 
   public static class FQNImporter extends FQNShortener
   {
-
     private final ITextViewer viewer;
 
     private final QualifiedNameValueConverter importConverter;
 
-    public FQNImporter(
-      Resource context,
-      ITextViewer viewer,
-      IScope scope,
-      IQualifiedNameConverter qualifiedNameConverter,
-      IValueConverter<String> valueConverter,
-      QualifiedNameValueConverter importConverter)
+    public FQNImporter(Resource context, ITextViewer viewer, IScope scope, IQualifiedNameConverter qualifiedNameConverter, IValueConverter<String> valueConverter, QualifiedNameValueConverter importConverter)
     {
       super(context, scope, qualifiedNameConverter, valueConverter);
       this.viewer = viewer;
@@ -86,14 +75,18 @@ public class ImportingTypesProposalProvider extends JdtTypesProposalProvider
       String proposalReplacementString = proposal.getReplacementString();
       String typeName = proposalReplacementString;
       if (valueConverter != null)
+      {
         typeName = valueConverter.toValue(proposalReplacementString, null);
+      }
       String replacementString = getActualReplacementString(proposal);
       // there is an import statement - apply computed replacementString
       if (!proposalReplacementString.equals(replacementString))
       {
         String shortTypeName = replacementString;
         if (valueConverter != null)
+        {
           shortTypeName = valueConverter.toValue(replacementString, null);
+        }
         QualifiedName shortQualifiedName = qualifiedNameConverter.toQualifiedName(shortTypeName);
         if (shortQualifiedName.getSegmentCount() == 1)
         {
@@ -184,9 +177,10 @@ public class ImportingTypesProposalProvider extends JdtTypesProposalProvider
         document.replace(proposal.getReplacementOffset(), proposal.getReplacementLength(), escapedShortname);
 
         // add import statement
-        String importStatement = (startWithLineBreak ? "\nimport " : "import ") + importConverter.toString(typeName);
+        String lineDelimiter = document.getLineDelimiter(document.getLineOfOffset(offset));
+        String importStatement = (startWithLineBreak ? lineDelimiter : "") + "import "+ importConverter.toString(typeName);
         if (endWithLineBreak)
-          importStatement += "\n\n";
+          importStatement += lineDelimiter + lineDelimiter;
         document.replace(offset, 0, importStatement.toString());
         proposal.setCursorPosition(proposal.getCursorPosition() + importStatement.length());
 
@@ -204,7 +198,9 @@ public class ImportingTypesProposalProvider extends JdtTypesProposalProvider
       finally
       {
         if (viewerExtension != null)
+        {
           viewerExtension.setRedraw(true);
+        }
       }
     }
   }

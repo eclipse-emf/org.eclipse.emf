@@ -21028,8 +21028,8 @@ rule__XAnnotation__SourceAssignment_1
 (
 { before(grammarAccess.getXAnnotationAccess().getSourceXAnnotationDirectiveCrossReference_1_0()); }
 (
-{ before(grammarAccess.getXAnnotationAccess().getSourceXAnnotationDirectiveValidIDParserRuleCall_1_0_1()); }
-	ruleValidID{ after(grammarAccess.getXAnnotationAccess().getSourceXAnnotationDirectiveValidIDParserRuleCall_1_0_1()); }
+{ before(grammarAccess.getXAnnotationAccess().getSourceXAnnotationDirectiveXQualifiedNameParserRuleCall_1_0_1()); }
+	ruleXQualifiedName{ after(grammarAccess.getXAnnotationAccess().getSourceXAnnotationDirectiveXQualifiedNameParserRuleCall_1_0_1()); }
 )
 { after(grammarAccess.getXAnnotationAccess().getSourceXAnnotationDirectiveCrossReference_1_0()); }
 )

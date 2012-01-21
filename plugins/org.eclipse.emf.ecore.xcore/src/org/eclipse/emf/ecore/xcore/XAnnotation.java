@@ -42,7 +42,7 @@ public interface XAnnotation extends XModelElement
    * @return the value of the '<em>Source</em>' reference.
    * @see #setSource(XAnnotationDirective)
    * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXAnnotation_Source()
-   * @model resolveProxies="false"
+   * @model
    * @generated
    */
   XAnnotationDirective getSource();

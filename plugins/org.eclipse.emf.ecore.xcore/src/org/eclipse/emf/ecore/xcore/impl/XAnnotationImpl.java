@@ -94,6 +94,26 @@ public class XAnnotationImpl extends XModelElementImpl implements XAnnotation
    */
   public XAnnotationDirective getSource()
   {
+    if (source != null && source.eIsProxy())
+    {
+      InternalEObject oldSource = (InternalEObject)source;
+      source = (XAnnotationDirective)eResolveProxy(oldSource);
+      if (source != oldSource)
+      {
+        if (eNotificationRequired())
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, XcorePackage.XANNOTATION__SOURCE, oldSource, source));
+      }
+    }
+    return source;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XAnnotationDirective basicGetSource()
+  {
     return source;
   }
 
@@ -232,7 +252,8 @@ public class XAnnotationImpl extends XModelElementImpl implements XAnnotation
     switch (featureID)
     {
       case XcorePackage.XANNOTATION__SOURCE:
-        return getSource();
+        if (resolve) return getSource();
+        return basicGetSource();
       case XcorePackage.XANNOTATION__DETAILS:
         if (coreType) return getDetails();
         else return getDetails().map();

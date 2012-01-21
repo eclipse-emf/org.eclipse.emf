@@ -141,25 +141,32 @@ public class XcoreEcoreBuilder
     return ePackage;
   }
 
-  void handleAnnotations(XModelElement xModelElement, EModelElement eModelElement)
+  void handleAnnotations(final XModelElement xModelElement, final EModelElement eModelElement)
   {
-    for (XAnnotation xAnnotation : xModelElement.getAnnotations())
-    {
-      EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-      //      map(eAnnotation, xAnnotation);
-      XAnnotationDirective source = xAnnotation.getSource();
-      if (source != null)
-      {
-        String sourceURI = source.getSourceURI();
-        eAnnotation.setSource(sourceURI);
-      }
-      for (Map.Entry<String, String> detail : xAnnotation.getDetails())
-      {
-        eAnnotation.getDetails().put(detail.getKey(), detail.getValue());
-      }
-      eModelElement.getEAnnotations().add(eAnnotation);
-    }
-  }
+    runnables.add
+      (new Runnable()
+       {
+         public void run()
+         {
+           for (XAnnotation xAnnotation : xModelElement.getAnnotations())
+           {
+             EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+             //      map(eAnnotation, xAnnotation);
+             XAnnotationDirective source = xAnnotation.getSource();
+             if (source != null)
+             {
+               String sourceURI = source.getSourceURI();
+               eAnnotation.setSource(sourceURI);
+             }
+             for (Map.Entry<String, String> detail : xAnnotation.getDetails())
+             {
+               eAnnotation.getDetails().put(detail.getKey(), detail.getValue());
+             }
+             eModelElement.getEAnnotations().add(eAnnotation);
+           }
+         }
+       });
+     }
 
   EClassifier getEClassifier(final XClassifier xClassifier)
   {

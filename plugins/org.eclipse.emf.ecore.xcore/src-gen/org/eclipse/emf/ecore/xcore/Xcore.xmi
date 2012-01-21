@@ -58,7 +58,7 @@
             <type metamodel="/0/@metamodelDeclarations.5">
               <classifier xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Xcore#//XAnnotationDirective"/>
             </type>
-            <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.24"/>
+            <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.22"/>
           </terminal>
         </elements>
         <elements xsi:type="xtext:Group" cardinality="?">

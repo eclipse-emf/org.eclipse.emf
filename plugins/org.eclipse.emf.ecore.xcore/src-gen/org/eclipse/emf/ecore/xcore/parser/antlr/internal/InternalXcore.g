@@ -212,7 +212,7 @@ ruleXAnnotation returns [EObject current=null]
 		{ 
 	        newCompositeNode(grammarAccess.getXAnnotationAccess().getSourceXAnnotationDirectiveCrossReference_1_0()); 
 	    }
-		ruleValidID		{ 
+		ruleXQualifiedName		{ 
 	        afterParserOrEnumRuleCall();
 	    }
 

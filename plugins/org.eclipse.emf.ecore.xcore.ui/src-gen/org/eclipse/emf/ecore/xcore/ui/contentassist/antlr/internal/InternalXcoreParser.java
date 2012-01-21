@@ -61152,34 +61152,34 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__XAnnotation__SourceAssignment_1"
-    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21023:1: rule__XAnnotation__SourceAssignment_1 : ( ( ruleValidID ) ) ;
+    // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21023:1: rule__XAnnotation__SourceAssignment_1 : ( ( ruleXQualifiedName ) ) ;
     public final void rule__XAnnotation__SourceAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21027:1: ( ( ( ruleValidID ) ) )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21028:1: ( ( ruleValidID ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21027:1: ( ( ( ruleXQualifiedName ) ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21028:1: ( ( ruleXQualifiedName ) )
             {
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21028:1: ( ( ruleValidID ) )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21029:1: ( ruleValidID )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21028:1: ( ( ruleXQualifiedName ) )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21029:1: ( ruleXQualifiedName )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getXAnnotationAccess().getSourceXAnnotationDirectiveCrossReference_1_0()); 
             }
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21030:1: ( ruleValidID )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21031:1: ruleValidID
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21030:1: ( ruleXQualifiedName )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21031:1: ruleXQualifiedName
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getXAnnotationAccess().getSourceXAnnotationDirectiveValidIDParserRuleCall_1_0_1()); 
+               before(grammarAccess.getXAnnotationAccess().getSourceXAnnotationDirectiveXQualifiedNameParserRuleCall_1_0_1()); 
             }
-            pushFollow(FollowSets001.FOLLOW_ruleValidID_in_rule__XAnnotation__SourceAssignment_143771);
-            ruleValidID();
+            pushFollow(FollowSets001.FOLLOW_ruleXQualifiedName_in_rule__XAnnotation__SourceAssignment_143771);
+            ruleXQualifiedName();
 
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getXAnnotationAccess().getSourceXAnnotationDirectiveValidIDParserRuleCall_1_0_1()); 
+               after(grammarAccess.getXAnnotationAccess().getSourceXAnnotationDirectiveXQualifiedNameParserRuleCall_1_0_1()); 
             }
 
             }
@@ -74415,64 +74415,79 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         }
     }
     static final String DFA3_eotS =
-        "\54\uffff";
+        "\61\uffff";
     static final String DFA3_eofS =
-        "\54\uffff";
+        "\61\uffff";
     static final String DFA3_minS =
-        "\1\51\1\5\3\uffff\6\51\1\5\6\13\1\5\1\6\6\13\1\53\1\5\1\51\6\13"+
-        "\1\5\1\6\6\13\1\53";
+        "\1\51\1\5\3\uffff\5\44\2\5\5\44\6\13\1\5\1\6\6\13\1\53\1\5\1\51"+
+        "\6\13\1\5\1\6\6\13\1\53";
     static final String DFA3_maxS =
-        "\1\131\1\26\3\uffff\6\131\1\26\6\44\1\26\1\6\6\44\1\54\1\26\1\131"+
-        "\6\44\1\26\1\6\6\44\1\54";
+        "\1\131\1\26\3\uffff\5\131\2\26\5\131\6\44\1\26\1\6\6\44\1\54\1"+
+        "\26\1\131\6\44\1\26\1\6\6\44\1\54";
     static final String DFA3_acceptS =
-        "\2\uffff\1\1\1\2\1\3\47\uffff";
+        "\2\uffff\1\1\1\2\1\3\54\uffff";
     static final String DFA3_specialS =
-        "\54\uffff}>";
+        "\61\uffff}>";
     static final String[] DFA3_transitionS = {
             "\1\1\7\uffff\1\3\2\uffff\1\4\2\uffff\1\2\40\uffff\2\2",
-            "\1\5\11\uffff\1\12\3\uffff\1\6\1\7\1\10\1\11",
+            "\1\5\15\uffff\1\6\1\7\1\10\1\11",
             "",
             "",
             "",
-            "\1\1\1\13\6\uffff\1\3\2\uffff\1\4\2\uffff\1\2\40\uffff\2\2",
-            "\1\1\1\13\6\uffff\1\3\2\uffff\1\4\2\uffff\1\2\40\uffff\2\2",
-            "\1\1\1\13\6\uffff\1\3\2\uffff\1\4\2\uffff\1\2\40\uffff\2\2",
-            "\1\1\1\13\6\uffff\1\3\2\uffff\1\4\2\uffff\1\2\40\uffff\2\2",
-            "\1\1\1\13\6\uffff\1\3\2\uffff\1\4\2\uffff\1\2\40\uffff\2\2",
-            "\1\1\1\13\6\uffff\1\3\2\uffff\1\4\2\uffff\1\2\40\uffff\2\2",
-            "\1\14\11\uffff\1\21\3\uffff\1\15\1\16\1\17\1\20",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\24\11\uffff\1\31\3\uffff\1\25\1\26\1\27\1\30",
-            "\1\32",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\34\1\33",
-            "\1\35\11\uffff\1\42\3\uffff\1\36\1\37\1\40\1\41",
+            "\1\12\4\uffff\1\1\1\13\6\uffff\1\3\2\uffff\1\4\2\uffff\1\2"+
+            "\40\uffff\2\2",
+            "\1\12\4\uffff\1\1\1\13\6\uffff\1\3\2\uffff\1\4\2\uffff\1\2"+
+            "\40\uffff\2\2",
+            "\1\12\4\uffff\1\1\1\13\6\uffff\1\3\2\uffff\1\4\2\uffff\1\2"+
+            "\40\uffff\2\2",
+            "\1\12\4\uffff\1\1\1\13\6\uffff\1\3\2\uffff\1\4\2\uffff\1\2"+
+            "\40\uffff\2\2",
+            "\1\12\4\uffff\1\1\1\13\6\uffff\1\3\2\uffff\1\4\2\uffff\1\2"+
+            "\40\uffff\2\2",
+            "\1\14\15\uffff\1\15\1\16\1\17\1\20",
+            "\1\21\11\uffff\1\26\3\uffff\1\22\1\23\1\24\1\25",
+            "\1\12\4\uffff\1\1\1\13\6\uffff\1\3\2\uffff\1\4\2\uffff\1\2"+
+            "\40\uffff\2\2",
+            "\1\12\4\uffff\1\1\1\13\6\uffff\1\3\2\uffff\1\4\2\uffff\1\2"+
+            "\40\uffff\2\2",
+            "\1\12\4\uffff\1\1\1\13\6\uffff\1\3\2\uffff\1\4\2\uffff\1\2"+
+            "\40\uffff\2\2",
+            "\1\12\4\uffff\1\1\1\13\6\uffff\1\3\2\uffff\1\4\2\uffff\1\2"+
+            "\40\uffff\2\2",
+            "\1\12\4\uffff\1\1\1\13\6\uffff\1\3\2\uffff\1\4\2\uffff\1\2"+
+            "\40\uffff\2\2",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\31\11\uffff\1\36\3\uffff\1\32\1\33\1\34\1\35",
+            "\1\37",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\41\1\40",
+            "\1\42\11\uffff\1\47\3\uffff\1\43\1\44\1\45\1\46",
             "\1\1\7\uffff\1\3\2\uffff\1\4\2\uffff\1\2\40\uffff\2\2",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\45\11\uffff\1\52\3\uffff\1\46\1\47\1\50\1\51",
-            "\1\53",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\34\1\33"
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\52\11\uffff\1\57\3\uffff\1\53\1\54\1\55\1\56",
+            "\1\60",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\41\1\40"
     };
 
     static final short[] DFA3_eot = DFA.unpackEncodedString(DFA3_eotS);
@@ -74509,72 +74524,81 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         }
     }
     static final String DFA5_eotS =
-        "\54\uffff";
+        "\61\uffff";
     static final String DFA5_eofS =
-        "\54\uffff";
+        "\61\uffff";
     static final String DFA5_minS =
-        "\2\5\3\uffff\7\5\6\13\1\5\1\6\6\13\1\53\2\5\6\13\1\5\1\6\6\13\1"+
-        "\53";
+        "\2\5\3\uffff\14\5\6\13\1\5\1\6\6\13\1\53\2\5\6\13\1\5\1\6\6\13"+
+        "\1\53";
     static final String DFA5_maxS =
-        "\1\145\1\26\3\uffff\6\145\1\26\6\44\1\26\1\6\6\44\1\54\1\26\1\145"+
-        "\6\44\1\26\1\6\6\44\1\54";
+        "\1\145\1\26\3\uffff\5\145\2\26\5\145\6\44\1\26\1\6\6\44\1\54\1"+
+        "\26\1\145\6\44\1\26\1\6\6\44\1\54";
     static final String DFA5_acceptS =
-        "\2\uffff\1\1\1\2\1\3\47\uffff";
+        "\2\uffff\1\1\1\2\1\3\54\uffff";
     static final String DFA5_specialS =
-        "\54\uffff}>";
+        "\61\uffff}>";
     static final String[] DFA5_transitionS = {
             "\1\4\11\uffff\1\4\3\uffff\4\4\22\uffff\1\1\22\uffff\1\2\31"+
             "\uffff\1\3\3\uffff\10\4\4\3",
-            "\1\5\11\uffff\1\12\3\uffff\1\6\1\7\1\10\1\11",
+            "\1\5\15\uffff\1\6\1\7\1\10\1\11",
             "",
             "",
             "",
-            "\1\4\11\uffff\1\4\3\uffff\4\4\22\uffff\1\1\1\13\21\uffff\1"+
-            "\2\31\uffff\1\3\3\uffff\10\4\4\3",
-            "\1\4\11\uffff\1\4\3\uffff\4\4\22\uffff\1\1\1\13\21\uffff\1"+
-            "\2\31\uffff\1\3\3\uffff\10\4\4\3",
-            "\1\4\11\uffff\1\4\3\uffff\4\4\22\uffff\1\1\1\13\21\uffff\1"+
-            "\2\31\uffff\1\3\3\uffff\10\4\4\3",
-            "\1\4\11\uffff\1\4\3\uffff\4\4\22\uffff\1\1\1\13\21\uffff\1"+
-            "\2\31\uffff\1\3\3\uffff\10\4\4\3",
-            "\1\4\11\uffff\1\4\3\uffff\4\4\22\uffff\1\1\1\13\21\uffff\1"+
-            "\2\31\uffff\1\3\3\uffff\10\4\4\3",
-            "\1\4\11\uffff\1\4\3\uffff\4\4\22\uffff\1\1\1\13\21\uffff\1"+
-            "\2\31\uffff\1\3\3\uffff\10\4\4\3",
-            "\1\14\11\uffff\1\21\3\uffff\1\15\1\16\1\17\1\20",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\24\11\uffff\1\31\3\uffff\1\25\1\26\1\27\1\30",
-            "\1\32",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\23\30\uffff\1\22",
-            "\1\34\1\33",
-            "\1\35\11\uffff\1\42\3\uffff\1\36\1\37\1\40\1\41",
+            "\1\4\11\uffff\1\4\3\uffff\4\4\15\uffff\1\12\4\uffff\1\1\1"+
+            "\13\21\uffff\1\2\31\uffff\1\3\3\uffff\10\4\4\3",
+            "\1\4\11\uffff\1\4\3\uffff\4\4\15\uffff\1\12\4\uffff\1\1\1"+
+            "\13\21\uffff\1\2\31\uffff\1\3\3\uffff\10\4\4\3",
+            "\1\4\11\uffff\1\4\3\uffff\4\4\15\uffff\1\12\4\uffff\1\1\1"+
+            "\13\21\uffff\1\2\31\uffff\1\3\3\uffff\10\4\4\3",
+            "\1\4\11\uffff\1\4\3\uffff\4\4\15\uffff\1\12\4\uffff\1\1\1"+
+            "\13\21\uffff\1\2\31\uffff\1\3\3\uffff\10\4\4\3",
+            "\1\4\11\uffff\1\4\3\uffff\4\4\15\uffff\1\12\4\uffff\1\1\1"+
+            "\13\21\uffff\1\2\31\uffff\1\3\3\uffff\10\4\4\3",
+            "\1\14\15\uffff\1\15\1\16\1\17\1\20",
+            "\1\21\11\uffff\1\26\3\uffff\1\22\1\23\1\24\1\25",
+            "\1\4\11\uffff\1\4\3\uffff\4\4\15\uffff\1\12\4\uffff\1\1\1"+
+            "\13\21\uffff\1\2\31\uffff\1\3\3\uffff\10\4\4\3",
+            "\1\4\11\uffff\1\4\3\uffff\4\4\15\uffff\1\12\4\uffff\1\1\1"+
+            "\13\21\uffff\1\2\31\uffff\1\3\3\uffff\10\4\4\3",
+            "\1\4\11\uffff\1\4\3\uffff\4\4\15\uffff\1\12\4\uffff\1\1\1"+
+            "\13\21\uffff\1\2\31\uffff\1\3\3\uffff\10\4\4\3",
+            "\1\4\11\uffff\1\4\3\uffff\4\4\15\uffff\1\12\4\uffff\1\1\1"+
+            "\13\21\uffff\1\2\31\uffff\1\3\3\uffff\10\4\4\3",
+            "\1\4\11\uffff\1\4\3\uffff\4\4\15\uffff\1\12\4\uffff\1\1\1"+
+            "\13\21\uffff\1\2\31\uffff\1\3\3\uffff\10\4\4\3",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\31\11\uffff\1\36\3\uffff\1\32\1\33\1\34\1\35",
+            "\1\37",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\30\30\uffff\1\27",
+            "\1\41\1\40",
+            "\1\42\11\uffff\1\47\3\uffff\1\43\1\44\1\45\1\46",
             "\1\4\11\uffff\1\4\3\uffff\4\4\22\uffff\1\1\22\uffff\1\2\31"+
             "\uffff\1\3\3\uffff\10\4\4\3",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\45\11\uffff\1\52\3\uffff\1\46\1\47\1\50\1\51",
-            "\1\53",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\44\30\uffff\1\43",
-            "\1\34\1\33"
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\52\11\uffff\1\57\3\uffff\1\53\1\54\1\55\1\56",
+            "\1\60",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\51\30\uffff\1\50",
+            "\1\41\1\40"
     };
 
     static final short[] DFA5_eot = DFA.unpackEncodedString(DFA5_eotS);
@@ -78398,7 +78422,7 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         public static final BitSet FOLLOW_rule__XPackage__AnnotationDirectivesAssignment_5_in_rule__XPackage__Group__5__Impl8178 = new BitSet(new long[]{0x0000800000000002L});
         public static final BitSet FOLLOW_rule__XPackage__Group__6__Impl_in_rule__XPackage__Group__68209 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XPackage__ClassifiersAssignment_6_in_rule__XPackage__Group__6__Impl8236 = new BitSet(new long[]{0x0092020000000002L,0x0000000003000000L});
-        public static final BitSet FOLLOW_rule__XAnnotation__Group__0__Impl_in_rule__XAnnotation__Group__08281 = new BitSet(new long[]{0x0000000000788020L});
+        public static final BitSet FOLLOW_rule__XAnnotation__Group__0__Impl_in_rule__XAnnotation__Group__08281 = new BitSet(new long[]{0x0000000000780020L});
         public static final BitSet FOLLOW_rule__XAnnotation__Group__1_in_rule__XAnnotation__Group__08284 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_41_in_rule__XAnnotation__Group__0__Impl8312 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_rule__XAnnotation__Group__1__Impl_in_rule__XAnnotation__Group__18343 = new BitSet(new long[]{0x0000040000000000L});
@@ -79793,7 +79817,7 @@ public class InternalXcoreParser extends AbstractInternalContentAssistParser {
         public static final BitSet FOLLOW_ruleXImportDirective_in_rule__XPackage__ImportDirectivesAssignment_443674 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXAnnotationDirective_in_rule__XPackage__AnnotationDirectivesAssignment_543705 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXClassifier_in_rule__XPackage__ClassifiersAssignment_643736 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleValidID_in_rule__XAnnotation__SourceAssignment_143771 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleXQualifiedName_in_rule__XAnnotation__SourceAssignment_143771 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXStringToStringMapEntry_in_rule__XAnnotation__DetailsAssignment_2_143806 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXStringToStringMapEntry_in_rule__XAnnotation__DetailsAssignment_2_2_143837 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleQualifiedName_in_rule__XStringToStringMapEntry__KeyAssignment_043868 = new BitSet(new long[]{0x0000000000000002L});

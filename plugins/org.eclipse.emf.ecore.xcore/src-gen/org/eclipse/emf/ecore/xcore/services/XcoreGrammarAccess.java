@@ -86,7 +86,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cCommercialAtKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cSourceAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final CrossReference cSourceXAnnotationDirectiveCrossReference_1_0 = (CrossReference)cSourceAssignment_1.eContents().get(0);
-		private final RuleCall cSourceXAnnotationDirectiveValidIDParserRuleCall_1_0_1 = (RuleCall)cSourceXAnnotationDirectiveCrossReference_1_0.eContents().get(1);
+		private final RuleCall cSourceXAnnotationDirectiveXQualifiedNameParserRuleCall_1_0_1 = (RuleCall)cSourceXAnnotationDirectiveCrossReference_1_0.eContents().get(1);
 		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
 		private final Keyword cLeftParenthesisKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
 		private final Assignment cDetailsAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
@@ -98,25 +98,25 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightParenthesisKeyword_2_3 = (Keyword)cGroup_2.eContents().get(3);
 		
 		//XAnnotation:
-		//	"@" source=[XAnnotationDirective|ValidID] ("(" details+=XStringToStringMapEntry (","
+		//	"@" source=[XAnnotationDirective|XQualifiedName] ("(" details+=XStringToStringMapEntry (","
 		//	details+=XStringToStringMapEntry)* ")")?;
 		public ParserRule getRule() { return rule; }
 
-		//"@" source=[XAnnotationDirective|ValidID] ("(" details+=XStringToStringMapEntry ("," details+=XStringToStringMapEntry)*
-		//")")?
+		//"@" source=[XAnnotationDirective|XQualifiedName] ("(" details+=XStringToStringMapEntry (","
+		//details+=XStringToStringMapEntry)* ")")?
 		public Group getGroup() { return cGroup; }
 
 		//"@"
 		public Keyword getCommercialAtKeyword_0() { return cCommercialAtKeyword_0; }
 
-		//source=[XAnnotationDirective|ValidID]
+		//source=[XAnnotationDirective|XQualifiedName]
 		public Assignment getSourceAssignment_1() { return cSourceAssignment_1; }
 
-		//[XAnnotationDirective|ValidID]
+		//[XAnnotationDirective|XQualifiedName]
 		public CrossReference getSourceXAnnotationDirectiveCrossReference_1_0() { return cSourceXAnnotationDirectiveCrossReference_1_0; }
 
-		//ValidID
-		public RuleCall getSourceXAnnotationDirectiveValidIDParserRuleCall_1_0_1() { return cSourceXAnnotationDirectiveValidIDParserRuleCall_1_0_1; }
+		//XQualifiedName
+		public RuleCall getSourceXAnnotationDirectiveXQualifiedNameParserRuleCall_1_0_1() { return cSourceXAnnotationDirectiveXQualifiedNameParserRuleCall_1_0_1; }
 
 		//("(" details+=XStringToStringMapEntry ("," details+=XStringToStringMapEntry)* ")")?
 		public Group getGroup_2() { return cGroup_2; }
@@ -2092,7 +2092,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//XAnnotation:
-	//	"@" source=[XAnnotationDirective|ValidID] ("(" details+=XStringToStringMapEntry (","
+	//	"@" source=[XAnnotationDirective|XQualifiedName] ("(" details+=XStringToStringMapEntry (","
 	//	details+=XStringToStringMapEntry)* ")")?;
 	public XAnnotationElements getXAnnotationAccess() {
 		return (pXAnnotation != null) ? pXAnnotation : (pXAnnotation = new XAnnotationElements());

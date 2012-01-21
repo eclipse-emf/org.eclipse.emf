@@ -34,7 +34,6 @@ import com.google.inject.Inject;
 
 
 /**
- * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#contentAssist on how to customize content assistant
  */
 public class XcoreProposalProvider extends AbstractXcoreProposalProvider
 {
@@ -51,20 +50,18 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
   private XcoreMapper mapper;
 
   @Override
-  public void completeXReference_Opposite(
-    EObject model,
-    Assignment assignment,
-    ContentAssistContext context,
-    ICompletionProposalAcceptor acceptor)
+  public void completeXReference_Opposite(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
   {
-    final IReplacementTextApplier textApplier = new OppositeReplacementTextApplier(
-      (XReference)model,
-      context.getViewer(),
-      xcoreScopeProvider.getScope(model, XcorePackage.Literals.XREFERENCE__OPPOSITE),
-      mapper,
-      qualifiedNameConverter,
-      qualifiedNameValueConverter);
-    final ICompletionProposalAcceptor oppositeAware = new ICompletionProposalAcceptor.Delegate(acceptor)
+    final IReplacementTextApplier textApplier =
+      new OppositeReplacementTextApplier
+        ((XReference)model,
+         context.getViewer(),
+         xcoreScopeProvider.getScope(model, XcorePackage.Literals.XREFERENCE__OPPOSITE),
+         mapper,
+         qualifiedNameConverter,
+         qualifiedNameValueConverter);
+    ICompletionProposalAcceptor oppositeAware =
+      new ICompletionProposalAcceptor.Delegate(acceptor)
       {
         @Override
         public void accept(ICompletionProposal proposal)
@@ -80,20 +77,18 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
   }
 
   @Override
-  public void completeXGenericType_Type(
-    EObject model,
-    Assignment assignment,
-    ContentAssistContext context,
-    ICompletionProposalAcceptor acceptor)
+  public void completeXGenericType_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
   {
-    final IReplacementTextApplier textApplier = new ImportingTypesProposalProvider.FQNImporter(
-      context.getResource(),
-      context.getViewer(),
-      xcoreScopeProvider.getScope(model, XcorePackage.Literals.XGENERIC_TYPE__TYPE),
-      qualifiedNameConverter,
-      qualifiedNameValueConverter,
-      qualifiedNameValueConverter);
-    final ICompletionProposalAcceptor scopeAware = new ICompletionProposalAcceptor.Delegate(acceptor)
+    final IReplacementTextApplier textApplier =
+      new ImportingTypesProposalProvider.FQNImporter
+        (context.getResource(),
+         context.getViewer(),
+         xcoreScopeProvider.getScope(model, XcorePackage.Literals.XGENERIC_TYPE__TYPE),
+         qualifiedNameConverter,
+         qualifiedNameValueConverter,
+         qualifiedNameValueConverter);
+    ICompletionProposalAcceptor scopeAware =
+      new ICompletionProposalAcceptor.Delegate(acceptor)
       {
         @Override
         public void accept(ICompletionProposal proposal)
@@ -109,12 +104,7 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
   }
 
   @Override
-  protected void lookupCrossReference(
-    CrossReference crossReference,
-    EReference reference,
-    ContentAssistContext contentAssistContext,
-    ICompletionProposalAcceptor acceptor,
-    Predicate<IEObjectDescription> filter)
+  protected void lookupCrossReference(CrossReference crossReference, EReference reference, ContentAssistContext contentAssistContext, ICompletionProposalAcceptor acceptor, Predicate<IEObjectDescription> filter)
   {
     if (reference == XcorePackage.Literals.XREFERENCE__OPPOSITE)
     {

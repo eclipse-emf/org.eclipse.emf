@@ -2,8 +2,7 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="xcore" nsURI="http://www.eclipse.org/emf/2011/Xcore" nsPrefix="xcore">
   <eClassifiers xsi:type="ecore:EClass" name="XAnnotation" eSuperTypes="#//XModelElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//XAnnotationDirective"
-        resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//XAnnotationDirective"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="details" upperBound="-1"
         eType="#//XStringToStringMapEntry" containment="true" resolveProxies="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" eType="#//XModelElement"
@@ -11,6 +10,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XAnnotationDirective" eSuperTypes="#//XNamedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceURI" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="package" eType="#//XPackage"
+        changeable="false" transient="true" eOpposite="#//XPackage/annotationDirectives"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XAttribute" eSuperTypes="#//XStructuralFeature">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValueLiteral" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
@@ -67,6 +68,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="XImportDirective" eSuperTypes="#//XModelElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="importedNamespace" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="importedObject" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="package" eType="#//XPackage"
+        changeable="false" transient="true" eOpposite="#//XPackage/importDirectives"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XMember" abstract="true" eSuperTypes="#//XTypedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="containingClass" eType="#//XClass"
@@ -96,9 +99,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XPackage" eSuperTypes="#//XNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="importDirectives" upperBound="-1"
-        eType="#//XImportDirective" containment="true"/>
+        eType="#//XImportDirective" containment="true" eOpposite="#//XImportDirective/package"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="annotationDirectives" upperBound="-1"
-        eType="#//XAnnotationDirective" containment="true"/>
+        eType="#//XAnnotationDirective" containment="true" eOpposite="#//XAnnotationDirective/package"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="classifiers" upperBound="-1"
         eType="#//XClassifier" containment="true" eOpposite="#//XClassifier/package"/>
   </eClassifiers>

@@ -17,7 +17,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -105,7 +104,7 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
   {
     if (importDirectives == null)
     {
-      importDirectives = new EObjectContainmentEList<XImportDirective>(XImportDirective.class, this, XcorePackage.XPACKAGE__IMPORT_DIRECTIVES);
+      importDirectives = new EObjectContainmentWithInverseEList<XImportDirective>(XImportDirective.class, this, XcorePackage.XPACKAGE__IMPORT_DIRECTIVES, XcorePackage.XIMPORT_DIRECTIVE__PACKAGE);
     }
     return importDirectives;
   }
@@ -119,7 +118,7 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
   {
     if (annotationDirectives == null)
     {
-      annotationDirectives = new EObjectContainmentEList<XAnnotationDirective>(XAnnotationDirective.class, this, XcorePackage.XPACKAGE__ANNOTATION_DIRECTIVES);
+      annotationDirectives = new EObjectContainmentWithInverseEList<XAnnotationDirective>(XAnnotationDirective.class, this, XcorePackage.XPACKAGE__ANNOTATION_DIRECTIVES, XcorePackage.XANNOTATION_DIRECTIVE__PACKAGE);
     }
     return annotationDirectives;
   }
@@ -149,6 +148,10 @@ public class XPackageImpl extends XNamedElementImpl implements XPackage
   {
     switch (featureID)
     {
+      case XcorePackage.XPACKAGE__IMPORT_DIRECTIVES:
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getImportDirectives()).basicAdd(otherEnd, msgs);
+      case XcorePackage.XPACKAGE__ANNOTATION_DIRECTIVES:
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getAnnotationDirectives()).basicAdd(otherEnd, msgs);
       case XcorePackage.XPACKAGE__CLASSIFIERS:
         return ((InternalEList<InternalEObject>)(InternalEList<?>)getClassifiers()).basicAdd(otherEnd, msgs);
     }

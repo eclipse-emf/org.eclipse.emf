@@ -342,6 +342,16 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EReference getXAnnotationDirective_Package()
+  {
+    return (EReference)xAnnotationDirectiveEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getXAttribute()
   {
     return xAttributeEClass;
@@ -635,6 +645,16 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
   public EReference getXImportDirective_ImportedObject()
   {
     return (EReference)xImportDirectiveEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getXImportDirective_Package()
+  {
+    return (EReference)xImportDirectiveEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -1124,6 +1144,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
 
     xAnnotationDirectiveEClass = createEClass(XANNOTATION_DIRECTIVE);
     createEAttribute(xAnnotationDirectiveEClass, XANNOTATION_DIRECTIVE__SOURCE_URI);
+    createEReference(xAnnotationDirectiveEClass, XANNOTATION_DIRECTIVE__PACKAGE);
 
     xAttributeEClass = createEClass(XATTRIBUTE);
     createEAttribute(xAttributeEClass, XATTRIBUTE__DEFAULT_VALUE_LITERAL);
@@ -1162,6 +1183,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     xImportDirectiveEClass = createEClass(XIMPORT_DIRECTIVE);
     createEAttribute(xImportDirectiveEClass, XIMPORT_DIRECTIVE__IMPORTED_NAMESPACE);
     createEReference(xImportDirectiveEClass, XIMPORT_DIRECTIVE__IMPORTED_OBJECT);
+    createEReference(xImportDirectiveEClass, XIMPORT_DIRECTIVE__PACKAGE);
 
     xMemberEClass = createEClass(XMEMBER);
     createEReference(xMemberEClass, XMEMBER__CONTAINING_CLASS);
@@ -1278,12 +1300,13 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
 
     // Initialize classes and features; add operations and parameters
     initEClass(xAnnotationEClass, XAnnotation.class, "XAnnotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getXAnnotation_Source(), this.getXAnnotationDirective(), null, "source", null, 0, 1, XAnnotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXAnnotation_Source(), this.getXAnnotationDirective(), null, "source", null, 0, 1, XAnnotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXAnnotation_Details(), this.getXStringToStringMapEntry(), null, "details", null, 0, -1, XAnnotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXAnnotation_ModelElement(), this.getXModelElement(), this.getXModelElement_Annotations(), "modelElement", null, 0, 1, XAnnotation.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xAnnotationDirectiveEClass, XAnnotationDirective.class, "XAnnotationDirective", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXAnnotationDirective_SourceURI(), theEcorePackage.getEString(), "sourceURI", null, 0, 1, XAnnotationDirective.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXAnnotationDirective_Package(), this.getXPackage(), this.getXPackage_AnnotationDirectives(), "package", null, 0, 1, XAnnotationDirective.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xAttributeEClass, XAttribute.class, "XAttribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXAttribute_DefaultValueLiteral(), theEcorePackage.getEString(), "defaultValueLiteral", null, 0, 1, XAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1322,6 +1345,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     initEClass(xImportDirectiveEClass, XImportDirective.class, "XImportDirective", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXImportDirective_ImportedNamespace(), theEcorePackage.getEString(), "importedNamespace", null, 0, 1, XImportDirective.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXImportDirective_ImportedObject(), theEcorePackage.getEObject(), null, "importedObject", null, 0, 1, XImportDirective.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXImportDirective_Package(), this.getXPackage(), this.getXPackage_ImportDirectives(), "package", null, 0, 1, XImportDirective.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xMemberEClass, XMember.class, "XMember", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getXMember_ContainingClass(), this.getXClass(), this.getXClass_Members(), "containingClass", null, 0, 1, XMember.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1339,8 +1363,8 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     initEReference(getXOperation_Body(), theXbasePackage.getXBlockExpression(), null, "body", null, 0, 1, XOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xPackageEClass, XPackage.class, "XPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getXPackage_ImportDirectives(), this.getXImportDirective(), null, "importDirectives", null, 0, -1, XPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getXPackage_AnnotationDirectives(), this.getXAnnotationDirective(), null, "annotationDirectives", null, 0, -1, XPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXPackage_ImportDirectives(), this.getXImportDirective(), this.getXImportDirective_Package(), "importDirectives", null, 0, -1, XPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXPackage_AnnotationDirectives(), this.getXAnnotationDirective(), this.getXAnnotationDirective_Package(), "annotationDirectives", null, 0, -1, XPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXPackage_Classifiers(), this.getXClassifier(), this.getXClassifier_Package(), "classifiers", null, 0, -1, XPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xParameterEClass, XParameter.class, "XParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

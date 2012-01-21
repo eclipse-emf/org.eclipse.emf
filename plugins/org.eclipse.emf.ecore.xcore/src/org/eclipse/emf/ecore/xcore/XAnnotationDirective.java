@@ -17,6 +17,7 @@ package org.eclipse.emf.ecore.xcore;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XAnnotationDirective#getSourceURI <em>Source URI</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.xcore.XAnnotationDirective#getPackage <em>Package</em>}</li>
  * </ul>
  * </p>
  *
@@ -51,5 +52,22 @@ public interface XAnnotationDirective extends XNamedElement
    * @generated
    */
   void setSourceURI(String value);
+
+  /**
+   * Returns the value of the '<em><b>Package</b></em>' container reference.
+   * It is bidirectional and its opposite is '{@link org.eclipse.emf.ecore.xcore.XPackage#getAnnotationDirectives <em>Annotation Directives</em>}'.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Package</em>' container reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Package</em>' container reference.
+   * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXAnnotationDirective_Package()
+   * @see org.eclipse.emf.ecore.xcore.XPackage#getAnnotationDirectives
+   * @model opposite="annotationDirectives" changeable="false"
+   * @generated
+   */
+  XPackage getPackage();
 
 } // XAnnotationDirective

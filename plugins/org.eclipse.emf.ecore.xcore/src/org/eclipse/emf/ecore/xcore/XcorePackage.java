@@ -222,13 +222,22 @@ public interface XcorePackage extends EPackage
   int XANNOTATION_DIRECTIVE__SOURCE_URI = XNAMED_ELEMENT_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>Package</b></em>' container reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XANNOTATION_DIRECTIVE__PACKAGE = XNAMED_ELEMENT_FEATURE_COUNT + 1;
+
+  /**
    * The number of structural features of the '<em>XAnnotation Directive</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int XANNOTATION_DIRECTIVE_FEATURE_COUNT = XNAMED_ELEMENT_FEATURE_COUNT + 1;
+  int XANNOTATION_DIRECTIVE_FEATURE_COUNT = XNAMED_ELEMENT_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XTypedElementImpl <em>XTyped Element</em>}' class.
@@ -1241,13 +1250,22 @@ public interface XcorePackage extends EPackage
   int XIMPORT_DIRECTIVE__IMPORTED_OBJECT = XMODEL_ELEMENT_FEATURE_COUNT + 1;
 
   /**
+   * The feature id for the '<em><b>Package</b></em>' container reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XIMPORT_DIRECTIVE__PACKAGE = XMODEL_ELEMENT_FEATURE_COUNT + 2;
+
+  /**
    * The number of structural features of the '<em>XImport Directive</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int XIMPORT_DIRECTIVE_FEATURE_COUNT = XMODEL_ELEMENT_FEATURE_COUNT + 2;
+  int XIMPORT_DIRECTIVE_FEATURE_COUNT = XMODEL_ELEMENT_FEATURE_COUNT + 3;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.xcore.impl.XOperationImpl <em>XOperation</em>}' class.
@@ -1887,6 +1905,17 @@ public interface XcorePackage extends EPackage
   EAttribute getXAnnotationDirective_SourceURI();
 
   /**
+   * Returns the meta object for the container reference '{@link org.eclipse.emf.ecore.xcore.XAnnotationDirective#getPackage <em>Package</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the container reference '<em>Package</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XAnnotationDirective#getPackage()
+   * @see #getXAnnotationDirective()
+   * @generated
+   */
+  EReference getXAnnotationDirective_Package();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XAttribute <em>XAttribute</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2207,6 +2236,17 @@ public interface XcorePackage extends EPackage
    * @generated
    */
   EReference getXImportDirective_ImportedObject();
+
+  /**
+   * Returns the meta object for the container reference '{@link org.eclipse.emf.ecore.xcore.XImportDirective#getPackage <em>Package</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the container reference '<em>Package</em>'.
+   * @see org.eclipse.emf.ecore.xcore.XImportDirective#getPackage()
+   * @see #getXImportDirective()
+   * @generated
+   */
+  EReference getXImportDirective_Package();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.xcore.XMember <em>XMember</em>}'.
@@ -2769,6 +2809,14 @@ public interface XcorePackage extends EPackage
     EAttribute XANNOTATION_DIRECTIVE__SOURCE_URI = eINSTANCE.getXAnnotationDirective_SourceURI();
 
     /**
+     * The meta object literal for the '<em><b>Package</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XANNOTATION_DIRECTIVE__PACKAGE = eINSTANCE.getXAnnotationDirective_Package();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XAttributeImpl <em>XAttribute</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3023,6 +3071,14 @@ public interface XcorePackage extends EPackage
      * @generated
      */
     EReference XIMPORT_DIRECTIVE__IMPORTED_OBJECT = eINSTANCE.getXImportDirective_ImportedObject();
+
+    /**
+     * The meta object literal for the '<em><b>Package</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XIMPORT_DIRECTIVE__PACKAGE = eINSTANCE.getXImportDirective_Package();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.xcore.impl.XMemberImpl <em>XMember</em>}' class.

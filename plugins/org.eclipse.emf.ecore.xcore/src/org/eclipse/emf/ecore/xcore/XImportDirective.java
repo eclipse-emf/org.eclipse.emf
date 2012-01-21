@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XImportDirective#getImportedNamespace <em>Imported Namespace</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XImportDirective#getImportedObject <em>Imported Object</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.xcore.XImportDirective#getPackage <em>Package</em>}</li>
  * </ul>
  * </p>
  *
@@ -81,5 +82,22 @@ public interface XImportDirective extends XModelElement
    * @generated
    */
   void setImportedObject(EObject value);
+
+  /**
+   * Returns the value of the '<em><b>Package</b></em>' container reference.
+   * It is bidirectional and its opposite is '{@link org.eclipse.emf.ecore.xcore.XPackage#getImportDirectives <em>Import Directives</em>}'.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Package</em>' container reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Package</em>' container reference.
+   * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXImportDirective_Package()
+   * @see org.eclipse.emf.ecore.xcore.XPackage#getImportDirectives
+   * @model opposite="importDirectives" changeable="false"
+   * @generated
+   */
+  XPackage getPackage();
 
 } // XImportDirective
