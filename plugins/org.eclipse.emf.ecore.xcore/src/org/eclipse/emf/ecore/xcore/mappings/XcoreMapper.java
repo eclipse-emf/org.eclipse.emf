@@ -161,6 +161,10 @@ public class XcoreMapper
     {
       return getMapping((XOperation)namedElement).getEOperation();
     }
+    else if (namedElement instanceof XEnumLiteral)
+    {
+      return getMapping((XEnumLiteral)namedElement).getEEnumLiteral();
+    }
     return null;
   }
 

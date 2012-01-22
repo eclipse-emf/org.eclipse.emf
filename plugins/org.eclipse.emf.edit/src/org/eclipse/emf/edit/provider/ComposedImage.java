@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,12 +25,24 @@ public class ComposedImage
   {
     public int x;
     public int y;
+    
+    @Override
+    public String toString()
+    {
+      return "(" + x + ", " + y +")";
+    }
   }
 
   public static class Size
   {
     public int width;
     public int height;
+
+    @Override
+    public String toString()
+    {
+      return "(" + width+ ", " + height +")";
+    }
   }
 
   protected List<Object> images;
@@ -76,7 +88,7 @@ public class ComposedImage
   public List<Point> getDrawPoints(Size size)
   {
     List<Point> results = new ArrayList<Point>();
-    for (int i = imageSizes.size(); i > 0; --i)
+    for (int i = images.size(); i > 0; --i)
     {
       Point result = new Point();
       results.add(result);

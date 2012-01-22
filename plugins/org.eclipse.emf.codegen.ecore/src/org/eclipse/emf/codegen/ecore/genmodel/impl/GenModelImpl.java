@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2010 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9519,27 +9519,30 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         {
           IWorkspace workspace = ResourcesPlugin.getWorkspace();
           IProject project = workspace.getRoot().getProject(uri.segment(1));
-          IJavaProject javaProject = JavaCore.create(project);
-          IClasspathEntry[] classpath = javaProject.getRawClasspath();
-          IClasspathEntry bestEntry = null;
-          for (IClasspathEntry classpathEntry : classpath)
+          if (project.exists())
           {
-            if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_SOURCE)
+            IJavaProject javaProject = JavaCore.create(project);
+            IClasspathEntry[] classpath = javaProject.getRawClasspath();
+            IClasspathEntry bestEntry = null;
+            for (IClasspathEntry classpathEntry : classpath)
             {
-              // Look for the first entry that's Java source.
-              if (bestEntry == null)
+              if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_SOURCE)
               {
-                bestEntry = classpathEntry;
-              }
-              // If there's a src-gen entry, prefer that over all others.
-              //
-              else if (classpathEntry.getPath().toString().endsWith("src-gen"))
-              {
-                bestEntry = classpathEntry;
+                // Look for the first entry that's Java source.
+                if (bestEntry == null)
+                {
+                  bestEntry = classpathEntry;
+                }
+                // If there's a src-gen entry, prefer that over all others.
+                //
+                else if (classpathEntry.getPath().toString().endsWith("src-gen"))
+                {
+                  bestEntry = classpathEntry;
+                }
               }
             }
+            return bestEntry == null ? project.getFullPath() + "/src" : bestEntry.getPath().toString();
           }
-          return bestEntry == null ? project.getFullPath() + "/src" : bestEntry.getPath().toString();
         }
         catch (Exception exception)
         {
@@ -9557,18 +9560,21 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         {
           IWorkspace workspace = ResourcesPlugin.getWorkspace();
           IProject project = workspace.getRoot().getProject(uri.segment(2));
-          String complianceLevel = CodeGenUtil.EclipseUtil.getJavaComplianceLevel(project);
-          if ("1.5".equals(complianceLevel))
+          if (project.exists())
           {
-            return GenJDKLevel.JDK50_LITERAL;
-          }
-          else if ("1.6".equals(complianceLevel))
-          {
-            return GenJDKLevel.JDK60_LITERAL;
-          }
-          else if ("1.4".equals(complianceLevel))
-          {
-            return GenJDKLevel.JDK14_LITERAL;
+            String complianceLevel = CodeGenUtil.EclipseUtil.getJavaComplianceLevel(project);
+            if ("1.5".equals(complianceLevel))
+            {
+              return GenJDKLevel.JDK50_LITERAL;
+            }
+            else if ("1.6".equals(complianceLevel))
+            {
+              return GenJDKLevel.JDK60_LITERAL;
+            }
+            else if ("1.4".equals(complianceLevel))
+            {
+              return GenJDKLevel.JDK14_LITERAL;
+            }
           }
         }
         catch (Exception exception)

@@ -1,0 +1,12 @@
+/**
+ * Copyright (c) 2012 Eclipse contributors and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
+package xcore.lang
+
+annotation "http://www.eclipse.org/emf/2002/Ecore" as Ecore
+annotation "http:///org/eclipse/emf/ecore/util/ExtendedMetaData" as ExtendedMetaData
+annotation "http://www.eclipse.org/emf/2002/GenModel" as GenModel

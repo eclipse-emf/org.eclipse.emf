@@ -28,8 +28,11 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xcore.XPackage;
+import org.eclipse.emf.ecore.xcore.XcoreFactory;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.emf.ecore.xcore.XcorePlugin;
 import org.eclipse.emf.ecore.xcore.util.EcoreXcoreBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreJvmInferrer;
 import org.eclipse.xtext.common.types.TypesPackage;
@@ -53,12 +56,6 @@ import com.google.inject.Provider;
 
 public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceAwareLocalScopeProvider
 {
-  private static final URI ECORE_XCORE_URI = URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.xcore");
-
-  private static final URI ECORE_GEN_MODEL_URI = EMFPlugin.IS_ECLIPSE_RUNNING
-    ? URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel")
-    : URI.createURI(EcorePlugin.INSTANCE.getBaseURL().toString() + "model/Ecore.genmodel");
-
   @Inject
   private IQualifiedNameConverter nameConverter;
 
@@ -77,12 +74,23 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
     IScope resourceScope = super.getResourceScope(parent, context, reference);
     if (reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE)
     {
-      return new ImportScope(getImplicitImports(false), new EClassifierScope(
-        resourceScope,
-        context.eResource().getResourceSet(),
-        nameConverter,
-        ecoreXcoreBuilderProvider,
-        jvmInferrer), null, GenModelPackage.Literals.GEN_BASE, false);
+      return
+        new ImportScope
+          (getImplicitImports(false),
+           new EClassifierScope(resourceScope, context.eResource().getResourceSet(), nameConverter, ecoreXcoreBuilderProvider, jvmInferrer),
+           null,
+           GenModelPackage.Literals.GEN_BASE,
+           false);
+    }
+    else if (reference == XcorePackage.Literals.XANNOTATION__SOURCE)
+    {
+      return
+        new ImportScope
+          (Collections.singletonList(new ImportNormalizer(nameConverter.toQualifiedName("xcore.lang"), true, false)),
+           new XAnnotationDirectiveScope(resourceScope, context.eResource().getResourceSet()),
+           null,
+           GenModelPackage.Literals.GEN_BASE,
+           false);
     }
     else
     {
@@ -98,7 +106,8 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
       final IScope classifierScope = getResourceScope(context.eResource(), XcorePackage.Literals.XGENERIC_TYPE__TYPE);
       final IScope annotationScope = getResourceScope(context.eResource(), XcorePackage.Literals.XANNOTATION__SOURCE);
       final IScope jvmTypeScope = getResourceScope(context.eResource(), TypesPackage.Literals.JVM_PARAMETERIZED_TYPE_REFERENCE__TYPE);
-      return new IScope()
+      return
+        new IScope()
         {
           public IEObjectDescription getSingleElement(QualifiedName name)
           {
@@ -135,10 +144,7 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
 
           public Iterable<IEObjectDescription> getElements(EObject object)
           {
-            return Iterables.concat(
-              classifierScope.getElements(object),
-              annotationScope.getElements(object),
-              jvmTypeScope.getElements(object));
+            return Iterables.concat(classifierScope.getElements(object), annotationScope.getElements(object), jvmTypeScope.getElements(object));
           }
 
           public Iterable<IEObjectDescription> getAllElements()
@@ -193,29 +199,38 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
 
   protected static class EClassifierScope extends AbstractScope
   {
-    protected static final EDataType[] IMPLICIT_ALIASES = new EDataType []{
-      EcorePackage.Literals.EBIG_DECIMAL,
-      EcorePackage.Literals.EBIG_INTEGER,
-      EcorePackage.Literals.EBOOLEAN,
-      EcorePackage.Literals.EBOOLEAN_OBJECT,
-      EcorePackage.Literals.EBYTE,
-      EcorePackage.Literals.EBYTE_OBJECT,
-      EcorePackage.Literals.ECHAR,
-      EcorePackage.Literals.ECHARACTER_OBJECT,
-      EcorePackage.Literals.EDATE,
-      EcorePackage.Literals.EDOUBLE,
-      EcorePackage.Literals.EDOUBLE_OBJECT,
-      EcorePackage.Literals.EFLOAT,
-      EcorePackage.Literals.EFLOAT_OBJECT,
-      EcorePackage.Literals.EINT,
-      EcorePackage.Literals.EINTEGER_OBJECT,
-      EcorePackage.Literals.EJAVA_CLASS,
-      EcorePackage.Literals.EJAVA_OBJECT,
-      EcorePackage.Literals.ELONG,
-      EcorePackage.Literals.ELONG_OBJECT,
-      EcorePackage.Literals.ESHORT,
-      EcorePackage.Literals.ESHORT_OBJECT,
-      EcorePackage.Literals.ESTRING, };
+    private static final URI ECORE_XCORE_URI = URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.xcore");
+
+    private static final URI ECORE_GEN_MODEL_URI =
+       EMFPlugin.IS_ECLIPSE_RUNNING ?
+         URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel") :
+         URI.createURI(EcorePlugin.INSTANCE.getBaseURL().toString() + "model/Ecore.genmodel");
+
+    protected static final EDataType[] IMPLICIT_ALIASES =
+      {
+        EcorePackage.Literals.EBIG_DECIMAL,
+        EcorePackage.Literals.EBIG_INTEGER,
+        EcorePackage.Literals.EBOOLEAN,
+        EcorePackage.Literals.EBOOLEAN_OBJECT,
+        EcorePackage.Literals.EBYTE,
+        EcorePackage.Literals.EBYTE_OBJECT,
+        EcorePackage.Literals.ECHAR,
+        EcorePackage.Literals.ECHARACTER_OBJECT,
+        EcorePackage.Literals.EDATE,
+        EcorePackage.Literals.EDOUBLE,
+        EcorePackage.Literals.EDOUBLE_OBJECT,
+        EcorePackage.Literals.EFLOAT,
+        EcorePackage.Literals.EFLOAT_OBJECT,
+        EcorePackage.Literals.EINT,
+        EcorePackage.Literals.EINTEGER_OBJECT,
+        EcorePackage.Literals.EJAVA_CLASS,
+        EcorePackage.Literals.EJAVA_OBJECT,
+        EcorePackage.Literals.ELONG,
+        EcorePackage.Literals.ELONG_OBJECT,
+        EcorePackage.Literals.ESHORT,
+        EcorePackage.Literals.ESHORT_OBJECT,
+        EcorePackage.Literals.ESTRING
+      };
 
     private ResourceSet resourceSet;
 
@@ -225,13 +240,7 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
 
     private XcoreJvmInferrer jvmInferrer;
 
-    public EClassifierScope(
-      IScope parent,
-      ResourceSet resourceSet,
-      IQualifiedNameConverter nameConverter,
-      Provider<EcoreXcoreBuilder> ecoreXcoreBuilderProvider,
-      XcoreJvmInferrer jvmInferrer)
-
+    public EClassifierScope(IScope parent, ResourceSet resourceSet, IQualifiedNameConverter nameConverter, Provider<EcoreXcoreBuilder> ecoreXcoreBuilderProvider, XcoreJvmInferrer jvmInferrer)
     {
       super(parent, false);
       this.resourceSet = resourceSet;
@@ -249,7 +258,8 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
         String instanceClassName = eDataType.getInstanceClassName();
         final QualifiedName actualQualifiedName = QualifiedName.create("org", "eclipse", "emf", "ecore", eDataType.getName());
         final QualifiedName qualifiedName = nameConverter.toQualifiedName(instanceClassName);
-        AbstractEObjectDescription eObjectDescription = new AbstractEObjectDescription()
+        AbstractEObjectDescription eObjectDescription =
+          new AbstractEObjectDescription()
           {
             public QualifiedName getQualifiedName()
             {
@@ -275,7 +285,6 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
                 InternalEObject genDataType = (InternalEObject)GenModelFactory.eINSTANCE.createGenDataType();
                 genDataType.eSetProxyURI(getSyntheticEObjectURI());
                 return genDataType;
-
               }
               else
               {
@@ -318,6 +327,107 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
                   ecoreXcoreResource.getContents().addAll(jvmInferrer.getDeclaredTypes(xPackage));
                   resourceSet.getResources().remove(genModelResource);
                   resourceSet.getResources().remove(ecoreResource);
+                }
+              }
+              return element;
+            }
+          };
+        result.add(eObjectDescription);
+      }
+      return result;
+    }
+  }
+
+  protected static class XAnnotationDirectiveScope extends AbstractScope
+  {
+    private static final URI LOGICAL_XCORE_LANG_URI = URI.createURI("platform:/plugin/org.eclipse.emf.ecore.xcore/model/XcoreLang.xcore");
+
+    private static final URI PHYSICAL_XCORE_LANG_URI =
+       EMFPlugin.IS_ECLIPSE_RUNNING ?
+         LOGICAL_XCORE_LANG_URI :
+         URI.createURI(XcorePlugin.INSTANCE.getBaseURL().toString() + "model/XcoreLang.xcore");
+
+    protected static final String[] IMPLICIT_ANNOTATION_DIRECTIVES =
+      {
+        "Ecore", EcorePackage.eNS_URI,
+        "ExtendedMetaData", ExtendedMetaData.ANNOTATION_URI,
+        "GenModel", GenModelPackage.eNS_URI
+      };
+
+    private ResourceSet resourceSet;
+
+    public XAnnotationDirectiveScope(IScope parent, ResourceSet resourceSet)
+    {
+      super(parent, false);
+      this.resourceSet = resourceSet;
+    }
+
+    @Override
+    protected Iterable<IEObjectDescription> getAllLocalElements()
+    {
+      ArrayList<IEObjectDescription> result = new ArrayList<IEObjectDescription>();
+      for (int i = 0; i < IMPLICIT_ANNOTATION_DIRECTIVES.length; i += 2)
+      {
+        final String name = IMPLICIT_ANNOTATION_DIRECTIVES[i];
+        final String sourceURI = IMPLICIT_ANNOTATION_DIRECTIVES[i + 1];
+        final int index = i;
+        final QualifiedName actualQualifiedName = QualifiedName.create("xcore", "lang",name);
+        final QualifiedName qualifiedName = QualifiedName.create(name);
+        AbstractEObjectDescription eObjectDescription =
+          new AbstractEObjectDescription()
+          {
+            public QualifiedName getQualifiedName()
+            {
+              return qualifiedName;
+            }
+
+            public QualifiedName getName()
+            {
+              return qualifiedName;
+            }
+
+            public URI getEObjectURI()
+            {
+              IEObjectDescription element = getElement();
+              return element == null ? getSyntheticEObjectURI() : element.getEObjectURI();
+            }
+
+            public EObject getEObjectOrProxy()
+            {
+              IEObjectDescription element = getElement();
+              if (element == null)
+              {
+                InternalEObject xAnnotationDirective = (InternalEObject)XcoreFactory.eINSTANCE.createXAnnotationDirective();
+                xAnnotationDirective.eSetProxyURI(getSyntheticEObjectURI());
+                return xAnnotationDirective;
+              }
+              else
+              {
+                return element.getEObjectOrProxy();
+              }
+            }
+
+            public EClass getEClass()
+            {
+              return XcorePackage.Literals.XANNOTATION_DIRECTIVE;
+            }
+
+            protected URI getSyntheticEObjectURI()
+            {
+              // TODO
+              return LOGICAL_XCORE_LANG_URI.appendFragment("//@annotationDirectives." + index/2);
+            }
+
+            protected IEObjectDescription getElement()
+            {
+              IEObjectDescription element = getParent().getSingleElement(actualQualifiedName);
+              if (element == null)
+              {
+                Resource xcoreLangResource = resourceSet.getResource(LOGICAL_XCORE_LANG_URI, false);
+                if (xcoreLangResource == null)
+                {
+                  xcoreLangResource = resourceSet.getResource(PHYSICAL_XCORE_LANG_URI, true);
+                  xcoreLangResource.setURI(LOGICAL_XCORE_LANG_URI);
                 }
               }
               return element;
