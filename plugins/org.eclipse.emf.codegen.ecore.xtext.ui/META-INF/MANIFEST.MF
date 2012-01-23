@@ -13,3 +13,4 @@ Import-Package: org.apache.log4j;version="1.2.15"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.emf.codegen.ecore.xtext.ui.Activator
+Export-Package: org.eclipse.emf.codegen.ecore.xtext.ui

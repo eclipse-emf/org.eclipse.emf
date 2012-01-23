@@ -24,7 +24,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.codegen.ecore,
  org.eclipse.emf.ecore.editor,
  org.eclipse.jdt.core,
- org.eclipse.emf.codegen.ecore.ui
+ org.eclipse.emf.codegen.ecore.ui,
+ org.eclipse.emf.codegen.ecore.xtext.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.ecore.xcore.ui,
