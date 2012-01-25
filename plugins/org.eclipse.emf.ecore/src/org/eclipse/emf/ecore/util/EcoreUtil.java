@@ -2280,6 +2280,8 @@ public class EcoreUtil
         {
           if (!haveEqualFeature(eObject1, eObject2, feature))
           {
+            remove(eObject1);
+            remove(eObject2);
             return false;
           }
         }

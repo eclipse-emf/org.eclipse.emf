@@ -193,56 +193,53 @@ public class XGenericTypeItemProvider
       String name = ((GenTypeParameter)type).getName();
       return name == null ? "null" : name;
     }
-    else
+    else if (type instanceof GenClassifier)
     {
       GenClassifier genClassifier = (GenClassifier)type;
-      if (genClassifier != null)
+      List<XGenericType> typeArguments = xGenericType.getTypeArguments();
+      if (typeArguments.isEmpty())
       {
-        List<XGenericType> typeArguments = xGenericType.getTypeArguments();
-        if (typeArguments.isEmpty())
-        {
-          String name = genClassifier.getName();
-          return name == null ? "null" : name;
-        }
-        else
-        {
-          StringBuilder result = new StringBuilder();
-          result.append(genClassifier.getName());
-          result.append('<');
-          for (Iterator<XGenericType> i = typeArguments.iterator(); ; )
-          {
-            result.append(getText(i.next()));
-            if (i.hasNext())
-            {
-              result.append(", ");
-            }
-            else
-            {
-              break;
-            }
-          }
-          result.append('>');
-          return result.toString();
-        }
+        String name = genClassifier.getName();
+        return name == null ? "null" : name;
       }
       else
       {
-        XGenericType upperBound = xGenericType.getUpperBound();
-        if (upperBound != null)
+        StringBuilder result = new StringBuilder();
+        result.append(genClassifier.getName());
+        result.append('<');
+        for (Iterator<XGenericType> i = typeArguments.iterator(); ; )
         {
-          return "? extends " + getText(upperBound);
-        }
-        else
-        {
-          XGenericType lowerBound = xGenericType.getLowerBound();
-          if (lowerBound != null)
+          result.append(getText(i.next()));
+          if (i.hasNext())
           {
-            return "? super " + getText(lowerBound);
+            result.append(", ");
           }
           else
           {
-            return "?";
+            break;
           }
+        }
+        result.append('>');
+        return result.toString();
+      }
+    }
+    else
+    {
+      XGenericType upperBound = xGenericType.getUpperBound();
+      if (upperBound != null)
+      {
+        return "? extends " + getText(upperBound);
+      }
+      else
+      {
+        XGenericType lowerBound = xGenericType.getLowerBound();
+        if (lowerBound != null)
+        {
+          return "? super " + getText(lowerBound);
+        }
+        else
+        {
+          return "?";
         }
       }
     }
