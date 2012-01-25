@@ -197,6 +197,32 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
     return description;
   }
 
+  public static final EDataType[] IMPLICIT_ALIASES =
+    {
+      EcorePackage.Literals.EBIG_DECIMAL,
+      EcorePackage.Literals.EBIG_INTEGER,
+      EcorePackage.Literals.EBOOLEAN,
+      EcorePackage.Literals.EBOOLEAN_OBJECT,
+      EcorePackage.Literals.EBYTE,
+      EcorePackage.Literals.EBYTE_OBJECT,
+      EcorePackage.Literals.ECHAR,
+      EcorePackage.Literals.ECHARACTER_OBJECT,
+      EcorePackage.Literals.EDATE,
+      EcorePackage.Literals.EDOUBLE,
+      EcorePackage.Literals.EDOUBLE_OBJECT,
+      EcorePackage.Literals.EFLOAT,
+      EcorePackage.Literals.EFLOAT_OBJECT,
+      EcorePackage.Literals.EINT,
+      EcorePackage.Literals.EINTEGER_OBJECT,
+      EcorePackage.Literals.EJAVA_CLASS,
+      EcorePackage.Literals.EJAVA_OBJECT,
+      EcorePackage.Literals.ELONG,
+      EcorePackage.Literals.ELONG_OBJECT,
+      EcorePackage.Literals.ESHORT,
+      EcorePackage.Literals.ESHORT_OBJECT,
+      EcorePackage.Literals.ESTRING
+    };
+
   protected static class EClassifierScope extends AbstractScope
   {
     private static final URI ECORE_XCORE_URI = URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.xcore");
@@ -206,31 +232,6 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
          URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel") :
          URI.createURI(EcorePlugin.INSTANCE.getBaseURL().toString() + "model/Ecore.genmodel");
 
-    protected static final EDataType[] IMPLICIT_ALIASES =
-      {
-        EcorePackage.Literals.EBIG_DECIMAL,
-        EcorePackage.Literals.EBIG_INTEGER,
-        EcorePackage.Literals.EBOOLEAN,
-        EcorePackage.Literals.EBOOLEAN_OBJECT,
-        EcorePackage.Literals.EBYTE,
-        EcorePackage.Literals.EBYTE_OBJECT,
-        EcorePackage.Literals.ECHAR,
-        EcorePackage.Literals.ECHARACTER_OBJECT,
-        EcorePackage.Literals.EDATE,
-        EcorePackage.Literals.EDOUBLE,
-        EcorePackage.Literals.EDOUBLE_OBJECT,
-        EcorePackage.Literals.EFLOAT,
-        EcorePackage.Literals.EFLOAT_OBJECT,
-        EcorePackage.Literals.EINT,
-        EcorePackage.Literals.EINTEGER_OBJECT,
-        EcorePackage.Literals.EJAVA_CLASS,
-        EcorePackage.Literals.EJAVA_OBJECT,
-        EcorePackage.Literals.ELONG,
-        EcorePackage.Literals.ELONG_OBJECT,
-        EcorePackage.Literals.ESHORT,
-        EcorePackage.Literals.ESHORT_OBJECT,
-        EcorePackage.Literals.ESTRING
-      };
 
     private ResourceSet resourceSet;
 
@@ -369,7 +370,6 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
       for (int i = 0; i < IMPLICIT_ANNOTATION_DIRECTIVES.length; i += 2)
       {
         final String name = IMPLICIT_ANNOTATION_DIRECTIVES[i];
-        final String sourceURI = IMPLICIT_ANNOTATION_DIRECTIVES[i + 1];
         final int index = i;
         final QualifiedName actualQualifiedName = QualifiedName.create("xcore", "lang",name);
         final QualifiedName qualifiedName = QualifiedName.create(name);

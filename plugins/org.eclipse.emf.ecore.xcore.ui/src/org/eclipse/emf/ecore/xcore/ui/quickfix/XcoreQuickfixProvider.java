@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xcore.XAttribute;
 import org.eclipse.emf.ecore.xcore.XGenericType;
+import org.eclipse.emf.ecore.xcore.formatting.XcoreImportOrganizer;
 import org.eclipse.emf.ecore.xcore.validation.XcoreIssueCodes;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
@@ -25,12 +26,18 @@ import org.eclipse.xtext.ui.editor.model.edit.IModificationContext;
 import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider;
 import org.eclipse.xtext.ui.editor.quickfix.Fix;
 import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor;
+import org.eclipse.xtext.util.TextRegion;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 import org.eclipse.xtext.validation.Issue;
+
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 
 public class XcoreQuickfixProvider extends DefaultQuickfixProvider
 {
+  @Inject
+  protected Provider<XcoreImportOrganizer> xcoreImportOrganizerProvider;
 
   @Fix(EcoreValidator.DIAGNOSTIC_SOURCE + '.' + EcoreValidator.CONSISTENT_TYPE_CLASS_NOT_PERMITTED)
   public void convertToReference(final Issue issue, final IssueResolutionAcceptor acceptor)
@@ -193,23 +200,25 @@ public class XcoreQuickfixProvider extends DefaultQuickfixProvider
   public void collidingImport(final Issue issue, final IssueResolutionAcceptor acceptor)
   {
     removeImport(issue, acceptor);
+    oranizeImports(issue, acceptor);
   }
 
   @Fix(XcoreIssueCodes.DUPLICATE_IMPORT)
   public void duplicateImport(final Issue issue, final IssueResolutionAcceptor acceptor)
   {
     removeImport(issue, acceptor);
+    oranizeImports(issue, acceptor);
   }
 
   @Fix(XcoreIssueCodes.UNUSED_IMPORT)
   public void unusedImport(final Issue issue, final IssueResolutionAcceptor acceptor)
   {
     removeImport(issue, acceptor);
+    oranizeImports(issue, acceptor);
   }
 
   public void removeImport(final Issue issue, final IssueResolutionAcceptor acceptor)
   {
-
     IModificationContext modificationContext = getModificationContextFactory().createModificationContext(issue);
     final IXtextDocument xtextDocument = modificationContext.getXtextDocument();
     xtextDocument.readOnly
@@ -237,6 +246,43 @@ public class XcoreQuickfixProvider extends DefaultQuickfixProvider
                 {
                   IXtextDocument xtextDocument = context.getXtextDocument();
                   xtextDocument.replace(removalRegion.deleteBegin, removalRegion.deleteEnd- removalRegion.deleteBegin, removalRegion.replacement);
+                }
+              });
+         }
+       });
+  }
+
+  @Fix(XcoreIssueCodes.WILDCARD_IMPORT)
+  public void oranizeImports(final Issue issue, final IssueResolutionAcceptor acceptor)
+  {
+    IModificationContext modificationContext = getModificationContextFactory().createModificationContext(issue);
+    final IXtextDocument xtextDocument = modificationContext.getXtextDocument();
+    xtextDocument.readOnly
+      (new IUnitOfWork.Void<XtextResource>()
+       {
+         @Override
+         public void process(XtextResource xtextResource) throws Exception
+         {
+           XcoreImportOrganizer xcoreImportOrganizer = xcoreImportOrganizerProvider.get();
+           final TextRegion importRegion = xcoreImportOrganizer.getImportRegion(xtextResource);
+           final String importSection = xcoreImportOrganizer.getOrganizedImportSection(xtextResource);
+           acceptor.accept
+             (issue,
+              "Organize all imports",
+              importSection.trim(),
+              "full/obj16/correction_change.gif",
+              new IModification()
+              {
+                public void apply(IModificationContext context) throws BadLocationException
+                {
+                  IXtextDocument xtextDocument = context.getXtextDocument();
+                  int offset = importRegion.getOffset();
+                  int length = importRegion.getLength();
+                  String string = xtextDocument.get(offset, length);
+                  if (!string.equals(importSection))
+                  {
+                    xtextDocument.replace(offset, length, importSection);
+                  }
                 }
               });
          }

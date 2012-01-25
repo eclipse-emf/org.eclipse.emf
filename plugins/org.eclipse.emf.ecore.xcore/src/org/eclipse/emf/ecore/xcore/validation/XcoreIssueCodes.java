@@ -14,6 +14,7 @@ public final class XcoreIssueCodes
   public static final String DUPLICATE_IMPORT = ISSUE_CODE_PREFIX + "duplicate_import";
   public static final String UNUSED_IMPORT = ISSUE_CODE_PREFIX + "unused_import";
   public static final String COLLIDING_IMPORT = ISSUE_CODE_PREFIX + "colliding_import";
+  public static final String WILDCARD_IMPORT = ISSUE_CODE_PREFIX + "wildcard_import";
 
   private XcoreIssueCodes()
   {

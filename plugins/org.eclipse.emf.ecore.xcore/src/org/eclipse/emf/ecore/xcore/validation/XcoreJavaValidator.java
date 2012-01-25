@@ -15,9 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
@@ -25,11 +22,10 @@ import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XImportDirective;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
-import org.eclipse.xtext.CrossReference;
+import org.eclipse.emf.ecore.xcore.util.XcoreUtil;
 import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.nodemodel.INode;
-import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.xbase.XbasePackage;
 import org.eclipse.xtext.xtype.XtypePackage;
@@ -61,52 +57,60 @@ public class XcoreJavaValidator extends AbstractXcoreJavaValidator
     {
       // If there is a resolved imported object...
       //
-      EObject importedObject = xImportDirective.getImportedObject();
-      if (importedObject != null && !importedObject.eIsProxy())
+      String importedNamespace = xImportDirective.getImportedNamespace();
+      if (importedNamespace.endsWith("*"))
       {
-        // Check that we've not imported this object already....
-        //
-        if (imports.containsKey(importedObject))
+        warning("Discourage wildcard import of '" + importedNamespace, xImportDirective, null, XcoreIssueCodes.WILDCARD_IMPORT);
+      }
+      else
+      {
+        EObject importedObject = xImportDirective.getImportedObject();
+        if (importedObject != null && !importedObject.eIsProxy())
         {
-          warning("Duplicate import of '" + xImportDirective.getImportedNamespace(), xImportDirective, null, XcoreIssueCodes.DUPLICATE_IMPORT);
-        }
-        else
-        {
-          // Keep track of the fact that this object was made visible by this import.
+          // Check that we've not imported this object already....
           //
-          imports.put(importedObject, xImportDirective);
-
-          // Determine whether there is a simple name of the imported object.
-          //
-          String simpleName =
-            importedObject instanceof JvmType ?
-              ((JvmType)importedObject).getSimpleName() :
-              importedObject instanceof GenClassifier ?
-                ((GenClassifier)importedObject).getName() :
-                importedObject instanceof XAnnotationDirective ?
-                  ((XAnnotationDirective)importedObject).getName() :
-                  null;
-          if (simpleName != null)
+          if (imports.containsKey(importedObject))
           {
-            // Check whether this simple name hasn't already been used to import something else...
+            warning("Duplicate import of '" + importedNamespace, xImportDirective, null, XcoreIssueCodes.DUPLICATE_IMPORT);
+          }
+          else
+          {
+            // Keep track of the fact that this object was made visible by this import.
             //
-            EObject previouslyImportedObject = importedNames.put(simpleName, importedObject);
-            if (previouslyImportedObject != null)
-            {
-              error("The import " + xImportDirective.getImportedNamespace() + " collides with another import", xImportDirective, null, XcoreIssueCodes.COLLIDING_IMPORT);
+            imports.put(importedObject, xImportDirective);
 
-              // Behave as if this import doesn't exist so we don't get any other warnings.
+            // Determine whether there is a simple name of the imported object.
+            //
+            String simpleName =
+              importedObject instanceof JvmType ?
+                ((JvmType)importedObject).getSimpleName() :
+                importedObject instanceof GenClassifier ?
+                  ((GenClassifier)importedObject).getName() :
+                  importedObject instanceof XAnnotationDirective ?
+                    ((XAnnotationDirective)importedObject).getName() :
+                    null;
+            if (simpleName != null)
+            {
+              // Check whether this simple name hasn't already been used to import something else...
               //
-              imports.remove(importedObject);
-              importedNames.put(simpleName, previouslyImportedObject);
-            }
+              EObject previouslyImportedObject = importedNames.put(simpleName, importedObject);
+              if (previouslyImportedObject != null)
+              {
+                error("The import " + importedNamespace + " collides with another import", xImportDirective, null, XcoreIssueCodes.COLLIDING_IMPORT);
 
-            // Track all the type qualified names that might be used to refer to the type being imported...
-            //
-            for (EObject eContainer = importedObject.eContainer(); eContainer instanceof JvmType; eContainer = eContainer.eContainer())
-            {
-              simpleName = ((JvmType)eContainer).getSimpleName() + "$" + simpleName;
-              importedNames.put(simpleName, importedObject);
+                // Behave as if this import doesn't exist so we don't get any other warnings.
+                //
+                imports.remove(importedObject);
+                importedNames.put(simpleName, previouslyImportedObject);
+              }
+
+              // Track all the type qualified names that might be used to refer to the type being imported...
+              //
+              for (EObject eContainer = importedObject.eContainer(); eContainer instanceof JvmType; eContainer = eContainer.eContainer())
+              {
+                simpleName = ((JvmType)eContainer).getSimpleName() + "$" + simpleName;
+                importedNames.put(simpleName, importedObject);
+              }
             }
           }
         }
@@ -145,54 +149,37 @@ public class XcoreJavaValidator extends AbstractXcoreJavaValidator
       }
     }
 
-    // Scan all the contents to consider all the names actually being used in this resource...
+    // Scan all the cross reference contents to consider all the names actually being used in this resource...
     //
-    for (INode node : NodeModelUtils.findActualNodeFor(xPackage).getAsTreeIterable())
+    for (INode node : XcoreUtil.importableCrossReferences(xPackage))
     {
-      if (node.getGrammarElement() instanceof CrossReference)
+      String simpleName = node.getText().trim();
+      if (simpleName.endsWith("::"))
       {
-        EClassifier classifier = ((CrossReference)node.getGrammarElement()).getType().getClassifier();
-        if (classifier instanceof EClass)
+        simpleName = simpleName.substring(0, simpleName.length() - 2);
+      }
+
+      // If this simple name is imported, remove the corresponding object it imported as being used.
+      // Note that the same import may be used by Xcore to import several different types of things,
+      // i.e., a Jvm type, an GenModel classifier, and an Xcore annotation directive.
+      // As long as one of those things is used, the import is used.
+      //
+      if (importedNames.containsKey(simpleName))
+      {
+        EObject importedObject = importedNames.remove(simpleName);
+        imports.remove(importedObject);
+      }
+      else
+      {
+        // Consider all the qualified names as well...
+        //
+        while (simpleName.contains("$"))
         {
-          EClass eClass = (EClass)classifier;
-
-          // We're interested in references to Jvm types or constructors, Xcore annotation directives, or GenModel base references that aren't references to features, i.e,. opposites and keys.
-          //
-          boolean isJvmTypeReference = TypesPackage.Literals.JVM_TYPE.isSuperTypeOf(eClass) || TypesPackage.Literals.JVM_CONSTRUCTOR.isSuperTypeOf(eClass);
-          if (isJvmTypeReference ||
-                (XcorePackage.Literals.XANNOTATION_DIRECTIVE.isSuperTypeOf(eClass)) ||
-                GenModelPackage.Literals.GEN_BASE.isSuperTypeOf(eClass) && !GenModelPackage.Literals.GEN_FEATURE.isSuperTypeOf(eClass))
+          simpleName = simpleName.substring(0, simpleName.lastIndexOf('$'));
+          if (importedNames.containsKey(simpleName))
           {
-            String simpleName = node.getText().trim();
-            if (simpleName.endsWith("::"))
-            {
-              simpleName = simpleName.substring(0, simpleName.length() - 2);
-            }
-
-            // If this simple name is imported, remove the corresponding object it imported as being used.
-            // Note that the same import may be used by Xcore to import several different types of things,
-            // i.e., a Jvm type, an GenModel classifier, and an Xcore annotation directive.
-            // As long as one of those things is used, the import is used.
-            //
-            if (importedNames.containsKey(simpleName))
-            {
-              EObject importedObject = importedNames.remove(simpleName);
-              imports.remove(importedObject);
-            }
-            else if (isJvmTypeReference)
-            {
-              // Consider all the qualified names as well...
-              //
-              while (simpleName.contains("$"))
-              {
-                simpleName = simpleName.substring(0, simpleName.lastIndexOf('$'));
-                if (importedNames.containsKey(simpleName))
-                {
-                  imports.remove(importedNames.remove(simpleName));
-                  break;
-                }
-              }
-            }
+            imports.remove(importedNames.remove(simpleName));
+            break;
           }
         }
       }

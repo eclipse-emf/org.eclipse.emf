@@ -79,9 +79,9 @@
             name="%page.name.2">
             <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
             <enabledWhen>
-	            <adapt type="org.eclipse.core.resources.IProject"/>
-			</enabledWhen>
-	        <filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
+                <adapt type="org.eclipse.core.resources.IProject"/>
+            </enabledWhen>
+            <filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
         </page>
     </extension>
     <extension
@@ -114,17 +114,17 @@
          </menuContribution>
     </extension>
     <extension point="org.eclipse.ui.menus">
-		<menuContribution locationURI="popup:#TextEditorContext?endof=group.find">
-			<command commandId="org.eclipse.xtext.ui.editor.FindReferences">
-				<visibleWhen checkEnabled="false">
-                	<reference definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
-                	</reference>
-            	</visibleWhen>
-			</command>
-		</menuContribution>
-	</extension>
-	<extension point="org.eclipse.ui.handlers">
-	    <handler
+        <menuContribution locationURI="popup:#TextEditorContext?endof=group.find">
+            <command commandId="org.eclipse.xtext.ui.editor.FindReferences">
+                <visibleWhen checkEnabled="false">
+                    <reference definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
+                    </reference>
+                </visibleWhen>
+            </command>
+        </menuContribution>
+    </extension>
+    <extension point="org.eclipse.ui.handlers">
+        <handler
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.editor.findrefs.FindReferencesHandler"
             commandId="org.eclipse.xtext.ui.editor.FindReferences">
             <activeWhen>
@@ -137,14 +137,14 @@
 
 <!-- adding resource factories -->
 
-	<extension
-		point="org.eclipse.emf.ecore.extension_parser">
-		<parser
-			class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
-			type="xcore">
-		</parser>
-	</extension>
-	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
+    <extension
+        point="org.eclipse.emf.ecore.extension_parser">
+        <parser
+            class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
+            type="xcore">
+        </parser>
+    </extension>
+    <extension point="org.eclipse.xtext.extension_resourceServiceProvider">
         <resourceServiceProvider
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
             uriExtension="xcore">
@@ -153,39 +153,39 @@
 
 
 
-	<!-- Quick Outline -->
-	<extension
-		point="org.eclipse.ui.handlers">
-		<handler 
-			class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
-			commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline">
-			<activeWhen>
-				<reference
-					definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
-				</reference>
-			</activeWhen>
-		</handler>
-	</extension>
-	<extension
-		point="org.eclipse.ui.commands">
-		<command
-			description="%command.description.0"
-			id="org.eclipse.xtext.ui.editor.outline.QuickOutline"
-			name="%command.name.0">
-		</command>
-	</extension>
-	<extension point="org.eclipse.ui.menus">
-		<menuContribution
-			locationURI="popup:#TextEditorContext?after=group.open">
-			<command commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline"
-				style="push"
-				tooltip="%command.tooltip.0">
-				<visibleWhen checkEnabled="false">
-					<reference definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened"/>
-				</visibleWhen>
-			</command>
-		</menuContribution>
-	</extension>
+    <!-- Quick Outline -->
+    <extension
+        point="org.eclipse.ui.handlers">
+        <handler 
+            class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
+            commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline">
+            <activeWhen>
+                <reference
+                    definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+    </extension>
+    <extension
+        point="org.eclipse.ui.commands">
+        <command
+            description="%command.description.0"
+            id="org.eclipse.xtext.ui.editor.outline.QuickOutline"
+            name="%command.name.0">
+        </command>
+    </extension>
+    <extension point="org.eclipse.ui.menus">
+        <menuContribution
+            locationURI="popup:#TextEditorContext?after=group.open">
+            <command commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline"
+                style="push"
+                tooltip="%command.tooltip.0">
+                <visibleWhen checkEnabled="false">
+                    <reference definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened"/>
+                </visibleWhen>
+            </command>
+        </menuContribution>
+    </extension>
 
   <extension point="org.eclipse.compare.contentViewers">
     <viewer id="org.eclipse.emf.ecore.xcore.Xcore.compare.contentViewers"
@@ -238,23 +238,23 @@
             name="%page.name.4">
             <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
             <enabledWhen>
-	            <adapt type="org.eclipse.core.resources.IProject"/>
-			</enabledWhen>
-	        <filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
+                <adapt type="org.eclipse.core.resources.IProject"/>
+            </enabledWhen>
+            <filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
         </page>
     </extension>
-   	<!-- Rename Refactoring -->
-	<extension point="org.eclipse.ui.handlers">
-		<handler 
-			class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.IRenameElementHandler"
-			commandId="org.eclipse.xtext.ui.refactoring.RenameElement">
-			<activeWhen>
-				<reference
-					definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
-				</reference>
-			</activeWhen>
-		</handler>
-	</extension>
+       <!-- Rename Refactoring -->
+    <extension point="org.eclipse.ui.handlers">
+        <handler 
+            class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.IRenameElementHandler"
+            commandId="org.eclipse.xtext.ui.refactoring.RenameElement">
+            <activeWhen>
+                <reference
+                    definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+    </extension>
     <extension point="org.eclipse.ui.menus">
          <menuContribution
             locationURI="popup:#TextEditorContext?after=group.edit">
@@ -269,14 +269,14 @@
       </menuContribution>
    </extension>
    <extension point="org.eclipse.ui.preferencePages">
-	    <page
-	        category="org.eclipse.emf.ecore.xcore.Xcore"
-	        class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
-	        id="org.eclipse.emf.ecore.xcore.Xcore.refactoring"
-	        name="%page.name.5">
-	        <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
-	    </page>
-	</extension>
+        <page
+            category="org.eclipse.emf.ecore.xcore.Xcore"
+            class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
+            id="org.eclipse.emf.ecore.xcore.Xcore.refactoring"
+            name="%page.name.5">
+            <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
+        </page>
+    </extension>
    <!-- MANUAL ADDITIONS -->
    
    <extension point="org.eclipse.ui.popupMenus">
@@ -315,6 +315,15 @@
                 </reference>
             </activeWhen>
         </handler>
+        <handler
+            class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.emf.ecore.xcore.ui.handler.XcoreOrganizeImportsHandler"
+            commandId="org.eclipse.emf.ecore.xcore.ui.organizeImports">
+               <activeWhen>
+                <reference
+                    definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
+                </reference>
+            </activeWhen>
+      </handler>
     </extension>
 
     <extension point="org.eclipse.ui.commands">
@@ -323,6 +332,10 @@
             id="org.eclipse.emf.ecore.xcore.ui.CreateDynamicInstance"
             name="%command.name.1">
       </command>
+      <command
+            description="%command.description.2"
+            id="org.eclipse.emf.ecore.xcore.ui.organizeImports"
+            name="%command.name.2"/>
     </extension>
 
     <extension point="org.eclipse.ui.menus">
@@ -332,6 +345,19 @@
                  commandId="org.eclipse.emf.ecore.xcore.ui.CreateDynamicInstance"
                  style="push"
                  tooltip="%command.tooltip.1">
+            <visibleWhen checkEnabled="false">
+                <reference
+                    definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
+                </reference>
+            </visibleWhen>
+         </command>  
+         </menuContribution>
+         <menuContribution
+            locationURI="popup:#TextEditorContext?after=group.edit">
+             <command
+                 commandId="org.eclipse.emf.ecore.xcore.ui.organizeImports"
+                 style="push"
+                 tooltip="%command.tooltip.2">
             <visibleWhen checkEnabled="false">
                 <reference
                     definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
