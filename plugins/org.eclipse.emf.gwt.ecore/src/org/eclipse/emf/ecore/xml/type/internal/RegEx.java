@@ -4134,8 +4134,8 @@ public final class RegEx
     boolean sorted;
     boolean compacted;
     RangeToken icaseCache = null;
-    int[] map = null;
-    int nonMapIndex;
+    volatile int[] map = null;
+    volatile int nonMapIndex;
 
     RangeToken(int type) {
         super(type);
@@ -4622,27 +4622,29 @@ public final class RegEx
 
     private static final int MAPSIZE = 256;
     private void createMap() {
-        int asize = MAPSIZE/32;                 // 32 is the number of bits in `int'.
-        this.map = new int[asize];
-        this.nonMapIndex = this.ranges.length;
-        for (int i = 0;  i < asize;  i ++)  this.map[i] = 0;
-        for (int i = 0;  i < this.ranges.length;  i += 2) {
-            int s = this.ranges[i];
-            int e = this.ranges[i+1];
-            if (s < MAPSIZE) {
-                for (int j = s;  j <= e && j < MAPSIZE;  j ++)
-                    this.map[j/32] |= 1<<(j&0x1f); // s&0x1f : 0-31
-            } else {
-                this.nonMapIndex = i;
-                break;
-            }
-            if (e >= MAPSIZE) {
-                this.nonMapIndex = i;
-                break;
-            }
-        }
-        //for (int i = 0;  i < asize;  i ++)  System.err.println("Map: "+Integer.toString(this.map[i], 16));
-    }
+      int asize = MAPSIZE/32;                 // 32 is the number of bits in `int'.
+      int [] map = new int[asize];
+      int nonMapIndex = this.ranges.length;
+      // for (int i = 0;  i < asize;  i ++)  this.map[i] = 0;
+      for (int i = 0;  i < this.ranges.length;  i += 2) {
+          int s = this.ranges[i];
+          int e = this.ranges[i+1];
+          if (s < MAPSIZE) {
+              for (int j = s;  j <= e && j < MAPSIZE;  j ++)
+                  map[j/32] |= 1<<(j&0x1f); // s&0x1f : 0-31
+          } else {
+              nonMapIndex = i;
+              break;
+          }
+          if (e >= MAPSIZE) {
+              nonMapIndex = i;
+              break;
+          }
+      }
+      this.nonMapIndex = nonMapIndex;
+      this.map = map;
+      //for (int i = 0;  i < asize;  i ++)  System.err.println("Map: "+Integer.toString(this.map[i], 16));
+  }
 
     @Override
     public String toString(int options) {
