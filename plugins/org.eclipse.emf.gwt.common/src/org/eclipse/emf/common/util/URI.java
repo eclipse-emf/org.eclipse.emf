@@ -636,11 +636,14 @@ public final class URI
     {
       result = parseIntoURI(base);
       uriCache.put(base, result);
+      if (fragment != null)
+      {
+        result = result.appendFragment(fragment);
+      }
     }
-
-    if (fragment != null)
+    else if (fragment != null)
     {
-      result = result.appendFragment(fragment);
+      result = result.appendFragment(new String(fragment));
     }
     return result;
   }
