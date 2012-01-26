@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
@@ -491,6 +492,31 @@ public class ETypedElementItemProvider
           return result;
         }
       };
+  }
+
+  @Override
+  protected Command createSetCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value)
+  {
+    if (feature == EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE)
+    {
+      return
+        new SetCommand(domain, owner, feature, value)
+        {
+          @Override
+          protected boolean prepare()
+          {
+            Object oldValue = ((ETypedElement)owner).getEGenericType();
+            boolean result =  super.prepare();
+            this.oldValue = oldValue;
+            return result;
+          }
+        };
+      
+    }
+    else
+    {
+      return super.createSetCommand(domain, owner, feature, value);
+    }
   }
 
   /**
