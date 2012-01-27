@@ -4,6 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins">
 		<accessrules>
 			<accessrule kind="accessible" pattern="org/eclipse/xtext/xbase/**"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/ui/refactoring/**"/>
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>

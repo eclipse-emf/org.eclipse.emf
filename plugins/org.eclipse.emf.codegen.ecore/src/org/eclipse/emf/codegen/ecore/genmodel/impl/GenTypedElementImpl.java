@@ -459,7 +459,8 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
       }
     }
     EClassifier type = getEcoreTypedElement().getEType();
-    return type instanceof EClass && findGenClass((EClass)type).isEObject();
+    GenClassifier genClassifier = findGenClassifier(type);
+    return genClassifier instanceof GenClass &&  ((GenClass)genClassifier).isEObject();
   }
 
   protected boolean hasEObjectBound(ETypeParameter eTypeParameter)

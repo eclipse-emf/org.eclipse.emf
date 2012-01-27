@@ -8,8 +8,15 @@
 package org.eclipse.emf.ecore.xcore.ui.refactoring;
 
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.xcore.XNamedElement;
+import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.DefaultJvmModelRenameStrategy;
+
+import com.google.inject.Inject;
 
 
 /**
@@ -17,12 +24,22 @@ import org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.DefaultJvmModelRenameStra
  */
 public class XcoreRenameStrategy extends DefaultJvmModelRenameStrategy
 {
-
+  @Inject
+  private XcoreMapper mapper;
+  
   @Override
-  protected void setInferredJvmElementName(String name, EObject renamedSourceElement)
+  protected EObject setName(URI targetElementURI, String newName, ResourceSet resourceSet)
   {
-    /*
-     * TODO: rename inferred elements as you would in IJvmModelInferrer 
-     */
+    EObject targetElement = super.setName(targetElementURI, newName, resourceSet);
+    if (targetElement instanceof XNamedElement)
+    {
+      XNamedElement xNamedElement = (XNamedElement)targetElement;
+      ENamedElement eNamedElement = mapper.getEcore(xNamedElement);
+      if (eNamedElement != null)
+      {
+        eNamedElement.setName(newName);
+      }
+    }
+    return targetElement;
   }
 }
