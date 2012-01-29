@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xcore.XAnnotation;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XAttribute;
@@ -202,7 +203,8 @@ public class XcoreEcoreBuilder
           if (instanceType != null)
           {
             String instanceTypeName = instanceType.getIdentifier();
-            eClassifier.setInstanceTypeName(instanceTypeName);
+             String normalizedInstanceTypeName = EcoreUtil.toJavaInstanceTypeName((EGenericType)EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName).getData().get(0));
+             eClassifier.setInstanceTypeName(normalizedInstanceTypeName);
           }
         }
       });

@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.ETypeParameter;
@@ -390,6 +391,12 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   public ETypedElement getEcoreTypedElement()
   {
     return getEcoreOperation();
+  }
+
+  @Override
+  protected EModelElement basicGetEcoreModelElement()
+  {
+    return ecoreOperation;
   }
 
   @Override

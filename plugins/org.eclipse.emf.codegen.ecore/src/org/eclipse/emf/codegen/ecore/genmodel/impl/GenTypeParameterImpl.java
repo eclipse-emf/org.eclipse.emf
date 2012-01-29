@@ -254,4 +254,10 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
     return getEcoreTypeParameter();
   }
 
+  @Override
+  protected EModelElement basicGetEcoreModelElement()
+  {
+    return ecoreTypeParameter;
+  }
+
 } //GenTypeParameterImpl

@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -194,6 +195,12 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   public EClassifier getEcoreClassifier()
   {
     return getEcoreDataType();
+  }
+
+  @Override
+  protected EModelElement basicGetEcoreModelElement()
+  {
+    return ecoreDataType;
   }
 
   @Override

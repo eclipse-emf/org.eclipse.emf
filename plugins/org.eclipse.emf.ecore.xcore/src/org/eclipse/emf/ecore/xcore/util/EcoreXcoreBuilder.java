@@ -41,6 +41,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xcore.XAnnotation;
@@ -70,6 +71,7 @@ import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XPackageMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
+import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvider;
 import org.eclipse.xtext.xbase.XBlockExpression;
 
 import com.google.inject.Inject;
@@ -269,9 +271,18 @@ public class EcoreXcoreBuilder
       if (source.equals(xAnnotationDirective.getSourceURI()))
       {
         return xAnnotationDirective;
-
       }
     }
+
+    Resource xcoreLangResource = XcoreImportedNamespaceAwareScopeProvider.getXcoreLangResource(genModel.eResource().getResourceSet());
+    for (XAnnotationDirective xAnnotationDirective : ((XPackage)xcoreLangResource.getContents().get(0)).getAnnotationDirectives())
+    {
+      if (source.equals(xAnnotationDirective.getSourceURI()))
+      {
+        return xAnnotationDirective;
+      }
+    }
+
     XAnnotationDirective xAnnotationDirective = XcoreFactory.eINSTANCE.createXAnnotationDirective();
     xAnnotationDirective.setSourceURI(source);
     // TODO

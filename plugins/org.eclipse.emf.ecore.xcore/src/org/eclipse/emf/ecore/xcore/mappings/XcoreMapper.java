@@ -30,39 +30,39 @@ import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 
 public class XcoreMapper
 {
-  public XDataType getXDataType(EObject element)
+  public XDataType getXDataType(EObject eObject)
   {
-    return (XDataType)getXcoreElement(element);
+    return (XDataType)getXcoreElement(eObject);
   }
 
-  public XEnum getXEnum(EObject element)
+  public XEnum getXEnum(EObject eObject)
   {
-    return (XEnum)getXcoreElement(element);
+    return (XEnum)getXcoreElement(eObject);
   }
 
-  public XClass getXClass(EObject element)
+  public XClass getXClass(EObject eObject)
   {
-    return (XClass)getXcoreElement(element);
+    return (XClass)getXcoreElement(eObject);
   }
 
-  public XOperation getXOperation(EObject element)
+  public XOperation getXOperation(EObject eObject)
   {
-    return (XOperation)getXcoreElement(element);
+    return (XOperation)getXcoreElement(eObject);
   }
 
-  public XStructuralFeature getXFeature(EObject element)
+  public XStructuralFeature getXFeature(EObject eObject)
   {
-    return (XStructuralFeature)getXcoreElement(element);
+    return (XStructuralFeature)getXcoreElement(eObject);
   }
 
-  public XEnumLiteral getXEnumLiteral(EObject element)
+  public XEnumLiteral getXEnumLiteral(EObject eObject)
   {
-    return (XEnumLiteral)getXcoreElement(element);
+    return (XEnumLiteral)getXcoreElement(eObject);
   }
 
-  public XPackageMapping getMapping(XPackage aPackage)
+  public XPackageMapping getMapping(XPackage xPackage)
   {
-    return lazyCreateMapping(aPackage, XPackageMapping.class);
+    return lazyCreateMapping(xPackage, XPackageMapping.class);
   }
 
   public void unsetMapping(XPackage xPackage)
@@ -109,104 +109,104 @@ public class XcoreMapper
     }
   }
 
-  public XClassMapping getMapping(XClass clazz)
+  public XClassMapping getMapping(XClass xClass)
   {
-    return lazyCreateMapping(clazz, XClassMapping.class);
+    return lazyCreateMapping(xClass, XClassMapping.class);
   }
 
-  public XFeatureMapping getMapping(XStructuralFeature feature)
+  public XFeatureMapping getMapping(XStructuralFeature xStructuralFeature)
   {
-    return lazyCreateMapping(feature, XFeatureMapping.class);
+    return lazyCreateMapping(xStructuralFeature, XFeatureMapping.class);
   }
 
-  public XOperationMapping getMapping(XOperation feature)
+  public XOperationMapping getMapping(XOperation xOperation)
   {
-    return lazyCreateMapping(feature, XOperationMapping.class);
+    return lazyCreateMapping(xOperation, XOperationMapping.class);
   }
 
-  public XDataTypeMapping getMapping(XDataType derivedElement)
+  public XDataTypeMapping getMapping(XDataType xDataType)
   {
-    return lazyCreateMapping(derivedElement, XDataTypeMapping.class);
+    return lazyCreateMapping(xDataType, XDataTypeMapping.class);
   }
 
-  public XEnumLiteralMapping getMapping(XEnumLiteral enumLiteral)
+  public XEnumLiteralMapping getMapping(XEnumLiteral xEnumLiteral)
   {
-    return lazyCreateMapping(enumLiteral, XEnumLiteralMapping.class);
+    return lazyCreateMapping(xEnumLiteral, XEnumLiteralMapping.class);
   }
 
-  public ToXcoreMapping getToXcoreMapping(EObject derivedElement)
+  public ToXcoreMapping getToXcoreMapping(EObject eObject)
   {
-    return lazyCreateMapping(derivedElement, ToXcoreMapping.class);
+    return lazyCreateMapping(eObject, ToXcoreMapping.class);
   }
 
-  public ENamedElement getEcore(XNamedElement namedElement)
+  public ENamedElement getEcore(XNamedElement xNamedElement)
   {
-    if (namedElement instanceof XPackage)
+    if (xNamedElement instanceof XPackage)
     {
-      return getMapping((XPackage)namedElement).getEPackage();
+      return getMapping((XPackage)xNamedElement).getEPackage();
     }
-    else if (namedElement instanceof XClass)
+    else if (xNamedElement instanceof XClass)
     {
-      return getMapping((XClass)namedElement).getEClass();
+      return getMapping((XClass)xNamedElement).getEClass();
     }
-    else if (namedElement instanceof XDataType)
+    else if (xNamedElement instanceof XDataType)
     {
-      return getMapping((XDataType)namedElement).getEDataType();
+      return getMapping((XDataType)xNamedElement).getEDataType();
     }
-    else if (namedElement instanceof XStructuralFeature)
+    else if (xNamedElement instanceof XStructuralFeature)
     {
-      return getMapping((XStructuralFeature)namedElement).getEStructuralFeature();
+      return getMapping((XStructuralFeature)xNamedElement).getEStructuralFeature();
     }
-    else if (namedElement instanceof XOperation)
+    else if (xNamedElement instanceof XOperation)
     {
-      return getMapping((XOperation)namedElement).getEOperation();
+      return getMapping((XOperation)xNamedElement).getEOperation();
     }
-    else if (namedElement instanceof XEnumLiteral)
+    else if (xNamedElement instanceof XEnumLiteral)
     {
-      return getMapping((XEnumLiteral)namedElement).getEEnumLiteral();
+      return getMapping((XEnumLiteral)xNamedElement).getEEnumLiteral();
     }
     return null;
   }
 
-  public GenBase getGen(XNamedElement namedElement)
+  public GenBase getGen(XNamedElement xNamedElement)
   {
-    if (namedElement instanceof XPackage)
+    if (xNamedElement instanceof XPackage)
     {
-      return getMapping((XPackage)namedElement).getGenPackage();
+      return getMapping((XPackage)xNamedElement).getGenPackage();
     }
-    else if (namedElement instanceof XClass)
+    else if (xNamedElement instanceof XClass)
     {
-      return getMapping((XClass)namedElement).getGenClass();
+      return getMapping((XClass)xNamedElement).getGenClass();
     }
-    else if (namedElement instanceof XDataType)
+    else if (xNamedElement instanceof XDataType)
     {
-      return getMapping((XDataType)namedElement).getGenDataType();
+      return getMapping((XDataType)xNamedElement).getGenDataType();
     }
-    else if (namedElement instanceof XStructuralFeature)
+    else if (xNamedElement instanceof XStructuralFeature)
     {
-      return getMapping((XStructuralFeature)namedElement).getGenFeature();
+      return getMapping((XStructuralFeature)xNamedElement).getGenFeature();
     }
-    else if (namedElement instanceof XOperation)
+    else if (xNamedElement instanceof XOperation)
     {
-      return getMapping((XOperation)namedElement).getGenOperation();
+      return getMapping((XOperation)xNamedElement).getGenOperation();
     }
     return null;
   }
 
   @SuppressWarnings("unchecked")
-  protected <T extends Adapter> T lazyCreateMapping(EObject object, Class<T> mapperType)
+  protected <T extends Adapter> T lazyCreateMapping(EObject eObject, Class<T> mapperType)
   {
-    if (object == null)
+    if (eObject == null)
       throw new NullPointerException("object");
     if (mapperType == null)
       throw new NullPointerException("mapperType");
-    T adapter = (T)EcoreUtil.getAdapter(object.eAdapters(), mapperType);
+    T adapter = (T)EcoreUtil.getAdapter(eObject.eAdapters(), mapperType);
     if (adapter == null)
     {
       try
       {
         adapter = mapperType.newInstance();
-        object.eAdapters().add(adapter);
+        eObject.eAdapters().add(adapter);
       }
       catch (Exception e)
       {
@@ -217,9 +217,9 @@ public class XcoreMapper
     return adapter;
   }
 
-  protected EObject getXcoreElement(EObject object)
+  protected EObject getXcoreElement(EObject eObject)
   {
-    ToXcoreMapping adapter = (ToXcoreMapping)EcoreUtil.getAdapter(object.eAdapters(), ToXcoreMapping.class);
+    ToXcoreMapping adapter = (ToXcoreMapping)EcoreUtil.getAdapter(eObject.eAdapters(), ToXcoreMapping.class);
     if (adapter != null)
       return adapter.getXcoreElement();
     return null;

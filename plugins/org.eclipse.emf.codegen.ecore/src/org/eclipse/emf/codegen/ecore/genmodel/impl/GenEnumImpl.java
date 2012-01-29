@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
@@ -340,6 +341,12 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
   public EClassifier getEcoreClassifier()
   {
     return getEcoreEnum();
+  }
+
+  @Override
+  protected EModelElement basicGetEcoreModelElement()
+  {
+    return ecoreEnum;
   }
 
   @Override

@@ -3229,7 +3229,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     return null;
   }
-  
+
+  protected EModelElement basicGetEcoreModelElement()
+  {
+    return null;
+  }
+
   protected static class GenAnnotationCopier extends EcoreUtil.Copier
   {
     private static final long serialVersionUID = 1L;
@@ -3572,6 +3577,21 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     {
       return null;
     }
+  }
+
+  @Override
+  public String toString()
+  {
+    String result = super.toString();
+    if (!eIsProxy())
+    {
+      EModelElement eModelElement = basicGetEcoreModelElement();
+      if (eModelElement != null)
+      {
+      result += " (ecoreModelElement: " + eModelElement + ')';
+      }
+    }
+    return result;
   }
 
 }

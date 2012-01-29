@@ -125,6 +125,12 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
     return getEcoreEnumLiteral();
   }
 
+  @Override
+  protected EModelElement basicGetEcoreModelElement()
+  {
+    return ecoreEnumLiteral;
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

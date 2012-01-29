@@ -1187,6 +1187,12 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return getEcorePackage();
   }
 
+  @Override
+  protected EModelElement basicGetEcoreModelElement()
+  {
+    return ecorePackage;
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

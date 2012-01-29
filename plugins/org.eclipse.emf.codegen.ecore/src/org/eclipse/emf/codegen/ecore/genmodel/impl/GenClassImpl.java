@@ -49,6 +49,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -353,6 +354,12 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public EClassifier getEcoreClassifier()
   {
     return getEcoreClass();
+  }
+
+  @Override
+  protected EModelElement basicGetEcoreModelElement()
+  {
+    return ecoreClass;
   }
 
   @Override

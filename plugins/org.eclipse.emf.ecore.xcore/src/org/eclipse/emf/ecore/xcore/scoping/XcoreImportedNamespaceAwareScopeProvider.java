@@ -339,6 +339,17 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
     }
   }
 
+  public static Resource getXcoreLangResource(ResourceSet resourceSet)
+  {
+    Resource xcoreLangResource = resourceSet.getResource(XAnnotationDirectiveScope.LOGICAL_XCORE_LANG_URI, false);
+    if (xcoreLangResource == null)
+    {
+      xcoreLangResource = resourceSet.getResource(XAnnotationDirectiveScope.PHYSICAL_XCORE_LANG_URI, true);
+      xcoreLangResource.setURI(XAnnotationDirectiveScope.LOGICAL_XCORE_LANG_URI);
+    }
+    return xcoreLangResource;
+  }
+
   protected static class XAnnotationDirectiveScope extends AbstractScope
   {
     private static final URI LOGICAL_XCORE_LANG_URI = URI.createURI("platform:/plugin/org.eclipse.emf.ecore.xcore/model/XcoreLang.xcore");
@@ -415,7 +426,7 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
             protected URI getSyntheticEObjectURI()
             {
               // TODO
-              return LOGICAL_XCORE_LANG_URI.appendFragment("//@annotationDirectives." + index/2);
+              return LOGICAL_XCORE_LANG_URI.appendFragment("/0/@annotationDirectives." + index/2);
             }
 
             protected IEObjectDescription getElement()
@@ -423,12 +434,7 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
               IEObjectDescription element = getParent().getSingleElement(actualQualifiedName);
               if (element == null)
               {
-                Resource xcoreLangResource = resourceSet.getResource(LOGICAL_XCORE_LANG_URI, false);
-                if (xcoreLangResource == null)
-                {
-                  xcoreLangResource = resourceSet.getResource(PHYSICAL_XCORE_LANG_URI, true);
-                  xcoreLangResource.setURI(LOGICAL_XCORE_LANG_URI);
-                }
+                getXcoreLangResource(resourceSet);
               }
               return element;
             }

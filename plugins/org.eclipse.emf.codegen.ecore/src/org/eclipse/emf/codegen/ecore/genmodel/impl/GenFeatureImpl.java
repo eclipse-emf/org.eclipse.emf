@@ -888,6 +888,12 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   }
 
   @Override
+  protected EModelElement basicGetEcoreModelElement()
+  {
+    return ecoreFeature;
+  }
+
+  @Override
   public String getName()
   {
     return getEcoreFeature().getName();

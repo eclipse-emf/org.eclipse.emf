@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
@@ -298,6 +299,12 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
   public ETypedElement getEcoreTypedElement()
   {
     return getEcoreParameter();
+  }
+
+  @Override
+  protected EModelElement basicGetEcoreModelElement()
+  {
+    return ecoreParameter;
   }
 
   @Override

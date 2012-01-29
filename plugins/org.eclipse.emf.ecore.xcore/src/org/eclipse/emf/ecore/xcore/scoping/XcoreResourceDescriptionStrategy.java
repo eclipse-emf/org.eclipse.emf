@@ -12,6 +12,7 @@ import java.util.Collections;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
+import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -86,7 +87,7 @@ public class XcoreResourceDescriptionStrategy extends DefaultResourceDescription
       if (name != null)
       {
         URI uri = eObject.eResource().getURI();
-        GenDataType genDataType = genFactory.createGenDataType();
+        GenDataType genDataType = eObject instanceof GenEnum ? genFactory.createGenEnum() : genFactory.createGenDataType();
         proxyTool.installProxyURI(uri, genDataType, name);
         acceptor.accept(EObjectDescription.create(name, genDataType));
       }
