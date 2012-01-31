@@ -63,7 +63,7 @@ public class GenModelHoverProvider extends DefaultEObjectHoverProvider
       {
         try
         {
-          image = FileLocator.resolve((URL)image);
+          image = FileLocator.toFileURL((URL)image);
         }
         catch (IOException e)
         {
