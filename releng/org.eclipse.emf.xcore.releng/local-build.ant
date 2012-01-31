@@ -14,7 +14,7 @@
 	<property name="buckminster.home" location="/Users/dhuebner/Entwicklung/buckminster" />
 	<property name="build.root" location="/Users/dhuebner/hudsonbuild/emf-xcore-head/buildroot" />
 	<property name="checkout.location" value="/Users/dhuebner/git/org.eclipse.emf/" />
-	<property name="releng.checkout.location" value="/Users/dhuebner/git/org.eclipse.xcore.releng/" />
+	<property name="releng.checkout.location" value="${checkout.location}/releng" />
 
 	<!-- ================================= 
           target: Runs 

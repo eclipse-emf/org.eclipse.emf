@@ -6,7 +6,7 @@
       provider-name="%providerName"
       image="eclipse_update_120.jpg"
       license-feature="org.eclipse.emf.license"
-      license-feature-version="[2.7.0,2.8.0)">
+      license-feature-version="2.7.0.qualifier">
 
    <copyright url="http://www.eclipse.org/legal/epl-v10.html">
       Copyright (c) 2002-2011 IBM Corporation and others.

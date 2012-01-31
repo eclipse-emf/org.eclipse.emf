@@ -1,4 +1,3 @@
-#copy of hudson setup
 setpref targetPlatformPath="${build.root}/target.platform"
 
 import -Declipse.download="http://download.eclipse.org" "${releng.checkout.location}/org.eclipse.emf.xcore.releng/releng/xcore-platform.mspec"
