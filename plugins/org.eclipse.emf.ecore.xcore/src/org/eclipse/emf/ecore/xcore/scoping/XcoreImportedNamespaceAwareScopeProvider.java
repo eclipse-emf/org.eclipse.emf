@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.xcore.XImportDirective;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcoreFactory;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
@@ -50,6 +51,7 @@ import org.eclipse.xtext.scoping.impl.ImportedNamespaceAwareLocalScopeProvider;
 import org.eclipse.xtext.util.Strings;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -168,8 +170,13 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
     }
     else
     {
-      List<ImportNormalizer> importedNamespaceResolvers = super.internalGetImportedNamespaceResolvers(context, ignoreCase);
-      String name = ((XPackage)context).getName();
+      List<ImportNormalizer> importedNamespaceResolvers = Lists.newArrayList();
+      XPackage xPackage = (XPackage)context;
+      for (XImportDirective xImportDirective : xPackage.getImportDirectives())
+      {
+        importedNamespaceResolvers.add(createImportedNamespaceResolver(xImportDirective.getImportedNamespace(), ignoreCase));
+      }
+      String name = xPackage.getName();
       if (!Strings.isEmpty(name))
       {
         importedNamespaceResolvers.add(new ImportNormalizer(nameConverter.toQualifiedName(name), true, ignoreCase));

@@ -9513,7 +9513,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     static String getModelDirectory(URI uri)
     {
-      if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
+      if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE && uri.segmentCount() >= 2)
       {
         try
         {
@@ -9554,26 +9554,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
     static GenJDKLevel getComplianceLevel(URI uri)
     {
-      if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
+      if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE && uri.segmentCount() >= 2)
       {
         try
         {
           IWorkspace workspace = ResourcesPlugin.getWorkspace();
-          IProject project = workspace.getRoot().getProject(uri.segment(2));
+          IProject project = workspace.getRoot().getProject(uri.segment(1));
           if (project.exists())
           {
             String complianceLevel = CodeGenUtil.EclipseUtil.getJavaComplianceLevel(project);
-            if ("1.5".equals(complianceLevel))
+            if ("1.4".equals(complianceLevel))
+            {
+              return GenJDKLevel.JDK14_LITERAL;
+            }
+            else if ("1.5".equals(complianceLevel))
             {
               return GenJDKLevel.JDK50_LITERAL;
             }
-            else if ("1.6".equals(complianceLevel))
+            else
             {
               return GenJDKLevel.JDK60_LITERAL;
-            }
-            else if ("1.4".equals(complianceLevel))
-            {
-              return GenJDKLevel.JDK14_LITERAL;
             }
           }
         }

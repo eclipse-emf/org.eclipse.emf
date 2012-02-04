@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.xcore.ui.contentassist.ImportingTypesProposalProvid
 import org.eclipse.emf.ecore.xcore.ui.hover.XcoreHoverProvider;
 import org.eclipse.emf.ecore.xcore.ui.hyperlinking.XcoreHyperLinkHelper;
 import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreDependentElementsCalculator;
+import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameElementProcessor;
 import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameStrategy;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.common.types.xtext.ui.ITypesProposalProvider;
@@ -19,6 +20,7 @@ import org.eclipse.xtext.ui.editor.hover.IEObjectHoverProvider;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
 import org.eclipse.xtext.ui.refactoring.IDependentElementsCalculator;
 import org.eclipse.xtext.ui.refactoring.IRenameStrategy;
+import org.eclipse.xtext.ui.refactoring.impl.RenameElementProcessor;
 
 
 /**
@@ -47,6 +49,11 @@ public class XcoreUiModule extends org.eclipse.emf.ecore.xcore.ui.AbstractXcoreU
   public Class<? extends IEObjectHoverProvider> bindIEObjectHoverProvider()
   {
     return XcoreHoverProvider.class;
+  }
+
+  public Class<? extends RenameElementProcessor> bindRenameElementProcessor()
+  {
+    return XcoreRenameElementProcessor.class;
   }
 
   @Override
