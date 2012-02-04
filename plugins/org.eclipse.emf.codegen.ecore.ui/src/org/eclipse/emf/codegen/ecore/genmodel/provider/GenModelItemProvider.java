@@ -110,6 +110,7 @@ public class GenModelItemProvider
       addRuntimeCompatibilityPropertyDescriptor(object);
       addRichClientPlatformPropertyDescriptor(object);
       addCodeFormattingPropertyDescriptor(object);
+      addCommentFormattingPropertyDescriptor(object);
       addTestsDirectoryPropertyDescriptor(object);
       addTestSuiteClassPropertyDescriptor(object);
       addBooleanFlagsFieldPropertyDescriptor(object);
@@ -949,6 +950,29 @@ public class GenModelItemProvider
          getString("_UI_GenModel_codeFormatting_feature"),
          getString("_UI_GenModel_codeFormatting_description"),
          GenModelPackage.Literals.GEN_MODEL__CODE_FORMATTING,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_JETPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Comment Formatting feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addCommentFormattingPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_commentFormatting_feature"),
+         getString("_UI_GenModel_commentFormatting_description"),
+         GenModelPackage.Literals.GEN_MODEL__COMMENT_FORMATTING,
          true,
          false,
          false,
@@ -1935,6 +1959,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
       case GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION:
       case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
+      case GenModelPackage.GEN_MODEL__COMMENT_FORMATTING:
       case GenModelPackage.GEN_MODEL__TESTS_DIRECTORY:
       case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
       case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_FIELD:

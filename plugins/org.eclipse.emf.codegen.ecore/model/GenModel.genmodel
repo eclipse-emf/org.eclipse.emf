@@ -128,6 +128,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/reflectiveDelegation"/>
       <genFeatures createChild="false" propertyCategory="JET" propertyDescription="Whether to fully format generated Java files with the JDT code formatter"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/codeFormatting"/>
+      <genFeatures createChild="false" propertyCategory="JET" propertyDescription="Whether to fully format comments in generated Java files with the JDT code formatter"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/commentFormatting"/>
       <genFeatures createChild="false" propertyCategory="Tests" propertyDescription="The target directory for generated unit tests"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/testsDirectory"/>
       <genFeatures createChild="false" propertyCategory="Tests" propertyDescription="The fully-qualified name for the test suite class"

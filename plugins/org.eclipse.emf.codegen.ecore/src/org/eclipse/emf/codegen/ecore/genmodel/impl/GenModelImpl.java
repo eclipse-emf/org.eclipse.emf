@@ -155,6 +155,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isRichClientPlatform <em>Rich Client Platform</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isReflectiveDelegation <em>Reflective Delegation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCodeFormatting <em>Code Formatting</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCommentFormatting <em>Comment Formatting</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTestsDirectory <em>Tests Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTestSuiteClass <em>Test Suite Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getBooleanFlagsField <em>Boolean Flags Field</em>}</li>
@@ -948,6 +949,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean codeFormatting = CODE_FORMATTING_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isCommentFormatting() <em>Comment Formatting</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isCommentFormatting()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean COMMENT_FORMATTING_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isCommentFormatting() <em>Comment Formatting</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isCommentFormatting()
+   * @generated
+   * @ordered
+   */
+  protected boolean commentFormatting = COMMENT_FORMATTING_EDEFAULT;
 
   /**
    * The default value of the '{@link #getTestsDirectory() <em>Tests Directory</em>}' attribute.
@@ -5464,6 +5485,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__CODE_FORMATTING, oldCodeFormatting, codeFormatting));
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isCommentFormatting()
+  {
+    return commentFormatting;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setCommentFormatting(boolean newCommentFormatting)
+  {
+    boolean oldCommentFormatting = commentFormatting;
+    commentFormatting = newCommentFormatting;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__COMMENT_FORMATTING, oldCommentFormatting, commentFormatting));
+  }
+
   public String getTestsDirectory()
   {
     return getPluginDirectory(isSetTestsDirectory(), getTestsDirectoryGen(), ".tests/");
@@ -6377,6 +6421,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isReflectiveDelegation();
       case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
         return isCodeFormatting();
+      case GenModelPackage.GEN_MODEL__COMMENT_FORMATTING:
+        return isCommentFormatting();
       case GenModelPackage.GEN_MODEL__TESTS_DIRECTORY:
         return getTestsDirectory();
       case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
@@ -6590,6 +6636,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
         setCodeFormatting((Boolean)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__COMMENT_FORMATTING:
+        setCommentFormatting((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__TESTS_DIRECTORY:
         setTestsDirectory((String)newValue);
@@ -6848,6 +6897,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
         setCodeFormatting(CODE_FORMATTING_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__COMMENT_FORMATTING:
+        setCommentFormatting(COMMENT_FORMATTING_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__TESTS_DIRECTORY:
         unsetTestsDirectory();
         return;
@@ -7061,6 +7113,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isReflectiveDelegation() != REFLECTIVE_DELEGATION_EDEFAULT;
       case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
         return codeFormatting != CODE_FORMATTING_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__COMMENT_FORMATTING:
+        return commentFormatting != COMMENT_FORMATTING_EDEFAULT;
       case GenModelPackage.GEN_MODEL__TESTS_DIRECTORY:
         return isSetTestsDirectory();
       case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
@@ -7230,6 +7284,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(runtimeCompatibility);
     result.append(", codeFormatting: ");
     result.append(codeFormatting);
+    result.append(", commentFormatting: ");
+    result.append(commentFormatting);
     result.append(", testsDirectory: ");
     if (testsDirectoryESet) result.append(testsDirectory); else result.append("<unset>");
     result.append(", testSuiteClass: ");

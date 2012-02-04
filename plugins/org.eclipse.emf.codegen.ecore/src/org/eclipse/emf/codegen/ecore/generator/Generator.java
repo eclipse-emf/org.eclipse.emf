@@ -124,6 +124,12 @@ public class Generator
     public boolean codeFormatting;
 
     /**
+     * Whether Eclipse JDT code formatting should be applied to comments.
+     * @since 2.8
+     */
+    public boolean commentFormatting;
+
+    /**
      * Code formatter options to be used instead of the defaults for Java code formatting.
      */
     public Map<?, ?> codeFormatterOptions;

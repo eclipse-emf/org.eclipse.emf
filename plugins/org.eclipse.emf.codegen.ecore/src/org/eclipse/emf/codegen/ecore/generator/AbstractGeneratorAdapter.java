@@ -1019,7 +1019,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
             monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object[] { targetFile }));
             jMerger.merge();
   
-            newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
+            newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter, getGenerator().getOptions().commentFormatting);
             changed = !oldContents.equals(newContents);
   
             // If the target is read-only, we can ask the platform to release it, and it may be updated in the process.
@@ -1028,7 +1028,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
             {
               jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile), getEncoding(targetFile)));
               jMerger.remerge();
-              newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
+              newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter, getGenerator().getOptions().commentFormatting);
             }
           }
           else
@@ -1037,7 +1037,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
             monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object[] { targetFile }));
             
             jMerger.merge();
-            newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
+            newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter, getGenerator().getOptions().commentFormatting);
           }
   
           if (jControlModel.getFacadeHelper() != null)
@@ -1479,13 +1479,31 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
   /**
    * If non-null, use the specified code formatter to format the given compilation unit contents.
+   * Clients overriding this method should change to overrides {@link #formatCode(String, Object, boolean)} instead.
    *
    * @return the formatted version of the contents. If the code formatter is null or when running stand-alone, the
    *          contents are returned unchanged. 
+   * @deprecated
    */
+  @Deprecated
   protected String formatCode(String contents, Object codeFormatter)
   {
-    return EMFPlugin.IS_ECLIPSE_RUNNING ? EclipseHelper.formatCode(contents, codeFormatter, getLineDelimiter()) : contents;
+    return EMFPlugin.IS_ECLIPSE_RUNNING ? EclipseHelper.formatCode(contents, codeFormatter, getLineDelimiter(), false) : contents;
+  }
+
+  /**
+   * If non-null, use the specified code formatter to format the given compilation unit contents.
+   *
+   * @return the formatted version of the contents. If the code formatter is null or when running stand-alone, the
+   *          contents are returned unchanged. 
+   * @since 2.8
+   */
+  protected String formatCode(String contents, Object codeFormatter, boolean formatComments)
+  {
+    return
+      formatComments && EMFPlugin.IS_ECLIPSE_RUNNING ?
+        EclipseHelper.formatCode(contents, codeFormatter, getLineDelimiter(), formatComments) :
+        formatCode(contents, codeFormatter);
   }
 
   /*
@@ -1645,12 +1663,12 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       return ToolFactory.createCodeFormatter(options);
     }
 
-    public static String formatCode(String contents, Object codeFormatter, String lineDelimiter)
+    public static String formatCode(String contents, Object codeFormatter, String lineDelimiter, boolean formatComments)
     {
       if (codeFormatter instanceof CodeFormatter)
       {
         IDocument doc = new Document(contents);
-        TextEdit edit = ((CodeFormatter)codeFormatter).format(CodeFormatter.K_COMPILATION_UNIT, doc.get(), 0, doc.get().length(), 0, lineDelimiter);
+        TextEdit edit = ((CodeFormatter)codeFormatter).format(CodeFormatter.K_COMPILATION_UNIT | (formatComments ? CodeFormatter.F_INCLUDE_COMMENTS : 0), doc.get(), 0, doc.get().length(), 0, lineDelimiter);
   
         if (edit != null)
         {

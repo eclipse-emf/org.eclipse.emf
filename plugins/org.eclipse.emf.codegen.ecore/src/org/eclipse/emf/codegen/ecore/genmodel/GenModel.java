@@ -80,6 +80,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRichClientPlatform <em>Rich Client Platform</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isReflectiveDelegation <em>Reflective Delegation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCodeFormatting <em>Code Formatting</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCommentFormatting <em>Comment Formatting</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsDirectory <em>Tests Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestSuiteClass <em>Test Suite Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getBooleanFlagsField <em>Boolean Flags Field</em>}</li>
@@ -1087,6 +1088,32 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setCodeFormatting(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Comment Formatting</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * @since 2.8
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Comment Formatting</em>' attribute.
+   * @see #setCommentFormatting(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_CommentFormatting()
+   * @model
+   * @generated
+   */
+  boolean isCommentFormatting();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCommentFormatting <em>Comment Formatting</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.8
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Comment Formatting</em>' attribute.
+   * @see #isCommentFormatting()
+   * @generated
+   */
+  void setCommentFormatting(boolean value);
 
   /**
    * Returns the value of the '<em><b>Tests Directory</b></em>' attribute.
