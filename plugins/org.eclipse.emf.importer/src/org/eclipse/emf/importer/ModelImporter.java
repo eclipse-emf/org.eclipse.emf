@@ -876,6 +876,10 @@ public abstract class ModelImporter extends ModelConverter
         {
           genModel.setComplianceLevel(GenJDKLevel.JDK60_LITERAL);
         }
+        else if ("1.7".equals(complianceLevel))
+        {
+          genModel.setComplianceLevel(GenJDKLevel.JDK70_LITERAL);
+        }
         else if ("1.4".equals(complianceLevel))
         {
           genModel.setComplianceLevel(GenJDKLevel.JDK14_LITERAL);

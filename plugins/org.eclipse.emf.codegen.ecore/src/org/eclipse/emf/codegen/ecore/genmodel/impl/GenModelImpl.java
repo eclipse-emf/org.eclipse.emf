@@ -9627,9 +9627,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
             {
               return GenJDKLevel.JDK50_LITERAL;
             }
-            else
+            else if ("1.6".equals(complianceLevel))
             {
               return GenJDKLevel.JDK60_LITERAL;
+            }
+            else
+            {
+              return GenJDKLevel.JDK70_LITERAL;
             }
           }
         }

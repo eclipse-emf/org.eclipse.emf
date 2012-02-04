@@ -2438,6 +2438,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genJDKLevelEEnum, GenJDKLevel.JDK14_LITERAL);
     addEEnumLiteral(genJDKLevelEEnum, GenJDKLevel.JDK50_LITERAL);
     addEEnumLiteral(genJDKLevelEEnum, GenJDKLevel.JDK60_LITERAL);
+    addEEnumLiteral(genJDKLevelEEnum, GenJDKLevel.JDK70_LITERAL);
 
     initEEnum(genRuntimeVersionEEnum, GenRuntimeVersion.class, "GenRuntimeVersion");
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF22);

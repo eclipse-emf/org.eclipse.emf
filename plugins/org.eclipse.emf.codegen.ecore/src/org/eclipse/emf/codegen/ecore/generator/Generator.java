@@ -320,6 +320,11 @@ public class Generator
               facadeHelper.setCompilerCompliance(JavaCore.VERSION_1_6); 
               break;
             }
+            case JDK70_LITERAL: 
+            {
+              facadeHelper.setCompilerCompliance(JavaCore.VERSION_1_7); 
+              break;
+            }
           }
         }
       }

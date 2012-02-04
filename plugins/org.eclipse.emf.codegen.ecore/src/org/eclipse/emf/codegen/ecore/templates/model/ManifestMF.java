@@ -24,17 +24,18 @@ public class ManifestMF
   protected final String TEXT_7 = NL + "Bundle-Vendor: %providerName" + NL + "Bundle-Localization: plugin";
   protected final String TEXT_8 = NL + "Bundle-RequiredExecutionEnvironment: J2SE-1.5";
   protected final String TEXT_9 = NL + "Bundle-RequiredExecutionEnvironment: JavaSE-1.6";
-  protected final String TEXT_10 = NL + "Export-Package: ";
-  protected final String TEXT_11 = ",";
-  protected final String TEXT_12 = NL + " ";
-  protected final String TEXT_13 = NL + "Require-Bundle: ";
-  protected final String TEXT_14 = ";visibility:=reexport";
-  protected final String TEXT_15 = ",";
-  protected final String TEXT_16 = NL + " ";
-  protected final String TEXT_17 = ";visibility:=reexport";
-  protected final String TEXT_18 = NL + "Eclipse-LazyStart: true";
-  protected final String TEXT_19 = NL + "Bundle-ActivationPolicy: lazy";
-  protected final String TEXT_20 = NL;
+  protected final String TEXT_10 = NL + "Bundle-RequiredExecutionEnvironment: JavaSE-1.7";
+  protected final String TEXT_11 = NL + "Export-Package: ";
+  protected final String TEXT_12 = ",";
+  protected final String TEXT_13 = NL + " ";
+  protected final String TEXT_14 = NL + "Require-Bundle: ";
+  protected final String TEXT_15 = ";visibility:=reexport";
+  protected final String TEXT_16 = ",";
+  protected final String TEXT_17 = NL + " ";
+  protected final String TEXT_18 = ";visibility:=reexport";
+  protected final String TEXT_19 = NL + "Eclipse-LazyStart: true";
+  protected final String TEXT_20 = NL + "Bundle-ActivationPolicy: lazy";
+  protected final String TEXT_21 = NL;
 
   public String generate(Object argument)
   {
@@ -71,34 +72,36 @@ public class ManifestMF
     stringBuffer.append(TEXT_8);
     } else if (genModel.getComplianceLevel() == GenJDKLevel.JDK60_LITERAL) {
     stringBuffer.append(TEXT_9);
+    } else if (genModel.getComplianceLevel() == GenJDKLevel.JDK70_LITERAL) {
+    stringBuffer.append(TEXT_10);
     }
     Iterator<String> packagesIterator = genModel.getModelQualifiedPackageNames().iterator(); if (packagesIterator.hasNext()) { String pack = packagesIterator.next();
-    stringBuffer.append(TEXT_10);
+    stringBuffer.append(TEXT_11);
     stringBuffer.append(pack);
     while(packagesIterator.hasNext()) { pack = packagesIterator.next();
-    stringBuffer.append(TEXT_11);
     stringBuffer.append(TEXT_12);
+    stringBuffer.append(TEXT_13);
     stringBuffer.append(pack);
     }
     }
     Iterator<String> requiredPluginIterator = genModel.getModelRequiredPlugins().iterator(); if (requiredPluginIterator.hasNext()) { String pluginID = requiredPluginIterator.next();
-    stringBuffer.append(TEXT_13);
-    stringBuffer.append(pluginID);
-    if (!pluginID.startsWith("org.eclipse.core.runtime")){
     stringBuffer.append(TEXT_14);
-    } while(requiredPluginIterator.hasNext()) { pluginID = requiredPluginIterator.next();
-    stringBuffer.append(TEXT_15);
-    stringBuffer.append(TEXT_16);
     stringBuffer.append(pluginID);
     if (!pluginID.startsWith("org.eclipse.core.runtime")){
+    stringBuffer.append(TEXT_15);
+    } while(requiredPluginIterator.hasNext()) { pluginID = requiredPluginIterator.next();
+    stringBuffer.append(TEXT_16);
     stringBuffer.append(TEXT_17);
+    stringBuffer.append(pluginID);
+    if (!pluginID.startsWith("org.eclipse.core.runtime")){
+    stringBuffer.append(TEXT_18);
     }}
     }
     if (genModel.getRuntimeVersion() == GenRuntimeVersion.EMF22 || genModel.getRuntimeVersion() == GenRuntimeVersion.EMF23) {
-    stringBuffer.append(TEXT_18);
-    }
     stringBuffer.append(TEXT_19);
+    }
     stringBuffer.append(TEXT_20);
+    stringBuffer.append(TEXT_21);
     return stringBuffer.toString();
   }
 }
