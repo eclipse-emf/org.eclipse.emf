@@ -9,6 +9,8 @@ package org.eclipse.emf.ecore.xcore
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.resource.Resource
 
 class XcoreExtensions {
 	def getGenClass(XGenericType type) {
@@ -23,5 +25,13 @@ class XcoreExtensions {
 			GenTypeParameter : t
 			default : null
 		}
+	}
+	
+	def static Iterable<EObject> allContentsIterable(EObject eObject) {
+		return eObject.eAllContents.toIterable
+	}
+	
+	def static Iterable<EObject> allContentsIterable(Resource resource) {
+		return resource.allContents.toIterable
 	}
 }

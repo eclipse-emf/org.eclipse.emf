@@ -21,7 +21,7 @@
 		
 		<!-- xtext -->
 		<cs:dependency name="org.eclipse.xtext.ui" componentType="eclipse.feature" versionDesignator="2.3.0"/>
-		<cs:dependency name="org.eclipse.xtext.xtend2.lib" componentType="osgi.bundle" versionDesignator="2.3.0"/>
+		<cs:dependency name="org.eclipse.xtext.xbase.lib" componentType="osgi.bundle" versionDesignator="2.3.0"/>
 		<cs:dependency name="org.eclipse.xtext.xbase.ui" componentType="osgi.bundle" versionDesignator="2.3.0"/>
 		<cs:dependency name="org.eclipse.xtext.junit" componentType="osgi.bundle" versionDesignator="2.3.0"/>
 		<cs:dependency name="org.eclipse.xtext.xbase.junit" componentType="osgi.bundle" versionDesignator="2.3.0"/>
