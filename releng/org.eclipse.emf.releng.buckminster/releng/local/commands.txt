@@ -1,0 +1,21 @@
+#importproxysettings
+
+setpref complianceLevel=1.5
+setpref targetPlatformPath="${WORKSPACE}/buildroot/target.platform"
+
+import --properties "${releng.proj.loc}/releng/local/local-build.properties" -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true "${releng.proj.loc}/releng/emf-all.mspec"
+# Import sources produced by the EMF Base build into the target platform
+import --properties "${releng.proj.loc}/releng/local/local-build.properties" -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true "${releng.proj.loc}/releng/emf-platform.base.sources.cquery"
+
+build
+
+junit --launch "org.eclipse.emf.test.core/Test EMF Core.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Core.xml"
+junit --launch "org.eclipse.emf.test.databinding/Test EMF Databinding.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Databinding.xml"
+junit --launch "org.eclipse.emf.test.xml/Test EMF XML.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF XML.xml"
+junit --launch "org.eclipse.emf.test.tools/Test EMF Tools.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Tools.xml"
+junit --launch "org.eclipse.emf.test.edit/Test EMF Edit.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Edit.xml"
+junit --launch "org.eclipse.emf.test.databinding.edit/Test EMF Databinding Edit.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Databinding Edit.xml"
+junit --launch "org.eclipse.emf.test.examples/Test EMF Examples.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Examples.xml"
+
+perform --properties "${releng.proj.loc}/releng/local/local-build.properties" "org.eclipse.emf.build#build"
+perform --properties "${releng.proj.loc}/releng/local/local-build.properties" "org.eclipse.emf.releng.buckminster#setup.promoter"

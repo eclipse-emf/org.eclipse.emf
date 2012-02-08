@@ -1,0 +1,9 @@
+setpref complianceLevel=1.5
+setpref targetPlatformPath="${WORKSPACE}/buildroot/target.platform"
+
+import -Dbuild.type=${BUILD_TYPE} "${releng.proj.loc}/releng/emf.base-all.mspec"
+
+build
+
+perform --properties "${releng.proj.loc}/releng/local/local-build.properties" "org.eclipse.emf.base.build#build"
+perform --properties "${releng.proj.loc}/releng/local/local-build.properties" "org.eclipse.emf.releng.buckminster#setup.promoter"
