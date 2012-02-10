@@ -12,7 +12,6 @@
 	<locator pattern="^org\.eclipse\.ant\.optional\.junit$" searchPathRef="eclipse.test" />
 
 	<locator pattern="^org\.eclipse\.datatools(?:\..+)?$" searchPathRef="datatools" />
-	<locator pattern="^org\.eclipse\.rap(?:\..+)?$" searchPathRef="rap" />
 	<locator pattern="^com\.google\.(?:appengine|gdt|gwt)\.eclipse(?:\..+)?$" searchPathRef="google" />
 	<locator searchPathRef="platform" />
 
@@ -121,16 +120,28 @@
 	</searchPath>
 
 	<searchPath name="releng">
-		<provider componentTypes="buckminster" readerType="git" source="true" mutable="false">
+		<!-- <provider componentTypes="buckminster" readerType="git" source="true" mutable="false">
 			<property key="git.remote.uri" value="${emf.repository.location}" />
 			<uri format="{0},releng/{1}">
 				<bc:propertyRef key="emf.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
-		</provider>
-		<provider componentTypes="eclipse.feature" readerType="git" source="true" mutable="false">
+		</provider>-->
+		<!-- <provider componentTypes="eclipse.feature" readerType="local" source="true" mutable="false">
 			<property key="git.remote.uri" value="${emf.repository.location}" />
 			<uri format="{0},releng/{1}-feature">
+				<bc:propertyRef key="emf.clone.root" />
+				<bc:propertyRef key="buckminster.component" />
+			</uri>
+		</provider> -->
+		<provider componentTypes="buckminster" readerType="local" mutable="false">
+			<uri format="{0}/releng/{1}">
+				<bc:propertyRef key="emf.clone.root" />
+				<bc:propertyRef key="buckminster.component" />
+			</uri>
+		</provider>
+		<provider componentTypes="eclipse.feature" readerType="local" mutable="false">
+			<uri format="{0}/releng/{1}-feature">
 				<bc:propertyRef key="emf.clone.root" />
 				<bc:propertyRef key="buckminster.component" />
 			</uri>
@@ -160,16 +171,6 @@
 		</provider>
 	</searchPath>
 
-	<searchPath name="rap">
-		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(resolve.target.platform=true)"
-		>
-			<uri format="{0}/rt/rap/1.5/runtime/M4-20111213-2043">
-				<bc:propertyRef key="eclipse.download" />
-			</uri>
-		</provider>
-	</searchPath>
-
 	<searchPath name="google">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(resolve.target.platform=true)"
@@ -181,6 +182,7 @@
 	</searchPath>
 
 	<searchPath name="platform">
+	
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(resolve.target.platform=true)(eclipse.target.platform=Galileo))"
 		>
@@ -188,7 +190,7 @@
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
-
+<!-- 
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(resolve.target.platform=true)(!(eclipse.target.platform=Galileo))(!(|(build.type=S)(build.type=R))))"
 		>
@@ -209,7 +211,7 @@
 			<uri format="{0}/eclipse/updates/3.8">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
-		</provider>
+		</provider>-->
 	</searchPath>
 
 	<property key="git.clones.root" value="${user.home}/git" />

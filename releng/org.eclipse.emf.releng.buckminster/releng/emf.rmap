@@ -17,6 +17,13 @@
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(!(|(build.type=S)(build.type=R))))"
 		>
+			<uri format="file:/Users/dhuebner/hudsonbuild/emf-base-head/buckminster.workspace/buckminster.build.output/org.eclipse.emf.base.build_2.8.0-eclipse.feature/site.p2">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
+		<!-- <provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(!(|(build.type=S)(build.type=R))))"
+		>
 			<uri format="{0}/modeling/emf/emf/updates/2.8-I-builds/base">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
@@ -34,7 +41,7 @@
 			<uri format="{0}/modeling/emf/emf/updates/2.8/base">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
-		</provider>
+		</provider> -->
 
 		<!--
 			Some of the EMF base components (notably org.eclispe.emf.common) are consumed by (and included in) the platform
@@ -43,6 +50,15 @@
 			repository).
 			So here we make it possible for the core build to consume the necessary base EMF components from the platform repo.   
 		-->
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(resolve.target.platform=true)"
+		>
+			<uri format="{0}/eclipse/updates/3.5">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
+		<!--  
+	
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=N))"
 		>
@@ -70,7 +86,7 @@
 			<uri format="{0}/eclipse/updates/4.2">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
-		</provider>
+		</provider> -->
 	</searchPath>
 
 	<property key="eclipse.download" value="http://download.eclipse.org" />
