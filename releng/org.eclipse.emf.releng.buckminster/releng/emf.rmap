@@ -15,7 +15,14 @@
 
 	<searchPath name="emf.base">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(!(|(build.type=S)(build.type=R))))"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(!(|(build.type=I)(build.type=S)(build.type=R))))"
+		>
+			<uri format="{0}">
+				<bc:propertyRef key="emf.base.nightly" />
+			</uri>
+		</provider>
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=I))"
 		>
 			<uri format="{0}/modeling/emf/emf/updates/2.8-I-builds/base">
 				<bc:propertyRef key="eclipse.download" />
@@ -73,8 +80,8 @@
 		</provider>
 	</searchPath>
 
+	<property key="emf.base.nightly" value="https://hudson.eclipse.org/hudson/job/emf-base-head/lastSuccessfulBuild/artifact/EMF.Base.p2.repository/" />
 	<property key="eclipse.download" value="http://download.eclipse.org" />
-
 	<property key="resolve.target.platform" value="false" />
 	<property key="resolve.target.platform.base.sources" value="false" />
 </rmap>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rmap xmlns="http://www.eclipse.org/buckminster/RMap-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0"
+>
+	<locator pattern="^org\.eclipse\.rap(?:\..+)?$" searchPathRef="rap" />
+	
+	<locator searchPathRef="rap.platform" failOnError="false" />
+
+	<!-- refer the resolution to the base RMAP to resolve the emf.rap.sdk-->
+	<redirect href="../emf.rmap" /> 
+	
+	<searchPath name="rap">
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(resolve.target.platform=true)"
+		>
+			<uri format="{0}/rt/rap/1.5/runtime/M4-20111213-2043">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
+	</searchPath>
+	
+	<searchPath name="rap.platform">
+		<!--
+			RAP depends on the latest eclipse platform   
+		-->
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(!(|(build.type=S)(build.type=R))))"
+		>
+			<uri format="{0}/eclipse/updates/4.2-I-builds">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=S))"
+		>
+			<uri format="{0}/eclipse/updates/4.2milestones">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=R))"
+		>
+			<uri format="{0}/eclipse/updates/4.2">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
+	</searchPath>
+	
+	<property key="eclipse.download" value="http://download.eclipse.org" />
+</rmap>

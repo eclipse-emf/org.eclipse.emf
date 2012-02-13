@@ -3,6 +3,7 @@
 	<cq:rootRequest name="org.eclipse.emf.build" componentType="eclipse.feature"/>
 
 	<cq:advisorNode namePattern="^org\.eclipse\.(?:emf|xsd)(?:\..+)?\.source$" skipComponent="true"/>
+	<cq:advisorNode  filter="(without.rap=true)" namePattern="^org\.eclipse\.emf\.rap\.sdk$" skipComponent="true"/>
 	<cq:advisorNode namePattern="^org\.eclipse\.equinox\.launcher\..+$" skipComponent="true"/>
 	<!-- skip MacOS X Carbon components, as they are not provided by platform 4.x -->
 	<cq:advisorNode namePattern="^org\.eclipse\.(?:ui|swt)\.carbon(?:\..+)?$" skipComponent="true"/>
