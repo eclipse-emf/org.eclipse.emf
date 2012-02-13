@@ -2784,6 +2784,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       setPrefix(capName(ePackage.getName()));
     }
 
+    if (getBasePackageGen() == null && EcoreUtil.getAnnotation(ePackage, GenModelPackage.eNS_URI, "basePackage") != null)
+    {
+      setBasePackage(EcoreUtil.getAnnotation(ePackage, GenModelPackage.eNS_URI, "basePackage"));
+    }
+
     boolean isDifferentPackage = ePackage != getEcorePackage();
     if (isDifferentPackage)
     {

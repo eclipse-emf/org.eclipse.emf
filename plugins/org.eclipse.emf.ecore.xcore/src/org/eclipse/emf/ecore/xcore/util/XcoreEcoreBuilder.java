@@ -80,16 +80,7 @@ public class XcoreEcoreBuilder
   @Inject
   private Provider<XcoreConversionDelegate> conversionDelegateProvider;
 
-  private List<Runnable> runnables = new ArrayList<Runnable>();
-  private List<Runnable> annotationRunnables = new ArrayList<Runnable>();
-
-  public void linkAnnotations()
-  {
-    for (Runnable runnable : annotationRunnables)
-    {
-      runnable.run();
-    }
-  }
+  List<Runnable> runnables = new ArrayList<Runnable>();
 
   public void link()
   {
@@ -159,7 +150,7 @@ public class XcoreEcoreBuilder
 
   void handleAnnotations(final XModelElement xModelElement, final EModelElement eModelElement)
   {
-    annotationRunnables.add
+    runnables.add
       (new Runnable()
        {
          public void run()

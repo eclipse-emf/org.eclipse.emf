@@ -89,7 +89,7 @@ class XcoreGenModelBuilder {
        	}
        }
 	}
-	
+
 	def initializeUsedGenPackages(GenModel genModel) {
       	val referencedEPackages = new HashSet<EPackage>();
       	for (genPackage : genModel.genPackages)
