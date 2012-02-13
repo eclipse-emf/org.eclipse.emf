@@ -173,13 +173,6 @@
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(resolve.target.platform=true)(eclipse.target.platform=Galileo))"
 		>
-			<uri format="file:/Users/dhuebner/Desktop/eclipse3.5vrepo/final">
-				<bc:propertyRef key="eclipse.download" />
-			</uri>
-		</provider>
-		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(resolve.target.platform=true)(eclipse.target.platform=Galileo))"
-		>
 			<uri format="{0}/eclipse/updates/3.5">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
@@ -215,7 +208,7 @@
 	<property key="xsd.clone.root" value="${git.clones.root}/org.eclipse.xsd" />
 
 	<property key="eclipse.download" value="http://download.eclipse.org" />
-	<property key="google.web.toolkit.repository" value="file:/Users/dhuebner/Desktop/eclipse3.5vrepo/final" />
+	<property key="google.web.toolkit.repository" value="http://dl.google.com/eclipse/plugin/3.7" />
 
 	<property key="resolve.target.platform" value="true" />
 	<property key="build.type" value="I" />

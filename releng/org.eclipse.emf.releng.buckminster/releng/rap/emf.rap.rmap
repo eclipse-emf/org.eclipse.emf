@@ -87,13 +87,6 @@
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=N))"
 		>
-			<uri format="file:/Users/dhuebner/Desktop/eclipse4.2vrepo/final/">
-				<bc:propertyRef key="eclipse.download" />
-			</uri>
-		</provider>
-		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=N))"
-		>
 			<uri format="{0}/eclipse/updates/4.2-I-builds">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
