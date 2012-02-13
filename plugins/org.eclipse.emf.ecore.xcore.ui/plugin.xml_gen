@@ -11,6 +11,7 @@
             default="true"
             extensions="xcore"
             id="org.eclipse.emf.ecore.xcore.Xcore"
+            matchingStrategy="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.xbase.ui.editor.JavaEditorInputMatcher"
             name="Xcore Editor">
         </editor>
     </extension>

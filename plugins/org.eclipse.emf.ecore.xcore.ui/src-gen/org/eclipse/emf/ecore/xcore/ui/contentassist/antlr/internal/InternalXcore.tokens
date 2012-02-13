@@ -126,7 +126,7 @@ RULE_WS=9
 '=>'=86
 '.'=37
 'import'=46
-'contains'=99
+'contains'=98
 'true'=106
 'catch'=85
 'else'=69
@@ -157,7 +157,7 @@ RULE_WS=9
 'default'=72
 'annotation'=48
 'get'=20
-'resolving'=98
+'resolving'=99
 ']'=65
 '..'=31
 'enum'=53

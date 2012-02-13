@@ -1016,39 +1016,39 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cAnnotationsAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final RuleCall cAnnotationsXAnnotationParserRuleCall_0_0 = (RuleCall)cAnnotationsAssignment_0.eContents().get(0);
 		private final Alternatives cAlternatives_1 = (Alternatives)cGroup.eContents().get(1);
-		private final Group cGroup_1_0 = (Group)cAlternatives_1.eContents().get(0);
-		private final Assignment cResolveProxiesAssignment_1_0_0 = (Assignment)cGroup_1_0.eContents().get(0);
-		private final Keyword cResolveProxiesResolvingKeyword_1_0_0_0 = (Keyword)cResolveProxiesAssignment_1_0_0.eContents().get(0);
-		private final Assignment cContainmentAssignment_1_0_1 = (Assignment)cGroup_1_0.eContents().get(1);
-		private final Keyword cContainmentContainsKeyword_1_0_1_0 = (Keyword)cContainmentAssignment_1_0_1.eContents().get(0);
+		private final Assignment cContainmentAssignment_1_0 = (Assignment)cAlternatives_1.eContents().get(0);
+		private final Keyword cContainmentContainsKeyword_1_0_0 = (Keyword)cContainmentAssignment_1_0.eContents().get(0);
 		private final Group cGroup_1_1 = (Group)cAlternatives_1.eContents().get(1);
-		private final Assignment cContainmentAssignment_1_1_0 = (Assignment)cGroup_1_1.eContents().get(0);
-		private final Keyword cContainmentContainsKeyword_1_1_0_0 = (Keyword)cContainmentAssignment_1_1_0.eContents().get(0);
-		private final Assignment cResolveProxiesAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
-		private final Keyword cResolveProxiesResolvingKeyword_1_1_1_0 = (Keyword)cResolveProxiesAssignment_1_1_1.eContents().get(0);
-		private final Assignment cContainmentAssignment_1_2 = (Assignment)cAlternatives_1.eContents().get(2);
-		private final Keyword cContainmentContainsKeyword_1_2_0 = (Keyword)cContainmentAssignment_1_2.eContents().get(0);
-		private final Group cGroup_1_3 = (Group)cAlternatives_1.eContents().get(3);
-		private final Assignment cResolveProxiesAssignment_1_3_0 = (Assignment)cGroup_1_3.eContents().get(0);
-		private final Keyword cResolveProxiesResolvingKeyword_1_3_0_0 = (Keyword)cResolveProxiesAssignment_1_3_0.eContents().get(0);
-		private final Assignment cContainerAssignment_1_3_1 = (Assignment)cGroup_1_3.eContents().get(1);
-		private final Keyword cContainerContainerKeyword_1_3_1_0 = (Keyword)cContainerAssignment_1_3_1.eContents().get(0);
+		private final Assignment cResolveProxiesAssignment_1_1_0 = (Assignment)cGroup_1_1.eContents().get(0);
+		private final Keyword cResolveProxiesResolvingKeyword_1_1_0_0 = (Keyword)cResolveProxiesAssignment_1_1_0.eContents().get(0);
+		private final Assignment cContainmentAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
+		private final Keyword cContainmentContainsKeyword_1_1_1_0 = (Keyword)cContainmentAssignment_1_1_1.eContents().get(0);
+		private final Group cGroup_1_2 = (Group)cAlternatives_1.eContents().get(2);
+		private final Assignment cContainmentAssignment_1_2_0 = (Assignment)cGroup_1_2.eContents().get(0);
+		private final Keyword cContainmentContainsKeyword_1_2_0_0 = (Keyword)cContainmentAssignment_1_2_0.eContents().get(0);
+		private final Assignment cResolveProxiesAssignment_1_2_1 = (Assignment)cGroup_1_2.eContents().get(1);
+		private final Keyword cResolveProxiesResolvingKeyword_1_2_1_0 = (Keyword)cResolveProxiesAssignment_1_2_1.eContents().get(0);
+		private final Assignment cContainerAssignment_1_3 = (Assignment)cAlternatives_1.eContents().get(3);
+		private final Keyword cContainerContainerKeyword_1_3_0 = (Keyword)cContainerAssignment_1_3.eContents().get(0);
 		private final Group cGroup_1_4 = (Group)cAlternatives_1.eContents().get(4);
-		private final Assignment cContainerAssignment_1_4_0 = (Assignment)cGroup_1_4.eContents().get(0);
-		private final Keyword cContainerContainerKeyword_1_4_0_0 = (Keyword)cContainerAssignment_1_4_0.eContents().get(0);
-		private final Assignment cResolveProxiesAssignment_1_4_1 = (Assignment)cGroup_1_4.eContents().get(1);
-		private final Keyword cResolveProxiesResolvingKeyword_1_4_1_0 = (Keyword)cResolveProxiesAssignment_1_4_1.eContents().get(0);
-		private final Assignment cContainerAssignment_1_5 = (Assignment)cAlternatives_1.eContents().get(5);
-		private final Keyword cContainerContainerKeyword_1_5_0 = (Keyword)cContainerAssignment_1_5.eContents().get(0);
-		private final Group cGroup_1_6 = (Group)cAlternatives_1.eContents().get(6);
-		private final Assignment cLocalAssignment_1_6_0 = (Assignment)cGroup_1_6.eContents().get(0);
-		private final Keyword cLocalLocalKeyword_1_6_0_0 = (Keyword)cLocalAssignment_1_6_0.eContents().get(0);
-		private final Keyword cRefersKeyword_1_6_1 = (Keyword)cGroup_1_6.eContents().get(1);
+		private final Assignment cResolveProxiesAssignment_1_4_0 = (Assignment)cGroup_1_4.eContents().get(0);
+		private final Keyword cResolveProxiesResolvingKeyword_1_4_0_0 = (Keyword)cResolveProxiesAssignment_1_4_0.eContents().get(0);
+		private final Assignment cContainerAssignment_1_4_1 = (Assignment)cGroup_1_4.eContents().get(1);
+		private final Keyword cContainerContainerKeyword_1_4_1_0 = (Keyword)cContainerAssignment_1_4_1.eContents().get(0);
+		private final Group cGroup_1_5 = (Group)cAlternatives_1.eContents().get(5);
+		private final Assignment cContainerAssignment_1_5_0 = (Assignment)cGroup_1_5.eContents().get(0);
+		private final Keyword cContainerContainerKeyword_1_5_0_0 = (Keyword)cContainerAssignment_1_5_0.eContents().get(0);
+		private final Assignment cResolveProxiesAssignment_1_5_1 = (Assignment)cGroup_1_5.eContents().get(1);
+		private final Keyword cResolveProxiesResolvingKeyword_1_5_1_0 = (Keyword)cResolveProxiesAssignment_1_5_1.eContents().get(0);
+		private final Keyword cRefersKeyword_1_6 = (Keyword)cAlternatives_1.eContents().get(6);
 		private final Group cGroup_1_7 = (Group)cAlternatives_1.eContents().get(7);
-		private final Keyword cRefersKeyword_1_7_0 = (Keyword)cGroup_1_7.eContents().get(0);
-		private final Assignment cLocalAssignment_1_7_1 = (Assignment)cGroup_1_7.eContents().get(1);
-		private final Keyword cLocalLocalKeyword_1_7_1_0 = (Keyword)cLocalAssignment_1_7_1.eContents().get(0);
-		private final Keyword cRefersKeyword_1_8 = (Keyword)cAlternatives_1.eContents().get(8);
+		private final Assignment cLocalAssignment_1_7_0 = (Assignment)cGroup_1_7.eContents().get(0);
+		private final Keyword cLocalLocalKeyword_1_7_0_0 = (Keyword)cLocalAssignment_1_7_0.eContents().get(0);
+		private final Keyword cRefersKeyword_1_7_1 = (Keyword)cGroup_1_7.eContents().get(1);
+		private final Group cGroup_1_8 = (Group)cAlternatives_1.eContents().get(8);
+		private final Keyword cRefersKeyword_1_8_0 = (Keyword)cGroup_1_8.eContents().get(0);
+		private final Assignment cLocalAssignment_1_8_1 = (Assignment)cGroup_1_8.eContents().get(1);
+		private final Keyword cLocalLocalKeyword_1_8_1_0 = (Keyword)cLocalAssignment_1_8_1.eContents().get(0);
 		private final UnorderedGroup cUnorderedGroup_2 = (UnorderedGroup)cGroup.eContents().get(2);
 		private final Assignment cUnorderedAssignment_2_0 = (Assignment)cUnorderedGroup_2.eContents().get(0);
 		private final Keyword cUnorderedUnorderedKeyword_2_0_0 = (Keyword)cUnorderedAssignment_2_0.eContents().get(0);
@@ -1104,15 +1104,13 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cUnsetBodyXBlockExpressionParserRuleCall_8_3_1_0 = (RuleCall)cUnsetBodyAssignment_8_3_1.eContents().get(0);
 		
 		//XReference:
-		//	annotations+=XAnnotation* (resolveProxies?="resolving" containment?="contains" | containment?="contains"
-		//	resolveProxies?="resolving" | containment?="contains" | resolveProxies?="resolving" container?="container" |
-		//	container?="container" resolveProxies?="resolving" | container?="container" | local?="local" "refers" | "refers"
-		//	local?="local" | "refers") // ((resolveProxies?='resolving'? & (containment?='contains' | container?='container')) | (local?='local'? & 'refers'))
-		//
-		//	(unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? & transient?="transient"? & volatile?="volatile"?
-		//	& unsettable?="unsettable"? & derived?="derived"?) type=XGenericType multiplicity=XMultiplicity? name=ID ("opposite"
-		//	opposite=[genmodel::GenFeature|ValidID])? ("keys" keys+=[genmodel::GenFeature|ValidID] (","
-		//	keys+=[genmodel::GenFeature|ValidID])*)? / *
+		//	annotations+=XAnnotation* (containment?="contains" | resolveProxies?="resolving" containment?="contains" |
+		//	containment?="contains" resolveProxies?="resolving" | container?="container" | resolveProxies?="resolving"
+		//	container?="container" | container?="container" resolveProxies?="resolving" | "refers" | local?="local" "refers" |
+		//	"refers" local?="local") (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? &
+		//	transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) type=XGenericType
+		//	multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
+		//	keys+=[genmodel::GenFeature|ValidID] ("," keys+=[genmodel::GenFeature|ValidID])*)? / *
 		//
 		//	 * In scope for getBody should be what's visible in AbcImpl
 		//
@@ -1124,15 +1122,13 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	("unset" unsetBody=XBlockExpression)?);
 		public ParserRule getRule() { return rule; }
 
-		//annotations+=XAnnotation* (resolveProxies?="resolving" containment?="contains" | containment?="contains"
-		//resolveProxies?="resolving" | containment?="contains" | resolveProxies?="resolving" container?="container" |
-		//container?="container" resolveProxies?="resolving" | container?="container" | local?="local" "refers" | "refers"
-		//local?="local" | "refers") // ((resolveProxies?='resolving'? & (containment?='contains' | container?='container')) | (local?='local'? & 'refers'))
-		//
-		//(unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? & transient?="transient"? & volatile?="volatile"? &
-		//unsettable?="unsettable"? & derived?="derived"?) type=XGenericType multiplicity=XMultiplicity? name=ID ("opposite"
-		//opposite=[genmodel::GenFeature|ValidID])? ("keys" keys+=[genmodel::GenFeature|ValidID] (","
-		//keys+=[genmodel::GenFeature|ValidID])*)? / *
+		//annotations+=XAnnotation* (containment?="contains" | resolveProxies?="resolving" containment?="contains" |
+		//containment?="contains" resolveProxies?="resolving" | container?="container" | resolveProxies?="resolving"
+		//container?="container" | container?="container" resolveProxies?="resolving" | "refers" | local?="local" "refers" |
+		//"refers" local?="local") (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? & transient?="transient"?
+		//& volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) type=XGenericType
+		//multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
+		//keys+=[genmodel::GenFeature|ValidID] ("," keys+=[genmodel::GenFeature|ValidID])*)? / *
 		//
 		//	 * In scope for getBody should be what's visible in AbcImpl
 		//
@@ -1150,109 +1146,109 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//XAnnotation
 		public RuleCall getAnnotationsXAnnotationParserRuleCall_0_0() { return cAnnotationsXAnnotationParserRuleCall_0_0; }
 
-		//resolveProxies?="resolving" containment?="contains" | containment?="contains" resolveProxies?="resolving" |
-		//containment?="contains" | resolveProxies?="resolving" container?="container" | container?="container"
-		//resolveProxies?="resolving" | container?="container" | local?="local" "refers" | "refers" local?="local" | "refers"
+		//containment?="contains" | resolveProxies?="resolving" containment?="contains" | containment?="contains"
+		//resolveProxies?="resolving" | container?="container" | resolveProxies?="resolving" container?="container" |
+		//container?="container" resolveProxies?="resolving" | "refers" | local?="local" "refers" | "refers" local?="local"
 		public Alternatives getAlternatives_1() { return cAlternatives_1; }
 
-		//resolveProxies?="resolving" containment?="contains"
-		public Group getGroup_1_0() { return cGroup_1_0; }
-
-		//resolveProxies?="resolving"
-		public Assignment getResolveProxiesAssignment_1_0_0() { return cResolveProxiesAssignment_1_0_0; }
-
-		//"resolving"
-		public Keyword getResolveProxiesResolvingKeyword_1_0_0_0() { return cResolveProxiesResolvingKeyword_1_0_0_0; }
-
 		//containment?="contains"
-		public Assignment getContainmentAssignment_1_0_1() { return cContainmentAssignment_1_0_1; }
+		public Assignment getContainmentAssignment_1_0() { return cContainmentAssignment_1_0; }
 
 		//"contains"
-		public Keyword getContainmentContainsKeyword_1_0_1_0() { return cContainmentContainsKeyword_1_0_1_0; }
+		public Keyword getContainmentContainsKeyword_1_0_0() { return cContainmentContainsKeyword_1_0_0; }
 
-		//containment?="contains" resolveProxies?="resolving"
+		//resolveProxies?="resolving" containment?="contains"
 		public Group getGroup_1_1() { return cGroup_1_1; }
 
-		//containment?="contains"
-		public Assignment getContainmentAssignment_1_1_0() { return cContainmentAssignment_1_1_0; }
-
-		//"contains"
-		public Keyword getContainmentContainsKeyword_1_1_0_0() { return cContainmentContainsKeyword_1_1_0_0; }
-
 		//resolveProxies?="resolving"
-		public Assignment getResolveProxiesAssignment_1_1_1() { return cResolveProxiesAssignment_1_1_1; }
+		public Assignment getResolveProxiesAssignment_1_1_0() { return cResolveProxiesAssignment_1_1_0; }
 
 		//"resolving"
-		public Keyword getResolveProxiesResolvingKeyword_1_1_1_0() { return cResolveProxiesResolvingKeyword_1_1_1_0; }
+		public Keyword getResolveProxiesResolvingKeyword_1_1_0_0() { return cResolveProxiesResolvingKeyword_1_1_0_0; }
 
 		//containment?="contains"
-		public Assignment getContainmentAssignment_1_2() { return cContainmentAssignment_1_2; }
+		public Assignment getContainmentAssignment_1_1_1() { return cContainmentAssignment_1_1_1; }
 
 		//"contains"
-		public Keyword getContainmentContainsKeyword_1_2_0() { return cContainmentContainsKeyword_1_2_0; }
+		public Keyword getContainmentContainsKeyword_1_1_1_0() { return cContainmentContainsKeyword_1_1_1_0; }
+
+		//containment?="contains" resolveProxies?="resolving"
+		public Group getGroup_1_2() { return cGroup_1_2; }
+
+		//containment?="contains"
+		public Assignment getContainmentAssignment_1_2_0() { return cContainmentAssignment_1_2_0; }
+
+		//"contains"
+		public Keyword getContainmentContainsKeyword_1_2_0_0() { return cContainmentContainsKeyword_1_2_0_0; }
+
+		//resolveProxies?="resolving"
+		public Assignment getResolveProxiesAssignment_1_2_1() { return cResolveProxiesAssignment_1_2_1; }
+
+		//"resolving"
+		public Keyword getResolveProxiesResolvingKeyword_1_2_1_0() { return cResolveProxiesResolvingKeyword_1_2_1_0; }
+
+		//container?="container"
+		public Assignment getContainerAssignment_1_3() { return cContainerAssignment_1_3; }
+
+		//"container"
+		public Keyword getContainerContainerKeyword_1_3_0() { return cContainerContainerKeyword_1_3_0; }
 
 		//resolveProxies?="resolving" container?="container"
-		public Group getGroup_1_3() { return cGroup_1_3; }
-
-		//resolveProxies?="resolving"
-		public Assignment getResolveProxiesAssignment_1_3_0() { return cResolveProxiesAssignment_1_3_0; }
-
-		//"resolving"
-		public Keyword getResolveProxiesResolvingKeyword_1_3_0_0() { return cResolveProxiesResolvingKeyword_1_3_0_0; }
-
-		//container?="container"
-		public Assignment getContainerAssignment_1_3_1() { return cContainerAssignment_1_3_1; }
-
-		//"container"
-		public Keyword getContainerContainerKeyword_1_3_1_0() { return cContainerContainerKeyword_1_3_1_0; }
-
-		//container?="container" resolveProxies?="resolving"
 		public Group getGroup_1_4() { return cGroup_1_4; }
 
-		//container?="container"
-		public Assignment getContainerAssignment_1_4_0() { return cContainerAssignment_1_4_0; }
-
-		//"container"
-		public Keyword getContainerContainerKeyword_1_4_0_0() { return cContainerContainerKeyword_1_4_0_0; }
-
 		//resolveProxies?="resolving"
-		public Assignment getResolveProxiesAssignment_1_4_1() { return cResolveProxiesAssignment_1_4_1; }
+		public Assignment getResolveProxiesAssignment_1_4_0() { return cResolveProxiesAssignment_1_4_0; }
 
 		//"resolving"
-		public Keyword getResolveProxiesResolvingKeyword_1_4_1_0() { return cResolveProxiesResolvingKeyword_1_4_1_0; }
+		public Keyword getResolveProxiesResolvingKeyword_1_4_0_0() { return cResolveProxiesResolvingKeyword_1_4_0_0; }
 
 		//container?="container"
-		public Assignment getContainerAssignment_1_5() { return cContainerAssignment_1_5; }
+		public Assignment getContainerAssignment_1_4_1() { return cContainerAssignment_1_4_1; }
 
 		//"container"
-		public Keyword getContainerContainerKeyword_1_5_0() { return cContainerContainerKeyword_1_5_0; }
+		public Keyword getContainerContainerKeyword_1_4_1_0() { return cContainerContainerKeyword_1_4_1_0; }
+
+		//container?="container" resolveProxies?="resolving"
+		public Group getGroup_1_5() { return cGroup_1_5; }
+
+		//container?="container"
+		public Assignment getContainerAssignment_1_5_0() { return cContainerAssignment_1_5_0; }
+
+		//"container"
+		public Keyword getContainerContainerKeyword_1_5_0_0() { return cContainerContainerKeyword_1_5_0_0; }
+
+		//resolveProxies?="resolving"
+		public Assignment getResolveProxiesAssignment_1_5_1() { return cResolveProxiesAssignment_1_5_1; }
+
+		//"resolving"
+		public Keyword getResolveProxiesResolvingKeyword_1_5_1_0() { return cResolveProxiesResolvingKeyword_1_5_1_0; }
+
+		//"refers"
+		public Keyword getRefersKeyword_1_6() { return cRefersKeyword_1_6; }
 
 		//local?="local" "refers"
-		public Group getGroup_1_6() { return cGroup_1_6; }
-
-		//local?="local"
-		public Assignment getLocalAssignment_1_6_0() { return cLocalAssignment_1_6_0; }
-
-		//"local"
-		public Keyword getLocalLocalKeyword_1_6_0_0() { return cLocalLocalKeyword_1_6_0_0; }
-
-		//"refers"
-		public Keyword getRefersKeyword_1_6_1() { return cRefersKeyword_1_6_1; }
-
-		//"refers" local?="local"
 		public Group getGroup_1_7() { return cGroup_1_7; }
 
-		//"refers"
-		public Keyword getRefersKeyword_1_7_0() { return cRefersKeyword_1_7_0; }
-
 		//local?="local"
-		public Assignment getLocalAssignment_1_7_1() { return cLocalAssignment_1_7_1; }
+		public Assignment getLocalAssignment_1_7_0() { return cLocalAssignment_1_7_0; }
 
 		//"local"
-		public Keyword getLocalLocalKeyword_1_7_1_0() { return cLocalLocalKeyword_1_7_1_0; }
+		public Keyword getLocalLocalKeyword_1_7_0_0() { return cLocalLocalKeyword_1_7_0_0; }
 
 		//"refers"
-		public Keyword getRefersKeyword_1_8() { return cRefersKeyword_1_8; }
+		public Keyword getRefersKeyword_1_7_1() { return cRefersKeyword_1_7_1; }
+
+		//"refers" local?="local"
+		public Group getGroup_1_8() { return cGroup_1_8; }
+
+		//"refers"
+		public Keyword getRefersKeyword_1_8_0() { return cRefersKeyword_1_8_0; }
+
+		//local?="local"
+		public Assignment getLocalAssignment_1_8_1() { return cLocalAssignment_1_8_1; }
+
+		//"local"
+		public Keyword getLocalLocalKeyword_1_8_1_0() { return cLocalLocalKeyword_1_8_1_0; }
 
 		//unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? & transient?="transient"? & volatile?="volatile"? &
 		//unsettable?="unsettable"? & derived?="derived"?
@@ -2335,15 +2331,13 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//XReference:
-	//	annotations+=XAnnotation* (resolveProxies?="resolving" containment?="contains" | containment?="contains"
-	//	resolveProxies?="resolving" | containment?="contains" | resolveProxies?="resolving" container?="container" |
-	//	container?="container" resolveProxies?="resolving" | container?="container" | local?="local" "refers" | "refers"
-	//	local?="local" | "refers") // ((resolveProxies?='resolving'? & (containment?='contains' | container?='container')) | (local?='local'? & 'refers'))
-	//
-	//	(unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? & transient?="transient"? & volatile?="volatile"?
-	//	& unsettable?="unsettable"? & derived?="derived"?) type=XGenericType multiplicity=XMultiplicity? name=ID ("opposite"
-	//	opposite=[genmodel::GenFeature|ValidID])? ("keys" keys+=[genmodel::GenFeature|ValidID] (","
-	//	keys+=[genmodel::GenFeature|ValidID])*)? / *
+	//	annotations+=XAnnotation* (containment?="contains" | resolveProxies?="resolving" containment?="contains" |
+	//	containment?="contains" resolveProxies?="resolving" | container?="container" | resolveProxies?="resolving"
+	//	container?="container" | container?="container" resolveProxies?="resolving" | "refers" | local?="local" "refers" |
+	//	"refers" local?="local") (unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? &
+	//	transient?="transient"? & volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) type=XGenericType
+	//	multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
+	//	keys+=[genmodel::GenFeature|ValidID] ("," keys+=[genmodel::GenFeature|ValidID])*)? / *
 	//
 	//	 * In scope for getBody should be what's visible in AbcImpl
 	//

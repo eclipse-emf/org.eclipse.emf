@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.emf.ecore.xcore.XcoreStandaloneSetup;
 import org.eclipse.emf.ecore.xcore.resource.XcoreResource;
 import org.eclipse.xtext.common.types.TypesPackage;
+import org.eclipse.xtext.junit4.GlobalRegistries;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.resource.IEObjectDescription;
@@ -61,7 +62,9 @@ public class LazyGenModelInferenceTest
     {
       if (injector == null)
       {
-        this.injector = new XcoreStandaloneSetup()
+        stateBeforeInjectorCreation = GlobalRegistries.makeCopyOfGlobalState();
+        this.injector =
+          new XcoreStandaloneSetup()
           {
             @Override
             public Injector createInjector()
@@ -76,6 +79,7 @@ public class LazyGenModelInferenceTest
                 });
             }
           }.createInjectorAndDoEMFRegistration();
+          stateAfterInjectorCreation = GlobalRegistries.makeCopyOfGlobalState();
       }
       return injector;
     }

@@ -410,22 +410,6 @@
           <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.1"/>
         </elements>
         <elements xsi:type="xtext:Alternatives">
-          <elements xsi:type="xtext:Group">
-            <elements xsi:type="xtext:Assignment" feature="resolveProxies" operator="?=">
-              <terminal xsi:type="xtext:Keyword" value="resolving"/>
-            </elements>
-            <elements xsi:type="xtext:Assignment" feature="containment" operator="?=">
-              <terminal xsi:type="xtext:Keyword" value="contains"/>
-            </elements>
-          </elements>
-          <elements xsi:type="xtext:Group">
-            <elements xsi:type="xtext:Assignment" feature="containment" operator="?=">
-              <terminal xsi:type="xtext:Keyword" value="contains"/>
-            </elements>
-            <elements xsi:type="xtext:Assignment" feature="resolveProxies" operator="?=">
-              <terminal xsi:type="xtext:Keyword" value="resolving"/>
-            </elements>
-          </elements>
           <elements xsi:type="xtext:Assignment" feature="containment" operator="?=">
             <terminal xsi:type="xtext:Keyword" value="contains"/>
           </elements>
@@ -433,13 +417,13 @@
             <elements xsi:type="xtext:Assignment" feature="resolveProxies" operator="?=">
               <terminal xsi:type="xtext:Keyword" value="resolving"/>
             </elements>
-            <elements xsi:type="xtext:Assignment" feature="container" operator="?=">
-              <terminal xsi:type="xtext:Keyword" value="container"/>
+            <elements xsi:type="xtext:Assignment" feature="containment" operator="?=">
+              <terminal xsi:type="xtext:Keyword" value="contains"/>
             </elements>
           </elements>
           <elements xsi:type="xtext:Group">
-            <elements xsi:type="xtext:Assignment" feature="container" operator="?=">
-              <terminal xsi:type="xtext:Keyword" value="container"/>
+            <elements xsi:type="xtext:Assignment" feature="containment" operator="?=">
+              <terminal xsi:type="xtext:Keyword" value="contains"/>
             </elements>
             <elements xsi:type="xtext:Assignment" feature="resolveProxies" operator="?=">
               <terminal xsi:type="xtext:Keyword" value="resolving"/>
@@ -449,6 +433,23 @@
             <terminal xsi:type="xtext:Keyword" value="container"/>
           </elements>
           <elements xsi:type="xtext:Group">
+            <elements xsi:type="xtext:Assignment" feature="resolveProxies" operator="?=">
+              <terminal xsi:type="xtext:Keyword" value="resolving"/>
+            </elements>
+            <elements xsi:type="xtext:Assignment" feature="container" operator="?=">
+              <terminal xsi:type="xtext:Keyword" value="container"/>
+            </elements>
+          </elements>
+          <elements xsi:type="xtext:Group">
+            <elements xsi:type="xtext:Assignment" feature="container" operator="?=">
+              <terminal xsi:type="xtext:Keyword" value="container"/>
+            </elements>
+            <elements xsi:type="xtext:Assignment" feature="resolveProxies" operator="?=">
+              <terminal xsi:type="xtext:Keyword" value="resolving"/>
+            </elements>
+          </elements>
+          <elements xsi:type="xtext:Keyword" value="refers"/>
+          <elements xsi:type="xtext:Group">
             <elements xsi:type="xtext:Assignment" feature="local" operator="?=">
               <terminal xsi:type="xtext:Keyword" value="local"/>
             </elements>
@@ -460,7 +461,6 @@
               <terminal xsi:type="xtext:Keyword" value="local"/>
             </elements>
           </elements>
-          <elements xsi:type="xtext:Keyword" value="refers"/>
         </elements>
         <elements xsi:type="xtext:UnorderedGroup">
           <elements xsi:type="xtext:Assignment" cardinality="?" feature="unordered" operator="?=">

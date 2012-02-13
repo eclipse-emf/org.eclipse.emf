@@ -882,10 +882,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__47;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:47:7: ( 'resolving' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:47:9: 'resolving'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:47:7: ( 'contains' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:47:9: 'contains'
             {
-            match("resolving"); 
+            match("contains"); 
 
 
             }
@@ -903,10 +903,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__48;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:48:7: ( 'contains' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:48:9: 'contains'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:48:7: ( 'resolving' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:48:9: 'resolving'
             {
-            match("contains"); 
+            match("resolving"); 
 
 
             }
@@ -945,10 +945,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__50;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:50:7: ( 'local' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:50:9: 'local'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:50:7: ( 'refers' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:50:9: 'refers'
             {
-            match("local"); 
+            match("refers"); 
 
 
             }
@@ -966,10 +966,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__51;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:51:7: ( 'refers' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:51:9: 'refers'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:51:7: ( 'local' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:51:9: 'local'
             {
-            match("refers"); 
+            match("local"); 
 
 
             }
@@ -3469,12 +3469,12 @@ public class InternalXcoreLexer extends Lexer {
         "\1\124\2\uffff\1\41\1\42\5\uffff\1\120\2\uffff\1\126\12\uffff\1"+
         "\13\1\uffff\1\130\7\uffff\1\117\1\uffff\1\21\1\uffff\1\113\10\uffff"+
         "\1\40\6\uffff\1\53\2\uffff\1\131\4\uffff\1\43\6\uffff\1\133\1\16"+
-        "\1\121\3\uffff\1\25\1\137\4\uffff\1\44\7\uffff\1\66\1\uffff\1\50"+
+        "\1\121\3\uffff\1\25\1\137\4\uffff\1\44\7\uffff\1\66\1\uffff\1\51"+
         "\1\uffff\1\127\2\uffff\1\7\5\uffff\1\132\1\uffff\1\55\1\17\4\uffff"+
-        "\1\31\3\uffff\1\51\1\134\3\uffff\1\114\2\uffff\1\1\2\uffff\1\70"+
+        "\1\31\3\uffff\1\50\1\134\3\uffff\1\114\2\uffff\1\1\2\uffff\1\70"+
         "\3\uffff\1\20\2\uffff\1\27\5\uffff\1\36\1\116\1\uffff\1\136\3\uffff"+
-        "\1\24\1\uffff\1\46\3\uffff\1\32\1\uffff\1\34\1\52\1\26\2\uffff\1"+
-        "\33\1\47\1\30\1\uffff\1\45\1\76\1\11\1\35";
+        "\1\24\1\uffff\1\45\3\uffff\1\32\1\uffff\1\34\1\52\1\26\2\uffff\1"+
+        "\33\1\47\1\30\1\uffff\1\46\1\76\1\11\1\35";
     static final String DFA12_specialS =
         "\1\0\54\uffff\1\2\1\1\u0152\uffff}>";
     static final String[] DFA12_transitionS = {

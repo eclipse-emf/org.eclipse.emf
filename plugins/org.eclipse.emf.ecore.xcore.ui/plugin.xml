@@ -6,12 +6,13 @@
     <extension
             point="org.eclipse.ui.editors">
         <editor
-              class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
+              class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.emf.ecore.xcore.ui.editor.XcoreEditor"
               contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
               default="true"
               extensions="xcore"
               icon="icons/full/obj16/XcoreModelFile.gif"
               id="org.eclipse.emf.ecore.xcore.Xcore"
+              matchingStrategy="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.xbase.ui.editor.JavaEditorInputMatcher"
               name="%editor.name">
         </editor>
     </extension>
@@ -368,9 +369,14 @@
     </extension>
 
     <extension point="org.eclipse.ui.views">
-        <view id="org.eclipse.emf.ecore.xcore.ui.EOperationInvocationView"
-             name="%view.name"
-          class="org.eclipse.emf.ecore.xcore.ui.EOperationInvocationView"/>
+      <category
+            id="org.eclipse.emf.views"
+            name="%view.category.name"/>
+        <view
+              category="org.eclipse.emf.views"
+              class="org.eclipse.emf.ecore.xcore.ui.EOperationInvocationView"
+              id="org.eclipse.emf.ecore.xcore.ui.EOperationInvocationView"
+              name="%view.name"/>
     </extension>
 
     <extension point="org.eclipse.ui.newWizards">

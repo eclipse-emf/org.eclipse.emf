@@ -1805,11 +1805,27 @@ ruleXReference returns [EObject current=null]
 	    }
 
 )
-)*(((
+)*((
 (
-		lv_resolveProxies_1_0=	'resolving' 
+		lv_containment_1_0=	'contains' 
     {
-        newLeafNode(lv_resolveProxies_1_0, grammarAccess.getXReferenceAccess().getResolveProxiesResolvingKeyword_1_0_0_0());
+        newLeafNode(lv_containment_1_0, grammarAccess.getXReferenceAccess().getContainmentContainsKeyword_1_0_0());
+    }
+ 
+	    {
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getXReferenceRule());
+	        }
+       		setWithLastConsumed($current, "containment", true, "contains");
+	    }
+
+)
+)
+    |((
+(
+		lv_resolveProxies_2_0=	'resolving' 
+    {
+        newLeafNode(lv_resolveProxies_2_0, grammarAccess.getXReferenceAccess().getResolveProxiesResolvingKeyword_1_1_0_0());
     }
  
 	    {
@@ -1821,26 +1837,26 @@ ruleXReference returns [EObject current=null]
 
 )
 )(
-(
-		lv_containment_2_0=	'contains' 
-    {
-        newLeafNode(lv_containment_2_0, grammarAccess.getXReferenceAccess().getContainmentContainsKeyword_1_0_1_0());
-    }
- 
-	    {
-	        if ($current==null) {
-	            $current = createModelElement(grammarAccess.getXReferenceRule());
-	        }
-       		setWithLastConsumed($current, "containment", true, "contains");
-	    }
-
-)
-))
-    |((
 (
 		lv_containment_3_0=	'contains' 
     {
-        newLeafNode(lv_containment_3_0, grammarAccess.getXReferenceAccess().getContainmentContainsKeyword_1_1_0_0());
+        newLeafNode(lv_containment_3_0, grammarAccess.getXReferenceAccess().getContainmentContainsKeyword_1_1_1_0());
+    }
+ 
+	    {
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getXReferenceRule());
+	        }
+       		setWithLastConsumed($current, "containment", true, "contains");
+	    }
+
+)
+))
+    |((
+(
+		lv_containment_4_0=	'contains' 
+    {
+        newLeafNode(lv_containment_4_0, grammarAccess.getXReferenceAccess().getContainmentContainsKeyword_1_2_0_0());
     }
  
 	    {
@@ -1853,9 +1869,9 @@ ruleXReference returns [EObject current=null]
 )
 )(
 (
-		lv_resolveProxies_4_0=	'resolving' 
+		lv_resolveProxies_5_0=	'resolving' 
     {
-        newLeafNode(lv_resolveProxies_4_0, grammarAccess.getXReferenceAccess().getResolveProxiesResolvingKeyword_1_1_1_0());
+        newLeafNode(lv_resolveProxies_5_0, grammarAccess.getXReferenceAccess().getResolveProxiesResolvingKeyword_1_2_1_0());
     }
  
 	    {
@@ -1869,25 +1885,25 @@ ruleXReference returns [EObject current=null]
 ))
     |(
 (
-		lv_containment_5_0=	'contains' 
+		lv_container_6_0=	'container' 
     {
-        newLeafNode(lv_containment_5_0, grammarAccess.getXReferenceAccess().getContainmentContainsKeyword_1_2_0());
+        newLeafNode(lv_container_6_0, grammarAccess.getXReferenceAccess().getContainerContainerKeyword_1_3_0());
     }
  
 	    {
 	        if ($current==null) {
 	            $current = createModelElement(grammarAccess.getXReferenceRule());
 	        }
-       		setWithLastConsumed($current, "containment", true, "contains");
+       		setWithLastConsumed($current, "container", true, "container");
 	    }
 
 )
 )
     |((
 (
-		lv_resolveProxies_6_0=	'resolving' 
+		lv_resolveProxies_7_0=	'resolving' 
     {
-        newLeafNode(lv_resolveProxies_6_0, grammarAccess.getXReferenceAccess().getResolveProxiesResolvingKeyword_1_3_0_0());
+        newLeafNode(lv_resolveProxies_7_0, grammarAccess.getXReferenceAccess().getResolveProxiesResolvingKeyword_1_4_0_0());
     }
  
 	    {
@@ -1899,26 +1915,26 @@ ruleXReference returns [EObject current=null]
 
 )
 )(
-(
-		lv_container_7_0=	'container' 
-    {
-        newLeafNode(lv_container_7_0, grammarAccess.getXReferenceAccess().getContainerContainerKeyword_1_3_1_0());
-    }
- 
-	    {
-	        if ($current==null) {
-	            $current = createModelElement(grammarAccess.getXReferenceRule());
-	        }
-       		setWithLastConsumed($current, "container", true, "container");
-	    }
-
-)
-))
-    |((
 (
 		lv_container_8_0=	'container' 
     {
-        newLeafNode(lv_container_8_0, grammarAccess.getXReferenceAccess().getContainerContainerKeyword_1_4_0_0());
+        newLeafNode(lv_container_8_0, grammarAccess.getXReferenceAccess().getContainerContainerKeyword_1_4_1_0());
+    }
+ 
+	    {
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getXReferenceRule());
+	        }
+       		setWithLastConsumed($current, "container", true, "container");
+	    }
+
+)
+))
+    |((
+(
+		lv_container_9_0=	'container' 
+    {
+        newLeafNode(lv_container_9_0, grammarAccess.getXReferenceAccess().getContainerContainerKeyword_1_5_0_0());
     }
  
 	    {
@@ -1931,9 +1947,9 @@ ruleXReference returns [EObject current=null]
 )
 )(
 (
-		lv_resolveProxies_9_0=	'resolving' 
+		lv_resolveProxies_10_0=	'resolving' 
     {
-        newLeafNode(lv_resolveProxies_9_0, grammarAccess.getXReferenceAccess().getResolveProxiesResolvingKeyword_1_4_1_0());
+        newLeafNode(lv_resolveProxies_10_0, grammarAccess.getXReferenceAccess().getResolveProxiesResolvingKeyword_1_5_1_0());
     }
  
 	    {
@@ -1945,27 +1961,16 @@ ruleXReference returns [EObject current=null]
 
 )
 ))
-    |(
-(
-		lv_container_10_0=	'container' 
+    |	otherlv_11='refers' 
     {
-        newLeafNode(lv_container_10_0, grammarAccess.getXReferenceAccess().getContainerContainerKeyword_1_5_0());
+    	newLeafNode(otherlv_11, grammarAccess.getXReferenceAccess().getRefersKeyword_1_6());
     }
- 
-	    {
-	        if ($current==null) {
-	            $current = createModelElement(grammarAccess.getXReferenceRule());
-	        }
-       		setWithLastConsumed($current, "container", true, "container");
-	    }
 
-)
-)
     |((
 (
-		lv_local_11_0=	'local' 
+		lv_local_12_0=	'local' 
     {
-        newLeafNode(lv_local_11_0, grammarAccess.getXReferenceAccess().getLocalLocalKeyword_1_6_0_0());
+        newLeafNode(lv_local_12_0, grammarAccess.getXReferenceAccess().getLocalLocalKeyword_1_7_0_0());
     }
  
 	    {
@@ -1976,20 +1981,20 @@ ruleXReference returns [EObject current=null]
 	    }
 
 )
-)	otherlv_12='refers' 
+)	otherlv_13='refers' 
     {
-    	newLeafNode(otherlv_12, grammarAccess.getXReferenceAccess().getRefersKeyword_1_6_1());
+    	newLeafNode(otherlv_13, grammarAccess.getXReferenceAccess().getRefersKeyword_1_7_1());
     }
 )
-    |(	otherlv_13='refers' 
+    |(	otherlv_14='refers' 
     {
-    	newLeafNode(otherlv_13, grammarAccess.getXReferenceAccess().getRefersKeyword_1_7_0());
+    	newLeafNode(otherlv_14, grammarAccess.getXReferenceAccess().getRefersKeyword_1_8_0());
     }
 (
 (
-		lv_local_14_0=	'local' 
+		lv_local_15_0=	'local' 
     {
-        newLeafNode(lv_local_14_0, grammarAccess.getXReferenceAccess().getLocalLocalKeyword_1_7_1_0());
+        newLeafNode(lv_local_15_0, grammarAccess.getXReferenceAccess().getLocalLocalKeyword_1_8_1_0());
     }
  
 	    {
@@ -2000,12 +2005,7 @@ ruleXReference returns [EObject current=null]
 	    }
 
 )
-))
-    |	otherlv_15='refers' 
-    {
-    	newLeafNode(otherlv_15, grammarAccess.getXReferenceAccess().getRefersKeyword_1_8());
-    }
-)(
+)))(
 
 (
 	{ 

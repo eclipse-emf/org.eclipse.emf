@@ -56,6 +56,7 @@ public class LateInferrer implements IDerivedStateComputer
       EPackage ePackage = xcoreEcoreBuilder.getEPackage(model);
       resource.getContents().add(ePackage);
       GenModel genModel = genModelBuilder.getGenModel(model);
+      genModel.setCanGenerate(true);
       if (!preLinkingPhase)
       {
         xcoreEcoreBuilder.link();

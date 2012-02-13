@@ -1940,10 +1940,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__98;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:98:7: ( 'resolving' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:98:9: 'resolving'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:98:7: ( 'contains' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:98:9: 'contains'
             {
-            match("resolving"); 
+            match("contains"); 
 
 
             }
@@ -1961,10 +1961,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__99;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:99:7: ( 'contains' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:99:9: 'contains'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:99:7: ( 'resolving' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:99:9: 'resolving'
             {
-            match("contains"); 
+            match("resolving"); 
 
 
             }
@@ -3472,7 +3472,7 @@ public class InternalXcoreLexer extends Lexer {
         "\1\133\1\uffff\1\6\1\110\2\uffff\1\74\1\uffff\1\44\6\uffff\1\106"+
         "\1\64\3\uffff\1\115\3\uffff\1\121\6\uffff\1\14\2\uffff\1\112\1\37"+
         "\3\uffff\1\52\2\uffff\1\57\3\uffff\1\76\1\126\1\124\1\122\4\uffff"+
-        "\1\116\1\uffff\1\131\3\uffff\1\61\1\130\1\uffff\1\117\1\uffff\1"+
+        "\1\116\1\uffff\1\130\3\uffff\1\61\1\131\1\uffff\1\117\1\uffff\1"+
         "\123\1\132\1\uffff\1\120\1\71\1\46\1\125";
     static final String DFA12_specialS =
         "\1\0\54\uffff\1\2\1\1\u0152\uffff}>";
