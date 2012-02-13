@@ -342,7 +342,7 @@ public class JPatternDictionary extends FacadeVisitor
           }
         }
       }
-      if (endIndex != -1)
+      if (endIndex > 0 && endIndex < contents.length())
       {
         contents = contents.substring(0, endIndex);
       }
