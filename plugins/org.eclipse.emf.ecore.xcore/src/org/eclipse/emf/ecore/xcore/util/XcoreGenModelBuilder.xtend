@@ -41,6 +41,7 @@ class XcoreGenModelBuilder {
 		val genModel =  GenModelFactory::eINSTANCE.createGenModel();
       	genModel.initialize(Collections::singleton(ePackage));
       	pack.eResource.getContents().add(1, genModel);
+      	genModelInitializer.initialize(genModel);
       	buildMap(genModel);
       	return genModel
    	}
@@ -90,7 +91,6 @@ class XcoreGenModelBuilder {
 	}
 	
 	def initializeUsedGenPackages(GenModel genModel) {
-      	genModelInitializer.initialize(genModel);
       	val referencedEPackages = new HashSet<EPackage>();
       	for (genPackage : genModel.genPackages)
       	{

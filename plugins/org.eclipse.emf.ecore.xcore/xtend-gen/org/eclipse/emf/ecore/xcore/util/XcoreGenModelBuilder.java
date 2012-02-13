@@ -64,6 +64,7 @@ public class XcoreGenModelBuilder {
       Resource _eResource = pack.eResource();
       EList<EObject> _contents = _eResource.getContents();
       _contents.add(1, genModel);
+      this.genModelInitializer.initialize(genModel);
       this.buildMap(genModel);
       return genModel;
   }
@@ -172,7 +173,6 @@ public class XcoreGenModelBuilder {
   }
   
   public void initializeUsedGenPackages(final GenModel genModel) {
-      this.genModelInitializer.initialize(genModel);
       HashSet<EPackage> _hashSet = new HashSet<EPackage>();
       final HashSet<EPackage> referencedEPackages = _hashSet;
       EList<GenPackage> _genPackages = genModel.getGenPackages();
