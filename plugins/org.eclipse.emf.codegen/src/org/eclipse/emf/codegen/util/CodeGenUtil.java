@@ -605,6 +605,55 @@ public class CodeGenUtil
   }  
 
   /**
+   * This method breaks sourceName into words delimited by mixed-case naming, the separators '_' and '$', and non-Java identifier characters.
+   * It then composes those {@link #capName(String, Locale) capitalized} words into a valid Java identifier,
+   * prefixing the result with "_" if that's necessary to make the result a well-formed Java identifier.
+   * @since 2.8
+   */
+  public static String javaIdentifier(String sourceName, Locale locale)
+  {
+    StringBuilder result = new StringBuilder();
+    if (sourceName != null)
+    {
+      StringBuilder currentWord = new StringBuilder();
+      boolean lastIsLower = false;
+      for (int index = 0, length = sourceName.length(); index < length; index = sourceName.offsetByCodePoints(index, 1))
+      {
+        int codePoint = sourceName.charAt(index);
+        if (Character.isUpperCase(codePoint) || (!lastIsLower && Character.isDigit(codePoint)) ||  Character.isJavaIdentifierPart(codePoint))
+        {
+          if (lastIsLower && currentWord.length() > 1 || (codePoint == '$' || codePoint == '_') && currentWord.length() > 0)
+          {
+            result.append(capName(currentWord.toString(), locale));
+            currentWord = new StringBuilder();
+          }
+          lastIsLower = false;
+        }
+        else
+        {
+          if (!lastIsLower)
+          {
+            result.append(capName(currentWord.toString(), locale));
+            currentWord = new StringBuilder();
+          }
+          lastIsLower = true;
+        }
+
+        if (codePoint != '_' && codePoint != '$' && Character.isJavaIdentifierPart(codePoint))
+        {
+          currentWord.appendCodePoint(codePoint);
+        }
+      }
+ 
+      result.append(capName(currentWord.toString(), locale));
+    }
+    return
+      result.length() == 0 || !Character.isJavaIdentifierStart(result.codePointAt(0)) ?
+        "_" + result :
+        result.toString();
+  }
+
+  /**
    * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#isInJavaOutput} instead. 
    */
   @Deprecated

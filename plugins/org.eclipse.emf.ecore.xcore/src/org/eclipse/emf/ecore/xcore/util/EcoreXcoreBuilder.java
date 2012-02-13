@@ -11,6 +11,7 @@ package org.eclipse.emf.ecore.xcore.util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
@@ -21,6 +22,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -74,6 +76,7 @@ import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvider;
 import org.eclipse.xtext.xbase.XBlockExpression;
 
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 
@@ -265,6 +268,11 @@ public class EcoreXcoreBuilder
 
   XAnnotationDirective getXAnnotationDirective(XModelElement xModelElement, String source)
   {
+    if (source == null)
+    {
+      source = "";
+    }
+
     XPackage xPackage = (XPackage)EcoreUtil.getRootContainer(xModelElement);
     for (XAnnotationDirective xAnnotationDirective : xPackage.getAnnotationDirectives())
     {
@@ -283,16 +291,86 @@ public class EcoreXcoreBuilder
       }
     }
 
+    Set<String> names = Sets.newHashSet();
+    for (XAnnotationDirective xAnnotationDirective : xPackage.getAnnotationDirectives())
+    {
+      names.add(xAnnotationDirective.getName());
+    }
+
     XAnnotationDirective xAnnotationDirective = XcoreFactory.eINSTANCE.createXAnnotationDirective();
     xAnnotationDirective.setSourceURI(source);
-    // TODO
-    URI sourceURI = URI.createURI(source);
-    String name = sourceURI.lastSegment();
-    if (name == null)
+    
+    // Try to compute a reasonable name to use as an identifier.
+    //
+    String name = source;
+    try
     {
-      name = sourceURI.authority().replaceAll("\\.", "_");
+      // Consider the case that the source isn't a well-formed URI.
+      // This will throw a runtime exception, in which case we'll use the source itself as the basis for the name.
+      //
+      URI sourceURI = URI.createURI(source);
+      
+      // Use the last segment if there is one and it's not empty.
+      //
+      name = sourceURI.lastSegment();
+      if (name == null || name.length() == 0)
+      {
+        // Use the URI's if it exists and it's not empty.
+        //
+        name = sourceURI.path();
+        if (name == null || name.length() == 0)
+        {
+          // Consider the case that's it's hierarchical or not.
+          // If it is, use the authority, otherwise use the opaque part.
+          //
+          boolean hierarchical = sourceURI.isHierarchical();
+          name = hierarchical ? sourceURI.authority() : sourceURI.opaquePart();
+          
+          // If that's null use the entire source after all.
+          //
+          if (name == null)
+          {
+            name = source;
+          }
+          // Otherwise, if we have the a hierarchical URI...
+          //
+          else if (hierarchical)
+          {
+            // Strip off the "www" prefix is there is one.
+            //
+            if (name.startsWith("www."))
+            {
+              name = name.substring(4);
+            }
+            
+            // Strip off what most likely is the domain suffix.
+            //
+            int index = name.lastIndexOf('.');
+            if (index != -1)
+            {
+              name = name.substring(0, index);
+            }
+          }
+        }
+      }
     }
-    xAnnotationDirective.setName(name);
+    catch (RuntimeException exception)
+    {
+      // Just use the resource URI itself as the basis for the name.
+    }
+    
+    // Coerce the name into a well formed Java identifiers.
+    //
+    name = CodeGenUtil.javaIdentifier(name, genModel.getLocale());
+    
+    // Ensure that the name doesn't collide with that of another annotation.
+    //
+    String uniqueName = name;
+    for (int i = 1; names.contains(uniqueName); ++i)
+    {
+      uniqueName = name + "_" + i;
+    }
+    xAnnotationDirective.setName(uniqueName);
     xPackage.getAnnotationDirectives().add(xAnnotationDirective);
     return xAnnotationDirective;
   }
