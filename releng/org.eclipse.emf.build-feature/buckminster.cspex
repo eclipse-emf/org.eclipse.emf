@@ -337,9 +337,4 @@
 			<cs:attribute name="package.xsd-sourcedoc" />
 		</cs:public>
 	</cs:groups>
-	<cs:alterActions>  
-        <cs:public name="site.p2">  
-            <cs:products base="${buckminster.output.root}/emf.site.p2" upToDatePolicy="ACTOR"/>  
-        </cs:public>  
-    </cs:alterActions>  
 </cs:cspecExtension>

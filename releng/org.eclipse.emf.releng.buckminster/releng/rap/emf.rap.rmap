@@ -14,8 +14,8 @@
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(!(|(build.type=S)(build.type=R))))"
 		>
-			<uri format="file:/Users/dhuebner/hudsonbuild/emf-base-head/buckminster.workspace/buckminster.build.output/org.eclipse.emf.base.build_2.8.0-eclipse.feature/site.p2">
-				<bc:propertyRef key="eclipse.download" />
+			<uri format="{0}">
+				<bc:propertyRef key="emf.base.nightly" />
 			</uri>
 		</provider>
 		<!-- <provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
@@ -24,7 +24,7 @@
 			<uri format="{0}/modeling/emf/emf/updates/2.8-I-builds/base">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
-		</provider>
+		</provider>-->
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=S))"
 		>
@@ -38,7 +38,7 @@
 			<uri format="{0}/modeling/emf/emf/updates/2.8/base">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
-		</provider> -->
+		</provider> 
 
 		<!--
 			Some of the EMF base components (notably org.eclispe.emf.common) are consumed by (and included in) the platform
@@ -121,5 +121,6 @@
 		</provider>
 	</searchPath>
 	
+	<property key="emf.base.nightly" value="https://hudson.eclipse.org/hudson/job/emf-base-head/lastSuccessfulBuild/artifact/EMF.Base.p2.repository/" />
 	<property key="eclipse.download" value="http://download.eclipse.org" />
 </rmap>
