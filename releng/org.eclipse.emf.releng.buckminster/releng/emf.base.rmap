@@ -182,28 +182,29 @@
 
 	<searchPath name="platform">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(resolve.target.platform=true)(build.type=N))"
+			resolutionFilter="(&amp;(resolve.target.platform=true)(eclipse.target.platform=Galileo))"
+		>
+			<uri format="{0}/eclipse/updates/3.5">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
+
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(resolve.target.platform=true)(!(eclipse.target.platform=Galileo))(!(|(build.type=S)(build.type=R))))"
 		>
 			<uri format="{0}/eclipse/updates/3.8-I-builds">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(resolve.target.platform=true)(!(|(build.type=N)(build.type=S)(build.type=R))))"
-		>
-			<uri format="{0}/eclipse/updates/3.8-I-builds">
-				<bc:propertyRef key="eclipse.download" />
-			</uri>
-		</provider>
-		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(resolve.target.platform=true)(build.type=S))"
+			resolutionFilter="(&amp;(resolve.target.platform=true)(!(eclipse.target.platform=Galileo))(build.type=S))"
 		>
 			<uri format="{0}/eclipse/updates/3.8milestones">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(resolve.target.platform=true)(build.type=R))"
+			resolutionFilter="(&amp;(resolve.target.platform=true)(!(eclipse.target.platform=Galileo))(build.type=R))"
 		>
 			<uri format="{0}/eclipse/updates/3.8">
 				<bc:propertyRef key="eclipse.download" />

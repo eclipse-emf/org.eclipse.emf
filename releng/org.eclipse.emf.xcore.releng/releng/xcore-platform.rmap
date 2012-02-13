@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
-	<rm:property key="checkout.location" value="${workspace.root}/org.eclipse.emf.xcore.releng/" />
+	<rm:property key="checkout.location" value="${workspace.root}/" />
 	<rm:property key="xtext.p2.repository" value="${eclipse.download}/modeling/tmf/xtext/updates/composite" />
 	<rm:property key="emf.p2.repository" value="${eclipse.download}/modeling/emf/emf/updates" />
 	
@@ -24,16 +24,16 @@
 	
 	<rm:searchPath name="local.releng">
 		<rm:provider componentTypes="buckminster" readerType="local" mutable="false">
-			<rm:uri format="{0}/{1}">
-				<bc:propertyRef key="releng.checkout.location" />
+			<rm:uri format="{0}/releng/{1}">
+				<bc:propertyRef key="checkout.location" />
 				<bc:propertyRef key="buckminster.component" />
 			</rm:uri>
 		</rm:provider>
 	</rm:searchPath>
 	<rm:searchPath name="releng">
 		<rm:provider componentTypes="eclipse.feature" readerType="local" mutable="false">
-			<rm:uri format="{0}/{1}-feature">
-				<bc:propertyRef key="releng.checkout.location" />
+			<rm:uri format="{0}/releng/{1}-feature">
+				<bc:propertyRef key="checkout.location" />
 				<bc:propertyRef key="buckminster.component" />
 			</rm:uri>
 		</rm:provider>

@@ -305,7 +305,12 @@ public class EMFPropertiesTest extends TestCase
 
     b = EmfdbFactory.eINSTANCE.createB();
     b.setString("New Element 2");
-    valueProp.setValue(a, b);
+    IObservableValue aObservable = valueProp.observe(a);
+    try {
+		aObservable.setValue(b);
+	} finally {
+		aObservable.dispose();
+	}
 
     assertEquals("New Element 2", value.getValue());
   }

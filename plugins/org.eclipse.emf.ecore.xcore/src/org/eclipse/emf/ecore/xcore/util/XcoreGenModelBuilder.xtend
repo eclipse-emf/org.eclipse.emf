@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.xcore.XPackage
 import org.eclipse.emf.ecore.xcore.XStructuralFeature
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper
 
-import static extension org.eclipse.xtext.xtend2.lib.EObjectExtensions.*
+import static extension org.eclipse.emf.ecore.xcore.XcoreExtensions.*
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral
 import org.eclipse.emf.ecore.xcore.XEnumLiteral
 

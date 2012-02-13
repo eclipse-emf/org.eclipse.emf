@@ -15,5 +15,5 @@ Require-Bundle: org.eclipse.emf.ecore.xcore,
  org.eclipse.emf.codegen.ecore,
  org.eclipse.xtext.common.types,
  org.eclipse.xtext.xbase,
- org.eclipse.xtext.xtend2.lib,
+ org.eclipse.xtext.xbase.lib,
  org.eclipse.xtext.xbase.junit

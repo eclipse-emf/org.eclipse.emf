@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.xcore.XDataType;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
+import org.eclipse.emf.ecore.xcore.XcoreExtensions;
 import org.eclipse.emf.ecore.xcore.generator.XcoreAppendable;
 import org.eclipse.emf.ecore.xcore.generator.XcoreGeneratorImpl;
 import org.eclipse.emf.ecore.xcore.mappings.XDataTypeMapping;
@@ -35,7 +36,6 @@ import org.eclipse.xtext.xbase.lib.BooleanExtensions;
 import org.eclipse.xtext.xbase.lib.IntegerExtensions;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
-import org.eclipse.xtext.xtend2.lib.EObjectExtensions;
 
 @SuppressWarnings("all")
 public class XcoreGenerator implements IGenerator {
@@ -52,7 +52,7 @@ public class XcoreGenerator implements IGenerator {
       EList<EObject> _contents = resource.getContents();
       EObject _head = IterableExtensions.<EObject>head(_contents);
       final XPackage pack = ((XPackage) _head);
-      Iterable<EObject> _allContentsIterable = EObjectExtensions.allContentsIterable(pack);
+      Iterable<EObject> _allContentsIterable = XcoreExtensions.allContentsIterable(pack);
       Iterable<XOperation> _filter = IterableExtensions.<XOperation>filter(_allContentsIterable, org.eclipse.emf.ecore.xcore.XOperation.class);
       for (final XOperation op : _filter) {
         {
@@ -78,7 +78,7 @@ public class XcoreGenerator implements IGenerator {
           }
         }
       }
-      Iterable<EObject> _allContentsIterable_1 = EObjectExtensions.allContentsIterable(pack);
+      Iterable<EObject> _allContentsIterable_1 = XcoreExtensions.allContentsIterable(pack);
       Iterable<XStructuralFeature> _filter_1 = IterableExtensions.<XStructuralFeature>filter(_allContentsIterable_1, org.eclipse.emf.ecore.xcore.XStructuralFeature.class);
       for (final XStructuralFeature feature : _filter_1) {
         {
@@ -105,7 +105,7 @@ public class XcoreGenerator implements IGenerator {
           }
         }
       }
-      Iterable<EObject> _allContentsIterable_2 = EObjectExtensions.allContentsIterable(pack);
+      Iterable<EObject> _allContentsIterable_2 = XcoreExtensions.allContentsIterable(pack);
       Iterable<XDataType> _filter_2 = IterableExtensions.<XDataType>filter(_allContentsIterable_2, org.eclipse.emf.ecore.xcore.XDataType.class);
       for (final XDataType dataType : _filter_2) {
         {

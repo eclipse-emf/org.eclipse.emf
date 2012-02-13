@@ -24,7 +24,7 @@ import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler
 
-import static extension org.eclipse.xtext.xtend2.lib.EObjectExtensions.*
+import static extension org.eclipse.emf.ecore.xcore.XcoreExtensions.*
 
 class XcoreGenerator implements IGenerator {
 	

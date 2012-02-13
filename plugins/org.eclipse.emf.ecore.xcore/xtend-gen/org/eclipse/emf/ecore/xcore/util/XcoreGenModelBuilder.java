@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
+import org.eclipse.emf.ecore.xcore.XcoreExtensions;
 import org.eclipse.emf.ecore.xcore.mappings.ToXcoreMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XDataTypeMapping;
@@ -43,7 +44,6 @@ import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelInitializer;
 import org.eclipse.xtext.xbase.lib.IntegerExtensions;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
-import org.eclipse.xtext.xtend2.lib.EObjectExtensions;
 
 @SuppressWarnings("all")
 public class XcoreGenModelBuilder {
@@ -70,7 +70,7 @@ public class XcoreGenModelBuilder {
   }
   
   public void buildMap(final GenModel genModel) {
-    Iterable<EObject> _allContentsIterable = EObjectExtensions.allContentsIterable(genModel);
+    Iterable<EObject> _allContentsIterable = XcoreExtensions.allContentsIterable(genModel);
     for (final EObject genElement : _allContentsIterable) {
       boolean matched = false;
       if (!matched) {
@@ -178,7 +178,7 @@ public class XcoreGenModelBuilder {
       EList<GenPackage> _genPackages = genModel.getGenPackages();
       for (final GenPackage genPackage : _genPackages) {
         EPackage _ecorePackage = genPackage.getEcorePackage();
-        Iterable<EObject> _allContentsIterable = EObjectExtensions.allContentsIterable(_ecorePackage);
+        Iterable<EObject> _allContentsIterable = XcoreExtensions.allContentsIterable(_ecorePackage);
         for (final EObject eObject : _allContentsIterable) {
           EList<EObject> _eCrossReferences = eObject.eCrossReferences();
           for (final EObject eCrossReference : _eCrossReferences) {

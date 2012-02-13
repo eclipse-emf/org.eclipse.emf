@@ -36,7 +36,6 @@ http://www.eclipse.org/legal/epl-v10.html
       <import plugin="org.antlr.runtime"/>
       <import plugin="org.eclipse.xtext.xbase"/>
       <import plugin="org.eclipse.xtext.common.types"/>
-      <import plugin="org.eclipse.xtext.xtend2.lib"/>
       <import plugin="org.apache.commons.logging"/>
       <import plugin="org.eclipse.xtext.xbase.lib"/>
       <import plugin="org.eclipse.emf.codegen.ecore"/>

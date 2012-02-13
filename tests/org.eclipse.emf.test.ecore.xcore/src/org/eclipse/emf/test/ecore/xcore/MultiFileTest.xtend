@@ -22,7 +22,6 @@ import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
 
-import static extension org.eclipse.xtext.xtend2.lib.ResourceExtensions.*
 import org.eclipse.emf.ecore.xcore.XReference
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper
 
@@ -59,7 +58,7 @@ class MultiFileTest {
 		
 		validator.assertNoErrors(resourceA.contents.head)
 		validator.assertNoErrors(resourceB.contents.head)
-		val allContents = resourceA.allContentsIterable 
+		val allContents = resourceA.allContents 
 		val xclass = allContents.filter(typeof(XClass)).head
 		val referencedGenClass = xclass.members.head.type.type
 		assertEquals('TypeB', (referencedGenClass as GenClass).name) 
@@ -86,7 +85,7 @@ class MultiFileTest {
 		
 		validator.assertNoErrors(resourceA.contents.head)
 		validator.assertNoErrors(resourceB.contents.head)
-		val allContents = resourceA.allContentsIterable 
+		val allContents = resourceA.allContents
 		val xclass = allContents.filter(typeof(XClass)).head
 		val referencedGenClass = xclass.members.head.type.type
 		assertEquals('TypeB', (referencedGenClass as GenClass).name) 

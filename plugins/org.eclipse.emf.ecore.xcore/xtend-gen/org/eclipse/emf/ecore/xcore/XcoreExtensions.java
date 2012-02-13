@@ -3,7 +3,11 @@ package org.eclipse.emf.ecore.xcore;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xcore.XGenericType;
+import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 
 @SuppressWarnings("all")
 public class XcoreExtensions {
@@ -41,5 +45,17 @@ public class XcoreExtensions {
       _switchResult = null;
     }
     return _switchResult;
+  }
+  
+  public static Iterable<EObject> allContentsIterable(final EObject eObject) {
+    TreeIterator<EObject> _eAllContents = eObject.eAllContents();
+    Iterable<EObject> _iterable = IteratorExtensions.<EObject>toIterable(_eAllContents);
+    return _iterable;
+  }
+  
+  public static Iterable<EObject> allContentsIterable(final Resource resource) {
+    TreeIterator<EObject> _allContents = resource.getAllContents();
+    Iterable<EObject> _iterable = IteratorExtensions.<EObject>toIterable(_allContents);
+    return _iterable;
   }
 }
