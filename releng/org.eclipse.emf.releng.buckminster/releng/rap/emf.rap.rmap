@@ -3,11 +3,72 @@
 	xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0"
 >
 	<locator pattern="^org\.eclipse\.rap(?:\..+)?$" searchPathRef="rap" />
+	<locator pattern="^org\.eclipse\.emf\.(?:base|common|ecore|ecore\.xmi|ecore\.change)(?:\.source)?$" searchPathRef="emf.base" failOnError="true" />
 	
 	<locator searchPathRef="rap.platform" failOnError="false" />
 
 	<!-- refer the resolution to the base RMAP to resolve the emf.rap.sdk-->
 	<redirect href="../emf.rmap" /> 
+	
+	<searchPath name="emf.base">
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(!(|(build.type=S)(build.type=R))))"
+		>
+			<uri format="file:/Users/dhuebner/hudsonbuild/emf-base-head/buckminster.workspace/buckminster.build.output/org.eclipse.emf.base.build_2.8.0-eclipse.feature/site.p2">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
+		<!-- <provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(!(|(build.type=S)(build.type=R))))"
+		>
+			<uri format="{0}/modeling/emf/emf/updates/2.8-I-builds/base">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=S))"
+		>
+			<uri format="{0}/modeling/emf/emf/updates/2.8milestones/base">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=R))"
+		>
+			<uri format="{0}/modeling/emf/emf/updates/2.8/base">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider> -->
+
+		<!--
+			Some of the EMF base components (notably org.eclispe.emf.common) are consumed by (and included in) the platform
+			and it may happen that they are not available from the EMF base build p2 repository defined above because
+			the platform build consumed the EMF components from an older release of EMF (and thus from a different
+			repository).
+			So here we make it possible for the core build to consume the necessary base EMF components from the platform repo.   
+		-->
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(!(|(build.type=S)(build.type=R))))"
+		>
+			<uri format="{0}/eclipse/updates/4.2-I-builds">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=S))"
+		>
+			<uri format="{0}/eclipse/updates/4.2milestones">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=R))"
+		>
+			<uri format="{0}/eclipse/updates/4.2">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
+	</searchPath>
 	
 	<searchPath name="rap">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
@@ -24,7 +85,21 @@
 			RAP depends on the latest eclipse platform   
 		-->
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(!(|(build.type=S)(build.type=R))))"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=N))"
+		>
+			<uri format="file:/Users/dhuebner/Desktop/eclipse4.2vrepo/final/">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=N))"
+		>
+			<uri format="{0}/eclipse/updates/4.2-I-builds">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(!(|(build.type=N)(build.type=S)(build.type=R))))"
 		>
 			<uri format="{0}/eclipse/updates/4.2-I-builds">
 				<bc:propertyRef key="eclipse.download" />
