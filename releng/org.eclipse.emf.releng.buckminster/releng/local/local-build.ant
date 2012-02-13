@@ -44,7 +44,7 @@
 		<property name="commands.file" value="${releng.proj.loc}/releng/local/commands.txt" />
 		<!-- Where to build. This folder will be cleaned up, so dont point to ~ or / :) -->
 		<property name="WORKSPACE" location="${user.home}/hudsonbuild/emf-core-head" />
-
+		<antcall target="reset.target-platform" inheritall="true" />
 		<antcall target="start-build" inheritall="true" />
 
 	</target>
@@ -94,7 +94,7 @@
 	          Use this target if any TP dependencies are changed                    
 	         - - - - - - - - - - - - - - - - - -->
 	<target name="reset.target-platform">
-		<delete includeemptydirs="true" verbose="true">
+		<delete includeemptydirs="true" verbose="false">
 			<fileset dir="${WORKSPACE}" defaultexcludes="false">
 				<include name="**/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/" />
 				<include name="**/target.platform/" />
