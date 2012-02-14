@@ -121,6 +121,6 @@ public class EMFEditListPropertyDecorator extends ListProperty implements IEMFEd
 
   public IEMFEditValueProperty value(ListElementAccess<?> elementAccess) 
   {
-    return new EMFEditValuePropertyDecorator(editingDomain,new EMFEditListValueProperty(editingDomain,eStructuralFeature,elementAccess), eStructuralFeature);
+    return new EMFEditValuePropertyDecorator(editingDomain,new EMFEditListValueProperty(editingDomain,delegate,eStructuralFeature,elementAccess), eStructuralFeature);
   }
 }

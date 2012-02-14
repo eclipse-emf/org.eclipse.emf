@@ -12,6 +12,7 @@ package org.eclipse.emf.databinding.edit.internal;
 
 import java.util.List;
 
+import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.IEMFListProperty.ListElementAccess;
 import org.eclipse.emf.databinding.IEMFListProperty.ListElementAccess.WriteData;
@@ -27,9 +28,9 @@ public class EMFEditListValueProperty extends EMFListValueProperty
 {
   private EditingDomain editingDomain;
 
-  public EMFEditListValueProperty(EditingDomain editingDomain, EStructuralFeature eStructuralFeature, ListElementAccess<?> elementAccess)
+  public EMFEditListValueProperty(EditingDomain editingDomain, IListProperty delegate, EStructuralFeature eStructuralFeature, ListElementAccess<?> elementAccess)
   {
-    super(eStructuralFeature, elementAccess);
+    super(delegate, eStructuralFeature, elementAccess);
     this.editingDomain = editingDomain;
   }
 
