@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="ASCII"?>
-<emfdb:A xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:emfdb="http://www.eclipse.org/emf/emfdb/1.0.0" xsi:schemaLocation="http://www.eclipse.org/emf/emfdb/1.0.0 EMFDB.ecore" string="Instance 1">
-  <blist string="Instance 1"/>
+<emfdb:A xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:emfdb="http://www.eclipse.org/emf/emfdb/1.0.0"
+    xsi:schemaLocation="http://www.eclipse.org/emf/emfdb/1.0.0 EMFDB.ecore"
+    string="Instance 1">
+  <blist string="Instance 1">
+    <d name="Name of D">
+      <elist
+          name="First Element"/>
+      <elist
+          name="Element 2"/>
+      <elist
+          name="Last Element"/>
+    </d>
+  </blist>
   <blist string="Instance 2"/>
-  <cmap key="key 1" value="value 1"/>
-  <cmap key="key 2" value="value 2"/>
+  <cmap key="key 1"
+      value="value 1"/>
+  <cmap key="key 2"
+      value="value 2"/>
 </emfdb:A>

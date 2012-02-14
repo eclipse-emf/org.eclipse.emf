@@ -12,12 +12,15 @@ package org.eclipse.emf.test.databinding.emfdb.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.test.databinding.emfdb.B;
+import org.eclipse.emf.test.databinding.emfdb.D;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
 
 /**
@@ -28,6 +31,7 @@ import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.BImpl#getString <em>String</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.BImpl#getD <em>D</em>}</li>
  * </ul>
  * </p>
  *
@@ -54,6 +58,16 @@ public class BImpl extends EObjectImpl implements B
    * @ordered
    */
   protected String string = STRING_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getD() <em>D</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getD()
+   * @generated
+   * @ordered
+   */
+  protected D d;
 
   /**
    * <!-- begin-user-doc -->
@@ -104,6 +118,70 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  public D getD()
+  {
+    return d;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetD(D newD, NotificationChain msgs)
+  {
+    D oldD = d;
+    d = newD;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EmfdbPackage.B__D, oldD, newD);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setD(D newD)
+  {
+    if (newD != d)
+    {
+      NotificationChain msgs = null;
+      if (d != null)
+        msgs = ((InternalEObject)d).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - EmfdbPackage.B__D, null, msgs);
+      if (newD != null)
+        msgs = ((InternalEObject)newD).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - EmfdbPackage.B__D, null, msgs);
+      msgs = basicSetD(newD, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, EmfdbPackage.B__D, newD, newD));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case EmfdbPackage.B__D:
+        return basicSetD(null, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
@@ -111,6 +189,8 @@ public class BImpl extends EObjectImpl implements B
     {
       case EmfdbPackage.B__STRING:
         return getString();
+      case EmfdbPackage.B__D:
+        return getD();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -127,6 +207,9 @@ public class BImpl extends EObjectImpl implements B
     {
       case EmfdbPackage.B__STRING:
         setString((String)newValue);
+        return;
+      case EmfdbPackage.B__D:
+        setD((D)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -145,6 +228,9 @@ public class BImpl extends EObjectImpl implements B
       case EmfdbPackage.B__STRING:
         setString(STRING_EDEFAULT);
         return;
+      case EmfdbPackage.B__D:
+        setD((D)null);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -161,6 +247,8 @@ public class BImpl extends EObjectImpl implements B
     {
       case EmfdbPackage.B__STRING:
         return STRING_EDEFAULT == null ? string != null : !STRING_EDEFAULT.equals(string);
+      case EmfdbPackage.B__D:
+        return d != null;
     }
     return super.eIsSet(featureID);
   }

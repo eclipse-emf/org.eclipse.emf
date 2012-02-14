@@ -76,6 +76,8 @@ public class EmfdbFactoryImpl extends EFactoryImpl implements EmfdbFactory
       case EmfdbPackage.A: return createA();
       case EmfdbPackage.B: return createB();
       case EmfdbPackage.C: return (EObject)createC();
+      case EmfdbPackage.D: return createD();
+      case EmfdbPackage.E: return createE();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -112,6 +114,28 @@ public class EmfdbFactoryImpl extends EFactoryImpl implements EmfdbFactory
   {
     CImpl c = new CImpl();
     return c;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public D createD()
+  {
+    DImpl d = new DImpl();
+    return d;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public E createE()
+  {
+    EImpl e = new EImpl();
+    return e;
   }
 
   /**

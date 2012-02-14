@@ -80,13 +80,17 @@ public class EMFPropertiesTest extends TestCase
         }
       };
   }
-  
-  public void testFeaturePath() {
+
+  public void testFeaturePath()
+  {
     assertNotNull(FeaturePath.fromList(EmfdbPackage.Literals.A__BLIST));
-    try {
+    try
+    {
       FeaturePath.fromList(EmfdbPackage.Literals.A__BLIST, EmfdbPackage.Literals.B__STRING);
       fail("Traversing list feature");
-    } catch (IllegalArgumentException e) {
+    }
+    catch (IllegalArgumentException e)
+    {
       // Ignore
     }
   }
@@ -277,13 +281,13 @@ public class EMFPropertiesTest extends TestCase
       {
 
         @Override
-        public int getReadValueIndex(List< Object > list)
+        public int getReadValueIndex(List<Object> list)
         {
           return 0;
         }
 
         @Override
-        public int getWriteValueIndex(List< Object > list)
+        public int getWriteValueIndex(List<Object> list)
         {
           return 0;
         }
@@ -306,11 +310,14 @@ public class EMFPropertiesTest extends TestCase
     b = EmfdbFactory.eINSTANCE.createB();
     b.setString("New Element 2");
     IObservableValue aObservable = valueProp.observe(a);
-    try {
-		aObservable.setValue(b);
-	} finally {
-		aObservable.dispose();
-	}
+    try
+    {
+      aObservable.setValue(b);
+    }
+    finally
+    {
+      aObservable.dispose();
+    }
 
     assertEquals("New Element 2", value.getValue());
   }
@@ -432,4 +439,62 @@ public class EMFPropertiesTest extends TestCase
     map.clear();
   }
 
+  public void test_sublistElement()
+  {
+    Realm.runWithDefault(testRealm, new Runnable()
+    {
+
+      public void run()
+      {
+        _test_sublistElement();
+      }
+    });
+  }
+
+  public void _test_sublistElement()
+  {
+    A a = (A)resource.getContents().get(0);
+    IEMFListProperty lProp1 = EMFProperties.list(EmfdbPackage.Literals.A__BLIST);
+    System.err.println(lProp1.getClass());
+    IEMFValueProperty vProp1 = lProp1.value(new ListElementAccess<Object>()
+      {
+
+        public int getReadValueIndex(List<Object> list)
+        {
+          return 0;
+        }
+
+        @Override
+        public int getWriteValueIndex(List<Object> list)
+        {
+          return WriteData.NO_INDEX;
+        }
+      });
+    System.err.println(vProp1.getClass()); 
+
+    IEMFValueProperty vProp2 = vProp1.value(EmfdbPackage.Literals.B__D);
+    IEMFListProperty lProp2 = vProp2.list(EmfdbPackage.Literals.D__ELIST);
+    System.err.println(lProp2.getClass());
+        
+    IEMFValueProperty vProp3 = lProp2.value(new ListElementAccess<Object>()
+      {
+
+        public int getReadValueIndex(List<Object> list)
+        {
+          return list.size() - 1;
+        }
+
+        @Override
+        public int getWriteValueIndex(List<Object> list)
+        {
+          return WriteData.NO_INDEX;
+        }
+      });
+    
+    System.err.println(vProp3.observe(a).getValue());
+
+//    IEMFValueProperty detailValue = vProp3.value(EmfdbPackage.Literals.E__NAME);
+//    IObservableValue v = detailValue.observe(a);
+//    System.err.println(v.getValue());
+  }
 }

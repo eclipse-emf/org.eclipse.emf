@@ -13,10 +13,12 @@ package org.eclipse.emf.databinding.internal;
 import java.util.List;
 
 import org.eclipse.core.databinding.observable.Diffs;
+import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.property.INativePropertyListener;
 import org.eclipse.core.databinding.property.IProperty;
 import org.eclipse.core.databinding.property.ISimplePropertyListener;
 import org.eclipse.core.databinding.property.SimplePropertyEvent;
+import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.core.databinding.property.value.SimpleValueProperty;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.databinding.IEMFListProperty.ListElementAccess;
@@ -32,13 +34,16 @@ public class EMFListValueProperty extends SimpleValueProperty
   private final EStructuralFeature eStructuralFeature;
   @SuppressWarnings("rawtypes")
   private final ListElementAccess elementAccess;
+  private final IListProperty delegate;
 
   /**
+   * @param delegate 
    * @param eStructuralFeature
    * @param elementAccess
    */
-  public EMFListValueProperty(EStructuralFeature eStructuralFeature, ListElementAccess<?> elementAccess)
+  public EMFListValueProperty(IListProperty delegate, EStructuralFeature eStructuralFeature, ListElementAccess<?> elementAccess)
   {
+    this.delegate = delegate;
     this.eStructuralFeature = eStructuralFeature;
     this.elementAccess = elementAccess;
   }
@@ -51,8 +56,7 @@ public class EMFListValueProperty extends SimpleValueProperty
   @Override
   protected Object doGetValue(Object source)
   {
-    EObject eObject = (EObject)source;
-    List< ? > list = (List< ? >)eObject.eGet(eStructuralFeature);
+    List< ? > list = delegate.getList(source);
     @SuppressWarnings("unchecked")
     int idx = elementAccess.getReadValueIndex(list);
     if (idx != WriteData.NO_INDEX)
@@ -62,17 +66,19 @@ public class EMFListValueProperty extends SimpleValueProperty
     return null;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   protected void doSetValue(Object source, Object value)
   {
-    EObject eObject = (EObject)source;
-    @SuppressWarnings("unchecked")
-    List<Object> list = (List<Object>)eObject.eGet(eStructuralFeature);
-    @SuppressWarnings("unchecked")
-    WriteData data = elementAccess.getWriteValueData(list);
-    if (data != null)
-    {
-      doSetListValue((EObject)source, list, data, value);
+    IObservableList list = delegate.observe(source);
+    try {
+      WriteData data = elementAccess.getWriteValueData(list);
+      if (data != null)
+      {
+        doSetListValue((EObject)source, list, data, value);
+      }      
+    } finally {
+      list.dispose();  
     }
   }
 

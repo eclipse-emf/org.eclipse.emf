@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.B#getString <em>String</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.databinding.emfdb.B#getD <em>D</em>}</li>
  * </ul>
  * </p>
  *
@@ -55,5 +56,31 @@ public interface B extends EObject
    * @generated
    */
   void setString(String value);
+
+  /**
+   * Returns the value of the '<em><b>D</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>D</em>' reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>D</em>' containment reference.
+   * @see #setD(D)
+   * @see org.eclipse.emf.test.databinding.emfdb.EmfdbPackage#getB_D()
+   * @model containment="true" required="true"
+   * @generated
+   */
+  D getD();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.test.databinding.emfdb.B#getD <em>D</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>D</em>' containment reference.
+   * @see #getD()
+   * @generated
+   */
+  void setD(D value);
 
 } // B

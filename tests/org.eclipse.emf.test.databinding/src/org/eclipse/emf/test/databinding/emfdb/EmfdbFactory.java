@@ -49,6 +49,24 @@ public interface EmfdbFactory extends EFactory
   B createB();
 
   /**
+   * Returns a new object of class '<em>D</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>D</em>'.
+   * @generated
+   */
+  D createD();
+
+  /**
+   * Returns a new object of class '<em>E</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>E</em>'.
+   * @generated
+   */
+  E createE();
+
+  /**
    * Returns the package supported by this factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

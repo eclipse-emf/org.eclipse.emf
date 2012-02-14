@@ -99,6 +99,16 @@ public class EmfdbAdapterFactory extends AdapterFactoryImpl
         return createCAdapter();
       }
       @Override
+      public Adapter caseD(D object)
+      {
+        return createDAdapter();
+      }
+      @Override
+      public Adapter caseE(E object)
+      {
+        return createEAdapter();
+      }
+      @Override
       public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
@@ -161,6 +171,36 @@ public class EmfdbAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createCAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.test.databinding.emfdb.D <em>D</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.eclipse.emf.test.databinding.emfdb.D
+   * @generated
+   */
+  public Adapter createDAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.test.databinding.emfdb.E <em>E</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.eclipse.emf.test.databinding.emfdb.E
+   * @generated
+   */
+  public Adapter createEAdapter()
   {
     return null;
   }

@@ -130,13 +130,22 @@ public interface EmfdbPackage extends EPackage
   int B__STRING = 0;
 
   /**
+   * The feature id for the '<em><b>D</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int B__D = 1;
+
+  /**
    * The number of structural features of the '<em>B</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int B_FEATURE_COUNT = 1;
+  int B_FEATURE_COUNT = 2;
 
 
   /**
@@ -175,6 +184,72 @@ public interface EmfdbPackage extends EPackage
    * @ordered
    */
   int C_FEATURE_COUNT = 2;
+
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.test.databinding.emfdb.impl.DImpl <em>D</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.test.databinding.emfdb.impl.DImpl
+   * @see org.eclipse.emf.test.databinding.emfdb.impl.EmfdbPackageImpl#getD()
+   * @generated
+   */
+  int D = 3;
+
+  /**
+   * The feature id for the '<em><b>Elist</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int D__ELIST = 0;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int D__NAME = 1;
+
+  /**
+   * The number of structural features of the '<em>D</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int D_FEATURE_COUNT = 2;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.test.databinding.emfdb.impl.EImpl <em>E</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.test.databinding.emfdb.impl.EImpl
+   * @see org.eclipse.emf.test.databinding.emfdb.impl.EmfdbPackageImpl#getE()
+   * @generated
+   */
+  int E = 4;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int E__NAME = 0;
+
+  /**
+   * The number of structural features of the '<em>E</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int E_FEATURE_COUNT = 1;
 
 
   /**
@@ -242,6 +317,17 @@ public interface EmfdbPackage extends EPackage
   EAttribute getB_String();
 
   /**
+   * Returns the meta object for the containment reference '{@link org.eclipse.emf.test.databinding.emfdb.B#getD <em>D</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>D</em>'.
+   * @see org.eclipse.emf.test.databinding.emfdb.B#getD()
+   * @see #getB()
+   * @generated
+   */
+  EReference getB_D();
+
+  /**
    * Returns the meta object for class '{@link java.util.Map.Entry <em>C</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -274,6 +360,59 @@ public interface EmfdbPackage extends EPackage
    * @generated
    */
   EAttribute getC_Value();
+
+  /**
+   * Returns the meta object for class '{@link org.eclipse.emf.test.databinding.emfdb.D <em>D</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>D</em>'.
+   * @see org.eclipse.emf.test.databinding.emfdb.D
+   * @generated
+   */
+  EClass getD();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.test.databinding.emfdb.D#getElist <em>Elist</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Elist</em>'.
+   * @see org.eclipse.emf.test.databinding.emfdb.D#getElist()
+   * @see #getD()
+   * @generated
+   */
+  EReference getD_Elist();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.databinding.emfdb.D#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see org.eclipse.emf.test.databinding.emfdb.D#getName()
+   * @see #getD()
+   * @generated
+   */
+  EAttribute getD_Name();
+
+  /**
+   * Returns the meta object for class '{@link org.eclipse.emf.test.databinding.emfdb.E <em>E</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>E</em>'.
+   * @see org.eclipse.emf.test.databinding.emfdb.E
+   * @generated
+   */
+  EClass getE();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.databinding.emfdb.E#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see org.eclipse.emf.test.databinding.emfdb.E#getName()
+   * @see #getE()
+   * @generated
+   */
+  EAttribute getE_Name();
 
   /**
    * Returns the factory that creates the instances of the model.
@@ -351,6 +490,14 @@ public interface EmfdbPackage extends EPackage
     EAttribute B__STRING = eINSTANCE.getB_String();
 
     /**
+     * The meta object literal for the '<em><b>D</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference B__D = eINSTANCE.getB_D();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.test.databinding.emfdb.impl.CImpl <em>C</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -375,6 +522,50 @@ public interface EmfdbPackage extends EPackage
      * @generated
      */
     EAttribute C__VALUE = eINSTANCE.getC_Value();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.databinding.emfdb.impl.DImpl <em>D</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.databinding.emfdb.impl.DImpl
+     * @see org.eclipse.emf.test.databinding.emfdb.impl.EmfdbPackageImpl#getD()
+     * @generated
+     */
+    EClass D = eINSTANCE.getD();
+
+    /**
+     * The meta object literal for the '<em><b>Elist</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference D__ELIST = eINSTANCE.getD_Elist();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute D__NAME = eINSTANCE.getD_Name();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.databinding.emfdb.impl.EImpl <em>E</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.databinding.emfdb.impl.EImpl
+     * @see org.eclipse.emf.test.databinding.emfdb.impl.EmfdbPackageImpl#getE()
+     * @generated
+     */
+    EClass E = eINSTANCE.getE();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute E__NAME = eINSTANCE.getE_Name();
 
   }
 
