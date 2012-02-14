@@ -491,10 +491,9 @@ public class EMFPropertiesTest extends TestCase
         }
       });
     
-    System.err.println(vProp3.observe(a).getValue());
 
-//    IEMFValueProperty detailValue = vProp3.value(EmfdbPackage.Literals.E__NAME);
-//    IObservableValue v = detailValue.observe(a);
-//    System.err.println(v.getValue());
+    IEMFValueProperty detailValue = vProp3.value(EmfdbPackage.Literals.E__NAME);
+    IObservableValue v = detailValue.observe(a);
+    assertEquals(v.getValue(), "Last Element");
   }
 }
