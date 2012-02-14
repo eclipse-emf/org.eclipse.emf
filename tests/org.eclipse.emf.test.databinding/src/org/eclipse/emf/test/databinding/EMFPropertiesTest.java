@@ -455,7 +455,6 @@ public class EMFPropertiesTest extends TestCase
   {
     A a = (A)resource.getContents().get(0);
     IEMFListProperty lProp1 = EMFProperties.list(EmfdbPackage.Literals.A__BLIST);
-    System.err.println(lProp1.getClass());
     IEMFValueProperty vProp1 = lProp1.value(new ListElementAccess<Object>()
       {
 
@@ -470,11 +469,9 @@ public class EMFPropertiesTest extends TestCase
           return WriteData.NO_INDEX;
         }
       });
-    System.err.println(vProp1.getClass()); 
 
     IEMFValueProperty vProp2 = vProp1.value(EmfdbPackage.Literals.B__D);
     IEMFListProperty lProp2 = vProp2.list(EmfdbPackage.Literals.D__ELIST);
-    System.err.println(lProp2.getClass());
         
     IEMFValueProperty vProp3 = lProp2.value(new ListElementAccess<Object>()
       {
