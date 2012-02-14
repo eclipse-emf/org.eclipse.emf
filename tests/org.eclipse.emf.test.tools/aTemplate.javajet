@@ -1,0 +1,13 @@
+<%@ jet package="jetTest" imports="" class="ATemplateGen"%>
+<%
+/**
+ * <copyright>
+ */
+%>
+
+public class ATemplateGen
+{
+	private String name;
+	private int value;
+}
+

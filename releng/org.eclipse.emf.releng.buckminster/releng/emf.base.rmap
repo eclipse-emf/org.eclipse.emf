@@ -119,7 +119,6 @@
 			</uri>
 		</provider>
 	</searchPath>
-
 	<searchPath name="releng">
 		<provider componentTypes="buckminster" readerType="git" source="true" mutable="false">
 			<property key="git.remote.uri" value="${emf.repository.location}" />
@@ -136,7 +135,7 @@
 			</uri>
 		</provider>
 	</searchPath>
-
+	
 	<searchPath name="eclipse.test">
 		<provider componentTypes="osgi.bundle" readerType="cvs" source="true" mutable="false">
 			<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/eclipse,{0}">
@@ -155,16 +154,6 @@
 			resolutionFilter="(resolve.target.platform=true)"
 		>
 			<uri format="{0}/datatools/downloads/drops/M_updates_1.9">
-				<bc:propertyRef key="eclipse.download" />
-			</uri>
-		</provider>
-	</searchPath>
-
-	<searchPath name="rap">
-		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(resolve.target.platform=true)"
-		>
-			<uri format="{0}/rt/rap/1.5/runtime/M4-20111213-2043">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>

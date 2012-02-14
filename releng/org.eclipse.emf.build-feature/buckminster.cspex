@@ -7,7 +7,6 @@
 		<!-- indirect target platform dependencies -->
 		<!-- prevent build to grab higher version as galileo -->
 		<cs:dependency name="org.eclipse.equinox.common" componentType="osgi.bundle"  versionDesignator="[3.5.0,3.6.0)"/>
-		<cs:dependency name="org.eclipse.core.runtime" componentType="osgi.bundle"  versionDesignator="[3.5.0,3.6.0)"/>
 		<cs:dependency name="org.eclipse.emf.base" componentType="eclipse.feature" />
 		<cs:dependency name="org.eclipse.rcp" componentType="eclipse.feature" />
 		<cs:dependency name="org.eclipse.pde.core" componentType="osgi.bundle" />

@@ -19,9 +19,9 @@
 		</cs:private>
 	</cs:actions>
 
-	<cs:alterGroups>
+	<!-- <cs:alterGroups>
 		<cs:private name="jar.contents">
 			<cs:attribute name="documentation.index" />
 		</cs:private>
-	</cs:alterGroups>
+	</cs:alterGroups> -->
 </cs:cspecExtension>

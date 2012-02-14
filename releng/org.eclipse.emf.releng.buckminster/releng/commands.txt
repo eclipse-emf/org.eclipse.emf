@@ -1,0 +1,31 @@
+importproxysettings
+
+setpref complianceLevel=1.5
+setpref targetPlatformPath="${WORKSPACE}/buildroot/target.platform"
+
+# Import all but rap.sdk cause it has a bad dependency to eclipse 3.8
+import --properties "${WORKSPACE}/buildroot/build.properties" -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true  -Dwithout.rap=true "${checkout.location}org.eclipse.emf.releng.buckminster/releng/emf-all.mspec"
+# Import sources produced by the EMF Base build into the target platform
+import --properties "${WORKSPACE}/buildroot/build.properties" -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true "${checkout.location}org.eclipse.emf.releng.buckminster/releng/emf-platform.base.sources.cquery"
+build
+
+
+junit --launch "org.eclipse.emf.test.core/Test EMF Core.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Core.xml"
+junit --launch "org.eclipse.emf.test.databinding/Test EMF Databinding.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Databinding.xml"
+junit --launch "org.eclipse.emf.test.xml/Test EMF XML.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF XML.xml"
+junit --launch "org.eclipse.emf.test.tools/Test EMF Tools.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Tools.xml"
+junit --launch "org.eclipse.emf.test.edit/Test EMF Edit.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Edit.xml"
+junit --launch "org.eclipse.emf.test.databinding.edit/Test EMF Databinding Edit.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Databinding Edit.xml"
+junit --launch "org.eclipse.emf.test.examples/Test EMF Examples.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Examples.xml"
+
+# Freeze galileo target platform information 
+perform --properties "${WORKSPACE}/buildroot/build.properties" "org.eclipse.emf.all#jar.contents"
+perform --properties "${WORKSPACE}/buildroot/build.properties" "org.eclipse.emf.gwt.sdk#jar.contents"
+
+# Import rap.sdk now, eclipse 3.8 will be imported in the TP too
+import --properties "${WORKSPACE}/buildroot/build.properties" -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true "${checkout.location}org.eclipse.emf.releng.buckminster/releng/rap/emf.rap.mspec"
+build
+
+# Package all together
+perform --properties "${WORKSPACE}/buildroot/build.properties" "org.eclipse.emf.build#build"
+perform --properties "${WORKSPACE}/buildroot/build.properties" "org.eclipse.emf.releng.buckminster#setup.promoter"
