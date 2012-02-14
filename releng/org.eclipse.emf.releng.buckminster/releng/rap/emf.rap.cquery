@@ -5,5 +5,5 @@
     <cq:property key="target.os" value="*"/>
     <cq:property key="target.ws" value="*"/>
     <cq:advisorNode namePattern="^org\.eclipse\.emf\.rap(?:\..*)?\.source$" skipComponent="true"/>
-    <cq:advisorNode namePattern="org.eclipse.core.runtime" componentType="osgi.bundle" useMaterialization="false" useTargetPlatform="false" useWorkspace="false" versionOverride="3.8.0"/>
+    <cq:advisorNode namePattern="org.eclipse.core.runtime" componentType="osgi.bundle" useMaterialization="false" useTargetPlatform="false" useWorkspace="false" versionOverride="[3.5.0,3.7.0)"/>
 </cq:componentQuery>

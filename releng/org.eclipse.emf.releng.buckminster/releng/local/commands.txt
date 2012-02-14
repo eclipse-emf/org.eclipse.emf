@@ -3,6 +3,7 @@
 setpref complianceLevel=1.5
 setpref targetPlatformPath="${WORKSPACE}/buildroot/target.platform"
 setpref org.eclipse.buckminster.core.maxParallelResolutions=1
+setpref org.eclipse.buckminster.core.maxParallelMaterializations=1
 
 # Import all but rap.sdk cause it has a bad dependency to eclipse 3.8
 import --properties "${releng.proj.loc}/releng/local/local-build.properties" -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true  -Dwithout.rap=true "${releng.proj.loc}/releng/emf-all.mspec"

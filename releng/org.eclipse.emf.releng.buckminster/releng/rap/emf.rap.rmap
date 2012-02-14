@@ -5,10 +5,10 @@
 	<locator pattern="^org\.eclipse\.rap(?:\..+)?$" searchPathRef="rap" />
 	<locator pattern="^org\.eclipse\.emf\.(?:base|common|ecore|ecore\.xmi|ecore\.change)(?:\.source)?$" searchPathRef="emf.base" failOnError="true" />
 	
-	<locator searchPathRef="rap.platform" failOnError="false" />
+	<locator pattern="^((?!org\.eclipse\.emf).)*$" searchPathRef="rap" failOnError="true" />
 
 	<!-- refer the resolution to the base RMAP to resolve the emf.rap.sdk-->
-	<redirect href="../emf.rmap" /> 
+	<redirect href="../emf.base.rmap" pattern="^org\.eclipse\.emf\.rap(?:\..+)?$" /> 
 	
 	<searchPath name="emf.base">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
@@ -78,37 +78,10 @@
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
-	</searchPath>
-	
-	<searchPath name="rap.platform">
-		<!--
-			RAP depends on the latest eclipse platform   
-		-->
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=N))"
 		>
-			<uri format="{0}/eclipse/updates/4.2-I-builds">
-				<bc:propertyRef key="eclipse.download" />
-			</uri>
-		</provider>
-		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(!(|(build.type=N)(build.type=S)(build.type=R))))"
-		>
-			<uri format="{0}/eclipse/updates/4.2-I-builds">
-				<bc:propertyRef key="eclipse.download" />
-			</uri>
-		</provider>
-		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=S))"
-		>
-			<uri format="{0}/eclipse/updates/4.2milestones">
-				<bc:propertyRef key="eclipse.download" />
-			</uri>
-		</provider>
-		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=R))"
-		>
-			<uri format="{0}/eclipse/updates/4.2">
+			<uri format="{0}/eclipse/updates/3.6">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
