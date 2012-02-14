@@ -10,6 +10,8 @@
  */
 package org.eclipse.emf.databinding.internal;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.databinding.observable.Diffs;
@@ -56,7 +58,7 @@ public class EMFListValueProperty extends SimpleValueProperty
   @Override
   protected Object doGetValue(Object source)
   {
-    List< ? > list = delegate.getList(source);
+    List< ? > list = listFromDelegate(source);
     @SuppressWarnings("unchecked")
     int idx = elementAccess.getReadValueIndex(list);
     if (idx != WriteData.NO_INDEX)
@@ -65,6 +67,26 @@ public class EMFListValueProperty extends SimpleValueProperty
     }
     return null;
   }
+
+	/**
+	 * @param source
+	 *            the property source (may be null)
+	 * @return an unmodifiable List with the current contents of the source's
+	 *         list property
+	 */
+	@SuppressWarnings("unchecked")
+	private List<?> listFromDelegate(Object source) {
+		List<?> list = Collections.EMPTY_LIST;
+		if (source != null) {
+			IObservableList observable = delegate.observe(source);
+			try {
+				list = new ArrayList<Object>(observable);
+			} finally {
+				observable.dispose();
+			}
+		}
+		return Collections.unmodifiableList(list);
+	}
 
   @SuppressWarnings("unchecked")
   @Override
