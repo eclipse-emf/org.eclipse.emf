@@ -106,30 +106,8 @@
 
 	<rm:searchPath name="platform">
 		<rm:provider componentTypes="eclipse.feature,osgi.bundle"
-			readerType="p2" source="false" mutable="false"
-			resolutionFilter="(build.type=N)">
-			<rm:uri format="{0}/eclipse/updates/3.8-I-builds">
-				<bc:propertyRef key="eclipse.download" />
-			</rm:uri>
-		</rm:provider>
-		<rm:provider componentTypes="eclipse.feature,osgi.bundle"
-			readerType="p2" source="false" mutable="false"
-			resolutionFilter="(!(|(build.type=N)(build.type=S)(build.type=R)))">
-			<rm:uri format="{0}/eclipse/updates/3.8-I-builds">
-				<bc:propertyRef key="eclipse.download" />
-			</rm:uri>
-		</rm:provider>
-		<rm:provider componentTypes="eclipse.feature,osgi.bundle"
-			readerType="p2" source="false" mutable="false"
-			resolutionFilter="(build.type=S)">
-			<rm:uri format="{0}/eclipse/updates/3.8milestones">
-				<bc:propertyRef key="eclipse.download" />
-			</rm:uri>
-		</rm:provider>
-		<rm:provider componentTypes="eclipse.feature,osgi.bundle"
-			readerType="p2" source="false" mutable="false"
-			resolutionFilter="(build.type=R)">
-			<rm:uri format="{0}/eclipse/updates/3.8">
+			readerType="p2" source="false" mutable="false">
+			<rm:uri format="{0}/eclipse/updates/3.5">
 				<bc:propertyRef key="eclipse.download" />
 			</rm:uri>
 		</rm:provider>
