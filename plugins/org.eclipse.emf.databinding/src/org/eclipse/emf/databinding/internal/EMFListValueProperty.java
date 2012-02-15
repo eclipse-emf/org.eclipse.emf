@@ -68,24 +68,23 @@ public class EMFListValueProperty extends SimpleValueProperty
     return null;
   }
 
-	/**
-	 * @param source
-	 *            the property source (may be null)
-	 * @return an unmodifiable List with the current contents of the source's
-	 *         list property
-	 */
 	@SuppressWarnings("unchecked")
 	private List<?> listFromDelegate(Object source) {
 		List<?> list = Collections.EMPTY_LIST;
 		if (source != null) {
-			IObservableList observable = delegate.observe(source);
-			try {
-				list = new ArrayList<Object>(observable);
-			} finally {
-				observable.dispose();
-			}
+		    // we can't use IListProperty#getList(Object) because our lower bound is DB 1.2 
+		    if( delegate instanceof EMFListProperty ) {
+		      list = ((EMFListProperty)delegate).doGetList(source);
+		    } else {
+		      IObservableList observable = delegate.observe(source);
+	            try {
+	                list = new ArrayList<Object>(observable);
+	            } finally {
+	                observable.dispose();
+	            }
+		    }
 		}
-		return Collections.unmodifiableList(list);
+		return list;
 	}
 
   @SuppressWarnings("unchecked")
