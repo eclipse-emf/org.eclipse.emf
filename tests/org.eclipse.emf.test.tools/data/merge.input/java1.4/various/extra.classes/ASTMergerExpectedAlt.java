@@ -18,19 +18,46 @@ import a  ;
 import org.eclipse.emf.ecore.util.EObjectCompositeEListNew;
 
 /**
- * Test of comments handling when nodes are moved or removed.
+ * Test similar to merge5 and 6. There are extra inner and top-level classes that are brought
+ * from source to target.
  * 
  * @implements Comparable 
  *
  */
 protected abstract class EchoSoapBindingImpl implements echo.Echo, Comparable
 {
-  // hanging before a
-  
-  /*
-   * hanging block before a
-   * 
+  /**
+   * source comment for newMethodA()
    */
+  public static void newMethodA()
+  {
+    // first line comment
+    int a;
+    if (true)
+    {
+      a = 0;
+    }
+  }
+
+  /**
+   * target javadoc 
+   * for InnerClass1
+   */
+  public class InnerClass1
+  {
+    /**
+     * target javadoc line 1
+     * line 2
+     * @ordered
+     */
+    int b   = 2;
+    
+    /**
+     * @ordered
+     */
+    int a 
+    = 1;
+  } 
   
   // after a
   
@@ -41,6 +68,13 @@ protected abstract class EchoSoapBindingImpl implements echo.Echo, Comparable
    * javadoc b
    */
   int b;// after b on the same line
+  // hanging before a
+  
+  /*
+   * hanging block before a
+   * 
+   */
+  
   // before a
   /**
    * javadoc a
@@ -63,6 +97,7 @@ protected abstract class EchoSoapBindingImpl implements echo.Echo, Comparable
   {
     // source line comment inside a()
   }
+
   // after e
   
   // between e and f
@@ -105,6 +140,12 @@ protected abstract class EchoSoapBindingImpl implements echo.Echo, Comparable
   
   // between d and e
   
+  
+  // line comment after b()
+  
+  // hanging comment between b() and c()
+  // could be another method here, these comments will be removed
+  
   // line comment after c()
   
   // hanging comment between c() and d()
@@ -121,7 +162,7 @@ protected abstract class EchoSoapBindingImpl implements echo.Echo, Comparable
   
   // hanging comment between d() and e()
   
-  // line comment after e()
+  // line comment after e(). Note that if this comment follows e() immediately, new members that are added after f() will not have empty line between them
   
   // hanging comment between e() and f()
   
@@ -133,7 +174,61 @@ protected abstract class EchoSoapBindingImpl implements echo.Echo, Comparable
   {
     
   } // line comment after f() on the same line
+
+  /**
+   * source javadoc 
+   * for InnerClass2
+   *
+   */
+  public class InnerClass2
+  {
+    int a 
+      = 1;
+    /**
+     * 
+     * source javadoc line 1
+     * source javadoc line 2
+     */
+    int b   = 2;
+  }
+
+  /**
+   * source comment for newMethodB()
+   */
+  public static void newMethodB()
+  {
+    // first line comment
+    int a;
+    if (true)
+    {
+      a = 0;
+    }
+  }
   // line comment after f()
   
   // hanging comment after f() 
+}
+
+/**
+ * source javadoc 
+ * for AnotherClass 
+ *
+ */
+public class AnotherClass
+{
+  int a 
+    = 1;
+  /**
+   * 
+   * source javadoc line 1
+   * source javadoc line 2
+   */
+  int b   = 2;
+}
+
+/**
+ * target comment for TopLevelClass2
+ */
+class TopLevelClass2
+{
 }

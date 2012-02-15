@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
+import junit.framework.ComparisonFailure;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
@@ -113,7 +114,24 @@ public abstract class JMergerTest extends TestCase
 
     String expectedMerge = TestUtil.readFile(expectedOutput, false);
     String actualMerge = mergeResult.toString();
-    assertEquals("Make sure the line breaks are OK.  The expected merge should have no '\\r'", expectedMerge, actualMerge);
+    try
+    {
+      assertEquals("Make sure the line breaks are OK.  The expected merge should have no '\\r'", expectedMerge, actualMerge);
+    }
+    catch (ComparisonFailure exception)
+    {
+      File alternative = new File(expectedOutput.toString().replace(".java", "Alt.java"));
+      if (alternative.exists())
+      {
+        expectedMerge = TestUtil.readFile(alternative, false);
+        assertEquals("Make sure the line breaks are OK.  The expected merge should have no '\\r'", expectedMerge, actualMerge);
+      }
+      else
+      {
+        throw exception;
+        
+      }
+    }
   }
 
   /**

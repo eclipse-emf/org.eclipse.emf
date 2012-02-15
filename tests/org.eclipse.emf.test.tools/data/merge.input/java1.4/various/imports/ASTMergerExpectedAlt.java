@@ -24,6 +24,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.command.Command; // import line comment
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.ecore.EObject;
+
+//import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.BasicEObjectImpl;
 //import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
