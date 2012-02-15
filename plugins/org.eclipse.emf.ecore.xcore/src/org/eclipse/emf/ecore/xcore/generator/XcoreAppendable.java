@@ -8,11 +8,11 @@
 package org.eclipse.emf.ecore.xcore.generator;
 
 
-import org.eclipse.xtext.xbase.compiler.IAppendable;
-import org.eclipse.xtext.xbase.compiler.StringBuilderBasedAppendable;
+import org.eclipse.xtext.xbase.compiler.output.FakeTreeAppendable;
+import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
 
 
-public class XcoreAppendable extends StringBuilderBasedAppendable
+public class XcoreAppendable extends FakeTreeAppendable
 {
   public XcoreAppendable()
   {
@@ -20,7 +20,7 @@ public class XcoreAppendable extends StringBuilderBasedAppendable
   }
 
   @Override
-  public IAppendable append(String string)
+  public ITreeAppendable append(String string)
   {
     if (string.startsWith(" else") || string.startsWith(" catch") || string.startsWith(" finally") || string.startsWith("\n"))
     {
