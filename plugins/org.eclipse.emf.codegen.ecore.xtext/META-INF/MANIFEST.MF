@@ -4,7 +4,8 @@ Bundle-SymbolicName: org.eclipse.emf.codegen.ecore.xtext;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.emf.codegen.ecore,
  org.eclipse.xtext,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.emf.mwe2.runtime
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-Name: %pluginName
