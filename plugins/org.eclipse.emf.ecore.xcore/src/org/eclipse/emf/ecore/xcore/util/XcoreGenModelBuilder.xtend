@@ -30,6 +30,8 @@ import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper
 import static extension org.eclipse.emf.ecore.xcore.XcoreExtensions.*
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral
 import org.eclipse.emf.ecore.xcore.XEnumLiteral
+import org.eclipse.emf.common.util.UniqueEList
+import java.util.List
 
 class XcoreGenModelBuilder {
 	
@@ -51,39 +53,51 @@ class XcoreGenModelBuilder {
        	switch genElement {
        		GenPackage : 
        		{
-       			val xPack = genElement.ecorePackage.toXcoreMapping.xcoreElement as XPackage
- 				xPack.mapping.genPackage = genElement
- 				genElement.toXcoreMapping.xcoreElement = xPack    			
+       			val xPackage = genElement.ecorePackage.toXcoreMapping.xcoreElement as XPackage
+       			if (xPackage != null) {
+ 					xPackage.mapping.genPackage = genElement
+ 					genElement.toXcoreMapping.xcoreElement = xPackage
+ 				}
        		}
        		GenClass :
        		{
        			val xClass = genElement.ecoreClass.toXcoreMapping.xcoreElement as XClass
- 				xClass.mapping.genClass = genElement
- 				genElement.toXcoreMapping.xcoreElement = xClass    			
+       			if (xClass != null) {
+ 					xClass.mapping.genClass = genElement
+ 					genElement.toXcoreMapping.xcoreElement = xClass    			
+ 				}
        		}
        		GenDataType :
        		{
        			val xDataType = genElement.ecoreDataType.toXcoreMapping.xcoreElement as XDataType
- 				xDataType.mapping.genDataType = genElement
- 				genElement.toXcoreMapping.xcoreElement = xDataType    			
+       			if (xDataType != null) {
+ 					xDataType.mapping.genDataType = genElement
+ 					genElement.toXcoreMapping.xcoreElement = xDataType    			
+       			}
        		}
        		GenFeature :
        		{
        			val xFeature = genElement.ecoreFeature.toXcoreMapping.xcoreElement as XStructuralFeature
- 				xFeature.mapping.genFeature = genElement
- 				genElement.toXcoreMapping.xcoreElement = xFeature    			
+       			if (xFeature != null) {
+ 					xFeature.mapping.genFeature = genElement
+ 					genElement.toXcoreMapping.xcoreElement = xFeature    			
+       			}
        		}
        		GenOperation :
        		{
        			val xOperation = genElement.ecoreOperation.toXcoreMapping.xcoreElement as XOperation
- 				xOperation.mapping.genOperation = genElement
- 				genElement.toXcoreMapping.xcoreElement = xOperation    			
+       			if (xOperation != null) {
+ 					xOperation.mapping.genOperation = genElement
+ 					genElement.toXcoreMapping.xcoreElement = xOperation    			
+       			}
        		}
        		GenEnumLiteral :
        		{
        			val xEnumLiteral = genElement.ecoreEnumLiteral.toXcoreMapping.xcoreElement as XEnumLiteral
-       			xEnumLiteral.mapping.genEnumLiteral = genElement
-       			genElement.toXcoreMapping.xcoreElement = xEnumLiteral
+       			if (xEnumLiteral != null) {
+   	    			xEnumLiteral.mapping.genEnumLiteral = genElement
+   	    			genElement.toXcoreMapping.xcoreElement = xEnumLiteral
+       			}
        		}
        	}
        }
@@ -92,25 +106,48 @@ class XcoreGenModelBuilder {
 	def initializeUsedGenPackages(GenModel genModel) {
       	genModelInitializer.initialize(genModel);
       	val referencedEPackages = new HashSet<EPackage>();
+      	val List<EPackage> ePackages = new UniqueEList<EPackage>();
       	for (genPackage : genModel.genPackages)
       	{
-      		for (eObject : genPackage.ecorePackage.allContentsIterable)
-      		{
-      			for (eCrossReference : eObject.eCrossReferences)
-        		{
-        			switch eCrossReference
-        			{
-        				EClassifier :
-        				{
-        					referencedEPackages.add(eCrossReference.getEPackage);
-        				}
-        				EStructuralFeature :
-        				{
-        					referencedEPackages.add(eCrossReference.getEContainingClass().getEPackage);
-        				}
-        			}
-        		}
-      		}
+      		ePackages.add(genPackage.ecorePackage);
+      	}
+      	{
+       	  var int i = 0;
+       	  while (i < ePackages.size())
+       	  {
+       		 val ePackage = ePackages.get(i);
+       		 i = i + 1;
+       		 val allContents = ePackage.eAllContents;
+       		 while (allContents.hasNext())
+       		 {
+       		 	  val eObject = allContents.next();
+       		 	  if (eObject instanceof EPackage)
+       		 	  {
+       		 	  	allContents.prune();
+       		 	  }
+       		 	  else
+       		 	  {
+       			    for (eCrossReference : eObject.eCrossReferences)
+         		    {
+         			    switch eCrossReference
+         			    {
+         				    EClassifier :
+         				    {
+         					    val EPackage referencedEPackage = eCrossReference.getEPackage;
+         					    ePackages.add(referencedEPackage);
+         					    referencedEPackages.add(referencedEPackage);
+         				    }
+         				    EStructuralFeature :
+         				    {
+         					    val EPackage referencedEPackage = eCrossReference.getEContainingClass().getEPackage;
+         					    ePackages.add(referencedEPackage);
+         					    referencedEPackages.add(referencedEPackage);
+         				    }
+         			    }
+         		    }
+         		  }
+       	     }
+      	  }
      	}
      	for (referencedEPackage : referencedEPackages)
      	{
@@ -130,10 +167,10 @@ class XcoreGenModelBuilder {
      	  		val resources = genModel.eResource.resourceSet.resources;
      	  		var int i = 0;
      	  		var boolean found = false
-     	  		while (i < resources.size)
+     	  		while (i < resources.size && !found)
      	  		{
      	  			val resource = resources.get(i)
-     	  			if ("genmodel".equals(resource.URI.fileExtension))
+     	  			if ("genmodel".equals(resource.URI.fileExtension) && !resource.getContents().isEmpty())
      	  			{
      	  				usedGenPackage = (resource.contents.get(0) as GenModel).findGenPackage(referencedEPackage);
      	  				if (usedGenPackage != null)
@@ -143,6 +180,10 @@ class XcoreGenModelBuilder {
      	  				}
      	  			}
      	  			i = i + 1
+     	  		}
+     	  		if (!found)
+     	  		{
+     	  			throw new RuntimeException("No GenPackage found for " + referencedEPackage)
      	  		}
      	  	}
      	  }

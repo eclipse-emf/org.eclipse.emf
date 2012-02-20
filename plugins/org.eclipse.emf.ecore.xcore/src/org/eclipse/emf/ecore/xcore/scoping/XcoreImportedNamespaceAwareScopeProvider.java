@@ -8,6 +8,8 @@
 package org.eclipse.emf.ecore.xcore.scoping;
 
 
+import static java.util.Collections.singletonList;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -48,6 +50,7 @@ import org.eclipse.xtext.scoping.impl.AbstractScope;
 import org.eclipse.xtext.scoping.impl.ImportNormalizer;
 import org.eclipse.xtext.scoping.impl.ImportScope;
 import org.eclipse.xtext.scoping.impl.ImportedNamespaceAwareLocalScopeProvider;
+import org.eclipse.xtext.scoping.impl.ScopeBasedSelectable;
 import org.eclipse.xtext.util.Strings;
 
 import com.google.common.collect.Iterables;
@@ -99,8 +102,6 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
       return resourceScope;
     }
   }
-
-  private static final QualifiedName ECORE_PACKAGE_NAME = QualifiedName.create("org", "eclipse", "emf", "ecore");
 
   @Override
   public IScope getScope(EObject context, EReference reference)
@@ -191,15 +192,190 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
   }
 
   @Override
-  protected boolean isRelativeImport()
+  protected ImportNormalizer createImportedNamespaceResolver(String namespace, boolean ignoreCase)
   {
-    return false;
+    if (!Strings.isEmpty(namespace))
+    {
+      QualifiedName importedNamespace = nameConverter.toQualifiedName(namespace);
+      if (importedNamespace != null && importedNamespace.getSegmentCount() >= 1)
+      {
+        if (importedNamespace.getLastSegment().equals(getWildCard()))
+        {
+          if (importedNamespace.getSegmentCount() > 1)
+          {
+            return createImportNormalizer(importedNamespace.skipLast(1), true, ignoreCase);
+          }
+        }
+        else
+        {
+          return createImportNormalizer(importedNamespace, false, ignoreCase);
+        }
+      }
+    }
+    return null;
   }
 
   @Override
-  protected List<ImportNormalizer> getImplicitImports(boolean ignoreCase)
+  protected IScope getLocalElementsScope(IScope parent, EObject context, EReference reference)
   {
-    return Collections.singletonList(new ImportNormalizer(nameConverter.toQualifiedName("java.lang"), true, ignoreCase));
+    IScope result = parent;
+    ISelectable allDescriptions = getAllDescriptions(context.eResource());
+    ScopeBasedSelectable parentSelectable = new ScopeBasedSelectable(parent);
+    QualifiedName name = getQualifiedNameOfLocalElement(context);
+    boolean ignoreCase = isIgnoreCase(reference);
+    if (context instanceof XPackage)
+    {
+      result = createImportScope(result, singletonList(createImportNormalizer(QualifiedName.create("java", "lang"), true, false)), parentSelectable, reference.getEReferenceType(), isIgnoreCase(reference));
+    }
+    List<ImportNormalizer> namespaceResolvers = getImportedNamespaceResolvers(context, ignoreCase);
+    if (!namespaceResolvers.isEmpty())
+    {
+      result = createImportScope(result, namespaceResolvers, parentSelectable, reference.getEReferenceType(), ignoreCase);
+    }
+    if (name != null)
+    {
+      ImportNormalizer localNormalizer = createImportNormalizer(name, true, ignoreCase);
+      result = createImportScope(result, singletonList(localNormalizer), allDescriptions, reference.getEReferenceType(), ignoreCase);
+    }
+    return result;
+  }
+
+  protected ImportNormalizer createImportNormalizer(QualifiedName importedNamespace, boolean wildCard, boolean ignoreCase)
+  {
+    return
+      new ImportNormalizer(importedNamespace, wildCard, ignoreCase)
+      {
+        @Override
+        public QualifiedName deresolve(QualifiedName fullyQualifiedName)
+        {
+          QualifiedName importedNamespacePrefix = getImportedNamespacePrefix();
+          boolean ignoreCase = isIgnoreCase();
+          if (hasWildCard())
+          {
+            if (fullyQualifiedName.getSegmentCount() != importedNamespacePrefix.getSegmentCount() &&
+                  (ignoreCase ? fullyQualifiedName.startsWithIgnoreCase(importedNamespacePrefix) : fullyQualifiedName.startsWith(importedNamespacePrefix)))
+            {
+              return fullyQualifiedName.skipFirst(importedNamespacePrefix.getSegmentCount());
+            }
+          }
+          else
+          {
+            if (fullyQualifiedName.equals(importedNamespacePrefix))
+            {
+              String lastSegment = fullyQualifiedName.getLastSegment();
+              int dollar = lastSegment.lastIndexOf('$');
+              return QualifiedName.create(dollar >= 0 ? lastSegment.substring(dollar + 1) : fullyQualifiedName.getLastSegment());
+            }
+            QualifiedName fullyQualifiedNameBase = fullyQualifiedName.skipLast(1);
+            QualifiedName importedNamespacePrefixBase = importedNamespacePrefix.skipLast(1);
+            if (ignoreCase ? fullyQualifiedNameBase.equalsIgnoreCase(importedNamespacePrefixBase) : fullyQualifiedNameBase.equals(importedNamespacePrefixBase))
+            {
+              String lastImportedSegment = importedNamespacePrefix.getLastSegment();
+              String lastSegment = fullyQualifiedName.getLastSegment();
+              int lastImportedSegmentLength = lastImportedSegment.length();
+              if (lastSegment.length() > lastImportedSegmentLength &&
+                    lastSegment.charAt(lastImportedSegmentLength) == '$' &&
+                    (ignoreCase ?
+                       lastSegment.substring(0, lastImportedSegmentLength).equalsIgnoreCase(lastImportedSegment) :
+                       lastSegment.startsWith(lastImportedSegment)))
+              {
+                int dollar = lastImportedSegment.lastIndexOf('$');
+                return
+                  dollar == -1 ?
+                    fullyQualifiedName.skipFirst(importedNamespacePrefix.getSegmentCount() - 1) :
+                    QualifiedName.create(lastSegment.substring(dollar + 1));
+              }
+            }
+          }
+          return null;
+        }
+
+        @Override
+        public QualifiedName resolve(QualifiedName relativeName)
+        {
+          QualifiedName importedNamespacePrefix = getImportedNamespacePrefix();
+          if (hasWildCard())
+          {
+            return importedNamespacePrefix.append(relativeName);
+          }
+          else
+          {
+            if (relativeName.getSegmentCount() == 1)
+            {
+              String lastSegment = relativeName.getLastSegment();
+              String lastImportedSegment = importedNamespacePrefix.getLastSegment();
+              boolean ignoreCase = isIgnoreCase();
+              if (ignoreCase ? lastSegment.equalsIgnoreCase(lastImportedSegment) : lastSegment.equals(lastImportedSegment))
+              {
+                return importedNamespacePrefix;
+              }
+              else
+              {
+                int dollar = lastSegment.indexOf('$');
+                if (dollar >= 0)
+                {
+                  int lastImportedSegmentLength = lastImportedSegment.length();
+                  if (dollar == lastImportedSegmentLength &&
+                        (ignoreCase ?
+                           (lastSegment.length() > lastImportedSegmentLength && lastSegment.substring(0, lastImportedSegmentLength).equalsIgnoreCase(lastImportedSegment)) :
+                           lastSegment.startsWith(lastImportedSegment)))
+                  {
+                    return importedNamespacePrefix.skipLast(1).append(lastSegment);
+                  }
+                }
+                int importedDollar = lastImportedSegment.lastIndexOf('$');
+                if (importedDollar >= 0)
+                {
+                  String nestedTypeName = lastImportedSegment.substring(importedDollar + 1);
+                  int nestedTypeNameLength = nestedTypeName.length();
+                  if (ignoreCase ?
+                        (lastSegment.length() > nestedTypeNameLength && lastSegment.substring(0, nestedTypeNameLength).equalsIgnoreCase(nestedTypeName)) :
+                        lastSegment.startsWith(nestedTypeName))
+                  {
+                    if (nestedTypeNameLength == lastSegment.length())
+                    {
+                      return importedNamespacePrefix;
+                    }
+                    else if (lastSegment.charAt(nestedTypeNameLength) == '$')
+                    {
+                      return importedNamespacePrefix.skipLast(1).append(lastImportedSegment + lastSegment.substring(nestedTypeNameLength));
+                    }
+                  }
+                }
+              }
+            }
+          }
+          return null;
+        }
+      };
+  }
+
+  @Override
+  protected ImportScope createImportScope(IScope parent, List<ImportNormalizer> namespaceResolvers, ISelectable importFrom, EClass type, boolean ignoreCase)
+  {
+    // Ensure that qualified names with more than one component don't resolve against wildcard imports.
+    //
+    return
+      new ImportScope(namespaceResolvers, parent, importFrom, type, ignoreCase)
+      {
+        @Override
+        protected IEObjectDescription getSingleLocalElementByName(QualifiedName name)
+        {
+          return name.getSegmentCount() > 1 ? null : super.getSingleLocalElementByName(name);
+        }
+
+        @Override
+        protected Iterable<IEObjectDescription> getLocalElementsByName(QualifiedName name)
+        {
+          return name.getSegmentCount() > 1 ? Collections.<IEObjectDescription>emptyList() : super.getLocalElementsByName(name);
+        }
+      };
+  }
+
+  @Override
+  protected boolean isRelativeImport()
+  {
+    return false;
   }
 
   @Override

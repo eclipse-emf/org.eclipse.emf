@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+  <extension point="org.eclipse.emf.exporter.modelExporterDescriptors">
+    <modelExporterDescriptor id="org.eclipse.emf.ecore.xcore.exporter" name="%_UI_XcoreExporter_label" 
+        icon="icons/XcoreModelFile.gif" description="%_UI_XcoreExporter_description" wizard="org.eclipse.emf.ecore.xcore.exporter.ui.XcoreExporterExecutableExtensionFactory:org.eclipse.emf.ecore.xcore.exporter.ui.XcoreExporterWizard" />
+  </extension>
+</plugin>

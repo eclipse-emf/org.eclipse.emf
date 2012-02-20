@@ -49,4 +49,6 @@ public interface XModelElement extends EObject
    */
   EList<XAnnotation> getAnnotations();
 
+  XAnnotation getAnnotation(String sourceURI);
+
 } // XModelElement

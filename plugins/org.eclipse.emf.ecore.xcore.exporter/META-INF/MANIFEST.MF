@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.emf.ecore.xcoreexporter;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.eclipse.emf.ecore.xcore.exporter.XcoreExporterPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.eclipse.emf.ecore.xcore.exporter,
+ org.eclipse.emf.ecore.xcore.exporter.ui
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.exporter,
+ org.eclipse.emf.codegen.ecore.ui;resolution:=optional,
+ org.eclipse.core.resources;resolution:=optional,
+ org.eclipse.emf.ecore.xcore.ui,
+ org.eclipse.emf.ecore.xcore,
+ org.eclipse.xtext.ui,
+ org.eclipse.jdt.core
+Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
+

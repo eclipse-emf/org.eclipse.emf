@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+  <extension point="org.eclipse.emf.importer.modelImporterDescriptors">
+    <modelImporterDescriptor id="org.eclipse.emf.ecore.xcoreimporter" name="%_UI_XcoreImporter_label" icon="icons/full/obj16/XcoreModelFile.gif" extensions="xcore" description="%_UI_XcoreModelImporter_description" wizard="org.eclipse.emf.ecore.xcore.importer.ui.XcoreImporterWizard" />
+  </extension>
+</plugin>

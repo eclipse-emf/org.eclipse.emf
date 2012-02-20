@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.emf.ecore.xcore.XAnnotation;
+import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XModelElement;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 
@@ -85,6 +86,19 @@ public abstract class XModelElementImpl extends EObjectImpl implements XModelEle
       annotations = new EObjectContainmentWithInverseEList<XAnnotation>(XAnnotation.class, this, XcorePackage.XMODEL_ELEMENT__ANNOTATIONS, XcorePackage.XANNOTATION__MODEL_ELEMENT);
     }
     return annotations;
+  }
+  
+  public XAnnotation getAnnotation(String sourceURI)
+  {
+    for (XAnnotation xAnnotation : getAnnotations())
+    {
+      XAnnotationDirective source = xAnnotation.getSource();
+      if (source != null && sourceURI.equals(source.getSourceURI()))
+      {
+        return xAnnotation;
+      }
+    }
+    return null;
   }
 
   /**

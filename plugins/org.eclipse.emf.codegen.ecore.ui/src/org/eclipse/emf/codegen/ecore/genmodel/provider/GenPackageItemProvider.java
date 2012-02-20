@@ -14,10 +14,12 @@ package org.eclipse.emf.codegen.ecore.genmodel.provider;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -663,7 +665,16 @@ public class GenPackageItemProvider
   public Object getImage(Object object)
   {
     GenPackage genPackage = (GenPackage)object;
-    String imageName = genPackage.eContainer() instanceof GenPackage || genPackage.canGenerate() ?
+    boolean used = true;
+    for (EObject eContainer = genPackage.eContainer(); eContainer != null; eContainer = eContainer.eContainer())
+    {
+      if (eContainer instanceof GenModel)
+      {
+        used = !((GenModel)eContainer).canGenerate();
+        break;
+      }
+    }
+    String imageName = !used ?
       "full/obj16/EPackage" : "full/obj16/UsedGenPackage";
     return new UnderlayedImage(getResourceLocator().getImage(imageName));
   }

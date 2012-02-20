@@ -26,14 +26,10 @@ import com.google.inject.Singleton;
 @Singleton
 public class GenModelResourceDescriptionStrategy extends DefaultResourceDescriptionStrategy
 {
-
   @Override
   public boolean createEObjectDescriptions(EObject eObject, IAcceptor<IEObjectDescription> acceptor)
   {
     super.createEObjectDescriptions(eObject, acceptor);
-    if (eObject instanceof GenClassifier)
-      return false;
-    return true;
+    return !(eObject instanceof GenClassifier);
   }
-
 }

@@ -9,6 +9,7 @@ package org.eclipse.emf.ecore.xcore.ui.editor;
 
 import java.util.EventObject;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -25,13 +26,17 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xcore.XAnnotation;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XPackage;
+import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.mappings.ToXcoreMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -59,8 +64,11 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.editors.text.TextEditorActionContributor;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetPage;
+import org.eclipse.xtext.conversion.IValueConverterService;
+import org.eclipse.xtext.conversion.impl.STRINGValueConverter;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.ILeafNode;
+import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.parser.IParseResult;
 import org.eclipse.xtext.resource.XtextResource;
@@ -77,6 +85,12 @@ public class XcoreEditor extends XtextEditor
 
   @Inject
   private XcoreMapper mapper;
+  
+  @Inject
+  private STRINGValueConverter stringValueConverter;
+  
+  @Inject
+  private IValueConverterService valueConverterService;
 
   @Override
   @SuppressWarnings("rawtypes")
@@ -84,7 +98,7 @@ public class XcoreEditor extends XtextEditor
   {
     if (type.equals(IPropertySheetPage.class))
     {
-      return true ? null : getPropertySheetPage();
+      return getPropertySheetPage();
     }
     else
     {
@@ -102,7 +116,7 @@ public class XcoreEditor extends XtextEditor
        {
          public void textChanged(TextEvent event)
          {
-           propertySheetPage.selectionChanged(XcoreEditor.this, sourceViewer.getSelectionProvider().getSelection());
+           // propertySheetPage.selectionChanged(XcoreEditor.this, sourceViewer.getSelectionProvider().getSelection());
          }
        };
       sourceViewer.addTextListener(textListener);
@@ -141,14 +155,25 @@ public class XcoreEditor extends XtextEditor
                };
              } 
            });
+      final IXtextDocument document = getDocument();
+      final ResourceSet resourceSet =
+        document.readOnly
+          (new IUnitOfWork<ResourceSet, XtextResource>()
+           {
+             public ResourceSet exec(final XtextResource xtextResource) throws Exception
+             {
+               return xtextResource.getResourceSet();
+             }
+           });
+
       BasicCommandStack commandStack =
         new BasicCommandStack()
         {
           @Override
           public void execute(Command command)
           {
-            /*
-            GenModel genModel = (GenModel)EcoreUtil.getObjectByType(xtextResource.getContents(), GenModelPackage.Literals.GEN_MODEL);
+            final Resource resource = resourceSet.getResources().get(0);
+            GenModel genModel = (GenModel)EcoreUtil.getObjectByType(resource.getContents(), GenModelPackage.Literals.GEN_MODEL);
             EContentAdapter eContentAdatper =
               new EContentAdapter()
               {
@@ -165,21 +190,43 @@ public class XcoreEditor extends XtextEditor
                          public void process(XtextResource state) throws Exception
                          {
                            EObject eObject = (EObject)notification.getNotifier();
+                           EStructuralFeature eStructuralFeature = (EStructuralFeature)notification.getFeature();
+                           String name = eStructuralFeature.getName();
                            ToXcoreMapping xcoreMapping = mapper.getToXcoreMapping(eObject);
                            XNamedElement xNamedElement = xcoreMapping.getXcoreElement();
                            if (xNamedElement == null && eObject instanceof GenModel)
                            {
-                             xNamedElement = (XPackage)xtextResource.getContents().get(0);
+                             xNamedElement = (XPackage)resource.getContents().get(0);
                            }
                            if (xNamedElement != null)
                            {
-                             ICompositeNode node = NodeModelUtils.getNode(xNamedElement);
-                             if (node != null)
+                             ICompositeNode elementNode = NodeModelUtils.getNode(xNamedElement);
+                             ICompositeNode annotationNode = null;
+                             
+                             List<INode> valueNodes = null;
+                             XAnnotation xAnnotation = xNamedElement.getAnnotation(GenModelPackage.eNS_URI);
+                             if (xAnnotation != null)
                              {
-                               int offset = node.getOffset();
-                               sourceViewer.removeTextListener(textListener);
-                               // document.replace(offset, 0, "xxx");
-                               sourceViewer.addTextListener(textListener);
+                               annotationNode = NodeModelUtils.getNode(xAnnotation);
+                               
+                               for (Map.Entry<String, String> detail : xAnnotation.getDetails())
+                               {
+                                 if (name.equals(detail.getKey()))
+                                 {
+                                   valueNodes = NodeModelUtils.findNodesForFeature((EObject)detail, XcorePackage.Literals.XSTRING_TO_STRING_MAP_ENTRY__VALUE);
+                                   break;
+                                 }
+                               }
+                             }
+                             if (elementNode != null)
+                             {
+                               if (annotationNode == null)
+                               {
+                                 int offset = elementNode.getOffset();
+                                 sourceViewer.removeTextListener(textListener);
+                                 document.replace(offset, 0, "@GenModel(" + name + "=" + valueConverterService.toString(EcoreUtil.convertToString((EDataType)eStructuralFeature.getEType(), eObject.eGet(eStructuralFeature)), "STRING") + ")");
+                                 sourceViewer.addTextListener(textListener);
+                               }
                              }
                            }
                            System.err.println("###" + xcoreMapping);
@@ -188,7 +235,7 @@ public class XcoreEditor extends XtextEditor
                   }
                 }
               };
-            */
+            genModel.eAdapters().add(eContentAdatper);
             super.execute(command);
           }
         };
@@ -225,17 +272,6 @@ public class XcoreEditor extends XtextEditor
                 });
            }
          });
-
-      final IXtextDocument document = getDocument();
-      ResourceSet resourceSet =
-        document.readOnly
-          (new IUnitOfWork<ResourceSet, XtextResource>()
-           {
-             public ResourceSet exec(final XtextResource xtextResource) throws Exception
-             {
-               return xtextResource.getResourceSet();
-             }
-           });
 
       // Create the editing domain with a special command stack.
       //

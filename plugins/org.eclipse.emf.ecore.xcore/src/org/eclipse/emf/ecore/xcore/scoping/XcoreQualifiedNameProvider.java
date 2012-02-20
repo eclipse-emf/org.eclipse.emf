@@ -12,6 +12,9 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.xcore.XNamedElement;
+import org.eclipse.emf.ecore.xcore.mappings.ToXcoreMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
@@ -24,6 +27,9 @@ public class XcoreQualifiedNameProvider extends DefaultDeclarativeQualifiedNameP
 {
   @Inject
   private IQualifiedNameConverter nameConverter;
+
+  @Inject 
+  private XcoreMapper xcoreMapper;
 
   @Override
   public QualifiedName getFullyQualifiedName(EObject eObject)
@@ -50,9 +56,17 @@ public class XcoreQualifiedNameProvider extends DefaultDeclarativeQualifiedNameP
     }
     else if (eObject instanceof EPackage)
     {
-      EPackage pack = (EPackage)eObject;
-      String typeName = pack.getNsURI();
-      return typeName == null ? null : QualifiedName.create(typeName);
+      ToXcoreMapping toXcoreMapping = xcoreMapper.getToXcoreMapping(eObject);
+      XNamedElement xNamedElement = toXcoreMapping.getXcoreElement();
+      if (xNamedElement != null)
+      {
+        String packageName = xNamedElement.getName();
+        return packageName == null ? null : QualifiedName.create(packageName);
+      }
+      else
+      {
+        return null;
+      }
     }
     else
     {

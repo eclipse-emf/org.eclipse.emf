@@ -49,6 +49,7 @@ public class XcoreGenerator implements IGenerator {
   private Provider<XcoreGeneratorImpl> xcoreGeneratorImplProvider;
   
   public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
+    {
       EList<EObject> _contents = resource.getContents();
       EObject _head = IterableExtensions.<EObject>head(_contents);
       final XPackage pack = ((XPackage) _head);
@@ -170,6 +171,7 @@ public class XcoreGenerator implements IGenerator {
       Iterable<GenModel> _filter_3 = IterableExtensions.<GenModel>filter(_contents_1, org.eclipse.emf.codegen.ecore.genmodel.GenModel.class);
       GenModel _head_1 = IterableExtensions.<GenModel>head(_filter_3);
       this.generateGenModel(_head_1, fsa);
+    }
   }
   
   public XcoreAppendable createAppendable() {

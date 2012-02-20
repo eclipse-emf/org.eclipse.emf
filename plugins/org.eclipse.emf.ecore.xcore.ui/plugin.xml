@@ -296,7 +296,7 @@
    <extension point="org.eclipse.ui.popupMenus">
       <objectContribution
             objectClass="org.eclipse.core.resources.IFile"
-            nameFilter="*.genmodel"
+            nameFilter="*.genmodel *.ecore"
             id="org.eclipse.emf.ecore.xcore.ui.ConvertGenModelToXcoreActionID">
          <action label="%action.label.0"
                class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.emf.ecore.xcore.ui.ConvertToXcoreActionDelegate"
