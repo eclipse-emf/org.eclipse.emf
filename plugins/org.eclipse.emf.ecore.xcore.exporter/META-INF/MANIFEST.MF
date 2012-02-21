@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.emf.ecore.xcoreexporter;singleton:=true
+Bundle-SymbolicName: org.eclipse.emf.ecore.xcore.exporter;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.ecore.xcore.exporter.XcoreExporterPlugin$Implementation
