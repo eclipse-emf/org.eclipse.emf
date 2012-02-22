@@ -17,10 +17,12 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimePlatform;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.converter.ConverterPlugin;
@@ -79,13 +81,23 @@ public class XcoreImporter extends ModelImporter
         xtextResourceSet.setClasspathURIContext(JavaCore.create(project));
 
         Resource inputResource = xtextResourceSet.getResource(locationURI, true);
+        EcoreUtil.resolveAll(xtextResourceSet);
 
+        GenModel genModel =   (GenModel)EcoreUtil.getObjectByType(inputResource.getContents(), GenModelPackage.Literals.GEN_MODEL);
         EPackage ePackage =   (EPackage)EcoreUtil.getObjectByType(inputResource.getContents(), EcorePackage.Literals.EPACKAGE);
+        List<EPackage> ePackages = getEPackages();
         if (ePackage != null)
         {
           inputResource.getContents().remove(ePackage);
-          getEPackages().add(ePackage);
+          ePackages.add(ePackage);
         }
+
+        EList<GenPackage> usedGenPackages = genModel.getUsedGenPackages();
+        for (GenPackage usedGenPackage : usedGenPackages)
+        {
+          ePackages.add(usedGenPackage.getEcorePackage());
+        }
+        getReferencedGenPackages().addAll(usedGenPackages);
       }
     }
 

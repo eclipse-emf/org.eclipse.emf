@@ -22,12 +22,14 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
+import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -38,20 +40,31 @@ import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xcore.XGenericType;
 import org.eclipse.emf.ecore.xcore.XImportDirective;
 import org.eclipse.emf.ecore.xcore.XPackage;
+import org.eclipse.emf.ecore.xcore.XReference;
 import org.eclipse.emf.ecore.xcore.XcoreFactory;
+import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvider;
 import org.eclipse.emf.ecore.xcore.util.EcoreXcoreBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelInitializer;
 import org.eclipse.emf.exporter.ModelExporter;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.xtext.naming.IQualifiedNameConverter;
+import org.eclipse.xtext.naming.IQualifiedNameProvider;
+import org.eclipse.xtext.naming.QualifiedName;
+import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.SaveOptions;
 import org.eclipse.xtext.resource.XtextResourceSet;
+import org.eclipse.xtext.scoping.IScope;
+import org.eclipse.xtext.scoping.IScopeProvider;
 
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
@@ -67,6 +80,19 @@ public class XcoreExporter extends ModelExporter
 
   @Inject
   XcoreGenModelInitializer genModelInitializer;
+
+  @Inject
+  XcoreMapper mapper;
+
+  @Inject
+  private IScopeProvider scopeProvider;
+
+  @Inject
+  private IQualifiedNameProvider qualifiedNameProvider;
+
+  @Inject
+  private IQualifiedNameConverter qualifiedNameConverter;
+
 
   private static final Set<String> IMPLICIT_ALIASES = Sets.newHashSet();
   static
@@ -233,6 +259,7 @@ public class XcoreExporter extends ModelExporter
             return true;
           }
         };
+      Map<EGenericType, XGenericType> genericTypeMap = ecoreXcoreBuilder.getGenericTypeMap();
       for (TreeIterator<EObject> i = inputGenPackage.getEcorePackage().eAllContents(); i.hasNext();)
       {
         EObject eObject = i.next();
@@ -243,14 +270,66 @@ public class XcoreExporter extends ModelExporter
           if (eClassifier != null)
           {
             GenClassifier genClassifier = inputGenModel.findGenClassifier(eClassifier);
-            String qualifiedName = genClassifier.getGenPackage().getInterfacePackageName() + "." + eClassifier.getName();
-            if (!IMPLICIT_ALIASES.contains(qualifiedName))
+            QualifiedName qualifiedName = qualifiedNameProvider.getFullyQualifiedName(genClassifier);
+            String qualifiedNameValue = qualifiedNameConverter.toString(qualifiedName);
+            if (!IMPLICIT_ALIASES.contains(qualifiedNameValue))
             {
-              importManager.addImport(qualifiedName);
+              importManager.addImport(qualifiedNameValue);
+            }
+
+            // We need to ensure that if we resolve to a different instance, we switch to use that so that serialization will find the right instance.
+            //
+            XGenericType xGenericType = genericTypeMap.get(eGenericType);
+            IScope scope = scopeProvider.getScope(xGenericType, XcorePackage.Literals.XGENERIC_TYPE__TYPE);
+            IEObjectDescription genClassifierDescription = scope.getSingleElement(qualifiedName);
+            if (genClassifierDescription != null)
+            {
+              EObject resolvedGenClassifier = resourceSet.getEObject(genClassifierDescription.getEObjectURI(), true);
+              if (resolvedGenClassifier != null && resolvedGenClassifier != genClassifier)
+              {
+                xGenericType.setType((GenClassifier)resolvedGenClassifier);
+              }
             }
           }
         }
-        if (eObject instanceof EPackage)
+        else if (eObject instanceof EReference)
+        {
+          EReference eReference = (EReference)eObject;
+          XReference xReference = (XReference)mapper.getToXcoreMapping(eReference).getXcoreElement();
+          EList<GenFeature> keys = xReference.getKeys();
+          GenFeature opposite = xReference.getOpposite();
+          if (opposite != null)
+          {
+            IScope scope = scopeProvider.getScope(xReference, XcorePackage.Literals.XREFERENCE__OPPOSITE);
+            IEObjectDescription genFeatureDescription = scope.getSingleElement(QualifiedName.create(opposite.getName()));
+            if (genFeatureDescription != null)
+            {
+              EObject resolvedGenFeature = resourceSet.getEObject(genFeatureDescription.getEObjectURI(), true);
+              if (resolvedGenFeature != null)
+              {
+                xReference.setOpposite((GenFeature)resolvedGenFeature);
+              }
+            }
+          }
+          if (!keys.isEmpty())
+          {
+            IScope scope = scopeProvider.getScope(xReference, XcorePackage.Literals.XREFERENCE__KEYS);
+            for (ListIterator<GenFeature> k = keys.listIterator(); k.hasNext(); )
+            {
+              GenFeature key = k.next();
+              IEObjectDescription genFeatureDescription = scope.getSingleElement(QualifiedName.create(key.getName()));
+              if (genFeatureDescription != null)
+              {
+                EObject resolvedGenFeature = resourceSet.getEObject(genFeatureDescription.getEObjectURI(), true);
+                if (resolvedGenFeature != null)
+                {
+                  k.set((GenFeature)resolvedGenFeature);
+                }
+              }
+            }
+          }
+        }
+        else if (eObject instanceof EPackage)
         {
           i.prune();
         }
@@ -285,7 +364,7 @@ public class XcoreExporter extends ModelExporter
         for (Map.Entry<GenPackage, URI> entry : exportData.referencedGenPackagesToArtifactURI.entrySet())
         {
           GenPackage referencedGenPackage = entry.getKey();
-          if (genPackage.getNSURI().equals(referencedGenPackage.getNSURI()) && 
+          if (genPackage.getNSURI().equals(referencedGenPackage.getNSURI()) &&
                 genPackage.getEcorePackage().getName().equals(referencedGenPackage.getEcorePackage().getName()))
           {
             artifactURI = entry.getValue();

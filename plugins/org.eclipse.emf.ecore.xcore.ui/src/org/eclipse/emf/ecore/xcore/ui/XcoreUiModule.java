@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreDependentElementsCalculat
 import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameElementProcessor;
 import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameStrategy;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.common.types.access.jdt.IJavaProjectProvider;
 import org.eclipse.xtext.common.types.xtext.ui.ITypesProposalProvider;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHoverProvider;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
@@ -66,5 +67,11 @@ public class XcoreUiModule extends org.eclipse.emf.ecore.xcore.ui.AbstractXcoreU
   public Class<? extends IDependentElementsCalculator> bindIDependentElementsCalculator()
   {
     return XcoreDependentElementsCalculator.class;
+  }
+
+  @Override
+  public Class<? extends IJavaProjectProvider> bindIJavaProjectProvider()
+  {
+    return XcoreJavaProjectProvider.class;
   }
 }

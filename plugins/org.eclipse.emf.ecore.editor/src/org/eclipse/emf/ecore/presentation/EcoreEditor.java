@@ -13,7 +13,6 @@ package org.eclipse.emf.ecore.presentation;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Method;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +26,6 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -109,7 +107,6 @@ import org.eclipse.emf.common.command.CommandStackListener;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 
 import org.eclipse.emf.common.ui.MarkerHelper;
 
@@ -128,7 +125,6 @@ import org.eclipse.emf.ecore.EValidator;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -807,35 +803,10 @@ public class EcoreEditor
          }
        });
 
-    ResourceSet resourceSet = null;
-    try
-    {
-      Class<?> xtextResourceSetClass = CommonPlugin.loadClass("org.eclipse.xtext", "org.eclipse.xtext.resource.XtextResourceSet");
-      
-      resourceSet = (ResourceSet)xtextResourceSetClass.newInstance();
-    }
-    catch (Exception e)
-    {
-      resourceSet = new ResourceSetImpl();
-    }
-    class EditingDomainProvider extends AdapterImpl implements IEditingDomainProvider
-    {
-      public EditingDomain getEditingDomain()
-      {
-        return editingDomain;
-      }
-      @Override
-      public boolean isAdapterForType(Object type)
-      {
-        return IEditingDomainProvider.class.equals(type);
-      }
-    }
-    resourceSet.eAdapters().add(new EditingDomainProvider());
-
     // Create the editing domain with a special command stack.
     //
     editingDomain = 
-      new AdapterFactoryEditingDomain(adapterFactory, commandStack, resourceSet)
+      new AdapterFactoryEditingDomain(adapterFactory, commandStack)
       {
         {
           resourceToReadOnlyMap = new HashMap<Resource, Boolean>();
@@ -1681,9 +1652,10 @@ public class EcoreEditor
    * This is called during startup.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
-  public void initGen(IEditorSite site, IEditorInput editorInput)
+  @Override
+  public void init(IEditorSite site, IEditorInput editorInput)
   {
     setSite(site);
     setInputWithNotify(editorInput);
@@ -1691,26 +1663,6 @@ public class EcoreEditor
     site.setSelectionProvider(this);
     site.getPage().addPartListener(partListener);
     ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
-  }
-
-  @Override
-  public void init(IEditorSite site, IEditorInput editorInput)
-  {
-    initGen(site, editorInput);
-    try
-    {
-      ResourceSet resourceSet = editingDomain.getResourceSet();
-      Method setClasspathURIContextMethod = resourceSet.getClass().getMethod("setClasspathURIContext", Object.class);
-      Class<?> javaCoreClass = CommonPlugin.loadClass("org.eclipse.jdt.core", "org.eclipse.jdt.core.JavaCore");
-      IProject project = ((IFileEditorInput)editorInput).getFile().getProject();
-      Method createMethod = javaCoreClass.getMethod("create", IProject.class);
-      Object javaProject = createMethod.invoke(null, project);
-      setClasspathURIContextMethod.invoke(resourceSet, javaProject);
-    }
-    catch (Exception exception)
-    {
-      // Ignore missing Xtext
-    }
   }
 
   /**

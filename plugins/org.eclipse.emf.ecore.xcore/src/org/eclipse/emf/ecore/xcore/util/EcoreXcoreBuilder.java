@@ -76,6 +76,7 @@ import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvider;
 import org.eclipse.xtext.xbase.XBlockExpression;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
@@ -88,9 +89,16 @@ public class EcoreXcoreBuilder
   @Inject
   private XcoreJvmInferrer jvmInferrer;
 
-  List<Runnable> runnables = new ArrayList<Runnable>();
+  protected List<Runnable> runnables = new ArrayList<Runnable>();
 
-  GenModel genModel;
+  protected GenModel genModel;
+
+  protected Map<EGenericType, XGenericType> genericTypeMap = Maps.newIdentityHashMap();
+
+  public Map<EGenericType, XGenericType> getGenericTypeMap()
+  {
+    return genericTypeMap;
+  }
 
   public void initialize(GenModel genModel)
   {
@@ -299,7 +307,7 @@ public class EcoreXcoreBuilder
 
     XAnnotationDirective xAnnotationDirective = XcoreFactory.eINSTANCE.createXAnnotationDirective();
     xAnnotationDirective.setSourceURI(source);
-    
+
     // Try to compute a reasonable name to use as an identifier.
     //
     String name = source;
@@ -309,7 +317,7 @@ public class EcoreXcoreBuilder
       // This will throw a runtime exception, in which case we'll use the source itself as the basis for the name.
       //
       URI sourceURI = URI.createURI(source);
-      
+
       // Use the last segment if there is one and it's not empty.
       //
       name = sourceURI.lastSegment();
@@ -325,7 +333,7 @@ public class EcoreXcoreBuilder
           //
           boolean hierarchical = sourceURI.isHierarchical();
           name = hierarchical ? sourceURI.authority() : sourceURI.opaquePart();
-          
+
           // If that's null use the entire source after all.
           //
           if (name == null)
@@ -342,7 +350,7 @@ public class EcoreXcoreBuilder
             {
               name = name.substring(4);
             }
-            
+
             // Strip off what most likely is the domain suffix.
             //
             int index = name.lastIndexOf('.');
@@ -358,11 +366,11 @@ public class EcoreXcoreBuilder
     {
       // Just use the resource URI itself as the basis for the name.
     }
-    
+
     // Coerce the name into a well formed Java identifiers.
     //
     name = CodeGenUtil.javaIdentifier(name, genModel.getLocale());
-    
+
     // Ensure that the name doesn't collide with that of another annotation.
     //
     String uniqueName = name;
@@ -569,8 +577,7 @@ public class EcoreXcoreBuilder
     else
     {
       final XGenericType xGenericType = XcoreFactory.eINSTANCE.createXGenericType();
-      // TODO
-      // map(xGenericType, eGenericType);
+      genericTypeMap.put(eGenericType, xGenericType);
       EGenericType lowerBound = eGenericType.getELowerBound();
       if (lowerBound != null)
       {

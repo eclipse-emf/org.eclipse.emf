@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xcore.conversion.FixedQualifiedNameValueConverter;
 import org.eclipse.emf.ecore.xcore.conversion.ValueConverterService;
 import org.eclipse.emf.ecore.xcore.resource.XcoreResource;
+import org.eclipse.emf.ecore.xcore.resource.containers.XcoreContainerManager;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreIdentifableSimpleNameProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreQualifiedNameProvider;
@@ -133,5 +134,11 @@ public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcor
   public Class<? extends IGenerator> bindIGenerator()
   {
     return org.eclipse.emf.ecore.xcore.generator.XcoreGenerator.class;
+  }
+
+  @Override
+  public java.lang.Class<? extends org.eclipse.xtext.resource.IContainer.Manager> bindIContainer$Manager()
+  {
+    return XcoreContainerManager.class;
   }
 }
