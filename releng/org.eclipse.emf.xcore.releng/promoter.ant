@@ -112,7 +112,7 @@
 		build.packages.base=xcore.downloads
 		build.repository.base=xcore.p2.repository
 		
-		downloads.area=/Users/dhuebner/hudsonbuild/downloads/emf/emf
+		downloads.area=/home/data/httpd/download.eclipse.org/modeling/emf/emf/xcore
 		repository.name=xcore
 		-->
 		<!-- check properties are set -->
@@ -157,10 +157,8 @@
 
 	<target name="-publish.build.repository" if="repository.directory" unless="alreadyPromoted">
 		<!-- clean destination folder, unzip Update zip in it -->
-		<echo>Promoting to ${repository.directory}</echo>
-		<echo>Promoting to ${packages.directory}</echo>
-		<delete dir="${repository.directory}" verbose="true" failonerror="false"/>
-		<unzip dest="${repository.directory}" >
+		<delete dir="${repository.directory}" verbose="true" failonerror="false" />
+		<unzip dest="${repository.directory}">
 			<fileset dir="${packages.directory}">
 				<filename name="*-Update*zip" />
 			</fileset>
@@ -174,7 +172,7 @@
 				<repository location="${repository.directory}" />
 			</add>
 		</p2.composite.repository> -->
-		
+
 		<!-- change Group owner  -->
 		<fileset id="repository.resources" dir="${composite.repository.directory}">
 			<or>
