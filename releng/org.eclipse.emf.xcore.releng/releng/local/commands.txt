@@ -6,8 +6,8 @@ resolve -Declipse.download="http://download.eclipse.org" "${releng.project.locat
 
 build
 
-junit --launch "org.eclipse.emf.test.codegen.ecore.xtext/Test EMF Xtext.launch" --flatXML --output "${build.root}/xcore.test.results/Test EMF Xtext.xml"
-junit --launch "org.eclipse.emf.test.ecore.xcore/Test EMF Xcore.launch" --flatXML --output "${build.root}/xcore.test.results/Test EMF Xcore.xml"
+#junit --launch "org.eclipse.emf.test.codegen.ecore.xtext/Test EMF Xtext.launch" --flatXML --output "${build.root}/xcore.test.results/Test EMF Xtext.xml"
+#junit --launch "org.eclipse.emf.test.ecore.xcore/Test EMF Xcore.launch" --flatXML --output "${build.root}/xcore.test.results/Test EMF Xcore.xml"
 
-perform --properties "${releng.project.location}/releng/xcore-build.properties" "org.eclipse.emf.xcore.build#build"
+perform --properties "${releng.project.location}/releng/xcore-build.properties" "org.eclipse.emf.xcore.build#build" 
 perform --properties "${releng.project.location}/releng/xcore-build.properties" "org.eclipse.emf.xcore.releng#setup.promoter"

@@ -84,7 +84,29 @@
 			</cs:prerequisites>
 			<cs:products alias="output" base="${buckminster.output}/zips/" />
 		</cs:public>
-
+		
+		<cs:public name="copy.repository" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="packaging.ant" />
+				<cs:property key="targets" value="copy.artifacts" />
+			</cs:actorProperties>
+			<cs:prerequisites>
+				<cs:attribute name="site.p2" alias="files.to.copy" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.output.root}/relevant.artifacts/xcore.p2.repository" />
+		</cs:public>
+		
+		<cs:public name="copy.zips" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="packaging.ant" />
+				<cs:property key="targets" value="copy.artifacts" />
+			</cs:actorProperties>
+			<!-- package.emf-xcore-ui output folder can be accessed with ${fs:files.to.copy} in ant-->
+			<cs:prerequisites>
+				<cs:attribute name="package.emf-xcore-ui" alias="files.to.copy" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.output.root}/relevant.artifacts/xcore.downloads" />
+		</cs:public>
 	</cs:actions>
 
 	<cs:groups>
@@ -93,6 +115,8 @@
 			<cs:attribute name="package.emf-xcore-SDK" />
 			<cs:attribute name="package.emf-xcore-runtime" />
 			<cs:attribute name="package.emf-xcore-ui" />
+			<cs:attribute name="copy.repository" />
+			<cs:attribute name="copy.zips" />
 		</cs:public>
 	</cs:groups>
 </cs:cspecExtension>
