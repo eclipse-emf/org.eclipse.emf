@@ -18,6 +18,8 @@
 		<cs:dependency name="org.eclipse.emf.ecore.editor" componentType="osgi.bundle" />
 		<cs:dependency name="org.eclipse.emf.codegen.ecore" componentType="osgi.bundle" />
 		<cs:dependency name="org.eclipse.emf.codegen.ecore.ui" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.emf.importer" componentType="osgi.bundle" />
+		<cs:dependency name="org.eclipse.emf.exporter" componentType="osgi.bundle" />
 		
 		<!-- xtext -->
 		<cs:dependency name="org.eclipse.xtext.ui" componentType="eclipse.feature" versionDesignator="2.3.0"/>
