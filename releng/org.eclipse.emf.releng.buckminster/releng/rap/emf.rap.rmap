@@ -18,7 +18,8 @@
 				<bc:propertyRef key="emf.base.nightly" />
 			</uri>
 		</provider>
-		<!-- <provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+		<!-- Comment out when 3.5 compatible emf Base integration build is promoted to {0}/modeling/emf/emf/updates/2.8-I-builds/base
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(!(|(build.type=S)(build.type=R))))"
 		>
 			<uri format="{0}/modeling/emf/emf/updates/2.8-I-builds/base">
@@ -79,7 +80,7 @@
 			</uri>
 		</provider>
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(resolve.target.platform=true)"
+			resolutionFilter="(&amp;(resolve.target.platform=true)(eclipse.target.platform=Galileo))"
 		>
 			<uri format="{0}/eclipse/updates/3.6">
 				<bc:propertyRef key="eclipse.download" />
