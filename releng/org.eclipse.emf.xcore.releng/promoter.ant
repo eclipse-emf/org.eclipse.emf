@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Reduced version of the Xtext promoter.
+	Can only publish a nightly updatesite/p2 repository.
+-->
 <project name="Promoter / Publisher" default="publish.build">
 	<property name="promoter.properties.file.name" value="promote.properties" />
 	<property name="publisher.properties.file.name" value="publisher.properties" />
@@ -112,7 +116,7 @@
 		build.packages.base=xcore.downloads
 		build.repository.base=xcore.p2.repository
 		
-		downloads.area=/home/data/httpd/download.eclipse.org/modeling/emf/emf/xcore
+		downloads.area=/home/data/httpd/download.eclipse.org/modeling/emf/emf/
 		repository.name=xcore
 		-->
 		<!-- check properties are set -->
@@ -142,27 +146,32 @@
 
 		<!-- initialize properties -->
 		<property name="repository.name" value="${saved.build.id}" />
-		<property name="composite.repository.directory" location="${downloads.area}/updates/${composite.repository.base}/" />
-		<property name="repository.directory" location="${composite.repository.directory}/${repository.name}" />
-		<property name="packages.directory" location="${build.root}/${build.packages.base}" />
 
-		<!-- todo check artifacts.jar is not equal -->
-		<available property="alreadyPromoted" file="${repository.directory}" type="dir" />
+		<!-- Source artifacts locations -->
+		<property name="src.packages.directory" location="${build.root}/${build.packages.base}" />
+		<property name="src.repo.directory" location="${build.root}/${build.repository.base}" />
+		<echo>Source repository:  ${src.repo.directory}</echo>
 
+		<!-- Target artifacts locations -->
+		<property name="composite.repo.directory" location="${downloads.area}/updates/${composite.repository.base}/" />
+		<property name="target.repo.directory" location="${composite.repo.directory}/${repository.name}" />
+		<echo>Target repository:  ${target.repo.directory}</echo>
+		<!-- check artifacts.jar is not the same -->
+		<condition property="alreadyPromoted">
+		   <filesmatch file1="${src.repo.directory}/artifacts.jar" file2="${target.repo.directory}/artifacts.jar" textfile="false"/>
+		</condition>
 		<antcall target="-publish.build.repository" inheritall="true" />
 		<antcall target="-echo-status" inheritall="true" />
 
 	</target>
 
 
-	<target name="-publish.build.repository" if="repository.directory" unless="alreadyPromoted">
+	<target name="-publish.build.repository" if="target.repo.directory" unless="alreadyPromoted">
 		<!-- clean destination folder, unzip Update zip in it -->
-		<delete dir="${repository.directory}" verbose="true" failonerror="false" />
-		<unzip dest="${repository.directory}">
-			<fileset dir="${packages.directory}">
-				<filename name="*-Update*zip" />
-			</fileset>
-		</unzip>
+		<delete dir="${target.repo.directory}" failonerror="false" />
+		<copy todir="${target.repo.directory}">
+			<fileset dir="${src.repo.directory}" />
+		</copy>
 
 		<!-- Modify create composite p2 repository
 		<property name="composite.repository.url" value="file:/${composite.repository.directory}" />
@@ -178,7 +187,7 @@
 			<or>
 				<filename name="compositeContent.*" />
 				<filename name="compositeArtifacts.*" />
-				<filename name="${repository.directory}/**" />
+				<filename name="${target.repo.directory}/**" />
 			</or>
 		</fileset>
 
