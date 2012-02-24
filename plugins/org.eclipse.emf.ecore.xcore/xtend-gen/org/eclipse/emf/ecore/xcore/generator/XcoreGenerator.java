@@ -220,8 +220,16 @@ public class XcoreGenerator implements IGenerator {
       final XcoreGeneratorImpl generator = _get;
       generator.setInput(genModel);
       generator.setFileSystemAccess(fsa);
+      String _modelDirectory = genModel.getModelDirectory();
+      generator.setModelDirectory(_modelDirectory);
       BasicMonitor _basicMonitor = new BasicMonitor();
-      Diagnostic _generate = generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, _basicMonitor);
+      generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, _basicMonitor);
+      BasicMonitor _basicMonitor_1 = new BasicMonitor();
+      generator.generate(genModel, GenBaseGeneratorAdapter.EDIT_PROJECT_TYPE, _basicMonitor_1);
+      BasicMonitor _basicMonitor_2 = new BasicMonitor();
+      generator.generate(genModel, GenBaseGeneratorAdapter.EDITOR_PROJECT_TYPE, _basicMonitor_2);
+      BasicMonitor _basicMonitor_3 = new BasicMonitor();
+      Diagnostic _generate = generator.generate(genModel, GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE, _basicMonitor_3);
       _xblockexpression = (_generate);
     }
     return _xblockexpression;

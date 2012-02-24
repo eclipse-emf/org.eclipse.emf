@@ -8,6 +8,8 @@
 package org.eclipse.emf.ecore.xcore.ui;
 
 
+import org.eclipse.emf.ecore.xcore.ui.builder.XcoreBuildParticipant;
+import org.eclipse.emf.ecore.xcore.ui.builder.XcoreFileSystemAccess;
 import org.eclipse.emf.ecore.xcore.ui.contentassist.ImportingTypesProposalProvider;
 import org.eclipse.emf.ecore.xcore.ui.hover.XcoreHoverProvider;
 import org.eclipse.emf.ecore.xcore.ui.hyperlinking.XcoreHyperLinkHelper;
@@ -15,6 +17,8 @@ import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreDependentElementsCalculat
 import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameElementProcessor;
 import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameStrategy;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.builder.EclipseResourceFileSystemAccess2;
+import org.eclipse.xtext.builder.IXtextBuilderParticipant;
 import org.eclipse.xtext.common.types.access.jdt.IJavaProjectProvider;
 import org.eclipse.xtext.common.types.xtext.ui.ITypesProposalProvider;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHoverProvider;
@@ -74,4 +78,16 @@ public class XcoreUiModule extends org.eclipse.emf.ecore.xcore.ui.AbstractXcoreU
   {
     return XcoreJavaProjectProvider.class;
   }
+
+  public Class<?extends EclipseResourceFileSystemAccess2> bindEclipseResourceFileSystemAccess2()
+  {
+    return XcoreFileSystemAccess.class;
+  }
+
+  @Override
+  public Class<? extends IXtextBuilderParticipant> bindIXtextBuilderParticipant()
+  {
+    return XcoreBuildParticipant.class;
+  }
+  
 }

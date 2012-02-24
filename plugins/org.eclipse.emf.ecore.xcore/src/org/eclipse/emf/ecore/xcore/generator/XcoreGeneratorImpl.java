@@ -13,6 +13,7 @@ import java.util.Collection;
 import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 
 import com.google.inject.Inject;
@@ -23,10 +24,19 @@ import static java.util.Collections.*;
 
 public class XcoreGeneratorImpl extends Generator
 {
-
-  static final String OUTPUT_DIR_MARKER = "special_model_dir";
-
   private IFileSystemAccess fsa;
+  
+  private String modelDirectory;
+
+  public String getModelDirectory()
+  {
+    return modelDirectory;
+  }
+
+  public void setModelDirectory(String modelDirectory)
+  {
+    this.modelDirectory = modelDirectory;
+  }
 
   public void setFileSystemAccess(IFileSystemAccess fsa)
   {
@@ -38,15 +48,8 @@ public class XcoreGeneratorImpl extends Generator
   {
     if (input instanceof GenModel)
     {
-      final GenModel genModel = (GenModel)input;
-      genModel.setModelDirectory(OUTPUT_DIR_MARKER);
-      genModel.setModelPluginID(null);
-      genModel.unsetEditDirectory();
-      genModel.unsetEditPluginClass();
-      genModel.unsetEditorDirectory();
-      genModel.unsetEditorPluginClass();
-      genModel.unsetTestsDirectory();
-      genModel.unsetTestSuiteClass();
+      GenModel genModel = (GenModel)input;
+      setModelDirectory(genModel.getModelDirectory());
     }
     super.setInput(input);
   }
@@ -60,6 +63,7 @@ public class XcoreGeneratorImpl extends Generator
     final XcoreGenModelGeneratorAdapterFactory genAdapterFactory = adapterFactoryProvider.get();
     genAdapterFactory.setGenerator(this);
     genAdapterFactory.setFileSystemAccess(fsa);
+    genAdapterFactory.setModelDirectory(URI.createURI(modelDirectory));
     return singleton((GeneratorAdapterFactory)genAdapterFactory);
   }
 }

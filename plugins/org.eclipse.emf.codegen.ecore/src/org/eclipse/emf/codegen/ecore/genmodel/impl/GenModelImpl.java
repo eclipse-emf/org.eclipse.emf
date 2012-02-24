@@ -7368,15 +7368,22 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   static protected String getProjectPath(String path)
   {
-    int beginIndex = path.startsWith("/") ? 1 : 0;
-    int endIndex = path.indexOf("/", beginIndex);
-    if (endIndex != -1)
+    if (path == null)
     {
-      return path.substring(0, endIndex);
+      return null;
     }
     else
     {
-      return path;
+      int beginIndex = path.startsWith("/") ? 1 : 0;
+      int endIndex = path.indexOf("/", beginIndex);
+      if (endIndex != -1)
+      {
+        return path.substring(0, endIndex);
+      }
+      else
+      {
+        return path;
+      }
     }
   }
 

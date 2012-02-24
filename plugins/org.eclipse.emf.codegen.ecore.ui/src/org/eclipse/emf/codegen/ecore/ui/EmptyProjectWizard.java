@@ -184,7 +184,8 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
      manifest.print("Bundle-Name: ");
      manifest.println(genModelContainerPath.segment(0));
      manifest.print("Bundle-SymbolicName: ");
-     manifest.println(CodeGenUtil.validPluginID(genModelContainerPath.segment(0)));
+     manifest.print(CodeGenUtil.validPluginID(genModelContainerPath.segment(0)));
+     manifest.println("; singleton:=true");
      manifest.println("Bundle-Version: 0.1.0");
      manifest.print("Require-Bundle: ");
      String[] requiredBundles = getRequiredBundles();

@@ -34,6 +34,8 @@ public class GeneratorTest {
     try {
       {
         StringConcatenation _builder = new StringConcatenation();
+        _builder.append("@GenModel(modelDirectory=\"Nowhere\")");
+        _builder.newLine();
         _builder.append("package test");
         _builder.newLine();
         _builder.append("class X {}");
@@ -51,7 +53,7 @@ public class GeneratorTest {
         int _size = _files_1.size();
         Assert.assertEquals(_string, 8, _size);
         Map<String,CharSequence> _files_2 = inmemFsa.getFiles();
-        String _operator_plus = StringExtensions.operator_plus(IFileSystemAccess.DEFAULT_OUTPUT, "test/util/TestSwitch.java");
+        String _operator_plus = StringExtensions.operator_plus(IFileSystemAccess.DEFAULT_OUTPUT, "/test/util/TestSwitch.java");
         CharSequence _get = _files_2.get(_operator_plus);
         Assert.assertNotNull(_get);
       }

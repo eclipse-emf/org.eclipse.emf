@@ -27,16 +27,16 @@ import org.eclipse.xtext.xbase.compiler.XbaseCompiler
 import static extension org.eclipse.emf.ecore.xcore.XcoreExtensions.*
 
 class XcoreGenerator implements IGenerator {
-	
+
 	@Inject
 	extension XcoreMapper mappings
-	
+
 	@Inject
 	XbaseCompiler compiler
-	
+
 	@Inject
 	Provider<XcoreGeneratorImpl> xcoreGeneratorImplProvider
-	
+
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		val pack = resource.contents.head as XPackage
 		// install operation bodies
@@ -86,11 +86,11 @@ class XcoreGenerator implements IGenerator {
 
 		generateGenModel(resource.contents.filter(typeof(GenModel)).head, fsa)
 	}
-	
+
 	def createAppendable() {
 		new XcoreAppendable()
 	}
-	
+
 	def extractBody(String body) {
 		var result = if (body.startsWith("\n")) body.substring(1) else body
 		if (result.startsWith("{\n")) {
@@ -100,13 +100,16 @@ class XcoreGenerator implements IGenerator {
 			result
 		}
 	}
-	
+
 	def generateGenModel(GenModel genModel, IFileSystemAccess fsa) {
 		genModel.canGenerate = true
 		val generator = xcoreGeneratorImplProvider.get
 		generator.input = genModel
 		generator.fileSystemAccess = fsa
-		generator.generate(genModel, GenBaseGeneratorAdapter::MODEL_PROJECT_TYPE,
-				new BasicMonitor());
+		generator.modelDirectory = genModel.modelDirectory;
+		generator.generate(genModel, GenBaseGeneratorAdapter::MODEL_PROJECT_TYPE, new BasicMonitor());
+		generator.generate(genModel, GenBaseGeneratorAdapter::EDIT_PROJECT_TYPE, new BasicMonitor());
+		generator.generate(genModel, GenBaseGeneratorAdapter::EDITOR_PROJECT_TYPE, new BasicMonitor());
+		generator.generate(genModel, GenBaseGeneratorAdapter::TESTS_PROJECT_TYPE, new BasicMonitor());
 	}
 }

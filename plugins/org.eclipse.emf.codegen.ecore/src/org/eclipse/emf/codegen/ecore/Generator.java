@@ -4,8 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.codegen.ecore;
@@ -65,7 +65,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 
 /**
- * This implements the method {@link #run}, 
+ * This implements the method {@link #run},
  * which is called just like main during headless workbench invocation.
  */
 public class Generator extends CodeGen
@@ -78,7 +78,7 @@ public class Generator extends CodeGen
    * {@link #run(Object)}.  This method will be removed in a future release.
    */
   @Deprecated
-  public static void main(String args[]) 
+  public static void main(String args[])
   {
     new Generator().run(args);
   }
@@ -107,11 +107,11 @@ public class Generator extends CodeGen
    * This is called with the command line arguments of a headless workbench invocation.
    */
   @Override
-  public Object run(Object object) 
+  public Object run(Object object)
   {
     return PlatformRunnable.run(this, object);
   }
-    
+
   public static class PlatformRunnable extends Generator implements IApplication, DeprecatedPlatformRunnable
   {
     public Object start(IApplicationContext context) throws Exception
@@ -119,31 +119,31 @@ public class Generator extends CodeGen
       String [] args = (String[])context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
       return run(args == null ? new String[0] : args);
     }
-    
+
     public void stop()
     {
       // Do nothing
     }
-    
+
     /**
      * This is called with the command line arguments of a headless workbench invocation.
      */
     @Override
-    public Object run(Object object) 
+    public Object run(Object object)
     {
        return run(this, object);
     }
-    
+
     /**
      * This is called with the command line arguments of a headless workbench invocation.
      */
-    public static Object run(final Generator generator, Object object) 
+    public static Object run(final Generator generator, Object object)
     {
       try
       {
         final String[] arguments = (String[])object;
         final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        IWorkspaceRunnable runnable = 
+        IWorkspaceRunnable runnable =
           new IWorkspaceRunnable()
           {
             public void run(IProgressMonitor progressMonitor) throws CoreException
@@ -160,19 +160,19 @@ public class Generator extends CodeGen
                   IPath ecorePath = new Path(arguments[1]);
                   generator.basePackage = arguments[2];
                   String prefix = arguments[3];
-  
+
                   ResourceSet resourceSet = new ResourceSetImpl();
-                  resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap()); 
+                  resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
                   URI ecoreURI = URI.createFileURI(ecorePath.toString());
                   Resource resource = resourceSet.getResource(ecoreURI, true);
                   EPackage ePackage = (EPackage)resource.getContents().get(0);
-  
+
                   IPath genModelPath = ecorePath.removeFileExtension().addFileExtension("genmodel");
                   progressMonitor.beginTask("", 2);
                   progressMonitor.subTask("Creating " + genModelPath);
-  
+
                   URI genModelURI = URI.createFileURI(genModelPath.toString());
-                  Resource genModelResource = 
+                  Resource genModelResource =
                     Resource.Factory.Registry.INSTANCE.getFactory(genModelURI).createResource(genModelURI);
                   GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
                   genModelResource.getContents().add(genModel);
@@ -182,17 +182,17 @@ public class Generator extends CodeGen
                   genModel.initialize(Collections.singleton(ePackage));
                   GenPackage genPackage = genModel.getGenPackages().get(0);
                   genModel.setModelName(genModelURI.trimFileExtension().lastSegment());
-  
+
                   genPackage.setPrefix(prefix);
                   genPackage.setBasePackage(generator.basePackage);
-  
+
                   progressMonitor.worked(1);
-  
+
                   if (arguments.length > 4 && "-sdo".equals(arguments[4]))
                   {
                     setSDODefaults(genModel);
                   }
-  
+
                   genModelResource.save(Collections.EMPTY_MAP);
                 }
                 else
@@ -211,7 +211,7 @@ public class Generator extends CodeGen
                   boolean tests = false;
                   boolean reconcile = false;
                   Boolean autoBuild = null;
-                  
+
                   int index = 0;
                   for (; index < arguments.length && arguments[index].startsWith("-"); ++index)
                   {
@@ -283,18 +283,18 @@ public class Generator extends CodeGen
                           null));
                     }
                   }
-  
+
                   if (!model && !edit && !editor && !tests)
                   {
                     model = true;
                   }
-  
+
                   // This is the name of the model.
                   //
                   String genModelName = arguments[index++];
-  
+
                   progressMonitor.beginTask("Generating " + genModelName, 2);
-                  
+
                   if (autoBuild != null)
                   {
                     IWorkspaceDescription description = workspace.getDescription();
@@ -308,12 +308,12 @@ public class Generator extends CodeGen
                       catch (CoreException coreException)
                       {
                         generator.printStatus(
-                          "Unable to set autoBuild to " + autoBuild.toString() + ".  Code generation will proceed normally.", 
+                          "Unable to set autoBuild to " + autoBuild.toString() + ".  Code generation will proceed normally.",
                           coreException.getStatus());
                       }
                     }
                   }
-            
+
                   // Create a resource set and load the model file into it.
                   //
                   ResourceSet resourceSet = new ResourceSetImpl();
@@ -321,7 +321,7 @@ public class Generator extends CodeGen
                   URI genModelURI = URI.createFileURI(new File(genModelName).getAbsoluteFile().getCanonicalPath());
                   Resource genModelResource = resourceSet.getResource(genModelURI, true);
                   GenModel genModel = (GenModel)genModelResource.getContents().get(0);
-  
+
                   if (reconcile)
                   {
                     boolean reconcileSuccessful = genModel.reconcile();
@@ -352,7 +352,7 @@ public class Generator extends CodeGen
                     {
                       genModel.setRedirection(".{0}.new");
                     }
-    
+
                     if (index < arguments.length)
                     {
                       IPath path = new Path(genModel.getModelDirectory());
@@ -374,29 +374,29 @@ public class Generator extends CodeGen
                     {
                       String modelDirectory = genModel.getModelDirectory();
                       genModel.setModelDirectory(generator.findOrCreateContainerHelper(rootLocation, modelDirectory, monitor));
-    
+
                       String editDirectory = genModel.getEditDirectory();
                       if (edit && editDirectory != null)
                       {
                         genModel.setEditDirectory(generator.findOrCreateContainerHelper(rootLocation, editDirectory, monitor));
                       }
-    
+
                       String editorDirectory = genModel.getEditorDirectory();
                       if (editor && editorDirectory != null)
                       {
                         genModel.setEditorDirectory(generator.findOrCreateContainerHelper(rootLocation, editorDirectory, monitor));
                       }
-  
+
                       String testsDirectory = genModel.getTestsDirectory();
                       if (tests && testsDirectory != null)
                       {
                         genModel.setTestsDirectory(generator.findOrCreateContainerHelper(rootLocation, testsDirectory, monitor));
                       }
                     }
-    
+
                     genModel.setCanGenerate(true);
                     genModel.setUpdateClasspath(false);
-    
+
                     if (generateSchema)
                     {
                       genModel.setGenerateSchema(true);
@@ -409,7 +409,7 @@ public class Generator extends CodeGen
                     {
                       genModel.setCodeFormatting(true);
                     }
-  
+
                     if (profileFile != null)
                     {
                       Map<String, String> options = CodeFormatterProfileParser.parse(profileFile);
@@ -424,9 +424,9 @@ public class Generator extends CodeGen
                              null));
                       }
                       gen.getOptions().codeFormatterOptions = options;
-                      
+
                     }
-  
+
                     if (model)
                     {
                       gen.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, CodeGenUtil.EclipseUtil.createMonitor(progressMonitor, 1));
@@ -452,7 +452,7 @@ public class Generator extends CodeGen
               }
               catch (Exception exception)
               {
-                throw 
+                throw
                   new CoreException
                     (new Status
                       (IStatus.ERROR, CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(), 0, "EMF Error", exception));
@@ -464,7 +464,7 @@ public class Generator extends CodeGen
             }
           };
         workspace.run(runnable, new CodeGenUtil.EclipseUtil.StreamProgressMonitor(System.out));
-  
+
         return 0;
       }
       catch (Exception exception)
@@ -510,11 +510,11 @@ public class Generator extends CodeGen
      int style,
      List<?> pluginVariables)
   {
-    return 
+    return
       EclipseHelper.createEMFProject
         (javaSource, projectLocationPath, referencedProjects, BasicMonitor.toMonitor(progressMonitor), style, pluginVariables);
   }
-  
+
   public static IProject createEMFProject
     (IPath javaSource,
      IPath projectLocationPath,
@@ -575,7 +575,7 @@ public class Generator extends CodeGen
 
     genModel.getStaticPackages().add("http://www.eclipse.org/emf/2003/SDO");
   }
-  
+
   /**
    * This parses a code formatter profile file, recording the options it sepecifies in a map.
    */
@@ -599,7 +599,7 @@ public class Generator extends CodeGen
     {
       if (EMPTY.equals(namespaceURI) && SETTING.equals(localName))
       {
-        String id = atts.getValue(EMPTY, ID); 
+        String id = atts.getValue(EMPTY, ID);
         String value = atts.getValue(EMPTY, VALUE);
 
         if (id != null && value != null)
@@ -613,7 +613,7 @@ public class Generator extends CodeGen
     {
       return options;
     }
- 
+
     public static Map<String, String> parse(String systemID)
     {
       try
@@ -631,7 +631,7 @@ public class Generator extends CodeGen
       return null;
     }
   }
-  
+
   private static class EclipseHelper
   {
     public static IProject createEMFProject
@@ -659,15 +659,15 @@ public class Generator extends CodeGen
       try
       {
         List<IClasspathEntry> classpathEntries = new UniqueEList<IClasspathEntry>();
-  
+
         progressMonitor.beginTask("", 10);
         progressMonitor.subTask
           (CodeGenEcorePlugin.INSTANCE.getString
-             ("_UI_CreatingEMFProject_message", 
+             ("_UI_CreatingEMFProject_message",
               new Object [] { projectName, projectLocationURI != null ? projectLocationURI.toString() : projectName }));
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         project = workspace.getRoot().getProject(projectName);
-  
+
         // Clean up any old project information.
         //
         if (!project.exists())
@@ -684,7 +684,7 @@ public class Generator extends CodeGen
             projectFile.renameTo(new File(location.toString() + ".old"));
           }
         }
-  
+
         IJavaProject javaProject = JavaCore.create(project);
         IProjectDescription projectDescription = null;
         if (!project.exists())
@@ -697,7 +697,7 @@ public class Generator extends CodeGen
           project.create(projectDescription, new SubProgressMonitor(progressMonitor, 1));
           project.open(new SubProgressMonitor(progressMonitor, 1));
         }
-        else 
+        else
         {
           projectDescription = project.getDescription();
           project.open(new SubProgressMonitor(progressMonitor, 1));
@@ -708,7 +708,7 @@ public class Generator extends CodeGen
         }
 
         boolean isInitiallyEmpty = classpathEntries.isEmpty();
-  
+
         {
           if (referencedProjects.size() != 0 && (style & (EMF_PLUGIN_PROJECT_STYLE | EMF_EMPTY_PROJECT_STYLE)) == 0)
           {
@@ -720,19 +720,19 @@ public class Generator extends CodeGen
               classpathEntries.add(referencedProjectClasspathEntry);
             }
           }
-  
+
           String [] natureIds = projectDescription.getNatureIds();
           if (natureIds == null)
           {
-            natureIds = 
-              ((style & EMF_GWT_PROJECT_STYLE) == 0 ? 
+            natureIds =
+              ((style & EMF_GWT_PROJECT_STYLE) == 0 ?
                   new String [] { JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature" } :
-                  (style & EMF_EDITOR_PROJECT_STYLE) == 0 ? 
+                  (style & EMF_EDITOR_PROJECT_STYLE) == 0 ?
                     new String [] { JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", "com.google.gwt.eclipse.core.gwtNature" } :
-                    new String [] 
-                      { JavaCore.NATURE_ID, 
-                        "org.eclipse.pde.PluginNature", 
-                        "com.google.gwt.eclipse.core.gwtNature", 
+                    new String []
+                      { JavaCore.NATURE_ID,
+                        "org.eclipse.pde.PluginNature",
+                        "com.google.gwt.eclipse.core.gwtNature",
                         "com.google.appengine.eclipse.core.gaeNature" });
           }
           else
@@ -767,7 +767,7 @@ public class Generator extends CodeGen
             }
           }
           projectDescription.setNatureIds(natureIds);
-  
+
           ICommand [] builders = projectDescription.getBuildSpec();
           if (builders == null)
           {
@@ -803,36 +803,48 @@ public class Generator extends CodeGen
           }
           projectDescription.setBuildSpec(builders);
           project.setDescription(projectDescription, new SubProgressMonitor(progressMonitor, 1));
-  
+
           IContainer sourceContainer = project;
           if (javaSource.segmentCount() > 1)
           {
-        	IPath sourceContainerPath = javaSource.removeFirstSegments(1).makeAbsolute();
-        	sourceContainer = project.getFolder(sourceContainerPath);
-        	if (!sourceContainer.exists())
-        	{
-        	  for (int i = sourceContainerPath.segmentCount() - 1; i >= 0; i--)
-        	  {
-	            sourceContainer = project.getFolder(sourceContainerPath.removeLastSegments(i));
-	            if (!sourceContainer.exists())
-	            {
-	              ((IFolder)sourceContainer).create(false, true, new SubProgressMonitor(progressMonitor, 1));  
-	            }
-	          }
+            IPath sourceContainerPath = javaSource.removeFirstSegments(1).makeAbsolute();
+            sourceContainer = project.getFolder(sourceContainerPath);
+            if (!sourceContainer.exists())
+            {
+              for (int i = sourceContainerPath.segmentCount() - 1; i >= 0; i--)
+              {
+                sourceContainer = project.getFolder(sourceContainerPath.removeLastSegments(i));
+                if (!sourceContainer.exists())
+                {
+                  ((IFolder)sourceContainer).create(false, true, new SubProgressMonitor(progressMonitor, 1));
+                }
+              }
             }
 
             IClasspathEntry sourceClasspathEntry = JavaCore.newSourceEntry(javaSource);
-            for (Iterator<IClasspathEntry> i = classpathEntries.iterator(); i.hasNext(); )
+            boolean matched = false;
+            for (Iterator<IClasspathEntry> i = classpathEntries.iterator(); i.hasNext() && !matched; )
             {
               IClasspathEntry classpathEntry = i.next();
-              if (classpathEntry.getPath().isPrefixOf(javaSource))
+              IPath path = classpathEntry.getPath();
+              if (path.isPrefixOf(javaSource))
               {
-                i.remove();
+                if (path.equals(javaSource))
+                {
+                  matched = true;
+                }
+                else
+                {
+                  i.remove();
+                }
               }
             }
-            classpathEntries.add(0, sourceClasspathEntry);
+            if (!matched)
+            {
+              classpathEntries.add(0, sourceClasspathEntry);
+            }
           }
-  
+
           if (isInitiallyEmpty)
           {
             IClasspathEntry jreClasspathEntry =
@@ -846,7 +858,7 @@ public class Generator extends CodeGen
                 i.remove();
               }
             }
-  
+
             String jreContainer = JavaRuntime.JRE_CONTAINER;
             String complianceLevel = CodeGenUtil.EclipseUtil.getJavaComplianceLevel(project);
             if ("1.5".equals(complianceLevel))
@@ -859,7 +871,7 @@ public class Generator extends CodeGen
             }
             classpathEntries.add(JavaCore.newContainerEntry(new Path(jreContainer)));
           }
-  
+
           if ((style & EMF_EMPTY_PROJECT_STYLE) == 0)
           {
             if ((style & EMF_PLUGIN_PROJECT_STYLE) != 0)
@@ -874,13 +886,13 @@ public class Generator extends CodeGen
                   classpathEntries.add(JavaCore.newContainerEntry(new Path("com.google.appengine.eclipse.core.GAE_CONTAINER")));
                 }
               }
-  
+
               // Remove variables since the plugin.xml should provide the complete path information.
               //
               for (Iterator<IClasspathEntry> i = classpathEntries.iterator(); i.hasNext(); )
               {
                 IClasspathEntry classpathEntry = i.next();
-                if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_VARIABLE && 
+                if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_VARIABLE &&
                       !JavaRuntime.JRELIB_VARIABLE.equals(classpathEntry.getPath().toString()) ||
                       classpathEntry.getEntryKind() == IClasspathEntry.CPE_PROJECT)
                 {
@@ -894,16 +906,16 @@ public class Generator extends CodeGen
               CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "ECLIPSE_CORE_RESOURCES", "org.eclipse.core.resources");
               CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "EMF_COMMON", "org.eclipse.emf.common");
               CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "EMF_ECORE", "org.eclipse.emf.ecore");
-  
+
               if ((style & EMF_XML_PROJECT_STYLE) != 0)
               {
                 CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "EMF_ECORE_XMI", "org.eclipse.emf.ecore.xmi");
               }
-  
+
               if ((style & EMF_MODEL_PROJECT_STYLE) == 0)
               {
                 CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "EMF_EDIT", "org.eclipse.emf.edit");
-  
+
                 if ((style & EMF_EDIT_PROJECT_STYLE) == 0)
                 {
                   CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "ECLIPSE_SWT", "org.eclipse.swt");
@@ -920,7 +932,7 @@ public class Generator extends CodeGen
                   }
                 }
               }
-  
+
               if ((style & EMF_TESTS_PROJECT_STYLE) != 0)
               {
                 CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "JUNIT", "org.junit");
@@ -957,16 +969,16 @@ public class Generator extends CodeGen
               }
             }
           }
-  
+
           javaProject.setRawClasspath
             (classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]),
              new SubProgressMonitor(progressMonitor, 1));
         }
-  
+
         if (isInitiallyEmpty)
         {
           javaProject.setOutputLocation
-            (new Path("/" + javaSource.segment(0) + (((style & EMF_GWT_PROJECT_STYLE) != 0) && ((style & EMF_EDITOR_PROJECT_STYLE) != 0) ? "/war/WEB-INF/classes" : "/bin")), 
+            (new Path("/" + javaSource.segment(0) + (((style & EMF_GWT_PROJECT_STYLE) != 0) && ((style & EMF_EDITOR_PROJECT_STYLE) != 0) ? "/war/WEB-INF/classes" : "/bin")),
              new SubProgressMonitor(progressMonitor, 1));
         }
       }
@@ -979,10 +991,10 @@ public class Generator extends CodeGen
       {
         progressMonitor.done();
       }
-  
+
       return project;
     }
-    
+
     public static String findOrCreateContainerHelper
       (String rootLocation, String encodedPath, Monitor progressMonitor) throws CoreException
     {
@@ -991,9 +1003,9 @@ public class Generator extends CodeGen
       {
         IPath modelProjectLocation = new Path(encodedPath.substring(0, index));
         IPath fragmentPath = new Path(encodedPath.substring(index + 3, encodedPath.length() - 2));
-  
+
         IPath projectRelativePath =  new Path(modelProjectLocation.lastSegment()).append(fragmentPath);
-  
+
         CodeGenUtil.EclipseUtil.findOrCreateContainer
           (projectRelativePath,
            true,
@@ -1001,7 +1013,7 @@ public class Generator extends CodeGen
            //DMS Why not this?
            //new SubProgressMonitor(progressMonitor, 1));
            BasicMonitor.toIProgressMonitor(CodeGenUtil.createMonitor(progressMonitor, 1)));
-  
+
         return projectRelativePath.makeAbsolute().toString();
       }
       else if (rootLocation != null)
@@ -1024,20 +1036,20 @@ public class Generator extends CodeGen
           if (index != -1)
           {
             IPath modelProjectLocation = new Path(rootLocation + "/" + encodedPath.substring(0, index));
-    
+
             CodeGenUtil.EclipseUtil.findOrCreateContainer
               (projectRelativePath,
-               true, 
-               modelProjectLocation, 
+               true,
+               modelProjectLocation,
                //DMS Why not this?
                //new SubProgressMonitor(progressMonitor, 1));
                BasicMonitor.toIProgressMonitor(CodeGenUtil.createMonitor(progressMonitor, 1)));
-    
+
             return projectRelativePath.makeAbsolute().toString();
           }
         }
       }
-  
+
       return encodedPath;
     }
   }

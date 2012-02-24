@@ -10,6 +10,7 @@ package org.eclipse.emf.ecore.xcore.generator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenClassGeneratorAdapter;
@@ -24,28 +25,63 @@ import org.eclipse.xtext.generator.IFileSystemAccess;
 
 public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapterFactory
 {
+  private static final URI ROOT = URI.createURI("/");
+
+  /**
+   * An interface implemented by a derived {@link IFileSystemAccess} implementation
+   * so that the callback can be informed about resources that aren't regenerated
+   * because the result would be identical to the current contents.
+   */
+  public interface FileSystemReadAccess
+  {
+    void readFile(String targetFile);
+  }
 
   private IFileSystemAccess fsa;
+  private URI modelDirectory;
 
   public void setFileSystemAccess(IFileSystemAccess fsa)
   {
     this.fsa = fsa;
   }
 
+  public void setModelDirectory(URI modelDirectory)
+  {
+    this.modelDirectory =  !modelDirectory.hasTrailingPathSeparator() ? modelDirectory.appendSegment("") : modelDirectory;
+  }
+
   protected OutputStream createOutputStream(URI workspacePath)
   {
-    String string = workspacePath.toString();
-    final String targetFile = string.substring(string.indexOf(XcoreGeneratorImpl.OUTPUT_DIR_MARKER)
-      + XcoreGeneratorImpl.OUTPUT_DIR_MARKER.length() + 1);
-    return new ByteArrayOutputStream()
-      {
-        @Override
-        public void close() throws IOException
+    final URI targetFile = workspacePath.replacePrefix(modelDirectory, ROOT);
+    if (targetFile == null)
+    {
+      return null;
+    }
+    else
+    {
+      return
+        new ByteArrayOutputStream()
         {
-          fsa.generateFile(targetFile, new String(this.toByteArray()));
-          super.close();
-        }
-      };
+          @Override
+          public void close() throws IOException
+          {
+            fsa.generateFile(targetFile.toString(), new String(this.toByteArray()));
+            super.close();
+          }
+        };
+    }
+  }
+
+  protected void inputStreamRequest(URI workspacePath)
+  {
+    if (fsa instanceof FileSystemReadAccess)
+    {
+      final URI targetFile = workspacePath.replacePrefix(modelDirectory, ROOT);
+      if (targetFile != null)
+      {
+        ((FileSystemReadAccess)fsa).readFile(workspacePath.toString());
+      }
+    }
   }
 
   /**
@@ -56,12 +92,21 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
   {
     if (genModelGeneratorAdapter == null)
     {
-      genModelGeneratorAdapter = new GenModelGeneratorAdapter(this)
+      genModelGeneratorAdapter =
+        new GenModelGeneratorAdapter(this)
         {
           @Override
           protected OutputStream createOutputStream(URI workspacePath) throws Exception
           {
-            return XcoreGenModelGeneratorAdapterFactory.this.createOutputStream(workspacePath);
+            OutputStream result = XcoreGenModelGeneratorAdapterFactory.this.createOutputStream(workspacePath);
+            return result == null ? super.createOutputStream(workspacePath) : result;
+          }
+
+          @Override
+          protected InputStream createInputStream(URI workspacePath) throws Exception
+          {
+            inputStreamRequest(workspacePath);
+            return super.createInputStream(workspacePath);
           }
         };
     }
@@ -76,12 +121,21 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
   {
     if (genPackageGeneratorAdapter == null)
     {
-      genPackageGeneratorAdapter = new GenPackageGeneratorAdapter(this)
+      genPackageGeneratorAdapter =
+        new GenPackageGeneratorAdapter(this)
         {
           @Override
           protected OutputStream createOutputStream(URI workspacePath) throws Exception
           {
-            return XcoreGenModelGeneratorAdapterFactory.this.createOutputStream(workspacePath);
+            OutputStream result = XcoreGenModelGeneratorAdapterFactory.this.createOutputStream(workspacePath);
+            return result == null ? super.createOutputStream(workspacePath) : result;
+          }
+
+          @Override
+          protected InputStream createInputStream(URI workspacePath) throws Exception
+          {
+            inputStreamRequest(workspacePath);
+            return super.createInputStream(workspacePath);
           }
         };
     }
@@ -96,12 +150,21 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
   {
     if (genClassGeneratorAdapter == null)
     {
-      genClassGeneratorAdapter = new GenClassGeneratorAdapter(this)
+      genClassGeneratorAdapter =
+        new GenClassGeneratorAdapter(this)
         {
           @Override
           protected OutputStream createOutputStream(URI workspacePath) throws Exception
           {
-            return XcoreGenModelGeneratorAdapterFactory.this.createOutputStream(workspacePath);
+            OutputStream result = XcoreGenModelGeneratorAdapterFactory.this.createOutputStream(workspacePath);
+            return result == null ? super.createOutputStream(workspacePath) : result;
+          }
+
+          @Override
+          protected InputStream createInputStream(URI workspacePath) throws Exception
+          {
+            inputStreamRequest(workspacePath);
+            return super.createInputStream(workspacePath);
           }
         };
     }
@@ -116,16 +179,24 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
   {
     if (genEnumGeneratorAdapter == null)
     {
-      genEnumGeneratorAdapter = new GenEnumGeneratorAdapter(this)
+      genEnumGeneratorAdapter =
+        new GenEnumGeneratorAdapter(this)
         {
           @Override
           protected OutputStream createOutputStream(URI workspacePath) throws Exception
           {
-            return XcoreGenModelGeneratorAdapterFactory.this.createOutputStream(workspacePath);
+            OutputStream result = XcoreGenModelGeneratorAdapterFactory.this.createOutputStream(workspacePath);
+            return result == null ? super.createOutputStream(workspacePath) : result;
+          }
+
+          @Override
+          protected InputStream createInputStream(URI workspacePath) throws Exception
+          {
+            inputStreamRequest(workspacePath);
+            return super.createInputStream(workspacePath);
           }
         };
     }
     return genEnumGeneratorAdapter;
   }
-
 }
