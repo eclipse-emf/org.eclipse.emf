@@ -84,7 +84,29 @@
 			</cs:prerequisites>
 			<cs:products alias="output" base="${buckminster.output}/zips/" />
 		</cs:public>
-
+		
+		<cs:public name="copy.repository" actor="ant">
+			 <cs:actorProperties>
+               <cs:property key="buildFileId" value="buckminster.pdetasks"/>
+               <cs:property key="targets" value="copy.group"/>
+           </cs:actorProperties>
+			<cs:prerequisites>
+				<cs:attribute name="site.p2" alias="action.requirements" />
+			</cs:prerequisites>
+			<cs:products alias="action.output" base="${buckminster.output.root}/relevant.artifacts/xcore.p2.repository" upToDatePolicy="MAPPER" />
+		</cs:public>
+		
+		
+		 <cs:private name="copy.zips" actor="ant">
+           <cs:actorProperties>
+               <cs:property key="buildFileId" value="buckminster.pdetasks"/>
+               <cs:property key="targets" value="copy.group"/>
+           </cs:actorProperties>
+           <cs:prerequisites>
+               <cs:attribute name="package.emf-xcore-ui" alias="action.requirements"/>
+           </cs:prerequisites>
+           <cs:products alias="action.output" base="${buckminster.output.root}/relevant.artifacts/xcore.downloads/" upToDatePolicy="MAPPER"/>
+       </cs:private>
 	</cs:actions>
 
 	<cs:groups>
@@ -93,6 +115,8 @@
 			<cs:attribute name="package.emf-xcore-SDK" />
 			<cs:attribute name="package.emf-xcore-runtime" />
 			<cs:attribute name="package.emf-xcore-ui" />
+			<cs:attribute name="copy.repository" />
+			<cs:attribute name="copy.zips" />
 		</cs:public>
 	</cs:groups>
 </cs:cspecExtension>

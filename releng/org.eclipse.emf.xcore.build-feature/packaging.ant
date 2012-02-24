@@ -3,7 +3,7 @@
 	<target name="create.target.platform.metadata">
 		<buckminster.targetPlatformLocation property="target.platform.location" />
 		<property name="target.platform.repository" value="file:/${sp:output}" />
-		<p2.publish.featuresAndBundles  metadataRepository="${target.platform.repository}" source="${target.platform.location}" publishArtifacts="false" />
+		<p2.publish.featuresAndBundles append="false" metadataRepository="${target.platform.repository}" source="${target.platform.location}" publishArtifacts="false" />
 		<buckminster.publishJRE metadataRepository="${target.platform.repository}" publishArtifacts="false" />
 	</target>
 
@@ -391,4 +391,14 @@
 			<resources refid="${resource.set}" />
 		</copy>
 	</target>
+
+
+	<target name="copy.artifacts">
+		<!-- copy the files fs:files.to.copy indicates alias from cspex-->
+		<buckminster.valuefileset id="files" value="${fs:files.to.copy}"/> 
+		<copy todir="${sp:output}">
+			<fileset refid="files" />
+		</copy>
+	</target>
+
 </project>
