@@ -5241,11 +5241,11 @@ ruleXLiteral returns [EObject current=null]
 
     |
     { 
-        newCompositeNode(grammarAccess.getXLiteralAccess().getXIntLiteralParserRuleCall_2()); 
+        newCompositeNode(grammarAccess.getXLiteralAccess().getXNumberLiteralParserRuleCall_2()); 
     }
-    this_XIntLiteral_2=ruleXIntLiteral
+    this_XNumberLiteral_2=ruleXNumberLiteral
     { 
-        $current = $this_XIntLiteral_2.current; 
+        $current = $this_XNumberLiteral_2.current; 
         afterParserOrEnumRuleCall();
     }
 
@@ -7038,41 +7038,41 @@ ruleXNullLiteral returns [EObject current=null]
 
 
 
-// Entry rule entryRuleXIntLiteral
-entryRuleXIntLiteral returns [EObject current=null] 
+// Entry rule entryRuleXNumberLiteral
+entryRuleXNumberLiteral returns [EObject current=null] 
 	:
-	{ newCompositeNode(grammarAccess.getXIntLiteralRule()); }
-	 iv_ruleXIntLiteral=ruleXIntLiteral 
-	 { $current=$iv_ruleXIntLiteral.current; } 
+	{ newCompositeNode(grammarAccess.getXNumberLiteralRule()); }
+	 iv_ruleXNumberLiteral=ruleXNumberLiteral 
+	 { $current=$iv_ruleXNumberLiteral.current; } 
 	 EOF 
 ;
 
-// Rule XIntLiteral
-ruleXIntLiteral returns [EObject current=null] 
+// Rule XNumberLiteral
+ruleXNumberLiteral returns [EObject current=null] 
     @init { enterRule(); 
     }
     @after { leaveRule(); }:
 ((
     {
         $current = forceCreateModelElement(
-            grammarAccess.getXIntLiteralAccess().getXIntLiteralAction_0(),
+            grammarAccess.getXNumberLiteralAccess().getXNumberLiteralAction_0(),
             $current);
     }
 )(
 (
-		lv_value_1_0=RULE_INT
-		{
-			newLeafNode(lv_value_1_0, grammarAccess.getXIntLiteralAccess().getValueINTTerminalRuleCall_1_0()); 
-		}
-		{
+		{ 
+	        newCompositeNode(grammarAccess.getXNumberLiteralAccess().getValueNumberParserRuleCall_1_0()); 
+	    }
+		lv_value_1_0=ruleNumber		{
 	        if ($current==null) {
-	            $current = createModelElement(grammarAccess.getXIntLiteralRule());
+	            $current = createModelElementForParent(grammarAccess.getXNumberLiteralRule());
 	        }
-       		setWithLastConsumed(
+       		set(
        			$current, 
        			"value",
         		lv_value_1_0, 
-        		"INT");
+        		"Number");
+	        afterParserOrEnumRuleCall();
 	    }
 
 )
@@ -7514,6 +7514,81 @@ ruleQualifiedName returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleT
     }
 )*)
     ;
+
+
+
+
+
+// Entry rule entryRuleNumber
+entryRuleNumber returns [String current=null] 
+	@init { 
+		HiddenTokens myHiddenTokenState = ((XtextTokenStream)input).setHiddenTokens();
+	}
+	:
+	{ newCompositeNode(grammarAccess.getNumberRule()); } 
+	 iv_ruleNumber=ruleNumber 
+	 { $current=$iv_ruleNumber.current.getText(); }  
+	 EOF 
+;
+finally {
+	myHiddenTokenState.restore();
+}
+
+// Rule Number
+ruleNumber returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+		HiddenTokens myHiddenTokenState = ((XtextTokenStream)input).setHiddenTokens();
+    }
+    @after { leaveRule(); }:
+(    this_HEX_0=RULE_HEX    {
+		$current.merge(this_HEX_0);
+    }
+
+    { 
+    newLeafNode(this_HEX_0, grammarAccess.getNumberAccess().getHEXTerminalRuleCall_0()); 
+    }
+
+    |((    this_INT_1=RULE_INT    {
+		$current.merge(this_INT_1);
+    }
+
+    { 
+    newLeafNode(this_INT_1, grammarAccess.getNumberAccess().getINTTerminalRuleCall_1_0_0()); 
+    }
+
+    |    this_DECIMAL_2=RULE_DECIMAL    {
+		$current.merge(this_DECIMAL_2);
+    }
+
+    { 
+    newLeafNode(this_DECIMAL_2, grammarAccess.getNumberAccess().getDECIMALTerminalRuleCall_1_0_1()); 
+    }
+)(
+	kw='.' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getNumberAccess().getFullStopKeyword_1_1_0()); 
+    }
+(    this_INT_4=RULE_INT    {
+		$current.merge(this_INT_4);
+    }
+
+    { 
+    newLeafNode(this_INT_4, grammarAccess.getNumberAccess().getINTTerminalRuleCall_1_1_1_0()); 
+    }
+
+    |    this_DECIMAL_5=RULE_DECIMAL    {
+		$current.merge(this_DECIMAL_5);
+    }
+
+    { 
+    newLeafNode(this_DECIMAL_5, grammarAccess.getNumberAccess().getDECIMALTerminalRuleCall_1_1_1_1()); 
+    }
+))?))
+    ;
+finally {
+	myHiddenTokenState.restore();
+}
 
 
 
@@ -7991,9 +8066,13 @@ ruleJvmLowerBound returns [EObject current=null]
 
 
 
-RULE_ID : '^'? ('a'..'z'|'A'..'Z'|'$'|'_') ('a'..'z'|'A'..'Z'|'$'|'_'|'0'..'9')*;
+RULE_HEX : ('0x'|'0X') ('0'..'9'|'a'..'f'|'A'..'F'|'_')+ ('#' (('b'|'B') ('i'|'I')|('l'|'L')))?;
 
-RULE_INT : ('0'..'9')+;
+RULE_INT : '0'..'9' ('0'..'9'|'_')*;
+
+RULE_DECIMAL : RULE_INT (('e'|'E') ('+'|'-')? RULE_INT)? (('b'|'B') ('i'|'I'|'d'|'D')|('l'|'L'|'d'|'D'|'f'|'F'))?;
+
+RULE_ID : '^'? ('a'..'z'|'A'..'Z'|'$'|'_') ('a'..'z'|'A'..'Z'|'$'|'_'|'0'..'9')*;
 
 RULE_STRING : ('"' ('\\' ('b'|'t'|'n'|'f'|'r'|'u'|'"'|'\''|'\\')|~(('\\'|'"')))* '"'|'\'' ('\\' ('b'|'t'|'n'|'f'|'r'|'u'|'"'|'\''|'\\')|~(('\\'|'\'')))* '\'');
 
