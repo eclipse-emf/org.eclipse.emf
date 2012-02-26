@@ -167,7 +167,7 @@ public class XcoreExporter extends ModelExporter
       // Add it to the resource and initialize it like we do any other new GenModel
       //
       inputResource.getContents().add(genModel);
-      genModelInitializer.initialize(genModel);
+      genModelInitializer.initialize(genModel, true);
 
       // Walk the two GenModels in lockstep and compare settings.
       // We need to know which ones should be converted to annotations and which would be redundant because they represent defaults.

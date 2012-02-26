@@ -112,7 +112,7 @@ public class GenModelResourceDescriptionManagerTest extends TestCase
     GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
     genModel.initialize(Collections.singleton(parent));
     genmodelResource.getContents().add(genModel);
-    genModel.initialize();
+    genModel.initialize(true);
     genModel.getGenPackages().get(0).setBasePackage("org.foo.bar");
     genModel.getGenPackages().get(0).getNestedGenPackages().get(0).setBasePackage("org.foo.zonk");
     Map<QualifiedName, IEObjectDescription> index = createIndex(genmodelResource);

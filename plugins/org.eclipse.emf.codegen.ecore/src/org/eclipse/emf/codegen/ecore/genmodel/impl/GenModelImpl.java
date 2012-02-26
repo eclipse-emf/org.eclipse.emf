@@ -9503,7 +9503,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return getEditorModuleName();
   }
 
-  public void initialize()
+  public void initialize(boolean handleAnnotations)
   {
     Resource resource = eResource();
     if (resource != null)
@@ -9521,17 +9521,20 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     GenRuntimeVersion[] values = GenRuntimeVersion.values();
     setRuntimeVersion(values[values.length - 1]);
 
-    handleAnnotations(this, mainGenPackage.getEcorePackage());
-    for (TreeIterator<EObject> i = eAllContents(); i.hasNext();)
+    if (handleAnnotations)
     {
-      EObject content = i.next();
-      if (content instanceof GenBase)
+      handleAnnotations(this, mainGenPackage.getEcorePackage());
+      for (TreeIterator<EObject> i = eAllContents(); i.hasNext();)
       {
-        GenBase genBase = (GenBase)content;
-        EModelElement eModelElement = genBase.getEcoreModelElement();
-        if (eModelElement != null)
+        EObject content = i.next();
+        if (content instanceof GenBase)
         {
-          handleAnnotations(genBase, eModelElement);
+          GenBase genBase = (GenBase)content;
+          EModelElement eModelElement = genBase.getEcoreModelElement();
+          if (eModelElement != null)
+          {
+            handleAnnotations(genBase, eModelElement);
+          }
         }
       }
     }

@@ -86,13 +86,59 @@ public class XcoreQuickfixProvider extends DefaultQuickfixProvider
 
   public static class RemovalRegion
   {
-    protected XtextResource xtextResource;
     protected IXtextDocument xtextDocument;
     protected int begin;
     protected int end;
     protected int deleteBegin;
     protected int deleteEnd;
     protected String replacement;
+
+    public RemovalRegion(IXtextDocument xtextDocument, EObject eObject) throws BadLocationException
+    {
+      this.xtextDocument = xtextDocument;
+
+      // Determine the associated node.
+      //
+      ICompositeNode node = NodeModelUtils.getNode(eObject);
+
+      INode previous = node.getPreviousSibling();
+      begin = getLineBeginOffsetOfOffset(previous == null ? node.getOffset() : previous.getOffset() + previous.getLength());
+      INode next = node.getNextSibling();
+      end = getLineEndOffsetOfOffset(next == null ? node.getOffset() + node.getLength() : next.getOffset());
+
+      deleteBegin = getBeginOffset(node);
+      deleteEnd = getEndOffset(node);
+
+      replacement =
+         deleteBegin > 0 && !Character.isWhitespace(xtextDocument.getChar(deleteBegin - 1)) && deleteEnd + 1 <  xtextDocument.getLength() && !Character.isWhitespace(xtextDocument.getChar(deleteEnd + 1)) ?
+           " " :
+           "";
+    }
+
+    public int getBegin()
+    {
+      return begin;
+    }
+
+    public int getEnd()
+    {
+      return end;
+    }
+
+    public int getDeleteBegin()
+    {
+      return deleteBegin;
+    }
+
+    public int getDeleteEnd()
+    {
+      return deleteEnd;
+    }
+
+    public String getReplacement()
+    {
+      return replacement;
+    }
 
     protected int getLineBeginOffsetOfOffset(int offset) throws BadLocationException
     {
@@ -171,29 +217,6 @@ public class XcoreQuickfixProvider extends DefaultQuickfixProvider
       }
       return result;
     }
-
-    public RemovalRegion(XtextResource xtextResource, IXtextDocument xtextDocument, EObject eObject) throws BadLocationException
-    {
-      this.xtextResource = xtextResource;
-      this.xtextDocument = xtextDocument;
-
-      // Determine the associated node.
-      //
-      ICompositeNode node = NodeModelUtils.getNode(eObject);
-
-      INode previous = node.getPreviousSibling();
-      begin = getLineBeginOffsetOfOffset(previous == null ? node.getOffset() : previous.getOffset() + previous.getLength());
-      INode next = node.getNextSibling();
-      end = getLineEndOffsetOfOffset(next == null ? node.getOffset() + node.getLength() : next.getOffset());
-
-      deleteBegin = getBeginOffset(node);
-      deleteEnd = getEndOffset(node);
-
-      replacement =
-         deleteBegin > 0 && !Character.isWhitespace(xtextDocument.getChar(deleteBegin - 1)) && deleteEnd + 1 <  xtextDocument.getLength() && !Character.isWhitespace(xtextDocument.getChar(deleteEnd + 1)) ?
-           " " :
-           "";
-    }
   }
 
   @Fix(XcoreIssueCodes.COLLIDING_IMPORT)
@@ -230,7 +253,7 @@ public class XcoreQuickfixProvider extends DefaultQuickfixProvider
            // The cause is expected to be an import directive.
            //
            EObject cause = xtextResource.getResourceSet().getEObject(issue.getUriToProblem(), false);
-           final RemovalRegion removalRegion = new RemovalRegion(xtextResource, xtextDocument, cause);
+           final RemovalRegion removalRegion = new RemovalRegion(xtextDocument, cause);
            acceptor.accept
              (issue,
               "Remove import",

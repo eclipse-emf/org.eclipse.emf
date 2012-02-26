@@ -210,7 +210,7 @@ public class XcoreGenModelBuilder {
   
   public void initializeUsedGenPackages(final GenModel genModel) {
     {
-      this.genModelInitializer.initialize(genModel);
+      this.genModelInitializer.initialize(genModel, true);
       HashSet<EPackage> _hashSet = new HashSet<EPackage>();
       final HashSet<EPackage> referencedEPackages = _hashSet;
       UniqueEList<EPackage> _uniqueEList = new UniqueEList<EPackage>();

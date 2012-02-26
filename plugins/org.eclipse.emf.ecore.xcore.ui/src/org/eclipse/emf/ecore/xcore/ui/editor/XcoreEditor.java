@@ -7,30 +7,30 @@
  */
 package org.eclipse.emf.ecore.xcore.ui.editor;
 
-import java.util.EventObject;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelItemProvider;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelItemProviderAdapterFactory;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.command.CommandStack;
-import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XAnnotation;
@@ -39,6 +39,9 @@ import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.mappings.ToXcoreMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
+import org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess;
+import org.eclipse.emf.ecore.xcore.ui.quickfix.XcoreQuickfixProvider;
+import org.eclipse.emf.ecore.xcore.util.XcoreGenModelInitializer;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -48,22 +51,17 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptorDecorator;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
-import org.eclipse.jface.text.ITextListener;
 import org.eclipse.jface.text.ITextSelection;
-import org.eclipse.jface.text.TextEvent;
-import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.editors.text.TextEditorActionContributor;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetPage;
+import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.conversion.impl.STRINGValueConverter;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
@@ -79,18 +77,27 @@ import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
 import com.google.inject.Inject;
 
+/**
+ * A derived {@link XtextEditor} that supports a properties view for the Xcore resource's {@link GenModel}.
+ */
 public class XcoreEditor extends XtextEditor
 {
-  protected PropertySheetPage propertySheetPage;
-
   @Inject
   private XcoreMapper mapper;
-  
+
   @Inject
   private STRINGValueConverter stringValueConverter;
-  
+
   @Inject
   private IValueConverterService valueConverterService;
+
+  @Inject XcoreGrammarAccess xcoreGrammarAccess;
+
+  @Inject XcoreGenModelInitializer genModelInitializer;
+
+  protected PropertySheetPage propertySheetPage;
+
+  protected ComposedAdapterFactory adapterFactory;
 
   @Override
   @SuppressWarnings("rawtypes")
@@ -106,21 +113,14 @@ public class XcoreEditor extends XtextEditor
     }
   }
 
+
   public IPropertySheetPage getPropertySheetPage()
   {
     if (propertySheetPage == null)
     {
-      final ISourceViewer sourceViewer = getSourceViewer();
-      final ITextListener textListener =
-       new ITextListener()
-       {
-         public void textChanged(TextEvent event)
-         {
-           // propertySheetPage.selectionChanged(XcoreEditor.this, sourceViewer.getSelectionProvider().getSelection());
-         }
-       };
-      sourceViewer.addTextListener(textListener);
-      ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+      // Create an adapter factory that uses registered item provider adapter factories, but specializes the one for the GenModel
+      //
+      adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
       final AdapterFactoryItemDelegator itemDelegator = new AdapterFactoryItemDelegator(adapterFactory);
       adapterFactory.addAdapterFactory
         (new GenModelItemProviderAdapterFactory()
@@ -128,6 +128,8 @@ public class XcoreEditor extends XtextEditor
            @Override
            public Adapter createGenModelAdapter()
            {
+             // Create a new adapter each time.
+             //
              return
                new GenModelItemProvider(this)
                {
@@ -138,12 +140,14 @@ public class XcoreEditor extends XtextEditor
                    {
                      super.getPropertyDescriptors(object);
 
+                     // Merge in the decorated property descriptors for the one GenPackage in the model.
+                     //
                      GenModel genModel = (GenModel)object;
                      EList<GenPackage> genPackages = genModel.getGenPackages();
                      if (!genPackages.isEmpty())
                      {
                        GenPackage genPackage = genPackages.get(0);
-                      List<IItemPropertyDescriptor> genPackagePropertyDescriptors = itemDelegator.getPropertyDescriptors(genPackage);
+                       List<IItemPropertyDescriptor> genPackagePropertyDescriptors = itemDelegator.getPropertyDescriptors(genPackage);
                        for (IItemPropertyDescriptor genPackagePropertyDescriptor : genPackagePropertyDescriptors)
                        {
                          itemPropertyDescriptors.add(new ItemPropertyDescriptorDecorator(genPackage, genPackagePropertyDescriptor));
@@ -153,8 +157,11 @@ public class XcoreEditor extends XtextEditor
                    return itemPropertyDescriptors;
                  }
                };
-             } 
+             }
            });
+
+      // Cache the editor's document and resource set.
+      //
       final IXtextDocument document = getDocument();
       final ResourceSet resourceSet =
         document.readOnly
@@ -166,32 +173,122 @@ public class XcoreEditor extends XtextEditor
              }
            });
 
+      // Create a specialized command stack.
+      //
       BasicCommandStack commandStack =
         new BasicCommandStack()
         {
+          protected boolean isDefault(final GenModel genModel, EObject eObject, EStructuralFeature eStructuralFeature)
+          {
+            // Create a freshly initialized GenModel for the original GenModel's EPackage.
+            //
+            Resource fakeResource = new ResourceImpl(genModel.eResource().getURI());
+            final GenModel clonedGenModel = GenModelFactory.eINSTANCE.createGenModel();
+            EList<GenPackage> genPackages = genModel.getGenPackages();
+            if (!genPackages.isEmpty())
+            {
+              clonedGenModel.initialize(Collections.singleton(genPackages.get(0).getEcorePackage()));
+            }
+            genModelInitializer.initialize(clonedGenModel, false);
+            fakeResource.getContents().add(clonedGenModel);
+
+            // Traverse the EObject to find its clone in the cloned GenModel.
+            //
+            EObject clonedEObject =
+              new Object()
+              {
+                EObject traverse(EObject eObject)
+                {
+                  EObject eContainer = eObject.eContainer();
+                  if (eContainer == null)
+                  {
+                    return clonedGenModel;
+                  }
+                  else
+                  {
+                    EReference eContainmentFeature = eObject.eContainmentFeature();
+                    EObject clonedEObject = traverse(eContainer);
+                    Object value = clonedEObject.eGet(eContainmentFeature);
+                    if (eContainmentFeature.isMany())
+                    {
+                      @SuppressWarnings("unchecked")
+                      List<EObject> values = (List<EObject>)value;
+                      List<?> originalValues = (List<?>)eContainer.eGet(eContainmentFeature);
+                      return values.get(originalValues.indexOf(eObject));
+                    }
+                    else
+                    {
+                      return (EObject)value;
+                    }
+                  }
+                }
+              }.traverse(eObject);
+
+            // Test whether the feature's value is the same as the default.
+            //
+            Object newValue = eObject.eGet(eStructuralFeature);
+            Object defaultValue = clonedEObject.eGet(eStructuralFeature);
+            return newValue == null ? defaultValue == null : newValue.equals(defaultValue);
+          }
+
           @Override
           public void execute(Command command)
           {
+            // Before executing the command, add a content adapter to the GenModel to be notified of whatever feature changes.
+            //
             final Resource resource = resourceSet.getResources().get(0);
-            GenModel genModel = (GenModel)EcoreUtil.getObjectByType(resource.getContents(), GenModelPackage.Literals.GEN_MODEL);
-            EContentAdapter eContentAdatper =
+            final GenModel genModel = (GenModel)EcoreUtil.getObjectByType(resource.getContents(), GenModelPackage.Literals.GEN_MODEL);
+            final EContentAdapter eContentAdatper =
               new EContentAdapter()
               {
                 @Override
                 public void notifyChanged(final Notification notification)
                 {
                   super.notifyChanged(notification);
-                  if (!notification.isTouch() &&  notification.getNotifier() instanceof EObject)
+                  if (notification.getEventType() == Notification.REMOVING_ADAPTER)
                   {
+                    // If we are removing the adapters from the GenModel, because it's unloaded when a new GenModel is inferred...
+                    //
+                    if (notification.getNotifier() instanceof GenModel)
+                    {
+                      // Defer producing a new selection changed event to update the properties view for the the new inferred selection.
+                      //
+                      getEditorSite().getShell().getDisplay().asyncExec
+                        (new Runnable()
+                         {
+                           public void run()
+                           {
+                             document.readOnly
+                               (new IUnitOfWork.Void<XtextResource>()
+                                {
+                                  @Override
+                                  public void process(final XtextResource xtextResource) throws Exception
+                                  {
+                                    propertySheetPage.selectionChanged(XcoreEditor.this, getSourceViewer().getSelectionProvider().getSelection());
+                                  }
+                                });
+                           }
+                         });
+                    }
+                  }
+                  else if (!notification.isTouch() &&  notification.getNotifier() instanceof EObject)
+                  {
+                    // For the feature of the object that's changed, process the new contents of the feature.
+                    //
                     document.modify
                       (new IUnitOfWork.Void<XtextResource>()
                        {
                          @Override
                          public void process(XtextResource state) throws Exception
                          {
+                           // Determine the object and feature that are changed.
+                           //
                            EObject eObject = (EObject)notification.getNotifier();
                            EStructuralFeature eStructuralFeature = (EStructuralFeature)notification.getFeature();
                            String name = eStructuralFeature.getName();
+
+                           // Determine the affected Xcore element.
+                           //
                            ToXcoreMapping xcoreMapping = mapper.getToXcoreMapping(eObject);
                            XNamedElement xNamedElement = xcoreMapping.getXcoreElement();
                            if (xNamedElement == null && eObject instanceof GenModel)
@@ -200,36 +297,200 @@ public class XcoreEditor extends XtextEditor
                            }
                            if (xNamedElement != null)
                            {
+                             // Determine the nodes affected for the element,  i.e.,
+                             // the node for the element as a whole,
+                             // the node for the annotation,
+                             // the node for the detail entry,
+                             // and the node for the value in the detail entry.
+                             //
                              ICompositeNode elementNode = NodeModelUtils.getNode(xNamedElement);
                              ICompositeNode annotationNode = null;
-                             
+                             ICompositeNode detailNode = null;
                              List<INode> valueNodes = null;
+
+                             // Determine if there is already an annotation for the GenModel's annotation URI.
+                             //
                              XAnnotation xAnnotation = xNamedElement.getAnnotation(GenModelPackage.eNS_URI);
                              if (xAnnotation != null)
                              {
+                               // If there is, get the node for that.
+                               //
                                annotationNode = NodeModelUtils.getNode(xAnnotation);
-                               
+
+                               // Determine if there is a detail entry for the affected feature.
+                               //
                                for (Map.Entry<String, String> detail : xAnnotation.getDetails())
                                {
                                  if (name.equals(detail.getKey()))
                                  {
+                                   // If there is a matching key, determine the overall node for it and the node for the value.
+                                   //
+                                   detailNode = NodeModelUtils.findActualNodeFor((EObject)detail);
                                    valueNodes = NodeModelUtils.findNodesForFeature((EObject)detail, XcorePackage.Literals.XSTRING_TO_STRING_MAP_ENTRY__VALUE);
                                    break;
                                  }
                                }
                              }
+                             // If we found a node for the element...
+                             //
                              if (elementNode != null)
                              {
+                               // If there doesn't yet exist an annotation node.
+                               //
                                if (annotationNode == null)
                                {
+                                 // Insert a new annotation with the key/value mapping on a new line before the element node.
+                                 //
                                  int offset = elementNode.getOffset();
-                                 sourceViewer.removeTextListener(textListener);
-                                 document.replace(offset, 0, "@GenModel(" + name + "=" + valueConverterService.toString(EcoreUtil.convertToString((EDataType)eStructuralFeature.getEType(), eObject.eGet(eStructuralFeature)), "STRING") + ")");
-                                 sourceViewer.addTextListener(textListener);
+
+                                 // Match the indentation of the element.
+                                 //
+                                 int line = document.getLineOfOffset(offset);
+                                 String lineDelimiter = document.getLineDelimiter(line);
+                                 int lineOffset = document.getLineOffset(line);
+                                 String indentation = document.get(lineOffset, offset - lineOffset);
+                                 int length = indentation.length();
+                                 StringBuilder newIndentation = new StringBuilder(length);
+                                 for (int i = 0; i < length; ++i)
+                                 {
+                                   int codePoint = indentation.codePointAt(i);
+                                   newIndentation.appendCodePoint(Character.isSpaceChar(codePoint) ? codePoint : ' ');
+                                 }
+
+                                 String string = valueConverterService.toString(EcoreUtil.convertToString((EDataType)eStructuralFeature.getEType(), eObject.eGet(eStructuralFeature)), "STRING");
+                                 document.replace(lineOffset, 0, newIndentation + "@GenModel(" + name + "=" + string + ")" + lineDelimiter);
+                               }
+                               // If there is a node for the old value...
+                               //
+                               else if (valueNodes != null)
+                               {
+                                 // If the feature isn't set to the default, and there is a node for the detail entry, we want to remove the node...
+                                 //
+                                 if (detailNode != null && isDefault(genModel, eObject, eStructuralFeature))
+                                 {
+                                   // Cache the grammar rules we'll need to match.
+                                   //
+                                   Keyword comma = xcoreGrammarAccess.getXAnnotationAccess().getCommaKeyword_2_2_0();
+                                   Keyword leftParenthesis = xcoreGrammarAccess.getXAnnotationAccess().getLeftParenthesisKeyword_2_0();
+                                   Keyword rightParenthesis = xcoreGrammarAccess.getXAnnotationAccess().getRightParenthesisKeyword_2_3();
+
+                                   // Compute the locations of the surrounding mark-up, i.e.,
+                                   // the left parenthesis of the annotation,
+                                   // the comma before the detail entry,
+                                   // the start of the next entry,
+                                   // and the right parenthesis.
+                                   //
+                                   int leftParenthesisOffset = -1;
+                                   int commaOffset = -1;
+                                   int nextDetailNodeOffset = -1;
+                                   int rightParenthesisOffset = -1;
+
+                                   // This is set to true once we've iterated past the detail entry.
+                                   //
+                                   boolean matched = false;
+                                   for (INode child : detailNode.getParent().getChildren())
+                                   {
+                                     EObject grammarElement = child.getGrammarElement();
+                                     if (matched)
+                                     {
+                                       if (grammarElement == rightParenthesis)
+                                       {
+                                         rightParenthesisOffset = child.getOffset();
+                                         break;
+                                       }
+                                       else if (NodeModelUtils.findActualSemanticObjectFor(child) instanceof Map.Entry)
+                                       {
+                                         nextDetailNodeOffset = child.getOffset();
+                                         break;
+                                       }
+                                     }
+                                     else if (child == detailNode)
+                                     {
+                                       matched = true;
+                                     }
+                                     else if (grammarElement == leftParenthesis)
+                                     {
+                                       leftParenthesisOffset = child.getOffset();
+                                     }
+                                     else if (grammarElement == comma)
+                                     {
+                                       commaOffset = child.getOffset();
+                                     }
+                                   }
+
+                                   if (commaOffset != -1)
+                                   {
+                                     if (rightParenthesisOffset != -1)
+                                     {
+                                       // @GenModel(a="x", b="y", c="z")
+                                       //                       ^      ^
+                                       //
+                                       document.replace(commaOffset, rightParenthesisOffset - commaOffset, "");
+                                     }
+                                     else // if (nextDetailNodeOffset != -1)
+                                     {
+                                       // @GenModel(a="x", b="y", c="z")
+                                       //                 ^       ^
+                                       //
+                                       document.replace(commaOffset + 1, nextDetailNodeOffset - commaOffset - 1, " ");
+                                     }
+                                   }
+                                   else  // if (leftParenthesisOffset != -1)
+                                   {
+                                     if (rightParenthesisOffset != -1)
+                                     {
+                                       // @GenModel(a="x")
+                                       //          ^     ^
+                                       //
+                                       // document.replace(leftParenthesisOffset, rightParenthesisOffset - leftParenthesisOffset + 1, "");
+                                       XcoreQuickfixProvider.RemovalRegion removalRegion = new XcoreQuickfixProvider.RemovalRegion(document, xAnnotation);
+                                       document.replace(removalRegion.getDeleteBegin(), removalRegion.getDeleteEnd() - removalRegion.getDeleteBegin(), "");
+                                       
+                                     }
+                                     else // if (nextDetailNodeOffset != -1)
+                                     {
+                                       // @GenModel(a="x", b="y", c="z")
+                                       //           ^      ^
+                                       //
+                                       document.replace(leftParenthesisOffset + 1, nextDetailNodeOffset - leftParenthesisOffset - 1, "");
+                                     }
+                                   }
+                                 }
+                                 else
+                                 {
+                                   // Replace the old value with the new value.
+                                   // @GenModel(a="x")
+                                   //             ^ ^
+                                   //
+                                   INode valueNode = valueNodes.get(0);
+                                   String string = valueConverterService.toString(EcoreUtil.convertToString((EDataType)eStructuralFeature.getEType(), eObject.eGet(eStructuralFeature)), "STRING");
+                                   document.replace(valueNode.getOffset(), valueNode.getLength(), string);
+                                 }
+                               }
+                               // If this is the first detail entry...
+                               //
+                               else if (xAnnotation != null && xAnnotation.getDetails().isEmpty())
+                               {
+                                 // Add the key/value mapping with new parentheses.
+                                 // @GenModel
+                                 //          ^
+                                 //
+                                 int offset = annotationNode.getOffset() + annotationNode.getLength();
+                                 String string = valueConverterService.toString(EcoreUtil.convertToString((EDataType)eStructuralFeature.getEType(), eObject.eGet(eStructuralFeature)), "STRING");
+                                 document.replace(offset, 0, "(" + name + "=" + string + ")");
+                               }
+                               // Otherwise, we just need to add a new key/value mapping to the end of the list.
+                               // @GenModel(a="x")
+                               //                ^
+                               //
+                               else
+                               {
+                                 int offset = annotationNode.getOffset() + annotationNode.getLength() - 1;
+                                 String string = valueConverterService.toString(EcoreUtil.convertToString((EDataType)eStructuralFeature.getEType(), eObject.eGet(eStructuralFeature)), "STRING");
+                                 document.replace(offset, 0, ", " + name + "=" + string);
                                }
                              }
                            }
-                           System.err.println("###" + xcoreMapping);
                          }
                        });
                   }
@@ -239,41 +500,9 @@ public class XcoreEditor extends XtextEditor
             super.execute(command);
           }
         };
-      // Add a listener to set the most recent command's affected objects to be the selection of the viewer with focus.
-      //
-      commandStack.addCommandStackListener
-        (new CommandStackListener()
-         {
-           public void commandStackChanged(final EventObject event)
-           {
-             Shell shell= getSite().getShell();
-             Display display= shell.getDisplay();
-             display.asyncExec
-               (new Runnable()
-                {
-                  public void run()
-                  {
-                    firePropertyChange(IEditorPart.PROP_DIRTY);
-
-                    // Try to select the affected objects.
-                    //
-                    Command mostRecentCommand = ((CommandStack)event.getSource()).getMostRecentCommand();
-                    if (mostRecentCommand != null)
-                    {
-                      System.err.println("###" + mostRecentCommand.getAffectedObjects());
-                      // setSelectionToViewer(mostRecentCommand.getAffectedObjects());
-                    }
-
-                    if (propertySheetPage != null && !propertySheetPage.getControl().isDisposed())
-                    {
-                      propertySheetPage.refresh();
-                    }
-                  }
-                });
-           }
-         });
 
       // Create the editing domain with a special command stack.
+      // Be sure that only objects in the main resource are modifiable.
       //
       final AdapterFactoryEditingDomain editingDomain =
         new AdapterFactoryEditingDomain(adapterFactory, commandStack, resourceSet)
@@ -285,6 +514,8 @@ public class XcoreEditor extends XtextEditor
           }
         };
 
+      // Ensure that the editing domain for the resource set can be determined.
+      //
       class EditingDomainProvider extends AdapterImpl implements IEditingDomainProvider
       {
         public EditingDomain getEditingDomain()
@@ -299,18 +530,23 @@ public class XcoreEditor extends XtextEditor
       }
       resourceSet.eAdapters().add(new EditingDomainProvider());
 
+      // Create a specialized property sheet page.
+      //
       propertySheetPage =
         new ExtendedPropertySheetPage(editingDomain)
         {
           @Override
           public void setSelectionToViewer(List<?> selection)
           {
+            // TODO
             XcoreEditor.this.setFocus();
           }
 
           @Override
           public void setActionBars(IActionBars actionBars)
           {
+            // Ensure that the undo/redo actions are hooked up.
+            //
             super.setActionBars(actionBars);
             TextEditorActionContributor actionBarContributor = (TextEditorActionContributor)getEditorSite().getActionBarContributor();
             IActionBars editorActionBars = actionBarContributor.getActionBars();
@@ -318,11 +554,39 @@ public class XcoreEditor extends XtextEditor
             actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), editorActionBars.getGlobalActionHandler((ActionFactory.REDO.getId())));
           }
 
+          /**
+           * A helper utility for processing an EObject to determine the appropriate GenModel element to select.
+           * Returns whether candidate was successfully determined.
+           */
+          protected boolean selectionChanged(IWorkbenchPart part, EObject eObject)
+          {
+            if (eObject instanceof XNamedElement)
+            {
+              GenBase genBase = mapper.getGen((XNamedElement)eObject);
+              if (genBase instanceof GenPackage)
+              {
+                genBase = ((GenPackage)genBase).getGenModel();
+              }
+              if (genBase != null)
+              {
+                selectionChanged(part, new StructuredSelection(genBase));
+                return true;
+              }
+            }
+            else if (eObject != null)
+            {
+              return selectionChanged(part, eObject.eContainer());
+            }
+            return false;
+          }
+
           @Override
           public void selectionChanged(final IWorkbenchPart part, ISelection selection)
           {
             if (selection instanceof IStructuredSelection)
             {
+              // If the first element is an EObjectNode from the outline view...
+              //
               Object element = ((IStructuredSelection)selection).getFirstElement();
               if (element instanceof EObjectNode)
               {
@@ -334,23 +598,15 @@ public class XcoreEditor extends XtextEditor
                      {
                        public Boolean exec(XtextResource xtextResource) throws Exception
                        {
+                         // Determine the EObject and process that instead.
+                         //
                          EObject eObject = eObjectNode.getEObject(xtextResource);
-                         if (eObject instanceof XNamedElement)
-                         {
-                           GenBase genBase = mapper.getGen((XNamedElement)eObject);
-                           if (genBase instanceof GenPackage)
-                           {
-                             genBase = ((GenPackage)genBase).getGenModel();
-                           }
-                           selectionChanged(part, new StructuredSelection(genBase));
-                           return Boolean.TRUE;
-                         }
-                         else
-                         {
-                           return Boolean.FALSE;
-                         }
+                         return selectionChanged(part, eObject);
                        }
                      });
+
+                // Don't continue with default processing if we've already successfully processed the selection.
+                //
                 if (handled)
                 {
                   return;
@@ -359,6 +615,8 @@ public class XcoreEditor extends XtextEditor
             }
             else if (selection instanceof ITextSelection)
             {
+              // Map the selection to a model object...
+              //
               final ITextSelection textSelection = (ITextSelection)selection;
               IXtextDocument document = getDocument();
               Boolean handled =
@@ -376,42 +634,64 @@ public class XcoreEditor extends XtextEditor
                            ILeafNode node = NodeModelUtils.findLeafNodeAtOffset(rootNode, textSelection.getOffset());
                            if (node != null)
                            {
+                             // Determine the EObject and process that instead.
+                             //
                              EObject eObject = NodeModelUtils.findActualSemanticObjectFor(node);
-                             if (eObject instanceof XNamedElement)
-                             {
-                               GenBase genBase = mapper.getGen((XNamedElement)eObject);
-                               if (genBase instanceof GenPackage)
-                               {
-                                 genBase = ((GenPackage)genBase).getGenModel();
-                               }
-                               if (genBase != null)
-                               {
-                                 selectionChanged(part, new StructuredSelection(genBase));
-                                 return Boolean.TRUE;
-                               }
-                             }
+                             return selectionChanged(part, eObject);
                            }
                          }
                        }
                        return Boolean.FALSE;
                      }
                    });
-              
+
+              // Don't continue with default processing if we've already successfully processed the selection.
+              //
               if (handled)
               {
                 return;
               }
+
               selection = new StructuredSelection();
             }
             super.selectionChanged(part, selection);
           }
         };
+
+      // Set the content provider.
+      //
       final AdapterFactoryContentProvider contentProvider = new AdapterFactoryContentProvider(adapterFactory);
       propertySheetPage.setPropertySourceProvider(contentProvider);
+
+      // Set the initial selection.
+      //
+      getEditorSite().getShell().getDisplay().asyncExec
+        (new Runnable()
+         {
+           public void run()
+           {
+             propertySheetPage.selectionChanged(XcoreEditor.this, getSourceViewer().getSelectionProvider().getSelection());
+
+           }
+         });
     }
 
     return propertySheetPage;
   }
-  
-  // TODO Dispose.
+
+  @Override
+  public void dispose()
+  {
+    super.dispose();
+
+    if (adapterFactory != null)
+    {
+      adapterFactory.dispose();
+    }
+
+    if (propertySheetPage != null)
+    {
+      propertySheetPage.dispose();
+    }
+  }
 }

@@ -178,7 +178,7 @@ public class ConvertToXcoreActionDelegate extends ActionDelegate
                 final GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
                 genModel.initialize(Collections.singleton(inputEPackage));
                 genModelResource.getContents().add(genModel);
-                genModelInitializer.initialize(genModel);
+                genModelInitializer.initialize(genModel, true);
                 new Object()
                   {
                     void visit(GenBase genBase1, GenBase genBase2)

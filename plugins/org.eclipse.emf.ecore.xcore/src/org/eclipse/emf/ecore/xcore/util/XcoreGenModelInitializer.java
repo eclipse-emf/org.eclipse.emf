@@ -13,7 +13,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 
 public class XcoreGenModelInitializer
 {
-  public void initialize(GenModel genModel)
+  public void initialize(GenModel genModel, boolean handleAnnotations)
   {
     // Disable all generation exception for the model sources by default.
     // This can be overridden by annotations which are processed by the call to initialize.
@@ -22,6 +22,6 @@ public class XcoreGenModelInitializer
     genModel.setEditorDirectory("");
     genModel.setTestsDirectory("");
 
-    genModel.initialize();
+    genModel.initialize(handleAnnotations);
   }
 }

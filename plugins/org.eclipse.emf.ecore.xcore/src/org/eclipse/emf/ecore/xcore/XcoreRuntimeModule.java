@@ -11,6 +11,7 @@ package org.eclipse.emf.ecore.xcore;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xcore.conversion.FixedQualifiedNameValueConverter;
 import org.eclipse.emf.ecore.xcore.conversion.ValueConverterService;
+import org.eclipse.emf.ecore.xcore.resource.XcoreReferableElementsUnloader;
 import org.eclipse.emf.ecore.xcore.resource.XcoreResource;
 import org.eclipse.emf.ecore.xcore.resource.containers.XcoreContainerManager;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreIdentifableSimpleNameProvider;
@@ -92,7 +93,7 @@ public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcor
 
   public Class<? extends IReferableElementsUnloader> bindIReferableElementsUnloader()
   {
-    return IReferableElementsUnloader.GenericUnloader.class;
+    return XcoreReferableElementsUnloader.class;
   }
 
   @Override

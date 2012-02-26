@@ -104,7 +104,7 @@ class XcoreGenModelBuilder {
 	}
 
 	def initializeUsedGenPackages(GenModel genModel) {
-      	genModelInitializer.initialize(genModel);
+      	genModelInitializer.initialize(genModel, true);
       	val referencedEPackages = new HashSet<EPackage>();
       	val List<EPackage> ePackages = new UniqueEList<EPackage>();
       	for (genPackage : genModel.genPackages)

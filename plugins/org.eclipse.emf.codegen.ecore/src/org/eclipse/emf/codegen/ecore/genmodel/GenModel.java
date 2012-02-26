@@ -2823,7 +2823,7 @@ public interface GenModel extends GenBase
    * Set up reasonable initial defaults.
    * @since 2.8
    */
-  void initialize();
+  void initialize(boolean handleAnnotations);
 
   /**
    * @since 2.8
