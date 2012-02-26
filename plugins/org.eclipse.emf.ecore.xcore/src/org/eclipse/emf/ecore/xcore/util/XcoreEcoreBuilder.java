@@ -295,8 +295,7 @@ public class XcoreEcoreBuilder
   EParameter getEParameter(XParameter xParameter)
   {
     EParameter eParameter = EcoreFactory.eINSTANCE.createEParameter();
-    // TODO
-    //    map(eParameter, xParameter);
+    mapper.getToXcoreMapping(eParameter).setXcoreElement(xParameter);
     eParameter.setUnique(false);
     handleETypedElement(eParameter, xParameter);
     return eParameter;
@@ -306,8 +305,6 @@ public class XcoreEcoreBuilder
   {
     ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
     mapper.getToXcoreMapping(eTypeParameter).setXcoreElement(xTypeParameter);
-    //TODO
-    //    map(eTypeParameter, xTypeParameter);
     handleAnnotations(xTypeParameter, eTypeParameter);
     eTypeParameter.setName(xTypeParameter.getName());
     for (XGenericType xGenericType : xTypeParameter.getBounds())
@@ -319,7 +316,8 @@ public class XcoreEcoreBuilder
 
   void handleETypedElement(ETypedElement eTypedElement, XTypedElement xTypedElement)
   {
-    eTypedElement.setName(xTypedElement.getName());
+    String name = xTypedElement.getName();
+    eTypedElement.setName(name == null ? "_" : name);
     handleAnnotations(xTypedElement, eTypedElement);
     eTypedElement.setEGenericType(getEGenericType(xTypedElement.getType()));
     if (xTypedElement.isUnordered())
