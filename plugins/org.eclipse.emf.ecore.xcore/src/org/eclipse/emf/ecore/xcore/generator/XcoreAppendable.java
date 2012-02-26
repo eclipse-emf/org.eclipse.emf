@@ -20,8 +20,9 @@ public class XcoreAppendable extends FakeTreeAppendable
   }
 
   @Override
-  public ITreeAppendable append(String string)
+  public ITreeAppendable append(CharSequence value)
   {
+    String string = value.toString();
     if (string.startsWith(" else") || string.startsWith(" catch") || string.startsWith(" finally") || string.startsWith("\n"))
     {
       return super.append("\n").append(string.substring(1));
@@ -44,7 +45,7 @@ public class XcoreAppendable extends FakeTreeAppendable
     }
     else
     {
-      return super.append(string);
+      return super.append(value);
     }
   }
 
