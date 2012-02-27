@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2007 IBM Corporation and others.
+ * Copyright (c) 2007-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -233,7 +233,7 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
     public static boolean exists(String platformResourcePath, Map<?, ?> options)
     {
       IResource resource = workspaceRoot.findMember(new Path(platformResourcePath));
-      return resource != null;
+      return resource != null && resource.getResourceAttributes() != null;
     }
 
     public static Map<String, ?> attributes(String platformResourcePath, Map<?, ?> options)
@@ -253,6 +253,10 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
         if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_READ_ONLY))
         {
           resourceAttributes = resource.getResourceAttributes();
+          if (resourceAttributes == null)
+          {
+            return result;
+          }
           result.put(URIConverter.ATTRIBUTE_READ_ONLY,  resourceAttributes.isReadOnly());
         }
         if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_ARCHIVE))
@@ -260,6 +264,10 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
           if (resourceAttributes == null)
           {
             resourceAttributes = resource.getResourceAttributes();
+            if (resourceAttributes == null)
+            {
+              return result;
+            }
           }
           result.put(URIConverter.ATTRIBUTE_ARCHIVE,  resourceAttributes.isArchive());
         }
@@ -268,6 +276,10 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
           if (resourceAttributes == null)
           {
             resourceAttributes = resource.getResourceAttributes();
+            if (resourceAttributes == null)
+            {
+              return result;
+            }
           }
           result.put(URIConverter.ATTRIBUTE_EXECUTABLE,  resourceAttributes.isExecutable());
         }
@@ -276,6 +288,10 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
           if (resourceAttributes == null)
           {
             resourceAttributes = resource.getResourceAttributes();
+            if (resourceAttributes == null)
+            {
+              return result;
+            }
           }
           result.put(URIConverter.ATTRIBUTE_HIDDEN,  resourceAttributes.isHidden());
         }
@@ -284,6 +300,10 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
           if (resourceAttributes == null)
           {
             resourceAttributes = resource.getResourceAttributes();
+            if (resourceAttributes == null)
+            {
+              return result;
+            }
           }
           result.put(URIConverter.ATTRIBUTE_DIRECTORY, resource instanceof IContainer);
         }
@@ -313,6 +333,10 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
           if (readOnly != null)
           {
             resourceAttributes = resource.getResourceAttributes();
+            if (resourceAttributes == null)
+            {
+              return;
+            }
             resourceAttributes.setReadOnly(readOnly);
           }
           Boolean archive = (Boolean)attributes.get(URIConverter.ATTRIBUTE_ARCHIVE);
@@ -321,6 +345,10 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
             if (resourceAttributes == null)
             {
               resourceAttributes = resource.getResourceAttributes();
+              if (resourceAttributes == null)
+              {
+                return;
+              }
             }
             resourceAttributes.setArchive(archive);
           }
@@ -330,6 +358,10 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
             if (resourceAttributes == null)
             {
               resourceAttributes = resource.getResourceAttributes();
+              if (resourceAttributes == null)
+              {
+                return;
+              }
             }
             resourceAttributes.setExecutable(executable);
           }
@@ -339,6 +371,10 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
             if (resourceAttributes == null)
             {
               resourceAttributes = resource.getResourceAttributes();
+              if (resourceAttributes == null)
+              {
+                return;
+              }
             }
             resourceAttributes.setHidden(hidden);
           }
