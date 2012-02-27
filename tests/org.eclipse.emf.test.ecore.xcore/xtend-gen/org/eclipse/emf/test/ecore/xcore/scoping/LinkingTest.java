@@ -35,35 +35,33 @@ public class LinkingTest {
   @Test
   public void linkVoidReturnType() {
     try {
-      {
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append("package foo");
-        _builder.newLine();
-        _builder.append("class Bar {");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("op void operation() {");
-        _builder.newLine();
-        _builder.append("\t\t");
-        _builder.append("val int i = 0");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("}");
-        _builder.newLine();
-        _builder.append("}");
-        _builder.newLine();
-        XPackage _parse = this.parser.parse(_builder);
-        final XPackage pack = _parse;
-        XVariableDeclaration _firstVariableDeclaration = this.firstVariableDeclaration(pack);
-        final XVariableDeclaration declaration = _firstVariableDeclaration;
-        JvmTypeReference _type = declaration.getType();
-        JvmType _type_1 = _type.getType();
-        final JvmType intType = _type_1;
-        boolean _eIsProxy = intType.eIsProxy();
-        Assert.assertFalse(_eIsProxy);
-        String _qualifiedName = intType.getQualifiedName();
-        Assert.assertEquals("int", _qualifiedName);
-      }
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo");
+      _builder.newLine();
+      _builder.append("class Bar {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("op void operation() {");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("val int i = 0");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      XPackage _parse = this.parser.parse(_builder);
+      final XPackage pack = _parse;
+      XVariableDeclaration _firstVariableDeclaration = this.firstVariableDeclaration(pack);
+      final XVariableDeclaration declaration = _firstVariableDeclaration;
+      JvmTypeReference _type = declaration.getType();
+      JvmType _type_1 = _type.getType();
+      final JvmType intType = _type_1;
+      boolean _eIsProxy = intType.eIsProxy();
+      Assert.assertFalse(_eIsProxy);
+      String _qualifiedName = intType.getQualifiedName();
+      Assert.assertEquals("int", _qualifiedName);
     } catch (Exception _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -72,35 +70,33 @@ public class LinkingTest {
   @Test
   public void linkQualifiedStringType() {
     try {
-      {
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append("package foo");
-        _builder.newLine();
-        _builder.append("class Bar {");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("op void operation() {");
-        _builder.newLine();
-        _builder.append("\t\t");
-        _builder.append("val java.lang.String s = null");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("}");
-        _builder.newLine();
-        _builder.append("}");
-        _builder.newLine();
-        XPackage _parse = this.parser.parse(_builder);
-        final XPackage pack = _parse;
-        XVariableDeclaration _firstVariableDeclaration = this.firstVariableDeclaration(pack);
-        final XVariableDeclaration declaration = _firstVariableDeclaration;
-        JvmTypeReference _type = declaration.getType();
-        JvmType _type_1 = _type.getType();
-        final JvmType stringType = _type_1;
-        boolean _eIsProxy = stringType.eIsProxy();
-        Assert.assertFalse(_eIsProxy);
-        String _qualifiedName = stringType.getQualifiedName();
-        Assert.assertEquals("java.lang.String", _qualifiedName);
-      }
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo");
+      _builder.newLine();
+      _builder.append("class Bar {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("op void operation() {");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("val java.lang.String s = null");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      XPackage _parse = this.parser.parse(_builder);
+      final XPackage pack = _parse;
+      XVariableDeclaration _firstVariableDeclaration = this.firstVariableDeclaration(pack);
+      final XVariableDeclaration declaration = _firstVariableDeclaration;
+      JvmTypeReference _type = declaration.getType();
+      JvmType _type_1 = _type.getType();
+      final JvmType stringType = _type_1;
+      boolean _eIsProxy = stringType.eIsProxy();
+      Assert.assertFalse(_eIsProxy);
+      String _qualifiedName = stringType.getQualifiedName();
+      Assert.assertEquals("java.lang.String", _qualifiedName);
     } catch (Exception _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -109,35 +105,33 @@ public class LinkingTest {
   @Test
   public void linkInternalDefinedType() {
     try {
-      {
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append("package foo");
-        _builder.newLine();
-        _builder.append("class Bar {");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("op void operation() {");
-        _builder.newLine();
-        _builder.append("\t\t");
-        _builder.append("val Bar b = null");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("}");
-        _builder.newLine();
-        _builder.append("}");
-        _builder.newLine();
-        XPackage _parse = this.parser.parse(_builder);
-        final XPackage pack = _parse;
-        XVariableDeclaration _firstVariableDeclaration = this.firstVariableDeclaration(pack);
-        final XVariableDeclaration declaration = _firstVariableDeclaration;
-        JvmTypeReference _type = declaration.getType();
-        JvmType _type_1 = _type.getType();
-        final JvmType stringType = _type_1;
-        boolean _eIsProxy = stringType.eIsProxy();
-        Assert.assertFalse(_eIsProxy);
-        String _qualifiedName = stringType.getQualifiedName();
-        Assert.assertEquals("foo.Bar", _qualifiedName);
-      }
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo");
+      _builder.newLine();
+      _builder.append("class Bar {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("op void operation() {");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("val Bar b = null");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      XPackage _parse = this.parser.parse(_builder);
+      final XPackage pack = _parse;
+      XVariableDeclaration _firstVariableDeclaration = this.firstVariableDeclaration(pack);
+      final XVariableDeclaration declaration = _firstVariableDeclaration;
+      JvmTypeReference _type = declaration.getType();
+      JvmType _type_1 = _type.getType();
+      final JvmType stringType = _type_1;
+      boolean _eIsProxy = stringType.eIsProxy();
+      Assert.assertFalse(_eIsProxy);
+      String _qualifiedName = stringType.getQualifiedName();
+      Assert.assertEquals("foo.Bar", _qualifiedName);
     } catch (Exception _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -146,36 +140,34 @@ public class LinkingTest {
   @Test
   public void linkFeatureCallType() {
     try {
-      {
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append("package foo");
-        _builder.newLine();
-        _builder.append("class Bar {");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("op void operation() {");
-        _builder.newLine();
-        _builder.append("\t\t");
-        _builder.append("val s = \'a\' + \'b\'");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("}");
-        _builder.newLine();
-        _builder.append("}");
-        _builder.newLine();
-        XPackage _parse = this.parser.parse(_builder);
-        final XPackage pack = _parse;
-        XVariableDeclaration _firstVariableDeclaration = this.firstVariableDeclaration(pack);
-        final XVariableDeclaration declaration = _firstVariableDeclaration;
-        XExpression _right = declaration.getRight();
-        final XBinaryOperation binaryOperation = ((XBinaryOperation) _right);
-        JvmIdentifiableElement _feature = binaryOperation.getFeature();
-        final JvmIdentifiableElement feature = _feature;
-        boolean _eIsProxy = feature.eIsProxy();
-        Assert.assertFalse(_eIsProxy);
-        String _simpleName = feature.getSimpleName();
-        Assert.assertEquals("operator_plus", _simpleName);
-      }
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo");
+      _builder.newLine();
+      _builder.append("class Bar {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("op void operation() {");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("val s = \'a\' + \'b\'");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      XPackage _parse = this.parser.parse(_builder);
+      final XPackage pack = _parse;
+      XVariableDeclaration _firstVariableDeclaration = this.firstVariableDeclaration(pack);
+      final XVariableDeclaration declaration = _firstVariableDeclaration;
+      XExpression _right = declaration.getRight();
+      final XBinaryOperation binaryOperation = ((XBinaryOperation) _right);
+      JvmIdentifiableElement _feature = binaryOperation.getFeature();
+      final JvmIdentifiableElement feature = _feature;
+      boolean _eIsProxy = feature.eIsProxy();
+      Assert.assertFalse(_eIsProxy);
+      String _simpleName = feature.getSimpleName();
+      Assert.assertEquals("operator_plus", _simpleName);
     } catch (Exception _e) {
       throw Exceptions.sneakyThrow(_e);
     }

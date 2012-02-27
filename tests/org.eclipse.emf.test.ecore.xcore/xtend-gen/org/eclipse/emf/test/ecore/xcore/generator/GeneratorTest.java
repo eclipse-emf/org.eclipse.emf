@@ -32,31 +32,29 @@ public class GeneratorTest {
   @Test
   public void testGenerator() {
     try {
-      {
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append("@GenModel(modelDirectory=\"Nowhere\")");
-        _builder.newLine();
-        _builder.append("package test");
-        _builder.newLine();
-        _builder.append("class X {}");
-        _builder.newLine();
-        XPackage _parse = this.parser.parse(_builder);
-        final XPackage xPackage = _parse;
-        InMemoryFileSystemAccess _inMemoryFileSystemAccess = new InMemoryFileSystemAccess();
-        final InMemoryFileSystemAccess inmemFsa = _inMemoryFileSystemAccess;
-        Resource _eResource = xPackage.eResource();
-        this.xcoreGenerator.doGenerate(_eResource, inmemFsa);
-        Map<String,CharSequence> _files = inmemFsa.getFiles();
-        Set<String> _keySet = _files.keySet();
-        String _string = _keySet.toString();
-        Map<String,CharSequence> _files_1 = inmemFsa.getFiles();
-        int _size = _files_1.size();
-        Assert.assertEquals(_string, 8, _size);
-        Map<String,CharSequence> _files_2 = inmemFsa.getFiles();
-        String _operator_plus = StringExtensions.operator_plus(IFileSystemAccess.DEFAULT_OUTPUT, "/test/util/TestSwitch.java");
-        CharSequence _get = _files_2.get(_operator_plus);
-        Assert.assertNotNull(_get);
-      }
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("@GenModel(modelDirectory=\"Nowhere\")");
+      _builder.newLine();
+      _builder.append("package test");
+      _builder.newLine();
+      _builder.append("class X {}");
+      _builder.newLine();
+      XPackage _parse = this.parser.parse(_builder);
+      final XPackage xPackage = _parse;
+      InMemoryFileSystemAccess _inMemoryFileSystemAccess = new InMemoryFileSystemAccess();
+      final InMemoryFileSystemAccess inmemFsa = _inMemoryFileSystemAccess;
+      Resource _eResource = xPackage.eResource();
+      this.xcoreGenerator.doGenerate(_eResource, inmemFsa);
+      Map<String,CharSequence> _files = inmemFsa.getFiles();
+      Set<String> _keySet = _files.keySet();
+      String _string = _keySet.toString();
+      Map<String,CharSequence> _files_1 = inmemFsa.getFiles();
+      int _size = _files_1.size();
+      Assert.assertEquals(_string, 8, _size);
+      Map<String,CharSequence> _files_2 = inmemFsa.getFiles();
+      String _operator_plus = StringExtensions.operator_plus(IFileSystemAccess.DEFAULT_OUTPUT, "/test/util/TestSwitch.java");
+      CharSequence _get = _files_2.get(_operator_plus);
+      Assert.assertNotNull(_get);
     } catch (Exception _e) {
       throw Exceptions.sneakyThrow(_e);
     }

@@ -16,6 +16,8 @@ public final class XcoreIssueCodes
   public static final String COLLIDING_IMPORT = ISSUE_CODE_PREFIX + "colliding_import";
   public static final String WILDCARD_IMPORT = ISSUE_CODE_PREFIX + "wildcard_import";
 
+  public static final String CONTAINER_WITHOUT_OPPOSITE = ISSUE_CODE_PREFIX + "container_without_opposite";
+
   private XcoreIssueCodes()
   {
   }

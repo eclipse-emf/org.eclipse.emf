@@ -25,28 +25,26 @@ public class XbaseScopingTest {
   @Test
   public void testLinkToThis() {
     try {
-      {
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append("package foo.bar");
-        _builder.newLine();
-        _builder.newLine();
-        _builder.append("class X {");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("op X foo(X x) {");
-        _builder.newLine();
-        _builder.append("\t\t");
-        _builder.append("return this.foo(x)");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("}");
-        _builder.newLine();
-        _builder.append("}");
-        _builder.newLine();
-        XPackage _parse = this.parser.parse(_builder);
-        final XPackage pack = _parse;
-        this.validator.assertNoErrors(pack);
-      }
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo.bar");
+      _builder.newLine();
+      _builder.newLine();
+      _builder.append("class X {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("op X foo(X x) {");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("return this.foo(x)");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      XPackage _parse = this.parser.parse(_builder);
+      final XPackage pack = _parse;
+      this.validator.assertNoErrors(pack);
     } catch (Exception _e) {
       throw Exceptions.sneakyThrow(_e);
     }

@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XImportDirective;
 import org.eclipse.emf.ecore.xcore.XPackage;
+import org.eclipse.emf.ecore.xcore.XReference;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.util.XcoreUtil;
 import org.eclipse.xtext.common.types.JvmType;
@@ -60,7 +61,7 @@ public class XcoreJavaValidator extends AbstractXcoreJavaValidator
       String importedNamespace = xImportDirective.getImportedNamespace();
       if (importedNamespace.endsWith("*"))
       {
-        warning("Discourage wildcard import of '" + importedNamespace, xImportDirective, null, XcoreIssueCodes.WILDCARD_IMPORT);
+        warning("Discourage wildcard import of '" + importedNamespace, xImportDirective, XcorePackage.Literals.XIMPORT_DIRECTIVE__IMPORTED_NAMESPACE, XcoreIssueCodes.WILDCARD_IMPORT);
       }
       else
       {
@@ -71,7 +72,7 @@ public class XcoreJavaValidator extends AbstractXcoreJavaValidator
           //
           if (imports.containsKey(importedObject))
           {
-            warning("Duplicate import of '" + importedNamespace, xImportDirective, null, XcoreIssueCodes.DUPLICATE_IMPORT);
+            warning("Duplicate import of '" + importedNamespace, xImportDirective, XcorePackage.Literals.XIMPORT_DIRECTIVE__IMPORTED_NAMESPACE, XcoreIssueCodes.DUPLICATE_IMPORT);
           }
           else
           {
@@ -96,7 +97,7 @@ public class XcoreJavaValidator extends AbstractXcoreJavaValidator
               EObject previouslyImportedObject = importedNames.put(simpleName, importedObject);
               if (previouslyImportedObject != null)
               {
-                error("The import " + importedNamespace + " collides with another import", xImportDirective, null, XcoreIssueCodes.COLLIDING_IMPORT);
+                error("The import " + importedNamespace + " collides with another import", xImportDirective, XcorePackage.Literals.XIMPORT_DIRECTIVE__IMPORTED_NAMESPACE, XcoreIssueCodes.COLLIDING_IMPORT);
 
                 // Behave as if this import doesn't exist so we don't get any other warnings.
                 //
@@ -129,7 +130,7 @@ public class XcoreJavaValidator extends AbstractXcoreJavaValidator
       {
         importedNames.remove(name);
         XImportDirective xImportDirective = imports.remove(importedObject);
-        error("The import " + xImportDirective.getImportedNamespace() + " collides with a local classifier", xImportDirective, null, XcoreIssueCodes.COLLIDING_IMPORT);
+        error("The import " + xImportDirective.getImportedNamespace() + " collides with a local classifier", xImportDirective, XcorePackage.Literals.XIMPORT_DIRECTIVE__IMPORTED_NAMESPACE, XcoreIssueCodes.COLLIDING_IMPORT);
       }
     }
 
@@ -193,4 +194,12 @@ public class XcoreJavaValidator extends AbstractXcoreJavaValidator
     }
   }
 
+  @Check
+  public void checkContainerOpposite(XReference xReference)
+  {
+    if (xReference.isContainer() && xReference.getOpposite() == null)
+    {
+      error("The container reference " + xReference.getName() + " must specify an opposite", xReference, XcorePackage.Literals.XREFERENCE__OPPOSITE, XcoreIssueCodes.CONTAINER_WITHOUT_OPPOSITE);
+    }
+  }
 }

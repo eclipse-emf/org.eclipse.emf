@@ -42,10 +42,10 @@
             <and>
                 <reference definitionId="isActiveEditorAnInstanceOfXtextEditor"/>
                 <with variable="activeEditor">
-                    <test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName" 
-                        value="org.eclipse.emf.ecore.xcore.Xcore" 
+                    <test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName"
+                        value="org.eclipse.emf.ecore.xcore.Xcore"
                         forcePluginActivation="true"/>
-                </with>        
+                </with>
             </and>
         </definition>
     </extension>
@@ -111,7 +111,7 @@
                     definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
                 </reference>
             </visibleWhen>
-         </command>  
+         </command>
          </menuContribution>
     </extension>
     <extension point="org.eclipse.ui.menus">
@@ -134,7 +134,7 @@
                 </reference>
             </activeWhen>
         </handler>
-    </extension>   
+    </extension>
 
 <!-- adding resource factories -->
 
@@ -157,7 +157,7 @@
     <!-- Quick Outline -->
     <extension
         point="org.eclipse.ui.handlers">
-        <handler 
+        <handler
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
             commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline">
             <activeWhen>
@@ -246,7 +246,7 @@
     </extension>
        <!-- Rename Refactoring -->
     <extension point="org.eclipse.ui.handlers">
-        <handler 
+        <handler
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.IRenameElementHandler"
             commandId="org.eclipse.xtext.ui.refactoring.RenameElement">
             <activeWhen>
@@ -278,8 +278,84 @@
             <keywordReference id="org.eclipse.emf.ecore.xcore.ui.keyword_Xcore"/>
         </page>
     </extension>
+
+    <!-- Type Hierarchy  -->
+  <extension
+    point="org.eclipse.ui.handlers">
+    <handler
+      class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.xbase.ui.hierarchy.OpenTypeHierarchyHandler"
+      commandId="org.eclipse.xtext.xbase.ui.hierarchy.OpenTypeHierarchy">
+      <activeWhen>
+        <reference
+          definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
+        </reference>
+      </activeWhen>
+    </handler>
+    <handler
+      class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.xbase.ui.hierarchy.QuickTypeHierarchyHandler"
+      commandId="org.eclipse.xtext.xbase.ui.hierarchy.QuickTypeHierarchy">
+      <activeWhen>
+        <reference
+          definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
+        </reference>
+      </activeWhen>
+    </handler>
+  </extension>
+  <extension point="org.eclipse.ui.menus">
+    <menuContribution
+      locationURI="popup:#TextEditorContext?after=group.open">
+      <command commandId="org.eclipse.xtext.xbase.ui.hierarchy.OpenTypeHierarchy"
+        style="push"
+        tooltip="%command.tooltip.3">
+        <visibleWhen checkEnabled="false">
+          <reference definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened"/>
+        </visibleWhen>
+      </command>
+    </menuContribution>
+    <menuContribution
+      locationURI="popup:#TextEditorContext?after=group.open">
+      <command commandId="org.eclipse.xtext.xbase.ui.hierarchy.QuickTypeHierarchy"
+        style="push"
+        tooltip="%command.tooltip.4">
+        <visibleWhen checkEnabled="false">
+          <reference definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened"/>
+        </visibleWhen>
+      </command>
+    </menuContribution>
+  </extension>
+  <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.xtext.common.types.smap.StratumBreakpointAdapterFactory"
+         adaptableType="org.eclipse.xtext.ui.editor.XtextEditor">
+         <adapter type="org.eclipse.debug.ui.actions.IToggleBreakpointsTarget"/>
+      </factory>
+   </extension>
+   <extension point="org.eclipse.ui.editorActions">
+      <editorContribution targetID="org.eclipse.emf.ecore.xcore.Xcore"
+                          id="org.eclipse.emf.ecore.xcore.Xcore.ide.rulerActions">
+       <action
+               label="%action.label.1"
+               class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
+               style="push"
+               actionID="RulerDoubleClick"
+               id="org.eclipse.emf.ecore.xcore.Xcore.doubleClickBreakpointAction"/>
+      </editorContribution>
+   </extension>
+   <extension point="org.eclipse.ui.popupMenus">
+      <viewerContribution
+         targetID="example.rulerContextMenuId"
+         id="org.eclipse.emf.ecore.xcore.Xcore.ide.RulerPopupActions">
+         <action
+            label="%action.label.2"
+            class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
+            menubarPath="additions"
+            id="org.eclipse.emf.ecore.xcore.Xcore.ide.rulerContextMenu.toggleBreakpointAction">
+         </action>
+      </viewerContribution>
+   </extension>
+
    <!-- MANUAL ADDITIONS -->
-   
+
    <extension point="org.eclipse.ui.popupMenus">
       <objectContribution
             objectClass="org.eclipse.core.resources.IFile"
@@ -287,7 +363,7 @@
             id="org.eclipse.emf.ecore.xcore.ui.ConvertToEcoreActionID">
          <action label="%action.label"
                class="org.eclipse.emf.ecore.xcore.ui.ConvertToEcoreActionDelegate"
-               menubarPath="additions" 
+               menubarPath="additions"
                enablesFor="1"
                id="org.eclipse.emf.ecore.xcore.ui.ConvertToEcoreActionID"/>
       </objectContribution>
@@ -300,7 +376,7 @@
             id="org.eclipse.emf.ecore.xcore.ui.ConvertGenModelToXcoreActionID">
          <action label="%action.label.0"
                class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.emf.ecore.xcore.ui.ConvertToXcoreActionDelegate"
-               menubarPath="additions" 
+               menubarPath="additions"
                enablesFor="1"
                id="org.eclipse.emf.ecore.xcore.ui.ConvertGenModelToXcoreActionID"/>
       </objectContribution>
@@ -351,7 +427,7 @@
                     definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
                 </reference>
             </visibleWhen>
-         </command>  
+         </command>
          </menuContribution>
          <menuContribution
             locationURI="popup:#TextEditorContext?after=group.edit">
@@ -364,7 +440,7 @@
                     definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
                 </reference>
             </visibleWhen>
-         </command>  
+         </command>
          </menuContribution>
     </extension>
 
