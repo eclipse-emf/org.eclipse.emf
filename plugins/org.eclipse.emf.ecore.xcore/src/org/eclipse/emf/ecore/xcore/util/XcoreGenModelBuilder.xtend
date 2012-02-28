@@ -32,6 +32,8 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral
 import org.eclipse.emf.ecore.xcore.XEnumLiteral
 import org.eclipse.emf.common.util.UniqueEList
 import java.util.List
+import org.eclipse.emf.codegen.ecore.genmodel.GenParameter
+import org.eclipse.emf.ecore.xcore.XParameter
 
 class XcoreGenModelBuilder {
 	
@@ -89,6 +91,14 @@ class XcoreGenModelBuilder {
        			if (xOperation != null) {
  					xOperation.mapping.genOperation = genElement
  					genElement.toXcoreMapping.xcoreElement = xOperation    			
+       			}
+       		}
+       		GenParameter :
+       		{
+       			val xParameter = genElement.ecoreParameter.toXcoreMapping.xcoreElement as XParameter
+       			if (xParameter != null) {
+   	    			xParameter.mapping.genParameter = genElement
+   	    			genElement.toXcoreMapping.xcoreElement = xParameter
        			}
        		}
        		GenEnumLiteral :

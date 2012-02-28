@@ -75,6 +75,13 @@ class XcoreMapperTest {
 						assertEquals(member,member.mapping.EOperation.toXcoreMapping.xcoreElement)
 						assertEquals(member,member.mapping.genOperation.toXcoreMapping.xcoreElement)
 						//TODO jvm stuff						
+						for (parameter : member.parameters) {
+							assertNotNull(parameter.mapping.EParameter)
+							assertEquals(parameter.mapping.EParameter, parameter.mapping.genParameter.ecoreParameter)
+							assertEquals(parameter,parameter.mapping.EParameter.toXcoreMapping.xcoreElement)
+							assertEquals(parameter,parameter.mapping.genParameter.toXcoreMapping.xcoreElement)
+							//TODO jvm stuff						
+						}
 					}
 				} 
 			}

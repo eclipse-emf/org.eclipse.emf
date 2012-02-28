@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.xcore.XEnum;
 import org.eclipse.emf.ecore.xcore.XEnumLiteral;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
+import org.eclipse.emf.ecore.xcore.XParameter;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XDataTypeMapping;
@@ -363,10 +364,11 @@ public class XcoreJvmInferrer
 
   JvmFormalParameter getJvmFormalParameter(GenParameter genParameter)
   {
+    XParameter xParameter = mapper.getXParameter(genParameter);
     JvmFormalParameter jvmFormalParameter = TypesFactory.eINSTANCE.createJvmFormalParameter();
-    //TODO
-    //    map(jvmFormalParameter, genParameter);
     jvmFormalParameter.setName(genParameter.getName());
+    mapper.getMapping(xParameter).setJvmFormalParameter(jvmFormalParameter);
+    mapper.getToXcoreMapping(jvmFormalParameter).setXcoreElement(xParameter);
     // jvmFormalParameter.setParameterType(getJvmTypeReference(genParameter.getEcoreParameter().getEGenericType(), genParameter));
     jvmFormalParameter.setParameterType(getJvmTypeReference(
       genParameter.getType(genParameter.getGenOperation().getGenClass()),

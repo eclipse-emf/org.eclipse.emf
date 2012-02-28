@@ -5,10 +5,12 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XClassifier;
@@ -16,6 +18,7 @@ import org.eclipse.emf.ecore.xcore.XMember;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
+import org.eclipse.emf.ecore.xcore.XParameter;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.emf.ecore.xcore.mappings.ToXcoreMapping;
@@ -23,6 +26,7 @@ import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XPackageMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XParameterMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.junit4.InjectWith;
@@ -173,6 +177,30 @@ public class XcoreMapperTest {
                 ToXcoreMapping _xcoreMapping_5 = this.mapper.getToXcoreMapping(_genOperation_1);
                 XNamedElement _xcoreElement_5 = _xcoreMapping_5.getXcoreElement();
                 Assert.assertEquals(_xOperation, _xcoreElement_5);
+                EList<XParameter> _parameters = _xOperation.getParameters();
+                for (final XParameter parameter : _parameters) {
+                  {
+                    XParameterMapping _mapping_15 = this.mapper.getMapping(parameter);
+                    EParameter _eParameter = _mapping_15.getEParameter();
+                    Assert.assertNotNull(_eParameter);
+                    XParameterMapping _mapping_16 = this.mapper.getMapping(parameter);
+                    EParameter _eParameter_1 = _mapping_16.getEParameter();
+                    XParameterMapping _mapping_17 = this.mapper.getMapping(parameter);
+                    GenParameter _genParameter = _mapping_17.getGenParameter();
+                    EParameter _ecoreParameter = _genParameter.getEcoreParameter();
+                    Assert.assertEquals(_eParameter_1, _ecoreParameter);
+                    XParameterMapping _mapping_18 = this.mapper.getMapping(parameter);
+                    EParameter _eParameter_2 = _mapping_18.getEParameter();
+                    ToXcoreMapping _xcoreMapping_6 = this.mapper.getToXcoreMapping(_eParameter_2);
+                    XNamedElement _xcoreElement_6 = _xcoreMapping_6.getXcoreElement();
+                    Assert.assertEquals(parameter, _xcoreElement_6);
+                    XParameterMapping _mapping_19 = this.mapper.getMapping(parameter);
+                    GenParameter _genParameter_1 = _mapping_19.getGenParameter();
+                    ToXcoreMapping _xcoreMapping_7 = this.mapper.getToXcoreMapping(_genParameter_1);
+                    XNamedElement _xcoreElement_7 = _xcoreMapping_7.getXcoreElement();
+                    Assert.assertEquals(parameter, _xcoreElement_7);
+                  }
+                }
               }
             }
           }

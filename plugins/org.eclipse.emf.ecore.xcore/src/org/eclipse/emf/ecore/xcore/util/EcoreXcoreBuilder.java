@@ -22,8 +22,10 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
@@ -72,6 +74,7 @@ import org.eclipse.emf.ecore.xcore.mappings.XEnumLiteralMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XPackageMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XParameterMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvider;
 import org.eclipse.xtext.xbase.XBlockExpression;
@@ -466,9 +469,17 @@ public class EcoreXcoreBuilder
     mapper.getToXcoreMapping(eOperation).setXcoreElement(xOperation);
     mapper.getToXcoreMapping(genOperation).setXcoreElement(xOperation);
     handleXTypedElement(xOperation, eOperation);
+    EList<GenParameter> genParameters = genOperation.getGenParameters();
+    int index = 0;
     for (EParameter eParameter : eOperation.getEParameters())
     {
       XParameter xParameter = getXParameter(eParameter);
+      XParameterMapping xParameterMapping = mapper.getMapping(xParameter);
+      GenParameter genParameter = genParameters.get(index++);
+      xParameterMapping.setEParameter(eParameter);
+      xParameterMapping.setGenParameter(genParameter);
+      mapper.getToXcoreMapping(eParameter).setXcoreElement(xParameter);
+      mapper.getToXcoreMapping(genParameter).setXcoreElement(xParameter);
       xOperation.getParameters().add(xParameter);
     }
     for (ETypeParameter eTypeParameter : eOperation.getETypeParameters())
@@ -496,8 +507,6 @@ public class EcoreXcoreBuilder
   XParameter getXParameter(EParameter eParameter)
   {
     XParameter xParameter = XcoreFactory.eINSTANCE.createXParameter();
-    //TODO
-    // map(xParameter, eParameter);
     handleXTypedElement(xParameter, eParameter);
     return xParameter;
   }
@@ -751,6 +760,9 @@ public class EcoreXcoreBuilder
     {
       XEnumLiteral xEnumLiteral = getXEnumLiteral(eEnumLiteral);
       GenEnumLiteral genEnumLiteral = genEnum.getGenEnumLiteral(eEnumLiteral.getLiteral());
+      XEnumLiteralMapping xEnumLiteralMapping = mapper.getMapping(xEnumLiteral);
+      xEnumLiteralMapping.setEEnumLiteral(eEnumLiteral);
+      xEnumLiteralMapping.setGenEnumLiteral(genEnumLiteral);
       mapper.getToXcoreMapping(eEnumLiteral).setXcoreElement(xEnumLiteral);
       mapper.getToXcoreMapping(genEnumLiteral).setXcoreElement(xEnumLiteral);
       xEnum.getLiterals().add(xEnumLiteral);
@@ -761,8 +773,6 @@ public class EcoreXcoreBuilder
   XEnumLiteral getXEnumLiteral(EEnumLiteral eEnumLiteral)
   {
     XEnumLiteral xEnumLiteral = XcoreFactory.eINSTANCE.createXEnumLiteral();
-    XEnumLiteralMapping mapping = mapper.getMapping(xEnumLiteral);
-    mapping.setEEnumLiteral(eEnumLiteral);
     handleAnnotations(eEnumLiteral, xEnumLiteral);
     xEnumLiteral.setName(eEnumLiteral.getName());
     if (!eEnumLiteral.getName().equals(eEnumLiteral.getLiteral()))
@@ -772,5 +782,4 @@ public class EcoreXcoreBuilder
     xEnumLiteral.setValue(eEnumLiteral.getValue());
     return xEnumLiteral;
   }
-
 }

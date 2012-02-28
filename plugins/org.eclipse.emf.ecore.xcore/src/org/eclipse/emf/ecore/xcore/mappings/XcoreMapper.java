@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.xcore.XMember;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
+import org.eclipse.emf.ecore.xcore.XParameter;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 
 
@@ -40,6 +41,11 @@ public class XcoreMapper
     return (XEnum)getXcoreElement(eObject);
   }
 
+  public XEnumLiteral getXEnumLiteral(EObject eObject)
+  {
+    return (XEnumLiteral)getXcoreElement(eObject);
+  }
+
   public XClass getXClass(EObject eObject)
   {
     return (XClass)getXcoreElement(eObject);
@@ -50,14 +56,14 @@ public class XcoreMapper
     return (XOperation)getXcoreElement(eObject);
   }
 
+  public XParameter getXParameter(EObject eObject)
+  {
+    return (XParameter)getXcoreElement(eObject);
+  }
+
   public XStructuralFeature getXFeature(EObject eObject)
   {
     return (XStructuralFeature)getXcoreElement(eObject);
-  }
-
-  public XEnumLiteral getXEnumLiteral(EObject eObject)
-  {
-    return (XEnumLiteral)getXcoreElement(eObject);
   }
 
   public XPackageMapping getMapping(XPackage xPackage)
@@ -124,6 +130,11 @@ public class XcoreMapper
     return lazyCreateMapping(xOperation, XOperationMapping.class);
   }
 
+  public XParameterMapping getMapping(XParameter xParameter)
+  {
+    return lazyCreateMapping(xParameter, XParameterMapping.class);
+  }
+
   public XDataTypeMapping getMapping(XDataType xDataType)
   {
     return lazyCreateMapping(xDataType, XDataTypeMapping.class);
@@ -161,6 +172,10 @@ public class XcoreMapper
     {
       return getMapping((XOperation)xNamedElement).getEOperation();
     }
+    else if (xNamedElement instanceof XParameter)
+    {
+      return getMapping((XParameter)xNamedElement).getEParameter();
+    }
     else if (xNamedElement instanceof XEnumLiteral)
     {
       return getMapping((XEnumLiteral)xNamedElement).getEEnumLiteral();
@@ -190,29 +205,33 @@ public class XcoreMapper
     {
       return getMapping((XOperation)xNamedElement).getGenOperation();
     }
+    else if (xNamedElement instanceof XOperation)
+    {
+      return getMapping((XOperation)xNamedElement).getGenOperation();
+    }
+    else if (xNamedElement instanceof XEnumLiteral)
+    {
+      return getMapping((XEnumLiteral)xNamedElement).getGenEnumLiteral();
+    }
     return null;
   }
 
   @SuppressWarnings("unchecked")
   protected <T extends Adapter> T lazyCreateMapping(EObject eObject, Class<T> mapperType)
   {
-    if (eObject == null)
-      throw new NullPointerException("object");
-    if (mapperType == null)
-      throw new NullPointerException("mapperType");
-    T adapter = (T)EcoreUtil.getAdapter(eObject.eAdapters(), mapperType);
+    EList<Adapter> eAdapters = eObject.eAdapters();
+    T adapter = (T)EcoreUtil.getAdapter(eAdapters, mapperType);
     if (adapter == null)
     {
       try
       {
         adapter = mapperType.newInstance();
-        eObject.eAdapters().add(adapter);
+        eAdapters.add(adapter);
       }
-      catch (Exception e)
+      catch (Exception exception)
       {
-        throw new RuntimeException(e);
+        throw new RuntimeException(exception);
       }
-
     }
     return adapter;
   }
@@ -220,9 +239,6 @@ public class XcoreMapper
   protected EObject getXcoreElement(EObject eObject)
   {
     ToXcoreMapping adapter = (ToXcoreMapping)EcoreUtil.getAdapter(eObject.eAdapters(), ToXcoreMapping.class);
-    if (adapter != null)
-      return adapter.getXcoreElement();
-    return null;
+    return adapter == null ? null : adapter.getXcoreElement();
   }
-
 }

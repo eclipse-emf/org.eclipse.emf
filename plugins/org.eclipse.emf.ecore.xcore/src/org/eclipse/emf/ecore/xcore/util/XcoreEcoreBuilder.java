@@ -295,6 +295,7 @@ public class XcoreEcoreBuilder
   EParameter getEParameter(XParameter xParameter)
   {
     EParameter eParameter = EcoreFactory.eINSTANCE.createEParameter();
+    mapper.getMapping(xParameter).setEParameter(eParameter);
     mapper.getToXcoreMapping(eParameter).setXcoreElement(xParameter);
     eParameter.setUnique(false);
     handleETypedElement(eParameter, xParameter);
