@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XPackageMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XParameterMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XTypeParameterMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.util.XcoreSwitch;
 import org.eclipse.xtext.ui.refactoring.impl.DefaultDependentElementsCalculator;
@@ -123,10 +124,13 @@ public class XcoreDependentElementsCalculator extends DefaultDependentElementsCa
       }
 
       @Override
-      public Boolean caseXTypeParameter(XTypeParameter object)
+      public Boolean caseXTypeParameter(XTypeParameter xTypeParameter)
       {
-        // TODO
-        return super.caseXTypeParameter(object);
+        XTypeParameterMapping mapping = mapper.getMapping(xTypeParameter);
+        result.addAll(doGetDependentElementURIs(mapping.getGenTypeParameter(), monitor));
+        result.addAll(doGetDependentElementURIs(mapping.getETypeParameter(), monitor));
+        result.addAll(doGetDependentElementURIs(mapping.getJvmTypeParameter(), monitor));
+        return Boolean.FALSE;
       }
     }.doSwitch(eObject);
     return result;

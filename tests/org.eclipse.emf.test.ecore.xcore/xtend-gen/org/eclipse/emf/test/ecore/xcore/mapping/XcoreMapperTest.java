@@ -6,12 +6,14 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
+import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XMember;
@@ -20,6 +22,7 @@ import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XParameter;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
+import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.emf.ecore.xcore.mappings.ToXcoreMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
@@ -27,6 +30,7 @@ import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XPackageMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XParameterMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XTypeParameterMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.junit4.InjectWith;
@@ -69,7 +73,7 @@ public class XcoreMapperTest {
       _builder.append("}");
       _builder.newLine();
       _builder.newLine();
-      _builder.append("class Y extends X {");
+      _builder.append("class Y<T> extends X {");
       _builder.newLine();
       _builder.append("\t");
       _builder.append("op String toString(X x) {");
@@ -202,6 +206,30 @@ public class XcoreMapperTest {
                   }
                 }
               }
+            }
+          }
+          EList<XTypeParameter> _typeParameters = clazz.getTypeParameters();
+          for (final XTypeParameter typeParameter : _typeParameters) {
+            {
+              XTypeParameterMapping _mapping_10 = this.mapper.getMapping(typeParameter);
+              ETypeParameter _eTypeParameter = _mapping_10.getETypeParameter();
+              Assert.assertNotNull(_eTypeParameter);
+              XTypeParameterMapping _mapping_11 = this.mapper.getMapping(typeParameter);
+              ETypeParameter _eTypeParameter_1 = _mapping_11.getETypeParameter();
+              XTypeParameterMapping _mapping_12 = this.mapper.getMapping(typeParameter);
+              GenTypeParameter _genTypeParameter = _mapping_12.getGenTypeParameter();
+              ETypeParameter _ecoreTypeParameter = _genTypeParameter.getEcoreTypeParameter();
+              Assert.assertEquals(_eTypeParameter_1, _ecoreTypeParameter);
+              XTypeParameterMapping _mapping_13 = this.mapper.getMapping(typeParameter);
+              ETypeParameter _eTypeParameter_2 = _mapping_13.getETypeParameter();
+              ToXcoreMapping _xcoreMapping_4 = this.mapper.getToXcoreMapping(_eTypeParameter_2);
+              XNamedElement _xcoreElement_4 = _xcoreMapping_4.getXcoreElement();
+              Assert.assertEquals(typeParameter, _xcoreElement_4);
+              XTypeParameterMapping _mapping_14 = this.mapper.getMapping(typeParameter);
+              GenTypeParameter _genTypeParameter_1 = _mapping_14.getGenTypeParameter();
+              ToXcoreMapping _xcoreMapping_5 = this.mapper.getToXcoreMapping(_genTypeParameter_1);
+              XNamedElement _xcoreElement_5 = _xcoreMapping_5.getXcoreElement();
+              Assert.assertEquals(typeParameter, _xcoreElement_5);
             }
           }
         }

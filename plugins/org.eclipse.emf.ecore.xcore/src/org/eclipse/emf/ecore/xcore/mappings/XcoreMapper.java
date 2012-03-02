@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XParameter;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
+import org.eclipse.emf.ecore.xcore.XTypeParameter;
 
 
 public class XcoreMapper
@@ -59,6 +60,11 @@ public class XcoreMapper
   public XParameter getXParameter(EObject eObject)
   {
     return (XParameter)getXcoreElement(eObject);
+  }
+
+  public XTypeParameter getXTypeParameter(EObject eObject)
+  {
+    return (XTypeParameter)getXcoreElement(eObject);
   }
 
   public XStructuralFeature getXFeature(EObject eObject)
@@ -120,6 +126,11 @@ public class XcoreMapper
     return lazyCreateMapping(xClass, XClassMapping.class);
   }
 
+  public XTypeParameterMapping getMapping(XTypeParameter xTypeParameter)
+  {
+    return lazyCreateMapping(xTypeParameter, XTypeParameterMapping.class);
+  }
+
   public XFeatureMapping getMapping(XStructuralFeature xStructuralFeature)
   {
     return lazyCreateMapping(xStructuralFeature, XFeatureMapping.class);
@@ -176,6 +187,10 @@ public class XcoreMapper
     {
       return getMapping((XParameter)xNamedElement).getEParameter();
     }
+    else if (xNamedElement instanceof XTypeParameter)
+    {
+      return getMapping((XTypeParameter)xNamedElement).getETypeParameter();
+    }
     else if (xNamedElement instanceof XEnumLiteral)
     {
       return getMapping((XEnumLiteral)xNamedElement).getEEnumLiteral();
@@ -205,9 +220,13 @@ public class XcoreMapper
     {
       return getMapping((XOperation)xNamedElement).getGenOperation();
     }
-    else if (xNamedElement instanceof XOperation)
+    else if (xNamedElement instanceof XParameter)
     {
-      return getMapping((XOperation)xNamedElement).getGenOperation();
+      return getMapping((XParameter)xNamedElement).getGenParameter();
+    }
+    else if (xNamedElement instanceof XTypeParameter)
+    {
+      return getMapping((XTypeParameter)xNamedElement).getGenTypeParameter();
     }
     else if (xNamedElement instanceof XEnumLiteral)
     {

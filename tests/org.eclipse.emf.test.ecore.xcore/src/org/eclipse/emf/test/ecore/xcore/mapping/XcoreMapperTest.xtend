@@ -24,13 +24,13 @@ import org.eclipse.emf.ecore.xcore.XOperation
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(XcoreInjectorProvider))
 class XcoreMapperTest {
-	
+
 	@Inject
 	ParseHelper<XPackage> parser
-	
+
 	@Inject
 	extension XcoreMapper mapper
-	
+
 	@Test
 	def testMapping() {
 		val pack = parser.parse('''
@@ -43,7 +43,7 @@ class XcoreMapperTest {
 				refers Y reference
 			}
 			
-			class Y extends X {
+			class Y<T> extends X {
 				op String toString(X x) {
 					return null
 				}
@@ -53,13 +53,13 @@ class XcoreMapperTest {
 		assertEquals(pack.mapping.getEPackage,pack.mapping.genPackage.ecorePackage)
 		assertEquals(pack,pack.mapping.genPackage.toXcoreMapping.xcoreElement)
 		assertEquals(pack,pack.mapping.EPackage.toXcoreMapping.xcoreElement)
-		
+
 		for (clazz : pack.classifiers.filter(typeof(XClass))) {
 			assertNotNull(clazz.mapping.EClass)
 			assertEquals(clazz.mapping.EClass,clazz.mapping.genClass.ecoreClass)
 			assertEquals(clazz,clazz.mapping.genClass.toXcoreMapping.xcoreElement)
 			assertEquals(clazz,clazz.mapping.EClass.toXcoreMapping.xcoreElement)
-			
+
 			for (member : clazz.members) {
 				switch member {
 					XStructuralFeature : {
@@ -74,16 +74,23 @@ class XcoreMapperTest {
 						assertEquals(member.mapping.EOperation, member.mapping.genOperation.ecoreOperation)
 						assertEquals(member,member.mapping.EOperation.toXcoreMapping.xcoreElement)
 						assertEquals(member,member.mapping.genOperation.toXcoreMapping.xcoreElement)
-						//TODO jvm stuff						
+						//TODO jvm stuff
 						for (parameter : member.parameters) {
 							assertNotNull(parameter.mapping.EParameter)
 							assertEquals(parameter.mapping.EParameter, parameter.mapping.genParameter.ecoreParameter)
 							assertEquals(parameter,parameter.mapping.EParameter.toXcoreMapping.xcoreElement)
 							assertEquals(parameter,parameter.mapping.genParameter.toXcoreMapping.xcoreElement)
-							//TODO jvm stuff						
+							//TODO jvm stuff
 						}
 					}
-				} 
+				}
+			}
+			for (typeParameter : clazz.typeParameters) {
+				assertNotNull(typeParameter.mapping.ETypeParameter)
+				assertEquals(typeParameter.mapping.ETypeParameter, typeParameter.mapping.genTypeParameter.ecoreTypeParameter)
+				assertEquals(typeParameter,typeParameter.mapping.ETypeParameter.toXcoreMapping.xcoreElement)
+				assertEquals(typeParameter,typeParameter.mapping.genTypeParameter.toXcoreMapping.xcoreElement)
+				//TODO jvm stuff
 			}
 		}
 	}

@@ -15,6 +15,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
+import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -28,6 +29,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xcore.XClass;
@@ -38,6 +40,7 @@ import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XParameter;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
+import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XcoreExtensions;
 import org.eclipse.emf.ecore.xcore.mappings.ToXcoreMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
@@ -47,6 +50,7 @@ import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XPackageMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XParameterMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XTypeParameterMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelInitializer;
 import org.eclipse.xtext.xbase.lib.BooleanExtensions;
@@ -180,6 +184,23 @@ public class XcoreGenModelBuilder {
             _mapping.setGenParameter(_genParameter);
             ToXcoreMapping _xcoreMapping_1 = this.mapper.getToXcoreMapping(_genParameter);
             _xcoreMapping_1.setXcoreElement(xParameter);
+          }
+        }
+      }
+      if (!matched) {
+        if (genElement instanceof GenTypeParameter) {
+          final GenTypeParameter _genTypeParameter = (GenTypeParameter)genElement;
+          matched=true;
+          ETypeParameter _ecoreTypeParameter = _genTypeParameter.getEcoreTypeParameter();
+          ToXcoreMapping _xcoreMapping = this.mapper.getToXcoreMapping(_ecoreTypeParameter);
+          XNamedElement _xcoreElement = _xcoreMapping.getXcoreElement();
+          final XTypeParameter xTypeParameter = ((XTypeParameter) _xcoreElement);
+          boolean _operator_notEquals = ObjectExtensions.operator_notEquals(xTypeParameter, null);
+          if (_operator_notEquals) {
+            XTypeParameterMapping _mapping = this.mapper.getMapping(xTypeParameter);
+            _mapping.setGenTypeParameter(_genTypeParameter);
+            ToXcoreMapping _xcoreMapping_1 = this.mapper.getToXcoreMapping(_genTypeParameter);
+            _xcoreMapping_1.setXcoreElement(xTypeParameter);
           }
         }
       }

@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
@@ -23,6 +24,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
+import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
@@ -75,6 +77,7 @@ import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XPackageMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XParameterMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XTypeParameterMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvider;
 import org.eclipse.xtext.xbase.XBlockExpression;
@@ -405,9 +408,18 @@ public class EcoreXcoreBuilder
           }
         });
     }
+    GenClassifier genClassifier = genModel.findGenClassifier(eClassifier);
+    EList<GenTypeParameter> genTypeParameters = genClassifier.getGenTypeParameters();
+    int index = 0;
     for (ETypeParameter eTypeParameter : eClassifier.getETypeParameters())
     {
       XTypeParameter xTypeParameter = getXTypeParameter(eTypeParameter);
+      XTypeParameterMapping xTypeParameterMapping = mapper.getMapping(xTypeParameter);
+      GenTypeParameter genTypeParameter = genTypeParameters.get(index++);
+      xTypeParameterMapping.setETypeParameter(eTypeParameter);
+      xTypeParameterMapping.setGenTypeParameter(genTypeParameter);
+      mapper.getToXcoreMapping(eTypeParameter).setXcoreElement(xTypeParameter);
+      mapper.getToXcoreMapping(genTypeParameter).setXcoreElement(xTypeParameter);
       xClassifier.getTypeParameters().add(xTypeParameter);
     }
     return xClassifier;
@@ -482,9 +494,17 @@ public class EcoreXcoreBuilder
       mapper.getToXcoreMapping(genParameter).setXcoreElement(xParameter);
       xOperation.getParameters().add(xParameter);
     }
+    EList<GenTypeParameter> genTypeParameters = genOperation.getGenTypeParameters();
+    index = 0;
     for (ETypeParameter eTypeParameter : eOperation.getETypeParameters())
     {
       XTypeParameter xTypeParameter = getXTypeParameter(eTypeParameter);
+      XTypeParameterMapping xTypeParameterMapping = mapper.getMapping(xTypeParameter);
+      GenTypeParameter genTypeParameter = genTypeParameters.get(index++);
+      xTypeParameterMapping.setETypeParameter(eTypeParameter);
+      xTypeParameterMapping.setGenTypeParameter(genTypeParameter);
+      mapper.getToXcoreMapping(eTypeParameter).setXcoreElement(xTypeParameter);
+      mapper.getToXcoreMapping(genTypeParameter).setXcoreElement(xTypeParameter);
       xOperation.getTypeParameters().add(xTypeParameter);
     }
     for (EGenericType eException : eOperation.getEGenericExceptions())

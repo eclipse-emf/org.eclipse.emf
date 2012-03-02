@@ -305,6 +305,7 @@ public class XcoreEcoreBuilder
   ETypeParameter getETypeParameter(XTypeParameter xTypeParameter)
   {
     ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
+    mapper.getMapping(xTypeParameter).setETypeParameter(eTypeParameter);
     mapper.getToXcoreMapping(eTypeParameter).setXcoreElement(xTypeParameter);
     handleAnnotations(xTypeParameter, eTypeParameter);
     eTypeParameter.setName(xTypeParameter.getName());
