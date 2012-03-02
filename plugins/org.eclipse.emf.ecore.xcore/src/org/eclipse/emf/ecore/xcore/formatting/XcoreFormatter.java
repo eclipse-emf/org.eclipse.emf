@@ -79,7 +79,7 @@ public class XcoreFormatter extends XbaseFormatter
     c.setLinewrap(1).after(f.getXAnnotationDirectiveRule());
     c.setLinewrap(2).after(f.getXPackageAccess().getAnnotationDirectivesXAnnotationDirectiveParserRuleCall_5_0());
 
-    c.setNoSpace().before(f.getXOperationAccess().getLeftParenthesisKeyword_7());
+    c.setNoSpace().before(f.getXOperationAccess().getLeftParenthesisKeyword_8());
     c.setLinewrap(2).after(f.getXPackageAccess().getNameAssignment_3());
     c.setLinewrap(2).after(f.getXClassRule());
     c.setLinewrap(2).after(f.getXDataTypeRule());

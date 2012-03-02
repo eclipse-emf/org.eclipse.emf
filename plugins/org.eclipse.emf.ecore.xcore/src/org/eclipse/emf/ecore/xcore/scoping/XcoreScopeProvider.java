@@ -50,10 +50,10 @@ import static com.google.common.collect.Lists.*;
 
 /**
  * This class contains custom scoping description.
- * 
+ *
  * see : http://www.eclipse.org/Xtext/documentation/latest/xtext.html#scoping on
  * how and when to use it
- * 
+ *
  */
 public class XcoreScopeProvider extends XbaseScopeProvider
 {
@@ -83,8 +83,7 @@ public class XcoreScopeProvider extends XbaseScopeProvider
           }
         }
         else
-        // if (context.eContainmentFeature() ==
-        // XcorePackage.Literals.XDATA_TYPE__CONVERT_BODY)
+        // if (context.eContainmentFeature() == XcorePackage.Literals.XDATA_TYPE__CONVERT_BODY)
         {
           JvmOperation converter = mapping.getConverter();
           if (converter != null)
@@ -123,13 +122,17 @@ public class XcoreScopeProvider extends XbaseScopeProvider
   protected JvmDeclaredType getContextType(EObject call)
   {
     if (call == null)
+    {
       return null;
-    XClass containerClass = EcoreUtil2.getContainerOfType(call, XClass.class);
-    if (containerClass != null)
-      // TODO use impl class
-      return mapper.getMapping(containerClass).getInterfaceType();
+    }
     else
-      return super.getContextType(call);
+    {
+      XClass containerClass = EcoreUtil2.getContainerOfType(call, XClass.class);
+      return
+        containerClass != null ?
+          mapper.getMapping(containerClass).getInterfaceType() : // TODO use implementation class
+          super.getContextType(call);
+    }
   }
 
   @Override
@@ -137,7 +140,8 @@ public class XcoreScopeProvider extends XbaseScopeProvider
   {
     if (reference == XcorePackage.Literals.XREFERENCE__OPPOSITE)
     {
-      return new AbstractScope(IScope.NULLSCOPE, false)
+      return
+        new AbstractScope(IScope.NULLSCOPE, false)
         {
           @Override
           protected Iterable<IEObjectDescription> getAllLocalElements()
@@ -173,7 +177,8 @@ public class XcoreScopeProvider extends XbaseScopeProvider
     }
     else if (reference == XcorePackage.Literals.XREFERENCE__KEYS)
     {
-      return new AbstractScope(IScope.NULLSCOPE, false)
+      return 
+        new AbstractScope(IScope.NULLSCOPE, false)
         {
           @Override
           protected Iterable<IEObjectDescription> getAllLocalElements()
@@ -212,7 +217,8 @@ public class XcoreScopeProvider extends XbaseScopeProvider
       IScope scope = super.getScope(context, reference);
       if (reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE)
       {
-        return new AbstractScope(scope, false)
+        return 
+          new AbstractScope(scope, false)
           {
             void handleGenTypeParameters(List<IEObjectDescription> result, EList<GenTypeParameter> genTypeParameters)
             {

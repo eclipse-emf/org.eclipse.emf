@@ -103,11 +103,12 @@ XClass:
 
 XMember:
 	XOperation |
-	XReference |
-	XAttribute
+	XAttribute |
+	XReference
 ;
 
 XAttribute:
+	{XAttribute}
 	(annotations+=XAnnotation)*
 	(
 	  (unordered?='unordered')? &
@@ -134,16 +135,14 @@ XAttribute:
 ;
 
 XReference:
+	{XReference}
 	(annotations+=XAnnotation)*
-	(containment?='contains' |
+	((containment?='contains' resolveProxies?='resolving'?) |
 	 (resolveProxies?='resolving' containment?='contains') |
-	 (containment?='contains' resolveProxies?='resolving') |
-	 container?='container' |
+	 (container?='container' resolveProxies?='resolving'?) |
 	 (resolveProxies?='resolving' container?='container') |
-	 (container?='container' resolveProxies?='resolving') |
-	 'refers' |
-	 (local?='local' 'refers') |
-	 ('refers' local?='local'))
+	 ('refers' local?='local'?) |
+	 (local?='local' 'refers'))
 	(
 	  (unordered?='unordered')? &
 	  (unique?='unique')? &
@@ -174,6 +173,7 @@ XReference:
 ;
 
 XOperation:
+	{XOperation}
 	(annotations+=XAnnotation)*
 	'op'
 	(

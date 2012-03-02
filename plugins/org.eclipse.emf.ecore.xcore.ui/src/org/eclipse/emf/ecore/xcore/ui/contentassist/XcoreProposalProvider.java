@@ -8,28 +8,46 @@
 package org.eclipse.emf.ecore.xcore.ui.contentassist;
 
 
+import java.util.Set;
+
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
+import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.xcore.XAttribute;
 import org.eclipse.emf.ecore.xcore.XReference;
+import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
-import org.eclipse.emf.ecore.xcore.ui.contentassist.AbstractXcoreProposalProvider;
+import org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
+import org.eclipse.jface.viewers.StyledString;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.xtext.AbstractElement;
 import org.eclipse.xtext.Assignment;
 import org.eclipse.xtext.CrossReference;
+import org.eclipse.xtext.GrammarUtil;
+import org.eclipse.xtext.common.types.xtext.ui.JdtVariableCompletions;
+import org.eclipse.xtext.common.types.xtext.ui.JdtVariableCompletions.VariableType;
 import org.eclipse.xtext.conversion.impl.QualifiedNameValueConverter;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.resource.IEObjectDescription;
+import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal;
+import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal.IReplacementTextApplier;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
-import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal.IReplacementTextApplier;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 
@@ -48,6 +66,12 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
 
   @Inject
   private XcoreMapper mapper;
+
+  @Inject
+  XcoreGrammarAccess xcoreGrammarAccess;
+
+  @Inject
+  private JdtVariableCompletions completions;
 
   @Override
   public void completeXReference_Opposite(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
@@ -79,11 +103,12 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
   @Override
   public void completeXGenericType_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
   {
+    IScope scope = xcoreScopeProvider.getScope(model, XcorePackage.Literals.XGENERIC_TYPE__TYPE);
     final IReplacementTextApplier textApplier =
       new ImportingTypesProposalProvider.FQNImporter
         (context.getResource(),
          context.getViewer(),
-         xcoreScopeProvider.getScope(model, XcorePackage.Literals.XGENERIC_TYPE__TYPE),
+         scope,
          qualifiedNameConverter,
          qualifiedNameValueConverter,
          qualifiedNameValueConverter);
@@ -101,6 +126,62 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
         }
       };
     super.completeXGenericType_Type(model, assignment, context, scopeAware);
+  }
+
+  @Override
+  public void completeXReference_Name(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
+  {
+    completeXStructuralFeature_Name(model, assignment, context, acceptor);
+    super.completeXReference_Name(model, assignment, context, acceptor);
+  }
+
+  @Override
+  public void completeXAttribute_Name(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
+  {
+    completeXStructuralFeature_Name(model, assignment, context, acceptor);
+    super.completeXAttribute_Name(model, assignment, context, acceptor);
+  }
+
+  protected Set<String> getAllKeywords()
+  {
+    return GrammarUtil.getAllKeywords(xcoreGrammarAccess.getGrammar());
+  }
+
+  public void completeXStructuralFeature_Name(EObject model, Assignment assignment, final ContentAssistContext context, final ICompletionProposalAcceptor acceptor)
+  {
+    if (model instanceof XStructuralFeature)
+    {
+      XStructuralFeature xStructuralFeature = (XStructuralFeature)model;
+      EStructuralFeature eStructuralFeature = (EStructuralFeature)mapper.getEcore(xStructuralFeature);
+      Set<String> alreadyTaken = Sets.newHashSet(getAllKeywords());
+      if (eStructuralFeature != null)
+      {
+        EClass eContainingClass = eStructuralFeature.getEContainingClass();
+        alreadyTaken.addAll
+          (Lists.transform
+            (eContainingClass.getEAllStructuralFeatures(),
+             new Function<EStructuralFeature, String>()
+             {
+               public String apply(EStructuralFeature input)
+               {
+                 String name = input.getName();
+                 return name == null ? "_" : name;
+               }
+             }));
+      }
+      completions.getVariableProposals
+        (model,
+         XcorePackage.Literals.XTYPED_ELEMENT__TYPE,
+         VariableType.INSTANCE_FIELD,
+         alreadyTaken,
+         new JdtVariableCompletions.CompletionDataAcceptor()
+         {
+           public void accept(String replaceText, StyledString label, Image image)
+           {
+             acceptor.accept(createCompletionProposal(replaceText, label, image, context));
+          }
+        });
+    }
   }
 
   @Override
@@ -123,6 +204,42 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
             return eStructuralFeature.getEType() == eClass && eStructuralFeature != eReference && baseFilter.apply(input);
           }
         };
+    }
+    else if (reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE)
+    {
+      EObject eObject = contentAssistContext.getCurrentModel();
+      ImmutableList<AbstractElement> firstSetGrammarElements = contentAssistContext.getFirstSetGrammarElements();
+      if (firstSetGrammarElements.contains(xcoreGrammarAccess.getXAttributeAccess().getTypeAssignment_3_0_0()) ||
+            firstSetGrammarElements.contains(xcoreGrammarAccess.getXAttributeAccess().getNameAssignment_4()) ||
+            firstSetGrammarElements.contains(xcoreGrammarAccess.getXGenericTypeAccess().getTypeAssignment_0()) && eObject instanceof XAttribute)
+      {
+        final Predicate<IEObjectDescription> baseFilter = filter;
+        filter = new Predicate<IEObjectDescription>()
+          {
+            public boolean apply(IEObjectDescription input)
+            {
+              // Filter out types that aren't data types.
+              //
+              EObject eObjectOrProxy = input.getEObjectOrProxy();
+              return (eObjectOrProxy instanceof GenDataType || eObjectOrProxy instanceof GenTypeParameter) && baseFilter.apply(input);
+            }
+          };
+      }
+      else if (firstSetGrammarElements.contains(xcoreGrammarAccess.getXReferenceAccess().getTypeAssignment_4()) ||
+                firstSetGrammarElements.contains(xcoreGrammarAccess.getXGenericTypeAccess().getTypeAssignment_0()) && eObject instanceof XReference)
+      {
+        final Predicate<IEObjectDescription> baseFilter = filter;
+        filter = new Predicate<IEObjectDescription>()
+          {
+            public boolean apply(IEObjectDescription input)
+            {
+              // Filter out types that aren't classes.
+              //
+              EObject eObjectOrProxy = input.getEObjectOrProxy();
+              return (eObjectOrProxy instanceof GenClass || eObjectOrProxy instanceof GenTypeParameter) && baseFilter.apply(input);
+            }
+          };
+      }
     }
     super.lookupCrossReference(crossReference, reference, contentAssistContext, acceptor, filter);
   }

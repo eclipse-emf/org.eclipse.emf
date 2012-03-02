@@ -330,6 +330,7 @@
          <adapter type="org.eclipse.debug.ui.actions.IToggleBreakpointsTarget"/>
       </factory>
    </extension>
+   <!--
    <extension point="org.eclipse.ui.editorActions">
       <editorContribution targetID="org.eclipse.emf.ecore.xcore.Xcore"
                           id="org.eclipse.emf.ecore.xcore.Xcore.ide.rulerActions">
@@ -353,6 +354,7 @@
          </action>
       </viewerContribution>
    </extension>
+   -->
 
    <!-- MANUAL ADDITIONS -->
 

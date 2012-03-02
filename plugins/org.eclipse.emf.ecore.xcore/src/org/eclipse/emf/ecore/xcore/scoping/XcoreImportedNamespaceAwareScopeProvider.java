@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -47,12 +48,14 @@ import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.ISelectable;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractScope;
+import org.eclipse.xtext.scoping.impl.FilteringScope;
 import org.eclipse.xtext.scoping.impl.ImportNormalizer;
 import org.eclipse.xtext.scoping.impl.ImportScope;
 import org.eclipse.xtext.scoping.impl.ImportedNamespaceAwareLocalScopeProvider;
 import org.eclipse.xtext.scoping.impl.ScopeBasedSelectable;
 import org.eclipse.xtext.util.Strings;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
@@ -80,12 +83,21 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
     if (reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE)
     {
       return
-        new ImportScope
-          (getImplicitImports(false),
-           new EClassifierScope(resourceScope, context.eResource().getResourceSet(), nameConverter, ecoreXcoreBuilderProvider, jvmInferrer),
-           null,
-           GenModelPackage.Literals.GEN_BASE,
-           false);
+        new FilteringScope
+          (new ImportScope
+            (getImplicitImports(false),
+             new EClassifierScope(resourceScope, context.eResource().getResourceSet(), nameConverter, ecoreXcoreBuilderProvider, jvmInferrer),
+             null,
+             GenModelPackage.Literals.GEN_BASE,
+             false),
+           new Predicate<IEObjectDescription>()
+           {
+             public boolean apply(IEObjectDescription input)
+             {
+               EObject eObjectOrProxy = input.getEObjectOrProxy();
+               return !(eObjectOrProxy instanceof GenPackage);
+             }
+           });
     }
     else if (reference == XcorePackage.Literals.XANNOTATION__SOURCE)
     {
