@@ -38,8 +38,10 @@ import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XParameter;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
+import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XDataTypeMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XTypeParameterMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyURIConverter;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
@@ -76,16 +78,6 @@ public class XcoreJvmInferrer
 
   @Inject
   private XcoreMapper mapper;
-
-  //  public static void map(EObject eObject, GenBase genBase)
-  //  {
-  //    XcoreEcoreBuilder.map(eObject, genBase);
-  //  }
-  //  
-  //  public static GenBase getGen(EObject eObject)
-  //  {
-  //    return XcoreEcoreBuilder.getGen(eObject);
-  //  }
 
   public List<? extends JvmDeclaredType> getDeclaredTypes(XPackage xPackage)
   {
@@ -229,12 +221,7 @@ public class XcoreJvmInferrer
         EList<JvmTypeParameter> typeParameters = jvmGenericType.getTypeParameters();
         for (GenTypeParameter genTypeParameter : genTypeParameters)
         {
-          JvmTypeParameter jvmTypeParameter = TypesFactory.eINSTANCE.createJvmTypeParameter();
-          //TODO
-          //          map(jvmTypeParameter, genTypeParameter);
-          jvmTypeParameter.setName(genTypeParameter.getName());
-          typeParameters.add(jvmTypeParameter);
-          // TODO Need to handle the bounds.
+          typeParameters.add(getJvmTypeParameter(genTypeParameter));
         }
       }
 
@@ -284,6 +271,18 @@ public class XcoreJvmInferrer
       result.add(jvmGenericType);
     }
     return result;
+  }
+
+  JvmTypeParameter getJvmTypeParameter(GenTypeParameter genTypeParameter)
+  {
+    JvmTypeParameter jvmTypeParameter = TypesFactory.eINSTANCE.createJvmTypeParameter();
+    XTypeParameter xTypeParameter = mapper.getXTypeParameter(genTypeParameter);
+    XTypeParameterMapping typeParameterMapping = mapper.getMapping(xTypeParameter);
+    typeParameterMapping.setJvmTypeParameter(jvmTypeParameter);
+    mapper.getToXcoreMapping(jvmTypeParameter).setXcoreElement(xTypeParameter);
+    jvmTypeParameter.setName(genTypeParameter.getName());
+    // TODO Need to handle the bounds.
+    return jvmTypeParameter;
   }
 
   List<JvmOperation> getJvmFeatureAccessors(GenFeature genFeature)
@@ -351,12 +350,7 @@ public class XcoreJvmInferrer
       EList<JvmTypeParameter> typeParameters = jvmOperation.getTypeParameters();
       for (GenTypeParameter genTypeParameter : genTypeParameters)
       {
-        JvmTypeParameter jvmTypeParameter = TypesFactory.eINSTANCE.createJvmTypeParameter();
-        //TODO
-        //        map(jvmTypeParameter, genTypeParameter);
-        jvmTypeParameter.setName(genTypeParameter.getName());
-        typeParameters.add(jvmTypeParameter);
-        // TODO Need to handle the bounds.
+        typeParameters.add(getJvmTypeParameter(genTypeParameter));
       }
     }
     return jvmOperation;

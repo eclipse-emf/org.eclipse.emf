@@ -33,6 +33,7 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
 import org.eclipse.xtext.common.types.JvmFormalParameter;
 import org.eclipse.xtext.common.types.JvmOperation;
+import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
@@ -177,7 +178,7 @@ public class XcoreScopeProvider extends XbaseScopeProvider
     }
     else if (reference == XcorePackage.Literals.XREFERENCE__KEYS)
     {
-      return 
+      return
         new AbstractScope(IScope.NULLSCOPE, false)
         {
           @Override
@@ -217,52 +218,68 @@ public class XcoreScopeProvider extends XbaseScopeProvider
       IScope scope = super.getScope(context, reference);
       if (reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE)
       {
-        return 
-          new AbstractScope(scope, false)
-          {
-            void handleGenTypeParameters(List<IEObjectDescription> result, EList<GenTypeParameter> genTypeParameters)
-            {
-              for (final GenTypeParameter genTypeParameter : genTypeParameters)
-              {
-                result.add(new EObjectDescription(
-                  qualifiedNameConverter.toQualifiedName(genTypeParameter.getName()),
-                  genTypeParameter,
-                  null));
-              }
-            }
-
-            @Override
-            protected Iterable<IEObjectDescription> getAllLocalElements()
-            {
-              ArrayList<IEObjectDescription> result = new ArrayList<IEObjectDescription>();
-              for (EObject eObject = context; eObject != null; eObject = eObject.eContainer())
-              {
-                if (eObject instanceof XOperation)
-                {
-                  GenOperation genOperation = mapper.getMapping((XOperation)eObject).getGenOperation();
-                  if (genOperation != null)
-                  {
-                    handleGenTypeParameters(result, genOperation.getGenTypeParameters());
-                  }
-                }
-                else if (eObject instanceof XClass)
-                {
-                  GenClassifier genClassifier = mapper.getMapping((XClass)eObject).getGenClass();
-                  if (genClassifier != null)
-                  {
-                    handleGenTypeParameters(result, genClassifier.getGenTypeParameters());
-                  }
-                  break;
-                }
-              }
-              return result;
-            }
-          };
+        return new TypeParameterScope(scope, false, context, false);
+      }
+      else if (reference == TypesPackage.Literals.JVM_PARAMETERIZED_TYPE_REFERENCE__TYPE)
+      {
+        return new TypeParameterScope(scope, false, context, true);
       }
       else
       {
         return scope;
       }
+    }
+  }
+
+  protected class TypeParameterScope extends AbstractScope
+  {
+    private final EObject context;
+    private final boolean needsJvmType;
+
+    public TypeParameterScope(IScope parent, boolean ignoreCase, EObject context, boolean needsJvmType)
+    {
+      super(parent, ignoreCase);
+      this.context = context;
+      this.needsJvmType = needsJvmType;
+    }
+
+    void handleGenTypeParameters(List<IEObjectDescription> result, EList<GenTypeParameter> genTypeParameters)
+    {
+      for (final GenTypeParameter genTypeParameter : genTypeParameters)
+      {
+        result.add
+          (new EObjectDescription
+             (qualifiedNameConverter.toQualifiedName(genTypeParameter.getName()),
+              needsJvmType ? mapper.getMapping(mapper.getXTypeParameter(genTypeParameter)).getJvmTypeParameter() : genTypeParameter, 
+              null));
+      }
+    }
+
+    @Override
+    protected Iterable<IEObjectDescription> getAllLocalElements()
+    {
+      ArrayList<IEObjectDescription> result = new ArrayList<IEObjectDescription>();
+      for (EObject eObject = context; eObject != null; eObject = eObject.eContainer())
+      {
+        if (eObject instanceof XOperation)
+        {
+          GenOperation genOperation = mapper.getMapping((XOperation)eObject).getGenOperation();
+          if (genOperation != null)
+          {
+            handleGenTypeParameters(result, genOperation.getGenTypeParameters());
+          }
+        }
+        else if (eObject instanceof XClass)
+        {
+          GenClassifier genClassifier = mapper.getMapping((XClass)eObject).getGenClass();
+          if (genClassifier != null)
+          {
+            handleGenTypeParameters(result, genClassifier.getGenTypeParameters());
+          }
+          break;
+        }
+      }
+      return result;
     }
   }
 }
