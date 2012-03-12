@@ -32,7 +32,7 @@ public class XcoreFormatter extends XbaseFormatter
   @Override
   protected void configureFormatting(FormattingConfig config)
   {
-    configure(config, xbaseGrammarAccess);
+    // configure(config, xbaseGrammarAccess);
     config.setAutoLinewrap(140);
     configureFormatting(config, (XcoreGrammarAccess)getGrammarAccess());
   }
@@ -64,7 +64,6 @@ public class XcoreFormatter extends XbaseFormatter
     configureXQualifiedName(config, grammarAccess.getXQualifiedNameAccess());
     configureXID(config, grammarAccess.getXIDAccess());
     configureValidID(config, grammarAccess.getValidIDAccess());
-
     /*
     for (Pair<Keyword, Keyword> pair : f.findKeywordPairs("{", "}"))
     {
@@ -133,8 +132,8 @@ public class XcoreFormatter extends XbaseFormatter
     config.setLinewrap().around(elements.getAnnotationsAssignment_1());
     config.setLinewrap(2).after(elements.getNameAssignment_3());
     config.setLinewrap().around(elements.getImportDirectivesAssignment_4());
+    config.setLinewrap(2).before(elements.getAnnotationDirectivesXAnnotationDirectiveParserRuleCall_5_0());
     config.setLinewrap().around(elements.getAnnotationDirectivesAssignment_5());
-    config.setLinewrap(2).around(elements.getClassifiersAssignment_6());
   }
 
   public void configureXAnnotation(FormattingConfig config, XcoreGrammarAccess.XAnnotationElements elements)
@@ -143,7 +142,7 @@ public class XcoreFormatter extends XbaseFormatter
     config.setNoSpace().around(elements.getLeftParenthesisKeyword_2_0());
     config.setNoSpace().before(elements.getRightParenthesisKeyword_2_3());
     config.setNoSpace().before(elements.getCommaKeyword_2_2_0());
-    //config.setLinewrap().after(elements.getRightParenthesisKeyword_2_3());
+    config.setLinewrap().after(elements.getRightParenthesisKeyword_2_3());
   }
 
   public void configureXStringToStringMapEntry(FormattingConfig config, XcoreGrammarAccess.XStringToStringMapEntryElements elements)
@@ -153,53 +152,88 @@ public class XcoreFormatter extends XbaseFormatter
 
   public void configureXImportDirective(FormattingConfig config, XcoreGrammarAccess.XImportDirectiveElements elements)
   {
+    // No configuration required.
   }
 
   public void configureQualifiedNameWithWildcard(FormattingConfig config, XcoreGrammarAccess.QualifiedNameWithWildcardElements elements)
   {
+    // No configuration required.
   }
 
   public void configureXAnnotationDirective(FormattingConfig config, XcoreGrammarAccess.XAnnotationDirectiveElements elements)
   {
+    // No configuration required.
   }
 
   public void configureXClassifier(FormattingConfig config, XcoreGrammarAccess.XClassifierElements elements)
   {
+    // No configuration required.
   }
 
   public void configureXDataType(FormattingConfig config, XcoreGrammarAccess.XDataTypeElements elements)
   {
     config.setLinewrap().around(elements.getAnnotationsAssignment_0());
+    config.setLinewrap(2).around(elements.getRule());
   }
 
   public void configureXEnum(FormattingConfig config, XcoreGrammarAccess.XEnumElements elements)
   {
     config.setLinewrap().around(elements.getAnnotationsAssignment_0());
+    config.setLinewrap(2).around(elements.getRule());
+    config.setIndentationIncrement().after(elements.getLeftCurlyBracketKeyword_3());
+    config.setIndentationDecrement().before(elements.getRightCurlyBracketKeyword_5());
+    config.setLinewrap().around(elements.getLeftCurlyBracketKeyword_3());
+    config.setLinewrap().around(elements.getRightCurlyBracketKeyword_5());
   }
 
   public void configureXEnumLiteral(FormattingConfig config, XcoreGrammarAccess.XEnumLiteralElements elements)
   {
+    config.setLinewrap().around(elements.getRule());
   }
 
   public void configureXClass(FormattingConfig config, XcoreGrammarAccess.XClassElements elements)
   {
+    config.setLinewrap(2).around(elements.getRule());
     config.setLinewrap().around(elements.getAnnotationsAssignment_1());
+    config.setLinewrap().around(elements.getLeftCurlyBracketKeyword_7());
+    config.setNoSpace().around(elements.getLessThanSignKeyword_4_0());
+    config.setNoSpace().before(elements.getGreaterThanSignKeyword_4_3());
+    config.setNoSpace().before(elements.getCommaKeyword_4_2_0());
+    config.setNoSpace().before(elements.getCommaKeyword_5_2_0());
+    config.setIndentationIncrement().after(elements.getLeftCurlyBracketKeyword_7());
+    config.setIndentationDecrement().before(elements.getRightCurlyBracketKeyword_9());
+    config.setLinewrap(2).after(elements.getRightCurlyBracketKeyword_9());
   }
 
   public void configureXMember(FormattingConfig config, XcoreGrammarAccess.XMemberElements elements)
   {
+    // No configuration required.
   }
 
   public void configureXAttribute(FormattingConfig config, XcoreGrammarAccess.XAttributeElements elements)
   {
+    config.setLinewrap().around(elements.getRule());
+    config.setLinewrap().around(elements.getAnnotationsAssignment_1());
+    config.setLinewrap(1).around(elements.getRule());
   }
 
   public void configureXReference(FormattingConfig config, XcoreGrammarAccess.XReferenceElements elements)
   {
+    config.setLinewrap().around(elements.getRule());
+    config.setLinewrap().around(elements.getAnnotationsAssignment_1());
+    config.setLinewrap(1).around(elements.getRule());
   }
 
   public void configureXOperation(FormattingConfig config, XcoreGrammarAccess.XOperationElements elements)
   {
+    config.setLinewrap().around(elements.getRule());
+    config.setLinewrap().around(elements.getAnnotationsAssignment_1());
+    config.setNoSpace().around(elements.getLeftParenthesisKeyword_8());
+    config.setNoSpace().before(elements.getRightParenthesisKeyword_10());
+    config.setNoSpace().before(elements.getCommaKeyword_4_2_0());
+    config.setNoSpace().before(elements.getCommaKeyword_9_1_0());
+    config.setNoSpace().before(elements.getCommaKeyword_11_2_0());
+    config.setLinewrap(1).around(elements.getRule());
   }
 
   public void configureXParameter(FormattingConfig config, XcoreGrammarAccess.XParameterElements elements)
@@ -216,10 +250,14 @@ public class XcoreFormatter extends XbaseFormatter
 
   public void configureXBlockExpression(FormattingConfig config, XcoreGrammarAccess.XBlockExpressionElements elements)
   {
+    config.setLinewrap().around(elements.getRule());
   }
 
   public void configureXGenericType(FormattingConfig config, XcoreGrammarAccess.XGenericTypeElements elements)
   {
+    config.setNoSpace().around(elements.getLessThanSignKeyword_1_0());
+    config.setNoSpace().before(elements.getCommaKeyword_1_2_0());
+    config.setNoSpace().before(elements.getGreaterThanSignKeyword_1_3());
   }
 
   public void configureXGenericTypeArgument(FormattingConfig config, XcoreGrammarAccess.XGenericTypeArgumentElements elements)
@@ -232,14 +270,17 @@ public class XcoreFormatter extends XbaseFormatter
 
   public void configureXQualifiedName(FormattingConfig config, XcoreGrammarAccess.XQualifiedNameElements elements)
   {
+    // No configuration required.
   }
 
   public void configureXID(FormattingConfig config, XcoreGrammarAccess.XIDElements elements)
   {
+    // No configuration required.
   }
 
   public void configureValidID(FormattingConfig config, XcoreGrammarAccess.ValidIDElements elements)
   {
+    // No configuration required.
   }
 
 }
