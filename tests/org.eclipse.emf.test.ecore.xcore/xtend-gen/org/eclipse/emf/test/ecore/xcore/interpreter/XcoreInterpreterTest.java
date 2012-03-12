@@ -61,8 +61,7 @@ public class XcoreInterpreterTest {
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
-      XPackage _parse = this.parse.parse(_builder);
-      final XPackage pack = _parse;
+      final XPackage pack = this.parse.parse(_builder);
       this.validator.assertNoErrors(pack);
       Resource _eResource = pack.eResource();
       EList<EObject> _contents = _eResource.getContents();
@@ -71,8 +70,7 @@ public class XcoreInterpreterTest {
       EClassifier _eClassifier = ePackage.getEClassifier("Foo");
       final EClass fooClass = ((EClass) _eClassifier);
       EFactory _eFactoryInstance = ePackage.getEFactoryInstance();
-      EObject _create = _eFactoryInstance.create(fooClass);
-      final EObject foo = _create;
+      final EObject foo = _eFactoryInstance.create(fooClass);
       EList<EOperation> _eOperations = fooClass.getEOperations();
       EOperation _head = IterableExtensions.<EOperation>head(_eOperations);
       ArrayList<String> _newArrayList = CollectionLiterals.<String>newArrayList("Bar");
@@ -115,8 +113,7 @@ public class XcoreInterpreterTest {
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
-      XPackage _parse = this.parse.parse(_builder);
-      final XPackage pack = _parse;
+      final XPackage pack = this.parse.parse(_builder);
       this.validator.assertNoErrors(pack);
       Resource _eResource = pack.eResource();
       EList<EObject> _contents = _eResource.getContents();
@@ -125,8 +122,7 @@ public class XcoreInterpreterTest {
       EClassifier _eClassifier = ePackage.getEClassifier("Foo");
       final EClass fooClass = ((EClass) _eClassifier);
       EFactory _eFactoryInstance = ePackage.getEFactoryInstance();
-      EObject _create = _eFactoryInstance.create(fooClass);
-      final EObject foo = _create;
+      final EObject foo = _eFactoryInstance.create(fooClass);
       EList<EOperation> _eOperations = fooClass.getEOperations();
       EOperation _head = IterableExtensions.<EOperation>head(_eOperations);
       ArrayList<String> _newArrayList = CollectionLiterals.<String>newArrayList("Bar");
@@ -172,8 +168,7 @@ public class XcoreInterpreterTest {
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
-      XPackage _parse = this.parse.parse(_builder);
-      final XPackage pack = _parse;
+      final XPackage pack = this.parse.parse(_builder);
       this.validator.assertNoErrors(pack);
       Resource _eResource = pack.eResource();
       EList<EObject> _contents = _eResource.getContents();
@@ -182,8 +177,7 @@ public class XcoreInterpreterTest {
       EClassifier _eClassifier = ePackage.getEClassifier("Foo");
       final EClass fooClass = ((EClass) _eClassifier);
       EFactory _eFactoryInstance = ePackage.getEFactoryInstance();
-      EObject _create = _eFactoryInstance.create(fooClass);
-      final EObject foo = _create;
+      final EObject foo = _eFactoryInstance.create(fooClass);
       EList<EOperation> _eOperations = fooClass.getEOperations();
       EOperation _head = IterableExtensions.<EOperation>head(_eOperations);
       ArrayList<String> _newArrayList = CollectionLiterals.<String>newArrayList("Bar");
@@ -211,8 +205,7 @@ public class XcoreInterpreterTest {
       _builder.newLine();
       _builder.append("convert { it?.toString  }");
       _builder.newLine();
-      XPackage _parse = this.parse.parse(_builder);
-      final XPackage pack = _parse;
+      final XPackage pack = this.parse.parse(_builder);
       this.validator.assertNoErrors(pack);
       Resource _eResource = pack.eResource();
       EList<EObject> _contents = _eResource.getContents();
@@ -250,8 +243,7 @@ public class XcoreInterpreterTest {
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
-      XPackage _parse = this.parse.parse(_builder);
-      final XPackage pack = _parse;
+      final XPackage pack = this.parse.parse(_builder);
       this.validator.assertNoErrors(pack);
       Resource _eResource = pack.eResource();
       EList<EObject> _contents = _eResource.getContents();
@@ -260,8 +252,7 @@ public class XcoreInterpreterTest {
       EClassifier _eClassifier = ePackage.getEClassifier("Foo");
       final EClass fooClass = ((EClass) _eClassifier);
       EFactory _eFactoryInstance = ePackage.getEFactoryInstance();
-      EObject _create = _eFactoryInstance.create(fooClass);
-      final EObject foo = _create;
+      final EObject foo = _eFactoryInstance.create(fooClass);
       EStructuralFeature _eStructuralFeature = fooClass.getEStructuralFeature("name");
       foo.eSet(_eStructuralFeature, "Sven");
       EStructuralFeature _eStructuralFeature_1 = fooClass.getEStructuralFeature("alias");
@@ -313,8 +304,7 @@ public class XcoreInterpreterTest {
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
-      XPackage _parse = this.parse.parse(_builder);
-      final XPackage pack = _parse;
+      final XPackage pack = this.parse.parse(_builder);
       this.validator.assertNoErrors(pack);
       Resource _eResource = pack.eResource();
       EList<EObject> _contents = _eResource.getContents();
@@ -325,15 +315,13 @@ public class XcoreInterpreterTest {
       EClassifier _eClassifier_1 = ePackage.getEClassifier("Node");
       final EClass nodeClass = ((EClass) _eClassifier_1);
       EFactory _eFactoryInstance = ePackage.getEFactoryInstance();
-      EObject _create = _eFactoryInstance.create(nodeClass);
-      final EObject node = _create;
+      final EObject node = _eFactoryInstance.create(nodeClass);
       EEnumLiteral _eEnumLiteral = nodeKindEnum.getEEnumLiteral("Singleton");
       EStructuralFeature _eStructuralFeature = nodeClass.getEStructuralFeature("nodeKind");
       Object _eGet = node.eGet(_eStructuralFeature);
       Assert.assertEquals(_eEnumLiteral, _eGet);
       EFactory _eFactoryInstance_1 = ePackage.getEFactoryInstance();
-      EObject _create_1 = _eFactoryInstance_1.create(nodeClass);
-      final EObject childNode = _create_1;
+      final EObject childNode = _eFactoryInstance_1.create(nodeClass);
       EStructuralFeature _eStructuralFeature_1 = nodeClass.getEStructuralFeature("children");
       Object _eGet_1 = node.eGet(_eStructuralFeature_1);
       ((List) _eGet_1).add(childNode);

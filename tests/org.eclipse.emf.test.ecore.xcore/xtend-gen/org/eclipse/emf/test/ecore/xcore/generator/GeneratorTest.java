@@ -14,7 +14,6 @@ import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.junit4.util.ParseHelper;
 import org.eclipse.xtext.xbase.lib.Exceptions;
-import org.eclipse.xtext.xbase.lib.StringExtensions;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,8 +38,7 @@ public class GeneratorTest {
       _builder.newLine();
       _builder.append("class X {}");
       _builder.newLine();
-      XPackage _parse = this.parser.parse(_builder);
-      final XPackage xPackage = _parse;
+      final XPackage xPackage = this.parser.parse(_builder);
       InMemoryFileSystemAccess _inMemoryFileSystemAccess = new InMemoryFileSystemAccess();
       final InMemoryFileSystemAccess inmemFsa = _inMemoryFileSystemAccess;
       Resource _eResource = xPackage.eResource();
@@ -52,8 +50,8 @@ public class GeneratorTest {
       int _size = _files_1.size();
       Assert.assertEquals(_string, 8, _size);
       Map<String,CharSequence> _files_2 = inmemFsa.getFiles();
-      String _operator_plus = StringExtensions.operator_plus(IFileSystemAccess.DEFAULT_OUTPUT, "/test/util/TestSwitch.java");
-      CharSequence _get = _files_2.get(_operator_plus);
+      String _plus = (IFileSystemAccess.DEFAULT_OUTPUT + "/test/util/TestSwitch.java");
+      CharSequence _get = _files_2.get(_plus);
       Assert.assertNotNull(_get);
     } catch (Exception _e) {
       throw Exceptions.sneakyThrow(_e);

@@ -8,6 +8,8 @@ import org.osgi.framework.Bundle;
 
 import com.google.inject.Injector;
 
+import org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator;
+
 /**
  * This class was generated. Customizations should only happen in a newly
  * introduced subclass. 
@@ -16,12 +18,12 @@ public class XcoreExecutableExtensionFactory extends AbstractGuiceAwareExecutabl
 
 	@Override
 	protected Bundle getBundle() {
-		return org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator.getInstance().getBundle();
+		return XcoreActivator.getInstance().getBundle();
 	}
 	
 	@Override
 	protected Injector getInjector() {
-		return org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator.getInstance().getInjector("org.eclipse.emf.ecore.xcore.Xcore");
+		return XcoreActivator.getInstance().getInjector(XcoreActivator.ORG_ECLIPSE_EMF_ECORE_XCORE_XCORE);
 	}
 	
 }

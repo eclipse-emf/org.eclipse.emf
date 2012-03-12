@@ -1,5 +1,6 @@
 package org.eclipse.emf.test.ecore.xcore;
 
+import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
 import java.util.Iterator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
@@ -47,11 +48,9 @@ public class MultiFileTest {
   public void testReferenceBetweenTwoModels() {
     try {
       URI _createURI = URI.createURI("file:/modelA.xcore");
-      Resource _createResource = this.resourceSet.createResource(_createURI);
-      final Resource resourceA = _createResource;
+      final Resource resourceA = this.resourceSet.createResource(_createURI);
       URI _createURI_1 = URI.createURI("file:/modelB.xcore");
-      Resource _createResource_1 = this.resourceSet.createResource(_createURI_1);
-      final Resource resourceB = _createResource_1;
+      final Resource resourceB = this.resourceSet.createResource(_createURI_1);
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package packB");
       _builder.newLine();
@@ -83,16 +82,13 @@ public class MultiFileTest {
       EList<EObject> _contents_1 = resourceB.getContents();
       EObject _head_1 = IterableExtensions.<EObject>head(_contents_1);
       this.validator.assertNoErrors(_head_1);
-      TreeIterator<EObject> _allContents = resourceA.getAllContents();
-      final TreeIterator<EObject> allContents = _allContents;
-      Iterator<XClass> _filter = IteratorExtensions.<XClass>filter(allContents, org.eclipse.emf.ecore.xcore.XClass.class);
-      XClass _head_2 = IteratorExtensions.<XClass>head(_filter);
-      final XClass xclass = _head_2;
+      final TreeIterator<EObject> allContents = resourceA.getAllContents();
+      Iterator<XClass> _filter = Iterators.<XClass>filter(allContents, XClass.class);
+      final XClass xclass = IteratorExtensions.<XClass>head(_filter);
       EList<XMember> _members = xclass.getMembers();
-      XMember _head_3 = IterableExtensions.<XMember>head(_members);
-      XGenericType _type = _head_3.getType();
-      GenBase _type_1 = _type.getType();
-      final GenBase referencedGenClass = _type_1;
+      XMember _head_2 = IterableExtensions.<XMember>head(_members);
+      XGenericType _type = _head_2.getType();
+      final GenBase referencedGenClass = _type.getType();
       String _name = ((GenClass) referencedGenClass).getName();
       Assert.assertEquals("TypeB", _name);
     } catch (Exception _e) {
@@ -104,11 +100,9 @@ public class MultiFileTest {
   public void testBidirectionalReferenceBetweenTwoModels() {
     try {
       URI _createURI = URI.createURI("file:/modelA.xcore");
-      Resource _createResource = this.resourceSet.createResource(_createURI);
-      final Resource resourceA = _createResource;
+      final Resource resourceA = this.resourceSet.createResource(_createURI);
       URI _createURI_1 = URI.createURI("file:/modelB.xcore");
-      Resource _createResource_1 = this.resourceSet.createResource(_createURI_1);
-      final Resource resourceB = _createResource_1;
+      final Resource resourceB = this.resourceSet.createResource(_createURI_1);
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package packB");
       _builder.newLine();
@@ -143,21 +137,18 @@ public class MultiFileTest {
       EList<EObject> _contents_1 = resourceB.getContents();
       EObject _head_1 = IterableExtensions.<EObject>head(_contents_1);
       this.validator.assertNoErrors(_head_1);
-      TreeIterator<EObject> _allContents = resourceA.getAllContents();
-      final TreeIterator<EObject> allContents = _allContents;
-      Iterator<XClass> _filter = IteratorExtensions.<XClass>filter(allContents, org.eclipse.emf.ecore.xcore.XClass.class);
-      XClass _head_2 = IteratorExtensions.<XClass>head(_filter);
-      final XClass xclass = _head_2;
+      final TreeIterator<EObject> allContents = resourceA.getAllContents();
+      Iterator<XClass> _filter = Iterators.<XClass>filter(allContents, XClass.class);
+      final XClass xclass = IteratorExtensions.<XClass>head(_filter);
       EList<XMember> _members = xclass.getMembers();
-      XMember _head_3 = IterableExtensions.<XMember>head(_members);
-      XGenericType _type = _head_3.getType();
-      GenBase _type_1 = _type.getType();
-      final GenBase referencedGenClass = _type_1;
+      XMember _head_2 = IterableExtensions.<XMember>head(_members);
+      XGenericType _type = _head_2.getType();
+      final GenBase referencedGenClass = _type.getType();
       String _name = ((GenClass) referencedGenClass).getName();
       Assert.assertEquals("TypeB", _name);
       EList<XMember> _members_1 = xclass.getMembers();
-      XMember _head_4 = IterableExtensions.<XMember>head(_members_1);
-      final XReference ref = ((XReference) _head_4);
+      XMember _head_3 = IterableExtensions.<XMember>head(_members_1);
+      final XReference ref = ((XReference) _head_3);
       GenFeature _opposite = ref.getOpposite();
       XStructuralFeature _xFeature = this.mapper.getXFeature(_opposite);
       GenFeature _opposite_1 = ((XReference) _xFeature).getOpposite();

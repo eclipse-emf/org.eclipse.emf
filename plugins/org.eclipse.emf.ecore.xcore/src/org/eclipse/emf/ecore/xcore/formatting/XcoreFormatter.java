@@ -8,9 +8,8 @@
 package org.eclipse.emf.ecore.xcore.formatting;
 
 
+import org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess;
 import org.eclipse.xtext.formatting.impl.FormattingConfig;
-import org.eclipse.xtext.Keyword;
-import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.xbase.formatting.XbaseFormatter;
 import org.eclipse.xtext.xbase.services.XbaseGrammarAccess;
 
@@ -19,10 +18,10 @@ import com.google.inject.Inject;
 
 /**
  * This class contains custom formatting description.
- * 
+ *
  * see : http://www.eclipse.org/Xtext/documentation/latest/xtext.html#formatting
- * on how and when to use it 
- * 
+ * on how and when to use it
+ *
  * Also see {@link org.eclipse.xtext.xtext.XtextFormattingTokenSerializer} as an example
  */
 public class XcoreFormatter extends XbaseFormatter
@@ -31,11 +30,42 @@ public class XcoreFormatter extends XbaseFormatter
   XbaseGrammarAccess xbaseGrammarAccess;
 
   @Override
-  protected void configureFormatting(FormattingConfig c)
+  protected void configureFormatting(FormattingConfig config)
   {
-    // configure(c, xbaseGrammarAccess);
-    c.setAutoLinewrap(140);
-    org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess f = (org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess)getGrammarAccess();
+    configure(config, xbaseGrammarAccess);
+    config.setAutoLinewrap(140);
+    configureFormatting(config, (XcoreGrammarAccess)getGrammarAccess());
+  }
+
+  public void configureFormatting(FormattingConfig config, XcoreGrammarAccess grammarAccess)
+  {
+    configureXPackage(config, grammarAccess.getXPackageAccess());
+    configureXAnnotation(config, grammarAccess.getXAnnotationAccess());
+    configureXStringToStringMapEntry(config, grammarAccess.getXStringToStringMapEntryAccess());
+    configureXImportDirective(config, grammarAccess.getXImportDirectiveAccess());
+    configureQualifiedNameWithWildcard(config, grammarAccess.getQualifiedNameWithWildcardAccess());
+    configureXAnnotationDirective(config, grammarAccess.getXAnnotationDirectiveAccess());
+    configureXClassifier(config, grammarAccess.getXClassifierAccess());
+    configureXDataType(config, grammarAccess.getXDataTypeAccess());
+    configureXEnum(config, grammarAccess.getXEnumAccess());
+    configureXEnumLiteral(config, grammarAccess.getXEnumLiteralAccess());
+    configureXClass(config, grammarAccess.getXClassAccess());
+    configureXMember(config, grammarAccess.getXMemberAccess());
+    configureXAttribute(config, grammarAccess.getXAttributeAccess());
+    configureXReference(config, grammarAccess.getXReferenceAccess());
+    configureXOperation(config, grammarAccess.getXOperationAccess());
+    configureXParameter(config, grammarAccess.getXParameterAccess());
+    configureXTypeParameter(config, grammarAccess.getXTypeParameterAccess());
+    configureXMultiplicity(config, grammarAccess.getXMultiplicityAccess());
+    configureXBlockExpression(config, grammarAccess.getXBlockExpressionAccess());
+    configureXGenericType(config, grammarAccess.getXGenericTypeAccess());
+    configureXGenericTypeArgument(config, grammarAccess.getXGenericTypeArgumentAccess());
+    configureXGenericWildcardTypeArgument(config, grammarAccess.getXGenericWildcardTypeArgumentAccess());
+    configureXQualifiedName(config, grammarAccess.getXQualifiedNameAccess());
+    configureXID(config, grammarAccess.getXIDAccess());
+    configureValidID(config, grammarAccess.getValidIDAccess());
+
+    /*
     for (Pair<Keyword, Keyword> pair : f.findKeywordPairs("{", "}"))
     {
       c.setIndentation(pair.getFirst(), pair.getSecond());
@@ -95,5 +125,121 @@ public class XcoreFormatter extends XbaseFormatter
     c.setLinewrap(0, 1, 2).before(f.getSL_COMMENTRule());
     c.setLinewrap(0, 1, 2).before(f.getML_COMMENTRule());
     c.setLinewrap(0, 1, 1).after(f.getML_COMMENTRule());
+    */
   }
+
+  public void configureXPackage(FormattingConfig config, XcoreGrammarAccess.XPackageElements elements)
+  {
+    config.setLinewrap().around(elements.getAnnotationsAssignment_1());
+    config.setLinewrap(2).after(elements.getNameAssignment_3());
+    config.setLinewrap().around(elements.getImportDirectivesAssignment_4());
+    config.setLinewrap().around(elements.getAnnotationDirectivesAssignment_5());
+    config.setLinewrap(2).around(elements.getClassifiersAssignment_6());
+  }
+
+  public void configureXAnnotation(FormattingConfig config, XcoreGrammarAccess.XAnnotationElements elements)
+  {
+    config.setNoSpace().after(elements.getCommercialAtKeyword_0());
+    config.setNoSpace().around(elements.getLeftParenthesisKeyword_2_0());
+    config.setNoSpace().before(elements.getRightParenthesisKeyword_2_3());
+    config.setNoSpace().before(elements.getCommaKeyword_2_2_0());
+    //config.setLinewrap().after(elements.getRightParenthesisKeyword_2_3());
+  }
+
+  public void configureXStringToStringMapEntry(FormattingConfig config, XcoreGrammarAccess.XStringToStringMapEntryElements elements)
+  {
+    config.setNoSpace().around(elements.getEqualsSignKeyword_1());
+  }
+
+  public void configureXImportDirective(FormattingConfig config, XcoreGrammarAccess.XImportDirectiveElements elements)
+  {
+  }
+
+  public void configureQualifiedNameWithWildcard(FormattingConfig config, XcoreGrammarAccess.QualifiedNameWithWildcardElements elements)
+  {
+  }
+
+  public void configureXAnnotationDirective(FormattingConfig config, XcoreGrammarAccess.XAnnotationDirectiveElements elements)
+  {
+  }
+
+  public void configureXClassifier(FormattingConfig config, XcoreGrammarAccess.XClassifierElements elements)
+  {
+  }
+
+  public void configureXDataType(FormattingConfig config, XcoreGrammarAccess.XDataTypeElements elements)
+  {
+    config.setLinewrap().around(elements.getAnnotationsAssignment_0());
+  }
+
+  public void configureXEnum(FormattingConfig config, XcoreGrammarAccess.XEnumElements elements)
+  {
+    config.setLinewrap().around(elements.getAnnotationsAssignment_0());
+  }
+
+  public void configureXEnumLiteral(FormattingConfig config, XcoreGrammarAccess.XEnumLiteralElements elements)
+  {
+  }
+
+  public void configureXClass(FormattingConfig config, XcoreGrammarAccess.XClassElements elements)
+  {
+    config.setLinewrap().around(elements.getAnnotationsAssignment_1());
+  }
+
+  public void configureXMember(FormattingConfig config, XcoreGrammarAccess.XMemberElements elements)
+  {
+  }
+
+  public void configureXAttribute(FormattingConfig config, XcoreGrammarAccess.XAttributeElements elements)
+  {
+  }
+
+  public void configureXReference(FormattingConfig config, XcoreGrammarAccess.XReferenceElements elements)
+  {
+  }
+
+  public void configureXOperation(FormattingConfig config, XcoreGrammarAccess.XOperationElements elements)
+  {
+  }
+
+  public void configureXParameter(FormattingConfig config, XcoreGrammarAccess.XParameterElements elements)
+  {
+  }
+
+  public void configureXTypeParameter(FormattingConfig config, XcoreGrammarAccess.XTypeParameterElements elements)
+  {
+  }
+
+  public void configureXMultiplicity(FormattingConfig config, XcoreGrammarAccess.XMultiplicityElements elements)
+  {
+  }
+
+  public void configureXBlockExpression(FormattingConfig config, XcoreGrammarAccess.XBlockExpressionElements elements)
+  {
+  }
+
+  public void configureXGenericType(FormattingConfig config, XcoreGrammarAccess.XGenericTypeElements elements)
+  {
+  }
+
+  public void configureXGenericTypeArgument(FormattingConfig config, XcoreGrammarAccess.XGenericTypeArgumentElements elements)
+  {
+  }
+
+  public void configureXGenericWildcardTypeArgument(FormattingConfig config, XcoreGrammarAccess.XGenericWildcardTypeArgumentElements elements)
+  {
+  }
+
+  public void configureXQualifiedName(FormattingConfig config, XcoreGrammarAccess.XQualifiedNameElements elements)
+  {
+  }
+
+  public void configureXID(FormattingConfig config, XcoreGrammarAccess.XIDElements elements)
+  {
+  }
+
+  public void configureValidID(FormattingConfig config, XcoreGrammarAccess.ValidIDElements elements)
+  {
+  }
+
 }

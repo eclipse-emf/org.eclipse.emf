@@ -1,5 +1,6 @@
 package org.eclipse.emf.test.ecore.xcore;
 
+import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import java.util.Iterator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
@@ -30,7 +31,6 @@ import org.eclipse.xtext.junit4.util.ParseHelper;
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.xbase.lib.Exceptions;
-import org.eclipse.xtext.xbase.lib.IntegerExtensions;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.junit.Assert;
 import org.junit.Test;
@@ -52,8 +52,7 @@ public class ParsingTest {
   @Test
   public void parseSimpleFile() {
     try {
-      XPackage _parse = this.parser.parse("package foo");
-      final XPackage parse = _parse;
+      final XPackage parse = this.parser.parse("package foo");
       String _name = parse.getName();
       Assert.assertEquals("foo", _name);
     } catch (Exception _e) {
@@ -76,8 +75,7 @@ public class ParsingTest {
       _builder.newLine();
       _builder.append("} ");
       _builder.newLine();
-      XPackage _parse = this.parser.parse(_builder);
-      final XPackage pack = _parse;
+      final XPackage pack = this.parser.parse(_builder);
       Resource _eResource = pack.eResource();
       EcoreUtil.resolveAll(_eResource);
       this.vth.assertNoErrors(pack);
@@ -96,8 +94,7 @@ public class ParsingTest {
       _builder.newLine();
       _builder.append("class B extends A {}");
       _builder.newLine();
-      XPackage _parse = this.parser.parse(_builder);
-      final XPackage pack = _parse;
+      final XPackage pack = this.parser.parse(_builder);
       EList<XClassifier> _classifiers = pack.getClassifiers();
       XClassifier _get = _classifiers.get(1);
       final XClass clazz = ((XClass) _get);
@@ -121,8 +118,7 @@ public class ParsingTest {
       _builder.newLine();
       _builder.append("class B extends foo.A {}");
       _builder.newLine();
-      XPackage _parse = this.parser.parse(_builder);
-      final XPackage pack = _parse;
+      final XPackage pack = this.parser.parse(_builder);
       EList<XClassifier> _classifiers = pack.getClassifiers();
       XClassifier _get = _classifiers.get(1);
       final XClass clazz = ((XClass) _get);
@@ -148,8 +144,7 @@ public class ParsingTest {
       _builder.newLine();
       _builder.append("class A {} ");
       _builder.newLine();
-      XPackage _parse = this.parser.parse(_builder);
-      final XPackage pack = _parse;
+      final XPackage pack = this.parser.parse(_builder);
       EList<XClassifier> _classifiers = pack.getClassifiers();
       XClassifier _get = _classifiers.get(0);
       final XClass clazz = ((XClass) _get);
@@ -191,22 +186,17 @@ public class ParsingTest {
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
-      String _string = _builder.toString();
-      final String text = _string;
-      XPackage _parse = this.parser.parse(text);
-      final XPackage pack = _parse;
+      final String text = _builder.toString();
+      final XPackage pack = this.parser.parse(text);
       {
         EList<XClassifier> _classifiers = pack.getClassifiers();
         XClassifier _get = _classifiers.get(0);
         final XClass clazz = ((XClass) _get);
         EList<XMember> _members = clazz.getMembers();
-        Iterable<XReference> _filter = IterableExtensions.<XReference>filter(_members, org.eclipse.emf.ecore.xcore.XReference.class);
-        Iterator<XReference> _iterator = _filter.iterator();
-        final Iterator<XReference> refs = _iterator;
-        XReference _next = refs.next();
-        XReference refX = _next;
-        XReference _next_1 = refs.next();
-        XReference refY = _next_1;
+        Iterable<XReference> _filter = Iterables.<XReference>filter(_members, XReference.class);
+        final Iterator<XReference> refs = _filter.iterator();
+        XReference refX = refs.next();
+        XReference refY = refs.next();
         String _name = refY.getName();
         GenFeature _opposite = refX.getOpposite();
         String _name_1 = _opposite.getName();
@@ -219,8 +209,7 @@ public class ParsingTest {
       Resource _eResource = pack.eResource();
       final XtextResource resource = ((XtextResource) _eResource);
       EList<EObject> _contents = resource.getContents();
-      int _size = _contents.size();
-      final int elements = _size;
+      final int elements = _contents.size();
       int _length = text.length();
       resource.update(0, _length, text);
       {
@@ -230,13 +219,10 @@ public class ParsingTest {
         XClassifier _get_1 = _classifiers.get(0);
         final XClass clazz = ((XClass) _get_1);
         EList<XMember> _members = clazz.getMembers();
-        Iterable<XReference> _filter = IterableExtensions.<XReference>filter(_members, org.eclipse.emf.ecore.xcore.XReference.class);
-        Iterator<XReference> _iterator = _filter.iterator();
-        final Iterator<XReference> refs = _iterator;
-        XReference _next = refs.next();
-        XReference refX = _next;
-        XReference _next_1 = refs.next();
-        XReference refY = _next_1;
+        Iterable<XReference> _filter = Iterables.<XReference>filter(_members, XReference.class);
+        final Iterator<XReference> refs = _filter.iterator();
+        XReference refX = refs.next();
+        XReference refY = refs.next();
         String _name = refY.getName();
         GenFeature _opposite = refX.getOpposite();
         String _name_1 = _opposite.getName();
@@ -246,8 +232,8 @@ public class ParsingTest {
         String _name_3 = _opposite_1.getName();
         Assert.assertEquals(_name_2, _name_3);
         EList<EObject> _contents_2 = resource.getContents();
-        int _size_1 = _contents_2.size();
-        Assert.assertEquals(elements, _size_1);
+        int _size = _contents_2.size();
+        Assert.assertEquals(elements, _size);
       }
       resource.reparse(text);
       {
@@ -257,13 +243,10 @@ public class ParsingTest {
         XClassifier _get_1 = _classifiers.get(0);
         final XClass clazz = ((XClass) _get_1);
         EList<XMember> _members = clazz.getMembers();
-        Iterable<XReference> _filter = IterableExtensions.<XReference>filter(_members, org.eclipse.emf.ecore.xcore.XReference.class);
-        Iterator<XReference> _iterator = _filter.iterator();
-        final Iterator<XReference> refs = _iterator;
-        XReference _next = refs.next();
-        XReference refX = _next;
-        XReference _next_1 = refs.next();
-        XReference refY = _next_1;
+        Iterable<XReference> _filter = Iterables.<XReference>filter(_members, XReference.class);
+        final Iterator<XReference> refs = _filter.iterator();
+        XReference refX = refs.next();
+        XReference refY = refs.next();
         String _name = refY.getName();
         GenFeature _opposite = refX.getOpposite();
         String _name_1 = _opposite.getName();
@@ -273,8 +256,8 @@ public class ParsingTest {
         String _name_3 = _opposite_1.getName();
         Assert.assertEquals(_name_2, _name_3);
         EList<EObject> _contents_2 = resource.getContents();
-        int _size_1 = _contents_2.size();
-        Assert.assertEquals(elements, _size_1);
+        int _size = _contents_2.size();
+        Assert.assertEquals(elements, _size);
       }
     } catch (Exception _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -294,8 +277,7 @@ public class ParsingTest {
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
-      XPackage _parse = this.parser.parse(_builder);
-      final XPackage pack = _parse;
+      final XPackage pack = this.parser.parse(_builder);
       EList<XClassifier> _classifiers = pack.getClassifiers();
       XClassifier _head = IterableExtensions.<XClassifier>head(_classifiers);
       final XClass clazz = ((XClass) _head);
@@ -326,16 +308,15 @@ public class ParsingTest {
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
-      XPackage _parse = this.parser.parse(_builder);
-      final XPackage pack = _parse;
+      final XPackage pack = this.parser.parse(_builder);
       Resource _eResource = pack.eResource();
       EList<Diagnostic> _errors = _eResource.getErrors();
       String _string = _errors.toString();
       Resource _eResource_1 = pack.eResource();
       EList<Diagnostic> _errors_1 = _eResource_1.getErrors();
       int _size = _errors_1.size();
-      boolean _operator_lessEqualsThan = IntegerExtensions.operator_lessEqualsThan(1, _size);
-      Assert.assertTrue(_string, _operator_lessEqualsThan);
+      boolean _lessEqualsThan = (1 <= _size);
+      Assert.assertTrue(_string, _lessEqualsThan);
     } catch (Exception _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -354,8 +335,7 @@ public class ParsingTest {
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
-      XPackage _parse = this.parser.parse(_builder);
-      final XPackage pack = _parse;
+      final XPackage pack = this.parser.parse(_builder);
       EList<XClassifier> _classifiers = pack.getClassifiers();
       XClassifier _head = IterableExtensions.<XClassifier>head(_classifiers);
       final XClass clazz = ((XClass) _head);
@@ -452,8 +432,7 @@ public class ParsingTest {
       _builder.newLine();
       _builder.append("} ");
       _builder.newLine();
-      XPackage _parse = this.parser.parse(_builder);
-      final XPackage pack = _parse;
+      final XPackage pack = this.parser.parse(_builder);
       Resource _eResource = pack.eResource();
       EcoreUtil.resolveAll(_eResource);
       this.vth.assertNoErrors(pack);

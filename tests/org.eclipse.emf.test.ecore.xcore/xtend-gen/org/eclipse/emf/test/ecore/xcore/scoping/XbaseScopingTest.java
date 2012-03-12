@@ -42,8 +42,7 @@ public class XbaseScopingTest {
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
-      XPackage _parse = this.parser.parse(_builder);
-      final XPackage pack = _parse;
+      final XPackage pack = this.parser.parse(_builder);
       this.validator.assertNoErrors(pack);
     } catch (Exception _e) {
       throw Exceptions.sneakyThrow(_e);
