@@ -141,7 +141,7 @@ public final class FeatureMapUtil
 
   public static boolean isFeatureMap(EStructuralFeature eStructuralFeature)
   {
-    return ((EStructuralFeatureImpl)eStructuralFeature).isFeatureMap();
+    return ((EStructuralFeature.Internal)eStructuralFeature).isFeatureMap();
   }
 
   public static boolean isFeatureMapEntry(EClassifier eClassifier)
