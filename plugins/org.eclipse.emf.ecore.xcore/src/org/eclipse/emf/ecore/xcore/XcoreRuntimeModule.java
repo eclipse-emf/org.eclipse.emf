@@ -137,12 +137,12 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   }
 
   @Override
-  public java.lang.Class<? extends IContainer.Manager> bindIContainer$Manager()
+  public Class<? extends IContainer.Manager> bindIContainer$Manager()
   {
     return XcoreContainerManager.class;
   }
   
-  public java.lang.Class<? extends JvmModelAssociator> bindJvmModelAssociator()
+  public Class<? extends JvmModelAssociator> bindJvmModelAssociator()
   {
     return XcoreModelAssociator.class;
   }
