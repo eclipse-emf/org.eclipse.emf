@@ -33,7 +33,6 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
 import org.eclipse.xtext.common.types.JvmFormalParameter;
 import org.eclipse.xtext.common.types.JvmOperation;
-import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
@@ -216,31 +215,21 @@ public class XcoreScopeProvider extends XbaseScopeProvider
     else
     {
       IScope scope = super.getScope(context, reference);
-      if (reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE)
-      {
-        return new TypeParameterScope(scope, false, context, false);
-      }
-      else if (reference == TypesPackage.Literals.JVM_PARAMETERIZED_TYPE_REFERENCE__TYPE)
-      {
-        return new TypeParameterScope(scope, false, context, true);
-      }
-      else
-      {
-        return scope;
-      }
+      return
+        reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE ?
+          new TypeParameterScope(scope, false, context) :
+          scope;
     }
   }
 
   protected class TypeParameterScope extends AbstractScope
   {
     private final EObject context;
-    private final boolean needsJvmType;
 
-    public TypeParameterScope(IScope parent, boolean ignoreCase, EObject context, boolean needsJvmType)
+    public TypeParameterScope(IScope parent, boolean ignoreCase, EObject context)
     {
       super(parent, ignoreCase);
       this.context = context;
-      this.needsJvmType = needsJvmType;
     }
 
     void handleGenTypeParameters(List<IEObjectDescription> result, EList<GenTypeParameter> genTypeParameters)
@@ -250,7 +239,7 @@ public class XcoreScopeProvider extends XbaseScopeProvider
         result.add
           (new EObjectDescription
              (qualifiedNameConverter.toQualifiedName(genTypeParameter.getName()),
-              needsJvmType ? mapper.getMapping(mapper.getXTypeParameter(genTypeParameter)).getJvmTypeParameter() : genTypeParameter, 
+              genTypeParameter,
               null));
       }
     }

@@ -61,6 +61,8 @@ import org.eclipse.xtext.common.types.TypesFactory;
 import org.eclipse.xtext.common.types.util.TypeReferences;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
+import org.eclipse.xtext.xbase.XBlockExpression;
+import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociator;
 
 import com.google.inject.Inject;
 
@@ -78,6 +80,9 @@ public class XcoreJvmInferrer
 
   @Inject
   private XcoreMapper mapper;
+  
+  @Inject
+  private IJvmModelAssociator jvmModelAssociator;
 
   public List<? extends JvmDeclaredType> getDeclaredTypes(XPackage xPackage)
   {
@@ -106,7 +111,8 @@ public class XcoreJvmInferrer
         {
           final XDataType xDataType = mapper.getXDataType(genClassifier);
           final XDataTypeMapping mapping = mapper.getMapping(xDataType);
-          if (xDataType.getCreateBody() != null)
+          XBlockExpression createBody = xDataType.getCreateBody();
+          if (createBody != null)
           {
             JvmOperation jvmOperation = TypesFactory.eINSTANCE.createJvmOperation();
             jvmOperation.setVisibility(JvmVisibility.PUBLIC);
@@ -119,8 +125,10 @@ public class XcoreJvmInferrer
             jvmOperation.setReturnType(returnType);
             mapping.setCreator(jvmOperation);
             factoryClass.getMembers().add(jvmOperation);
+            jvmModelAssociator.associateLogicalContainer(createBody, jvmOperation);
           }
-          if (xDataType.getConvertBody() != null)
+          XBlockExpression convertBody = xDataType.getConvertBody();
+          if (convertBody != null)
           {
             JvmOperation jvmOperation = TypesFactory.eINSTANCE.createJvmOperation();
             jvmOperation.setVisibility(JvmVisibility.PUBLIC);
@@ -133,6 +141,7 @@ public class XcoreJvmInferrer
             jvmOperation.setReturnType(typeReferences.getTypeForName("java.lang.String", genPackage));
             mapping.setConverter(jvmOperation);
             factoryClass.getMembers().add(jvmOperation);
+            jvmModelAssociator.associateLogicalContainer(convertBody, jvmOperation);
           }
         }
       }
@@ -298,6 +307,11 @@ public class XcoreJvmInferrer
       jvmOperation.setSimpleName(genFeature.getGetAccessor());
       jvmOperation.setReturnType(getJvmTypeReference(genFeature.getType(genFeature.getGenClass()), genFeature));
       result.add(jvmOperation);
+      XBlockExpression getBody = xStructuralFeature.getGetBody();
+      if (getBody != null)
+      {
+        jvmModelAssociator.associate(getBody, jvmOperation);
+      } 
     }
     if (genFeature.isSet() && !genFeature.isSuppressedSetVisibility())
     {
@@ -314,6 +328,11 @@ public class XcoreJvmInferrer
       jvmOperation.setSimpleName("set" + genFeature.getAccessorName());
       jvmOperation.setReturnType(typeReferences.getTypeForName("void", genFeature));
       result.add(jvmOperation);
+      XBlockExpression setBody = xStructuralFeature.getSetBody();
+      if (setBody != null)
+      {
+        jvmModelAssociator.associate(setBody, jvmOperation);
+      } 
     }
 
     return result;
@@ -352,6 +371,11 @@ public class XcoreJvmInferrer
       {
         typeParameters.add(getJvmTypeParameter(genTypeParameter));
       }
+    }
+    XBlockExpression body = xOperation.getBody();
+    if (body != null)
+    {
+      jvmModelAssociator.associateLogicalContainer(body, jvmOperation);
     }
     return jvmOperation;
   }

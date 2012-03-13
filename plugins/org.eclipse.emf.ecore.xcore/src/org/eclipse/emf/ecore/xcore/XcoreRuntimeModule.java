@@ -11,6 +11,8 @@ package org.eclipse.emf.ecore.xcore;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xcore.conversion.FixedQualifiedNameValueConverter;
 import org.eclipse.emf.ecore.xcore.conversion.ValueConverterService;
+import org.eclipse.emf.ecore.xcore.generator.XcoreGenerator;
+import org.eclipse.emf.ecore.xcore.resource.XcoreModelAssociator;
 import org.eclipse.emf.ecore.xcore.resource.XcoreReferableElementsUnloader;
 import org.eclipse.emf.ecore.xcore.resource.XcoreResource;
 import org.eclipse.emf.ecore.xcore.resource.containers.XcoreContainerManager;
@@ -19,6 +21,7 @@ import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvi
 import org.eclipse.emf.ecore.xcore.scoping.XcoreQualifiedNameProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionManager;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionStrategy;
+import org.eclipse.emf.ecore.xcore.scoping.XcoreScopeProvider;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnosticConverter;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnostician;
 import org.eclipse.xtext.conversion.IValueConverterService;
@@ -26,8 +29,8 @@ import org.eclipse.xtext.conversion.impl.QualifiedNameValueConverter;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.parser.antlr.IReferableElementsUnloader;
+import org.eclipse.xtext.resource.IContainer;
 import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
-import org.eclipse.xtext.resource.IDerivedStateComputer;
 import org.eclipse.xtext.resource.IResourceDescription.Manager;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.scoping.IScopeProvider;
@@ -37,6 +40,7 @@ import org.eclipse.xtext.serializer.impl.Serializer;
 import org.eclipse.xtext.service.SingletonBinding;
 import org.eclipse.xtext.validation.IDiagnosticConverter;
 import org.eclipse.xtext.xbase.featurecalls.IdentifiableSimpleNameProvider;
+import org.eclipse.xtext.xbase.jvmmodel.JvmModelAssociator;
 
 import com.google.inject.Binder;
 import com.google.inject.name.Names;
@@ -46,7 +50,7 @@ import com.google.inject.name.Names;
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 @SuppressWarnings("restriction")
-public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcoreRuntimeModule
+public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
 {
 
   @Override
@@ -54,7 +58,8 @@ public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcor
   {
     return Serializer.class;
   }
-
+  
+  @Override
   public Class<? extends IDefaultResourceDescriptionStrategy> bindIDefaultResourceDescriptionStrategy()
   {
     return XcoreResourceDescriptionStrategy.class;
@@ -82,7 +87,7 @@ public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcor
   @Override
   public Class<? extends IScopeProvider> bindIScopeProvider()
   {
-    return org.eclipse.emf.ecore.xcore.scoping.XcoreScopeProvider.class;
+    return XcoreScopeProvider.class;
   }
 
   @Override
@@ -126,20 +131,19 @@ public class XcoreRuntimeModule extends org.eclipse.emf.ecore.xcore.AbstractXcor
   }
 
   @Override
-  public Class<? extends IDerivedStateComputer> bindIDerivedStateComputer()
-  {
-    return org.eclipse.emf.ecore.xcore.resource.LateInferrer.class;
-  }
-
-  @Override
   public Class<? extends IGenerator> bindIGenerator()
   {
-    return org.eclipse.emf.ecore.xcore.generator.XcoreGenerator.class;
+    return XcoreGenerator.class;
   }
 
   @Override
-  public java.lang.Class<? extends org.eclipse.xtext.resource.IContainer.Manager> bindIContainer$Manager()
+  public java.lang.Class<? extends IContainer.Manager> bindIContainer$Manager()
   {
     return XcoreContainerManager.class;
+  }
+  
+  public java.lang.Class<? extends JvmModelAssociator> bindJvmModelAssociator()
+  {
+    return XcoreModelAssociator.class;
   }
 }
