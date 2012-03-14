@@ -625,4 +625,16 @@ public interface GenClass extends GenClassifier
    */
   List<String> getQualifiedInterfaceExtendsList();
   
+
+  /**
+   * Returns a list that corresponds to {@link #getClassImplements()}.
+   * @since 2.8
+   */
+  List<String> getQualifiedClassImplementsList();
+  
+  /**
+   * Returns a value that corresponds to {@link #getClassExtends()}.
+   * @since 2.8
+   */
+  String getQualifiedClassExtends();
 }

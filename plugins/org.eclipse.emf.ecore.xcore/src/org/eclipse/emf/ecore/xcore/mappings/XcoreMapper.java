@@ -255,7 +255,7 @@ public class XcoreMapper
     return adapter;
   }
 
-  protected EObject getXcoreElement(EObject eObject)
+  public EObject getXcoreElement(EObject eObject)
   {
     ToXcoreMapping adapter = (ToXcoreMapping)EcoreUtil.getAdapter(eObject.eAdapters(), ToXcoreMapping.class);
     return adapter == null ? null : adapter.getXcoreElement();

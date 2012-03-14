@@ -555,12 +555,17 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getClassExtends()
   {
+    String result = getQualifiedClassExtends();
+    return "".equals(result) ? "" : " extends " + getGenModel().getImportedName(result);
+  }
+
+  public String getQualifiedClassExtends()
+  {
     GenClass extendsClass = getClassExtendsGenClass();
     if (extendsClass != null)
     {   
       StringBuilder result = new StringBuilder();
-      result.append(" extends ");
-      result.append(extendsClass.getImportedClassName());
+      result.append(extendsClass.getClassName());
       if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
       {
         EClass extendsEClass = extendsClass.getEcoreClass();
@@ -568,7 +573,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         {
           if (eGenericType.getEClassifier() == extendsEClass)
           {
-            result.append(getTypeArguments(this, eGenericType.getETypeArguments(), true));
+            result.append(getTypeArguments(this, eGenericType.getETypeArguments(), false));
             break;
           }
         }
@@ -580,7 +585,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       String rootExtendsClass = getGenModel().getRootExtendsClass();
       if (!isBlank(rootExtendsClass))
       {
-        return " extends " + getGenModel().getImportedName(rootExtendsClass);
+        return rootExtendsClass;
       }
     }
     return "";
@@ -617,7 +622,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return result;
   }
 
-  protected List<String> getQualifiedClassImplementsList()
+  public List<String> getQualifiedClassImplementsList()
   {
     List<String> result = new UniqueEList<String>();
     if (isMapEntry())

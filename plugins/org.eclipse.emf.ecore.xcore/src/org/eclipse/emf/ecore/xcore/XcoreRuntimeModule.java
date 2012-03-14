@@ -31,6 +31,7 @@ import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.parser.antlr.IReferableElementsUnloader;
 import org.eclipse.xtext.resource.IContainer;
 import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
+import org.eclipse.xtext.resource.IDerivedStateComputer;
 import org.eclipse.xtext.resource.IResourceDescription.Manager;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.scoping.IScopeProvider;
@@ -40,7 +41,8 @@ import org.eclipse.xtext.serializer.impl.Serializer;
 import org.eclipse.xtext.service.SingletonBinding;
 import org.eclipse.xtext.validation.IDiagnosticConverter;
 import org.eclipse.xtext.xbase.featurecalls.IdentifiableSimpleNameProvider;
-import org.eclipse.xtext.xbase.jvmmodel.JvmModelAssociator;
+import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations;
+import org.eclipse.xtext.xbase.jvmmodel.ILogicalContainerProvider;
 
 import com.google.inject.Binder;
 import com.google.inject.name.Names;
@@ -142,7 +144,18 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
     return XcoreContainerManager.class;
   }
   
-  public Class<? extends JvmModelAssociator> bindJvmModelAssociator()
+  public Class<? extends IJvmModelAssociations> bindIJvmModelAssociationsx()
+  {
+    return XcoreModelAssociator.class;
+  }
+
+  public Class<? extends ILogicalContainerProvider> bindILogicalContainerProviderx()
+  {
+    return XcoreModelAssociator.class;
+  }
+
+  @Override
+  public Class<? extends IDerivedStateComputer> bindIDerivedStateComputer()
   {
     return XcoreModelAssociator.class;
   }

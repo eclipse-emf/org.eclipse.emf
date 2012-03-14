@@ -62,7 +62,6 @@ import org.eclipse.xtext.common.types.util.TypeReferences;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.xbase.XBlockExpression;
-import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociator;
 
 import com.google.inject.Inject;
 
@@ -81,9 +80,6 @@ public class XcoreJvmInferrer
   @Inject
   private XcoreMapper mapper;
   
-  @Inject
-  private IJvmModelAssociator jvmModelAssociator;
-
   public List<? extends JvmDeclaredType> getDeclaredTypes(XPackage xPackage)
   {
     GenPackage genPackage = mapper.getMapping(xPackage).getGenPackage();
@@ -125,7 +121,6 @@ public class XcoreJvmInferrer
             jvmOperation.setReturnType(returnType);
             mapping.setCreator(jvmOperation);
             factoryClass.getMembers().add(jvmOperation);
-            jvmModelAssociator.associateLogicalContainer(createBody, jvmOperation);
           }
           XBlockExpression convertBody = xDataType.getConvertBody();
           if (convertBody != null)
@@ -141,7 +136,6 @@ public class XcoreJvmInferrer
             jvmOperation.setReturnType(typeReferences.getTypeForName("java.lang.String", genPackage));
             mapping.setConverter(jvmOperation);
             factoryClass.getMembers().add(jvmOperation);
-            jvmModelAssociator.associateLogicalContainer(convertBody, jvmOperation);
           }
         }
       }
@@ -181,6 +175,7 @@ public class XcoreJvmInferrer
       {
         XEnumLiteral xEnumLiteral = mapper.getXEnumLiteral(genEnumLiteral);
         JvmEnumerationLiteral jvmEnumerationLiteral = TypesFactory.eINSTANCE.createJvmEnumerationLiteral();
+        mapper.getMapping(xEnumLiteral).setField(jvmEnumerationLiteral);
         jvmEnumerationLiteral.setStatic(true);
         jvmEnumerationLiteral.setFinal(true);
         jvmEnumerationLiteral.setSimpleName(genEnumLiteral.getEnumLiteralInstanceConstantName());
@@ -217,25 +212,82 @@ public class XcoreJvmInferrer
     final XClassMapping mapping = mapper.getMapping(xClass);
     if (!genClass.isExternalInterface() && (!genClass.getGenModel().isSuppressInterfaces() || genClass.isInterface()))
     {
-      JvmGenericType jvmGenericType = TypesFactory.eINSTANCE.createJvmGenericType();
+      JvmGenericType jvmGenericType = getDeclaredType(genClass, xClass, mapping, false);
+      result.add(jvmGenericType);
+    }
+    if (!genClass.isExternalInterface() && (genClass.getGenModel().isSuppressInterfaces() || !genClass.isInterface()))
+    {
+      JvmGenericType jvmGenericType = getDeclaredType(genClass, xClass, mapping, true);
+      result.add(jvmGenericType);
+    }
+    return result;
+  }
+
+  private JvmGenericType getDeclaredType(GenClass genClass, final XClass xClass, final XClassMapping mapping, boolean isImplementation)
+  {
+    JvmGenericType jvmGenericType = TypesFactory.eINSTANCE.createJvmGenericType();
+    if (isImplementation)
+    {
+      mapping.setClassType(jvmGenericType);
+    }
+    else
+    {
       mapping.setInterfaceType(jvmGenericType);
-      mapper.getToXcoreMapping(jvmGenericType).setXcoreElement(xClass);
+    }
+    mapper.getToXcoreMapping(jvmGenericType).setXcoreElement(xClass);
+    if (isImplementation)
+    {
+      jvmGenericType.setSimpleName(genClass.getClassName());
+      jvmGenericType.setPackageName(genClass.getGenPackage().getClassPackageName());
+      
+    }
+    else
+    {
       jvmGenericType.setSimpleName(genClass.getName());
       jvmGenericType.setPackageName(genClass.getGenPackage().getInterfacePackageName());
-      jvmGenericType.setVisibility(JvmVisibility.PUBLIC);
+    }
+    jvmGenericType.setVisibility(JvmVisibility.PUBLIC);
 
-      EList<GenTypeParameter> genTypeParameters = genClass.getGenTypeParameters();
-      if (!genTypeParameters.isEmpty())
+    EList<GenTypeParameter> genTypeParameters = genClass.getGenTypeParameters();
+    if (!genTypeParameters.isEmpty())
+    {
+      EList<JvmTypeParameter> typeParameters = jvmGenericType.getTypeParameters();
+      for (GenTypeParameter genTypeParameter : genTypeParameters)
       {
-        EList<JvmTypeParameter> typeParameters = jvmGenericType.getTypeParameters();
-        for (GenTypeParameter genTypeParameter : genTypeParameters)
-        {
-          typeParameters.add(getJvmTypeParameter(genTypeParameter));
-        }
+        typeParameters.add(getJvmTypeParameter(genTypeParameter));
       }
+    }
 
-      // TODO  should deal with EClass.getEGenericSuperTypes().
-      EList<JvmTypeReference> superTypes = jvmGenericType.getSuperTypes();
+    // TODO  should deal with EClass.getEGenericSuperTypes().
+    EList<JvmTypeReference> superTypes = jvmGenericType.getSuperTypes();
+    if (isImplementation)
+    {
+      String qualifiedClassExtends = "";
+      try
+      {
+          genClass.getQualifiedClassExtends();
+      }
+      catch (Throwable throwable)
+      {
+        // This will happen if we have circular inheritance.
+      }
+      if ("".equals(qualifiedClassExtends))
+      {
+          superTypes.add(typeReferences.getTypeForName("org.eclipse.emf.ecore.impl.BasicEObjectImpl", genClass));
+      }
+      else
+      {
+        superTypes.add(getJvmTypeReference(qualifiedClassExtends, genClass));
+      }
+      List<String> qualifiedClassImplementsList = genClass.getQualifiedClassImplementsList();
+      for (String instanceTypeName : qualifiedClassImplementsList)
+      {
+        superTypes.add(getJvmTypeReference(instanceTypeName, genClass));
+      }
+      
+    }
+    else
+    {
       try
       {
         List<String> qualifiedInterfaceExtendsList = genClass.getQualifiedInterfaceExtendsList();
@@ -249,7 +301,7 @@ public class XcoreJvmInferrer
         //TODO get rid of me
         e.printStackTrace();
       }
-
+  
       if (superTypes.isEmpty())
       {
         if (genClass.isEObject())
@@ -261,25 +313,23 @@ public class XcoreJvmInferrer
           superTypes.add(typeReferences.getTypeForName("java.lang.Object", genClass));
         }
       }
-
-      EList<JvmMember> members = jvmGenericType.getMembers();
-      for (GenOperation genOperation : genClass.getDeclaredGenOperations())
-      {
-        members.add(getJvmOperation(genOperation));
-      }
-
-      for (GenFeature genFeature : genClass.getGenFeatures())
-      {
-        EStructuralFeature eStructuralFeature = genFeature.getEcoreFeature();
-        if (eStructuralFeature.getName() != null && eStructuralFeature.getEGenericType() != null)
-        {
-          members.addAll(getJvmFeatureAccessors(genFeature));
-        }
-      }
-
-      result.add(jvmGenericType);
     }
-    return result;
+
+    EList<JvmMember> members = jvmGenericType.getMembers();
+    for (GenOperation genOperation : genClass.getDeclaredGenOperations())
+    {
+      members.add(getJvmOperation(genOperation));
+    }
+
+    for (GenFeature genFeature : genClass.getGenFeatures())
+    {
+      EStructuralFeature eStructuralFeature = genFeature.getEcoreFeature();
+      if (eStructuralFeature.getName() != null && eStructuralFeature.getEGenericType() != null)
+      {
+        members.addAll(getJvmFeatureAccessors(genFeature));
+      }
+    }
+    return jvmGenericType;
   }
 
   JvmTypeParameter getJvmTypeParameter(GenTypeParameter genTypeParameter)
@@ -307,11 +357,6 @@ public class XcoreJvmInferrer
       jvmOperation.setSimpleName(genFeature.getGetAccessor());
       jvmOperation.setReturnType(getJvmTypeReference(genFeature.getType(genFeature.getGenClass()), genFeature));
       result.add(jvmOperation);
-      XBlockExpression getBody = xStructuralFeature.getGetBody();
-      if (getBody != null)
-      {
-        jvmModelAssociator.associate(getBody, jvmOperation);
-      } 
     }
     if (genFeature.isSet() && !genFeature.isSuppressedSetVisibility())
     {
@@ -328,11 +373,6 @@ public class XcoreJvmInferrer
       jvmOperation.setSimpleName("set" + genFeature.getAccessorName());
       jvmOperation.setReturnType(typeReferences.getTypeForName("void", genFeature));
       result.add(jvmOperation);
-      XBlockExpression setBody = xStructuralFeature.getSetBody();
-      if (setBody != null)
-      {
-        jvmModelAssociator.associate(setBody, jvmOperation);
-      } 
     }
 
     return result;
@@ -371,11 +411,6 @@ public class XcoreJvmInferrer
       {
         typeParameters.add(getJvmTypeParameter(genTypeParameter));
       }
-    }
-    XBlockExpression body = xOperation.getBody();
-    if (body != null)
-    {
-      jvmModelAssociator.associateLogicalContainer(body, jvmOperation);
     }
     return jvmOperation;
   }

@@ -238,14 +238,17 @@ public class XcoreFormatter extends XbaseFormatter
 
   public void configureXParameter(FormattingConfig config, XcoreGrammarAccess.XParameterElements elements)
   {
+    // TODO
   }
 
   public void configureXTypeParameter(FormattingConfig config, XcoreGrammarAccess.XTypeParameterElements elements)
   {
+    // TODO
   }
 
   public void configureXMultiplicity(FormattingConfig config, XcoreGrammarAccess.XMultiplicityElements elements)
   {
+    // TODO
   }
 
   public void configureXBlockExpression(FormattingConfig config, XcoreGrammarAccess.XBlockExpressionElements elements)
@@ -262,10 +265,12 @@ public class XcoreFormatter extends XbaseFormatter
 
   public void configureXGenericTypeArgument(FormattingConfig config, XcoreGrammarAccess.XGenericTypeArgumentElements elements)
   {
+    // TODO
   }
 
   public void configureXGenericWildcardTypeArgument(FormattingConfig config, XcoreGrammarAccess.XGenericWildcardTypeArgumentElements elements)
   {
+    // TODO
   }
 
   public void configureXQualifiedName(FormattingConfig config, XcoreGrammarAccess.XQualifiedNameElements elements)
