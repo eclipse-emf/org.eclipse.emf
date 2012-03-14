@@ -565,7 +565,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     if (extendsClass != null)
     {   
       StringBuilder result = new StringBuilder();
-      result.append(extendsClass.getClassName());
+      result.append(extendsClass.getQualifiedClassName());
       if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
       {
         EClass extendsEClass = extendsClass.getEcoreClass();
