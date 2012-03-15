@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2007-2011 IBM Corporation and others.
+ * Copyright (c) 2007-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,10 +20,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -80,6 +82,15 @@ public class BinaryResourceImpl extends ResourceImpl
    * @since 2.7
    */
   public static final String OPTION_STYLE_PROXY_ATTRIBUTES = "PROXY_ATTRIBUTES";
+
+  /**
+   * A Boolean save option to specify whether {@link Enumerator enumerator} values will be serialized using {@link Enumerator#getValue()} rather than a string representation.
+   * This style option is only supported for serializations with {@link Version#VERSION_1_1 version 1.1} or higher.
+   * The default is false.
+   * @see BinaryIO#STYLE_BINARY_ENUMERATOR
+   * @since 2.8
+   */
+  public static final String OPTION_STYLE_BINARY_ENUMERATOR = "BINARY_ENUMERATOR";
 
   /**
    * Specify the capacity of the buffered stream
@@ -162,7 +173,7 @@ public class BinaryResourceImpl extends ResourceImpl
       VERSION_1_0,
 
       /**
-       * This version supports styles {@link BinaryIO#STYLE_BINARY_FLOATING_POINT}, {@link BinaryIO#STYLE_BINARY_DATE}, {@link BinaryIO#STYLE_PROXY_ATTRIBUTES}.
+       * This version supports styles.
        * An extra integer value encoding the style is written after the version number so that deserialization will respect the styles used during serialization.
        * @since 2.7
        */
@@ -186,6 +197,12 @@ public class BinaryResourceImpl extends ResourceImpl
      * @since 2.7
      */
     public static final int STYLE_PROXY_ATTRIBUTES = 0x4;
+
+    /**
+     * @see BinaryResourceImpl#OPTION_STYLE_BINARY_ENUMERATOR
+     * @since 2.8
+     */
+    public static final int STYLE_BINARY_ENUMERATOR = 0x8;
 
     protected Version version;
 
@@ -216,6 +233,10 @@ public class BinaryResourceImpl extends ResourceImpl
         if (Boolean.TRUE.equals(options.get(OPTION_STYLE_PROXY_ATTRIBUTES)))
         {
           result |= STYLE_PROXY_ATTRIBUTES;
+        }
+        if (Boolean.TRUE.equals(options.get(OPTION_STYLE_BINARY_ENUMERATOR)))
+        {
+          result |= STYLE_BINARY_ENUMERATOR;
         }
       }
       return result;
@@ -323,6 +344,11 @@ public class BinaryResourceImpl extends ResourceImpl
        * @since 2.7
        */
       DATE,
+
+      /**
+       * @since 2.8
+       */
+      ENUMERATOR,
 
       DATA,
       DATA_LIST,
@@ -445,6 +471,10 @@ public class BinaryResourceImpl extends ResourceImpl
           else if (instanceClassName == "java.util.Date")
           {
             return DATE;
+          }
+          else if (eDataType instanceof EEnum)
+          {
+            return ENUMERATOR;
           }
           else
           {
@@ -762,9 +792,24 @@ public class BinaryResourceImpl extends ResourceImpl
           if ((style & STYLE_BINARY_DATE) != 0)
           {
             writeDate((Date)value);
-            break;
           }
-          // continue to the next case
+          else
+          {
+            writeString(eStructuralFeatureData.eFactory.convertToString(eStructuralFeatureData.eDataType, value));
+          }
+          break;
+        }
+        case ENUMERATOR:
+        {
+          if ((style & STYLE_BINARY_ENUMERATOR) != 0)
+          {
+            writeInt(((Enumerator)value).getValue());
+          }
+          else
+          {
+            writeString(eStructuralFeatureData.eFactory.convertToString(eStructuralFeatureData.eDataType, value));
+          }
+          break;
         }
         case DATA:
         case DATA_LIST:
@@ -987,9 +1032,24 @@ public class BinaryResourceImpl extends ResourceImpl
             if ((style & STYLE_BINARY_DATE) != 0)
             {
               writeDate((Date)value);
-              break;
             }
-            // continue to the next case
+            else
+            {
+              writeString(eStructuralFeatureData.eFactory.convertToString(eStructuralFeatureData.eDataType, value));
+            }
+            break;
+          }
+          case ENUMERATOR:
+          {
+            if ((style & STYLE_BINARY_ENUMERATOR) != 0)
+            {
+              writeInt(((Enumerator)value).getValue());
+            }
+            else
+            {
+              writeString(eStructuralFeatureData.eFactory.convertToString(eStructuralFeatureData.eDataType, value));
+            }
+            break;
           }
           case DATA:
           {
@@ -1571,9 +1631,24 @@ public class BinaryResourceImpl extends ResourceImpl
           if ((style & STYLE_BINARY_DATE) != 0)
           {
             value = readDate();
-            break;
           }
-          // continue to next case
+          else
+          {
+            value = eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, readString());
+          }
+          break;
+        }
+        case ENUMERATOR:
+        {
+          if ((style & STYLE_BINARY_ENUMERATOR) != 0)
+          {
+            value = ((EEnum)eStructuralFeatureData.eDataType).getEEnumLiteral(readInt()).getInstance();
+          }
+          else
+          {
+            value = eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, readString());
+          }
+          break;
         }
         case DATA:
         case DATA_LIST:
@@ -1714,9 +1789,24 @@ public class BinaryResourceImpl extends ResourceImpl
           if ((style & STYLE_BINARY_DATE) != 0)
           {
             internalEObject.eSet(eStructuralFeatureData.featureID, readDate());
-            break;
           }
-          // continue to next case
+          else
+          {
+            internalEObject.eSet(eStructuralFeatureData.featureID, eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, readString()));
+          }
+          break;
+        }
+        case ENUMERATOR:
+        {
+          if ((style & STYLE_BINARY_ENUMERATOR) != 0)
+          {
+            internalEObject.eSet(eStructuralFeatureData.featureID, ((EEnum)eStructuralFeatureData.eDataType).getEEnumLiteral(readInt()).getInstance());
+          }
+          else
+          {
+            internalEObject.eSet(eStructuralFeatureData.featureID, eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, readString()));
+          }
+          break;
         }
         case DATA:
         {
