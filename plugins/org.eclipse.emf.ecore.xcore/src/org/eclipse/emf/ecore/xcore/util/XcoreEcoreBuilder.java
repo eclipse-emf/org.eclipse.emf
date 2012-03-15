@@ -620,13 +620,14 @@ public class XcoreEcoreBuilder
 
   EDataType getEDataType(XDataType xDataType)
   {
-    mapper.getMapping(xDataType).setEDataType(EcoreFactory.eINSTANCE.createEDataType());
-    mapper.getToXcoreMapping(EcoreFactory.eINSTANCE.createEDataType()).setXcoreElement(xDataType);
+    EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
+    mapper.getMapping(xDataType).setEDataType(eDataType);
+    mapper.getToXcoreMapping(eDataType).setXcoreElement(xDataType);
     XBlockExpression createBody = xDataType.getCreateBody();
     XcoreConversionDelegate conversionDelegate = conversionDelegateProvider.get();
-    conversionDelegate.initialize(createBody, xDataType.getConvertBody(), EcoreFactory.eINSTANCE.createEDataType(), interpreter);
-    ((EDataType.Internal)EcoreFactory.eINSTANCE.createEDataType()).setConversionDelegate(conversionDelegate);
-    return EcoreFactory.eINSTANCE.createEDataType();
+    conversionDelegate.initialize(createBody, xDataType.getConvertBody(), eDataType, interpreter);
+    ((EDataType.Internal)eDataType).setConversionDelegate(conversionDelegate);
+    return eDataType;
   }
 
   EEnum getEEnum(XEnum xEnum)
