@@ -58,6 +58,7 @@ public class XcoreEcoreTest
   {
     EcoreUtil.resolveAll(resource);
     ENamedElement gen = mapper.getEcore((XNamedElement)offset.getEObject());
+    gen.getEAnnotations().clear();
     return new GenModelFormatter().resolveCrossReferences().format(gen);
   }
 

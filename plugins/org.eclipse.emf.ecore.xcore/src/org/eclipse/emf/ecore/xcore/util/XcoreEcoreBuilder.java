@@ -11,6 +11,7 @@ package org.eclipse.emf.ecore.xcore.util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
@@ -59,7 +60,11 @@ import org.eclipse.emf.ecore.xcore.interpreter.XcoreConversionDelegate;
 import org.eclipse.emf.ecore.xcore.interpreter.XcoreInvocationDelegate;
 import org.eclipse.emf.ecore.xcore.interpreter.XcoreSettingDelegate;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
+import org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess;
 import org.eclipse.xtext.common.types.JvmTypeReference;
+import org.eclipse.xtext.nodemodel.ICompositeNode;
+import org.eclipse.xtext.nodemodel.ILeafNode;
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.xbase.XBlockExpression;
 
 import com.google.inject.Inject;
@@ -68,6 +73,8 @@ import com.google.inject.Provider;
 
 public class XcoreEcoreBuilder
 {
+  private static final Pattern COMMENT_LINE_BREAK_PATTERN = Pattern.compile("([ \t]*((\n\r?)|(\r\n?))(\\s*\\*\\s?)?)|\\s*$", Pattern.MULTILINE);
+
   @Inject
   private XcoreMapper mapper;
 
@@ -79,6 +86,9 @@ public class XcoreEcoreBuilder
 
   @Inject
   private Provider<XcoreConversionDelegate> conversionDelegateProvider;
+
+  @Inject
+  private XcoreGrammarAccess xcoreGrammarAccess;
 
   List<Runnable> runnables = new ArrayList<Runnable>();
 
@@ -119,7 +129,7 @@ public class XcoreEcoreBuilder
         basePackage = name.substring(0, index);
         ePackage.setName(name.substring(index + 1));
       }
-      
+
       // The pre linking phase model won't process the annotations and won't pick up the nsURI in the annotation.
       // That's particularly problematic because the nsURI is something indexed from this prelinked model.
       // At least to this for Ecore to avoid inducing a model with circular inheritance.
@@ -150,6 +160,56 @@ public class XcoreEcoreBuilder
 
   void handleAnnotations(final XModelElement xModelElement, final EModelElement eModelElement)
   {
+    ICompositeNode node = NodeModelUtils.getNode(xModelElement);
+    if (node != null)
+    {
+      for (ILeafNode child : node.getLeafNodes())
+      {
+        if (child.isHidden())
+        {
+          if (child.getGrammarElement() == xcoreGrammarAccess.getML_COMMENTRule())
+          {
+            String text = child.getText();
+            int length = text.length();
+            if (length > 4)
+            {
+              String[] lines = COMMENT_LINE_BREAK_PATTERN.split(text.subSequence(2, length - 2), 0);
+              StringBuilder comment = null;
+              for (String line : lines)
+              {
+                if (line.length() != 0)
+                {
+                  if (comment == null)
+                  {
+                    comment = new StringBuilder();
+                    comment.append(line);
+                  }
+                  else
+                  {
+                    comment.append('\n');
+                    comment.append(line);
+                  }
+                }
+                else if (comment != null)
+                {
+                  comment.append('\n');
+                  comment.append(line);
+                }
+              }
+              if (comment != null)
+              {
+                EcoreUtil.setDocumentation(eModelElement, comment.toString());
+              }
+            }
+            break;
+          }
+        }
+        else
+        {
+          break;
+        }
+      }
+    }
     runnables.add
       (new Runnable()
        {
