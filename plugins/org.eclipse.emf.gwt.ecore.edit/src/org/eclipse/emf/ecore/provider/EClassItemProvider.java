@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2010 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
@@ -107,12 +108,12 @@ public class EClassItemProvider
    * This adds a property descriptor for the Interface feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected void addInterfacePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (createItemPropertyDescriptor
+      (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EClass_interface_feature"),
@@ -123,7 +124,25 @@ public class EClassItemProvider
          false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
-         null));
+         null)
+      {
+        @Override
+        public void setPropertyValue(Object object, Object value)
+        {
+          EditingDomain editingDomain = getEditingDomain(object);
+          if (editingDomain != null && Boolean.TRUE.equals(value))
+          {
+            CompoundCommand command = new CompoundCommand();
+            command.append(SetCommand.create(editingDomain, object, EcorePackage.Literals.ECLASS__INTERFACE, Boolean.TRUE));
+            command.append(SetCommand.create(editingDomain, object, EcorePackage.Literals.ECLASS__ABSTRACT, Boolean.TRUE));
+            editingDomain.getCommandStack().execute(command);
+          }
+          else
+          {
+            super.setPropertyValue(object, value);
+          }
+        }
+      });
   }
 
   /**
