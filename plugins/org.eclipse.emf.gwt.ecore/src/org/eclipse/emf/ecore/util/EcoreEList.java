@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2010 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -369,7 +369,15 @@ public abstract class EcoreEList<E> extends NotifyingInternalEListImpl<E> implem
         //
         else if (hasNavigableInverse() && !hasManyInverse())
         {
-          return ((EObject)object).eGet(getInverseEReference()) == owner;
+          Object opposite = ((EObject)object).eGet(getInverseEReference());
+          if (opposite == owner)
+          {
+            return true;
+          }
+          else if (opposite == null || !((EObject)opposite).eIsProxy())
+          {
+            return false;
+          }
         }
       }
 
