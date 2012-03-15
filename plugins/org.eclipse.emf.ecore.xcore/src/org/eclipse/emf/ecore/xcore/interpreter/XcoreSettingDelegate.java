@@ -18,12 +18,9 @@ import org.eclipse.xtext.xbase.XBlockExpression;
 import org.eclipse.xtext.xbase.interpreter.IEvaluationResult;
 import org.eclipse.xtext.xbase.interpreter.impl.DefaultEvaluationContext;
 
-import com.google.inject.Inject;
-
 
 public class XcoreSettingDelegate implements EStructuralFeature.Internal.SettingDelegate
 {
-  @Inject
   private XcoreInterpreter interpreter;
 
   private XBlockExpression getBody;
@@ -36,26 +33,29 @@ public class XcoreSettingDelegate implements EStructuralFeature.Internal.Setting
 
   private EStructuralFeature eStructuralFeature;
 
-  public void initialize(
-    XBlockExpression getBody,
-    XBlockExpression setBody,
-    XBlockExpression isSetBody,
-    XBlockExpression unsetBody,
-    EStructuralFeature eStructuralFeature)
+  public void initialize
+    (XBlockExpression getBody,
+     XBlockExpression setBody,
+     XBlockExpression isSetBody,
+     XBlockExpression unsetBody,
+     EStructuralFeature eStructuralFeature,
+     XcoreInterpreter interpreter)
   {
     this.getBody = getBody;
     this.setBody = setBody;
     this.isSetBody = isSetBody;
     this.unsetBody = unsetBody;
     this.eStructuralFeature = eStructuralFeature;
+    this.interpreter = interpreter;
   }
 
-  public EStructuralFeature.Setting dynamicSetting(
-    final InternalEObject owner,
-    final EStructuralFeature.Internal.DynamicValueHolder settings,
-    final int dynamicFeatureID)
+  public EStructuralFeature.Setting dynamicSetting
+    (final InternalEObject owner,
+     final EStructuralFeature.Internal.DynamicValueHolder settings,
+     final int dynamicFeatureID)
   {
-    return new EStructuralFeature.Setting()
+    return
+      new EStructuralFeature.Setting()
       {
         public void unset()
         {
@@ -89,38 +89,52 @@ public class XcoreSettingDelegate implements EStructuralFeature.Internal.Setting
       };
   }
 
-  public Object dynamicGet(
-    InternalEObject owner,
-    EStructuralFeature.Internal.DynamicValueHolder settings,
-    int dynamicFeatureID,
-    boolean resolve,
-    boolean coreType)
+  public Object dynamicGet
+    (InternalEObject owner,
+     EStructuralFeature.Internal.DynamicValueHolder settings,
+     int dynamicFeatureID,
+     boolean resolve,
+     boolean coreType)
   {
     if (getBody == null)
+    {
       throw new IllegalStateException("coudn't find exeutable Xbase get body");
+    }
     DefaultEvaluationContext context = new DefaultEvaluationContext();
     context.newValue(QualifiedName.create("this"), owner);
     IEvaluationResult result = interpreter.evaluate(getBody, context, CancelIndicator.NullImpl);
     if (result.getException() != null)
+    {
       throw new RuntimeException(result.getException());
-    return result.getResult();
+    }
+    else
+    {
+      return result.getResult();
+    }
   }
 
-  public void dynamicSet(
-    InternalEObject owner,
-    EStructuralFeature.Internal.DynamicValueHolder settings,
-    int dynamicFeatureID,
-    Object newValue)
+  public void dynamicSet
+    (InternalEObject owner,
+     EStructuralFeature.Internal.DynamicValueHolder settings,
+     int dynamicFeatureID,
+     Object newValue)
   {
     if (setBody == null)
+    {
       throw new IllegalStateException("coudn't find exeutable Xbase set body");
+    }
     DefaultEvaluationContext context = new DefaultEvaluationContext();
     context.newValue(QualifiedName.create("this"), owner);
     context.newValue(QualifiedName.create("newValue"), newValue);
     IEvaluationResult result = interpreter.evaluate(setBody, context, CancelIndicator.NullImpl);
     if (result.getException() != null)
+    {
       throw new RuntimeException(result.getException());
-    settings.dynamicSet(dynamicFeatureID, result.getResult());
+    }
+    else
+    {
+      settings.dynamicSet(dynamicFeatureID, result.getResult());
+    }
   }
 
   public boolean dynamicIsSet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int dynamicFeatureID)
@@ -135,14 +149,20 @@ public class XcoreSettingDelegate implements EStructuralFeature.Internal.Setting
       context.newValue(QualifiedName.create("this"), owner);
       IEvaluationResult result = interpreter.evaluate(isSetBody, context, CancelIndicator.NullImpl);
       if (result.getException() != null)
+      {
         throw new RuntimeException(result.getException());
+      }
       return (Boolean)result.getResult();
     }
   }
 
   public void dynamicUnset(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int dynamicFeatureID)
   {
-    if (unsetBody != null)
+    if (unsetBody == null)
+    {
+      settings.dynamicUnset(dynamicFeatureID);
+    }
+    else
     {
       DefaultEvaluationContext context = new DefaultEvaluationContext();
       context.newValue(QualifiedName.create("this"), owner);
@@ -152,25 +172,24 @@ public class XcoreSettingDelegate implements EStructuralFeature.Internal.Setting
         throw new RuntimeException(result.getException());
       }
     }
-    settings.dynamicUnset(dynamicFeatureID);
   }
 
-  public NotificationChain dynamicInverseAdd(
-    InternalEObject owner,
-    EStructuralFeature.Internal.DynamicValueHolder settings,
-    int dynamicFeatureID,
-    InternalEObject otherEnd,
-    NotificationChain notifications)
+  public NotificationChain dynamicInverseAdd
+    (InternalEObject owner,
+     EStructuralFeature.Internal.DynamicValueHolder settings,
+     int dynamicFeatureID,
+     InternalEObject otherEnd,
+     NotificationChain notifications)
   {
     throw new UnsupportedOperationException("updates aren't supported");
   }
 
-  public NotificationChain dynamicInverseRemove(
-    InternalEObject owner,
-    EStructuralFeature.Internal.DynamicValueHolder settings,
-    int dynamicFeatureID,
-    InternalEObject otherEnd,
-    NotificationChain notifications)
+  public NotificationChain dynamicInverseRemove
+    (InternalEObject owner,
+     EStructuralFeature.Internal.DynamicValueHolder settings,
+     int dynamicFeatureID,
+     InternalEObject otherEnd,
+     NotificationChain notifications)
   {
     throw new UnsupportedOperationException("updates aren't supported");
   }

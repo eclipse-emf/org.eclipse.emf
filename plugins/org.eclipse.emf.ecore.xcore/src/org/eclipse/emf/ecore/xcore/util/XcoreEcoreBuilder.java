@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EClassifierImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xcore.XAnnotation;
@@ -56,7 +57,9 @@ import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XTypedElement;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.emf.ecore.xcore.interpreter.IClassLoaderProvider;
 import org.eclipse.emf.ecore.xcore.interpreter.XcoreConversionDelegate;
+import org.eclipse.emf.ecore.xcore.interpreter.XcoreInterpreter;
 import org.eclipse.emf.ecore.xcore.interpreter.XcoreInvocationDelegate;
 import org.eclipse.emf.ecore.xcore.interpreter.XcoreSettingDelegate;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
@@ -88,9 +91,19 @@ public class XcoreEcoreBuilder
   private Provider<XcoreConversionDelegate> conversionDelegateProvider;
 
   @Inject
+  private Provider<XcoreInterpreter> interpreterProvider;
+
+  @Inject
+  private IClassLoaderProvider classLoaderProvider;
+
+  @Inject
   private XcoreGrammarAccess xcoreGrammarAccess;
 
-  List<Runnable> runnables = new ArrayList<Runnable>();
+  private List<Runnable> runnables = new ArrayList<Runnable>();
+
+  private XcoreInterpreter interpreter;
+
+  private ClassLoader classLoader;
 
   public void link()
   {
@@ -110,6 +123,12 @@ public class XcoreEcoreBuilder
 
   public EPackage getEPackage(XPackage xPackage)
   {
+    interpreter = interpreterProvider.get();
+    classLoader = classLoaderProvider.getClassLoader(xPackage.eResource().getResourceSet());
+    if (classLoader != null)
+    {
+      interpreter.setClassLoader(classLoader);
+    }
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
     mapper.getMapping(xPackage).setEPackage(ePackage);
     mapper.getToXcoreMapping(ePackage).setXcoreElement(xPackage);
@@ -265,6 +284,18 @@ public class XcoreEcoreBuilder
             String instanceTypeName = instanceType.getIdentifier();
              String normalizedInstanceTypeName = EcoreUtil.toJavaInstanceTypeName((EGenericType)EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName).getData().get(0));
              eClassifier.setInstanceTypeName(normalizedInstanceTypeName);
+             if (classLoader != null && eClassifier instanceof EClassifierImpl)
+             {
+               try
+               {
+                 Class<?> instanceClass = classLoader.loadClass(eClassifier.getInstanceClassName());
+                 ((EClassifierImpl)eClassifier).setInstanceClassGen(instanceClass);
+               }
+               catch (Throwable throwable)
+               {
+                 // Ignore
+               }
+             }
           }
         }
       });
@@ -341,7 +372,7 @@ public class XcoreEcoreBuilder
     if (body != null)
     {
       final XcoreInvocationDelegate invocationDelegate = operationDelegateProvider.get();
-      invocationDelegate.initialize(body, eOperation);
+      invocationDelegate.initialize(body, eOperation, interpreter);
       ((EOperation.Internal)eOperation).setInvocationDelegate(invocationDelegate);
 
       //      EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
@@ -571,7 +602,7 @@ public class XcoreEcoreBuilder
     if (getBody != null || setBody != null || isSetBody != null || unsetBody != null)
     {
       XcoreSettingDelegate settingDelegate = settingDelegateProvider.get();
-      settingDelegate.initialize(getBody, setBody, isSetBody, unsetBody, eStructuralFeature);
+      settingDelegate.initialize(getBody, setBody, isSetBody, unsetBody, eStructuralFeature, interpreter);
       ((EStructuralFeature.Internal)eStructuralFeature).setSettingDelegate(settingDelegate);
     }
 
@@ -589,13 +620,13 @@ public class XcoreEcoreBuilder
 
   EDataType getEDataType(XDataType xDataType)
   {
-    EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
-    mapper.getMapping(xDataType).setEDataType(eDataType);
-    mapper.getToXcoreMapping(eDataType).setXcoreElement(xDataType);
+    mapper.getMapping(xDataType).setEDataType(EcoreFactory.eINSTANCE.createEDataType());
+    mapper.getToXcoreMapping(EcoreFactory.eINSTANCE.createEDataType()).setXcoreElement(xDataType);
+    XBlockExpression createBody = xDataType.getCreateBody();
     XcoreConversionDelegate conversionDelegate = conversionDelegateProvider.get();
-    conversionDelegate.initialize(xDataType.getCreateBody(), xDataType.getConvertBody(), eDataType);
-    ((EDataType.Internal)eDataType).setConversionDelegate(conversionDelegate);
-    return eDataType;
+    conversionDelegate.initialize(createBody, xDataType.getConvertBody(), EcoreFactory.eINSTANCE.createEDataType(), interpreter);
+    ((EDataType.Internal)EcoreFactory.eINSTANCE.createEDataType()).setConversionDelegate(conversionDelegate);
+    return EcoreFactory.eINSTANCE.createEDataType();
   }
 
   EEnum getEEnum(XEnum xEnum)

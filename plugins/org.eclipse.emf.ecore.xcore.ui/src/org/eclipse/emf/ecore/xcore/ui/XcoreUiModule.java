@@ -8,6 +8,7 @@
 package org.eclipse.emf.ecore.xcore.ui;
 
 
+import org.eclipse.emf.ecore.xcore.interpreter.IClassLoaderProvider;
 import org.eclipse.emf.ecore.xcore.ui.builder.XcoreBuildParticipant;
 import org.eclipse.emf.ecore.xcore.ui.builder.XcoreFileSystemAccess;
 import org.eclipse.emf.ecore.xcore.ui.contentassist.ImportingTypesProposalProvider;
@@ -31,7 +32,7 @@ import org.eclipse.xtext.ui.refactoring.impl.RenameElementProcessor;
 /**
  * Use this class to register components to be used within the IDE.
  */
-public class XcoreUiModule extends org.eclipse.emf.ecore.xcore.ui.AbstractXcoreUiModule
+public class XcoreUiModule extends AbstractXcoreUiModule
 {
   public XcoreUiModule(AbstractUIPlugin plugin)
   {
@@ -90,4 +91,8 @@ public class XcoreUiModule extends org.eclipse.emf.ecore.xcore.ui.AbstractXcoreU
     return XcoreBuildParticipant.class;
   }
   
+  public Class<? extends IClassLoaderProvider> bindIClassLoaderProvider()
+  {
+    return XcoreJavaProjectProvider.class;
+  }
 }

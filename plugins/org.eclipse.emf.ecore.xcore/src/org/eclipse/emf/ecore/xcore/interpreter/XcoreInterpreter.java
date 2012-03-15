@@ -32,7 +32,6 @@ import com.google.inject.Inject;
 
 public class XcoreInterpreter extends XbaseInterpreter
 {
-
   @Inject
   private XcoreMapper mapper;
 
