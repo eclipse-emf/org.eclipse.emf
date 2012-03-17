@@ -261,7 +261,10 @@ public class XcoreEcoreBuilder
                    continue;
                  }
                }
-               EcoreUtil.setAnnotation(eModelElement, sourceURI, key, value);
+               if (EcoreUtil.getAnnotation(eModelElement, sourceURI, key) == null)
+               {
+                 EcoreUtil.setAnnotation(eModelElement, sourceURI, key, value);
+               }
              }
            }
          }
