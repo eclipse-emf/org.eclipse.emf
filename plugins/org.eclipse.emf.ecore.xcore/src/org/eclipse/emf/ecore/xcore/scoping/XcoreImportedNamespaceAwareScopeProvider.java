@@ -425,11 +425,12 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
 
   protected static class EClassifierScope extends AbstractScope
   {
-    private final class EcoreDataTypeAliasEObjectDescription extends AbstractEObjectDescription
+    private class EcoreDataTypeAliasEObjectDescription extends AbstractEObjectDescription
     {
       private final QualifiedName qualifiedName;
       private final QualifiedName actualQualifiedName;
       private final EDataType eDataType;
+      private EObject eObject;
 
       private EcoreDataTypeAliasEObjectDescription(QualifiedName qualifiedName, QualifiedName actualQualifiedName, EDataType eDataType)
       {
@@ -459,9 +460,13 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
         IEObjectDescription element = getElement();
         if (element == null)
         {
-          InternalEObject genDataType = (InternalEObject)GenModelFactory.eINSTANCE.createGenDataType();
-          genDataType.eSetProxyURI(getSyntheticEObjectURI());
-          return genDataType;
+          if (eObject == null)
+          {
+            InternalEObject genDataType = (InternalEObject)GenModelFactory.eINSTANCE.createGenDataType();
+            genDataType.eSetProxyURI(getSyntheticEObjectURI());
+            eObject = genDataType;
+          }
+          return eObject;
         }
         else
         {
@@ -505,6 +510,7 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
             resourceSet.getResources().remove(genModelResource);
             resourceSet.getResources().remove(ecoreResource);
           }
+          eObject = ecoreXcoreResource.getEObject("/1/ecore/" + eDataType.getName());
         }
         return element;
       }

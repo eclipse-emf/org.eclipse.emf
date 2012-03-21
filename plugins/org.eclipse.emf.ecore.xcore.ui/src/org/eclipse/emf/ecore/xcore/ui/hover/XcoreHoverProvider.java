@@ -62,7 +62,7 @@ public class XcoreHoverProvider extends XbaseHoverProvider
   }
 
   @Override
-  protected String getFirstLine(EObject eObject)
+  protected String computeSignature(EObject call, EObject eObject)
   {
     if (eObject instanceof XNamedElement)
     {
@@ -92,7 +92,7 @@ public class XcoreHoverProvider extends XbaseHoverProvider
     }
     else
     {
-      return super.getFirstLine(eObject);
+      return super.computeSignature(call, eObject);
     }
   }
 
