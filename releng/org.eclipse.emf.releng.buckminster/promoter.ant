@@ -143,6 +143,8 @@
 		<condition property="composite.repository.base" value="nightly">
 			<matches pattern="^N" string="${saved.build.id}" />
 		</condition>
+		
+		<fail message="${composite.repository.base} not defined. Probably last successful build is not a nightly." unless="composite.repository.base" />
 
 		<!-- initialize properties -->
 		<property name="repository.name" value="${saved.build.id}" />

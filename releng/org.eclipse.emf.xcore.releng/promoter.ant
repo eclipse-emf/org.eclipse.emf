@@ -143,6 +143,7 @@
 		<condition property="composite.repository.base" value="nightly">
 			<matches pattern="^N" string="${saved.build.id}" />
 		</condition>
+		<fail message="${composite.repository.base} not defined. Probably last successful build is not a nightly." unless="composite.repository.base" />
 
 		<!-- initialize properties -->
 		<property name="repository.name" value="${saved.build.id}" />
@@ -158,7 +159,7 @@
 		<echo>Target repository:  ${target.repo.directory}</echo>
 		<!-- check artifacts.jar is not the same -->
 		<condition property="alreadyPromoted">
-		   <filesmatch file1="${src.repo.directory}/artifacts.jar" file2="${target.repo.directory}/artifacts.jar" textfile="false"/>
+			<filesmatch file1="${src.repo.directory}/artifacts.jar" file2="${target.repo.directory}/artifacts.jar" textfile="false" />
 		</condition>
 		<antcall target="-publish.build.repository" inheritall="true" />
 		<antcall target="-echo-status" inheritall="true" />
