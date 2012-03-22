@@ -31,14 +31,6 @@
 			</rm:uri>
 		</rm:provider>
 	</rm:searchPath>
-	<rm:searchPath name="releng">
-		<rm:provider componentTypes="eclipse.feature" readerType="local" mutable="false">
-			<rm:uri format="{0}/releng/{1}-feature">
-				<bc:propertyRef key="checkout.location" />
-				<bc:propertyRef key="buckminster.component" />
-			</rm:uri>
-		</rm:provider>
-	</rm:searchPath>
 	
 	<rm:searchPath name="tmf-composite">
 		<rm:provider componentTypes="eclipse.feature,osgi.bundle"
@@ -98,7 +90,7 @@
 	<rm:searchPath name="orbit">
 		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false"
 			mutable="false">
-			<rm:uri format="{0}/tools/orbit/downloads/drops/S20111201180206/repository">
+			<rm:uri format="{0}/modeling/tmf/xtext/updates/orbit">
 				<bc:propertyRef key="eclipse.download" />
 			</rm:uri>
 		</rm:provider>
