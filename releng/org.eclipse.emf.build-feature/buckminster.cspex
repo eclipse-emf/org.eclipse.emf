@@ -43,7 +43,7 @@
 				<cs:property key="targets" value="install.ius" />
 			</cs:actorProperties>
 			<cs:properties>
-				<cs:property key="target.platform.ius" value="org.eclipse.rcp.feature.group" />
+				<cs:property key="target.platform.ius" value="org.eclipse.core.runtime,org.eclipse.core.resources" />
 			</cs:properties>
 			<cs:prerequisites>
 				<cs:attribute name="site.p2" alias="repositories" />

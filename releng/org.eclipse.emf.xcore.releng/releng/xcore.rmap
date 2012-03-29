@@ -2,9 +2,7 @@
 <rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
 	<rm:property key="source.repository.location" value=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling" />
 	
-	<rm:locator pattern="^org\.eclipse\.emf\.xcore\.releng(?:\..+)?$" searchPathRef="releng" />
-	<rm:locator pattern="^org\.eclipse\.emf\.xcore\.build(?:\..+)?$" searchPathRef="releng" />
-	
+	<rm:locator pattern="^org\.eclipse\.emf\.xcore\.(?:releng|build)(?:\..+)?$" searchPathRef="releng" />
 	
 	<rm:locator pattern="org.eclipse.emf.license" searchPathRef="xcore" />
 	<rm:locator pattern="^org\.eclipse\.emf\.ecore\.xcore(?:\..+)?$" searchPathRef="xcore" />

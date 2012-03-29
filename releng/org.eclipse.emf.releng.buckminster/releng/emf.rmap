@@ -21,13 +21,13 @@
 				<bc:propertyRef key="emf.base.nightly" />
 			</uri>
 		</provider>
-	<!-- 	<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(!(|(build.type=S)(build.type=R))))"
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=I))"
 		>
 			<uri format="{0}/modeling/emf/emf/updates/2.8-I-builds/base">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
-		</provider> -->
+		</provider>
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=S))"
 		>
