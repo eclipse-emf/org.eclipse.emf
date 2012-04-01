@@ -18,6 +18,8 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
+import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -245,25 +247,35 @@ public class XcoreEcoreBuilder
              }
              EClass eClass = EcorePackage.eNS_URI.equals(sourceURI) ? eModelElement.eClass() : null;
 
-             for (Map.Entry<String, String> detail : xAnnotation.getDetails())
+             EMap<String, String> details = xAnnotation.getDetails();
+             if (details.isEmpty())
              {
-               String key = detail.getKey();
-               String value = detail.getValue();
-               if (eClass != null)
+               EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+               eAnnotation.setSource(sourceURI);
+               eModelElement.getEAnnotations().add(eAnnotation);
+             }
+             else
+             {
+               for (Map.Entry<String, String> detail : details)
                {
-                 EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(key);
-                 if (eStructuralFeature instanceof EAttribute)
+                 String key = detail.getKey();
+                 String value = detail.getValue();
+                 if (eClass != null)
                  {
-                   // Be more careful about exceptions.
-                   // TODO
-                   //
-                   eModelElement.eSet(eStructuralFeature, value);
-                   continue;
+                   EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(key);
+                   if (eStructuralFeature instanceof EAttribute)
+                   {
+                     // Be more careful about exceptions.
+                     // TODO
+                     //
+                     eModelElement.eSet(eStructuralFeature, value);
+                     continue;
+                   }
                  }
-               }
-               if (EcoreUtil.getAnnotation(eModelElement, sourceURI, key) == null)
-               {
-                 EcoreUtil.setAnnotation(eModelElement, sourceURI, key, value);
+                 if (EcoreUtil.getAnnotation(eModelElement, sourceURI, key) == null)
+                 {
+                   EcoreUtil.setAnnotation(eModelElement, sourceURI, key, value);
+                 }
                }
              }
            }
@@ -627,9 +639,12 @@ public class XcoreEcoreBuilder
     mapper.getMapping(xDataType).setEDataType(eDataType);
     mapper.getToXcoreMapping(eDataType).setXcoreElement(xDataType);
     XBlockExpression createBody = xDataType.getCreateBody();
-    XcoreConversionDelegate conversionDelegate = conversionDelegateProvider.get();
-    conversionDelegate.initialize(createBody, xDataType.getConvertBody(), eDataType, interpreter);
-    ((EDataType.Internal)eDataType).setConversionDelegate(conversionDelegate);
+    if (createBody != null)
+    {
+      XcoreConversionDelegate conversionDelegate = conversionDelegateProvider.get();
+      conversionDelegate.initialize(createBody, xDataType.getConvertBody(), eDataType, interpreter);
+      ((EDataType.Internal)eDataType).setConversionDelegate(conversionDelegate);
+    }
     return eDataType;
   }
 

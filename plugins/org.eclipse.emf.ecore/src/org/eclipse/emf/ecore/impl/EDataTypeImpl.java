@@ -335,8 +335,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType, EDataTy
       {
         for (String eDataTypeDelegateUri : conversionDelegates)
         {
-          String body = EcoreUtil.getAnnotation(this, eDataTypeDelegateUri, "createFromString");
-          if (body != null)
+          if (this.getEAnnotation(eDataTypeDelegateUri) != null)
           {
             EDataType.Internal.ConversionDelegate.Factory eDataTypeDelegateFactory = EcoreUtil.getConversionDelegateFactory(this);
             conversionDelegate = eDataTypeDelegateFactory.createConversionDelegate(this);
