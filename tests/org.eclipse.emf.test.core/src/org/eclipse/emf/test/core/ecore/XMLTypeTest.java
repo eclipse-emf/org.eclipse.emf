@@ -10,6 +10,8 @@
  */
 package org.eclipse.emf.test.core.ecore;
 
+import java.util.List;
+
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import junit.framework.Test;
@@ -41,6 +43,7 @@ public class XMLTypeTest extends TestCase
     {
       ts.addTest(new XMLTypeTest("testInvalidGMonthStrict"));
     }
+    ts.addTest(new XMLTypeTest("testListSimpleTypeConversion"));
     return ts;
   }
 
@@ -127,5 +130,25 @@ public class XMLTypeTest extends TestCase
     {
       // Expected.      
     }
+  }
+
+  /**
+   * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=376967
+   */
+  public void testListSimpleTypeConversion()
+  {
+    List<String> nmTokens = XMLTypeFactory.eINSTANCE.createNMTOKENS("a b c");
+    assertEquals(3, nmTokens.size());
+    nmTokens = XMLTypeFactory.eINSTANCE.createNMTOKENS("a  b  c");
+    assertEquals(3, nmTokens.size());
+    nmTokens = XMLTypeFactory.eINSTANCE.createNMTOKENS("a\tb\tc");
+    assertEquals(3, nmTokens.size());
+    nmTokens = XMLTypeFactory.eINSTANCE.createNMTOKENS("a\n\tb\n\tc");
+    assertEquals(3, nmTokens.size());
+    nmTokens = XMLTypeFactory.eINSTANCE.createNMTOKENS("a\r\tb\r\tc");
+    assertEquals(3, nmTokens.size());
+    nmTokens = XMLTypeFactory.eINSTANCE.createNMTOKENS("a\r\t\fb\r\t\fc");
+    assertEquals(3, nmTokens.size());
+    
   }
 }

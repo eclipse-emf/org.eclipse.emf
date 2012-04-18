@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2010 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -316,7 +317,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     if (itemType != null)
     {
       List<Object> result = new ArrayList<Object>();
-      for (String item : stringValue.split("\\w"))
+      for (String item : split(stringValue))
       {
         result.add(EcoreUtil.createFromString(itemType, item));
       }
@@ -737,9 +738,11 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     return XMLTypeUtil.normalize(value, true);
   }
 
+  private static final Pattern WHITE_SPACE = Pattern.compile("[ \t\n\r\f]+");
+
   protected String [] split(String value)
   {
-    return value.split("[ \t\n\r\f]");
+    return WHITE_SPACE.split(value);
   }
 
   public interface InternalEDateTimeFormat
