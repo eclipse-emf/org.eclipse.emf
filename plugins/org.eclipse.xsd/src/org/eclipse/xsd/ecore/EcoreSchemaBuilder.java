@@ -284,8 +284,9 @@ public class EcoreSchemaBuilder extends MapBuilder
   protected String transformDefaultValue(XSDSimpleTypeDefinition xsdSimpleTypeDefinition, String defaultValue)
   {
     XSDSimpleTypeDefinition primitiveTypeDefinition = xsdSimpleTypeDefinition.getPrimitiveTypeDefinition();
-    if (primitiveTypeDefinition.hasNameAndTargetNamespace("float", defaultXMLSchemaNamespace) ||
-          primitiveTypeDefinition.hasNameAndTargetNamespace("double", defaultXMLSchemaNamespace))
+    if (primitiveTypeDefinition != null && 
+          (primitiveTypeDefinition.hasNameAndTargetNamespace("float", defaultXMLSchemaNamespace) ||
+             primitiveTypeDefinition.hasNameAndTargetNamespace("double", defaultXMLSchemaNamespace)))
     {
       if ("Infinity".equals(defaultValue))
       {
