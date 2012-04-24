@@ -23,7 +23,6 @@ import com.google.inject.Inject;
  */
 public class GenModelQualifiedNameProvider extends IQualifiedNameProvider.AbstractImpl
 {
-
   @Inject
   private IQualifiedNameConverter qualifiedNameConverter;
 
@@ -32,8 +31,10 @@ public class GenModelQualifiedNameProvider extends IQualifiedNameProvider.Abstra
     if (obj instanceof GenPackage)
     {
       String packageName = ((GenPackage)obj).getQualifiedPackageName();
-      return qualifiedNameConverter.toQualifiedName(packageName);
-
+      if (packageName != null)
+      {
+        return qualifiedNameConverter.toQualifiedName(packageName);
+      }
     }
     else if (obj instanceof GenClassifier)
     {
@@ -43,10 +44,12 @@ public class GenModelQualifiedNameProvider extends IQualifiedNameProvider.Abstra
       {
         String packageName = genPackage.getQualifiedPackageName();
         String classifierName = classifier.getName();
-        return qualifiedNameConverter.toQualifiedName(packageName).append(classifierName);
+        if (packageName != null && classifierName != null)
+        {
+          return qualifiedNameConverter.toQualifiedName(packageName).append(classifierName);
+        }
       }
     }
     return null;
   }
-
 }
