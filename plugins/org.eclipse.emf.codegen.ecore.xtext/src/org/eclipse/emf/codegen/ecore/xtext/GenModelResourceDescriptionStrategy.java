@@ -9,6 +9,7 @@ package org.eclipse.emf.codegen.ecore.xtext;
 
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.impl.DefaultResourceDescriptionStrategy;
@@ -29,6 +30,10 @@ public class GenModelResourceDescriptionStrategy extends DefaultResourceDescript
   @Override
   public boolean createEObjectDescriptions(EObject eObject, IAcceptor<IEObjectDescription> acceptor)
   {
+    if (eObject instanceof GenModel)
+    {
+      ((GenModel)eObject).reconcile();
+    }
     super.createEObjectDescriptions(eObject, acceptor);
     return !(eObject instanceof GenClassifier);
   }

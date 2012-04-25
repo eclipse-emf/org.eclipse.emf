@@ -15,8 +15,8 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
-import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
 import org.eclipse.xtext.xbase.XBlockExpression;
+import org.eclipse.xtext.xbase.ui.labeling.XbaseLabelProvider;
 
 import com.google.inject.Inject;
 
@@ -26,7 +26,7 @@ import com.google.inject.Inject;
  *
  * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#labelProvider
  */
-public class XcoreLabelProvider extends DefaultEObjectLabelProvider
+public class XcoreLabelProvider extends XbaseLabelProvider
 {
   @Inject
   private IQualifiedNameProvider nameProvider;

@@ -7,21 +7,17 @@
  */
 package org.eclipse.emf.codegen.ecore.xtext.ui;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.edit.provider.ComposedImage;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -31,121 +27,61 @@ import com.google.inject.Inject;
 
 public class GenModelHoverProvider extends DefaultEObjectHoverProvider
 {
+  protected static final String LEADING_PADDING = "<div style='position: relative; left: 16;'>";
+  protected static final String TRAILING_PADDING = "</div><div style='visibility: hidden;'>xx</div>";
+
   @Inject
   private IQualifiedNameProvider nameProvider;
 
   @Inject
   private IQualifiedNameConverter nameConverter;
 
-  private Helper helper;
+  private AdapterFactoryItemDelegator labelProvider = new AdapterFactoryItemDelegator(new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
 
-  public static class Helper
+  protected String getImageTagLink(ImageDescriptor imageDescriptor)
   {
-    private IQualifiedNameProvider nameProvider;
-    private IQualifiedNameConverter nameConverter;
-    public Helper(IQualifiedNameProvider nameProvider, IQualifiedNameConverter nameConverter)
-    {
-      this.nameProvider = nameProvider;
-      this.nameConverter = nameConverter;
-    }
-
-    public String getImage(EObject eObject)
-    {
-      ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-      AdapterFactoryItemDelegator labelProvider = new AdapterFactoryItemDelegator(adapterFactory);
-      Object image = labelProvider.getImage(eObject);
-      return toImage(image);
-    }
-
-    public String toImage(Object image)
-    {
-      if (image instanceof URL)
-      {
-        try
-        {
-          image = FileLocator.toFileURL((URL)image);
-        }
-        catch (IOException e)
-        {
-          return null;
-        }
-        return "<div style='position: absolute; left: 0; top: 0;'><img src='" + image.toString() + "'/></div>";
-      }
-      else if (image instanceof ComposedImage)
-      {
-        ImageDescriptor imageDescriptor = ExtendedImageRegistry.INSTANCE.getImageDescriptor(image);
-        ImageData imageData = imageDescriptor.getImageData();
-        ComposedImage.Size size = new ComposedImage.Size();
-        size.width = imageData.width;
-        size.height = imageData.height;
-        ComposedImage composedImage = (ComposedImage)image;
-        List<ComposedImage.Point> drawPoints = composedImage.getDrawPoints(size);
-        List<Object> images = composedImage.getImages();
-        StringBuilder result = new StringBuilder("<div style='position: absolute; left: 0; top: 0;'><div style='position: relative; left: 0; top: 0;'>");
-        for (int i = 0, length = drawPoints.size(); i < length; ++i)
-        {
-          ComposedImage.Point point = drawPoints.get(i);
-          Object component = images.get(i);
-          String componentHTML = toImage(component);
-          result.append("<div style='position: " + (i == 0 ? "absolute" : "relative") +"; left : " + point.x +"; top: " + point.y + ";'>");
-          result.append(componentHTML);
-          result.append("</div>");
-        }
-        result.append("</div></div><div style='width: 20px;'/>");
-        return result.toString();
-      }
-      else
-      {
-        return null;
-      }
-    }
-
-    public String getFirstLine(EObject eObject)
-    {
-      if (eObject instanceof GenBase || eObject instanceof EModelElement)
-      {
-        String image = getImage(eObject);
-        if (image != null)
-        {
-          QualifiedName qualifiedName =
-            eObject instanceof GenFeature ?
-              nameProvider.getFullyQualifiedName(eObject.eContainer()).append(((GenFeature)eObject).getName()) :
-              nameProvider.getFullyQualifiedName(eObject);
-          String name = nameConverter.toString(qualifiedName);
-          return compose(image, name);
-        }
-      }
-      return null;
-    }
-
-
-    private static final String LEADING_PADDING = "<div style='position: relative; left: 16;'>";
-    private static final String TRAILING_PADDING = "</div><div style='visibility: hidden;'>xx</div>";
-
-    public String compose(String image, String label)
-    {
-       return image + LEADING_PADDING + "<b>" + label + "</b>" + TRAILING_PADDING;
-    }
+    URL url = getURL(imageDescriptor);
+    return url == null ? "" : "<div style='position: absolute; left: 0; top: 0;'><image src='" + url.toExternalForm() + "'/></div>";
   }
 
-  protected Helper getHelper()
+  @SuppressWarnings("restriction")
+  protected URL getURL(ImageDescriptor descriptor)
   {
-    if (helper == null)
-    {
-      helper = new Helper(nameProvider, nameConverter);
-    }
-    return helper;
+    return org.eclipse.jdt.internal.ui.JavaPlugin.getDefault().getImagesOnFSRegistry().getImageURL(descriptor);
   }
 
-  protected String getImage(EObject eObject)
+  protected String getImage(final EObject eObject)
   {
-    return getHelper().getImage(eObject);
+    final String[] result = new String[1];
+    Display.getDefault().syncExec
+      (new Runnable()
+       {
+         public void run()
+         {
+           ImageDescriptor image = ExtendedImageRegistry.INSTANCE.getImageDescriptor(labelProvider.getImage(eObject));
+           result[0] = getImageTagLink(image);
+         }
+       });
+    return result[0];
   }
 
   @Override
   protected String getFirstLine(EObject eObject)
   {
-    return getHelper().getFirstLine(eObject);
+    if (eObject instanceof GenBase || eObject instanceof EModelElement)
+    {
+      String image = getImage(eObject);
+      if (image != null)
+      {
+        QualifiedName qualifiedName =
+          eObject instanceof GenFeature ?
+            nameProvider.getFullyQualifiedName(eObject.eContainer()).append(((GenFeature)eObject).getName()) :
+            nameProvider.getFullyQualifiedName(eObject);
+        String name = nameConverter.toString(qualifiedName);
+        return image + LEADING_PADDING + "<b>" + name + "</b>" + TRAILING_PADDING;
+      }
+    }
+    return null;
   }
 
   @Override
