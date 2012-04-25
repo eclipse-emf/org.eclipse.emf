@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 Kenn Hussey and others.
+ * Copyright (c) 2010-2012 Kenn Hussey and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -193,6 +193,11 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
               ? factory.createTextViewer(queryTextViewerComposite, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL) : new TextViewer(
                 queryTextViewerComposite,
                 SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+
+            if (queryTextViewer.getDocument() == null)
+            {
+              queryTextViewer.setDocument(new Document());
+            }
 
             queryTextViewer.addTextListener(new ITextListener()
               {
@@ -654,11 +659,7 @@ public class EcoreDataSetWizardPage extends DataSetWizardPage
     if (!StringUtil.isEmpty(queryText))
     {
       // initialize query text
-      getQueryTextViewer().setDocument(new Document(queryText));
-    }
-    else
-    {
-      getQueryTextViewer().setDocument(new Document());
+      getQueryTextViewer().getDocument().set(queryText);
     }
 
     String context = properties.getProperty(Query.CONTEXT_PROPERTY_NAME);
