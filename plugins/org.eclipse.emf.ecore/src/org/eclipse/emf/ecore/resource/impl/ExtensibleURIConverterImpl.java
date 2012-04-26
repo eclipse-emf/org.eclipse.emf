@@ -55,6 +55,16 @@ public class ExtensibleURIConverterImpl implements URIConverter
      * @return the remapped URI, or the URI itself.
      */
     URI getURI(URI uri);
+
+    /**
+     * An interface implemented by a {@link URIMappingRegistryImpl.URIMapImpl URI map} that tracks changes by incrementing the {@link #modificationCount() modification count}.
+     * @see ResourceSetImpl.MappedResourceLocator#modificationCount()
+     * @since 2.8
+     */
+    interface Internal
+    {
+      int modificationCount();
+    }
   }
 
   protected static class URIHandlerList extends BasicEList<URIHandler>
@@ -459,6 +469,17 @@ public class ExtensibleURIConverterImpl implements URIConverter
           protected URI delegatedGetURI(URI uri)
           {
             return URIMappingRegistryImpl.INSTANCE.getURI(uri);
+          }
+
+          /**
+           * Specialize the modification count to include the modification count for this map
+           * as well as the one for the map to which this one {@link URIMappingRegistryImpl#INSTANCE delegates}.
+           * @since 2.8
+           */
+          @Override
+          protected int modificationCount()
+          {
+            return super.modificationCount() + URIMappingRegistryImpl.INSTANCE.modificationCount();
           }
         };
 

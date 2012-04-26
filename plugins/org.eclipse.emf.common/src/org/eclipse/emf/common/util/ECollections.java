@@ -830,7 +830,7 @@ public class ECollections
    * @return an immutable list containing just the one object.
    * @since 2.7
    */
-  public static <T> List<T> singletonEList(T o)
+  public static <T> EList<T> singletonEList(T o)
   {
     return new UnmodifiableEList<T>(Collections.singletonList(o));
   }

@@ -18,13 +18,16 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.NotifierImpl;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -33,6 +36,7 @@ import org.eclipse.emf.ecore.resource.ContentHandler;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.util.NotifyingInternalEListImpl;
@@ -100,6 +104,12 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    * @see #setURIResourceMap(Map)
    */
   protected Map<URI, Resource> uriResourceMap;
+
+  /**
+   * A resource locator used for efficiently {@link #getResource(URI, boolean) locating} resources within the resource set.
+   * @since 2.8
+   */
+  protected ResourceLocator resourceLocator;
 
   /**
    * Creates an empty instance.
@@ -337,6 +347,11 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    */
   public Resource getResource(URI uri, boolean loadOnDemand)
   {
+    if (resourceLocator != null)
+    {
+      return resourceLocator.getResource(uri, loadOnDemand);
+    }
+
     Map<URI, Resource> map = getURIResourceMap();
     if (map != null)
     {
@@ -606,5 +621,451 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
     return
       getClass().getName() +  '@' + Integer.toHexString(hashCode()) +
         " resources=" + (resources == null ? "[]" : resources.toString());
+  }
+
+  /**
+   * A utility class for efficiently {@link ResourceSet#getResource(URI, boolean) locating resources} in a resource set.
+   * It provides utility methods for delegating to a {@link ResourceSetImpl}'s protected methods
+   * so that derived classes have access to the resource set's full set of protected methods.
+   * @since 2.8
+   */
+  public static abstract class ResourceLocator
+  {
+    /**
+     * The resource set for which this acts as an efficient lookup mechanism.
+     */
+    protected final ResourceSetImpl resourceSet;
+
+    /**
+     * Creates an instance for the given resource set, and sets the resource set's {@link ResourceSetImpl#resourceLocator resource locator}.
+     */
+    public ResourceLocator(ResourceSetImpl resourceSet)
+    {
+      // Cache the resource set and ensure that the resource set refer back to this as its resource locator.
+      //
+      this.resourceSet = resourceSet;
+      resourceSet.resourceLocator = this;
+    }
+
+    /**
+     * The utility method used by a resource set for {@link ResourceSet#getResource(URI, boolean) locating} a resource.
+     * It must implement the full logic needed to locate a resource,
+     * including {@link ResourceSetImpl#delegatedGetResource(URI, boolean) delegated lookup}
+     * and {@link ResourceSetImpl#demandCreateResource(URI) demand creation}.
+     */
+    public abstract Resource getResource(URI uri, boolean loadOnDemand);
+
+    /**
+     * Delegates to the {@link #resourceSet resource set}'s {@link ResourceSetImpl#demandCreateResource(URI)}.
+     */
+    protected Resource demandCreateResource(URI uri)
+    {
+      return resourceSet.demandCreateResource(uri);
+    }
+
+    /**
+     * Delegates to the {@link #resourceSet resource set}'s {@link ResourceSetImpl#demandLoad(Resource)}.
+     */
+    protected void demandLoad(Resource resource) throws IOException
+    {
+      resourceSet.demandLoad(resource);
+    }
+
+    /**
+     * Delegates to the {@link #resourceSet resource set}'s {@link ResourceSetImpl#demandLoadHelper(Resource)}.
+     */
+    protected void demandLoadHelper(Resource resource)
+    {
+      resourceSet.demandLoadHelper(resource);
+    }
+
+    /**
+     * Delegates to the {@link #resourceSet resource set}'s {@link ResourceSetImpl#handleDemandLoadException(Resource, IOException)}.
+     */
+    protected void handleDemandLoadException(Resource resource, IOException exception) throws RuntimeException
+    {
+      resourceSet.handleDemandLoadException(resource, exception);
+    }
+
+    /**
+     * Delegates to the {@link #resourceSet resource set}'s {@link ResourceSetImpl#delegatedGetResource(URI, boolean)}.
+     */
+    protected Resource delegatedGetResource(URI uri, boolean loadOnDemand)
+    {
+      return resourceSet.delegatedGetResource(uri, loadOnDemand);
+    }
+  }
+
+  /**
+   * An implementation of a {@link ResourceLocator} that maintains cached mappings for
+   * the {@link MappedResourceLocator#normalizationMap normalized URIs}
+   * and the resource set's {@link MappedResourceLocator#resourceMap resources}.
+   * @since 2.8
+   */
+  public static class MappedResourceLocator extends ResourceLocator
+  {
+    /**
+     * The cached {@link ResourceSet#getURIConverter() URI converter} used to calculate the cached {@link #normalizationMap normalization} and {@link #resourceMap resource} mappings.
+     */
+    protected URIConverter cachedURIConverter;
+
+    /**
+     * The cached {@link ExtensibleURIConverterImpl.URIMap.Internal#modificationCount() modification count} of the {@link #cachedURIConverter cached URI converter}.
+     */
+    protected int expectedModificationCount;
+
+    /**
+     * The cached mappings from URIs to their {@link URIConverter#normalize(URI) normalized} form.
+     */
+    protected Map<URI, URI> normalizationMap = new HashMap<URI, URI>();
+
+    /**
+     *  The cached mapping from normalized URIs to their corresponding resources.
+     *  If there is more than one resource corresponding to the a normalized URI,
+     *  the value will be a list of all those resources and they will be ordered in the same order as they appear in the {@link ResourceLocator#resourceSet resource set}
+     *  with any resources not in the resource set, i.e., those located by {@link ResourceSetImpl#delegatedGetResource(URI, boolean) delegation},
+     *  appearing after those found in the resource set itself.
+     */
+    protected Map<URI, EList<Resource>> resourceMap = new HashMap<URI, EList<Resource>>();
+
+    /**
+     * A {@link EContentAdapter content adapter} that listens to the {@link ResourceLocator#resourceSet resource set}
+     * for {@link ResourceSet#getResources() resources} being added and removed,
+     * as well as to the resources in the resource set for changes to the resource's {@link Resource#getURI() URI}.
+     */
+    public class ResourceAdapter extends EContentAdapter
+    {
+      /**
+       * Respond to changes to the resource set's {@link ResourceSet#getResources() resources} and the resource's {@link Resource#getURI() URI}.
+       */
+      @Override
+      public void notifyChanged(Notification notification)
+      {
+        // If the notification is for this resource set...
+        //
+        Object notifier = notification.getNotifier();
+        if (notifier == resourceSet)
+        {
+          // If the notification is for changes to the list of resources...
+          //
+          if (notification.getFeatureID(ResourceSet.class) == ResourceSet.RESOURCE_SET__RESOURCES)
+          {
+            // If we've only moved a resource...
+            //
+            if (notification.getEventType() == Notification.MOVE)
+            {
+              // If we didn't build a new map while preparing the cached URI converter...
+              //
+              if (cacheURIConverter())
+              {
+                // Update mapping for the moved resource's normalized URI...
+                //
+                Resource resource = (Resource)notification.getNewValue();
+                URI normalizedURI = normalizationMap.get(resource.getURI());
+                if (normalizedURI != null)
+                {
+                  map(normalizedURI, resource);
+                }
+              }
+            }
+            else
+            {
+              // Handle the notification as normal, i.e., add/remove this content adapter to/from the added/removed resources.
+              //
+              handleContainment(notification);
+            }
+          }
+        }
+        // If the notification, which must be for a resource, is for the resource's URI...
+        //
+        else if (notification.getFeatureID(Resource.class) == Resource.RESOURCE__URI)
+        {
+          // If we didn't build a new map while preparing the cached URI converter...
+          //
+          if (cacheURIConverter())
+          {
+            // Remove the entry in the resource map for the old normalized URI.
+            //
+            URI oldNormalizedURI = normalizationMap.get(notification.getOldValue());
+            if (oldNormalizedURI != null)
+            {
+              EList<Resource> value = resourceMap.get(oldNormalizedURI);
+              if (value != null)
+              {
+                // If the list will end up being empty, remove the entire entry.
+                //
+                if (value.size() == 1)
+                {
+                  resourceMap.remove(oldNormalizedURI);
+                }
+                else
+                {
+                  // Otherwise, just remove the resource from the list.
+                  //
+                  value.remove(notifier);
+                }
+              }
+            }
+
+            // Add an entry to the resource map for the new normalized URI, if it's not null.
+            //
+            URI newURI = (URI)notification.getNewValue();
+            if (newURI != null)
+            {
+              URI normalizedURI = cachedURIConverter.normalize(newURI);
+              normalizationMap.put(newURI, normalizedURI);
+              map(normalizedURI, (Resource)notifier);
+            }
+          }
+        }
+      }
+
+      @Override
+      protected void setTarget(Resource target)
+      {
+        basicSetTarget(target);
+
+        // If we didn't build a new map while preparing the cached URI converter...
+        //
+        if (cacheURIConverter())
+        {
+          // Add an entry to the resource map for the new normalized URI, if it's not null.
+          //
+          URI uri = target.getURI();
+          if (uri != null)
+          {
+            URI normalizedURI = cachedURIConverter.normalize(uri);
+            normalizationMap.put(uri, normalizedURI);
+            map(normalizedURI, target);
+          }
+        }
+      }
+
+      @Override
+      protected void unsetTarget(Resource target)
+      {
+        basicUnsetTarget(target);
+
+        // If we didn't build a new map while preparing the cached URI converter...
+        //
+        if (cacheURIConverter())
+        {
+          // Add an entry to the resource map for the new normalized URI, if it's not null.
+          //
+          URI uri = target.getURI();
+          if (uri != null)
+          {
+            URI normalizedURI = normalizationMap.get(uri);
+            EList<Resource> value = resourceMap.get(normalizedURI);
+            if (value.size() == 1)
+            {
+              // If the list would become empty, just remove the entry entirely.
+              //
+              resourceMap.remove(normalizedURI);
+            }
+            else
+            {
+              // Otherwise remove the resource from the list.
+              //
+              value.remove(target);
+            }
+          }
+        }
+      }
+    }
+
+    /**
+     * Creates an instance of the given resource set.
+     */
+    public MappedResourceLocator(ResourceSetImpl resourceSet)
+    {
+      super(resourceSet);
+
+      // Add the specialized content adapter to the resource set's adapter list.
+      //
+      resourceSet.eAdapters().add(new ResourceAdapter());
+    }
+
+    /**
+     * Creates a {@link #resourceMap resource map} entry for the resource with the given normalized URI.
+     */
+    protected void map(URI normalizedURI, Resource resource)
+    {
+      // If there is no entry yet...
+      //
+      EList<Resource> value = resourceMap.get(normalizedURI);
+      if (value == null)
+      {
+        // Create a mapping to a singleton list.
+        //
+        resourceMap.put(normalizedURI, ECollections.singletonEList(resource));
+      }
+      else
+      {
+        // Otherwise, we need to add to the value list.
+        // Create new list if the list is a singleton, and add the resource to it.
+        //
+        if (value.size() == 1)
+        {
+          value = new UniqueEList.FastCompare<Resource>(value);
+        }
+        value.add(resource);
+
+        // Ensure that the resources are ordered as they are in the resource set's list of resources.
+        // Note that resources not in the resource set (i.e., those found by calling delegatedGetResource) come last.
+        //
+        int count = 0;
+        for (Resource r : resourceSet.getResources())
+        {
+          int index = value.indexOf(r);
+          if (index != -1)
+          {
+            value.move(count++, index);
+          }
+        }
+
+        // Update the map with the new value.
+        //
+        resourceMap.put(normalizedURI, value);
+      }
+    }
+
+    /**
+     * Builds entries for the {@link ResourceLocator#resourceSet resource set's} resource in the {@link #normalizationMap normalized map} and the {@link #resourceMap resource map}.
+     */
+    protected void buildMaps()
+    {
+      // Clear the maps
+      //
+      normalizationMap.clear();
+      resourceMap.clear();
+
+      // Iterate over the resources.
+      //
+      for (Resource resource : resourceSet.getResources())
+      {
+        URI uri = resource.getURI();
+        if (uri != null)
+        {
+          // Compute the normalized URI, cache it, and map it to the resource.
+          //
+          URI normalizedURI = cachedURIConverter.normalize(uri);
+          normalizationMap.put(uri,  normalizedURI);
+          map(normalizedURI, resource);
+        }
+      }
+    }
+
+    /**
+     * Determines {@link ExtensibleURIConverterImpl.URIMap.Internal#modificationCount() modification count} of the {@link #cachedURIConverter cached URI converter}.
+     */
+    protected int modificationCount()
+    {
+      return ((ExtensibleURIConverterImpl.URIMap.Internal)cachedURIConverter.getURIMap()).modificationCount();
+    }
+
+    /**
+     * {@link #cachedURIConverter Caches} the URI converter,
+     * checking that it's the same as the {@link ResourceLocator#resourceSet's} current {@link ResourceSet#getURIConverter() URI converter}
+     * and that the {@link #modificationCount() modification count} of the {@link URIConverter#getURIMap() URI map}
+     * is the same as the {@link #expectedModificationCount expected modification count},
+     * {@link #buildMaps() building} normalization and resource maps, if necessary.
+     */
+    protected boolean cacheURIConverter()
+    {
+      // Get the current URI converter and check if it matches the cached one...
+      //
+      URIConverter uriConverter = resourceSet.getURIConverter();
+      if (uriConverter != cachedURIConverter)
+      {
+        // If not, cache the new one, update the expected modification count, build new maps, and indicate that we've not reused the cache.
+        //
+        cachedURIConverter = uriConverter;
+        expectedModificationCount = modificationCount();
+        buildMaps();
+        return false;
+      }
+      else
+      {
+        // Otherwise check the modification count to see if it matches the expected one...
+        //
+        int newModificationCount = modificationCount();
+        if (newModificationCount != expectedModificationCount)
+        {
+          // If not, update the expected modification count, build new maps, and indicate that we've not reused the cache.
+          //
+          expectedModificationCount = newModificationCount;
+          buildMaps();
+          return false;
+        }
+      }
+
+      // Indicate that we're reusing the cache.
+      //
+      return true;
+    }
+
+    @Override
+    public Resource getResource(URI uri, boolean loadOnDemand)
+    {
+      // Ensure that the cached URI converter and maps are up-to-date.
+      //
+      cacheURIConverter();
+
+      // Check if the normalization map contains a mapping for the URI.
+      //
+      URI normalizedURI = normalizationMap.get(uri);
+      if (normalizedURI == null)
+      {
+        // If not, use the cached URI converter to normalize the URI and store the result for reuse.
+        //
+        normalizedURI = cachedURIConverter.normalize(uri);
+        normalizationMap.put(uri, normalizedURI);
+      }
+
+      // Determine the list of resources associated with the normalized URI.
+      //
+      EList<Resource> value = resourceMap.get(normalizedURI);
+      if (value != null)
+      {
+        // If there is one, it mustn't be empty, so get the first one.
+        //
+        Resource resource = value.get(0);
+
+        // If we're demand loading and the resource isn't loaded yet, demand load it.
+        //
+        if (loadOnDemand && !resource.isLoaded())
+        {
+          demandLoadHelper(resource);
+        }
+        return resource;
+      }
+
+      // Try to locate the resource via delegation.
+      //
+      Resource delegatedResource = delegatedGetResource(uri, loadOnDemand);
+      if (delegatedResource != null)
+      {
+        map(normalizedURI, delegatedResource);
+        return delegatedResource;
+      }
+
+      // Failing actually locating the resource, if we're demand loading, then demand create one and load it.
+      //
+      if (loadOnDemand)
+      {
+        Resource resource = demandCreateResource(uri);
+        if (resource == null)
+        {
+          throw new RuntimeException("Cannot create a resource for '" + uri + "'; a registered resource factory is needed");
+        }
+        demandLoadHelper(resource);
+        return resource;
+      }
+
+      // If all that fails, there' no corresponding resource to return.
+      //
+      return null;
+    }
   }
 }

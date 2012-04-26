@@ -44,6 +44,7 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.core.ecore.XMLTypeTest.suite()
     ,org.eclipse.emf.test.core.ecore.BinaryResourceTest.suite()
     ,org.eclipse.emf.test.core.ecore.SwitchTest.suite()
+    ,org.eclipse.emf.test.core.ecore.ResourceSetMappedResourceLocatorTest.suite()
   };
 
   public static Test suite()

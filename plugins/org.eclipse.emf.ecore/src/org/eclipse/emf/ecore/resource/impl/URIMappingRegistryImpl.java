@@ -141,7 +141,7 @@ public class URIMappingRegistryImpl extends BasicEMap<URI, URI>
    * A map that is a {@link ExtensibleURIConverterImpl.URIMap}.
    */
   @SuppressWarnings("deprecation")
-  protected class URIMapImpl extends DelegatingMap implements URIConverterImpl.URIMap
+  protected class URIMapImpl extends DelegatingMap implements URIConverterImpl.URIMap, ExtensibleURIConverterImpl.URIMap.Internal
   {
     /**
      * Creates an instance.
@@ -160,6 +160,15 @@ public class URIMappingRegistryImpl extends BasicEMap<URI, URI>
     public URI getURI(URI uri)
     {
       return URIMappingRegistryImpl.this.getURI(uri);
+    }
+
+    /**
+     * Delegates to the {@link URIMappingRegistryImpl#modificationCount()}.
+     * @since 2.8
+     */
+    public int modificationCount()
+    {
+      return URIMappingRegistryImpl.this.modificationCount();
     }
   }
 
@@ -253,5 +262,14 @@ public class URIMappingRegistryImpl extends BasicEMap<URI, URI>
   protected void didClear(BasicEList<Entry<URI, URI>> [] oldEntryData)
   {
     prefixMaps = null;
+  }
+
+  /**
+   * Provides access to the modification count for use in {@link URIMapImpl#modificationCount()}.
+   * @since 2.8
+   */
+  protected int modificationCount()
+  {
+    return modCount;
   }
 }
