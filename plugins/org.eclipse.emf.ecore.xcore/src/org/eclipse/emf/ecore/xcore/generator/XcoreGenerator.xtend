@@ -25,6 +25,7 @@ import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler
 
 import static extension org.eclipse.emf.ecore.xcore.XcoreExtensions.*
+import java.util.Collections
 
 class XcoreGenerator implements IGenerator {
 
@@ -46,9 +47,10 @@ class XcoreGenerator implements IGenerator {
 			if (body != null)
 			{
 				val appendable = createAppendable
-				appendable.declareVariable(mappings.getMapping(op).jvmOperation.declaringType, "this");
-				compiler.compile(body, appendable, null)
-				EcoreUtil::setAnnotation(eOperation, GenModelPackage::eNS_URI, "body", extractBody(appendable.toString));
+				val jvmOperation = mappings.getMapping(op).jvmOperation
+				appendable.declareVariable(jvmOperation, "this")
+				compiler.compile(body, appendable, jvmOperation.returnType, Collections::emptySet)
+				EcoreUtil::setAnnotation(eOperation, GenModelPackage::eNS_URI, "body", extractBody(appendable.toString))
 			}
 		}
 		// install feature accessors
@@ -58,9 +60,9 @@ class XcoreGenerator implements IGenerator {
 			if (getBody != null) {
 				val getter = mappings.getMapping(feature).getter
 				val appendable = createAppendable
-				appendable.declareVariable(getter.declaringType, "this");
-				compiler.compile(getBody, appendable, null)
-				EcoreUtil::setAnnotation(eStructuralFeature, GenModelPackage::eNS_URI, "get", extractBody(appendable.toString));
+				appendable.declareVariable(getter.declaringType, "this")
+				compiler.compile(getBody, appendable, getter.returnType, Collections::emptySet)
+				EcoreUtil::setAnnotation(eStructuralFeature, GenModelPackage::eNS_URI, "get", extractBody(appendable.toString))
 			}
 		}
 		// install data type converters
@@ -70,17 +72,17 @@ class XcoreGenerator implements IGenerator {
 			val creator = dataType.mapping.creator
 			if (createBody != null && creator != null) {
 				val appendable = createAppendable
-				appendable.declareVariable(creator.parameters.get(0), "it");
-				compiler.compile(createBody, appendable, null)
-				EcoreUtil::setAnnotation(eDataType, GenModelPackage::eNS_URI, "create", extractBody(appendable.toString));
+				appendable.declareVariable(creator.parameters.get(0), "it")
+				compiler.compile(createBody, appendable, creator.returnType, Collections::emptySet)
+				EcoreUtil::setAnnotation(eDataType, GenModelPackage::eNS_URI, "create", extractBody(appendable.toString))
 			}
 			val convertBody = dataType.convertBody
 			val converter = dataType.mapping.converter
 			if (convertBody != null && converter != null) {
 				val appendable = createAppendable
-				appendable.declareVariable(converter.parameters.get(0), "it");
-				compiler.compile(convertBody, appendable, null)
-				EcoreUtil::setAnnotation(eDataType, GenModelPackage::eNS_URI, "convert", extractBody(appendable.toString));
+				appendable.declareVariable(converter.parameters.get(0), "it")
+				compiler.compile(convertBody, appendable, converter.returnType, Collections::emptySet)
+				EcoreUtil::setAnnotation(eDataType, GenModelPackage::eNS_URI, "convert", extractBody(appendable.toString))
 			}
 		}
 
@@ -106,10 +108,10 @@ class XcoreGenerator implements IGenerator {
 		val generator = xcoreGeneratorImplProvider.get
 		generator.input = genModel
 		generator.fileSystemAccess = fsa
-		generator.modelDirectory = genModel.modelDirectory;
-		generator.generate(genModel, GenBaseGeneratorAdapter::MODEL_PROJECT_TYPE, new BasicMonitor());
-		generator.generate(genModel, GenBaseGeneratorAdapter::EDIT_PROJECT_TYPE, new BasicMonitor());
-		generator.generate(genModel, GenBaseGeneratorAdapter::EDITOR_PROJECT_TYPE, new BasicMonitor());
-		generator.generate(genModel, GenBaseGeneratorAdapter::TESTS_PROJECT_TYPE, new BasicMonitor());
+		generator.modelDirectory = genModel.modelDirectory
+		generator.generate(genModel, GenBaseGeneratorAdapter::MODEL_PROJECT_TYPE, new BasicMonitor())
+		generator.generate(genModel, GenBaseGeneratorAdapter::EDIT_PROJECT_TYPE, new BasicMonitor())
+		generator.generate(genModel, GenBaseGeneratorAdapter::EDITOR_PROJECT_TYPE, new BasicMonitor())
+		generator.generate(genModel, GenBaseGeneratorAdapter::TESTS_PROJECT_TYPE, new BasicMonitor())
 	}
 }
