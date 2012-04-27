@@ -16,4 +16,16 @@ Require-Bundle: org.eclipse.emf.ecore.xcore,
  org.eclipse.xtext.common.types,
  org.eclipse.xtext.xbase,
  org.eclipse.xtext.xbase.lib,
- org.eclipse.xtext.xbase.junit
+ org.eclipse.xtext.xbase.junit,
+ org.eclipse.ui.workbench;resolution:=optional
+Import-Package: org.apache.log4j,
+ org.apache.commons.logging,
+ org.junit;version="4.5.0",
+ org.junit.runner;version="4.5.0",
+ org.junit.runner.manipulation;version="4.5.0",
+ org.junit.runner.notification;version="4.5.0",
+ org.junit.runners;version="4.5.0",
+ org.junit.runners.model;version="4.5.0",
+ org.hamcrest,
+ org.hamcrest.core
+Bundle-Activator: org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator

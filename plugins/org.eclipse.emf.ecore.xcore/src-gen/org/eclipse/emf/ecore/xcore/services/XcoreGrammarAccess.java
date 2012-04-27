@@ -2747,7 +2747,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 
 	//OpOther:
 	//
-	//	"->" | "..";
+	//	"->" | ".." | "=>";
 	public XbaseGrammarAccess.OpOtherElements getOpOtherAccess() {
 		return gaXbase.getOpOtherAccess();
 	}

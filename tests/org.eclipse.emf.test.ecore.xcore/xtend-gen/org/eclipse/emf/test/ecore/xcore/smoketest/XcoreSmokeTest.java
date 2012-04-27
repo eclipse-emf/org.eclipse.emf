@@ -15,9 +15,9 @@ import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.junit.runner.RunWith;
 
+@RunWith(value = XtextRunner.class)
+@InjectWith(value = XcoreInjectorProvider.class)
 @SuppressWarnings("all")
-@RunWith(XtextRunner.class)
-@InjectWith(XcoreInjectorProvider.class)
 public class XcoreSmokeTest extends AbstractSmokeTest {
   @Inject
   private ParseHelper<EObject> parser;

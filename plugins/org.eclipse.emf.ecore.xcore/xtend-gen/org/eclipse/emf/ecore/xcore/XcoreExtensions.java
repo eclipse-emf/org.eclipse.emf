@@ -15,15 +15,15 @@ public class XcoreExtensions {
     GenClass _switchResult = null;
     GenBase _type = type.getType();
     final GenBase t = _type;
-    boolean matched = false;
-    if (!matched) {
+    boolean _matched = false;
+    if (!_matched) {
       if (t instanceof GenClass) {
         final GenClass _genClass = (GenClass)t;
-        matched=true;
+        _matched=true;
         _switchResult = _genClass;
       }
     }
-    if (!matched) {
+    if (!_matched) {
       _switchResult = null;
     }
     return _switchResult;
@@ -33,15 +33,15 @@ public class XcoreExtensions {
     GenTypeParameter _switchResult = null;
     GenBase _type = type.getType();
     final GenBase t = _type;
-    boolean matched = false;
-    if (!matched) {
+    boolean _matched = false;
+    if (!_matched) {
       if (t instanceof GenTypeParameter) {
         final GenTypeParameter _genTypeParameter = (GenTypeParameter)t;
-        matched=true;
+        _matched=true;
         _switchResult = _genTypeParameter;
       }
     }
-    if (!matched) {
+    if (!_matched) {
       _switchResult = null;
     }
     return _switchResult;
@@ -49,13 +49,11 @@ public class XcoreExtensions {
   
   public static Iterable<EObject> allContentsIterable(final EObject eObject) {
     TreeIterator<EObject> _eAllContents = eObject.eAllContents();
-    Iterable<EObject> _iterable = IteratorExtensions.<EObject>toIterable(_eAllContents);
-    return _iterable;
+    return IteratorExtensions.<EObject>toIterable(_eAllContents);
   }
   
   public static Iterable<EObject> allContentsIterable(final Resource resource) {
     TreeIterator<EObject> _allContents = resource.getAllContents();
-    Iterable<EObject> _iterable = IteratorExtensions.<EObject>toIterable(_allContents);
-    return _iterable;
+    return IteratorExtensions.<EObject>toIterable(_allContents);
   }
 }
