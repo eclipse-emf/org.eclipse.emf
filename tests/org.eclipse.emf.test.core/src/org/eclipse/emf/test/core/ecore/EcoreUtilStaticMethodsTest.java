@@ -11,6 +11,7 @@
 package org.eclipse.emf.test.core.ecore;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -27,6 +28,10 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.test.common.TestUtil;
 
@@ -47,6 +52,7 @@ public class EcoreUtilStaticMethodsTest extends TestCase
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testCopyUnsettableSetEmptyList"));
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testCopy"));
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testGetConstraints"));
+    testSuite.addTest(new EcoreUtilStaticMethodsTest("testIsAncestor"));
     return testSuite;
   }
   
@@ -219,5 +225,30 @@ public class EcoreUtilStaticMethodsTest extends TestCase
 
     constraints = EcoreUtil.getConstraints(aClass);
     assertTrue(constraints.isEmpty());
+  }
+  
+  /*
+   * Bugzilla 378187
+   */
+  public void testIsAncestor()
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+    Resource resource = new ResourceImpl();
+    resourceSet.getResources().add(resource);
+    EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
+    resource.getContents().add(ePackage);
+    ePackage.getESubpackages().add(ePackage);
+    EObject eObject = EcoreFactory.eINSTANCE.createEObject();
+
+    assertTrue(EcoreUtil.isAncestor(Collections.singleton(ePackage), ePackage));
+    assertFalse(EcoreUtil.isAncestor(Collections.singleton(eObject), ePackage));
+
+    Resource otherResource = new ResourceImpl();
+    assertTrue(EcoreUtil.isAncestor(resource, ePackage));
+    assertFalse(EcoreUtil.isAncestor(otherResource, ePackage));
+
+    ResourceSet otherResourceSet = new ResourceSetImpl();
+    assertTrue(EcoreUtil.isAncestor(resourceSet, ePackage));
+    assertFalse(EcoreUtil.isAncestor(otherResourceSet, ePackage));
   }
 }

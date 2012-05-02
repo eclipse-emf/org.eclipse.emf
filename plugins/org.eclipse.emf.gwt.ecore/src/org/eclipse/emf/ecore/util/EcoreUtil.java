@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2011 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -899,11 +899,25 @@ public class EcoreUtil
    */
   public static boolean isAncestor(Resource ancestorResource, EObject eObject)
   {
-    for (InternalEObject parent = (InternalEObject)eObject; parent != null; parent = parent.eInternalContainer())
+    if (eObject != null)
     {
-      if (parent.eDirectResource() == ancestorResource)
+      InternalEObject internalEObject = (InternalEObject)eObject;
+      if (internalEObject.eDirectResource() == ancestorResource)
       {
         return true;
+      }
+
+      int count = 0;
+      for (InternalEObject parent = internalEObject.eInternalContainer(); parent != null && parent != eObject; parent = parent.eInternalContainer())
+      {
+        if (++count > 100000)
+        {
+          return isAncestor(ancestorResource, parent);
+        }
+        if (parent.eDirectResource() == ancestorResource)
+        {
+          return true;
+        }
       }
     }
     return false;
@@ -921,12 +935,27 @@ public class EcoreUtil
    */
   public static boolean isAncestor(ResourceSet ancestorResourceSet, EObject eObject)
   {
-    for (InternalEObject parent = (InternalEObject)eObject; parent != null; parent = parent.eInternalContainer())
+    if (eObject != null)
     {
-      Resource resource = parent.eDirectResource();
+      InternalEObject internalEObject = (InternalEObject)eObject;
+      Resource resource = internalEObject.eDirectResource();
       if (resource != null && resource.getResourceSet() == ancestorResourceSet)
       {
         return true;
+      }
+
+      int count = 0;
+      for (InternalEObject parent = internalEObject.eInternalContainer(); parent != null && parent != eObject; parent = parent.eInternalContainer())
+      {
+        if (++count > 100000)
+        {
+          return isAncestor(ancestorResourceSet, parent);
+        }
+        resource = parent.eDirectResource();
+        if (resource != null && resource.getResourceSet() == ancestorResourceSet)
+        {
+          return true;
+        }
       }
     }
     return false;
@@ -940,16 +969,35 @@ public class EcoreUtil
    */
   public static boolean isAncestor(Collection<?> ancestorEMFObjects, EObject eObject)
   {
-    for (InternalEObject parent = (InternalEObject)eObject; parent != null; parent = parent.eInternalContainer())
+    if (eObject != null)
     {
-      if (ancestorEMFObjects.contains(parent))
+      if (ancestorEMFObjects.contains(eObject))
       {
         return true;
       }
-      Resource resource = parent.eDirectResource();
+      InternalEObject internalEObject = (InternalEObject)eObject;
+      Resource resource = internalEObject.eDirectResource();
       if (resource != null && (ancestorEMFObjects.contains(resource) || ancestorEMFObjects.contains(resource.getResourceSet())))
       {
         return true;
+      }
+
+      int count = 0;
+      for (InternalEObject parent = internalEObject.eInternalContainer(); parent != null && parent != eObject; parent = parent.eInternalContainer())
+      {
+        if (++count > 100000)
+        {
+          return isAncestor(ancestorEMFObjects, parent);
+        }
+        if (ancestorEMFObjects.contains(parent))
+        {
+          return true;
+        }
+        resource = parent.eDirectResource();
+        if (resource != null && (ancestorEMFObjects.contains(resource) || ancestorEMFObjects.contains(resource.getResourceSet())))
+        {
+          return true;
+        }
       }
     }
     return false;
@@ -2277,6 +2325,8 @@ public class EcoreUtil
         {
           if (!haveEqualFeature(eObject1, eObject2, feature))
           {
+            remove(eObject1);
+            remove(eObject2);
             return false;
           }
         }
