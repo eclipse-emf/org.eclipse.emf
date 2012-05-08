@@ -24,10 +24,14 @@ public class XcoreInjectorProvider implements IInjectorProvider, IRegistryConfig
 	{
 		if (injector == null) {
 			stateBeforeInjectorCreation = GlobalRegistries.makeCopyOfGlobalState();
-			this.injector = new XcoreStandaloneSetup().createInjectorAndDoEMFRegistration();
+			this.injector = internalCreateInjector();
 			stateAfterInjectorCreation = GlobalRegistries.makeCopyOfGlobalState();
 		}
 		return injector;
+	}
+	
+	protected Injector internalCreateInjector() {
+	    return new XcoreStandaloneSetup().createInjectorAndDoEMFRegistration();
 	}
 
 	public void restoreRegistry() {

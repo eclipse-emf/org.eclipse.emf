@@ -51,7 +51,7 @@ public class XcoreRenameElementProcessor extends RenameElementProcessor
   {
     if (workbench != null && hasUnsavedEditors())
     {
-      getStatus().add(RefactoringStatus.WARNING, "Unsaved changes in Xcore editors could collide with this refactoring");
+      getStatusProvider().get().add(RefactoringStatus.WARNING, "Unsaved changes in Xcore editors could collide with this refactoring");
     }
     return super.checkInitialConditions(monitor);
   }
