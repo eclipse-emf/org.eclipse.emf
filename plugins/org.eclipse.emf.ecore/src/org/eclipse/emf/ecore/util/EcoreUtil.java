@@ -3023,7 +3023,7 @@ public class EcoreUtil
    * @param fromIndex 
    * @return the index of the first occurrence of the argument in this
    *         list (where index>=fromIndex); returns <tt>-1</tt> if the 
-   * 				 object is not found.
+   *                 object is not found.
    * @deprecated replaced by {@link ECollections#indexOf(List, Object, int)} in 2.1.0
    */
   @Deprecated
@@ -3466,7 +3466,7 @@ public class EcoreUtil
     {
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("documentation");
+        eAnnotation.getDetails().removeKey("documentation");
       }
     }
     else
@@ -3508,7 +3508,7 @@ public class EcoreUtil
     {
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("constraints");
+        eAnnotation.getDetails().removeKey("constraints");
       }
     }
     else
@@ -3541,13 +3541,23 @@ public class EcoreUtil
   public static void setAnnotation(EModelElement eModelElement, String sourceURI, String key, String value)
   {
     EAnnotation eAnnotation = eModelElement.getEAnnotation(sourceURI);
-    if (eAnnotation == null)
+    if (value == null)
     {
-      eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-      eAnnotation.setSource(sourceURI);
-      eModelElement.getEAnnotations().add(eAnnotation);
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().removeKey(key);
+      }
     }
-    eAnnotation.getDetails().put(key, value);
+    else 
+    {
+      if (eAnnotation == null)
+      {
+        eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+        eAnnotation.setSource(sourceURI);
+        eModelElement.getEAnnotations().add(eAnnotation);
+      }
+      eAnnotation.getDetails().put(key, value);
+    }
   }
 
   /**
