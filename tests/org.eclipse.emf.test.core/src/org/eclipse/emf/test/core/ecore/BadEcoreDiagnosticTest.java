@@ -29,7 +29,7 @@ public class BadEcoreDiagnosticTest extends TestCase
   
   public static Test suite()
   {
-    TestSuite ts = new TestSuite("DianosticTest");
+    TestSuite ts = new TestSuite("DiagnosticTest");
     ts.addTest(new BadEcoreDiagnosticTest("testDiagnostic"));
     return ts;
   }
