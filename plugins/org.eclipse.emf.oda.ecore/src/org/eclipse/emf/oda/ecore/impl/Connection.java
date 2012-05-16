@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 Kenn Hussey and others.
+ * Copyright (c) 2010-2012 Kenn Hussey and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -33,8 +33,15 @@ public class Connection implements IConnection
 {
   public static final String RESOURCE_PROPERTY_NAME = "resource"; //$NON-NLS-1$
 
+  public static final String RESOURCE_SET_PROPERTY_NAME = ResourceSet.class.getName();
+
+  public static final String SUPPRESS_UNLOAD_PROPERTY_NAME = "suppress.unload"; //$NON-NLS-1$
+
   protected Map< ? , ? > appContext = null;
+
   protected ResourceSet resourceSet = null;
+
+  protected boolean suppressUnload = false;
 
   public void open(Properties connProperties) throws OdaException
   {
@@ -42,7 +49,8 @@ public class Connection implements IConnection
     {
       try
       {
-        resourceSet = (ResourceSet)appContext.get(ResourceSet.class.getName());
+        resourceSet = (ResourceSet)appContext.get(RESOURCE_SET_PROPERTY_NAME);
+        suppressUnload = appContext.get(SUPPRESS_UNLOAD_PROPERTY_NAME) == Boolean.TRUE;
       }
       catch (Exception e)
       {
@@ -52,7 +60,7 @@ public class Connection implements IConnection
 
     if (resourceSet == null)
     {
-      resourceSet = new ResourceSetImpl();
+      resourceSet = createResourceSet();
 
       String uri = connProperties.getProperty(RESOURCE_PROPERTY_NAME);
 
@@ -70,6 +78,11 @@ public class Connection implements IConnection
     }
   }
 
+  protected ResourceSet createResourceSet()
+  {
+    return new ResourceSetImpl();
+  }
+
   /**
    * Returns the resource set for this connection.
    * @return the resource set
@@ -83,7 +96,7 @@ public class Connection implements IConnection
   {
     if (context == null && appContext != null)
     {
-      if (appContext.containsKey(ResourceSet.class.getName()))
+      if (appContext.containsKey(RESOURCE_SET_PROPERTY_NAME))
       {
         resourceSet = null;
       }
@@ -100,9 +113,12 @@ public class Connection implements IConnection
   {
     if (isOpen())
     {
-      for (Resource resource : resourceSet.getResources())
+      if (!suppressUnload)
       {
-        resource.unload();
+        for (Resource resource : resourceSet.getResources())
+        {
+          resource.unload();
+        }
       }
 
       resourceSet = null;
