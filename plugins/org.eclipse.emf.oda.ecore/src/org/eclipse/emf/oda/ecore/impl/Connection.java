@@ -35,6 +35,9 @@ public class Connection implements IConnection
 
   public static final String RESOURCE_SET_PROPERTY_NAME = ResourceSet.class.getName();
 
+  /*
+   * @since 1.1
+   */
   public static final String SUPPRESS_UNLOAD_PROPERTY_NAME = "suppress.unload"; //$NON-NLS-1$
 
   protected Map< ? , ? > appContext = null;
