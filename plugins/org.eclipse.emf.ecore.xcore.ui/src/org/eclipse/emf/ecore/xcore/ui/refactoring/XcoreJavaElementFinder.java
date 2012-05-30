@@ -7,6 +7,8 @@
  */
 package org.eclipse.emf.ecore.xcore.ui.refactoring;
 
+import java.lang.reflect.Method;
+
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xcore.ui.XcoreJavaProjectProvider;
 import org.eclipse.jdt.core.IJavaElement;
@@ -14,7 +16,6 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.xtext.common.types.JvmFormalParameter;
 import org.eclipse.xtext.common.types.JvmIdentifiableElement;
 import org.eclipse.xtext.common.types.JvmTypeParameter;
@@ -77,22 +78,42 @@ public class XcoreJavaElementFinder extends JavaElementFinder
       if (javaElement instanceof IMethod)
       {
         String name = jvmFormalParameter.getName();
-        try
+        for (ILocalVariable parameter : getParameters((IMethod)javaElement))
         {
-          for (ILocalVariable parameter : ((IMethod)javaElement).getParameters())
+          if (name.equals(parameter.getElementName()))
           {
-            if (name.equals(parameter.getElementName()))
-            {
-              return parameter;
-            }
+            return parameter;
           }
-        }
-        catch (JavaModelException exception)
-        {
-          // Ignore
         }
       }
       return null;
+    }
+
+    private static final Method GET_PARAMETERS_METHOD;
+    static
+    {
+      Method getParametersMethod = null;
+      try
+      {
+        getParametersMethod = IMethod.class.getMethod("getParameters");
+      }
+      catch (Throwable exception)
+      {
+        // Ignore.
+      }
+      GET_PARAMETERS_METHOD = getParametersMethod;
+    }
+
+    private ILocalVariable[] getParameters(IMethod method)
+    {
+      try
+      {
+        return (ILocalVariable[])GET_PARAMETERS_METHOD.invoke(method);
+      }
+      catch (Throwable exception)
+      {
+        return new ILocalVariable[0];
+      }
     }
   }
 }
