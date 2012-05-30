@@ -2176,7 +2176,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     for (Iterator<GenClass> iter = getGenClasses().iterator(); iter.hasNext(); )
     {
       List<GenClass> extendChain = new LinkedList<GenClass>();
-      for (GenClass genClass = iter.next(); genClass != null; genClass = genClass.getBaseGenClass())
+      Set<GenClass> visited = new HashSet<GenClass>();
+      for (GenClass genClass = iter.next(); genClass != null && visited.add(genClass); genClass = genClass.getBaseGenClass())
       {
         if (this == genClass.getGenPackage() && resultSet.add(genClass))
         {

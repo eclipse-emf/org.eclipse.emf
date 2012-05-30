@@ -384,10 +384,10 @@ public class ImportManager
     return getImportedName(qualifiedName, false);
   }
 
-  /*
+  /**
    * Gets the imported name for a single qualified name, optionally automatically importing if possible.
    */
-  private String basicGetImportedName(String qualifiedName, boolean autoImport)
+  protected String basicGetImportedName(String qualifiedName, boolean autoImport)
   {
     int i = qualifiedName.lastIndexOf('.');
     if (i == -1)

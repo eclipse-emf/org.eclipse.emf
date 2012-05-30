@@ -29,7 +29,6 @@ import static com.google.common.collect.Maps.*;
 
 public class LazyCreationProxyURIConverter
 {
-
   @Inject
   private IQualifiedNameConverter nameConverter;
 
@@ -42,6 +41,7 @@ public class LazyCreationProxyURIConverter
     EClass genEnum = GenModelPackage.Literals.GEN_ENUM;
     EClass jvmGenericType = TypesPackage.Literals.JVM_GENERIC_TYPE;
     EClass jvmEnumerationType = TypesPackage.Literals.JVM_ENUMERATION_TYPE;
+    EClass jvmType = TypesPackage.Literals.JVM_TYPE;
     types.put(ePackage.getName(), ePackage);
     types.put(eclass.getName(), eclass);
     types.put(genClass.getName(), genClass);
@@ -49,16 +49,11 @@ public class LazyCreationProxyURIConverter
     types.put(genEnum.getName(), genEnum);
     types.put(jvmGenericType.getName(), jvmGenericType);
     types.put(jvmEnumerationType.getName(), jvmEnumerationType);
+    types.put(jvmType.getName(), jvmType);
   }
 
   public void installProxyURI(URI resourceURI, EObject eobject, QualifiedName name)
   {
-    if (resourceURI == null)
-      throw new NullPointerException("resourceURI");
-    if (eobject == null)
-      throw new NullPointerException("eobject");
-    if (name == null)
-      throw new NullPointerException("name");
     URI proxyURI = getProxyURI(resourceURI, eobject, name);
     ((InternalEObject)eobject).eSetProxyURI(proxyURI);
   }
@@ -72,27 +67,27 @@ public class LazyCreationProxyURIConverter
     return resourceURI.appendFragment(encodeFragment(eObject.eClass(), name));
   }
 
-  private boolean isSupported(EObject eObject)
+  protected boolean isSupported(EObject eObject)
   {
     return types.containsValue(eObject.eClass());
   }
 
-  public Pair<EClass, QualifiedName> decodeProxy(EObject obj)
+  public Pair<EClass, QualifiedName> decodeProxy(EObject eObject)
   {
-    if (obj != null)
+    URI proxyURI = ((InternalEObject)eObject).eProxyURI();
+    if (proxyURI != null)
     {
-      URI proxyURI = ((InternalEObject)obj).eProxyURI();
-      if (proxyURI != null)
-      {
-        return decodeProxyUri(proxyURI);
-      }
+      return decodeProxyURI(proxyURI);
     }
-    throw new IllegalArgumentException("" + obj);
+    else
+    {
+      throw new IllegalArgumentException("Not a proxy: " + eObject);
+    }
   }
 
-  public Pair<EClass, QualifiedName> decodeProxyUri(URI proxyUri)
+  public Pair<EClass, QualifiedName> decodeProxyURI(URI proxyURI)
   {
-    final String fragment = proxyUri.fragment();
+    final String fragment = proxyURI.fragment();
     if (fragment != null)
     {
       Pair<EClass, QualifiedName> fragmentInfo = decodeFragment(fragment);
@@ -101,14 +96,14 @@ public class LazyCreationProxyURIConverter
         return fragmentInfo;
       }
     }
-    throw new IllegalArgumentException("couldn't parse URI :'" + proxyUri);
+    throw new IllegalArgumentException("No fragment: " + proxyURI);
   }
 
-  private final static String DELIM = "-=-";
+  protected static final String DELIM = "-=-";
 
-  public String encodeFragment(EClass eclass, QualifiedName name)
+  public String encodeFragment(EClass eClass, QualifiedName name)
   {
-    return eclass.getName() + DELIM + name.toString();
+    return (eClass.getEPackage() == TypesPackage.eINSTANCE ? "JvmType" : eClass.getName()) + DELIM + name.toString();
   }
 
   public Pair<EClass, QualifiedName> decodeFragment(String fragment)
@@ -116,17 +111,18 @@ public class LazyCreationProxyURIConverter
     String[] segments = fragment.split(DELIM);
     if (segments.length == 2)
     {
-      String clazzName = segments[0];
+      String eClassName = segments[0];
       QualifiedName name = nameConverter.toQualifiedName(segments[1]);
-      if (types.containsKey(clazzName))
+      if (types.containsKey(eClassName))
       {
-        final EClass a = types.get(clazzName);
-        if (a == EcorePackage.Literals.EPACKAGE)
+        EClass eClass = types.get(eClassName);
+        if (eClass == EcorePackage.Literals.EPACKAGE)
+        {
           name = QualifiedName.create(segments[1]);
-        return Tuples.create(a, name);
+        }
+        return Tuples.create(eClass, name);
       }
     }
     return null;
   }
-
 }

@@ -61,6 +61,7 @@ import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EGenericType;
@@ -235,6 +236,11 @@ public class EcoreActionBarContributor
                  {
                    ResourceSet resourceSet = new ResourceSetImpl();
                    resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+
+                   // To support Xcore resources, we need a resource with a URI that helps determine the containing project
+                   //
+                   Resource dummyResource = resourceSet.createResource(domain.getResourceSet().getResources().get(0).getURI());
+
                    StringBuffer uris = new StringBuffer();
                    Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
                    for (int i = 0, length = result.length; i < length; i++)
@@ -243,7 +249,11 @@ public class EcoreActionBarContributor
                      Resource resource = resourceSet.getResource(location, true);
                      EcoreUtil.resolveAll(resource);
                    }
-                   for (Resource resource : resourceSet.getResources())
+
+                   EList<Resource> resources = resourceSet.getResources();
+                   resources.remove(dummyResource);
+
+                   for (Resource resource : resources)
                    {
                      for (EPackage ePackage : getAllPackages(resource))
                      {

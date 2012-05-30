@@ -506,7 +506,8 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
             ecoreXcoreResource.getContents().add(genModel);
             ecoreXcoreResource.getContents().add(ePackage);
             ecoreXcoreBuilder.link();
-            ecoreXcoreResource.getContents().addAll(jvmInferrer.getDeclaredTypes(xPackage));
+            ecoreXcoreResource.getContents().addAll(jvmInferrer.inferElements(genModel));
+            jvmInferrer.inferDeepStructure(genModel);
             resourceSet.getResources().remove(genModelResource);
             resourceSet.getResources().remove(ecoreResource);
           }

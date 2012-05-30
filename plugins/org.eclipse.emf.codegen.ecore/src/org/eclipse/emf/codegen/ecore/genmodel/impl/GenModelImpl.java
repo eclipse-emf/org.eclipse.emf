@@ -2147,10 +2147,21 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     getImportManager().addPseudoImport(qualifiedName);
   }
 
+  protected static final ImportManager DEGENERATE_IMPORT_MANAGER = 
+    new ImportManager("")
+    {
+      @Override
+      protected String basicGetImportedName(String qualifiedName, boolean autoImport)
+      {
+        return qualifiedName.replace('$', '.');
+      }
+    };
+
   @Override
   public ImportManager getImportManager()
   {
-    return importManager;
+    return
+      importManager == null ? DEGENERATE_IMPORT_MANAGER : importManager;
   }
 
   @Override
@@ -7409,17 +7420,20 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public boolean sameModelEditProject()
   {
-    return getModelProjectDirectory().equals(getEditProjectDirectory());
+    String modelProjectDirectory = getModelProjectDirectory();
+    return modelProjectDirectory != null && modelProjectDirectory.equals(getEditProjectDirectory());
   }
 
   public boolean sameEditEditorProject()
   {
-    return getEditProjectDirectory().equals(getEditorProjectDirectory());
+    String editProjectDirectory = getEditProjectDirectory();
+    return editProjectDirectory != null && editProjectDirectory.equals(getEditorProjectDirectory());
   }
 
   public boolean sameModelEditorProject()
   {
-    return getModelProjectDirectory().equals(getEditorProjectDirectory());
+    String modelProjectDirectory = getModelProjectDirectory();
+    return modelProjectDirectory != null && modelProjectDirectory.equals(getEditorProjectDirectory());
   }
 
   public boolean sameModelTestsProject()
@@ -9612,7 +9626,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         }
         catch (Exception exception)
         {
-          CodeGenEcorePlugin.INSTANCE.log(exception);
+          // Ignore
         }
       }
       return null;
@@ -9649,7 +9663,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         }
         catch (Exception exception)
         {
-          CodeGenEcorePlugin.INSTANCE.log(exception);
+          // Ignore
         }
       }
       return GenJDKLevel.JDK50_LITERAL;
@@ -9681,7 +9695,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         }
         catch (Exception exception)
         {
-          CodeGenEcorePlugin.INSTANCE.log(exception);
+          // Ignore
         }
       }
       return pluginID;

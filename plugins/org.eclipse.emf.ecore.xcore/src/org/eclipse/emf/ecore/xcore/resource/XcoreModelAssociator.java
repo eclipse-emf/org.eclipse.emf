@@ -13,32 +13,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XDataType;
-import org.eclipse.emf.ecore.xcore.XEnumLiteral;
+import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
-import org.eclipse.emf.ecore.xcore.XParameter;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
-import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
-import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
-import org.eclipse.emf.ecore.xcore.mappings.XDataTypeMapping;
-import org.eclipse.emf.ecore.xcore.mappings.XEnumLiteralMapping;
-import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
-import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
-import org.eclipse.emf.ecore.xcore.mappings.XParameterMapping;
-import org.eclipse.emf.ecore.xcore.mappings.XTypeParameterMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreJvmInferrer;
-import org.eclipse.emf.ecore.xcore.util.XcoreSwitch;
 import org.eclipse.xtext.common.types.JvmIdentifiableElement;
 import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.parser.antlr.IReferableElementsUnloader;
@@ -49,11 +39,10 @@ import org.eclipse.xtext.xbase.XExpression;
 import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations;
 import org.eclipse.xtext.xbase.jvmmodel.ILogicalContainerProvider;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import static com.google.common.collect.Lists.*;
 
 
 public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalContainerProvider, IDerivedStateComputer
@@ -88,7 +77,12 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
         xcoreEcoreBuilder.link();
         genModelBuilder.initializeUsedGenPackages(genModel);
       }
-      resource.getContents().addAll(jvmInferrer.getDeclaredTypes(model));
+      resource.getContents().addAll(jvmInferrer.inferElements(genModel));
+      if (!preLinkingPhase)
+      {
+        xcoreEcoreBuilder.linkInstanceTypes();
+        jvmInferrer.inferDeepStructure(genModel);
+      }
       resource.getCache().clear(resource);
     }
   }
@@ -99,7 +93,7 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
     int size = contents.size();
     if (size > 1)
     {
-      List<EObject> toBeRemoved = newArrayList();
+      List<EObject> toBeRemoved = Lists.newArrayList();
       for (Iterator<EObject> i = contents.iterator(); i.hasNext();)
       {
         EObject eObject = i.next();
@@ -125,97 +119,24 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
 
   public Set<EObject> getJvmElements(EObject eObject)
   {
-    if (true)
-    {
-      return Collections.emptySet();
-    }
-    @SuppressWarnings("unused")
     final Set<EObject> result = Sets.newLinkedHashSet();
-    new XcoreSwitch<Boolean>()
+    if (eObject instanceof XNamedElement)
     {
-      @Override
-      public Boolean caseXClass(XClass xClass)
-      {
-        XClassMapping mapping = mapper.getMapping(xClass);
-        result.add(mapping.getInterfaceType());
-        result.add(mapping.getClassType());
-        return Boolean.FALSE;
-      }
-
-      @Override
-      public Boolean caseXDataType(XDataType xDataType)
-      {
-        XDataTypeMapping mapping = mapper.getMapping(xDataType);
-        result.add(mapping.getCreator());
-        result.add(mapping.getConverter());
-        return Boolean.FALSE;
-      }
-
-      @Override
-      public Boolean caseXEnumLiteral(XEnumLiteral xEnumLiteral)
-      {
-        XEnumLiteralMapping mapping = mapper.getMapping(xEnumLiteral);
-        result.add(mapping.getField());
-        return Boolean.FALSE;
-      }
-
-      @Override
-      public Boolean caseXStructuralFeature(XStructuralFeature xStructuralFeature)
-      {
-        XFeatureMapping mapping = mapper.getMapping(xStructuralFeature);
-        result.add(mapping.getField());
-        result.add(mapping.getGetter());
-        // result.add(mapping.getSetter());
-        return Boolean.FALSE;
-      }
-
-      @Override
-      public Boolean caseXOperation(XOperation xOperation)
-      {
-        XOperationMapping mapping = mapper.getMapping(xOperation);
-        result.add(mapping.getJvmOperation());
-        return Boolean.FALSE;
-      }
-
-      @Override
-      public Boolean caseXParameter(XParameter xParameter)
-      {
-        XParameterMapping mapping = mapper.getMapping(xParameter);
-        result.add(mapping.getJvmFormalParameter());
-        return Boolean.FALSE;
-      }
-
-      @Override
-      public Boolean caseXTypeParameter(XTypeParameter xTypeParameter)
-      {
-        XTypeParameterMapping mapping = mapper.getMapping(xTypeParameter);
-        result.add(mapping.getJvmTypeParameter());
-        return Boolean.FALSE;
-      }
-    }.doSwitch(eObject);
-    result.remove(null);
+      GenBase genBase = mapper.getGen((XNamedElement)eObject);
+      result.addAll(XcoreJvmInferrer.getInferredElements(genBase));
+    }
     return result;
   }
 
   public Set<EObject> getSourceElements(EObject eObject)
   {
-    if (true)
-    {
-      return Collections.emptySet();
-    }
-    @SuppressWarnings("unused")
     EObject xcoreElement = eObject.eClass().getEPackage() == TypesPackage.eINSTANCE ? mapper.getXcoreElement(eObject) : null;
     return xcoreElement == null ? Collections.<EObject>emptySet() : Collections.singleton(eObject);
   }
 
   public EObject getPrimarySourceElement(EObject eObject)
   {
-    if (true)
-    {
-      return null;
-    }
-    @SuppressWarnings("unused")
-    EObject xcoreElement = eObject.eClass().getEPackage() == TypesPackage.eINSTANCE ? mapper.getXcoreElement(eObject) : null;
+    EObject xcoreElement = mapper.getXcoreElement(eObject);
     return xcoreElement;
   }
 
@@ -228,12 +149,10 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
       if (eContainmentFeature == XcorePackage.Literals.XOPERATION__BODY)
       {
         return mapper.getMapping((XOperation)eContainer).getJvmOperation();
-        
       }
       else if (eContainmentFeature == XcorePackage.Literals.XDATA_TYPE__CREATE_BODY)
       {
         return mapper.getMapping((XDataType)eContainer).getCreator();
-        
       }
       else if (eContainmentFeature == XcorePackage.Literals.XDATA_TYPE__CONVERT_BODY)
       {
@@ -242,22 +161,18 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
       else if (eContainmentFeature == XcorePackage.Literals.XSTRUCTURAL_FEATURE__GET_BODY)
       {
         return mapper.getMapping((XStructuralFeature)eContainer).getGetter();
-        
       }
       else if (eContainmentFeature == XcorePackage.Literals.XSTRUCTURAL_FEATURE__SET_BODY)
       {
         return mapper.getMapping((XStructuralFeature)eContainer).getSetter();
-        
       }
       else if (eContainmentFeature == XcorePackage.Literals.XSTRUCTURAL_FEATURE__IS_SET_BODY)
       {
-        // TODO
-        return null;
+        return mapper.getMapping((XStructuralFeature)eContainer).getIsSetter();
       }
       else if (eContainmentFeature == XcorePackage.Literals.XSTRUCTURAL_FEATURE__UNSET_BODY)
       {
-        // TODO
-        return null;
+        return mapper.getMapping((XStructuralFeature)eContainer).getUnsetter();
       }
       else
       {

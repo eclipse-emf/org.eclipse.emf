@@ -1890,7 +1890,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     return 
       getEcoreFeature() instanceof EAttribute && 
         (getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 ||
-           (getEcoreFeature().getEType().getETypeParameters().isEmpty() && 
+           (getEcoreFeature().getEType() != null &&
+               getEcoreFeature().getEType().getETypeParameters().isEmpty() && 
                getEcoreFeature().getEGenericType().getETypeParameter() == null &&
                getEcoreFeature().getEType().getInstanceTypeName() == getEcoreFeature().getEType().getInstanceClassName()));
   }

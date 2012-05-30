@@ -38,7 +38,6 @@ import com.google.inject.Inject;
 
 public class XcoreResourceDescriptionStrategy extends DefaultResourceDescriptionStrategy
 {
-
   @Inject(optional = true)
   private TypesFactory typesFactory = TypesFactory.eINSTANCE;
 

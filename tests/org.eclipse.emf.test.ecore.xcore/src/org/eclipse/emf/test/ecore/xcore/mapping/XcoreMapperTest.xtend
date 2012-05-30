@@ -50,7 +50,7 @@ class XcoreMapperTest {
 			}
 		''')
 		assertNotNull(pack.mapping.EPackage)
-		assertEquals(pack.mapping.getEPackage,pack.mapping.genPackage.ecorePackage)
+		assertEquals(pack.mapping.EPackage,pack.mapping.genPackage.getEcorePackage)
 		assertEquals(pack,pack.mapping.genPackage.toXcoreMapping.xcoreElement)
 		assertEquals(pack,pack.mapping.EPackage.toXcoreMapping.xcoreElement)
 

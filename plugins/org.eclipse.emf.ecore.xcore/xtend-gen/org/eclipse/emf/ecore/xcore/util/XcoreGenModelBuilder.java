@@ -230,58 +230,56 @@ public class XcoreGenModelBuilder {
       EPackage _ecorePackage = genPackage.getEcorePackage();
       ePackages.add(_ecorePackage);
     }
-    {
-      int i = 0;
-      int _size = ePackages.size();
-      boolean _lessThan = (i < _size);
-      boolean _while = _lessThan;
-      while (_while) {
-        {
-          final EPackage ePackage = ePackages.get(i);
-          int _plus = (i + 1);
-          i = _plus;
-          final TreeIterator<EObject> allContents = ePackage.eAllContents();
-          boolean _hasNext = allContents.hasNext();
-          boolean _while_1 = _hasNext;
-          while (_while_1) {
-            {
-              final EObject eObject = allContents.next();
-              if ((eObject instanceof EPackage)) {
-                allContents.prune();
-              } else {
-                EList<EObject> _eCrossReferences = eObject.eCrossReferences();
-                for (final EObject eCrossReference : _eCrossReferences) {
-                  boolean _matched = false;
-                  if (!_matched) {
-                    if (eCrossReference instanceof EClassifier) {
-                      final EClassifier _eClassifier = (EClassifier)eCrossReference;
-                      _matched=true;
-                      final EPackage referencedEPackage = _eClassifier.getEPackage();
-                      ePackages.add(referencedEPackage);
-                      referencedEPackages.add(referencedEPackage);
-                    }
+    int i = 0;
+    int _size = ePackages.size();
+    boolean _lessThan = (i < _size);
+    boolean _while = _lessThan;
+    while (_while) {
+      {
+        final EPackage ePackage = ePackages.get(i);
+        int _plus = (i + 1);
+        i = _plus;
+        final TreeIterator<EObject> allContents = ePackage.eAllContents();
+        boolean _hasNext = allContents.hasNext();
+        boolean _while_1 = _hasNext;
+        while (_while_1) {
+          {
+            final EObject eObject = allContents.next();
+            if ((eObject instanceof EPackage)) {
+              allContents.prune();
+            } else {
+              EList<EObject> _eCrossReferences = eObject.eCrossReferences();
+              for (final EObject eCrossReference : _eCrossReferences) {
+                boolean _matched = false;
+                if (!_matched) {
+                  if (eCrossReference instanceof EClassifier) {
+                    final EClassifier _eClassifier = (EClassifier)eCrossReference;
+                    _matched=true;
+                    final EPackage referencedEPackage = _eClassifier.getEPackage();
+                    ePackages.add(referencedEPackage);
+                    referencedEPackages.add(referencedEPackage);
                   }
-                  if (!_matched) {
-                    if (eCrossReference instanceof EStructuralFeature) {
-                      final EStructuralFeature _eStructuralFeature = (EStructuralFeature)eCrossReference;
-                      _matched=true;
-                      EClass _eContainingClass = _eStructuralFeature.getEContainingClass();
-                      final EPackage referencedEPackage = _eContainingClass.getEPackage();
-                      ePackages.add(referencedEPackage);
-                      referencedEPackages.add(referencedEPackage);
-                    }
+                }
+                if (!_matched) {
+                  if (eCrossReference instanceof EStructuralFeature) {
+                    final EStructuralFeature _eStructuralFeature = (EStructuralFeature)eCrossReference;
+                    _matched=true;
+                    EClass _eContainingClass = _eStructuralFeature.getEContainingClass();
+                    final EPackage referencedEPackage = _eContainingClass.getEPackage();
+                    ePackages.add(referencedEPackage);
+                    referencedEPackages.add(referencedEPackage);
                   }
                 }
               }
             }
-            boolean _hasNext_1 = allContents.hasNext();
-            _while_1 = _hasNext_1;
           }
+          boolean _hasNext_1 = allContents.hasNext();
+          _while_1 = _hasNext_1;
         }
-        int _size_1 = ePackages.size();
-        boolean _lessThan_1 = (i < _size_1);
-        _while = _lessThan_1;
       }
+      int _size_1 = ePackages.size();
+      boolean _lessThan_1 = (i < _size_1);
+      _while = _lessThan_1;
     }
     for (final EPackage referencedEPackage : referencedEPackages) {
       GenPackage _findGenPackage = genModel.findGenPackage(referencedEPackage);
@@ -304,19 +302,19 @@ public class XcoreGenModelBuilder {
           Resource _eResource = genModel.eResource();
           ResourceSet _resourceSet = _eResource.getResourceSet();
           final EList<Resource> resources = _resourceSet.getResources();
-          int i = 0;
+          i = 0;
           boolean found = false;
           boolean _and = false;
-          int _size = resources.size();
-          boolean _lessThan = (i < _size);
-          if (!_lessThan) {
+          int _size_1 = resources.size();
+          boolean _lessThan_1 = (i < _size_1);
+          if (!_lessThan_1) {
             _and = false;
           } else {
             boolean _not = (!found);
-            _and = (_lessThan && _not);
+            _and = (_lessThan_1 && _not);
           }
-          boolean _while = _and;
-          while (_while) {
+          boolean _while_1 = _and;
+          while (_while_1) {
             {
               final Resource resource = resources.get(i);
               boolean _and_1 = false;
@@ -347,15 +345,15 @@ public class XcoreGenModelBuilder {
               i = _plus;
             }
             boolean _and_1 = false;
-            int _size_1 = resources.size();
-            boolean _lessThan_1 = (i < _size_1);
-            if (!_lessThan_1) {
+            int _size_2 = resources.size();
+            boolean _lessThan_2 = (i < _size_2);
+            if (!_lessThan_2) {
               _and_1 = false;
             } else {
               boolean _not_1 = (!found);
-              _and_1 = (_lessThan_1 && _not_1);
+              _and_1 = (_lessThan_2 && _not_1);
             }
-            _while = _and_1;
+            _while_1 = _and_1;
           }
           boolean _not_1 = (!found);
           if (_not_1) {

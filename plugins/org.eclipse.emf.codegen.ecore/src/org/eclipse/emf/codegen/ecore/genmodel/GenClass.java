@@ -310,6 +310,11 @@ public interface GenClass extends GenClassifier
   String getLocalOperationIndex(GenOperation genOperation);
 
   /**
+   * @since 2.8
+   */
+  void clearCache();
+
+  /**
    * @since 2.4
    */
   int getFlagSize(GenFeature genFeature);

@@ -17,14 +17,20 @@ import org.eclipse.emf.ecore.xcore.ui.hover.XcoreHoverProvider;
 import org.eclipse.emf.ecore.xcore.ui.hover.XcoreHoverSignatureProvider;
 import org.eclipse.emf.ecore.xcore.ui.hyperlinking.XcoreHyperLinkHelper;
 import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreDependentElementsCalculator;
+import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreJavaElementFinder;
+import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreReferenceFinder;
 import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameElementProcessor;
+import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameRefactoringProcessorFactory;
 import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameStrategy;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.builder.EclipseResourceFileSystemAccess2;
 import org.eclipse.xtext.builder.IXtextBuilderParticipant;
 import org.eclipse.xtext.common.types.access.jdt.IJavaProjectProvider;
+import org.eclipse.xtext.common.types.ui.refactoring.JdtRenameRefactoringProcessorFactory;
+import org.eclipse.xtext.common.types.util.jdt.IJavaElementFinder;
 import org.eclipse.xtext.common.types.xtext.ui.ITypesProposalProvider;
 import org.eclipse.xtext.common.types.xtext.ui.JdtVariableCompletions;
+import org.eclipse.xtext.ui.editor.findrefs.IReferenceFinder;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHover;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHoverProvider;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
@@ -116,5 +122,20 @@ public class XcoreUiModule extends AbstractXcoreUiModule
   public Class<? extends JdtVariableCompletions> bindJdtVariableCompletions()
   {
     return XcoreVariableCompletions.class;
+  }
+
+  public Class<? extends IReferenceFinder> bindIReferenceFinder()
+  {
+    return XcoreReferenceFinder.class;
+  }
+
+  public Class<? extends IJavaElementFinder> bindIJavaElementFinder()
+  {
+    return XcoreJavaElementFinder.class;
+  }
+
+  public Class<? extends JdtRenameRefactoringProcessorFactory> bindJdtRenameRefactoringProcessorFactory()
+  {
+    return XcoreRenameRefactoringProcessorFactory.class;
   }
 }

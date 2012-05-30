@@ -406,7 +406,19 @@ public abstract class ModelConverter
             if (genModelResource == null)
             {
               genModelResource = externalGenModelResourceSet.getResource(genModelURI, true);
-              externalGenModelList.add((GenModel)genModelResource.getContents().get(0));
+
+              // If we're loading an Xcore file, we need to be sure there is a resource to identify the project to initialize the Xcore's project provider.
+              //
+              Resource dummyResource = null;
+              if ("xcore".equals(genModelURI.fileExtension()) && genModelURI.isPlatformPlugin())
+              {
+                dummyResource = externalGenModelResourceSet.createResource(getEPackages().get(0).eResource().getURI());
+              }
+              externalGenModelList.add((GenModel)EcoreUtil.getObjectByType(genModelResource.getContents(), GenModelPackage.Literals.GEN_MODEL));
+              if (dummyResource != null)
+              {
+                externalGenModelResourceSet.getResources().remove(dummyResource);
+              }
             }
           }
           catch (Exception exception)

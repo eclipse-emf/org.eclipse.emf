@@ -13,6 +13,14 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
+import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
+import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
+import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
+import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -33,7 +41,9 @@ import org.eclipse.emf.ecore.xcore.mappings.XPackageMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XParameterMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XTypeParameterMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
+import org.eclipse.emf.ecore.xcore.util.XcoreJvmInferrer;
 import org.eclipse.emf.ecore.xcore.util.XcoreSwitch;
+import org.eclipse.xtext.common.types.JvmIdentifiableElement;
 import org.eclipse.xtext.ui.refactoring.impl.DefaultDependentElementsCalculator;
 
 import com.google.common.collect.Lists;
@@ -54,8 +64,13 @@ public class XcoreDependentElementsCalculator extends DefaultDependentElementsCa
       public Boolean caseXPackage(XPackage xPackage)
       {
         XPackageMapping mapping = mapper.getMapping(xPackage);
-        result.addAll(doGetDependentElementURIs(mapping.getGenPackage(), monitor));
+        GenPackage genPackage = mapping.getGenPackage();
+        result.addAll(doGetDependentElementURIs(genPackage, monitor));
         result.addAll(doGetDependentElementURIs(mapping.getEPackage(), monitor));
+        for (JvmIdentifiableElement jvmIdentifiableElement : XcoreJvmInferrer.getInferredElements(genPackage))
+        {
+          result.addAll(doGetDependentElementURIs(jvmIdentifiableElement, monitor));
+        }
         return Boolean.FALSE;
       }
 
@@ -63,10 +78,13 @@ public class XcoreDependentElementsCalculator extends DefaultDependentElementsCa
       public Boolean caseXClass(XClass xClass)
       {
         XClassMapping mapping = mapper.getMapping(xClass);
-        result.addAll(doGetDependentElementURIs(mapping.getGenClass(), monitor));
+        GenClass genClass = mapping.getGenClass();
+        result.addAll(doGetDependentElementURIs(genClass, monitor));
         result.addAll(doGetDependentElementURIs(mapping.getEClass(), monitor));
-        result.addAll(doGetDependentElementURIs(mapping.getInterfaceType(), monitor));
-        result.addAll(doGetDependentElementURIs(mapping.getClassType(), monitor));
+        for (JvmIdentifiableElement jvmIdentifiableElement : XcoreJvmInferrer.getInferredElements(genClass))
+        {
+          result.addAll(doGetDependentElementURIs(jvmIdentifiableElement, monitor));
+        }
         return Boolean.FALSE;
       }
 
@@ -74,10 +92,13 @@ public class XcoreDependentElementsCalculator extends DefaultDependentElementsCa
       public Boolean caseXDataType(XDataType xDataType)
       {
         XDataTypeMapping mapping = mapper.getMapping(xDataType);
-        result.addAll(doGetDependentElementURIs(mapping.getGenDataType(), monitor));
+        GenDataType genDataType = mapping.getGenDataType();
+        result.addAll(doGetDependentElementURIs(genDataType, monitor));
         result.addAll(doGetDependentElementURIs(mapping.getEDataType(), monitor));
-        result.addAll(doGetDependentElementURIs(mapping.getConverter(), monitor));
-        result.addAll(doGetDependentElementURIs(mapping.getCreator(), monitor));
+        for (JvmIdentifiableElement jvmIdentifiableElement : XcoreJvmInferrer.getInferredElements(genDataType))
+        {
+          result.addAll(doGetDependentElementURIs(jvmIdentifiableElement, monitor));
+        }
         return Boolean.FALSE;
       }
 
@@ -85,9 +106,13 @@ public class XcoreDependentElementsCalculator extends DefaultDependentElementsCa
       public Boolean caseXEnumLiteral(XEnumLiteral xEnumLiteral)
       {
         XEnumLiteralMapping mapping = mapper.getMapping(xEnumLiteral);
-        result.addAll(doGetDependentElementURIs(mapping.getGenEnumLiteral(), monitor));
+        GenEnumLiteral genEnumLiteral = mapping.getGenEnumLiteral();
+        result.addAll(doGetDependentElementURIs(genEnumLiteral, monitor));
         result.addAll(doGetDependentElementURIs(mapping.getEEnumLiteral(), monitor));
-        result.addAll(doGetDependentElementURIs(mapping.getField(), monitor));
+        for (JvmIdentifiableElement jvmIdentifiableElement : XcoreJvmInferrer.getInferredElements(genEnumLiteral))
+        {
+          result.addAll(doGetDependentElementURIs(jvmIdentifiableElement, monitor));
+        }
         return Boolean.FALSE;
       }
 
@@ -95,11 +120,13 @@ public class XcoreDependentElementsCalculator extends DefaultDependentElementsCa
       public Boolean caseXStructuralFeature(XStructuralFeature xStructuralFeature)
       {
         XFeatureMapping mapping = mapper.getMapping(xStructuralFeature);
-        result.addAll(doGetDependentElementURIs(mapping.getGenFeature(), monitor));
+        GenFeature genFeature = mapping.getGenFeature();
+        result.addAll(doGetDependentElementURIs(genFeature, monitor));
         result.addAll(doGetDependentElementURIs(mapping.getEStructuralFeature(), monitor));
-        result.addAll(doGetDependentElementURIs(mapping.getField(), monitor));
-        result.addAll(doGetDependentElementURIs(mapping.getGetter(), monitor));
-        result.addAll(doGetDependentElementURIs(mapping.getSetter(), monitor));
+        for (JvmIdentifiableElement jvmIdentifiableElement : XcoreJvmInferrer.getInferredElements(genFeature))
+        {
+          result.addAll(doGetDependentElementURIs(jvmIdentifiableElement, monitor));
+        }
         return Boolean.FALSE;
       }
 
@@ -107,9 +134,13 @@ public class XcoreDependentElementsCalculator extends DefaultDependentElementsCa
       public Boolean caseXOperation(XOperation xOperation)
       {
         XOperationMapping mapping = mapper.getMapping(xOperation);
-        result.addAll(doGetDependentElementURIs(mapping.getGenOperation(), monitor));
+        GenOperation genOperation = mapping.getGenOperation();
+        result.addAll(doGetDependentElementURIs(genOperation, monitor));
         result.addAll(doGetDependentElementURIs(mapping.getEOperation(), monitor));
-        result.addAll(doGetDependentElementURIs(mapping.getJvmOperation(), monitor));
+        for (JvmIdentifiableElement jvmIdentifiableElement : XcoreJvmInferrer.getInferredElements(genOperation))
+        {
+          result.addAll(doGetDependentElementURIs(jvmIdentifiableElement, monitor));
+        }
         return Boolean.FALSE;
       }
 
@@ -117,9 +148,13 @@ public class XcoreDependentElementsCalculator extends DefaultDependentElementsCa
       public Boolean caseXParameter(XParameter xParameter)
       {
         XParameterMapping mapping = mapper.getMapping(xParameter);
-        result.addAll(doGetDependentElementURIs(mapping.getGenParameter(), monitor));
+        GenParameter genParameter = mapping.getGenParameter();
+        result.addAll(doGetDependentElementURIs(genParameter, monitor));
         result.addAll(doGetDependentElementURIs(mapping.getEParameter(), monitor));
-        result.addAll(doGetDependentElementURIs(mapping.getJvmFormalParameter(), monitor));
+        for (JvmIdentifiableElement jvmIdentifiableElement : XcoreJvmInferrer.getInferredElements(genParameter))
+        {
+          result.addAll(doGetDependentElementURIs(jvmIdentifiableElement, monitor));
+        }
         return Boolean.FALSE;
       }
 
@@ -127,9 +162,13 @@ public class XcoreDependentElementsCalculator extends DefaultDependentElementsCa
       public Boolean caseXTypeParameter(XTypeParameter xTypeParameter)
       {
         XTypeParameterMapping mapping = mapper.getMapping(xTypeParameter);
-        result.addAll(doGetDependentElementURIs(mapping.getGenTypeParameter(), monitor));
+        GenTypeParameter genTypeParameter = mapping.getGenTypeParameter();
+        result.addAll(doGetDependentElementURIs(genTypeParameter, monitor));
         result.addAll(doGetDependentElementURIs(mapping.getETypeParameter(), monitor));
-        result.addAll(doGetDependentElementURIs(mapping.getJvmTypeParameter(), monitor));
+        for (JvmIdentifiableElement jvmIdentifiableElement : XcoreJvmInferrer.getInferredElements(genTypeParameter))
+        {
+          result.addAll(doGetDependentElementURIs(jvmIdentifiableElement, monitor));
+        }
         return Boolean.FALSE;
       }
     }.doSwitch(eObject);

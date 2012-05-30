@@ -15,12 +15,11 @@ import org.eclipse.xtext.resource.generic.AbstractGenericResourceRuntimeModule;
 
 /**
  * Default Guice bindings for managing GenModel resources in the context of Xtext.
- *  
+ * 
  * @author Jan Koehnlein - Initial contribution and API
  */
 public class GenModelRuntimeModule extends AbstractGenericResourceRuntimeModule
 {
-
   @Override
   protected String getLanguageName()
   {
@@ -43,5 +42,4 @@ public class GenModelRuntimeModule extends AbstractGenericResourceRuntimeModule
   {
     return GenModelQualifiedNameProvider.class;
   }
-
 }

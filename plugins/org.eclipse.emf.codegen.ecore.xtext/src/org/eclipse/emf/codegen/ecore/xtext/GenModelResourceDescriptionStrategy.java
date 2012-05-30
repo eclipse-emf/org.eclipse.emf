@@ -20,7 +20,7 @@ import com.google.inject.Singleton;
 
 /**
  * @author Sebastian Zarnekow - Initial contribution and API
- * 
+ *
  * TODO: We should probably add some hashed user data over all information that
  * impacts the code generation in order to be properly notify clients about these changes
  */

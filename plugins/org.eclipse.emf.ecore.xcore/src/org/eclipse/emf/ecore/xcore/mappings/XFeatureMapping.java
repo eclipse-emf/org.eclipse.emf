@@ -10,19 +10,13 @@ package org.eclipse.emf.ecore.xcore.mappings;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.xtext.common.types.JvmField;
+import org.eclipse.emf.ecore.xcore.util.XcoreJvmInferrer;
 import org.eclipse.xtext.common.types.JvmOperation;
 
 
 public class XFeatureMapping extends AbstractMapping
 {
   private GenFeature genFeature;
-
-  private JvmField field;
-
-  private JvmOperation getter;
-
-  private JvmOperation setter;
 
   private EStructuralFeature eStructuralFeature;
 
@@ -36,34 +30,24 @@ public class XFeatureMapping extends AbstractMapping
     this.genFeature = genFeature;
   }
 
-  public JvmField getField()
-  {
-    return field;
-  }
-
-  public void setField(JvmField field)
-  {
-    this.field = field;
-  }
-
   public JvmOperation getGetter()
   {
-    return getter;
-  }
-
-  public void setGetter(JvmOperation getter)
-  {
-    this.getter = getter;
+    return XcoreJvmInferrer.getInferredElement(genFeature, genFeature.getGenClass().getQualifiedInterfaceName() + "." + genFeature.getGetAccessor());
   }
 
   public JvmOperation getSetter()
   {
-    return setter;
+    return XcoreJvmInferrer.getInferredElement(genFeature, genFeature.getGenClass().getQualifiedInterfaceName() + ".set" + genFeature.getAccessorName());
   }
 
-  public void setSetter(JvmOperation setter)
+  public JvmOperation getIsSetter()
   {
-    this.setter = setter;
+    return XcoreJvmInferrer.getInferredElement(genFeature, genFeature.getGenClass().getQualifiedInterfaceName() + ".isSet" + genFeature.getAccessorName());
+  }
+
+  public JvmOperation getUnsetter()
+  {
+    return XcoreJvmInferrer.getInferredElement(genFeature, genFeature.getGenClass().getQualifiedInterfaceName() + ".unset" + genFeature.getAccessorName());
   }
 
   public EStructuralFeature getEStructuralFeature()

@@ -550,7 +550,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       if (base == null || !base.isInterface()) return base; 
       base = base.getBaseGenClass();
     }
-    throw new RuntimeException("inheritance loop at " + getName());
+    return null;
   }
 
   public String getClassExtends()
@@ -1003,6 +1003,21 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   }
 
   private OperationHelper operationHelper = new OperationHelper();
+  
+  public void clearCache()
+  {
+    operationHelper = new OperationHelper();
+    
+    // Need to ensure that the cached names are computed in the same order and manner as they are in the generated package interface.
+    //
+    for (GenOperation genOperation : getAllGenOperations(false))
+    {
+      if (getOverrideGenOperation(genOperation) == null)
+      {
+        operationHelper.getUniqueName(genOperation);
+      }
+    }
+  }
 
   public String getUniqueName(GenOperation genOperation)
   {

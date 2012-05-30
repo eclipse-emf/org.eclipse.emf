@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyURIConverter;
 import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.common.types.TypesFactory;
+import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -80,7 +81,7 @@ public class LazyCreationProxyUriConverterTest
     converter.installProxyURI(URI.createFileURI("foo.test"), genericType, name);
 
     Pair<EClass, QualifiedName> proxyInfo = converter.decodeProxy(genericType);
-    assertSame(genericType.eClass(), proxyInfo.getFirst());
+    assertSame(TypesPackage.Literals.JVM_TYPE, proxyInfo.getFirst());
     assertEquals(name.toString(), proxyInfo.getSecond().toString());
   }
 

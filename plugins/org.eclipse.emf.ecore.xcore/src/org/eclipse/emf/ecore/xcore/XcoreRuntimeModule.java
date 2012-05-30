@@ -144,12 +144,12 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
     return XcoreContainerManager.class;
   }
   
-  public Class<? extends IJvmModelAssociations> bindIJvmModelAssociationsx()
+  public Class<? extends IJvmModelAssociations> bindIJvmModelAssociations()
   {
     return XcoreModelAssociator.class;
   }
 
-  public Class<? extends ILogicalContainerProvider> bindILogicalContainerProviderx()
+  public Class<? extends ILogicalContainerProvider> bindILogicalContainerProvider()
   {
     return XcoreModelAssociator.class;
   }

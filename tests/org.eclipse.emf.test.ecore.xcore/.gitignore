@@ -1,3 +1,4 @@
 bin
-*._trace
+*.java._trace
+*.java_trace
 

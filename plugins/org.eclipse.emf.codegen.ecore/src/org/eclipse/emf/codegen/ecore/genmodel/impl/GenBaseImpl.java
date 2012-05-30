@@ -1317,13 +1317,14 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       return "java.lang.Object";
     }
 
-    if (getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50  || isPrimitiveType(eType) || erased && !eType.getInstanceTypeName().contains("."))
+    String instanceTypeName = eType.getInstanceTypeName();
+    if (getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50  || isPrimitiveType(eType) || erased && instanceTypeName == null || !instanceTypeName.contains("."))
     {
       return eType.getInstanceClassName();
     }
     else
     {
-      Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(eType.getInstanceTypeName());
+      Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName);
       EGenericType eGenericType = (EGenericType)diagnostic.getData().get(0);
       return getTypeArgument(context, eGenericType, false, erased);
     }

@@ -101,11 +101,13 @@ public class XcoreEcoreBuilder
   @Inject
   private XcoreGrammarAccess xcoreGrammarAccess;
 
-  private List<Runnable> runnables = new ArrayList<Runnable>();
+  protected List<Runnable> runnables = new ArrayList<Runnable>();
 
-  private XcoreInterpreter interpreter;
+  protected List<Runnable> instanceTypeRunnables = new ArrayList<Runnable>();
 
-  private ClassLoader classLoader;
+  protected XcoreInterpreter interpreter;
+
+  protected ClassLoader classLoader;
 
   public void link()
   {
@@ -123,19 +125,18 @@ public class XcoreEcoreBuilder
     }
   }
 
-  public EPackage getEPackage(XPackage xPackage)
+  public void linkInstanceTypes()
   {
-    interpreter = interpreterProvider.get();
-    classLoader = classLoaderProvider.getClassLoader(xPackage.eResource().getResourceSet());
-    if (classLoader != null)
+    // Hook up instance types.
+    //
+    for (Runnable runnable : instanceTypeRunnables)
     {
-      interpreter.setClassLoader(classLoader);
+      runnable.run();
     }
-    EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
-    mapper.getMapping(xPackage).setEPackage(ePackage);
-    mapper.getToXcoreMapping(ePackage).setXcoreElement(xPackage);
-    handleAnnotations(xPackage, ePackage);
-    String name = xPackage.getName();
+  }
+
+  public static void setQualifiedPackageName(EPackage ePackage, String name)
+  {
     String basePackage = null;
     if (name != null)
     {
@@ -150,7 +151,35 @@ public class XcoreEcoreBuilder
         basePackage = name.substring(0, index);
         ePackage.setName(name.substring(index + 1));
       }
+    }
+    else
+    {
+      ePackage.setName("_");
+    }
+    EcoreUtil.setAnnotation(ePackage, GenModelPackage.eNS_URI, "basePackage", basePackage);
+  }
 
+  protected String nonNullName(String name)
+  {
+    return name == null ? "_" : name;
+  }
+
+  public EPackage getEPackage(XPackage xPackage)
+  {
+    interpreter = interpreterProvider.get();
+    classLoader = classLoaderProvider.getClassLoader(xPackage.eResource().getResourceSet());
+    if (classLoader != null)
+    {
+      interpreter.setClassLoader(classLoader);
+    }
+    EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
+    mapper.getMapping(xPackage).setEPackage(ePackage);
+    mapper.getToXcoreMapping(ePackage).setXcoreElement(xPackage);
+    handleAnnotations(xPackage, ePackage);
+    String name = xPackage.getName();
+    setQualifiedPackageName(ePackage, name);
+    if (name != null)
+    {
       // The pre linking phase model won't process the annotations and won't pick up the nsURI in the annotation.
       // That's particularly problematic because the nsURI is something indexed from this prelinked model.
       // At least to this for Ecore to avoid inducing a model with circular inheritance.
@@ -169,11 +198,6 @@ public class XcoreEcoreBuilder
     for (XAnnotationDirective xAnnotationDirective : xPackage.getAnnotationDirectives())
     {
       EcoreUtil.setAnnotation(ePackage, XcorePackage.eNS_URI, xAnnotationDirective.getName(), xAnnotationDirective.getSourceURI());
-    }
-
-    if (basePackage != null)
-    {
-      EcoreUtil.setAnnotation(ePackage, GenModelPackage.eNS_URI, "basePackage", basePackage);
     }
 
     return ePackage;
@@ -288,32 +312,33 @@ public class XcoreEcoreBuilder
     final EClassifier eClassifier = xClassifier instanceof XClass ? getEClass((XClass)xClassifier) : xClassifier instanceof XEnum
       ? getEEnum((XEnum)xClassifier) : getEDataType((XDataType)xClassifier);
     handleAnnotations(xClassifier, eClassifier);
-    eClassifier.setName(xClassifier.getName());
-    runnables.add(new Runnable()
-      {
-        public void run()
-        {
-          JvmTypeReference instanceType = xClassifier.getInstanceType();
-          if (instanceType != null)
-          {
-            String instanceTypeName = instanceType.getIdentifier();
-             String normalizedInstanceTypeName = EcoreUtil.toJavaInstanceTypeName((EGenericType)EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName).getData().get(0));
-             eClassifier.setInstanceTypeName(normalizedInstanceTypeName);
-             if (classLoader != null && eClassifier instanceof EClassifierImpl)
-             {
-               try
-               {
-                 Class<?> instanceClass = classLoader.loadClass(eClassifier.getInstanceClassName());
-                 ((EClassifierImpl)eClassifier).setInstanceClassGen(instanceClass);
-               }
-               catch (Throwable throwable)
-               {
-                 // Ignore
-               }
-             }
-          }
-        }
-      });
+    eClassifier.setName(nonNullName(xClassifier.getName()));
+    instanceTypeRunnables.add
+      (new Runnable()
+       {
+         public void run()
+         {
+           JvmTypeReference instanceType = xClassifier.getInstanceType();
+           if (instanceType != null)
+           {
+             String instanceTypeName = instanceType.getIdentifier();
+              String normalizedInstanceTypeName = EcoreUtil.toJavaInstanceTypeName((EGenericType)EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName).getData().get(0));
+              eClassifier.setInstanceTypeName(normalizedInstanceTypeName);
+              if (classLoader != null && eClassifier instanceof EClassifierImpl)
+              {
+                try
+                {
+                  Class<?> instanceClass = classLoader.loadClass(eClassifier.getInstanceClassName());
+                  ((EClassifierImpl)eClassifier).setInstanceClassGen(instanceClass);
+                }
+                catch (Throwable throwable)
+                {
+                  // Ignore.
+                }
+              }
+           }
+         }
+       });
     for (XTypeParameter xTypeParameter : xClassifier.getTypeParameters())
     {
       ETypeParameter eTypeParameter = getETypeParameter(xTypeParameter);
@@ -414,7 +439,7 @@ public class XcoreEcoreBuilder
     mapper.getMapping(xTypeParameter).setETypeParameter(eTypeParameter);
     mapper.getToXcoreMapping(eTypeParameter).setXcoreElement(xTypeParameter);
     handleAnnotations(xTypeParameter, eTypeParameter);
-    eTypeParameter.setName(xTypeParameter.getName());
+    eTypeParameter.setName(nonNullName(xTypeParameter.getName()));
     for (XGenericType xGenericType : xTypeParameter.getBounds())
     {
       eTypeParameter.getEBounds().add(getEGenericType(xGenericType));
@@ -424,8 +449,7 @@ public class XcoreEcoreBuilder
 
   void handleETypedElement(ETypedElement eTypedElement, XTypedElement xTypedElement)
   {
-    String name = xTypedElement.getName();
-    eTypedElement.setName(name == null ? "_" : name);
+    eTypedElement.setName(nonNullName(xTypedElement.getName()));
     handleAnnotations(xTypedElement, eTypedElement);
     eTypedElement.setEGenericType(getEGenericType(xTypedElement.getType()));
     if (xTypedElement.isUnordered())
@@ -587,7 +611,7 @@ public class XcoreEcoreBuilder
 
   void handleEStructuralFeature(EStructuralFeature eStructuralFeature, XStructuralFeature xStructuralFeature)
   {
-    eStructuralFeature.setName(xStructuralFeature.getName());
+    eStructuralFeature.setName(nonNullName(xStructuralFeature.getName()));
     handleETypedElement(eStructuralFeature, xStructuralFeature);
     if (xStructuralFeature.isReadonly())
     {
@@ -666,7 +690,7 @@ public class XcoreEcoreBuilder
     mapper.getToXcoreMapping(eEnumLiteral).setXcoreElement(xEnumLiteral);
     mapper.getMapping(xEnumLiteral).setEEnumLiteral(eEnumLiteral);
     handleAnnotations(xEnumLiteral, eEnumLiteral);
-    eEnumLiteral.setName(xEnumLiteral.getName());
+    eEnumLiteral.setName(nonNullName(xEnumLiteral.getName()));
     eEnumLiteral.setLiteral(xEnumLiteral.getLiteral());
     eEnumLiteral.setValue(xEnumLiteral.getValue());
     return eEnumLiteral;

@@ -10,14 +10,11 @@ package org.eclipse.emf.ecore.xcore.mappings;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.ecore.ETypeParameter;
-import org.eclipse.xtext.common.types.JvmTypeParameter;
 
 
 public class XTypeParameterMapping extends AbstractMapping
 {
   private GenTypeParameter genTypeParameter;
-
-  private JvmTypeParameter typeParameter;
 
   private ETypeParameter eTypeParameter;
 
@@ -29,16 +26,6 @@ public class XTypeParameterMapping extends AbstractMapping
   public void setGenTypeParameter(GenTypeParameter genTypeParameter)
   {
     this.genTypeParameter = genTypeParameter;
-  }
-
-  public JvmTypeParameter getJvmTypeParameter()
-  {
-    return typeParameter;
-  }
-
-  public void setJvmTypeParameter(JvmTypeParameter typeParameter)
-  {
-    this.typeParameter = typeParameter;
   }
 
   public ETypeParameter getETypeParameter()

@@ -231,7 +231,8 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public String getRawInstanceClassName()
   {  
-   return getInternalQualifiedInstanceClassName(false).replace('$', '.'); 
+    String internalQualifiedInstanceClassName = getInternalQualifiedInstanceClassName(false);
+    return internalQualifiedInstanceClassName == null ? null : internalQualifiedInstanceClassName.replace('$', '.'); 
   }
 
   public String getImportedInstanceClassName()

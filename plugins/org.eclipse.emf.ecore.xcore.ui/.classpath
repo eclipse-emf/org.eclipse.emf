@@ -5,6 +5,9 @@
 		<accessrules>
 			<accessrule kind="accessible" pattern="org/eclipse/xtext/xbase/**"/>
 			<accessrule kind="accessible" pattern="org/eclipse/xtext/ui/refactoring/**"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/ui/editor/findrefs/**"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/common/types/ui/refactoring/**"/>
+			<accessrule kind="accessible" pattern="org/eclipse/jdt/internal/corext/refactoring/rename/**"/>
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>

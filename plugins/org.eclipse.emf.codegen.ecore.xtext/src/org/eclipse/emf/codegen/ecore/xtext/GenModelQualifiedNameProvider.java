@@ -26,19 +26,19 @@ public class GenModelQualifiedNameProvider extends IQualifiedNameProvider.Abstra
   @Inject
   private IQualifiedNameConverter qualifiedNameConverter;
 
-  public QualifiedName getFullyQualifiedName(final EObject obj)
+  public QualifiedName getFullyQualifiedName(EObject eObject)
   {
-    if (obj instanceof GenPackage)
+    if (eObject instanceof GenPackage)
     {
-      String packageName = ((GenPackage)obj).getQualifiedPackageName();
+      String packageName = ((GenPackage)eObject).getQualifiedPackageName();
       if (packageName != null)
       {
         return qualifiedNameConverter.toQualifiedName(packageName);
       }
     }
-    else if (obj instanceof GenClassifier)
+    else if (eObject instanceof GenClassifier)
     {
-      GenClassifier classifier = (GenClassifier)obj;
+      GenClassifier classifier = (GenClassifier)eObject;
       GenPackage genPackage = classifier.getGenPackage();
       if (genPackage != null)
       {
