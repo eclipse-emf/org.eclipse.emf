@@ -401,32 +401,6 @@
 
    <!-- MANUAL ADDITIONS -->
 
-   <extension point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
-            nameFilter="*.xcore"
-            id="org.eclipse.emf.ecore.xcore.ui.ConvertToEcoreActionID">
-         <action label="%action.label"
-               class="org.eclipse.emf.ecore.xcore.ui.ConvertToEcoreActionDelegate"
-               menubarPath="additions"
-               enablesFor="1"
-               id="org.eclipse.emf.ecore.xcore.ui.ConvertToEcoreActionID"/>
-      </objectContribution>
-   </extension>
-
-   <extension point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
-            nameFilter="*.genmodel *.ecore"
-            id="org.eclipse.emf.ecore.xcore.ui.ConvertGenModelToXcoreActionID">
-         <action label="%action.label.0"
-               class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.emf.ecore.xcore.ui.ConvertToXcoreActionDelegate"
-               menubarPath="additions"
-               enablesFor="1"
-               id="org.eclipse.emf.ecore.xcore.ui.ConvertGenModelToXcoreActionID"/>
-      </objectContribution>
-   </extension>
-
     <extension point="org.eclipse.ui.handlers">
         <handler
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.emf.ecore.xcore.ui.CreateDynamicInstanceHandler"

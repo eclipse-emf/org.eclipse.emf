@@ -11,6 +11,7 @@ package org.eclipse.emf.ecore.xcore.ui;
 import org.eclipse.emf.ecore.xcore.interpreter.IClassLoaderProvider;
 import org.eclipse.emf.ecore.xcore.ui.builder.XcoreBuildParticipant;
 import org.eclipse.emf.ecore.xcore.ui.builder.XcoreFileSystemAccess;
+import org.eclipse.emf.ecore.xcore.ui.container.XcoreJavaProjectsState;
 import org.eclipse.emf.ecore.xcore.ui.contentassist.ImportingTypesProposalProvider;
 import org.eclipse.emf.ecore.xcore.ui.contentassist.XcoreVariableCompletions;
 import org.eclipse.emf.ecore.xcore.ui.hover.XcoreHoverProvider;
@@ -30,6 +31,7 @@ import org.eclipse.xtext.common.types.ui.refactoring.JdtRenameRefactoringProcess
 import org.eclipse.xtext.common.types.util.jdt.IJavaElementFinder;
 import org.eclipse.xtext.common.types.xtext.ui.ITypesProposalProvider;
 import org.eclipse.xtext.common.types.xtext.ui.JdtVariableCompletions;
+import org.eclipse.xtext.resource.containers.IAllContainersState;
 import org.eclipse.xtext.ui.editor.findrefs.IReferenceFinder;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHover;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHoverProvider;
@@ -39,6 +41,9 @@ import org.eclipse.xtext.ui.refactoring.IRenameStrategy;
 import org.eclipse.xtext.ui.refactoring.impl.RenameElementProcessor;
 import org.eclipse.xtext.xbase.ui.hover.XbaseDeclarativeHoverSignatureProvider;
 import org.eclipse.xtext.xbase.ui.hover.XbaseDispatchingEObjectTextHover;
+
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 
 /**
@@ -137,5 +142,21 @@ public class XcoreUiModule extends AbstractXcoreUiModule
   public Class<? extends JdtRenameRefactoringProcessorFactory> bindJdtRenameRefactoringProcessorFactory()
   {
     return XcoreRenameRefactoringProcessorFactory.class;
+  }
+
+  @Override
+  public  Provider<IAllContainersState> provideIAllContainersState()
+  {
+   return 
+     new Provider<IAllContainersState>()
+     {
+       @Inject
+       XcoreJavaProjectsState instance;
+   
+       public IAllContainersState get()
+       {
+         return instance;
+       }
+     };
   }
 }
