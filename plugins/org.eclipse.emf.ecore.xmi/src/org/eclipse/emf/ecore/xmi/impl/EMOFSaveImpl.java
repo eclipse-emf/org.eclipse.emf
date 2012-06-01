@@ -177,7 +177,7 @@ public class EMOFSaveImpl extends XMISaveImpl
   {
     doc.startElement(f.getName());
     EDataType eDataType = (EDataType)f.getEType();
-    doc.endContentElement(EcoreFactory.eINSTANCE.convertToString(eDataType, o.eGet(f)));
+    doc.endContentElement(escape.convertText(EcoreFactory.eINSTANCE.convertToString(eDataType, o.eGet(f))));
   }
 
   @Override
