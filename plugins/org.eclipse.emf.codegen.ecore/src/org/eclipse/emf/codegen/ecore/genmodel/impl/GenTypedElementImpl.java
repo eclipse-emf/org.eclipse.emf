@@ -228,6 +228,24 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     return getImportedType(context, getEcoreTypedElement().getEGenericType(), true);
   }
 
+  public String getQualifiedObjectType(GenClass context)
+  {
+    if (isFeatureMapType()) return getEffectiveFeatureMapWrapperInterface();
+    if (isMapType()) return getEffectiveMapType(context, getEcoreTypedElement().getEGenericType(), getMapEntryTypeGenClass());
+    if (isMapEntryType())
+      if (isListType())
+        if (getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50) return getEffectiveListType();
+        else return getEffectiveListType() + "<" + /*x*/getEffectiveMapEntryType(context, getEcoreTypedElement().getEGenericType(), getMapEntryTypeGenClass()) + ">";
+      else return getEffectiveMapEntryType(context, getEcoreTypedElement().getEGenericType(), getMapEntryTypeGenClass());
+    if (isListType()) return getEffectiveListType(context, getEcoreTypedElement().getEGenericType());
+    if (isEObjectType()) return getEffectiveEObjectType();
+    if (isListDataType() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      return "java.util.List<" + getType(context, getListDataType().getEcoreDataType(), true) + ">";
+    }
+    return getType(context, getEcoreTypedElement().getEGenericType(), true);
+  }
+
   @Deprecated
   public String getImportedInternalType()
   {

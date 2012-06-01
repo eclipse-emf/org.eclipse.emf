@@ -363,7 +363,7 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
   }
 
   @Override
-  protected ImportScope createImportScope(IScope parent, List<ImportNormalizer> namespaceResolvers, ISelectable importFrom, EClass type, boolean ignoreCase)
+  protected ImportScope createImportScope(IScope parent, List<ImportNormalizer> namespaceResolvers, ISelectable importFrom, final EClass type, boolean ignoreCase)
   {
     // Ensure that qualified names with more than one component don't resolve against wildcard imports.
     //
@@ -373,13 +373,13 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
         @Override
         protected IEObjectDescription getSingleLocalElementByName(QualifiedName name)
         {
-          return name.getSegmentCount() > 1 ? null : super.getSingleLocalElementByName(name);
+          return name.getSegmentCount() > 1 && type == GenModelPackage.Literals.GEN_BASE ? null : super.getSingleLocalElementByName(name);
         }
 
         @Override
         protected Iterable<IEObjectDescription> getLocalElementsByName(QualifiedName name)
         {
-          return name.getSegmentCount() > 1 ? Collections.<IEObjectDescription>emptyList() : super.getLocalElementsByName(name);
+          return name.getSegmentCount() > 1 && type == GenModelPackage.Literals.GEN_BASE ? Collections.<IEObjectDescription>emptyList() : super.getLocalElementsByName(name);
         }
       };
   }

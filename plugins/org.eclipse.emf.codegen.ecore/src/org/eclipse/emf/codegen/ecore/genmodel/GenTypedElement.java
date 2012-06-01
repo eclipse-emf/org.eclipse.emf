@@ -102,6 +102,12 @@ public interface GenTypedElement extends GenBase
   String getObjectType(GenClass context); 
 
   /**
+   * This returns the qualified name of the feature type or, if primitive, of the wrapper class (e.g. "java.lang.Integer").
+   * @since 2.8
+   */
+  String getQualifiedObjectType(GenClass context); 
+
+  /**
    * Use {@link #getObjectType(GenClass)} with either <code>null</code> for erasing type parameter references 
    * or a {@link GenClass} context representing potential type substitutions for type parameter references.
    * By default, this will just do <code>getObjectType(getGenClass())</code>.

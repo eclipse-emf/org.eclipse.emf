@@ -882,10 +882,7 @@ public class XcoreJvmInferrer
                         @Override
                         protected JvmField inferStructure()
                         {
-                          JvmField jvmField = TypesFactory.eINSTANCE.createJvmField();
-                          jvmField.setVisibility(JvmVisibility.PUBLIC);
-                          jvmField.setType(getJvmTypeReference(genClassifier.getImportedMetaType(), genClassifier));
-                          return jvmField;
+                          return createJvmField(genClassifier, JvmVisibility.PUBLIC, true, getJvmTypeReference(genClassifier.getImportedMetaType(), genClassifier));
                         }
 
                         @Override
@@ -910,10 +907,7 @@ public class XcoreJvmInferrer
                             @Override
                             protected JvmField inferStructure()
                             {
-                              JvmField jvmField = TypesFactory.eINSTANCE.createJvmField();
-                              jvmField.setVisibility(JvmVisibility.PUBLIC);
-                              jvmField.setType(getJvmTypeReference(genFeature.getImportedMetaType(), genClassifier));
-                              return jvmField;
+                              return createJvmField(genClassifier, JvmVisibility.PUBLIC, true, getJvmTypeReference(genFeature.getImportedMetaType(), genClassifier));
                             }
 
                             @Override

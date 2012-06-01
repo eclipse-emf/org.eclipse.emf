@@ -631,8 +631,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       {
         result.add
           ("org.eclipse.emf.common.util.BasicEMap$Entry" + "<" + 
-              getMapEntryKeyFeature().getObjectType(this)+ ","  +
-              getMapEntryValueFeature().getObjectType(this) + ">");
+              getMapEntryKeyFeature().getQualifiedObjectType(this)+ ","  +
+              getMapEntryValueFeature().getQualifiedObjectType(this) + ">");
       }
       else
       {

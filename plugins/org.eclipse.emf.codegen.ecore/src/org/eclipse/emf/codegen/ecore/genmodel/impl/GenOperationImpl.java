@@ -458,7 +458,13 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   @Override
   public String getObjectType(GenClass context)
   {
-    return isVoid() ? "void" : super.getObjectType(context);
+    return isVoid() ? "Void" : super.getObjectType(context);
+  }
+
+  @Override
+  public String getQualifiedObjectType(GenClass context)
+  {
+    return isVoid() ? "java.lang.Void" : super.getQualifiedObjectType(context);
   }
 
   @Override

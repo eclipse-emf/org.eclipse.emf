@@ -1013,8 +1013,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50 && eGenericType.getETypeArguments().size() == 2)
     {
       String mapType = getEffectiveMapEntryType();  
-      String keyType = getTypeArgument(context, eGenericType.getETypeArguments().get(0), true, false);
-      String valueType = getTypeArgument(context, eGenericType.getETypeArguments().get(1), true, false);
+      String keyType = getTypeArgument(context, eGenericType.getETypeArguments().get(0), false, false);
+      String valueType = getTypeArgument(context, eGenericType.getETypeArguments().get(1), false, false);
       mapType += "<" + keyType + ", " + valueType + ">";
       return mapType;
     }
