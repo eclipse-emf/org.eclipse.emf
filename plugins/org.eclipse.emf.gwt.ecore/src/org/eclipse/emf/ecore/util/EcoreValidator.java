@@ -2873,7 +2873,7 @@ public class EcoreValidator extends EObjectValidator
         int eTypeParameterIndex = typeParameters.indexOf(eTypeParameter);
         inScope = index == -1 || 
           index > eTypeParameterIndex ||
-          (index == eTypeParameterIndex && eGenericType.eContainingFeature() != EcorePackage.Literals.ETYPE_PARAMETER__EBOUNDS);
+          eGenericType.eContainingFeature() != EcorePackage.Literals.ETYPE_PARAMETER__EBOUNDS;
       }
 
       if (!inScope)
@@ -3268,6 +3268,11 @@ public class EcoreValidator extends EObjectValidator
           ETypeParameter eTypeParameter = eTypeParameters.get(i);
           EGenericType eTypeArgument = eTypeArguments.get(i);
           substitutions.put(eTypeParameter, eTypeArgument);
+        }
+        for (int i = 0; i < eTypeParameterSize; ++i)
+        {
+          ETypeParameter eTypeParameter = eTypeParameters.get(i);
+          EGenericType eTypeArgument = eTypeArguments.get(i);
           if (!isValidSubstitution(eTypeArgument, eTypeParameter, substitutions))
           {
             if (diagnostics == null)
