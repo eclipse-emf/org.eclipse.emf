@@ -15,7 +15,7 @@ import org.eclipse.xtext.conversion.impl.QualifiedNameValueConverter;
 import org.eclipse.xtext.nodemodel.INode;
 
 
-public class FixedQualifiedNameValueConverter extends QualifiedNameValueConverter
+public class XcoreQualifiedNameValueConverter extends QualifiedNameValueConverter
 {
   @Override
   public String toValue(String string, INode node) throws ValueConverterException

@@ -242,7 +242,7 @@ XQualifiedName:
 ;
 
 XID:
-	ID | 'get' | 'set' | 'isUnSet' | 'isSet' 
+	ID | 'get' | 'set' | 'isSet' | 'unset' 
 ;
 
 ValidID:

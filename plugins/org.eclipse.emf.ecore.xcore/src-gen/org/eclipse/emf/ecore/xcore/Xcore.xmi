@@ -836,8 +836,8 @@
         <elements xsi:type="xtext:RuleCall" rule="/2/@rules.11"/>
         <elements xsi:type="xtext:Keyword" value="get"/>
         <elements xsi:type="xtext:Keyword" value="set"/>
-        <elements xsi:type="xtext:Keyword" value="isUnSet"/>
         <elements xsi:type="xtext:Keyword" value="isSet"/>
+        <elements xsi:type="xtext:Keyword" value="unset"/>
       </alternatives>
     </rules>
     <rules xsi:type="xtext:ParserRule" name="ValidID">

@@ -3469,17 +3469,17 @@ ruleXID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
     }
 
     |
-	kw='isUnSet' 
-    {
-        $current.merge(kw);
-        newLeafNode(kw, grammarAccess.getXIDAccess().getIsUnSetKeyword_3()); 
-    }
-
-    |
 	kw='isSet' 
     {
         $current.merge(kw);
-        newLeafNode(kw, grammarAccess.getXIDAccess().getIsSetKeyword_4()); 
+        newLeafNode(kw, grammarAccess.getXIDAccess().getIsSetKeyword_3()); 
+    }
+
+    |
+	kw='unset' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getXIDAccess().getUnsetKeyword_4()); 
     }
 )
     ;

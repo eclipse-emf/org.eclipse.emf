@@ -226,7 +226,9 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
           };
       }
       else if (firstSetGrammarElements.contains(xcoreGrammarAccess.getXReferenceAccess().getTypeAssignment_4()) ||
-                firstSetGrammarElements.contains(xcoreGrammarAccess.getXGenericTypeAccess().getTypeAssignment_0()) && eObject instanceof XReference)
+                firstSetGrammarElements.contains(xcoreGrammarAccess.getXGenericTypeAccess().getTypeAssignment_0()) && eObject instanceof XReference ||
+                firstSetGrammarElements.contains(xcoreGrammarAccess.getXClassAccess().getSuperTypesAssignment_5_1()) ||
+                firstSetGrammarElements.contains(xcoreGrammarAccess.getXClassAccess().getSuperTypesAssignment_5_2_1()))
       {
         final Predicate<IEObjectDescription> baseFilter = filter;
         filter = new Predicate<IEObjectDescription>()

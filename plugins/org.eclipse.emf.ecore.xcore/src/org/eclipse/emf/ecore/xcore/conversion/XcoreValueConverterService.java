@@ -19,7 +19,7 @@ import com.google.inject.Singleton;
 
 
 @Singleton
-public class ValueConverterService extends XbaseValueConverterService
+public class XcoreValueConverterService extends XbaseValueConverterService
 {
   @Inject
   private QualifiedNameValueConverter xQualifiedNameValueConverter;

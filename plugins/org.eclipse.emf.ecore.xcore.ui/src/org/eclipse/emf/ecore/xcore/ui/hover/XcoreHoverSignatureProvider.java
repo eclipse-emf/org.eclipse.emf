@@ -77,6 +77,7 @@ public class XcoreHoverSignatureProvider extends XbaseDeclarativeHoverSignatureP
     return jvmGenericType.getQualifiedName() + hoverUiStrings.typeParameters(jvmGenericType.getTypeParameters());
   }
 
+  @Override
   protected String _signature(JvmEnumerationType jvmEnumerationType, boolean typeAtEnd)
   {
     return jvmEnumerationType.getQualifiedName();

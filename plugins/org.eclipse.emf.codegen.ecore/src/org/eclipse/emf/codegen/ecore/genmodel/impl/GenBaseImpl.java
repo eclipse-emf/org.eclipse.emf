@@ -1318,7 +1318,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
 
     String instanceTypeName = eType.getInstanceTypeName();
-    if (getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50  || isPrimitiveType(eType) || erased && instanceTypeName == null || !instanceTypeName.contains("."))
+    if (getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50  || isPrimitiveType(eType) || erased && (instanceTypeName == null || !instanceTypeName.contains(".")))
     {
       return eType.getInstanceClassName();
     }

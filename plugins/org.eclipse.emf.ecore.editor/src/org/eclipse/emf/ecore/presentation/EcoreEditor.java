@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EventObject;
@@ -117,6 +118,7 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.UniqueEList;
 
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
@@ -192,12 +194,12 @@ public class EcoreEditor
         EcoreEditorPlugin.INSTANCE.log(exception);
       }
     }
-    
+
     @Override
     public void createModel()
     {
       super.createModel();
-      
+
       // Load the schema and packages that were used to load the instance into this resource set.
       //
       ResourceSet resourceSet = editingDomain.getResourceSet();
@@ -378,9 +380,9 @@ public class EcoreEditor
    * Resources that have been changed since last activation.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
-  protected Collection<Resource> changedResources = new ArrayList<Resource>();
+  protected Collection<Resource> changedResources = new UniqueEList<Resource>();
 
   /**
    * Resources that have been saved.
@@ -575,7 +577,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void handleActivate()
+  protected void handleActivateGen()
   {
     // Recompute the read only state.
     //
@@ -610,11 +612,40 @@ public class EcoreEditor
     }
   }
 
+  protected static final List<String> NON_DYNAMIC_EXTENSIONS = Arrays.asList(new String [] { "xcore", "emof", "ecore", "genmodel" });
+
+  protected void handleActivate()
+  {
+    if (removedResources.isEmpty() && !changedResources.isEmpty())
+    {
+      for (Resource resource : editingDomain.getResourceSet().getResources())
+      {
+        if (!changedResources.contains(resource))
+        {
+          URI uri = resource.getURI();
+          if (!"java".equals(uri.scheme()) && !NON_DYNAMIC_EXTENSIONS.contains(uri.fileExtension()))
+          {
+            for (Iterator<EObject> i = resource.getAllContents(); i.hasNext(); )
+            {
+              EObject eObject = i.next();
+              if (changedResources.contains(eObject.eClass().eResource()))
+              {
+                changedResources.add(resource);
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+    handleActivateGen();
+  }
+
   /**
    * Handles what to do with changed resources on activation.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected void handleChangedResources()
   {
@@ -627,21 +658,27 @@ public class EcoreEditor
       editingDomain.getCommandStack().flush();
 
       updateProblemIndication = false;
+      List<Resource> unloadedResources = new ArrayList<Resource>();
       for (Resource resource : changedResources)
       {
         if (resource.isLoaded())
         {
           resource.unload();
-          try
+          unloadedResources.add(resource);
+        }
+      }
+
+      for (Resource resource : unloadedResources)
+      {
+        try
+        {
+          resource.load(Collections.EMPTY_MAP);
+        }
+        catch (IOException exception)
+        {
+          if (!resourceToDiagnosticMap.containsKey(resource))
           {
-            resource.load(Collections.EMPTY_MAP);
-          }
-          catch (IOException exception)
-          {
-            if (!resourceToDiagnosticMap.containsKey(resource))
-            {
-              resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
-            }
+            resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
           }
         }
       }
@@ -655,7 +692,7 @@ public class EcoreEditor
       updateProblemIndication();
     }
   }
-  
+
   /**
    * Updates the problems indication with the information described in the specified diagnostic.
    * <!-- begin-user-doc -->
@@ -805,7 +842,7 @@ public class EcoreEditor
 
     // Create the editing domain with a special command stack.
     //
-    editingDomain = 
+    editingDomain =
       new AdapterFactoryEditingDomain(adapterFactory, commandStack)
       {
         {
@@ -814,10 +851,11 @@ public class EcoreEditor
         @Override
         public boolean isReadOnly(Resource resource)
         {
-          return 
+          return
              resource != null &&
-              ("java".equals(resource.getURI().scheme()) || 
+              ("java".equals(resource.getURI().scheme()) ||
                "xcore".equals(resource.getURI().fileExtension()) ||
+               "genmodel".equals(resource.getURI().fileExtension()) ||
                super.isReadOnly(resource));
         }
       };
@@ -1037,7 +1075,7 @@ public class EcoreEditor
      (new MouseAdapter()
       {
         @Override
-        public void mouseDoubleClick(MouseEvent event) 
+        public void mouseDoubleClick(MouseEvent event)
         {
           if (event.button == 1)
           {
@@ -1581,7 +1619,7 @@ public class EcoreEditor
 
         URI newURI = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
         String newExtension = newURI.fileExtension();
-        
+
         if (currentExtension.equals(newExtension))
         {
           currentResource.setURI(newURI);
