@@ -181,6 +181,14 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
       GenBase genBase = mapper.getGen((XNamedElement)eObject);
       result.addAll(XcoreJvmInferrer.getInferredElements(genBase));
     }
+    else if (eObject instanceof GenBase)
+    {
+      result.addAll(XcoreJvmInferrer.getInferredElements((GenBase)eObject));
+    }
+    else if (eObject.eClass().getEPackage() == TypesPackage.eINSTANCE)
+    {
+      result.add(eObject);
+    }
     return result;
   }
 

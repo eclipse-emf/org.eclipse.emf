@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.xcore.ui.builder.XcoreFileSystemAccess;
 import org.eclipse.emf.ecore.xcore.ui.container.XcoreJavaProjectsState;
 import org.eclipse.emf.ecore.xcore.ui.contentassist.ImportingTypesProposalProvider;
 import org.eclipse.emf.ecore.xcore.ui.contentassist.XcoreVariableCompletions;
+import org.eclipse.emf.ecore.xcore.ui.hover.XcoreHoverDocumentationProvider;
 import org.eclipse.emf.ecore.xcore.ui.hover.XcoreHoverProvider;
 import org.eclipse.emf.ecore.xcore.ui.hover.XcoreHoverSignatureProvider;
 import org.eclipse.emf.ecore.xcore.ui.hyperlinking.XcoreHyperLinkHelper;
@@ -35,6 +36,7 @@ import org.eclipse.xtext.resource.containers.IAllContainersState;
 import org.eclipse.xtext.ui.editor.findrefs.IReferenceFinder;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHover;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHoverProvider;
+import org.eclipse.xtext.ui.editor.hover.html.IEObjectHoverDocumentationProvider;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
 import org.eclipse.xtext.ui.refactoring.IDependentElementsCalculator;
 import org.eclipse.xtext.ui.refactoring.IRenameStrategy;
@@ -158,5 +160,11 @@ public class XcoreUiModule extends AbstractXcoreUiModule
          return instance;
        }
      };
+  }
+
+  @Override
+  public Class<? extends IEObjectHoverDocumentationProvider> bindIEObjectHoverDocumentationProvider()
+  {
+    return XcoreHoverDocumentationProvider.class;
   }
 }

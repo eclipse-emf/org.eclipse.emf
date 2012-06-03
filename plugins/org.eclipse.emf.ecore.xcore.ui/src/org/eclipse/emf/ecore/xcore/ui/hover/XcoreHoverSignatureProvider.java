@@ -11,9 +11,11 @@ package org.eclipse.emf.ecore.xcore.ui.hover;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
+import org.eclipse.jdt.ui.JavaElementLabels;
 import org.eclipse.xtext.common.types.JvmAnyTypeReference;
 import org.eclipse.xtext.common.types.JvmConstructor;
 import org.eclipse.xtext.common.types.JvmEnumerationType;
@@ -42,6 +44,13 @@ public class XcoreHoverSignatureProvider extends XbaseDeclarativeHoverSignatureP
   @Inject
   private XcoreMapper mapper;
 
+  @Override
+  protected String internalGetSignature(EObject object, boolean typeAtEnd)
+  {
+    String result = super.internalGetSignature(object, typeAtEnd);
+    return result == null ? null : result.replace("<", "&lt;");
+  }
+
   protected String _signature(XNamedElement xNamedElement, boolean typeAtEnd)
   {
     QualifiedName qualifiedName = nameProvider.getFullyQualifiedName(xNamedElement);
@@ -58,9 +67,9 @@ public class XcoreHoverSignatureProvider extends XbaseDeclarativeHoverSignatureP
 
   protected String _signature(GenBase genBase, boolean typeAtEnd)
   {
-    QualifiedName qualifiedName = 
+    QualifiedName qualifiedName =
       genBase instanceof GenFeature ?
-        nameProvider.getFullyQualifiedName(genBase.eContainer()).append(((GenFeature)genBase).getName()) : 
+        nameProvider.getFullyQualifiedName(genBase.eContainer()).append(((GenFeature)genBase).getName()) :
         nameProvider.getFullyQualifiedName(genBase);
     return nameConverter.toString(qualifiedName);
   }
@@ -137,6 +146,13 @@ public class XcoreHoverSignatureProvider extends XbaseDeclarativeHoverSignatureP
   @Override
   protected String _signature(JvmTypeParameter parameter, boolean typeAtEnd)
   {
-    return super._signature(parameter, typeAtEnd);
+    EObject eContainer = parameter.eContainer();
+    String name = parameter.getName();
+    String eContainerSignature = internalGetSignature(eContainer, typeAtEnd);
+    if (eContainerSignature != null)
+    {
+      name += JavaElementLabels.CONCAT_STRING + eContainerSignature;
+    }
+    return name;
   }
 }
