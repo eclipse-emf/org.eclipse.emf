@@ -92,7 +92,6 @@ public class InternalXcoreLexer extends Lexer {
     public static final int T__104=104;
     public static final int T__105=105;
     public static final int T__106=106;
-    public static final int T__111=111;
     public static final int T__110=110;
     public static final int RULE_INT=4;
     public static final int T__50=50;
@@ -346,10 +345,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__23;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21:7: ( 'isUnSet' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21:9: 'isUnSet'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21:7: ( 'isSet' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:21:9: 'isSet'
             {
-            match("isUnSet"); 
+            match("isSet"); 
 
 
             }
@@ -367,10 +366,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__24;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:22:7: ( 'isSet' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:22:9: 'isSet'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:22:7: ( 'unset' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:22:9: 'unset'
             {
-            match("isSet"); 
+            match("unset"); 
 
 
             }
@@ -1173,10 +1172,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__63;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:61:7: ( 'unset' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:61:9: 'unset'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:61:7: ( 'refers' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:61:9: 'refers'
             {
-            match("unset"); 
+            match("refers"); 
 
 
             }
@@ -1194,10 +1193,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__64;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:62:7: ( 'refers' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:62:9: 'refers'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:62:7: ( 'opposite' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:62:9: 'opposite'
             {
-            match("refers"); 
+            match("opposite"); 
 
 
             }
@@ -1215,10 +1214,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__65;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:63:7: ( 'opposite' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:63:9: 'opposite'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:63:7: ( 'keys' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:63:9: 'keys'
             {
-            match("opposite"); 
+            match("keys"); 
 
 
             }
@@ -1236,10 +1235,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__66;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:64:7: ( 'keys' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:64:9: 'keys'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:64:7: ( 'op' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:64:9: 'op'
             {
-            match("keys"); 
+            match("op"); 
 
 
             }
@@ -1257,10 +1256,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__67;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:65:7: ( 'op' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:65:9: 'op'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:65:7: ( 'throws' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:65:9: 'throws'
             {
-            match("op"); 
+            match("throws"); 
 
 
             }
@@ -1278,11 +1277,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__68;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:66:7: ( 'throws' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:66:9: 'throws'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:66:7: ( '&' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:66:9: '&'
             {
-            match("throws"); 
-
+            match('&'); 
 
             }
 
@@ -1299,10 +1297,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__69;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:67:7: ( '&' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:67:9: '&'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:67:7: ( '[' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:67:9: '['
             {
-            match('&'); 
+            match('['); 
 
             }
 
@@ -1319,10 +1317,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__70;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:68:7: ( '[' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:68:9: '['
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:68:7: ( ']' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:68:9: ']'
             {
-            match('['); 
+            match(']'); 
 
             }
 
@@ -1339,10 +1337,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__71;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:69:7: ( ']' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:69:9: ']'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:69:7: ( ';' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:69:9: ';'
             {
-            match(']'); 
+            match(';'); 
 
             }
 
@@ -1359,10 +1357,11 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__72;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:70:7: ( ';' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:70:9: ';'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:70:7: ( 'instanceof' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:70:9: 'instanceof'
             {
-            match(';'); 
+            match("instanceof"); 
+
 
             }
 
@@ -1379,10 +1378,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__73;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:71:7: ( 'instanceof' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:71:9: 'instanceof'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:71:7: ( 'if' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:71:9: 'if'
             {
-            match("instanceof"); 
+            match("if"); 
 
 
             }
@@ -1400,10 +1399,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__74;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:72:7: ( 'if' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:72:9: 'if'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:72:7: ( 'else' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:72:9: 'else'
             {
-            match("if"); 
+            match("else"); 
 
 
             }
@@ -1421,10 +1420,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__75;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:73:7: ( 'else' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:73:9: 'else'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:73:7: ( 'switch' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:73:9: 'switch'
             {
-            match("else"); 
+            match("switch"); 
 
 
             }
@@ -1442,11 +1441,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__76;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:74:7: ( 'switch' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:74:9: 'switch'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:74:7: ( ':' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:74:9: ':'
             {
-            match("switch"); 
-
+            match(':'); 
 
             }
 
@@ -1463,10 +1461,11 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__77;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:75:7: ( ':' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:75:9: ':'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:75:7: ( 'default' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:75:9: 'default'
             {
-            match(':'); 
+            match("default"); 
+
 
             }
 
@@ -1483,10 +1482,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__78;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:76:7: ( 'default' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:76:9: 'default'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:76:7: ( 'case' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:76:9: 'case'
             {
-            match("default"); 
+            match("case"); 
 
 
             }
@@ -1504,10 +1503,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__79;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:77:7: ( 'case' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:77:9: 'case'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:77:7: ( 'for' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:77:9: 'for'
             {
-            match("case"); 
+            match("for"); 
 
 
             }
@@ -1525,10 +1524,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__80;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:78:7: ( 'for' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:78:9: 'for'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:78:7: ( 'while' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:78:9: 'while'
             {
-            match("for"); 
+            match("while"); 
 
 
             }
@@ -1546,10 +1545,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__81;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:79:7: ( 'while' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:79:9: 'while'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:79:7: ( 'do' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:79:9: 'do'
             {
-            match("while"); 
+            match("do"); 
 
 
             }
@@ -1567,10 +1566,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__82;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:80:7: ( 'do' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:80:9: 'do'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:80:7: ( '::' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:80:9: '::'
             {
-            match("do"); 
+            match("::"); 
 
 
             }
@@ -1588,10 +1587,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__83;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:81:7: ( '::' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:81:9: '::'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:81:7: ( 'new' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:81:9: 'new'
             {
-            match("::"); 
+            match("new"); 
 
 
             }
@@ -1609,10 +1608,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__84;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:82:7: ( 'new' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:82:9: 'new'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:82:7: ( 'null' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:82:9: 'null'
             {
-            match("new"); 
+            match("null"); 
 
 
             }
@@ -1630,10 +1629,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__85;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:83:7: ( 'null' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:83:9: 'null'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:83:7: ( 'typeof' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:83:9: 'typeof'
             {
-            match("null"); 
+            match("typeof"); 
 
 
             }
@@ -1651,10 +1650,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__86;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:84:7: ( 'typeof' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:84:9: 'typeof'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:84:7: ( 'throw' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:84:9: 'throw'
             {
-            match("typeof"); 
+            match("throw"); 
 
 
             }
@@ -1672,10 +1671,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__87;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:85:7: ( 'throw' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:85:9: 'throw'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:85:7: ( 'return' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:85:9: 'return'
             {
-            match("throw"); 
+            match("return"); 
 
 
             }
@@ -1693,10 +1692,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__88;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:86:7: ( 'return' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:86:9: 'return'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:86:7: ( 'try' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:86:9: 'try'
             {
-            match("return"); 
+            match("try"); 
 
 
             }
@@ -1714,10 +1713,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__89;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:87:7: ( 'try' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:87:9: 'try'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:87:7: ( 'finally' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:87:9: 'finally'
             {
-            match("try"); 
+            match("finally"); 
 
 
             }
@@ -1735,10 +1734,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__90;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:88:7: ( 'finally' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:88:9: 'finally'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:88:7: ( 'catch' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:88:9: 'catch'
             {
-            match("finally"); 
+            match("catch"); 
 
 
             }
@@ -1756,10 +1755,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__91;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:89:7: ( 'catch' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:89:9: 'catch'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:89:7: ( 'create' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:89:9: 'create'
             {
-            match("catch"); 
+            match("create"); 
 
 
             }
@@ -1777,10 +1776,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__92;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:90:7: ( 'create' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:90:9: 'create'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:90:7: ( 'abstract' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:90:9: 'abstract'
             {
-            match("create"); 
+            match("abstract"); 
 
 
             }
@@ -1798,10 +1797,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__93;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:91:7: ( 'abstract' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:91:9: 'abstract'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:91:7: ( 'interface' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:91:9: 'interface'
             {
-            match("abstract"); 
+            match("interface"); 
 
 
             }
@@ -1819,10 +1818,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__94;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:92:7: ( 'interface' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:92:9: 'interface'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:92:7: ( 'unordered' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:92:9: 'unordered'
             {
-            match("interface"); 
+            match("unordered"); 
 
 
             }
@@ -1840,10 +1839,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__95;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:93:7: ( 'unordered' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:93:9: 'unordered'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:93:7: ( 'unique' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:93:9: 'unique'
             {
-            match("unordered"); 
+            match("unique"); 
 
 
             }
@@ -1861,10 +1860,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__96;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:94:7: ( 'unique' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:94:9: 'unique'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:94:7: ( 'readonly' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:94:9: 'readonly'
             {
-            match("unique"); 
+            match("readonly"); 
 
 
             }
@@ -1882,10 +1881,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__97;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:95:7: ( 'readonly' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:95:9: 'readonly'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:95:7: ( 'transient' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:95:9: 'transient'
             {
-            match("readonly"); 
+            match("transient"); 
 
 
             }
@@ -1903,10 +1902,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__98;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:96:7: ( 'transient' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:96:9: 'transient'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:96:7: ( 'volatile' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:96:9: 'volatile'
             {
-            match("transient"); 
+            match("volatile"); 
 
 
             }
@@ -1924,10 +1923,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__99;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:97:7: ( 'volatile' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:97:9: 'volatile'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:97:7: ( 'unsettable' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:97:9: 'unsettable'
             {
-            match("volatile"); 
+            match("unsettable"); 
 
 
             }
@@ -1945,10 +1944,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__100;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:98:8: ( 'unsettable' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:98:10: 'unsettable'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:98:8: ( 'derived' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:98:10: 'derived'
             {
-            match("unsettable"); 
+            match("derived"); 
 
 
             }
@@ -1966,10 +1965,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__101;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:99:8: ( 'derived' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:99:10: 'derived'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:99:8: ( 'id' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:99:10: 'id'
             {
-            match("derived"); 
+            match("id"); 
 
 
             }
@@ -1987,10 +1986,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__102;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:100:8: ( 'id' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:100:10: 'id'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:100:8: ( 'contains' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:100:10: 'contains'
             {
-            match("id"); 
+            match("contains"); 
 
 
             }
@@ -2008,10 +2007,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__103;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:101:8: ( 'contains' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:101:10: 'contains'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:101:8: ( 'resolving' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:101:10: 'resolving'
             {
-            match("contains"); 
+            match("resolving"); 
 
 
             }
@@ -2029,10 +2028,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__104;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:102:8: ( 'resolving' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:102:10: 'resolving'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:102:8: ( 'container' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:102:10: 'container'
             {
-            match("resolving"); 
+            match("container"); 
 
 
             }
@@ -2050,10 +2049,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__105;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:103:8: ( 'container' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:103:10: 'container'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:103:8: ( 'local' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:103:10: 'local'
             {
-            match("container"); 
+            match("local"); 
 
 
             }
@@ -2071,10 +2070,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__106;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:104:8: ( 'local' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:104:10: 'local'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:104:8: ( '?.' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:104:10: '?.'
             {
-            match("local"); 
+            match("?."); 
 
 
             }
@@ -2092,10 +2091,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__107;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:105:8: ( '?.' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:105:10: '?.'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:105:8: ( '*.' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:105:10: '*.'
             {
-            match("?."); 
+            match("*."); 
 
 
             }
@@ -2113,11 +2112,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__108;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:106:8: ( '*.' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:106:10: '*.'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:106:8: ( '|' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:106:10: '|'
             {
-            match("*."); 
-
+            match('|'); 
 
             }
 
@@ -2134,10 +2132,11 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__109;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:107:8: ( '|' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:107:10: '|'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:107:8: ( 'var' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:107:10: 'var'
             {
-            match('|'); 
+            match("var"); 
+
 
             }
 
@@ -2154,29 +2153,8 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__110;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:108:8: ( 'var' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:108:10: 'var'
-            {
-            match("var"); 
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end "T__110"
-
-    // $ANTLR start "T__111"
-    public final void mT__111() throws RecognitionException {
-        try {
-            int _type = T__111;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:109:8: ( 'true' )
-            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:109:10: 'true'
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:108:8: ( 'true' )
+            // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:108:10: 'true'
             {
             match("true"); 
 
@@ -2189,7 +2167,7 @@ public class InternalXcoreLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end "T__111"
+    // $ANTLR end "T__110"
 
     // $ANTLR start "RULE_HEX"
     public final void mRULE_HEX() throws RecognitionException {
@@ -3016,8 +2994,8 @@ public class InternalXcoreLexer extends Lexer {
     // $ANTLR end "RULE_ANY_OTHER"
 
     public void mTokens() throws RecognitionException {
-        // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:8: ( T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | RULE_HEX | RULE_INT | RULE_DECIMAL | RULE_ID | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
-        int alt19=108;
+        // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:8: ( T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | RULE_HEX | RULE_INT | RULE_DECIMAL | RULE_ID | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
+        int alt19=107;
         alt19 = dfa19.predict(input);
         switch (alt19) {
             case 1 :
@@ -3707,70 +3685,63 @@ public class InternalXcoreLexer extends Lexer {
                 }
                 break;
             case 99 :
-                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:609: T__111
-                {
-                mT__111(); 
-
-                }
-                break;
-            case 100 :
-                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:616: RULE_HEX
+                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:609: RULE_HEX
                 {
                 mRULE_HEX(); 
 
                 }
                 break;
-            case 101 :
-                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:625: RULE_INT
+            case 100 :
+                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:618: RULE_INT
                 {
                 mRULE_INT(); 
 
                 }
                 break;
-            case 102 :
-                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:634: RULE_DECIMAL
+            case 101 :
+                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:627: RULE_DECIMAL
                 {
                 mRULE_DECIMAL(); 
 
                 }
                 break;
-            case 103 :
-                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:647: RULE_ID
+            case 102 :
+                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:640: RULE_ID
                 {
                 mRULE_ID(); 
 
                 }
                 break;
-            case 104 :
-                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:655: RULE_STRING
+            case 103 :
+                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:648: RULE_STRING
                 {
                 mRULE_STRING(); 
 
                 }
                 break;
-            case 105 :
-                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:667: RULE_ML_COMMENT
+            case 104 :
+                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:660: RULE_ML_COMMENT
                 {
                 mRULE_ML_COMMENT(); 
 
                 }
                 break;
-            case 106 :
-                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:683: RULE_SL_COMMENT
+            case 105 :
+                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:676: RULE_SL_COMMENT
                 {
                 mRULE_SL_COMMENT(); 
 
                 }
                 break;
-            case 107 :
-                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:699: RULE_WS
+            case 106 :
+                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:692: RULE_WS
                 {
                 mRULE_WS(); 
 
                 }
                 break;
-            case 108 :
-                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:707: RULE_ANY_OTHER
+            case 107 :
+                // ../org.eclipse.emf.ecore.xcore.ui/src-gen/org/eclipse/emf/ecore/xcore/ui/contentassist/antlr/internal/InternalXcore.g:1:700: RULE_ANY_OTHER
                 {
                 mRULE_ANY_OTHER(); 
 
@@ -3784,118 +3755,117 @@ public class InternalXcoreLexer extends Lexer {
 
     protected DFA19 dfa19 = new DFA19(this);
     static final String DFA19_eotS =
-        "\1\uffff\1\64\1\66\1\70\1\72\1\75\1\100\1\103\3\75\1\116\1\120"+
-        "\1\123\1\125\1\130\1\133\1\uffff\2\75\4\uffff\5\75\2\uffff\4\75"+
+        "\1\uffff\1\64\1\66\1\70\1\72\1\75\1\100\1\103\4\75\1\117\1\121"+
+        "\1\124\1\126\1\131\1\134\1\uffff\2\75\4\uffff\5\75\2\uffff\3\75"+
         "\3\uffff\1\176\3\75\2\u0086\1\61\1\uffff\2\61\13\uffff\2\75\7\uffff"+
-        "\7\75\1\u0097\1\u0098\4\uffff\1\u009a\13\uffff\4\75\4\uffff\1\75"+
-        "\1\u00a0\15\75\2\uffff\2\75\1\u00b9\1\75\5\uffff\1\75\1\u00bd\3"+
-        "\75\1\uffff\1\u0086\4\uffff\2\75\1\u00c3\1\u00c4\1\u00c5\1\u00c6"+
-        "\7\75\4\uffff\1\75\1\u00cf\3\75\1\uffff\3\75\1\u00d6\24\75\1\uffff"+
-        "\3\75\1\uffff\1\u00ef\2\75\1\u00f2\1\75\4\uffff\10\75\1\uffff\4"+
-        "\75\1\u0101\1\75\1\uffff\1\75\1\u0104\5\75\1\u010a\2\75\1\u010d"+
-        "\1\75\1\u010f\10\75\1\u0118\2\75\1\uffff\1\u011b\1\75\1\uffff\1"+
-        "\75\1\u011e\2\75\1\u0121\3\75\1\u0125\5\75\1\uffff\1\u012c\1\75"+
-        "\1\uffff\1\u012e\1\u012f\2\75\1\u0132\1\uffff\1\u0133\1\75\1\uffff"+
-        "\1\75\1\uffff\1\u0137\7\75\1\uffff\2\75\1\uffff\1\u0141\1\75\1\uffff"+
-        "\1\u0143\1\75\1\uffff\1\u0145\2\75\1\uffff\4\75\1\u014c\1\u014d"+
-        "\1\uffff\1\75\2\uffff\2\75\2\uffff\1\u0151\2\75\1\uffff\1\75\1\u0155"+
-        "\1\u0156\1\u0157\5\75\1\uffff\1\75\1\uffff\1\u015e\1\uffff\2\75"+
-        "\1\u0161\1\u0162\2\75\2\uffff\1\75\1\u0166\1\75\1\uffff\1\u0169"+
-        "\2\75\3\uffff\3\75\1\u016f\1\u0170\1\u0171\1\uffff\2\75\2\uffff"+
-        "\1\75\1\u0175\1\75\1\uffff\1\u0177\1\75\1\uffff\2\75\1\u017b\1\75"+
-        "\1\u017d\3\uffff\1\75\1\u017f\1\75\1\uffff\1\u0181\1\uffff\1\u0182"+
-        "\1\75\1\u0184\1\uffff\1\u0185\1\uffff\1\u0186\1\uffff\1\u0187\2"+
-        "\uffff\1\u0188\5\uffff";
+        "\7\75\1\u0096\1\u0097\1\75\4\uffff\1\u009c\13\uffff\4\75\4\uffff"+
+        "\1\75\1\u00a2\15\75\2\uffff\1\75\1\u00b8\1\75\5\uffff\1\75\1\u00bc"+
+        "\3\75\1\uffff\1\u0086\4\uffff\2\75\1\u00c2\1\u00c3\1\u00c4\1\u00c5"+
+        "\6\75\2\uffff\3\75\2\uffff\1\75\1\u00d0\3\75\1\uffff\3\75\1\u00d7"+
+        "\21\75\1\uffff\3\75\1\uffff\1\u00ed\2\75\1\u00f0\1\75\4\uffff\12"+
+        "\75\1\uffff\4\75\1\u0101\1\75\1\uffff\1\75\1\u0104\5\75\1\u010a"+
+        "\2\75\1\u010d\1\75\1\u010f\5\75\1\u0115\2\75\1\uffff\1\u0118\1\75"+
+        "\1\uffff\1\75\1\u011b\1\75\1\u011d\3\75\1\u0122\2\75\1\u0125\5\75"+
+        "\1\uffff\1\u012c\1\75\1\uffff\1\u012e\1\u012f\2\75\1\u0132\1\uffff"+
+        "\1\u0133\1\75\1\uffff\1\75\1\uffff\5\75\1\uffff\2\75\1\uffff\1\u013d"+
+        "\1\75\1\uffff\1\u013f\1\uffff\1\u0140\3\75\1\uffff\1\75\1\u0145"+
+        "\1\uffff\4\75\1\u014a\1\u014b\1\uffff\1\75\2\uffff\2\75\2\uffff"+
+        "\1\u014f\1\75\1\u0151\1\u0152\5\75\1\uffff\1\75\2\uffff\4\75\1\uffff"+
+        "\1\u015d\1\u015e\2\75\2\uffff\1\75\1\u0162\1\75\1\uffff\1\u0165"+
+        "\2\uffff\3\75\1\u0169\1\u016a\1\u016b\4\75\2\uffff\1\75\1\u0171"+
+        "\1\75\1\uffff\1\u0173\1\75\1\uffff\1\u0175\1\75\1\u0177\3\uffff"+
+        "\1\75\1\u0179\1\75\1\u017b\1\75\1\uffff\1\u017d\1\uffff\1\u017e"+
+        "\1\uffff\1\u017f\1\uffff\1\u0180\1\uffff\1\u0181\1\uffff\1\u0182"+
+        "\6\uffff";
     static final String DFA19_eofS =
-        "\u0189\uffff";
+        "\u0183\uffff";
     static final String DFA19_minS =
-        "\1\0\2\75\1\174\1\46\1\141\1\56\1\52\2\145\1\144\3\75\1\76\2\52"+
-        "\1\uffff\2\141\4\uffff\1\142\2\150\1\141\1\154\2\uffff\1\156\1\145"+
+        "\1\0\2\75\1\174\1\46\1\141\1\56\1\52\2\145\1\144\1\156\3\75\1\76"+
+        "\2\52\1\uffff\2\141\4\uffff\1\142\2\150\1\141\1\154\2\uffff\1\145"+
         "\1\160\1\145\3\uffff\1\72\2\145\1\157\2\60\1\44\1\uffff\2\0\13\uffff"+
-        "\1\151\1\154\7\uffff\2\164\1\160\1\151\1\123\1\160\1\163\2\44\4"+
-        "\uffff\1\76\13\uffff\1\154\1\162\1\156\1\143\4\uffff\1\156\1\44"+
-        "\1\163\1\160\1\162\2\141\1\151\1\156\1\141\1\163\1\145\1\165\1\164"+
-        "\1\163\2\uffff\1\151\1\141\1\44\1\171\5\uffff\1\146\1\44\1\167\1"+
-        "\154\1\143\1\uffff\1\60\4\uffff\1\144\1\141\4\44\1\145\1\164\1\156"+
-        "\1\145\1\157\1\164\1\145\4\uffff\1\163\1\44\1\141\1\153\1\157\1"+
-        "\uffff\1\164\1\145\1\157\1\44\1\156\1\145\1\160\1\154\1\164\1\163"+
-        "\1\145\1\143\1\141\1\155\3\145\1\162\1\161\1\145\1\165\1\144\2\157"+
-        "\1\uffff\1\163\1\141\1\151\1\uffff\1\44\1\154\1\141\1\44\1\164\4"+
-        "\uffff\1\162\1\143\1\123\1\164\1\162\1\141\1\162\1\145\1\uffff\1"+
-        "\154\1\141\1\164\1\162\1\44\1\167\1\uffff\1\163\1\44\1\163\2\145"+
-        "\1\141\1\163\1\44\1\150\1\164\1\44\1\156\1\44\1\164\1\144\1\165"+
-        "\2\162\1\157\1\154\1\163\1\44\1\165\1\166\1\uffff\1\44\1\154\1\uffff"+
-        "\1\151\1\44\1\150\1\145\1\44\1\164\1\156\1\146\1\44\1\154\1\147"+
-        "\2\141\1\146\1\uffff\1\44\1\151\1\uffff\2\44\1\162\1\151\1\44\1"+
-        "\uffff\1\44\1\145\1\uffff\1\144\1\uffff\1\44\2\145\1\163\2\156\1"+
-        "\166\1\151\1\uffff\1\154\1\145\1\uffff\1\44\1\154\1\uffff\1\44\1"+
-        "\164\1\uffff\1\44\1\143\1\141\1\uffff\1\171\1\145\1\164\1\143\2"+
-        "\44\1\uffff\1\145\2\uffff\1\164\1\156\2\uffff\1\44\1\163\1\141\1"+
-        "\uffff\1\162\3\44\1\154\1\151\2\164\1\144\1\uffff\1\145\1\uffff"+
-        "\1\44\1\uffff\1\145\1\143\2\44\1\151\1\164\2\uffff\1\156\1\44\1"+
-        "\145\1\uffff\1\44\1\142\1\145\3\uffff\1\171\1\156\1\145\3\44\1\uffff"+
-        "\1\157\1\145\2\uffff\1\157\1\44\1\164\1\uffff\1\44\1\162\1\uffff"+
-        "\1\154\1\144\1\44\1\147\1\44\3\uffff\1\146\1\44\1\156\1\uffff\1"+
-        "\44\1\uffff\1\44\1\145\1\44\1\uffff\1\44\1\uffff\1\44\1\uffff\1"+
-        "\44\2\uffff\1\44\5\uffff";
+        "\1\151\1\154\7\uffff\2\164\1\160\1\151\1\123\1\160\1\163\2\44\1"+
+        "\151\4\uffff\1\76\13\uffff\1\154\1\162\1\156\1\143\4\uffff\1\156"+
+        "\1\44\1\163\1\160\1\162\2\141\1\151\1\156\1\141\1\163\1\145\1\165"+
+        "\1\164\1\163\2\uffff\1\141\1\44\1\171\5\uffff\1\146\1\44\1\167\1"+
+        "\154\1\143\1\uffff\1\60\4\uffff\1\144\1\141\4\44\1\145\1\164\1\145"+
+        "\1\157\1\164\1\145\2\uffff\1\145\1\162\1\161\2\uffff\1\163\1\44"+
+        "\1\141\1\153\1\157\1\uffff\1\164\1\145\1\157\1\44\1\156\1\145\1"+
+        "\160\1\154\1\164\1\163\1\145\1\143\1\141\1\155\3\145\1\165\1\144"+
+        "\2\157\1\uffff\1\163\1\141\1\151\1\uffff\1\44\1\154\1\141\1\44\1"+
+        "\164\4\uffff\1\162\1\143\1\164\1\162\1\141\1\162\1\164\1\144\1\165"+
+        "\1\145\1\uffff\1\154\1\141\1\164\1\162\1\44\1\167\1\uffff\1\163"+
+        "\1\44\1\163\2\145\1\141\1\163\1\44\1\150\1\164\1\44\1\156\1\44\2"+
+        "\162\1\157\1\154\1\163\1\44\1\165\1\166\1\uffff\1\44\1\154\1\uffff"+
+        "\1\151\1\44\1\150\1\44\1\164\1\156\1\146\1\44\2\145\1\44\1\154\1"+
+        "\147\2\141\1\146\1\uffff\1\44\1\151\1\uffff\2\44\1\162\1\151\1\44"+
+        "\1\uffff\1\44\1\145\1\uffff\1\144\1\uffff\1\163\2\156\1\166\1\151"+
+        "\1\uffff\1\154\1\145\1\uffff\1\44\1\154\1\uffff\1\44\1\uffff\1\44"+
+        "\1\143\2\141\1\uffff\1\162\1\44\1\uffff\1\171\1\145\1\164\1\143"+
+        "\2\44\1\uffff\1\145\2\uffff\1\164\1\156\2\uffff\1\44\1\163\2\44"+
+        "\1\154\1\151\2\164\1\144\1\uffff\1\145\2\uffff\1\145\1\143\1\142"+
+        "\1\145\1\uffff\2\44\1\151\1\164\2\uffff\1\156\1\44\1\145\1\uffff"+
+        "\1\44\2\uffff\1\171\1\156\1\145\3\44\1\157\1\145\1\154\1\144\2\uffff"+
+        "\1\157\1\44\1\164\1\uffff\1\44\1\162\1\uffff\1\44\1\147\1\44\3\uffff"+
+        "\1\146\1\44\1\145\1\44\1\156\1\uffff\1\44\1\uffff\1\44\1\uffff\1"+
+        "\44\1\uffff\1\44\1\uffff\1\44\1\uffff\1\44\6\uffff";
     static final String DFA19_maxS =
         "\1\uffff\1\76\1\75\1\174\1\46\1\157\1\72\1\56\1\145\1\167\1\163"+
-        "\2\75\2\76\1\56\1\57\1\uffff\1\157\1\141\4\uffff\1\163\1\171\2\162"+
-        "\1\170\2\uffff\1\156\1\145\1\160\1\145\3\uffff\1\72\1\157\1\165"+
+        "\1\156\2\75\2\76\1\56\1\57\1\uffff\1\157\1\141\4\uffff\1\163\1\171"+
+        "\2\162\1\170\2\uffff\1\145\1\160\1\145\3\uffff\1\72\1\157\1\165"+
         "\1\157\1\170\1\154\1\172\1\uffff\2\uffff\13\uffff\1\154\1\162\7"+
-        "\uffff\2\164\1\160\1\151\1\125\1\160\1\164\2\172\4\uffff\1\76\13"+
-        "\uffff\1\154\1\162\1\156\1\143\4\uffff\1\156\1\172\1\163\1\160\1"+
-        "\162\1\171\1\141\1\151\1\156\1\141\1\164\1\145\1\165\1\164\1\163"+
-        "\2\uffff\1\163\1\164\1\172\1\171\5\uffff\1\162\1\172\1\167\1\154"+
-        "\1\143\1\uffff\1\154\4\uffff\1\144\1\141\4\172\1\145\1\164\1\156"+
-        "\1\145\1\157\1\164\1\145\4\uffff\1\163\1\172\1\141\1\153\1\157\1"+
-        "\uffff\1\164\1\145\1\157\1\172\1\156\1\145\1\160\1\154\1\166\1\163"+
-        "\1\145\1\143\1\141\1\155\3\145\1\162\1\161\1\145\1\165\1\144\2\157"+
-        "\1\uffff\1\163\1\141\1\151\1\uffff\1\172\1\154\1\141\1\172\1\164"+
-        "\4\uffff\1\162\1\143\1\123\1\164\1\162\1\141\1\162\1\145\1\uffff"+
-        "\1\154\1\141\1\164\1\162\1\172\1\167\1\uffff\1\163\1\172\1\163\2"+
-        "\145\1\141\1\163\1\172\1\150\1\164\1\172\1\156\1\172\1\164\1\144"+
-        "\1\165\2\162\1\157\1\154\1\163\1\172\1\165\1\166\1\uffff\1\172\1"+
-        "\154\1\uffff\1\151\1\172\1\150\1\145\1\172\1\164\1\156\1\146\1\172"+
-        "\1\154\1\147\2\141\1\146\1\uffff\1\172\1\151\1\uffff\2\172\1\162"+
-        "\1\151\1\172\1\uffff\1\172\1\145\1\uffff\1\144\1\uffff\1\172\2\145"+
-        "\1\163\2\156\1\166\1\151\1\uffff\1\154\1\145\1\uffff\1\172\1\154"+
-        "\1\uffff\1\172\1\164\1\uffff\1\172\1\143\1\141\1\uffff\1\171\1\145"+
-        "\1\164\1\143\2\172\1\uffff\1\145\2\uffff\1\164\1\156\2\uffff\1\172"+
-        "\1\163\1\141\1\uffff\1\162\3\172\1\154\1\151\2\164\1\144\1\uffff"+
-        "\1\145\1\uffff\1\172\1\uffff\1\145\1\143\2\172\1\151\1\164\2\uffff"+
-        "\1\156\1\172\1\163\1\uffff\1\172\1\142\1\145\3\uffff\1\171\1\156"+
-        "\1\145\3\172\1\uffff\1\157\1\145\2\uffff\1\157\1\172\1\164\1\uffff"+
-        "\1\172\1\162\1\uffff\1\154\1\144\1\172\1\147\1\172\3\uffff\1\146"+
-        "\1\172\1\156\1\uffff\1\172\1\uffff\1\172\1\145\1\172\1\uffff\1\172"+
-        "\1\uffff\1\172\1\uffff\1\172\2\uffff\1\172\5\uffff";
+        "\uffff\2\164\1\160\1\151\1\123\1\160\1\164\2\172\1\163\4\uffff\1"+
+        "\76\13\uffff\1\154\1\162\1\156\1\143\4\uffff\1\156\1\172\1\163\1"+
+        "\160\1\162\1\171\1\141\1\151\1\156\1\141\1\164\1\145\1\165\1\164"+
+        "\1\163\2\uffff\1\164\1\172\1\171\5\uffff\1\162\1\172\1\167\1\154"+
+        "\1\143\1\uffff\1\154\4\uffff\1\144\1\141\4\172\1\145\1\164\1\145"+
+        "\1\157\1\164\1\145\2\uffff\1\145\1\162\1\161\2\uffff\1\163\1\172"+
+        "\1\141\1\153\1\157\1\uffff\1\164\1\145\1\157\1\172\1\156\1\145\1"+
+        "\160\1\154\1\166\1\163\1\145\1\143\1\141\1\155\3\145\1\165\1\144"+
+        "\2\157\1\uffff\1\163\1\141\1\151\1\uffff\1\172\1\154\1\141\1\172"+
+        "\1\164\4\uffff\1\162\1\143\1\164\1\162\1\141\1\162\1\164\1\144\1"+
+        "\165\1\145\1\uffff\1\154\1\141\1\164\1\162\1\172\1\167\1\uffff\1"+
+        "\163\1\172\1\163\2\145\1\141\1\163\1\172\1\150\1\164\1\172\1\156"+
+        "\1\172\2\162\1\157\1\154\1\163\1\172\1\165\1\166\1\uffff\1\172\1"+
+        "\154\1\uffff\1\151\1\172\1\150\1\172\1\164\1\156\1\146\1\172\2\145"+
+        "\1\172\1\154\1\147\2\141\1\146\1\uffff\1\172\1\151\1\uffff\2\172"+
+        "\1\162\1\151\1\172\1\uffff\1\172\1\145\1\uffff\1\144\1\uffff\1\163"+
+        "\2\156\1\166\1\151\1\uffff\1\154\1\145\1\uffff\1\172\1\154\1\uffff"+
+        "\1\172\1\uffff\1\172\1\143\2\141\1\uffff\1\162\1\172\1\uffff\1\171"+
+        "\1\145\1\164\1\143\2\172\1\uffff\1\145\2\uffff\1\164\1\156\2\uffff"+
+        "\1\172\1\163\2\172\1\154\1\151\2\164\1\144\1\uffff\1\145\2\uffff"+
+        "\1\145\1\143\1\142\1\145\1\uffff\2\172\1\151\1\164\2\uffff\1\156"+
+        "\1\172\1\163\1\uffff\1\172\2\uffff\1\171\1\156\1\145\3\172\1\157"+
+        "\1\145\1\154\1\144\2\uffff\1\157\1\172\1\164\1\uffff\1\172\1\162"+
+        "\1\uffff\1\172\1\147\1\172\3\uffff\1\146\1\172\1\145\1\172\1\156"+
+        "\1\uffff\1\172\1\uffff\1\172\1\uffff\1\172\1\uffff\1\172\1\uffff"+
+        "\1\172\1\uffff\1\172\6\uffff";
     static final String DFA19_acceptS =
-        "\21\uffff\1\34\2\uffff\1\43\1\44\1\45\1\46\5\uffff\1\57\1\60\4"+
-        "\uffff\1\72\1\73\1\74\7\uffff\1\147\2\uffff\1\153\1\154\1\15\1\25"+
-        "\1\1\1\2\1\10\1\3\1\141\1\4\1\71\2\uffff\1\147\1\27\1\137\1\6\1"+
-        "\32\1\140\1\7\11\uffff\1\16\1\35\1\17\1\21\1\uffff\1\26\1\22\1\23"+
-        "\1\31\1\24\1\50\1\36\1\151\1\152\1\33\1\34\4\uffff\1\43\1\44\1\45"+
-        "\1\46\17\uffff\1\57\1\60\4\uffff\1\72\1\73\1\74\1\107\1\101\5\uffff"+
-        "\1\144\1\uffff\1\145\1\146\1\150\1\153\15\uffff\1\76\1\132\1\30"+
-        "\1\20\5\uffff\1\52\30\uffff\1\67\3\uffff\1\106\5\uffff\1\37\1\142"+
-        "\1\11\1\12\10\uffff\1\104\6\uffff\1\115\30\uffff\1\110\2\uffff\1"+
-        "\5\16\uffff\1\53\2\uffff\1\143\5\uffff\1\103\2\uffff\1\56\1\uffff"+
-        "\1\77\10\uffff\1\66\2\uffff\1\111\2\uffff\1\40\2\uffff\1\14\3\uffff"+
-        "\1\41\6\uffff\1\113\1\uffff\1\54\1\105\2\uffff\1\61\1\117\3\uffff"+
-        "\1\63\11\uffff\1\136\1\uffff\1\100\1\uffff\1\47\6\uffff\1\112\1"+
-        "\70\3\uffff\1\120\3\uffff\1\124\1\64\1\114\6\uffff\1\13\2\uffff"+
-        "\1\116\1\42\3\uffff\1\55\2\uffff\1\62\5\uffff\1\102\1\131\1\127"+
-        "\3\uffff\1\121\1\uffff\1\133\3\uffff\1\125\1\uffff\1\65\1\uffff"+
-        "\1\122\1\uffff\1\126\1\135\1\uffff\1\123\1\134\1\75\1\51\1\130";
+        "\22\uffff\1\34\2\uffff\1\43\1\44\1\45\1\46\5\uffff\1\57\1\60\3"+
+        "\uffff\1\71\1\72\1\73\7\uffff\1\146\2\uffff\1\152\1\153\1\15\1\25"+
+        "\1\1\1\2\1\10\1\3\1\140\1\4\1\70\2\uffff\1\146\1\27\1\136\1\6\1"+
+        "\32\1\137\1\7\12\uffff\1\16\1\35\1\17\1\21\1\uffff\1\26\1\22\1\23"+
+        "\1\31\1\24\1\50\1\36\1\150\1\151\1\33\1\34\4\uffff\1\43\1\44\1\45"+
+        "\1\46\17\uffff\1\57\1\60\3\uffff\1\71\1\72\1\73\1\106\1\100\5\uffff"+
+        "\1\143\1\uffff\1\144\1\145\1\147\1\152\14\uffff\1\75\1\131\3\uffff"+
+        "\1\30\1\20\5\uffff\1\52\25\uffff\1\66\3\uffff\1\105\5\uffff\1\37"+
+        "\1\141\1\11\1\12\12\uffff\1\103\6\uffff\1\114\25\uffff\1\107\2\uffff"+
+        "\1\5\20\uffff\1\53\2\uffff\1\142\5\uffff\1\102\2\uffff\1\56\1\uffff"+
+        "\1\76\5\uffff\1\65\2\uffff\1\110\2\uffff\1\40\1\uffff\1\13\4\uffff"+
+        "\1\14\2\uffff\1\41\6\uffff\1\112\1\uffff\1\54\1\104\2\uffff\1\61"+
+        "\1\116\11\uffff\1\135\1\uffff\1\77\1\47\4\uffff\1\123\4\uffff\1"+
+        "\111\1\67\3\uffff\1\117\1\uffff\1\63\1\113\12\uffff\1\115\1\42\3"+
+        "\uffff\1\55\2\uffff\1\62\3\uffff\1\101\1\130\1\126\5\uffff\1\120"+
+        "\1\uffff\1\132\1\uffff\1\124\1\uffff\1\64\1\uffff\1\121\1\uffff"+
+        "\1\122\1\uffff\1\125\1\134\1\133\1\74\1\127\1\51";
     static final String DFA19_specialS =
-        "\1\2\55\uffff\1\0\1\1\u0159\uffff}>";
+        "\1\2\55\uffff\1\1\1\0\u0153\uffff}>";
     static final String[] DFA19_transitionS = {
-            "\11\61\2\60\2\61\1\60\22\61\1\60\1\13\1\56\1\61\1\55\1\21\1"+
-            "\4\1\57\1\25\1\26\1\7\1\2\1\27\1\16\1\17\1\20\1\52\11\53\1\46"+
-            "\1\45\1\15\1\1\1\14\1\6\1\24\32\55\1\43\1\61\1\44\1\54\1\55"+
-            "\1\61\1\30\1\55\1\33\1\47\1\34\1\22\1\10\1\55\1\12\1\55\1\42"+
-            "\1\51\1\55\1\50\1\41\1\23\1\55\1\40\1\11\1\31\1\37\1\5\1\32"+
-            "\3\55\1\35\1\3\1\36\uff82\61",
+            "\11\61\2\60\2\61\1\60\22\61\1\60\1\14\1\56\1\61\1\55\1\22\1"+
+            "\4\1\57\1\26\1\27\1\7\1\2\1\30\1\17\1\20\1\21\1\52\11\53\1\46"+
+            "\1\45\1\16\1\1\1\15\1\6\1\25\32\55\1\43\1\61\1\44\1\54\1\55"+
+            "\1\61\1\31\1\55\1\34\1\47\1\35\1\23\1\10\1\55\1\12\1\55\1\42"+
+            "\1\51\1\55\1\50\1\41\1\24\1\55\1\40\1\11\1\32\1\13\1\5\1\33"+
+            "\3\55\1\36\1\3\1\37\uff82\61",
             "\1\62\1\63",
             "\1\65",
             "\1\67",
@@ -3907,26 +3877,26 @@ public class InternalXcoreLexer extends Lexer {
             "\1\105\17\uffff\1\106\1\uffff\1\107",
             "\1\114\1\uffff\1\113\6\uffff\1\111\1\112\4\uffff\1\110",
             "\1\115",
-            "\1\117",
-            "\1\121\1\122",
-            "\1\124",
-            "\1\127\3\uffff\1\126",
-            "\1\131\4\uffff\1\132",
+            "\1\116",
+            "\1\120",
+            "\1\122\1\123",
+            "\1\125",
+            "\1\130\3\uffff\1\127",
+            "\1\132\4\uffff\1\133",
             "",
-            "\1\135\7\uffff\1\137\5\uffff\1\136",
-            "\1\140",
-            "",
-            "",
-            "",
-            "",
-            "\1\147\13\uffff\1\145\4\uffff\1\146",
-            "\1\151\11\uffff\1\152\6\uffff\1\150",
-            "\1\154\11\uffff\1\153",
-            "\1\157\12\uffff\1\156\2\uffff\1\155\2\uffff\1\160",
-            "\1\163\1\uffff\1\161\11\uffff\1\162",
+            "\1\136\7\uffff\1\140\5\uffff\1\137",
+            "\1\141",
             "",
             "",
-            "\1\166",
+            "",
+            "",
+            "\1\150\13\uffff\1\146\4\uffff\1\147",
+            "\1\152\11\uffff\1\153\6\uffff\1\151",
+            "\1\155\11\uffff\1\154",
+            "\1\160\12\uffff\1\157\2\uffff\1\156\2\uffff\1\161",
+            "\1\164\1\uffff\1\162\11\uffff\1\163",
+            "",
+            "",
             "\1\167",
             "\1\170",
             "\1\171",
@@ -3971,71 +3941,71 @@ public class InternalXcoreLexer extends Lexer {
             "\1\u008f",
             "\1\u0090",
             "\1\u0091",
-            "\1\u0093\1\uffff\1\u0092",
-            "\1\u0094",
-            "\1\u0095\1\u0096",
+            "\1\u0092",
+            "\1\u0093",
+            "\1\u0094\1\u0095",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
-            "",
-            "",
-            "",
-            "",
-            "\1\u0099",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
+            "\1\u009a\5\uffff\1\u0099\3\uffff\1\u0098",
             "",
             "",
             "",
             "",
             "\1\u009b",
-            "\1\u009c",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
             "\1\u009d",
             "\1\u009e",
-            "",
-            "",
-            "",
-            "",
             "\1\u009f",
+            "\1\u00a0",
+            "",
+            "",
+            "",
+            "",
+            "\1\u00a1",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
-            "\1\u00a1",
-            "\1\u00a2",
             "\1\u00a3",
-            "\1\u00a5\23\uffff\1\u00a6\3\uffff\1\u00a4",
-            "\1\u00a7",
-            "\1\u00a8",
+            "\1\u00a4",
+            "\1\u00a5",
+            "\1\u00a7\23\uffff\1\u00a8\3\uffff\1\u00a6",
             "\1\u00a9",
             "\1\u00aa",
-            "\1\u00ab\1\u00ac",
-            "\1\u00ad",
-            "\1\u00ae",
+            "\1\u00ab",
+            "\1\u00ac",
+            "\1\u00ad\1\u00ae",
             "\1\u00af",
             "\1\u00b0",
+            "\1\u00b1",
+            "\1\u00b2",
             "",
             "",
-            "\1\u00b3\5\uffff\1\u00b2\3\uffff\1\u00b1",
-            "\1\u00b6\4\uffff\1\u00b4\14\uffff\1\u00b7\1\u00b5",
+            "\1\u00b5\4\uffff\1\u00b3\14\uffff\1\u00b6\1\u00b4",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\17"+
-            "\75\1\u00b8\12\75",
-            "\1\u00ba",
+            "\75\1\u00b7\12\75",
+            "\1\u00b9",
             "",
             "",
             "",
             "",
             "",
-            "\1\u00bb\13\uffff\1\u00bc",
+            "\1\u00ba\13\uffff\1\u00bb",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
+            "\1\u00bd",
             "\1\u00be",
             "\1\u00bf",
-            "\1\u00c0",
             "",
             "\12\u0085\10\uffff\1\u0087\1\uffff\3\u0087\5\uffff\1\u0087"+
             "\22\uffff\1\u0085\2\uffff\1\u0087\1\uffff\3\u0087\5\uffff\1"+
@@ -4044,8 +4014,8 @@ public class InternalXcoreLexer extends Lexer {
             "",
             "",
             "",
+            "\1\u00c0",
             "\1\u00c1",
-            "\1\u00c2",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
@@ -4054,35 +4024,36 @@ public class InternalXcoreLexer extends Lexer {
             "\75",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
+            "\1\u00c6",
             "\1\u00c7",
             "\1\u00c8",
             "\1\u00c9",
             "\1\u00ca",
             "\1\u00cb",
+            "",
+            "",
             "\1\u00cc",
             "\1\u00cd",
-            "",
-            "",
-            "",
-            "",
             "\1\u00ce",
+            "",
+            "",
+            "\1\u00cf",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
-            "\1\u00d0",
             "\1\u00d1",
             "\1\u00d2",
-            "",
             "\1\u00d3",
+            "",
             "\1\u00d4",
             "\1\u00d5",
+            "\1\u00d6",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
-            "\1\u00d7",
             "\1\u00d8",
             "\1\u00d9",
             "\1\u00da",
-            "\1\u00dc\1\uffff\1\u00db",
-            "\1\u00dd",
+            "\1\u00db",
+            "\1\u00dd\1\uffff\1\u00dc",
             "\1\u00de",
             "\1\u00df",
             "\1\u00e0",
@@ -4095,24 +4066,24 @@ public class InternalXcoreLexer extends Lexer {
             "\1\u00e7",
             "\1\u00e8",
             "\1\u00e9",
+            "",
             "\1\u00ea",
             "\1\u00eb",
-            "",
             "\1\u00ec",
-            "\1\u00ed",
+            "",
+            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
+            "\75",
             "\1\u00ee",
-            "",
+            "\1\u00ef",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
-            "\1\u00f0",
             "\1\u00f1",
-            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
-            "\75",
+            "",
+            "",
+            "",
+            "",
+            "\1\u00f2",
             "\1\u00f3",
-            "",
-            "",
-            "",
-            "",
             "\1\u00f4",
             "\1\u00f5",
             "\1\u00f6",
@@ -4152,26 +4123,26 @@ public class InternalXcoreLexer extends Lexer {
             "\1\u0112",
             "\1\u0113",
             "\1\u0114",
-            "\1\u0115",
+            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
+            "\75",
             "\1\u0116",
             "\1\u0117",
+            "",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
             "\1\u0119",
-            "\1\u011a",
             "",
+            "\1\u011a",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
             "\1\u011c",
-            "",
-            "\1\u011d",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
+            "\1\u011e",
             "\1\u011f",
             "\1\u0120",
-            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
-            "\75",
-            "\1\u0122",
+            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\23"+
+            "\75\1\u0121\6\75",
             "\1\u0123",
             "\1\u0124",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
@@ -4201,137 +4172,129 @@ public class InternalXcoreLexer extends Lexer {
             "",
             "\1\u0135",
             "",
-            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\23"+
-            "\75\1\u0136\6\75",
+            "\1\u0136",
+            "\1\u0137",
             "\1\u0138",
             "\1\u0139",
             "\1\u013a",
+            "",
             "\1\u013b",
             "\1\u013c",
-            "\1\u013d",
+            "",
+            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
+            "\75",
             "\1\u013e",
             "",
-            "\1\u013f",
-            "\1\u0140",
+            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
+            "\75",
             "",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
+            "\1\u0141",
             "\1\u0142",
+            "\1\u0143",
             "",
-            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
-            "\75",
             "\1\u0144",
-            "",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
+            "",
             "\1\u0146",
             "\1\u0147",
-            "",
             "\1\u0148",
             "\1\u0149",
-            "\1\u014a",
-            "\1\u014b",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
             "",
+            "\1\u014c",
+            "",
+            "",
+            "\1\u014d",
             "\1\u014e",
             "",
             "",
-            "\1\u014f",
+            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
+            "\75",
             "\1\u0150",
-            "",
-            "",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
-            "\1\u0152",
+            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
+            "\75",
             "\1\u0153",
-            "",
             "\1\u0154",
-            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
-            "\75",
-            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
-            "\75",
-            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
-            "\75",
+            "\1\u0155",
+            "\1\u0156",
+            "\1\u0157",
+            "",
             "\1\u0158",
+            "",
+            "",
             "\1\u0159",
             "\1\u015a",
             "\1\u015b",
             "\1\u015c",
             "",
-            "\1\u015d",
-            "",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
-            "",
+            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
+            "\75",
             "\1\u015f",
             "\1\u0160",
+            "",
+            "",
+            "\1\u0161",
+            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
+            "\75",
+            "\1\u0164\15\uffff\1\u0163",
+            "",
+            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
+            "\75",
+            "",
+            "",
+            "\1\u0166",
+            "\1\u0167",
+            "\1\u0168",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
-            "\1\u0163",
-            "\1\u0164",
-            "",
-            "",
-            "\1\u0165",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
-            "\1\u0168\15\uffff\1\u0167",
-            "",
-            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
-            "\75",
-            "\1\u016a",
-            "\1\u016b",
-            "",
-            "",
-            "",
             "\1\u016c",
             "\1\u016d",
             "\1\u016e",
-            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
-            "\75",
-            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
-            "\75",
-            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
-            "\75",
+            "\1\u016f",
             "",
+            "",
+            "\1\u0170",
+            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
+            "\75",
             "\1\u0172",
-            "\1\u0173",
             "",
-            "",
+            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
+            "\75",
             "\1\u0174",
+            "",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
             "\1\u0176",
-            "",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
-            "\1\u0178",
             "",
-            "\1\u0179",
+            "",
+            "",
+            "\1\u0178",
+            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
+            "\75",
             "\1\u017a",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
             "\1\u017c",
-            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
-            "\75",
-            "",
-            "",
-            "",
-            "\1\u017e",
-            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
-            "\75",
-            "\1\u0180",
             "",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
             "",
-            "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
-            "\75",
-            "\1\u0183",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
             "",
@@ -4344,9 +4307,9 @@ public class InternalXcoreLexer extends Lexer {
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
             "",
-            "",
             "\1\75\13\uffff\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32"+
             "\75",
+            "",
             "",
             "",
             "",
@@ -4384,27 +4347,27 @@ public class InternalXcoreLexer extends Lexer {
             this.transition = DFA19_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | RULE_HEX | RULE_INT | RULE_DECIMAL | RULE_ID | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER );";
+            return "1:1: Tokens : ( T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | RULE_HEX | RULE_INT | RULE_DECIMAL | RULE_ID | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             IntStream input = _input;
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA19_46 = input.LA(1);
+                        int LA19_47 = input.LA(1);
 
                         s = -1;
-                        if ( ((LA19_46>='\u0000' && LA19_46<='\uFFFF')) ) {s = 136;}
+                        if ( ((LA19_47>='\u0000' && LA19_47<='\uFFFF')) ) {s = 136;}
 
                         else s = 49;
 
                         if ( s>=0 ) return s;
                         break;
                     case 1 : 
-                        int LA19_47 = input.LA(1);
+                        int LA19_46 = input.LA(1);
 
                         s = -1;
-                        if ( ((LA19_47>='\u0000' && LA19_47<='\uFFFF')) ) {s = 136;}
+                        if ( ((LA19_46>='\u0000' && LA19_46<='\uFFFF')) ) {s = 136;}
 
                         else s = 49;
 
@@ -4434,47 +4397,47 @@ public class InternalXcoreLexer extends Lexer {
 
                         else if ( (LA19_0=='i') ) {s = 10;}
 
-                        else if ( (LA19_0=='!') ) {s = 11;}
+                        else if ( (LA19_0=='u') ) {s = 11;}
 
-                        else if ( (LA19_0=='>') ) {s = 12;}
+                        else if ( (LA19_0=='!') ) {s = 12;}
 
-                        else if ( (LA19_0=='<') ) {s = 13;}
+                        else if ( (LA19_0=='>') ) {s = 13;}
 
-                        else if ( (LA19_0=='-') ) {s = 14;}
+                        else if ( (LA19_0=='<') ) {s = 14;}
 
-                        else if ( (LA19_0=='.') ) {s = 15;}
+                        else if ( (LA19_0=='-') ) {s = 15;}
 
-                        else if ( (LA19_0=='/') ) {s = 16;}
+                        else if ( (LA19_0=='.') ) {s = 16;}
 
-                        else if ( (LA19_0=='%') ) {s = 17;}
+                        else if ( (LA19_0=='/') ) {s = 17;}
 
-                        else if ( (LA19_0=='f') ) {s = 18;}
+                        else if ( (LA19_0=='%') ) {s = 18;}
 
-                        else if ( (LA19_0=='p') ) {s = 19;}
+                        else if ( (LA19_0=='f') ) {s = 19;}
 
-                        else if ( (LA19_0=='@') ) {s = 20;}
+                        else if ( (LA19_0=='p') ) {s = 20;}
 
-                        else if ( (LA19_0=='(') ) {s = 21;}
+                        else if ( (LA19_0=='@') ) {s = 21;}
 
-                        else if ( (LA19_0==')') ) {s = 22;}
+                        else if ( (LA19_0=='(') ) {s = 22;}
 
-                        else if ( (LA19_0==',') ) {s = 23;}
+                        else if ( (LA19_0==')') ) {s = 23;}
 
-                        else if ( (LA19_0=='a') ) {s = 24;}
+                        else if ( (LA19_0==',') ) {s = 24;}
 
-                        else if ( (LA19_0=='t') ) {s = 25;}
+                        else if ( (LA19_0=='a') ) {s = 25;}
 
-                        else if ( (LA19_0=='w') ) {s = 26;}
+                        else if ( (LA19_0=='t') ) {s = 26;}
 
-                        else if ( (LA19_0=='c') ) {s = 27;}
+                        else if ( (LA19_0=='w') ) {s = 27;}
 
-                        else if ( (LA19_0=='e') ) {s = 28;}
+                        else if ( (LA19_0=='c') ) {s = 28;}
 
-                        else if ( (LA19_0=='{') ) {s = 29;}
+                        else if ( (LA19_0=='e') ) {s = 29;}
 
-                        else if ( (LA19_0=='}') ) {s = 30;}
+                        else if ( (LA19_0=='{') ) {s = 30;}
 
-                        else if ( (LA19_0=='u') ) {s = 31;}
+                        else if ( (LA19_0=='}') ) {s = 31;}
 
                         else if ( (LA19_0=='r') ) {s = 32;}
 

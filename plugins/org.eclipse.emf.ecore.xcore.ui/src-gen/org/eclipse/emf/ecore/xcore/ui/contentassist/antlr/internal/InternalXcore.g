@@ -2873,19 +2873,19 @@ rule__XID__Alternatives
 )
 
     |(
-{ before(grammarAccess.getXIDAccess().getIsUnSetKeyword_3()); }
-
-	'isUnSet' 
-
-{ after(grammarAccess.getXIDAccess().getIsUnSetKeyword_3()); }
-)
-
-    |(
-{ before(grammarAccess.getXIDAccess().getIsSetKeyword_4()); }
+{ before(grammarAccess.getXIDAccess().getIsSetKeyword_3()); }
 
 	'isSet' 
 
-{ after(grammarAccess.getXIDAccess().getIsSetKeyword_4()); }
+{ after(grammarAccess.getXIDAccess().getIsSetKeyword_3()); }
+)
+
+    |(
+{ before(grammarAccess.getXIDAccess().getUnsetKeyword_4()); }
+
+	'unset' 
+
+{ after(grammarAccess.getXIDAccess().getUnsetKeyword_4()); }
 )
 
 ;

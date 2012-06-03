@@ -177,7 +177,12 @@ public class ImportingTypesProposalProvider extends JdtTypesProposalProvider
         document.replace(proposal.getReplacementOffset(), proposal.getReplacementLength(), escapedShortname);
 
         // add import statement
-        String lineDelimiter = document.getLineDelimiter(document.getLineOfOffset(offset));
+        int lineOfOffset = document.getLineOfOffset(offset);
+        String lineDelimiter = document.getLineDelimiter(lineOfOffset);
+        if (lineDelimiter == null && lineOfOffset > 0)
+        {
+          lineDelimiter = document.getLineDelimiter(lineOfOffset - 1);
+        }
         String importStatement = (startWithLineBreak ? lineDelimiter : "") + "import "+ importConverter.toString(typeName);
         if (endWithLineBreak)
           importStatement += lineDelimiter + lineDelimiter;

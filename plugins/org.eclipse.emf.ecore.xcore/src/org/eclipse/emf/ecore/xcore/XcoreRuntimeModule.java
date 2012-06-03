@@ -9,8 +9,8 @@ package org.eclipse.emf.ecore.xcore;
 
 
 import org.eclipse.emf.ecore.util.Diagnostician;
-import org.eclipse.emf.ecore.xcore.conversion.FixedQualifiedNameValueConverter;
-import org.eclipse.emf.ecore.xcore.conversion.ValueConverterService;
+import org.eclipse.emf.ecore.xcore.conversion.XcoreQualifiedNameValueConverter;
+import org.eclipse.emf.ecore.xcore.conversion.XcoreValueConverterService;
 import org.eclipse.emf.ecore.xcore.generator.XcoreGenerator;
 import org.eclipse.emf.ecore.xcore.resource.XcoreModelAssociator;
 import org.eclipse.emf.ecore.xcore.resource.XcoreReferableElementsUnloader;
@@ -124,12 +124,12 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   @Override
   public Class<? extends IValueConverterService> bindIValueConverterService()
   {
-    return ValueConverterService.class;
+    return XcoreValueConverterService.class;
   }
 
   public Class<? extends QualifiedNameValueConverter> bindFixedQualifiedNameValueConverter()
   {
-    return FixedQualifiedNameValueConverter.class;
+    return XcoreQualifiedNameValueConverter.class;
   }
 
   @Override

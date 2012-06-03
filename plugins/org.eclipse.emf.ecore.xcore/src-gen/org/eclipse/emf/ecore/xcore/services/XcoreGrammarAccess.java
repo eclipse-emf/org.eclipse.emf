@@ -2139,15 +2139,15 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cIDTerminalRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final Keyword cGetKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
 		private final Keyword cSetKeyword_2 = (Keyword)cAlternatives.eContents().get(2);
-		private final Keyword cIsUnSetKeyword_3 = (Keyword)cAlternatives.eContents().get(3);
-		private final Keyword cIsSetKeyword_4 = (Keyword)cAlternatives.eContents().get(4);
+		private final Keyword cIsSetKeyword_3 = (Keyword)cAlternatives.eContents().get(3);
+		private final Keyword cUnsetKeyword_4 = (Keyword)cAlternatives.eContents().get(4);
 		
 		//XID:
 		//
-		//	ID | "get" | "set" | "isUnSet" | "isSet";
+		//	ID | "get" | "set" | "isSet" | "unset";
 		public ParserRule getRule() { return rule; }
 
-		//ID | "get" | "set" | "isUnSet" | "isSet"
+		//ID | "get" | "set" | "isSet" | "unset"
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//ID
@@ -2159,11 +2159,11 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//"set"
 		public Keyword getSetKeyword_2() { return cSetKeyword_2; }
 
-		//"isUnSet"
-		public Keyword getIsUnSetKeyword_3() { return cIsUnSetKeyword_3; }
-
 		//"isSet"
-		public Keyword getIsSetKeyword_4() { return cIsSetKeyword_4; }
+		public Keyword getIsSetKeyword_3() { return cIsSetKeyword_3; }
+
+		//"unset"
+		public Keyword getUnsetKeyword_4() { return cUnsetKeyword_4; }
 	}
 
 	public class ValidIDElements extends AbstractParserRuleElementFinder {
@@ -2585,7 +2585,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 
 	//XID:
 	//
-	//	ID | "get" | "set" | "isUnSet" | "isSet";
+	//	ID | "get" | "set" | "isSet" | "unset";
 	public XIDElements getXIDAccess() {
 		return (pXID != null) ? pXID : (pXID = new XIDElements());
 	}

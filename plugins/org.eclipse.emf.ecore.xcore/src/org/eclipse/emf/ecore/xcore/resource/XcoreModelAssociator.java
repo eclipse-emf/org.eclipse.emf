@@ -15,10 +15,14 @@ import java.util.Set;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.xcore.XDataType;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XOperation;
@@ -76,6 +80,58 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
       {
         xcoreEcoreBuilder.link();
         genModelBuilder.initializeUsedGenPackages(genModel);
+
+        // If the model has edit support, it's important to determine if we have a dependencies on Ecore's generated item providers...
+        //
+        if (genModel.hasEditSupport())
+        {
+          for (GenPackage genPackage : genModel.getUsedGenPackages())
+          {
+            // If we find a GenPackage for Ecore itself...
+            //
+            if (EcorePackage.eNS_URI.equals(genPackage.getNSURI()))
+            {
+              boolean needsEcoreEditSupport = false;
+              EPackage ecorePackage = genPackage.getEcorePackage();
+              
+              // Consider all the class of the package...
+              LOOP:
+              for (EClassifier eClassifier : ePackage.getEClassifiers())
+              {
+                if (eClassifier instanceof EClass)
+                {
+                  EClass eClass = (EClass)eClassifier;
+                  
+                  // If one of the super types is from the Ecore package and isn't EObject, we need Ecore edit support.
+                  //
+                  for (EClass eSuperType : eClass.getEAllSuperTypes())
+                  {
+                    if (eSuperType.getEPackage() == ecorePackage && !"EObject".equals(eSuperType.getName()))
+                    {
+                      needsEcoreEditSupport = true;
+                      break LOOP;
+                    }
+                  }
+                  // If one of the reference types is from the Ecore package and isn't EObject, we need Ecore edit support.
+                  //
+                  for (EReference eReference : eClass.getEAllReferences())
+                  {
+                    EClass eReferenceType = eReference.getEReferenceType();
+                    if (eReferenceType.getEPackage() == ecorePackage && !"EObject".equals(eReferenceType.getName()))
+                    {
+                      needsEcoreEditSupport = true;
+                      break LOOP;
+                    }
+                  }
+                }
+              }
+              // Modify the Ecore package's GenPackage's model to indicate whether Ecore provides edit support.
+              //
+              genPackage.getGenModel().setEditDirectory(needsEcoreEditSupport ? "/org.eclipse.emf.edit.ecore/src" : "");
+              break;
+            }
+          }
+        }
       }
       resource.getContents().addAll(jvmInferrer.inferElements(genModel));
       if (!preLinkingPhase)

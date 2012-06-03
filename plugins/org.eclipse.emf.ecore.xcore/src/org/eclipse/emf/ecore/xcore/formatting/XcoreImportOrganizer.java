@@ -27,11 +27,13 @@ import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.emf.ecore.xcore.conversion.XcoreValueConverterService;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvider;
 import org.eclipse.emf.ecore.xcore.util.XcoreUtil;
 import org.eclipse.xtext.Assignment;
 import org.eclipse.xtext.CrossReference;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
+import org.eclipse.xtext.conversion.IValueConverter;
 import org.eclipse.xtext.formatting.IWhitespaceInformationProvider;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
@@ -57,6 +59,9 @@ public class XcoreImportOrganizer
 
   @Inject
   private IQualifiedNameConverter nameConverter;
+
+  @Inject
+  private XcoreValueConverterService valueConverterService;
 
   private Map<String, QualifiedName> implicitAliases;
 
@@ -144,9 +149,11 @@ public class XcoreImportOrganizer
     if (!importedNames.isEmpty())
     {
       importsSection.append(lineSeparator);
+      IValueConverter<String> qualifiedNameValueConverter = valueConverterService.getQualifiedNameValueConverter();
       for (QualifiedName qualifiedName : importedNames)
       {
-        importsSection.append(lineSeparator).append("import ").append(nameConverter.toString(qualifiedName));
+        String qualifiedNameValue = qualifiedNameValueConverter.toString(nameConverter.toString(qualifiedName));
+        importsSection.append(lineSeparator).append("import ").append(qualifiedNameValue);
       }
     }
     return importsSection.toString();
