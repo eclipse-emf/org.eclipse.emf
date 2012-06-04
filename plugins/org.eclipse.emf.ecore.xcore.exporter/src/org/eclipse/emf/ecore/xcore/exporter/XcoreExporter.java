@@ -18,8 +18,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
@@ -43,6 +41,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XGenericType;
 import org.eclipse.emf.ecore.xcore.XImportDirective;
@@ -56,13 +56,11 @@ import org.eclipse.emf.ecore.xcore.util.EcoreXcoreBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelInitializer;
 import org.eclipse.emf.exporter.ModelExporter;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.SaveOptions;
-import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.IScopeProvider;
 
@@ -141,9 +139,7 @@ public class XcoreExporter extends ModelExporter
 
       // Create an appropriate resource set for Xcore models.
       //
-      XtextResourceSet resourceSet = new XtextResourceSet();
-      IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(genPackage.eResource().getURI().segment(1));
-      resourceSet.setClasspathURIContext(JavaCore.create(project));
+      ResourceSet resourceSet = new ResourceSetImpl();
       resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
 
       // Load a clone of the GenModel in the new resource set.

@@ -12,8 +12,6 @@ package org.eclipse.emf.ecore.xcore.importer;
 
 import java.util.List;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -31,20 +29,20 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.importer.ModelImporter;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.xtext.resource.XtextResourceSet;
 
 
 public class XcoreImporter extends ModelImporter
 {
-  protected XtextResourceSet xtextResourceSet;
+  protected ResourceSet resourceSet;
 
   public XcoreImporter()
   {
-    xtextResourceSet = new XtextResourceSet();
-    xtextResourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+    resourceSet = new XtextResourceSet();
+    resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
   }
 
   @Override
@@ -71,17 +69,14 @@ public class XcoreImporter extends ModelImporter
     }
     else
     {
-      xtextResourceSet.getResources().clear();
+      resourceSet.getResources().clear();
       monitor.beginTask("", 2);
       monitor.subTask(XcoreImporterPlugin.INSTANCE.getString("_UI_Loading_message", new Object []{ locationURIs }));
 
       for (URI locationURI : locationURIs)
       {
-        IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(locationURI.segment(1));
-        xtextResourceSet.setClasspathURIContext(JavaCore.create(project));
-
-        Resource inputResource = xtextResourceSet.getResource(locationURI, true);
-        EcoreUtil.resolveAll(xtextResourceSet);
+        Resource inputResource = resourceSet.getResource(locationURI, true);
+        EcoreUtil.resolveAll(resourceSet);
 
         GenModel genModel =   (GenModel)EcoreUtil.getObjectByType(inputResource.getContents(), GenModelPackage.Literals.GEN_MODEL);
         EPackage ePackage =   (EPackage)EcoreUtil.getObjectByType(inputResource.getContents(), EcorePackage.Literals.EPACKAGE);
@@ -152,7 +147,7 @@ public class XcoreImporter extends ModelImporter
     if (oldOriginalGenModel == null)
     {
       GenModel mainGenModel = getGenModel();
-      for (Resource xcoreResource : xtextResourceSet.getResources())
+      for (Resource xcoreResource : resourceSet.getResources())
       {
         GenModel genModel = (GenModel)EcoreUtil.getObjectByType(xcoreResource.getContents(), GenModelPackage.Literals.GEN_MODEL);
         if (genModel != null && EcoreUtil.getObjectByType(xcoreResource.getContents(), EcorePackage.Literals.EPACKAGE) == null)
