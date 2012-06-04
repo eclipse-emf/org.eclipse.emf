@@ -117,7 +117,7 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
                   for (EReference eReference : eClass.getEAllReferences())
                   {
                     EClass eReferenceType = eReference.getEReferenceType();
-                    if (eReferenceType.getEPackage() == ecorePackage && !"EObject".equals(eReferenceType.getName()))
+                    if (eReferenceType != null && eReferenceType.getEPackage() == ecorePackage && !"EObject".equals(eReferenceType.getName()))
                     {
                       needsEcoreEditSupport = true;
                       break LOOP;

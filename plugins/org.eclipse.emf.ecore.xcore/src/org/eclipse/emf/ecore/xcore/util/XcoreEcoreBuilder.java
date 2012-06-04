@@ -313,32 +313,45 @@ public class XcoreEcoreBuilder
       ? getEEnum((XEnum)xClassifier) : getEDataType((XDataType)xClassifier);
     handleAnnotations(xClassifier, eClassifier);
     eClassifier.setName(nonNullName(xClassifier.getName()));
-    instanceTypeRunnables.add
-      (new Runnable()
-       {
-         public void run()
+
+    // Test if there is an instance type name but avoid resolving proxies.
+    //
+    if (xClassifier.eIsSet(XcorePackage.Literals.XCLASSIFIER__INSTANCE_TYPE))
+    {
+      if (eClassifier instanceof EClass)
+      {
+        // For classes that wrap interfaces, it's important the instance type name isn't null when the XcoreJvmInferrer infers whether to generate an interface,
+        // so set a dummy result earlier and allow it to be updated later.
+        //
+        eClassifier.setInstanceTypeName("java.lang.Cloneable");
+      }
+      instanceTypeRunnables.add
+        (new Runnable()
          {
-           JvmTypeReference instanceType = xClassifier.getInstanceType();
-           if (instanceType != null)
+           public void run()
            {
-             String instanceTypeName = instanceType.getIdentifier();
-              String normalizedInstanceTypeName = EcoreUtil.toJavaInstanceTypeName((EGenericType)EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName).getData().get(0));
-              eClassifier.setInstanceTypeName(normalizedInstanceTypeName);
-              if (classLoader != null && eClassifier instanceof EClassifierImpl)
-              {
-                try
-                {
-                  Class<?> instanceClass = classLoader.loadClass(eClassifier.getInstanceClassName());
-                  ((EClassifierImpl)eClassifier).setInstanceClassGen(instanceClass);
-                }
-                catch (Throwable throwable)
-                {
-                  // Ignore.
-                }
-              }
+             JvmTypeReference instanceType = xClassifier.getInstanceType();
+             if (instanceType != null)
+             {
+               String instanceTypeName = instanceType.getIdentifier();
+               String normalizedInstanceTypeName = EcoreUtil.toJavaInstanceTypeName((EGenericType)EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName).getData().get(0));
+               eClassifier.setInstanceTypeName(normalizedInstanceTypeName);
+               if (classLoader != null && eClassifier instanceof EClassifierImpl)
+               {
+                 try
+                 {
+                   Class<?> instanceClass = classLoader.loadClass(eClassifier.getInstanceClassName());
+                   ((EClassifierImpl)eClassifier).setInstanceClassGen(instanceClass);
+                 }
+                 catch (Throwable throwable)
+                 {
+                   // Ignore.
+                 }
+               }
+             }
            }
-         }
-       });
+         });
+    }
     for (XTypeParameter xTypeParameter : xClassifier.getTypeParameters())
     {
       ETypeParameter eTypeParameter = getETypeParameter(xTypeParameter);

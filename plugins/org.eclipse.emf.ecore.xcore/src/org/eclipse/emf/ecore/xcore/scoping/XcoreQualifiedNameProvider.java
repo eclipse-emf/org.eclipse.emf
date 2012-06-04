@@ -10,11 +10,13 @@ package org.eclipse.emf.ecore.xcore.scoping;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.mappings.ToXcoreMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
+import org.eclipse.xtext.common.types.JvmConstructor;
 import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
@@ -47,6 +49,17 @@ public class XcoreQualifiedNameProvider extends DefaultDeclarativeQualifiedNameP
       {
         return null;
       }
+    }
+    else if (eObject instanceof GenTypeParameter)
+    {
+      String name = ((GenTypeParameter)eObject).getName();
+      return name == null ? null : nameConverter.toQualifiedName(name);
+    }
+    else if (eObject instanceof JvmConstructor)
+    {
+      JvmConstructor constructor = (JvmConstructor)eObject;
+      String typeName = constructor.getQualifiedName();
+      return typeName == null ? null : nameConverter.toQualifiedName(typeName);
     }
     else if (eObject instanceof JvmType)
     {

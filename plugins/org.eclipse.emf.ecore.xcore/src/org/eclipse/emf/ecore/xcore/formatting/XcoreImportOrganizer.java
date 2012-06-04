@@ -192,7 +192,7 @@ public class XcoreImportOrganizer
               !(eCrossReference instanceof JvmDeclaredType && implicitPackageImports.contains(((JvmDeclaredType)eCrossReference).getPackageName())))
           {
             QualifiedName fullyQualifiedName = nameProvider.getFullyQualifiedName(eCrossReference);
-            if (!actualQualifiedName.equals(fullyQualifiedName) && !fullyQualifiedName.equals(implicitAliases.get(name)))
+            if (fullyQualifiedName != null && !actualQualifiedName.equals(fullyQualifiedName) && !fullyQualifiedName.equals(implicitAliases.get(name)))
             {
               importedNames.add(fullyQualifiedName);
             }
