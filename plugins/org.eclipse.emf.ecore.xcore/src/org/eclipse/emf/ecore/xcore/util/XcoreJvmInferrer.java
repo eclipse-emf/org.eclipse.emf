@@ -2160,16 +2160,23 @@ public class XcoreJvmInferrer
 
   protected JvmTypeReference getJvmTypeReference(GenClassifier genClassifier)
   {
-    String instanceTypeName;
-    if (genClassifier instanceof GenClass)
+    if (genClassifier == null)
     {
-      instanceTypeName = ((GenClass)genClassifier).getQualifiedInterfaceName();
+      return null;
     }
     else
     {
-      instanceTypeName = ((GenDataType)genClassifier).getQualifiedInstanceClassName();
+      String instanceTypeName;
+      if (genClassifier instanceof GenClass)
+      {
+        instanceTypeName = ((GenClass)genClassifier).getQualifiedInterfaceName();
+      }
+      else
+      {
+        instanceTypeName = ((GenDataType)genClassifier).getQualifiedInstanceClassName();
+      }
+      return getJvmTypeReference(instanceTypeName, genClassifier);
     }
-    return getJvmTypeReference(instanceTypeName, genClassifier);
   }
 
   protected List<JvmTypeReference> getJvmTypeReferences(List<EGenericType> eGenericTypes, EObject context)
@@ -2279,9 +2286,13 @@ public class XcoreJvmInferrer
           ETypeParameter eTypeParameter = genTypeParameter.getEcoreTypeParameter();
           for (EGenericType eBound : eTypeParameter.getEBounds())
           {
-            JvmUpperBound jvmUpperBound = TypesFactory.eINSTANCE.createJvmUpperBound();
-            jvmUpperBound.setTypeReference(getJvmTypeReference(eBound, genTypeParameter));
-            constraints.add(jvmUpperBound);
+            JvmTypeReference jvmTypeReference = getJvmTypeReference(eBound, genTypeParameter);
+            if (!(jvmTypeReference instanceof JvmWildcardTypeReference))
+            {
+              JvmUpperBound jvmUpperBound = TypesFactory.eINSTANCE.createJvmUpperBound();
+              jvmUpperBound.setTypeReference(jvmTypeReference);
+              constraints.add(jvmUpperBound);
+            }
           }
           return jvmTypeParameter;
         }
