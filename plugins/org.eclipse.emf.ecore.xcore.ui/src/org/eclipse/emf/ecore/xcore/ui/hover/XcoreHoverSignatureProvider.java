@@ -140,7 +140,14 @@ public class XcoreHoverSignatureProvider extends XbaseDeclarativeHoverSignatureP
   @Override
   protected String _signature(JvmFormalParameter parameter, boolean typeAtEnd)
   {
-    return super._signature(parameter, typeAtEnd);
+    EObject eContainer = parameter.eContainer();
+    String name = parameter.getName();
+    String eContainerSignature = internalGetSignature(eContainer, typeAtEnd);
+    if (eContainerSignature != null)
+    {
+      name += JavaElementLabels.CONCAT_STRING + eContainerSignature;
+    }
+    return name;
   }
 
   @Override

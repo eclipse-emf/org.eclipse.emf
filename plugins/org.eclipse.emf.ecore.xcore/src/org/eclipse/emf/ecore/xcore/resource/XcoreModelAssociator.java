@@ -194,8 +194,8 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
 
   public Set<EObject> getSourceElements(EObject eObject)
   {
-    EObject xcoreElement = eObject.eClass().getEPackage() == TypesPackage.eINSTANCE ? mapper.getXcoreElement(eObject) : null;
-    return xcoreElement == null ? Collections.<EObject>emptySet() : Collections.singleton(eObject);
+    EObject xcoreElement = mapper.getXcoreElement(eObject);
+    return xcoreElement == null || xcoreElement == eObject ? Collections.<EObject>emptySet() : Collections.singleton(eObject);
   }
 
   public EObject getPrimarySourceElement(EObject eObject)
