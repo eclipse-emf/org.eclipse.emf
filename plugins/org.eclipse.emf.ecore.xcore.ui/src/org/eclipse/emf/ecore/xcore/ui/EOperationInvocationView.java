@@ -1,10 +1,10 @@
 /**
- * Copyright (c) 2010-2012 Hallvard Traetteberg.
+ * Copyright (c) 2010-2012 Hallvard Traetteberg
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Hallvard Traetteberg - initial API and implementation
  */
@@ -49,7 +49,6 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 
 public class EOperationInvocationView extends AbstractSelectionView
 {
-
   @Override
   public void dispose()
   {
@@ -69,14 +68,13 @@ public class EOperationInvocationView extends AbstractSelectionView
     return (EObject)this.selection;
   }
 
-  private final static String nullItem = "<No EOperations available>";
+  private final static String NO_OPERATIONS = "<No EOperations available>";
 
   private static class EOperationInvocation extends ChangeCommand
   {
+    private EOperation operation;
 
-    private EOperation operation = null;
-
-    private EObject argumentsInstance = null;
+    private EObject argumentsInstance;
 
     private Collection<?> affectedObjects;
 
@@ -206,7 +204,7 @@ public class EOperationInvocationView extends AbstractSelectionView
         item += ",";
       }
       EClassifier type = param.getEType();
-      item += type.getName() + (param.isMany() ? '*' : 0) + " " + param.getName();
+      item += type.getName() + (param.isMany() ? "* " : " ") + param.getName();
     }
     item += ")";
     return item;
@@ -242,7 +240,7 @@ public class EOperationInvocationView extends AbstractSelectionView
       }
       else
       {
-        operationsCombo.setText(nullItem);
+        operationsCombo.setText(NO_OPERATIONS);
       }
       operationsCombo.setData(eClass);
     }
@@ -388,7 +386,7 @@ public class EOperationInvocationView extends AbstractSelectionView
     parent.setLayout(new GridLayout(2, false));
 
     operationsCombo = new Combo(parent, SWT.READ_ONLY | SWT.DROP_DOWN);
-    operationsCombo.setText(nullItem);
+    operationsCombo.setText(NO_OPERATIONS);
     operationsCombo.addSelectionListener(new SelectionAdapter()
       {
         @Override
