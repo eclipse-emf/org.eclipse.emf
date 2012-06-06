@@ -17,7 +17,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -27,7 +26,8 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyURIConverter;
-import org.eclipse.xtext.common.types.JvmType;
+import org.eclipse.xtext.common.types.JvmDeclaredType;
+import org.eclipse.xtext.common.types.JvmMember;
 import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -102,6 +102,16 @@ public class XcoreResource extends XbaseResource
         for (EClassifier eClassifier : ((EPackage)eObject).getEClassifiers())
         {
           buildEntry(eClassifier);
+        }
+      }
+      else if (eObject instanceof JvmDeclaredType)
+      {
+        for (JvmMember jvmMember : ((JvmDeclaredType)eObject).getMembers())
+        {
+          if (jvmMember instanceof JvmDeclaredType)
+          {
+            buildEntry(jvmMember);
+          }
         }
       }
     }
