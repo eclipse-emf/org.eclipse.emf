@@ -1906,10 +1906,13 @@ public class XcoreJvmInferrer
                 @Override
                 public void inferName()
                 {
-                  inferredElement.setName("new" + genFeature.getCapName());
+                  inferredElement.setName(isImplementation ? "new" + genFeature.getCapName() : "value");
                 }
               };
-            associate(genFeature, valueParameterInferrefer);
+            if (isImplementation)
+            {
+              associate(genFeature, valueParameterInferrefer);
+            }
             jvmOperation.getParameters().add(valueParameterInferrefer.getInferredElement());
             return jvmOperation;
           }
