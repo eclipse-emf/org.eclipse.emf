@@ -7,11 +7,13 @@
  */
 package org.eclipse.emf.ecore.xcore.ui.editor;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
+import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -24,6 +26,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -42,6 +45,7 @@ import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess;
 import org.eclipse.emf.ecore.xcore.ui.quickfix.XcoreQuickfixProvider;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelInitializer;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -112,7 +116,6 @@ public class XcoreEditor extends XtextEditor
       return super.getAdapter(type);
     }
   }
-
 
   public IPropertySheetPage getPropertySheetPage()
   {
@@ -228,7 +231,26 @@ public class XcoreEditor extends XtextEditor
             //
             Object newValue = eObject.eGet(eStructuralFeature);
             Object defaultValue = clonedEObject.eGet(eStructuralFeature);
-            return newValue == null ? defaultValue == null : newValue.equals(defaultValue);
+            return
+              newValue == null ?
+                defaultValue == null :
+                newValue instanceof GenFeature  && defaultValue instanceof GenFeature ?
+                  ((GenFeature)newValue).getEcoreFeature() == ((GenFeature)defaultValue).getEcoreFeature() :
+                  newValue.equals(defaultValue);
+          }
+
+          protected String getValue(EObject eObject, EStructuralFeature eStructuralFeature)
+          {
+            EClassifier eType = eStructuralFeature.getEType();
+            Object value = eObject.eGet(eStructuralFeature);
+            @SuppressWarnings("unchecked")
+            String literal =
+              eType instanceof EDataType ?
+                eStructuralFeature.isMany() ?
+                  XMLTypeFactory.eINSTANCE.convertENTITIESBase((List<String>)value) :
+                  EcoreUtil.convertToString((EDataType)eType, value) :
+                ((GenFeature)value).getName();
+            return valueConverterService.toString(literal, "STRING");
           }
 
           @Override
@@ -238,6 +260,7 @@ public class XcoreEditor extends XtextEditor
             //
             final Resource resource = resourceSet.getResources().get(0);
             final GenModel genModel = (GenModel)EcoreUtil.getObjectByType(resource.getContents(), GenModelPackage.Literals.GEN_MODEL);
+            final List<Notification> notifications = new ArrayList<Notification>();
             final EContentAdapter eContentAdatper =
               new EContentAdapter()
               {
@@ -245,7 +268,8 @@ public class XcoreEditor extends XtextEditor
                 public void notifyChanged(final Notification notification)
                 {
                   super.notifyChanged(notification);
-                  if (notification.getEventType() == Notification.REMOVING_ADAPTER)
+                  int eventType = notification.getEventType();
+                  if (eventType == Notification.REMOVING_ADAPTER)
                   {
                     // If we are removing the adapters from the GenModel, because it's unloaded when a new GenModel is inferred...
                     //
@@ -271,233 +295,242 @@ public class XcoreEditor extends XtextEditor
                          });
                     }
                   }
-                  else if (!notification.isTouch() &&  notification.getNotifier() instanceof EObject)
+                  else if (!notification.isTouch() && notification.getNotifier() instanceof EObject)
                   {
-                    // For the feature of the object that's changed, process the new contents of the feature.
+                    // Record the notifications.
                     //
-                    document.modify
-                      (new IUnitOfWork.Void<XtextResource>()
-                       {
-                         @Override
-                         public void process(XtextResource state) throws Exception
-                         {
-                           // Determine the object and feature that are changed.
-                           //
-                           EObject eObject = (EObject)notification.getNotifier();
-                           EStructuralFeature eStructuralFeature = (EStructuralFeature)notification.getFeature();
-                           String name = eStructuralFeature.getName();
-
-                           // Determine the affected Xcore element.
-                           //
-                           ToXcoreMapping xcoreMapping = mapper.getToXcoreMapping(eObject);
-                           XNamedElement xNamedElement = xcoreMapping.getXcoreElement();
-                           if (xNamedElement == null && eObject instanceof GenModel)
-                           {
-                             xNamedElement = (XPackage)resource.getContents().get(0);
-                           }
-                           if (xNamedElement != null)
-                           {
-                             // Determine the nodes affected for the element,  i.e.,
-                             // the node for the element as a whole,
-                             // the node for the annotation,
-                             // the node for the detail entry,
-                             // and the node for the value in the detail entry.
-                             //
-                             ICompositeNode elementNode = NodeModelUtils.getNode(xNamedElement);
-                             ICompositeNode annotationNode = null;
-                             ICompositeNode detailNode = null;
-                             List<INode> valueNodes = null;
-
-                             // Determine if there is already an annotation for the GenModel's annotation URI.
-                             //
-                             XAnnotation xAnnotation = xNamedElement.getAnnotation(GenModelPackage.eNS_URI);
-                             if (xAnnotation != null)
-                             {
-                               // If there is, get the node for that.
-                               //
-                               annotationNode = NodeModelUtils.getNode(xAnnotation);
-
-                               // Determine if there is a detail entry for the affected feature.
-                               //
-                               for (Map.Entry<String, String> detail : xAnnotation.getDetails())
-                               {
-                                 if (name.equals(detail.getKey()))
-                                 {
-                                   // If there is a matching key, determine the overall node for it and the node for the value.
-                                   //
-                                   detailNode = NodeModelUtils.findActualNodeFor((EObject)detail);
-                                   valueNodes = NodeModelUtils.findNodesForFeature((EObject)detail, XcorePackage.Literals.XSTRING_TO_STRING_MAP_ENTRY__VALUE);
-                                   break;
-                                 }
-                               }
-                             }
-                             // If we found a node for the element...
-                             //
-                             if (elementNode != null)
-                             {
-                               // If there doesn't yet exist an annotation node.
-                               //
-                               if (annotationNode == null)
-                               {
-                                 // Insert a new annotation with the key/value mapping on a new line before the element node.
-                                 //
-                                 int offset = elementNode.getOffset();
-
-                                 // Match the indentation of the element.
-                                 //
-                                 int line = document.getLineOfOffset(offset);
-                                 String lineDelimiter = document.getLineDelimiter(line);
-                                 int lineOffset = document.getLineOffset(line);
-                                 String indentation = document.get(lineOffset, offset - lineOffset);
-                                 int length = indentation.length();
-                                 StringBuilder newIndentation = new StringBuilder(length);
-                                 for (int i = 0; i < length; ++i)
-                                 {
-                                   int codePoint = indentation.codePointAt(i);
-                                   newIndentation.appendCodePoint(Character.isSpaceChar(codePoint) ? codePoint : ' ');
-                                 }
-
-                                 String string = valueConverterService.toString(EcoreUtil.convertToString((EDataType)eStructuralFeature.getEType(), eObject.eGet(eStructuralFeature)), "STRING");
-                                 document.replace(lineOffset, 0, newIndentation + "@GenModel(" + name + "=" + string + ")" + lineDelimiter);
-                               }
-                               // If there is a node for the old value...
-                               //
-                               else if (valueNodes != null)
-                               {
-                                 // If the feature isn't set to the default, and there is a node for the detail entry, we want to remove the node...
-                                 //
-                                 if (detailNode != null && isDefault(genModel, eObject, eStructuralFeature))
-                                 {
-                                   // Cache the grammar rules we'll need to match.
-                                   //
-                                   Keyword comma = xcoreGrammarAccess.getXAnnotationAccess().getCommaKeyword_2_2_0();
-                                   Keyword leftParenthesis = xcoreGrammarAccess.getXAnnotationAccess().getLeftParenthesisKeyword_2_0();
-                                   Keyword rightParenthesis = xcoreGrammarAccess.getXAnnotationAccess().getRightParenthesisKeyword_2_3();
-
-                                   // Compute the locations of the surrounding mark-up, i.e.,
-                                   // the left parenthesis of the annotation,
-                                   // the comma before the detail entry,
-                                   // the start of the next entry,
-                                   // and the right parenthesis.
-                                   //
-                                   int leftParenthesisOffset = -1;
-                                   int commaOffset = -1;
-                                   int nextDetailNodeOffset = -1;
-                                   int rightParenthesisOffset = -1;
-
-                                   // This is set to true once we've iterated past the detail entry.
-                                   //
-                                   boolean matched = false;
-                                   for (INode child : detailNode.getParent().getChildren())
-                                   {
-                                     EObject grammarElement = child.getGrammarElement();
-                                     if (matched)
-                                     {
-                                       if (grammarElement == rightParenthesis)
-                                       {
-                                         rightParenthesisOffset = child.getOffset();
-                                         break;
-                                       }
-                                       else if (NodeModelUtils.findActualSemanticObjectFor(child) instanceof Map.Entry)
-                                       {
-                                         nextDetailNodeOffset = child.getOffset();
-                                         break;
-                                       }
-                                     }
-                                     else if (child == detailNode)
-                                     {
-                                       matched = true;
-                                     }
-                                     else if (grammarElement == leftParenthesis)
-                                     {
-                                       leftParenthesisOffset = child.getOffset();
-                                     }
-                                     else if (grammarElement == comma)
-                                     {
-                                       commaOffset = child.getOffset();
-                                     }
-                                   }
-
-                                   if (commaOffset != -1)
-                                   {
-                                     if (rightParenthesisOffset != -1)
-                                     {
-                                       // @GenModel(a="x", b="y", c="z")
-                                       //                       ^      ^
-                                       //
-                                       document.replace(commaOffset, rightParenthesisOffset - commaOffset, "");
-                                     }
-                                     else // if (nextDetailNodeOffset != -1)
-                                     {
-                                       // @GenModel(a="x", b="y", c="z")
-                                       //                 ^       ^
-                                       //
-                                       document.replace(commaOffset + 1, nextDetailNodeOffset - commaOffset - 1, " ");
-                                     }
-                                   }
-                                   else  // if (leftParenthesisOffset != -1)
-                                   {
-                                     if (rightParenthesisOffset != -1)
-                                     {
-                                       // @GenModel(a="x")
-                                       //          ^     ^
-                                       //
-                                       // document.replace(leftParenthesisOffset, rightParenthesisOffset - leftParenthesisOffset + 1, "");
-                                       XcoreQuickfixProvider.RemovalRegion removalRegion = new XcoreQuickfixProvider.RemovalRegion(document, xAnnotation);
-                                       document.replace(removalRegion.getDeleteBegin(), removalRegion.getDeleteEnd() - removalRegion.getDeleteBegin(), "");
-                                       
-                                     }
-                                     else // if (nextDetailNodeOffset != -1)
-                                     {
-                                       // @GenModel(a="x", b="y", c="z")
-                                       //           ^      ^
-                                       //
-                                       document.replace(leftParenthesisOffset + 1, nextDetailNodeOffset - leftParenthesisOffset - 1, "");
-                                     }
-                                   }
-                                 }
-                                 else
-                                 {
-                                   // Replace the old value with the new value.
-                                   // @GenModel(a="x")
-                                   //             ^ ^
-                                   //
-                                   INode valueNode = valueNodes.get(0);
-                                   String string = valueConverterService.toString(EcoreUtil.convertToString((EDataType)eStructuralFeature.getEType(), eObject.eGet(eStructuralFeature)), "STRING");
-                                   document.replace(valueNode.getOffset(), valueNode.getLength(), string);
-                                 }
-                               }
-                               // If this is the first detail entry...
-                               //
-                               else if (xAnnotation != null && xAnnotation.getDetails().isEmpty())
-                               {
-                                 // Add the key/value mapping with new parentheses.
-                                 // @GenModel
-                                 //          ^
-                                 //
-                                 int offset = annotationNode.getOffset() + annotationNode.getLength();
-                                 String string = valueConverterService.toString(EcoreUtil.convertToString((EDataType)eStructuralFeature.getEType(), eObject.eGet(eStructuralFeature)), "STRING");
-                                 document.replace(offset, 0, "(" + name + "=" + string + ")");
-                               }
-                               // Otherwise, we just need to add a new key/value mapping to the end of the list.
-                               // @GenModel(a="x")
-                               //                ^
-                               //
-                               else
-                               {
-                                 int offset = annotationNode.getOffset() + annotationNode.getLength() - 1;
-                                 String string = valueConverterService.toString(EcoreUtil.convertToString((EDataType)eStructuralFeature.getEType(), eObject.eGet(eStructuralFeature)), "STRING");
-                                 document.replace(offset, 0, ", " + name + "=" + string);
-                               }
-                             }
-                           }
-                         }
-                       });
+                    notifications.add(0, notification);
                   }
                 }
               };
             genModel.eAdapters().add(eContentAdatper);
+
+            // Execute the command, recording notifications so they can be processed after the command is complete.
+            //
             super.execute(command);
+            
+            // Process the deferred notifications.
+            //
+            if (!notifications.isEmpty())
+            {
+              final Notification notification = notifications.get(0);
+              
+              // For the feature of the object that's changed, process the new contents of the feature.
+              //
+              document.modify
+                (new IUnitOfWork.Void<XtextResource>()
+                 {
+                   @Override
+                   public void process(XtextResource state) throws Exception
+                   {
+                     // Determine the object and feature that are changed.
+                     //
+                     EObject eObject = (EObject)notification.getNotifier();
+                     EStructuralFeature eStructuralFeature = (EStructuralFeature)notification.getFeature();
+                     String name = eStructuralFeature.getName();
+
+                     // Determine the affected Xcore element.
+                     //
+                     ToXcoreMapping xcoreMapping = mapper.getToXcoreMapping(eObject);
+                     XNamedElement xNamedElement = xcoreMapping.getXcoreElement();
+                     if (xNamedElement == null && eObject instanceof GenModel)
+                     {
+                       xNamedElement = (XPackage)resource.getContents().get(0);
+                     }
+                     if (xNamedElement != null)
+                     {
+                       // Determine the nodes affected for the element,  i.e.,
+                       // the node for the element as a whole,
+                       // the node for the annotation,
+                       // the node for the detail entry,
+                       // and the node for the value in the detail entry.
+                       //
+                       ICompositeNode elementNode = NodeModelUtils.getNode(xNamedElement);
+                       ICompositeNode annotationNode = null;
+                       ICompositeNode detailNode = null;
+                       List<INode> valueNodes = null;
+
+                       // Determine if there is already an annotation for the GenModel's annotation URI.
+                       //
+                       XAnnotation xAnnotation = xNamedElement.getAnnotation(GenModelPackage.eNS_URI);
+                       if (xAnnotation != null)
+                       {
+                         // If there is, get the node for that.
+                         //
+                         annotationNode = NodeModelUtils.getNode(xAnnotation);
+
+                         // Determine if there is a detail entry for the affected feature.
+                         //
+                         for (Map.Entry<String, String> detail : xAnnotation.getDetails())
+                         {
+                           if (name.equals(detail.getKey()))
+                           {
+                             // If there is a matching key, determine the overall node for it and the node for the value.
+                             //
+                             detailNode = NodeModelUtils.findActualNodeFor((EObject)detail);
+                             valueNodes = NodeModelUtils.findNodesForFeature((EObject)detail, XcorePackage.Literals.XSTRING_TO_STRING_MAP_ENTRY__VALUE);
+                             break;
+                           }
+                         }
+                       }
+                       // If we found a node for the element...
+                       //
+                       if (elementNode != null)
+                       {
+                         // If there doesn't yet exist an annotation node.
+                         //
+                         if (annotationNode == null)
+                         {
+                           // Insert a new annotation with the key/value mapping on a new line before the element node.
+                           //
+                           int offset = elementNode.getOffset();
+
+                           // Match the indentation of the element.
+                           //
+                           int line = document.getLineOfOffset(offset);
+                           String lineDelimiter = document.getLineDelimiter(line);
+                           int lineOffset = document.getLineOffset(line);
+                           String indentation = document.get(lineOffset, offset - lineOffset);
+                           int length = indentation.length();
+                           StringBuilder newIndentation = new StringBuilder(length);
+                           for (int i = 0; i < length; ++i)
+                           {
+                             int codePoint = indentation.codePointAt(i);
+                             newIndentation.appendCodePoint(Character.isSpaceChar(codePoint) ? codePoint : ' ');
+                           }
+
+                           document.replace(lineOffset, 0, newIndentation + "@GenModel(" + name + "=" + getValue(eObject, eStructuralFeature) + ")" + lineDelimiter);
+                         }
+                         // If there is a node for the old value...
+                         //
+                         else if (valueNodes != null)
+                         {
+                           // If the feature isn't set to the default, and there is a node for the detail entry, we want to remove the node...
+                           //
+                           if (detailNode != null && isDefault(genModel, eObject, eStructuralFeature))
+                           {
+                             // Cache the grammar rules we'll need to match.
+                             //
+                             Keyword comma = xcoreGrammarAccess.getXAnnotationAccess().getCommaKeyword_2_2_0();
+                             Keyword leftParenthesis = xcoreGrammarAccess.getXAnnotationAccess().getLeftParenthesisKeyword_2_0();
+                             Keyword rightParenthesis = xcoreGrammarAccess.getXAnnotationAccess().getRightParenthesisKeyword_2_3();
+
+                             // Compute the locations of the surrounding mark-up, i.e.,
+                             // the left parenthesis of the annotation,
+                             // the comma before the detail entry,
+                             // the start of the next entry,
+                             // and the right parenthesis.
+                             //
+                             int leftParenthesisOffset = -1;
+                             int commaOffset = -1;
+                             int nextDetailNodeOffset = -1;
+                             int rightParenthesisOffset = -1;
+
+                             // This is set to true once we've iterated past the detail entry.
+                             //
+                             boolean matched = false;
+                             for (INode child : detailNode.getParent().getChildren())
+                             {
+                               EObject grammarElement = child.getGrammarElement();
+                               if (matched)
+                               {
+                                 if (grammarElement == rightParenthesis)
+                                 {
+                                   rightParenthesisOffset = child.getOffset();
+                                   break;
+                                 }
+                                 else if (NodeModelUtils.findActualSemanticObjectFor(child) instanceof Map.Entry)
+                                 {
+                                   nextDetailNodeOffset = child.getOffset();
+                                   break;
+                                 }
+                               }
+                               else if (child == detailNode)
+                               {
+                                 matched = true;
+                               }
+                               else if (grammarElement == leftParenthesis)
+                               {
+                                 leftParenthesisOffset = child.getOffset();
+                               }
+                               else if (grammarElement == comma)
+                               {
+                                 commaOffset = child.getOffset();
+                               }
+                             }
+
+                             if (commaOffset != -1)
+                             {
+                               if (rightParenthesisOffset != -1)
+                               {
+                                 // @GenModel(a="x", b="y", c="z")
+                                 //                       ^      ^
+                                 //
+                                 document.replace(commaOffset, rightParenthesisOffset - commaOffset, "");
+                               }
+                               else // if (nextDetailNodeOffset != -1)
+                               {
+                                 // @GenModel(a="x", b="y", c="z")
+                                 //                 ^       ^
+                                 //
+                                 document.replace(commaOffset + 1, nextDetailNodeOffset - commaOffset - 1, " ");
+                               }
+                             }
+                             else  // if (leftParenthesisOffset != -1)
+                             {
+                               if (rightParenthesisOffset != -1)
+                               {
+                                 // @GenModel(a="x")
+                                 //          ^     ^
+                                 //
+                                 // document.replace(leftParenthesisOffset, rightParenthesisOffset - leftParenthesisOffset + 1, "");
+                                 XcoreQuickfixProvider.RemovalRegion removalRegion = new XcoreQuickfixProvider.RemovalRegion(document, xAnnotation);
+                                 document.replace(removalRegion.getDeleteBegin(), removalRegion.getDeleteEnd() - removalRegion.getDeleteBegin(), "");
+                               }
+                               else // if (nextDetailNodeOffset != -1)
+                               {
+                                 // @GenModel(a="x", b="y", c="z")
+                                 //           ^      ^
+                                 //
+                                 document.replace(leftParenthesisOffset + 1, nextDetailNodeOffset - leftParenthesisOffset - 1, "");
+                               }
+                             }
+                           }
+                           else
+                           {
+                             // Replace the old value with the new value.
+                             // @GenModel(a="x")
+                             //             ^ ^
+                             //
+                             INode valueNode = valueNodes.get(0);
+                             document.replace(valueNode.getOffset(), valueNode.getLength(), getValue(eObject, eStructuralFeature));
+                           }
+                         }
+                         // If this is the first detail entry...
+                         //
+                         else if (xAnnotation != null && xAnnotation.getDetails().isEmpty())
+                         {
+                           // Add the key/value mapping with new parentheses.
+                           // @GenModel
+                           //          ^
+                           //
+                           int offset = annotationNode.getOffset() + annotationNode.getLength();
+                           document.replace(offset, 0, "(" + name + "=" + getValue(eObject, eStructuralFeature) + ")");
+                         }
+                         // Otherwise, we just need to add a new key/value mapping to the end of the list.
+                         // @GenModel(a="x")
+                         //                ^
+                         //
+                         else
+                         {
+                           int offset = annotationNode.getOffset() + annotationNode.getLength() - 1;
+                           document.replace(offset, 0, ", " + name + "=" + getValue(eObject, eStructuralFeature));
+                         }
+                       }
+                     }
+                   }
+                 });
+            }
           }
         };
 

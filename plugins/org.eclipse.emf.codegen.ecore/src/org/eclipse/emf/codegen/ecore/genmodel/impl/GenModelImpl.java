@@ -88,6 +88,7 @@ import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EValidator;
@@ -107,6 +108,7 @@ import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
@@ -9566,13 +9568,23 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       for (Map.Entry<String, String> entry : eAnnotation.getDetails())
       {
         EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(entry.getKey());
+        String literal = entry.getValue();
         if (eStructuralFeature instanceof EAttribute)
         {
           EAttribute eAttribute = (EAttribute)eStructuralFeature;
           Object value = null;
           try
           {
-            value = EcoreUtil.createFromString(eAttribute.getEAttributeType(), entry.getValue());
+            if (eAttribute.isMany())
+            {
+              List<String> list = XMLTypeFactory.eINSTANCE.createENTITIESBase(literal);
+              list.remove("");
+              value = list;
+            }
+            else
+            {
+              value = EcoreUtil.createFromString(eAttribute.getEAttributeType(), literal);
+            }
           }
           catch (Exception exception)
           {
@@ -9583,6 +9595,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           if (value != null)
           {
             genBase.eSet(eStructuralFeature, value);
+          }
+        }
+        else if (eStructuralFeature instanceof EReference)
+        {
+          for (GenFeature genFeature : ((GenClass)genBase).getAllGenFeatures())
+          {
+            if (literal.equals(genFeature.getName()))
+            {
+              genBase.eSet(eStructuralFeature, genFeature);
+              break;
+            }
           }
         }
       }

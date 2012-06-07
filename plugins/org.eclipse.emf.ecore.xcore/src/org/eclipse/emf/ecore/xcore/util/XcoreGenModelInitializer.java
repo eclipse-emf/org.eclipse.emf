@@ -25,12 +25,12 @@ public class XcoreGenModelInitializer
     genModel.setEditorDirectory("");
     genModel.setTestsDirectory("");
 
-    genModel.initialize(handleAnnotations);
-
     EList<String> modelPluginVariables = genModel.getModelPluginVariables();
     if (!modelPluginVariables.contains(XBASE_LIB))
     {
       modelPluginVariables.add(XBASE_LIB);
     }
+
+    genModel.initialize(handleAnnotations);
   }
 }
