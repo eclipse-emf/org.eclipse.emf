@@ -9,6 +9,7 @@ package org.eclipse.emf.ecore.xcore.resource;
 
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
@@ -38,6 +39,7 @@ import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.xbase.resource.XbaseResource;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 
@@ -51,6 +53,8 @@ public class XcoreResource extends XbaseResource
 
   @Inject
   private IScopeProvider scopeProvider;
+
+  private LinkedHashSet<Pair<EClass, QualifiedName>> resolving = Sets.newLinkedHashSet();
 
   protected class FragmentCache extends AdapterImpl
   {
@@ -163,7 +167,17 @@ public class XcoreResource extends XbaseResource
       Pair<EClass, QualifiedName> fragmentInfo = proxyConverter.decodeFragment(uriFragment);
       if (fragmentInfo != null)
       {
-        return findEObject(fragmentInfo.getFirst(), fragmentInfo.getSecond(), uriFragment);
+        try
+        {
+          return
+            resolving.add(fragmentInfo) ?
+              findEObject(fragmentInfo.getFirst(), fragmentInfo.getSecond(), uriFragment) :
+              null;
+        }
+        finally
+        {
+          resolving.remove(fragmentInfo);
+        }
       }
       else
       {
@@ -177,14 +191,14 @@ public class XcoreResource extends XbaseResource
    */
   protected EObject findEObject(EClass eClass, QualifiedName name, String uriFragment)
   {
-    if (eClass == TypesPackage.Literals.JVM_TYPE || 
-        eClass == GenModelPackage.Literals.GEN_CLASS || 
-        eClass == GenModelPackage.Literals.GEN_DATA_TYPE || 
+    if (eClass == TypesPackage.Literals.JVM_TYPE ||
+        eClass == GenModelPackage.Literals.GEN_CLASS ||
+        eClass == GenModelPackage.Literals.GEN_DATA_TYPE ||
         eClass == GenModelPackage.Literals.GEN_ENUM)
     {
-      IScope scope = 
+      IScope scope =
         scopeProvider.getScope
-          (getContents().get(0), 
+          (getContents().get(0),
             eClass == TypesPackage.Literals.JVM_TYPE ?
              TypesPackage.Literals.JVM_PARAMETERIZED_TYPE_REFERENCE__TYPE :
              XcorePackage.Literals.XGENERIC_TYPE__TYPE);
