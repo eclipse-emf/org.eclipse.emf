@@ -1340,14 +1340,16 @@ public class XcoreJvmInferrer
   protected List<? extends JvmDeclaredType> getDeclaredTypes(GenClass genClass)
   {
     ArrayList<JvmDeclaredType> result = new ArrayList<JvmDeclaredType>();
-    if (!genClass.isExternalInterface() && (!genClass.getGenModel().isSuppressInterfaces() || genClass.isInterface()))
+    boolean isSuppressInterfaces = genClass.getGenModel().isSuppressInterfaces();
+    boolean isInterface = genClass.isInterface();
+    if (!genClass.isExternalInterface() && (!isSuppressInterfaces || isInterface))
     {
       JvmGenericType jvmGenericType = getDeclaredType(genClass, true, false);
       result.add(jvmGenericType);
     }
-    if (!genClass.isExternalInterface() && (genClass.getGenModel().isSuppressInterfaces() || !genClass.isInterface()))
+    if (!isInterface)
     {
-      JvmGenericType jvmGenericType = getDeclaredType(genClass, false, true);
+      JvmGenericType jvmGenericType = getDeclaredType(genClass, isSuppressInterfaces, true);
       result.add(jvmGenericType);
     }
     return result;

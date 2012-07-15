@@ -428,10 +428,9 @@ public class XcoreEcoreBuilder
       invocationDelegate.initialize(body, eOperation, interpreter);
       ((EOperation.Internal)eOperation).setInvocationDelegate(invocationDelegate);
 
-      //      EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-      //      eAnnotation.setSource(EcorePackage.eNS_URI);
-      //      eAnnotation.getReferences().add(body);
-      //      eOperation.getEAnnotations().add(eAnnotation);
+      // Set a body annotation so that GenOperation.hasBody will return true.
+      //
+      EcoreUtil.setAnnotation(eOperation, GenModelPackage.eNS_URI, "body", "");
     }
     return eOperation;
   }
