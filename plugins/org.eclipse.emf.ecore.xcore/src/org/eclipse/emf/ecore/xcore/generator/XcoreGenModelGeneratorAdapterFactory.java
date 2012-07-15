@@ -21,6 +21,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.generator.GenPackageGeneratorAdapt
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.generator.IFileSystemAccess;
+import org.eclipse.xtext.generator.IFileSystemAccessExtension2;
 
 
 public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapterFactory
@@ -39,6 +40,7 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
 
   private IFileSystemAccess fsa;
   private URI modelDirectory;
+  private Boolean isDefaultOutput;
 
   public void setFileSystemAccess(IFileSystemAccess fsa)
   {
@@ -50,31 +52,63 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
     this.modelDirectory =  !modelDirectory.hasTrailingPathSeparator() ? modelDirectory.appendSegment("") : modelDirectory;
   }
 
+  private boolean isDefaultOutput()
+  {
+    if (isDefaultOutput == null)
+    {
+      if (fsa instanceof IFileSystemAccessExtension2)
+      {
+        URI uri = ((IFileSystemAccessExtension2)fsa).getURI(".");
+        if (uri.isPlatformResource())
+        {
+          String path = uri.toPlatformString(true) + "/";
+          if (path.equals(modelDirectory.toString()))
+          {
+            return isDefaultOutput = Boolean.TRUE;
+          }
+        }
+        return isDefaultOutput = Boolean.FALSE;
+      }
+      else
+      {
+        return isDefaultOutput = Boolean.TRUE;
+      }
+    }
+    return isDefaultOutput;
+  }
+
   protected OutputStream createOutputStream(URI workspacePath)
   {
-    final URI targetFile = workspacePath.replacePrefix(modelDirectory, ROOT);
-    if (targetFile == null)
+    if (!isDefaultOutput())
     {
       return null;
     }
     else
     {
-      return
-        new ByteArrayOutputStream()
-        {
-          @Override
-          public void close() throws IOException
+      final URI targetFile = workspacePath.replacePrefix(modelDirectory, ROOT);
+      if (targetFile == null)
+      {
+        return null;
+      }
+      else
+      {
+        return
+          new ByteArrayOutputStream()
           {
-            fsa.generateFile(targetFile.toString(), new String(this.toByteArray()));
-            super.close();
-          }
-        };
+            @Override
+            public void close() throws IOException
+            {
+              fsa.generateFile(targetFile.toString(), new String(this.toByteArray()));
+              super.close();
+            }
+          };
+      }
     }
   }
 
   protected void inputStreamRequest(URI workspacePath)
   {
-    if (fsa instanceof FileSystemReadAccess)
+    if (isDefaultOutput() && fsa instanceof FileSystemReadAccess)
     {
       final URI targetFile = workspacePath.replacePrefix(modelDirectory, ROOT);
       if (targetFile != null)
