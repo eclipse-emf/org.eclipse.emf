@@ -18,6 +18,11 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
@@ -63,6 +68,7 @@ import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.SaveOptions;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.IScopeProvider;
+import org.eclipse.xtext.ui.XtextProjectHelper;
 
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
@@ -136,6 +142,24 @@ public class XcoreExporter extends ModelExporter
     {
       GenPackage genPackage = entry.getKey();
       URI xcoreLocationURI = entry.getValue();
+
+      // Add the Xtext nature if it's absent.
+      //
+      IFile xcoreFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(xcoreLocationURI.toPlatformString(true)));
+      final IProject xcoreProject = xcoreFile.getProject();
+      if (xcoreProject.isAccessible())
+      {
+        if (!xcoreProject.hasNature(XtextProjectHelper.NATURE_ID))
+        {
+          IProjectDescription description = xcoreProject.getDescription();
+          String[] natures = description.getNatureIds();
+          String[] newNatures = new String[natures.length + 1];
+          System.arraycopy(natures, 0, newNatures, 0, natures.length);
+          newNatures[natures.length] = XtextProjectHelper.NATURE_ID;
+          description.setNatureIds(newNatures);
+          xcoreProject.setDescription(description, null);
+        }
+      }
 
       // Create an appropriate resource set for Xcore models.
       //
