@@ -18,6 +18,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
@@ -189,10 +190,11 @@ public class XcoreEcoreBuilder
       ePackage.setNsPrefix(ePackage.getName());
     }
 
+    EList<EClassifier> eClassifiers = ePackage.getEClassifiers();
     for (XClassifier xClassifier : xPackage.getClassifiers())
     {
       EClassifier eClassifier = getEClassifier(xClassifier);
-      ePackage.getEClassifiers().add(eClassifier);
+      eClassifiers.add(eClassifier);
     }
 
     for (XAnnotationDirective xAnnotationDirective : xPackage.getAnnotationDirectives())
@@ -260,6 +262,7 @@ public class XcoreEcoreBuilder
        {
          public void run()
          {
+           EList<EAnnotation> eAnnotations = eModelElement.getEAnnotations();
            for (XAnnotation xAnnotation : xModelElement.getAnnotations())
            {
              //      map(eAnnotation, xAnnotation);
@@ -276,7 +279,7 @@ public class XcoreEcoreBuilder
              {
                EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
                eAnnotation.setSource(sourceURI);
-               eModelElement.getEAnnotations().add(eAnnotation);
+               eAnnotations.add(eAnnotation);
              }
              else
              {
@@ -352,11 +355,6 @@ public class XcoreEcoreBuilder
            }
          });
     }
-    for (XTypeParameter xTypeParameter : xClassifier.getTypeParameters())
-    {
-      ETypeParameter eTypeParameter = getETypeParameter(xTypeParameter);
-      eClassifier.getETypeParameters().add(eTypeParameter);
-    }
     return eClassifier;
   }
 
@@ -374,26 +372,35 @@ public class XcoreEcoreBuilder
     {
       eClass.setAbstract(true);
     }
+    EList<EGenericType> eGenericSuperTypes = eClass.getEGenericSuperTypes();
     for (XGenericType superType : xClass.getSuperTypes())
     {
-      eClass.getEGenericSuperTypes().add(getEGenericType(superType));
+      eGenericSuperTypes.add(getEGenericType(superType));
     }
+    EList<ETypeParameter> eTypeParameters = eClass.getETypeParameters();
+    for (XTypeParameter xTypeParameter : xClass.getTypeParameters())
+    {
+      ETypeParameter eTypeParameter = getETypeParameter(xTypeParameter);
+      eTypeParameters.add(eTypeParameter);
+    }
+    EList<EOperation> eOperations = eClass.getEOperations();
+    EList<EStructuralFeature> eStructuralFeatures = eClass.getEStructuralFeatures();
     for (XMember xMember : xClass.getMembers())
     {
       if (xMember instanceof XOperation)
       {
         EOperation eOperation = getEOperation((XOperation)xMember);
-        eClass.getEOperations().add(eOperation);
+        eOperations.add(eOperation);
       }
       else if (xMember instanceof XReference)
       {
         EReference eReference = getEReference((XReference)xMember);
-        eClass.getEStructuralFeatures().add(eReference);
+        eStructuralFeatures.add(eReference);
       }
       else
       {
         EAttribute eAttribute = getEAttribute((XAttribute)xMember);
-        eClass.getEStructuralFeatures().add(eAttribute);
+        eStructuralFeatures.add(eAttribute);
       }
     }
     return eClass;
@@ -406,15 +413,17 @@ public class XcoreEcoreBuilder
     mapper.getToXcoreMapping(eOperation).setXcoreElement(xOperation);
     eOperation.setUnique(false);
     handleETypedElement(eOperation, xOperation);
+    EList<ETypeParameter> eTypeParameters = eOperation.getETypeParameters();
     for (XTypeParameter xTypeParameter : xOperation.getTypeParameters())
     {
       ETypeParameter eTypeParameter = getETypeParameter(xTypeParameter);
-      eOperation.getETypeParameters().add(eTypeParameter);
+      eTypeParameters.add(eTypeParameter);
     }
+    EList<EParameter> eParameters = eOperation.getEParameters();
     for (XParameter xParameter : xOperation.getParameters())
     {
       EParameter eParameter = getEParameter(xParameter);
-      eOperation.getEParameters().add(eParameter);
+      eParameters.add(eParameter);
     }
     for (XGenericType exception : xOperation.getExceptions())
     {
@@ -452,9 +461,10 @@ public class XcoreEcoreBuilder
     mapper.getToXcoreMapping(eTypeParameter).setXcoreElement(xTypeParameter);
     handleAnnotations(xTypeParameter, eTypeParameter);
     eTypeParameter.setName(nonNullName(xTypeParameter.getName()));
+    EList<EGenericType> eBounds = eTypeParameter.getEBounds();
     for (XGenericType xGenericType : xTypeParameter.getBounds())
     {
-      eTypeParameter.getEBounds().add(getEGenericType(xGenericType));
+      eBounds.add(getEGenericType(xGenericType));
     }
     return eTypeParameter;
   }
@@ -539,9 +549,10 @@ public class XcoreEcoreBuilder
       {
         eGenericType.setEUpperBound(getEGenericType(upperBound));
       }
+      EList<EGenericType> eTypeArguments = eGenericType.getETypeArguments();
       for (XGenericType typeArgument : xGenericType.getTypeArguments())
       {
-        eGenericType.getETypeArguments().add(getEGenericType(typeArgument));
+        eTypeArguments.add(getEGenericType(typeArgument));
       }
 
       runnables.add(new Runnable()
@@ -674,6 +685,12 @@ public class XcoreEcoreBuilder
     EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
     mapper.getMapping(xDataType).setEDataType(eDataType);
     mapper.getToXcoreMapping(eDataType).setXcoreElement(xDataType);
+    EList<ETypeParameter> eTypeParameters = eDataType.getETypeParameters();
+    for (XTypeParameter xTypeParameter : xDataType.getTypeParameters())
+    {
+      ETypeParameter eTypeParameter = getETypeParameter(xTypeParameter);
+      eTypeParameters.add(eTypeParameter);
+    }
     XBlockExpression createBody = xDataType.getCreateBody();
     if (createBody != null)
     {
@@ -689,9 +706,10 @@ public class XcoreEcoreBuilder
     EEnum eEnum = EcoreFactory.eINSTANCE.createEEnum();
     mapper.getMapping(xEnum).setEDataType(eEnum);
     mapper.getToXcoreMapping(eEnum).setXcoreElement(xEnum);
+    EList<EEnumLiteral> eLiterals = eEnum.getELiterals();
     for (XEnumLiteral xEnumLiteral : xEnum.getLiterals())
     {
-      eEnum.getELiterals().add(getEEnumLiteral(xEnumLiteral));
+      eLiterals.add(getEEnumLiteral(xEnumLiteral));
     }
     return eEnum;
   }

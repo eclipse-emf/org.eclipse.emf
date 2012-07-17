@@ -19,8 +19,12 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XDataType;
 import org.eclipse.emf.ecore.xcore.XGenericType;
@@ -154,6 +158,20 @@ public class XcoreScopeProvider extends XbaseScopeProvider
               if (type != null)
               {
                 GenBase genType = type.getType();
+                if (genType instanceof GenTypeParameter)
+                {
+                  GenTypeParameter genTypeParameter = (GenTypeParameter)genType;
+                  ETypeParameter eTypeParameter = genTypeParameter.getEcoreTypeParameter();
+                  for (EGenericType eGenericType : eTypeParameter.getEBounds())
+                  {
+                    EClassifier eRawType = eGenericType.getERawType();
+                    if (eRawType instanceof EClass)
+                    {
+                      genType = genType.getGenModel().findGenClassifier(eRawType);
+                      break;
+                    }
+                  }
+                }
                 if (genType instanceof GenClass)
                 {
                   GenClass genClass = (GenClass)genType;
