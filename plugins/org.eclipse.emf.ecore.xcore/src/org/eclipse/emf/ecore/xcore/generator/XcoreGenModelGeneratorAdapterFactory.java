@@ -66,13 +66,13 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
           {
             return isDefaultOutput = Boolean.TRUE;
           }
+          else
+          {
+            return isDefaultOutput = Boolean.FALSE;
+          }
         }
-        return isDefaultOutput = Boolean.FALSE;
       }
-      else
-      {
-        return isDefaultOutput = Boolean.TRUE;
-      }
+      return isDefaultOutput = Boolean.TRUE;
     }
     return isDefaultOutput;
   }
