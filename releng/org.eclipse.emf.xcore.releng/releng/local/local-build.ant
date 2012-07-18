@@ -71,7 +71,7 @@
 	          Use this target if any TP dependencies are changed                    
 	         - - - - - - - - - - - - - - - - - -->
 	<target name="reset.target-platform">
-		<delete includeemptydirs="true" verbose="false">
+		<delete includeemptydirs="true" verbose="false" failonerror="false">
 			<fileset dir="${build.root}" defaultexcludes="false">
 				<include name="**/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/" />
 				<include name="**/target.platform/" />
