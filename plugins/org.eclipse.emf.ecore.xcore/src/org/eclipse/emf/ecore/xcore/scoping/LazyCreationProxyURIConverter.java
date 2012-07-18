@@ -14,7 +14,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
@@ -34,16 +33,12 @@ public class LazyCreationProxyURIConverter
 
   private Map<String, EClass> types = newHashMap();
   {
-    EClass ePackage = EcorePackage.Literals.EPACKAGE;
-    EClass eclass = EcorePackage.Literals.ECLASS;
     EClass genClass = GenModelPackage.Literals.GEN_CLASS;
     EClass genDatatype = GenModelPackage.Literals.GEN_DATA_TYPE;
     EClass genEnum = GenModelPackage.Literals.GEN_ENUM;
     EClass jvmGenericType = TypesPackage.Literals.JVM_GENERIC_TYPE;
     EClass jvmEnumerationType = TypesPackage.Literals.JVM_ENUMERATION_TYPE;
     EClass jvmType = TypesPackage.Literals.JVM_TYPE;
-    types.put(ePackage.getName(), ePackage);
-    types.put(eclass.getName(), eclass);
     types.put(genClass.getName(), genClass);
     types.put(genDatatype.getName(), genDatatype);
     types.put(genEnum.getName(), genEnum);
@@ -116,10 +111,6 @@ public class LazyCreationProxyURIConverter
       if (types.containsKey(eClassName))
       {
         EClass eClass = types.get(eClassName);
-        if (eClass == EcorePackage.Literals.EPACKAGE)
-        {
-          name = QualifiedName.create(segments[1]);
-        }
         return Tuples.create(eClass, name);
       }
     }

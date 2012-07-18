@@ -42,7 +42,7 @@ public class ResourceDescriptionManagerTest
   @Test
   public void testCreateResourceDescription() throws Exception
   {
-    XPackage xcorePackage = parser.parse("package foo.bar class Baz {}");
+    XPackage xcorePackage = parser.parse("@Ecore(nsURI='http://foo.bar')package foo.bar class Baz {}");
     IResourceDescription resourceDescription = descriptionManager.getResourceDescription(xcorePackage.eResource());
 
     Iterator<IEObjectDescription> eclass = resourceDescription.getExportedObjectsByType(EcorePackage.Literals.ECLASS).iterator();
@@ -50,10 +50,12 @@ public class ResourceDescriptionManagerTest
     Iterator<IEObjectDescription> jvmTypes = resourceDescription.getExportedObjectsByType(TypesPackage.Literals.JVM_GENERIC_TYPE).iterator();
     final String expected = "foo.bar.Baz";
     assertEquals(expected, eclass.next().getName().toString());
+    assertEquals("http://foo.bar.Baz", eclass.next().getName().toString());
     assertFalse(eclass.hasNext());
     assertEquals(expected, genclass.next().getName().toString());
     assertFalse(genclass.hasNext());
     assertEquals("foo.bar.BarPackage", jvmTypes.next().getName().toString());
+    assertEquals("foo.bar.BarPackage$Literals", jvmTypes.next().getName().toString());
     assertEquals("foo.bar.impl.BarPackageImpl", jvmTypes.next().getName().toString());
     assertEquals("foo.bar.BarFactory", jvmTypes.next().getName().toString());
     assertEquals("foo.bar.impl.BarFactoryImpl", jvmTypes.next().getName().toString());
