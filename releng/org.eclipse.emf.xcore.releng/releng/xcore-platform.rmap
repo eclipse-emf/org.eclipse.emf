@@ -42,46 +42,26 @@
 		</rm:provider>
 		<rm:provider componentTypes="eclipse.feature,osgi.bundle"
 			readerType="p2" source="false" mutable="false"
-			resolutionFilter="(build.type=S)">
-			<rm:uri format="{0}/milestones">
-				<bc:propertyRef key="xtext.p2.repository" />
-			</rm:uri>
-		</rm:provider>
-		<rm:provider componentTypes="eclipse.feature,osgi.bundle"
-			readerType="p2" source="false" mutable="false"
-			resolutionFilter="(build.type=R)">
+			resolutionFilter="((|(build.type=S)(build.type=R)))">
 			<rm:uri format="{0}/milestones">
 				<bc:propertyRef key="xtext.p2.repository" />
 			</rm:uri>
 		</rm:provider>
 	</rm:searchPath>
 	
+	<!-- Best practice! -->
 	<rm:searchPath name="emf">
 		<rm:provider componentTypes="eclipse.feature,osgi.bundle"
 			readerType="p2" source="false" mutable="false"
-			resolutionFilter="(!(|(build.type=I)(build.type=S)(build.type=R)))">
+			resolutionFilter="(!(|(build.type=S)(build.type=R)))">
 			<rm:uri format="{0}">
 				<bc:propertyRef key="hudson.emf.p2.repository" />
 			</rm:uri>
 		</rm:provider>
 		<rm:provider componentTypes="eclipse.feature,osgi.bundle"
 			readerType="p2" source="false" mutable="false"
-			resolutionFilter="(build.type=I)">
-			<rm:uri format="{0}/2.8-I-builds">
-				<bc:propertyRef key="emf.p2.repository" />
-			</rm:uri>
-		</rm:provider>
-		<rm:provider componentTypes="eclipse.feature,osgi.bundle"
-			readerType="p2" source="false" mutable="false"
-			resolutionFilter="(build.type=S)">
-			<rm:uri format="{0}/2.8milestones">
-				<bc:propertyRef key="emf.p2.repository" />
-			</rm:uri>
-		</rm:provider>
-		<rm:provider componentTypes="eclipse.feature,osgi.bundle"
-			readerType="p2" source="false" mutable="false"
-			resolutionFilter="(build.type=R)">
-			<rm:uri format="{0}/2.8milestones">
+			resolutionFilter="(|(build.type=S)(build.type=R))">
+			<rm:uri format="{0}/2.9milestones">
 				<bc:propertyRef key="emf.p2.repository" />
 			</rm:uri>
 		</rm:provider>
