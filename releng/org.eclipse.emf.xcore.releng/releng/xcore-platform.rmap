@@ -42,7 +42,7 @@
 		</rm:provider>
 		<rm:provider componentTypes="eclipse.feature,osgi.bundle"
 			readerType="p2" source="false" mutable="false"
-			resolutionFilter="((|(build.type=S)(build.type=R)))">
+			resolutionFilter="(|(build.type=S)(build.type=R))">
 			<rm:uri format="{0}/milestones">
 				<bc:propertyRef key="xtext.p2.repository" />
 			</rm:uri>
