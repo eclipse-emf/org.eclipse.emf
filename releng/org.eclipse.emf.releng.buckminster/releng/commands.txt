@@ -3,7 +3,7 @@ importproxysettings
 setpref complianceLevel=1.5
 setpref targetPlatformPath="${WORKSPACE}/buildroot/target.platform"
 
-# Import all but rap.sdk cause it has a bad dependency to eclipse 3.8
+# Import all but rap.sdk cause it has a bad dependency to eclipse 4.3
 import --properties "${WORKSPACE}/buildroot/build.properties" -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true  -Dwithout.rap=true "${checkout.location}org.eclipse.emf.releng.buckminster/releng/emf-all.mspec"
 # Import sources produced by the EMF Base build into the target platform
 import --properties "${WORKSPACE}/buildroot/build.properties" -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true "${checkout.location}org.eclipse.emf.releng.buckminster/releng/emf-platform.base.sources.cquery"
@@ -22,7 +22,7 @@ junit --launch "org.eclipse.emf.test.examples/Test EMF Examples.launch" --flatXM
 perform --properties "${WORKSPACE}/buildroot/build.properties" "org.eclipse.emf.all#jar.contents"
 perform --properties "${WORKSPACE}/buildroot/build.properties" "org.eclipse.emf.gwt.sdk#jar.contents"
 
-# Import rap.sdk now, eclipse 3.8 will be imported in the TP too
+# Import rap.sdk now, eclipse 4.3 will be imported in the TP too
 import --properties "${WORKSPACE}/buildroot/build.properties" -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true "${checkout.location}org.eclipse.emf.releng.buckminster/releng/rap/emf.rap.mspec"
 build
 
