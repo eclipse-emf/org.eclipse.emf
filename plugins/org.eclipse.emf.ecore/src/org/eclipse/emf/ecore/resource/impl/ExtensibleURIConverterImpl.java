@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -399,10 +399,8 @@ public class ExtensibleURIConverterImpl implements URIConverter
   public URI normalize(URI uri)
   {
     String fragment = uri.fragment();
-    URI result =
-      fragment == null ?
-        getInternalURIMap().getURI(uri) :
-        getInternalURIMap().getURI(uri.trimFragment()).appendFragment(fragment);
+    String query = uri.query();
+    URI result = getInternalURIMap().getURI(uri.trimFragment().trimQuery());
     String scheme = result.scheme();
     if (scheme == null)
     {
@@ -410,11 +408,7 @@ public class ExtensibleURIConverterImpl implements URIConverter
       {
         if (result.hasAbsolutePath())
         {
-          result = URI.createPlatformResourceURI(result.trimFragment().toString(), false);
-          if (fragment != null)
-          {
-            result = result.appendFragment(fragment);
-          }
+          result = URI.createPlatformResourceURI(result.toString(), false);
         }
       }
       else
@@ -425,15 +419,18 @@ public class ExtensibleURIConverterImpl implements URIConverter
         }
         else
         {
-          result = URI.createFileURI(new File(result.trimFragment().toString()).getAbsolutePath());
-          if (fragment != null)
-          {
-            result = result.appendFragment(fragment);
-          }
+          result = URI.createFileURI(new File(result.toString()).getAbsolutePath());
         }
       }
     }
-
+    if (fragment != null)
+    {
+      result = result.appendFragment(fragment);
+    }
+    if (query != null)
+    {
+      result = result.appendQuery(query);
+    }
     if (result.equals(uri))
     {
       return uri;
