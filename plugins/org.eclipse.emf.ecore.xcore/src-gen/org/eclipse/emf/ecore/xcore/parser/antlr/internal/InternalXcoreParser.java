@@ -13310,7 +13310,7 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleXUnaryOperation"
-    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4635:1: ruleXUnaryOperation returns [EObject current=null] : ( ( () ( ( ruleOpUnary ) ) ( (lv_operand_2_0= ruleXCastedExpression ) ) ) | this_XCastedExpression_3= ruleXCastedExpression ) ;
+    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4635:1: ruleXUnaryOperation returns [EObject current=null] : ( ( () ( ( ruleOpUnary ) ) ( (lv_operand_2_0= ruleXUnaryOperation ) ) ) | this_XCastedExpression_3= ruleXCastedExpression ) ;
     public final EObject ruleXUnaryOperation() throws RecognitionException {
         EObject current = null;
 
@@ -13322,10 +13322,10 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4638:28: ( ( ( () ( ( ruleOpUnary ) ) ( (lv_operand_2_0= ruleXCastedExpression ) ) ) | this_XCastedExpression_3= ruleXCastedExpression ) )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4639:1: ( ( () ( ( ruleOpUnary ) ) ( (lv_operand_2_0= ruleXCastedExpression ) ) ) | this_XCastedExpression_3= ruleXCastedExpression )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4638:28: ( ( ( () ( ( ruleOpUnary ) ) ( (lv_operand_2_0= ruleXUnaryOperation ) ) ) | this_XCastedExpression_3= ruleXCastedExpression ) )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4639:1: ( ( () ( ( ruleOpUnary ) ) ( (lv_operand_2_0= ruleXUnaryOperation ) ) ) | this_XCastedExpression_3= ruleXCastedExpression )
             {
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4639:1: ( ( () ( ( ruleOpUnary ) ) ( (lv_operand_2_0= ruleXCastedExpression ) ) ) | this_XCastedExpression_3= ruleXCastedExpression )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4639:1: ( ( () ( ( ruleOpUnary ) ) ( (lv_operand_2_0= ruleXUnaryOperation ) ) ) | this_XCastedExpression_3= ruleXCastedExpression )
             int alt96=2;
             int LA96_0 = input.LA(1);
 
@@ -13344,10 +13344,10 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
             }
             switch (alt96) {
                 case 1 :
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4639:2: ( () ( ( ruleOpUnary ) ) ( (lv_operand_2_0= ruleXCastedExpression ) ) )
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4639:2: ( () ( ( ruleOpUnary ) ) ( (lv_operand_2_0= ruleXUnaryOperation ) ) )
                     {
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4639:2: ( () ( ( ruleOpUnary ) ) ( (lv_operand_2_0= ruleXCastedExpression ) ) )
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4639:3: () ( ( ruleOpUnary ) ) ( (lv_operand_2_0= ruleXCastedExpression ) )
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4639:2: ( () ( ( ruleOpUnary ) ) ( (lv_operand_2_0= ruleXUnaryOperation ) ) )
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4639:3: () ( ( ruleOpUnary ) ) ( (lv_operand_2_0= ruleXUnaryOperation ) )
                     {
                     // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4639:3: ()
                     // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4640:5: 
@@ -13396,19 +13396,19 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4660:2: ( (lv_operand_2_0= ruleXCastedExpression ) )
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4661:1: (lv_operand_2_0= ruleXCastedExpression )
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4660:2: ( (lv_operand_2_0= ruleXUnaryOperation ) )
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4661:1: (lv_operand_2_0= ruleXUnaryOperation )
                     {
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4661:1: (lv_operand_2_0= ruleXCastedExpression )
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4662:3: lv_operand_2_0= ruleXCastedExpression
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4661:1: (lv_operand_2_0= ruleXUnaryOperation )
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:4662:3: lv_operand_2_0= ruleXUnaryOperation
                     {
                     if ( state.backtracking==0 ) {
                        
-                      	        newCompositeNode(grammarAccess.getXUnaryOperationAccess().getOperandXCastedExpressionParserRuleCall_0_2_0()); 
+                      	        newCompositeNode(grammarAccess.getXUnaryOperationAccess().getOperandXUnaryOperationParserRuleCall_0_2_0()); 
                       	    
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleXCastedExpression_in_ruleXUnaryOperation10919);
-                    lv_operand_2_0=ruleXCastedExpression();
+                    pushFollow(FollowSets000.FOLLOW_ruleXUnaryOperation_in_ruleXUnaryOperation10919);
+                    lv_operand_2_0=ruleXUnaryOperation();
 
                     state._fsp--;
                     if (state.failed) return current;
@@ -13421,7 +13421,7 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
                              			current, 
                              			"operand",
                               		lv_operand_2_0, 
-                              		"XCastedExpression");
+                              		"XUnaryOperation");
                       	        afterParserOrEnumRuleCall();
                       	    
                     }
@@ -26164,7 +26164,7 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
     static final String DFA88_acceptS =
         "\1\uffff\1\2\10\uffff\1\1";
     static final String DFA88_specialS =
-        "\2\uffff\1\7\1\4\1\1\1\0\1\6\1\5\1\3\1\2\1\uffff}>";
+        "\2\uffff\1\0\1\4\1\5\1\3\1\7\1\2\1\1\1\6\1\uffff}>";
     static final String[] DFA88_transitionS = {
             "\5\1\6\uffff\3\1\4\uffff\1\1\1\uffff\1\3\1\2\4\uffff\2\1\14"+
             "\uffff\5\1\12\uffff\1\1\1\uffff\2\1\1\5\14\1\1\4\1\6\1\7\1\10"+
@@ -26218,10 +26218,10 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA88_5 = input.LA(1);
+                        int LA88_2 = input.LA(1);
 
                          
-                        int index88_5 = input.index();
+                        int index88_2 = input.index();
                         input.rewind();
                         s = -1;
                         if ( (synpred8_InternalXcore()) ) {s = 10;}
@@ -26229,40 +26229,10 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
                         else if ( (true) ) {s = 1;}
 
                          
-                        input.seek(index88_5);
+                        input.seek(index88_2);
                         if ( s>=0 ) return s;
                         break;
                     case 1 : 
-                        int LA88_4 = input.LA(1);
-
-                         
-                        int index88_4 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred8_InternalXcore()) ) {s = 10;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index88_4);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 2 : 
-                        int LA88_9 = input.LA(1);
-
-                         
-                        int index88_9 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred8_InternalXcore()) ) {s = 10;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index88_9);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 3 : 
                         int LA88_8 = input.LA(1);
 
                          
@@ -26275,6 +26245,36 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
 
                          
                         input.seek(index88_8);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 2 : 
+                        int LA88_7 = input.LA(1);
+
+                         
+                        int index88_7 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred8_InternalXcore()) ) {s = 10;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index88_7);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 3 : 
+                        int LA88_5 = input.LA(1);
+
+                         
+                        int index88_5 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred8_InternalXcore()) ) {s = 10;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index88_5);
                         if ( s>=0 ) return s;
                         break;
                     case 4 : 
@@ -26293,10 +26293,10 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
                         if ( s>=0 ) return s;
                         break;
                     case 5 : 
-                        int LA88_7 = input.LA(1);
+                        int LA88_4 = input.LA(1);
 
                          
-                        int index88_7 = input.index();
+                        int index88_4 = input.index();
                         input.rewind();
                         s = -1;
                         if ( (synpred8_InternalXcore()) ) {s = 10;}
@@ -26304,10 +26304,25 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
                         else if ( (true) ) {s = 1;}
 
                          
-                        input.seek(index88_7);
+                        input.seek(index88_4);
                         if ( s>=0 ) return s;
                         break;
                     case 6 : 
+                        int LA88_9 = input.LA(1);
+
+                         
+                        int index88_9 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred8_InternalXcore()) ) {s = 10;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index88_9);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 7 : 
                         int LA88_6 = input.LA(1);
 
                          
@@ -26320,21 +26335,6 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
 
                          
                         input.seek(index88_6);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 7 : 
-                        int LA88_2 = input.LA(1);
-
-                         
-                        int index88_2 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred8_InternalXcore()) ) {s = 10;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index88_2);
                         if ( s>=0 ) return s;
                         break;
             }
@@ -27182,7 +27182,7 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
     static final String DFA118_acceptS =
         "\1\uffff\1\1\7\uffff\1\2";
     static final String DFA118_specialS =
-        "\3\uffff\1\3\1\2\1\1\1\0\1\5\1\4\1\uffff}>";
+        "\3\uffff\1\3\1\2\1\0\1\1\1\4\1\5\1\uffff}>";
     static final String[] DFA118_transitionS = {
             "\5\1\6\uffff\1\2\10\uffff\1\1\5\uffff\1\1\15\uffff\5\1\12\uffff"+
             "\1\1\2\uffff\1\1\3\uffff\1\1\16\uffff\1\1\3\uffff\1\1\3\uffff"+
@@ -27244,21 +27244,6 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA118_6 = input.LA(1);
-
-                         
-                        int index118_6 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (LA118_6==15||(LA118_6>=17 && LA118_6<=18)||LA118_6==22||(LA118_6>=24 && LA118_6<=25)||LA118_6==59||(LA118_6>=61 && LA118_6<=63)||(LA118_6>=67 && LA118_6<=84)||(LA118_6>=86 && LA118_6<=87)||LA118_6==100) ) {s = 1;}
-
-                        else if ( (LA118_6==92) && (synpred25_InternalXcore())) {s = 9;}
-
-                         
-                        input.seek(index118_6);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 1 : 
                         int LA118_5 = input.LA(1);
 
                          
@@ -27271,6 +27256,21 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
 
                          
                         input.seek(index118_5);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 1 : 
+                        int LA118_6 = input.LA(1);
+
+                         
+                        int index118_6 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (LA118_6==15||(LA118_6>=17 && LA118_6<=18)||LA118_6==22||(LA118_6>=24 && LA118_6<=25)||LA118_6==59||(LA118_6>=61 && LA118_6<=63)||(LA118_6>=67 && LA118_6<=84)||(LA118_6>=86 && LA118_6<=87)||LA118_6==100) ) {s = 1;}
+
+                        else if ( (LA118_6==92) && (synpred25_InternalXcore())) {s = 9;}
+
+                         
+                        input.seek(index118_6);
                         if ( s>=0 ) return s;
                         break;
                     case 2 : 
@@ -27304,6 +27304,21 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
                         if ( s>=0 ) return s;
                         break;
                     case 4 : 
+                        int LA118_7 = input.LA(1);
+
+                         
+                        int index118_7 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (LA118_7==92) && (synpred25_InternalXcore())) {s = 9;}
+
+                        else if ( (LA118_7==15||(LA118_7>=17 && LA118_7<=18)||LA118_7==22||(LA118_7>=24 && LA118_7<=25)||LA118_7==59||(LA118_7>=61 && LA118_7<=63)||(LA118_7>=67 && LA118_7<=84)||(LA118_7>=86 && LA118_7<=87)||LA118_7==100) ) {s = 1;}
+
+                         
+                        input.seek(index118_7);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 5 : 
                         int LA118_8 = input.LA(1);
 
                          
@@ -27316,21 +27331,6 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
 
                          
                         input.seek(index118_8);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 5 : 
-                        int LA118_7 = input.LA(1);
-
-                         
-                        int index118_7 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (LA118_7==15||(LA118_7>=17 && LA118_7<=18)||LA118_7==22||(LA118_7>=24 && LA118_7<=25)||LA118_7==59||(LA118_7>=61 && LA118_7<=63)||(LA118_7>=67 && LA118_7<=84)||(LA118_7>=86 && LA118_7<=87)||LA118_7==100) ) {s = 1;}
-
-                        else if ( (LA118_7==92) && (synpred25_InternalXcore())) {s = 9;}
-
-                         
-                        input.seek(index118_7);
                         if ( s>=0 ) return s;
                         break;
             }
@@ -29336,7 +29336,7 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
     static final String DFA149_acceptS =
         "\1\uffff\1\2\7\uffff\1\1";
     static final String DFA149_specialS =
-        "\3\uffff\1\5\1\1\1\2\1\0\1\4\1\3\1\uffff}>";
+        "\3\uffff\1\3\1\1\1\2\1\4\1\0\1\5\1\uffff}>";
     static final String[] DFA149_transitionS = {
             "\5\1\5\uffff\14\1\1\uffff\10\1\11\uffff\5\1\12\uffff\1\1\1\uffff"+
             "\6\1\1\2\24\1\1\uffff\13\1\1\uffff\12\1",
@@ -29388,10 +29388,10 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA149_6 = input.LA(1);
+                        int LA149_7 = input.LA(1);
 
                          
-                        int index149_6 = input.index();
+                        int index149_7 = input.index();
                         input.rewind();
                         s = -1;
                         if ( (synpred38_InternalXcore()) ) {s = 9;}
@@ -29399,7 +29399,7 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
                         else if ( (true) ) {s = 1;}
 
                          
-                        input.seek(index149_6);
+                        input.seek(index149_7);
                         if ( s>=0 ) return s;
                         break;
                     case 1 : 
@@ -29433,36 +29433,6 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
                         if ( s>=0 ) return s;
                         break;
                     case 3 : 
-                        int LA149_8 = input.LA(1);
-
-                         
-                        int index149_8 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred38_InternalXcore()) ) {s = 9;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index149_8);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 4 : 
-                        int LA149_7 = input.LA(1);
-
-                         
-                        int index149_7 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred38_InternalXcore()) ) {s = 9;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index149_7);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 5 : 
                         int LA149_3 = input.LA(1);
 
                          
@@ -29475,6 +29445,36 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
 
                          
                         input.seek(index149_3);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 4 : 
+                        int LA149_6 = input.LA(1);
+
+                         
+                        int index149_6 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred38_InternalXcore()) ) {s = 9;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index149_6);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 5 : 
+                        int LA149_8 = input.LA(1);
+
+                         
+                        int index149_8 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred38_InternalXcore()) ) {s = 9;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index149_8);
                         if ( s>=0 ) return s;
                         break;
             }
@@ -30005,7 +30005,7 @@ public class InternalXcoreParser extends AbstractInternalAntlrParser {
         public static final BitSet FOLLOW_ruleXUnaryOperation_in_entryRuleXUnaryOperation10830 = new BitSet(new long[]{0x0000000000000000L});
         public static final BitSet FOLLOW_EOF_in_entryRuleXUnaryOperation10840 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleOpUnary_in_ruleXUnaryOperation10898 = new BitSet(new long[]{0x4801F000410081F0L,0x00001FEF8A220004L});
-        public static final BitSet FOLLOW_ruleXCastedExpression_in_ruleXUnaryOperation10919 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleXUnaryOperation_in_ruleXUnaryOperation10919 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleXCastedExpression_in_ruleXUnaryOperation10948 = new BitSet(new long[]{0x0000000000000002L});
         public static final BitSet FOLLOW_ruleOpUnary_in_entryRuleOpUnary10984 = new BitSet(new long[]{0x0000000000000000L});
         public static final BitSet FOLLOW_EOF_in_entryRuleOpUnary10995 = new BitSet(new long[]{0x0000000000000002L});

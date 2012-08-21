@@ -41,3 +41,4 @@ Export-Package: org.eclipse.emf.ecore.xcore,
  org.eclipse.emf.ecore.xcore.util,
  org.eclipse.emf.ecore.xcore.validation
 
+
