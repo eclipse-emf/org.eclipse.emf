@@ -11,13 +11,14 @@
 package org.eclipse.emf.ecore.impl;
 
 
+import com.google.gwt.regexp.shared.RegExp;
+import com.google.gwt.regexp.shared.SplitResult;
 import com.google.gwt.user.client.rpc.GwtTransient;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -738,11 +739,18 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     return XMLTypeUtil.normalize(value, true);
   }
 
-  private static final Pattern WHITE_SPACE = Pattern.compile("[ \t\n\r\f]+");
+  private static final RegExp WHITE_SPACE = RegExp.compile("[ \t\n\r\f]+");
 
   protected String [] split(String value)
   {
-    return WHITE_SPACE.split(value);
+    SplitResult split = WHITE_SPACE.split(value);
+    int length = split.length();
+    String [] result = new String [length];
+    for (int i = 0; i < length; ++i)
+    {
+      result[i] = split.get(i);
+    }
+    return result;
   }
 
   public interface InternalEDateTimeFormat
