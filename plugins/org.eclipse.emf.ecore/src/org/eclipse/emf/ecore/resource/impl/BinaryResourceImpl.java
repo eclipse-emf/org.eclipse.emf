@@ -976,7 +976,7 @@ public class BinaryResourceImpl extends ResourceImpl
           }
           case EOBJECT_CONTAINER_PROXY_RESOLVING:
           {
-            saveEObject((InternalEObject)value, Check.DIRECT_RESOURCE);
+            saveEObject((InternalEObject)value, Check.RESOURCE);
             break;
           }
           case EOBJECT_CONTAINMENT_PROXY_RESOLVING:
