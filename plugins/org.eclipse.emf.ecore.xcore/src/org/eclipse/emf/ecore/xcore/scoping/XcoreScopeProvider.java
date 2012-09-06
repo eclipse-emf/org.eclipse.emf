@@ -9,7 +9,6 @@ package org.eclipse.emf.ecore.xcore.scoping;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
@@ -26,30 +25,25 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.xcore.XClass;
-import org.eclipse.emf.ecore.xcore.XDataType;
 import org.eclipse.emf.ecore.xcore.XGenericType;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XReference;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
-import org.eclipse.emf.ecore.xcore.mappings.XDataTypeMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
-import org.eclipse.xtext.common.types.JvmFormalParameter;
-import org.eclipse.xtext.common.types.JvmOperation;
+import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractScope;
-import org.eclipse.xtext.scoping.impl.SimpleScope;
-import org.eclipse.xtext.xbase.XBlockExpression;
-import org.eclipse.xtext.xbase.scoping.LocalVariableScopeContext;
 import org.eclipse.xtext.xbase.scoping.XbaseScopeProvider;
+import org.eclipse.xtext.xbase.scoping.featurecalls.JvmFeatureScope;
+import org.eclipse.xtext.xbase.scoping.featurecalls.LocalVarDescription;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-
-import static com.google.common.collect.Lists.*;
 
 
 /**
@@ -68,58 +62,21 @@ public class XcoreScopeProvider extends XbaseScopeProvider
   private IQualifiedNameConverter qualifiedNameConverter;
 
   @Override
-  protected IScope createLocalVarScope(IScope parent, LocalVariableScopeContext scopeContext)
+  protected IScope createLocalVarScopeForJvmDeclaredType(JvmDeclaredType type, IScope parentScope)
   {
-    EObject context = scopeContext.getContext();
-    if (context instanceof XBlockExpression)
+    EList<JvmTypeReference> superTypes = type.getSuperTypes();
+    if (superTypes.isEmpty())
     {
-      EObject eContainer = context.eContainer();
-      if (eContainer instanceof XDataType)
-      {
-        XDataTypeMapping mapping = mapper.getMapping((XDataType)eContainer);
-        if (context.eContainmentFeature() == XcorePackage.Literals.XDATA_TYPE__CREATE_BODY)
-        {
-          JvmOperation creator = mapping.getCreator();
-          if (creator != null)
-          {
-            JvmFormalParameter parameter = creator.getParameters().get(0);
-            return createLocalScopeForParameter(parameter, parent);
-          }
-        }
-        else
-        // if (context.eContainmentFeature() == XcorePackage.Literals.XDATA_TYPE__CONVERT_BODY)
-        {
-          JvmOperation converter = mapping.getConverter();
-          if (converter != null)
-          {
-            JvmFormalParameter parameter = converter.getParameters().get(0);
-            return createLocalScopeForParameter(parameter, parent);
-          }
-        }
-      }
+      return new JvmFeatureScope(parentScope, "this", new LocalVarDescription(THIS, type));
     }
-    else if (context instanceof XClass)
+    else
     {
-      JvmDeclaredType jvmType = mapper.getMapping((XClass)context).getInterfaceType();
-      if (jvmType != null)
-      {
-        return new SimpleScope(parent, Collections.singleton(EObjectDescription.create(XbaseScopeProvider.THIS, jvmType)));
-      }
+      return
+        new JvmFeatureScope
+          (parentScope,
+           "this & super",
+           Lists.newArrayList( new LocalVarDescription(THIS, type),  new LocalVarDescription(SUPER, superTypes.get(0).getType())));
     }
-    else if (context instanceof XOperation)
-    {
-      List<IEObjectDescription> list = newArrayList();
-      JvmOperation op = mapper.getMapping((XOperation)context).getJvmOperation();
-      if (op != null)
-      {
-        for (JvmFormalParameter param : op.getParameters())
-        {
-          list.add(EObjectDescription.create(qualifiedNameConverter.toQualifiedName(param.getName()), param, null));
-        }
-        return super.createLocalVarScope(new SimpleScope(parent, list), scopeContext);
-      }
-    }
-    return super.createLocalVarScope(parent, scopeContext);
   }
 
   @Override
