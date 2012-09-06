@@ -9337,10 +9337,22 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public void setMainGenModel(GenModel genModel)
   {
-    // Avoid creating a cycle.
-    // 
-    if (genModel == null || genModel.getMainGenModel() != this)
+    if (genModel == null)
     {
+      mainGenModel = genModel;
+    }
+    else
+    {
+      // Avoid creating a cycle.
+      // 
+      Set<GenModel> visited = new HashSet<GenModel>();
+      for (GenModel otherGenModel = genModel.getMainGenModel(); visited.add(otherGenModel); otherGenModel = otherGenModel.getMainGenModel())
+      {
+        if (otherGenModel == this)
+        {
+          return;
+        }
+      }
       mainGenModel = genModel;
     }
   }

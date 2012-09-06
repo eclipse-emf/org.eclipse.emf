@@ -1519,7 +1519,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     for (int i = 0, size = eClasses.size(); i < size; ++i)
     {
       GenClass genClass = genModelImpl.findGenClass(eClasses.get(i));
-      if (filter == null || filter.accept(genClass))
+      if (genClass != null && (filter == null || filter.accept(genClass)))
       {
         result.add(genClass);
       }
