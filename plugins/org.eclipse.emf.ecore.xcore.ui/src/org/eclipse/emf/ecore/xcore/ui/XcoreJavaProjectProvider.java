@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -147,8 +148,9 @@ public class XcoreJavaProjectProvider extends XtextResourceSetBasedProjectProvid
                 IContainer container = workspaceRoot.getFolder(referencedJavaProject.getOutputLocation());
                 libraryURLs.add(new URL(URI.createFileURI(container.getLocation().toString() + "/").toString()));
 
-                getAllReferencedProjects(libraryURLs, referencedProject.getDescription().getReferencedProjects());
-                getAllReferencedProjects(libraryURLs, referencedProject.getDescription().getDynamicReferences());
+                IProjectDescription description = referencedProject.getDescription();
+                getAllReferencedProjects(libraryURLs, description.getReferencedProjects());
+                getAllReferencedProjects(libraryURLs, description.getDynamicReferences());
                 break;
               }
               case IClasspathEntry.CPE_SOURCE:
@@ -236,9 +238,12 @@ public class XcoreJavaProjectProvider extends XtextResourceSetBasedProjectProvid
         IJavaProject referencedJavaProject = JavaCore.create(project);
         IContainer container = project.getWorkspace().getRoot().getFolder(referencedJavaProject.getOutputLocation());
 
-        libraryURLs.add(new URL(URI.createFileURI(container.getLocation().toString() + "/").toString()));
-        getAllReferencedProjects(libraryURLs, project.getDescription().getReferencedProjects());
-        getAllReferencedProjects(libraryURLs, project.getDescription().getDynamicReferences());
+        if (libraryURLs.add(new URL(URI.createFileURI(container.getLocation().toString() + "/").toString())))
+        {
+          IProjectDescription description = project.getDescription();
+          getAllReferencedProjects(libraryURLs, description.getReferencedProjects());
+          getAllReferencedProjects(libraryURLs, description.getDynamicReferences());
+        }
       }
     }
   }
