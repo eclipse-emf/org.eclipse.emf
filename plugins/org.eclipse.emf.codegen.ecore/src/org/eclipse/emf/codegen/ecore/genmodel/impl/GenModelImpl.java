@@ -2155,7 +2155,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       @Override
       protected String basicGetImportedName(String qualifiedName, boolean autoImport)
       {
-        return qualifiedName.replace('$', '.');
+        return qualifiedName;
       }
     };
 
