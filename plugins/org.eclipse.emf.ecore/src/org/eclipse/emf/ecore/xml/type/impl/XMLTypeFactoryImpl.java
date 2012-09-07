@@ -318,7 +318,35 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public double createDouble(String literal)
   {
-    return literal == null ? 0.0 : Double.parseDouble(collapseWhiteSpace(literal));
+    if (literal == null)
+    {
+      return 0.0;
+    }
+    else
+    {
+      String normalizedLiteral = collapseWhiteSpace(literal);
+      if (normalizedLiteral.endsWith("INF"))
+      {
+        int length = normalizedLiteral.length();
+        if (length == 4)
+        {
+          char ch = normalizedLiteral.charAt(0);
+          if (ch == '+')
+          {
+            return Double.POSITIVE_INFINITY;
+          }
+          else if (ch == '-')
+          {
+            return Double.NEGATIVE_INFINITY;
+          }
+        }
+        else if (length == 3)
+        {
+          return Double.POSITIVE_INFINITY;
+        }
+      }
+      return Double.parseDouble(normalizedLiteral);
+    }
   }
   
   /**
@@ -328,9 +356,12 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertDouble(double instanceValue)
   {
-    return Double.toString(instanceValue);
+    return instanceValue == Double.POSITIVE_INFINITY ? "INF" : instanceValue == Double.NEGATIVE_INFINITY ? "-INF" : Double.toString(instanceValue);
   }	
     
+  private static final Double DOUBLE_POSITIVE_INFINITY = Double.POSITIVE_INFINITY;
+  private static final Double DOUBLE_NEGATIVE_INFINITY = Double.NEGATIVE_INFINITY;
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -338,7 +369,35 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Double createDoubleObject(String literal)
   {
-    return literal == null ? null : Double.valueOf(collapseWhiteSpace(literal));
+    if (literal == null)
+    {
+      return null;
+    }
+    else
+    {
+      String normalizedLiteral = collapseWhiteSpace(literal);
+      if (normalizedLiteral.endsWith("INF"))
+      {
+        int length = normalizedLiteral.length();
+        if (length == 4)
+        {
+          char ch = normalizedLiteral.charAt(0);
+          if (ch == '+')
+          {
+            return DOUBLE_POSITIVE_INFINITY;
+          }
+          else if (ch == '-')
+          {
+            return DOUBLE_NEGATIVE_INFINITY;
+          }
+        }
+        else if (length == 3)
+        {
+          return DOUBLE_POSITIVE_INFINITY;
+        }
+      }
+      return Double.valueOf(normalizedLiteral);
+    }
   }
 
   /**
@@ -348,7 +407,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertDoubleObject(Double instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    return instanceValue == null ? null : convertDouble(instanceValue);
   }
 
   /**
@@ -507,7 +566,35 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public float createFloat(String literal)
   {
-    return literal == null ? 0.0F : Float.parseFloat(collapseWhiteSpace(literal));
+    if (literal == null)
+    {
+      return 0.0F;
+    }
+    else
+    {
+      String normalizedLiteral = collapseWhiteSpace(literal);
+      if (normalizedLiteral.endsWith("INF"))
+      {
+        int length = normalizedLiteral.length();
+        if (length == 4)
+        {
+          char ch = normalizedLiteral.charAt(0);
+          if (ch == '+')
+          {
+            return Float.POSITIVE_INFINITY;
+          }
+          else if (ch == '-')
+          {
+            return Float.NEGATIVE_INFINITY;
+          }
+        }
+        else if (length == 3)
+        {
+          return Float.POSITIVE_INFINITY;
+        }
+      }
+      return Float.parseFloat(normalizedLiteral);
+    }
   }
   
   /**
@@ -517,9 +604,12 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertFloat(float instanceValue)
   {
-    return Float.toString(instanceValue);
+    return instanceValue == Float.POSITIVE_INFINITY ? "INF" : instanceValue == Float.NEGATIVE_INFINITY ? "-INF" : Float.toString(instanceValue);
   }	
     
+  private static final Float FLOAT_POSITIVE_INFINITY = Float.POSITIVE_INFINITY;
+  private static final Float FLOAT_NEGATIVE_INFINITY = Float.NEGATIVE_INFINITY;
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -527,7 +617,35 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Float createFloatObject(String literal)
   {
-    return literal == null ? null : Float.valueOf(collapseWhiteSpace(literal));
+    if (literal == null)
+    {
+      return null;
+    }
+    else
+    {
+      String normalizedLiteral = collapseWhiteSpace(literal);
+      if (normalizedLiteral.endsWith("INF"))
+      {
+        int length = normalizedLiteral.length();
+        if (length == 4)
+        {
+          char ch = normalizedLiteral.charAt(0);
+          if (ch == '+')
+          {
+            return FLOAT_POSITIVE_INFINITY;
+          }
+          else if (ch == '-')
+          {
+            return FLOAT_NEGATIVE_INFINITY;
+          }
+        }
+        else if (length == 3)
+        {
+          return FLOAT_POSITIVE_INFINITY;
+        }
+      }
+      return Float.valueOf(normalizedLiteral);
+    }
   }
 
   /**
@@ -537,7 +655,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertFloatObject(Float instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    return instanceValue == null ? null : convertFloat(instanceValue);
   }
 
   /**
@@ -2363,7 +2481,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertDoubleToString(EDataType eDataType, Object instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    return instanceValue == null ? null : convertDouble((Double)instanceValue);
   }
 
   /**
@@ -2383,7 +2501,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertDoubleObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    return instanceValue == null ? null : convertDouble((Double)instanceValue);
   }
 
   /**
@@ -2525,7 +2643,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertFloatToString(EDataType eDataType, Object instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    return instanceValue == null ? null : convertFloat((Float)instanceValue);
   }
 
   /**
@@ -2545,7 +2663,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertFloatObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    return instanceValue == null ? null : convertFloat((Float)instanceValue);
   }
 
   /**
