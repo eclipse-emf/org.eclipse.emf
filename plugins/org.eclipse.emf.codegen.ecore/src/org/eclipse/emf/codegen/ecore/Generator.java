@@ -94,7 +94,7 @@ public class Generator extends CodeGen
     System.out.println("  [-codeFormatting { default | <profile-file> } ]");
     System.out.println("  [-model] [-edit] [-editor] [-tests]");
     System.out.println("  [-autoBuild <true|false>]");
-    System.out.println("  [-reconile]");
+    System.out.println("  [-reconcile]");
     System.out.println("  <genmodel-file>");
     System.out.println("  [ <target-root-directory> ]");
     System.out.println("");
