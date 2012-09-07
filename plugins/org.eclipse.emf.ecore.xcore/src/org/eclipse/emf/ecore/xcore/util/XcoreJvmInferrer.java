@@ -1076,7 +1076,7 @@ public class XcoreJvmInferrer
                       @Override
                       protected JvmOperation inferStructure()
                       {
-                        JvmOperation featureAccessor = createJvmOperation(genFeature, JvmVisibility.PUBLIC, true, getJvmTypeReference(genFeature.getImportedMetaType(), genFeature));
+                        JvmOperation featureAccessor = createJvmOperation(genFeature, JvmVisibility.PUBLIC, false, getJvmTypeReference(genFeature.getImportedMetaType(), genFeature));
                         return featureAccessor;
                       }
 
@@ -1155,7 +1155,7 @@ public class XcoreJvmInferrer
                         @Override
                         protected JvmOperation inferStructure()
                         {
-                          JvmOperation featureAccessor = createJvmOperation(genClass, JvmVisibility.PUBLIC, true, getJvmTypeReference(genOperation.getImportedMetaType(), genClass));
+                          JvmOperation featureAccessor = createJvmOperation(genClass, JvmVisibility.PUBLIC, false, getJvmTypeReference(genOperation.getImportedMetaType(), genClass));
                           return featureAccessor;
                         }
 
