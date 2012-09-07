@@ -83,6 +83,7 @@ class URIMappingRegistryReader extends RegistryReader
         {
           URI sourceURI = URI.createURI(sourceURIValue);
           URIConverter.URI_MAP.remove(sourceURI);
+          map.remove(sourceURI);
           return true;
         }
       }

@@ -78,7 +78,7 @@ public abstract class RegistryReader
    */
   public void readRegistry()
   {
-    IExtensionPoint point = pluginRegistry.getExtensionPoint(pluginID, extensionPointID);
+    final IExtensionPoint point = pluginRegistry.getExtensionPoint(pluginID, extensionPointID);
     if (point != null)
     {
       IConfigurationElement[] elements = point.getConfigurationElements();
@@ -86,30 +86,30 @@ public abstract class RegistryReader
       {
         internalReadElement(elements[i], true);
       }
-    }
-
-    pluginRegistry.addRegistryChangeListener
-      (new IRegistryChangeListener()
-       {
-         public void registryChanged(IRegistryChangeEvent event)
+  
+      pluginRegistry.addRegistryChangeListener
+        (new IRegistryChangeListener()
          {
-           IExtensionDelta[] deltas = event.getExtensionDeltas();
-           for (int i = 0; i < deltas.length; ++i) 
+           public void registryChanged(IRegistryChangeEvent event)
            {
-             IExtensionDelta delta = deltas[i];
-             if (delta.getExtensionPoint().getUniqueIdentifier().equals(qualifiedExtensionPointID))
+             IExtensionDelta[] deltas = event.getExtensionDeltas();
+             for (int i = 0; i < deltas.length; ++i) 
              {
-               boolean add = delta.getKind() == IExtensionDelta.ADDED;
-               IExtension extension = delta.getExtension();
-               IConfigurationElement[] configurationElement = extension.getConfigurationElements();
-               for (int j = 0; j < configurationElement.length; ++j) 
+               IExtensionDelta delta = deltas[i];
+               if (point.equals(delta.getExtensionPoint()))
                {
-                 internalReadElement(configurationElement[j], add);
+                 boolean add = delta.getKind() == IExtensionDelta.ADDED;
+                 IExtension extension = delta.getExtension();
+                 IConfigurationElement[] configurationElement = extension.getConfigurationElements();
+                 for (int j = 0; j < configurationElement.length; ++j) 
+                 {
+                   internalReadElement(configurationElement[j], add);
+                 }
                }
              }
            }
-         }
-       });
+         });
+      }
   }
 
   private void internalReadElement(IConfigurationElement element, boolean add)
