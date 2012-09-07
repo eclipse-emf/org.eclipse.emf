@@ -2484,6 +2484,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     public void dynamicUnset(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index)
     {
       Object oldValue = settings.dynamicGet(index);
+      boolean oldIsSet = oldValue != null;
       if (isUnsettable() && oldValue == NIL)
       {
         oldValue = null;
@@ -2523,7 +2524,8 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
              isUnsettable() ? Notification.UNSET : Notification.SET, 
              feature,
              oldValue, 
-             null);
+             null,
+             oldIsSet);
         if (notifications == null)
         {
           owner.eNotify(notification);
