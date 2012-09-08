@@ -134,7 +134,7 @@ public class URIEditorInput implements IEditorInput, IPersistableElement
   {
     if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
     {
-      Object result = EclipseUtil.getAdatper(adapter, uri);
+      Object result = EclipseUtil.getAdapter(adapter, uri);
       if (result != null)
       {
         return result;
@@ -192,7 +192,17 @@ public class URIEditorInput implements IEditorInput, IPersistableElement
   
   protected static class EclipseUtil
   {
+    /**
+     * @deprecated
+     * @see #getAdapter(Class, URI)
+     */
+    @Deprecated
     public static Object getAdatper(Class<?> adapter, URI uri)
+    {
+      return getAdapter(adapter, uri);
+      
+    }
+    public static Object getAdapter(Class<?> adapter, URI uri)
     {
       if ((adapter == IFile.class || adapter == IResource.class) && uri.isPlatformResource())
       {
