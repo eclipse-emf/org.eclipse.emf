@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2009 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -827,7 +827,8 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       }
 
       EClassifier eType = getEType();
-      Class<?> dataClass = EcoreUtil.wrapperClassFor(eType.getInstanceClass());
+      Class<?> instanceClass = eType.getInstanceClass();
+      Class<?> dataClass = EcoreUtil.wrapperClassFor(instanceClass);
       Object defaultValue = getDefaultValue();
       Object intrinsicDefaultValue = eType.getDefaultValue();
 
@@ -1307,6 +1308,8 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
           }
           else
           {
+            // settingDelegate = new InternalSettingDelegateSingleDataUnsettableStatic(dataClass, defaultValue, intrinsicDefaultValue, this, InternalSettingDelegateSingleData.NotificationCreator.get(instanceClass));
+            // TODO
             settingDelegate = new InternalSettingDelegateSingleDataUnsettableStatic(dataClass, defaultValue, intrinsicDefaultValue, this);
           }
         }
@@ -1318,6 +1321,8 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
           }
           else
           {
+            // settingDelegate = new InternalSettingDelegateSingleDataStatic(dataClass, defaultValue, intrinsicDefaultValue, this, InternalSettingDelegateSingleData.NotificationCreator.get(instanceClass));
+            // TODO
             settingDelegate = new InternalSettingDelegateSingleDataStatic(dataClass, defaultValue, intrinsicDefaultValue, this);
           }
         }
@@ -1960,14 +1965,207 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
   public static class InternalSettingDelegateSingleData extends InternalSettingDelegateSingle
   {
+    static class NotificationCreator
+    {
+      public static NotificationCreator get(Class<?> dataClass)
+      {
+        if (dataClass == Integer.TYPE)
+        {
+          return INT_NOTIFICATION_CREATOR;
+        }
+        else if (dataClass == Boolean.TYPE)
+        {
+          return BOOLEAN_NOTIFICATION_CREATOR;
+        }
+        else if (dataClass == Long.TYPE)
+        {
+          return LONG_NOTIFICATION_CREATOR;
+        }
+        else if (dataClass == Float.TYPE)
+        {
+          return FLOAT_NOTIFICATION_CREATOR;
+        }
+        else if (dataClass == Double.TYPE)
+        {
+          return DOUBLE_NOTIFICATION_CREATOR;
+        }
+        else if (dataClass == Short.TYPE)
+        {
+          return SHORT_NOTIFICATION_CREATOR;
+        }
+        else if (dataClass == Byte.TYPE)
+        {
+          return BYTE_NOTIFICATION_CREATOR;
+        }
+        else if (dataClass == Character.TYPE)
+        {
+          return CHAR_NOTIFICATION_CREATOR;
+        }
+        else
+        {
+          return NotificationCreator.OBJECT_NOTIFICATION_CREATOR;
+        }
+      }
+
+      public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue)
+      {
+        return new ENotificationImpl(notifier, eventType, feature, oldValue, newValue);
+      }
+
+      public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue, boolean wasSet)
+      {
+        return new ENotificationImpl(notifier, eventType, feature, oldValue, newValue, wasSet);
+      }
+      
+      public static final NotificationCreator OBJECT_NOTIFICATION_CREATOR = new NotificationCreator();
+
+      public static final NotificationCreator BOOLEAN_NOTIFICATION_CREATOR =
+        new NotificationCreator()
+        {
+          @Override
+          public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue)
+          {
+            return new ENotificationImpl(notifier, eventType, feature, ((Boolean)oldValue).booleanValue(), ((Boolean)newValue).booleanValue());
+          }
+  
+          @Override
+          public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue, boolean wasSet)
+          {
+            return new ENotificationImpl(notifier, eventType, feature, ((Boolean)oldValue).booleanValue(), ((Boolean)newValue).booleanValue(), wasSet);
+          }
+        };
+  
+      public static final NotificationCreator BYTE_NOTIFICATION_CREATOR =
+        new NotificationCreator()
+        {
+          @Override
+          public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue)
+          {
+            return new ENotificationImpl(notifier, eventType, feature, ((Byte)oldValue).byteValue(), ((Byte)newValue).byteValue());
+          }
+  
+          @Override
+          public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue, boolean wasSet)
+          {
+            return new ENotificationImpl(notifier, eventType, feature, ((Byte)oldValue).byteValue(), ((Byte)newValue).byteValue(), wasSet);
+          }
+        };
+  
+      public static final NotificationCreator CHAR_NOTIFICATION_CREATOR =
+        new NotificationCreator()
+        {
+          @Override
+          public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue)
+          {
+            return new ENotificationImpl(notifier, eventType, feature, ((Character)oldValue).charValue(), ((Character)newValue).charValue());
+          }
+  
+          @Override
+          public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue, boolean wasSet)
+          {
+            return new ENotificationImpl(notifier, eventType, feature, ((Character)oldValue).charValue(), ((Character)newValue).charValue(), wasSet);
+          }
+        };
+  
+      public static final NotificationCreator DOUBLE_NOTIFICATION_CREATOR =
+        new NotificationCreator()
+        {
+          @Override
+          public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue)
+          {
+            return new ENotificationImpl(notifier, eventType, feature, ((Double)oldValue).doubleValue(), ((Double)newValue).doubleValue());
+          }
+  
+          @Override
+          public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue, boolean wasSet)
+          {
+            return new ENotificationImpl(notifier, eventType, feature, ((Double)oldValue).doubleValue(), ((Double)newValue).doubleValue(), wasSet);
+          }
+        };
+  
+      public static final NotificationCreator FLOAT_NOTIFICATION_CREATOR =
+        new NotificationCreator()
+        {
+          @Override
+          public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue)
+          {
+            return new ENotificationImpl(notifier, eventType, feature, ((Float)oldValue).floatValue(), ((Float)newValue).floatValue());
+          }
+  
+          @Override
+          public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue, boolean wasSet)
+          {
+            return new ENotificationImpl(notifier, eventType, feature, ((Float)oldValue).floatValue(), ((Float)newValue).floatValue(), wasSet);
+          }
+        };
+  
+      public static final NotificationCreator INT_NOTIFICATION_CREATOR =
+        new NotificationCreator()
+        {
+          @Override
+          public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue)
+          {
+            return new ENotificationImpl(notifier, eventType, feature, ((Integer)oldValue).intValue(), ((Integer)newValue).intValue());
+          }
+  
+          @Override
+          public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue, boolean wasSet)
+          {
+            return new ENotificationImpl(notifier, eventType, feature, ((Integer)oldValue).intValue(), ((Integer)newValue).intValue(), wasSet);
+          }
+        };
+  
+      public static final NotificationCreator LONG_NOTIFICATION_CREATOR =
+        new NotificationCreator()
+        {
+          @Override
+          public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue)
+          {
+            return new ENotificationImpl(notifier, eventType, feature, ((Long)oldValue).longValue(), ((Long)newValue).longValue());
+          }
+  
+          @Override
+          public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue, boolean wasSet)
+          {
+            return new ENotificationImpl(notifier, eventType, feature, ((Long)oldValue).longValue(), ((Long)newValue).longValue(), wasSet);
+          }
+        };
+  
+      public static final NotificationCreator SHORT_NOTIFICATION_CREATOR =
+        new NotificationCreator()
+        {
+          @Override
+          public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue)
+          {
+            return new ENotificationImpl(notifier, eventType, feature, ((Short)oldValue).shortValue(), ((Short)newValue).shortValue());
+          }
+  
+          @Override
+          public Notification createNotification(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue, boolean wasSet)
+          {
+            return new ENotificationImpl(notifier, eventType, feature, ((Short)oldValue).shortValue(), ((Short)newValue).shortValue(), wasSet);
+          }
+        };
+    }
+
     protected Object defaultValue;
     protected Object intrinsicDefaultValue;
+    NotificationCreator notificationCreator;
 
     public InternalSettingDelegateSingleData(Object defaultValue, Object intrinsicDefaultValue, EStructuralFeature feature)
     {
       super(feature);
       this.defaultValue = defaultValue;
       this.intrinsicDefaultValue = intrinsicDefaultValue;
+      notificationCreator = NotificationCreator.OBJECT_NOTIFICATION_CREATOR;
+    }
+
+    InternalSettingDelegateSingleData(Object defaultValue, Object intrinsicDefaultValue, EStructuralFeature feature, NotificationCreator notificationCreator)
+    {
+      super(feature);
+      this.defaultValue = defaultValue;
+      this.intrinsicDefaultValue = intrinsicDefaultValue;
+      this.notificationCreator = notificationCreator;
     }
 
     protected void validate(Object object)
@@ -2021,7 +2219,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         }
 
         owner.eNotify
-          (new ENotificationImpl
+          (notificationCreator.createNotification
              (owner, 
               Notification.SET, 
               feature, 
@@ -2060,7 +2258,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         Object oldValue = dynamicGet(owner, settings, index, false, true);
         settings.dynamicUnset(index);
         owner.eNotify
-          (new ENotificationImpl
+          (notificationCreator.createNotification
              (owner, Notification.SET, feature, oldValue, this.defaultValue));
       }
       else
@@ -2097,6 +2295,12 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       this.eDataType = eDataType;
     }
 
+    InternalSettingDelegateSingleDataDynamic(EDataType eDataType, Object defaultValue, Object intrinsicDefaultValue, EStructuralFeature feature, NotificationCreator notificationCreator)
+    {
+      super(defaultValue, intrinsicDefaultValue, feature, notificationCreator);
+      this.eDataType = eDataType;
+    }
+
     @Override
     protected void validate(Object object)
     {
@@ -2115,6 +2319,13 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     {
       super(defaultValue, intrinsicDefaultValue, feature);
       this.dataClass = dataClass;
+      notificationCreator = NotificationCreator.get(feature.getEType().getInstanceClass());
+    }
+
+    InternalSettingDelegateSingleDataStatic(Class<?> dataClass, Object defaultValue, Object intrinsicDefaultValue, EStructuralFeature feature, NotificationCreator notificationCreator)
+    {
+      super(defaultValue, intrinsicDefaultValue, feature, notificationCreator);
+      this.dataClass = dataClass;
     }
 
     @Override
@@ -2132,6 +2343,11 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     public InternalSettingDelegateSingleDataUnsettable(Object defaultValue, Object intrinsicDefaultValue, EStructuralFeature feature)
     {
       super(defaultValue, intrinsicDefaultValue, feature);
+    }
+
+    InternalSettingDelegateSingleDataUnsettable(Object defaultValue, Object intrinsicDefaultValue, EStructuralFeature feature, NotificationCreator notificationCreator)
+    {
+      super(defaultValue, intrinsicDefaultValue, feature, notificationCreator);
     }
 
     @Override
@@ -2170,7 +2386,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         }
 
         owner.eNotify
-          (new ENotificationImpl
+          (notificationCreator.createNotification
              (owner, 
               Notification.SET, 
               feature, 
@@ -2217,7 +2433,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         }
         settings.dynamicUnset(index);
         owner.eNotify
-          (new ENotificationImpl
+          (notificationCreator.createNotification
              (owner, Notification.UNSET, feature, oldValue, this.defaultValue, oldIsSet));
       }
       else
@@ -2251,6 +2467,12 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       this.eDataType = eDataType;
     }
 
+    InternalSettingDelegateSingleDataUnsettableDynamic(EDataType eDataType, Object defaultValue, Object intrinsicDefaultValue, EStructuralFeature feature, NotificationCreator notificationCreator)
+    {
+      super(defaultValue, intrinsicDefaultValue, feature, notificationCreator);
+      this.eDataType = eDataType;
+    }
+
     @Override
     protected void validate(Object object)
     {
@@ -2268,6 +2490,13 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     public InternalSettingDelegateSingleDataUnsettableStatic(Class<?> dataClass, Object defaultValue, Object intrinsicDefaultValue, EStructuralFeature feature)
     {
       super(defaultValue, intrinsicDefaultValue, feature);
+      this.dataClass = dataClass;
+      notificationCreator = NotificationCreator.get(feature.getEType().getInstanceClass());
+    }
+
+    InternalSettingDelegateSingleDataUnsettableStatic(Class<?> dataClass, Object defaultValue, Object intrinsicDefaultValue, EStructuralFeature feature, NotificationCreator notificationCreator)
+    {
+      super(defaultValue, intrinsicDefaultValue, feature, notificationCreator);
       this.dataClass = dataClass;
     }
 
