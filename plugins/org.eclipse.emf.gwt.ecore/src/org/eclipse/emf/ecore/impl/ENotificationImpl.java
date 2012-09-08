@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2010 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,13 +18,13 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 
 /**
- * An implementation an Ecore-specific notification.
+ * An implementation of an Ecore-specific notification.
  */
 public class ENotificationImpl extends NotificationImpl
 {
   protected InternalEObject notifier;
   protected int featureID = NO_FEATURE_ID;
-  protected EStructuralFeature feature = null;
+  protected EStructuralFeature feature;
 
   public ENotificationImpl(InternalEObject notifier, int eventType, EStructuralFeature feature, Object oldValue, Object newValue, boolean isSetChange)
   {
@@ -91,6 +91,29 @@ public class ENotificationImpl extends NotificationImpl
     this.featureID = featureID;
   }
 
+  /**
+   * @since 2.9
+   */
+  public ENotificationImpl
+    (InternalEObject notifier, int eventType, EStructuralFeature feature, boolean oldBooleanValue, boolean newBooleanValue, boolean isSetChange)
+  {
+    this(notifier, eventType, feature, oldBooleanValue, newBooleanValue);
+    if (isSetChange)
+    {
+      this.position = IS_SET_CHANGE_INDEX;
+    }
+  }
+
+  /**
+   * @since 2.9
+   */
+  public ENotificationImpl(InternalEObject notifier, int eventType, EStructuralFeature feature, boolean oldBooleanValue, boolean newBooleanValue)
+  {
+    super(eventType, oldBooleanValue, newBooleanValue);
+    this.notifier = notifier;
+    this.feature = feature;
+  }
+
   public ENotificationImpl(InternalEObject notifier, int eventType, int featureID, byte oldByteValue, byte newByteValue, boolean isSetChange)
   {
     this(notifier, eventType, featureID, oldByteValue, newByteValue);
@@ -105,6 +128,28 @@ public class ENotificationImpl extends NotificationImpl
     super(eventType, oldByteValue, newByteValue);
     this.notifier = notifier;
     this.featureID = featureID;
+  }
+
+  /**
+   * @since 2.9
+   */
+  public ENotificationImpl(InternalEObject notifier, int eventType, EStructuralFeature feature, byte oldByteValue, byte newByteValue, boolean isSetChange)
+  {
+    this(notifier, eventType, feature, oldByteValue, newByteValue);
+    if (isSetChange)
+    {
+      this.position = IS_SET_CHANGE_INDEX;
+    }
+  }
+
+  /**
+   * @since 2.9
+   */
+  public ENotificationImpl(InternalEObject notifier, int eventType, EStructuralFeature feature, byte oldByteValue, byte newByteValue)
+  {
+    super(eventType, oldByteValue, newByteValue);
+    this.notifier = notifier;
+    this.feature = feature;
   }
 
   public ENotificationImpl(InternalEObject notifier, int eventType, int featureID, char oldCharValue, char newCharValue, boolean isSetChange)
@@ -123,6 +168,28 @@ public class ENotificationImpl extends NotificationImpl
     this.featureID = featureID;
   }
 
+  /**
+   * @since 2.9
+   */
+  public ENotificationImpl(InternalEObject notifier, int eventType, EStructuralFeature feature, char oldCharValue, char newCharValue, boolean isSetChange)
+  {
+    this(notifier, eventType, feature, oldCharValue, newCharValue);
+    if (isSetChange)
+    {
+      this.position = IS_SET_CHANGE_INDEX;
+    }
+  }
+
+  /**
+   * @since 2.9
+   */
+  public ENotificationImpl(InternalEObject notifier, int eventType, EStructuralFeature feature, char oldCharValue, char newCharValue)
+  {
+    super(eventType, oldCharValue, newCharValue);
+    this.notifier = notifier;
+    this.feature = feature;
+  }
+
   public ENotificationImpl(InternalEObject notifier, int eventType, int featureID, double oldDoubleValue, double newDoubleValue, boolean isSetChange)
   {
     this(notifier, eventType, featureID, oldDoubleValue, newDoubleValue);
@@ -137,6 +204,28 @@ public class ENotificationImpl extends NotificationImpl
     super(eventType, oldDoubleValue, newDoubleValue);
     this.notifier = notifier;
     this.featureID = featureID;
+  }
+
+  /**
+   * @since 2.9
+   */
+  public ENotificationImpl(InternalEObject notifier, int eventType, EStructuralFeature feature, double oldDoubleValue, double newDoubleValue, boolean isSetChange)
+  {
+    this(notifier, eventType, feature, oldDoubleValue, newDoubleValue);
+    if (isSetChange)
+    {
+      this.position = IS_SET_CHANGE_INDEX;
+    }
+  }
+
+  /**
+   * @since 2.9
+   */
+  public ENotificationImpl(InternalEObject notifier, int eventType, EStructuralFeature feature, double oldDoubleValue, double newDoubleValue)
+  {
+    super(eventType, oldDoubleValue, newDoubleValue);
+    this.notifier = notifier;
+    this.feature = feature;
   }
 
   public ENotificationImpl(InternalEObject notifier, int eventType, int featureID, float oldFloatValue, float newFloatValue, boolean isSetChange)
@@ -155,6 +244,28 @@ public class ENotificationImpl extends NotificationImpl
     this.featureID = featureID;
   }
 
+  /**
+   * @since 2.9
+   */
+  public ENotificationImpl(InternalEObject notifier, int eventType, EStructuralFeature feature, float oldFloatValue, float newFloatValue, boolean isSetChange)
+  {
+    this(notifier, eventType, feature, oldFloatValue, newFloatValue);
+    if (isSetChange)
+    {
+      this.position = IS_SET_CHANGE_INDEX;
+    }
+  }
+
+  /**
+   * @since 2.9
+   */
+  public ENotificationImpl(InternalEObject notifier, int eventType, EStructuralFeature feature, float oldFloatValue, float newFloatValue)
+  {
+    super(eventType, oldFloatValue, newFloatValue);
+    this.notifier = notifier;
+    this.feature = feature;
+  }
+
   public ENotificationImpl(InternalEObject notifier, int eventType, int featureID, int oldIntValue, int newIntValue, boolean isSetChange)
   {
     this(notifier, eventType, featureID, oldIntValue, newIntValue);
@@ -169,6 +280,28 @@ public class ENotificationImpl extends NotificationImpl
     super(eventType, oldIntValue, newIntValue);
     this.notifier = notifier;
     this.featureID = featureID;
+  }
+
+  /**
+   * @since 2.9
+   */
+  public ENotificationImpl(InternalEObject notifier, int eventType, EStructuralFeature feature, int oldIntValue, int newIntValue, boolean isSetChange)
+  {
+    this(notifier, eventType, feature, oldIntValue, newIntValue);
+    if (isSetChange)
+    {
+      this.position = IS_SET_CHANGE_INDEX;
+    }
+  }
+
+  /**
+   * @since 2.9
+   */
+  public ENotificationImpl(InternalEObject notifier, int eventType, EStructuralFeature feature, int oldIntValue, int newIntValue)
+  {
+    super(eventType, oldIntValue, newIntValue);
+    this.notifier = notifier;
+    this.feature = feature;
   }
 
   public ENotificationImpl(InternalEObject notifier, int eventType, int featureID, long oldLongValue, long newLongValue, boolean isSetChange)
@@ -187,6 +320,28 @@ public class ENotificationImpl extends NotificationImpl
     this.featureID = featureID;
   }
 
+  /**
+   * @since 2.9
+   */
+  public ENotificationImpl(InternalEObject notifier, int eventType, EStructuralFeature feature, long oldLongValue, long newLongValue, boolean isSetChange)
+  {
+    this(notifier, eventType, feature, oldLongValue, newLongValue);
+    if (isSetChange)
+    {
+      this.position = IS_SET_CHANGE_INDEX;
+    }
+  }
+
+  /**
+   * @since 2.9
+   */
+  public ENotificationImpl(InternalEObject notifier, int eventType, EStructuralFeature feature, long oldLongValue, long newLongValue)
+  {
+    super(eventType, oldLongValue, newLongValue);
+    this.notifier = notifier;
+    this.feature = feature;
+  }
+
   public ENotificationImpl(InternalEObject notifier, int eventType, int featureID, short oldShortValue, short newShortValue, boolean isSetChange)
   {
     this(notifier, eventType, featureID, oldShortValue, newShortValue);
@@ -201,6 +356,28 @@ public class ENotificationImpl extends NotificationImpl
     super(eventType, oldShortValue, newShortValue);
     this.notifier = notifier;
     this.featureID = featureID;
+  }
+
+  /**
+   * @since 2.9
+   */
+  public ENotificationImpl(InternalEObject notifier, int eventType, EStructuralFeature feature, short oldShortValue, short newShortValue, boolean isSetChange)
+  {
+    this(notifier, eventType, feature, oldShortValue, newShortValue);
+    if (isSetChange)
+    {
+      this.position = IS_SET_CHANGE_INDEX;
+    }
+  }
+
+  /**
+   * @since 2.9
+   */
+  public ENotificationImpl(InternalEObject notifier, int eventType, EStructuralFeature feature, short oldShortValue, short newShortValue)
+  {
+    super(eventType, oldShortValue, newShortValue);
+    this.notifier = notifier;
+    this.feature = feature;
   }
 
   @Override

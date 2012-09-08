@@ -27,6 +27,7 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.core.common.util.EqualityTest.suite()
     ,org.eclipse.emf.test.core.common.util.ECollectionsTest.suite()
     ,org.eclipse.emf.test.core.dynamic.SimpleModelTest.suite()
+    ,org.eclipse.emf.test.core.dynamic.ModelNotificationTest.suite()
     ,org.eclipse.emf.test.core.dynamic.DynamicCrossResourceContainmentProxy.suite()
     ,org.eclipse.emf.test.core.change.ChangeAllSuites.suite()
     ,org.eclipse.emf.test.core.ecore.EcoreUtilStaticMethodsTest.suite()
