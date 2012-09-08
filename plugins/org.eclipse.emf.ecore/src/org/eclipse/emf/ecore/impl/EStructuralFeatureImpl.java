@@ -1308,9 +1308,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
           }
           else
           {
-            // settingDelegate = new InternalSettingDelegateSingleDataUnsettableStatic(dataClass, defaultValue, intrinsicDefaultValue, this, InternalSettingDelegateSingleData.NotificationCreator.get(instanceClass));
-            // TODO
-            settingDelegate = new InternalSettingDelegateSingleDataUnsettableStatic(dataClass, defaultValue, intrinsicDefaultValue, this);
+           settingDelegate = new InternalSettingDelegateSingleDataUnsettableStatic(dataClass, defaultValue, intrinsicDefaultValue, this, InternalSettingDelegateSingleData.NotificationCreator.get(instanceClass));
           }
         }
         else
@@ -1321,9 +1319,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
           }
           else
           {
-            // settingDelegate = new InternalSettingDelegateSingleDataStatic(dataClass, defaultValue, intrinsicDefaultValue, this, InternalSettingDelegateSingleData.NotificationCreator.get(instanceClass));
-            // TODO
-            settingDelegate = new InternalSettingDelegateSingleDataStatic(dataClass, defaultValue, intrinsicDefaultValue, this);
+            settingDelegate = new InternalSettingDelegateSingleDataStatic(dataClass, defaultValue, intrinsicDefaultValue, this, InternalSettingDelegateSingleData.NotificationCreator.get(instanceClass));
           }
         }
       }
