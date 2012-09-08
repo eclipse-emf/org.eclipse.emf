@@ -25,6 +25,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind;
+import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.notify.Adapter;
@@ -252,7 +253,7 @@ public class XcoreJvmInferrer
   {
     final ArrayList<JvmDeclaredType> result = new ArrayList<JvmDeclaredType>();
 
-    GenModel genModel = genPackage.getGenModel();
+    final GenModel genModel = genPackage.getGenModel();
     if (genPackage.hasClassifiers())
     {
       if (!genModel.isSuppressEMFMetaData() && !genModel.isSuppressInterfaces())
@@ -345,6 +346,338 @@ public class XcoreJvmInferrer
         };
       associate(genPackage, switchClassInferrer);
       result.add(switchClassInferrer.getInferredElement());
+    }
+
+    if (genPackage.hasClassifiers() && genPackage.hasConstraints())
+    {
+      JvmElementInferrer<JvmGenericType> validatorClassInferrer =
+        new JvmElementInferrer<JvmGenericType>(X_MEDIUM)
+        {
+          @Override
+          protected JvmGenericType inferStructure()
+          {
+            JvmGenericType switchClass = TypesFactory.eINSTANCE.createJvmGenericType();
+            switchClass.setInterface(false);
+            switchClass.setVisibility(JvmVisibility.PUBLIC);
+            return switchClass;
+          }
+
+          @Override
+          protected void inferDeepStructure()
+          {
+            final String map = genModel.useGenerics() ? "java.util.Map<java.lang.Object, java.lang.Object>" : "java.util.Map";
+
+            inferredElement.getSuperTypes().add(getJvmTypeReference("org.eclipse.emf.ecore.util.EObjectValidator", genPackage));
+            EList<JvmMember> members = inferredElement.getMembers();
+
+            members.add(createJvmField(genPackage, JvmVisibility.PUBLIC, true, true, "INSTANCE", getJvmTypeReference(genPackage.getQualifiedValidatorClassName(), genPackage)));
+
+            members.add(createJvmField(genPackage, JvmVisibility.PUBLIC, true, true, "DIAGNOSTIC_SOURCE", getJvmTypeReference("java.lang.String", genPackage)));
+
+            for (final GenClass genClass : genPackage.getGenClasses())
+            {
+              for (final GenOperation genOperation : genClass.getInvariantOperations())
+              {
+                JvmElementInferrer<JvmField> operationIDInferrer =
+                  new JvmElementInferrer<JvmField>(X_LOW)
+                  {
+                    @Override
+                    protected JvmField inferStructure()
+                    {
+                      return createJvmField(genClass, JvmVisibility.PUBLIC, true, true, getJvmTypeReference("int", genClass));
+                    }
+
+                    @Override
+                    public void inferName()
+                    {
+                      inferredElement.setSimpleName(genClass.getOperationID(genOperation));
+                    }
+                  };
+                associate(genOperation, operationIDInferrer);
+                members.add(operationIDInferrer.getInferredElement());
+              }
+            }
+
+            members.add(createJvmField(genPackage, JvmVisibility.PRIVATE, true, true, "GENERATED_DIAGNOSTIC_CODE_COUNT", getJvmTypeReference("int", genPackage)));
+
+            members.add(createJvmField(genPackage, JvmVisibility.PROTECTED, true, true, "DIAGNOSTIC_CODE_COUNT", getJvmTypeReference("int", genPackage)));
+
+            for (final GenPackage baseGenPackage : genPackage.getAllValidatorBaseGenPackages())
+            {
+              JvmElementInferrer<JvmField> baseValidatorInferrer =
+                new JvmElementInferrer<JvmField>(X_LOW)
+                {
+                  @Override
+                  protected JvmField inferStructure()
+                  {
+                    return createJvmField(genPackage, JvmVisibility.PROTECTED, true, true, getJvmTypeReference(baseGenPackage.getQualifiedValidatorClassName(), genPackage));
+                  }
+
+                  @Override
+                  public void inferName()
+                  {
+                    inferredElement.setSimpleName(genPackage.getValidatorPackageUniqueSafeName(baseGenPackage) + "Validator");
+                  }
+                };
+              associate(baseGenPackage, baseValidatorInferrer);
+              members.add(baseValidatorInferrer.getInferredElement());
+            }
+
+            if (genPackage.hasInvariantExpressions())
+            {
+              JvmOperation validateOperation = createJvmOperation(genPackage, JvmVisibility.PUBLIC, true, "validate", getJvmTypeReference("boolean", genPackage));
+              EList<JvmFormalParameter> parameters = validateOperation.getParameters();
+              parameters.add(createJvmFormalParameter(genPackage, "eClass", getJvmTypeReference("org.eclipse.emf.ecore.EClass", genPackage)));
+              parameters.add(createJvmFormalParameter(genPackage, "eObject", getJvmTypeReference("org.eclipse.emf.ecore.EObject", genPackage)));
+              parameters.add(createJvmFormalParameter(genPackage, "diagnostics", getJvmTypeReference("org.eclipse.emf.common.util.DiagnosticChain", genPackage)));
+              parameters.add(createJvmFormalParameter(genPackage, "context", getJvmTypeReference(map, genPackage)));
+              parameters.add(createJvmFormalParameter(genPackage, "validationDelegate", getJvmTypeReference("java.lang.String", genPackage)));
+              parameters.add(createJvmFormalParameter(genPackage, "invariant", getJvmTypeReference("org.eclipse.emf.ecore.EOperation", genPackage)));
+              parameters.add(createJvmFormalParameter(genPackage, "expression", getJvmTypeReference("java.lang.String", genPackage)));
+              parameters.add(createJvmFormalParameter(genPackage, "severity", getJvmTypeReference("int", genPackage)));
+              parameters.add(createJvmFormalParameter(genPackage, "source", getJvmTypeReference("java.lang.String", genPackage)));
+              parameters.add(createJvmFormalParameter(genPackage, "code", getJvmTypeReference("int", genPackage)));
+              members.add(validateOperation);
+            }
+
+            members.add(createJvmOperation(genPackage, JvmVisibility.PROTECTED, false, "getEPackage", getJvmTypeReference("org.eclipse.emf.ecore.EPackage", genPackage)));
+
+            JvmOperation validateOperation = createJvmOperation(genPackage, JvmVisibility.PROTECTED, false, "validate", getJvmTypeReference("boolean", genPackage));
+            EList<JvmFormalParameter> parameters = validateOperation.getParameters();
+            parameters.add(createJvmFormalParameter(genPackage, "classifierID", getJvmTypeReference("int", genPackage)));
+            parameters.add(createJvmFormalParameter(genPackage, "value", getJvmTypeReference("java.lang.Object", genPackage)));
+            parameters.add(createJvmFormalParameter(genPackage, "diagnostics", getJvmTypeReference("org.eclipse.emf.common.util.DiagnosticChain", genPackage)));
+            parameters.add(createJvmFormalParameter(genPackage, "context", getJvmTypeReference(map, genPackage)));
+            members.add(validateOperation);
+
+            for (final GenClassifier genClassifier : genPackage.getGenClassifiers())
+            {
+              final String diagnostics = "diagnostics".equals(genClassifier.getSafeUncapName()) ? "theDiagnostics" : "diagnostics";
+              final String context = "context".equals(genClassifier.getSafeUncapName()) ? "theContext" : "context";
+              JvmElementInferrer<JvmOperation> validateClassifierOperationInferrer =
+                new JvmElementInferrer<JvmOperation>(X_MEDIUM)
+                {
+                  @Override
+                  protected JvmOperation inferStructure()
+                  {
+                    JvmOperation validateClassifierOperation = createJvmOperation(genPackage, JvmVisibility.PUBLIC, false, getJvmTypeReference("boolean", genPackage));
+                    EList<JvmFormalParameter> parameters = validateClassifierOperation.getParameters();
+                    JvmElementInferrer<JvmFormalParameter> classifierParameterInferrer =
+                        new JvmElementInferrer<JvmFormalParameter>(X_LOW)
+                        {
+                           @Override
+                           protected JvmFormalParameter inferStructure()
+                           {
+                             return createJvmFormalParameter(genPackage, getJvmTypeReference(genClassifier.getImportedWildcardInstanceClassName(), genPackage));
+                           }
+
+                           @Override
+                           public void inferName()
+                           {
+                             inferredElement.setName(genClassifier.getSafeUncapName());
+                           }
+                        };
+                    associate(genClassifier, classifierParameterInferrer);
+                    parameters.add(classifierParameterInferrer.getInferredElement());
+                    parameters.add(createJvmFormalParameter(genPackage, diagnostics, getJvmTypeReference("org.eclipse.emf.common.util.DiagnosticChain", genPackage)));
+                    parameters.add(createJvmFormalParameter(genPackage, context, getJvmTypeReference(map, genPackage)));
+                    return validateClassifierOperation;
+                  }
+
+                  @Override
+                  public void inferName()
+                  {
+                    inferredElement.setSimpleName("validate" + genClassifier.getName());
+                  }
+                };
+              associate(genClassifier, validateClassifierOperationInferrer);
+              members.add(validateClassifierOperationInferrer.getInferredElement());
+
+              for (final String constraint : genClassifier.getGenConstraints())
+              {
+                if (genClassifier instanceof GenDataType)
+                {
+                  final GenDataType genDataType = (GenDataType)genClassifier;
+                  if (constraint.equals("Min") && genDataType.getMinLiteral() != null || constraint.equals("Max") && genDataType.getMaxLiteral() != null)
+                  {
+                    JvmElementInferrer<JvmField> valueInferrer =
+                      new JvmElementInferrer<JvmField>(X_VERY_LOW)
+                      {
+                        @Override
+                        protected JvmField inferStructure()
+                        {
+                          return createJvmField(genPackage, JvmVisibility.PUBLIC, true, true, getJvmTypeReference(genDataType.getImportedInstanceClassName(), genPackage));
+                        }
+
+                        @Override
+                        public void inferName()
+                        {
+                          inferredElement.setSimpleName(genClassifier.getClassifierID() + "__" + CodeGenUtil.format(constraint, '_', null, false, false).toUpperCase(genClassifier.getGenModel().getLocale()) + "__VALUE");
+                        }
+                      };
+                    associate(genClassifier, valueInferrer);
+                    members.add(valueInferrer.getInferredElement());
+                  }
+                  else if (constraint.equals("TotalDigits") && genDataType.getTotalDigits() != -1 && !"java.math.BigDecimal".equals(genDataType.getQualifiedInstanceClassName()))
+                  {
+                    JvmElementInferrer<JvmField> upperBoundInferrer =
+                      new JvmElementInferrer<JvmField>(X_VERY_LOW)
+                      {
+                        @Override
+                        protected JvmField inferStructure()
+                        {
+                          return createJvmField(genPackage, JvmVisibility.PUBLIC, true, true, getJvmTypeReference(genDataType.getImportedInstanceClassName(), genPackage));
+                        }
+
+                        @Override
+                        public void inferName()
+                        {
+                          inferredElement.setSimpleName(genClassifier.getClassifierID() + "__" + CodeGenUtil.format(constraint, '_', null, false, false).toUpperCase(genClassifier.getGenModel().getLocale()) + "__UPPER_BOUND");
+                        }
+                      };
+                    associate(genClassifier, upperBoundInferrer);
+                    members.add(upperBoundInferrer.getInferredElement());
+
+                    JvmElementInferrer<JvmField> lowerBoundInferrer =
+                      new JvmElementInferrer<JvmField>(X_VERY_LOW)
+                      {
+                        @Override
+                        protected JvmField inferStructure()
+                        {
+                          return createJvmField(genPackage, JvmVisibility.PUBLIC, true, true, getJvmTypeReference(genDataType.getImportedInstanceClassName(), genPackage));
+                        }
+
+                        @Override
+                        public void inferName()
+                        {
+                          inferredElement.setSimpleName(genClassifier.getClassifierID() + "__" + CodeGenUtil.format(constraint, '_', null, false, false).toUpperCase(genClassifier.getGenModel().getLocale()) + "__LOWER_BOUND");
+                        }
+                      };
+                    associate(genClassifier, lowerBoundInferrer);
+                    members.add(lowerBoundInferrer.getInferredElement());
+                  }
+                  else if (constraint.equals("Pattern") && !genDataType.getPatterns().isEmpty())
+                  {
+                    JvmElementInferrer<JvmField> valuesInferrer =
+                      new JvmElementInferrer<JvmField>(X_VERY_LOW)
+                      {
+                        @Override
+                        protected JvmField inferStructure()
+                        {
+                          return createJvmField(genPackage, JvmVisibility.PUBLIC, true, true, getJvmTypeReference("org.eclipse.emf.ecore.EValidator$PatternMatcher", genPackage));
+                        }
+
+                        @Override
+                        public void inferName()
+                        {
+                          inferredElement.setSimpleName(genClassifier.getClassifierID() + "__" + CodeGenUtil.format(constraint, '_', null, false, false).toUpperCase(genClassifier.getGenModel().getLocale()) + "__VALUES");
+                        }
+                      };
+                    associate(genClassifier, valuesInferrer);
+                    members.add(valuesInferrer.getInferredElement());
+                  }
+                  else if (constraint.equals("Enumeration") && !genDataType.getEnumerationLiterals().isEmpty())
+                  {
+                    JvmElementInferrer<JvmField> valueInferrer =
+                      new JvmElementInferrer<JvmField>(X_VERY_LOW)
+                      {
+                        @Override
+                        protected JvmField inferStructure()
+                        {
+                          return createJvmField(genPackage, JvmVisibility.PUBLIC, true, true, getJvmTypeReference(genModel.useGenerics() ? "java.util.Collection<java.lang.Object>" : "java.util.Collection", genPackage));
+                        }
+
+                        @Override
+                        public void inferName()
+                        {
+                          inferredElement.setSimpleName(genClassifier.getClassifierID() + "__" + CodeGenUtil.format(constraint, '_', null, false, false).toUpperCase(genClassifier.getGenModel().getLocale()) + "__VALUES");
+                        }
+                      };
+                    associate(genClassifier, valueInferrer);
+                    members.add(valueInferrer.getInferredElement());
+                  }
+                  if (genClassifier.hasConstraintExpression(constraint))
+                  {
+                    JvmElementInferrer<JvmField> expressionInferrer =
+                      new JvmElementInferrer<JvmField>(X_VERY_LOW)
+                      {
+                        @Override
+                        protected JvmField inferStructure()
+                        {
+                          return createJvmField(genPackage, JvmVisibility.PUBLIC, true, true, getJvmTypeReference(genModel.useGenerics() ? "java.util.Collection<java.lang.Object>" : "java.util.Collection", genPackage));
+                        }
+
+                        @Override
+                        public void inferName()
+                        {
+                          inferredElement.setSimpleName(genClassifier.getClassifierID() + "__" + CodeGenUtil.upperName(constraint) + "__EEXPRESSION");
+                        }
+                      };
+                    associate(genClassifier, expressionInferrer);
+                    members.add(expressionInferrer.getInferredElement());
+                  }
+                }
+
+                final GenOperation genOperation =  (genClassifier instanceof GenClass) ?  ((GenClass)genClassifier).getInvariantOperation(constraint) : null;
+                JvmElementInferrer<JvmOperation> validateConstraintInferrer =
+                  new JvmElementInferrer<JvmOperation>(X_LOW)
+                  {
+                    @Override
+                    protected JvmOperation inferStructure()
+                    {
+                      JvmOperation validateConstraintOperation = createJvmOperation(genPackage, JvmVisibility.PUBLIC, false, getJvmTypeReference("boolean", genPackage));
+                      EList<JvmFormalParameter> parameters = validateConstraintOperation.getParameters();
+                      JvmElementInferrer<JvmFormalParameter> classifierParameterInferrer =
+                        new JvmElementInferrer<JvmFormalParameter>(X_VERY_LOW)
+                        {
+                           @Override
+                           protected JvmFormalParameter inferStructure()
+                           {
+                             return createJvmFormalParameter(genPackage, getJvmTypeReference(genClassifier.getImportedWildcardInstanceClassName(), genPackage));
+                           }
+
+                           @Override
+                           public void inferName()
+                           {
+                             inferredElement.setName(genClassifier.getSafeUncapName());
+                           }
+                        };
+                      associate(genClassifier, classifierParameterInferrer);
+                      parameters.add(classifierParameterInferrer.getInferredElement());
+                      parameters.add(createJvmFormalParameter(genPackage, diagnostics, getJvmTypeReference("org.eclipse.emf.common.util.DiagnosticChain", genPackage)));
+                      parameters.add(createJvmFormalParameter(genPackage, context, getJvmTypeReference(map, genPackage)));
+                      return validateConstraintOperation;
+                    }
+
+                    @Override
+                    public void inferName()
+                    {
+                      inferredElement.setSimpleName("validate" + genClassifier.getName() + "_" + (genOperation == null ? constraint : genOperation.getName()));
+                    }
+                  };
+                associate(genClassifier, validateConstraintInferrer);
+                if (genOperation != null)
+                {
+                  associate(genOperation, validateConstraintInferrer);
+                }
+                members.add(validateConstraintInferrer.getInferredElement());
+              }
+            }
+            if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF24_VALUE)
+            {
+              members.add(createJvmOperation(genPackage, JvmVisibility.PUBLIC, false, "getResourceLocator", getJvmTypeReference("org.eclipse.emf.common.util.ResourceLocator", genPackage)));
+            }
+          }
+
+          @Override
+          public void inferName()
+          {
+            inferredElement.setSimpleName(genPackage.getValidatorClassName());
+            inferredElement.setPackageName(genPackage.getUtilitiesPackageName());
+          }
+        };
+      associate(genPackage, validatorClassInferrer);
+      result.add(validatorClassInferrer.getInferredElement());
     }
 
     if (genPackage.hasClassifiers() && genPackage.isAdapterFactory() && !genPackage.getGenClasses().isEmpty())
@@ -1433,7 +1766,7 @@ public class XcoreJvmInferrer
                         JvmField settingDelegateField = createJvmField(genFeature, JvmVisibility.PROTECTED, false, getJvmTypeReference("org.eclipse.emf.ecore.EStructuralFeature.Internal.SettingDelegate", genFeature));
                         return settingDelegateField;
                       }
-  
+
                       @Override
                       public void inferName()
                       {
@@ -1456,7 +1789,7 @@ public class XcoreJvmInferrer
                           JvmField settingDelegateField = createJvmField(genFeature, JvmVisibility.PROTECTED, false, getJvmTypeReference(genFeature.getImportedInternalType(genClass), genFeature));
                           return settingDelegateField;
                         }
-  
+
                         @Override
                         public void inferName()
                         {
@@ -1477,7 +1810,7 @@ public class XcoreJvmInferrer
                           JvmField settingDelegateField = createJvmField(genFeature, JvmVisibility.PROTECTED, true, getJvmTypeReference(genFeature.getRawListItemType() + "[]", genFeature));
                           return settingDelegateField;
                         }
-  
+
                         @Override
                         public void inferName()
                         {
@@ -1501,7 +1834,7 @@ public class XcoreJvmInferrer
                           JvmField settingDelegateField = createJvmField(genFeature, JvmVisibility.PROTECTED, true, getJvmTypeReference(genFeature.getImportedType(genClass), genFeature));
                           return settingDelegateField;
                         }
-  
+
                         @Override
                         public void inferName()
                         {
@@ -1527,7 +1860,7 @@ public class XcoreJvmInferrer
                               JvmField settingDelegateField = createJvmField(genFeature, JvmVisibility.PROTECTED, false, getJvmTypeReference("int", genFeature));
                               return settingDelegateField;
                             }
-  
+
                             @Override
                             public void inferName()
                             {
@@ -1548,7 +1881,7 @@ public class XcoreJvmInferrer
                               JvmField settingDelegateField = createJvmField(genFeature, JvmVisibility.PROTECTED, true, getJvmTypeReference("int", genFeature));
                               return settingDelegateField;
                             }
-  
+
                             @Override
                             public void inferName()
                             {
@@ -1557,7 +1890,7 @@ public class XcoreJvmInferrer
                           };
                         associate(genFeature, flagOffsetFieldInferrer);
                         members.add(flagOffsetFieldInferrer.getInferredElement());
-  
+
                         JvmElementInferrer<JvmField> flagsDefaultFieldInferrer =
                           new JvmElementInferrer<JvmField>(X_LOW)
                           {
@@ -1567,7 +1900,7 @@ public class XcoreJvmInferrer
                               JvmField settingDelegateField = createJvmField(genFeature, JvmVisibility.PROTECTED, true, getJvmTypeReference("int", genFeature));
                               return settingDelegateField;
                             }
-  
+
                             @Override
                             public void inferName()
                             {
@@ -1576,7 +1909,7 @@ public class XcoreJvmInferrer
                           };
                         associate(genFeature, flagsDefaultFieldInferrer);
                         members.add(flagsDefaultFieldInferrer.getInferredElement());
-  
+
                         JvmElementInferrer<JvmField> flagValuesFieldInferrer =
                           new JvmElementInferrer<JvmField>(X_LOW)
                           {
@@ -1586,7 +1919,7 @@ public class XcoreJvmInferrer
                               JvmField settingDelegateField = createJvmField(genFeature, JvmVisibility.PRIVATE, true, getJvmTypeReference("int", genFeature));
                               return settingDelegateField;
                             }
-  
+
                             @Override
                             public void inferName()
                             {
@@ -1596,7 +1929,7 @@ public class XcoreJvmInferrer
                         associate(genFeature, flagValuesFieldInferrer);
                         members.add(flagValuesFieldInferrer.getInferredElement());
                       }
-  
+
                       JvmElementInferrer<JvmField> flagOffsetFieldInferrer =
                         new JvmElementInferrer<JvmField>(X_LOW)
                         {
@@ -1606,7 +1939,7 @@ public class XcoreJvmInferrer
                             JvmField settingDelegateField = createJvmField(genFeature, JvmVisibility.PROTECTED, true, getJvmTypeReference("int", genFeature));
                             return settingDelegateField;
                           }
-  
+
                           @Override
                           public void inferName()
                           {
@@ -1627,7 +1960,7 @@ public class XcoreJvmInferrer
                             JvmField settingDelegateField = createJvmField(genFeature, JvmVisibility.PROTECTED, false, getJvmTypeReference(genFeature.getImportedType(genClass), genFeature));
                             return settingDelegateField;
                           }
-  
+
                           @Override
                           public void inferName()
                           {
@@ -1655,7 +1988,7 @@ public class XcoreJvmInferrer
                             JvmField settingDelegateField = createJvmField(genFeature, JvmVisibility.PROTECTED, false, getJvmTypeReference("int", genFeature));
                             return settingDelegateField;
                           }
-  
+
                           @Override
                           public void inferName()
                           {
@@ -1665,7 +1998,7 @@ public class XcoreJvmInferrer
                       associate(genFeature, eSetFlagsFieldInferrer);
                       members.add(eSetFlagsFieldInferrer.getInferredElement());
                     }
-  
+
                     JvmElementInferrer<JvmField> eSetFlagFieldInferrer =
                       new JvmElementInferrer<JvmField>(X_LOW)
                       {
@@ -1675,7 +2008,7 @@ public class XcoreJvmInferrer
                           JvmField settingDelegateField = createJvmField(genFeature, JvmVisibility.PROTECTED, true, getJvmTypeReference("int", genFeature));
                           return settingDelegateField;
                         }
-  
+
                         @Override
                         public void inferName()
                         {
@@ -1696,7 +2029,7 @@ public class XcoreJvmInferrer
                           JvmField settingDelegateField = createJvmField(genFeature, JvmVisibility.PROTECTED, false, getJvmTypeReference("boolean", genFeature));
                           return settingDelegateField;
                         }
-  
+
                         @Override
                         public void inferName()
                         {
@@ -2224,10 +2557,24 @@ public class XcoreJvmInferrer
     return jvmField;
   }
 
+  protected JvmField createJvmField(EObject context, JvmVisibility jvmVisibility, boolean isStatic, boolean isFinal, JvmTypeReference jvmTypeReference)
+  {
+    JvmField jvmField = createJvmField(context,  jvmVisibility, isStatic, jvmTypeReference);
+    jvmField.setFinal(isFinal);
+    return jvmField;
+  }
+
   protected JvmField createJvmField(EObject context, JvmVisibility jvmVisibility, boolean isStatic, String name, JvmTypeReference jvmTypeReference)
   {
     JvmField jvmField = createJvmField(context, jvmVisibility, isStatic, jvmTypeReference);
     jvmField.setSimpleName(name);
+    return jvmField;
+  }
+
+  protected JvmField createJvmField(EObject context, JvmVisibility jvmVisibility, boolean isStatic, boolean isFinal, String name, JvmTypeReference jvmTypeReference)
+  {
+    JvmField jvmField = createJvmField(context, jvmVisibility, isStatic, name, jvmTypeReference);
+    jvmField.setFinal(isFinal);
     return jvmField;
   }
 
