@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2010 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -246,7 +246,10 @@ public class EContentAdapter extends AdapterImpl
     for (int i = 0; i < resources.size(); ++i)
     {
       Notifier notifier = resources.get(i);
-      addAdapter(notifier);
+      if (!notifier.eAdapters().contains(this))
+      {
+        addAdapter(notifier);
+      }
     }
   }
 
