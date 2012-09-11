@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.build"
       label="Eclipse Modeling Framework (EMF) Build Site"
-      version="2.8.0.qualifier"
+      version="2.9.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg"
       license-feature="org.eclipse.emf.license"
