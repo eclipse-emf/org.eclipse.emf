@@ -282,7 +282,7 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
    * @return the file extension to be used with the key to specify an image resource.
    */
   protected static String extensionFor(String key)
-  {    String result = ".gif";
+  {    String result = ".gif";
     int index = key.lastIndexOf('.');
     if (index != -1)
     {
