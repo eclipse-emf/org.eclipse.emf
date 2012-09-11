@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<release>
+	<feature name="org.eclipse.xsd.example" version="2.7.0">
+		<feature name="org.eclipse.xsd.license" version="2.7.0" license="true"/>
+		<feature name="org.eclipse.xsd.example.source" version="0.0.0"/> <!-- UNRESOLVED -->
+		<plugin name="org.eclipse.xsd.example" version="2.6.0"/>
+	</feature>
+	<feature name="org.eclipse.xsd.example.source" version="0.0.0"/> <!-- UNRESOLVED -->
+	<feature name="org.eclipse.xsd.license" version="2.7.0"/>
+	<plugin name="org.eclipse.xsd.example" version="2.6.0"/>
+</release>
