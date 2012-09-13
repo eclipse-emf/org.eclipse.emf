@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2007-2011 IBM Corporation, CEA, and others.
+ * Copyright (c) 2007-2012 IBM Corporation, CEA, and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -167,11 +167,12 @@ public class XMLContentHandlerImpl extends ContentHandlerImpl
    * Returns the character set of the input stream; it's computed from the encoding specified in the XML content.
    * @param uri the URI of the input stream.
    * @param inputStream the input stream of the XML content.
-   * @param options any options that might influence the loading the the XML content.
+   * @param options any options that might influence the loading of the XML content.
    * @param context a cache for previously computed information.
    * @return the character set of the input stream.
    * @throws IOException if there is a problem loading the XML content.
    */
+  @Override
   protected String getCharset(URI uri, InputStream inputStream, Map<?, ?> options, Map<Object, Object> context) throws IOException
   {
     String result = (String)context.get(ContentHandler.CHARSET_PROPERTY);
@@ -222,20 +223,6 @@ public class XMLContentHandlerImpl extends ContentHandlerImpl
         inputStream.reset();
       }
       context.put("XMLResource", result);
-    }
-    return result;
-  }
-
-  /**
-   * This implementation augments the base implementation by computing the {@link ContentHandler#CHARSET_PROPERTY character set property}.
-   */
-  @Override
-  public Map<String, Object> contentDescription(URI uri, InputStream inputStream, Map<?, ?> options, Map<Object, Object> context) throws IOException
-  {
-    Map<String, Object> result = super.contentDescription(uri, inputStream, options, context);
-    if (isRequestedProperty(ContentHandler.CHARSET_PROPERTY, options))
-    {
-      result.put(ContentHandler.CHARSET_PROPERTY, getCharset(uri, inputStream, options, context));
     }
     return result;
   }

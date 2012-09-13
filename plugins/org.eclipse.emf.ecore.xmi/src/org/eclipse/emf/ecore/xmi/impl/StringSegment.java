@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMIPlugin;
 
 
@@ -34,6 +35,8 @@ import org.eclipse.emf.ecore.xmi.XMIPlugin;
 public class StringSegment extends BasicEList<StringSegment.Element>
 {
   private static final long serialVersionUID = 1L;
+
+  private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
   protected final static int LIST_SIZE = 100;
 
@@ -53,7 +56,7 @@ public class StringSegment extends BasicEList<StringSegment.Element>
 
   protected int cursorIndex = 0;
 
-  protected String lineSeparator = System.getProperty("line.separator");
+  protected String lineSeparator = LINE_SEPARATOR;
 
   protected String temporaryFileName;
 
@@ -97,6 +100,14 @@ public class StringSegment extends BasicEList<StringSegment.Element>
     {
       buffer = null;
     }
+  }
+
+  /**
+   * @since 2.9
+   */
+  public void setLineSeparator(String lineSeparator)
+  {
+    this.lineSeparator = lineSeparator == null || lineSeparator.equals(Resource.OPTION_LINE_DELIMITER_UNSPECIFIED) ? LINE_SEPARATOR : lineSeparator;
   }
 
   public String getTemporaryFileName()

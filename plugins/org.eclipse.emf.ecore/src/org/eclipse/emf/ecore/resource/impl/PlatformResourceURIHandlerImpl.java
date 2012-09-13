@@ -25,13 +25,18 @@ import java.util.Set;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourceAttributes;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentDescription;
+import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -402,6 +407,44 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
       {
         throw new Resource.IOWrappedException(exception);
       }
+    }
+
+    /**
+     * Returns the {@link IFile#getCharset() character set) for the file at the specified location.
+     * @since 2.9
+     */
+    public static String getCharset(String platformResourcePath, Map<?, ?> options) throws IOException
+    {
+      IFile file = workspaceRoot.getFile(new Path(platformResourcePath));
+      try
+      {
+        return file.getCharset();
+      }
+      catch (CoreException exception)
+      {
+        throw new Resource.IOWrappedException(exception);
+      }
+    }
+
+    @SuppressWarnings("deprecation")
+    private static final InstanceScope INSTANCE_SCOPE = new InstanceScope();
+
+    private static final String SYSTEM_PROPERTY_LINE_SEPARATOR = System.getProperty(Platform.PREF_LINE_SEPARATOR);
+
+    /**
+     * Returns the project or workspace line delimiter preference for a new workspace file at the specified location.
+     * @since 2.9
+     */
+    public static String getLineDelimiter(String platformResourcePath, Map<?, ?> options)
+    {
+      IFile file = workspaceRoot.getFile(new Path(platformResourcePath));
+      IProject project = file.getProject();
+      return 
+        Platform.getPreferencesService().getString
+          (Platform.PI_RUNTIME, 
+           Platform.PREF_LINE_SEPARATOR, 
+           SYSTEM_PROPERTY_LINE_SEPARATOR, 
+           new IScopeContext[] { new ProjectScope(project), INSTANCE_SCOPE });
     }
   }
 

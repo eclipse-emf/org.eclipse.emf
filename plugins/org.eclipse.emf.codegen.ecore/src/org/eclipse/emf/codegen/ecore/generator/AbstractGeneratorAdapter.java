@@ -14,9 +14,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.Reader;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -30,15 +28,12 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourceAttributes;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.preferences.IScopeContext;
-import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.ToolFactory;
@@ -67,7 +62,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.resource.impl.ContentHandlerImpl;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
+import org.eclipse.emf.ecore.resource.impl.PlatformResourceURIHandlerImpl;
 
 /**
  * A base <code>GeneratorAdapter</code> implementation. This base provides support for
@@ -1275,45 +1272,10 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
     try
     {
       inputStream = createInputStream(workspacePath);
-      Reader reader = encoding == null ? new InputStreamReader(inputStream) : new InputStreamReader(inputStream, encoding);
-      char [] text = new char [4048];
-      char target = 0;
-      for (int count = reader.read(text); count > -1; count = reader.read(text))
+      String lineDelimiter = ContentHandlerImpl.getLineDelimiter(inputStream, encoding);
+      if (lineDelimiter != null)
       {
-        for (int i = 0; i < count; ++i)
-        {
-          char character = text[i];
-          if (character == '\n')
-          {
-            if (target == '\n')
-            {
-              return "\n";
-            }
-            else if (target == '\r')
-            {
-              return "\r\n";
-            }
-            else
-            {
-              target = '\n';
-            }
-          }
-          else if (character == '\r')
-          {
-            if (target == '\n')
-            {
-              return "\n\r";
-            }
-            else if (target == '\r')
-            {
-              return "\r";
-            }
-            else
-            {
-              target = '\r';
-            }
-          }
-        }
+        return lineDelimiter;
       }
     }
     catch (Exception exception)
@@ -1338,7 +1300,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
     {
-      return EclipseHelper.getLineDelimiter(workspacePath.toString());
+      return PlatformResourceURIHandlerImpl.WorkbenchHelper.getLineDelimiter(workspacePath.toString(), null);
     }
     return System.getProperty(Platform.PREF_LINE_SEPARATOR);
   }
@@ -1592,19 +1554,6 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         monitor.done();
       }
       return container != null && container.getFullPath().equals(path);
-    }
-
-    /**
-     * @since 2.3
-     */
-    public static String getLineDelimiter(String workspacePath)
-    {
-      return 
-        Platform.getPreferencesService().getString
-          (Platform.PI_RUNTIME, 
-           Platform.PREF_LINE_SEPARATOR, 
-           System.getProperty(Platform.PREF_LINE_SEPARATOR), 
-           new IScopeContext[] { new ProjectScope(ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(workspacePath)).getProject()), new InstanceScope() });
     }
 
     public static boolean isReadOnly(String workspacePath)

@@ -18,35 +18,39 @@ import junit.framework.TestSuite;
 public class AllSuites extends TestSuite
 {
   public static final String PLUGIN_ID = "org.eclipse.emf.test.core";
-  
-  private static Test[] suites = new Test []{ 
-    org.eclipse.emf.test.core.common.util.URITest.suite() 
-    ,org.eclipse.emf.test.core.ecore.EcoreValidationTest.suite()
-    ,org.eclipse.emf.test.core.ecore.EcoreTest.suite()
-    ,org.eclipse.emf.test.core.common.NotificationTest.suite()
-    ,org.eclipse.emf.test.core.common.util.EqualityTest.suite()
-    ,org.eclipse.emf.test.core.common.util.ECollectionsTest.suite()
-    ,org.eclipse.emf.test.core.dynamic.SimpleModelTest.suite()
-    ,org.eclipse.emf.test.core.dynamic.ModelNotificationTest.suite()
-    ,org.eclipse.emf.test.core.dynamic.DynamicCrossResourceContainmentProxy.suite()
-    ,org.eclipse.emf.test.core.change.ChangeAllSuites.suite()
-    ,org.eclipse.emf.test.core.ecore.EcoreUtilStaticMethodsTest.suite()
-    ,org.eclipse.emf.test.core.ecore.ListTest.suite()
-    ,org.eclipse.emf.test.core.ecore.ResourceCacheMechanismTest.suite()
-    ,org.eclipse.emf.test.core.ecore.PersistenceTest.suite()
-    ,org.eclipse.emf.test.core.ecore.ResourceAttachmentTest.suite()
-    ,org.eclipse.emf.test.core.ecore.FeatureMapTest.suite()
-    ,org.eclipse.emf.test.core.ecore.ValidationTest.suite()
-    ,org.eclipse.emf.test.core.ecore.KeyTest.suite()
-    ,org.eclipse.emf.test.core.ecore.URIConverterTest.suite()
-    ,org.eclipse.emf.test.core.ecore.GenericTypeBuilderTest.suite()
-    ,org.eclipse.emf.test.core.featuremap.FeatureMapTest.suite()
-    ,org.eclipse.emf.test.core.ecore.BadEcoreDiagnosticTest.suite()
-    ,org.eclipse.emf.test.core.ecore.XMLTypeTest.suite()
-    ,org.eclipse.emf.test.core.ecore.BinaryResourceTest.suite()
-    ,org.eclipse.emf.test.core.ecore.SwitchTest.suite()
-    ,org.eclipse.emf.test.core.ecore.ResourceSetMappedResourceLocatorTest.suite()
-  };
+
+  private static Test[] suites =
+    new Test []
+    {
+      org.eclipse.emf.test.core.common.util.URITest.suite(),
+      org.eclipse.emf.test.core.common.util.URITest.suite(),
+      org.eclipse.emf.test.core.ecore.EcoreValidationTest.suite(),
+      org.eclipse.emf.test.core.ecore.EcoreTest.suite(),
+      org.eclipse.emf.test.core.common.NotificationTest.suite(),
+      org.eclipse.emf.test.core.common.util.EqualityTest.suite(),
+      org.eclipse.emf.test.core.common.util.ECollectionsTest.suite(),
+      org.eclipse.emf.test.core.dynamic.SimpleModelTest.suite(),
+      org.eclipse.emf.test.core.dynamic.ModelNotificationTest.suite(),
+      org.eclipse.emf.test.core.dynamic.DynamicCrossResourceContainmentProxy.suite(),
+      org.eclipse.emf.test.core.change.ChangeAllSuites.suite(),
+      org.eclipse.emf.test.core.ecore.EcoreUtilStaticMethodsTest.suite(),
+      org.eclipse.emf.test.core.ecore.ListTest.suite(),
+      org.eclipse.emf.test.core.ecore.ResourceCacheMechanismTest.suite(),
+      org.eclipse.emf.test.core.ecore.ContentTypeTest.suite(),
+      org.eclipse.emf.test.core.ecore.PersistenceTest.suite(),
+      org.eclipse.emf.test.core.ecore.ResourceAttachmentTest.suite(),
+      org.eclipse.emf.test.core.ecore.FeatureMapTest.suite(),
+      org.eclipse.emf.test.core.ecore.ValidationTest.suite(),
+      org.eclipse.emf.test.core.ecore.KeyTest.suite(),
+      org.eclipse.emf.test.core.ecore.URIConverterTest.suite(),
+      org.eclipse.emf.test.core.ecore.GenericTypeBuilderTest.suite(),
+      org.eclipse.emf.test.core.featuremap.FeatureMapTest.suite(),
+      org.eclipse.emf.test.core.ecore.BadEcoreDiagnosticTest.suite(),
+      org.eclipse.emf.test.core.ecore.XMLTypeTest.suite(),
+      org.eclipse.emf.test.core.ecore.BinaryResourceTest.suite(),
+      org.eclipse.emf.test.core.ecore.SwitchTest.suite(),
+      org.eclipse.emf.test.core.ecore.ResourceSetMappedResourceLocatorTest.suite()
+    };
 
   public static Test suite()
   {

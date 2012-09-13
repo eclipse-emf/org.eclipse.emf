@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -155,6 +155,21 @@ public interface Resource extends Notifier
    * @since 2.3
    */
   String OPTION_SAVE_ONLY_IF_CHANGED_FILE_BUFFER = "FILE_BUFFER";
+
+  /**
+   * Specify the line delimiter to be used for saving the contents.
+   * @see #OPTION_LINE_DELIMITER_UNSPECIFIED
+   * @since 2.9
+   */
+  String OPTION_LINE_DELIMITER = "LINE_DELIMITER";
+
+  /**
+   * A value for {@link #OPTION_LINE_DELIMITER} that can be used only with {@link #save(Map)}
+   * to specify that the appropriate line delimiter be determined from the {@link ContentHandler#LINE_DELIMITER_PROPERTY line delimiter property}
+   * of the {@link URIConverter#contentDescription(URI, Map) content description}.
+   * @since 2.9
+   */
+  String OPTION_LINE_DELIMITER_UNSPECIFIED = "";
 
   /**
    * Returns the containing resource set.

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,10 +18,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -42,6 +44,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.ContentHandler;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -952,6 +955,8 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         getResourceSet().getURIConverter();
   }
 
+  private static final Set<String> LINE_DELIMITER_REQUEST = Collections.singleton(ContentHandler.LINE_DELIMITER_PROPERTY);
+
   /*
    * Javadoc copied from interface.
    */
@@ -963,6 +968,25 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         defaultSaveOptions != null ?
           defaultSaveOptions.get(OPTION_SAVE_ONLY_IF_CHANGED) :
           null;
+
+    String lineDelimiter =
+      options != null && options.containsKey(OPTION_LINE_DELIMITER) ?
+        (String)options.get(OPTION_LINE_DELIMITER) :
+        defaultSaveOptions != null ?
+          (String)defaultSaveOptions.get(OPTION_LINE_DELIMITER) :
+          null;
+
+    if (OPTION_LINE_DELIMITER_UNSPECIFIED.equals(lineDelimiter))
+    {
+      ExtensibleURIConverterImpl.OptionsMap effectiveOptions = new ExtensibleURIConverterImpl.OptionsMap(ContentHandler.OPTION_REQUESTED_PROPERTIES, LINE_DELIMITER_REQUEST, options, defaultSaveOptions);
+      Map<String, ?> contentDescription = getURIConverter().contentDescription(uri, effectiveOptions);
+      lineDelimiter = (String)contentDescription.get(ContentHandler.LINE_DELIMITER_PROPERTY);
+      if (lineDelimiter != null)
+      {
+        options = new ExtensibleURIConverterImpl.OptionsMap(OPTION_LINE_DELIMITER, lineDelimiter, options, defaultSaveOptions);
+      }
+    }
+
     if (OPTION_SAVE_ONLY_IF_CHANGED_FILE_BUFFER.equals(saveOnlyIfChanged))
     {
       saveOnlyIfChangedWithFileBuffer(options);
@@ -1405,14 +1429,14 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     {
       try
       {
-        outputStream = cipher.encrypt(outputStream);
+        OutputStream encryptedOutputStream = cipher.encrypt(outputStream);
+        outputStream = encryptedOutputStream;
       }
       catch (Exception e)
       {
         throw new IOWrappedException(e);
       }
     }
-
 
     doSave(outputStream, options);
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2007 IBM Corporation and others.
+ * Copyright (c) 2007-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -103,6 +103,7 @@ public interface ContentHandler
    * @see #CONTENT_TYPE_PROPERTY
    * @see #BYTE_ORDER_MARK_PROPERTY
    * @see #CHARSET_PROPERTY
+   * @see #LINE_DELIMITER_PROPERTY
    */
   String OPTION_REQUESTED_PROPERTIES = "REQUESTED_PROPERTIES";
 
@@ -165,6 +166,15 @@ public interface ContentHandler
    * @see IContentDescription#CHARSET
    */
   String CHARSET_PROPERTY = "org.eclipse.core.runtime:charset";
+
+  /**
+   * A {@link #contentDescription(URI, InputStream, Map, Map) content description} property describing the line delimiter used by the characters of the content, 
+   * as determined from the bytes of the content interpreted using {@link #CHARSET_PROPERTY appropriate character set}.
+   * The value will be a string that can be used as a line delimiter.
+   * @see IContentDescription#CHARSET
+   * @since 2.9
+   */
+  String LINE_DELIMITER_PROPERTY = "org.eclipse.emf.ecore:lineDelimiter";
 
   /**
    * A {@link #contentDescription(URI, InputStream, Map, Map) content description} property describing the byte order mark at the beginning of the contents.

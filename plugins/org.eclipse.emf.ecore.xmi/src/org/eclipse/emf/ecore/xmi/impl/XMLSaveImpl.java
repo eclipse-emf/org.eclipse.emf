@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -426,12 +426,13 @@ public class XMLSaveImpl implements XMLSave
         escape = Boolean.TRUE.equals(options.get(XMLResource.OPTION_SKIP_ESCAPE)) ? null : new Escape();
       }
 
+      doc.setLineSeparator((String)options.get(Resource.OPTION_LINE_DELIMITER));
+
       if (Boolean.FALSE.equals(options.get(XMLResource.OPTION_FORMATTED)))
       {
         doc.setUnformatted(true);
       }
       
-
       escapeURI = Boolean.FALSE.equals(options.get(XMLResource.OPTION_SKIP_ESCAPE_URI)) ? escape : null;
 
       if (options.containsKey(XMLResource.OPTION_ENCODING))

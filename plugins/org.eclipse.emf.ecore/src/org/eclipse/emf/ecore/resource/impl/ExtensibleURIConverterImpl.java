@@ -289,9 +289,9 @@ public class ExtensibleURIConverterImpl implements URIConverter
       return 
         mergedMap != null ? 
           mergedMap.isEmpty() : 
-          key != NO_KEY || 
-            options != null && !options.isEmpty() || 
-            defaultOptions != null && !defaultOptions.isEmpty();
+          key == NO_KEY &&  
+            (options == null || options.isEmpty()) && 
+            (defaultOptions == null || defaultOptions.isEmpty());
     }
 
     public Set<Object> keySet()
@@ -334,6 +334,12 @@ public class ExtensibleURIConverterImpl implements URIConverter
     public boolean equals(Object o)
     {
       return mergedMap().equals(o);
+    }
+
+    @Override
+    public String toString()
+    {
+      return mergedMap().toString();
     }
   }
 

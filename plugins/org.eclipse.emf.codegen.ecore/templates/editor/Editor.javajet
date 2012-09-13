@@ -1907,6 +1907,9 @@ public class <%=genPackage.getEditorClassName()%>
 <%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF23_VALUE) {%>
 		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
 <%}%>
+<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF29_VALUE) {%>
+		saveOptions.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
+<%}%>
 
 		// Do the work within an operation because this is a long running activity that modifies the workbench.
 		//

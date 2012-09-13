@@ -47,6 +47,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 
@@ -149,8 +150,9 @@ public class DynamicModelWizard extends Wizard implements INewWizard
               // Save the contents of the resource to the file system.
               //
               Map<Object, Object> options = new HashMap<Object, Object>();
-              options.put("SCHEMA_LOCATION", Boolean.TRUE);
-              options.put("LINE_WIDTH", 80);
+              options.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+              options.put(XMLResource.OPTION_LINE_WIDTH, 80);
+              options.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
               resource.save(options);
             }
             catch (Exception exception)

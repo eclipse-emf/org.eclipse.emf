@@ -446,6 +446,7 @@ public abstract class ModelConverter
   {
     Map<Object, Object> result = new HashMap<Object, Object>();
     result.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+    result.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
     return result;
   }
 

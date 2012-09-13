@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,7 +14,6 @@ package org.eclipse.emf.ecore.resource.impl;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -174,17 +173,15 @@ public class ResourceFactoryRegistryImpl implements Resource.Factory.Registry
   }
 
   /**
+   * A constant read only set containing just the {@link ContentHandler#CONTENT_TYPE_PROPERTY content type property}.
+   * @since 2.9
+   */
+  protected static final Set<String> CONTENT_TYPE_REQUESTED_PROPERTIES = Collections.singleton(ContentHandler.CONTENT_TYPE_PROPERTY);
+
+  /**
    * A constant read only map of {@link URIConverter#contentDescription(URI, Map) options} used to request just the {@link ContentHandler#CONTENT_TYPE_PROPERTY content type}.
    */
-  protected static final Map<?, ?> CONTENT_DESCRIPTION_OPTIONS;
-  static
-  {
-    Map<Object, Object> contentDescriptionOptions = new HashMap<Object, Object>();
-    Set<String> requestedProperties = new HashSet<String>();
-    requestedProperties.add(ContentHandler.CONTENT_TYPE_PROPERTY);
-    contentDescriptionOptions.put(ContentHandler.OPTION_REQUESTED_PROPERTIES, requestedProperties);
-    CONTENT_DESCRIPTION_OPTIONS = Collections.unmodifiableMap(contentDescriptionOptions);
-  }
+  protected static final Map<?, ?> CONTENT_DESCRIPTION_OPTIONS = Collections.singletonMap(ContentHandler.OPTION_REQUESTED_PROPERTIES, CONTENT_TYPE_REQUESTED_PROPERTIES);
 
   /**
    * Returns the default options used to {@link URIConverter#contentDescription(URI, Map) compute} the content type identifier.

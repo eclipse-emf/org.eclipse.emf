@@ -401,6 +401,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         Map<Object, Object> options = new HashMap<Object, Object>();
         options.put(XMLResource.OPTION_URI_HANDLER, uriHandler);
         options.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+        options.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
 
         try
         {

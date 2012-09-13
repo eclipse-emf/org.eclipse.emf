@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2007-2008 IBM Corporation and others.
+ * Copyright (c) 2007-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,7 @@ package org.eclipse.emf.ecore.resource.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Collections;
 import java.util.HashMap;
@@ -106,16 +107,132 @@ public class ContentHandlerImpl implements ContentHandler
   }
 
   /**
-   * This base implementation handles looking up the {@link ContentHandler#BYTE_ORDER_MARK_PROPERTY} if that's a {@link #isRequestedProperty(String, Map) requested property}.
+   * This base implementation handles computing the {@link ContentHandler#BYTE_ORDER_MARK_PROPERTY}, 
+   * the {@link ContentHandler#CHARSET_PROPERTY character set property},
+   * and the {@link ContentHandler#LINE_DELIMITER_PROPERTY line delimiter property}.
+   * for each such {@link #isRequestedProperty(String, Map) requested property}.
    */
   public Map<String, Object> contentDescription(URI uri, InputStream inputStream, Map<?, ?> options, Map<Object, Object> context) throws IOException
   {
     Map<String, Object> result = createContentDescription(ContentHandler.Validity.INDETERMINATE);
     if (isRequestedProperty(ContentHandler.BYTE_ORDER_MARK_PROPERTY, options))
     {
-      result.put(ContentHandler.BYTE_ORDER_MARK_PROPERTY, getByteOrderMark(uri, inputStream, options, context));
+      ByteOrderMark byteOrderMark = getByteOrderMark(uri, inputStream, options, context);
+      if (byteOrderMark != null)
+      {
+        result.put(ContentHandler.BYTE_ORDER_MARK_PROPERTY, byteOrderMark);
+      }
+    }
+    if (isRequestedProperty(ContentHandler.CHARSET_PROPERTY, options))
+    {
+      String charset = getCharset(uri, inputStream, options, context);
+      if (charset != null)
+      {
+        result.put(ContentHandler.CHARSET_PROPERTY, charset);
+      }
+    }
+    if (isRequestedProperty(ContentHandler.LINE_DELIMITER_PROPERTY, options))
+    {
+      String lineDelimiter = getLineDelimiter(uri, inputStream, options, context);
+      if (lineDelimiter != null)
+      {
+        result.put(ContentHandler.LINE_DELIMITER_PROPERTY, lineDelimiter);
+      }
     }
     return result;
+  }
+
+  /**
+   * Returns the character set of the input stream; this implementation simply returns null.
+   * @param uri the URI of the input stream.
+   * @param inputStream the input stream.
+   * @param options any options that might influence the interpretation of the content.
+   * @param context a cache for previously computed information.
+   * @return the character set of the input stream.
+   * @throws IOException if there is a problem loading the content.
+   * @since 2.9
+   */
+  protected String getCharset(URI uri, InputStream inputStream, Map<?, ?> options, Map<Object, Object> context) throws IOException
+  {
+    return null;
+  }
+
+  /**
+   * Returns the line delimiter of the input stream; it's computed from the bytes interpreted using the {@link #getCharset(URI, InputStream, Map, Map) appropriate character set}.
+   * @param uri the URI of the input stream.
+   * @param inputStream the input stream.
+   * @param options any options that might influence the interpretation of the content.
+   * @param context a cache for previously computed information.
+   * @return the line delimiter of the input stream.
+   * @throws IOException if there is a problem loading the content.
+   * @since 2.9
+   */
+  protected String getLineDelimiter(URI uri, InputStream inputStream, Map<?, ?> options, Map<Object, Object> context) throws IOException
+  {
+    String result = (String)context.get(ContentHandler.LINE_DELIMITER_PROPERTY);
+    if (result == null)
+    {
+      String charset = getCharset(uri, inputStream, options, context);
+      if (charset != null)
+      {
+        result = getLineDelimiter(inputStream, charset);
+        if (result != null)
+        {
+          context.put(ContentHandler.LINE_DELIMITER_PROPERTY, result);
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * 
+   * Returns the line delimiter of the input stream interpreted using the specified character set.
+   * @since 2.9
+   */
+  public static String getLineDelimiter(InputStream inputStream, String charset) throws IOException
+  {
+    Reader reader = new InputStreamReader(inputStream, charset);
+    char [] text = new char [4048];
+    char target = 0;
+    for (int count = reader.read(text); count > -1; count = reader.read(text))
+    {
+      for (int i = 0; i < count; ++i)
+      {
+        char character = text[i];
+        if (character == '\n')
+        {
+          if (target == '\n')
+          {
+            return "\n";
+          }
+          else if (target == '\r')
+          {
+            return "\r\n";
+          }
+          else
+          {
+            target = '\n';
+          }
+        }
+        else if (character == '\r')
+        {
+          if (target == '\n')
+          {
+            return "\n\r";
+          }
+          else if (target == '\r')
+          {
+            return "\r";
+          }
+          else
+          {
+            target = '\r';
+          }
+        }
+      }
+    }
+    return null;
   }
 
   /**
@@ -145,13 +262,19 @@ public class ContentHandlerImpl implements ContentHandler
   public static class Describer implements IContentDescriber, ITextContentDescriber, IExecutableExtension
   {
     /**
+     * An property that, in addition to {@link IContentDescription#CHARSET} and {@link IContentDescription#BYTE_ORDER_MARK}, is supported by all EMF's content describers.
+     * @since 2.9
+     */
+    public static final QualifiedName LINE_DELIMITER = new QualifiedName(LINE_DELIMITER_PROPERTY.substring(0, LINE_DELIMITER_PROPERTY.indexOf(':')), LINE_DELIMITER_PROPERTY.substring(LINE_DELIMITER_PROPERTY.indexOf(':') + 1)) ;
+    
+    /**
      * The content handler delegate.
      */
     protected ContentHandler contentHandler;
 
     /**
      * Returns the qualified names of the supported options.
-     * This base implementation  supports only {@link IContentDescription#CHARSET} and {@link IContentDescription#BYTE_ORDER_MARK}.
+     * This base implementation supports only {@link #LINE_DELIMITER}, {@link IContentDescription#CHARSET}, and {@link IContentDescription#BYTE_ORDER_MARK}.
      * @return the qualified names of the supported options.
      */
     public QualifiedName[] getSupportedOptions()
@@ -160,9 +283,14 @@ public class ContentHandlerImpl implements ContentHandler
     }
 
     /**
-     * This base implementation  supports only {@link IContentDescription#CHARSET} and {@link IContentDescription#BYTE_ORDER_MARK}.
+     * This base implementation supports only {@link #LINE_DELIMITER}, {@link IContentDescription#CHARSET}, and {@link IContentDescription#BYTE_ORDER_MARK}.
      */
-    private static final QualifiedName [] SUPPORTED_OPTIONS = { IContentDescription.CHARSET, IContentDescription.BYTE_ORDER_MARK };
+    private static final QualifiedName [] SUPPORTED_OPTIONS = 
+      { 
+        IContentDescription.CHARSET, 
+        IContentDescription.BYTE_ORDER_MARK, 
+        LINE_DELIMITER
+      };
 
     /**
      * Returns the qualified name converted to the corresponding property string.
@@ -223,7 +351,11 @@ public class ContentHandlerImpl implements ContentHandler
           QualifiedName qualifiedName = requestedPropertyToQualifiedNameMap.get(property.getKey());
           if (qualifiedName != null)
           {
-            description.setProperty(qualifiedName, getDescriptionValue(qualifiedName, property.getValue()));
+            Object value = getDescriptionValue(qualifiedName, property.getValue());
+            if (value != null)
+            {
+              description.setProperty(qualifiedName, value);
+            }
           }
         }
       }

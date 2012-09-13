@@ -271,6 +271,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
               //
               Map<Object, Object> options = new HashMap<Object, Object>();
               options.put(XMLResource.OPTION_ENCODING, initialObjectCreationPage.getEncoding());
+              options.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
               resource.save(options);
             }
             catch (Exception exception)
