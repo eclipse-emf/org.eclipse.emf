@@ -765,12 +765,12 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     InternalEObject result = eInternalContainer();
     if (result != null) 
     {
-      int eContainerFeatureID = eContainerFeatureID();
       if (result.eIsProxy())
       {
         EObject resolved = eResolveProxy(result);
         if (resolved != result)
         {
+          int eContainerFeatureID = eContainerFeatureID();
           NotificationChain notificationChain = eBasicRemoveFromContainer(null);
           eBasicSetContainer((InternalEObject)resolved, eContainerFeatureID);
           if (notificationChain != null)
