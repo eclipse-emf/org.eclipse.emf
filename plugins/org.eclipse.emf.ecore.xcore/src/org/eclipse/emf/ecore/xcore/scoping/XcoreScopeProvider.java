@@ -168,7 +168,7 @@ public class XcoreScopeProvider extends XbaseScopeProvider
                 GenClass genClass = genFeature.getTypeGenClass();
                 if (genClass != null)
                 {
-                  for (GenFeature key : genClass.getGenFeatures())
+                  for (GenFeature key : genClass.getAllGenFeatures())
                   {
                     if (!key.isReferenceType())
                     {
