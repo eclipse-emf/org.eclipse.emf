@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
 	<rm:property key="checkout.location" value="${workspace.root}/" />
-	<rm:property key="xtext.p2.repository" value="${eclipse.download}/modeling/tmf/xtext/updates/composite/maintenance" />
+	<rm:property key="xtext.p2.repository" value="${eclipse.download}/modeling/tmf/xtext/updates/composite/maintenance/nightly/" />
 	<rm:property key="hudson.emf.p2.repository" value="https://hudson.eclipse.org/hudson/job/emf-core-maintenance/lastSuccessfulBuild/artifact/EMF.p2.repository/" />
 	<!-- self -->
 	<rm:locator pattern="^org\.eclipse\.emf\.xcore\.releng$" searchPathRef="local.releng" />
@@ -33,7 +33,7 @@
 	<rm:searchPath name="tmf-composite">
 		<rm:provider componentTypes="eclipse.feature,osgi.bundle"
 			readerType="p2" source="false" mutable="false">
-			<rm:uri format="{0}/nightly/">
+			<rm:uri format="{0}">
 				<bc:propertyRef key="xtext.p2.repository" />
 			</rm:uri>
 		</rm:provider>
