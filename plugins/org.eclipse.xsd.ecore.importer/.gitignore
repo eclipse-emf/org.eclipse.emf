@@ -1,10 +1,2 @@
 bin
 bin.tasks
-build.xml
-ant_tasks
-temp.folder
-*.jar
-@dot
-@dot.log
-*.args
-${buildDirectory}
