@@ -104,7 +104,8 @@ public class URIConverterTest extends TestCase
     {
       if (!(inputStream instanceof BufferedInputStream))
       {
-        inputStream = new BufferedInputStream(inputStream);
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+        inputStream = bufferedInputStream;
       }
       
       StringBuilder sb = new StringBuilder();

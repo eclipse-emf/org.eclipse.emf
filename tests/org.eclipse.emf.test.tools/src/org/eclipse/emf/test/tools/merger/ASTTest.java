@@ -18,7 +18,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ArrayCreation;
@@ -51,6 +50,7 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.TextEdit;
 
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.tools.AllSuites;
 
@@ -90,7 +90,7 @@ protected void setUp() throws Exception
  {
    String content = TestUtil.readFile(CLASS_FILE, false);
    
-   ASTParser astParser = ASTParser.newParser(AST.JLS3);
+   ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser();
    astParser.setSource(content.toCharArray());
    CompilationUnit compilationUnit = (CompilationUnit)astParser.createAST(null);
    
@@ -421,7 +421,7 @@ protected void setUp() throws Exception
 	public void testWrite() throws Exception {
 		 // read
      String source = TestUtil.readFile(CLASS_FILE, false);    
-	   ASTParser astParser = ASTParser.newParser(AST.JLS3);
+	   ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser();
 	   astParser.setSource(source.toCharArray());
 	   CompilationUnit sourceCu = (CompilationUnit)astParser.createAST(null);
 	   astParser.setSource(source.toCharArray());

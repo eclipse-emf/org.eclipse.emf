@@ -53,6 +53,7 @@ import org.eclipse.emf.codegen.merge.java.JMerger;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
 import org.eclipse.emf.codegen.merge.java.facade.JNode;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticException;
@@ -244,7 +245,7 @@ public class ASTFacadeHelper extends FacadeHelper
   {
     // caching parser does not parse 2nd file in the same way (javadoc of package for example)
     // hence, new parser is created every time this method is called
-    ASTParser astParser = ASTParser.newParser(AST.JLS3);
+    ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser();
     astParser.setCompilerOptions(getJavaCoreOptions());
     return astParser;
   }

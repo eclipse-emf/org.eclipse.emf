@@ -598,6 +598,9 @@ public class JavaEcoreBuilder
       Bundle bundle = Platform.getBundle(pluginID);
       if (bundle != null)
       {
+        // Ignore this for Eclipse 3.5 compatibility.
+        //
+        @SuppressWarnings("cast")
         String requires = (String)bundle.getHeaders().get(Constants.REQUIRE_BUNDLE);
         if (requires != null)
         {

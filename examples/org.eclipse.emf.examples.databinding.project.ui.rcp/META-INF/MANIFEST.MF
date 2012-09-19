@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName 
 Bundle-Localization: plugin
 Bundle-SymbolicName: org.eclipse.emf.examples.databinding.project.ui.rcp;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.1.0.qualifier
 Bundle-Activator: org.eclipse.emf.example.databinding.project.ui.rcp.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

@@ -12,6 +12,7 @@ package org.eclipse.emf.codegen.util;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,6 +51,8 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.osgi.util.ManifestElement;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
@@ -1008,6 +1011,36 @@ public class CodeGenUtil
 
   public static class EclipseUtil
   {
+    /**
+     * A constant that will always represent the latest language level supported by the version of JDT in the installed runtime.
+     * It will determine the 
+     */
+    private static final int JLS;
+    static
+    {
+      @SuppressWarnings("deprecation")
+      int jls = AST.JLS3;
+      try
+      {
+        Field field = AST.class.getField("JLS4");
+        jls = (Integer)field.get(null);
+      }
+      catch (Throwable exception)
+      {
+        // Ignore the absence of the new version support in older runtimes.
+      }
+      JLS = jls;
+    }
+
+    /**
+     * Return an ASTParser that supports the latest language level in the version of the JDT in the installed runtime.
+     * @since 2.9
+     */
+    public static ASTParser newASTParser()
+    {
+      return ASTParser.newParser(JLS);
+    }
+
     public static class StreamProgressMonitor extends NullProgressMonitor
     {
       protected PrintStream printStream;
@@ -1074,6 +1107,10 @@ public class CodeGenUtil
       try
       {
         Bundle bundle = Platform.getBundle(pluginID);
+
+        // Ignore this redundant cast for compatibility with Eclipse 3.5.
+        //
+        @SuppressWarnings("cast")
         String requires = (String)bundle.getHeaders().get(Constants.BUNDLE_CLASSPATH);
         if (requires == null)
         {

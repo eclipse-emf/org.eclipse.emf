@@ -457,7 +457,7 @@ public class EMFPropertiesTest extends TestCase
     IEMFListProperty lProp1 = EMFProperties.list(EmfdbPackage.Literals.A__BLIST);
     IEMFValueProperty vProp1 = lProp1.value(new ListElementAccess<Object>()
       {
-
+        @Override
         public int getReadValueIndex(List<Object> list)
         {
           return 0;
@@ -475,7 +475,7 @@ public class EMFPropertiesTest extends TestCase
         
     IEMFValueProperty vProp3 = lProp2.value(new ListElementAccess<Object>()
       {
-
+        @Override
         public int getReadValueIndex(List<Object> list)
         {
           return list.size() - 1;

@@ -139,16 +139,19 @@ public class EMFEditValuePropertyDecorator extends ValueProperty implements IEMF
     return new EMFEditObservableValueDecorator(editingDomain, delegate.observeDetail(master), eStructuralFeature);
   }
 
+  @SuppressWarnings("all")
   public IObservableList observeDetail(IObservableList master)
   {
     return new EMFEditObservableListDecorator(editingDomain, delegate.observeDetail(master), eStructuralFeature);
   }
 
+  @SuppressWarnings("all")
   public IObservableMap observeDetail(IObservableSet master)
   {
     return new EMFEditObservableMapDecorator(editingDomain, delegate.observeDetail(master), eStructuralFeature);
   }
 
+  @SuppressWarnings("all")
   public IObservableMap observeDetail(IObservableMap master)
   {
     return new EMFEditObservableMapDecorator(editingDomain, delegate.observeDetail(master), eStructuralFeature);

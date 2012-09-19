@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<project name="copyExample" default="main" basedir="../..">
+
+	<property name="installer" value="#INSTALLER_PROJECT#" />
+	<import file="../../${installer}/copyExampleLib.ant" optional="true" />
+	<basename file="${build.project}" property="project" />
+
+	<target name="main">
+		<copyExample project="${project}" />
+	</target>
+
+</project>

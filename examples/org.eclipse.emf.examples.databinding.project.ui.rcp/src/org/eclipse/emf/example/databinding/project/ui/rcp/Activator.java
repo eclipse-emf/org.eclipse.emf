@@ -39,6 +39,7 @@ public class Activator extends AbstractUIPlugin implements ServiceListener
   // The shared instance
   private static Activator plugin;
 
+  @SuppressWarnings("rawtypes")
   private ServiceTracker tracker;
 
   private IModelLoadingService loadingService;
@@ -53,6 +54,7 @@ public class Activator extends AbstractUIPlugin implements ServiceListener
   }
 
   @Override
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   public void start(BundleContext context) throws Exception
   {
     super.start(context);
@@ -117,6 +119,7 @@ public class Activator extends AbstractUIPlugin implements ServiceListener
     return null;
   }
 
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   public void serviceChanged(ServiceEvent event)
   {
     ServiceReference sr = event.getServiceReference();

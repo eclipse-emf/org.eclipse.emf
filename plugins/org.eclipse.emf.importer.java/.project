@@ -21,19 +21,6 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.eclipse.buckminster.ant.AntBuilder</name>
-			<arguments>
-				<dictionary>
-					<key>given.name</key>
-					<value>Internal Ant Builder support compile</value>
-				</dictionary>
-				<dictionary>
-					<key>script.file</key>
-					<value>libraries.ant</value>
-				</dictionary>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
 			<name>org.eclipse.emf.cdo.releng.version.VersionBuilder</name>
 			<arguments>
 				<dictionary>
@@ -51,6 +38,19 @@
 				<dictionary>
 					<key>release.path</key>
 					<value>/org.eclipse.emf.common/release.xml</value>
+				</dictionary>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.ui.externaltools.ExternalToolBuilder</name>
+			<arguments>
+				<dictionary>
+					<key>LaunchConfigHandle</key>
+					<value>&lt;project&gt;/.externalToolBuilders/org.eclipse.emf.importer.java.build.ant_tasks.launch</value>
+				</dictionary>
+				<dictionary>
+					<key>incclean</key>
+					<value>true</value>
 				</dictionary>
 			</arguments>
 		</buildCommand>

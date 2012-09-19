@@ -128,11 +128,14 @@ public abstract class ModelConverterDescriptorSelectionPage extends WizardSelect
     return Platform.getPreferencesService().getString(ConverterPlugin.ID, modelConverterManager.getClass().getName(), "", null);
   }
   
+  @SuppressWarnings("deprecation")
+  private static final InstanceScope INSTANCE_SCOPE = new InstanceScope();
+
   public void performFinish()
   {
     if (descriptor != null)
     {
-      IEclipsePreferences node = new InstanceScope().getNode(ConverterPlugin.ID);
+      IEclipsePreferences node = INSTANCE_SCOPE.getNode(ConverterPlugin.ID);
       node.put(modelConverterManager.getClass().getName(), descriptor.getID());
       try
       {

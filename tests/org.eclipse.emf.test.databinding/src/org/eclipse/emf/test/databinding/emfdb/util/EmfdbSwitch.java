@@ -10,10 +10,7 @@
  */
 package org.eclipse.emf.test.databinding.emfdb.util;
 
-import java.util.List;
-
 import java.util.Map;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.ecore.EPackage;

@@ -132,16 +132,28 @@ public class EMFValuePropertyDecorator extends ValueProperty implements IEMFValu
     return new EMFObservableValueDecorator(delegate.observeDetail(master), eStructuralFeature);
   }
 
+  /*
+   * Suppress missing override warning to maintain compatibility with Eclipse 3.5.
+   */
+  @SuppressWarnings("all")
   public IObservableList observeDetail(IObservableList master)
   {
     return new EMFObservableListDecorator(delegate.observeDetail(master), eStructuralFeature);
   }
 
+  /*
+   * Suppress missing override warning to maintain compatibility with Eclipse 3.5.
+   */
+  @SuppressWarnings("all")
   public IObservableMap observeDetail(IObservableSet master)
   {
     return new EMFObservableMapDecorator(delegate.observeDetail(master), eStructuralFeature);
   }
 
+  /*
+   * Suppress missing override warning to maintain compatibility with Eclipse 3.5.
+   */
+  @SuppressWarnings("all")
   public IObservableMap observeDetail(IObservableMap master)
   {
     return new EMFObservableMapDecorator(delegate.observeDetail(master), eStructuralFeature);

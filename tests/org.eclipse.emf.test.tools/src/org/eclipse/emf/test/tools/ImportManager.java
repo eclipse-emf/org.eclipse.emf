@@ -23,7 +23,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
@@ -185,7 +184,7 @@ class OldImportManager
     public static void addCompilationUnitImports
       (Set<String> importedPackages, Map<String, String> shortNameToImportMap, String compilationUnitContents)
     {   
-      ASTParser parser = ASTParser.newParser(AST.JLS3);
+      ASTParser parser = CodeGenUtil.EclipseUtil.newASTParser();
       parser.setSource(compilationUnitContents.toCharArray());
       CompilationUnit compilationUnit = (CompilationUnit)parser.createAST(new NullProgressMonitor());
       for (Iterator<?> i = compilationUnit.imports().iterator(); i.hasNext();)

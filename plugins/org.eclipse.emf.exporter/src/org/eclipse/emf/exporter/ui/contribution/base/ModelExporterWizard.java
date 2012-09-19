@@ -97,9 +97,12 @@ public abstract class ModelExporterWizard extends ModelConverterWizard
     modelExporter.setSaveExporter(preferencesService.getBoolean(ExporterPlugin.ID, PREFERENCE_SAVE_EXPORTER, false, null));
   }
 
+  @SuppressWarnings("deprecation")
+  private static final InstanceScope INSTANCE_SCOPE = new InstanceScope();
+
   protected void writePreferencesSettings()
   {
-    IEclipsePreferences node = new InstanceScope().getNode(ExporterPlugin.ID);
+    IEclipsePreferences node = INSTANCE_SCOPE.getNode(ExporterPlugin.ID);
     ModelExporter modelExporter = getModelExporter();
 
     node.putBoolean(PREFERENCE_SAVE_PACKAGE_URI, modelExporter.isSaveEPackageArtifactURI());

@@ -17,6 +17,8 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceDescription;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
@@ -252,6 +254,17 @@ public class AntTest extends TestCase
   
   public void suiteTearDown() throws Exception
   {
+    // Ensure that there is no build running while we delete the files.
+    //
+    IWorkspace workspace = ResourcesPlugin.getWorkspace();
+    IWorkspaceDescription description = workspace.getDescription();
+    if (description.isAutoBuilding())
+    {
+      description.setAutoBuilding(false);
+      workspace.setDescription(description);
+    }
+    workspace.build(15, null);
+
     TestUtil.delete(EXAMPLES_COPY_DIR);
   }
   
