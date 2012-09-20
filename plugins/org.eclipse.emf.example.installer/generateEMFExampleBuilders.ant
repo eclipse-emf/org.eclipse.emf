@@ -11,6 +11,7 @@
 	<target name="main">
 		<echo message="${releng.location}"></echo>
 		<java fork="false" classpath="${releng.location}/bin" classname="org.eclipse.emf.releng.GenerateExampleBuilders">
+			<arg value="${releng.location}" />
 			<arg value="${build.project}" />
 		</java>
 	</target>

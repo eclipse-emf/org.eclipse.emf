@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.ant.AntBuilderLaunchConfigurationType">
+<booleanAttribute key="org.eclipse.ant.ui.ATTR_TARGETS_UPDATED" value="true"/>
+<booleanAttribute key="org.eclipse.ant.ui.DEFAULT_VM_INSTALL" value="false"/>
+<booleanAttribute key="org.eclipse.ant.uiSET_INPUTHANDLER" value="false"/>
+<stringAttribute key="org.eclipse.debug.core.ATTR_REFRESH_SCOPE" value="${working_set:&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#13;&#10;&lt;resources&gt;&#13;&#10;&lt;item path=&quot;/org.eclipse.emf.example.installer/examples&quot; type=&quot;2&quot;/&gt;&#13;&#10;&lt;/resources&gt;}"/>
+<booleanAttribute key="org.eclipse.debug.core.capture_output" value="false"/>
+<booleanAttribute key="org.eclipse.debug.ui.ATTR_CONSOLE_OUTPUT_ON" value="false"/>
+<booleanAttribute key="org.eclipse.debug.ui.ATTR_LAUNCH_IN_BACKGROUND" value="false"/>
+<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.ant.ui.AntClasspathProvider"/>
+<booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="true"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value=""/>
+<booleanAttribute key="org.eclipse.ui.externaltools.ATTR_BUILDER_ENABLED" value="true"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_BUILD_SCOPE" value="${working_set:&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#13;&#10;&lt;resources&gt;&#13;&#10;&lt;item path=&quot;/org.eclipse.emf.example.installer/examples/org.eclipse.emf.activities/&quot; type=&quot;2&quot;/&gt;&#13;&#10;&lt;item path=&quot;/org.eclipse.emf.activities/.externalToolBuilders&quot; type=&quot;2&quot;/&gt;&#13;&#10;&lt;item path=&quot;/org.eclipse.emf.activities/.project&quot; type=&quot;1&quot;/&gt;&#13;&#10;&lt;item path=&quot;/org.eclipse.emf.activities/about.html&quot; type=&quot;1&quot;/&gt;&#13;&#10;&lt;item path=&quot;/org.eclipse.emf.activities/build.properties&quot; type=&quot;1&quot;/&gt;&#13;&#10;&lt;item path=&quot;/org.eclipse.emf.activities/META-INF&quot; type=&quot;2&quot;/&gt;&#13;&#10;&lt;item path=&quot;/org.eclipse.emf.activities/plugin.properties&quot; type=&quot;1&quot;/&gt;&#13;&#10;&lt;item path=&quot;/org.eclipse.emf.activities/plugin.xml&quot; type=&quot;1&quot;/&gt;&#13;&#10;&lt;/resources&gt;}"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${build_project}/.externalToolBuilders/copyExample.ant"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_RUN_BUILD_KINDS" value="incremental,auto,"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-Dbuild.project=${project_loc:/org.eclipse.emf.activities}"/>
+<booleanAttribute key="org.eclipse.ui.externaltools.ATTR_TRIGGERS_CONFIGURED" value="true"/>
+</launchConfiguration>

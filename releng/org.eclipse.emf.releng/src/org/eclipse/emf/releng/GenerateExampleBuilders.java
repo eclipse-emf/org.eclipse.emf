@@ -42,17 +42,13 @@ public class GenerateExampleBuilders
 
   public static void main(String[] args) throws Exception
   {
-    if (true)
-    {
-      System.err.println("##");
-      return;
-    }
-    File installerPoject = new File(args[0]).getCanonicalFile();
+    File relengProject = new File(args[0]).getCanonicalFile();
+    File installerPoject = new File(args[1]).getCanonicalFile();
     File pluginXML = new File(installerPoject, "plugin.xml");
     System.out.println("Analyzing " + pluginXML);
 
     SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
-    XMLHandler handler = new XMLHandler(installerPoject);
+    XMLHandler handler = new XMLHandler(relengProject, installerPoject);
     InputStream in = new FileInputStream(pluginXML);
 
     try
@@ -65,7 +61,7 @@ public class GenerateExampleBuilders
     }
   }
 
-  private static void processProjectDescriptor(File exampleProject, File installerPoject, String targetFolder)
+  private static void processProjectDescriptor(File exampleProject, File relengProject, File installerPoject, String targetFolder)
       throws Exception
   {
     String exampleProjectName = exampleProject.getName();
@@ -92,26 +88,27 @@ public class GenerateExampleBuilders
     addSubtitute(substitutes, TOKEN_RELEVANT_RESOURCES, relevantResources.toString());
     addSubtitute(substitutes, TOKEN_REFRESH_RESOURCES, getItemPath(new File(targetPath).getParent(), 2));
 
-    copy(exampleProject, substitutes, "copyExample.ant", ".externalToolBuilders/copyExample.ant");
-    copy(exampleProject, substitutes, "template.launch", ".externalToolBuilders/" + exampleProjectName + ".launch");
+    copy(exampleProject, relengProject, substitutes, "copyExample.ant", ".externalToolBuilders/copyExample.ant");
+    copy(exampleProject, relengProject, substitutes, "template.launch", ".externalToolBuilders/" + exampleProjectName + ".launch");
 
-    updateProjectDescription(exampleProject, substitutes);
+    updateProjectDescription(exampleProject, relengProject, substitutes);
   }
 
-  private static void copy(File targetProject, Map<String, String> substitutes, String template, String targetPath)
+  private static void copy(File targetProject, File relengProject, Map<String, String> substitutes, String template, String targetPath)
       throws IOException
   {
-    File source = getTemplate(targetProject.getParentFile(), template);
+    File source = getTemplate(relengProject, template);
     String content = substitute(readFile(source), substitutes);
 
     File target = new File(targetProject, targetPath);
     System.out.println("      Generating " + target.getCanonicalPath());
+    target.getParentFile().mkdir();
     writeFile(target, content);
   }
 
-  private static void updateProjectDescription(File targetProject, Map<String, String> substitutes) throws IOException
+  private static void updateProjectDescription(File targetProject, File relengProject, Map<String, String> substitutes) throws IOException
   {
-    File snippetTemplate = getTemplate(targetProject.getParentFile(), "template.project");
+    File snippetTemplate = getTemplate(relengProject, "template.project");
     String snippet = substitute(readFile(snippetTemplate), substitutes);
 
     File descriptionFile = new File(targetProject, ".project");
@@ -201,7 +198,7 @@ public class GenerateExampleBuilders
 
   private static File getTemplate(File root, String template)
   {
-    return new File(root, "org.eclipse.emf.releng/exampleBuilderTemplates/" + template);
+    return new File(root, "exampleBuilderTemplates/" + template);
   }
 
   private static void addSubtitute(Map<String, String> substitutes, String token, String substitute)
@@ -222,10 +219,12 @@ public class GenerateExampleBuilders
 
   private static class XMLHandler extends DefaultHandler
   {
+    private File relengProject;
     private File installerPoject;
 
-    public XMLHandler(File installerPoject)
+    public XMLHandler(File relengProject, File installerPoject)
     {
+      this.relengProject = relengProject;
       this.installerPoject = installerPoject;
     }
 
@@ -238,10 +237,10 @@ public class GenerateExampleBuilders
         {
           String name = attributes.getValue("name");
           String contentURI = attributes.getValue("contentURI");
-          File exampleProject = new File(installerPoject, "../" + name).getCanonicalFile();
+          File exampleProject = new File(installerPoject, "../../examples/" + name).getCanonicalFile();
 
           System.out.println("   Processing " + name + " --> " + contentURI);
-          processProjectDescriptor(exampleProject, installerPoject, contentURI);
+          processProjectDescriptor(exampleProject, relengProject, installerPoject, contentURI);
         }
         catch (Exception ex)
         {

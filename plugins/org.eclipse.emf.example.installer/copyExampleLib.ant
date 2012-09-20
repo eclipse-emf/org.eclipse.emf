@@ -8,7 +8,7 @@
 -->
 <project name="copyExampleLib" basedir="..">
 
-	<property name="examples.path" value="org.eclipse.emf.example.installer/examples" />
+	<property name="examples.path" value="../plugins/org.eclipse.emf.example.installer/examples" />
 	<basename file="${build.project}" property="project" />
 
 	<macrodef name="copyExample">
@@ -28,6 +28,7 @@
 					<exclude name=".settings/org.eclipse.mylyn*" />
 					<exclude name=".settings/org.eclipse.pde.api.tools.prefs" />
 					<exclude name="**/.gitignore" />
+					<exclude name="**/release.*" />
 					<include name="**" />
 				</fileset>
 			</copy>

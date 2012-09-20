@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="copyExample" default="main" basedir="../..">
 
-	<property name="installer" value="#INSTALLER_PROJECT#" />
+	<property name="installer" value="org.eclipse.emf.example.installer" />
 	<import file="../../../plugins/${installer}/copyExampleLib.ant" optional="true" />
 	<basename file="${build.project}" property="project" />
 

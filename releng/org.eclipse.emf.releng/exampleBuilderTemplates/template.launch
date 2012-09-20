@@ -12,8 +12,8 @@
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value=""/>
 <booleanAttribute key="org.eclipse.ui.externaltools.ATTR_BUILDER_ENABLED" value="true"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_BUILD_SCOPE" value="${working_set:&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#13;&#10;&lt;resources&gt;&#13;&#10;#RELEVANT_RESOURCES#&lt;/resources&gt;}"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${build_project}/.externalToolBuilders/copyExample.ant"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${project_loc:/#EXAMPLE_PROJECT#}/.externalToolBuilders/copyExample.ant"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_RUN_BUILD_KINDS" value="incremental,auto,"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-Dbuild.project=${build_project}"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-Dbuild.project=${project_loc:/#EXAMPLE_PROJECT#}"/>
 <booleanAttribute key="org.eclipse.ui.externaltools.ATTR_TRIGGERS_CONFIGURED" value="true"/>
 </launchConfiguration>
