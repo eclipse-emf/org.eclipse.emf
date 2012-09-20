@@ -99,7 +99,7 @@ public class ContentTypeTest extends TestCase
   /**
    * XML encodings to test.
    */
-  protected static final String [] ENCODINGS = new String[] { "ASCII", "UTF-8", "UTF-16" };
+  protected static final String [] ENCODINGS = new String[] { "UTF-8", "UTF-16" };
   
   /**
    * Line separator preferences to test.
