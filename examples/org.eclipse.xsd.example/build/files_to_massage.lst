@@ -1,8 +1,0 @@
-# This is a list of files in this plugin (relative to the plugin)
-# that contains names of plugins (e.g. org.eclipse.emf.ecore) which need
-# to be appended with version number (e.g. org.eclipse.emf.ecore_1.0.1)
-# during packaging.
-	 	
-data/run-schema-for-schema-test.bat
-data/xsd-generate-schema-for-schema-html.bat
-data/xsd-standalone-example.bat

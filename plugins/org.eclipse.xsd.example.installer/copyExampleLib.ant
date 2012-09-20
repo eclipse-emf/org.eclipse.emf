@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!--
+	Copyright (c) 2012 Eclispe contributors and others.
+	All rights reserved. This program and the accompanying materials
+	are made available under the terms of the Eclipse Public License v1.0
+	which accompanies this distribution, and is available at
+	http://www.eclipse.org/legal/epl-v10.html
+-->
+<project name="copyExampleLib" basedir="..">
+
+	<property name="examples.path" value="../plugins/org.eclipse.xsd.example.installer/examples" />
+	<basename file="${build.project}" property="project" />
+
+	<macrodef name="copyExample">
+		<attribute name="project" />
+		<sequential>
+			<delete includeemptydirs="true" failonerror="false">
+				<fileset dir="${examples.path}/@{project}">
+					<include name="**" />
+				</fileset>
+			</delete>
+
+			<copy todir="${examples.path}/@{project}" overwrite="true">
+				<fileset dir="@{project}">
+					<exclude name=".externalToolBuilders/" />
+					<exclude name="database/" />
+					<exclude name="bin/" />
+					<exclude name=".settings/org.eclipse.mylyn*" />
+					<exclude name=".settings/org.eclipse.pde.api.tools.prefs" />
+					<exclude name="**/.gitignore" />
+					<exclude name="**/release.*" />
+					<include name="**" />
+				</fileset>
+			</copy>
+
+			<replaceregexp file="${examples.path}/@{project}/.project"
+			               byline="false"
+			               flags="sg"
+			               match="\s*&lt;buildCommand>\s+&lt;name>org.eclipse.ui.externaltools.ExternalToolBuilder.*?&lt;/buildCommand>"
+			               replace="" />
+
+			<replaceregexp file="${examples.path}/@{project}/.project"
+			               byline="false"
+			               flags="s"
+			               match="\s*&lt;buildCommand>\s+&lt;name>org.eclipse.pde.api.tools.apiAnalysisBuilder.*?&lt;/buildCommand>"
+			               replace="" />
+
+			<replaceregexp file="${examples.path}/@{project}/.project"
+			               byline="false"
+			               flags="s"
+			               match="\s*&lt;buildCommand>\s+&lt;name>org.eclipse.emf.cdo.releng.version.VersionBuilder.*?&lt;/buildCommand>"
+			               replace="" />
+
+			<replaceregexp file="${examples.path}/@{project}/.project"
+			               byline="false"
+			               flags="s"
+			               match="\s*&lt;nature>org.eclipse.pde.api.tools.apiAnalysisNature&lt;/nature>"
+			               replace="" />
+
+			<replaceregexp file="${examples.path}/@{project}/.project"
+			               byline="false"
+			               flags="s"
+			               match="\s*&lt;nature>org.eclipse.emf.cdo.releng.version.VersionNature&lt;/nature>"
+			               replace="" />
+		</sequential>
+	</macrodef>
+
+</project>
