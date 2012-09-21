@@ -142,6 +142,7 @@ public class ContentTypeTest extends TestCase
 
     // Iterate over the various line separator preferences.
     //
+    int counter = 0;
     for (final String lineSeparator : LINE_SEPARATOR_PREFERENCES)
     {
       // Simulate the workspace preference for the line separator.
@@ -172,7 +173,11 @@ public class ContentTypeTest extends TestCase
         //
         for (String encoding : ENCODINGS)
         {
-          String message = "Combination: " +  lineSeparator.replace("\n", "\\n").replaceAll("\r", "\\r") + " " + encoding + (contentHandler == xmiContentHandler ? " stand-alone" : " platform-integrated");
+          // Use a unique new URI in an attempt to avoid Linux problems with the platform caching the old information.
+          //
+          resource.setURI(resource.getURI().trimSegments(1).appendSegment("tree_" + ++counter + ".xmi"));
+
+          String message = "Combination: " +  lineSeparator.replace("\n", "\\n").replace("\r", "\\r") + " " + encoding + (contentHandler == xmiContentHandler ? " stand-alone" : " platform-integrated");
 
           // Specify the encoding to be used for saving as well as the option to determine the desired line delimiter during save.
           //
@@ -183,7 +188,7 @@ public class ContentTypeTest extends TestCase
 
           // Check that this really produces a workspace file.
           //
-          IFile file = root.getFile(new Path(uri.toPlatformString(true)));
+          IFile file = root.getFile(new Path(resource.getURI().toPlatformString(true)));
           assertTrue(message, file.exists());
 
           // Check that the content description is as expected.
