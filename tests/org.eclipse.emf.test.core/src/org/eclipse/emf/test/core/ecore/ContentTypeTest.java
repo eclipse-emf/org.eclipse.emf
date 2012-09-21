@@ -99,7 +99,7 @@ public class ContentTypeTest extends TestCase
   /**
    * XML encodings to test.
    */
-  protected static final String [] ENCODINGS = new String[] { "UTF-8", "UTF-16" };
+  protected static final String [] ENCODINGS = new String[] { "ASCII", "UTF-8", "UTF-16" };
   
   /**
    * Line separator preferences to test.
@@ -167,11 +167,13 @@ public class ContentTypeTest extends TestCase
       {
         contentHandlers.clear();
         contentHandlers.add(contentHandler);
-
+        
         // Try everything for the various character encodings.
         //
         for (String encoding : ENCODINGS)
         {
+          String message = "Combination: " +  lineSeparator.replace("\n", "\\n").replaceAll("\r", "\\r") + " " + encoding + (contentHandler == xmiContentHandler ? " stand-alone" : " platform-integrated");
+
           // Specify the encoding to be used for saving as well as the option to determine the desired line delimiter during save.
           //
           Map<String, String> options = new HashMap<String, String>();
@@ -182,11 +184,11 @@ public class ContentTypeTest extends TestCase
           // Check that this really produces a workspace file.
           //
           IFile file = root.getFile(new Path(uri.toPlatformString(true)));
-          assertTrue(file.exists());
+          assertTrue(message, file.exists());
 
           // Check that the content description is as expected.
           //
-          validateContentDescription(file, encoding, lineSeparator);
+          validateContentDescription(message, file, encoding, lineSeparator);
 
           // Test that changing the file contents to use the updated separator and then saving the resource, preserves the separator currently in the contents.
           //
@@ -195,12 +197,12 @@ public class ContentTypeTest extends TestCase
             // Update the contents of the file to use this line separator, and check that it's been properly updated.
             //
             replace(file, updatedLineSeparator);
-            validateContentDescription(file, encoding, updatedLineSeparator);
+            validateContentDescription(message, file, encoding, updatedLineSeparator);
             
             // Save the resource and check that it's update the separator in the existing contents.
             //
             resource.save(options);
-            validateContentDescription(file, encoding, updatedLineSeparator);
+            validateContentDescription(message, file, encoding, updatedLineSeparator);
           }
 
           // Test that specifying the encoding and the specific desired line separator in the options for save produce results with exactly that encoding and line separator.
@@ -212,14 +214,14 @@ public class ContentTypeTest extends TestCase
               options.put(XMLResource.OPTION_ENCODING, updatedEncoding);
               options.put(Resource.OPTION_LINE_DELIMITER, updatedLineSeparator);
               resource.save(options);
-              validateContentDescription(file, updatedEncoding, updatedLineSeparator);
+              validateContentDescription(message, file, updatedEncoding, updatedLineSeparator);
             }
           }
 
           // Delete the file before the next iteration of the loop.
           //
           file.delete(true, null);
-          assertTrue(!file.exists());
+          assertTrue(message, !file.exists());
         }
       }
     }
@@ -248,7 +250,7 @@ public class ContentTypeTest extends TestCase
     file.setContents(new ByteArrayInputStream(bytes), IResource.FORCE, null);
   }
 
-  protected void validateContentDescription(IFile file, String encoding, String lineSeparator) throws IOException, CoreException
+  protected void validateContentDescription(String message, IFile file, String encoding, String lineSeparator) throws IOException, CoreException
   {
     // Check EMF's content description support for both platform resource access and for direct access to the underlying file system.
     //
@@ -257,41 +259,41 @@ public class ContentTypeTest extends TestCase
       // Check that the content type can be determine and that all the properties have the expected values.
       //
       Map<String, ?> emfContentDescription = resourceSet.getURIConverter().contentDescription(accessURI, null);
-      assertEquals(ContentHandler.Validity.VALID, emfContentDescription.get(ContentHandler.VALIDITY_PROPERTY));
-      assertEquals("org.eclipse.emf.ecore.xmi", emfContentDescription.get(ContentHandler.CONTENT_TYPE_PROPERTY));
-      assertEquals(encoding, emfContentDescription.get(ContentHandler.CHARSET_PROPERTY));
-      assertEquals(lineSeparator, emfContentDescription.get(ContentHandler.LINE_DELIMITER_PROPERTY));
+      assertEquals(message, ContentHandler.Validity.VALID, emfContentDescription.get(ContentHandler.VALIDITY_PROPERTY));
+      assertEquals(message, "org.eclipse.emf.ecore.xmi", emfContentDescription.get(ContentHandler.CONTENT_TYPE_PROPERTY));
+      assertEquals(message, encoding, emfContentDescription.get(ContentHandler.CHARSET_PROPERTY));
+      assertEquals(message, lineSeparator, emfContentDescription.get(ContentHandler.LINE_DELIMITER_PROPERTY));
       Object byteOrderMark = emfContentDescription.get(ContentHandler.BYTE_ORDER_MARK_PROPERTY);
       if ("UTF-16".equals(encoding))
       {
         // We only expect byte order markers for UTF-16 encoding.
         // The endian is hardware dependent, so we tolerate either one so the test passed for all hardware.
         //
-        assertTrue(ContentHandler.ByteOrderMark.UTF_16BE == byteOrderMark || ContentHandler.ByteOrderMark.UTF_16LE == byteOrderMark);
+        assertTrue(message, ContentHandler.ByteOrderMark.UTF_16BE == byteOrderMark || ContentHandler.ByteOrderMark.UTF_16LE == byteOrderMark);
       }
       else
       {
-        assertEquals(null, byteOrderMark);
+        assertEquals(message, null, byteOrderMark);
       }
     }
 
     // Check that the integration with the platform's content description mechanism produces the same expected results.
     //
     IContentDescription contentDescription = file.getContentDescription();
-    assertEquals("org.eclipse.emf.ecore.xmi", contentDescription.getContentType().getId());
-    assertEquals(encoding, contentDescription.getProperty(IContentDescription.CHARSET));
-    assertEquals(lineSeparator, contentDescription.getProperty(ContentHandlerImpl.Describer.LINE_DELIMITER));
+    assertEquals(message, "org.eclipse.emf.ecore.xmi", contentDescription.getContentType().getId());
+    assertEquals(message, encoding, contentDescription.getProperty(IContentDescription.CHARSET));
+    assertEquals(message, lineSeparator, contentDescription.getProperty(ContentHandlerImpl.Describer.LINE_DELIMITER));
     Object byteOrderMark = contentDescription.getProperty(IContentDescription.BYTE_ORDER_MARK);
     if ("UTF-16".equals(encoding))
     {
       // We only expect byte order markers for UTF-16 encoding.
       // The endian is hardware dependent, so we tolerate either one so the test passed for all hardware.
       //
-      assertTrue(IContentDescription.BOM_UTF_16BE == byteOrderMark || IContentDescription.BOM_UTF_16LE == byteOrderMark);
+      assertTrue(message, IContentDescription.BOM_UTF_16BE == byteOrderMark || IContentDescription.BOM_UTF_16LE == byteOrderMark);
     }
     else
     {
-      assertEquals(null, byteOrderMark);
+      assertEquals(message, null, byteOrderMark);
     }
   }
 }
