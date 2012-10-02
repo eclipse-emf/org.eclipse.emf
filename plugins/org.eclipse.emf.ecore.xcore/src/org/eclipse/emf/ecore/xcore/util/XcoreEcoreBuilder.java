@@ -603,14 +603,19 @@ public class XcoreEcoreBuilder
           {
             eReference.setEOpposite((EReference)opposite.getEcoreFeature());
           }
-          for (GenFeature key : xReference.getKeys())
-          {
-            EStructuralFeature eAttribute = key.getEcoreFeature();
-            if (eAttribute instanceof EAttribute)
+          runnables.add(new Runnable()
             {
-              eReference.getEKeys().add((EAttribute)eAttribute);
-            }
-          }
+              public void run()
+              {
+                for (GenFeature key : xReference.getKeys())
+                {
+                  EStructuralFeature eAttribute = key.getEcoreFeature();
+                  if (eAttribute instanceof EAttribute)
+                  {
+                    eReference.getEKeys().add((EAttribute)eAttribute);
+                  }
+                }
+              }});
         }
       });
 
