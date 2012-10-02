@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <release>
-	<feature name="org.eclipse.emf.ecore.xcore" version="1.0.0">
+	<feature name="org.eclipse.emf.ecore.xcore" version="1.0.1">
 		<feature name="org.eclipse.emf.license" version="2.7.0" license="true"/>
-		<plugin name="org.eclipse.emf.ecore.xcore" version="1.0.0"/>
+		<plugin name="org.eclipse.emf.ecore.xcore" version="1.0.1"/>
 		<plugin name="org.eclipse.emf.codegen.ecore.xtext" version="1.0.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.ecore.xcore.sdk" version="1.0.0">
+	<feature name="org.eclipse.emf.ecore.xcore.sdk" version="1.0.1">
 		<feature name="org.eclipse.emf.license" version="2.7.0" license="true"/>
-		<feature name="org.eclipse.emf.ecore.xcore" version="1.0.0"/>
+		<feature name="org.eclipse.emf.ecore.xcore" version="1.0.1"/>
 		<feature name="org.eclipse.emf.ecore.xcore.source" version="0.0.0"/> <!-- UNRESOLVED -->
-		<feature name="org.eclipse.emf.ecore.xcore.ui" version="1.0.0"/>
+		<feature name="org.eclipse.emf.ecore.xcore.ui" version="1.0.1"/>
 		<feature name="org.eclipse.emf.ecore.xcore.ui.source" version="0.0.0"/> <!-- UNRESOLVED -->
 	</feature>
 	<feature name="org.eclipse.emf.ecore.xcore.source" version="0.0.0"/> <!-- UNRESOLVED -->
-	<feature name="org.eclipse.emf.ecore.xcore.ui" version="1.0.0">
+	<feature name="org.eclipse.emf.ecore.xcore.ui" version="1.0.1">
 		<feature name="org.eclipse.emf.license" version="2.7.0" license="true"/>
-		<plugin name="org.eclipse.emf.ecore.xcore.ui" version="1.0.0"/>
+		<plugin name="org.eclipse.emf.ecore.xcore.ui" version="1.0.1"/>
 		<plugin name="org.eclipse.emf.codegen.ecore.xtext.ui" version="1.0.0"/>
 		<plugin name="org.eclipse.emf.ecore.xcore.edit" version="1.0.0"/>
-		<plugin name="org.eclipse.emf.ecore.xcore.exporter" version="1.0.0"/>
+		<plugin name="org.eclipse.emf.ecore.xcore.exporter" version="1.0.1"/>
 		<plugin name="org.eclipse.emf.ecore.xcore.importer" version="1.0.0"/>
 	</feature>
 	<feature name="org.eclipse.emf.ecore.xcore.ui.source" version="0.0.0"/> <!-- UNRESOLVED -->
 	<feature name="org.eclipse.emf.license" version="2.7.0"/>
 	<plugin name="org.eclipse.emf.codegen.ecore.xtext" version="1.0.0"/>
 	<plugin name="org.eclipse.emf.codegen.ecore.xtext.ui" version="1.0.0"/>
-	<plugin name="org.eclipse.emf.ecore.xcore" version="1.0.0"/>
+	<plugin name="org.eclipse.emf.ecore.xcore" version="1.0.1"/>
 	<plugin name="org.eclipse.emf.ecore.xcore.edit" version="1.0.0"/>
-	<plugin name="org.eclipse.emf.ecore.xcore.exporter" version="1.0.0"/>
+	<plugin name="org.eclipse.emf.ecore.xcore.exporter" version="1.0.1"/>
 	<plugin name="org.eclipse.emf.ecore.xcore.importer" version="1.0.0"/>
-	<plugin name="org.eclipse.emf.ecore.xcore.ui" version="1.0.0"/>
+	<plugin name="org.eclipse.emf.ecore.xcore.ui" version="1.0.1"/>
 </release>
