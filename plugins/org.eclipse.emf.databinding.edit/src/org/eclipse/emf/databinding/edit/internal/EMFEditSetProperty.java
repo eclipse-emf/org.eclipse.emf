@@ -54,16 +54,8 @@ public class EMFEditSetProperty extends EMFSetProperty
     }
   }
 
-  private boolean execute(Command command)
+  private void execute(Command command)
   {
-    if (command.canExecute())
-    {
-      editingDomain.getCommandStack().execute(command);
-      return true;
-    }
-    else
-    {
-      return false;
-    }
+    editingDomain.getCommandStack().execute(command);
   }
 }
