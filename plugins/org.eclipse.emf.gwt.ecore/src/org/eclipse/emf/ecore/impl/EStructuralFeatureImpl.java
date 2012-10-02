@@ -3148,8 +3148,9 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   {
     if (cachedEType != eType)
     {
-      cachedEType = getEType();
+      EClassifier eType = getEType();
       cachedIsFeatureMap = eType != null && eType.getInstanceClassName() == "org.eclipse.emf.ecore.util.FeatureMap$Entry";
+      cachedEType = eType;
     }
     return cachedIsFeatureMap;
   }
