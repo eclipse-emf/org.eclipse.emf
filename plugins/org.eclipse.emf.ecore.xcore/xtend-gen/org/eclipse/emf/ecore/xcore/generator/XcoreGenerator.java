@@ -63,16 +63,19 @@ public class XcoreGenerator implements IGenerator {
         final XBlockExpression body = op.getBody();
         boolean _notEquals = (!Objects.equal(body, null));
         if (_notEquals) {
-          final XcoreAppendable appendable = this.createAppendable();
           XOperationMapping _mapping_1 = this.mappings.getMapping(op);
           final JvmOperation jvmOperation = _mapping_1.getJvmOperation();
-          appendable.declareVariable(jvmOperation, "this");
-          JvmTypeReference _returnType = jvmOperation.getReturnType();
-          Set<JvmTypeReference> _emptySet = Collections.<JvmTypeReference>emptySet();
-          this.compiler.compile(body, appendable, _returnType, _emptySet);
-          String _string = appendable.toString();
-          String _extractBody = this.extractBody(_string);
-          EcoreUtil.setAnnotation(eOperation, GenModelPackage.eNS_URI, "body", _extractBody);
+          boolean _notEquals_1 = (!Objects.equal(jvmOperation, null));
+          if (_notEquals_1) {
+            final XcoreAppendable appendable = this.createAppendable();
+            appendable.declareVariable(jvmOperation, "this");
+            JvmTypeReference _returnType = jvmOperation.getReturnType();
+            Set<JvmTypeReference> _emptySet = Collections.<JvmTypeReference>emptySet();
+            this.compiler.compile(body, appendable, _returnType, _emptySet);
+            String _string = appendable.toString();
+            String _extractBody = this.extractBody(_string);
+            EcoreUtil.setAnnotation(eOperation, GenModelPackage.eNS_URI, "body", _extractBody);
+          }
         }
       }
     }
