@@ -227,8 +227,14 @@ public class XcoreGenModelBuilder {
     final List<EPackage> ePackages = _uniqueEList;
     EList<GenPackage> _genPackages = genModel.getGenPackages();
     for (final GenPackage genPackage : _genPackages) {
-      EPackage _ecorePackage = genPackage.getEcorePackage();
-      ePackages.add(_ecorePackage);
+      {
+        final EPackage ePackage = genPackage.getEcorePackage();
+        boolean _notEquals = (!Objects.equal(ePackage, null));
+        if (_notEquals) {
+          EPackage _ecorePackage = genPackage.getEcorePackage();
+          ePackages.add(_ecorePackage);
+        }
+      }
     }
     int i = 0;
     int _size = ePackages.size();
