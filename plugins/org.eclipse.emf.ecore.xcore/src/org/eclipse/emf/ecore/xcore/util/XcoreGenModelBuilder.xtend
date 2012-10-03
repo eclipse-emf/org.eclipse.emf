@@ -142,7 +142,11 @@ class XcoreGenModelBuilder
     val List<EPackage> ePackages = new UniqueEList<EPackage>()
     for (genPackage : genModel.genPackages)
     {
-      ePackages.add(genPackage.getEcorePackage)
+      val ePackage = genPackage.getEcorePackage
+      if (ePackage != null)
+      {
+        ePackages.add(genPackage.getEcorePackage)
+      }
     }
 
     var int i = 0
