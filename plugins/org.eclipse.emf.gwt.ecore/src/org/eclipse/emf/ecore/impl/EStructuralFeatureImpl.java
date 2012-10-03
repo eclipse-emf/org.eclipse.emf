@@ -1973,35 +1973,35 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     {
       public static NotificationCreator get(Class<?> dataClass)
       {
-        if (dataClass == Integer.TYPE)
+        if (dataClass == int.class)
         {
           return INT_NOTIFICATION_CREATOR;
         }
-        else if (dataClass == Boolean.TYPE)
+        else if (dataClass == boolean.class)
         {
           return BOOLEAN_NOTIFICATION_CREATOR;
         }
-        else if (dataClass == Long.TYPE)
+        else if (dataClass == long.class)
         {
           return LONG_NOTIFICATION_CREATOR;
         }
-        else if (dataClass == Float.TYPE)
+        else if (dataClass == float.class)
         {
           return FLOAT_NOTIFICATION_CREATOR;
         }
-        else if (dataClass == Double.TYPE)
+        else if (dataClass == double.class)
         {
           return DOUBLE_NOTIFICATION_CREATOR;
         }
-        else if (dataClass == Short.TYPE)
+        else if (dataClass == short.class)
         {
           return SHORT_NOTIFICATION_CREATOR;
         }
-        else if (dataClass == Byte.TYPE)
+        else if (dataClass == byte.class)
         {
           return BYTE_NOTIFICATION_CREATOR;
         }
-        else if (dataClass == Character.TYPE)
+        else if (dataClass == char.class)
         {
           return CHAR_NOTIFICATION_CREATOR;
         }
