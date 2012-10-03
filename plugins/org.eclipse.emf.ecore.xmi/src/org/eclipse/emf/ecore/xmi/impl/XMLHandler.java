@@ -41,6 +41,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.ContentHandler;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -2526,7 +2527,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
           try
           {
             InputStream inputStream = getURIConverter().createInputStream(trimmedURI, null);
-            resource = resourceSet.createResource(trimmedURI);
+            resource = resourceSet.createResource(trimmedURI, ContentHandler.UNSPECIFIED_CONTENT_TYPE);
             if (resource == null)
             {
               inputStream.close();
