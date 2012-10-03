@@ -1029,9 +1029,14 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     String mapType = getEffectiveMapEntryType();  
     if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
-      String keyType = genClass.getMapEntryKeyFeature().getType(context);
-      String valueType = genClass.getMapEntryValueFeature().getType(context);
-      mapType += "<" + keyType + ", " + valueType + ">";
+      GenFeature mapEntryKeyFeature = genClass.getMapEntryKeyFeature();
+      GenFeature mapEntryValueFeature = genClass.getMapEntryValueFeature();
+      if (mapEntryKeyFeature.getTypeGenClassifier() != genClass && mapEntryValueFeature.getTypeGenClassifier() != genClass)
+      {
+        String keyType = mapEntryKeyFeature.getType(context);
+        String valueType = mapEntryValueFeature.getType(context);
+        mapType += "<" + keyType + ", " + valueType + ">";
+      }
     }
     return mapType;
   }
