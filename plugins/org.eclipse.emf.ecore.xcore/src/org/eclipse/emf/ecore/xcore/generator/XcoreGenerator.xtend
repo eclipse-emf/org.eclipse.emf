@@ -46,11 +46,14 @@ class XcoreGenerator implements IGenerator {
 			val body = op.body
 			if (body != null)
 			{
-				val appendable = createAppendable
 				val jvmOperation = mappings.getMapping(op).jvmOperation
-				appendable.declareVariable(jvmOperation, "this")
-				compiler.compile(body, appendable, jvmOperation.returnType, Collections::emptySet)
-				EcoreUtil::setAnnotation(eOperation, GenModelPackage::eNS_URI, "body", extractBody(appendable.toString))
+				if (jvmOperation != null)
+				{
+					val appendable = createAppendable
+					appendable.declareVariable(jvmOperation, "this")
+					compiler.compile(body, appendable, jvmOperation.returnType, Collections::emptySet)
+					EcoreUtil::setAnnotation(eOperation, GenModelPackage::eNS_URI, "body", extractBody(appendable.toString))
+				}
 			}
 		}
 		// install feature accessors
