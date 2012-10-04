@@ -58,6 +58,7 @@ import org.eclipse.xtext.common.types.JvmLowerBound;
 import org.eclipse.xtext.common.types.JvmMember;
 import org.eclipse.xtext.common.types.JvmOperation;
 import org.eclipse.xtext.common.types.JvmParameterizedTypeReference;
+import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.common.types.JvmTypeConstraint;
 import org.eclipse.xtext.common.types.JvmTypeParameter;
 import org.eclipse.xtext.common.types.JvmTypeParameterDeclarator;
@@ -1675,8 +1676,11 @@ public class XcoreJvmInferrer
     ArrayList<JvmDeclaredType> result = new ArrayList<JvmDeclaredType>();
     boolean isSuppressInterfaces = genClass.getGenModel().isSuppressInterfaces();
     boolean isInterface = genClass.isInterface();
-    if (!genClass.isExternalInterface() && (!isSuppressInterfaces || isInterface))
+    if (genClass.isExternalInterface() || !isSuppressInterfaces || isInterface)
     {
+      // Infer the interface even for external interfaces we don't actually generate.
+      // They're needed to provide a context for operation bodies.
+      //
       JvmGenericType jvmGenericType = getDeclaredType(genClass, true, false);
       result.add(jvmGenericType);
     }
@@ -1705,6 +1709,23 @@ public class XcoreJvmInferrer
         @Override
         protected void inferDeepStructure()
         {
+          // Infer the name based on the external interface name, which wasn't resolved yet when the shallow structure was first build.
+          //
+          if (isInterface && genClass.isExternalInterface())
+          {
+            String externalInterfaceName = genClass.getEcoreClass().getInstanceClassName();
+            int index = externalInterfaceName.lastIndexOf('.');
+            if (index == -1)
+            {
+              inferredElement.setSimpleName(genClass.getInterfaceName());
+            }
+            else
+            {
+              inferredElement.setSimpleName(externalInterfaceName.substring(index + 1));
+              inferredElement.setPackageName(externalInterfaceName.substring(0, index));
+            }
+          }
+
           populateTypeParameters(null, genClass.getGenTypeParameters(), inferredElement.getTypeParameters());
 
           EList<JvmTypeReference> superTypes = inferredElement.getSuperTypes();
@@ -1727,10 +1748,30 @@ public class XcoreJvmInferrer
           }
           else
           {
-            List<String> qualifiedInterfaceExtendsList = genClass.getQualifiedInterfaceExtendsList();
-            for (String instanceTypeName : qualifiedInterfaceExtendsList)
+            if (genClass.isExternalInterface())
             {
-              superTypes.add(getJvmTypeReference(instanceTypeName, genClass));
+              // For the interface inferred for an external interface, we want to make that actual interface the super type of this "fake" inferred interface.
+              // This will ensure that operations in the real interface that aren't declared in the XClass are still in scope.
+              //
+              Class<?> instanceClass = genClass.getEcoreClass().getInstanceClass();
+              if (instanceClass != null)
+              {
+                JvmType declaredType = typeReferences.findDeclaredType(instanceClass, genClass);
+                if (declaredType  != null)
+                {
+                  JvmParameterizedTypeReference jvmParameterizedTypeReference = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+                  jvmParameterizedTypeReference.setType(declaredType);
+                  superTypes.add(jvmParameterizedTypeReference);
+                }
+              }
+            }
+            else
+            {
+              List<String> qualifiedInterfaceExtendsList = genClass.getQualifiedInterfaceExtendsList();
+              for (String instanceTypeName : qualifiedInterfaceExtendsList)
+              {
+                superTypes.add(getJvmTypeReference(instanceTypeName, genClass));
+              }
             }
 
             if (superTypes.isEmpty())
@@ -2108,7 +2149,9 @@ public class XcoreJvmInferrer
             inferredElement.setPackageName(genClass.getGenPackage().getClassPackageName());
 
           }
-          else
+          // Don't infer the name for an external interface because its name isn't resolved until after the shallow structure has been derived.
+          //
+          else if (!genClass.isExternalInterface())
           {
             inferredElement.setSimpleName(genClass.getInterfaceName());
             inferredElement.setPackageName(genClass.getGenPackage().getInterfacePackageName());
