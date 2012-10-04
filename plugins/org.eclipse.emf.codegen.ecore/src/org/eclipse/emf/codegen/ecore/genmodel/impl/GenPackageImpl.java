@@ -3445,13 +3445,6 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       addPackageSuffix(getQualifiedPackageName(), suffix);
   }
 
-  // TODO factor up into GenBaseImpl?
-  //
-  private static boolean hasSubstitution(String string)
-  {
-    return string != null && string.matches(".*\\{\\d+\\}.*");
-  }
-
   /**
    * Returns a list of package name substitution strings, which always includes at least one element.
    * If the package is not nested, the list contains a single element, the EPackage name.
@@ -3482,20 +3475,6 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       names.add(0, full.toString());
     }
     return names;
-  }
-
-  // TODO factor up into GenBaseImpl
-  //
-  private String addPackagePrefix(String prefix, String name)
-  {
-    return !isBlank(prefix) ? prefix + "." + name : name;
-  }
-
-  // TODO factor up into GenBaseImpl
-  //
-  private String addPackageSuffix(String name, String suffix)
-  {
-    return !isBlank(suffix) ? name + "." + suffix : name;
   }
 
   public String getQualifiedPackageName()

@@ -4,8 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
@@ -1661,7 +1661,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected EList<GenPackage> usedGenPackages;
-  
+
   /**
    * The default value of the '{@link #getInterfaceNamePattern() <em>Interface Name Pattern</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -1759,17 +1759,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated modifiable
    */
-  protected GenModelImpl() 
+  protected GenModelImpl()
   {
     super();
   }
-  
+
   @Override
   public GenModel getGenModel()
   {
     return this;
   }
-  
+
   Map<EPackage, GenPackage> ePackageToGenPackageMap;
 
   private GenPackage ecoreGenPackage;
@@ -1870,14 +1870,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         result = findGenPackageHelper(genPackage, ePackage);
       }
     }
-    
+
     ePackageToGenPackageMap.put(ePackage, result);
 
     return result;
   }
-  
+
   Map<EClassifier, GenClassifier> eClassifierToGenClassifierMap;
-  
+
   @Override
   protected GenClass findGenClass(EClass eClass)
   {
@@ -1914,7 +1914,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     return null;
   }
-  
+
   @Override
   protected GenEnum findGenEnum(EEnum eEnum)
   {
@@ -2016,7 +2016,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return "src";
   }
 
-  
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2149,7 +2149,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     getImportManager().addPseudoImport(qualifiedName);
   }
 
-  protected static final ImportManager DEGENERATE_IMPORT_MANAGER = 
+  protected static final ImportManager DEGENERATE_IMPORT_MANAGER =
     new ImportManager("")
     {
       @Override
@@ -2174,19 +2174,19 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     if (this.importManager != importManager)
     {
       this.importManager = importManager;
-  
+
       // We also need to set it on any GenModels holding any used or static packages that may be refered to.
       //
       for (GenPackage genPackage : getUsedGenPackages())
       {
         genPackage.getGenModel().setImportManager(importManager);
       }
-  
+
       for (GenPackage genPackage : getStaticGenPackages())
       {
         genPackage.getGenModel().setImportManager(importManager);
       }
-  
+
       // And we need to set it on any cached GenModels holding the special Ecore and XML packages.
       //
       GenPackage ecore = getEcoreGenPackage();
@@ -2229,19 +2229,19 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       {
         importManager.setLineDelimiter(lineDelimiter);
       }
-  
+
       // We also need to set it on any GenModels holding any used or static packages that may be refered to.
       //
       for (GenPackage genPackage : getUsedGenPackages())
       {
         genPackage.getGenModel().setLineDelimiter(lineDelimiter);
       }
-  
+
       for (GenPackage genPackage : getStaticGenPackages())
       {
         genPackage.getGenModel().setLineDelimiter(lineDelimiter);
       }
-  
+
       // There was previously code intended to set it on the cached GenModels holding the special Ecore and XML packages,
       // but it erroneously set the import manager. So, it seems that was not necessary.
     }
@@ -2560,10 +2560,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       templatePath = new String[2];
     }
     String theTemplateDirectory = getTemplateDirectory();
-    templatePath[0] = 
-      !isDynamicTemplates() ? 
+    templatePath[0] =
+      !isDynamicTemplates() ?
         null :
-        theTemplateDirectory != null && theTemplateDirectory.indexOf(":") == -1 ? 
+        theTemplateDirectory != null && theTemplateDirectory.indexOf(":") == -1 ?
           URI.createPlatformResourceURI(theTemplateDirectory).toString() :
           theTemplateDirectory;
     templatePath[1] =  CodeGenEcorePlugin.INSTANCE.getBaseURL().toString() + "templates";
@@ -2634,7 +2634,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Deprecated
   protected JETEmitter createJETEmitter(String relativeTemplateURI)
   {
-    JETEmitter jetEmitter = 
+    JETEmitter jetEmitter =
       new JETEmitter(getTemplatePath(), relativeTemplateURI, getClass().getClassLoader())
       {
         @Override
@@ -2775,7 +2775,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     return validatorSwitchClassEmitter;
   }
-  
+
   /**
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
@@ -2925,12 +2925,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return BasicDiagnostic.toIStatus(diagnose());
   }
-  
+
   public boolean isValidateModel()
   {
     return validateModel;
   }
-  
+
   public void setValidateModel(boolean validateModel)
   {
     this.validateModel = validateModel;
@@ -3011,7 +3011,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           }
         }
       }
-    
+
       for (EPackage ePackage : referencedEPackages)
       {
         GenPackage genPackage = findGenPackage(ePackage);
@@ -3033,7 +3033,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
                   CodeGenEcorePlugin.INSTANCE.getSymbolicName(),
                0,
                CodeGenEcorePlugin.INSTANCE.getString
-                 ("_UI_ThePackageHasTheSameNamespaceURI", 
+                 ("_UI_ThePackageHasTheSameNamespaceURI",
                   new Object [] { EcoreUtil.getURI(ePackage), ePackage.getNsURI(), EcoreUtil.getURI(genPackage.getEcorePackage()) }),
                null));
         }
@@ -3046,7 +3046,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           EPackage ePackage = genPackage.getEcorePackage();
           if (ePackage != null)
           {
-            Diagnostician diagnostician = 
+            Diagnostician diagnostician =
               new Diagnostician(EValidator.Registry.INSTANCE)
               {
                 @Override
@@ -3083,15 +3083,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   }
 
   protected ExtendedMetaData extendedMetaData;
-  
+
   @Override
   public ExtendedMetaData getExtendedMetaData()
   {
     if (extendedMetaData == null)
     {
-      extendedMetaData = 
+      extendedMetaData =
         new BasicExtendedMetaData
-          (eResource() == null || eResource().getResourceSet() == null ? 
+          (eResource() == null || eResource().getResourceSet() == null ?
              new EPackageRegistryImpl(EPackage.Registry.INSTANCE) :
              eResource().getResourceSet().getPackageRegistry());
       populateExtendedMetaData(getGenPackages());
@@ -3151,10 +3151,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       {
         EclipseUtil.findOrCreateContainer
           ((GenModel)this,
-           createMonitor(progressMonitor, 1), 
-           Generator.EMF_MODEL_PROJECT_STYLE, 
+           createMonitor(progressMonitor, 1),
+           Generator.EMF_MODEL_PROJECT_STYLE,
            getEffectiveModelPluginVariables(),
-           getModelDirectory(), 
+           getModelDirectory(),
            true);
       }
 
@@ -3194,9 +3194,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
                Generator.EMF_MODEL_PROJECT_STYLE,
                getEffectiveModelPluginVariables(),
                getModelProjectDirectory() + "/META-INF/MANIFEST.MF",
-               getManifestMFEmitter());          
+               getManifestMFEmitter());
           }
-          
+
           progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModelPluginXML_message"));
           generate
             (createMonitor(progressMonitor, 1),
@@ -3205,7 +3205,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
              getModelProjectDirectory() + "/plugin.xml",
              getPluginXMLEmitter());
         }
-  
+
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModelPluginProperties_message"));
         generate
           (createMonitor(progressMonitor, 1),
@@ -3213,14 +3213,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
            getEffectiveModelPluginVariables(),
            getModelProjectDirectory() + "/plugin.properties",
            getPluginPropertiesEmitter());
-        
+
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModelBuildProperties_message"));
         generate
           (createMonitor(progressMonitor, 1),
            Generator.EMF_MODEL_PROJECT_STYLE,
            getEffectiveModelPluginVariables(),
            getModelProjectDirectory() + "/build.properties",
-           getBuildPropertiesEmitter());       
+           getBuildPropertiesEmitter());
       }
     }
     finally
@@ -3231,7 +3231,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public boolean hasEditSupport()
   {
-    return 
+    return
       hasPluginSupport() &&
       !isBlank(getEditPluginClassToUse()) &&
       !isBlank(getEditDirectory());
@@ -3266,10 +3266,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       {
         EclipseUtil.findOrCreateContainer
           ((GenModel)this,
-           createMonitor(progressMonitor, 1), 
-           Generator.EMF_EDIT_PROJECT_STYLE, 
+           createMonitor(progressMonitor, 1),
+           Generator.EMF_EDIT_PROJECT_STYLE,
            getEffectiveModelPluginVariables(),
-           getEditDirectory(), 
+           getEditDirectory(),
            true);
       }
 
@@ -3307,7 +3307,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
              getEditProjectDirectory() + "/META-INF/MANIFEST.MF",
              getEditManifestMFEmitter());
         }
-        
+
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditPluginXML_message"));
         generate
           (createMonitor(progressMonitor, 1),
@@ -3341,7 +3341,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public boolean hasEditorSupport()
   {
-    return 
+    return
       hasPluginSupport() &&
       !isBlank(getEditorPluginClassToUse()) &&
       !isBlank(getEditorDirectory());
@@ -3376,10 +3376,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       {
         EclipseUtil.findOrCreateContainer
           ((GenModel)this,
-           createMonitor(progressMonitor, 1), 
-           Generator.EMF_EDITOR_PROJECT_STYLE, 
+           createMonitor(progressMonitor, 1),
+           Generator.EMF_EDITOR_PROJECT_STYLE,
            getEffectiveModelPluginVariables(),
-           getEditorDirectory(), 
+           getEditorDirectory(),
            true);
       }
 
@@ -3415,7 +3415,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
            getEditorProjectDirectory() + "/META-INF/MANIFEST.MF",
            getEditorManifestMFEmitter());
       }
-      
+
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorPluginXML_message"));
       generate
         (createMonitor(progressMonitor, 1),
@@ -3423,7 +3423,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
          getEffectiveModelPluginVariables(),
          getEditorProjectDirectory() + "/plugin.xml",
          getEditorPluginXMLEmitter());
-            
+
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorPluginProperties_message"));
       generate
         (createMonitor(progressMonitor, 1),
@@ -3439,7 +3439,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
          getEffectiveModelPluginVariables(),
          getEditorProjectDirectory() + "/build.properties",
          getEditorBuildPropertiesEmitter());
-      
+
       if (getGenModel().isRichClientPlatform())
       {
         progressMonitor.subTask
@@ -3453,14 +3453,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
          getEditorPluginPackageName(),
          getEditorAdvisorClassName(),
          getEditorAdvisorEmitter());
-      }      
+      }
     }
     finally
     {
       progressMonitor.done();
     }
   }
-  
+
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
@@ -3470,7 +3470,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return canGenerate();
   }
-  
+
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
@@ -3484,7 +3484,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       ((GenPackage)i.next()).generateSchema(createMonitor(progressMonitor, 1));
     }
   }
-  
+
   public boolean hasTestSupport()
   {
     return hasModelSupport() && hasPluginSupport() && !isBlank(getTestsDirectory());
@@ -3558,8 +3558,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
              getEffectiveModelPluginVariables(),
              getTestsProjectDirectory() + "/META-INF/MANIFEST.MF",
              getTestsManifestMFEmitter());
-        }        
-        
+        }
+
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsPluginXML_message"));
         generate(
           createMonitor(progressMonitor, 1),
@@ -3567,7 +3567,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           getEffectiveModelPluginVariables(),
           getTestsProjectDirectory() + "/plugin.xml",
           getTestsPluginXMLEmitter());
-        
+
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsPluginProperties_message"));
         generate(
           createMonitor(progressMonitor, 1),
@@ -3590,7 +3590,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       progressMonitor.done();
     }
   }
-  
+
   //
   // EMFEdit generation
   //
@@ -3910,7 +3910,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     return editPluginXMLEmitter;
   }
-  
+
   /**
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
@@ -3926,7 +3926,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
 
     return editManifestMFEmitter;
-  }  
+  }
 
   /**
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
@@ -3959,7 +3959,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     return editBuildPropertiesEmitter;
   }
-  
+
   /**
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
@@ -4130,7 +4130,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       setMethod(editorManifestMFEmitter, "org.eclipse.emf.codegen.ecore.templates.editor.ManifestMF");
     }
     return editorManifestMFEmitter;
-  }  
+  }
 
   /**
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
@@ -4407,7 +4407,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     return baseDirectory;
   }
-  
+
   public String getEditDirectory()
   {
     return getPluginDirectory(isSetEditDirectory(), getEditDirectoryGen(), ".edit/");
@@ -4761,8 +4761,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return modelPluginClass;
   }
 
-  // TODO deprecate (since no longer used by getEditPluginClass(), getEditorPluginClass(), getTestSuiteClass())
-  //
+  /**
+   * @deprecated 2.9
+   */
+  @Deprecated
   protected String getPluginClass(boolean isSet, String baseName, String packageSuffix, String classSuffix)
   {
     if (!isSet)
@@ -4783,7 +4785,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         }
       }
     }
-    return baseName;    
+    return baseName;
   }
 
   /**
@@ -4797,13 +4799,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     modelPluginClass = newModelPluginClass;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__MODEL_PLUGIN_CLASS, oldModelPluginClass, modelPluginClass));
-  }
-
-  // TODO factor up into GenBaseImpl?
-  //
-  private String addPackageSuffix(String name, String suffix)
-  {
-    return !isBlank(suffix) ? name + "." + suffix : name;
   }
 
   // If we change to pattern defaults, will have to specify plain suffix in no main package case.
@@ -4846,15 +4841,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return null;
   }
 
-  // TODO deprecate (since getPluginClass() is no longer called)
-  //
+  /**
+   * @deprecated 2.9
+   */
+  @Deprecated
   protected String getMainPackage()
   {
     GenPackage genPackage = getMainGenPackage();
     // Second alternative should be getModelProject()?
     return genPackage != null ? genPackage.getQualifiedPackageName() : getModelDirectory();
   }
-  
+
   protected GenPackage getMainGenPackage()
   {
     if (!getGenPackages().isEmpty())
@@ -5063,7 +5060,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     if (staticPackages == null)
     {
-      staticPackages = 
+      staticPackages =
         new EDataTypeUniqueEList<String>(String.class, this, GenModelPackage.GEN_MODEL__STATIC_PACKAGES)
         {
           private static final long serialVersionUID = 1L;
@@ -6135,7 +6132,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           }
 
           setMainGenModel(staticGenPackage, this);
-          staticGenPackages.add(staticGenPackage);            
+          staticGenPackages.add(staticGenPackage);
         }
       }
     }
@@ -6251,7 +6248,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && isOperationReflectionGen();
   }
-  
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -7440,7 +7437,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public boolean sameModelTestsProject()
   {
-    // Different than the Edit and Editor projects, this method is invoked while 
+    // Different than the Edit and Editor projects, this method is invoked while
     // generating the model plugin xml.
     return getTestsDirectory() == null ? false : getModelProjectDirectory().equals(getTestsProjectDirectory());
   }
@@ -7749,8 +7746,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public GenRuntimeVersion getRuntimeVersion()
   {
-    return 
-      runtimeVersionESet || !GenJDKLevel.JDK14_LITERAL.equals(getComplianceLevel()) ? 
+    return
+      runtimeVersionESet || !GenJDKLevel.JDK14_LITERAL.equals(getComplianceLevel()) ?
         getRuntimeVersionGen() :
         GenRuntimeVersion.EMF22;
   }
@@ -7887,7 +7884,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public String getEditPluginDirectory()
   {
-    String result =  getEditDirectory(); 
+    String result =  getEditDirectory();
     String plugin = null;
     if (sameModelEditProject())
     {
@@ -7927,7 +7924,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public String getEditorPluginDirectory()
   {
-    String result =  getEditorDirectory(); 
+    String result =  getEditorDirectory();
     String plugin = null;
     if (sameModelEditorProject())
     {
@@ -7946,7 +7943,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     return result;
   }
-  
+
   protected String getPluginClassName(String baseName, String defaultSuffix)
   {
     if (baseName == null)
@@ -7996,7 +7993,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return getPluginClassName(getModelPluginClassToUse(), "Plugin");
   }
-  
+
   public String getQualifiedModelPluginClassName()
   {
     return getModelPluginPackageName() + "." + getModelPluginClassName();
@@ -8006,7 +8003,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return getPluginPackageName(getEditPluginClassToUse(), getEditPluginID());
   }
-  
+
   public String getEditPluginClassName()
   {
     return getPluginClassName(getEditPluginClassToUse(), "EditPlugin");
@@ -8036,7 +8033,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return getEditorPluginPackageName() + "." + getEditorAdvisorClassName();
   }
-  
+
   public String getEditorAdvisorClassName()
   {
     String modelName = getModelName();
@@ -8135,8 +8132,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     EList<String> packageNames = sameModelTestsProject() ?
       (EList<String>)getTestsQualifiedPackageNames() :
       new UniqueEList<String>();
-      
-    TreeIterator<GenPackage> genPackagesIterator = 
+
+    TreeIterator<GenPackage> genPackagesIterator =
       new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
       {
         private static final long serialVersionUID = 1L;
@@ -8145,7 +8142,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         @Override
         protected Iterator<GenPackage> getChildren(Object object)
         {
-          return object instanceof Collection<?> ? 
+          return object instanceof Collection<?> ?
             ((Collection<GenPackage>)object).iterator() :
             ((GenPackage)object).getNestedGenPackages().iterator();
         }
@@ -8155,24 +8152,24 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       GenPackage genPackage = genPackagesIterator.next();
       addQualifiedModelPackageNames(packageNames, genPackage);
     }
-    
+
     String pluginClassPackage = CodeGenUtil.getPackageName(getModelPluginClassToUse());
     if (!isBlank(pluginClassPackage))
     {
       packageNames.add(pluginClassPackage);
     }
-    
+
     ECollections.sort(packageNames);
     return packageNames;
   }
-  
+
   protected void addQualifiedModelPackageNames(List<String> packageNames, GenPackage genPackage)
   {
     if (genPackage.hasClassifiers())
     {
       packageNames.add(genPackage.getInterfacePackageName());
       packageNames.add(genPackage.getClassPackageName());
-      if (genPackage.isAdapterFactory() && !genPackage.getGenClasses().isEmpty() || 
+      if (genPackage.isAdapterFactory() && !genPackage.getGenClasses().isEmpty() ||
             genPackage.hasClassifiers() && genPackage.hasConstraints() ||
             genPackage.getResource() != GenResourceKind.NONE_LITERAL)
       {
@@ -8198,8 +8195,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       result.add("org.eclipse.emf.ecore");
     }
     result.addAll(getEffectiveModelPluginIDs());
-    
-    TreeIterator<GenPackage> genPackagesIterator = 
+
+    TreeIterator<GenPackage> genPackagesIterator =
       new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
       {
         private static final long serialVersionUID = 1L;
@@ -8208,7 +8205,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         @SuppressWarnings("unchecked")
         protected Iterator<GenPackage> getChildren(Object object)
         {
-          return object instanceof Collection<?> ? 
+          return object instanceof Collection<?> ?
             ((Collection<GenPackage>)object).iterator() :
             ((GenPackage)object).getNestedGenPackages().iterator();
         }
@@ -8238,13 +8235,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public List<String> getEditQualifiedPackageNames()
   {
-    EList<String> packageNames = sameModelEditProject() ? 
+    EList<String> packageNames = sameModelEditProject() ?
       (EList<String>)getModelQualifiedPackageNames() :
-        sameEditTestsProject() ? 
+        sameEditTestsProject() ?
           (EList<String>)getTestsQualifiedPackageNames() :
           new UniqueEList<String>();
 
-    TreeIterator<GenPackage> genPackagesIterator = 
+    TreeIterator<GenPackage> genPackagesIterator =
       new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
       {
         private static final long serialVersionUID = 1L;
@@ -8253,7 +8250,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         @Override
         protected Iterator<GenPackage> getChildren(Object object)
         {
-          return object instanceof Collection<?> ? 
+          return object instanceof Collection<?> ?
             ((Collection<GenPackage>)object).iterator() :
             ((GenPackage)object).getNestedGenPackages().iterator();
         }
@@ -8263,13 +8260,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       GenPackage genPackage = genPackagesIterator.next();
       addQualifiedEditPackageNames(packageNames, genPackage);
     }
-    
+
     String pluginClassPackage = CodeGenUtil.getPackageName(getEditPluginClassToUse());
     if (!isBlank(pluginClassPackage))
     {
       packageNames.add(pluginClassPackage);
     }
-    
+
     ECollections.sort(packageNames);
     return packageNames;
   }
@@ -8302,9 +8299,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       result.addAll(getModelRequiredPlugins());
     }
-    
+
     result.add(getRuntimePlatform() == GenRuntimePlatform.GWT ? "org.eclipse.emf.gwt.edit" : "org.eclipse.emf.edit");
-    
+
     if (sameEditTestsProject())
     {
       result.add("org.eclipse.emf.ecore.xmi");
@@ -8325,24 +8322,24 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public List<String> getEditorQualifiedPackageNames()
   {
-    EList<String> packageNames = sameModelEditorProject() || sameEditEditorProject() ? 
+    EList<String> packageNames = sameModelEditorProject() || sameEditEditorProject() ?
       (EList<String>)getEditQualifiedPackageNames() :
-        sameEditorTestsProject() ? 
+        sameEditorTestsProject() ?
           (EList<String>)getTestsQualifiedPackageNames() :
           new UniqueEList<String>();
 
     if (getRuntimePlatform() != GenRuntimePlatform.GWT)
     {
-      TreeIterator<GenPackage> genPackagesIterator = 
+      TreeIterator<GenPackage> genPackagesIterator =
         new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
         {
           private static final long serialVersionUID = 1L;
-  
+
           @SuppressWarnings("unchecked")
           @Override
           protected Iterator<GenPackage> getChildren(Object object)
           {
-            return object instanceof Collection<?> ? 
+            return object instanceof Collection<?> ?
               ((Collection<GenPackage>)object).iterator() :
               ((GenPackage)object).getNestedGenPackages().iterator();
           }
@@ -8359,7 +8356,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       packageNames.add(pluginClassPackage);
     }
-    
+
     ECollections.sort(packageNames);
     return packageNames;
   }
@@ -8384,7 +8381,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       }
     }
     result.addAll(getEffectiveEditorPluginIDs());
-    
+
     if (!sameEditEditorProject())
     {
       for (GenPackage genPackage : getGenPackages())
@@ -8437,7 +8434,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     EList<String> packageNames = new UniqueEList<String>();
 
-    TreeIterator<GenPackage> genPackagesIterator = 
+    TreeIterator<GenPackage> genPackagesIterator =
       new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
       {
         private static final long serialVersionUID = 1L;
@@ -8446,7 +8443,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         @Override
         protected Iterator<GenPackage> getChildren(Object object)
         {
-          return object instanceof Collection<?> ? 
+          return object instanceof Collection<?> ?
             ((Collection<GenPackage>)object).iterator() :
             ((GenPackage)object).getNestedGenPackages().iterator();
         }
@@ -8462,7 +8459,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       packageNames.add(pluginClassPackage);
     }
-    
+
     ECollections.sort(packageNames);
     return packageNames;
   }
@@ -8593,7 +8590,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setRuntimeJar(oldGenModelVersion.isRuntimeJar());
     setBundleManifest(oldGenModelVersion.isBundleManifest());
 
-    // EATM 
+    // EATM
     // Foreign Model
 
     setDynamicTemplates(oldGenModelVersion.isDynamicTemplates());
@@ -8604,7 +8601,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setModelName(oldGenModelVersion.getModelName());
 
     setModelPluginClass(oldGenModelVersion.getModelPluginClass());
-    setUpdateClasspath(oldGenModelVersion.isUpdateClasspath()); 
+    setUpdateClasspath(oldGenModelVersion.isUpdateClasspath());
     setGenerateSchema(oldGenModelVersion.isGenerateSchema());
     setNonNLSMarkers(oldGenModelVersion.isNonNLSMarkers());
     getModelPluginVariables().addAll(oldGenModelVersion.getModelPluginVariables());
@@ -8619,15 +8616,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
     setRuntimeCompatibility(oldGenModelVersion.isRuntimeCompatibility());
     setCodeFormatting(oldGenModelVersion.isCodeFormatting());
-        
+
     setBooleanFlagsField(oldGenModelVersion.getBooleanFlagsField());
     setBooleanFlagsReservedBits(oldGenModelVersion.getBooleanFlagsReservedBits());
-    
+
     setFeatureDelegation(oldGenModelVersion.getFeatureDelegation());
     setContainmentProxies(oldGenModelVersion.isContainmentProxies());
     setMinimalReflectiveMethods(oldGenModelVersion.isMinimalReflectiveMethods());
     setBinaryCompatibleReflectiveMethods(oldGenModelVersion.isBinaryCompatibleReflectiveMethods());
-    
+
     setSuppressEMFMetaData(oldGenModelVersion.isSuppressEMFMetaData());
     setSuppressEMFModelTags(oldGenModelVersion.isSuppressEMFModelTags());
     setSuppressInterfaces(oldGenModelVersion.isSuppressInterfaces());
@@ -8635,7 +8632,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setSuppressContainment(oldGenModelVersion.isSuppressContainment());
     setSuppressUnsettable(oldGenModelVersion.isSuppressUnsettable());
     setArrayAccessors(oldGenModelVersion.isArrayAccessors());
-    
+
     reconcileGenAnnotations(oldGenModelVersion);
 
     setComplianceLevel(oldGenModelVersion.getComplianceLevel());
@@ -8668,12 +8665,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setTableProviders(oldGenModelVersion.isTableProviders());
     setColorProviders(oldGenModelVersion.isColorProviders());
     setFontProviders(oldGenModelVersion.isFontProviders());
-    
+
     if (oldGenModelVersion.isSetRuntimeVersion())
     {
       setRuntimeVersion(oldGenModelVersion.getRuntimeVersion());
     }
-    
+
     setLanguage(oldGenModelVersion.getLanguage());
     setPackedEnums(oldGenModelVersion.isPackedEnums());
     setInterfaceNamePattern(oldGenModelVersion.getInterfaceNamePattern());
@@ -8705,7 +8702,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     List<EPackage> missingEPackages = new UniqueEList<EPackage>(getMissingPackages());
     usedGenPackages.addAll(computeMissingUsedGenPackages(missingEPackages));
-    
+
     for (EPackage ePackage : missingEPackages)
     {
       GenPackage genPackage = createGenPackage();
@@ -8775,9 +8772,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
             break;
           }
         }
-      }    
+      }
       return usedGenPackages;
-    } 
+    }
     else
     {
       return Collections.emptyList();
@@ -8843,7 +8840,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public String getIndentation(StringBuffer stringBuffer)
   {
-    int index = stringBuffer.length(); 
+    int index = stringBuffer.length();
     LOOP:
     while (--index >= 0)
     {
@@ -8919,7 +8916,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   /**
    * Set the code formatter options to be used to {@link #createCodeFormatter create} a new code formatter.
-   *  
+   *
    * @deprecated In EMF 2.2, the {@link org.eclipse.emf.codegen.ecore.generator.Generator.Options Generator.Options} should be used to
    * record code formatter options in order to be used via the new Generator-based design. This method will be removed after 2.2.
    */
@@ -8932,7 +8929,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   /**
    * Creates and returns a new JDT code formatter.
-   * 
+   *
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
@@ -8942,7 +8939,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return ToolFactory.createCodeFormatter(codeFormatterOptions);
   }
-  
+
   public boolean isBooleanFlagsEnabled()
   {
     return !isBlank(getBooleanFlagsField()) && !isReflectiveDelegation();
@@ -8992,7 +8989,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return GenModelFactory.eINSTANCE.createGenParameter();
   }
-  
+
   public GenTypeParameter createGenTypeParameter()
   {
     return GenModelFactory.eINSTANCE.createGenTypeParameter();
@@ -9002,7 +8999,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return GenModelFactory.eINSTANCE.createGenAnnotation();
   }
-  
+
   public GenBase create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -9021,7 +9018,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid GenModel classifier");
     }
   }
-  
+
   public Set<String> getPropertyCategories()
   {
     Set<String> categories = new HashSet<String>();
@@ -9036,15 +9033,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     return categories;
   }
-  
+
   public boolean hasLocalGenModel()
   {
     if (eResource() != null && eResource().getURI() != null)
     {
       URI genModelURI = eResource().getURI();
-      URI modelDirectory = URI.createURI(getModelDirectory());    
-      return 
-        genModelURI.isPlatformResource() && 
+      URI modelDirectory = URI.createURI(getModelDirectory());
+      return
+        genModelURI.isPlatformResource() &&
            modelDirectory.segmentCount() > 0 &&
            genModelURI.segment(1).equals(modelDirectory.segment(0));
     }
@@ -9053,14 +9050,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       return false;
     }
   }
-  
+
   public String getRelativeGenModelLocation()
   {
     URI genModelURI = eResource().getURI();
     String result = genModelURI.deresolve(genModelURI.trimSegments(genModelURI.segmentCount() - 2).appendSegment("")).toString();
     return result;
   }
-  
+
   public String getPropertyCategoryKey(String category)
   {
     return "_UI_" + CodeGenUtil.validJavaIdentifier(category) + "PropertyCategory";
@@ -9075,7 +9072,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return getFeatureDelegation() == GenDelegationKind.DYNAMIC_LITERAL;
   }
-  
+
   public boolean useClassOverrideAnnotation()
   {
     return getComplianceLevel().getValue() >= GenJDKLevel.JDK50;
@@ -9103,7 +9100,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return super.findGenOperation(operation);
   }
-  
+
   public GenTypeParameter findGenTypeParameter(ETypeParameter eTypeParameter)
   {
     for (EObject eObject = eTypeParameter.eContainer(); eObject != null; eObject = eObject.eContainer())
@@ -9158,7 +9155,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       return null;
     }
   }
-  
+
   public boolean hasCopyrightField()
   {
     return isCopyrightFields() && !isBlank(getCopyrightText());
@@ -9221,7 +9218,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         sourceFolders.add(sourceFolder);
       }
     }
-    
+
     if (sameEditTestsProject())
     {
       String sourceFolder = getSourceFolder(getTestsDirectory());
@@ -9229,11 +9226,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       {
         sourceFolders.add(sourceFolder);
       }
-    }    
-        
+    }
+
     return sourceFolders;
   }
-  
+
   public List<String> getEditorSourceFolders()
   {
     List<String> sourceFolders = new UniqueEList<String>(4);
@@ -9255,7 +9252,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         sourceFolders.add(sourceFolder);
       }
     }
-    
+
     {
       String sourceFolder = getSourceFolder(getEditorDirectory());
       if (sourceFolder != null)
@@ -9308,7 +9305,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     return null;
   }
-  
+
   protected Locale locale;
 
   public Locale getLocale()
@@ -9344,7 +9341,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     else
     {
       // Avoid creating a cycle.
-      // 
+      //
       Set<GenModel> visited = new HashSet<GenModel>();
       for (GenModel otherGenModel = genModel.getMainGenModel(); visited.add(otherGenModel); otherGenModel = otherGenModel.getMainGenModel())
       {
@@ -9406,7 +9403,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public String getModelModuleName()
   {
     List<GenPackage> allGenPackagesWithClassifiers = getAllGenAndUsedGenPackagesWithClassifiers();
-    return  
+    return
       allGenPackagesWithClassifiers.size() == 1 || isBlank(getModelName()) ?
         allGenPackagesWithClassifiers.get(0).getPrefix() :
         CodeGenUtil.validJavaIdentifier(getModelName());
@@ -9448,12 +9445,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       return getModelModuleName();
     }
     List<GenPackage> allGenPackagesWithClassifiers = getAllGenAndUsedGenPackagesWithClassifiers();
-    return  
+    return
       (allGenPackagesWithClassifiers.size() == 1 || isBlank(getModelName()) ?
          allGenPackagesWithClassifiers.get(0).getPrefix() :
          CodeGenUtil.validJavaIdentifier(getModelName())) + "Edit";
   }
-  
+
   public String getQualifiedEditModuleName()
   {
     String rootPackageName = getRootPackageName();
@@ -9493,7 +9490,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public String getEditorModuleName()
   {
     List<GenPackage> allGenPackagesWithClassifiers = getAllGenAndUsedGenPackagesWithClassifiers();
-    return  
+    return
       (allGenPackagesWithClassifiers.size() == 1 || isBlank(getModelName()) ?
          allGenPackagesWithClassifiers.get(0).getPrefix() :
          CodeGenUtil.validJavaIdentifier(getModelName())) + "Editor";
@@ -9720,7 +9717,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
             if (name != null)
             {
                int index = name.indexOf(';');
-               if (index > 0) 
+               if (index > 0)
                {
                   name = name.substring(0, index);
                }

@@ -4,8 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
@@ -139,7 +139,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * <!-- end-user-doc -->
    * @generated modifiable
    */
-  protected GenBaseImpl() 
+  protected GenBaseImpl()
   {
     super();
   }
@@ -322,7 +322,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     return CodeGenUtil.uncapPrefixedName(name, false, getGenModel().getLocale());
   }
-  
+
   public String uncapPrefixedName(String name, boolean forceDifferent)
   {
     return CodeGenUtil.uncapPrefixedName(name, forceDifferent, getGenModel().getLocale());
@@ -377,7 +377,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     generate(progressMonitor);
   }
-  
+
   /**
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
@@ -387,7 +387,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     // Does nothing
   }
-  
+
   /**
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
@@ -409,14 +409,14 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         {
           return;
         }
-          
+
         //We are not generating the manifest file if the plugin.xml exists.
         //
         if (outputFilePath.endsWith("/META-INF/MANIFEST.MF") && exists(targetFile.trimSegments(2).appendSegment("plugin.xml")))
         {
           return;
         }
-  
+
         boolean changed = false;
         boolean isUnicodeEscapeEncoded = outputFilePath.endsWith(".properties");
         String emitterResult = jetEmitter.generate(createMonitor(progressMonitor, 1), new Object [] { this });
@@ -424,7 +424,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         {
           emitterResult = unicodeEscapeEncode(emitterResult);
         }
-  
+
         progressMonitor.worked(1);
         byte [] bytes = emitterResult.toString().getBytes(isUnicodeEscapeEncoded ? "ISO-8859-1" : "UTF-8");
         if (exists(targetFile))
@@ -440,7 +440,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             (CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object [] { targetFile }));
           propertyMerger.merge();
           progressMonitor.worked(1);
-  
+
           String mergedResult = propertyMerger.getTargetProperties();
           changed = !mergedResult.equals(oldProperties);
           if (changed)
@@ -451,7 +451,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
               propertyMerger.merge();
               mergedResult = propertyMerger.getTargetProperties();
             }
-  
+
             bytes = mergedResult.getBytes(isUnicodeEscapeEncoded ? "ISO-8859-1" : "UTF-8");
           }
         }
@@ -459,12 +459,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         {
           changed = true;
         }
-  
+
         if (changed)
         {
           String redirection = getGenModel().getRedirection();
           boolean redirect = redirection != null && redirection.indexOf("{0}") != -1;
-  
+
           // Use an alternate if we can't write to this one.
           //
           if (redirect)
@@ -474,7 +474,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             progressMonitor.subTask
               (CodeGenEcorePlugin.INSTANCE.getString("_UI_UsingAlternate_message", new Object [] { targetFile }));
           }
-    
+
           if (isReadOnly(targetFile))
           {
             if (getGenModel().isForceOverwrite())
@@ -488,7 +488,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
                 (CodeGenEcorePlugin.INSTANCE.getString("_UI_UsingDefaultAlternate_message", new Object [] { targetFile }));
             }
           }
-          
+
           OutputStream outputStream = createOutputStream(targetFile);
           outputStream.write(bytes);
           outputStream.close();
@@ -524,11 +524,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   @SuppressWarnings("rawtypes")
   @Deprecated
   protected void generate
-    (Monitor progressMonitor, 
-     int style, 
+    (Monitor progressMonitor,
+     int style,
      List pluginVariables,
-     String outputFilePath, 
-     GIFEmitter gifEmitter, 
+     String outputFilePath,
+     GIFEmitter gifEmitter,
      String key)
   {
     generate(progressMonitor, style, pluginVariables, outputFilePath, gifEmitter, key, null);
@@ -543,11 +543,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   @Deprecated
   protected void generate
     (Monitor progressMonitor,
-     int style, 
+     int style,
      List pluginVariables,
-     String outputFilePath, 
-     GIFEmitter gifEmitter, 
-     String parentKey, 
+     String outputFilePath,
+     GIFEmitter gifEmitter,
+     String parentKey,
      String childKey)
   {
     try
@@ -587,12 +587,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   @SuppressWarnings("rawtypes")
   @Deprecated
   public void gen
-    (Monitor progressMonitor, 
-     int style, 
+    (Monitor progressMonitor,
+     int style,
      List pluginVariables,
-     String targetDirectory, 
-     String packageName, 
-     String className, 
+     String targetDirectory,
+     String packageName,
+     String className,
      JETEmitter jetEmitter)
   {
     generate(progressMonitor, style, pluginVariables, targetDirectory, packageName, className, jetEmitter, new Object [] { this });
@@ -606,12 +606,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   @SuppressWarnings("rawtypes")
   @Deprecated
   protected void generate
-    (Monitor progressMonitor, 
-     int style, 
+    (Monitor progressMonitor,
+     int style,
      List pluginVariables,
-     String targetDirectory, 
-     String packageName, 
-     String className, 
+     String targetDirectory,
+     String packageName,
+     String className,
      JETEmitter jetEmitter)
   {
     generate(progressMonitor, style, pluginVariables, targetDirectory, packageName, className, jetEmitter, new Object [] { this });
@@ -625,44 +625,44 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   @SuppressWarnings("rawtypes")
   @Deprecated
   protected void generate
-    (Monitor progressMonitor, 
-     int style, 
+    (Monitor progressMonitor,
+     int style,
      List pluginVariables,
-     String targetDirectory, 
-     String packageName, 
-     String className, 
+     String targetDirectory,
+     String packageName,
+     String className,
      JETEmitter jetEmitter,
      Object [] arguments)
   {
     try
     {
       URI outputURI = URI.createPlatformResourceURI(targetDirectory).appendSegments(packageName.split("\\."));
-        
+
       progressMonitor.beginTask("", 4);
-        
+
       if (findOrCreateContainer(createMonitor(progressMonitor, 1), style, pluginVariables, outputURI, false))
       {
         // Create an import manager for this compilation unit
         ImportManager importManager = new ImportManager(packageName);
         importManager.addMasterImport(packageName, className);
         setImportManager(importManager);
-    
+
         String emitterResult = jetEmitter.generate(createMonitor(progressMonitor, 1), arguments );
         progressMonitor.worked(1);
-    
+
         boolean changed = true;
         URI targetFile = outputURI.appendSegment(className + ".java");
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_Generating_message", new Object [] { targetFile }));
-        
+
         String newContents = emitterResult;
         JControlModel jControlModel = getGenModel().getJControlModel();
-        
+
         if (getGenModel().getFacadeHelperClass() != null && (jControlModel.getFacadeHelper() == null || !jControlModel.getFacadeHelper().getClass().getName().equals(getGenModel().getFacadeHelperClass())))
         {
-          FacadeHelper facadeHelper = CodeGenUtil.instantiateFacadeHelper(getGenModel().getFacadeHelperClass()); 
+          FacadeHelper facadeHelper = CodeGenUtil.instantiateFacadeHelper(getGenModel().getFacadeHelperClass());
           jControlModel.initialize(facadeHelper, getGenModel().getMergeRulesLocation());
         }
-        
+
         if (jControlModel.canMerge())
         {
           JMerger jMerger = new JMerger(jControlModel);
@@ -670,19 +670,19 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
           jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(emitterResult));
           // Create a code formatter for this compilation unit, if needed
           CodeFormatter codeFormatter = getGenModel().isCodeFormatting() ? getGenModel().createCodeFormatter() : null;
-      
+
           if (exists(targetFile))
           {
             progressMonitor.subTask
               (CodeGenEcorePlugin.INSTANCE.getString("_UI_ExaminingOld_message", new Object [] { targetFile }));
             jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile), getEncoding(targetFile)));
             String oldContents = jMerger.getTargetCompilationUnitContents();
-      
+
             progressMonitor.subTask
               (CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object [] { targetFile }));
             jMerger.merge();
             progressMonitor.worked(1);
-      
+
             newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
             changed = !oldContents.equals(newContents);
             if (changed)
@@ -700,11 +700,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             changed = true;
             progressMonitor.subTask
               (CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object [] { targetFile }));
-            
+
             jMerger.merge();
             newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
           }
-          
+
           if (jControlModel.getFacadeHelper() != null)
           {
             jControlModel.getFacadeHelper().reset();
@@ -712,11 +712,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         }
         else
         {
-          newContents = 
+          newContents =
             CodeGenUtil.convertFormat(jControlModel.getLeadingTabReplacement(), jControlModel.convertToStandardBraceStyle(), emitterResult);
           if (exists(targetFile))
           {
-            String oldContents = getContents(targetFile); 
+            String oldContents = getContents(targetFile);
             changed = !oldContents.equals(newContents);
           }
           else
@@ -724,25 +724,25 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             changed = true;
           }
         }
-    
+
         if (changed)
         {
-          //purpose: using charset from 'targetFile' to encode in-memory 
+          //purpose: using charset from 'targetFile' to encode in-memory
           //         'newContents' object into bytes
           //modifer: Wu Zhi Qiang
           //date:    Aug 25, 2004
-          //action:  first get the charset from 'targetFile', then use it 
+          //action:  first get the charset from 'targetFile', then use it
           //         to encode the 'newContents' object into bytes
           String encoding = getEncoding(targetFile);
-          byte[] bytes = encoding == null 
-            ? newContents.getBytes() 
+          byte[] bytes = encoding == null
+            ? newContents.getBytes()
             : newContents.getBytes(encoding);
-    
+
           // InputStream contents = new ByteArrayInputStream(bytes);
-    
+
           String redirection = getGenModel().getRedirection();
           boolean redirect = redirection != null && redirection.indexOf("{0}") != -1;
-    
+
           // Use an alternate if we can't write to this one.
           //
           if (redirect)
@@ -751,8 +751,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             targetFile = outputURI.appendSegment(baseName);
             progressMonitor.subTask
               (CodeGenEcorePlugin.INSTANCE.getString("_UI_UsingAlternate_message", new Object [] { targetFile }));
-          } 
-    
+          }
+
           if (isReadOnly(targetFile))
           {
             if (getGenModel().isForceOverwrite())
@@ -766,7 +766,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
                 (CodeGenEcorePlugin.INSTANCE.getString("_UI_UsingDefaultAlternate_message", new Object [] { targetFile }));
             }
           }
-    
+
           OutputStream outputStream = createOutputStream(targetFile);
           outputStream.write(bytes);
           outputStream.close();
@@ -781,13 +781,13 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     {
       CodeGenEcorePlugin.INSTANCE.log(exception);
     }
-  
+
     // Clear the import manager
     setImportManager(null);
-  
+
     progressMonitor.done();
   }
-  
+
   protected ImportManager getImportManager()
   {
     return getGenModel().getImportManager();
@@ -806,9 +806,9 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   @Deprecated
   protected String formatCode(String contents, CodeFormatter codeFormatter)
   {
-    return 
+    return
       EMFPlugin.IS_ECLIPSE_RUNNING && getGenModel().isCodeFormatting() ?
-        EclipseUtil.formatCode(contents, codeFormatter) : 
+        EclipseUtil.formatCode(contents, codeFormatter) :
         contents;
   }
 
@@ -861,13 +861,13 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     if (genPackage.getEcorePackage() != null)
     {
-      if (ePackage.getNsURI() == null ? 
+      if (ePackage.getNsURI() == null ?
             genPackage.getEcorePackage().getNsURI() == null :
             ePackage.getNsURI().equals(genPackage.getEcorePackage().getNsURI())) //FB TBD different objects for ecore model!
       {
         return genPackage;
       }
-  
+
       for (GenPackage nestedGenPackage : genPackage.getNestedGenPackages())
       {
         GenPackage nestedResult = findGenPackageHelper(nestedGenPackage, ePackage);
@@ -979,7 +979,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50 && eGenericType.getETypeArguments().size() == 2)
     {
-      String mapType = getEffectiveMapType();  
+      String mapType = getEffectiveMapType();
       String keyType = getTypeArgument(context, eGenericType.getETypeArguments().get(0), true, false);
       String valueType = getTypeArgument(context, eGenericType.getETypeArguments().get(1), true, false);
       mapType += "<" + keyType + ", " + valueType + ">";
@@ -993,7 +993,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected String getEffectiveMapType(GenClass context, GenClass genClass)
   {
-    String mapType = getEffectiveMapType();  
+    String mapType = getEffectiveMapType();
     if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
       String keyType = genClass.getMapEntryKeyFeature().getType(context);
@@ -1012,7 +1012,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50 && eGenericType.getETypeArguments().size() == 2)
     {
-      String mapType = getEffectiveMapEntryType();  
+      String mapType = getEffectiveMapEntryType();
       String keyType = getTypeArgument(context, eGenericType.getETypeArguments().get(0), false, false);
       String valueType = getTypeArgument(context, eGenericType.getETypeArguments().get(1), false, false);
       mapType += "<" + keyType + ", " + valueType + ">";
@@ -1026,7 +1026,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected String getEffectiveMapEntryType(GenClass context, GenClass genClass)
   {
-    String mapType = getEffectiveMapEntryType();  
+    String mapType = getEffectiveMapEntryType();
     if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
       GenFeature mapEntryKeyFeature = genClass.getMapEntryKeyFeature();
@@ -1048,7 +1048,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected String getEffectiveListType(GenClass context, EGenericType eGenericType)
   {
-    String listType = getEffectiveListType();  
+    String listType = getEffectiveListType();
     if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
       String itemType = getType(context, eGenericType, true);
@@ -1059,7 +1059,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected String getEffectiveListType(GenClass context, EClassifier eType)
   {
-    String listType = getEffectiveListType();  
+    String listType = getEffectiveListType();
     if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
       String itemType = getType(context, eType, true);
@@ -1175,7 +1175,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     EClassifier eClassifier = eGenericType.getEClassifier();
     if (eClassifier != null)
     {
-      return 
+      return
         eClassifier.eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME) ||
           eClassifier.eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME) ||
           hasReferenceToClassifierWithInstanceTypeName(eGenericType.getETypeArguments());
@@ -1434,25 +1434,25 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             result.add(genClass);
             if (hasMax && result.size() >= max) return result;
           }
-        }      
+        }
       }
       else
       {
         for (GenClass genClass : genPackage.getOrderedGenClasses())
         {
-          if (!genClass.isAbstract() && 
-                baseClass.isSuperTypeOf(genClass.getEcoreClass()) && 
+          if (!genClass.isAbstract() &&
+                baseClass.isSuperTypeOf(genClass.getEcoreClass()) &&
                 !extendedMetaData.isAnonymous(genClass.getEcoreClass()))
           {
             result.add(genClass);
             if (hasMax && result.size() >= max) return result;
           }
-        }      
+        }
       }
     }
     return result;
   }
-  
+
   /**
    * Returns a hash of all Java's keywords and textual literals, as of Java
    * 1.4.
@@ -1488,7 +1488,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   protected static interface GenOperationFilter
   {
     boolean accept(GenOperation genOperation);
-  }  
+  }
 
   protected static interface GenConstraintFilter
   {
@@ -1700,27 +1700,27 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     boolean accept(EModelElement eModelElement, String source, String key, String value);
   }
-  
+
   protected static class AnnotationFilterImpl implements AnnotationFilter
   {
     public AnnotationFilterImpl()
     {
       super();
     }
-    
+
     public boolean accept(EModelElement eModelElement, String source, String key, String value)
     {
       return !(GenModelPackage.eNS_URI.equals(source) && ("documentation".equals(key) || "copyright".equals(key)));
     }
   }
-  
+
   protected static final AnnotationFilter DEFAULT_ANNOTATION_FILTER = new AnnotationFilterImpl();
-  
+
   protected List<String> getAnnotationInfo(EModelElement eModelElement)
   {
     return getAnnotationInfo(eModelElement, DEFAULT_ANNOTATION_FILTER);
   }
-  
+
   protected List<String> getAnnotationInfo(EModelElement eModelElement, AnnotationFilter annotationFilter)
   {
     List<String> result = Collections.emptyList();
@@ -1754,7 +1754,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             result = new ArrayList<String>();
           }
           result.add(stringBuffer.toString());
-        } 
+        }
       }
     }
     return result;
@@ -1783,14 +1783,14 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       else
       {
         appendModelSetting(result, qualifier, "annotation", annotationInfo);
-      } 
+      }
     }
   }
-  
+
   protected static String escapeString(String s, String additionalCharactersToEscape)
   {
     if (s == null) return null;
-    
+
     int len = s.length();
     StringBuffer result = new StringBuffer(len + 16);
     for (int i = 0; i < len; i++)
@@ -1804,14 +1804,14 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       else if (c == '\"') result.append("\\\"");
       else if (c == '\'') result.append("\\\'");
       else if (c == '\\') result.append("\\\\");
-      else if (additionalCharactersToEscape.indexOf(c) == -1 && c >= 32 && c < 127) 
+      else if (additionalCharactersToEscape.indexOf(c) == -1 && c >= 32 && c < 127)
       {
         result.append(c);
       }
       else if (c < 256)
       {
         String num = Integer.toOctalString(c);
-        switch(num.length()) 
+        switch(num.length())
         {
           case 1: result.append("\\00"); break;
           case 2: result.append("\\0"); break;
@@ -1822,7 +1822,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       else
       {
         String num = Integer.toHexString(c);
-        switch(num.length()) 
+        switch(num.length())
         {
           case 1: result.append("\\u000"); break;
           case 2: result.append("\\u00"); break;
@@ -1934,7 +1934,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         List<String> alternates = getAlternateNames(o);
         for (String aName : alternates)
         {
-          if (!containsName(aName)) 
+          if (!containsName(aName))
           {
             name = aName;
             break;
@@ -2035,7 +2035,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     generateEditor(BasicMonitor.toMonitor(progressMonitor));
   }
-  
+
   /**
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
@@ -2045,7 +2045,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     generateEditor(progressMonitor);
   }
-  
+
   /**
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
@@ -2073,7 +2073,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     generateSchema(BasicMonitor.toMonitor(progressMonitor));
   }
-  
+
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
@@ -2082,7 +2082,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     generateSchema(progressMonitor);
   }
-  
+
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
@@ -2106,7 +2106,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     generateTests(BasicMonitor.toMonitor(progressMonitor));
   }
-  
+
   /**
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
@@ -2116,7 +2116,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     generateTests(progressMonitor);
   }
-  
+
   /**
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
@@ -2395,9 +2395,9 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             }
           }
         }
-        return 
+        return
           count > 0 ?
-            name + "." + count : 
+            name + "." + count :
             name;
       }
     }
@@ -2492,8 +2492,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected String getCopyright(boolean includeGenModelCopyrightTextAsDefault)
   {
-    for (EModelElement modelElement = getEcoreModelElement(); 
-         modelElement != null; 
+    for (EModelElement modelElement = getEcoreModelElement();
+         modelElement != null;
          modelElement = modelElement.eContainer() instanceof EModelElement ? (EModelElement)modelElement.eContainer() : null)
     {
       String copyright = EcoreUtil.getAnnotation(modelElement, GenModelPackage.eNS_URI, "copyright");
@@ -2658,7 +2658,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     {
       IDocument doc = new Document(contents);
       TextEdit edit = codeFormatter.format(CodeFormatter.K_COMPILATION_UNIT, doc.get(), 0, doc.get().length(), 0, null);
-  
+
       try
       {
         edit.apply(doc);
@@ -2668,7 +2668,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       {
         CodeGenEcorePlugin.INSTANCE.log(exception);
       }
-      
+
       return contents;
     }
 
@@ -2678,7 +2678,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     {
       return findOrCreateContainer(genBase, progressMonitor, style, pluginVariables, new Path(outputPath), forceStyle);
     }
-    
+
     // Unused?
     protected static IContainer findOrCreateContainer
       (GenBaseImpl genBase, Monitor progressMonitor, int style, List pluginVariables, IPath outputPath, boolean forceStyle)
@@ -2695,7 +2695,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
           if (forceStyle || !project.exists())
           {
             IPath projectLocation = null;
-  
+
             List referencedProjects = new UniqueEList();
             if (project.exists())
             {
@@ -2711,23 +2711,23 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
                 projectLocation = genModelProject.getDescription().getLocation();
               }
             }
-  
+
             IProject modelProject = workspace.getRoot().getProject(genBase.getGenModel().getModelProjectDirectory());
             IPath javaSource = new Path(genBase.getGenModel().getModelDirectory());
-  
+
             if ((style & Generator.EMF_TESTS_PROJECT_STYLE) != 0)
             {
               IProject testsProject = workspace.getRoot().getProject(genBase.getGenModel().getTestsProjectDirectory());
-  
-              if (!genBase.getGenModel().sameModelTestsProject()) 
+
+              if (!genBase.getGenModel().sameModelTestsProject())
               {
                 javaSource = new Path(genBase.getGenModel().getTestsDirectory());
-  
+
                 if (testsProject.exists())
                 {
                   projectLocation = testsProject.getDescription().getLocation();
                 }
-  
+
                 referencedProjects.add(modelProject);
                 referencedProjects.addAll(Arrays.asList(modelProject.getDescription().getReferencedProjects()));
               }
@@ -2735,7 +2735,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             else if ((style & Generator.EMF_MODEL_PROJECT_STYLE) == 0 && genBase.getGenModel().hasEditSupport())
             {
               IProject editProject = workspace.getRoot().getProject(genBase.getGenModel().getEditProjectDirectory());
-  
+
               if (!genBase.getGenModel().sameModelEditProject())
               {
                 javaSource = new Path(genBase.getGenModel().getEditDirectory());
@@ -2743,10 +2743,10 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
                 {
                   projectLocation = editProject.getDescription().getLocation();
                 }
-  
+
                 referencedProjects.add(modelProject);
               }
-  
+
               for (Iterator i = genBase.getGenModel().getUsedGenPackages().iterator(); i.hasNext(); )
               {
                 GenModel otherGenModel = ((GenPackage)i.next()).getGenModel();
@@ -2760,7 +2760,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
                   }
                 }
               }
-  
+
               if ((style & Generator.EMF_EDIT_PROJECT_STYLE) == 0 && genBase.getGenModel().hasEditorSupport())
               {
                 javaSource = new Path(genBase.getGenModel().getEditorDirectory());
@@ -2771,7 +2771,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
                 }
               }
             }
-  
+
             //  Remove any non-Java dependencies from being added.
             //
             for (Iterator i = referencedProjects.iterator(); i.hasNext(); )
@@ -2783,27 +2783,27 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
                 i.remove();
               }
             }
-  
+
             if (projectLocation != null)
             {
               projectLocation = projectLocation.removeLastSegments(1).append(javaSource.segment(0));
             }
-  
+
             if (genBase.getGenModel().hasXMLDependency())
             {
               style |= Generator.EMF_XML_PROJECT_STYLE;
             }
-  
+
             if ((style & Generator.EMF_MODEL_PROJECT_STYLE) == 0 || genBase.getGenModel().hasPluginSupport())
             {
               style |= Generator.EMF_PLUGIN_PROJECT_STYLE;
             }
-  
+
             Generator.createEMFProject
               (javaSource,
-               projectLocation, 
-               referencedProjects, 
-               progressMonitor, 
+               projectLocation,
+               referencedProjects,
+               progressMonitor,
                style,
                pluginVariables);
           }
@@ -2814,7 +2814,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
               project.open(BasicMonitor.toIProgressMonitor(genBase.createMonitor(progressMonitor, 1)));
             }
           }
-  
+
           container = project;
           for (int i = 1, length = outputPath.segmentCount(); i < length; ++ i)
           {
@@ -2834,7 +2834,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       progressMonitor.done();
       return container;
     }
-    
+
     protected static boolean findOrCreateContainer
       (GenModel genModel, Monitor progressMonitor, int style, List pluginVariables, String output, boolean forceStyle)
     {
@@ -2851,7 +2851,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
           if (forceStyle || !project.exists())
           {
             IPath projectLocation = null;
-  
+
             List referencedProjects = new UniqueEList();
             if (project.exists())
             {
@@ -2867,23 +2867,23 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
                 projectLocation = genModelProject.getDescription().getLocation();
               }
             }
-  
+
             IProject modelProject = workspace.getRoot().getProject(genModel.getModelProjectDirectory());
             IPath javaSource = new Path(genModel.getModelDirectory());
-  
+
             if ((style & Generator.EMF_TESTS_PROJECT_STYLE) != 0)
             {
               IProject testsProject = workspace.getRoot().getProject(genModel.getTestsProjectDirectory());
-  
-              if (!genModel.sameModelTestsProject()) 
+
+              if (!genModel.sameModelTestsProject())
               {
                 javaSource = new Path(genModel.getTestsDirectory());
-  
+
                 if (testsProject.exists())
                 {
                   projectLocation = testsProject.getDescription().getLocation();
                 }
-  
+
                 referencedProjects.add(modelProject);
                 referencedProjects.addAll(Arrays.asList(modelProject.getDescription().getReferencedProjects()));
               }
@@ -2891,7 +2891,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             else if ((style & Generator.EMF_MODEL_PROJECT_STYLE) == 0 && genModel.hasEditSupport())
             {
               IProject editProject = workspace.getRoot().getProject(genModel.getEditProjectDirectory());
-  
+
               if (!genModel.sameModelEditProject())
               {
                 javaSource = new Path(genModel.getEditDirectory());
@@ -2899,10 +2899,10 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
                 {
                   projectLocation = editProject.getDescription().getLocation();
                 }
-  
+
                 referencedProjects.add(modelProject);
               }
-  
+
               for (Iterator i = genModel.getUsedGenPackages().iterator(); i.hasNext(); )
               {
                 GenModel otherGenModel = ((GenPackage)i.next()).getGenModel();
@@ -2916,7 +2916,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
                   }
                 }
               }
-  
+
               if ((style & Generator.EMF_EDIT_PROJECT_STYLE) == 0 && genModel.hasEditorSupport())
               {
                 javaSource = new Path(genModel.getEditorDirectory());
@@ -2927,7 +2927,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
                 }
               }
             }
-  
+
             //  Remove any non-Java dependencies from being added.
             //
             for (Iterator i = referencedProjects.iterator(); i.hasNext(); )
@@ -2939,27 +2939,27 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
                 i.remove();
               }
             }
-  
+
             if (projectLocation != null)
             {
               projectLocation = projectLocation.removeLastSegments(1).append(javaSource.segment(0));
             }
-  
+
             if (genModel.hasXMLDependency())
             {
               style |= Generator.EMF_XML_PROJECT_STYLE;
             }
-  
+
             if ((style & Generator.EMF_MODEL_PROJECT_STYLE) == 0 || genModel.hasPluginSupport())
             {
               style |= Generator.EMF_PLUGIN_PROJECT_STYLE;
             }
-  
+
             Generator.createEMFProject
               (javaSource,
-               projectLocation, 
-               referencedProjects, 
-               progressMonitor, 
+               projectLocation,
+               referencedProjects,
+               progressMonitor,
                style,
                pluginVariables);
           }
@@ -2970,7 +2970,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
               project.open(BasicMonitor.toIProgressMonitor(CodeGenUtil.createMonitor(progressMonitor, 1)));
             }
           }
-  
+
           container = project;
           for (int i = 1, length = outputPath.segmentCount(); i < length; ++ i)
           {
@@ -2990,28 +2990,28 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       progressMonitor.done();
       return container != null;
     }
-    
+
     public static boolean validateEdit(String path, Monitor progressMonitor)
     {
       IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path));
       return file.getWorkspace().validateEdit(new IFile [] { file }, progressMonitor).isOK();
     }
-    
+
     public static boolean exists(String path)
     {
       return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path)).exists();
     }
-    
+
     public static boolean isReadOnly(String path)
     {
       return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path)).isReadOnly();
     }
-    
+
     public static InputStream createInputStream(String path) throws Exception
     {
       return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path)).getContents(true);
     }
-    
+
     public static String getEncoding(String path)
     {
       try
@@ -3023,7 +3023,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         return null;
       }
     }
-    
+
     public static void setWriteable(String path) throws Exception
     {
       IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path));
@@ -3063,7 +3063,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       URI workspacePath = outputURI.replacePrefix(PLATFORM_RESOURCE_URI, EMPTY_URI);
       if (workspacePath != null)
       {
-        return 
+        return
           EclipseUtil.findOrCreateContainer
             (getGenModel(), progressMonitor, style, pluginVariables, workspacePath.toString(), forceStyle);
       }
@@ -3105,7 +3105,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         return true;
       }
       catch (IOException exception)
-      { 
+      {
         return false;
       }
     }
@@ -3172,7 +3172,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     URIConverter uriConverter = eResource().getResourceSet().getURIConverter();
     return uriConverter.createOutputStream(uri);
-  } 
+  }
 
   /**
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
@@ -3247,19 +3247,19 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
     protected ResourceSet newContext;
     protected EObject oldContext;
-    
+
     public GenAnnotationCopier(ResourceSet newContext, EObject oldContext)
     {
       this.newContext = newContext;
       this.oldContext = oldContext;
     }
-    
+
     public void dispose()
     {
       newContext = null;
       oldContext = null;
     }
-    
+
     // If the value is null, the key is a referenced object
     @Override
     public EObject get(Object key)
@@ -3284,7 +3284,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       return value;
     }
   }
-  
+
   public void reconcileGenAnnotations(GenBase oldGenBase)
   {
     if (!oldGenBase.getGenAnnotations().isEmpty() && eResource() != null && eResource().getResourceSet() != null)
@@ -3386,7 +3386,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
               arrayIndices = instanceTypeName.substring(index);
               instanceTypeName = instanceTypeName.substring(0, index);
             }
-            
+
             if (CodeGenUtil.isJavaPrimitiveType(instanceTypeName))
             {
               result.append(instanceTypeName);
@@ -3422,7 +3422,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
                   }
                 }
               }
-              
+
               // Check if we found a resolution for it.
               //
               if (eGenericType.getETypeParameter() == null)
@@ -3505,7 +3505,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return false;
   }
 
-  private static final List<String> REMAPPED_XML_TYPES = 
+  private static final List<String> REMAPPED_XML_TYPES =
     Arrays.asList
       (new String[]
        {
@@ -3583,6 +3583,30 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     {
       return null;
     }
+  }
+
+  /**
+   * @since 2.9
+   */
+  protected static boolean hasSubstitution(String string)
+  {
+    return string != null && string.matches(".*\\{\\d+\\}.*");
+  }
+
+  /**
+   * @since 2.9
+   */
+  protected String addPackagePrefix(String prefix, String name)
+  {
+    return !isBlank(prefix) ? prefix + "." + name : name;
+  }
+
+  /**
+   * @since 2.9
+   */
+  protected String addPackageSuffix(String name, String suffix)
+  {
+    return !isBlank(suffix) ? name + "." + suffix : name;
   }
 
   @Override
