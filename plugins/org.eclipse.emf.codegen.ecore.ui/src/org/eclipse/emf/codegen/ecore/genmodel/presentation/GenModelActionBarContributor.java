@@ -1,17 +1,22 @@
 /**
- * Copyright (c) 2002-2008 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -28,13 +33,21 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.BaseSelectionListenerAction;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
@@ -105,7 +118,7 @@ public class GenModelActionBarContributor
         }
       }
     };
-      
+
   /**
    * This action refreshes the viewer of the current editor if the editor
    * implements {@link org.eclipse.emf.common.ui.viewer.IViewerProvider}.
@@ -148,7 +161,7 @@ public class GenModelActionBarContributor
 
   protected IAction generateEditAction = new GenerateAction
     (GenBaseGeneratorAdapter.EDIT_PROJECT_TYPE,
-     CodeGenEcorePlugin.INSTANCE.getString("_UI_EditProject_name"),    
+     CodeGenEcorePlugin.INSTANCE.getString("_UI_EditProject_name"),
      GenModelEditPlugin.INSTANCE.getString("_UI_GenerateEdit_menu_item"));
 
   protected IAction generateEditorAction = new GenerateAction
@@ -170,92 +183,6 @@ public class GenModelActionBarContributor
      new ProjectType(GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE, CodeGenEcorePlugin.INSTANCE.getString("_UI_TestsProject_name"))
    },
    GenModelEditPlugin.INSTANCE.getString("_UI_GenerateAll_menu_item"));
-
-/*
-  protected IAction generateAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateModel_menu_item"))
-  {
-    protected boolean canGenerate(GenBase genObject)
-    {
-      return genObject.canGenerate();
-    }
-
-    protected void generate(GenBase genObject, IProgressMonitor progressMonitor)
-    {
-      genObject.generate(progressMonitor);
-    }
-  };
-
-  protected IAction generateEditAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateEdit_menu_item"))
-  {
-    protected boolean canGenerate(GenBase genObject)
-    {
-      return genObject.canGenerateEdit();
-    }
-
-    protected void generate(GenBase genObject, IProgressMonitor progressMonitor)
-    {
-      genObject.generateEdit(progressMonitor);
-    }  
-  };
-
-  protected IAction generateEditorAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateEditor_menu_item"))
-  {
-    protected boolean canGenerate(GenBase genObject)
-    {
-      return genObject.canGenerateEditor();
-    }
-
-    protected void generate(GenBase genObject, IProgressMonitor progressMonitor)
-    {
-      genObject.generateEditor(progressMonitor);
-    }  
-  };
-  
-  protected IAction generateTestsAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateTests_menu_item"))
-  {
-    protected boolean canGenerate(GenBase genObject)
-    {
-      return genObject.canGenerateTests();
-    }
-    
-    protected void generate(GenBase genObject, IProgressMonitor progressMonitor)
-    {
-      genObject.generateTests(progressMonitor);
-    }
-  };
-  
-  protected IAction generateSchemaAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateSchema_menu_item"))
-  {
-    protected boolean canGenerate(GenBase genObject)
-    {
-      return genObject.canGenerateSchema();
-    }
-
-    protected void generate(GenBase genObject, IProgressMonitor progressMonitor)
-    {
-      progressMonitor.beginTask("", 1);
-      genObject.generateSchema(new SubProgressMonitor(progressMonitor, 1));
-    }
-  };  
-
-  protected IAction generateAllAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateAll_menu_item"))
-  {
-    protected boolean canGenerate(GenBase genObject)
-    {
-      return genObject.canGenerate() || genObject.canGenerateEdit() ||
-        genObject.canGenerateEditor();
-    }
-
-    protected void generate(GenBase genObject, IProgressMonitor progressMonitor)
-    {
-      progressMonitor.beginTask("", 4);
-      genObject.generate(new SubProgressMonitor(progressMonitor, 1));
-      genObject.generateEdit(new SubProgressMonitor(progressMonitor, 1));
-      genObject.generateEditor(new SubProgressMonitor(progressMonitor, 1));
-      genObject.generateTests(new SubProgressMonitor(progressMonitor, 1));
-    }  
-  };
-*/
 
   /**
    * This implements the "Generate..." actions.
@@ -325,16 +252,75 @@ public class GenModelActionBarContributor
     @Override
     public void run()
     {
-      GeneratorUIUtil.GeneratorOperation operation = 
+      GeneratorUIUtil.GeneratorOperation operation =
         new GeneratorUIUtil.GeneratorOperation(activeEditorPart.getSite().getShell());
       operation.setRootDiagnosticMessage(getText());
 
+      GenModel genModel = null;
       Collection<?> selection = ((IStructuredSelection)getActiveEditorSelection()).toList();
       for (Object object : selection)
       {
         for (int i = 0; i < projectTypes.length; i++)
         {
+          if (object instanceof GenBase)
+          {
+            genModel = ((GenBase)object).getGenModel();
+          }
           operation.addGeneratorAndArguments(generator, object, projectTypes[i].getType(), projectTypes[i].getName());
+        }
+      }
+
+      Set<IProject> projects = new HashSet<IProject>();
+      Set<IWorkingSet> workingSets = new HashSet<IWorkingSet>();
+      if (genModel != null)
+      {
+        IProject project = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(genModel.getModelDirectory())).getProject();
+        if (project != null)
+        {
+          IWorkbench workbench = PlatformUI.getWorkbench();
+          for (IWorkingSet workingSet : workbench.getWorkingSetManager().getAllWorkingSets())
+          {
+            IAdaptable[] elements = workingSet.getElements();
+            for (IAdaptable element : elements)
+            {
+              if (project.equals(element.getAdapter(IProject.class)))
+              {
+                workingSets.add(workingSet);
+                continue;
+              }
+            }
+          }
+          if (!workingSets.isEmpty())
+          {
+            for (int i = 0; i < projectTypes.length; i++)
+            {
+              Object projectType = projectTypes[i].getType();
+              if (GenBaseGeneratorAdapter.EDIT_PROJECT_TYPE.equals(projectType))
+              {
+                IProject editProject = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(genModel.getEditDirectory())).getProject();
+                if (!editProject.exists())
+                {
+                  projects.add(editProject);
+                }
+              }
+              if (GenBaseGeneratorAdapter.EDITOR_PROJECT_TYPE.equals(projectType))
+              {
+                IProject editorProject = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(genModel.getEditorDirectory())).getProject();
+                if (!editorProject.exists())
+                {
+                  projects.add(editorProject);
+                }
+              }
+              if (GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE.equals(projectType))
+              {
+                IProject testsProject = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(genModel.getTestsDirectory())).getProject();
+                if (!testsProject.exists())
+                {
+                  projects.add(testsProject);
+                }
+              }
+            }
+          }
         }
       }
 
@@ -344,6 +330,16 @@ public class GenModelActionBarContributor
       try
       {
         new ProgressMonitorDialog(activeEditorPart.getSite().getShell()).run(true, true, operation);
+
+        if (!projects.isEmpty())
+        {
+          for (IWorkingSet workingSet : workingSets)
+          {
+            List<IAdaptable> elements = new ArrayList<IAdaptable>(Arrays.asList(workingSet.getElements()));
+            elements.addAll(projects);
+            workingSet.setElements(workingSet.adaptElements(elements.toArray(new IAdaptable[elements.size()])));
+          }
+        }
       }
       catch (Exception exception)
       {
@@ -351,7 +347,7 @@ public class GenModelActionBarContributor
         //
         GenModelEditPlugin.INSTANCE.log(exception);
       }
-    } 
+    }
   }
 
   protected static class ProjectType
@@ -376,109 +372,30 @@ public class GenModelActionBarContributor
     }
   }
 
-/*
-  protected abstract class GenerateAction extends Action
-  {
-    public GenerateAction(String text)
-    {
-      super(text);
-    }
-
-    protected abstract boolean canGenerate(GenBase genObject);
-    protected abstract void generate(GenBase genObject, IProgressMonitor progressMonitor);
-
-    public boolean isEnabled()
-    {
-      ISelection s = getActiveEditorSelection();
-      if (!(s instanceof IStructuredSelection))
-      {
-        return false;
-      }
-
-      IStructuredSelection ss = (IStructuredSelection) s;
-      if (ss.size() == 0)
-      {
-        return false;
-      }
-
-      for (Iterator iter = ss.iterator(); iter.hasNext(); )
-      {
-        Object selected = iter.next();
-        if (!(selected instanceof GenBase) || !canGenerate((GenBase)selected))
-        {
-          return false;
-        }
-      }
-      return true;
-    }
-  
-    public void run()
-    {
-      // Do the work within an operation because this is a long running activity that modifies the workbench.
-      WorkspaceModifyOperation operation = new WorkspaceModifyOperation()
-      {
-        // This is the method that gets invoked when the operation runs.
-        //
-        protected void execute(IProgressMonitor progressMonitor) throws CoreException
-        {
-          Collection selection = ((IStructuredSelection)getActiveEditorSelection()).toList();
-          progressMonitor.beginTask("", selection.size());
-          try
-          {
-            for (Iterator iter = selection.iterator(); iter.hasNext(); )
-            {
-              generate((GenBase)iter.next(), new SubProgressMonitor(progressMonitor, 1));
-            }          
-          }
-          catch (Exception exception)
-          {
-            GenModelEditPlugin.INSTANCE.log(exception);
-          }
-          progressMonitor.done();
-        }
-      };
-    
-      // This runs the options, and shows progress.
-      // (It appears to be a bad thing to fork this onto another thread.)
-      //
-      try
-      {
-        new ProgressMonitorDialog(activeEditorPart.getSite().getShell()).run(true, false, operation);
-      }
-      catch (Exception exception)
-      {
-        // Something went wrong that shouldn't.
-        //
-        GenModelEditPlugin.INSTANCE.log(exception);
-      }
-    } 
-  }
-*/
-
   protected ViewerFilterAction showGenAnnotationsAction = new ViewerFilterAction(GenModelEditPlugin.INSTANCE.getString("_UI_ShowGenAnnotation_menu_item"), IAction.AS_CHECK_BOX)
   {
     @Override
     public boolean select(Viewer viewer, Object parentElement, Object element)
     {
       return !(element instanceof GenAnnotation) || isChecked();
-    }    
+    }
   };
-  
+
   protected abstract class CreateAction extends CommandActionHandler
   {
     protected String label;
-    
+
     public CreateAction(String text, String label)
     {
       super(null, text);
       this.label = label;
     }
-    
+
     public void dispose()
     {
       setEditingDomain(null);
     }
-    
+
     @Override
     public Command createCommand(Collection<?> selection)
     {
@@ -486,7 +403,7 @@ public class GenModelActionBarContributor
       {
         setEditingDomain(((IEditingDomainProvider)activeEditorPart).getEditingDomain());
       }
-      
+
       if (getEditingDomain() != null && selection.size() == 1)
       {
         Object selectedObject = selection.iterator().next();
@@ -502,10 +419,10 @@ public class GenModelActionBarContributor
       }
       return UnexecutableCommand.INSTANCE;
     }
-    
+
     protected abstract Command doCreateCommand(GenBase selectedObject);
   }
-  
+
   protected CreateAction annotateAction = new CreateAction(
     GenModelEditPlugin.INSTANCE.getString("_UI_Annotate_menu_item"),
     GenModelEditPlugin.INSTANCE.getString("_UI_Annotate_text"))
@@ -527,7 +444,7 @@ public class GenModelActionBarContributor
       return AddCommand.create(getEditingDomain(), selectedObject, GenModelPackage.Literals.GEN_ANNOTATION__DETAILS, EcoreUtil.create(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY));
     }
   };
-    
+
   protected static abstract class OpenEObjectEditorAction extends BaseSelectionListenerAction
   {
     protected EObject eObject;
@@ -536,13 +453,13 @@ public class GenModelActionBarContributor
     {
       super(text);
     }
-    
+
     public void dispose()
     {
       eObject = null;
       clearCache();
     }
-    
+
     @Override
     public void run()
     {
@@ -558,7 +475,7 @@ public class GenModelActionBarContributor
         }
       }
     }
-    
+
     @Override
     protected boolean updateSelection(IStructuredSelection selection)
     {
@@ -570,10 +487,10 @@ public class GenModelActionBarContributor
       }
       return false;
     }
-    
+
     protected abstract EObject getEObject(Object element);
   }
-  
+
   protected OpenEObjectEditorAction openEcoreAction = new OpenEObjectEditorAction(GenModelEditPlugin.INSTANCE.getString("_UI_OpenEcore_menu_item"))
   {
     @Override
@@ -591,7 +508,7 @@ public class GenModelActionBarContributor
       if (activeEditorPart instanceof IEditingDomainProvider && element instanceof EObject)
       {
         EObject eObject = (EObject)element;
-        EditingDomain editingDomain = ((IEditingDomainProvider)activeEditorPart).getEditingDomain(); 
+        EditingDomain editingDomain = ((IEditingDomainProvider)activeEditorPart).getEditingDomain();
         if (editingDomain.getResourceSet().getResources().indexOf(eObject.eResource()) != 0)
         {
           return eObject;
@@ -601,7 +518,7 @@ public class GenModelActionBarContributor
     }
   };
 
-  
+
   /**
    * This creates an instance of the contributor.
    */
@@ -611,19 +528,19 @@ public class GenModelActionBarContributor
     showGenAnnotationsAction.setChecked
      (Boolean.parseBoolean(GenModelEditPlugin.getPlugin().getDialogSettings().get("showGenAnnotationsAction")));
   }
-  
+
   @Override
   public void dispose()
   {
     GenModelEditPlugin.getPlugin().getDialogSettings().put(
       "showGenAnnotationsAction", Boolean.toString(showGenAnnotationsAction.isChecked()));
-    
-    showGenAnnotationsAction.dispose();   
+
+    showGenAnnotationsAction.dispose();
     annotateAction.dispose();
     addDetailAction.dispose();
     openEcoreAction.dispose();
     openGenModelAction.dispose();
-       
+
     super.dispose();
   }
 
@@ -635,7 +552,7 @@ public class GenModelActionBarContributor
   {
     super.contributeToMenu(menuManager);
 
-    generateMenuManager = 
+    generateMenuManager =
       new MenuManager(GenModelEditPlugin.INSTANCE.getString("_UI_Generate_menu"), "org.eclipse.emf.codegen.ecore.genmodelMenuID");
     menuManager.insertAfter("additions", generateMenuManager);
     generateMenuManager.add(generateModelAction);
@@ -644,12 +561,9 @@ public class GenModelActionBarContributor
     generateMenuManager.add(generateTestsAction);
     generateMenuManager.add(generateAllAction);
 
-    // generateMenuManager.add(new Separator("schema-actions"));
-    // generateMenuManager.add(generateSchemaAction);    
-
     generateMenuManager.add(new Separator("annotation-actions"));
-    generateMenuManager.add(showGenAnnotationsAction);    
-    
+    generateMenuManager.add(showGenAnnotationsAction);
+
     generateMenuManager.add(new Separator("global-actions"));
   }
 
@@ -680,7 +594,7 @@ public class GenModelActionBarContributor
     {
       showGenAnnotationsAction.setEnabled(false);
     }
-    
+
     activeEditorPart = part;
 
     // Switch to the new selection provider.
@@ -704,7 +618,7 @@ public class GenModelActionBarContributor
       {
         selectionChanged(new SelectionChangedEvent(selectionProvider, selectionProvider.getSelection()));
       }
-    }    
+    }
   }
 
   /**
@@ -715,7 +629,7 @@ public class GenModelActionBarContributor
   {
     IContributionItem[] items = generateMenuManager.getItems();
     for (int i = 0, len = items.length; i < len; i++) items[i].update();
-    
+
     annotateAction.selectionChanged(event);
     addDetailAction.selectionChanged(event);
     openEcoreAction.selectionChanged(event);
@@ -729,13 +643,12 @@ public class GenModelActionBarContributor
   public void menuAboutToShow(IMenuManager menuManager)
   {
     generateAllAction.setEnabled(generateAllAction.isEnabled());
-    // generateSchemaAction.setEnabled(generateSchemaAction.isEnabled());
     generateTestsAction.setEnabled(generateTestsAction.isEnabled());
     generateEditorAction.setEnabled(generateEditorAction.isEnabled());
     generateEditAction.setEnabled(generateEditAction.isEnabled());
     generateModelAction.setEnabled(generateModelAction.isEnabled());
     refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());
-    
+
     super.menuAboutToShow(menuManager);
 
     menuManager.insertBefore("edit", new Separator("generate-actions"));
@@ -745,13 +658,10 @@ public class GenModelActionBarContributor
     menuManager.insertAfter("generate-actions", generateEditAction);
     menuManager.insertAfter("generate-actions", generateModelAction);
 
-    // menuManager.insertBefore("additions", new Separator("schema-actions"));
-    // menuManager.insertAfter("schema-actions", generateSchemaAction);
-
     menuManager.insertBefore("edit", new Separator("open-actions"));
     menuManager.insertAfter("open-actions", openGenModelAction);
     menuManager.insertAfter("open-actions", openEcoreAction);
-    
+
     if (showGenAnnotationsAction.isChecked())
     {
       menuManager.insertBefore("edit", new Separator("annotation-actions"));
@@ -772,7 +682,7 @@ public class GenModelActionBarContributor
     menuManager.insertAfter("additions-end", new Separator("ui-actions"));
     menuManager.insertAfter("ui-actions", showPropertiesViewAction);
 
-    refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());		
+    refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());
     menuManager.insertAfter("ui-actions", refreshViewerAction);
 
     super.addGlobalActions(menuManager);

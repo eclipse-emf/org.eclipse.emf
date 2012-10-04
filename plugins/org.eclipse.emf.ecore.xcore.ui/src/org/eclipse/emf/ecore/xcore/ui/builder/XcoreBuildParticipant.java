@@ -7,12 +7,14 @@
  */
 package org.eclipse.emf.ecore.xcore.ui.builder;
 
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
@@ -23,12 +25,16 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkingSet;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.xtext.builder.BuilderParticipant;
 import org.eclipse.xtext.builder.EclipseResourceFileSystemAccess2;
 import org.eclipse.xtext.resource.IResourceDescription.Delta;
 import org.osgi.framework.Bundle;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 
@@ -50,6 +56,22 @@ public class XcoreBuildParticipant extends BuilderParticipant
     }
     if (!createdProjects.isEmpty())
     {
+      IWorkbench workbench = PlatformUI.getWorkbench();
+      final Set<IWorkingSet> workingSets = Sets.newHashSet();
+      IProject project = context.getBuiltProject();
+      for (IWorkingSet workingSet : workbench.getWorkingSetManager().getAllWorkingSets())
+      {
+        IAdaptable[] elements = workingSet.getElements();
+        for (IAdaptable element : elements)
+        {
+          if (project.equals(element.getAdapter(IProject.class)))
+          {
+            workingSets.add(workingSet);
+            continue;
+          }
+        }
+      }
+
       final Bundle bundle = XcoreActivator.getInstance().getBundle();
       Job job =
         new Job(Platform.getResourceBundle(bundle).getString("_UI_NewProjectBuild_job"))
@@ -57,6 +79,13 @@ public class XcoreBuildParticipant extends BuilderParticipant
           @Override
           protected IStatus run(IProgressMonitor monitor)
           {
+            for (IWorkingSet workingSet : workingSets)
+            {
+              List<IAdaptable> elements = Lists.newArrayList(workingSet.getElements());
+              elements.addAll(createdProjects);
+              workingSet.setElements(workingSet.adaptElements(elements.toArray(new IAdaptable[elements.size()])));
+            }
+
             for (IProject project : createdProjects)
             {
               try
