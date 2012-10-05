@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2012 IBM Corporation and others
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.xsd.ecore.importer;
@@ -16,11 +16,14 @@ import java.util.List;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.converter.ConverterPlugin;
@@ -35,6 +38,16 @@ import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 
 public class XSDImporter extends ModelImporter
 {
+  /**
+   * @since 2.9
+   */
+  protected static final String SORT_ATTRIBUTES_KEY = "sortAttributes";
+
+  /**
+   * @since 2.9
+   */
+  protected static final String CREATE_MAP_KEY = "createMap";
+
   public static class MapHelper
   {
     public void setNewMapper(XSDEcoreBuilder ecoreBuilder)
@@ -51,8 +64,14 @@ public class XSDImporter extends ModelImporter
     }
   }
 
-  protected boolean createEcoreMap = false;
+  protected boolean createEcoreMap;
+
   protected EObject mappingRoot;
+
+  /**
+   * @since 2.9
+   */
+  protected boolean sortAttributes = true;
 
   @Override
   public void dispose()
@@ -80,6 +99,22 @@ public class XSDImporter extends ModelImporter
   public boolean createEcoreMap()
   {
     return createEcoreMap && canCreateEcoreMap();
+  }
+
+  /**
+   * @since 2.9
+   */
+  public void setSortAttributes(boolean sortAttributes)
+  {
+    this.sortAttributes = sortAttributes;
+  }
+
+  /**
+   * @since 2.9
+   */
+  public boolean sortAttributes()
+  {
+    return sortAttributes;
   }
 
   public void setMappingRoot(EObject mappingRoot)
@@ -112,12 +147,25 @@ public class XSDImporter extends ModelImporter
       monitor.beginTask("", 2);
       monitor.subTask(XSDImporterPlugin.INSTANCE.getString("_UI_Loading_message", new Object []{ locationURIs }));
 
-      XSDEcoreBuilder ecoreBuilder = new XSDEcoreBuilder();
+      setMappingRoot(null);
+
+      XSDEcoreBuilder ecoreBuilder =
+        sortAttributes() ?
+          new XSDEcoreBuilder() :
+          new XSDEcoreBuilder()
+          {
+            @Override
+            protected boolean useSortedAttributes()
+            {
+              return false;
+            }
+          };
+
       if (createEcoreMap())
       {
         new MapHelper().setNewMapper(ecoreBuilder);
       }
-      
+
       @SuppressWarnings("unchecked")
       List<Object> result = (List<Object>)(List<?>)(Collection<?>)ecoreBuilder.generate(locationURIs);
 
@@ -196,9 +244,11 @@ public class XSDImporter extends ModelImporter
     IPath genModelFileFullPath = getGenModelPath();
     URI genModelURI = createFileURI(genModelFileFullPath.toString());
 
+    GenModel genModel = getGenModel();
+    EList<String> foreignModel = genModel.getForeignModel();
     for (URI uri : getModelLocationURIs())
     {
-      getGenModel().getForeignModel().add(makeRelative(uri, genModelURI).toString());
+      foreignModel.add(makeRelative(uri, genModelURI).toString());
     }
 
     if (getMappingRoot() != null)
@@ -207,6 +257,50 @@ public class XSDImporter extends ModelImporter
       URI mappingModelURI = createFileURI(mappingPath.toString());
       Resource mappingModelResource = getGenModelResourceSet().createResource(mappingModelURI);
       mappingModelResource.getContents().add(getMappingRoot());
+    }
+  }
+
+  @Override
+  public void prepareGenModelAndEPackages(Monitor monitor)
+  {
+    super.prepareGenModelAndEPackages(monitor);
+
+    GenModel genModel = getGenModel();
+
+    GenAnnotation annotation = genModel.getGenAnnotation(getConverterGenAnnotationSource());
+    if (!sortAttributes())
+    {
+      if (annotation == null)
+      {
+        annotation = genModel.createGenAnnotation();
+        annotation.setSource(getConverterGenAnnotationSource());
+      }
+      annotation.getDetails().put(SORT_ATTRIBUTES_KEY, "false");
+      genModel.getGenAnnotations().add(annotation);
+    }
+    else if (annotation != null)
+    {
+      annotation.getDetails().remove(SORT_ATTRIBUTES_KEY);
+    }
+
+    if (getMappingRoot() != null)
+    {
+      if (annotation == null)
+      {
+        annotation = genModel.createGenAnnotation();
+        annotation.setSource(getConverterGenAnnotationSource());
+        genModel.getGenAnnotations().add(annotation);
+      }
+      annotation.getDetails().put(CREATE_MAP_KEY, "true");
+    }
+    else if (annotation != null)
+    {
+      annotation.getDetails().remove(CREATE_MAP_KEY);
+    }
+
+    if (annotation != null && annotation.getDetails().isEmpty())
+    {
+      genModel.getGenAnnotations().remove(annotation);
     }
   }
 
@@ -224,15 +318,22 @@ public class XSDImporter extends ModelImporter
   @Override
   protected void handleOriginalGenModel() throws DiagnosticException
   {
-    URI genModelURI = getOriginalGenModel().eResource().getURI();
+    GenModel originalGenModel = getOriginalGenModel();
+    URI genModelURI = originalGenModel.eResource().getURI();
     StringBuffer text = new StringBuffer();
-    for (String value : getOriginalGenModel().getForeignModel())
+    for (String value : originalGenModel.getForeignModel())
     {
       if (value.endsWith(".xsd") || value.endsWith(".wsdl"))
       {
         text.append(makeAbsolute(URI.createURI(value), genModelURI).toString());
         text.append(" ");
       }
+    }
+    GenAnnotation annotation = originalGenModel.getGenAnnotation(getConverterGenAnnotationSource());
+    if (annotation != null)
+    {
+      setSortAttributes(!"false".equals(annotation.getDetails().get(SORT_ATTRIBUTES_KEY)));
+      setCreateEcoreMap("true".equals(annotation.getDetails().get(CREATE_MAP_KEY)));
     }
     setModelLocation(text.toString().trim());
   }

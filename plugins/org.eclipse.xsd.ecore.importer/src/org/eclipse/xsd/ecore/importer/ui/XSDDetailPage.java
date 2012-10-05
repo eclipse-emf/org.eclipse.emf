@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -30,6 +30,11 @@ public class XSDDetailPage extends ModelImporterDetailPage
 {
   protected Button createMapButton;
 
+  /**
+   * @since 2.9
+   */
+  protected Button sortAttributesButton;
+
   public XSDDetailPage(ModelImporter modelImporter, String pageName)
   {
     super(modelImporter, pageName);
@@ -47,6 +52,11 @@ public class XSDDetailPage extends ModelImporterDetailPage
       createMapButton.removeListener(SWT.Selection, this);
       createMapButton = null;
     }
+    if (sortAttributesButton != null)
+    {
+      sortAttributesButton.removeListener(SWT.Selection, this);
+      sortAttributesButton = null;
+    }
 
     super.dispose();
   }
@@ -59,9 +69,14 @@ public class XSDDetailPage extends ModelImporterDetailPage
   @Override
   protected void addDetailControl(Composite parent)
   {
-    if (getXSDImporter().canCreateEcoreMap())
+    XSDImporter xsdImporter = getXSDImporter();
+    if (xsdImporter.canCreateEcoreMap())
     {
       createMapButton = new Button(parent, SWT.CHECK);
+      if (xsdImporter.createEcoreMap())
+      {
+        createMapButton.setSelection(true);
+      }
       createMapButton.setText(XSDImporterPlugin.INSTANCE.getString("_UI_Create_XML_Schema_to_Ecore_Map"));
       {
         GridData data = new GridData();
@@ -70,14 +85,34 @@ public class XSDDetailPage extends ModelImporterDetailPage
       }
       createMapButton.addListener(SWT.Selection, this);
     }
+
+    sortAttributesButton = new Button(parent, SWT.CHECK);
+    if (xsdImporter.sortAttributes())
+    {
+      sortAttributesButton.setSelection(true);
+    }
+    sortAttributesButton.setText(XSDImporterPlugin.INSTANCE.getString("_UI_Sort_Attributes"));
+    {
+      GridData data = new GridData();
+      data.horizontalSpan = 1;
+      sortAttributesButton.setLayoutData(data);
+    }
+    sortAttributesButton.addListener(SWT.Selection, this);
   }
 
   @Override
   protected void doHandleEvent(Event event)
   {
-    if (event.type == SWT.Selection && event.widget == createMapButton)
+    if (event.type == SWT.Selection && (event.widget == createMapButton || event.widget == sortAttributesButton))
     {
-      getXSDImporter().setCreateEcoreMap(createMapButton.getSelection());
+      if (event.widget == createMapButton)
+      {
+        getXSDImporter().setCreateEcoreMap(createMapButton.getSelection());
+      }
+      else
+      {
+        getXSDImporter().setSortAttributes(sortAttributesButton.getSelection());
+      }
       if (uriText.getText().trim().length() > 0)
       {
         refreshModel();
