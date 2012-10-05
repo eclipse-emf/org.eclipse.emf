@@ -2115,7 +2115,7 @@ public class <%=genPackage.getEditorClassName()%>
 	{
 		try
 		{
-			if (marker.getType().equals(EValidator.MARKER))
+			if (marker.isSubtypeOf(EValidator.MARKER))
 			{
 				String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
 				if (uriAttribute != null)
