@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.emf.ecore">
+<schema targetNamespace="org.eclipse.emf.ecore" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.emf.ecore" id="factory_override" name="Ecore Factory Override Registry"/>
@@ -11,6 +11,11 @@
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="factory" minOccurs="1" maxOccurs="unbounded"/>
@@ -56,10 +61,10 @@
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  A fully qualified Java classname of an overriding factory implementation.
+                  A fully qualified name of the Java class of the overriding factory implementation.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.emf.ecore.EFactory"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.ecore.EFactory"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -124,14 +129,6 @@ An EMF factory can also be registered from the source code for standalone execut
       </documentation>
    </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="implementation"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
 
    <annotation>
       <appInfo>

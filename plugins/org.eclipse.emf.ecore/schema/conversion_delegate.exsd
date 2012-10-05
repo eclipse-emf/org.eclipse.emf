@@ -61,10 +61,10 @@
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  The fully qualified name of a Java class implementing &lt;samp&gt;org.eclipse.emf.ecore.EDataType.Internal.Delegate.Factory&lt;/samp&gt;.
+                  The fully qualified name of a Java class implementing &lt;samp&gt;org.eclipse.emf.ecore.EDataType.Internal.ConversionDelegate.Factory&lt;/samp&gt;.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.emf.ecore.EDataType.Internal.ConversionDelegate.Factory"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.ecore.EDataType.Internal.ConversionDelegate.Factory"/>
                </appInfo>
             </annotation>
          </attribute>

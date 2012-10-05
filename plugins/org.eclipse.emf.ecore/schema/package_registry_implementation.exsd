@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.emf.ecore">
+<schema targetNamespace="org.eclipse.emf.ecore" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.emf.ecore" id="package_registry" name="Ecore Package Registry Implementation"/>
@@ -11,6 +11,11 @@
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="registry"/>
@@ -47,10 +52,10 @@
          <attribute name="class" type="string">
             <annotation>
                <documentation>
-                  
+                  The fully qualified name of a Java class implementing &lt;samp&gt;org.eclipse.emf.ecore.EPackage.Registry&lt;/samp&gt;.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.ecore.EPackage.Registry"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -88,14 +93,6 @@
       </documentation>
    </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="implementation"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
 
    <annotation>
       <appInfo>

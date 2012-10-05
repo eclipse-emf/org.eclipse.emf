@@ -64,7 +64,7 @@
                   The fully qualified name of a Java class implementing &lt;samp&gt;org.eclipse.emf.ecore.util.QueryDelegate.Factory&lt;/samp&gt;.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.emf.ecore.util.QueryDelegate.Factory"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.ecore.util.QueryDelegate.Factory"/>
                </appInfo>
             </annotation>
          </attribute>

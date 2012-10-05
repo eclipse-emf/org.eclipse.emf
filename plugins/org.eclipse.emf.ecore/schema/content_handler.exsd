@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.emf.ecore">
+<schema targetNamespace="org.eclipse.emf.ecore" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.emf.ecore" id="content_handler" name="Content Handler Registry"/>
@@ -12,6 +12,11 @@ The global EMF content handler registry, &lt;samp&gt;ContentHandler.Registry.INS
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="contentHandler" minOccurs="1" maxOccurs="unbounded"/>
@@ -57,7 +62,7 @@ The global EMF content handler registry, &lt;samp&gt;ContentHandler.Registry.INS
 &lt;/samp&gt;.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.emf.ecore.resource.Resource.Factory"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.ecore.resource.Resource.Factory"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -140,14 +145,6 @@ A content handler can be also registered from the source code with the &lt;samp&
       </documentation>
    </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="implementation"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
 
    <annotation>
       <appInfo>

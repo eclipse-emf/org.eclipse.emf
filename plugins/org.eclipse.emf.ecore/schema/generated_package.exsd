@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.emf.ecore">
+<schema targetNamespace="org.eclipse.emf.ecore" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.emf.ecore" id="generated_package" name="Ecore Package Registry for Generated Packages"/>
@@ -11,6 +11,11 @@
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="package" minOccurs="1" maxOccurs="unbounded"/>
@@ -63,10 +68,10 @@
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  A fully qualified Java classname of the generated package interface.
+                  A fully qualified name of the  generated Java package interface.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.emf.ecore.EPackage"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.ecore.EPackage"/>
                </appInfo>
             </annotation>
          </attribute>
