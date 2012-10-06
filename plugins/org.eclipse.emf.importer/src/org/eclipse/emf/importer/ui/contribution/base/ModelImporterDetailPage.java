@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2005-2007 IBM Corporation and others.
+ * Copyright (c) 2005-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.importer.ui.contribution.base;
@@ -19,8 +19,11 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.ProgressMonitorWrapper;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.wizard.ProgressMonitorPart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
@@ -55,14 +58,13 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
 
   protected boolean showGenModel = false;
   protected boolean usingInternalSetName = true;
-  
 
   public ModelImporterDetailPage(ModelImporter modelImporter, String pageName)
   {
     super(modelImporter, pageName);
     showGenModel = getModelImporter().getGenModelFileName() == null;
   }
-  
+
   public ModelImporter getModelImporter()
   {
     return (ModelImporter)getModelConverter();
@@ -75,7 +77,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     {
       loadButton.removeListener(SWT.Selection, this);
       loadButton = null;
-    }    
+    }
     if (genModelNameText != null)
     {
       genModelNameText.removeListener(SWT.Modify, this);
@@ -122,12 +124,12 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     }
     adjustLoadButton();
   }
-  
+
   protected void addDetailControl(Composite parent)
-  { 
+  {
     // Subclasses may override
   }
-  
+
   @Override
   protected String getURITextInitialValue()
   {
@@ -162,7 +164,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     {
       refreshModel();
       getContainer().updateButtons();
-    }    
+    }
     else if (event.type == SWT.Modify && event.widget == genModelNameText)
     {
       usingInternalSetName = false;
@@ -176,7 +178,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
       super.doHandleEvent(event);
     }
   }
-  
+
   @Override
   protected void uriTextModified(String text)
   {
@@ -185,14 +187,14 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     getModelImporter().clearEPackagesCollections();
     adjustLoadButton();
   }
-  
+
   protected void adjustLoadButton()
   {
     if (loadButton != null)
     {
       String text = uriText.getText();
       loadButton.setEnabled(text != null && text.trim().length() > 0);
-    }    
+    }
   }
 
   @Override
@@ -246,7 +248,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
 
   protected boolean isValidWorkspaceResource(IResource resource)
   {
-    if (resource.getType() == IResource.FILE) 
+    if (resource.getType() == IResource.FILE)
     {
       String[] filterExtensions = getFilterExtensions();
       if (filterExtensions.length > 0)
@@ -274,8 +276,8 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     if (modelURI != null)
     {
       fileDialog.setFileName(modelURI.toFileString());
-    }    
-    
+    }
+
     if (fileDialog.open() != null && fileDialog.getFileNames().length > 0)
     {
       String[] fileNames = fileDialog.getFileNames();
@@ -308,7 +310,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
         }
       };
     }
-    
+
     IFile[] files = WorkspaceResourceDialog.openFileSelection(getShell(), null, null, supportMultipleURIs(), null, extensionFilter == null ? null : Collections.singletonList(extensionFilter));
     if (files.length > 0)
     {
@@ -330,49 +332,89 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
 
   protected void refreshModel()
   {
-    WorkspaceModifyOperation initializeOperation = new WorkspaceModifyOperation()
+    class InitializeOperation extends WorkspaceModifyOperation
+    {
+      boolean cancelButtonEnabled;
+      boolean canceled;
+
+      @Override
+      protected void execute(final IProgressMonitor progressMonitor) throws CoreException
       {
-        @Override
-        protected void execute(IProgressMonitor progressMonitor) throws CoreException
+        Diagnostic errorDiagnostic = null;
+        setErrorMessage(null);
+        setMessage(null);
+
+        Monitor monitor = BasicMonitor.toMonitor
+          (new ProgressMonitorWrapper(progressMonitor)
+           {
+             @Override
+             public boolean isCanceled()
+             {
+               if (!cancelButtonEnabled)
+               {
+                 if (progressMonitor instanceof ProgressMonitorWrapper)
+                 {
+                   IProgressMonitor wrappedProgressMonitor = ((ProgressMonitorWrapper)progressMonitor).getWrappedProgressMonitor();
+                   if (wrappedProgressMonitor instanceof ProgressMonitorPart)
+                   {
+                     try
+                     {
+                       ((ProgressMonitorPart)wrappedProgressMonitor).attachToCancelComponent(null);
+                     }
+                     catch (NullPointerException exception)
+                     {
+                       // Ignore the fact that this wizard container doesn't support a stop button.
+                     }
+                   }
+                 }
+                 cancelButtonEnabled = true;
+               }
+               while (getShell().getDisplay().readAndDispatch())
+               {
+                 // Process events so that the cancel button can be pushed.
+               }
+               return super.isCanceled();
+             }
+           });
+        try
         {
-          Diagnostic errorDiagnostic = null;
-          setErrorMessage(null);
-          setMessage(null);
-          
-          Monitor monitor = BasicMonitor.toMonitor(progressMonitor);
-          try
-          {
-            refreshModel(monitor);
-          }
-          catch (Exception exception)
-          {
-            ImporterPlugin.INSTANCE.log(exception);
-            errorDiagnostic = ConverterUtil.createErrorDiagnostic(exception, true);
-          }
-          finally
-          {
-            monitor.done();
-          }
-          
-          if (errorDiagnostic != null)
-          {
-            handleDiagnostic(errorDiagnostic, errorDiagnostic.getMessage(), ImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"), ImporterPlugin.INSTANCE.getString("_UI_ProblemsEncounteredProcessing_message"));
-          }
+          refreshModel(monitor);
         }
-      };
+        catch (OperationCanceledException exception)
+        {
+          canceled = true;
+        }
+        catch (Exception exception)
+        {
+          ImporterPlugin.INSTANCE.log(exception);
+          errorDiagnostic = ConverterUtil.createErrorDiagnostic(exception, true);
+        }
+        finally
+        {
+          monitor.done();
+        }
+
+        if (errorDiagnostic != null)
+        {
+          handleDiagnostic(errorDiagnostic, errorDiagnostic.getMessage(), ImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"), ImporterPlugin.INSTANCE.getString("_UI_ProblemsEncounteredProcessing_message"));
+        }
+      }
+    }
+
+    InitializeOperation initializeOperation = new InitializeOperation();
 
     getModelImporter().setModelLocation(uriText.getText());
 
     try
     {
-      getContainer().run(false, false, initializeOperation);
+      getContainer().run(false, true, initializeOperation);
     }
     catch (Exception exception)
     {
       ImporterPlugin.INSTANCE.log(exception);
     }
 
-    if (isPageComplete())
+    if (!initializeOperation.canceled && isPageComplete())
     {
       setPageComplete(true);
     }
@@ -383,14 +425,14 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
       uriText.setFocus();
     }
   }
-  
+
   @Override
   public boolean isPageComplete()
   {
-    return super.isPageComplete() 
-      && !getModelImporter().getEPackages().isEmpty() 
+    return super.isPageComplete()
+      && !getModelImporter().getEPackages().isEmpty()
       && !getModelImporter().getModelLocationURIs().isEmpty();
-  }  
+  }
 
   protected void refreshModel(Monitor monitor) throws Exception
   {
@@ -413,7 +455,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
         throw wrappedException.exception();
       }
     }
-    
+
     internalSetGenModelFileName(getDefaultGenModelFileName());
     Diagnostic nameDiagnostic = getModelImporter().checkGenModelFileName();
     if (nameDiagnostic.getSeverity() != Diagnostic.OK)
@@ -427,15 +469,15 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
         diagnostic = ConverterUtil.mergeDiagnostic(diagnostic, nameDiagnostic);
       }
     }
-    
+
     handleDiagnostic(diagnostic);
   }
-  
+
   protected String getDefaultGenModelFileName()
   {
     return getModelImporter().computeDefaultGenModelFileName();
   }
-  
+
   protected void internalSetGenModelFileName(String name)
   {
     if (usingInternalSetName && showGenModel() && name != null)
@@ -444,6 +486,6 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
       setHandlingEvent(false);
       genModelNameText.setText(getModelImporter().getGenModelFileName());
       setHandlingEvent(true);
-    }     
+    }
   }
 }
