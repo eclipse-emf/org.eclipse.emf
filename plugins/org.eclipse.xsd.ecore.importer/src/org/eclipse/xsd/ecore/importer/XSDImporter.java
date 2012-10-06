@@ -11,9 +11,11 @@
 package org.eclipse.xsd.ecore.importer;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
@@ -31,8 +33,14 @@ import org.eclipse.emf.converter.util.ConverterUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.importer.ModelImporter;
 
+import org.eclipse.xsd.XSDEnumerationFacet;
+import org.eclipse.xsd.XSDFeature;
+import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 
 
@@ -50,11 +58,90 @@ public class XSDImporter extends ModelImporter
 
   public static class MapHelper
   {
+    /**
+     * @since 2.9
+     */
+    protected Monitor monitor;
+
+    public MapHelper()
+    {
+    }
+
+    /**
+     * @since 2.9
+     */
+    public MapHelper(Monitor monitor)
+    {
+      this.monitor = monitor;
+    }
+
     public void setNewMapper(XSDEcoreBuilder ecoreBuilder)
     {
       try
       {
-        org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMapper mapper = new org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMapper();
+        // The builder provides access to the resource set used to load the root schemas...
+        //
+        final Builder builder =  ecoreBuilder instanceof Builder ? (Builder)ecoreBuilder : null;
+        org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMapper mapper =
+          new org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMapper()
+          {
+            boolean initialized;
+            int mappings;
+            int count;
+
+            @Override
+            public void map(Collection<? extends EObject> inputs, Collection<? extends EObject> outputs)
+            {
+              if (monitor != null)
+              {
+                // The first time we create a mapping...
+                //
+                if (!initialized)
+                {
+                  initialized = true;
+  
+                  // If there isn't a builder, we don't know how many mappings we'll create.
+                  // But this should never be the case.
+                  //
+                  if (builder == null)
+                  {
+                    mappings = 1;
+                    
+                  }
+                  else
+                  {
+                    // Count the number of objects for which we expect to create mappings.
+                    //
+                    for (Iterator<?> i = builder.resourceSet.getAllContents(); i.hasNext(); )
+                    {
+                      Object object = i.next();
+                      if (object instanceof XSDSchema ||
+                            object instanceof XSDTypeDefinition ||
+                            object instanceof XSDFeature ||
+                            object instanceof XSDEnumerationFacet)
+                      {
+                        ++mappings;
+                      }
+                    }
+                  }
+                  
+                  // Use this as the estimated number of work items in the task.
+                  //
+                  monitor.beginTask("", mappings);
+                }
+                monitor.worked(1);
+                if (count++ % 100 == 0)
+                {
+                  monitor.subTask(XSDImporterPlugin.INSTANCE.getString("_UI_Mapping_message", new Object [] { EcoreUtil.getURI(inputs.iterator().next()).trimFragment() }));
+                  if (monitor.isCanceled())
+                  {
+                    throw new OperationCanceledException();
+                  }
+                }
+              }
+              super.map(inputs, outputs);
+            }
+          };
         ecoreBuilder.setMapper(mapper);
       }
       catch (Exception e)
@@ -127,6 +214,27 @@ public class XSDImporter extends ModelImporter
     return mappingRoot;
   }
 
+  /**
+   * An XSDEcoreBuilder that respects the {@link XSDImporter#sortAttributes} setting.
+   * @since 2.9
+   */
+  protected class Builder extends XSDEcoreBuilder
+  {
+    public ResourceSet resourceSet;
+
+    @Override
+    protected ResourceSet createResourceSet()
+    {
+      return resourceSet = super.createResourceSet();
+    }
+
+    @Override
+    protected boolean useSortedAttributes()
+    {
+      return sortAttributes;
+    }
+  }
+
   @Override
   protected Diagnostic doComputeEPackages(Monitor monitor) throws Exception
   {
@@ -144,26 +252,20 @@ public class XSDImporter extends ModelImporter
     }
     else
     {
-      monitor.beginTask("", 2);
-      monitor.subTask(XSDImporterPlugin.INSTANCE.getString("_UI_Loading_message", new Object []{ locationURIs }));
-
       setMappingRoot(null);
 
-      XSDEcoreBuilder ecoreBuilder =
-        sortAttributes() ?
-          new XSDEcoreBuilder() :
-          new XSDEcoreBuilder()
-          {
-            @Override
-            protected boolean useSortedAttributes()
-            {
-              return false;
-            }
-          };
+      XSDEcoreBuilder ecoreBuilder = new Builder();
 
       if (createEcoreMap())
       {
-        new MapHelper().setNewMapper(ecoreBuilder);
+        new MapHelper(monitor).setNewMapper(ecoreBuilder);
+      }
+      else
+      {
+        // If we're creating mappings, defer task size to the mapper's estimation of the number of mappings that need to be created.
+        //
+        monitor.beginTask("", 2);
+        monitor.subTask(XSDImporterPlugin.INSTANCE.getString("_UI_Loading_message", new Object [] { locationURIs }));
       }
 
       @SuppressWarnings("unchecked")

@@ -4,8 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.xsd.ecore.importer.ui;
@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Event;
 
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.ui.contribution.base.ModelImporterDetailPage;
+import org.eclipse.jface.dialogs.MessageDialog;
 
 import org.eclipse.xsd.ecore.importer.XSDImporter;
 import org.eclipse.xsd.ecore.importer.XSDImporterPlugin;
@@ -107,6 +108,11 @@ public class XSDDetailPage extends ModelImporterDetailPage
     {
       if (event.widget == createMapButton)
       {
+        boolean enabled = createMapButton.getSelection();
+        if (enabled)
+        {
+          MessageDialog.openWarning(getContainer().getShell(), XSDImporterPlugin.INSTANCE.getString("_UI_Create_XML_Schema_to_Ecore_Map").replace("&", ""), XSDImporterPlugin.INSTANCE.getString("_UI_Create_XML_Schema_to_Ecore_Map_message"));
+        }
         getXSDImporter().setCreateEcoreMap(createMapButton.getSelection());
       }
       else

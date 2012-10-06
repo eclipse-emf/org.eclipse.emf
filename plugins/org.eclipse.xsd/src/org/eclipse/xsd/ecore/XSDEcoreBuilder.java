@@ -2741,6 +2741,7 @@ public class XSDEcoreBuilder extends MapBuilder
   public Collection<Resource> generateResources(Collection<URI> uris)
   {
     ResourceSet resourceSet = createResourceSet();
+    List<XSDSchema> xsdSchemas = new ArrayList<XSDSchema>();
     for (URI uri : uris)
     {
       Resource resource = resourceSet.getResource(uri, true);
@@ -2748,9 +2749,14 @@ public class XSDEcoreBuilder extends MapBuilder
       {
         if (object instanceof XSDSchema)
         {
-          generate((XSDSchema)object);
+          xsdSchemas.add((XSDSchema)object);
         }
       }
+    }
+
+    for (XSDSchema xsdSchema : xsdSchemas)
+    {
+      generate(xsdSchema);
     }
 
     for (EPackage ePackage : targetNamespaceToEPackageMap.values())
@@ -2866,12 +2872,18 @@ public class XSDEcoreBuilder extends MapBuilder
   {
     ResourceSet resourceSet = createResourceSet();
     Resource resource = resourceSet.getResource(uri, true);
+    List<XSDSchema> xsdSchemas = new ArrayList<XSDSchema>();
     for (Object object : resource.getContents())
     {
       if (object instanceof XSDSchema)
       {
-        generate((XSDSchema)object);
+        xsdSchemas.add((XSDSchema)object);
       }
+    }
+
+    for (XSDSchema xsdSchema : xsdSchemas)
+    {
+      generate(xsdSchema);
     }
 
     List<EObject> result = new ArrayList<EObject>(targetNamespaceToEPackageMap.values());
@@ -2890,6 +2902,7 @@ public class XSDEcoreBuilder extends MapBuilder
       simpleDiagnostics = new ArrayList<List<String>>();
     }
     ResourceSet resourceSet = createResourceSet();
+    List<XSDSchema> xsdSchemas = new ArrayList<XSDSchema>();
     for (URI uri : uris)
     {
       Resource resource = resourceSet.getResource(uri, true);
@@ -2897,9 +2910,14 @@ public class XSDEcoreBuilder extends MapBuilder
       {
         if (object instanceof XSDSchema)
         {
-          generate((XSDSchema)object);
+          xsdSchemas.add((XSDSchema)object);
         }
       }
+    }
+
+    for (XSDSchema xsdSchema : xsdSchemas)
+    {
+      generate(xsdSchema);
     }
 
     List<Object> result = new ArrayList<Object>(targetNamespaceToEPackageMap.values());
