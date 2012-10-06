@@ -279,4 +279,9 @@ public interface GenOperation extends GenTypedElement
    * @since 2.6
    */
   boolean hasInvocationDelegate();
+
+  /**
+   * @since 2.9
+   */
+  boolean hasCheckedException();
 }

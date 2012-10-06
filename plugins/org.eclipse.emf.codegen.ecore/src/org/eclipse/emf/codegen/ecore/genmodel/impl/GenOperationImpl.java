@@ -1131,6 +1131,20 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     return false;
   }
 
+  public boolean hasCheckedException()
+  {
+    for (EClassifier eException : getEcoreOperation().getEExceptions())
+    {
+      Class<?> eExceptionClass = eException.getInstanceClass();
+      if (eExceptionClass == null || !RuntimeException.class.isAssignableFrom(eExceptionClass))
+      {
+        return true;
+      }
+      
+    }
+    return false;
+  }
+
   public boolean hasParameterDocumentation()
   {
     for (GenParameter genParameter : getGenParameters())

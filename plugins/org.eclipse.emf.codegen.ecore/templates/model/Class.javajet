@@ -2129,13 +2129,24 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	{
 		switch (operationID<%=negativeOperationOffsetCorrection%>)
 		{
-<%for (GenOperation genOperation : (genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenOperations() : genClass.getAllGenOperations())) { List<GenParameter> genParameters = genOperation.getGenParameters(); int size = genParameters.size();%>
+<%for (GenOperation genOperation : (genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenOperations() : genClass.getAllGenOperations())) { List<GenParameter> genParameters = genOperation.getGenParameters(); int size = genParameters.size();  boolean hasCheckedException = genOperation.hasCheckedException(); String indent = hasCheckedException ? "\t" : "";%>
 			case <%=genClass.getQualifiedOperationID(genOperation)%>:
+  <%if (hasCheckedException) {%>
+				try
+				{
+  <%/*}*/}%>
   <%if (genOperation.isVoid()) {%>
-				<%=genOperation.getName()%>(<%for (int i = 0; i < size; i++) { GenParameter genParameter = genParameters.get(i);%><%if (!isJDK50 && genParameter.isPrimitiveType()) {%>(<%}%><%if (genParameter.getTypeGenDataType() == null || !genParameter.getTypeGenDataType().isObjectType() || !genParameter.usesOperationTypeParameters() && !genParameter.getRawType().equals(genParameter.getType(genClass))) {%>(<%=genParameter.usesOperationTypeParameters() ? genParameter.getRawImportedType() : genParameter.getObjectType(genClass)%>)<%}%>arguments.get(<%=i%>)<%if (!isJDK50 && genParameter.isPrimitiveType()) {%>).<%=genParameter.getPrimitiveValueFunction()%>()<%}%><%if (i < (size - 1)) {%>, <%}%><%}%>);
-				return null;
+				<%=indent%><%=genOperation.getName()%>(<%for (int i = 0; i < size; i++) { GenParameter genParameter = genParameters.get(i);%><%if (!isJDK50 && genParameter.isPrimitiveType()) {%>(<%}%><%if (genParameter.getTypeGenDataType() == null || !genParameter.getTypeGenDataType().isObjectType() || !genParameter.usesOperationTypeParameters() && !genParameter.getRawType().equals(genParameter.getType(genClass))) {%>(<%=genParameter.usesOperationTypeParameters() ? genParameter.getRawImportedType() : genParameter.getObjectType(genClass)%>)<%}%>arguments.get(<%=i%>)<%if (!isJDK50 && genParameter.isPrimitiveType()) {%>).<%=genParameter.getPrimitiveValueFunction()%>()<%}%><%if (i < (size - 1)) {%>, <%}%><%}%>);
+				<%=indent%>return null;
   <%} else {%>
-				return <%if (!isJDK50 && genOperation.isPrimitiveType()) {%>new <%=genOperation.getObjectType(genClass)%>(<%}%><%=genOperation.getName()%>(<%for (int i = 0; i < size; i++) { GenParameter genParameter = genParameters.get(i);%><%if (!isJDK50 && genParameter.isPrimitiveType()) {%>(<%}%><%if (genParameter.getTypeGenDataType() == null || !genParameter.getTypeGenDataType().isObjectType() || !genParameter.usesOperationTypeParameters() && !genParameter.getRawType().equals(genParameter.getType(genClass))) {%>(<%=genParameter.usesOperationTypeParameters() ? genParameter.getRawImportedType() : genParameter.getObjectType(genClass)%>)<%}%>arguments.get(<%=i%>)<%if (!isJDK50 && genParameter.isPrimitiveType()) {%>).<%=genParameter.getPrimitiveValueFunction()%>()<%}%><%if (i < (size - 1)) {%>, <%}%><%}%>)<%if (!isJDK50 && genOperation.isPrimitiveType()) {%>)<%}%>;
+				<%=indent%>return <%if (!isJDK50 && genOperation.isPrimitiveType()) {%>new <%=genOperation.getObjectType(genClass)%>(<%}%><%=genOperation.getName()%>(<%for (int i = 0; i < size; i++) { GenParameter genParameter = genParameters.get(i);%><%if (!isJDK50 && genParameter.isPrimitiveType()) {%>(<%}%><%if (genParameter.getTypeGenDataType() == null || !genParameter.getTypeGenDataType().isObjectType() || !genParameter.usesOperationTypeParameters() && !genParameter.getRawType().equals(genParameter.getType(genClass))) {%>(<%=genParameter.usesOperationTypeParameters() ? genParameter.getRawImportedType() : genParameter.getObjectType(genClass)%>)<%}%>arguments.get(<%=i%>)<%if (!isJDK50 && genParameter.isPrimitiveType()) {%>).<%=genParameter.getPrimitiveValueFunction()%>()<%}%><%if (i < (size - 1)) {%>, <%}%><%}%>)<%if (!isJDK50 && genOperation.isPrimitiveType()) {%>)<%}%>;
+  <%}%>
+  <%if (hasCheckedException) {/*{*/%>
+				}
+				catch (<%=genModel.getImportedName("java.lang.Throwable")%> throwable)
+				{
+					throw new <%=genModel.getImportedName(isGWT ? "org.eclipse.emf.common.util.InvocationTargetException" : "java.lang.reflect.InvocationTargetException")%>(throwable);
+				}
   <%}%>
 <%}%>
 		}
