@@ -62,29 +62,32 @@ public class EFSURIHandlerImpl extends URIHandlerImpl
     Method fileInfoSetAttributeMethod = null;
     Method fileInfoGetLastModifiedMethod = null;
     Method fileInfoSetLastModifiedMethod = null;
-    try
+    if (CommonPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
     {
-      Class <?> efsClass  = CommonPlugin.loadClass("org.eclipse.core.filesystem", "org.eclipse.core.filesystem.EFS");
-      efsGetStoreMethod = efsClass.getMethod("getStore", java.net.URI.class);
-      efsGetFileSystemMethod = efsClass.getMethod("getFileSystem", String.class);
-      Class <?> fileStoreClass = efsGetStoreMethod.getReturnType();
-      fileStoreOpenInputStreamMethod = fileStoreClass.getMethod("openInputStream", Integer.TYPE, IProgressMonitor.class);
-      fileStoreOpenOutputStreamMethod = fileStoreClass.getMethod("openOutputStream", Integer.TYPE, IProgressMonitor.class);
-      fileStoreDeleteMethod = fileStoreClass.getMethod("delete", Integer.TYPE, IProgressMonitor.class);
-      fileStoreFetchInfoMethod = fileStoreClass.getMethod("fetchInfo");
-      Class <?> fileInfoClass = fileStoreFetchInfoMethod.getReturnType();
-      fileStorePutInfoMethod = fileStoreClass.getMethod("putInfo", fileInfoClass, Integer.TYPE, IProgressMonitor.class);
-      fileInfoExistsMethod = fileInfoClass.getMethod("exists");
-      fileInfoIsDirectoryMethod = fileInfoClass.getMethod("isDirectory");
-      fileInfoGetLengthMethod = fileInfoClass.getMethod("getLength");
-      fileInfoGetAttributeMethod = fileInfoClass.getMethod("getAttribute", Integer.TYPE);
-      fileInfoSetAttributeMethod = fileInfoClass.getMethod("setAttribute", Integer.TYPE, Boolean.TYPE);
-      fileInfoGetLastModifiedMethod = fileInfoClass.getMethod("getLastModified");
-      fileInfoSetLastModifiedMethod = fileInfoClass.getMethod("setLastModified", Long.TYPE);
-    }
-    catch (Throwable exeption)
-    {
-      // Ignore any exceptions and assume the class isn't available.
+      try
+      {
+        Class <?> efsClass  = CommonPlugin.loadClass("org.eclipse.core.filesystem", "org.eclipse.core.filesystem.EFS");
+        efsGetStoreMethod = efsClass.getMethod("getStore", java.net.URI.class);
+        efsGetFileSystemMethod = efsClass.getMethod("getFileSystem", String.class);
+        Class <?> fileStoreClass = efsGetStoreMethod.getReturnType();
+        fileStoreOpenInputStreamMethod = fileStoreClass.getMethod("openInputStream", Integer.TYPE, IProgressMonitor.class);
+        fileStoreOpenOutputStreamMethod = fileStoreClass.getMethod("openOutputStream", Integer.TYPE, IProgressMonitor.class);
+        fileStoreDeleteMethod = fileStoreClass.getMethod("delete", Integer.TYPE, IProgressMonitor.class);
+        fileStoreFetchInfoMethod = fileStoreClass.getMethod("fetchInfo");
+        Class <?> fileInfoClass = fileStoreFetchInfoMethod.getReturnType();
+        fileStorePutInfoMethod = fileStoreClass.getMethod("putInfo", fileInfoClass, Integer.TYPE, IProgressMonitor.class);
+        fileInfoExistsMethod = fileInfoClass.getMethod("exists");
+        fileInfoIsDirectoryMethod = fileInfoClass.getMethod("isDirectory");
+        fileInfoGetLengthMethod = fileInfoClass.getMethod("getLength");
+        fileInfoGetAttributeMethod = fileInfoClass.getMethod("getAttribute", Integer.TYPE);
+        fileInfoSetAttributeMethod = fileInfoClass.getMethod("setAttribute", Integer.TYPE, Boolean.TYPE);
+        fileInfoGetLastModifiedMethod = fileInfoClass.getMethod("getLastModified");
+        fileInfoSetLastModifiedMethod = fileInfoClass.getMethod("setLastModified", Long.TYPE);
+      }
+      catch (Throwable exeption)
+      {
+        // Ignore any exceptions and assume the class isn't available.
+      }
     }
     EFS_GET_STORE_METHOD = efsGetStoreMethod;
     EFS_GET_FILE_SYSTEM_METHOD = efsGetFileSystemMethod;
