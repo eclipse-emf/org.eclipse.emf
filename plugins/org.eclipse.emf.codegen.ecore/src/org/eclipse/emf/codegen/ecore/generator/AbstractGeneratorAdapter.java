@@ -20,8 +20,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -48,7 +50,16 @@ import org.eclipse.jdt.core.WorkingCopyOwner;
 import org.eclipse.jdt.core.compiler.IProblem;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTRequestor;
+import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.IBinding;
+import org.eclipse.jdt.core.dom.ITypeBinding;
+import org.eclipse.jdt.core.dom.ImportDeclaration;
+import org.eclipse.jdt.core.dom.Name;
+import org.eclipse.jdt.core.dom.QualifiedName;
+import org.eclipse.jdt.core.dom.QualifiedType;
+import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.rewrite.ImportRewrite;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
 import org.eclipse.jface.text.BadLocationException;
@@ -1057,10 +1068,6 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
             
             jMerger.merge();
             newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter, options.commentFormatting);
-            if (options.importOrganizing)
-            {
-              newContents = organizeImports(targetFile.toString(), newContents);
-            }
           }
   
           if (jControlModel.getFacadeHelper() != null)
@@ -1673,7 +1680,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         IJavaProject javaProject = JavaCore.create(project);
         if (javaProject != null)
         {
-          // All is good so we can create a compilation your for this path.
+          // All is good so we can create a compilation for this path.
           //
           ICompilationUnit compilationUnit = JavaCore.createCompilationUnitFrom(file);
 
@@ -1813,42 +1820,160 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
                 {
                   // Visit all the compiler problems looking for unused imports.
                   //
-                  ImportRewrite importRewrite = null;
+                  final Set<String> unusedImports = new HashSet<String>();
                   IProblem[] problems = compiledUnit.getProblems();
+                  boolean onlyUnusedImportErrors = true;
                   for (IProblem problem : problems)
                   {
-                    if (problem.getID() == IProblem.UnusedImport)
+                    int id = problem.getID();
+                    if (id == IProblem.UnusedImport)
                     {
-                      // Create an import rewrite on demand for the source unit.
+                      unusedImports.add(problem.getArguments()[0]);
+                    }
+                    else
+                    {
+                      // If there are other errors, we can't rely on there being unused import errors because they're optional and aren't produced when non-optional errors are present.
                       //
-                      if (importRewrite == null)
-                      {
-                        try
-                        {
-                          importRewrite = ImportRewrite.create(sourceUnit, true);
-                        }
-                        catch (JavaModelException e)
-                        {
-                          // Then we can't fix them so just return.
-                          return;
-                        }
-                      }
+                      onlyUnusedImportErrors = false;
+                      break;
+                    }
+                  }
 
-                      // Try to remove the problematic import, and failing that, try to remove the wildcard import.
-                      //
-                      String qualifiedName = problem.getArguments()[0];
-                      boolean removed = importRewrite.removeImport(qualifiedName);
-                      if (!removed)
+                  // If there are other errors, we need to do our own detailed analysis to find unused imports...
+                  //
+                  if (!onlyUnusedImportErrors)
+                  {
+                    // Build up the set up all imported names, ignoring static and on-demand imports.
+                    //
+                    @SuppressWarnings({ "unchecked", "cast" })
+                    List<? extends ImportDeclaration> imports = (List<? extends ImportDeclaration>)compiledUnit.imports();
+                    for (ImportDeclaration importDeclaration : imports)
+                    {
+                      if (!importDeclaration.isStatic() && !importDeclaration.isOnDemand())
                       {
-                        importRewrite.removeImport(qualifiedName + ".*");
+                        unusedImports.add(importDeclaration.getName().getFullyQualifiedName());
+                      }
+                    }
+
+                    // Walk the AST to determine references to the imported names.
+                    //
+                    compiledUnit.accept
+                      (new ASTVisitor(true)
+                       {
+                         protected void process(ITypeBinding binding)
+                         {
+                           // If there is a type binding, remove the qualified name of its erasure from the unused imports.
+                           //
+                           if (binding != null)
+                           {
+                             unusedImports.remove(binding.getErasure().getQualifiedName());
+                           }
+                         }
+
+                         @Override
+                         public boolean visit(ImportDeclaration node)
+                         {
+                           // Ignore the import declarations themselves.
+                           //
+                           return false;
+                         }
+
+                         @Override
+                         public boolean visit(QualifiedType node)
+                         {
+                           // Process the type binding for the qualified type and don't visit its children.
+                           //
+                           process(node.resolveBinding());
+                           return false;
+                         }
+
+                         @Override
+                         public boolean visit(SimpleType node)
+                         {
+                           // Process the type binding for the simple type and don't visit its children.
+                           //
+                           process(node.resolveBinding());
+                           return false;
+                         }
+
+                         @Override
+                         public boolean visit(QualifiedName node)
+                         {
+                           // Determine the root qualifier, visit that simple name, and don't visit the children.
+                           //
+                           Name name = node.getQualifier();
+                           while (name.isQualifiedName())
+                           {
+                             name= ((QualifiedName) name).getQualifier();
+                           }
+                           visit((SimpleName)name);
+                           return false;
+                         }
+
+                         @Override
+                         public boolean visit(SimpleName node)
+                         {
+                           // If the binding is a type binding, process it, and don't visit the children.
+                           //
+                           IBinding binding = node.resolveBinding();
+                           if (binding instanceof ITypeBinding)
+                           {
+                             process((ITypeBinding)binding);
+                           }
+                           return false;
+                         }
+                       });
+
+                    // If there are imports that aren't resolvable, we have to be careful that we don't just remove them as if they are unused because they might be needed somewhere.
+                    // So we look for errors about unresolved types and remove the corresponding unused import.
+                    //
+                    for (IProblem problem : problems)
+                    {
+                      int id = problem.getID();
+                      if (id == IProblem.UndefinedType)
+                      {
+                        String suffix = "." + problem.getArguments()[0];
+                        for (String unusedImport : unusedImports)
+                        {
+                          if (unusedImport.endsWith(suffix))
+                          {
+                            unusedImports.remove(unusedImport);
+                            break;
+                          }
+                        }
                       }
                     }
                   }
 
-                  // If we created an import rewrite, process the results.
+                  // If there are imports that should be removed...
                   //
-                  if (importRewrite != null)
+                  if (!unusedImports.isEmpty())
                   {
+                    // Create an import rewriter if possible.
+                    //
+                    ImportRewrite importRewrite;
+                    try
+                    {
+                      importRewrite = ImportRewrite.create(sourceUnit, true);
+                    }
+                    catch (JavaModelException e)
+                    {
+                      // In this case, we can't fix them, so just return.
+                      //
+                      return;
+                    }
+
+                    for (String unusedImport : unusedImports)
+                    {
+                      // Try to remove the problematic import, and failing that, try to remove the wildcard import.
+                      //
+                      boolean removed = importRewrite.removeImport(unusedImport);
+                      if (!removed)
+                      {
+                        importRewrite.removeImport(unusedImport + ".*");
+                      }
+                    }
+
                     try
                     {
                       // Apply the text edits to the original contents and update the result.
@@ -1860,13 +1985,13 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
                     }
                     catch (BadLocationException exception)
                     {
-                      // We can't do it so just return.
+                      // We failed unexpectedly, so just return.
                       //
                       return;
                     }
                     catch (CoreException exception)
                     {
-                      // We can't do it so just return.
+                      // We failed unexpectedly, so just return.
                       //
                       return;
                     }
@@ -1874,11 +1999,11 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
                 }
               };
 
-            // Compile the working copy source applying the unused import remover.
+            // Compile the working copy source, applying the unused import remover.
             //
             astParser.createASTs(new ICompilationUnit[] { workingCopy }, new String[0], unusedImportRemover, null);
           }
-          catch (JavaModelException e)
+          catch (JavaModelException exception)
           {
             // Ignore all problems and just return the original contents.
           }
