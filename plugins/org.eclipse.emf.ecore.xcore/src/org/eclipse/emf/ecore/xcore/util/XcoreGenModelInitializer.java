@@ -25,11 +25,17 @@ public class XcoreGenModelInitializer
     genModel.setEditorDirectory("");
     genModel.setTestsDirectory("");
 
+    // Ensure that the Xbase library is on the classpath.
+    //
     EList<String> modelPluginVariables = genModel.getModelPluginVariables();
     if (!modelPluginVariables.contains(XBASE_LIB))
     {
       modelPluginVariables.add(XBASE_LIB);
     }
+
+    // Because containment references will be proxy resolving only when explicitly declared that way in the Xcore source, we can default to always support containment proxies.
+    //
+    genModel.setContainmentProxies(true);
 
     genModel.initialize(handleAnnotations);
   }

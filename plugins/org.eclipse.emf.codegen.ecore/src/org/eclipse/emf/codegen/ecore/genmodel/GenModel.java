@@ -122,6 +122,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isOperationReflection <em>Operation Reflection</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRichAjaxPlatform <em>Rich Ajax Platform</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRuntimePlatform <em>Runtime Platform</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isImportOrganizing <em>Import Organizing</em>}</li>
  * </ul>
  * </p>
  *
@@ -2128,6 +2129,32 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setRuntimePlatform(GenRuntimePlatform value);
+
+  /**
+   * Returns the value of the '<em><b>Import Organizing</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * @since 2.9
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Import Organizing</em>' attribute.
+   * @see #setImportOrganizing(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ImportOrganizing()
+   * @model
+   * @generated
+   */
+  boolean isImportOrganizing();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isImportOrganizing <em>Import Organizing</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.9
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Import Organizing</em>' attribute.
+   * @see #isImportOrganizing()
+   * @generated
+   */
+  void setImportOrganizing(boolean value);
 
   EList<GenPackage> getStaticGenPackages();
 

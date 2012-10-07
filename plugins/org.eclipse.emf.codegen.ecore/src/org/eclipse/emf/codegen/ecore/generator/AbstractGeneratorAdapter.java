@@ -27,22 +27,37 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourceAttributes;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jdt.core.IBuffer;
+import org.eclipse.jdt.core.IBufferChangedListener;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IOpenable;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.ToolFactory;
+import org.eclipse.jdt.core.WorkingCopyOwner;
+import org.eclipse.jdt.core.compiler.IProblem;
+import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.ASTRequestor;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.rewrite.ImportRewrite;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.TextEdit;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
+import org.eclipse.emf.codegen.ecore.generator.Generator.Options;
 import org.eclipse.emf.codegen.jet.JETCompiler;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
@@ -348,8 +363,6 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       CodeGenEcorePlugin.INSTANCE.getString("_UI_GenericGenerateException_diagnostic");
     BasicDiagnostic diagnostic = new BasicDiagnostic(CodeGenEcorePlugin.ID, 0, currentMessage, null);
 
-    //DMS this doesn't really produce nice output.
-    //
     diagnostic.add(BasicDiagnostic.toDiagnostic(exception));
     return diagnostic;
   }
@@ -978,7 +991,8 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       JControlModel jControlModel = getGenerator().getJControlModel();      
       boolean mergeSuccessful = jControlModel.canMerge();
       
-      //DMS This is not right. It replaced "if (EMFPlugin.IS_ECLIPSE_RUNNING)" but can also be false if an invalid facade has been specified.
+      Options options = getGenerator().getOptions();
+
       if (mergeSuccessful)
       {
         JMerger jMerger = new JMerger(jControlModel);
@@ -988,7 +1002,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         {
           jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(emitterResult));
         }
-        catch(RuntimeException runtimeException)
+        catch (RuntimeException runtimeException)
         {
           if (targetExists)
           {
@@ -1004,8 +1018,8 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         {
           // Create a code formatter for this compilation unit, if needed.
           //
-          Object codeFormatter = getGenerator().getOptions().codeFormatting ?
-            createCodeFormatter(getGenerator().getOptions().codeFormatterOptions, targetFile) : null;
+          Object codeFormatter = options.codeFormatting ?
+            createCodeFormatter(options.codeFormatterOptions, targetFile) : null;
   
           if (targetExists)
           {
@@ -1016,7 +1030,11 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
             monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object[] { targetFile }));
             jMerger.merge();
   
-            newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter, getGenerator().getOptions().commentFormatting);
+            newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter, options.commentFormatting);
+            if (options.importOrganizing)
+            {
+              newContents = organizeImports(targetFile.toString(), newContents);
+            }
             changed = !oldContents.equals(newContents);
   
             // If the target is read-only, we can ask the platform to release it, and it may be updated in the process.
@@ -1025,7 +1043,11 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
             {
               jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile), getEncoding(targetFile)));
               jMerger.remerge();
-              newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter, getGenerator().getOptions().commentFormatting);
+              newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter, options.commentFormatting);
+              if (options.importOrganizing)
+              {
+                newContents = organizeImports(targetFile.toString(), newContents);
+              }
             }
           }
           else
@@ -1034,7 +1056,11 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
             monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object[] { targetFile }));
             
             jMerger.merge();
-            newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter, getGenerator().getOptions().commentFormatting);
+            newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter, options.commentFormatting);
+            if (options.importOrganizing)
+            {
+              newContents = organizeImports(targetFile.toString(), newContents);
+            }
           }
   
           if (jControlModel.getFacadeHelper() != null)
@@ -1046,7 +1072,6 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       
       if (!mergeSuccessful)
       {
-        //DMS What if Eclipse is running, but an invalid facade has been specified?  We still should format code, use encoding,...
         newContents = 
           CodeGenUtil.convertFormat(jControlModel.getLeadingTabReplacement(), jControlModel.convertToStandardBraceStyle(), emitterResult);
         if (targetExists)
@@ -1069,7 +1094,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
         // Apply a redirection pattern, if specified.
         //
-        String redirection = getGenerator().getOptions().redirectionPattern;
+        String redirection = options.redirectionPattern;
         boolean redirect = redirection != null && redirection.indexOf("{0}") != -1;
 
         if (redirect)
@@ -1081,7 +1106,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
         if (isReadOnly(targetFile))
         {
-          if (getGenerator().getOptions().forceOverwrite)
+          if (options.forceOverwrite)
           {
             setWriteable(targetFile);
           }
@@ -1099,17 +1124,8 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
     }
     catch (Exception e)
     {
-      //DMS  Do a better job with specific exceptions? Just use chained RuntimeExceptions?
       throw e instanceof RuntimeException ? (RuntimeException)e : new WrappedException(e);
     }
-//    catch (JETException exception)
-//    {
-//      CodeGenEcorePlugin.INSTANCE.log(exception);
-//    }
-//    catch (Exception exception)
-//    {
-//      CodeGenEcorePlugin.INSTANCE.log(exception);
-//    }
     finally
     {
       clearImportManager();
@@ -1468,13 +1484,22 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         formatCode(contents, codeFormatter);
   }
 
+  /**
+   * When running under Eclipse, returns the contents with unused imports removed; when stand-alone, returns the original contents.
+   * @return the contents with unused imports removed, or when running stand-alone, the unchanged contents.
+   * Since 2.9
+   */
+  protected String organizeImports(String path, String contents)
+  {
+    return EMFPlugin.IS_ECLIPSE_RUNNING ? EclipseHelper.organizeImports(path, contents) : contents;
+  }
+
   /*
    * All Eclipse-dependent operations are delegated to this class. This pattern avoids any runtime failure due to
    * missing dependencies in the stand-alone case.
    */
   private static class EclipseHelper
   {
-    //DMS this is totally untested.
     public static boolean ensureProjectExists(String workspacePath, Object object, Object projectType, boolean force, Monitor monitor)
     {
       try
@@ -1501,7 +1526,6 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       }
       catch (Exception exception)
       {
-        //DMS should we let this exception out?
         CodeGenEcorePlugin.INSTANCE.log(exception);
       }
       return false;
@@ -1546,7 +1570,6 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       }
       catch (Exception exception)
       { 
-        //DMS should we let this exception out?
         CodeGenEcorePlugin.INSTANCE.log(exception);
       }
       finally
@@ -1633,6 +1656,236 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         }
       }
       return contents;
+    }
+
+    public static String organizeImports(String workspacePath, String contents)
+    {
+      // Keep the result in an array so we can update if we successfully remove imports.
+      //
+      final String [] result = new String[] { contents };
+
+      // We must be able to determine this Java project for this target path to proceed...
+      //
+      IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(workspacePath));
+      IProject project = file.getProject();
+      if (project != null)
+      {
+        IJavaProject javaProject = JavaCore.create(project);
+        if (javaProject != null)
+        {
+          // All is good so we can create a compilation your for this path.
+          //
+          ICompilationUnit compilationUnit = JavaCore.createCompilationUnitFrom(file);
+
+          // Create a specialized working copy owner that creates a specialized buffer to access the contents passed to this method.
+          //
+          WorkingCopyOwner workingCopyOwner =
+            new WorkingCopyOwner()
+            {
+              @Override
+              public IBuffer createBuffer(final ICompilationUnit workingCopy)
+              {
+                return
+                  new IBuffer()
+                  {
+                    public IOpenable getOwner()
+                    {
+                      return workingCopy;
+                    }
+
+                    public String getText(int offset, int length) throws IndexOutOfBoundsException
+                    {
+                      return result[0].substring(offset, offset + length);
+                    }
+
+                    public int getLength()
+                    {
+                      return result[0].length();
+                    }
+
+                    public String getContents()
+                    {
+                      return result[0];
+                    }
+
+                    public char[] getCharacters()
+                    {
+                      return result[0].toCharArray();
+                    }
+
+                    public char getChar(int position)
+                    {
+                      return result[0].charAt(position);
+                    }
+
+                    public boolean isReadOnly()
+                    {
+                      return true;
+                    }
+
+                    public boolean isClosed()
+                    {
+                      return false;
+                    }
+
+                    public boolean hasUnsavedChanges()
+                    {
+                      return false;
+                    }
+
+                    public IResource getUnderlyingResource()
+                    {
+                      return null;
+                    }
+
+                    public void close()
+                    {
+                      // Ignore
+                    }
+
+                    public void save(IProgressMonitor progress, boolean force) throws JavaModelException
+                    {
+                      throw new UnsupportedOperationException();
+                    }
+
+                    public void setContents(String contents)
+                    {
+                      throw new UnsupportedOperationException();
+                    }
+
+                    public void setContents(char[] contents)
+                    {
+                      throw new UnsupportedOperationException();
+                    }
+
+                    public void replace(int position, int length, String text)
+                    {
+                      throw new UnsupportedOperationException();
+                    }
+
+                    public void replace(int position, int length, char[] text)
+                    {
+                      throw new UnsupportedOperationException();
+                    }
+
+                    public void append(String text)
+                    {
+                      throw new UnsupportedOperationException();
+                    }
+
+                    public void append(char[] text)
+                    {
+                      throw new UnsupportedOperationException();
+                    }
+
+                    public void addBufferChangedListener(IBufferChangedListener listener)
+                    {
+                      // Ignore
+                    }
+
+                    public void removeBufferChangedListener(IBufferChangedListener listener)
+                    {
+                      // Ignore
+                    }
+                  };
+              }
+            };
+          try
+          {
+            // Create a working copy that yields the contents passed to this method as the compilation unit's current content.
+            //
+            ICompilationUnit workingCopy = compilationUnit.getWorkingCopy(workingCopyOwner, null);
+
+            // Create a parser that will produce errors for unused imports.
+            //
+            ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser();
+            astParser.setCompilerOptions(Collections.singletonMap(JavaCore.COMPILER_PB_UNUSED_IMPORT, JavaCore.ERROR));
+            astParser.setResolveBindings(true);
+            astParser.setProject(javaProject);
+
+            // Create a visitor that will handle the compiled content.
+            //
+            ASTRequestor unusedImportRemover =
+              new ASTRequestor()
+              {
+                @Override
+                public void acceptAST(ICompilationUnit sourceUnit, CompilationUnit compiledUnit)
+                {
+                  // Visit all the compiler problems looking for unused imports.
+                  //
+                  ImportRewrite importRewrite = null;
+                  IProblem[] problems = compiledUnit.getProblems();
+                  for (IProblem problem : problems)
+                  {
+                    if (problem.getID() == IProblem.UnusedImport)
+                    {
+                      // Create an import rewrite on demand for the source unit.
+                      //
+                      if (importRewrite == null)
+                      {
+                        try
+                        {
+                          importRewrite = ImportRewrite.create(sourceUnit, true);
+                        }
+                        catch (JavaModelException e)
+                        {
+                          // Then we can't fix them so just return.
+                          return;
+                        }
+                      }
+
+                      // Try to remove the problematic import, and failing that, try to remove the wildcard import.
+                      //
+                      String qualifiedName = problem.getArguments()[0];
+                      boolean removed = importRewrite.removeImport(qualifiedName);
+                      if (!removed)
+                      {
+                        importRewrite.removeImport(qualifiedName + ".*");
+                      }
+                    }
+                  }
+
+                  // If we created an import rewrite, process the results.
+                  //
+                  if (importRewrite != null)
+                  {
+                    try
+                    {
+                      // Apply the text edits to the original contents and update the result.
+                      //
+                      TextEdit textEdits = importRewrite.rewriteImports(null);
+                      Document document = new Document(result[0]);
+                      textEdits.apply(document);
+                      result[0] = document.get();
+                    }
+                    catch (BadLocationException exception)
+                    {
+                      // We can't do it so just return.
+                      //
+                      return;
+                    }
+                    catch (CoreException exception)
+                    {
+                      // We can't do it so just return.
+                      //
+                      return;
+                    }
+                  }
+                }
+              };
+
+            // Compile the working copy source applying the unused import remover.
+            //
+            astParser.createASTs(new ICompilationUnit[] { workingCopy }, new String[0], unusedImportRemover, null);
+          }
+          catch (JavaModelException e)
+          {
+            // Ignore all problems and just return the original contents.
+          }
+        }
+      }
+
+      return result[0];
     }
   }
 }

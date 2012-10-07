@@ -30,7 +30,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
 import org.eclipse.emf.codegen.ecore.Generator;
-import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -862,29 +861,7 @@ public abstract class ModelImporter extends ModelConverter
 
     if (getOriginalGenModel() == null)
     {
-      URI genModelURI = genModel.eResource().getURI();
-      if (genModelURI.isPlatformResource())
-      {
-        IFile genModelFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(genModelURI.toPlatformString(true)));
-        IProject project = genModelFile.getProject();
-        String complianceLevel = CodeGenUtil.EclipseUtil.getJavaComplianceLevel(project);
-        if ("1.5".equals(complianceLevel))
-        {
-          genModel.setComplianceLevel(GenJDKLevel.JDK50_LITERAL);
-        }
-        else if ("1.6".equals(complianceLevel))
-        {
-          genModel.setComplianceLevel(GenJDKLevel.JDK60_LITERAL);
-        }
-        else if ("1.7".equals(complianceLevel))
-        {
-          genModel.setComplianceLevel(GenJDKLevel.JDK70_LITERAL);
-        }
-        else if ("1.4".equals(complianceLevel))
-        {
-          genModel.setComplianceLevel(GenJDKLevel.JDK14_LITERAL);
-        }
-      }
+      genModel.initialize(true);
     }
   }
   

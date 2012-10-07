@@ -170,6 +170,7 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
     options.mergerFacadeHelperClass = genModel.getFacadeHelperClass();
     options.codeFormatting = genModel.isCodeFormatting();
     options.commentFormatting = genModel.isCommentFormatting();
+    options.importOrganizing = genModel.isImportOrganizing();
     options.resourceSet = resource != null ? resource.getResourceSet() : null;
     options.templateClasspath = genModel.getTemplatePluginVariables();
   }

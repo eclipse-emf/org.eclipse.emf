@@ -130,6 +130,12 @@ public class Generator
     public boolean commentFormatting;
 
     /**
+     * Whether Eclipse JDT unused import checking should be used to remove unused imports from generated Java code.
+     * @since 2.9
+     */
+    public boolean importOrganizing;
+
+    /**
      * Code formatter options to be used instead of the defaults for Java code formatting.
      */
     public Map<?, ?> codeFormatterOptions;

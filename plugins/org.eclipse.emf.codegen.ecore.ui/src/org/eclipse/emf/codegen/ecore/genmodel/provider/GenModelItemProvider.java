@@ -149,6 +149,7 @@ public class GenModelItemProvider
       addOperationReflectionPropertyDescriptor(object);
       addRichAjaxPlatformPropertyDescriptor(object);
       addRuntimePlatformPropertyDescriptor(object);
+      addImportOrganizingPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -1856,6 +1857,29 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Import Organizing feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addImportOrganizingPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_importOrganizing_feature"),
+         getString("_UI_GenModel_importOrganizing_description"),
+         GenModelPackage.Literals.GEN_MODEL__IMPORT_ORGANIZING,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_JETPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -1999,6 +2023,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__OPERATION_REFLECTION:
       case GenModelPackage.GEN_MODEL__RICH_AJAX_PLATFORM:
       case GenModelPackage.GEN_MODEL__RUNTIME_PLATFORM:
+      case GenModelPackage.GEN_MODEL__IMPORT_ORGANIZING:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:

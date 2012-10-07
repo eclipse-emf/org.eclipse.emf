@@ -211,6 +211,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/richAjaxPlatform"/>
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The target runtime environment for which to generate"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/runtimePlatform"/>
+      <genFeatures createChild="false" propertyCategory="JET" propertyDescription="Whether to check for unused imports in the generated Java code and remove them"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/importOrganizing"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenPackage">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The prefix for names of several packaged-related classes, including package, factory, switch, and adapter factory"

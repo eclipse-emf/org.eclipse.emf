@@ -199,6 +199,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isOperationReflection <em>Operation Reflection</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isRichAjaxPlatform <em>Rich Ajax Platform</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getRuntimePlatform <em>Runtime Platform</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isImportOrganizing <em>Import Organizing</em>}</li>
  * </ul>
  * </p>
  *
@@ -1751,6 +1752,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected GenRuntimePlatform runtimePlatform = RUNTIME_PLATFORM_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isImportOrganizing() <em>Import Organizing</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isImportOrganizing()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean IMPORT_ORGANIZING_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isImportOrganizing() <em>Import Organizing</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isImportOrganizing()
+   * @generated
+   * @ordered
+   */
+  protected boolean importOrganizing = IMPORT_ORGANIZING_EDEFAULT;
 
   protected boolean validateModel = false;
 
@@ -6317,6 +6338,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isImportOrganizing()
+  {
+    return importOrganizing;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setImportOrganizing(boolean newImportOrganizing)
+  {
+    boolean oldImportOrganizing = importOrganizing;
+    importOrganizing = newImportOrganizing;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__IMPORT_ORGANIZING, oldImportOrganizing, importOrganizing));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @SuppressWarnings("unchecked")
   @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
@@ -6515,6 +6559,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isRichAjaxPlatform();
       case GenModelPackage.GEN_MODEL__RUNTIME_PLATFORM:
         return getRuntimePlatform();
+      case GenModelPackage.GEN_MODEL__IMPORT_ORGANIZING:
+        return isImportOrganizing();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -6779,6 +6825,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__RUNTIME_PLATFORM:
         setRuntimePlatform((GenRuntimePlatform)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__IMPORT_ORGANIZING:
+        setImportOrganizing((Boolean)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -7033,6 +7082,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__RUNTIME_PLATFORM:
         setRuntimePlatform(RUNTIME_PLATFORM_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__IMPORT_ORGANIZING:
+        setImportOrganizing(IMPORT_ORGANIZING_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -7207,6 +7259,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isRichAjaxPlatform() != RICH_AJAX_PLATFORM_EDEFAULT;
       case GenModelPackage.GEN_MODEL__RUNTIME_PLATFORM:
         return runtimePlatform != RUNTIME_PLATFORM_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__IMPORT_ORGANIZING:
+        return importOrganizing != IMPORT_ORGANIZING_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -7372,6 +7426,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(operationReflection);
     result.append(", runtimePlatform: ");
     result.append(runtimePlatform);
+    result.append(", importOrganizing: ");
+    result.append(importOrganizing);
     result.append(')');
     return result.toString();
   }
@@ -8677,6 +8733,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setClassNamePattern(oldGenModelVersion.getClassNamePattern());
     setOperationReflection(oldGenModelVersion.isOperationReflection());
     setRuntimePlatform(oldGenModelVersion.getRuntimePlatform());
+
+    setCommentFormatting(oldGenModelVersion.isCommentFormatting());
+    setImportOrganizing(oldGenModelVersion.isImportOrganizing());
   }
 
   public boolean reconcile()
@@ -9530,21 +9589,33 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public void initialize(boolean handleAnnotations)
   {
-    Resource resource = eResource();
-    if (resource != null)
+    if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
     {
-      URI uri = resource.getURI();
-      setModelDirectory(EclipseHelper.getModelDirectory(uri));
-      setComplianceLevel(EclipseHelper.getComplianceLevel(uri));
-      setModelPluginID(EclipseHelper.getPluginID(uri));
+      Resource resource = eResource();
+      if (resource != null)
+      {
+        URI uri = resource.getURI();
+        if (getModelDirectory() == null)
+        {
+          setModelDirectory(EclipseHelper.getModelDirectory(uri));
+        }
+        setComplianceLevel(EclipseHelper.getComplianceLevel(uri));
+        if (getModelPluginID() == null)
+        {
+          setModelPluginID(EclipseHelper.getPluginID(uri));
+        }
+      }
     }
+
     setOperationReflection(true);
     setMinimalReflectiveMethods(true);
     setRootExtendsClass("org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container");
+    setImportOrganizing(true);
     GenPackage mainGenPackage = getMainGenPackage();
-    setModelName(mainGenPackage.getPrefix());
-    GenRuntimeVersion[] values = GenRuntimeVersion.values();
-    setRuntimeVersion(values[values.length - 1]);
+    if (getModelName() == null)
+    {
+      setModelName(mainGenPackage.getPrefix());
+    }
 
     if (handleAnnotations)
     {
