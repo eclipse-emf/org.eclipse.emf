@@ -4627,7 +4627,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     stringBuffer.append(TEXT_1207);
     stringBuffer.append(genOperation.getName());
     stringBuffer.append(TEXT_1208);
-    stringBuffer.append(genOperation.getParameters(genClass));
+    stringBuffer.append(genOperation.getParameters(isImplementation, genClass));
     stringBuffer.append(TEXT_1209);
     stringBuffer.append(genOperation.getThrows(genClass));
     stringBuffer.append(TEXT_1210);

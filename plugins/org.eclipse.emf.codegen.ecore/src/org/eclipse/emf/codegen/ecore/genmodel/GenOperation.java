@@ -176,6 +176,12 @@ public interface GenOperation extends GenTypedElement
   String getParameters(GenClass context);
 
   /**
+   * The parameters in the implementation class will each be final if there is an operation body.
+   * @since 2.9
+   */
+  String getParameters(boolean isImplementation, GenClass context);
+
+  /**
    * Use {@link #getParameters(GenClass)} with either <code>null</code> for erasing type parameter references 
    * or a {@link GenClass} context representing potential type substitutions for type parameter references.
    * By default, this will just do <code>getParameters(getGenClass())</code>.

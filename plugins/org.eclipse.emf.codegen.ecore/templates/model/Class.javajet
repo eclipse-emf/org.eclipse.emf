@@ -1457,7 +1457,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
   <%if (genModel.useGenerics() && !genOperation.hasBody() && !genOperation.isInvariant() && genOperation.hasInvocationDelegate() && genOperation.isUncheckedCast(genClass)) {%>
 	@SuppressWarnings("unchecked")
   <%}%>
-	public <%=genOperation.getTypeParameters(genClass)%><%=genOperation.getImportedType(genClass)%> <%=genOperation.getName()%>(<%=genOperation.getParameters(genClass)%>)<%=genOperation.getThrows(genClass)%>
+	public <%=genOperation.getTypeParameters(genClass)%><%=genOperation.getImportedType(genClass)%> <%=genOperation.getName()%>(<%=genOperation.getParameters(isImplementation, genClass)%>)<%=genOperation.getThrows(genClass)%>
 	{
   <%if (genOperation.hasBody()) {%>
 		<%=genOperation.getBody(genModel.getIndentation(stringBuffer))%>

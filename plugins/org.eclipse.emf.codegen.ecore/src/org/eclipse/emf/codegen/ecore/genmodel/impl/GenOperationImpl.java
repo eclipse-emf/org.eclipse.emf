@@ -577,10 +577,20 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
 
   public String getParameters(GenClass context)
   {
-    return getParameters(context, true);
+    return getParameters(false, context);
+  }
+  
+  public String getParameters(boolean isImplementation, GenClass context)
+  {
+    return isImplementation ? getParameters(true, context, true) : getParameters(context, true);
   }
 
   protected String getParameters(GenClass context, boolean formal)
+  {
+    return getParameters(false, context, formal);
+  }
+  
+  protected String getParameters(boolean isImplementation, GenClass context, boolean formal)
   {
     StringBuffer result = new StringBuffer();
     for (Iterator<GenParameter> iter = getGenParameters().iterator(); iter.hasNext(); )
@@ -588,6 +598,10 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       GenParameter genParameter = iter.next();
       if (formal)
       {
+        if (isImplementation && hasBody())
+        {
+          result.append("final ");
+        }
         result.append(genParameter.getImportedType(context));
         result.append(' ');
       }

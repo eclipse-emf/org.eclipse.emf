@@ -229,7 +229,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
     <%if (genModel.useGenerics() && genDataType.isUncheckedCast() && !genDataType.hasCreatorBody()) {%>
 	@SuppressWarnings("unchecked")
     <%}%>
-	public <%=genDataType.getImportedParameterizedInstanceClassName()%> create<%=genDataType.getName()%>(String <%if (genDataType.hasCreatorBody()) {%>it<%} else {%>literal<%}%>)
+	public <%=genDataType.getImportedParameterizedInstanceClassName()%> create<%=genDataType.getName()%>(<%if (genDataType.hasCreatorBody()) {%>final <%}%>String <%if (genDataType.hasCreatorBody()) {%>it<%} else {%>literal<%}%>)
 	{
     <%if (genDataType.hasCreatorBody()) {%>
 		<%=genDataType.getCreatorBody(genModel.getIndentation(stringBuffer))%>
@@ -426,7 +426,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convert<%=genDataType.getName()%>(<%=genDataType.getImportedBoundedWildcardInstanceClassName()%> <%if (genDataType.hasConverterBody()) {%>it<%} else {%>instanceValue<%}%>)
+	public String convert<%=genDataType.getName()%>(<%if (genDataType.hasCreatorBody()) {%>final <%}%><%=genDataType.getImportedBoundedWildcardInstanceClassName()%> <%if (genDataType.hasConverterBody()) {%>it<%} else {%>instanceValue<%}%>)
 	{
     <%if (genDataType.hasConverterBody()) {%>
 		<%=genDataType.getConverterBody(genModel.getIndentation(stringBuffer))%>
