@@ -57,9 +57,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.QualifiedName;
-import org.eclipse.jdt.core.dom.QualifiedType;
 import org.eclipse.jdt.core.dom.SimpleName;
-import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.rewrite.ImportRewrite;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
 import org.eclipse.jface.text.BadLocationException;
@@ -1860,39 +1858,11 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
                     compiledUnit.accept
                       (new ASTVisitor(true)
                        {
-                         protected void process(ITypeBinding binding)
-                         {
-                           // If there is a type binding, remove the qualified name of its erasure from the unused imports.
-                           //
-                           if (binding != null)
-                           {
-                             unusedImports.remove(binding.getErasure().getQualifiedName());
-                           }
-                         }
-
                          @Override
                          public boolean visit(ImportDeclaration node)
                          {
                            // Ignore the import declarations themselves.
                            //
-                           return false;
-                         }
-
-                         @Override
-                         public boolean visit(QualifiedType node)
-                         {
-                           // Process the type binding for the qualified type and don't visit its children.
-                           //
-                           process(node.resolveBinding());
-                           return false;
-                         }
-
-                         @Override
-                         public boolean visit(SimpleType node)
-                         {
-                           // Process the type binding for the simple type and don't visit its children.
-                           //
-                           process(node.resolveBinding());
                            return false;
                          }
 
@@ -1918,7 +1888,9 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
                            IBinding binding = node.resolveBinding();
                            if (binding instanceof ITypeBinding)
                            {
-                             process((ITypeBinding)binding);
+                             // If there is a type binding, remove the qualified name of its erasure from the unused imports.
+                             //
+                             unusedImports.remove(((ITypeBinding)binding).getErasure().getQualifiedName());
                            }
                            return false;
                          }
