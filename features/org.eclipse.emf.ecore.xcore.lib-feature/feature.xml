@@ -28,10 +28,6 @@ http://www.eclipse.org/legal/epl-v10.html
       <discovery label="%ModelingUpdateSiteName" url="http://www.eclipse.org/modeling/updates/"/>
    </url>
 
-   <includes
-         id="org.eclipse.xtext.xbase.lib"
-         version="0.0.0"/>
-
    <requires>
       <import plugin="org.eclipse.xtext.xbase.lib"/>
    </requires>

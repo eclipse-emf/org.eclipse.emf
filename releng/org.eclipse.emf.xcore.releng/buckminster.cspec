@@ -22,12 +22,10 @@
 		<cs:dependency name="org.eclipse.emf.exporter" componentType="osgi.bundle" />
 		
 		<!-- xtext -->
-		<cs:dependency name="org.eclipse.xtext.ui" componentType="eclipse.feature" versionDesignator="2.3.0"/>
-		<cs:dependency name="org.eclipse.xtext.xbase.lib" componentType="osgi.bundle" versionDesignator="2.3.0"/>
-		<cs:dependency name="org.eclipse.xtext.xbase.ui" componentType="osgi.bundle" versionDesignator="2.3.0"/>
-		<cs:dependency name="org.eclipse.xtext.junit" componentType="osgi.bundle" versionDesignator="2.3.0"/>
-		<cs:dependency name="org.eclipse.xtext.xbase.junit" componentType="osgi.bundle" versionDesignator="2.3.0"/>
-		<cs:dependency name="org.eclipse.xtext.junit4" componentType="osgi.bundle" versionDesignator="2.3.0"/>
+		<cs:dependency name="org.eclipse.xtext.ui" componentType="eclipse.feature" versionDesignator="2.4.0"/>
+		<cs:dependency name="org.eclipse.xtext.xbase" componentType="eclipse.feature" versionDesignator="2.4.0"/>
+		<cs:dependency name="org.eclipse.xtext.junit" componentType="osgi.bundle" versionDesignator="2.4.0"/>
+		<cs:dependency name="org.eclipse.xtext.junit4" componentType="osgi.bundle" versionDesignator="2.4.0"/>
 		
 		
 	</cs:dependencies>
