@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>org.eclipse.emf.ecore.xcore.lib-feature</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.pde.FeatureBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.emf.cdo.releng.version.VersionBuilder</name>
+			<arguments>
+				<dictionary>
+					<key>ignore.missing.dependency.ranges</key>
+					<value>true</value>
+				</dictionary>
+				<dictionary>
+					<key>ignore.missing.export.versions</key>
+					<value>true</value>
+				</dictionary>
+				<dictionary>
+					<key>release.path</key>
+					<value>/org.eclipse.emf.ecore.xcore/release.xml</value>
+				</dictionary>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.pde.FeatureNature</nature>
+		<nature>org.eclipse.emf.cdo.releng.version.VersionNature</nature>
+	</natures>
+</projectDescription>

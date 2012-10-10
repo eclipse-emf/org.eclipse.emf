@@ -84,7 +84,7 @@ public class EmptyXcoreProjectWizard extends EmptyProjectWizard
   @Override
   protected String[] getRequiredBundles()
   {
-    return new String []{ "org.eclipse.emf.ecore", "org.eclipse.xtext.xbase.lib" };
+    return new String []{ "org.eclipse.emf.ecore", "org.eclipse.xtext.xbase.lib", "org.eclipse.emf.ecore.xcore.lib" };
   }
 
 }

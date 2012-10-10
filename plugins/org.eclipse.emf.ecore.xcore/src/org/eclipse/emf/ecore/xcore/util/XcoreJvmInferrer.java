@@ -1586,88 +1586,152 @@ public class XcoreJvmInferrer
     if (genEnum.getGenModel().useGenerics())
     {
       JvmElementInferrer<JvmEnumerationType> enumTypeInferrer =
-       new JvmElementInferrer<JvmEnumerationType>(X_VERY_HIGH)
-       {
-         @Override
-         protected JvmEnumerationType inferStructure()
-         {
-           final JvmEnumerationType jvmEnumerationType = TypesFactory.eINSTANCE.createJvmEnumerationType();
-           jvmEnumerationType.getSuperTypes().add(getJvmTypeReference("java.lang.Enum<" + genEnum.getQualifiedInstanceClassName() + ">", genEnum));
-           jvmEnumerationType.getSuperTypes().add(getJvmTypeReference("org.eclipse.emf.common.util.Enumerator", genEnum));
-           jvmEnumerationType.setFinal(true);
-           jvmEnumerationType.setVisibility(JvmVisibility.PUBLIC);
-           final EList<JvmMember> members = jvmEnumerationType.getMembers();
-
-           for (final GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals())
-           {
-             JvmElementInferrer<JvmEnumerationLiteral> enumLiteralInferrer =
-               new JvmElementInferrer<JvmEnumerationLiteral>(X_VERY_HIGH)
-               {
-                 @Override
-                 protected JvmEnumerationLiteral inferStructure()
-                 {
-                   JvmEnumerationLiteral jvmEnumerationLiteral = TypesFactory.eINSTANCE.createJvmEnumerationLiteral();
-                   jvmEnumerationLiteral.setStatic(true);
-                   jvmEnumerationLiteral.setFinal(true);
-                   jvmEnumerationLiteral.setVisibility(JvmVisibility.PUBLIC);
-                   JvmParameterizedTypeReference jvmParameterizedTypeReference = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
-                   jvmParameterizedTypeReference.setType(jvmEnumerationType);
-                   jvmEnumerationLiteral.setType(jvmParameterizedTypeReference);
-                   return jvmEnumerationLiteral;
-                 }
-
-                 @Override
-                 public void inferName()
-                 {
-                   inferredElement.setSimpleName(genEnumLiteral.getEnumLiteralInstanceConstantName());
-                 }
-               };
-             associate(genEnumLiteral, enumLiteralInferrer);
-             members.add(enumLiteralInferrer.getInferredElement());
-
-             JvmElementInferrer<JvmEnumerationLiteral> enumLiteralValueInferrer =
-               new JvmElementInferrer<JvmEnumerationLiteral>(X_VERY_HIGH)
-               {
-                 @Override
-                 protected JvmEnumerationLiteral inferStructure()
-                 {
-                   JvmEnumerationLiteral enumLiteralValue = TypesFactory.eINSTANCE.createJvmEnumerationLiteral();
-                   enumLiteralValue.setStatic(true);
-                   enumLiteralValue.setFinal(true);
-                   enumLiteralValue.setVisibility(JvmVisibility.PUBLIC);
-                   JvmParameterizedTypeReference jvmParameterizedTypeReference = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
-                   jvmParameterizedTypeReference.setType(jvmEnumerationType);
-                   enumLiteralValue.setType(getJvmTypeReference("int", genEnumLiteral));
-                   return enumLiteralValue;
-                 }
-
-                 @Override
-                 public void inferName()
-                 {
-                   inferredElement.setSimpleName(genEnumLiteral.getEnumLiteralValueConstantName());
-                 }
-               };
-             associate(genEnumLiteral, enumLiteralValueInferrer);
-             members.add(enumLiteralValueInferrer.getInferredElement());
-           }
-           return jvmEnumerationType;
-         }
-
-         @Override
-         public void inferName()
-         {
-           inferredElement.setSimpleName(genEnum.getName());
-           inferredElement.setPackageName(genEnum.getGenPackage().getInterfacePackageName());
-         }
-       };
+        new JvmElementInferrer<JvmEnumerationType>(X_VERY_HIGH)
+        {
+          @Override
+          protected JvmEnumerationType inferStructure()
+          {
+            final JvmEnumerationType jvmEnumerationType = TypesFactory.eINSTANCE.createJvmEnumerationType();
+            jvmEnumerationType.getSuperTypes().add(getJvmTypeReference("java.lang.Enum<" + genEnum.getQualifiedInstanceClassName() + ">", genEnum));
+            jvmEnumerationType.getSuperTypes().add(getJvmTypeReference("org.eclipse.emf.common.util.Enumerator", genEnum));
+            jvmEnumerationType.setFinal(true);
+            jvmEnumerationType.setVisibility(JvmVisibility.PUBLIC);
+            final EList<JvmMember> members = jvmEnumerationType.getMembers();
+ 
+            for (final GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals())
+            {
+              JvmElementInferrer<JvmEnumerationLiteral> enumLiteralInferrer =
+                new JvmElementInferrer<JvmEnumerationLiteral>(X_VERY_HIGH)
+                {
+                  @Override
+                  protected JvmEnumerationLiteral inferStructure()
+                  {
+                    JvmEnumerationLiteral jvmEnumerationLiteral = TypesFactory.eINSTANCE.createJvmEnumerationLiteral();
+                    jvmEnumerationLiteral.setStatic(true);
+                    jvmEnumerationLiteral.setFinal(true);
+                    jvmEnumerationLiteral.setVisibility(JvmVisibility.PUBLIC);
+                    JvmParameterizedTypeReference jvmParameterizedTypeReference = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+                    jvmParameterizedTypeReference.setType(jvmEnumerationType);
+                    jvmEnumerationLiteral.setType(jvmParameterizedTypeReference);
+                    return jvmEnumerationLiteral;
+                  }
+ 
+                  @Override
+                  public void inferName()
+                  {
+                    inferredElement.setSimpleName(genEnumLiteral.getEnumLiteralInstanceConstantName());
+                  }
+                };
+              associate(genEnumLiteral, enumLiteralInferrer);
+              members.add(enumLiteralInferrer.getInferredElement());
+ 
+              JvmElementInferrer<JvmEnumerationLiteral> enumLiteralValueInferrer =
+                new JvmElementInferrer<JvmEnumerationLiteral>(X_VERY_HIGH)
+                {
+                  @Override
+                  protected JvmEnumerationLiteral inferStructure()
+                  {
+                    JvmEnumerationLiteral enumLiteralValue = TypesFactory.eINSTANCE.createJvmEnumerationLiteral();
+                    enumLiteralValue.setStatic(true);
+                    enumLiteralValue.setFinal(true);
+                    enumLiteralValue.setVisibility(JvmVisibility.PUBLIC);
+                    enumLiteralValue.setType(getJvmTypeReference("int", genEnumLiteral));
+                    return enumLiteralValue;
+                  }
+ 
+                  @Override
+                  public void inferName()
+                  {
+                    inferredElement.setSimpleName(genEnumLiteral.getEnumLiteralValueConstantName());
+                  }
+                };
+              associate(genEnumLiteral, enumLiteralValueInferrer);
+              members.add(enumLiteralValueInferrer.getInferredElement());
+            }
+            return jvmEnumerationType;
+          }
+ 
+          @Override
+          public void inferName()
+          {
+            inferredElement.setSimpleName(genEnum.getName());
+            inferredElement.setPackageName(genEnum.getGenPackage().getInterfacePackageName());
+          }
+        };
       associate(genEnum, enumTypeInferrer);
       return enumTypeInferrer.getInferredElement();
     }
     else
     {
-      JvmGenericType jvmGenericType = TypesFactory.eINSTANCE.createJvmGenericType();
-      // TODO
-      return jvmGenericType;
+      JvmElementInferrer<JvmGenericType> typeSafeEnumInferrer =
+        new JvmElementInferrer<JvmGenericType>(X_VERY_HIGH)
+        {
+          @Override
+          protected JvmGenericType inferStructure()
+          {
+            final JvmGenericType typeSafeEnumType = TypesFactory.eINSTANCE.createJvmGenericType();
+            typeSafeEnumType.getSuperTypes().add(getJvmTypeReference("org.eclipse.emf.common.util.Enumerator", genEnum));
+            typeSafeEnumType.setFinal(true);
+            typeSafeEnumType.setVisibility(JvmVisibility.PUBLIC);
+            final EList<JvmMember> members = typeSafeEnumType.getMembers();
+ 
+            for (final GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals())
+            {
+              JvmElementInferrer<JvmEnumerationLiteral> enumLiteralValueInferrer =
+                new JvmElementInferrer<JvmEnumerationLiteral>(X_VERY_HIGH)
+                {
+                  @Override
+                  protected JvmEnumerationLiteral inferStructure()
+                  {
+                    JvmElementInferrer<JvmField> enumLiteralInferrer =
+                      new JvmElementInferrer<JvmField>(X_VERY_HIGH)
+                      {
+                        @Override
+                        protected JvmField inferStructure()
+                        {
+                          JvmParameterizedTypeReference jvmParameterizedTypeReference = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+                          jvmParameterizedTypeReference.setType(typeSafeEnumType);
+                          return createJvmField(genEnum, JvmVisibility.PUBLIC, true, true, jvmParameterizedTypeReference);
+                        }
+       
+                        @Override
+                        public void inferName()
+                        {
+                          inferredElement.setSimpleName(genEnumLiteral.getEnumLiteralInstanceConstantName());
+                        }
+                      };
+                    associate(genEnumLiteral, enumLiteralInferrer);
+                    members.add(enumLiteralInferrer.getInferredElement());
+ 
+                    JvmEnumerationLiteral enumLiteralValue = TypesFactory.eINSTANCE.createJvmEnumerationLiteral();
+                    enumLiteralValue.setStatic(true);
+                    enumLiteralValue.setFinal(true);
+                    enumLiteralValue.setVisibility(JvmVisibility.PUBLIC);
+                    enumLiteralValue.setType(getJvmTypeReference("int", genEnumLiteral));
+                    return enumLiteralValue;
+                  }
+ 
+                  @Override
+                  public void inferName()
+                  {
+                    inferredElement.setSimpleName(genEnumLiteral.getEnumLiteralValueConstantName());
+                  }
+                };
+              associate(genEnumLiteral, enumLiteralValueInferrer);
+              members.add(enumLiteralValueInferrer.getInferredElement());
+            }
+            return typeSafeEnumType;
+          }
+ 
+          @Override
+          public void inferName()
+          {
+            inferredElement.setSimpleName(genEnum.getName());
+            inferredElement.setPackageName(genEnum.getGenPackage().getInterfacePackageName());
+          }
+        };
+      associate(genEnum, typeSafeEnumInferrer);
+      return typeSafeEnumInferrer.getInferredElement();
     }
   }
 

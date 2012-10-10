@@ -13,8 +13,12 @@ package org.eclipse.emf.test.core.common.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -23,6 +27,7 @@ import junit.framework.TestSuite;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.test.common.TestUtil;
 
@@ -42,6 +47,7 @@ public class ECollectionsTest extends TestCase
     ts.addTest(new ECollectionsTest("testSetEList"));
     ts.addTest(new ECollectionsTest("testMoveIntInt"));
     ts.addTest(new ECollectionsTest("testMoveIntObject"));
+    ts.addTest(new ECollectionsTest("testAsEMap"));
     return ts;
   }
 
@@ -318,5 +324,134 @@ public class ECollectionsTest extends TestCase
     assertTrue(TestUtil.areEqual(originalList, eList));
     ECollections.move(list, target, object);
     assertTrue(TestUtil.areEqual(originalList, list));    
+  }
+
+  public void testAsEMap() throws Exception
+  {
+    Map<String, String> map = new HashMap<String, String>();
+    EMap<String, String> eMap = ECollections.asEMap(map);
+    
+    Map.Entry<String, String> entry = ECollections.singletonEMap("x", "y").get(0);
+
+    map.put("aKey", "aValue");
+    assertEquivalent(map, eMap);
+
+    eMap.put("bKey", "bValue");
+    assertEquivalent(map, eMap);
+
+    try
+    {
+      eMap.move(1,  0);
+      fail("move(int, int) should throw UnsupportedOperationException)");
+    }
+    catch (UnsupportedOperationException exception)
+    {
+      // We expect to get here.
+    }
+
+    try
+    {
+      eMap.move(1,  eMap.get(0));
+      fail("move(int, Object) should throw UnsupportedOperationException)");
+    }
+    catch (UnsupportedOperationException exception)
+    {
+      // We expect to get here.
+    }
+
+    try
+    {
+      eMap.add(0, entry);
+      fail("add(int, Object) should throw UnsupportedOperationException)");
+    }
+    catch (UnsupportedOperationException exception)
+    {
+      // We expect to get here.
+    }
+
+    try
+    {
+      eMap.addAll(0, Collections.singleton(entry));
+      fail("addAll(int, Collection) should throw UnsupportedOperationException)");
+    }
+    catch (UnsupportedOperationException exception)
+    {
+      // We expect to get here.
+    }
+    
+    eMap.add(entry);
+    assertEquivalent(map, eMap);
+    
+    eMap.remove(entry);
+    assertEquivalent(map, eMap);
+
+    map.put("aKey", "aValue2");
+    assertEquivalent(map, eMap);
+
+    eMap.put("bKey", "bValue2");
+    assertEquivalent(map, eMap);
+
+    map.remove("aKey");
+    assertEquivalent(map, eMap);
+
+    eMap.remove("bKey");
+    assertEquivalent(map, eMap);
+
+    Map<String, String> otherMap = new HashMap<String, String>();
+    otherMap.put("aKey", "aValue");
+    otherMap.put("bKey", "bValue");
+
+    map.putAll(otherMap);
+    assertEquivalent(map, eMap);
+
+    map.clear();
+    assertEquivalent(map, eMap);
+
+    EMap<String, String> otherEMap = ECollections.asEMap(map);
+    otherEMap.put("aKey", "aValue");
+    otherEMap.put("bKey", "bValue");
+
+    eMap.putAll(otherEMap);
+    assertEquivalent(map, eMap);
+
+    eMap.clear();
+    assertEquivalent(map, eMap);
+  }
+
+  void assertEquivalent(Map<String, String> map, EMap<String, String> eMap)
+  {
+    int size = eMap.size();
+    assertEquals(map.size(), size);
+    assertEquals(eMap,  new ArrayList<Map.Entry<String, String>>(map.entrySet()));
+    assertEquals(new ArrayList<Map.Entry<String, String>>(map.entrySet()), eMap);
+    assertEquals(map.entrySet(), eMap.entrySet());
+    assertEquals(new ArrayList<Map.Entry<String, String>>(map.entrySet()), eMap);
+    assertEquals(new ArrayList<String>(map.values()), new ArrayList<String>(eMap.values()));
+    assertEquals(map.keySet(), eMap.keySet());
+
+    for (Iterator<Map.Entry<String, String>> i = map.entrySet().iterator(), j = eMap.listIterator(); i.hasNext(); )
+    {
+      assertTrue(j.hasNext());
+      assertEquals(i.next(), j.next());
+    }
+
+    for (Iterator<Map.Entry<String, String>> i = map.entrySet().iterator(), j = eMap.listIterator(); i.hasNext(); )
+    {
+      assertTrue(j.hasNext());
+      assertEquals(i.next(), j.next());
+    }
+
+    for (ListIterator<Map.Entry<String, String>> i = new ArrayList<Map.Entry<String, String>>(map.entrySet()).listIterator(size), j = eMap.listIterator(size); i.hasPrevious(); )
+    {
+      assertTrue(j.hasPrevious());
+      assertEquals(i.previous(), j.previous());
+    }
+
+    if (size > 1)
+    {
+      List<Map.Entry<String, String>> sublist = new ArrayList<Map.Entry<String, String>>(map.entrySet()).subList(1, size - 1);
+      List<Map.Entry<String, String>> eSublist = eMap.subList(1,  size - 1);
+      assertEquals(sublist, eSublist);
+    }
   }
 }

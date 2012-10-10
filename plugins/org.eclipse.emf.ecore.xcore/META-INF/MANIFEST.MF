@@ -21,7 +21,8 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.eclipse.xtext.common.types,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.core.runtime,
- org.eclipse.xtext.ecore
+ org.eclipse.xtext.ecore,
+ org.eclipse.emf.ecore.xcore.lib
 Import-Package: org.apache.log4j,
  org.apache.commons.logging,
  org.eclipse.xtext.xbase.lib

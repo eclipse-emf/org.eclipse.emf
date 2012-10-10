@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.xcore.resource.XcoreModelAssociator;
 import org.eclipse.emf.ecore.xcore.resource.XcoreReferableElementsUnloader;
 import org.eclipse.emf.ecore.xcore.resource.XcoreResource;
 import org.eclipse.emf.ecore.xcore.resource.containers.XcoreContainerManager;
+import org.eclipse.emf.ecore.xcore.scoping.XcoreExtensionClassNameProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreIdentifableSimpleNameProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreQualifiedNameProvider;
@@ -43,6 +44,7 @@ import org.eclipse.xtext.validation.IDiagnosticConverter;
 import org.eclipse.xtext.xbase.featurecalls.IdentifiableSimpleNameProvider;
 import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations;
 import org.eclipse.xtext.xbase.jvmmodel.ILogicalContainerProvider;
+import org.eclipse.xtext.xbase.scoping.featurecalls.StaticImplicitMethodsFeatureForTypeProvider;
 
 import com.google.inject.Binder;
 import com.google.inject.name.Names;
@@ -158,5 +160,10 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   public Class<? extends IDerivedStateComputer> bindIDerivedStateComputer()
   {
     return XcoreModelAssociator.class;
+  }
+
+  public Class<? extends StaticImplicitMethodsFeatureForTypeProvider.ExtensionClassNameProvider> bindStaticImplicitMethodsFeatureForTypeProvider$ExtensionClassNameProvider()
+  {
+    return XcoreExtensionClassNameProvider.class;
   }
 }

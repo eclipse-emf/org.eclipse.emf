@@ -147,8 +147,8 @@ class XcoreInterpreterTest {
 				transient volatile derived readonly NodeKind nodeKind
 				get
 				{
-					if (hasChildren()) {if (parent == null) {NodeKind::ROOT} else {NodeKind::INTERMEDIATE}}
-					else {if (parent == null) {NodeKind::SINGLETON} else {NodeKind::LEAF}}
+					if (hasChildren()) {if (parent == null) {NodeKind::ROOT_LITERAL} else {NodeKind::INTERMEDIATE_LITERAL}}
+					else {if (parent == null) {NodeKind::SINGLETON_LITERAL} else {NodeKind::LEAF_LITERAL}}
 				}
 			}
 		''')

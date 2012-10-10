@@ -294,10 +294,10 @@ public class XcoreInterpreterTest {
       _builder.append("{");
       _builder.newLine();
       _builder.append("\t\t");
-      _builder.append("if (hasChildren()) {if (parent == null) {NodeKind::ROOT} else {NodeKind::INTERMEDIATE}}");
+      _builder.append("if (hasChildren()) {if (parent == null) {NodeKind::ROOT_LITERAL} else {NodeKind::INTERMEDIATE_LITERAL}}");
       _builder.newLine();
       _builder.append("\t\t");
-      _builder.append("else {if (parent == null) {NodeKind::SINGLETON} else {NodeKind::LEAF}}");
+      _builder.append("else {if (parent == null) {NodeKind::SINGLETON_LITERAL} else {NodeKind::LEAF_LITERAL}}");
       _builder.newLine();
       _builder.append("\t");
       _builder.append("}");

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2010 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 package org.eclipse.emf.common.util;
 
 
+import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -21,6 +22,8 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+
+import org.eclipse.emf.common.util.BasicEList.BasicIndexOutOfBoundsException;
 
 
 /**
@@ -256,6 +259,10 @@ public class ECollections
    */
   public static final EList<?> EMPTY_ELIST = new EmptyUnmodifiableEList();
   
+  /**
+   * Returns an empty unmodifiable list.
+   * @return an empty unmodifiable list.
+   */
   @SuppressWarnings("unchecked")
   public static <T> EList<T> emptyEList()
   {
@@ -267,6 +274,10 @@ public class ECollections
    */
   public static final EMap<?, ?> EMPTY_EMAP = new EmptyUnmodifiableEMap();
   
+  /**
+   * Returns an empty unmodifiable map.
+   * @return an empty unmodifiable map.
+   */
   @SuppressWarnings("unchecked")
   public static <K, V> EMap<K, V> emptyEMap()
   {
@@ -845,5 +856,580 @@ public class ECollections
     BasicEMap<K, V> result = new BasicEMap<K, V>(1);
     result.put(key, value);
     return new UnmodifiableEMap<K, V>(result);
+  }
+  
+  /**
+   * Returns a mutable list containing the elements of the given iterator.
+   * @return a mutable list containing the same elements as the given iterator.
+   * @since 2.9
+   */
+  public static <T> EList<T> toEList(Iterator<? extends T> iterator)
+  {
+    return ECollections.newBasicEList(iterator);
+  }
+
+  /**
+   * Returns a list containing the elements of the given iterable.
+   * If the iterable is of type {@link EList}, that list itself is returned.
+   * If the iterable is of type {@link List}, a {@link ECollections#asEList(List) view} of that list is returned;
+   * all changes to view are reflected in the underlying list and all changes to the underlying list are reflected in the view.
+   * In all other cases, the result is a {@link ECollections#newBasicEList(Iterable) copy} of the iterable.
+   * @return a list containing the same elements as the given iterable.
+   * @since 2.9
+   */
+  public static <T> EList<T> toEList(Iterable<? extends T> iterable)
+  {
+    if (iterable instanceof EList)
+    {
+      @SuppressWarnings("unchecked")
+      EList<T> result = (EList<T>)iterable;
+      return result;
+    }
+    else if (iterable instanceof List)
+    {
+      @SuppressWarnings("unchecked")
+      final List<T> list = (List<T>)iterable;
+      return
+        new DelegatingEList<T>()
+        {
+          private static final long serialVersionUID = 1L;
+
+          @Override
+          protected List<T> delegateList()
+          {
+            return list;
+          }
+        };
+    }
+    else
+    {
+      return ECollections.newBasicEList(iterable);
+    }
+  }
+
+  /**
+   * Returns a mutable EMap view of the specified map.
+   * {@link EList#move(int, int)}, {@link EList#move(int, Object)}, {@link List#add(int, Object)}, and {@link List#addAll(int, Collection)},
+   * i.e., the methods that expect to control the exact order of entries in the map's entry set,
+   * are not supported and throw {@link UnsupportedOperationException}.
+   * All other changes to the EMap write through to the underlying map.
+   * @param map the map to which the EMap delegates.
+   * @return an EMap view of the specified map.
+   * @since 2.9
+   */
+  public static <K, V> EMap<K, V> asEMap(final Map<K, V> map)
+  {
+    return 
+      new EMap<K,V>()
+      {
+        public void move(int newPosition, Map.Entry<K, V> object)
+        {
+          throw new UnsupportedOperationException();
+        }
+
+        public Map.Entry<K, V> move(int newPosition, int oldPosition)
+        {
+          throw new UnsupportedOperationException();
+        }
+        
+        public void add(int index, Map.Entry<K, V> element)
+        {
+          throw new UnsupportedOperationException();
+        }
+
+        public boolean addAll(int index, Collection<? extends Map.Entry<K, V>> c)
+        {
+          throw new UnsupportedOperationException();
+        }
+
+        public int size()
+        {
+          return map.size();
+        }
+
+        public boolean isEmpty()
+        {
+          return map.isEmpty();
+        }
+
+        public boolean contains(Object o)
+        {
+          return map.entrySet().contains(o) || map.containsKey(o);
+        }
+
+        public Iterator<Map.Entry<K, V>> iterator()
+        {
+          return map.entrySet().iterator();
+        }
+
+        public Object[] toArray()
+        {
+          return map.entrySet().toArray();
+        }
+
+        public <T> T[] toArray(T[] a)
+        {
+          return map.entrySet().toArray(a);
+        }
+
+        public boolean add(Map.Entry<K, V> e)
+        {
+          K key = e.getKey();
+          boolean result = map.containsKey(key);
+          map.put(key,  e.getValue());
+          return result;
+        }
+
+        public boolean remove(Object o)
+        {
+          if (o instanceof Map.Entry)
+          {
+            Map.Entry<?, ?> entry = (Map.Entry<?, ?>)o;
+            Object key = entry.getKey();
+            if (map.containsKey(key))
+            {
+              map.remove(key);
+              return true;
+            }
+          }
+          if (map.containsKey(o))
+          {
+            map.remove(o);
+            return true;
+          }
+          return false;
+        }
+
+        public boolean containsAll(Collection<?> c)
+        {
+          return map.entrySet().containsAll(c);
+        }
+
+        public boolean addAll(Collection<? extends Map.Entry<K, V>> c)
+        {
+          boolean result = false;
+          for (Map.Entry<K, V> entry : c)
+          {
+            if (add(entry))
+            {
+              result = true;
+            }
+          }
+          return result;
+        }
+
+        public boolean removeAll(Collection<?> c)
+        {
+          boolean result = false;
+          for (Object o : c)
+          {
+            if (remove(o))
+            {
+              result = true;
+            }
+          }
+          return result;
+        }
+
+        public boolean retainAll(Collection<?> c)
+        {
+          return listView().retainAll(c);
+        }
+
+        public void clear()
+        {
+          map.clear();
+        }
+
+        protected void rangeCheck(int index)
+        {
+          int size = map.size();
+          if (index >= size || index < 0)
+            throw new BasicIndexOutOfBoundsException(index, size);
+        }
+
+        public Map.Entry<K, V> get(int index)
+        {
+          rangeCheck(index);
+          int i = 0;
+          for (Map.Entry<K, V> entry : map.entrySet())
+          {
+            if (i++ == index)
+            {
+              return entry;
+            }
+          }
+          return null;
+        }
+
+        public Map.Entry<K, V> set(int index, Map.Entry<K, V> element)
+        {
+          rangeCheck(index);
+          int i = 0;
+          for (Map.Entry<K, V> entry : map.entrySet())
+          {
+            if (i++ == index)
+            {
+              map.remove(entry.getKey());
+              return entry;
+            }
+          }
+          return null;
+        }
+
+        public Map.Entry<K, V> remove(int index)
+        {
+          rangeCheck(index);
+          int i = 0;
+          for (Map.Entry<K, V> entry : map.entrySet())
+          {
+            if (i++ == index)
+            {
+              map.remove(entry.getKey());
+              return entry;
+            }
+          }
+          return null;
+        }
+
+        public int indexOf(Object o)
+        {
+          int i = 0;
+          for (Map.Entry<K, V> entry : map.entrySet())
+          {
+            if (entry.equals(o))
+            {
+              return i;
+            }
+          }
+          return -1;
+        }
+
+        public int lastIndexOf(Object o)
+        {
+          return indexOf(o);
+        }
+
+        protected List<Map.Entry<K, V>> listView;
+        
+        protected Map.Entry<K, V> basicGet(int index)
+        {
+          return get(index);
+        }
+        
+        protected List<Map.Entry<K, V>> listView()
+        {
+          if (listView == null)
+          {
+            listView =
+              new AbstractList<Map.Entry<K, V>>()
+              {
+                @Override
+                public Map.Entry<K, V> get(int index)
+                {
+                  return basicGet(index);
+                }
+
+                @Override
+                public int size()
+                {
+                  return map.size();
+                }
+              };
+          }
+          return listView;
+        }
+        
+        public ListIterator<Map.Entry<K, V>> listIterator()
+        {
+          return listView().listIterator();
+        }
+
+        public ListIterator<Map.Entry<K, V>> listIterator(int index)
+        {
+          return listView().listIterator(index);
+        }
+
+        public List<Map.Entry<K, V>> subList(int fromIndex, int toIndex)
+        {
+          return listView().subList(fromIndex, toIndex);
+        }
+
+        public V get(Object key)
+        {
+          return map.get(key);
+        }
+
+        public V put(K key, V value)
+        {
+          return map.put(key, value);
+        }
+
+        public void putAll(Map<? extends K, ? extends V> m)
+        {
+          map.putAll(m);
+        }
+
+        public void putAll(EMap<? extends K, ? extends V> m)
+        {
+          map.putAll(m.map());
+        }
+
+        public int indexOfKey(Object key)
+        {
+          int i = 0;
+          for (Map.Entry<K, V> entry : map.entrySet())
+          {
+            if (key == null ? entry.getKey() == null : key.equals(entry.getKey()))
+            {
+              return i;
+            }
+          }
+          return -1;
+        }
+
+        public boolean containsKey(Object key)
+        {
+          return map.containsKey(key);
+        }
+
+        public boolean containsValue(Object value)
+        {
+          return map.containsValue(value);
+        }
+
+        public V removeKey(Object key)
+        {
+          return map.remove(key);
+        }
+
+        public Map<K, V> map()
+        {
+          return map;
+        }
+
+        public Set<Map.Entry<K, V>> entrySet()
+        {
+          return map.entrySet();
+        }
+
+        public Set<K> keySet()
+        {
+          return map.keySet();
+        }
+
+        public Collection<V> values()
+        {
+          return map.values();
+        }
+
+        @Override
+        public boolean equals(Object object)
+        {
+          if (object instanceof List<?>)
+          {
+            return listView().equals(object);
+          }
+          else
+          {
+            return false;
+          }
+        }
+
+        @Override
+        public int hashCode()
+        {
+          return listView().hashCode();
+        }
+
+        @Override
+        public String toString()
+        {
+          return map.toString();
+        }
+      };
+  }
+
+  /**
+   * Returns an EList view of the specified list.
+   * All changes to the EList write through to the underlying list.
+   * @param list the list to which the EList delegates.
+   * @return an EList view of the specified list.
+   * @since 2.9
+   */
+  public static <T> EList<T> asEList(final List<T> list)
+  {
+    return
+      new DelegatingEList<T>()
+      {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        protected List<T> delegateList()
+        {
+          return list;
+        }
+      };
+  }
+
+  /**
+   * Returns a mutable, fixed-size, random access EList backed by the given array.
+   * Changes to the list, i.e., set and move, write through to the array.
+   * All other list modifying operations throw {@link UnsupportedOperationException}.
+   * This is analogous to {@link Arrays#asList(Object...)} with the advantage that you can {@link EList#move(int, int) move} objects;
+   * hence you can {@link #sort(EList) sort} without using {@link List#add(int, Object)} and {@link List#remove(int)}.
+   * @param elements the array to which the EList delegates.
+   * @return an EList view of the specified array.
+   * @since 2.9
+   */
+  public static <T> EList<T> asEList(final T...elements)
+  {
+    return
+      new BasicEList<T>()
+      {
+        private static final long serialVersionUID = 1L;
+
+        {
+          this.data = elements;
+          size = elements.length;
+        }
+
+        @Override
+        public void setData(int size, Object[] data)
+        {
+          throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void grow(int minimumCapacity)
+        {
+          throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void shrink()
+        {
+          throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public T remove(int index)
+        {
+          throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean remove(Object object)
+        {
+          throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean removeAll(Collection<?> collection)
+        {
+          throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void clear()
+        {
+          throw new UnsupportedOperationException();
+        }
+      };
+  }
+
+  /**
+   * Returns an unmodifiable view of the list.
+   * @return an unmodifiable view of the list.
+   * @since 2.9
+   */
+  public static <T> EList<T> unmodifiableEList(List<? extends T> list)
+  {
+    return new UnmodifiableEList<T>(list);
+  }
+
+  /**
+   * Creates an empty mutable {@link BasicEList>}.
+   * @return an empty mutable {@link BasicEList>}.
+   * @since 2.9
+   */
+  public static <T> BasicEList<T> newBasicEList()
+  {
+    return new BasicEList<T>();
+  }
+
+  /**
+   * Creates an empty mutable {@link BasicEList>} with the given capacity.
+   * @return an empty mutable {@link BasicEList>}.
+   * @since 2.9
+   */
+  public static <T> BasicEList<T> newBasicEListWithCapacity(int capacity)
+  {
+    return new BasicEList<T>(capacity);
+  }
+
+  /**
+   * Creates an empty mutable {@link BasicEList>} with a capacity large enough to hold a bit more than the estimated number of elements.
+   * If you know the exact size, use {@link #newBasicEListWithCapacity(int)} instead.
+   * @return an empty mutable {@link BasicEList>}.
+   * @since 2.9
+   */
+  public static <T> BasicEList<T> newBasicEListWithExpectedSize(int estimatedSize)
+  {
+    BasicEList<T> result = new BasicEList<T>();
+    result.grow(estimatedSize);
+    return result;
+  }
+
+  /**
+   * Creates a mutable {@link BasicEList>} containing the given elements.
+   * @return a mutable {@link BasicEList>} containing the given elements.
+   * @since 2.9
+   */
+  public static <T> BasicEList<T> newBasicEList(T... elements)
+  {
+    BasicEList<T> result = new BasicEList<T>(elements.length);
+    for (T t : elements)
+    {
+      result.add(t);
+    }
+    return result;
+  }
+
+  /**
+   * Creates a mutable {@link BasicEList>} containing the given elements.
+   * @return a mutable {@link BasicEList>} containing the given elements.
+   * @since 2.9
+   */
+  public static <T> BasicEList<T> newBasicEList(Iterator<? extends T> iterator)
+  {
+    BasicEList<T> result = new BasicEList<T>();
+    while (iterator.hasNext())
+    {
+      result.add(iterator.next());
+    }
+    return result;
+  }
+
+  /**
+   * Creates a mutable {@link BasicEList>} containing the given elements.
+   * @return a mutable {@link BasicEList>} containing the given elements.
+   * @since 2.9
+   */
+  public static <T> BasicEList<T> newBasicEList(Iterable<? extends T> iterable)
+  {
+    if (iterable instanceof Collection)
+    {
+      return new BasicEList<T>((Collection<? extends T>)iterable);
+    }
+    else
+    {
+      BasicEList<T> result = new BasicEList<T>();
+      for (T t : iterable)
+      {
+        result.add(t);
+      }
+      return result;
+    }
   }
 }
