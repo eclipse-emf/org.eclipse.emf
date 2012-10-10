@@ -194,7 +194,7 @@ final public class DatastoreUtil
   
       // Find the existing entity, if any.
       //
-      query.addFilter("uri", Query.FilterOperator.EQUAL, uri);
+      query.setFilter(Query.FilterOperator.EQUAL.of("uri", uri));
       PreparedQuery preparedQuery = datastoreService.prepare(query);
       Entity entity = getEntity(sessionKey, preparedQuery);
       if (entity != null)
@@ -251,7 +251,7 @@ final public class DatastoreUtil
     if (session != null)
     {
       Query query = new Query("org.eclipse.emf.ecore.resource.session");
-      query.addFilter("id", Query.FilterOperator.EQUAL, session);
+      query.setFilter(Query.FilterOperator.EQUAL.of("id", session));
       PreparedQuery preparedQuery = datastoreService.prepare(query);
       entity = preparedQuery.asSingleEntity();
       if (entity == null)
@@ -275,7 +275,7 @@ final public class DatastoreUtil
     Entity session = getSession(datastoreService, (String)options.get(OPTION_SESSION));
     Key sessionKey = session == null ? null : session.getKey();
     Query query = new Query("org.eclipse.emf.ecore.resource", sessionKey);
-    query.addFilter("uri", Query.FilterOperator.EQUAL, uri);
+    query.setFilter(Query.FilterOperator.EQUAL.of("uri", uri));
     PreparedQuery preparedQuery = datastoreService.prepare(query);
     Entity entity = getEntity(sessionKey, preparedQuery);
     Long expectedTimestamp = (Long)options.get(URIConverter.OPTION_UPDATE_ONLY_IF_TIME_STAMP_MATCHES);
@@ -367,7 +367,7 @@ final public class DatastoreUtil
     Entity session = getSession(datastoreService, (String)options.get(OPTION_SESSION));
     Key sessionKey = session == null ? null : session.getKey();
     Query query = new Query("org.eclipse.emf.ecore.resource", sessionKey);
-    query.addFilter("uri", Query.FilterOperator.EQUAL, uri);
+    query.setFilter(Query.FilterOperator.EQUAL.of("uri", uri));
     PreparedQuery preparedQuery = datastoreService.prepare(query);
     Entity entity = getEntity(sessionKey, preparedQuery);
     if (entity != null)
@@ -408,7 +408,7 @@ final public class DatastoreUtil
     Entity session = getSession(datastoreService, (String)options.get(OPTION_SESSION));
     Key sessionKey = session == null ? null : session.getKey();
     Query query = new Query("org.eclipse.emf.ecore.resource", sessionKey);
-    query.addFilter("uri", Query.FilterOperator.EQUAL, uri);
+    query.setFilter(Query.FilterOperator.EQUAL.of("uri", uri));
     PreparedQuery preparedQuery = datastoreService.prepare(query);
     Entity entity = getEntity(sessionKey, preparedQuery);
     return entity != null;
