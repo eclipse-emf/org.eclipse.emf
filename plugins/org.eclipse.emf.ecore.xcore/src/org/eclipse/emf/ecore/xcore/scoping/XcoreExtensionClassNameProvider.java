@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals;
 import org.eclipse.emf.ecore.xcore.lib.XcoreEListExtensions;
 import org.eclipse.emf.ecore.xcore.lib.XcoreIterableExtensions;
+import org.eclipse.emf.ecore.xcore.lib.XcoreObjectsExtensions;
 import org.eclipse.xtext.xbase.scoping.featurecalls.StaticImplicitMethodsFeatureForTypeProvider.ExtensionClassNameProvider;
 
 import com.google.common.collect.Multimap;
@@ -47,6 +48,8 @@ public class XcoreExtensionClassNameProvider extends ExtensionClassNameProvider
   {
     Multimap<Class<?>, Class<?>> result = super.simpleComputeExtensionClasses();
 
+    result.put(Object.class, XcoreObjectsExtensions.class);
+    
     result.put(Iterable.class, ECollections.class);
     result.put(Iterable.class, XcoreIterableExtensions.class);
 
