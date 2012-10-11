@@ -196,10 +196,7 @@ public class JavaImporterApplication extends ModelImporterApplication
   @Override
   protected void adjustModelImporterAfterPrepare()
   {
-    if (genJDKLevel != null)
-    {
-      getModelImporter().getGenModel().setComplianceLevel(genJDKLevel);
-    }
+    super.adjustModelImporterAfterPrepare();
   }
   
   @Override

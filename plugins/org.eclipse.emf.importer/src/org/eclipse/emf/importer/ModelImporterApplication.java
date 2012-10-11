@@ -607,6 +607,14 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
   
   protected void adjustModelImporterAfterPrepare()
   {
+    GenModel genModel = getModelImporter().getGenModel();
+    if (genJDKLevel != null)
+    {
+      genModel.setComplianceLevel(genJDKLevel);
+    }
+    genModel.setImportOrganizing(false);
+    genModel.setOperationReflection(false);
+    genModel.setRootExtendsClass("org.eclipse.emf.ecore.impl.EObjectImpl");
     // Subclasses may overwrite
   }
   
