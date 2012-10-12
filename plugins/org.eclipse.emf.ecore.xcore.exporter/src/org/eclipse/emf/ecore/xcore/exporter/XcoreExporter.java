@@ -10,6 +10,7 @@
  */
 package org.eclipse.emf.ecore.xcore.exporter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,7 +23,11 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
@@ -172,7 +177,7 @@ public class XcoreExporter extends ModelExporter
       inputGenModel.reconcile();
 
       Resource inputResource = inputGenModel.eResource();
-      Resource outputResource = resourceSet.createResource(xcoreLocationURI);
+      final Resource outputResource = resourceSet.createResource(xcoreLocationURI);
 
       // Create a fresh newly GenModel for the packages we just loaded.
       //
@@ -247,21 +252,23 @@ public class XcoreExporter extends ModelExporter
       GenPackage ecoreGenPackage = inputGenModel.getEcoreGenPackage();
       if (ecoreGenPackage != null)
       {
-        Resource ecoreResource = resourceSet.createResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel"));
+        Resource ecoreResource = resourceSet.createResource(URI.createPlatformResourceURI("/org.eclipse.emf.ecore/model/Ecore.genmodel", false));
         ecoreResource.getContents().add(ecoreGenPackage.getGenModel());
       }
       GenPackage xmlTypeGenPackage = inputGenModel.getXMLTypeGenPackage();
       if (xmlTypeGenPackage != null)
       {
-        Resource xmlTypeResource = resourceSet.createResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/XMLType.genmodel"));
+        Resource xmlTypeResource = resourceSet.createResource(URI.createPlatformResourceURI("/org.eclipse.emf.ecore/model/XMLType.genmodel", false));
         xmlTypeResource.getContents().add(xmlTypeGenPackage.getGenModel());
       }
       GenPackage xmlNamespaceGenPackage = inputGenModel.getXMLNamespaceGenPackage();
       if (xmlNamespaceGenPackage != null)
       {
-        Resource xmlNamespaceResource = resourceSet.createResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/XMLNamespace.genmodel"));
+        Resource xmlNamespaceResource = resourceSet.createResource(URI.createPlatformResourceURI("/org.eclipse.emf.ecore/model/XMLNamespace.genmodel", false));
         xmlNamespaceResource.getContents().add(xmlNamespaceGenPackage.getGenModel());
       }
+
+      resourceSet.getURIConverter().getURIMap().remove(URI.createPlatformResourceURI("/org.eclipse.emf.ecore/", false));
 
       // Do the final linking step and build the map.
       //
@@ -366,9 +373,29 @@ public class XcoreExporter extends ModelExporter
 
       // Save the final result.
       //
-      Map<Object, Object> options = new HashMap<Object, Object>();
+      final Map<Object, Object> options = new HashMap<Object, Object>();
       SaveOptions.newBuilder().format().noValidation().getOptions().addTo(options);
-      outputResource.save(options);
+
+      // Do this is a job so that Xtext nature we added as a chance to build the index needed by the serializer.
+      //
+      Job job = 
+        new Job("Save")
+        {
+          @Override
+          protected IStatus run(IProgressMonitor monitor)
+          {
+            try
+            {
+              outputResource.save(options);
+            }
+            catch (IOException exception)
+            {
+              return Status.CANCEL_STATUS;
+            }
+            return Status.OK_STATUS;
+          }
+        };
+      job.schedule();
     }
     return Diagnostic.OK_INSTANCE;
   }
