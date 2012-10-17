@@ -856,13 +856,22 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__IMPORT_ORGANIZING = GEN_BASE_FEATURE_COUNT + 80;
 
   /**
+   * The feature id for the '<em><b>Plugin Key</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__PLUGIN_KEY = GEN_BASE_FEATURE_COUNT + 81;
+
+  /**
    * The number of structural features of the '<em>Gen Model</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 81;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 82;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -2845,6 +2854,17 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenModel_ImportOrganizing();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getPluginKey <em>Plugin Key</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Plugin Key</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getPluginKey()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_PluginKey();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage <em>Gen Package</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4472,6 +4492,14 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_MODEL__IMPORT_ORGANIZING = eINSTANCE.getGenModel_ImportOrganizing();
+
+    /**
+     * The meta object literal for the '<em><b>Plugin Key</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__PLUGIN_KEY = eINSTANCE.getGenModel_PluginKey();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.

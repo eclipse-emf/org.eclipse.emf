@@ -8,9 +8,17 @@
 <plugin>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated library -->
       <package
             uri="http:///library.ecore"
             class="org.examples.library.LibraryPackage"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated library -->
+      <package
+            uri="hr.xmi"
+            class="org.examples.hr.HRPackage"/>
    </extension>
 
 </plugin>

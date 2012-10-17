@@ -200,6 +200,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isRichAjaxPlatform <em>Rich Ajax Platform</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getRuntimePlatform <em>Runtime Platform</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isImportOrganizing <em>Import Organizing</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getPluginKey <em>Plugin Key</em>}</li>
  * </ul>
  * </p>
  *
@@ -1772,6 +1773,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean importOrganizing = IMPORT_ORGANIZING_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getPluginKey() <em>Plugin Key</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPluginKey()
+   * @generated
+   * @ordered
+   */
+  protected static final String PLUGIN_KEY_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getPluginKey() <em>Plugin Key</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPluginKey()
+   * @generated
+   * @ordered
+   */
+  protected String pluginKey = PLUGIN_KEY_EDEFAULT;
 
   protected boolean validateModel = false;
 
@@ -6356,6 +6377,55 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__IMPORT_ORGANIZING, oldImportOrganizing, importOrganizing));
   }
 
+  public String getPluginKey()
+  {
+    if (pluginKey == null)
+    {
+      Resource resource = eResource();
+      if (resource != null)
+      {
+        URI uri = resource.getURI();
+        if (uri != null)
+        {
+          String fileName = uri.trimFileExtension().lastSegment();
+          if (fileName != null)
+          {
+            return fileName;
+          }
+        }
+      }
+      String modelName = getModelName();
+      if (modelName != null)
+      {
+        return modelName;
+      }
+    }
+    return pluginKey;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getPluginKeyGen()
+  {
+    return pluginKey;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setPluginKey(String newPluginKey)
+  {
+    String oldPluginKey = pluginKey;
+    pluginKey = newPluginKey;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__PLUGIN_KEY, oldPluginKey, pluginKey));
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -6561,6 +6631,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getRuntimePlatform();
       case GenModelPackage.GEN_MODEL__IMPORT_ORGANIZING:
         return isImportOrganizing();
+      case GenModelPackage.GEN_MODEL__PLUGIN_KEY:
+        return getPluginKey();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -6828,6 +6900,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__IMPORT_ORGANIZING:
         setImportOrganizing((Boolean)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__PLUGIN_KEY:
+        setPluginKey((String)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -7085,6 +7160,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__IMPORT_ORGANIZING:
         setImportOrganizing(IMPORT_ORGANIZING_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__PLUGIN_KEY:
+        setPluginKey(PLUGIN_KEY_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -7261,6 +7339,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return runtimePlatform != RUNTIME_PLATFORM_EDEFAULT;
       case GenModelPackage.GEN_MODEL__IMPORT_ORGANIZING:
         return importOrganizing != IMPORT_ORGANIZING_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__PLUGIN_KEY:
+        return PLUGIN_KEY_EDEFAULT == null ? pluginKey != null : !PLUGIN_KEY_EDEFAULT.equals(pluginKey);
     }
     return super.eIsSet(featureID);
   }
@@ -7428,6 +7508,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(runtimePlatform);
     result.append(", importOrganizing: ");
     result.append(importOrganizing);
+    result.append(", pluginKey: ");
+    result.append(pluginKey);
     result.append(')');
     return result.toString();
   }
@@ -8736,6 +8818,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
     setCommentFormatting(oldGenModelVersion.isCommentFormatting());
     setImportOrganizing(oldGenModelVersion.isImportOrganizing());
+
+    if (oldGenModelVersion.eIsSet(GenModelPackage.Literals.GEN_MODEL__PLUGIN_KEY))
+    {
+      setPluginKey(oldGenModelVersion.getPluginKey());
+      
+    }
   }
 
   public boolean reconcile()

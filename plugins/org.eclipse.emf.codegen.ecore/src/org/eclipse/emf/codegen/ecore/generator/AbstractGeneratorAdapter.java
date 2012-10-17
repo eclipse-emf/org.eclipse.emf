@@ -18,12 +18,17 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -63,10 +68,12 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.osgi.util.ManifestElement;
 import org.eclipse.text.edits.TextEdit;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.generator.Generator.Options;
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.jet.JETCompiler;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
@@ -89,6 +96,7 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ContentHandlerImpl;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.ecore.resource.impl.PlatformResourceURIHandlerImpl;
+import org.osgi.framework.BundleException;
 
 /**
  * A base <code>GeneratorAdapter</code> implementation. This base provides support for
@@ -675,6 +683,19 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
           monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_ExaminingOld_message", new Object[] { targetFile }));
           String oldContents = getContents(targetFile, encoding);
           changed = !emitterResult.equals(oldContents);
+          if (changed)
+          {
+            if (targetPathName.endsWith("/plugin.xml"))
+            {
+              emitterResult = mergePluginXML(generatingObject instanceof GenBase ? ((GenBase)generatingObject).getGenModel().getPluginKey() : "", oldContents, emitterResult);
+              changed = !emitterResult.equals(oldContents);
+            }
+            else if (targetPathName.endsWith("/MANIFEST.MF"))
+            {
+              emitterResult = mergeManifest(oldContents, emitterResult);
+              changed = !emitterResult.equals(oldContents);
+            }
+          }
         }
 
         if (changed)
@@ -724,6 +745,721 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       setLineDelimiter(null);
       monitor.done();
     }
+  }
+
+  /**
+   * Information about extensions in a plugin.xml.
+   * @since 2.9
+   */
+  protected static final class ExtensionData
+  {
+    public String extensionPointID;
+    public String identifier;
+
+    public String generated;
+
+    public int start;
+    public int end;
+
+    public String content;
+    public String lineSeparator;
+
+    @Override
+    public boolean equals(Object object)
+    {
+      if (object == this)
+      {
+        return true;
+      }
+      else if (object instanceof ExtensionData)
+      {
+        ExtensionData extension = (ExtensionData)object;
+        return extension.extensionPointID.equals(extensionPointID) && (extension.identifier == null ? identifier == null : extension.identifier.equals(identifier));
+      }
+      else
+      {
+        return false;
+      }
+    }
+
+    @Override
+    public int hashCode()
+    {
+      return extensionPointID.hashCode() ^ (identifier == null ? 0 : identifier.hashCode());
+    }
+
+    @Override
+    public String toString()
+    {
+      return extensionPointID + ":" + identifier + ":" + generated;
+    }
+  }
+
+  /**
+   * A pattern for matching extensions.
+   * @since 2.9
+   */
+  protected static final Pattern EXTENSION_POINT_PATTERN = Pattern.compile("[ \t]*<extension[^>]+point\\s*=['\"]([^'\"]+)['\"].*?(?:id|class)\\s*=\\s*['\"]([^'\"]+)['\"].*?</extension>[ \t]*(\n\r|\r\n|\n|\r)", Pattern.DOTALL);
+
+  /**
+   * A pattern for matching the <code>@generated</code> comment in an extension.
+   * @since 2.9
+   */
+  protected static final Pattern GENERATED_PATTERN = Pattern.compile("<!-- *@generated *([^ ]+) *-->");
+
+  /**
+   * A pattern for matching the closing tag of a plugin.xml.
+   * @since 2.9
+   */
+  protected static final Pattern PLUGIN_END_TAG_PATTERN = Pattern.compile(".*(\n\r|\r\n|\n|\r)?[ \t]*(</plugin>)");
+
+  /**
+   * A pattern for matching trailing blank lines.
+   * @since 2.9
+   */
+  protected static final Pattern BLANK_LINES_PATTERN = Pattern.compile("([ \t]*(\n\r|\r\n|\n|\r))+");
+
+  /**
+   * Collect information about extensions in a plugin.xml's contents.
+   * @since 2.9
+   */
+  protected List<ExtensionData> getExtensionData(String contents)
+  {
+    // Collect information about extensions by finding all matches of the pattern.
+    //
+    List<ExtensionData> extensions = new ArrayList<AbstractGeneratorAdapter.ExtensionData>();
+    Matcher matcher = EXTENSION_POINT_PATTERN.matcher(contents);
+    while (matcher.find())
+    {
+      ExtensionData extension = new ExtensionData();
+      extension.extensionPointID = matcher.group(1);
+      extension.identifier = matcher.group(2);
+      extension.start = matcher.start();
+      extension.end = matcher.end();
+      extension.content = matcher.group();
+      extension.lineSeparator = matcher.group(3);
+      extensions.add(extension);
+
+      // Look for the @generated comment.
+      //
+      Matcher generatedMatcher = GENERATED_PATTERN.matcher(extension.content);
+      if (generatedMatcher.find())
+      {
+        extension.generated = generatedMatcher.group(1);
+      }
+    }
+    return extensions;
+  }
+
+  /**
+   * Merge the contents of two plugin.xmls.
+   * @since 2.9
+   */
+  protected String mergePluginXML(String generated, String oldContents, String newContents)
+  {
+    // Fetch the information about the extensions.
+    //
+    List<ExtensionData> oldExtensions = getExtensionData(oldContents);
+    List<ExtensionData> newExtensions = getExtensionData(newContents);
+
+    // Find the index of the closing tag and remember whether it was preceded by a line separator.
+    //
+    int end = -1;
+    Matcher matcher = PLUGIN_END_TAG_PATTERN.matcher(oldContents);
+    boolean isEmpty = false;
+    if (matcher.find())
+    {
+      isEmpty = matcher.group(1) == null;
+      end = matcher.start(2);
+    }
+
+    // Pull in the new extension content.
+    //
+    for (int i = 0, size = oldExtensions.size(); i < size; ++i)
+    {
+      // Determine the matching new extension.
+      //
+      ExtensionData oldExtension = oldExtensions.get(i);
+      int index = newExtensions.indexOf(oldExtension);
+      if (index == -1)
+      {
+        // If there is no match and this extension was generated...
+        //
+        if (generated.equals(oldExtension.generated))
+        {
+          // Set the old extension up to be swept, including trailing blank lines for removal.
+          //
+          oldExtension.content = "";
+          Matcher trailingMatching = BLANK_LINES_PATTERN.matcher(oldContents);
+          if (trailingMatching.find(oldExtension.end) && oldExtension.end == trailingMatching.start())
+          {
+            oldExtension.end = trailingMatching.end();
+          }
+        }
+      }
+      else
+      {
+        // If the new match has the same non-null generation key.
+        //
+        ExtensionData newExtension = newExtensions.get(index);
+        if (oldExtension.generated != null && oldExtension.generated.equals(newExtension.generated))
+        {
+          // Set up the old extension up to pull the new content.
+          //
+          oldExtension.content = newExtension.content;
+        }
+
+        // Set up the new extension to block it being pushed.
+        //
+        newExtension.content = null;
+      }
+    }
+
+    // Push in the new extension content, except for the ones blocked during pull analysis.
+    //
+    LOOP:
+    for (int i = 0, size = newExtensions.size(); i < size; ++i)
+    {
+      ExtensionData newExtension = newExtensions.get(i);
+
+      // If the new extension isn't blocked and it's marked for merging...
+      //
+      if (newExtension.content != null && newExtension.generated != null)
+      {
+        // To find an insertion point, look backward in the new extensions for a matching one in the old extensions after which to insert the new one.
+        //
+        for (int j = i - 1; j >= 0; --j)
+        {
+          int index = oldExtensions.indexOf(newExtensions.get(j));
+          if (index != -1)
+          {
+            ExtensionData oldExtension = oldExtensions.get(index);
+            oldExtensions.add(index + 1, newExtension);
+            newExtension.content = oldExtension.lineSeparator + newExtension.content;
+            newExtension.start = newExtension.end = oldExtension.end;
+            continue LOOP;
+          }
+        }
+        // Failing that, look forward in the new extensions for a matching one in the old extensions before which to insert the new one.
+        //
+        for (int j = i + 1; j < size; ++j)
+        {
+          int index = oldExtensions.indexOf(newExtensions.get(j));
+          if (index != -1)
+          {
+            ExtensionData oldExtension = oldExtensions.get(index);
+            oldExtensions.add(index, newExtension);
+            newExtension.content = newExtension.content + newExtension.lineSeparator;
+            newExtension.start = newExtension.end = oldExtension.start;
+            continue LOOP;
+          }
+        }
+
+        // Failing both those, insert it before the closing tag.
+        //
+        oldExtensions.add(newExtension);
+        newExtension.content = (isEmpty ? newExtension.lineSeparator : "") + newExtension.content + newExtension.lineSeparator;
+        newExtension.lineSeparator = "";
+        newExtension.start = newExtension.end = end;
+      }
+    }
+
+    // Build up the result...
+    //
+    StringBuilder result = new StringBuilder();
+    int index = 0;
+    for (int i = 0, size = oldExtensions.size(); i < size; ++i)
+    {
+      ExtensionData oldExtension = oldExtensions.get(i);
+      result.append(oldContents.substring(index, oldExtension.start));
+      result.append(oldExtension.content);
+      index = oldExtension.end;
+    }
+    result.append(oldContents.substring(index));
+
+    return result.toString();
+  }
+
+  /**
+   * Information about attributes in a manifest.
+   * @since 2.9
+   */
+  protected static final class AttributeData
+  {
+    public String name;
+    public String value;
+    public String lineDelimiter;
+    public List<Element> elements;
+    public int start;
+    public int end;
+
+    @Override
+    public String toString()
+    {
+      if (elements != null)
+      {
+        StringBuilder result = new StringBuilder(name);
+        result.append(": ");
+        boolean previous = false;
+        for (Element element : elements)
+        {
+          if (previous)
+          {
+            result.append(',');
+            result.append(lineDelimiter);
+            result.append(' ');
+          }
+          else
+          {
+            previous = true;
+          }
+          result.append(element);
+        }
+        return result.toString();
+      }
+      else
+      {
+        return name + ": " + value;
+      }
+    }
+
+    @Override
+    public boolean equals(Object object)
+    {
+      return object instanceof AttributeData && name.equals(((AttributeData)object).name);
+    }
+
+    @Override
+    public int hashCode()
+    {
+      return name.hashCode();
+    }
+
+    protected final static class Element
+    {
+      public Set<String> valueComponents = new LinkedHashSet<String>();
+      public List<Directive> directives = new ArrayList<Directive>();
+      public List<Attribute> attributes = new ArrayList<Attribute>();
+
+      @Override
+      public boolean equals(Object object)
+      {
+        return object instanceof Element && valueComponents.equals(((Element)object).valueComponents);
+      }
+
+      @Override
+      public int hashCode()
+      {
+        return valueComponents.hashCode();
+      }
+
+      @Override
+      public String toString()
+      {
+        StringBuilder result = new StringBuilder();
+        boolean previous = false;
+        for (String valueComponent : valueComponents)
+        {
+          if (previous)
+          {
+            result.append(';');
+          }
+          else
+          {
+            previous = true;
+          }
+          result.append(valueComponent);
+        }
+        for (Directive directive : directives)
+        {
+          result.append(';');
+          result.append(directive);
+        }
+        for (Attribute attribute : attributes)
+        {
+          result.append(';');
+          result.append(attribute);
+        }
+        return result.toString();
+      }
+
+      protected static final class Directive
+      {
+        public String key;
+        public String value;
+
+        @Override
+        public String toString()
+        {
+          return key + ":=" + quote(value);
+        }
+
+        @Override
+        public boolean equals(Object object)
+        {
+          return object instanceof Directive && key.equals(((Directive)object).key);
+        }
+
+        @Override
+        public int hashCode()
+        {
+          return key.hashCode();
+        }
+      }
+
+      protected final static class Attribute
+      {
+        public String key;
+        public String value;
+
+        @Override
+        public String toString()
+        {
+          return key + "=" + quote(value);
+        }
+
+        @Override
+        public boolean equals(Object object)
+        {
+          return object instanceof Attribute && key.equals(((Attribute)object).key);
+        }
+
+        @Override
+        public int hashCode()
+        {
+          return key.hashCode();
+        }
+      }
+    }
+
+    private static String quote(String value)
+    {
+      for (int i = 0, length = value.length(); i < length; i++)
+      {
+        char c = value.charAt(i);
+        if (!Character.isLetter(c) && c != '_' && c != '-' && c != '.')
+        {
+          return '"' + value + '"';
+        }
+      }
+
+      return value;
+    }
+  }
+
+  /**
+   * A pattern for matching a manifest's version attribute.
+   * @since 2.9
+   */
+  protected static final Pattern VERSION_PATTERN = Pattern.compile("Manifest-Version: *([0-9]+(?:\\.[0-9]+)*) *(\r\n|\n\r|\n|\r)?");
+
+  /**
+   * A pattern for matching manifest attribute headers.
+   * @since 2.9
+   */
+  protected static final Pattern HEADER_PATTERN = Pattern.compile("([A-Za-z0-9][-_A-Za-z0-9]*): *([^\n\r]*)(\r\n|\n\r|\n|\r)?");
+
+  /**
+   * A pattern for matching manifest attribute continuations.
+   * @since 2.9
+   */
+  protected static final Pattern CONTINUATION_PATTERN = Pattern.compile(" ([^\n\r]*)(\r\n|\n\r|\n|\r)?");
+
+  /**
+   * Collect information about attributes in a manifest's contents.
+   * If the contents are well formed, there should always be at least one entry for the manifest version.
+   * @since 2.9
+   */
+  protected List<AttributeData> getAttributeData(String contents)
+  {
+    List<AttributeData> result = new ArrayList<AttributeData>();
+
+    // Look for the initial manifest version attribute.
+    //
+    Matcher versionMatcher = VERSION_PATTERN.matcher(contents);
+    if (versionMatcher.lookingAt())
+    {
+      // Construct the data for it.
+      //
+      AttributeData versionAttribute = new AttributeData();
+      versionAttribute.name = "Manifest-Version";
+      versionAttribute.value = versionMatcher.group(1);
+      versionAttribute.lineDelimiter = versionMatcher.group(2);
+      versionAttribute.end = versionMatcher.end();
+      result.add(versionAttribute);
+
+      // Look each header as well as continuations for that header starting after the version attribute...
+      //
+      Matcher headerMatcher = HEADER_PATTERN.matcher(contents);
+      Matcher continuationMatcher = CONTINUATION_PATTERN.matcher(contents);
+      for (int start = versionMatcher.end();;)
+      {
+        // Find a match, checking that it matches at the expected position...
+        //
+        if (headerMatcher.find(start) && headerMatcher.start() == start)
+        {
+          // Constructure data for it.
+          //
+          AttributeData attribute = new AttributeData();
+          attribute.name = headerMatcher.group(1);
+          attribute.lineDelimiter = headerMatcher.group(3);
+          attribute.start = headerMatcher.start();
+          attribute.end = headerMatcher.end();
+          result.add(attribute);
+
+          // Build up the value from any continuations that start after the header...
+          //
+          StringBuilder value = new StringBuilder(headerMatcher.group(2));
+          start = headerMatcher.end();
+          for (;;)
+          {
+            // Look for the continuation, checking that it matches at the expected positions.
+            //
+            if (continuationMatcher.find(start) && continuationMatcher.start() == start)
+            {
+              // Build up the value, ignoring the line delimiter and the leading space.
+              //
+              value.append(continuationMatcher.group(1));
+              attribute.end = continuationMatcher.end();
+              start = continuationMatcher.end();
+            }
+            else
+            {
+              break;
+            }
+          }
+
+          // Set the attributes value from this computation.
+          //
+          attribute.value = value.toString();
+
+          // If we're running in Eclipse, compute the structured OSGi manifest element information from the value.
+          //
+          if (EMFPlugin.IS_ECLIPSE_RUNNING)
+          {
+            attribute.elements = EclipseHelper.getElements(attribute.name, attribute.value);
+          }
+        }
+        else
+        {
+          // Once we don't find a header, stop processing the rest of the manifest.
+          //
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Finds the first attribute with the given name.
+   */
+  private static AttributeData getAttribute(List<AttributeData> attributes, String name)
+  {
+    for (int i = 0, size = attributes.size(); i < size; ++i)
+    {
+      AttributeData attribute = attributes.get(i);
+      if (name.equals(attribute.name))
+      {
+        return attribute;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Merge the contents of to manifests.
+   * @since 2.9
+   */
+  protected String mergeManifest(String oldContents, String newContents)
+  {
+    List<AttributeData> oldAttributes = getAttributeData(oldContents);
+    List<AttributeData> newAttributes = getAttributeData(newContents);
+
+    // We should merge the translated attributes if the bundle localization changes.
+    //
+    AttributeData oldBundleLocalization = getAttribute(oldAttributes, "Bundle-Localization");
+    AttributeData newBundleLocalization = getAttribute(newAttributes, "Bundle-Localization");
+    boolean mergeTranslatedAttributes = oldBundleLocalization == null || (newBundleLocalization != null && !newBundleLocalization.value.equals(oldBundleLocalization.value));
+
+    // Pull in the appropriate new attribute content.
+    //
+    for (int i = 0, size = oldAttributes.size(); i < size; ++i)
+    {
+      // Determine the matching new attribute.
+      //
+      AttributeData oldAttribute = oldAttributes.get(i);
+      int index = newAttributes.indexOf(oldAttribute);
+      if (index != -1)
+      {
+        AttributeData newAttribute = newAttributes.get(index);
+
+        // Mark the attribute so it's not pushed in later.
+        //
+        newAttribute.value = null;
+
+        // Pull in the contents for these specific attributes if the are merging translated attributes...
+        //
+        if ("Bundle-Name".equals(oldAttribute.name) || "Bundle-Vendor".equals(oldAttribute.name))
+        {
+          // If we should merge translated attributes...
+          //
+          if (mergeTranslatedAttributes)
+          {
+            if (oldAttribute.elements == null)
+            {
+              oldAttribute.value = newAttribute.value;
+            }
+            else
+            {
+              oldAttribute.elements = newAttribute.elements;
+            }
+          }
+        }
+
+        // The bundle localization attribute must be what we generate because we must be able to find the properties in that generated properties file.
+        //
+        else if ("Bundle-Localization".equals(oldAttribute.name) || "Bundle-SymbolicName".equals(oldAttribute.name))
+        {
+          if (oldAttribute.elements == null)
+          {
+            oldAttribute.value = newAttribute.value;
+          }
+          else
+          {
+            oldAttribute.elements = newAttribute.elements;
+          }
+        }
+
+        // These attributes have structured content that we should merge...
+        //
+        else if ("Export-Package".equals(oldAttribute.name) ||
+                   "Require-Bundle".equals(oldAttribute.name) ||
+                   "Require-Package".equals(oldAttribute.name))
+        {
+          // If the new one has structured content...
+          //
+          if (newAttribute.elements != null)
+          {
+            // If the old one has no structured content, just pull in the full value.
+            //
+            if (oldAttribute.elements == null)
+            {
+              oldAttribute.value = newAttribute.value;
+            }
+            else
+            {
+              // Merge the elements...
+              //
+              LOOP:
+              for (int j = 0, elementSize = newAttribute.elements.size(); j < elementSize; ++j)
+              {
+                AttributeData.Element element = newAttribute.elements.get(j);
+                int elementIndex = oldAttribute.elements.indexOf(element);
+                if (elementIndex == -1)
+                {
+                  // Look backward for an appropriate element after which to insert the new one.
+                  //
+                  for (int k = j - 1; k >= 0; --k)
+                  {
+                    int targetIndex = oldAttribute.elements.indexOf(newAttribute.elements.get(k));
+                    if (targetIndex != -1)
+                    {
+                      oldAttribute.elements.add(targetIndex + 1, element);
+                      continue LOOP;
+                    }
+                  }
+
+                  // Failing that, look forward for an appropriate element before which to insert the new one.
+                  //
+                  for (int k = j + 1; k < elementSize; ++k)
+                  {
+                    int targetIndex = oldAttribute.elements.indexOf(newAttribute.elements.get(k));
+                    if (targetIndex != -1)
+                    {
+                     oldAttribute.elements.add(targetIndex, element);
+                     continue LOOP;
+                    }
+                  }
+
+                  // Failing both of those, add the new element at the end.
+                  //
+                  oldAttribute.elements.add(element);
+                }
+              }
+            }
+          }
+          else
+          {
+            // Pull in just the new value if there is no structured content.
+            //
+            oldAttribute.value = newAttribute.value;
+          }
+        }
+      }
+    }
+
+    // Push in the new attribute content, except for the ones blocked during pull analysis.
+    //
+    LOOP:
+    for (int i = 0, size = newAttributes.size(); i < size; ++i)
+    {
+      AttributeData newAttribute = newAttributes.get(i);
+
+      // If the new attribute isn't blocked...
+      //
+      if (newAttribute.value != null)
+      {
+        // To find an insertion point, look backward in the new attributes for a matching one in the old attributes after which to insert the new one.
+        //
+        for (int j = i - 1; j >= 0; --j)
+        {
+          int index = oldAttributes.indexOf(newAttributes.get(j));
+          if (index != -1)
+          {
+            AttributeData oldAttribute = oldAttributes.get(index);
+            oldAttributes.add(index + 1, newAttribute);
+            newAttribute.start = newAttribute.end = oldAttribute.end;
+            continue LOOP;
+          }
+        }
+
+        // Failing that, look forward in the new attributes for a matching one in the old attributes before which to insert the new one.
+        //
+        for (int j = i + 1; j < size; ++j)
+        {
+          int index = oldAttributes.indexOf(newAttributes.get(j));
+          if (index != -1)
+          {
+            AttributeData oldAttribute = oldAttributes.get(index);
+            oldAttributes.add(index, newAttribute);
+            newAttribute.start = newAttribute.end = oldAttribute.start;
+            continue LOOP;
+          }
+        }
+
+        // Failing both those, insert it after the last old attribute.
+        //
+        oldAttributes.add(newAttribute);
+        newAttribute.start = newAttribute.end = oldAttributes.get(oldAttributes.size() - 1).end;
+      }
+    }
+
+    // Build up the result...
+    //
+    StringBuilder result = new StringBuilder();
+    int index = 0;
+    for (int i = 0, size = oldAttributes.size(); i < size; ++i)
+    {
+      AttributeData oldAttribute = oldAttributes.get(i);
+      result.append(oldContents.substring(index, oldAttribute.start));
+      result.append(oldAttribute);
+      result.append(oldAttribute.lineDelimiter);
+      index = oldAttribute.end;
+    }
+    result.append(oldContents.substring(index));
+
+    return result.toString();
   }
 
   /**
@@ -1983,6 +2719,99 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       }
 
       return result[0];
+    }
+
+  public static final Set<String> OSGI_ATTRIBUTES = 
+    new HashSet<String>
+     (Arrays.asList
+        (new String[] 
+         {
+           "Bundle-ManifestVersion",
+           "Bundle-SymbolicName",
+           "Bundle-Version",
+           "Bundle-Localization",
+           "Bundle-Name",
+           "Bundle-Vendor",
+           "Bundle-ClassPath",
+           "Bundle-Activator",
+           "Bundle-ActivationPolicy",
+           "Bundle-RequiredExecutionEnvironment",
+           "Require-Bundle",
+           "Import-Package",
+           "Export-Package"
+         }));
+
+    public static List<AttributeData.Element> getElements(String name, String value)
+    {
+      // If we fail, or it's not appropriate to compute structured content, we just return null.
+      //
+      ArrayList<AttributeData.Element> elements = null;
+      if (OSGI_ATTRIBUTES.contains(name))
+      {
+        try
+        {
+          // Parse the manifest elements from the value.
+          //
+          ManifestElement[] header = ManifestElement.parseHeader(name, value);
+          if (header != null)
+          {
+            // Create a list to hold the result.
+            //
+            elements = new ArrayList<AttributeData.Element>();
+
+            // Look at all the elements...
+            //
+            for (ManifestElement manifestElement : header)
+            {
+              // Create a structure to hold the information.
+              //
+              AttributeData.Element element = new AttributeData.Element();
+              elements.add(element);
+
+              // Record the value components.
+              //
+              String[] valueComponents = manifestElement.getValueComponents();
+              for (String valueComponent : valueComponents)
+              {
+                element.valueComponents.add(valueComponent);
+              }
+
+              // Record the directives.
+              //
+              Enumeration<String> directiveKeys = manifestElement.getDirectiveKeys();
+              if (directiveKeys != null)
+              {
+                while (directiveKeys.hasMoreElements())
+                {
+                  AttributeData.Element.Directive directive = new AttributeData.Element.Directive();
+                  directive.key = directiveKeys.nextElement();
+                  directive.value =  manifestElement.getDirective(directive.key);
+                  element.directives.add(directive);
+                }
+              }
+
+              // Record the attributes.
+              //
+              Enumeration<String> attributeKeys = manifestElement.getKeys();
+              if (attributeKeys != null)
+              {
+                while (attributeKeys.hasMoreElements())
+                {
+                  AttributeData.Element.Attribute attribute2 = new AttributeData.Element.Attribute();
+                  attribute2.key  = attributeKeys.nextElement();
+                  attribute2.value  =  manifestElement.getAttribute(attribute2.key);
+                  element.attributes.add(attribute2);
+                }
+              }
+            }
+          }
+        }
+        catch (BundleException e)
+        {
+          // Ignore
+        }
+      }
+      return elements;
     }
   }
 }

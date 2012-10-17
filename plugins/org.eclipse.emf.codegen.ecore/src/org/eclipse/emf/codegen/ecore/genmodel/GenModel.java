@@ -123,6 +123,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRichAjaxPlatform <em>Rich Ajax Platform</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRuntimePlatform <em>Runtime Platform</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isImportOrganizing <em>Import Organizing</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getPluginKey <em>Plugin Key</em>}</li>
  * </ul>
  * </p>
  *
@@ -2155,6 +2156,32 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setImportOrganizing(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Plugin Key</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * @since 2.9
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Plugin Key</em>' attribute.
+   * @see #setPluginKey(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_PluginKey()
+   * @model
+   * @generated
+   */
+  String getPluginKey();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getPluginKey <em>Plugin Key</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.9
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Plugin Key</em>' attribute.
+   * @see #getPluginKey()
+   * @generated
+   */
+  void setPluginKey(String value);
 
   EList<GenPackage> getStaticGenPackages();
 

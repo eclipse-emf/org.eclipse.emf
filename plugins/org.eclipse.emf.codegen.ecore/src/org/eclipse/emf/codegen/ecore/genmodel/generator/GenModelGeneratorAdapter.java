@@ -195,7 +195,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
           (genModel.getModelProjectDirectory() + "/META-INF/MANIFEST.MF",
            getJETEmitter(getJETEmitterDescriptors(), MODEL_MANIFEST_MF_ID),
            null,
-           genModel.isUpdateClasspath() && !exists(toURI(genModel.getModelProjectDirectory()).appendSegment("plugin.xml")),
+           genModel.isUpdateClasspath(),
            MANIFEST_ENCODING,
            createMonitor(monitor, 1));
       }
@@ -212,7 +212,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
           (genModel.getModelProjectDirectory() + "/plugin.xml",
            getJETEmitter(getJETEmitterDescriptors(), MODEL_PLUGIN_XML_ID),
            null,
-           false,
+           true,
            MANIFEST_ENCODING,
            createMonitor(monitor, 1));
       }
@@ -399,7 +399,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
           (genModel.getEditProjectDirectory() + "/META-INF/MANIFEST.MF",
            getJETEmitter(getJETEmitterDescriptors(), EDIT_MANIFEST_MF_ID),
            null,
-           genModel.isUpdateClasspath() && !exists(toURI(genModel.getEditProjectDirectory()).appendSegment("plugin.xml")),
+           genModel.isUpdateClasspath(),
            MANIFEST_ENCODING,
            createMonitor(monitor, 1));
       }
@@ -416,7 +416,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
           (genModel.getEditProjectDirectory() + "/plugin.xml",
            getJETEmitter(getJETEmitterDescriptors(), EDIT_PLUGIN_XML_ID),
            null,
-           false,
+           true,
            MANIFEST_ENCODING,
            createMonitor(monitor, 1));
       }
@@ -564,7 +564,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
         (genModel.getEditorProjectDirectory() + "/META-INF/MANIFEST.MF",
          getJETEmitter(getJETEmitterDescriptors(), EDITOR_MANIFEST_MF_ID),
          null,
-         genModel.isUpdateClasspath() && !exists(toURI(genModel.getEditorProjectDirectory()).appendSegment("plugin.xml")),
+         genModel.isUpdateClasspath(),
          MANIFEST_ENCODING,
          createMonitor(monitor, 1));
     }
@@ -581,7 +581,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
         (genModel.getEditorProjectDirectory() + "/plugin.xml",
          getJETEmitter(getJETEmitterDescriptors(), EDITOR_PLUGIN_XML_ID),
          null,
-         false,
+         true,
          MANIFEST_ENCODING,
          createMonitor(monitor, 1));
     }
@@ -771,13 +771,11 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
         message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsManifestMF_message");
         monitor.subTask(message);
 
-        // Do not allow an existing MANIFEST.MF to be overwritten, as the tests project is originally generated from scratch.
-        //
         generateText
           (genModel.getTestsProjectDirectory() + "/META-INF/MANIFEST.MF",
            getJETEmitter(getJETEmitterDescriptors(), TESTS_MANIFEST_MF_ID),
            null,
-           false,
+           genModel.isUpdateClasspath(),
            MANIFEST_ENCODING,
            createMonitor(monitor, 1));
       }
@@ -789,7 +787,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
           (genModel.getTestsProjectDirectory() + "/plugin.xml",
            getJETEmitter(getJETEmitterDescriptors(), TESTS_PLUGIN_XML_ID),
            null,
-           false,
+           true,
            MANIFEST_ENCODING,
            createMonitor(monitor, 1));
       }

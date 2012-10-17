@@ -11,7 +11,7 @@
  *   IBM - Initial API and implementation
  */
 %>
-<%GenModel genModel = (GenModel)argument; /* Trick to import java.util.* without warnings */Iterator.class.getName();%>
+<%GenModel genModel = (GenModel)argument; String key = genModel.getPluginKey(); boolean hasKey = key != null && !key.equals(""); /* Trick to import java.util.* without warnings */Iterator.class.getName();%>
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 
@@ -50,6 +50,9 @@
 <%for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
       <package
             uri="<%=genPackage.getNSURI()%>"
   <%if (genModel.hasLocalGenModel()) {%>
@@ -62,12 +65,18 @@
   <%if (genPackage.isContentType()) {%>
 
    <extension point="org.eclipse.emf.ecore.content_parser">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
       <parser
             contentTypeIdentifier="<%=genPackage.getContentTypeIdentifier()%>"
             class="<%=genPackage.getQualifiedEffectiveResourceFactoryClassName()%>"/>
    </extension>
 
    <extension point="org.eclipse.core.contenttype.contentTypes">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
       <content-type
             base-type="<%=genPackage.isXMIResource() ? "org.eclipse.emf.ecore.xmi" : "org.eclipse.core.runtime.xml"%>"
             file-extensions="<%=genPackage.getFileExtensions()%>"
@@ -87,6 +96,9 @@
   <%} else if (genPackage.getResource() != GenResourceKind.NONE_LITERAL) {%>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
       <parser
             type="<%=genPackage.getFileExtension()%>"
             class="<%=genPackage.getQualifiedResourceFactoryClassName()%>"/>

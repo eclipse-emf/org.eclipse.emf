@@ -33,91 +33,132 @@ public class PluginXML
   protected final String TEXT_16 = ".jar\">";
   protected final String TEXT_17 = NL + "      <library name=\".\">";
   protected final String TEXT_18 = NL + "         <export name=\"*\"/>" + NL + "      </library>" + NL + "   </runtime>";
-  protected final String TEXT_19 = NL + NL + "   <extension point=\"org.eclipse.emf.edit.itemProviderAdapterFactories\">" + NL + "      <factory" + NL + "            uri=\"";
-  protected final String TEXT_20 = "\"" + NL + "            class=\"";
-  protected final String TEXT_21 = "\"" + NL + "            supportedTypes=";
-  protected final String TEXT_22 = NL + "              ";
-  protected final String TEXT_23 = "\"/>";
-  protected final String TEXT_24 = NL + "   </extension>";
-  protected final String TEXT_25 = NL + NL + "   <extension point=\"org.eclipse.emf.edit.childCreationExtenders\">";
-  protected final String TEXT_26 = NL + "      <extender" + NL + "            uri=\"";
-  protected final String TEXT_27 = "\"" + NL + "            class=\"";
-  protected final String TEXT_28 = "$";
-  protected final String TEXT_29 = "\"/>";
-  protected final String TEXT_30 = NL + "   </extension>";
-  protected final String TEXT_31 = NL + NL + "   <extension point=\"org.eclipse.emf.ecore.generated_package\">" + NL + "      <package" + NL + "            uri=\"";
-  protected final String TEXT_32 = "\"";
-  protected final String TEXT_33 = NL + "            class=\"";
-  protected final String TEXT_34 = "\"" + NL + "            genModel=\"";
-  protected final String TEXT_35 = "\"/>";
-  protected final String TEXT_36 = NL + "            class=\"";
-  protected final String TEXT_37 = "\"/>";
-  protected final String TEXT_38 = NL + "   </extension>";
-  protected final String TEXT_39 = NL + NL + "   <extension point=\"org.eclipse.emf.ecore.content_parser\">" + NL + "      <parser" + NL + "            contentTypeIdentifier=\"";
-  protected final String TEXT_40 = "\"" + NL + "            class=\"";
-  protected final String TEXT_41 = "\"/>" + NL + "   </extension>" + NL + "" + NL + "   <extension point=\"org.eclipse.core.contenttype.contentTypes\">" + NL + "      <content-type" + NL + "            base-type=\"";
-  protected final String TEXT_42 = "\"" + NL + "            file-extensions=\"";
-  protected final String TEXT_43 = "\"" + NL + "            id=\"";
-  protected final String TEXT_44 = "\"" + NL + "            name=\"%_UI_";
-  protected final String TEXT_45 = "_content_type\"" + NL + "            priority=\"normal\">" + NL + "         <describer class=\"org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl$Describer\">";
-  protected final String TEXT_46 = NL + "            <parameter name=\"namespace\" value=\"";
-  protected final String TEXT_47 = "\"/>";
-  protected final String TEXT_48 = NL + "            <parameter name=\"kind\" value=\"xmi\"/>";
-  protected final String TEXT_49 = NL + "         </describer>" + NL + "      </content-type>" + NL + "   </extension>";
-  protected final String TEXT_50 = NL + NL + "   <extension point=\"org.eclipse.emf.ecore.extension_parser\">" + NL + "      <parser" + NL + "            type=\"";
+  protected final String TEXT_19 = NL + NL + "   <extension point=\"org.eclipse.emf.ecore.generated_package\">";
+  protected final String TEXT_20 = NL + "      <!-- @generated ";
+  protected final String TEXT_21 = " -->";
+  protected final String TEXT_22 = NL + "      <package" + NL + "            uri=\"";
+  protected final String TEXT_23 = "\"";
+  protected final String TEXT_24 = NL + "            class=\"";
+  protected final String TEXT_25 = "\"" + NL + "            genModel=\"";
+  protected final String TEXT_26 = "\"/>";
+  protected final String TEXT_27 = NL + "            class=\"";
+  protected final String TEXT_28 = "\"/>";
+  protected final String TEXT_29 = NL + "   </extension>";
+  protected final String TEXT_30 = NL + NL + "   <extension point=\"org.eclipse.emf.ecore.content_parser\">";
+  protected final String TEXT_31 = NL + "      <!-- @generated ";
+  protected final String TEXT_32 = " -->";
+  protected final String TEXT_33 = NL + "      <parser" + NL + "            contentTypeIdentifier=\"";
+  protected final String TEXT_34 = "\"" + NL + "            class=\"";
+  protected final String TEXT_35 = "\"/>" + NL + "   </extension>" + NL + "" + NL + "   <extension point=\"org.eclipse.core.contenttype.contentTypes\">";
+  protected final String TEXT_36 = NL + "      <!-- @generated ";
+  protected final String TEXT_37 = " -->";
+  protected final String TEXT_38 = NL + "      <content-type" + NL + "            base-type=\"";
+  protected final String TEXT_39 = "\"" + NL + "            file-extensions=\"";
+  protected final String TEXT_40 = "\"" + NL + "            id=\"";
+  protected final String TEXT_41 = "\"" + NL + "            name=\"%_UI_";
+  protected final String TEXT_42 = "_content_type\"" + NL + "            priority=\"normal\">" + NL + "         <describer class=\"org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl$Describer\">";
+  protected final String TEXT_43 = NL + "            <parameter name=\"namespace\" value=\"";
+  protected final String TEXT_44 = "\"/>";
+  protected final String TEXT_45 = NL + "            <parameter name=\"kind\" value=\"xmi\"/>";
+  protected final String TEXT_46 = NL + "         </describer>" + NL + "      </content-type>" + NL + "   </extension>";
+  protected final String TEXT_47 = NL + NL + "   <extension point=\"org.eclipse.emf.ecore.extension_parser\">";
+  protected final String TEXT_48 = NL + "      <!-- @generated ";
+  protected final String TEXT_49 = " -->";
+  protected final String TEXT_50 = NL + "      <parser" + NL + "            type=\"";
   protected final String TEXT_51 = "\"" + NL + "            class=\"";
   protected final String TEXT_52 = "\"/>" + NL + "   </extension>";
-  protected final String TEXT_53 = NL + NL + "   <extension" + NL + "         point=\"org.eclipse.core.runtime.applications\"" + NL + "         id=\"";
-  protected final String TEXT_54 = "Application\">" + NL + "      <application>" + NL + "         <run class=\"";
-  protected final String TEXT_55 = "$Application\"/>" + NL + "      </application>" + NL + "   </extension>" + NL + "" + NL + "   <extension point=\"org.eclipse.ui.perspectives\">" + NL + "      <perspective" + NL + "            name=\"%_UI_Perspective_label\"" + NL + "            class=\"";
-  protected final String TEXT_56 = "$Perspective\"" + NL + "            id=\"";
-  protected final String TEXT_57 = "Perspective\">" + NL + "      </perspective>" + NL + "   </extension>" + NL + "" + NL + "   <extension point=\"org.eclipse.ui.commands\">" + NL + "      <command" + NL + "            name=\"%_UI_Menu_OpenURI_label\"" + NL + "            description=\"%_UI_Menu_OpenURI_description\"" + NL + "            categoryId=\"org.eclipse.ui.category.file\"" + NL + "            id=\"";
-  protected final String TEXT_58 = "OpenURICommand\"/>";
-  protected final String TEXT_59 = NL + "      <command" + NL + "            name=\"%_UI_Menu_Open_label\"" + NL + "            description=\"%_UI_Menu_Open_description\"" + NL + "            categoryId=\"org.eclipse.ui.category.file\"" + NL + "            id=\"";
-  protected final String TEXT_60 = "OpenCommand\"/>";
-  protected final String TEXT_61 = NL + "   </extension>" + NL;
-  protected final String TEXT_62 = NL + "   <extension point=\"org.eclipse.ui.bindings\">" + NL + "      <key" + NL + "            commandId=\"";
-  protected final String TEXT_63 = "OpenURICommand\"" + NL + "            sequence=\"M1+U\"" + NL + "            schemeId=\"org.eclipse.ui.defaultAcceleratorConfiguration\"/>" + NL + "      <key" + NL + "            commandId=\"";
-  protected final String TEXT_64 = "OpenCommand\"" + NL + "            sequence=\"M1+O\"" + NL + "            schemeId=\"org.eclipse.ui.defaultAcceleratorConfiguration\"/>" + NL + "   </extension>";
-  protected final String TEXT_65 = NL + NL + "   <extension point=\"org.eclipse.ui.actionSets\">" + NL + "      <actionSet" + NL + "            label=\"%_UI_";
-  protected final String TEXT_66 = "_ActionSet_label\"" + NL + "            visible=\"true\"" + NL + "            id=\"";
-  protected final String TEXT_67 = "ActionSet\">" + NL + "         <action" + NL + "               label=\"%_UI_Menu_About_label\"" + NL + "               class=\"";
-  protected final String TEXT_68 = "$AboutAction\"" + NL + "               menubarPath=\"help/additions\"" + NL + "               id=\"";
-  protected final String TEXT_69 = "AboutAction\"/>" + NL + "         <action" + NL + "               label=\"%_UI_Menu_OpenURI_label\"" + NL + "               definitionId=\"";
-  protected final String TEXT_70 = "OpenURICommand\"" + NL + "               class=\"";
-  protected final String TEXT_71 = "$OpenURIAction\"" + NL + "               menubarPath=\"file/additions\"" + NL + "               id=\"";
-  protected final String TEXT_72 = "OpenURIAction\"/>";
-  protected final String TEXT_73 = NL + "         <action" + NL + "               label=\"%_UI_Menu_Open_label\"" + NL + "               definitionId=\"";
-  protected final String TEXT_74 = "OpenCommand\"" + NL + "               class=\"";
-  protected final String TEXT_75 = "$OpenAction\"" + NL + "               menubarPath=\"file/additions\"" + NL + "               id=\"";
-  protected final String TEXT_76 = "OpenAction\"/>";
-  protected final String TEXT_77 = NL + "      </actionSet>" + NL + "   </extension>";
-  protected final String TEXT_78 = NL + NL + "   <extension point=\"org.eclipse.ui.actionSets\">" + NL + "      <actionSet" + NL + "            label=\"%_UI_";
-  protected final String TEXT_79 = "_ActionSet_label\"" + NL + "            visible=\"true\"" + NL + "            id=\"";
-  protected final String TEXT_80 = "ActionSet\">" + NL + "         <action" + NL + "               label=\"%_UI_";
-  protected final String TEXT_81 = "_label\"" + NL + "               class=\"";
-  protected final String TEXT_82 = "$NewAction\"" + NL + "               menubarPath=\"file/new/additions\"" + NL + "               id=\"";
-  protected final String TEXT_83 = "NewAction\"/>" + NL + "      </actionSet>" + NL + "   </extension>";
-  protected final String TEXT_84 = NL + NL + "   <extension point=\"org.eclipse.ui.newWizards\">" + NL + "      <category" + NL + "            id=\"org.eclipse.emf.ecore.Wizard.category.ID\"" + NL + "            name=\"%_UI_Wizard_category\"/>" + NL + "      <wizard" + NL + "            id=\"";
-  protected final String TEXT_85 = "ID\"" + NL + "            name=\"%_UI_";
-  protected final String TEXT_86 = "_label\"" + NL + "            class=\"";
-  protected final String TEXT_87 = "\"" + NL + "            category=\"org.eclipse.emf.ecore.Wizard.category.ID\"" + NL + "            icon=\"icons/full/obj16/";
-  protected final String TEXT_88 = "ModelFile.gif\">" + NL + "         <description>%_UI_";
-  protected final String TEXT_89 = "_description</description>" + NL + "         <selection class=\"org.eclipse.core.resources.IResource\"/>" + NL + "      </wizard>" + NL + "   </extension>";
-  protected final String TEXT_90 = NL + NL + "   <extension point=\"org.eclipse.ui.editors\">" + NL + "      <editor" + NL + "            id=\"";
-  protected final String TEXT_91 = "ID\"" + NL + "            name=\"%_UI_";
-  protected final String TEXT_92 = "_label\"" + NL + "            icon=\"icons/full/obj16/";
-  protected final String TEXT_93 = "ModelFile.gif\"";
-  protected final String TEXT_94 = NL + "            extensions=\"";
-  protected final String TEXT_95 = "\"";
-  protected final String TEXT_96 = NL + "            class=\"";
-  protected final String TEXT_97 = "\"" + NL + "            contributorClass=\"";
-  protected final String TEXT_98 = "\">";
-  protected final String TEXT_99 = NL + "         <contentTypeBinding contentTypeId=\"";
-  protected final String TEXT_100 = "\"/>";
-  protected final String TEXT_101 = NL + "      </editor>" + NL + "   </extension>";
-  protected final String TEXT_102 = NL + NL + "</plugin>";
-  protected final String TEXT_103 = NL;
+  protected final String TEXT_53 = NL + NL + "   <extension point=\"org.eclipse.emf.edit.itemProviderAdapterFactories\">";
+  protected final String TEXT_54 = NL + "      <!-- @generated ";
+  protected final String TEXT_55 = " -->";
+  protected final String TEXT_56 = NL + "      <factory" + NL + "            uri=\"";
+  protected final String TEXT_57 = "\"" + NL + "            class=\"";
+  protected final String TEXT_58 = "\"" + NL + "            supportedTypes=";
+  protected final String TEXT_59 = NL + "              ";
+  protected final String TEXT_60 = "\"/>";
+  protected final String TEXT_61 = NL + "   </extension>";
+  protected final String TEXT_62 = NL + NL + "   <extension point=\"org.eclipse.emf.edit.childCreationExtenders\">";
+  protected final String TEXT_63 = NL + "      <!-- @generated ";
+  protected final String TEXT_64 = " -->";
+  protected final String TEXT_65 = NL + "      <extender" + NL + "            uri=\"";
+  protected final String TEXT_66 = "\"" + NL + "            class=\"";
+  protected final String TEXT_67 = "$";
+  protected final String TEXT_68 = "\"/>";
+  protected final String TEXT_69 = NL + "   </extension>";
+  protected final String TEXT_70 = NL + NL + "   <extension" + NL + "         point=\"org.eclipse.core.runtime.applications\"" + NL + "         id=\"";
+  protected final String TEXT_71 = "Application\">";
+  protected final String TEXT_72 = NL + "      <!-- @generated ";
+  protected final String TEXT_73 = " -->";
+  protected final String TEXT_74 = NL + "      <application>" + NL + "         <run class=\"";
+  protected final String TEXT_75 = "$Application\"/>" + NL + "      </application>" + NL + "   </extension>" + NL + "" + NL + "   <extension point=\"org.eclipse.ui.perspectives\">";
+  protected final String TEXT_76 = NL + "      <!-- @generated ";
+  protected final String TEXT_77 = " -->";
+  protected final String TEXT_78 = NL + "      <perspective" + NL + "            name=\"%_UI_Perspective_label\"" + NL + "            class=\"";
+  protected final String TEXT_79 = "$Perspective\"" + NL + "            id=\"";
+  protected final String TEXT_80 = "Perspective\">" + NL + "      </perspective>" + NL + "   </extension>" + NL + "" + NL + "   <extension point=\"org.eclipse.ui.commands\">";
+  protected final String TEXT_81 = NL + "      <!-- @generated ";
+  protected final String TEXT_82 = " -->";
+  protected final String TEXT_83 = NL + "      <command" + NL + "            name=\"%_UI_Menu_OpenURI_label\"" + NL + "            description=\"%_UI_Menu_OpenURI_description\"" + NL + "            categoryId=\"org.eclipse.ui.category.file\"" + NL + "            id=\"";
+  protected final String TEXT_84 = "OpenURICommand\"/>";
+  protected final String TEXT_85 = NL + "      <command" + NL + "            name=\"%_UI_Menu_Open_label\"" + NL + "            description=\"%_UI_Menu_Open_description\"" + NL + "            categoryId=\"org.eclipse.ui.category.file\"" + NL + "            id=\"";
+  protected final String TEXT_86 = "OpenCommand\"/>";
+  protected final String TEXT_87 = NL + "   </extension>" + NL;
+  protected final String TEXT_88 = NL + "   <extension point=\"org.eclipse.ui.bindings\">";
+  protected final String TEXT_89 = NL + "      <!-- @generated ";
+  protected final String TEXT_90 = " -->";
+  protected final String TEXT_91 = NL + "      <key" + NL + "            commandId=\"";
+  protected final String TEXT_92 = "OpenURICommand\"" + NL + "            sequence=\"M1+U\"" + NL + "            schemeId=\"org.eclipse.ui.defaultAcceleratorConfiguration\"/>" + NL + "      <key" + NL + "            commandId=\"";
+  protected final String TEXT_93 = "OpenCommand\"" + NL + "            sequence=\"M1+O\"" + NL + "            schemeId=\"org.eclipse.ui.defaultAcceleratorConfiguration\"/>" + NL + "   </extension>";
+  protected final String TEXT_94 = NL + NL + "   <extension point=\"org.eclipse.ui.actionSets\">";
+  protected final String TEXT_95 = NL + "      <!-- @generated ";
+  protected final String TEXT_96 = " -->";
+  protected final String TEXT_97 = NL + "      <actionSet" + NL + "            label=\"%_UI_";
+  protected final String TEXT_98 = "_ActionSet_label\"" + NL + "            visible=\"true\"" + NL + "            id=\"";
+  protected final String TEXT_99 = "ActionSet\">" + NL + "         <action" + NL + "               label=\"%_UI_Menu_About_label\"" + NL + "               class=\"";
+  protected final String TEXT_100 = "$AboutAction\"" + NL + "               menubarPath=\"help/additions\"" + NL + "               id=\"";
+  protected final String TEXT_101 = "AboutAction\"/>" + NL + "         <action" + NL + "               label=\"%_UI_Menu_OpenURI_label\"" + NL + "               definitionId=\"";
+  protected final String TEXT_102 = "OpenURICommand\"" + NL + "               class=\"";
+  protected final String TEXT_103 = "$OpenURIAction\"" + NL + "               menubarPath=\"file/additions\"" + NL + "               id=\"";
+  protected final String TEXT_104 = "OpenURIAction\"/>";
+  protected final String TEXT_105 = NL + "         <action" + NL + "               label=\"%_UI_Menu_Open_label\"" + NL + "               definitionId=\"";
+  protected final String TEXT_106 = "OpenCommand\"" + NL + "               class=\"";
+  protected final String TEXT_107 = "$OpenAction\"" + NL + "               menubarPath=\"file/additions\"" + NL + "               id=\"";
+  protected final String TEXT_108 = "OpenAction\"/>";
+  protected final String TEXT_109 = NL + "      </actionSet>" + NL + "   </extension>";
+  protected final String TEXT_110 = NL + NL + "   <extension point=\"org.eclipse.ui.actionSets\">";
+  protected final String TEXT_111 = NL + "      <!-- @generated ";
+  protected final String TEXT_112 = " -->";
+  protected final String TEXT_113 = NL + "      <actionSet" + NL + "            label=\"%_UI_";
+  protected final String TEXT_114 = "_ActionSet_label\"" + NL + "            visible=\"true\"" + NL + "            id=\"";
+  protected final String TEXT_115 = "ActionSet\">" + NL + "         <action" + NL + "               label=\"%_UI_";
+  protected final String TEXT_116 = "_label\"" + NL + "               class=\"";
+  protected final String TEXT_117 = "$NewAction\"" + NL + "               menubarPath=\"file/new/additions\"" + NL + "               id=\"";
+  protected final String TEXT_118 = "NewAction\"/>" + NL + "      </actionSet>" + NL + "   </extension>";
+  protected final String TEXT_119 = NL + NL + "   <extension point=\"org.eclipse.ui.newWizards\">";
+  protected final String TEXT_120 = NL + "      <!-- @generated ";
+  protected final String TEXT_121 = " -->";
+  protected final String TEXT_122 = NL + "      <category" + NL + "            id=\"org.eclipse.emf.ecore.Wizard.category.ID\"" + NL + "            name=\"%_UI_Wizard_category\"/>" + NL + "      <wizard" + NL + "            id=\"";
+  protected final String TEXT_123 = "ID\"" + NL + "            name=\"%_UI_";
+  protected final String TEXT_124 = "_label\"" + NL + "            class=\"";
+  protected final String TEXT_125 = "\"" + NL + "            category=\"org.eclipse.emf.ecore.Wizard.category.ID\"" + NL + "            icon=\"icons/full/obj16/";
+  protected final String TEXT_126 = "ModelFile.gif\">" + NL + "         <description>%_UI_";
+  protected final String TEXT_127 = "_description</description>" + NL + "         <selection class=\"org.eclipse.core.resources.IResource\"/>" + NL + "      </wizard>" + NL + "   </extension>";
+  protected final String TEXT_128 = NL + NL + "   <extension point=\"org.eclipse.ui.editors\">";
+  protected final String TEXT_129 = NL + "      <!-- @generated ";
+  protected final String TEXT_130 = " -->";
+  protected final String TEXT_131 = NL + "      <editor" + NL + "            id=\"";
+  protected final String TEXT_132 = "ID\"" + NL + "            name=\"%_UI_";
+  protected final String TEXT_133 = "_label\"" + NL + "            icon=\"icons/full/obj16/";
+  protected final String TEXT_134 = "ModelFile.gif\"";
+  protected final String TEXT_135 = NL + "            extensions=\"";
+  protected final String TEXT_136 = "\"";
+  protected final String TEXT_137 = NL + "            class=\"";
+  protected final String TEXT_138 = "\"" + NL + "            contributorClass=\"";
+  protected final String TEXT_139 = "\">";
+  protected final String TEXT_140 = NL + "         <contentTypeBinding contentTypeId=\"";
+  protected final String TEXT_141 = "\"/>";
+  protected final String TEXT_142 = NL + "      </editor>" + NL + "   </extension>";
+  protected final String TEXT_143 = NL + NL + "</plugin>";
+  protected final String TEXT_144 = NL;
 
   public String generate(Object argument)
   {
@@ -134,7 +175,7 @@ public class PluginXML
  *   IBM - Initial API and implementation
  */
 
-    GenModel genModel = (GenModel)argument;
+    GenModel genModel = (GenModel)argument; String key = genModel.getPluginKey(); boolean hasKey = key != null && !key.equals("");
     stringBuffer.append(TEXT_1);
     stringBuffer.append(TEXT_2);
     stringBuffer.append(TEXT_3);
@@ -171,82 +212,71 @@ public class PluginXML
     }
     stringBuffer.append(TEXT_18);
     }
-    if (genModel.sameEditEditorProject()) {
-    for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {
-    if (!genPackage.getGenClasses().isEmpty()) {
-    stringBuffer.append(TEXT_19);
-    stringBuffer.append(genPackage.getNSURI());
-    stringBuffer.append(TEXT_20);
-    stringBuffer.append(genPackage.getQualifiedItemProviderAdapterFactoryClassName());
-    stringBuffer.append(TEXT_21);
-    for (ListIterator<?> j = genPackage.getProviderSupportedTypes().listIterator(); j.hasNext(); ) {
-    stringBuffer.append(TEXT_22);
-    stringBuffer.append(j.hasPrevious() ? " " : "\"");
-    stringBuffer.append(j.next());
-    if (!j.hasNext()) {
-    stringBuffer.append(TEXT_23);
-    }
-    }
-    stringBuffer.append(TEXT_24);
-    if (genPackage.isChildCreationExtenders()) { Map<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> extendedChildCreationData = genPackage.getExtendedChildCreationData();
-    if (!extendedChildCreationData.isEmpty()) {
-    stringBuffer.append(TEXT_25);
-    for (Map.Entry<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> entry : extendedChildCreationData.entrySet()) {
-    stringBuffer.append(TEXT_26);
-    stringBuffer.append(entry.getKey().getNSURI());
-    stringBuffer.append(TEXT_27);
-    stringBuffer.append(genPackage.getQualifiedItemProviderAdapterFactoryClassName());
-    stringBuffer.append(TEXT_28);
-    stringBuffer.append(genPackage.getChildCreationExtenderName(entry.getKey()));
-    stringBuffer.append(TEXT_29);
-    }
-    stringBuffer.append(TEXT_30);
-    }
-    }
-    }
-    }
-    }
     if (genModel.sameModelEditorProject()) {
     for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {
-    stringBuffer.append(TEXT_31);
+    stringBuffer.append(TEXT_19);
+    if (hasKey) {
+    stringBuffer.append(TEXT_20);
+    stringBuffer.append(key);
+    stringBuffer.append(TEXT_21);
+    }
+    stringBuffer.append(TEXT_22);
     stringBuffer.append(genPackage.getNSURI());
-    stringBuffer.append(TEXT_32);
+    stringBuffer.append(TEXT_23);
     if (genModel.hasLocalGenModel()) {
-    stringBuffer.append(TEXT_33);
+    stringBuffer.append(TEXT_24);
     stringBuffer.append(genPackage.getQualifiedPackageInterfaceName());
-    stringBuffer.append(TEXT_34);
+    stringBuffer.append(TEXT_25);
     stringBuffer.append(genModel.getRelativeGenModelLocation());
-    stringBuffer.append(TEXT_35);
+    stringBuffer.append(TEXT_26);
     } else {
-    stringBuffer.append(TEXT_36);
+    stringBuffer.append(TEXT_27);
     stringBuffer.append(genPackage.getQualifiedPackageInterfaceName());
+    stringBuffer.append(TEXT_28);
+    }
+    stringBuffer.append(TEXT_29);
+    if (genPackage.isContentType()) {
+    stringBuffer.append(TEXT_30);
+    if (hasKey) {
+    stringBuffer.append(TEXT_31);
+    stringBuffer.append(key);
+    stringBuffer.append(TEXT_32);
+    }
+    stringBuffer.append(TEXT_33);
+    stringBuffer.append(genPackage.getContentTypeIdentifier());
+    stringBuffer.append(TEXT_34);
+    stringBuffer.append(genPackage.getQualifiedEffectiveResourceFactoryClassName());
+    stringBuffer.append(TEXT_35);
+    if (hasKey) {
+    stringBuffer.append(TEXT_36);
+    stringBuffer.append(key);
     stringBuffer.append(TEXT_37);
     }
     stringBuffer.append(TEXT_38);
-    if (genPackage.isContentType()) {
-    stringBuffer.append(TEXT_39);
-    stringBuffer.append(genPackage.getContentTypeIdentifier());
-    stringBuffer.append(TEXT_40);
-    stringBuffer.append(genPackage.getQualifiedEffectiveResourceFactoryClassName());
-    stringBuffer.append(TEXT_41);
     stringBuffer.append(genPackage.isXMIResource() ? "org.eclipse.emf.ecore.xmi" : "org.eclipse.core.runtime.xml");
-    stringBuffer.append(TEXT_42);
+    stringBuffer.append(TEXT_39);
     stringBuffer.append(genPackage.getFileExtensions());
-    stringBuffer.append(TEXT_43);
+    stringBuffer.append(TEXT_40);
     stringBuffer.append(genPackage.getContentTypeIdentifier());
-    stringBuffer.append(TEXT_44);
+    stringBuffer.append(TEXT_41);
     stringBuffer.append(genPackage.getPrefix());
-    stringBuffer.append(TEXT_45);
+    stringBuffer.append(TEXT_42);
     if (genPackage.hasTargetNamespace()) {
-    stringBuffer.append(TEXT_46);
+    stringBuffer.append(TEXT_43);
     stringBuffer.append(genPackage.getNSURI());
-    stringBuffer.append(TEXT_47);
+    stringBuffer.append(TEXT_44);
     }
     if (genPackage.isXMIResource()) {
-    stringBuffer.append(TEXT_48);
+    stringBuffer.append(TEXT_45);
     }
-    stringBuffer.append(TEXT_49);
+    stringBuffer.append(TEXT_46);
     } else if (genPackage.getResource() != GenResourceKind.NONE_LITERAL) {
+    stringBuffer.append(TEXT_47);
+    if (hasKey) {
+    stringBuffer.append(TEXT_48);
+    stringBuffer.append(key);
+    stringBuffer.append(TEXT_49);
+    }
     stringBuffer.append(TEXT_50);
     stringBuffer.append(genPackage.getFileExtension());
     stringBuffer.append(TEXT_51);
@@ -255,113 +285,207 @@ public class PluginXML
     }
     }
     }
-    if (genModel.isRichClientPlatform()) {
+    if (genModel.sameEditEditorProject()) {
+    for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {
+    if (!genPackage.getGenClasses().isEmpty()) {
     stringBuffer.append(TEXT_53);
-    stringBuffer.append(genModel.getEditorAdvisorClassName());
+    if (hasKey) {
     stringBuffer.append(TEXT_54);
-    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(key);
     stringBuffer.append(TEXT_55);
-    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    }
     stringBuffer.append(TEXT_56);
-    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(genPackage.getNSURI());
     stringBuffer.append(TEXT_57);
-    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(genPackage.getQualifiedItemProviderAdapterFactoryClassName());
     stringBuffer.append(TEXT_58);
-    if (!genModel.isRichAjaxPlatform()) {
+    for (ListIterator<?> j = genPackage.getProviderSupportedTypes().listIterator(); j.hasNext(); ) {
     stringBuffer.append(TEXT_59);
-    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(j.hasPrevious() ? " " : "\"");
+    stringBuffer.append(j.next());
+    if (!j.hasNext()) {
     stringBuffer.append(TEXT_60);
     }
+    }
     stringBuffer.append(TEXT_61);
-    if (!genModel.isRichAjaxPlatform()) {
+    if (genPackage.isChildCreationExtenders()) { Map<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> extendedChildCreationData = genPackage.getExtendedChildCreationData();
+    if (!extendedChildCreationData.isEmpty()) {
     stringBuffer.append(TEXT_62);
-    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    for (Map.Entry<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> entry : extendedChildCreationData.entrySet()) {
+    if (hasKey) {
     stringBuffer.append(TEXT_63);
-    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(key);
     stringBuffer.append(TEXT_64);
     }
     stringBuffer.append(TEXT_65);
-    stringBuffer.append(genModel.getEditorAdvisorClassName());
+    stringBuffer.append(entry.getKey().getNSURI());
     stringBuffer.append(TEXT_66);
-    stringBuffer.append(genModel.getEditorAdvisorClassName());
+    stringBuffer.append(genPackage.getQualifiedItemProviderAdapterFactoryClassName());
     stringBuffer.append(TEXT_67);
-    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(genPackage.getChildCreationExtenderName(entry.getKey()));
     stringBuffer.append(TEXT_68);
-    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    }
     stringBuffer.append(TEXT_69);
-    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    }
+    }
+    }
+    }
+    }
+    if (genModel.isRichClientPlatform()) {
     stringBuffer.append(TEXT_70);
-    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(genModel.getEditorAdvisorClassName());
     stringBuffer.append(TEXT_71);
-    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    if (hasKey) {
     stringBuffer.append(TEXT_72);
-    if (!genModel.isRichAjaxPlatform()) {
+    stringBuffer.append(key);
     stringBuffer.append(TEXT_73);
-    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    }
     stringBuffer.append(TEXT_74);
     stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
     stringBuffer.append(TEXT_75);
-    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    if (hasKey) {
     stringBuffer.append(TEXT_76);
-    }
+    stringBuffer.append(key);
     stringBuffer.append(TEXT_77);
+    }
+    stringBuffer.append(TEXT_78);
+    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(TEXT_79);
+    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(TEXT_80);
+    if (hasKey) {
+    stringBuffer.append(TEXT_81);
+    stringBuffer.append(key);
+    stringBuffer.append(TEXT_82);
+    }
+    stringBuffer.append(TEXT_83);
+    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(TEXT_84);
+    if (!genModel.isRichAjaxPlatform()) {
+    stringBuffer.append(TEXT_85);
+    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(TEXT_86);
+    }
+    stringBuffer.append(TEXT_87);
+    if (!genModel.isRichAjaxPlatform()) {
+    stringBuffer.append(TEXT_88);
+    if (hasKey) {
+    stringBuffer.append(TEXT_89);
+    stringBuffer.append(key);
+    stringBuffer.append(TEXT_90);
+    }
+    stringBuffer.append(TEXT_91);
+    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(TEXT_92);
+    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(TEXT_93);
+    }
+    stringBuffer.append(TEXT_94);
+    if (hasKey) {
+    stringBuffer.append(TEXT_95);
+    stringBuffer.append(key);
+    stringBuffer.append(TEXT_96);
+    }
+    stringBuffer.append(TEXT_97);
+    stringBuffer.append(genModel.getEditorAdvisorClassName());
+    stringBuffer.append(TEXT_98);
+    stringBuffer.append(genModel.getEditorAdvisorClassName());
+    stringBuffer.append(TEXT_99);
+    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(TEXT_100);
+    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(TEXT_101);
+    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(TEXT_102);
+    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(TEXT_103);
+    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(TEXT_104);
+    if (!genModel.isRichAjaxPlatform()) {
+    stringBuffer.append(TEXT_105);
+    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(TEXT_106);
+    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(TEXT_107);
+    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(TEXT_108);
+    }
+    stringBuffer.append(TEXT_109);
     }
     for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {
     if (genPackage.hasConcreteClasses()){
     if (genPackage.isGenerateModelWizard()) {
     if (genModel.isRichClientPlatform()) {
-    stringBuffer.append(TEXT_78);
+    stringBuffer.append(TEXT_110);
+    if (hasKey) {
+    stringBuffer.append(TEXT_111);
+    stringBuffer.append(key);
+    stringBuffer.append(TEXT_112);
+    }
+    stringBuffer.append(TEXT_113);
     stringBuffer.append(genPackage.getModelWizardClassName());
-    stringBuffer.append(TEXT_79);
+    stringBuffer.append(TEXT_114);
     stringBuffer.append(genPackage.getQualifiedActionBarContributorClassName());
-    stringBuffer.append(TEXT_80);
+    stringBuffer.append(TEXT_115);
     stringBuffer.append(genPackage.getModelWizardClassName());
-    stringBuffer.append(TEXT_81);
+    stringBuffer.append(TEXT_116);
     stringBuffer.append(genPackage.getQualifiedActionBarContributorClassName());
-    stringBuffer.append(TEXT_82);
+    stringBuffer.append(TEXT_117);
     stringBuffer.append(genPackage.getQualifiedActionBarContributorClassName());
-    stringBuffer.append(TEXT_83);
+    stringBuffer.append(TEXT_118);
     } else {
-    stringBuffer.append(TEXT_84);
+    stringBuffer.append(TEXT_119);
+    if (hasKey) {
+    stringBuffer.append(TEXT_120);
+    stringBuffer.append(key);
+    stringBuffer.append(TEXT_121);
+    }
+    stringBuffer.append(TEXT_122);
     stringBuffer.append(genPackage.getQualifiedModelWizardClassName());
-    stringBuffer.append(TEXT_85);
+    stringBuffer.append(TEXT_123);
     stringBuffer.append(genPackage.getModelWizardClassName());
-    stringBuffer.append(TEXT_86);
+    stringBuffer.append(TEXT_124);
     stringBuffer.append(genPackage.getQualifiedModelWizardClassName());
-    stringBuffer.append(TEXT_87);
+    stringBuffer.append(TEXT_125);
     stringBuffer.append(genPackage.getPrefix());
-    stringBuffer.append(TEXT_88);
+    stringBuffer.append(TEXT_126);
     stringBuffer.append(genPackage.getModelWizardClassName());
-    stringBuffer.append(TEXT_89);
+    stringBuffer.append(TEXT_127);
     }
     }
-    stringBuffer.append(TEXT_90);
+    stringBuffer.append(TEXT_128);
+    if (hasKey) {
+    stringBuffer.append(TEXT_129);
+    stringBuffer.append(key);
+    stringBuffer.append(TEXT_130);
+    }
+    stringBuffer.append(TEXT_131);
     stringBuffer.append(genPackage.getQualifiedEditorClassName());
-    stringBuffer.append(TEXT_91);
+    stringBuffer.append(TEXT_132);
     stringBuffer.append(genPackage.getEditorClassName());
-    stringBuffer.append(TEXT_92);
+    stringBuffer.append(TEXT_133);
     stringBuffer.append(genPackage.getPrefix());
-    stringBuffer.append(TEXT_93);
+    stringBuffer.append(TEXT_134);
     if (!genPackage.isContentType()) {
-    stringBuffer.append(TEXT_94);
+    stringBuffer.append(TEXT_135);
     stringBuffer.append(genPackage.getFileExtension());
-    stringBuffer.append(TEXT_95);
+    stringBuffer.append(TEXT_136);
     }
-    stringBuffer.append(TEXT_96);
+    stringBuffer.append(TEXT_137);
     stringBuffer.append(genPackage.getQualifiedEditorClassName());
-    stringBuffer.append(TEXT_97);
+    stringBuffer.append(TEXT_138);
     stringBuffer.append(genPackage.getQualifiedActionBarContributorClassName());
-    stringBuffer.append(TEXT_98);
+    stringBuffer.append(TEXT_139);
     if (genPackage.isContentType()) {
-    stringBuffer.append(TEXT_99);
+    stringBuffer.append(TEXT_140);
     stringBuffer.append(genPackage.getQualifiedContentTypeIdentifier());
-    stringBuffer.append(TEXT_100);
+    stringBuffer.append(TEXT_141);
     }
-    stringBuffer.append(TEXT_101);
+    stringBuffer.append(TEXT_142);
     }
     }
-    stringBuffer.append(TEXT_102);
-    stringBuffer.append(TEXT_103);
+    stringBuffer.append(TEXT_143);
+    stringBuffer.append(TEXT_144);
     return stringBuffer.toString();
   }
 }

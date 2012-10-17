@@ -8,12 +8,14 @@
 <plugin>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated library -->
       <package
             uri="http://www.example.eclipse.org/Library"
             class="org.examples.library.LibraryPackage"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated library -->
       <parser
             type="library"
             class="org.examples.library.util.LibraryResourceFactoryImpl"/>

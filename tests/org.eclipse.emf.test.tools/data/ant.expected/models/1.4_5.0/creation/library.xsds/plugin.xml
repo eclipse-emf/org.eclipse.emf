@@ -8,24 +8,28 @@
 <plugin>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated library -->
       <package
             uri="http://www.example.eclipse.org/Library1"
             class="org.examples.library.elements.ElementsPackage"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated library -->
       <parser
             type="elements"
             class="org.examples.library.elements.util.ElementsResourceFactoryImpl"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated library -->
       <package
             uri="http://www.example.eclipse.org/Library2"
             class="org.examples.library.LibraryPackage"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated library -->
       <parser
             type="library"
             class="org.examples.library.util.LibraryResourceFactoryImpl"/>

@@ -92,7 +92,7 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/editPluginClass"/>
       <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="The fully qualified name for the editor plug-in class"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/editorPluginClass"/>
-      <genFeatures createChild="false" propertyCategory="JET" propertyDescription="Whether project classpaths should be updated during generation"
+      <genFeatures createChild="false" propertyCategory="JET" propertyDescription="Whether project classpaths or manifests should be updated during generation"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/updateClasspath"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether an XML Schema should be generated with the model"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/generateSchema"/>
@@ -213,6 +213,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/runtimePlatform"/>
       <genFeatures createChild="false" propertyCategory="JET" propertyDescription="Whether to check for unused imports in the generated Java code and remove them"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/importOrganizing"/>
+      <genFeatures createChild="false" propertyCategory="JET" propertyDescription="The key used for merging generated plugin.xml file contents; an empty string disables merging"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/pluginKey"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenPackage">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The prefix for names of several packaged-related classes, including package, factory, switch, and adapter factory"

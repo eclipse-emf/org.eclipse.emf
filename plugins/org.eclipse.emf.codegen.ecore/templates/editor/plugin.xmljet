@@ -11,7 +11,7 @@
  *   IBM - Initial API and implementation
  */
 %>
-<%GenModel genModel = (GenModel)argument;%>
+<%GenModel genModel = (GenModel)argument; String key = genModel.getPluginKey(); boolean hasKey = key != null && !key.equals("");%>
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 
@@ -43,38 +43,13 @@
       </library>
    </runtime>
 <%}%>
-<%if (genModel.sameEditEditorProject()) {%>
-  <%for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
-    <%if (!genPackage.getGenClasses().isEmpty()) {%>
-
-   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-      <factory
-            uri="<%=genPackage.getNSURI()%>"
-            class="<%=genPackage.getQualifiedItemProviderAdapterFactoryClassName()%>"
-            supportedTypes=
-      <%for (ListIterator<?> j = genPackage.getProviderSupportedTypes().listIterator(); j.hasNext(); ) {%>
-              <%=j.hasPrevious() ? " " : "\""%><%=j.next()%><%if (!j.hasNext()) {%>"/><%}%>
-      <%}%>
-   </extension>
-      <%if (genPackage.isChildCreationExtenders()) { Map<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> extendedChildCreationData = genPackage.getExtendedChildCreationData();%>
-        <%if (!extendedChildCreationData.isEmpty()) {%>
-
-   <extension point="org.eclipse.emf.edit.childCreationExtenders">
-          <%for (Map.Entry<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> entry : extendedChildCreationData.entrySet()) {%>
-      <extender
-            uri="<%=entry.getKey().getNSURI()%>"
-            class="<%=genPackage.getQualifiedItemProviderAdapterFactoryClassName()%>$<%=genPackage.getChildCreationExtenderName(entry.getKey())%>"/>
-          <%}%>
-   </extension>
-        <%}%>
-      <%}%>
-    <%}%>
-  <%}%>
-<%}%>
 <%if (genModel.sameModelEditorProject()) {%>
   <%for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
       <package
             uri="<%=genPackage.getNSURI()%>"
     <%if (genModel.hasLocalGenModel()) {%>
@@ -87,12 +62,18 @@
     <%if (genPackage.isContentType()) {%>
 
    <extension point="org.eclipse.emf.ecore.content_parser">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
       <parser
             contentTypeIdentifier="<%=genPackage.getContentTypeIdentifier()%>"
             class="<%=genPackage.getQualifiedEffectiveResourceFactoryClassName()%>"/>
    </extension>
 
    <extension point="org.eclipse.core.contenttype.contentTypes">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
       <content-type
             base-type="<%=genPackage.isXMIResource() ? "org.eclipse.emf.ecore.xmi" : "org.eclipse.core.runtime.xml"%>"
             file-extensions="<%=genPackage.getFileExtensions()%>"
@@ -112,10 +93,47 @@
     <%} else if (genPackage.getResource() != GenResourceKind.NONE_LITERAL) {%>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
       <parser
             type="<%=genPackage.getFileExtension()%>"
             class="<%=genPackage.getQualifiedResourceFactoryClassName()%>"/>
    </extension>
+    <%}%>
+  <%}%>
+<%}%>
+<%if (genModel.sameEditEditorProject()) {%>
+  <%for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
+    <%if (!genPackage.getGenClasses().isEmpty()) {%>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
+      <factory
+            uri="<%=genPackage.getNSURI()%>"
+            class="<%=genPackage.getQualifiedItemProviderAdapterFactoryClassName()%>"
+            supportedTypes=
+      <%for (ListIterator<?> j = genPackage.getProviderSupportedTypes().listIterator(); j.hasNext(); ) {%>
+              <%=j.hasPrevious() ? " " : "\""%><%=j.next()%><%if (!j.hasNext()) {%>"/><%}%>
+      <%}%>
+   </extension>
+      <%if (genPackage.isChildCreationExtenders()) { Map<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> extendedChildCreationData = genPackage.getExtendedChildCreationData();%>
+        <%if (!extendedChildCreationData.isEmpty()) {%>
+
+   <extension point="org.eclipse.emf.edit.childCreationExtenders">
+          <%for (Map.Entry<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> entry : extendedChildCreationData.entrySet()) {%>
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
+      <extender
+            uri="<%=entry.getKey().getNSURI()%>"
+            class="<%=genPackage.getQualifiedItemProviderAdapterFactoryClassName()%>$<%=genPackage.getChildCreationExtenderName(entry.getKey())%>"/>
+          <%}%>
+   </extension>
+        <%}%>
+      <%}%>
     <%}%>
   <%}%>
 <%}%>
@@ -124,12 +142,18 @@
    <extension
          point="org.eclipse.core.runtime.applications"
          id="<%=genModel.getEditorAdvisorClassName()%>Application">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
       <application>
          <run class="<%=genModel.getQualifiedEditorAdvisorClassName()%>$Application"/>
       </application>
    </extension>
 
    <extension point="org.eclipse.ui.perspectives">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
       <perspective
             name="%_UI_Perspective_label"
             class="<%=genModel.getQualifiedEditorAdvisorClassName()%>$Perspective"
@@ -138,6 +162,9 @@
    </extension>
 
    <extension point="org.eclipse.ui.commands">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
       <command
             name="%_UI_Menu_OpenURI_label"
             description="%_UI_Menu_OpenURI_description"
@@ -154,6 +181,9 @@
 
 <%if (!genModel.isRichAjaxPlatform()) {%>
    <extension point="org.eclipse.ui.bindings">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
       <key
             commandId="<%=genModel.getQualifiedEditorAdvisorClassName()%>OpenURICommand"
             sequence="M1+U"
@@ -166,6 +196,9 @@
 <%}%>
 
    <extension point="org.eclipse.ui.actionSets">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
       <actionSet
             label="%_UI_<%=genModel.getEditorAdvisorClassName()%>_ActionSet_label"
             visible="true"
@@ -198,6 +231,9 @@
       <%if (genModel.isRichClientPlatform()) {%>
 
    <extension point="org.eclipse.ui.actionSets">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
       <actionSet
             label="%_UI_<%=genPackage.getModelWizardClassName()%>_ActionSet_label"
             visible="true"
@@ -212,6 +248,9 @@
       <%} else {%>
 
    <extension point="org.eclipse.ui.newWizards">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
       <category
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
@@ -229,6 +268,9 @@
     <%}%>
 
    <extension point="org.eclipse.ui.editors">
+  <%if (hasKey) {%>
+      <!-- @generated <%=key%> -->
+  <%}%>
       <editor
             id="<%=genPackage.getQualifiedEditorClassName()%>ID"
             name="%_UI_<%=genPackage.getEditorClassName()%>_label"
