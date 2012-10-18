@@ -4,7 +4,6 @@
 package org.examples.library.elements.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -16,7 +15,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.examples.library.elements.Book;
 import org.examples.library.elements.BookCategory;
 import org.examples.library.elements.ElementsPackage;
-import org.examples.library.elements.Writer;
 
 /**
  * <!-- begin-user-doc -->

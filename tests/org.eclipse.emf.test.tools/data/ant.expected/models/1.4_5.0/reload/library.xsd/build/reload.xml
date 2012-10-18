@@ -12,6 +12,7 @@
 			genModel="${genModel}"
 			reconcileGenModel="reload"
 			autoBuild="false">
+			<arg line="-importOrganizing"/>
 			<arg line="-packages http://www.example.eclipse.org/Library"/>
 			<arg line="-packageMap http://www.example.eclipse.org/Library org.examples.library"/>			
 		</emf.XSD2Java>

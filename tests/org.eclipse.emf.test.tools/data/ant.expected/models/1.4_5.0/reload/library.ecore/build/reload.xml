@@ -12,6 +12,7 @@
 			reconcileGenModel="reload">
 			<model file="${main.directory}/model/library.ecore"/>
 			<model file="${main.directory}/model/hr.ecore"/>
+			<arg line="-importOrganizing"/>
 			<arg line="-package http:///library.ecore org.examples Library"/>
 			<arg line="-package hr.xmi org.examples HR"/>
 		</emf.Ecore2Java>

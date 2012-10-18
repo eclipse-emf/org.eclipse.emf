@@ -76,6 +76,7 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
   protected String modelPluginID;
   protected String validateModel;
   protected GenJDKLevel genJDKLevel;
+  protected boolean importOrganizing;
 
   protected List<EPackage> referencedEPackages;
   protected Map<URI, Set<String>> referencedGenModelURIToEPackageNSURIs;
@@ -333,6 +334,10 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
     {
       genJDKLevel = GenJDKLevel.get(arguments[++index]);
     }
+    else if (arguments[index].equalsIgnoreCase("-importOrganizing"))
+    {
+      importOrganizing = true;
+    }
     else if (arguments[index].equalsIgnoreCase("-validateModel"))
     {
       validateModel = arguments[++index];
@@ -573,6 +578,10 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
       {
         genModel.setComplianceLevel(genJDKLevel);
       }
+      if (importOrganizing)
+      {
+        genModel.setImportOrganizing(true);
+      }
       if (validateModel != null)
       {
         genModel.setValidateModel(Boolean.parseBoolean(validateModel));
@@ -612,7 +621,7 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
     {
       genModel.setComplianceLevel(genJDKLevel);
     }
-    genModel.setImportOrganizing(false);
+    genModel.setImportOrganizing(importOrganizing);
     genModel.setOperationReflection(false);
     genModel.setRootExtendsClass("org.eclipse.emf.ecore.impl.EObjectImpl");
     // Subclasses may overwrite

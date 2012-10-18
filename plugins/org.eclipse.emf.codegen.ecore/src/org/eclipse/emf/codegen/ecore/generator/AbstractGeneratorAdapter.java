@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2007 IBM Corporation and others.
+ * Copyright (c) 2006-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -79,6 +79,9 @@ import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
 import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.codegen.merge.java.JMerger;
+import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
+import org.eclipse.emf.codegen.merge.java.facade.JImport;
+import org.eclipse.emf.codegen.merge.java.facade.JNode;
 import org.eclipse.emf.codegen.merge.properties.PropertyMerger;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.codegen.util.GIFEmitter;
@@ -1725,22 +1728,45 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       {
         arguments = new Object[] { generatingObject };
       }
-      createImportManager(packageName, className);
-      setLineDelimiter(getLineDelimiter(targetFile, getEncoding(targetFile)));
-      String emitterResult = jetEmitter.generate(createMonitor(monitor, 1), arguments, getLineDelimiter());
-
-      boolean changed = true;
-      String newContents = emitterResult;
-      boolean targetExists = exists(targetFile);
 
       JControlModel jControlModel = getGenerator().getJControlModel();      
-      boolean mergeSuccessful = jControlModel.canMerge();
-      
+      JMerger jMerger = null;
+      if (jControlModel.canMerge())
+      {
+        jMerger = new JMerger(jControlModel);
+      }
+
+      createImportManager(packageName, className);
+      String targetFileContents = null;
+      String targetFileEncoding = getEncoding(targetFile);
+      if (exists(targetFile) && jMerger != null)
+      {
+        // Prime the import manager with the existing imports of the target.
+        //
+        jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile), targetFileEncoding));
+        JCompilationUnit targetCompilationUnit = jMerger.getTargetCompilationUnit();
+        ImportManager importManager = getImportManager();
+        for (JNode node : targetCompilationUnit.getChildren())
+        {
+          if (node instanceof JImport)
+          {
+            JImport jImport = (JImport)node;
+            String qualifiedName = jImport.getQualifiedName();
+            importManager.addImport(qualifiedName);
+          }
+        }
+        targetFileContents = jMerger.getTargetCompilationUnitContents();
+      }
+
+      setLineDelimiter(getLineDelimiter(targetFile, targetFileEncoding));
+      String emitterResult = jetEmitter.generate(createMonitor(monitor, 1), arguments, getLineDelimiter());
+      boolean changed = true;
+      String newContents = emitterResult;
+
       Options options = getGenerator().getOptions();
 
-      if (mergeSuccessful)
+      if (jMerger != null)
       {
-        JMerger jMerger = new JMerger(jControlModel);
         jMerger.setFixInterfaceBrace(jControlModel.getFacadeHelper().fixInterfaceBrace());
         
         try
@@ -1749,28 +1775,26 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         }
         catch (RuntimeException runtimeException)
         {
-          if (targetExists)
+          if (targetFileContents != null)
           {
             throw runtimeException;
           }
           else
           {
-            mergeSuccessful = false;
+            jMerger = null;
           }
         }
 
-        if (mergeSuccessful)
+        if (jMerger != null)
         {
           // Create a code formatter for this compilation unit, if needed.
           //
           Object codeFormatter = options.codeFormatting ?
             createCodeFormatter(options.codeFormatterOptions, targetFile) : null;
   
-          if (targetExists)
+          if (targetFileContents != null)
           {
             monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_ExaminingOld_message", new Object[] { targetFile }));
-            jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile), getEncoding(targetFile)));
-            String oldContents = jMerger.getTargetCompilationUnitContents();
   
             monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object[] { targetFile }));
             jMerger.merge();
@@ -1780,13 +1804,13 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
             {
               newContents = organizeImports(targetFile.toString(), newContents);
             }
-            changed = !oldContents.equals(newContents);
+            changed = !targetFileContents.equals(newContents);
   
             // If the target is read-only, we can ask the platform to release it, and it may be updated in the process.
             //
             if (changed && isReadOnly(targetFile) && validateEdit(targetFile, createMonitor(monitor, 1)))
             {
-              jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile), getEncoding(targetFile)));
+              jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile), targetFileEncoding));
               jMerger.remerge();
               newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter, options.commentFormatting);
               if (options.importOrganizing)
@@ -1799,7 +1823,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
           {
             changed = true;
             monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object[] { targetFile }));
-            
+
             jMerger.merge();
             newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter, options.commentFormatting);
           }
@@ -1810,16 +1834,15 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
           }
         }
       }
-      
-      if (!mergeSuccessful)
+
+      if (jMerger == null)
       {
         newContents = 
           CodeGenUtil.convertFormat(jControlModel.getLeadingTabReplacement(), jControlModel.convertToStandardBraceStyle(), emitterResult);
-        if (targetExists)
+        if (targetFileContents != null)
         {
           monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_ExaminingOld_message", new Object[] { targetFile }));
-          String oldContents = getContents(targetFile, null); 
-          changed = !oldContents.equals(newContents);
+          changed = !targetFileContents.equals(newContents);
         }
         else
         {
@@ -1830,7 +1853,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
       if (changed)
       {
-        String encoding = getEncoding(targetFile);
+        String encoding = targetFileEncoding;
         byte[] bytes = encoding == null ? newContents.getBytes() : newContents.getBytes(encoding);
 
         // Apply a redirection pattern, if specified.
@@ -2628,17 +2651,31 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
                              //
                              unusedImports.remove(((ITypeBinding)binding).getErasure().getQualifiedName());
                            }
+                           else if (binding == null)
+                           {
+                             // If we can't resolve it at all, better assume it should resolve to an import...
+                             //
+                             String suffix = "." + node.getIdentifier();
+                             for (String unusedImport : unusedImports)
+                             {
+                               if (unusedImport.endsWith(suffix))
+                               {
+                                 unusedImports.remove(unusedImport);
+                                 break;
+                               }
+                             }
+                           }
                            return false;
                          }
                        });
 
                     // If there are imports that aren't resolvable, we have to be careful that we don't just remove them as if they are unused because they might be needed somewhere.
-                    // So we look for errors about unresolved types and remove the corresponding unused import.
+                    // So we look for errors about unresolved types and unresolved variables and remove the corresponding unused import, if there is one.
                     //
                     for (IProblem problem : problems)
                     {
                       int id = problem.getID();
-                      if (id == IProblem.UndefinedType)
+                      if (id == IProblem.UndefinedType || id == IProblem.UnresolvedVariable)
                       {
                         String suffix = "." + problem.getArguments()[0];
                         for (String unusedImport : unusedImports)

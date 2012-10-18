@@ -11,6 +11,7 @@
 			model="${main.directory}/model/library.mdl"
 			genModel="${genModel}"
 			reconcileGenModel="reload">
+			<arg line="-importOrganizing"/>
 			<arg line="-package library library library.xmi org.examples Library"/>
 			<arg line="-package hr hr hr.xmi org.examples HR"/>
 		</emf.Rose2Java>

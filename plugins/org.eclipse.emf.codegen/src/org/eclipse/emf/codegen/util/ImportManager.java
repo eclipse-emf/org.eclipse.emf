@@ -531,7 +531,11 @@ public class ImportManager
     }
     else
     {
-      shortNameToImportMap.put(shortName, importName);
+      String oldImportName = shortNameToImportMap.put(shortName, importName);
+      if (oldImportName != null)
+      {
+        imports.remove(oldImportName);
+      }
     }
   }
 

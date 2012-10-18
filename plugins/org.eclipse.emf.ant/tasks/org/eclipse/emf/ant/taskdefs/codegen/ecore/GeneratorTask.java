@@ -113,6 +113,10 @@ import org.eclipse.emf.common.util.URI;
  *    &quot;6.0&quot; are valid values.</td>
  * </tr>
  * <tr>
+ *    <td valign="top">importOrganizing</td>
+ *    <td>Boolean value indicating whether the imports should be organized to remove unused imports.</td>
+* </tr>
+ * <tr>
  *    <td valign="top">validateModel</td>
  *    <td>Boolean value indicating whether the Ecore model should be validated before
  *    generating the code.</td>
@@ -180,7 +184,8 @@ public abstract class GeneratorTask extends EMFTask
   protected String modelProjectFragmentPath;
   protected File templatePath;
   protected String copyright;
-  protected boolean sdo = false;
+  protected boolean sdo;
+  protected boolean importOrganizing;
   protected String jdkLevel;
   protected String validateModel;
 
@@ -334,6 +339,11 @@ public abstract class GeneratorTask extends EMFTask
     return GenJDKLevel.get(jdkLevel);
   }
 
+  public void setImportOrganzing(boolean importOrganizing)
+  {
+    this.importOrganizing = importOrganizing;
+  }
+
   protected Commandline getCommandline()
   {
     if (commandline == null)
@@ -484,6 +494,12 @@ public abstract class GeneratorTask extends EMFTask
     if (sdo)
     {
       getCommandline().createArgument().setValue("-sdo");
+    }
+    
+
+    if (importOrganizing)
+    {
+      getCommandline().createArgument().setValue("-importOrganizing");
     }
   }
 

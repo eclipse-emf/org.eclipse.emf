@@ -5,8 +5,8 @@ package org.examples.library;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.examples.hr.Person;
 import org.eclipse.emf.ecore.EObject;
+import org.examples.hr.Person;
 
 /**
  * <!-- begin-user-doc -->
