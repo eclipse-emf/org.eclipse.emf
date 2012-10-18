@@ -16,6 +16,10 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -54,6 +58,11 @@ public class ResourceDialog extends Dialog
   protected String uriText;
 
   /**
+   * @since 2.9
+   */
+  protected URI context;
+
+  /**
    * Creates a new instance of this class, given a parent shell, an optional title, and a style value
    * describing its behaviour.
    * @param parent a shell which will be the parent of the new instance
@@ -71,6 +80,23 @@ public class ResourceDialog extends Dialog
     
     normalizeStyle();
     setShellStyle(getShellStyle() | SWT.MAX | SWT.RESIZE);
+  }
+
+  /**
+   * Creates a new instance of this class, given a parent shell, an optional title, a style value describing its behaviour, and a context URI.
+   * @param parent a shell which will be the parent of the new instance
+   * @param title an optional title for the dialog, to be used in place of the default
+   * @param style {@link SWT SWT style bits}, indicating whether {@link SWT#OPEN existing (<code>SWT.OPEN</code>)} or {@link SWT#SAVE new <code>(SWT.SAVE)</code>} resources are to be specified and, 
+   * in the former case, whether {@link SWT#SINGLE single (<code>SWT.SINGLE</code>)} or {@link SWT#MULTI multiple (<code>SWT.MULTI</code>)}.
+   * Open existing and single resource are the defaults.
+   * @param context a context to use in setting the initial selection when browsing the workspace.
+   * If non-null, this should be a platform resource URI referring to the active file. Its container will be selected by default.
+   * @since 2.9
+   */
+  public ResourceDialog(Shell parent, String title, int style, URI context)
+  {
+    this(parent, title, style);
+    this.context = context;
   }
 
   protected void normalizeStyle()
@@ -272,13 +298,13 @@ public class ResourceDialog extends Dialog
       (new SelectionAdapter()
        {
          @Override
-        public void widgetSelected(SelectionEvent event)
+         public void widgetSelected(SelectionEvent event)
          {
            if (isMulti())
            {
              StringBuffer uris = new StringBuffer();
 
-             IFile[] files = WorkspaceResourceDialog.openFileSelection(getShell(), null, null, true, null, null);
+             IFile[] files = WorkspaceResourceDialog.openFileSelection(getShell(), null, null, true, getContextSelection(), null);
              for (int i = 0, len = files.length; i < len; i++)
              {
                uris.append(URI.createPlatformResourceURI(files[i].getFullPath().toString(), true));
@@ -292,11 +318,12 @@ public class ResourceDialog extends Dialog
 
              if (isSave())
              {
-               file = WorkspaceResourceDialog.openNewFile(getShell(), null, null, null, null);
+               String path = getContextPath();
+               file = WorkspaceResourceDialog.openNewFile(getShell(), null, null, path != null ? new Path(path) : null, null);
              }
              else
              {
-               IFile[] files = WorkspaceResourceDialog.openFileSelection(getShell(), null, null, false, null, null);
+               IFile[] files = WorkspaceResourceDialog.openFileSelection(getShell(), null, null, false, getContextSelection(), null);
                if (files.length != 0)
                {
                  file = files[0];
@@ -308,6 +335,26 @@ public class ResourceDialog extends Dialog
                uriField.setText(URI.createPlatformResourceURI(file.getFullPath().toString(), true).toString());
              }
            }
+         }
+
+         private String getContextPath()
+         {
+           return context != null && context.isPlatformResource() ? URI.createURI(".").resolve(context).path().substring(9) : null;
+         }
+
+         private Object[] getContextSelection()
+         {
+           String path = getContextPath();
+           if (path != null)
+           {
+             IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+             IResource resource = root.findMember(path);
+             if (resource != null && resource.isAccessible())
+             {
+               return new Object[] { resource };
+             }
+           }
+           return null;
          }
        });      
   }

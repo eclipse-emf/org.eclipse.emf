@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2004-2007 IBM Corporation and others.
+ * Copyright (c) 2004-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,6 +10,8 @@
  */
 package org.eclipse.emf.edit.ui.action;
 
+
+import java.util.List;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
@@ -105,8 +107,21 @@ public class LoadResourceAction extends Action
 
     public LoadResourceDialog(Shell parent, EditingDomain domain)
     {
-      super(parent, EMFEditUIPlugin.INSTANCE.getString("_UI_LoadResourceDialog_title"), SWT.OPEN | SWT.MULTI);
+      super(parent, EMFEditUIPlugin.INSTANCE.getString("_UI_LoadResourceDialog_title"), SWT.OPEN | SWT.MULTI, getContextURI(domain));
       this.domain = domain;
+    }
+
+    private static URI getContextURI(EditingDomain domain)
+    {
+      if (domain != null)
+      {
+        List<Resource> resources = domain.getResourceSet().getResources();
+        if (!resources.isEmpty())
+        {
+          return resources.get(0).getURI();
+        }
+      }
+      return null;
     }
 
     @Override
