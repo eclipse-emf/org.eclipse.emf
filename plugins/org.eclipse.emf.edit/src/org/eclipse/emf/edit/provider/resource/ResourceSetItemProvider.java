@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,16 +11,22 @@
 package org.eclipse.emf.edit.provider.resource;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.EMFEditPlugin;
+import org.eclipse.emf.edit.command.AbstractOverrideableCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -149,6 +155,95 @@ public class ResourceSetItemProvider
   protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
+  }
+
+  @Override
+  protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location, int operations, int operation, final Collection<?> collection)
+  {
+    final ResourceSet resourceSet = (ResourceSet)owner;
+
+    class LoadResourceCommand extends AbstractOverrideableCommand implements AbstractCommand.NonDirtying
+    {
+      protected LoadResourceCommand(EditingDomain domain)
+      {
+        super(domain);
+      }
+
+      protected List<Resource> resources;
+
+      @Override
+      protected boolean prepare()
+      {
+        for (Object object : collection)
+        {
+          if (!(object instanceof URI))
+          {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      @Override
+      public void doExecute()
+      {
+        resources = new ArrayList<Resource>();
+        for (Object object : collection)
+        {
+          URI uri = (URI)object;
+          Resource resource = resourceSet.getResource(uri, false);
+          if (resource == null)
+          {
+            try
+            {
+              resource = resourceSet.getResource(uri, true);
+            }
+            catch (RuntimeException exception)
+            {
+              resource = resourceSet.getResource(uri, false);
+              EMFEditPlugin.INSTANCE.log(exception);
+            }
+          }
+          if (resource != null)
+          {
+            resources.add(resource);
+          }
+        }
+      }
+
+      @Override
+      public void doUndo()
+      {
+        resourceSet.getResources().removeAll(resources);
+        resources = null;
+      }
+
+      @Override
+      public void doRedo()
+      {
+        doExecute();
+      }
+
+      @Override
+      public Collection<?> doGetAffectedObjects()
+      {
+        return resources == null ? Collections.singleton(resourceSet) : resources;
+      }
+
+      @Override
+      public String doGetDescription()
+      {
+        return EMFEditPlugin.INSTANCE.getString("_UI_LoadResources_description");
+      }
+
+      @Override
+      public String doGetLabel()
+      {
+        return EMFEditPlugin.INSTANCE.getString("_UI_LoadResources_label");
+      }
+    }
+
+    return new LoadResourceCommand(domain);
   }
 
   /**

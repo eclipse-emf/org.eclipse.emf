@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,12 +16,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -31,7 +33,10 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.command.DragAndDropCommand;
 import org.eclipse.emf.edit.command.DragAndDropFeedback;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -58,11 +63,13 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  *      EditingDomainViewerDropAdapter(viewer));
  * </pre>
  * <p>
- * This implementation prefers to use a {@link LocalTransfer}, 
- * which short-circuits the transfer process for simple transfers within the workbench,
+ * This implementation prefers to use a {@link LocalTransfer},
+ * which short-circuits the transfer process for simple transfers within the workbench;
  * the method {@link #getDragSource} can be overridden to change the behaviour.
  * The implementation also only handles an {@link IStructuredSelection},
  * but the method {@link #extractDragSource} can be overridden to change the behaviour.
+ * In EMF 2.9, this class was enhanced to also handle {@link LocalSelectionTransfer} and {@link FileTransfer}.
+ * For the latter, the file names are converted to a list of {@link URIs} by {@link #extractDragSource}.
  * <p>
  * SWT's {@link DND#FEEDBACK_SCROLL auto-scroll} and {@link DND#FEEDBACK_EXPAND auto-expand}
  * (hover) are enabled by default.  The method {@link #getAutoFeedback} can be overridden
@@ -359,26 +366,7 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
     // Check whether the current data type can be transfered locally.
     //
     LocalTransfer localTransfer = LocalTransfer.getInstance();
-    if (!localTransfer.isSupportedType(event.currentDataType))
-    {
-      // Iterate over the data types to see if there is a data type that supports a local transfer.
-      //
-      TransferData [] dataTypes = event.dataTypes;
-      for (int i = 0; i < dataTypes.length; ++i)
-      {
-        TransferData transferData = dataTypes[i];
-
-        // If the local transfer supports this data type, switch to that data type
-        //
-        if (localTransfer.isSupportedType(transferData))
-        {
-          event.currentDataType = transferData;
-        }
-      }
-
-      return null;
-    }
-    else
+    if (localTransfer.isSupportedType(event.currentDataType))
     {
       // Motif kludge: we would get something random instead of null.
       //
@@ -389,11 +377,91 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
       Object object = localTransfer.nativeToJava(event.currentDataType);
       return object == null ? null : extractDragSource(object);
     }
+    else
+    {
+      LocalSelectionTransfer localSelectionTransfer = LocalSelectionTransfer.getTransfer();
+      if (localSelectionTransfer.isSupportedType(event.currentDataType))
+      {
+        // Motif kludge: we would get something random instead of null.
+        //
+        if (IS_MOTIF) return null;
+
+        // Transfer the data and, if non-null, extract it.
+        //
+        Object object = localSelectionTransfer.nativeToJava(event.currentDataType);
+        return object == null ? null : extractDragSource(object);
+      }
+
+      FileTransfer fileTransfer = FileTransfer.getInstance();
+      if (fileTransfer.isSupportedType(event.currentDataType))
+      {
+        // Motif kludge: we would get something random instead of null.
+        //
+        if (IS_MOTIF) return null;
+
+        // Transfer the data and, if non-null, extract it.
+        //
+        Object object = fileTransfer.nativeToJava(event.currentDataType);
+        return object == null ? null : extractDragSource(object);
+      }
+      else
+      {
+        // Iterate over the data types to see if there is a data type that supports a local transfer.
+        //
+        TransferData [] dataTypes = event.dataTypes;
+        for (int i = 0; i < dataTypes.length; ++i)
+        {
+          TransferData transferData = dataTypes[i];
+
+          // If the local transfer supports this data type, switch to that data type
+          //
+          if (localTransfer.isSupportedType(transferData))
+          {
+            event.currentDataType = transferData;
+            return null;
+          }
+        }
+
+        // Iterate over the data types to see if there is a data type that supports a local selection transfer.
+        //
+        for (int i = 0; i < dataTypes.length; ++i)
+        {
+          TransferData transferData = dataTypes[i];
+
+          // If the local selection transfer supports this data type, switch to that data type
+          //
+          if (localSelectionTransfer.isSupportedType(transferData))
+          {
+            event.currentDataType = transferData;
+            return null;
+          }
+        }
+
+        // Iterate over the data types to see if there is a data type that supports a file transfer.
+        //
+        for (int i = 0; i < dataTypes.length; ++i)
+        {
+          TransferData transferData = dataTypes[i];
+
+          // If the file transfer supports this data type, switch to that data type
+          //
+          if (fileTransfer.isSupportedType(transferData))
+          {
+            event.currentDataType = transferData;
+            return null;
+          }
+        }
+        return null;
+      }
+    }
   }
 
   /**
    * This extracts a collection of dragged source objects from the given object retrieved from the transfer agent.
-   * This default implementation converts a structured selection into a collection of elements.
+   * This default implementation converts a {@link IStructuredSelection structured selection} into a collection of elements.
+   * As of EMF 2.9, 
+   * an array of strings is converted to a collection of {@link URI#createFileURI(String) file URI}s
+   * and each {@link IResource} in a selection is {@link URI#createPlatformResourceURI(String, boolean) converted to a URI}.
    */
   protected Collection<?> extractDragSource(Object object)
   {
@@ -402,7 +470,20 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
     if (object instanceof IStructuredSelection)
     {
       List<?> list = ((IStructuredSelection)object).toList();
+      if (CommonPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
+      {
+        list = ResourcesHelper.resourceToURI(list);
+      }
       return list;
+    }
+    else if (object instanceof String[])
+    {
+      List<URI> result = new ArrayList<URI>();
+      for (String file : ((String[])object))
+      {
+        result.add(URI.createFileURI(file));
+      }
+      return result;
     }
     else
     {
@@ -480,5 +561,29 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
     {
       return DragAndDropCommand.create(domain, target, location, operations, operation, source);
     }
+  }
+}
+
+/**
+ * A utility class for converting IResource to their corresponding URI.
+ *
+ */
+class ResourcesHelper
+{
+  public static List<?> resourceToURI(List<?> dragSource)
+  {
+    List<Object> result = new ArrayList<Object>();
+    for (Object object : dragSource)
+    {
+      if (object instanceof IResource)
+      {
+        result.add(URI.createPlatformResourceURI(((IResource)object).getFullPath().toString(), true));
+      }
+      else
+      {
+        result.add(object);
+      }
+    }
+    return result;
   }
 }

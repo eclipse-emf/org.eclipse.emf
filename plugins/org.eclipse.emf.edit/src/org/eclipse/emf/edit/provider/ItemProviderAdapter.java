@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -35,11 +35,13 @@ import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -1008,6 +1010,26 @@ public class ItemProviderAdapter
     else if (commandClass == DragAndDropCommand.class)
     {
       DragAndDropCommand.Detail detail = (DragAndDropCommand.Detail)commandParameter.getFeature();
+      Collection<?> collection = commandParameter.getCollection();
+      if (domain != null && !collection.isEmpty() && commandParameter.getOwner() != domain.getResourceSet())
+      {
+        List<URI> uris = null;
+        for (Object element : collection)
+        {
+          if (element instanceof URI)
+          {
+            if (uris == null)
+            {
+              uris = new ArrayList<URI>();
+            }
+            uris.add((URI)element);
+          }
+        }
+        if (uris != null && uris.size() == collection.size())
+        {
+          return createDragAndDropCommand(domain, domain.getResourceSet(), detail.location, detail.operations, detail.operation, uris);
+        }
+      }
       result = 
         createDragAndDropCommand
           (domain, commandParameter.getOwner(), detail.location, detail.operations, detail.operation, commandParameter.getCollection());
@@ -1186,6 +1208,16 @@ public class ItemProviderAdapter
     (EditingDomain domain, Object owner, float location, int operations, int operation, Collection<?> collection)
   {
     return new DragAndDropCommand(domain, owner, location, operations, operation, collection);
+  }
+
+  /**
+   * Delegates command creation to the resource set of the editing domain for the case of a drag and drop command for a collection containing only URIs.
+   * @since 2.9
+   */
+  protected Command createDragAndDropCommand
+    (EditingDomain domain, ResourceSet resourceSet, float location, int operations, int operation, Collection<URI> collection)
+  {
+    return DragAndDropCommand.create(domain, resourceSet, location, operations, operation, collection);
   }
 
   /**

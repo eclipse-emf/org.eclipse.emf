@@ -46,6 +46,7 @@ import org.eclipse.emf.edit.command.CopyToClipboardCommand;
 import org.eclipse.emf.edit.command.CreateChildCommand;
 import org.eclipse.emf.edit.command.CutToClipboardCommand;
 import org.eclipse.emf.edit.command.DeleteCommand;
+import org.eclipse.emf.edit.command.DragAndDropCommand;
 import org.eclipse.emf.edit.command.OverrideableCommand;
 import org.eclipse.emf.edit.command.PasteFromClipboardCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
@@ -541,6 +542,10 @@ public class AdapterFactoryEditingDomain implements EditingDomain
           return UnexecutableCommand.INSTANCE;
         }
         return createCommand(CreateChildCommand.class, new CommandParameter(parent, commandParameter.getFeature(), commandParameter.getValue(), commandParameter.getCollection(), commandParameter.getIndex()));
+      }
+      else if (commandClass == DragAndDropCommand.class)
+      {
+        return createCommand(DragAndDropCommand.class, new CommandParameter(resourceSet, commandParameter.getFeature(), commandParameter.getValue(), commandParameter.getCollection(), commandParameter.getIndex()));
       }
     }
 

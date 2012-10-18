@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 package org.eclipse.emf.edit.ui.dnd;
 
 
+import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.dnd.DragSourceEvent;
@@ -31,6 +32,8 @@ import org.eclipse.swt.dnd.DragSourceListener;
  * Doing so simply allows a drag operation to be initiated from the viewer
  * such that the viewer's selection is transferred to the drop target.
  * See {@link EditingDomainViewerDropAdapter} and {@link LocalTransfer} for more details.
+ * As of EMF 2.9, {@link LocalSelectionTransfer} is also supported;
+ * this is preferred because it's used by the platform's explorers.
  */
 public class ViewerDragAdapter implements DragSourceListener
 {
@@ -62,6 +65,8 @@ public class ViewerDragAdapter implements DragSourceListener
   public void dragStart(DragSourceEvent event)
   {
     selection = viewer.getSelection();
+    LocalSelectionTransfer.getTransfer().setSelection(selection);
+    LocalSelectionTransfer.getTransfer().setSelectionSetTime(System.currentTimeMillis());
   }
 
   /**
@@ -71,6 +76,7 @@ public class ViewerDragAdapter implements DragSourceListener
   {
     selection = null;
     LocalTransfer.getInstance().javaToNative(null, null);
+    LocalSelectionTransfer.getTransfer().setSelection(null);
   }
   
   /**
@@ -81,6 +87,10 @@ public class ViewerDragAdapter implements DragSourceListener
     if (LocalTransfer.getInstance().isSupportedType(event.dataType))
     {
       event.data = selection;
+    }
+    else if (LocalSelectionTransfer.getTransfer().isSupportedType(event.dataType))
+    {
+      event.data = LocalSelectionTransfer.getTransfer().getSelection();
     }
   }
 }
