@@ -2675,7 +2675,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
                     for (IProblem problem : problems)
                     {
                       int id = problem.getID();
-                      if (id == IProblem.UndefinedType || id == IProblem.UnresolvedVariable)
+                      if (id == IProblem.UndefinedType || id == IProblem.FieldRelated + 83) // This should be IProblem.UnresolvedVariable which was added in 3.6 so isn't available for 3.5 compatibility.
                       {
                         String suffix = "." + problem.getArguments()[0];
                         for (String unusedImport : unusedImports)
