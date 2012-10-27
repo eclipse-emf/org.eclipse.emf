@@ -3275,7 +3275,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           EObject xsdSchema = (EObject)i.next();
 
           ResourceSet resourceSet = new ResourceSetImpl();
-          resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+          resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
           URI uri = getEcorePackage().eResource().getURI().trimSegments(1).appendSegment(getPrefix() + type + ".xsd");
           Resource xsdSchemaResource = resourceSet.createResource(uri);
           xsdSchemaResource.getContents().add(xsdSchema);

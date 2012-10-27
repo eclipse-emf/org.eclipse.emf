@@ -341,7 +341,7 @@ public class ConverterUtil
   public static ResourceSet createResourceSet()
   {
     ResourceSet result = new ResourceSetImpl();
-    result.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+    result.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
     return result;    
   }
   

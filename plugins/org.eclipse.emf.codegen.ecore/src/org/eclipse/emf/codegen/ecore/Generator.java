@@ -162,7 +162,7 @@ public class Generator extends CodeGen
                   String prefix = arguments[3];
 
                   ResourceSet resourceSet = new ResourceSetImpl();
-                  resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+                  resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
                   URI ecoreURI = URI.createFileURI(ecorePath.toString());
                   Resource resource = resourceSet.getResource(ecoreURI, true);
                   EPackage ePackage = (EPackage)resource.getContents().get(0);
@@ -317,7 +317,7 @@ public class Generator extends CodeGen
                   // Create a resource set and load the model file into it.
                   //
                   ResourceSet resourceSet = new ResourceSetImpl();
-                  resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+                  resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
                   URI genModelURI = URI.createFileURI(new File(genModelName).getAbsoluteFile().getCanonicalPath());
                   Resource genModelResource = resourceSet.getResource(genModelURI, true);
                   GenModel genModel = (GenModel)genModelResource.getContents().get(0);

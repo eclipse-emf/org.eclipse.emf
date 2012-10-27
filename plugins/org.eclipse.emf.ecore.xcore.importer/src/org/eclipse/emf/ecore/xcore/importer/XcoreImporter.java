@@ -42,7 +42,7 @@ public class XcoreImporter extends ModelImporter
   public XcoreImporter()
   {
     resourceSet = new XtextResourceSet();
-    resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+    resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
   }
 
   @Override

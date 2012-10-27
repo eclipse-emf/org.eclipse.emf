@@ -2090,6 +2090,10 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    */
   protected boolean exists(URI workspacePath)
   {
+    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    {
+      return PlatformResourceURIHandlerImpl.WorkbenchHelper.exists(workspacePath.toString(), null);
+    }
     return getURIConverter().exists(toPlatformResourceURI(workspacePath), null);
   }
 
@@ -2173,6 +2177,10 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    */
   protected OutputStream createOutputStream(URI workspacePath) throws Exception
   {
+    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    {
+      return URIConverter.INSTANCE.createOutputStream(toPlatformResourceURI(workspacePath), null);
+    }
     return getURIConverter().createOutputStream(toPlatformResourceURI(workspacePath), null);
   }
 

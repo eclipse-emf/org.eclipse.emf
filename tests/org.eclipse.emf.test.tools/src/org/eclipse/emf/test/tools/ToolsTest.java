@@ -53,13 +53,14 @@ public class ToolsTest extends TestCase
   {
     String nsURI = EcorePackage.eNS_URI;
 
-    Map<String, URI> map = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
+    Map<String, URI> map = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true);
     assertNotNull(map);
 
     URI genModelURI = map.get(nsURI);
     assertNotNull(genModelURI);
 
     ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
     Resource genModelResource = resourceSet.getResource(genModelURI, true);
     assertNotNull(genModelResource);
     assertFalse(genModelResource.getContents().isEmpty());

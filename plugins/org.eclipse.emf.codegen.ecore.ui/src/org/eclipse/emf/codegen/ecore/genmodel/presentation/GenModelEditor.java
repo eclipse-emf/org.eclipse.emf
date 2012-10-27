@@ -748,7 +748,7 @@ public class GenModelEditor
         }
       };
 
-    editingDomain.getResourceSet().getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+    editingDomain.getResourceSet().getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
   }
 
   /**

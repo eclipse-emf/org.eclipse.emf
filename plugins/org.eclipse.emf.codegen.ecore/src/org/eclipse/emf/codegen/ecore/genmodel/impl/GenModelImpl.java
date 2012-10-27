@@ -6148,7 +6148,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           // See if a GenModel is registered for the package's URI, and if so, try to load it.
           //
           GenPackage staticGenPackage = null;
-          URI genModelURI = EcorePlugin.getEPackageNsURIToGenModelLocationMap().get(nsURI);
+          URI genModelURI = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true).get(nsURI);
           if (genModelURI != null)
           {
             try

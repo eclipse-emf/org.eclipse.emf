@@ -382,7 +382,7 @@ public abstract class ModelConverter
       {
         externalGenModelResourceSet = createExternalGenModelResourceSet();
       }
-      Map<String, URI> ePackageToGenModelMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
+      Map<String, URI> ePackageToGenModelMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true);
       for (TreeIterator<EPackage> i = 
              new EcoreUtil.ContentTreeIterator<EPackage>(getEPackages())
              {

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2007 IBM Corporation and others.
+ * Copyright (c) 2006-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,6 +22,9 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
  */
 public class URIHandlerImpl implements XMLResource.URIHandler
 {
+  /**
+   * A URI handler that will avoid creating relative references between platform:/resource and platform:/plugin.
+   */
   public static class PlatformSchemeAware extends URIHandlerImpl
   {
     @Override
@@ -31,7 +34,22 @@ public class URIHandlerImpl implements XMLResource.URIHandler
         super.deresolve(uri) : uri;
     }
   }
-  
+
+  /**
+   * A URI handler that will avoid creating relative references between different platform:/resource/project-name or platform/plugin/bundle-name,
+   * i.e., it will produce relative references only within projects or bundles and will use absolute URIs for references outside of that project or bundle.
+   * @since 2.9
+   */
+  public static class AbsoluteCrossBundleAware extends URIHandlerImpl
+  {
+    @Override
+    public URI deresolve(URI uri)
+    {
+      return !uri.isPlatform() || (uri.segmentCount() > 1 && baseURI.segmentCount() > 1 && uri.segment(0).equals(baseURI.segment(0)) && uri.segment(1).equals(baseURI.segment(1))) ?
+        super.deresolve(uri) : uri;
+    }
+  }
+
   protected URI baseURI;
   protected boolean resolve;
 

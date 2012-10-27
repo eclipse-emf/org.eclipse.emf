@@ -834,6 +834,12 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
     {
       return BasicEMap.this.hashCode();
     }
+
+    @Override
+    public String toString()
+    {
+      return BasicEMap.this.toString();
+    }
   }
 
   /*

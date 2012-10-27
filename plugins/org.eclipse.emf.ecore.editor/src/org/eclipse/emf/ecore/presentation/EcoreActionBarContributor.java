@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -205,17 +205,82 @@ public class EcoreActionBarContributor
       {
         Composite composite = (Composite)super.createDialogArea(parent);
         Composite buttonComposite = (Composite)composite.getChildren()[0];
+
         Button browseRegisteredPackagesButton = new Button(buttonComposite, SWT.PUSH);
         browseRegisteredPackagesButton.setText(EcoreEditorPlugin.INSTANCE.getString("_UI_BrowseRegisteredPackages_label"));
         prepareBrowseRegisteredPackagesButton(browseRegisteredPackagesButton);
         {
           FormData data = new FormData();
           Control [] children = buttonComposite.getChildren();
-          data.left = new FormAttachment(0, 0);
           data.right = new FormAttachment(children[0], -CONTROL_OFFSET);
           browseRegisteredPackagesButton.setLayoutData(data);
         }
+
+        Button browseTargetPlatformPackagesButton = new Button(buttonComposite, SWT.PUSH);
+        browseTargetPlatformPackagesButton.setText(EcoreEditorPlugin.INSTANCE.getString("_UI_BrowseTargetPlatformPackages_label"));
+        prepareBrowseTargetPlatformPackagesButton(browseTargetPlatformPackagesButton);
+        {
+          FormData data = new FormData();
+          data.right = new FormAttachment(browseRegisteredPackagesButton, -CONTROL_OFFSET);
+          browseTargetPlatformPackagesButton.setLayoutData(data);
+        }
+        
         return composite;
+      }
+
+      /**
+       * @since 2.9
+       */
+      protected void prepareBrowseTargetPlatformPackagesButton(Button browseTargetPlatformPackagesButton)
+      {
+        browseTargetPlatformPackagesButton.addSelectionListener
+          (new SelectionAdapter()
+           {
+             @Override
+             public void widgetSelected(SelectionEvent event)
+             {
+               TargetPlatformPackageDialog classpathPackageDialog = new TargetPlatformPackageDialog(getShell());
+               classpathPackageDialog.open();
+               Object [] result = classpathPackageDialog.getResult();
+               if (result != null)
+               {
+                 List<?> nsURIs = Arrays.asList(result);
+                 ResourceSet resourceSet = new ResourceSetImpl();
+                 // resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(domain.getResourceSet().getResources().get(0).getURI()));
+                 resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
+
+                 // To support Xcore resources, we need a resource with a URI that helps determine the containing project
+                 //
+                 Resource dummyResource = resourceSet.createResource(domain.getResourceSet().getResources().get(0).getURI());
+
+                 StringBuffer uris = new StringBuffer();
+                 Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true);
+                 for (int i = 0, length = result.length; i < length; i++)
+                 {
+                   URI location = ePackageNsURItoGenModelLocationMap.get(result[i]);
+                   Resource resource = resourceSet.getResource(location, true);
+                   EcoreUtil.resolveAll(resource);
+                 }
+
+                 EList<Resource> resources = resourceSet.getResources();
+                 resources.remove(dummyResource);
+
+                 for (Resource resource : resources)
+                 {
+                   for (EPackage ePackage : getAllPackages(resource))
+                   {
+                     if (nsURIs.contains(ePackage.getNsURI()))
+                     {
+                       uris.append(resource.getURI());
+                       uris.append("  ");
+                       break;
+                     }
+                   }
+                 }
+                 uriField.setText((uriField.getText() + "  " + uris.toString()).trim());
+               }
+             }
+           });
       }
 
       protected void prepareBrowseRegisteredPackagesButton(Button browseRegisteredPackagesButton)
@@ -235,14 +300,14 @@ public class EcoreActionBarContributor
                  if (registeredPackageDialog.isDevelopmentTimeVersion())
                  {
                    ResourceSet resourceSet = new ResourceSetImpl();
-                   resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+                   resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(false));
 
                    // To support Xcore resources, we need a resource with a URI that helps determine the containing project
                    //
                    Resource dummyResource = resourceSet.createResource(domain.getResourceSet().getResources().get(0).getURI());
 
                    StringBuffer uris = new StringBuffer();
-                   Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
+                   Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(false);
                    for (int i = 0, length = result.length; i < length; i++)
                    {
                      URI location = ePackageNsURItoGenModelLocationMap.get(result[i]);
@@ -282,7 +347,48 @@ public class EcoreActionBarContributor
            });      
       }
     }
-    
+
+    /**
+     * @since 2.9
+     */
+    public static class TargetPlatformPackageDialog extends ElementListSelectionDialog
+    {
+      public TargetPlatformPackageDialog(Shell parent)
+      {
+        super
+          (parent, 
+           new LabelProvider()
+           {
+             @Override
+            public Image getImage(Object element)
+             {
+               return ExtendedImageRegistry.getInstance().getImage(EcoreEditPlugin.INSTANCE.getImage("full/obj16/EPackage"));
+             }
+           });
+        
+        setMultipleSelection(true);
+        setMessage(EcoreEditorPlugin.INSTANCE.getString("_UI_SelectRegisteredPackageURI"));
+        setFilter("*");
+        setTitle(EcoreEditorPlugin.INSTANCE.getString("_UI_PackageSelection_label"));
+      }
+
+      protected void updateElements()
+      {
+        Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true);
+        Object [] result = ePackageNsURItoGenModelLocationMap.keySet().toArray(new Object[ePackageNsURItoGenModelLocationMap.size()]);
+        Arrays.sort(result);
+        setListElements(result);
+      }
+
+      @Override
+      protected Control createDialogArea(Composite parent)
+      {
+        Composite result = (Composite)super.createDialogArea(parent);
+        updateElements();
+        return result;
+      }
+    }
+
     public static class RegisteredPackageDialog extends ElementListSelectionDialog
     {
       protected boolean isDevelopmentTimeVersion = true;
@@ -315,7 +421,7 @@ public class EcoreActionBarContributor
       {
         if (isDevelopmentTimeVersion)
         {
-          Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
+          Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(false);
           Object [] result = ePackageNsURItoGenModelLocationMap.keySet().toArray(new Object[ePackageNsURItoGenModelLocationMap.size()]);
           Arrays.sort(result);
           setListElements(result);

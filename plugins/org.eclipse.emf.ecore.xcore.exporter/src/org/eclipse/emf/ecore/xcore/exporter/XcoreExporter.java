@@ -169,7 +169,7 @@ public class XcoreExporter extends ModelExporter
       // Create an appropriate resource set for Xcore models.
       //
       ResourceSet resourceSet = new ResourceSetImpl();
-      resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+      resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
 
       // Load a clone of the GenModel in the new resource set.
       //

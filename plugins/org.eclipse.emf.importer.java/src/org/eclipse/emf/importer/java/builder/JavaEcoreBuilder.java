@@ -286,7 +286,7 @@ public class JavaEcoreBuilder
   protected ResourceSet createResourceSet()
   {
     ResourceSet result = new ResourceSetImpl();
-    result.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+    result.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
     return result;
   }
 
@@ -623,7 +623,7 @@ public class JavaEcoreBuilder
     // Determine the inverse map from plugin IDs to their registered GenModel locations.
     //
     Map<String, List<URI>> allPluginsWithGenModels = new HashMap<String, List<URI>>();
-    for (Map.Entry<String, URI> entry : EcorePlugin.getEPackageNsURIToGenModelLocationMap().entrySet())
+    for (Map.Entry<String, URI> entry : EcorePlugin.getEPackageNsURIToGenModelLocationMap(true).entrySet())
     {
       // If it's a platform plugin URI, include it in the map.
       //

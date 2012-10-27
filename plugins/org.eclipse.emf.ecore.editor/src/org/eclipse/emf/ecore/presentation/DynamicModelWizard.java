@@ -129,7 +129,7 @@ public class DynamicModelWizard extends Wizard implements INewWizard
               // Create a resource set
               //
               ResourceSet resourceSet = new ResourceSetImpl();
-              resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+              resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
 
               // Get the URI of the model file.
               //

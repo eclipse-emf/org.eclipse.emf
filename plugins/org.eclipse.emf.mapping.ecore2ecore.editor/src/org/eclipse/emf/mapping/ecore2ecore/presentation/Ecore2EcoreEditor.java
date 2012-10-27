@@ -102,7 +102,7 @@ public class Ecore2EcoreEditor extends MappingEditor
     AdapterFactory ecoreAdapterFactory = new EcoreItemProviderAdapterFactory();
     
     AdapterFactoryMappingDomain result = new Ecore2EcoreMappingDomain(mappingAdapterFactory, ecoreAdapterFactory, ecoreAdapterFactory, new BasicCommandStack(), null);
-    result.getResourceSet().getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+    result.getResourceSet().getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
     return result;
   }
 
