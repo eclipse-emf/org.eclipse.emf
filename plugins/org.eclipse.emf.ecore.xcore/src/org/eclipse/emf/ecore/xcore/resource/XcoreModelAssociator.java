@@ -126,8 +126,12 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
                 }
               }
               // Modify the Ecore package's GenPackage's model to indicate whether Ecore provides edit support.
+              // Do this without producing notifications to avoid Ecore Tools transactional editing domain complaining that there is a model modification without a write transaction.
               //
-              genPackage.getGenModel().setEditDirectory(needsEcoreEditSupport ? "/org.eclipse.emf.edit.ecore/src" : "");
+              GenModel ecoreGenModel = genPackage.getGenModel();
+              ecoreGenModel.eSetDeliver(false);
+              ecoreGenModel.setEditDirectory(needsEcoreEditSupport ? "/org.eclipse.emf.edit.ecore/src" : "");
+              ecoreGenModel.eSetDeliver(true);
               break;
             }
           }

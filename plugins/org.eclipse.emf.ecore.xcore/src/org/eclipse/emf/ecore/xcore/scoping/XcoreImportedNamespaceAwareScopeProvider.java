@@ -19,6 +19,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -43,6 +44,8 @@ import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.AbstractEObjectDescription;
+import org.eclipse.xtext.resource.DerivedStateAwareResource;
+import org.eclipse.xtext.resource.IDerivedStateComputer;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.ISelectable;
@@ -489,25 +492,43 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
         IEObjectDescription element = getParent().getSingleElement(actualQualifiedName);
         if (element == null)
         {
-          Resource ecoreXcoreResource = resourceSet.getResource(ECORE_XCORE_URI, false);
+          DerivedStateAwareResource ecoreXcoreResource = (DerivedStateAwareResource)resourceSet.getResource(ECORE_XCORE_URI, false);
           if (ecoreXcoreResource == null)
           {
             Resource genModelResource = resourceSet.getResource(ECORE_GEN_MODEL_URI, true);
-            GenModel genModel = (GenModel)genModelResource.getContents().get(0);
-            ecoreXcoreResource = resourceSet.getResource(ECORE_XCORE_URI, false);
-            EPackage ePackage = genModel.getGenPackages().get(0).getEcorePackage();
+            final GenModel genModel = (GenModel)genModelResource.getContents().get(0);
+            final EPackage ePackage = genModel.getGenPackages().get(0).getEcorePackage();
             Resource ecoreResource = ePackage.eResource();
-            EcoreXcoreBuilder ecoreXcoreBuilder = ecoreXcoreBuilderProvider.get();
+            final EcoreXcoreBuilder ecoreXcoreBuilder = ecoreXcoreBuilderProvider.get();
             ecoreXcoreBuilder.initialize(genModel);
             EcoreUtil.resolveAll(genModel);
-            XPackage xPackage = ecoreXcoreBuilder.getXPackage(ePackage);
-            ecoreXcoreResource = resourceSet.createResource(ECORE_XCORE_URI);
-            ecoreXcoreResource.getContents().add(xPackage);
-            ecoreXcoreResource.getContents().add(genModel);
-            ecoreXcoreResource.getContents().add(ePackage);
-            ecoreXcoreBuilder.link();
-            ecoreXcoreResource.getContents().addAll(jvmInferrer.inferElements(genModel));
-            jvmInferrer.inferDeepStructure(genModel);
+            final XPackage xPackage = ecoreXcoreBuilder.getXPackage(ePackage);
+
+            // Make the population happen as if it were part of creating the derived state so that no client can see empty resource contents.
+            // This avoids problems with Ecore Tools transactional editing domain seeing this as a model modification without a write transaction.
+            //
+            ecoreXcoreResource = (DerivedStateAwareResource)resourceSet.createResource(ECORE_XCORE_URI);
+            ecoreXcoreResource.getContents().clear();
+            ecoreXcoreResource.setDerivedStateComputer
+              (new IDerivedStateComputer()
+               {
+                 public void installDerivedState(DerivedStateAwareResource resource, boolean preLinkingPhase)
+                 {
+                   EList<EObject> contents = resource.getContents();
+                   contents.add(xPackage);
+                   contents.add(genModel);
+                   contents.add(ePackage);
+                   ecoreXcoreBuilder.link();
+                   contents.addAll(jvmInferrer.inferElements(genModel));
+                   jvmInferrer.inferDeepStructure(genModel);
+                 }
+
+                 public void discardDerivedState(DerivedStateAwareResource resource)
+                 {
+                   throw new UnsupportedOperationException();
+                 }
+               });
+
             resourceSet.getResources().remove(genModelResource);
             resourceSet.getResources().remove(ecoreResource);
           }

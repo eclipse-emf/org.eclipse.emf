@@ -54,6 +54,7 @@ public class XcoreJavaProjectProvider extends XtextResourceSetBasedProjectProvid
     {
       result.add(getJavaProject(resource.getResourceSet()));
     }
+    result.remove(null);
     return result;
   }
 

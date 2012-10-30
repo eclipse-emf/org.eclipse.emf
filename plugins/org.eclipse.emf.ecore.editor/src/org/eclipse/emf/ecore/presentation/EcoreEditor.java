@@ -865,12 +865,24 @@ public class EcoreEditor
         @Override
         public boolean isReadOnly(Resource resource)
         {
-          return
-             resource != null &&
-              ("java".equals(resource.getURI().scheme()) ||
-               "xcore".equals(resource.getURI().fileExtension()) ||
-               "genmodel".equals(resource.getURI().fileExtension()) ||
-               super.isReadOnly(resource));
+          if (super.isReadOnly(resource) || resource == null)
+          {
+            return true;
+          }
+          else
+          {
+            URI uri = resource.getURI();
+            boolean result =
+                "java".equals(uri.scheme()) ||
+                 "xcore".equals(uri.fileExtension()) ||
+                 "genmodel".equals(uri.fileExtension()) ||
+                 uri.isPlatformResource() && !resourceSet.getURIConverter().normalize(uri).isPlatformResource();
+            if (resourceToReadOnlyMap != null)
+            {
+              resourceToReadOnlyMap.put(resource, result);
+            }
+            return result;
+          }
         }
       };
   }
