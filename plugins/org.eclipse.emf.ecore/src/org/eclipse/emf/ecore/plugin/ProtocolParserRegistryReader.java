@@ -12,7 +12,7 @@ package org.eclipse.emf.ecore.plugin;
 
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.RegistryFactory;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -32,8 +32,8 @@ class ProtocolParserRegistryReader extends RegistryReader
   public ProtocolParserRegistryReader()
   {
     super
-      (Platform.getExtensionRegistry(),
-       EcorePlugin.getPlugin().getBundle().getSymbolicName(), 
+      (RegistryFactory.getRegistry(),
+       EcorePlugin.INSTANCE.getSymbolicName(), 
        EcorePlugin.PROTOCOL_PARSER_PPID);
   }
 

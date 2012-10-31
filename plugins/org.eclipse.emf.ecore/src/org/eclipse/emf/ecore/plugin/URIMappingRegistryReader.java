@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.RegistryFactory;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -37,8 +38,8 @@ class URIMappingRegistryReader extends RegistryReader
   public URIMappingRegistryReader() 
   {
     super
-      (Platform.getExtensionRegistry(),
-       EcorePlugin.getPlugin().getBundle().getSymbolicName(),
+      (RegistryFactory.getRegistry(),
+       EcorePlugin.INSTANCE.getSymbolicName(),
        EcorePlugin.URI_MAPPING_PPID);
   }
 

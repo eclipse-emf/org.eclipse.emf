@@ -97,7 +97,7 @@ public class PlatformContentHandlerImpl extends ContentHandlerImpl
         contentDescription = Platform.getContentTypeManager().getDescriptionFor(inputStream, uri.lastSegment(), IContentDescription.ALL);
       }
     }
-    catch (IOException exception)
+    catch (Throwable exception)
     {
       return super.contentDescription(uri, inputStream, options, context);
     }

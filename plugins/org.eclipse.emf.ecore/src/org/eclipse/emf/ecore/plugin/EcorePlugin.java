@@ -14,12 +14,22 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -35,10 +45,16 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.ContributorFactorySimple;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IContributor;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.RegistryFactory;
+import org.eclipse.core.runtime.spi.IRegistryProvider;
+import org.eclipse.core.runtime.spi.RegistryStrategy;
 
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.EMFPlugin;
@@ -590,10 +606,176 @@ public class EcorePlugin  extends EMFPlugin
     public void start(BundleContext context) throws Exception
     {
       super.start(context);
+      ExtensionProcessor.internalProcessExtensions();
+      
+    }
+  }
 
+  /**
+   * A class containing a single utility method for processing extensions.
+   * @see ExtensionProcessor#process(ClassLoader)
+   * @since 2.9
+   */
+  public static class ExtensionProcessor
+  {
+    private static boolean processed;
+    
+    /**
+     * This explicitly triggers processing of all plugin.xml registered extensions.
+     * It does nothing if invoked in the context of an Eclipse application as processing of extensions happens implicitly during {@link Implementation#start(BundleContext) bundle activation}.
+     * As such this method is useful only in non-Eclipse applications to ensure that plugin.xml registrations are processed just as they are in an Eclipse application.
+     * The exploit this mechanism, the classpath of the application must minimally include <code>org.eclipse.equinox.common</code>, <code>org.eclispe.equinox.registry</code>, and <code>org.eclipse.osgi</code>
+     * <p>
+     * This method creates a registry if {@link RegistryFactory#getRegistry() one does not already exist}.
+     * It will first consider all entries on the classpath as provided by {@link System#getProperty(String) System.getProperty("java.class.path")}
+     * to determine if there are any folder entries whose parent folder contains a plugin.xml;
+     * such entries are common when launching a Java application from Eclipse at development time.
+     * In that case, the class loader is not used and only registrations for entries of the classpath are considered.
+     * Otherwise, the class loader is used to find all plugin.xml resources and only those entries are considered.
+     * </p>
+     * <p>
+     * </p>
+     * @param classLoader the class loader used to locate plugin.xml resources; it may be null in which class the {@link Thread#getContextClassLoader() current thread's context class loader} is used, if necessary.
+     * @since 2.9
+     */
+    public static synchronized void process(ClassLoader classLoader)
+    {
+      // Ensure processing only happens once and only when not running an Eclipse application.
+      //
+      if (!processed && !IS_ECLIPSE_RUNNING)
+      {
+        processed = true;
+
+        // If there isn't already a registry...
+        //
+        IExtensionRegistry registry = RegistryFactory.getRegistry();
+        if (registry == null)
+        {
+          // Create a new registry.
+          //
+          final IExtensionRegistry newRegistry =
+            RegistryFactory.createRegistry
+              (new RegistryStrategy(null, null)
+               {
+                 @Override
+                 public void log(IStatus status)
+                 {
+                   INSTANCE.log(status);
+                 }
+
+                 @Override
+                 public String translate(String key, ResourceBundle resources)
+                 {
+                   try
+                   {
+                     // The org.eclipse.core.resources bundle has keys that aren't translated, so avoid exception propagation.
+                     //
+                     return super.translate(key, resources);
+                   }
+                   catch (Throwable throwable)
+                   {
+                     return key;
+                   }
+                 }
+               },
+               null,
+               null);
+
+          // Make the new registry the default.
+          //
+          try
+          {
+            RegistryFactory.setDefaultRegistryProvider
+              (new IRegistryProvider()
+               {
+                 public IExtensionRegistry getRegistry()
+                 {
+                  return newRegistry;
+                 }
+               });
+          }
+          catch (CoreException exception)
+          {
+            INSTANCE.log(exception);
+          }
+
+          registry = newRegistry;
+        }
+
+        // If there is no class loader provided, use the thread's context class loader.
+        //
+        if (classLoader == null)
+        {
+          classLoader = Thread.currentThread().getContextClassLoader();
+        }
+
+        // Process all the URIs for plugin.xml files from the class path or the class loader.
+        //
+        for (URI pluginXMLURI : getPluginXMLs(classLoader))
+        {
+          // Construct the URI for the manifest and check that it exists...
+          //
+          URI manifestURI = pluginXMLURI.trimSegments(1).appendSegments(new String[] { "META-INF", "MANIFEST.MF" });
+          if (URIConverter.INSTANCE.exists(manifestURI, null))
+          {
+            InputStream manifestInputStream = null;
+            try
+            {
+              // Read the manifest.
+              //
+              manifestInputStream = URIConverter.INSTANCE.createInputStream(manifestURI);
+              Manifest manifest = new Manifest(manifestInputStream);
+              java.util.jar.Attributes mainAttributes = manifest.getMainAttributes();
+
+              // Determine the bundle's name
+              //
+              String bundleSymbolicName = mainAttributes.getValue("Bundle-SymbolicName");
+              if (bundleSymbolicName != null)
+              {
+                // Split out the OSGi noise.
+                //
+                bundleSymbolicName = bundleSymbolicName.split(";")[0].trim();
+
+                // Find the localization resource bundle, if there is one.
+                //
+                String bundleLocalization = mainAttributes.getValue("Bundle-Localization");
+                ResourceBundle resourceBundle = null;
+                if (bundleLocalization != null)
+                {
+                  bundleLocalization += ".properties";
+                  InputStream bundleLocalizationInputStream = URIConverter.INSTANCE.createInputStream(pluginXMLURI.trimSegments(1).appendSegment(bundleLocalization));
+                  resourceBundle = new PropertyResourceBundle(bundleLocalizationInputStream);
+                  bundleLocalizationInputStream.close();
+                }
+
+                // Add the contribution.
+                //
+                InputStream pluginXMLInputStream = URIConverter.INSTANCE.createInputStream(pluginXMLURI);
+                IContributor contributor = ContributorFactorySimple.createContributor(bundleSymbolicName);
+                registry.addContribution(pluginXMLInputStream, contributor, false, bundleSymbolicName, resourceBundle, null);
+              }
+            }
+            catch (IOException exception)
+            {
+              INSTANCE.log(exception);
+            }
+          }
+        }
+
+        // Process the extension for the registry.
+        //
+        ExtensionProcessor.internalProcessExtensions();
+      }
+    }
+
+    /**
+     * Read all the registered extensions for Ecore's extension points.
+     */
+    private static void internalProcessExtensions()
+    {
       new RegistryReader
-        (Platform.getExtensionRegistry(),
-         EcorePlugin.getPlugin().getBundle().getSymbolicName(), 
+        (RegistryFactory.getRegistry(),
+         EcorePlugin.INSTANCE.getSymbolicName(),
          PACKAGE_REGISTRY_IMPLEMENTATION_PPID)
       {
         IConfigurationElement previous;
@@ -614,7 +796,7 @@ public class EcorePlugin  extends EMFPlugin
               {
                 if (previous != null)
                 {
-                  log("Both '" + previous.getContributor().getName() + "' and '" + element.getContributor().getName() + "' register a package registry implementation");
+                  INSTANCE.log("Both '" + previous.getContributor().getName() + "' and '" + element.getContributor().getName() + "' register a package registry implementation");
                 }
                 if (defaultRegistryImplementation instanceof EPackageRegistryImpl.Delegator)
                 {
@@ -628,14 +810,14 @@ public class EcorePlugin  extends EMFPlugin
               }
               catch (CoreException exception)
               {
-                log(exception);
+                INSTANCE.log(exception);
               }
               return true;
             }
           }
           return false;
         }
-        
+
       }.readRegistry();
 
       new GeneratedPackageRegistryReader(getEPackageNsURIToGenModelLocationMap(false)).readRegistry();
@@ -651,6 +833,162 @@ public class EcorePlugin  extends EMFPlugin
       new InvocationDelegateFactoryRegistryReader().readRegistry();
       new QueryDelegateFactoryRegistryReader().readRegistry();
       new ConversionDelegateFactoryRegistryReader().readRegistry();
+    }
+  }
+
+  /**
+   * Determine all the available plugin.xml resources.
+   */
+  private static List<URI> getPluginXMLs(ClassLoader classLoader)
+  {
+    List<URI> result = new ArrayList<URI>();
+
+    String classpath = null;
+    try
+    {
+      // Try to get the classpath from the class loader.
+      //
+      Method method = classLoader.getClass().getMethod("getClassPath", (Class<?>) null);
+      if (method != null)
+      {
+        classpath = (String) method.invoke(classLoader, (Object) null);
+      }
+    }
+    catch (Throwable throwable)
+    {
+      // Failing thet, get it from the system properties.
+      //
+      classpath = System.getProperty("java.class.path");
+    }
+
+    // Keep track of whether we find any plugin.xml in the parent of a folder on the classpath, i.e., whether we're in development mode with bin folders on the classpath.
+    //
+    boolean nonClasspathXML = false;
+
+    // If we have a classpath to use...
+    //
+    if (classpath != null)
+    {
+      // Split out the entries on the classpath.
+      //
+      for (String classpathEntry: classpath.split(";"))
+      {
+        classpathEntry = classpathEntry.trim();
+
+        // Determine if the entry is a folder or an archive file.
+        //
+        File file = new File(classpathEntry);
+        if (file.isDirectory())
+        {
+          // Determine if there is a plugin.xml at the root of the folder.
+          //
+          File pluginXML = new File(file, "plugin.xml");
+          if (!pluginXML.exists())
+          {
+            // If not, check if there is one in the parent folder.
+            //
+            pluginXML = new File(file.getParentFile(), "plugin.xml");
+            if (pluginXML.isFile())
+            {
+              // If there is, then we have plugin.xml files that aren't on the classpath.
+              //
+              nonClasspathXML = true;
+            }
+            else
+            {
+              // Otherwise this is bogus too.
+              //
+              pluginXML = null;
+            }
+          }
+
+          // If we found a plugin.xml, create a URI for it.
+          //
+          if (pluginXML != null)
+          {
+            result.add(URI.createFileURI(pluginXML.getPath()));
+          }
+        }
+        else if (file.isFile())
+        {
+          // The file must be a jar...
+          //
+          JarFile jarFile = null;
+          try
+          {
+            // Look for a plugin.xml entry...
+            //
+            jarFile = new JarFile(classpathEntry);
+            ZipEntry entry = jarFile.getEntry("plugin.xml");
+            if (entry != null)
+            {
+              // If we find one, create a URI for it.
+              //
+              result.add(URI.createURI("archive:" + URI.createFileURI(classpathEntry) + "!/" + entry));
+            }
+          }
+          catch (IOException exception)
+          {
+            // Ignore.
+          }
+          finally
+          {
+            if (jarFile != null)
+            {
+              try
+              {
+                jarFile.close();
+              }
+              catch (IOException exception)
+              {
+                INSTANCE.log(exception);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // If we didn't find any non-classpath plugin.xml files, use the class loader to enumerate all the plugin.xml files.
+    // This is more reliable given the possibility of specialized class loader behavior.
+    //
+    if (!nonClasspathXML)
+    {
+      result.clear();
+      try
+      {
+        for (Enumeration<URL> resources = classLoader.getResources("plugin.xml"); resources.hasMoreElements(); )
+        {
+          // Create a URI for each plugin.xml found by the class loader.
+          //
+          URL url = resources.nextElement();
+          result.add(URI.createURI(url.toURI().toString()));
+        }
+      }
+      catch (IOException exception)
+      {
+        INSTANCE.log(exception);
+      }
+      catch (URISyntaxException exception)
+      {
+        INSTANCE.log(exception);
+      }
+    }
+
+    return result;
+  }
+
+  @Override
+  public String getSymbolicName()
+  {
+    ResourceLocator resourceLocator = getPluginResourceLocator();
+    if (resourceLocator instanceof InternalEclipsePlugin)
+    {
+      return ((InternalEclipsePlugin)resourceLocator).getSymbolicName();
+    }
+    else
+    {
+      return "org.eclipse.emf.ecore";
     }
   }
 

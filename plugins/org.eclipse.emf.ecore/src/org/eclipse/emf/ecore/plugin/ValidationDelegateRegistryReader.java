@@ -11,7 +11,7 @@
 package org.eclipse.emf.ecore.plugin;
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.RegistryFactory;
 
 import org.eclipse.emf.ecore.EValidator;
 
@@ -48,7 +48,7 @@ class ValidationDelegateRegistryReader extends RegistryReader
 
   public ValidationDelegateRegistryReader()
   {
-    super(Platform.getExtensionRegistry(), EcorePlugin.getPlugin().getBundle().getSymbolicName(), EcorePlugin.VALIDATION_DELEGATE_PPID);
+    super(RegistryFactory.getRegistry(), EcorePlugin.INSTANCE.getSymbolicName(), EcorePlugin.VALIDATION_DELEGATE_PPID);
   }
 
   @Override

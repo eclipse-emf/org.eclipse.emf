@@ -11,7 +11,7 @@
 package org.eclipse.emf.ecore.plugin;
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.RegistryFactory;
 import org.eclipse.emf.ecore.EDataType;
 
 
@@ -47,7 +47,7 @@ class ConversionDelegateFactoryRegistryReader extends RegistryReader
 
   public ConversionDelegateFactoryRegistryReader()
   {
-    super(Platform.getExtensionRegistry(), EcorePlugin.getPlugin().getBundle().getSymbolicName(), EcorePlugin.CONVERSION_DELEGATE_PPID);
+    super(RegistryFactory.getRegistry(), EcorePlugin.INSTANCE.getSymbolicName(), EcorePlugin.CONVERSION_DELEGATE_PPID);
   }
 
   @Override

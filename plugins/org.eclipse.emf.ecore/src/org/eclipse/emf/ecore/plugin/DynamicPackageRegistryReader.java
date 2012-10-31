@@ -12,7 +12,7 @@ package org.eclipse.emf.ecore.plugin;
 
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.RegistryFactory;
 
 import org.eclipse.emf.ecore.EPackage;
 
@@ -30,8 +30,8 @@ class DynamicPackageRegistryReader extends RegistryReader
   public DynamicPackageRegistryReader()
   {
     super
-      (Platform.getExtensionRegistry(),
-       EcorePlugin.getPlugin().getBundle().getSymbolicName(), 
+      (RegistryFactory.getRegistry(),
+       EcorePlugin.INSTANCE.getSymbolicName(), 
        EcorePlugin.DYNAMIC_PACKAGE_PPID);
   }
 

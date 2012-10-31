@@ -17,8 +17,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.RegistryFactory;
 
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.ecore.resource.ContentHandler;
 
 
@@ -37,8 +38,8 @@ class ContentHandlerRegistryReader extends RegistryReader
   public ContentHandlerRegistryReader()
   {
     super
-      (Platform.getExtensionRegistry(),
-       EcorePlugin.getPlugin().getBundle().getSymbolicName(), 
+      (RegistryFactory.getRegistry(),
+       EcorePlugin.INSTANCE.getSymbolicName(), 
        EcorePlugin.CONTENT_HANDLER_PPID);
   }
 
@@ -67,7 +68,7 @@ class ContentHandlerRegistryReader extends RegistryReader
           try
           {
             @SuppressWarnings("unchecked")
-            Class<ContentHandler> contributorHandlerClass = (Class<ContentHandler>)Platform.getBundle(element.getNamespaceIdentifier()).loadClass(contributorClassName);
+            Class<ContentHandler> contributorHandlerClass = (Class<ContentHandler>)CommonPlugin.loadClass(element.getNamespaceIdentifier(), contributorClassName);
             Map<String, String> parameters = new HashMap<String, String>();
             for (IConfigurationElement parameter : element.getChildren("parameter"))
             {
