@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.eclipse.rap.rwt.SingletonUtil;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
@@ -38,10 +37,7 @@ public class ExtendedColorRegistry
       @Override
       public Color getColor(Color foregroundColor, Color backgroundColor, Object object)
       {
-        return SingletonUtil.getSessionInstance(ExtendedColorRegistry.class).getColor(
-          foregroundColor,
-          backgroundColor,
-          object);
+        return ExtendedImageRegistry.getInstance(ExtendedColorRegistry.class).getColor(foregroundColor, backgroundColor, object);
       }
     };
 

@@ -18,6 +18,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,18 +27,19 @@ import java.util.List;
 
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.rap.rwt.SingletonUtil;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.provider.ComposedImage;
+import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 
 
 /**
@@ -60,9 +62,47 @@ public class ExtendedImageRegistry
       }
     };
 
+  private static final Method INSTANCE_METHOD;
+
+  static
+  {
+    Method instanceMethod = null;
+    try
+    {
+      Class<?> singletonUtilityClass = CommonPlugin.loadClass("org.eclipse.rap.rwt", "SingletonUtil");
+      instanceMethod = singletonUtilityClass.getMethod("getSessionInstance", Class.class);
+    }
+    catch (Exception exception)
+    {
+      try
+      {
+        Class<?> singletonUtilityClass = CommonPlugin.loadClass("org.eclipse.rap.rwt", "SessionSingletonBase");
+        instanceMethod = singletonUtilityClass.getMethod("getInstance", Class.class);
+      }
+      catch (Exception exception2)
+      {
+        EMFEditUIPlugin.INSTANCE.log(exception2);
+      }
+    }
+    INSTANCE_METHOD = instanceMethod;
+  }
+
+  @SuppressWarnings("unchecked")
+  static <T> T getInstance(Class<T> _class)
+  {
+    try
+    {
+      return (T)INSTANCE_METHOD.invoke(null, _class);
+    }
+    catch (Exception exception)
+    {
+      throw new RuntimeException(exception);
+    }
+  }
+
   public static ExtendedImageRegistry getInstance()
   {
-    return SingletonUtil.getSessionInstance(ExtendedImageRegistry.class);
+    return getInstance(ExtendedImageRegistry.class);
   }
 
   protected HashMap<Object, Image> table = new HashMap<Object, Image>(10);

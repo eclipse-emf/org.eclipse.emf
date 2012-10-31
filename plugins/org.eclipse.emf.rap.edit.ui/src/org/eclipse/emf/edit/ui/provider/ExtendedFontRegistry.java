@@ -20,7 +20,6 @@ import org.eclipse.emf.edit.provider.IItemFontProvider;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 import org.eclipse.jface.resource.DeviceResourceException;
 import org.eclipse.jface.resource.FontDescriptor;
-import org.eclipse.rap.rwt.SingletonUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
@@ -39,7 +38,7 @@ public class ExtendedFontRegistry
       @Override
       public Font getFont(Font baseFont, Object object)
       {
-        return SingletonUtil.getSessionInstance(ExtendedFontRegistry.class).getFont(baseFont, object);
+        return ExtendedImageRegistry.getInstance(ExtendedFontRegistry.class).getFont(baseFont, object);
       }
     };
 
