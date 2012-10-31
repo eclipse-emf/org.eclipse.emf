@@ -46,6 +46,7 @@ import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.mappings.ToXcoreMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyURIConverter;
+import org.eclipse.xtext.common.types.JvmConstructor;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
 import org.eclipse.xtext.common.types.JvmEnumerationLiteral;
 import org.eclipse.xtext.common.types.JvmEnumerationType;
@@ -1852,8 +1853,31 @@ public class XcoreJvmInferrer
           }
 
           EList<JvmMember> members = inferredElement.getMembers();
+          final GenModel genModel = genClass.getGenModel();
+          if (isImplementation)
+          {
+            JvmElementInferrer<JvmConstructor> constructorInferrer =
+              new JvmElementInferrer<JvmConstructor>(X_LOW)
+              {
+ 
+                @Override
+                protected JvmConstructor inferStructure()
+                {
+                  JvmConstructor jvmConstructor = TypesFactory.eINSTANCE.createJvmConstructor();
+                  jvmConstructor.setVisibility(genModel.isPublicConstructors() ? JvmVisibility.PUBLIC : JvmVisibility.PROTECTED);
+                  return jvmConstructor;
+                }
+ 
+                @Override
+                public void inferName()
+                {
+                  inferredElement.setSimpleName(genClass.getClassName());
+                }
+              };
+            associate(genClass, constructorInferrer);
+            members.add(constructorInferrer.getInferredElement());
+          }
 
-          GenModel genModel = genClass.getGenModel();
           if (isImplementation && !genModel.isReflectiveDelegation())
           {
             for (final GenFeature genFeature : genClass.getDeclaredFieldGenFeatures())
@@ -2211,7 +2235,6 @@ public class XcoreJvmInferrer
           {
             inferredElement.setSimpleName(genClass.getClassName());
             inferredElement.setPackageName(genClass.getGenPackage().getClassPackageName());
-
           }
           // Don't infer the name for an external interface because its name isn't resolved until after the shallow structure has been derived.
           //
