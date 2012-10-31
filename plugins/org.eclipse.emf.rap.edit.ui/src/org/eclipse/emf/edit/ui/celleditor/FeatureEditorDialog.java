@@ -64,6 +64,8 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 
 public class FeatureEditorDialog extends Dialog
 {
+  private static final long serialVersionUID = 1L;
+
   protected ILabelProvider labelProvider;
   protected IContentProvider contentProvider;
   protected Object object;
@@ -251,6 +253,11 @@ public class FeatureEditorDialog extends Dialog
       final PatternFilter filter =
         new PatternFilter()
         {
+          /**
+           * 
+           */
+          private static final long serialVersionUID = 1L;
+
           @Override
           protected boolean isParentMatch(Viewer viewer, Object element)
           {
@@ -263,7 +270,12 @@ public class FeatureEditorDialog extends Dialog
         patternText.addModifyListener
           (new ModifyListener()
            {
-             public void modifyText(ModifyEvent e)
+             /**
+             * 
+             */
+            private static final long serialVersionUID = 1L;
+
+            public void modifyText(ModifyEvent e)
              {
                filter.setPattern(((Text)e.widget).getText());
                choiceTableViewer.refresh();
@@ -409,6 +421,11 @@ public class FeatureEditorDialog extends Dialog
       choiceText.addKeyListener(
         new KeyAdapter()
         {
+          /**
+           * 
+           */
+          private static final long serialVersionUID = 1L;
+
           @Override
           public void keyPressed(KeyEvent event)
           {
@@ -439,6 +456,11 @@ public class FeatureEditorDialog extends Dialog
     upButton.addSelectionListener(
       new SelectionAdapter()
       {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
+
         @Override
         public void widgetSelected(SelectionEvent event)
         {
@@ -456,6 +478,11 @@ public class FeatureEditorDialog extends Dialog
     downButton.addSelectionListener(
       new SelectionAdapter()
       {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
+
         @Override
         public void widgetSelected(SelectionEvent event)
         {
@@ -473,6 +500,11 @@ public class FeatureEditorDialog extends Dialog
     addButton.addSelectionListener(
       new SelectionAdapter()
       {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
+
         // event is null when choiceTableViewer is double clicked
         @Override
         public void widgetSelected(SelectionEvent event)
@@ -513,6 +545,11 @@ public class FeatureEditorDialog extends Dialog
     removeButton.addSelectionListener(
       new SelectionAdapter()
       {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
+
         // event is null when featureTableViewer is double clicked 
         @Override
         public void widgetSelected(SelectionEvent event)

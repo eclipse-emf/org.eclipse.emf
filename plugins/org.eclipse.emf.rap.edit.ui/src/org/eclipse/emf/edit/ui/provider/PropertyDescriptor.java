@@ -111,6 +111,8 @@ public class PropertyDescriptor implements IPropertyDescriptor
     return 
       new LabelProvider()
       {
+        private static final long serialVersionUID = 1L;
+
         @Override
         public String getText(Object object)
         {
@@ -139,6 +141,10 @@ public class PropertyDescriptor implements IPropertyDescriptor
    */
   protected static class EDataTypeValueHandler implements ICellEditorValidator, IInputValidator
   {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     protected EDataType eDataType;
 
     public EDataTypeValueHandler(EDataType eDataType)
@@ -198,6 +204,10 @@ public class PropertyDescriptor implements IPropertyDescriptor
 
   public static class EDataTypeCellEditor extends TextCellEditor
   {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     protected EDataType eDataType;
     protected EDataTypeValueHandler valueHandler;  
 
@@ -250,6 +260,11 @@ public class PropertyDescriptor implements IPropertyDescriptor
 
   private static class MultiLineInputDialog extends InputDialog
   {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public MultiLineInputDialog(Shell parentShell, String title, String message, String initialValue, IInputValidator validator)
     {
       super(parentShell, title, message, initialValue, validator);
@@ -274,6 +289,10 @@ public class PropertyDescriptor implements IPropertyDescriptor
     {
       return new ExtendedDialogCellEditor(composite, getEditLabelProvider())
       {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
         protected EDataTypeValueHandler valueHandler = new EDataTypeValueHandler(eDataType);
 
         @Override
@@ -300,13 +319,23 @@ public class PropertyDescriptor implements IPropertyDescriptor
   @Deprecated
   public static class IntegerCellEditor extends TextCellEditor
   {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public IntegerCellEditor(Composite composite)
     {
       super(composite);
       setValidator
         (new ICellEditorValidator()
          {
-           public String isValid(Object object)
+           /**
+           * 
+           */
+          private static final long serialVersionUID = 1L;
+
+          public String isValid(Object object)
            {
              if (object instanceof Integer)
              {
@@ -349,13 +378,23 @@ public class PropertyDescriptor implements IPropertyDescriptor
   @Deprecated
   public static class FloatCellEditor extends TextCellEditor
   {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public FloatCellEditor(Composite composite)
     {
       super(composite);
       setValidator
         (new ICellEditorValidator()
          {
-           public String isValid(Object object)
+           /**
+           * 
+           */
+          private static final long serialVersionUID = 1L;
+
+          public String isValid(Object object)
            {
              if (object instanceof Float)
              {
@@ -440,6 +479,11 @@ public class PropertyDescriptor implements IPropertyDescriptor
             result =
               new ExtendedDialogCellEditor(composite, editLabelProvider)
               {
+                /**
+                 * 
+                 */
+                private static final long serialVersionUID = 1L;
+
                 @Override
                 protected Object openDialogBox(Control cellEditorWindow)
                 {
@@ -479,6 +523,11 @@ public class PropertyDescriptor implements IPropertyDescriptor
             result = 
               new ExtendedDialogCellEditor(composite, editLabelProvider)
               {
+                /**
+                 * 
+                 */
+                private static final long serialVersionUID = 1L;
+
                 @Override
                 protected Object openDialogBox(Control cellEditorWindow)
                 {

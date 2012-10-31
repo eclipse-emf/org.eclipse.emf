@@ -57,6 +57,8 @@ public class AdapterFactoryContentProvider
     IPropertySourceProvider,
     INotifyChangedListener
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * This keeps track of the one factory we are using.  
    * Use a {@link org.eclipse.emf.edit.provider.ComposedAdapterFactory} if adapters 

@@ -26,6 +26,8 @@ import org.eclipse.emf.common.util.UniqueEList;
  */
 public abstract class ViewerFilterAction extends Action
 {
+  private static final long serialVersionUID = 1L;
+
   protected List<Viewer> viewers;
   protected ViewerFilter viewerFilter;
   
@@ -50,6 +52,11 @@ public abstract class ViewerFilterAction extends Action
         {
           viewerFilter = new ViewerFilter()
           {
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 1L;
+
             @Override
             public boolean select(Viewer viewer, Object parentElement, Object element)
             {

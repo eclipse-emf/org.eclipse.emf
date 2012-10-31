@@ -35,6 +35,8 @@ import org.eclipse.ui.IWorkbenchPart;
  */
 public class DelegatingCommandAction extends Action implements ISelectionListener, ISelectionChangedListener
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * This is the action delegate we're wrapping.
    * @since 2.1.0

@@ -28,6 +28,8 @@ import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
  */
 public class CopyAction extends CommandActionHandler
 {
+  private static final long serialVersionUID = 1L;
+
   public CopyAction(EditingDomain domain)
   {
     super(domain, EMFEditUIPlugin.INSTANCE.getString("_UI_Copy_menu_item"));

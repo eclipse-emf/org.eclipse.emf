@@ -35,6 +35,8 @@ import org.eclipse.swt.widgets.Control;
  */
 public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
 {
+  private static final long serialVersionUID = 1L;
+
   private static class StringPositionPair implements Comparable<StringPositionPair>
   {
     Comparator<String> comparator = CommonPlugin.INSTANCE.getComparator();
@@ -238,6 +240,11 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
 
   public class FilteringAdapter implements KeyListener, FocusListener
   {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     public FilteringAdapter(Control control)
     {

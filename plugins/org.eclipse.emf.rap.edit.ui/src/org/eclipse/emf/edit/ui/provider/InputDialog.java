@@ -36,7 +36,10 @@ import org.eclipse.swt.widgets.Text;
  * a more flexible implementation.  If it is fixed, this class will go away.
  * </p>
  */
-class InputDialog extends Dialog {
+class InputDialog extends Dialog
+{
+  private static final long serialVersionUID = 1L;
+
     /**
      * The title of the dialog.
      */
@@ -182,6 +185,11 @@ class InputDialog extends Dialog {
 */
         text = createText(composite);
         text.addModifyListener(new ModifyListener() {
+            /**
+           * 
+           */
+          private static final long serialVersionUID = 1L;
+
             public void modifyText(ModifyEvent e) {
                 validateInput();
             }

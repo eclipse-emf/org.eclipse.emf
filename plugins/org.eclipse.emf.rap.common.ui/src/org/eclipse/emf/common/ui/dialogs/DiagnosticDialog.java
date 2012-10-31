@@ -39,7 +39,9 @@ import org.eclipse.emf.common.util.Diagnostic;
  * @since 2.3
  */
 public class DiagnosticDialog extends IconAndMessageDialog
-{  
+{
+  private static final long serialVersionUID = 1L;
+
   /**
    * Opens a diagnostic dialog to display the given diagnostic. Use this method if the
    * diagnostic object being displayed does not contain child items, or if you wish

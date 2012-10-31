@@ -31,6 +31,8 @@ import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
  */
 public class LoadResourceAction extends Action
 {
+  private static final long serialVersionUID = 1L;
+
   protected EditingDomain domain;
 
   public LoadResourceAction(EditingDomain domain)
@@ -96,6 +98,10 @@ public class LoadResourceAction extends Action
 
   public static class LoadResourceDialog extends ResourceDialog
   {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     protected EditingDomain domain;
 
     public LoadResourceDialog(Shell parent)

@@ -29,6 +29,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  */
 public class CreateChildAction extends StaticSelectionCommandAction
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * This describes the child to be created.
    */

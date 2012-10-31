@@ -30,6 +30,8 @@ import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
  */
 public class DeleteAction extends CommandActionHandler
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * Whether the action should clean up all references to deleted objects.
    * @since 2.2

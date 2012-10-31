@@ -61,6 +61,8 @@ import org.eclipse.ui.IWorkbenchPart;
  */
 public abstract class ViewerPane implements IPropertyListener, Listener
 {
+  private static final long serialVersionUID = 1L;
+
   protected IWorkbenchPage page;
   protected IWorkbenchPart part;
   protected Collection<Object> buddies = new ArrayList<Object>();
@@ -78,6 +80,10 @@ public abstract class ViewerPane implements IPropertyListener, Listener
   protected MouseListener mouseListener = 
     new MouseAdapter() 
     {
+      /**
+       * 
+       */
+      private static final long serialVersionUID = 1L;
       @Override
       public void mouseDown(MouseEvent e) 
       {
@@ -155,7 +161,12 @@ public abstract class ViewerPane implements IPropertyListener, Listener
       control.addDisposeListener
         (new DisposeListener()
          {
-           public void widgetDisposed(DisposeEvent event)
+           /**
+           * 
+           */
+          private static final long serialVersionUID = 1L;
+
+          public void widgetDisposed(DisposeEvent event)
            {
              dispose();
            }
@@ -242,6 +253,11 @@ public abstract class ViewerPane implements IPropertyListener, Listener
    */
   class PaneToolBarManager extends ToolBarManager 
   {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public PaneToolBarManager(ToolBar paneToolBar) 
     {
       super(paneToolBar);
@@ -309,7 +325,12 @@ public abstract class ViewerPane implements IPropertyListener, Listener
         ti.addSelectionListener
           (new SelectionAdapter() 
            {
-             @Override
+             /**
+             * 
+             */
+            private static final long serialVersionUID = 1L;
+
+            @Override
             public void widgetSelected(SelectionEvent e) 
              {
               showViewMenu();
@@ -342,7 +363,12 @@ public abstract class ViewerPane implements IPropertyListener, Listener
       titleLabel.addMouseListener
         (new MouseAdapter() 
          {
-           @Override
+           /**
+           * 
+           */
+          private static final long serialVersionUID = 1L;
+
+          @Override
           public void mouseDown(MouseEvent e) 
            {
              if (e.button == 3)
@@ -577,7 +603,12 @@ public abstract class ViewerPane implements IPropertyListener, Listener
     restoreItem.addSelectionListener
       (new SelectionAdapter() 
        {
-         @Override
+         /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
+
+        @Override
         public void widgetSelected(SelectionEvent selectionEvent) 
          {
            doMaximize();
@@ -590,7 +621,12 @@ public abstract class ViewerPane implements IPropertyListener, Listener
     maximizeItem.addSelectionListener
       (new SelectionAdapter() 
        {
-         @Override
+         /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
+
+        @Override
         public void widgetSelected(SelectionEvent selectionEvent) 
          {
            doMaximize();

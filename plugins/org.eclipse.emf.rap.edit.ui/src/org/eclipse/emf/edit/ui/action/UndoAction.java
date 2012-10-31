@@ -26,6 +26,8 @@ import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
  */
 public class UndoAction extends Action
 {
+  private static final long serialVersionUID = 1L;
+
   protected EditingDomain domain;
 
   public UndoAction(EditingDomain domain)

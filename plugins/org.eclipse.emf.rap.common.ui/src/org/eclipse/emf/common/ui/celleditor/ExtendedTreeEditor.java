@@ -32,6 +32,8 @@ import org.eclipse.swt.widgets.TreeItem;
  */
 public abstract class ExtendedTreeEditor extends TreeEditor implements SelectionListener, MouseListener, KeyListener
 {
+  private static final long serialVersionUID = 1L;
+
   protected Tree tree;
   protected TreeItem selectedTreeItem;
   protected TreeItem editTreeItem;

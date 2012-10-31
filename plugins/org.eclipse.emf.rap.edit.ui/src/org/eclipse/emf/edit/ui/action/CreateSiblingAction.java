@@ -28,6 +28,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  */
 public class CreateSiblingAction extends StaticSelectionCommandAction
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * This describes the sibling to be created.
    */

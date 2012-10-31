@@ -35,6 +35,8 @@ import org.eclipse.emf.edit.provider.IUpdateableItemText;
  */
 public class AdapterFactoryTreeEditor extends ExtendedTreeEditor
 {
+  private static final long serialVersionUID = 1L;
+
   protected AdapterFactory adapterFactory;
   protected TreeItem currentTreeItem;
 
@@ -80,6 +82,8 @@ public class AdapterFactoryTreeEditor extends ExtendedTreeEditor
           text.addFocusListener
            (new FocusAdapter()
             {
+              private static final long serialVersionUID = 1L;
+
               @Override
               public void focusLost(FocusEvent event)
               {
@@ -90,6 +94,8 @@ public class AdapterFactoryTreeEditor extends ExtendedTreeEditor
           text.addKeyListener
            (new KeyAdapter()
             {
+              private static final long serialVersionUID = 1L;
+
               @Override
               public void keyPressed(KeyEvent event)
               {
@@ -122,6 +128,11 @@ public class AdapterFactoryTreeEditor extends ExtendedTreeEditor
           combo.addFocusListener
            (new FocusAdapter()
             {
+              /**
+               * 
+               */
+              private static final long serialVersionUID = 1L;
+
               @Override
               public void focusLost(FocusEvent event)
               {
@@ -134,6 +145,11 @@ public class AdapterFactoryTreeEditor extends ExtendedTreeEditor
           combo.addKeyListener
            (new KeyAdapter()
             {
+              /**
+               * 
+               */
+              private static final long serialVersionUID = 1L;
+
               @Override
               public void keyPressed(KeyEvent event)
               {
@@ -155,7 +171,12 @@ public class AdapterFactoryTreeEditor extends ExtendedTreeEditor
           combo.addModifyListener
             (new ModifyListener()
              {
-               public void modifyText(ModifyEvent event)
+               /**
+               * 
+               */
+              private static final long serialVersionUID = 1L;
+
+              public void modifyText(ModifyEvent event)
                {
                  System.out.println("Combo modified");
                }

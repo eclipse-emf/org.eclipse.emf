@@ -28,6 +28,8 @@ import org.eclipse.swt.dnd.TransferData;
  */
 public class LocalTransfer extends ByteArrayTransfer
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * This is the register transfer type name.
    */

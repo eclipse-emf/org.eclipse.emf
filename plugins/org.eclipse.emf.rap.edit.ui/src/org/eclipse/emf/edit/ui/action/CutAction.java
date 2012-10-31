@@ -28,6 +28,8 @@ import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
  */
 public class CutAction extends CommandActionHandler
 {
+  private static final long serialVersionUID = 1L;
+
   public CutAction(EditingDomain domain)
   {
     super(domain, EMFEditUIPlugin.INSTANCE.getString("_UI_Cut_menu_item"));

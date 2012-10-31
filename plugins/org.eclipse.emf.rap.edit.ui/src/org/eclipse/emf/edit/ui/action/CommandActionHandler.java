@@ -29,6 +29,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  */
 public class CommandActionHandler extends BaseSelectionListenerAction
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * This keeps track of the editing domain of the action.
    */

@@ -41,6 +41,8 @@ import org.eclipse.emf.common.util.URI;
  */
 public class ResourceDialog extends Dialog
 {
+  private static final long serialVersionUID = 1L;
+
   protected static final int CONTROL_OFFSET = 10;
   protected String title;
   protected int style;

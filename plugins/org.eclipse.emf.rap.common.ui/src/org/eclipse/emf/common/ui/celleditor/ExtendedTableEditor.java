@@ -39,6 +39,8 @@ public abstract class ExtendedTableEditor
   extends TableEditor
   implements KeyListener, MouseListener, SelectionListener
 {
+  private static final long serialVersionUID = 1L;
+
   protected Table table;
   protected TableItem selectedTableItem;
   protected TableItem editTableItem;

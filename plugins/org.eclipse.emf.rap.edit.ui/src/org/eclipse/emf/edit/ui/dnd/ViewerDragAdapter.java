@@ -34,6 +34,8 @@ import org.eclipse.swt.dnd.DragSourceListener;
  */
 public class ViewerDragAdapter implements DragSourceListener
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * This keeps track of the viewer to which we are listening.
    */

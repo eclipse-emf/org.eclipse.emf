@@ -53,7 +53,9 @@ import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 
 
 public class ValidateAction extends Action implements ISelectionChangedListener 
-{  
+{
+  private static final long serialVersionUID = 1L;
+
   protected ISelectionProvider selectionProvider;
   protected List<EObject> selectedObjects;
   protected EditingDomain domain;

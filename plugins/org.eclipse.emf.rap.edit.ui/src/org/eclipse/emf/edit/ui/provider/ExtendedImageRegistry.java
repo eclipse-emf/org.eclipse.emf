@@ -26,7 +26,7 @@ import java.util.List;
 
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.rwt.SessionSingletonBase;
+import org.eclipse.rap.rwt.SingletonUtil;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
@@ -62,7 +62,7 @@ public class ExtendedImageRegistry
 
   public static ExtendedImageRegistry getInstance()
   {
-    return (ExtendedImageRegistry)SessionSingletonBase.getInstance(ExtendedImageRegistry.class);
+    return SingletonUtil.getSessionInstance(ExtendedImageRegistry.class);
   }
 
   protected HashMap<Object, Image> table = new HashMap<Object, Image>(10);
@@ -234,6 +234,10 @@ public class ExtendedImageRegistry
 
 class ImageWrapperImageDescriptor extends ImageDescriptor
 {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   protected Image image;
 
   public ImageWrapperImageDescriptor(Image image)
@@ -265,6 +269,10 @@ class ImageWrapperImageDescriptor extends ImageDescriptor
 
 class ComposedImageDescriptor extends CompositeImageDescriptor
 {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   protected ComposedImage composedImage;
   protected List<ImageData> imageDatas;
 
@@ -312,6 +320,10 @@ class ComposedImageDescriptor extends CompositeImageDescriptor
 
 class URLImageDescriptor extends ImageDescriptor 
 {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   protected URL url;
   protected String key1;
   protected String key2;

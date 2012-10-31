@@ -44,6 +44,8 @@ import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
  */
 public class ControlAction extends CommandActionHandler
 {
+  private static final long serialVersionUID = 1L;
+
   protected IStructuredSelection selection = null;
   protected EObject eObject = null;
 
@@ -154,6 +156,8 @@ public class ControlAction extends CommandActionHandler
    */
   protected static class ControlResourceDialog extends ResourceDialog
   {
+    private static final long serialVersionUID = 1L;
+
     protected EditingDomain domain;
     protected Resource resource;
     protected Resource currentResource;

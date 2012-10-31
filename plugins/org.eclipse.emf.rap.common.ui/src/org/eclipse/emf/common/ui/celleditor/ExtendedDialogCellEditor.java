@@ -21,6 +21,8 @@ import org.eclipse.swt.widgets.Composite;
  */
 public abstract class ExtendedDialogCellEditor extends DialogCellEditor
 {
+  private static final long serialVersionUID = 1L;
+
   protected ILabelProvider labelProvider;
 
   public ExtendedDialogCellEditor(Composite composite, ILabelProvider labelProvider)

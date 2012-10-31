@@ -153,6 +153,8 @@ public class ProblemEditorPart extends EditorPart
       openButton.setText(CommonUIPlugin.getPlugin().getString("_UI_ErrorEditor_OpenEditor_label"));
       openButton.addSelectionListener(new SelectionAdapter()
         {
+          private static final long serialVersionUID = 1L;
+
           @Override
           public void widgetSelected(SelectionEvent e)
           {
@@ -166,6 +168,11 @@ public class ProblemEditorPart extends EditorPart
     detailsButton.setData(Boolean.FALSE);
     detailsButton.addSelectionListener(new SelectionAdapter()
       {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
+
         @Override
         public void widgetSelected(SelectionEvent e)
         {

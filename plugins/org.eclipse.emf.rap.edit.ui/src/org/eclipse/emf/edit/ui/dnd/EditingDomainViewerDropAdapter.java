@@ -69,6 +69,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  */
 public class EditingDomainViewerDropAdapter extends DropTargetAdapter
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * This indicates whether the current platform is motif, which needs
    * special treatment, since it cannot do early data transfer, but doesn't

@@ -29,6 +29,8 @@ import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
  */
 public class PasteAction extends CommandActionHandler
 {
+  private static final long serialVersionUID = 1L;
+
   public PasteAction(EditingDomain domain)
   {
     super(domain, EMFEditUIPlugin.INSTANCE.getString("_UI_Paste_menu_item"));

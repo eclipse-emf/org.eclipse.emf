@@ -42,6 +42,8 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
 
   protected class LocateValueAction extends Action
   {
+    private static final long serialVersionUID = 1L;
+
     public LocateValueAction()
     {
       setText(EMFEditUIPlugin.INSTANCE.getString("_UI_LocateValue_action"));

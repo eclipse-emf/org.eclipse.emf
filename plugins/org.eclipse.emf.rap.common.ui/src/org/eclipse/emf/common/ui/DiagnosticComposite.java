@@ -42,6 +42,8 @@ import org.eclipse.emf.common.util.Diagnostic;
  */
 public class DiagnosticComposite extends Composite
 {
+  private static final long serialVersionUID = 1L;
+
   public static class TextProvider
   {
     /**
@@ -285,6 +287,10 @@ public class DiagnosticComposite extends Composite
   {
     return new ITreeContentProvider()
     {
+      /**
+       * 
+       */
+      private static final long serialVersionUID = 1L;
       private boolean isRootElement = isShowRootDiagnostic();
       private Map<Diagnostic, Diagnostic[]> parentToChildrenMap = new HashMap<Diagnostic, Diagnostic[]>();
 
@@ -355,6 +361,11 @@ public class DiagnosticComposite extends Composite
   {
     return new LabelProvider()
     {
+      /**
+       * 
+       */
+      private static final long serialVersionUID = 1L;
+
       @Override
       public String getText(Object element)
       {

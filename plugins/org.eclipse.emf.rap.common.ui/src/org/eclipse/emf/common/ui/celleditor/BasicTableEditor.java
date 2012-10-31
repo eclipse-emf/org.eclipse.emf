@@ -30,6 +30,8 @@ import org.eclipse.swt.widgets.Text;
  */
 public abstract class BasicTableEditor extends TableEditor
 {
+  private static final long serialVersionUID = 1L;
+
   protected Table table;
 
   public BasicTableEditor(Table table)
@@ -69,6 +71,11 @@ public abstract class BasicTableEditor extends TableEditor
     text.setText(item.getText(column));
     text.addFocusListener(new FocusAdapter()
     {
+      /**
+       * 
+       */
+      private static final long serialVersionUID = 1L;
+
       @Override
       public void focusLost(FocusEvent e)
       {
@@ -78,6 +85,11 @@ public abstract class BasicTableEditor extends TableEditor
 
     text.addTraverseListener(new TraverseListener()
     {
+      /**
+       * 
+       */
+      private static final long serialVersionUID = 1L;
+
       public void keyTraversed(TraverseEvent e)
       {
         if (e.detail == SWT.TRAVERSE_ESCAPE)

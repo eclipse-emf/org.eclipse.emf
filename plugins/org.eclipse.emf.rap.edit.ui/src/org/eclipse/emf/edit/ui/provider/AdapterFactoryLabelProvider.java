@@ -59,11 +59,18 @@ import org.eclipse.emf.edit.provider.IViewerNotification;
  */
 public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelProvider, INotifyChangedListener
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * An extended version of the adapter factory label provider that also provides for fonts.
    */
   public static class FontProvider extends AdapterFactoryLabelProvider implements IFontProvider, ITableFontProvider
   {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     /**
      * Construct an instance that wraps the given factory and specifies the given default font.
      * @param adapterFactory an adapter factory that yield adapters that implement the various item label provider interfaces.
@@ -91,6 +98,11 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
    */
   public static class ColorProvider extends AdapterFactoryLabelProvider implements IColorProvider, ITableColorProvider
   {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     /**
      * Construct an instance that wraps the given factory and specifies the given default colors.
      * @param adapterFactory an adapter factory that yield adapters that implement the various item label provider interfaces.
@@ -120,6 +132,11 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
    */
   public static class FontAndColorProvider extends AdapterFactoryLabelProvider implements IColorProvider, IFontProvider, ITableColorProvider, ITableFontProvider
   {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     /**
      * Construct an instance that wraps the given factory and specifies the given default font and colors.
      * @param adapterFactory an adapter factory that yield adapters that implement the various item label provider interfaces.

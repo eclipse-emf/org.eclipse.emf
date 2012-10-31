@@ -56,6 +56,8 @@ public class EditingDomainActionBarContributor
     IMenuListener,
     IPropertyListener
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * This keeps track of the current editor part.
    */

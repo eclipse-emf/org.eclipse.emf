@@ -51,6 +51,8 @@ import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
  */
 public abstract class StaticSelectionCommandAction extends Action
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * This records the editing domain of the current editor or viewer.  For global
    * popups, we try to determine the editing domain from the selected
