@@ -39,7 +39,7 @@
 
 	</target>
 
-	<target name="build-core">
+	<target name="build-core" >
 		<!-- What is to do -->
 		<property name="commands.file" value="${releng.proj.loc}/releng/local/commands.txt" />
 		<!-- Where to build. This folder will be cleaned up, so dont point to ~ or / :) -->
@@ -72,7 +72,7 @@
 			<arg line="-data ${WORKSPACE}/buckminster.workspace" />
 			<arg line="-configuration ${WORKSPACE}/configuration" />
 			<arg line="--displaystacktrace" />
-			<arg line="--loglevel DEBUG" />
+			<arg line="--loglevel INFO" />
 			<arg line="-S '${commands.file}'" />
 			<arg line="-vmargs -Xmx1g" />
 		</exec>
