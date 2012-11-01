@@ -293,7 +293,10 @@ public class EcorePlugin  extends EMFPlugin
    * for each URI in the collection of the form <code>platform:/plugin/&lt;plugin-id>/...</code>.
    * This allows each plugin to be {@link org.eclipse.emf.ecore.resource.URIConverter#getURIMap() treated} 
    * as if it were a project in the workspace.
-   * If the workspace already contains a project for the plugin location, no mapping is produced.
+   * If the workspace or {@link #getPlatformResourceMap() platform resource map} already contains a project for the plugin location, no such mapping is produced.
+   * In addition, when running stand alone with {@link ExtensionProcessor#process(ClassLoader) extension processing} enabled,
+   * mappings from <code>platform:/plugin/&lt;plugin-id>/</code> to the physical location of the plugin's archive or root folder are produced.
+   * This allows the URIs to be loaded from their proper physical location.
    * @param uris a collections of {@link URI}s.
    * @return a map from platform resource URI to platform plugin URI.
    */
@@ -315,18 +318,43 @@ public class EcorePlugin  extends EMFPlugin
         }
       }
     }
+    else if (platformResourceMap != null || ExtensionProcessor.platformPluginToLocationURIMap != null)
+    {
+      for (URI uri : uris)
+      {
+        if (uri.isPlatformPlugin())
+        {
+          String pluginID = uri.segment(1);
+          if (platformResourceMap == null || !platformResourceMap.containsKey(pluginID))
+          {
+            URI platformPluginURI = uri.trimSegments(uri.segmentCount() - 2).appendSegment("");
+            URI platformResourceURI = URI.createPlatformResourceURI(platformPluginURI.segment(1), false).appendSegment("");
+            result.put(platformResourceURI, platformPluginURI);
+
+            if (ExtensionProcessor.platformPluginToLocationURIMap != null)
+            {
+              URI locationURI = ExtensionProcessor.platformPluginToLocationURIMap.get(platformPluginURI);
+              if (locationURI != null)
+              {
+                result.put(platformPluginURI, locationURI);
+              }
+            }
+          }
+        }
+      }
+    }
     return result;
   }
-  
+
   private static Pattern bundleSymbolNamePattern;
   private static byte [] NO_BYTES = new byte [0];
   
   /**
    * Computes a map from <code>platform:/plugin/&lt;plugin-id>/</code> {@link URI} to 
    * <code>platform:/resource/&lt;plugin-location>/</code> URI
-   * for each plugin project in the workspace.
+   * for each plugin project in the workspace or {@link #getPlatformResourceMap() platform resource map}.
    * This allows each plugin from the runtime to be {@link org.eclipse.emf.ecore.resource.URIConverter#getURIMap() redirected} 
-   * to its active version in the workspace.
+   * to its active version in the workspace or platform resource map.
    * @return a map from plugin URIs to resource URIs.
    * @see org.eclipse.emf.ecore.resource.URIConverter#getURIMap()
    * @see URI
@@ -336,7 +364,7 @@ public class EcorePlugin  extends EMFPlugin
     Map<URI, URI> result = new HashMap<URI, URI>();
     IWorkspaceRoot root = getWorkspaceRoot();
     if (root != null)
-    { 
+    {
       IProject [] projects = root.getProjects();
       if (projects != null)
       {
@@ -456,7 +484,17 @@ public class EcorePlugin  extends EMFPlugin
         }
       }
     }
-    
+    else if (platformResourceMap != null)
+    {
+      for (Map.Entry<String, URI> entry : platformResourceMap.entrySet())
+      {
+        String pluginID = entry.getKey();
+        URI platformPluginURI = URI.createPlatformPluginURI(pluginID, true).appendSegment("");
+        URI platformResourceURI = URI.createPlatformResourceURI(pluginID, true).appendSegment("");
+        result.put(platformPluginURI, platformResourceURI);
+      }
+    }
+
     return result;
   }
   
@@ -618,7 +656,8 @@ public class EcorePlugin  extends EMFPlugin
    */
   public static class ExtensionProcessor
   {
-    private static boolean processed;
+    private static Map<URI, URI> platformPluginToLocationURIMap;
+
     
     /**
      * This explicitly triggers processing of all plugin.xml registered extensions.
@@ -642,9 +681,9 @@ public class EcorePlugin  extends EMFPlugin
     {
       // Ensure processing only happens once and only when not running an Eclipse application.
       //
-      if (!processed && !IS_ECLIPSE_RUNNING)
+      if (platformPluginToLocationURIMap == null && !IS_ECLIPSE_RUNNING)
       {
-        processed = true;
+        platformPluginToLocationURIMap = new HashMap<URI, URI>();
 
         // If there isn't already a registry...
         //
@@ -715,7 +754,8 @@ public class EcorePlugin  extends EMFPlugin
         {
           // Construct the URI for the manifest and check that it exists...
           //
-          URI manifestURI = pluginXMLURI.trimSegments(1).appendSegments(new String[] { "META-INF", "MANIFEST.MF" });
+          URI pluginLocation = pluginXMLURI.trimSegments(1);
+          URI manifestURI = pluginLocation.appendSegments(new String[] { "META-INF", "MANIFEST.MF" });
           if (URIConverter.INSTANCE.exists(manifestURI, null))
           {
             InputStream manifestInputStream = null;
@@ -736,6 +776,10 @@ public class EcorePlugin  extends EMFPlugin
                 //
                 bundleSymbolicName = bundleSymbolicName.split(";")[0].trim();
 
+                // Compute the map entry from platform:/plugin/<bundleSymbolicName>/ to the location URI's root.
+                //
+                platformPluginToLocationURIMap.put(URI.createPlatformPluginURI(bundleSymbolicName, true).appendSegment(""), pluginLocation.isArchive() ? pluginLocation : pluginLocation.appendSegment(""));
+
                 // Find the localization resource bundle, if there is one.
                 //
                 String bundleLocalization = mainAttributes.getValue("Bundle-Localization");
@@ -743,7 +787,7 @@ public class EcorePlugin  extends EMFPlugin
                 if (bundleLocalization != null)
                 {
                   bundleLocalization += ".properties";
-                  InputStream bundleLocalizationInputStream = URIConverter.INSTANCE.createInputStream(pluginXMLURI.trimSegments(1).appendSegment(bundleLocalization));
+                  InputStream bundleLocalizationInputStream = URIConverter.INSTANCE.createInputStream(pluginLocation.appendSegment(bundleLocalization));
                   resourceBundle = new PropertyResourceBundle(bundleLocalizationInputStream);
                   bundleLocalizationInputStream.close();
                 }
