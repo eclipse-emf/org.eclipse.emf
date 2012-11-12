@@ -75,7 +75,7 @@
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(resolve.target.platform=true)"
 		>
-			<uri format="{0}/rt/rap/2.0/">
+			<uri format="{0}/rt/rap/nightly/runtime/">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
