@@ -197,7 +197,20 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
         }
       }
 
-      EObjectInputStream eObjectInputStream = new EObjectInputStream(inputStream, options);
+      final URIHandler uriHandler = options != null ? (URIHandler)options.get(OPTION_URI_HANDLER) : null;
+      if (uriHandler != null)
+      {
+        uriHandler.setBaseURI(getURI());
+      }
+      EObjectInputStream eObjectInputStream =
+        new EObjectInputStream(inputStream, options)
+        {
+          @Override
+          protected URI resolve(URI uri) 
+          { 
+            return uriHandler == null ? super.resolve(uri) : uriHandler.resolve(uri);
+          }
+        };
       ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
       if (handler != null)
       {
@@ -277,10 +290,22 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       }
       try
       {
+        final URIHandler uriHandler = options != null ? (URIHandler)options.get(OPTION_URI_HANDLER) : null;
+        if (uriHandler != null)
+        {
+          uriHandler.setBaseURI(getURI());
+        }
+        BinaryResourceImpl.BinaryIO.Version version = 
+          options != null && options.containsKey(BinaryResourceImpl.OPTION_VERSION)? (Version)options.get(BinaryResourceImpl.OPTION_VERSION) : BinaryResourceImpl.BinaryIO.Version.VERSION_1_0;
         EObjectOutputStream eObjectOutputStream = 
-          options.containsKey(BinaryResourceImpl.OPTION_VERSION) ?
-            new EObjectOutputStream(outputStream, options) :
-            new EObjectOutputStream(outputStream, options, Version.VERSION_1_1);
+          new EObjectOutputStream(outputStream, options, version)
+          {
+            @Override
+            protected URI deresolve(URI uri)
+            {
+              return uriHandler == null ? super.deresolve(uri) : uriHandler.deresolve(uri);
+            }
+          };
 
         eObjectOutputStream.saveResource(this);
 
