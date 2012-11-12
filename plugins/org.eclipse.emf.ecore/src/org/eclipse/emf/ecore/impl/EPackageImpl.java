@@ -440,7 +440,12 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
       Map<String, EClassifier> result = new HashMap<String, EClassifier>(eClassifiers.size());
       for (EClassifier eClassifier : eClassifiers)
       {
-        result.put(eClassifier.getName(), eClassifier);
+        String key = eClassifier.getName();
+        EClassifier duplicate = result.put(key, eClassifier);
+        if (duplicate != null)
+        {
+          result.put(key, duplicate);
+        }
       }
       eNameToEClassifierMap = result;
     }

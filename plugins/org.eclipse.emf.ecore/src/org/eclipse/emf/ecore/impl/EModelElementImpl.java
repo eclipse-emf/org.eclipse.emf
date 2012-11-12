@@ -328,65 +328,61 @@ public abstract class EModelElementImpl extends MinimalEObjectImpl.Container imp
     {
       ENamedElement eNamedElement = (ENamedElement)eObject;
       String name = eNamedElement.getName();
-      if (name != null)
+      int count = 0;
+      for (Object otherEObject : eContents())
       {
-        int count = 0;
-        for (Object otherEObject : eContents())
+        if (otherEObject == eObject)
         {
-          if (otherEObject == eObject)
+          break;
+        }
+        if (otherEObject instanceof ENamedElement)
+        {
+          ENamedElement otherENamedElement = (ENamedElement)otherEObject;
+          String otherName = otherENamedElement.getName();
+          if (name == null ? otherName == null : name.equals(otherName))
           {
-            break;
-          }
-          if (otherEObject instanceof ENamedElement)
-          {
-            ENamedElement otherENamedElement = (ENamedElement)otherEObject;
-            if (name.equals(otherENamedElement.getName()))
-            {
-              ++count;
-            }
+            ++count;
           }
         }
-        name = eEncodeValue(name);
-        return 
-          count > 0 ?
-            name + "." + count : 
-            name;
       }
+      name = name == null ? "%" : eEncodeValue(name);
+      return 
+        count > 0 ?
+          name + "." + count : 
+          name;
     }
     else if (eObject instanceof EAnnotation)
     {
       EAnnotation eAnnotation = (EAnnotation)eObject;
       String source = eAnnotation.getSource();
-      if (source != null)
+      int count = 0;
+      for (Object otherEObject : eContents())
       {
-        int count = 0;
-        for (Object otherEObject : eContents())
+        if (otherEObject == eObject)
         {
-          if (otherEObject == eObject)
+          break;
+        }
+        if (otherEObject instanceof EAnnotation)
+        {
+          EAnnotation otherEAnnotation = (EAnnotation)otherEObject;
+          String otherSource = otherEAnnotation.getSource();
+          if (source == null ? otherSource == null : source.equals(otherSource))
           {
-            break;
-          }
-          if (otherEObject instanceof EAnnotation)
-          {
-            EAnnotation otherEAnnotation = (EAnnotation)otherEObject;
-            if (source.equals(otherEAnnotation.getSource()))
-            {
-              ++count;
-            }
+            ++count;
           }
         }
-        
-        StringBuffer result = new StringBuffer(source.length() + 5);
-        result.append('%');
-        result.append(URI.encodeSegment(source,  false));
-        result.append('%');
-        if (count > 0)
-        {
-          result.append('.');
-          result.append(count);
-        }
-        return result.toString();
       }
+
+      StringBuffer result = new StringBuffer(source == null ? 6 : source.length() + 5);
+      result.append('%');
+      result.append(source == null ? "%" : URI.encodeSegment(source,  false));
+      result.append('%');
+      if (count > 0)
+      {
+        result.append('.');
+        result.append(count);
+      }
+      return result.toString();
     }
     return super.eURIFragmentSegment(eStructuralFeature, eObject);
   }
@@ -406,15 +402,16 @@ public abstract class EModelElementImpl extends MinimalEObjectImpl.Container imp
         //
         if (firstCharacter == '%')
         {
-          // Find the closing '%'
+          // Find the closing '%' and make sure it's not just the opening '%'
           //
           int index = uriFragmentSegment.lastIndexOf("%");
           boolean hasCount = false;
-          if (index == length - 1 || (hasCount = uriFragmentSegment.charAt(index + 1) == '.'))
+          if (index != 0 && (index == length - 1 || (hasCount = uriFragmentSegment.charAt(index + 1) == '.')))
           {
             // Decode all encoded characters.
             //
-            String source = URI.decode(uriFragmentSegment.substring(1, index));
+            String encodedSource = uriFragmentSegment.substring(1, index);
+            String source = "%".equals(encodedSource) ? null : URI.decode(encodedSource);
             
             // Check for a count, i.e., a '.' followed by a number.
             //
@@ -438,7 +435,8 @@ public abstract class EModelElementImpl extends MinimalEObjectImpl.Container imp
               if (object instanceof EAnnotation)
               {
                 EAnnotation eAnnotation = (EAnnotation)object;
-                if (source.equals(eAnnotation.getSource()) && count-- == 0)
+                String otherSource = eAnnotation.getSource();
+                if ((source == null ? otherSource == null : source.equals(otherSource)) && count-- == 0)
                 {
                   return eAnnotation;
                 }
@@ -467,7 +465,7 @@ public abstract class EModelElementImpl extends MinimalEObjectImpl.Container imp
           }
         }
 
-        name = URI.decode(name);
+        name = "%".equals(name) ? null : URI.decode(name);
     
         // Look for a matching named element.
         //
@@ -476,7 +474,8 @@ public abstract class EModelElementImpl extends MinimalEObjectImpl.Container imp
           if (object instanceof ENamedElement)
           {
             ENamedElement eNamedElement = (ENamedElement)object;
-            if (name.equals(eNamedElement.getName()) && count-- == 0)
+            String otherName = eNamedElement.getName();
+            if ((name == null ? otherName == null : name.equals(otherName)) && count-- == 0)
             {
               return eNamedElement;
             }

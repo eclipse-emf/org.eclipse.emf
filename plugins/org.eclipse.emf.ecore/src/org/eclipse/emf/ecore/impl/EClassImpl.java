@@ -1278,7 +1278,12 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       Map<String, EStructuralFeature> result = new HashMap<String, EStructuralFeature>(3 * eAllStructuralFeatures.size() / 2 + 1);
       for (EStructuralFeature eStructuralFeature : eAllStructuralFeatures)
       {
-        result.put(eStructuralFeature.getName(), eStructuralFeature);
+        String key = eStructuralFeature.getName();
+        EStructuralFeature duplicate = result.put(key, eStructuralFeature);
+        if (duplicate != null)
+        {
+          result.put(key, duplicate);
+        }
       }
       eNameToFeatureMap = result;
     }
