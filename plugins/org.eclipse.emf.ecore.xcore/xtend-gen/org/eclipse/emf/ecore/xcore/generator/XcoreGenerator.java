@@ -201,24 +201,30 @@ public class XcoreGenerator implements IGenerator {
   }
   
   public Diagnostic generateGenModel(final GenModel genModel, final IFileSystemAccess fsa) {
-    Diagnostic _xblockexpression = null;
-    {
-      genModel.setCanGenerate(true);
-      final XcoreGeneratorImpl generator = this.xcoreGeneratorImplProvider.get();
-      generator.setInput(genModel);
-      generator.setFileSystemAccess(fsa);
-      String _modelDirectory = genModel.getModelDirectory();
-      generator.setModelDirectory(_modelDirectory);
-      BasicMonitor _basicMonitor = new BasicMonitor();
-      generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, _basicMonitor);
-      BasicMonitor _basicMonitor_1 = new BasicMonitor();
-      generator.generate(genModel, GenBaseGeneratorAdapter.EDIT_PROJECT_TYPE, _basicMonitor_1);
-      BasicMonitor _basicMonitor_2 = new BasicMonitor();
-      generator.generate(genModel, GenBaseGeneratorAdapter.EDITOR_PROJECT_TYPE, _basicMonitor_2);
-      BasicMonitor _basicMonitor_3 = new BasicMonitor();
-      Diagnostic _generate = generator.generate(genModel, GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE, _basicMonitor_3);
-      _xblockexpression = (_generate);
+    Diagnostic _xifexpression = null;
+    String _modelDirectory = genModel.getModelDirectory();
+    boolean _notEquals = (!Objects.equal(_modelDirectory, null));
+    if (_notEquals) {
+      Diagnostic _xblockexpression = null;
+      {
+        genModel.setCanGenerate(true);
+        final XcoreGeneratorImpl generator = this.xcoreGeneratorImplProvider.get();
+        generator.setInput(genModel);
+        generator.setFileSystemAccess(fsa);
+        String _modelDirectory_1 = genModel.getModelDirectory();
+        generator.setModelDirectory(_modelDirectory_1);
+        BasicMonitor _basicMonitor = new BasicMonitor();
+        generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, _basicMonitor);
+        BasicMonitor _basicMonitor_1 = new BasicMonitor();
+        generator.generate(genModel, GenBaseGeneratorAdapter.EDIT_PROJECT_TYPE, _basicMonitor_1);
+        BasicMonitor _basicMonitor_2 = new BasicMonitor();
+        generator.generate(genModel, GenBaseGeneratorAdapter.EDITOR_PROJECT_TYPE, _basicMonitor_2);
+        BasicMonitor _basicMonitor_3 = new BasicMonitor();
+        Diagnostic _generate = generator.generate(genModel, GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE, _basicMonitor_3);
+        _xblockexpression = (_generate);
+      }
+      _xifexpression = _xblockexpression;
     }
-    return _xblockexpression;
+    return _xifexpression;
   }
 }

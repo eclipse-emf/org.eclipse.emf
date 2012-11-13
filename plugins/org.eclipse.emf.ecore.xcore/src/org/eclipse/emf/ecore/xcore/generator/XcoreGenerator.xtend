@@ -107,14 +107,16 @@ class XcoreGenerator implements IGenerator {
 	}
 
 	def generateGenModel(GenModel genModel, IFileSystemAccess fsa) {
-		genModel.canGenerate = true
-		val generator = xcoreGeneratorImplProvider.get
-		generator.input = genModel
-		generator.fileSystemAccess = fsa
-		generator.modelDirectory = genModel.modelDirectory
-		generator.generate(genModel, GenBaseGeneratorAdapter::MODEL_PROJECT_TYPE, new BasicMonitor())
-		generator.generate(genModel, GenBaseGeneratorAdapter::EDIT_PROJECT_TYPE, new BasicMonitor())
-		generator.generate(genModel, GenBaseGeneratorAdapter::EDITOR_PROJECT_TYPE, new BasicMonitor())
-		generator.generate(genModel, GenBaseGeneratorAdapter::TESTS_PROJECT_TYPE, new BasicMonitor())
+		if (genModel.modelDirectory != null) {
+			genModel.canGenerate = true
+			val generator = xcoreGeneratorImplProvider.get
+			generator.input = genModel
+			generator.fileSystemAccess = fsa
+			generator.modelDirectory = genModel.modelDirectory
+			generator.generate(genModel, GenBaseGeneratorAdapter::MODEL_PROJECT_TYPE, new BasicMonitor())
+			generator.generate(genModel, GenBaseGeneratorAdapter::EDIT_PROJECT_TYPE, new BasicMonitor())
+			generator.generate(genModel, GenBaseGeneratorAdapter::EDITOR_PROJECT_TYPE, new BasicMonitor())
+			generator.generate(genModel, GenBaseGeneratorAdapter::TESTS_PROJECT_TYPE, new BasicMonitor())
+		}
 	}
 }
