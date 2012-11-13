@@ -13,6 +13,7 @@ package org.eclipse.emf.common.ui;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.osgi.framework.BundleContext;
 
 
 /**
@@ -80,6 +81,14 @@ public final class CommonUIPlugin extends EMFPlugin
       // Remember the static instance.
       //
       plugin = this;
+    }
+
+    @Override
+    public void stop(BundleContext context) throws Exception
+    {
+      ImageURIRegistry.INSTANCE.dispose();
+
+      super.stop(context);
     }
   }
 }

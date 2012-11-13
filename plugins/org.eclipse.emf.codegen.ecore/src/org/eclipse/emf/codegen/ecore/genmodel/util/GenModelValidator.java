@@ -151,6 +151,8 @@ public class GenModelValidator extends EObjectValidator
         return validateGenRuntimeVersion((GenRuntimeVersion)value, diagnostics, context);
       case GenModelPackage.GEN_RUNTIME_PLATFORM:
         return validateGenRuntimePlatform((GenRuntimePlatform)value, diagnostics, context);
+      case GenModelPackage.GEN_DECORATION:
+        return validateGenDecoration((GenDecoration)value, diagnostics, context);
       default:
         return true;
     }
@@ -407,6 +409,16 @@ public class GenModelValidator extends EObjectValidator
    * @generated
    */
   public boolean validateGenRuntimePlatform(GenRuntimePlatform genRuntimePlatform, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    return true;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean validateGenDecoration(GenDecoration genDecoration, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }

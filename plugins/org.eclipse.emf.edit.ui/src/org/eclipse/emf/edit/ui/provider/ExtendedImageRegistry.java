@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
@@ -56,7 +57,18 @@ public class ExtendedImageRegistry
   public ExtendedImageRegistry() 
   {
     Display display = Display.getCurrent();
-    hookDisplayDispose(display);
+    if (display == null)
+    {
+      final Display defaultDisplay= Display.getDefault();
+      defaultDisplay.asyncExec
+        (new Runnable()
+         {
+           public void run()
+           {
+             hookDisplayDispose(defaultDisplay);
+           }
+         });
+    }
   }
 
   public ExtendedImageRegistry(Display display) 
@@ -373,6 +385,14 @@ class URLImageDescriptor extends ImageDescriptor
     {
       return false;
     }
+  }
+  
+  @Override
+  public Image createImage(boolean returnMissingImageOnError, Device device)
+  {
+    // Don't call super because it loses the transparency information if we write this image to disk.
+    //
+    return new Image(device, getImageData());
   }
 
   @Override

@@ -100,6 +100,16 @@ public class PropertyDescriptor implements IPropertyDescriptor
     return itemPropertyDescriptor.getHelpContextIds(object);
   }
 
+  /**
+   * Provides direct access to the underlying feature object.
+   * 
+   * @since 2.9
+   */
+  public Object getFeature()
+  {
+    return itemPropertyDescriptor.getFeature(object);
+  }
+
   public Object getId() 
   {
     return itemPropertyDescriptor.getId(object);

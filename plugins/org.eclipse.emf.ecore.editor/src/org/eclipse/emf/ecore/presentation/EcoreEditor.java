@@ -103,6 +103,7 @@ import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
 import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.ui.viewer.ColumnViewerInformationControlToolTipSupport;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
@@ -125,7 +126,6 @@ import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.ETypeParameter;
-import org.eclipse.emf.ecore.EValidator;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -156,6 +156,8 @@ import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.edit.ui.provider.DecoratingColumLabelProvider;
+import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator;
 
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
@@ -507,26 +509,44 @@ public class EcoreEditor
             protected Collection<Resource> changedResources = new ArrayList<Resource>();
             protected Collection<Resource> removedResources = new ArrayList<Resource>();
 
-            public boolean visit(IResourceDelta delta)
+            public boolean visit(final IResourceDelta delta)
             {
               if (delta.getResource().getType() == IResource.FILE)
               {
                 if (delta.getKind() == IResourceDelta.REMOVED ||
-                    delta.getKind() == IResourceDelta.CHANGED && delta.getFlags() != IResourceDelta.MARKERS)
+                    delta.getKind() == IResourceDelta.CHANGED)
                 {
-                  Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(delta.getFullPath().toString(), true), false);
+                  final Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(delta.getFullPath().toString(), true), false);
                   if (resource != null)
                   {
                     if (delta.getKind() == IResourceDelta.REMOVED)
                     {
                       removedResources.add(resource);
                     }
-                    else if (!savedResources.remove(resource))
+                    else
                     {
-                      changedResources.add(resource);
+                      if ((delta.getFlags() & IResourceDelta.MARKERS) != 0)
+                      {
+                        getSite().getShell().getDisplay().asyncExec
+                          (new Runnable()
+                           {
+                             public void run()
+                             {
+                               DiagnosticDecorator.DiagnosticAdapter.update(resource, markerHelper.getMarkerDiagnostics(resource, (IFile)delta.getResource()));
+                             }
+                           });
+                      }
+                      if ((delta.getFlags() & IResourceDelta.CONTENT) != 0)
+                      {
+                        if (!savedResources.remove(resource))
+                        {
+                          changedResources.add(resource);
+                        }
+                      }
                     }
                   }
                 }
+                return false;
               }
 
               return true;
@@ -1215,8 +1235,7 @@ public class EcoreEditor
    * This is the method used by the framework to install your own controls.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
-   * <p>This is not generated to preserve setting the selection until that goes into the template. 
+   * @generated
    */
   @Override
   public void createPages()
@@ -1236,17 +1255,25 @@ public class EcoreEditor
       setCurrentViewer(selectionViewer);
 
       selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-      selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+      selectionViewer.setLabelProvider(new DecoratingColumLabelProvider(new AdapterFactoryLabelProvider(adapterFactory), new DiagnosticDecorator(editingDomain, selectionViewer)));
       selectionViewer.setInput(editingDomain.getResourceSet());
       selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
 
       new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
+      new ColumnViewerInformationControlToolTipSupport(selectionViewer, new DiagnosticDecorator.EditingDomainLocationListener(editingDomain, selectionViewer));
 
       createContextMenuFor(selectionViewer);
       int pageIndex = addPage(tree);
       setPageText(pageIndex, getString("_UI_SelectionPage_label"));
 
-      setActivePage(0);
+      getSite().getShell().getDisplay().asyncExec
+        (new Runnable()
+         {
+           public void run()
+           {
+             setActivePage(0);
+           }
+         });
     }
 
     // Ensures that this editor will only display the page's tab
@@ -1268,7 +1295,14 @@ public class EcoreEditor
         }
        });
 
-    updateProblemIndication();
+    getSite().getShell().getDisplay().asyncExec
+      (new Runnable()
+       {
+         public void run()
+         {
+           updateProblemIndication();
+         }
+       });
   }
 
   /**
@@ -1334,7 +1368,7 @@ public class EcoreEditor
    * This is how the framework determines which interfaces we implement.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   @SuppressWarnings("rawtypes")
   @Override
@@ -1351,6 +1385,14 @@ public class EcoreEditor
     else if (key.equals(IGotoMarker.class))
     {
       return this;
+    }
+    else if ("org.eclipse.ui.texteditor.ITextEditor".equals(key.getName()))
+    {
+      // WTP registers a property tester that tries to get this adapter even when closing the workbench 
+      // at which point the multi-page editor is already disposed and throws an exception.
+      // Of course the Ecore editor can never be adapted to a text editor, so we can just always return null.
+      //
+      return null;
     }
     else
     {
@@ -1382,8 +1424,10 @@ public class EcoreEditor
           // Set up the tree viewer.
           //
           contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-          contentOutlineViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+          contentOutlineViewer.setLabelProvider(new DecoratingColumLabelProvider(new AdapterFactoryLabelProvider(adapterFactory), new DiagnosticDecorator(editingDomain, contentOutlineViewer)));
           contentOutlineViewer.setInput(editingDomain.getResourceSet());
+
+          new ColumnViewerInformationControlToolTipSupport(contentOutlineViewer, new DiagnosticDecorator.EditingDomainLocationListener(editingDomain, contentOutlineViewer));
 
           // Make sure our popups work.
           //
@@ -1442,7 +1486,7 @@ public class EcoreEditor
     if (propertySheetPage == null)
     {
       propertySheetPage =
-        new ExtendedPropertySheetPage(editingDomain)
+        new ExtendedPropertySheetPage(editingDomain, ExtendedPropertySheetPage.Decoration.LIVE)
         {
           @Override
           public void setSelectionToViewer(List<?> selection)
@@ -1691,25 +1735,10 @@ public class EcoreEditor
    */
   public void gotoMarker(IMarker marker)
   {
-    try
+    List<?> targetObjects = markerHelper.getTargetObjects(editingDomain, marker);
+    if (!targetObjects.isEmpty())
     {
-      if (marker.getType().equals(EValidator.MARKER))
-      {
-        String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
-        if (uriAttribute != null)
-        {
-          URI uri = URI.createURI(uriAttribute);
-          EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
-          if (eObject != null)
-          {
-            setSelectionToViewer(Collections.singleton(editingDomain.getWrapper(eObject)));
-          }
-        }
-      }
-    }
-    catch (CoreException exception)
-    {
-      EcoreEditorPlugin.INSTANCE.log(exception);
+      setSelectionToViewer(targetObjects);
     }
   }
 

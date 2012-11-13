@@ -356,7 +356,7 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
 
   protected Image getImageFromObject(Object object)
   {
-    return ExtendedImageRegistry.getInstance().getImage(object);
+    return ExtendedImageRegistry.INSTANCE.getImage(object);
   }
 
   /**

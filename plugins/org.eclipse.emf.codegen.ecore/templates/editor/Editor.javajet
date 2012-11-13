@@ -182,7 +182,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 
-<%if (!genModel.isRichClientPlatform()) {%>
+<%if (!genModel.isRichClientPlatform() && genModel.getRuntimeVersion().getValue() < GenRuntimeVersion.EMF23_VALUE) {%>
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 <%}%>
@@ -597,6 +597,18 @@ public class <%=genPackage.getEditorClassName()%>
 			protected void unsetTarget(Resource target)
 			{
 				basicUnsetTarget(target);
+				resourceToDiagnosticMap.remove(target);
+				if (updateProblemIndication)
+				{
+					getSite().getShell().getDisplay().asyncExec
+						(new Runnable()
+						 {
+							 public void run()
+							 {
+								 updateProblemIndication();
+							 }
+						 });
+				}
 			}
 		};
 <%if (!genModel.isRichClientPlatform()) {%>
@@ -621,26 +633,51 @@ public class <%=genPackage.getEditorClassName()%>
 						protected <%=_CollectionOfResource%> changedResources = new <%=_ArrayListOfResource%>();
 						protected <%=_CollectionOfResource%> removedResources = new <%=_ArrayListOfResource%>();
 
-						public boolean visit(IResourceDelta delta)
+						public boolean visit(<%if (genModel.getDecoration() != GenDecoration.NONE) {%>final <%}%>IResourceDelta delta)
 						{
 							if (delta.getResource().getType() == IResource.FILE)
 							{
 								if (delta.getKind() == IResourceDelta.REMOVED ||
-								    delta.getKind() == IResourceDelta.CHANGED && delta.getFlags() != IResourceDelta.MARKERS)
+								    delta.getKind() == IResourceDelta.CHANGED<%if (genModel.getDecoration() == GenDecoration.NONE) {%> && delta.getFlags() != IResourceDelta.MARKERS<%}%>)
 								{
-									Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(delta.getFullPath().toString(), true), false);
+									<%if (genModel.getDecoration() != GenDecoration.NONE) {%>final <%}%>Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(delta.getFullPath().toString(), true), false);
 									if (resource != null)
 									{
 										if (delta.getKind() == IResourceDelta.REMOVED)
 										{
 											removedResources.add(resource);
 										}
+<%if (genModel.getDecoration() == GenDecoration.NONE) {%>
 										else if (!savedResources.remove(resource))
 										{
 											changedResources.add(resource);
 										}
+<%} else {%>
+										else
+										{
+											if ((delta.getFlags() & IResourceDelta.MARKERS) != 0)
+											{
+												getSite().getShell().getDisplay().asyncExec
+													(new Runnable()
+													 {
+														 public void run()
+														 {
+															 <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>.DiagnosticAdapter.update(resource, markerHelper.getMarkerDiagnostics(resource, (IFile)delta.getResource()));
+														 }
+													 });
+											}
+											if ((delta.getFlags() & IResourceDelta.CONTENT) != 0)
+											{
+												if (!savedResources.remove(resource))
+												{
+													changedResources.add(resource);
+												}
+											}
+										}
+<%}%>
 									}
 								}
+								return false;
 							}
 
 							return true;
@@ -1338,12 +1375,15 @@ public class <%=genPackage.getEditorClassName()%>
 				selectionViewer = (TreeViewer)viewerPane.getViewer();
 				selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
 
-				selectionViewer.setLabelProvider(new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, selectionViewer<%}%>));
+				selectionViewer.setLabelProvider(<%if (genModel.getDecoration() != GenDecoration.NONE) {%>new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DecoratingColumLabelProvider")%>(<%}%>new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, selectionViewer<%}%>)<%if (genModel.getDecoration() != GenDecoration.NONE) {%>, new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>(editingDomain<%if (genModel.getDecoration() == GenDecoration.MANUAL) {%>.getResourceSet()<%}%>, selectionViewer))<%}%>);
 				selectionViewer.setInput(editingDomain.getResourceSet());
 				selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
 				viewerPane.setTitle(editingDomain.getResourceSet());
 
 				new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
+<%if (genModel.getDecoration() != GenDecoration.NONE) {%>
+				new <%=genModel.getImportedName("org.eclipse.emf.common.ui.viewer.ColumnViewerInformationControlToolTipSupport")%>(selectionViewer, new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>.EditingDomainLocationListener(editingDomain, selectionViewer));
+<%}%>
 
 				createContextMenuFor(selectionViewer);
 				int pageIndex = addPage(viewerPane.getControl());
@@ -1443,9 +1483,12 @@ public class <%=genPackage.getEditorClassName()%>
 				viewerPane.createControl(getContainer());
 				treeViewer = (TreeViewer)viewerPane.getViewer();
 				treeViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-				treeViewer.setLabelProvider(new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, treeViewer<%}%>));
+				treeViewer.setLabelProvider(<%if (genModel.getDecoration() != GenDecoration.NONE) {%>new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DecoratingColumLabelProvider")%>(<%}%>new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, treeViewer<%}%>)<%if (genModel.getDecoration() != GenDecoration.NONE) {%>, new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>(editingDomain<%if (genModel.getDecoration() == GenDecoration.MANUAL) {%>.getResourceSet()<%}%>, treeViewer))<%}%>);
 
 				new AdapterFactoryTreeEditor(treeViewer.getTree(), adapterFactory);
+<%if (genModel.getDecoration() != GenDecoration.NONE) {%>
+				new <%=genModel.getImportedName("org.eclipse.emf.common.ui.viewer.ColumnViewerInformationControlToolTipSupport")%>(treeViewer, new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>.EditingDomainLocationListener(editingDomain, treeViewer));
+<%}%>
 
 				createContextMenuFor(treeViewer);
 				int pageIndex = addPage(viewerPane.getControl());
@@ -1495,8 +1538,12 @@ public class <%=genPackage.getEditorClassName()%>
 
 				tableViewer.setColumnProperties(new String [] {"a", "b"});<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 				tableViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-				tableViewer.setLabelProvider(new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, tableViewer<%}%>));
+				tableViewer.setLabelProvider(<%if (genModel.getDecoration() != GenDecoration.NONE) {%>new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DecoratingColumLabelProvider")%>(<%}%>new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, tableViewer<%}%>)<%if (genModel.getDecoration() != GenDecoration.NONE) {%>, new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>(editingDomain<%if (genModel.getDecoration() == GenDecoration.MANUAL) {%>.getResourceSet()<%}%>, tableViewer))<%}%>);
 
+<%if (genModel.getDecoration() != GenDecoration.NONE) {%>
+				new <%=genModel.getImportedName("org.eclipse.emf.common.ui.viewer.ColumnViewerInformationControlToolTipSupport")%>(tableViewer, new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>.EditingDomainLocationListener(editingDomain, tableViewer));
+
+<%}%>
 				createContextMenuFor(tableViewer);
 				int pageIndex = addPage(viewerPane.getControl());
 				setPageText(pageIndex, getString("_UI_TablePage_label"));<%=genModel.getNonNLS()%>
@@ -1545,8 +1592,12 @@ public class <%=genPackage.getEditorClassName()%>
 
 				treeViewerWithColumns.setColumnProperties(new String [] {"a", "b"});<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 				treeViewerWithColumns.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-				treeViewerWithColumns.setLabelProvider(new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, treeViewerWithColumns<%}%>));
+				treeViewerWithColumns.setLabelProvider(<%if (genModel.getDecoration() != GenDecoration.NONE) {%>new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DecoratingColumLabelProvider")%>(<%}%>new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, treeViewerWithColumns<%}%>)<%if (genModel.getDecoration() != GenDecoration.NONE) {%>, new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>(editingDomain<%if (genModel.getDecoration() == GenDecoration.MANUAL) {%>.getResourceSet()<%}%>, treeViewerWithColumns))<%}%>);
 
+<%if (genModel.getDecoration() != GenDecoration.NONE) {%>
+				new <%=genModel.getImportedName("org.eclipse.emf.common.ui.viewer.ColumnViewerInformationControlToolTipSupport")%>(treeViewerWithColumns, new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>.EditingDomainLocationListener(editingDomain, treeViewerWithColumns));
+
+<%}%>
 				createContextMenuFor(treeViewerWithColumns);
 				int pageIndex = addPage(viewerPane.getControl());
 				setPageText(pageIndex, getString("_UI_TreeWithColumnsPage_label"));<%=genModel.getNonNLS()%>
@@ -1557,11 +1608,14 @@ public class <%=genPackage.getEditorClassName()%>
 			setCurrentViewer(selectionViewer);
 
 			selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-			selectionViewer.setLabelProvider(new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, selectionViewer<%}%>));
+			selectionViewer.setLabelProvider(<%if (genModel.getDecoration() != GenDecoration.NONE) {%>new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DecoratingColumLabelProvider")%>(<%}%>new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, selectionViewer<%}%>)<%if (genModel.getDecoration() != GenDecoration.NONE) {%>, new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>(editingDomain<%if (genModel.getDecoration() == GenDecoration.MANUAL) {%>.getResourceSet()<%}%>, selectionViewer))<%}%>);
 			selectionViewer.setInput(editingDomain.getResourceSet());
 			selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
 
 			new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
+<%if (genModel.getDecoration() != GenDecoration.NONE) {%>
+			new <%=genModel.getImportedName("org.eclipse.emf.common.ui.viewer.ColumnViewerInformationControlToolTipSupport")%>(selectionViewer, new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>.EditingDomainLocationListener(editingDomain, selectionViewer));
+<%}%>
 
 			createContextMenuFor(selectionViewer);
 			int pageIndex = addPage(tree);
@@ -1730,9 +1784,13 @@ public class <%=genPackage.getEditorClassName()%>
 					// Set up the tree viewer.
 					//
 					contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-					contentOutlineViewer.setLabelProvider(new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, contentOutlineViewer<%}%>));
+					contentOutlineViewer.setLabelProvider(<%if (genModel.getDecoration() != GenDecoration.NONE) {%>new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DecoratingColumLabelProvider")%>(<%}%>new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, contentOutlineViewer<%}%>)<%if (genModel.getDecoration() != GenDecoration.NONE) {%>, new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>(editingDomain<%if (genModel.getDecoration() == GenDecoration.MANUAL) {%>.getResourceSet()<%}%>, contentOutlineViewer))<%}%>);
 					contentOutlineViewer.setInput(editingDomain.getResourceSet());
 
+<%if (genModel.getDecoration() != GenDecoration.NONE) {%>
+					new <%=genModel.getImportedName("org.eclipse.emf.common.ui.viewer.ColumnViewerInformationControlToolTipSupport")%>(contentOutlineViewer, new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>.EditingDomainLocationListener(editingDomain, contentOutlineViewer));
+
+<%}%>
 					// Make sure our popups work.
 					//
 					createContextMenuFor(contentOutlineViewer);
@@ -1794,7 +1852,7 @@ public class <%=genPackage.getEditorClassName()%>
 		if (propertySheetPage == null)
 		{
 			propertySheetPage =
-				new ExtendedPropertySheetPage(editingDomain)
+				new ExtendedPropertySheetPage(editingDomain<%if (genModel.getDecoration() == GenDecoration.MANUAL) {%>, ExtendedPropertySheetPage.Decoration.MANUAL<%} else if (genModel.getDecoration() == GenDecoration.LIVE) {%>, ExtendedPropertySheetPage.Decoration.LIVE<%}%>)
 				{
 <%if (genModel.useClassOverrideAnnotation()) {%>
 					@Override
@@ -2120,6 +2178,13 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	public void gotoMarker(IMarker marker)
 	{
+<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF23_VALUE) {%>
+		<%=_ListOfAnything%> targetObjects = markerHelper.getTargetObjects(editingDomain, marker);
+		if (!targetObjects.isEmpty())
+		{
+			setSelectionToViewer(targetObjects);
+		}
+<%} else {%>
 		try
 		{
 			if (marker.isSubtypeOf(EValidator.MARKER))
@@ -2140,6 +2205,7 @@ public class <%=genPackage.getEditorClassName()%>
 		{
 			<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.log(exception);
 		}
+<%}%>
 	}
 <%}%>
 

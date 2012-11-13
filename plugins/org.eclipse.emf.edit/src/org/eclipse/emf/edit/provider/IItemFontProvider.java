@@ -14,7 +14,7 @@ import org.eclipse.emf.common.util.URI;
 
 
 /**
- * This is the interface implemented to provide a color for an item;
+ * This is the interface implemented to provide a font for an item;
  * it receives delegated calls from IFontProvider.
  * Fonts are expressed in a platform-independent way as a URI of the form:
  *<pre>

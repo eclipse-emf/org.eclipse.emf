@@ -124,6 +124,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRuntimePlatform <em>Runtime Platform</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isImportOrganizing <em>Import Organizing</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getPluginKey <em>Plugin Key</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getDecoration <em>Decoration</em>}</li>
  * </ul>
  * </p>
  *
@@ -2182,6 +2183,35 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setPluginKey(String value);
+
+  /**
+   * Returns the value of the '<em><b>Decoration</b></em>' attribute.
+   * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.GenDecoration}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * @since 2.9
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Decoration</em>' attribute.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenDecoration
+   * @see #setDecoration(GenDecoration)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_Decoration()
+   * @model
+   * @generated
+   */
+  GenDecoration getDecoration();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getDecoration <em>Decoration</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.9
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Decoration</em>' attribute.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenDecoration
+   * @see #getDecoration()
+   * @generated
+   */
+  void setDecoration(GenDecoration value);
 
   EList<GenPackage> getStaticGenPackages();
 

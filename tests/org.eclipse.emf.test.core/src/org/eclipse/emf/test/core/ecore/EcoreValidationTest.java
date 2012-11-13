@@ -82,7 +82,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.WELL_FORMED_SOURCE_URI,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eAnnotation },
+         new Object [] { eAnnotation, EcorePackage.Literals.EANNOTATION__SOURCE },
          diagnostic.getChildren().get(0));
     }
 
@@ -96,7 +96,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.WELL_FORMED_SOURCE_URI,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eAnnotation },
+         new Object [] { eAnnotation, EcorePackage.Literals.EANNOTATION__SOURCE },
          diagnostic.getChildren().get(0));
     }
 
@@ -138,7 +138,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.WELL_FORMED_NAME,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass },
+         new Object [] { eClass, EcorePackage.Literals.ENAMED_ELEMENT__NAME },
          diagnostic.getChildren().get(0));
 
       diagnostic = Diagnostician.INSTANCE.validate(eClass, Collections.singletonMap(EcoreValidator.STRICT_NAMED_ELEMENT_NAMES, Boolean.FALSE));
@@ -165,7 +165,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.WELL_FORMED_INSTANCE_TYPE_NAME,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass },
+         new Object [] { eClass, EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME },
          diagnostic.getChildren().get(0));
     }
 
@@ -180,7 +180,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.WELL_FORMED_INSTANCE_TYPE_NAME,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass },
+         new Object [] { eClass, EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME },
          diagnostic.getChildren().get(0));
     }
 
@@ -195,7 +195,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.WELL_FORMED_INSTANCE_TYPE_NAME,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass },
+         new Object [] { eClass, EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME },
          diagnostic.getChildren().get(0));
     }
 
@@ -210,7 +210,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.INTERFACE_IS_ABSTRACT,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass },
+         new Object [] { eClass, EcorePackage.Literals.ECLASS__ABSTRACT },
          diagnostic.getChildren().get(0));
     }
 
@@ -232,13 +232,20 @@ public class EcoreValidationTest extends TestCase
         eAttribute.setEType(EcorePackage.Literals.ESTRING);
         eClass.getEStructuralFeatures().add(eAttribute);
       }
+      {
+        EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
+        eAttribute.setName("c");
+        eAttribute.setID(true);
+        eAttribute.setEType(EcorePackage.Literals.ESTRING);
+        eClass.getEStructuralFeatures().add(eAttribute);
+      }
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eClass);
       assertEquals(1, diagnostic.getChildren().size());
       assertDiagnostic
         (Diagnostic.ERROR,
          EcoreValidator.AT_MOST_ONE_ID,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass, eClass.getEAttributes().get(1), eClass.getEAttributes().get(0)},
+         new Object [] { eClass, eClass.getEAttributes().get(0), eClass.getEAttributes().get(1), eClass.getEAllAttributes().get(2), EcorePackage.Literals.ECLASS__EALL_ATTRIBUTES},
          diagnostic.getChildren().get(0));
     }
 
@@ -264,7 +271,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.UNIQUE_FEATURE_NAMES,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass, eClass.getEAttributes().get(1), eClass.getEAttributes().get(0)},
+         new Object [] { eClass, eClass.getEAttributes().get(0), eClass.getEAttributes().get(1), EcorePackage.Literals.ECLASS__EALL_STRUCTURAL_FEATURES },
          diagnostic.getChildren().get(0));
     }
 
@@ -290,7 +297,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.WARNING,
          EcoreValidator.UNIQUE_FEATURE_NAMES,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass, eClass.getEAttributes().get(1), eClass.getEAttributes().get(0)},
+         new Object [] { eClass, eClass.getEAttributes().get(0), eClass.getEAttributes().get(1), EcorePackage.Literals.ECLASS__EALL_STRUCTURAL_FEATURES },
          diagnostic.getChildren().get(0));
     }
 
@@ -326,7 +333,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.UNIQUE_OPERATION_SIGNATURES,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass, eClass.getEOperations().get(1), eClass.getEOperations().get(0)},
+         new Object [] { eClass, eClass.getEOperations().get(0), eClass.getEOperations().get(1), EcorePackage.Literals.ECLASS__EALL_OPERATIONS },
          diagnostic.getChildren().get(0));
     }
 
@@ -341,7 +348,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.NO_CIRCULAR_SUPER_TYPES,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass },
+         new Object [] { eClass, EcorePackage.Literals.ECLASS__EALL_SUPER_TYPES },
          diagnostic.getChildren().get(0));
     }
 
@@ -356,13 +363,13 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.WELL_FORMED_MAP_ENTRY_CLASS,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass },
+         new Object [] { eClass, EcorePackage.Literals.ECLASS__EALL_STRUCTURAL_FEATURES },
          diagnostic.getChildren().get(0));
       assertDiagnostic
         (Diagnostic.ERROR,
          EcoreValidator.WELL_FORMED_MAP_ENTRY_CLASS,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass },
+         new Object [] { eClass, EcorePackage.Literals.ECLASS__EALL_STRUCTURAL_FEATURES },
          diagnostic.getChildren().get(1));
     }
 
@@ -386,19 +393,13 @@ public class EcoreValidationTest extends TestCase
         eEnum.getELiterals().add(eEnumLiteral);
       }
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eEnum);
-      assertEquals(2, diagnostic.getChildren().size());
+      assertEquals(1, diagnostic.getChildren().size());
       assertDiagnostic
         (Diagnostic.ERROR,
          EcoreValidator.UNIQUE_ENUMERATOR_NAMES,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eEnum, eEnum.getELiterals().get(1), eEnum.getELiterals().get(0) },
+         new Object [] { eEnum, eEnum.getELiterals().get(0), eEnum.getELiterals().get(1), eEnum.getELiterals().get(2), EcorePackage.Literals.EENUM__ELITERALS },
          diagnostic.getChildren().get(0));
-      assertDiagnostic
-        (Diagnostic.WARNING,
-         EcoreValidator.UNIQUE_ENUMERATOR_NAMES,
-         EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eEnum, eEnum.getELiterals().get(2), eEnum.getELiterals().get(0) },
-         diagnostic.getChildren().get(1));
     }
 
     // Two enum literals can't have the same literals.
@@ -417,6 +418,12 @@ public class EcoreValidationTest extends TestCase
         eEnumLiteral.setLiteral("x");
         eEnum.getELiterals().add(eEnumLiteral);
       }
+      {
+        EEnumLiteral eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
+        eEnumLiteral.setName("c");
+        eEnumLiteral.setLiteral("x");
+        eEnum.getELiterals().add(eEnumLiteral);
+      }
 
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eEnum);
       assertEquals(1, diagnostic.getChildren().size());
@@ -424,7 +431,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.UNIQUE_ENUMERATOR_LITERALS,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eEnum, eEnum.getELiterals().get(1), eEnum.getELiterals().get(0) },
+         new Object [] { eEnum, eEnum.getELiterals().get(0), eEnum.getELiterals().get(1), eEnum.getELiterals().get(2), EcorePackage.Literals.EENUM__ELITERALS },
          diagnostic.getChildren().get(0));
     }
 
@@ -444,13 +451,19 @@ public class EcoreValidationTest extends TestCase
         eParameter.setEType(EcorePackage.Literals.ESTRING);
         eOperation.getEParameters().add(eParameter);
       }
+      {
+        EParameter eParameter = EcoreFactory.eINSTANCE.createEParameter();
+        eParameter.setName("a");
+        eParameter.setEType(EcorePackage.Literals.ESTRING);
+        eOperation.getEParameters().add(eParameter);
+      }
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eOperation);
       assertEquals(1, diagnostic.getChildren().size());
       assertDiagnostic
         (Diagnostic.ERROR,
          EcoreValidator.UNIQUE_PARAMETER_NAMES,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eOperation, eOperation.getEParameters().get(1), eOperation.getEParameters().get(0) },
+         new Object [] { eOperation, eOperation.getEParameters().get(0), eOperation.getEParameters().get(1), eOperation.getEParameters().get(2), EcorePackage.Literals.EOPERATION__EPARAMETERS },
          diagnostic.getChildren().get(0));
     }
 
@@ -468,6 +481,11 @@ public class EcoreValidationTest extends TestCase
         eTypeParameter.setName("A");
         eOperation.getETypeParameters().add(eTypeParameter);
       }
+      {
+        ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
+        eTypeParameter.setName("A");
+        eOperation.getETypeParameters().add(eTypeParameter);
+      }
       
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eOperation);
       assertEquals(1, diagnostic.getChildren().size());
@@ -475,7 +493,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.UNIQUE_TYPE_PARAMETER_NAMES,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eOperation, eOperation.getETypeParameters().get(1), eOperation.getETypeParameters().get(0) },
+         new Object [] { eOperation, eOperation.getETypeParameters().get(0), eOperation.getETypeParameters().get(1), eOperation.getETypeParameters().get(2), EcorePackage.Literals.EOPERATION__ETYPE_PARAMETERS },
          diagnostic.getChildren().get(0));
     }
 
@@ -493,6 +511,11 @@ public class EcoreValidationTest extends TestCase
         eTypeParameter.setName("A");
         eClass.getETypeParameters().add(eTypeParameter);
       }
+      {
+        ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
+        eTypeParameter.setName("A");
+        eClass.getETypeParameters().add(eTypeParameter);
+      }
       
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eClass);
       assertEquals(1, diagnostic.getChildren().size());
@@ -500,7 +523,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.UNIQUE_TYPE_PARAMETER_NAMES,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass, eClass.getETypeParameters().get(1), eClass.getETypeParameters().get(0) },
+         new Object [] { eClass, eClass.getETypeParameters().get(0), eClass.getETypeParameters().get(1), eClass.getETypeParameters().get(2), EcorePackage.Literals.ECLASSIFIER__ETYPE_PARAMETERS },
          diagnostic.getChildren().get(0));
     }
 
@@ -515,7 +538,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.NO_REPEATING_VOID,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eOperation },
+         new Object [] { eOperation, EcorePackage.Literals.ETYPED_ELEMENT__UPPER_BOUND },
          diagnostic.getChildren().get(0));
     }
 
@@ -530,7 +553,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.WELL_FORMED_NS_URI,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { ePackage },
+         new Object [] { ePackage, EcorePackage.Literals.EPACKAGE__NS_URI },
          diagnostic.getChildren().get(0));
     }
 
@@ -546,7 +569,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.WELL_FORMED_NS_URI,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { ePackage },
+         new Object [] { ePackage, EcorePackage.Literals.EPACKAGE__NS_URI },
          diagnostic.getChildren().get(0));
     }
 
@@ -562,7 +585,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.WELL_FORMED_NS_URI,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { ePackage },
+         new Object [] { ePackage, EcorePackage.Literals.EPACKAGE__NS_URI },
          diagnostic.getChildren().get(0));
     }
 
@@ -578,7 +601,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.WELL_FORMED_NS_PREFIX,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { ePackage },
+         new Object [] { ePackage, EcorePackage.Literals.EPACKAGE__NS_PREFIX },
          diagnostic.getChildren().get(0));
     }
 
@@ -594,7 +617,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.WELL_FORMED_NS_PREFIX,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { ePackage },
+         new Object [] { ePackage, EcorePackage.Literals.EPACKAGE__NS_PREFIX },
          diagnostic.getChildren().get(0));
     }
 
@@ -609,7 +632,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.WELL_FORMED_NS_PREFIX,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { ePackage },
+         new Object [] { ePackage, EcorePackage.Literals.EPACKAGE__NS_PREFIX },
          diagnostic.getChildren().get(0));
     }
 
@@ -633,13 +656,20 @@ public class EcoreValidationTest extends TestCase
         eSubpackage.setNsPrefix("");
         ePackage.getESubpackages().add(eSubpackage);
       }
+      {
+        EPackage eSubpackage = EcoreFactory.eINSTANCE.createEPackage();
+        eSubpackage.setName("a");
+        eSubpackage.setNsURI("c");
+        eSubpackage.setNsPrefix("");
+        ePackage.getESubpackages().add(eSubpackage);
+      }
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(ePackage);
       assertEquals(1, diagnostic.getChildren().size());
       assertDiagnostic
         (Diagnostic.ERROR,
          EcoreValidator.UNIQUE_SUBPACKAGE_NAMES,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { ePackage, ePackage.getESubpackages().get(1), ePackage.getESubpackages().get(0) },
+         new Object [] { ePackage, ePackage.getESubpackages().get(0), ePackage.getESubpackages().get(1), ePackage.getESubpackages().get(2), EcorePackage.Literals.EPACKAGE__ESUBPACKAGES },
          diagnostic.getChildren().get(0));
     }
 
@@ -665,19 +695,13 @@ public class EcoreValidationTest extends TestCase
         ePackage.getEClassifiers().add(eClass);
       }
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(ePackage);
-      assertEquals(2, diagnostic.getChildren().size());
+      assertEquals(1, diagnostic.getChildren().size());
       assertDiagnostic
         (Diagnostic.ERROR,
          EcoreValidator.UNIQUE_CLASSIFIER_NAMES,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { ePackage, ePackage.getEClassifiers().get(1), ePackage.getEClassifiers().get(0) },
+         new Object [] { ePackage, ePackage.getEClassifiers().get(0), ePackage.getEClassifiers().get(1), ePackage.getEClassifiers().get(2), EcorePackage.Literals.EPACKAGE__ECLASSIFIERS },
          diagnostic.getChildren().get(0));
-      assertDiagnostic
-        (Diagnostic.WARNING,
-         EcoreValidator.UNIQUE_CLASSIFIER_NAMES,
-         EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { ePackage, ePackage.getEClassifiers().get(2), ePackage.getEClassifiers().get(0) },
-         diagnostic.getChildren().get(1));
     }
 
     // Two packages cannot have the same namespace URI.
@@ -699,13 +723,13 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.UNIQUE_NS_URIS,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { ePackage, ePackage.getESubpackages().get(0) },
+         new Object [] { ePackage, ePackage.getESubpackages().get(0), EcorePackage.Literals.EPACKAGE__ESUBPACKAGES },
          diagnostic.getChildren().get(0));
       assertDiagnostic
         (Diagnostic.ERROR,
          EcoreValidator.UNIQUE_NS_URIS,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { ePackage.getESubpackages().get(0), ePackage },
+         new Object [] { ePackage.getESubpackages().get(0), ePackage, EcorePackage.Literals.EPACKAGE__ESUBPACKAGES },
          diagnostic.getChildren().get(1));
     }
     
@@ -720,7 +744,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_TRANSIENT,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eAttribute },
+         new Object [] { eAttribute, EcorePackage.Literals.ESTRUCTURAL_FEATURE__TRANSIENT },
          diagnostic.getChildren().get(0));
     }
 
@@ -799,7 +823,7 @@ public class EcoreValidationTest extends TestCase
             (Diagnostic.ERROR,
              EcoreValidator.CONSISTENT_OPPOSITE_NOT_FROM_TYPE,
              EcoreValidator.DIAGNOSTIC_SOURCE,
-             new Object [] { a, b, B },
+             new Object [] { a, b, B, EcorePackage.Literals.EREFERENCE__EOPPOSITE },
              diagnostic.getChildren().get(0));
           break;
         }
@@ -817,7 +841,7 @@ public class EcoreValidationTest extends TestCase
             (Diagnostic.ERROR,
              EcoreValidator.CONSISTENT_OPPOSITE_NOT_MATCHING,
              EcoreValidator.DIAGNOSTIC_SOURCE,
-             new Object [] { a, b, null },
+             new Object [] { a, b, null, EcorePackage.Literals.EREFERENCE__EOPPOSITE },
              diagnostic.getChildren().get(0));
           break;
         }
@@ -850,7 +874,7 @@ public class EcoreValidationTest extends TestCase
             (Diagnostic.ERROR,
              EcoreValidator.SINGLE_CONTAINER,
              EcoreValidator.DIAGNOSTIC_SOURCE,
-             new Object [] { b },
+             new Object [] { b, EcorePackage.Literals.ETYPED_ELEMENT__UPPER_BOUND },
              diagnostic.getChildren().get(0));
           break;
         }
@@ -914,7 +938,7 @@ public class EcoreValidationTest extends TestCase
             (Diagnostic.ERROR,
              EcoreValidator.CONSISTENT_OPPOSITE_BAD_TRANSIENT,
              EcoreValidator.DIAGNOSTIC_SOURCE,
-             new Object [] { a, b },
+             new Object [] { a, b, EcorePackage.Literals.EREFERENCE__EOPPOSITE, EcorePackage.Literals.ESTRUCTURAL_FEATURE__TRANSIENT },
              diagnostic.getChildren().get(0));
           break;
         }
@@ -934,13 +958,13 @@ public class EcoreValidationTest extends TestCase
             (Diagnostic.ERROR,
              EcoreValidator.CONSISTENT_OPPOSITE_BOTH_CONTAINMENT,
              EcoreValidator.DIAGNOSTIC_SOURCE,
-             new Object [] { b , a },
+             new Object [] { b, a, EcorePackage.Literals.EREFERENCE__EOPPOSITE, EcorePackage.Literals.EREFERENCE__CONTAINMENT },
              diagnostic.getChildren().get(0));
           assertDiagnostic
             (Diagnostic.ERROR,
              EcoreValidator.CONSISTENT_OPPOSITE_BOTH_CONTAINMENT,
              EcoreValidator.DIAGNOSTIC_SOURCE,
-             new Object [] { a , b },
+             new Object [] { a, b, EcorePackage.Literals.EREFERENCE__EOPPOSITE, EcorePackage.Literals.EREFERENCE__CONTAINMENT },
              diagnostic.getChildren().get(1));
           break;
         }
@@ -964,7 +988,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.VALID_LOWER_BOUND,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eAttribute },
+         new Object [] { eAttribute, EcorePackage.Literals.ETYPED_ELEMENT__LOWER_BOUND },
          diagnostic.getChildren().get(0));
     }
 
@@ -981,7 +1005,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.VALID_UPPER_BOUND,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eAttribute },
+         new Object [] { eAttribute, EcorePackage.Literals.ETYPED_ELEMENT__UPPER_BOUND },
          diagnostic.getChildren().get(0));
     }
 
@@ -998,7 +1022,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.VALID_UPPER_BOUND,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eAttribute },
+         new Object [] { eAttribute, EcorePackage.Literals.ETYPED_ELEMENT__UPPER_BOUND  },
          diagnostic.getChildren().get(0));
     }
 
@@ -1015,7 +1039,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_BOUNDS,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eAttribute },
+         new Object [] { eAttribute, EcorePackage.Literals.ETYPED_ELEMENT__LOWER_BOUND, EcorePackage.Literals.ETYPED_ELEMENT__UPPER_BOUND   },
          diagnostic.getChildren().get(0));
     }
 
@@ -1038,7 +1062,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_TYPE_CLASS_NOT_PERMITTED,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eAttribute.getEGenericType() },
+         new Object [] { eAttribute.getEGenericType(), EcorePackage.Literals.EGENERIC_TYPE__ECLASSIFIER },
          diagnostic.getChildren().get(1));
     }
 
@@ -1063,7 +1087,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_TYPE_CLASS_NOT_PERMITTED,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eGenericType },
+         new Object [] { eGenericType, EcorePackage.Literals.EGENERIC_TYPE__ECLASSIFIER },
          diagnostic.getChildren().get(1));
     }
 
@@ -1085,7 +1109,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_TYPE_DATA_TYPE_NOT_PERMITTED,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eReference.getEGenericType() },
+         new Object [] { eReference.getEGenericType(), EcorePackage.Literals.EGENERIC_TYPE__ECLASSIFIER },
          diagnostic.getChildren().get(1));
     }
 
@@ -1109,7 +1133,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_TYPE_DATA_TYPE_NOT_PERMITTED,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eReference.getEGenericType() },
+         new Object [] { eReference.getEGenericType(), EcorePackage.Literals.EGENERIC_TYPE__ECLASSIFIER },
          diagnostic.getChildren().get(1));
     }
 
@@ -1170,7 +1194,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_KEYS,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { r, a },
+         new Object [] { r, a, EcorePackage.Literals.EREFERENCE__EKEYS },
          diagnostic.getChildren().get(0));
     }
 
@@ -1189,7 +1213,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_TYPE_WILDCARD_NOT_PERMITTED,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eGenericType },
+         new Object [] { eGenericType, EcorePackage.Literals.EGENERIC_TYPE__ECLASSIFIER, EcorePackage.Literals.EGENERIC_TYPE__ETYPE_PARAMETER },
          diagnostic.getChildren().get(0));
     }
 
@@ -1221,7 +1245,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_TYPE_NO_TYPE_PARAMETER_AND_CLASSIFIER,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass.getETypeParameters().get(1).getEBounds().get(0) },
+         new Object [] { eClass.getETypeParameters().get(1).getEBounds().get(0), EcorePackage.Literals.EGENERIC_TYPE__ECLASSIFIER, EcorePackage.Literals.EGENERIC_TYPE__ETYPE_PARAMETER },
          diagnostic.getChildren().get(0));
     }
 
@@ -1240,7 +1264,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_TYPE_CLASS_REQUIRED,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass.getEGenericSuperTypes().get(0) },
+         new Object [] { eClass.getEGenericSuperTypes().get(0), EcorePackage.Literals.EGENERIC_TYPE__ECLASSIFIER },
          diagnostic.getChildren().get(0));
     }
 
@@ -1264,7 +1288,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_SUPER_TYPES_DUPLICATE,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass, eClass.getEGenericSuperTypes().get(1), eClass.getEGenericSuperTypes().get(0) },
+         new Object [] { eClass, eClass.getEGenericSuperTypes().get(0), eClass.getEGenericSuperTypes().get(1), EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES },
          diagnostic.getChildren().get(0));
     }
 
@@ -1362,7 +1386,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_BOUNDS_NO_LOWER_AND_UPPER,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eAttribute.getEGenericType().getETypeArguments().get(0) },
+         new Object [] { eAttribute.getEGenericType().getETypeArguments().get(0), EcorePackage.Literals.EGENERIC_TYPE__ELOWER_BOUND, EcorePackage.Literals.EGENERIC_TYPE__EUPPER_BOUND },
          diagnostic.getChildren().get(0));
     }
 
@@ -1387,7 +1411,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_BOUNDS_NOT_ALLOWED,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass.getEGenericSuperTypes().get(0) },
+         new Object [] { eClass.getEGenericSuperTypes().get(0), EcorePackage.Literals.EGENERIC_TYPE__EUPPER_BOUND },
          diagnostic.getChildren().get(0));
     }
 
@@ -1417,7 +1441,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_BOUNDS_NO_BOUNDS_WITH_TYPE_PARAMETER_OR_CLASSIFIER,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eAttribute.getEGenericType().getETypeArguments().get(0) },
+         new Object [] { eAttribute.getEGenericType().getETypeArguments().get(0), EcorePackage.Literals.EGENERIC_TYPE__ECLASSIFIER },
          diagnostic.getChildren().get(0));
     }
 
@@ -1436,7 +1460,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_ARGUMENTS_NONE_ALLOWED,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eGenericType },
+         new Object [] { eGenericType, EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS },
          diagnostic.getChildren().get(0));
     }
 
@@ -1452,7 +1476,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.WARNING,
          EcoreValidator.CONSISTENT_ARGUMENTS_NONE,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eGenericType },
+         new Object [] { eGenericType, EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS },
          diagnostic.getChildren().get(0));
     }
 
@@ -1479,7 +1503,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_TYPE_PRIMITIVE_TYPE_NOT_PERMITTED,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { typeArgument },
+         new Object [] { typeArgument, EcorePackage.Literals.EGENERIC_TYPE__ECLASSIFIER },
          diagnostic.getChildren().get(0));
     }
     
@@ -1504,7 +1528,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_ARGUMENTS_INCORRECT_NUMBER,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eGenericType },
+         new Object [] { eGenericType, EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS },
          diagnostic.getChildren().get(0));
     }
 
@@ -1541,7 +1565,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_TYPE_TYPE_PARAMETER_NOT_IN_SCOPE,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass.getEStructuralFeatures().get(0).getEGenericType() },
+         new Object [] { eClass.getEStructuralFeatures().get(0).getEGenericType(), EcorePackage.Literals.EGENERIC_TYPE__ETYPE_PARAMETER },
          diagnostic.getChildren().get(0));
     }
 
@@ -1566,7 +1590,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_TYPE_TYPE_PARAMETER_NOT_IN_SCOPE,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eClass.getETypeParameters().get(0).getEBounds().get(0) },
+         new Object [] { eClass.getETypeParameters().get(0).getEBounds().get(0), EcorePackage.Literals.EGENERIC_TYPE__ETYPE_PARAMETER },
          diagnostic.getChildren().get(0));
     }
 
@@ -1677,7 +1701,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_TYPE_WILDCARD_NOT_PERMITTED,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { B.getEGenericSuperTypes().get(0).getETypeArguments().get(0) },
+         new Object [] { B.getEGenericSuperTypes().get(0).getETypeArguments().get(0), EcorePackage.Literals.EGENERIC_TYPE__ECLASSIFIER, EcorePackage.Literals.EGENERIC_TYPE__ETYPE_PARAMETER },
          diagnostic.getChildren().get(0));
     }
 
@@ -1901,7 +1925,7 @@ public class EcoreValidationTest extends TestCase
         (Diagnostic.ERROR,
          EcoreValidator.CONSISTENT_SUPER_TYPES_CONFLICT,
          EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { C, C.getEAllGenericSuperTypes().get(1), C.getEAllGenericSuperTypes().get(0) },
+         new Object [] { C, C.getEAllGenericSuperTypes().get(1), C.getEAllGenericSuperTypes().get(0), EcorePackage.Literals.ECLASS__EALL_GENERIC_SUPER_TYPES },
          diagnostic.getChildren().get(0));
     }
     
@@ -2052,7 +2076,8 @@ public class EcoreValidationTest extends TestCase
              { 
                B.getEGenericSuperTypes().get(0), 
                B.getEGenericSuperTypes().get(0).getETypeArguments().get(0),
-               A.getETypeParameters().get(0)
+               A.getETypeParameters().get(0),
+               EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS
              },
              diagnostic.getChildren().get(0));
           break;
@@ -2075,7 +2100,8 @@ public class EcoreValidationTest extends TestCase
              { 
                B.getEGenericSuperTypes().get(0), 
                B.getEGenericSuperTypes().get(0).getETypeArguments().get(0),
-               A.getETypeParameters().get(0)
+               A.getETypeParameters().get(0),
+               EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS
              },
              diagnostic.getChildren().get(0));
           break;
@@ -2415,7 +2441,8 @@ public class EcoreValidationTest extends TestCase
              { 
                eOperationFoo.getEParameters().get(0).getEGenericType(),
                eOperationFoo.getEParameters().get(0).getEGenericType().getETypeArguments().get(1),
-               eClassHolder.getETypeParameters().get(1)
+               eClassHolder.getETypeParameters().get(1),
+               EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS
              },
              diagnostic.getChildren().get(0));
           break;
@@ -2465,7 +2492,8 @@ public class EcoreValidationTest extends TestCase
              { 
                eOperationFoo.getEParameters().get(0).getEGenericType(),
                eOperationFoo.getEParameters().get(0).getEGenericType().getETypeArguments().get(2),
-               eClassHolder.getETypeParameters().get(2)
+               eClassHolder.getETypeParameters().get(2),
+               EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS
              },
              diagnostic.getChildren().get(0));
           assertDiagnostic
@@ -2474,7 +2502,7 @@ public class EcoreValidationTest extends TestCase
              EcoreValidator.DIAGNOSTIC_SOURCE,
              new Object [] 
              { 
-               eOperationFoo.getEParameters().get(0).getEGenericType().getETypeArguments().get(2),
+               eOperationFoo.getEParameters().get(0).getEGenericType().getETypeArguments().get(2), EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS
              },
              diagnostic.getChildren().get(1));
           break;
@@ -2529,7 +2557,8 @@ public class EcoreValidationTest extends TestCase
              { 
                eOperationFoo.getEParameters().get(0).getEGenericType(),
                eOperationFoo.getEParameters().get(0).getEGenericType().getETypeArguments().get(2),
-               eClassHolder.getETypeParameters().get(2)
+               eClassHolder.getETypeParameters().get(2),
+               EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS
              },
              diagnostic.getChildren().get(0));
           break;
@@ -2649,7 +2678,8 @@ public class EcoreValidationTest extends TestCase
              { 
                eOperationFoo.getEParameters().get(0).getEGenericType(),
                eOperationFoo.getEParameters().get(0).getEGenericType().getETypeArguments().get(2),
-               eClassHolder.getETypeParameters().get(2)
+               eClassHolder.getETypeParameters().get(2),
+               EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS
              },
              diagnostic.getChildren().get(0));
           break;

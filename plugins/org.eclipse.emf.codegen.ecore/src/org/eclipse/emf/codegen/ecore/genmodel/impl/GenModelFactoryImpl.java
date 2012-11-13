@@ -114,6 +114,8 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
         return createGenRuntimeVersionFromString(eDataType, initialValue);
       case GenModelPackage.GEN_RUNTIME_PLATFORM:
         return createGenRuntimePlatformFromString(eDataType, initialValue);
+      case GenModelPackage.GEN_DECORATION:
+        return createGenDecorationFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -143,6 +145,8 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
         return convertGenRuntimeVersionToString(eDataType, instanceValue);
       case GenModelPackage.GEN_RUNTIME_PLATFORM:
         return convertGenRuntimePlatformToString(eDataType, instanceValue);
+      case GenModelPackage.GEN_DECORATION:
+        return convertGenDecorationToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -419,6 +423,28 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * @generated
    */
   public String convertGenRuntimePlatformToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public GenDecoration createGenDecorationFromString(EDataType eDataType, String initialValue)
+  {
+    GenDecoration result = GenDecoration.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertGenDecorationToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }

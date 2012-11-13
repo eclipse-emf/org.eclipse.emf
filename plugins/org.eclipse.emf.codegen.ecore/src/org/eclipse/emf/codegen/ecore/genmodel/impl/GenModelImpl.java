@@ -14,6 +14,7 @@ package org.eclipse.emf.codegen.ecore.genmodel.impl;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.eclipse.emf.codegen.ecore.genmodel.GenDecoration;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -201,6 +202,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getRuntimePlatform <em>Runtime Platform</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isImportOrganizing <em>Import Organizing</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getPluginKey <em>Plugin Key</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getDecoration <em>Decoration</em>}</li>
  * </ul>
  * </p>
  *
@@ -1793,6 +1795,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected String pluginKey = PLUGIN_KEY_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getDecoration() <em>Decoration</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDecoration()
+   * @generated
+   * @ordered
+   */
+  protected static final GenDecoration DECORATION_EDEFAULT = GenDecoration.NONE;
+
+  /**
+   * The cached value of the '{@link #getDecoration() <em>Decoration</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDecoration()
+   * @generated
+   * @ordered
+   */
+  protected GenDecoration decoration = DECORATION_EDEFAULT;
 
   protected boolean validateModel = false;
 
@@ -6426,6 +6448,34 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__PLUGIN_KEY, oldPluginKey, pluginKey));
   }
 
+  public GenDecoration getDecoration()
+  {
+    return getRuntimeVersion().ordinal() >= GenRuntimeVersion.EMF29_VALUE ? getDecorationGen() : GenDecoration.NONE;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public GenDecoration getDecorationGen()
+  {
+    return decoration;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setDecoration(GenDecoration newDecoration)
+  {
+    GenDecoration oldDecoration = decoration;
+    decoration = newDecoration == null ? DECORATION_EDEFAULT : newDecoration;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__DECORATION, oldDecoration, decoration));
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -6633,6 +6683,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isImportOrganizing();
       case GenModelPackage.GEN_MODEL__PLUGIN_KEY:
         return getPluginKey();
+      case GenModelPackage.GEN_MODEL__DECORATION:
+        return getDecoration();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -6903,6 +6955,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__PLUGIN_KEY:
         setPluginKey((String)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__DECORATION:
+        setDecoration((GenDecoration)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -7163,6 +7218,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__PLUGIN_KEY:
         setPluginKey(PLUGIN_KEY_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__DECORATION:
+        setDecoration(DECORATION_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -7341,6 +7399,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return importOrganizing != IMPORT_ORGANIZING_EDEFAULT;
       case GenModelPackage.GEN_MODEL__PLUGIN_KEY:
         return PLUGIN_KEY_EDEFAULT == null ? pluginKey != null : !PLUGIN_KEY_EDEFAULT.equals(pluginKey);
+      case GenModelPackage.GEN_MODEL__DECORATION:
+        return decoration != DECORATION_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -7510,6 +7570,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(importOrganizing);
     result.append(", pluginKey: ");
     result.append(pluginKey);
+    result.append(", decoration: ");
+    result.append(decoration);
     result.append(')');
     return result.toString();
   }
@@ -8822,8 +8884,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     if (oldGenModelVersion.eIsSet(GenModelPackage.Literals.GEN_MODEL__PLUGIN_KEY))
     {
       setPluginKey(oldGenModelVersion.getPluginKey());
-      
     }
+
+    setDecoration(oldGenModelVersion.getDecoration());
   }
 
   public boolean reconcile()

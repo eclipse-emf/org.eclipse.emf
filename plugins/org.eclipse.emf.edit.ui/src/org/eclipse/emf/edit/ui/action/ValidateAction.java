@@ -13,6 +13,7 @@ package org.eclipse.emf.edit.ui.action;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -48,6 +50,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -56,11 +59,12 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
+import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 
 
-public class ValidateAction extends Action implements ISelectionChangedListener 
-{  
+public class ValidateAction extends Action implements ISelectionChangedListener
+{
   public static class EclipseResourcesUtil extends EditUIMarkerHelper
   {
     public IRunnableWithProgress getWorkspaceModifyOperation(IRunnableWithProgress runnableWithProgress)
@@ -74,13 +78,13 @@ public class ValidateAction extends Action implements ISelectionChangedListener
         return runnableWithProgress;
       }
     }
-    
+
     @Override
     protected String getMarkerID()
     {
       return EValidator.MARKER;
     }
-    
+
     public void createMarkers(Resource resource, Diagnostic diagnostic)
     {
       try
@@ -140,14 +144,14 @@ public class ValidateAction extends Action implements ISelectionChangedListener
         marker.setAttribute(EValidator.RELATED_URIS_ATTRIBUTE, relatedURIs.toString());
       }
 
-      super.adjustMarker(marker, diagnostic, parentDiagnostic);      
+      super.adjustMarker(marker, diagnostic, parentDiagnostic);
     }
   }
-  
+
   protected ISelectionProvider selectionProvider;
   protected List<EObject> selectedObjects;
   protected EditingDomain domain;
-  protected EclipseResourcesUtil eclipseResourcesUtil = 
+  protected EclipseResourcesUtil eclipseResourcesUtil =
     EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE ?
       new EclipseResourcesUtil() :
       null;
@@ -161,58 +165,63 @@ public class ValidateAction extends Action implements ISelectionChangedListener
   @Override
   public void run()
   {
-    final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-    IRunnableWithProgress runnableWithProgress = new IRunnableWithProgress()
-    {
-      public void run(final IProgressMonitor progressMonitor) throws InvocationTargetException, InterruptedException
+    final Diagnostic[] diagnostic = new Diagnostic[1];
+    IRunnableWithProgress validationRunnable =
+      new IRunnableWithProgress()
       {
-        try
+        public void run(final IProgressMonitor progressMonitor) throws InvocationTargetException, InterruptedException
         {
-          final Diagnostic diagnostic = validate(progressMonitor);
-          shell.getDisplay().asyncExec 
-            (new Runnable()
-             {
-               public void run()
-               {
-                 if (progressMonitor.isCanceled())
-                 {
-                   handleDiagnostic(Diagnostic.CANCEL_INSTANCE);
-                 }
-                 else
-                 {
-                   handleDiagnostic(diagnostic);
-                 }
-               }
-             });
+          try
+          {
+            diagnostic[0] = validate(progressMonitor);
+          }
+          finally
+          {
+            progressMonitor.done();
+          }
         }
-        finally
+      };
+    Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+    try
+    {
+      new ProgressMonitorDialog(shell).run(true, true, validationRunnable);
+    }
+    catch (Exception exception)
+    {
+      EMFEditUIPlugin.INSTANCE.log(exception);
+    }
+
+    IRunnableWithProgress createMarkersRunnable =
+      new IRunnableWithProgress()
+      {
+        public void run(final IProgressMonitor progressMonitor) throws InvocationTargetException, InterruptedException
         {
-          progressMonitor.done();
-        }    
-      }
-    };
-    
+          try
+          {
+            handleDiagnostic(diagnostic[0]);
+          }
+          finally
+          {
+            progressMonitor.done();
+          }
+        }
+      };
+
     if (eclipseResourcesUtil != null)
     {
-      runnableWithProgress = eclipseResourcesUtil.getWorkspaceModifyOperation(runnableWithProgress);
+      createMarkersRunnable = eclipseResourcesUtil.getWorkspaceModifyOperation(createMarkersRunnable);
     }
 
     try
     {
-      // This runs the operation, and shows progress.
-      // (It appears to be a bad thing to fork this onto another thread.)
-      //
-      new ProgressMonitorDialog(shell).run(true, true, runnableWithProgress);
+      new ProgressMonitorDialog(shell).run(false, true, createMarkersRunnable);
     }
     catch (Exception exception)
     {
       EMFEditUIPlugin.INSTANCE.log(exception);
     }
   }
-  
-  /**
-   * This simply execute the command.
-   */
+
   protected Diagnostic validate(IProgressMonitor progressMonitor)
   {
     int selectionSize = selectedObjects.size();
@@ -227,10 +236,10 @@ public class ValidateAction extends Action implements ISelectionChangedListener
 
     progressMonitor.beginTask("", count);
 
-    AdapterFactory adapterFactory = 
+    AdapterFactory adapterFactory =
       domain instanceof AdapterFactoryEditingDomain ? ((AdapterFactoryEditingDomain)domain).getAdapterFactory() : null;
     Diagnostician diagnostician = createDiagnostician(adapterFactory, progressMonitor);
-    
+
     BasicDiagnostic diagnostic;
     if (selectionSize == 1)
     {
@@ -243,12 +252,12 @@ public class ValidateAction extends Action implements ISelectionChangedListener
           (EObjectValidator.DIAGNOSTIC_SOURCE,
            0,
            EMFEditUIPlugin.INSTANCE.getString("_UI_DiagnosisOfNObjects_message", new String[] { Integer.toString(selectionSize) }),
-           selectedObjects.toArray() ); 
+           selectedObjects.toArray());
     }
     Map<Object, Object> context = diagnostician.createDefaultContext();
     for (EObject eObject : selectedObjects)
     {
-      progressMonitor.setTaskName(EMFEditUIPlugin.INSTANCE.getString("_UI_Validating_message", new Object [] {diagnostician.getObjectLabel(eObject)}));
+      progressMonitor.setTaskName(EMFEditUIPlugin.INSTANCE.getString("_UI_Validating_message", new Object [] { diagnostician.getObjectLabel(eObject) }));
       diagnostician.validate(eObject, diagnostic, context);
     }
     return diagnostic;
@@ -256,7 +265,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
 
   protected Diagnostician createDiagnostician(final AdapterFactory adapterFactory, final IProgressMonitor progressMonitor)
   {
-    return 
+    return
       new Diagnostician()
       {
         @Override
@@ -270,10 +279,10 @@ public class ValidateAction extends Action implements ISelectionChangedListener
               return itemLabelProvider.getText(eObject);
             }
           }
-  
+
           return super.getObjectLabel(eObject);
         }
-  
+
         @Override
         public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
         {
@@ -312,12 +321,13 @@ public class ValidateAction extends Action implements ISelectionChangedListener
         (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title, message, diagnostic);
     }
 
-    Resource resource = eclipseResourcesUtil != null ? domain.getResourceSet().getResources().get(0) : null;
+    ResourceSet resourceSet = domain.getResourceSet();
+    Resource resource = eclipseResourcesUtil != null ? resourceSet.getResources().get(0) : null;
     if (resource != null)
     {
       eclipseResourcesUtil.deleteMarkers(resource);
     }
-    
+
     if (result == Window.OK)
     {
       if (!diagnostic.getChildren().isEmpty())
@@ -340,7 +350,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
           }
         }
       }
-    
+
       if (resource != null)
       {
         for (Diagnostic childDiagnostic : diagnostic.getChildren())
@@ -349,9 +359,69 @@ public class ValidateAction extends Action implements ISelectionChangedListener
         }
       }
     }
+    else
+    {
+      // Trigger direct updating of decorations, if there are adapters.
+      //
+      resource = null;
+    }
+
+    if (resource == null)
+    {
+      // If no markers are produced the decorator won't be able to respond to marker resource deltas, so inform it directly.
+      //
+
+      // Create a diagnostic for the resource set as a whole.
+      //
+      BasicDiagnostic resourceSetDiagnostic = new BasicDiagnostic(EObjectValidator.DIAGNOSTIC_SOURCE, 0, null, new Object [] { resourceSet });
+
+      // Create a diagnostic for each resource.
+      //
+      Map<Resource, BasicDiagnostic> resourceDiagnostics = new LinkedHashMap<Resource, BasicDiagnostic>();
+      for (Resource r : resourceSet.getResources())
+      {
+        BasicDiagnostic resourceDiagnostic = new BasicDiagnostic(EObjectValidator.DIAGNOSTIC_SOURCE, 0, null, new Object [] { r });
+        resourceDiagnostics.put(r, resourceDiagnostic);
+      }
+
+      // Just clean up decorations if the dialog was cancelled.
+      //
+      if (result == Dialog.OK)
+      {
+        // Partition the children among the resource diagnostics.
+        //
+        for (Diagnostic child : diagnostic.getChildren())
+        {
+          List<?> data = child.getData();
+          if (!data.isEmpty())
+          {
+            Object object = data.get(0);
+            if (object instanceof EObject)
+            {
+              BasicDiagnostic resourceDiagnostic = resourceDiagnostics.get(((EObject)object).eResource());
+              if (resourceDiagnostic != null)
+              {
+                resourceDiagnostic.add(child);
+              }
+            }
+          }
+        }
+      }
+
+      // Add the resource diagnostics to the resource set diagnostic.
+      //
+      for (Diagnostic resourceDiagnostic : resourceDiagnostics.values())
+      {
+        resourceSetDiagnostic.add(resourceDiagnostic);
+      }
+
+      // Inform any decorators.
+      //
+      DiagnosticDecorator.DiagnosticAdapter.update(resourceSet, resourceSetDiagnostic);
+    }
   }
-  
-  public void selectionChanged(SelectionChangedEvent event) 
+
+  public void selectionChanged(SelectionChangedEvent event)
   {
     selectionProvider = event.getSelectionProvider();
     if (event.getSelection() instanceof IStructuredSelection)
@@ -377,7 +447,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
       else if (object instanceof Resource)
       {
         selectedObjects.addAll(((Resource)object).getContents());
-      }      
+      }
       else
       {
         return false;

@@ -23,6 +23,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 
@@ -35,6 +36,15 @@ import org.eclipse.emf.common.util.URI;
  */
 public class MarkerHelper
 {
+  /**
+   * Returns the {@link Diagnostic#getSource() source} value used for {@link #getMarkerDiagnostics(Object, IFile) creating diagnostics} from markers.
+   * @since 2.9
+   */
+  public String getDiagnosticSource()
+  {
+    return "org.eclipse.emf.common.ui.markers";
+  }
+
   protected String getMarkerID()
   {
     return "org.eclipse.core.resources.problemmarker";
@@ -246,5 +256,39 @@ public class MarkerHelper
   public List<?> getTargetObjects(Object object, IMarker marker)
   {
     return Collections.EMPTY_LIST;
+  }
+
+  /**
+   * Converts markers in the file to diagnostics.
+   * @since 2.9
+   */
+  public Diagnostic getMarkerDiagnostics(Object object, IFile file)
+  {
+    BasicDiagnostic diagnostic = new BasicDiagnostic(null, 0, getDiagnosticSource(), new Object[] { object });
+    try
+    {
+      for (IMarker marker : file.findMarkers(null, true, IResource.DEPTH_ZERO))
+      {
+        String message = marker.getAttribute(IMarker.MESSAGE, "");
+        int severity = marker.getAttribute(IMarker.SEVERITY, Diagnostic.INFO);
+        String sourceID = marker.getAttribute(IMarker.SOURCE_ID, "");
+        diagnostic.add
+        (new BasicDiagnostic
+           (severity == IMarker.SEVERITY_ERROR ?
+              Diagnostic.ERROR : 
+              severity == IMarker.SEVERITY_WARNING ? 
+              Diagnostic.WARNING : 
+              Diagnostic.INFO, 
+            sourceID,
+            0, 
+            message, 
+            null));
+      }
+    }
+    catch (CoreException exception)
+    {
+      CommonUIPlugin.INSTANCE.log(exception);
+    }
+    return diagnostic;
   }
 }

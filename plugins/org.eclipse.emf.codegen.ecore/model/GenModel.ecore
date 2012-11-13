@@ -127,6 +127,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="runtimePlatform" eType="#//GenRuntimePlatform"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="importOrganizing" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="pluginKey" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="decoration" eType="#//GenDecoration"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenPackage" eSuperTypes="#//GenBase">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -326,5 +327,10 @@
     <eLiterals name="RCP" value="1"/>
     <eLiterals name="RAP" value="2"/>
     <eLiterals name="GWT" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GenDecoration">
+    <eLiterals name="None"/>
+    <eLiterals name="Manual" value="1"/>
+    <eLiterals name="Live" value="2"/>
   </eClassifiers>
 </ecore:EPackage>

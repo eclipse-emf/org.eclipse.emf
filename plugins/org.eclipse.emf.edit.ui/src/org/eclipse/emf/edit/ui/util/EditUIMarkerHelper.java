@@ -15,9 +15,12 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 
+import org.eclipse.emf.common.ui.CommonUIPlugin;
 import org.eclipse.emf.common.ui.MarkerHelper;
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -176,6 +179,10 @@ public class EditUIMarkerHelper extends MarkerHelper
       ArrayList<Object> result = new ArrayList<Object>();
       AdapterFactoryEditingDomain editingDomain = (AdapterFactoryEditingDomain)object;
       String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
+      if (uriAttribute == null)
+      {
+        uriAttribute = marker.getAttribute("URI_KEY", null);
+      }
       if (uriAttribute != null)
       {
         URI uri = URI.createURI(uriAttribute);
@@ -198,11 +205,120 @@ public class EditUIMarkerHelper extends MarkerHelper
           }
         }
       }
+      else
+      {
+        relatedURIsAttribute =  marker.getAttribute("DATA_KEY", null);
+        if (relatedURIsAttribute != null)
+        {
+          int start = 0;
+          int length = relatedURIsAttribute.length();
+          for (int index = relatedURIsAttribute.indexOf(':'); start < length; index = relatedURIsAttribute.indexOf(':', start))
+          {
+            int itemLength = Integer.parseInt(relatedURIsAttribute.substring(start, index == -1 ? length : index));
+            start = index + itemLength + 1;
+            String uriLiteral = relatedURIsAttribute.substring(index + 1, start);
+            try
+            {
+              URI uri = URI.createURI(uriLiteral);
+              if (uri.hasFragment())
+              {
+                EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
+                if (eObject != null)
+                {
+                  result.add(editingDomain.getWrapper(eObject));
+                }
+              }
+            }
+            catch (Throwable throwable)
+            {
+              // Ignore if it's not a URI or we can't load the object.
+              
+            }
+          }
+        }
+      }
       return result;
     }
     else
     {
       return super.getTargetObjects(object, marker);
+    }
+  }
+
+  /**
+   * @since 2.9
+   */
+  @Override
+  public Diagnostic getMarkerDiagnostics(Object object, IFile file)
+  {
+    if (file == null)
+    {
+      file = getFile(object);
+    }
+    if (object instanceof Resource)
+    {
+      Resource resource = (Resource)object;
+      BasicDiagnostic diagnostic = new BasicDiagnostic(getDiagnosticSource(), 0, null, new Object[] { resource });
+      if (file != null)
+      {
+        try
+        {
+          for (IMarker marker : file.findMarkers(null, true, IResource.DEPTH_ZERO))
+          {
+            String message = marker.getAttribute(IMarker.MESSAGE, "");
+            int severity = marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
+            String sourceID = marker.getAttribute(IMarker.SOURCE_ID, "");
+            String uri = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
+            if (uri == null)
+            {
+              uri = marker.getAttribute("URI_KEY", null);
+            }
+  
+            EObject eObject = null;
+            if (uri != null)
+            {
+              try
+              {
+                eObject = resource.getResourceSet().getEObject(URI.createURI(uri), false);
+              }
+              catch (Throwable throwable)
+              {
+                // Ignore if the URI is bad or we can't locate an EObject for some other reason.
+              }
+            }
+            Object[] data = new Object[] { eObject == null ? resource : eObject };
+  
+            diagnostic.add
+              (new BasicDiagnostic
+                 (severity == IMarker.SEVERITY_ERROR ?
+                    Diagnostic.ERROR : 
+                    severity == IMarker.SEVERITY_WARNING ? 
+                    Diagnostic.WARNING : 
+                    Diagnostic.INFO, 
+                  sourceID,
+                  0, 
+                  message, 
+                  data));
+          }
+        }
+        catch (CoreException exception)
+        {
+          CommonUIPlugin.INSTANCE.log(exception);
+        }
+      }
+      for (Resource.Diagnostic resourceDiagnostic : resource.getWarnings())
+      {
+        diagnostic.add(new BasicDiagnostic(Diagnostic.WARNING, null, 0, resourceDiagnostic.getMessage(),  new Object [] { resource }));
+      }
+      for (Resource.Diagnostic resourceDiagnostic : resource.getErrors())
+      {
+        diagnostic.add(new BasicDiagnostic(Diagnostic.ERROR, null, 0, resourceDiagnostic.getMessage(),  new Object[] { resource}));
+      }
+      return diagnostic;
+    }
+    else
+    {
+      return super.getMarkerDiagnostics(object, file);
     }
   }
 }

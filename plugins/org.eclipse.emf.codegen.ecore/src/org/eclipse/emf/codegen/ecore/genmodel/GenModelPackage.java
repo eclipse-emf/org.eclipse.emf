@@ -865,13 +865,22 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__PLUGIN_KEY = GEN_BASE_FEATURE_COUNT + 81;
 
   /**
+   * The feature id for the '<em><b>Decoration</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__DECORATION = GEN_BASE_FEATURE_COUNT + 82;
+
+  /**
    * The number of structural features of the '<em>Gen Model</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 82;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 83;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -1953,6 +1962,17 @@ public interface GenModelPackage extends EPackage
 
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenDecoration <em>Gen Decoration</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenDecoration
+   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenDecoration()
+   * @generated
+   */
+  int GEN_DECORATION = 21;
+
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel <em>Gen Model</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2863,6 +2883,17 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   EAttribute getGenModel_PluginKey();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getDecoration <em>Decoration</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Decoration</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getDecoration()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_Decoration();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage <em>Gen Package</em>}'.
@@ -3813,6 +3844,16 @@ public interface GenModelPackage extends EPackage
   EEnum getGenRuntimePlatform();
 
   /**
+   * Returns the meta object for enum '{@link org.eclipse.emf.codegen.ecore.genmodel.GenDecoration <em>Gen Decoration</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for enum '<em>Gen Decoration</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenDecoration
+   * @generated
+   */
+  EEnum getGenDecoration();
+
+  /**
    * Returns the factory that creates the instances of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4500,6 +4541,14 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_MODEL__PLUGIN_KEY = eINSTANCE.getGenModel_PluginKey();
+
+    /**
+     * The meta object literal for the '<em><b>Decoration</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__DECORATION = eINSTANCE.getGenModel_Decoration();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -5244,6 +5293,16 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EEnum GEN_RUNTIME_PLATFORM = eINSTANCE.getGenRuntimePlatform();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenDecoration <em>Gen Decoration</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.GenDecoration
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenDecoration()
+     * @generated
+     */
+    EEnum GEN_DECORATION = eINSTANCE.getGenDecoration();
 
   }
 

@@ -16,6 +16,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
+import org.eclipse.emf.codegen.ecore.genmodel.GenDecoration;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
@@ -201,6 +202,13 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @generated
    */
   private EEnum genRuntimePlatformEEnum = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EEnum genDecorationEEnum = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -1114,6 +1122,16 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getGenModel_Decoration()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(82);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getGenPackage()
   {
     return genPackageEClass;
@@ -1994,6 +2012,16 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EEnum getGenDecoration()
+  {
+    return genDecorationEEnum;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public GenModelFactory getGenModelFactory()
   {
     return (GenModelFactory)getEFactoryInstance();
@@ -2102,6 +2130,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genModelEClass, GEN_MODEL__RUNTIME_PLATFORM);
     createEAttribute(genModelEClass, GEN_MODEL__IMPORT_ORGANIZING);
     createEAttribute(genModelEClass, GEN_MODEL__PLUGIN_KEY);
+    createEAttribute(genModelEClass, GEN_MODEL__DECORATION);
 
     genPackageEClass = createEClass(GEN_PACKAGE);
     createEAttribute(genPackageEClass, GEN_PACKAGE__PREFIX);
@@ -2205,6 +2234,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     genJDKLevelEEnum = createEEnum(GEN_JDK_LEVEL);
     genRuntimeVersionEEnum = createEEnum(GEN_RUNTIME_VERSION);
     genRuntimePlatformEEnum = createEEnum(GEN_RUNTIME_PLATFORM);
+    genDecorationEEnum = createEEnum(GEN_DECORATION);
   }
 
   /**
@@ -2337,6 +2367,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenModel_RuntimePlatform(), this.getGenRuntimePlatform(), "runtimePlatform", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_ImportOrganizing(), theEcorePackage.getEBoolean(), "importOrganizing", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_PluginKey(), theEcorePackage.getEString(), "pluginKey", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_Decoration(), this.getGenDecoration(), "decoration", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(genPackageEClass, GenPackage.class, "GenPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getGenPackage_Prefix(), ecorePackage.getEString(), "prefix", null, 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2479,6 +2510,11 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genRuntimePlatformEEnum, GenRuntimePlatform.RCP);
     addEEnumLiteral(genRuntimePlatformEEnum, GenRuntimePlatform.RAP);
     addEEnumLiteral(genRuntimePlatformEEnum, GenRuntimePlatform.GWT);
+
+    initEEnum(genDecorationEEnum, GenDecoration.class, "GenDecoration");
+    addEEnumLiteral(genDecorationEEnum, GenDecoration.NONE);
+    addEEnumLiteral(genDecorationEEnum, GenDecoration.MANUAL);
+    addEEnumLiteral(genDecorationEEnum, GenDecoration.LIVE);
 
     // Create resource
     createResource(eNS_URI);

@@ -78,7 +78,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The source URI '' is not well formed", removeObjectHashCode(diagnostic2.getMessage()));
     assertEquals(47, diagnostic2.getCode());
     assertEquals(0, diagnostic2.getChildren().size());
-    assertEquals(1, diagnostic2.getData().size());
+    assertEquals(2, diagnostic2.getData().size());
     assertNull(diagnostic2.getException());
 
     Diagnostic diagnostic3 = diagnosticIterator.next();
@@ -87,7 +87,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The source URI 'A source URI with spaces is not well formed' is not well formed", removeObjectHashCode(diagnostic3.getMessage()));
     assertEquals(47, diagnostic3.getCode());
     assertEquals(0, diagnostic3.getChildren().size());
-    assertEquals(1, diagnostic3.getData().size());
+    assertEquals(2, diagnostic3.getData().size());
     assertNull(diagnostic3.getException());
 
     Diagnostic diagnostic4 = diagnosticIterator.next();
@@ -96,7 +96,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The source URI 'AnUnencoded%IsNotWellFormed' is not well formed", removeObjectHashCode(diagnostic4.getMessage()));
     assertEquals(47, diagnostic4.getCode());
     assertEquals(0, diagnostic4.getChildren().size());
-    assertEquals(1, diagnostic4.getData().size());
+    assertEquals(2, diagnostic4.getData().size());
     assertNull(diagnostic4.getException());
 
     Diagnostic diagnostic5 = diagnosticIterator.next();
@@ -114,7 +114,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The name 'null' is not well formed", removeObjectHashCode(diagnostic6.getMessage()));
     assertEquals(44, diagnostic6.getCode());
     assertEquals(0, diagnostic6.getChildren().size());
-    assertEquals(1, diagnostic6.getData().size());
+    assertEquals(2, diagnostic6.getData().size());
     assertNull(diagnostic6.getException());
 
     Diagnostic diagnostic7 = diagnosticIterator.next();
@@ -123,7 +123,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The name 'invalid.dot.qualified.name' is not well formed", removeObjectHashCode(diagnostic7.getMessage()));
     assertEquals(44, diagnostic7.getCode());
     assertEquals(0, diagnostic7.getChildren().size());
-    assertEquals(1, diagnostic7.getData().size());
+    assertEquals(2, diagnostic7.getData().size());
     assertNull(diagnostic7.getException());
 
     Diagnostic diagnostic8 = diagnosticIterator.next();
@@ -132,7 +132,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The name '1' is not well formed", removeObjectHashCode(diagnostic8.getMessage()));
     assertEquals(44, diagnostic8.getCode());
     assertEquals(0, diagnostic8.getChildren().size());
-    assertEquals(1, diagnostic8.getData().size());
+    assertEquals(2, diagnostic8.getData().size());
     assertNull(diagnostic8.getException());
 
     Diagnostic diagnostic9 = diagnosticIterator.next();
@@ -141,7 +141,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The name 'name with spaces' is not well formed", removeObjectHashCode(diagnostic9.getMessage()));
     assertEquals(44, diagnostic9.getCode());
     assertEquals(0, diagnostic9.getChildren().size());
-    assertEquals(1, diagnostic9.getData().size());
+    assertEquals(2, diagnostic9.getData().size());
     assertNull(diagnostic9.getException());
 
     Diagnostic diagnostic10 = diagnosticIterator.next();
@@ -150,7 +150,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The instance type name '' is not well formed", removeObjectHashCode(diagnostic10.getMessage()));
     assertEquals(42, diagnostic10.getCode());
     assertEquals(1, diagnostic10.getChildren().size());
-    assertEquals(1, diagnostic10.getData().size());
+    assertEquals(2, diagnostic10.getData().size());
     assertNull(diagnostic10.getException());
 
     Diagnostic diagnostic11 = diagnosticIterator.next();
@@ -168,7 +168,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The instance type name 'T[' is not well formed", removeObjectHashCode(diagnostic12.getMessage()));
     assertEquals(42, diagnostic12.getCode());
     assertEquals(1, diagnostic12.getChildren().size());
-    assertEquals(1, diagnostic12.getData().size());
+    assertEquals(2, diagnostic12.getData().size());
     assertNull(diagnostic12.getException());
 
     Diagnostic diagnostic13 = diagnosticIterator.next();
@@ -186,7 +186,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The instance type name 'T<>' is not well formed", removeObjectHashCode(diagnostic14.getMessage()));
     assertEquals(42, diagnostic14.getCode());
     assertEquals(1, diagnostic14.getChildren().size());
-    assertEquals(1, diagnostic14.getData().size());
+    assertEquals(2, diagnostic14.getData().size());
     assertNull(diagnostic14.getException());
 
     Diagnostic diagnostic15 = diagnosticIterator.next();
@@ -204,7 +204,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The instance type name 'T<' is not well formed", removeObjectHashCode(diagnostic16.getMessage()));
     assertEquals(42, diagnostic16.getCode());
     assertEquals(1, diagnostic16.getChildren().size());
-    assertEquals(1, diagnostic16.getData().size());
+    assertEquals(2, diagnostic16.getData().size());
     assertNull(diagnostic16.getException());
 
     Diagnostic diagnostic17 = diagnosticIterator.next();
@@ -222,7 +222,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The instance type name '.name' is not well formed", removeObjectHashCode(diagnostic18.getMessage()));
     assertEquals(42, diagnostic18.getCode());
     assertEquals(1, diagnostic18.getChildren().size());
-    assertEquals(1, diagnostic18.getData().size());
+    assertEquals(2, diagnostic18.getData().size());
     assertNull(diagnostic18.getException());
 
     Diagnostic diagnostic19 = diagnosticIterator.next();
@@ -240,7 +240,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The instance type name 'name..name' is not well formed", removeObjectHashCode(diagnostic20.getMessage()));
     assertEquals(42, diagnostic20.getCode());
     assertEquals(1, diagnostic20.getChildren().size());
-    assertEquals(1, diagnostic20.getData().size());
+    assertEquals(2, diagnostic20.getData().size());
     assertNull(diagnostic20.getException());
 
     Diagnostic diagnostic21 = diagnosticIterator.next();
@@ -258,7 +258,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The instance type name 'name.' is not well formed", removeObjectHashCode(diagnostic22.getMessage()));
     assertEquals(42, diagnostic22.getCode());
     assertEquals(1, diagnostic22.getChildren().size());
-    assertEquals(1, diagnostic22.getData().size());
+    assertEquals(2, diagnostic22.getData().size());
     assertNull(diagnostic22.getException());
 
     Diagnostic diagnostic23 = diagnosticIterator.next();
@@ -276,7 +276,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The instance type name 'T[]<X>' is not well formed", removeObjectHashCode(diagnostic24.getMessage()));
     assertEquals(42, diagnostic24.getCode());
     assertEquals(1, diagnostic24.getChildren().size());
-    assertEquals(1, diagnostic24.getData().size());
+    assertEquals(2, diagnostic24.getData().size());
     assertNull(diagnostic24.getException());
 
     Diagnostic diagnostic25 = diagnosticIterator.next();
@@ -294,7 +294,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The instance type name 'T<X Y>' is not well formed", removeObjectHashCode(diagnostic26.getMessage()));
     assertEquals(42, diagnostic26.getCode());
     assertEquals(1, diagnostic26.getChildren().size());
-    assertEquals(1, diagnostic26.getData().size());
+    assertEquals(2, diagnostic26.getData().size());
     assertNull(diagnostic26.getException());
 
     Diagnostic diagnostic27 = diagnosticIterator.next();
@@ -312,7 +312,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The instance type name 'T <X>' is not well formed", removeObjectHashCode(diagnostic28.getMessage()));
     assertEquals(42, diagnostic28.getCode());
     assertEquals(1, diagnostic28.getChildren().size());
-    assertEquals(1, diagnostic28.getData().size());
+    assertEquals(2, diagnostic28.getData().size());
     assertNull(diagnostic28.getException());
 
     Diagnostic diagnostic29 = diagnosticIterator.next();
@@ -330,7 +330,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The instance type name 'T<?extends X>' is not well formed", removeObjectHashCode(diagnostic30.getMessage()));
     assertEquals(42, diagnostic30.getCode());
     assertEquals(1, diagnostic30.getChildren().size());
-    assertEquals(1, diagnostic30.getData().size());
+    assertEquals(2, diagnostic30.getData().size());
     assertNull(diagnostic30.getException());
 
     Diagnostic diagnostic31 = diagnosticIterator.next();
@@ -348,7 +348,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The instance type name 'T ' is not well formed", removeObjectHashCode(diagnostic32.getMessage()));
     assertEquals(42, diagnostic32.getCode());
     assertEquals(1, diagnostic32.getChildren().size());
-    assertEquals(1, diagnostic32.getData().size());
+    assertEquals(2, diagnostic32.getData().size());
     assertNull(diagnostic32.getException());
 
     Diagnostic diagnostic33 = diagnosticIterator.next();
@@ -366,7 +366,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A class that is an interface must also be abstract", removeObjectHashCode(diagnostic34.getMessage()));
     assertEquals(25, diagnostic34.getCode());
     assertEquals(0, diagnostic34.getChildren().size());
-    assertEquals(1, diagnostic34.getData().size());
+    assertEquals(2, diagnostic34.getData().size());
     assertNull(diagnostic34.getException());
 
     Diagnostic diagnostic35 = diagnosticIterator.next();
@@ -375,7 +375,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The features 'a' and 'b' cannot both be IDs", removeObjectHashCode(diagnostic35.getMessage()));
     assertEquals(1, diagnostic35.getCode());
     assertEquals(0, diagnostic35.getChildren().size());
-    assertEquals(3, diagnostic35.getData().size());
+    assertEquals(4, diagnostic35.getData().size());
     assertNull(diagnostic35.getException());
 
     Diagnostic diagnostic36 = diagnosticIterator.next();
@@ -384,7 +384,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The features 'a' and 'b' cannot both be IDs", removeObjectHashCode(diagnostic36.getMessage()));
     assertEquals(1, diagnostic36.getCode());
     assertEquals(0, diagnostic36.getChildren().size());
-    assertEquals(3, diagnostic36.getData().size());
+    assertEquals(4, diagnostic36.getData().size());
     assertNull(diagnostic36.getException());
 
     Diagnostic diagnostic37 = diagnosticIterator.next();
@@ -393,7 +393,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be two features named 'a'", removeObjectHashCode(diagnostic37.getMessage()));
     assertEquals(32, diagnostic37.getCode());
     assertEquals(0, diagnostic37.getChildren().size());
-    assertEquals(3, diagnostic37.getData().size());
+    assertEquals(4, diagnostic37.getData().size());
     assertNull(diagnostic37.getException());
 
     Diagnostic diagnostic38 = diagnosticIterator.next();
@@ -402,7 +402,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There should not be a feature named 'A' as well a feature named 'a'", removeObjectHashCode(diagnostic38.getMessage()));
     assertEquals(32, diagnostic38.getCode());
     assertEquals(0, diagnostic38.getChildren().size());
-    assertEquals(3, diagnostic38.getData().size());
+    assertEquals(4, diagnostic38.getData().size());
     assertNull(diagnostic38.getException());
 
     Diagnostic diagnostic39 = diagnosticIterator.next();
@@ -411,7 +411,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There should not be a feature named 'A_' as well a feature named 'a'", removeObjectHashCode(diagnostic39.getMessage()));
     assertEquals(32, diagnostic39.getCode());
     assertEquals(0, diagnostic39.getChildren().size());
-    assertEquals(3, diagnostic39.getData().size());
+    assertEquals(4, diagnostic39.getData().size());
     assertNull(diagnostic39.getException());
 
     Diagnostic diagnostic40 = diagnosticIterator.next();
@@ -420,7 +420,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be two operations 'org.eclipse.emf.ecore.impl.EOperationImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//class/TwoOperationsWithMatchingSignatures/f.1}' and 'org.eclipse.emf.ecore.impl.EOperationImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//class/TwoOperationsWithMatchingSignatures/f}' with the same signature", removeObjectHashCode(diagnostic40.getMessage()));
     assertEquals(34, diagnostic40.getCode());
     assertEquals(0, diagnostic40.getChildren().size());
-    assertEquals(3, diagnostic40.getData().size());
+    assertEquals(4, diagnostic40.getData().size());
     assertNull(diagnostic40.getException());
 
     Diagnostic diagnostic41 = diagnosticIterator.next();
@@ -429,7 +429,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A class may not be a super type of itself", removeObjectHashCode(diagnostic41.getMessage()));
     assertEquals(26, diagnostic41.getCode());
     assertEquals(0, diagnostic41.getChildren().size());
-    assertEquals(1, diagnostic41.getData().size());
+    assertEquals(2, diagnostic41.getData().size());
     assertNull(diagnostic41.getException());
 
     Diagnostic diagnostic42 = diagnosticIterator.next();
@@ -438,7 +438,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A class may not be a super type of itself", removeObjectHashCode(diagnostic42.getMessage()));
     assertEquals(26, diagnostic42.getCode());
     assertEquals(0, diagnostic42.getChildren().size());
-    assertEquals(1, diagnostic42.getData().size());
+    assertEquals(2, diagnostic42.getData().size());
     assertNull(diagnostic42.getException());
 
     Diagnostic diagnostic43 = diagnosticIterator.next();
@@ -447,7 +447,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A class may not be a super type of itself", removeObjectHashCode(diagnostic43.getMessage()));
     assertEquals(26, diagnostic43.getCode());
     assertEquals(0, diagnostic43.getChildren().size());
-    assertEquals(1, diagnostic43.getData().size());
+    assertEquals(2, diagnostic43.getData().size());
     assertNull(diagnostic43.getException());
 
     Diagnostic diagnostic44 = diagnosticIterator.next();
@@ -456,7 +456,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A map entry class must have a feature called 'key'", removeObjectHashCode(diagnostic44.getMessage()));
     assertEquals(43, diagnostic44.getCode());
     assertEquals(0, diagnostic44.getChildren().size());
-    assertEquals(1, diagnostic44.getData().size());
+    assertEquals(2, diagnostic44.getData().size());
     assertNull(diagnostic44.getException());
 
     Diagnostic diagnostic45 = diagnosticIterator.next();
@@ -465,7 +465,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A map entry class must have a feature called 'value'", removeObjectHashCode(diagnostic45.getMessage()));
     assertEquals(43, diagnostic45.getCode());
     assertEquals(0, diagnostic45.getChildren().size());
-    assertEquals(1, diagnostic45.getData().size());
+    assertEquals(2, diagnostic45.getData().size());
     assertNull(diagnostic45.getException());
 
     Diagnostic diagnostic46 = diagnosticIterator.next();
@@ -474,7 +474,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be an operation 'org.eclipse.emf.ecore.impl.EOperationImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//class/ClassWithCollidingFeatureAndOperationSignatures/isA}' with the same signature as an accessor method for feature 'org.eclipse.emf.ecore.impl.EAttributeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//class/ClassWithCollidingFeatureAndOperationSignatures/a}'", removeObjectHashCode(diagnostic46.getMessage()));
     assertEquals(48, diagnostic46.getCode());
     assertEquals(0, diagnostic46.getChildren().size());
-    assertEquals(3, diagnostic46.getData().size());
+    assertEquals(4, diagnostic46.getData().size());
     assertNull(diagnostic46.getException());
 
     Diagnostic diagnostic47 = diagnosticIterator.next();
@@ -483,7 +483,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be an operation 'org.eclipse.emf.ecore.impl.EOperationImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//class/ClassWithCollidingFeatureAndOperationSignatures/isSetA}' with the same signature as an accessor method for feature 'org.eclipse.emf.ecore.impl.EAttributeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//class/ClassWithCollidingFeatureAndOperationSignatures/a}'", removeObjectHashCode(diagnostic47.getMessage()));
     assertEquals(48, diagnostic47.getCode());
     assertEquals(0, diagnostic47.getChildren().size());
-    assertEquals(3, diagnostic47.getData().size());
+    assertEquals(4, diagnostic47.getData().size());
     assertNull(diagnostic47.getException());
 
     Diagnostic diagnostic48 = diagnosticIterator.next();
@@ -492,7 +492,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be an operation 'org.eclipse.emf.ecore.impl.EOperationImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//class/ClassWithCollidingFeatureAndOperationSignatures/setA}' with the same signature as an accessor method for feature 'org.eclipse.emf.ecore.impl.EAttributeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//class/ClassWithCollidingFeatureAndOperationSignatures/a}'", removeObjectHashCode(diagnostic48.getMessage()));
     assertEquals(48, diagnostic48.getCode());
     assertEquals(0, diagnostic48.getChildren().size());
-    assertEquals(3, diagnostic48.getData().size());
+    assertEquals(4, diagnostic48.getData().size());
     assertNull(diagnostic48.getException());
 
     Diagnostic diagnostic49 = diagnosticIterator.next();
@@ -501,7 +501,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be an operation 'org.eclipse.emf.ecore.impl.EOperationImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//class/ClassWithCollidingFeatureAndOperationSignatures/unsetA}' with the same signature as an accessor method for feature 'org.eclipse.emf.ecore.impl.EAttributeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//class/ClassWithCollidingFeatureAndOperationSignatures/a}'", removeObjectHashCode(diagnostic49.getMessage()));
     assertEquals(48, diagnostic49.getCode());
     assertEquals(0, diagnostic49.getChildren().size());
-    assertEquals(3, diagnostic49.getData().size());
+    assertEquals(4, diagnostic49.getData().size());
     assertNull(diagnostic49.getException());
 
     Diagnostic diagnostic50 = diagnosticIterator.next();
@@ -510,7 +510,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be an operation 'org.eclipse.emf.ecore.impl.EOperationImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//class/ClassWithCollidingFeatureAndOperationSignatures/getB}' with the same signature as an accessor method for feature 'org.eclipse.emf.ecore.impl.EAttributeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//class/ClassWithCollidingFeatureAndOperationSignatures/b}'", removeObjectHashCode(diagnostic50.getMessage()));
     assertEquals(48, diagnostic50.getCode());
     assertEquals(0, diagnostic50.getChildren().size());
-    assertEquals(3, diagnostic50.getData().size());
+    assertEquals(4, diagnostic50.getData().size());
     assertNull(diagnostic50.getException());
 
     Diagnostic diagnostic51 = diagnosticIterator.next();
@@ -519,7 +519,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be an operation 'org.eclipse.emf.ecore.impl.EOperationImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//class/ClassWithCollidingFeatureAndOperationSignatures/isSetB}' with the same signature as an accessor method for feature 'org.eclipse.emf.ecore.impl.EAttributeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//class/ClassWithCollidingFeatureAndOperationSignatures/b}'", removeObjectHashCode(diagnostic51.getMessage()));
     assertEquals(48, diagnostic51.getCode());
     assertEquals(0, diagnostic51.getChildren().size());
-    assertEquals(3, diagnostic51.getData().size());
+    assertEquals(4, diagnostic51.getData().size());
     assertNull(diagnostic51.getException());
 
     Diagnostic diagnostic52 = diagnosticIterator.next();
@@ -528,7 +528,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be an operation 'org.eclipse.emf.ecore.impl.EOperationImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//class/ClassWithCollidingFeatureAndOperationSignatures/unsetB}' with the same signature as an accessor method for feature 'org.eclipse.emf.ecore.impl.EAttributeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//class/ClassWithCollidingFeatureAndOperationSignatures/b}'", removeObjectHashCode(diagnostic52.getMessage()));
     assertEquals(48, diagnostic52.getCode());
     assertEquals(0, diagnostic52.getChildren().size());
-    assertEquals(3, diagnostic52.getData().size());
+    assertEquals(4, diagnostic52.getData().size());
     assertNull(diagnostic52.getException());
 
     Diagnostic diagnostic53 = diagnosticIterator.next();
@@ -537,7 +537,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A class that inherits from a map entry class must have instance class name 'java.util.Map$Entry'", removeObjectHashCode(diagnostic53.getMessage()));
     assertEquals(49, diagnostic53.getCode());
     assertEquals(0, diagnostic53.getChildren().size());
-    assertEquals(1, diagnostic53.getData().size());
+    assertEquals(2, diagnostic53.getData().size());
     assertNull(diagnostic53.getException());
 
     Diagnostic diagnostic54 = diagnosticIterator.next();
@@ -546,7 +546,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be two enumerators named 'A'", removeObjectHashCode(diagnostic54.getMessage()));
     assertEquals(31, diagnostic54.getCode());
     assertEquals(0, diagnostic54.getChildren().size());
-    assertEquals(3, diagnostic54.getData().size());
+    assertEquals(4, diagnostic54.getData().size());
     assertNull(diagnostic54.getException());
 
     Diagnostic diagnostic55 = diagnosticIterator.next();
@@ -555,7 +555,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There should not be an enumerator named 'A' as well an enumerator named 'a'", removeObjectHashCode(diagnostic55.getMessage()));
     assertEquals(31, diagnostic55.getCode());
     assertEquals(0, diagnostic55.getChildren().size());
-    assertEquals(3, diagnostic55.getData().size());
+    assertEquals(4, diagnostic55.getData().size());
     assertNull(diagnostic55.getException());
 
     Diagnostic diagnostic56 = diagnosticIterator.next();
@@ -564,7 +564,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There should not be an enumerator named 'A_' as well an enumerator named 'a'", removeObjectHashCode(diagnostic56.getMessage()));
     assertEquals(31, diagnostic56.getCode());
     assertEquals(0, diagnostic56.getChildren().size());
-    assertEquals(3, diagnostic56.getData().size());
+    assertEquals(4, diagnostic56.getData().size());
     assertNull(diagnostic56.getException());
 
     Diagnostic diagnostic57 = diagnosticIterator.next();
@@ -573,7 +573,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be two enumerators with literal value 'x'", removeObjectHashCode(diagnostic57.getMessage()));
     assertEquals(30, diagnostic57.getCode());
     assertEquals(0, diagnostic57.getChildren().size());
-    assertEquals(3, diagnostic57.getData().size());
+    assertEquals(4, diagnostic57.getData().size());
     assertNull(diagnostic57.getException());
 
     Diagnostic diagnostic58 = diagnosticIterator.next();
@@ -582,7 +582,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be two parameters named 'x'", removeObjectHashCode(diagnostic58.getMessage()));
     assertEquals(35, diagnostic58.getCode());
     assertEquals(0, diagnostic58.getChildren().size());
-    assertEquals(3, diagnostic58.getData().size());
+    assertEquals(4, diagnostic58.getData().size());
     assertNull(diagnostic58.getException());
 
     Diagnostic diagnostic59 = diagnosticIterator.next();
@@ -591,7 +591,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be two type parameters named 'T'", removeObjectHashCode(diagnostic59.getMessage()));
     assertEquals(37, diagnostic59.getCode());
     assertEquals(0, diagnostic59.getChildren().size());
-    assertEquals(3, diagnostic59.getData().size());
+    assertEquals(4, diagnostic59.getData().size());
     assertNull(diagnostic59.getException());
 
     Diagnostic diagnostic60 = diagnosticIterator.next();
@@ -600,7 +600,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be two type parameters named 'A'", removeObjectHashCode(diagnostic60.getMessage()));
     assertEquals(37, diagnostic60.getCode());
     assertEquals(0, diagnostic60.getChildren().size());
-    assertEquals(3, diagnostic60.getData().size());
+    assertEquals(4, diagnostic60.getData().size());
     assertNull(diagnostic60.getException());
 
     Diagnostic diagnostic61 = diagnosticIterator.next();
@@ -609,7 +609,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("An operation with void return type must have an upper bound of 1 not -1", removeObjectHashCode(diagnostic61.getMessage()));
     assertEquals(27, diagnostic61.getCode());
     assertEquals(0, diagnostic61.getChildren().size());
-    assertEquals(1, diagnostic61.getData().size());
+    assertEquals(2, diagnostic61.getData().size());
     assertNull(diagnostic61.getException());
 
     Diagnostic diagnostic62 = diagnosticIterator.next();
@@ -618,7 +618,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be two packages named 'duplicateName'", removeObjectHashCode(diagnostic62.getMessage()));
     assertEquals(36, diagnostic62.getCode());
     assertEquals(0, diagnostic62.getChildren().size());
-    assertEquals(3, diagnostic62.getData().size());
+    assertEquals(4, diagnostic62.getData().size());
     assertNull(diagnostic62.getException());
 
     Diagnostic diagnostic63 = diagnosticIterator.next();
@@ -627,7 +627,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The namespace URI 'null' is not well formed", removeObjectHashCode(diagnostic63.getMessage()));
     assertEquals(46, diagnostic63.getCode());
     assertEquals(0, diagnostic63.getChildren().size());
-    assertEquals(1, diagnostic63.getData().size());
+    assertEquals(2, diagnostic63.getData().size());
     assertNull(diagnostic63.getException());
 
     Diagnostic diagnostic64 = diagnosticIterator.next();
@@ -636,7 +636,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The namespace URI '' is not well formed", removeObjectHashCode(diagnostic64.getMessage()));
     assertEquals(46, diagnostic64.getCode());
     assertEquals(0, diagnostic64.getChildren().size());
-    assertEquals(1, diagnostic64.getData().size());
+    assertEquals(2, diagnostic64.getData().size());
     assertNull(diagnostic64.getException());
 
     Diagnostic diagnostic65 = diagnosticIterator.next();
@@ -645,7 +645,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The namespace URI 'NSUI With Space' is not well formed", removeObjectHashCode(diagnostic65.getMessage()));
     assertEquals(46, diagnostic65.getCode());
     assertEquals(0, diagnostic65.getChildren().size());
-    assertEquals(1, diagnostic65.getData().size());
+    assertEquals(2, diagnostic65.getData().size());
     assertNull(diagnostic65.getException());
 
     Diagnostic diagnostic66 = diagnosticIterator.next();
@@ -654,7 +654,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The namespace URI 'NsURIWithUnencoded%' is not well formed", removeObjectHashCode(diagnostic66.getMessage()));
     assertEquals(46, diagnostic66.getCode());
     assertEquals(0, diagnostic66.getChildren().size());
-    assertEquals(1, diagnostic66.getData().size());
+    assertEquals(2, diagnostic66.getData().size());
     assertNull(diagnostic66.getException());
 
     Diagnostic diagnostic67 = diagnosticIterator.next();
@@ -663,7 +663,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The namespace prefix 'xml.prefix' is not well formed", removeObjectHashCode(diagnostic67.getMessage()));
     assertEquals(45, diagnostic67.getCode());
     assertEquals(0, diagnostic67.getChildren().size());
-    assertEquals(1, diagnostic67.getData().size());
+    assertEquals(2, diagnostic67.getData().size());
     assertNull(diagnostic67.getException());
 
     Diagnostic diagnostic68 = diagnosticIterator.next();
@@ -672,7 +672,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The namespace prefix 'bad.package:nonNSNamePrefix' is not well formed", removeObjectHashCode(diagnostic68.getMessage()));
     assertEquals(45, diagnostic68.getCode());
     assertEquals(0, diagnostic68.getChildren().size());
-    assertEquals(1, diagnostic68.getData().size());
+    assertEquals(2, diagnostic68.getData().size());
     assertNull(diagnostic68.getException());
 
     Diagnostic diagnostic69 = diagnosticIterator.next();
@@ -681,7 +681,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be two classifiers named 'a'", removeObjectHashCode(diagnostic69.getMessage()));
     assertEquals(29, diagnostic69.getCode());
     assertEquals(0, diagnostic69.getChildren().size());
-    assertEquals(3, diagnostic69.getData().size());
+    assertEquals(4, diagnostic69.getData().size());
     assertNull(diagnostic69.getException());
 
     Diagnostic diagnostic70 = diagnosticIterator.next();
@@ -690,7 +690,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be a classifier named 'A_' as well a classifier named 'a'", removeObjectHashCode(diagnostic70.getMessage()));
     assertEquals(29, diagnostic70.getCode());
     assertEquals(0, diagnostic70.getChildren().size());
-    assertEquals(3, diagnostic70.getData().size());
+    assertEquals(4, diagnostic70.getData().size());
     assertNull(diagnostic70.getException());
 
     Diagnostic diagnostic71 = diagnosticIterator.next();
@@ -699,7 +699,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be two packages with namespace URI 'platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//package/duplicateNsURIs/a1'", removeObjectHashCode(diagnostic71.getMessage()));
     assertEquals(33, diagnostic71.getCode());
     assertEquals(0, diagnostic71.getChildren().size());
-    assertEquals(2, diagnostic71.getData().size());
+    assertEquals(3, diagnostic71.getData().size());
     assertNull(diagnostic71.getException());
 
     Diagnostic diagnostic72 = diagnosticIterator.next();
@@ -708,7 +708,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("There may not be two packages with namespace URI 'platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//package/duplicateNsURIs/a1'", removeObjectHashCode(diagnostic72.getMessage()));
     assertEquals(33, diagnostic72.getCode());
     assertEquals(0, diagnostic72.getChildren().size());
-    assertEquals(2, diagnostic72.getData().size());
+    assertEquals(3, diagnostic72.getData().size());
     assertNull(diagnostic72.getException());
 
     Diagnostic diagnostic73 = diagnosticIterator.next();
@@ -717,7 +717,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The opposite of the opposite may not be a reference different from this one", removeObjectHashCode(diagnostic73.getMessage()));
     assertEquals(14, diagnostic73.getCode());
     assertEquals(0, diagnostic73.getChildren().size());
-    assertEquals(3, diagnostic73.getData().size());
+    assertEquals(4, diagnostic73.getData().size());
     assertNull(diagnostic73.getException());
 
     Diagnostic diagnostic74 = diagnosticIterator.next();
@@ -726,7 +726,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The opposite must be a feature of the reference's type", removeObjectHashCode(diagnostic74.getMessage()));
     assertEquals(13, diagnostic74.getCode());
     assertEquals(0, diagnostic74.getChildren().size());
-    assertEquals(3, diagnostic74.getData().size());
+    assertEquals(4, diagnostic74.getData().size());
     assertNull(diagnostic74.getException());
 
     Diagnostic diagnostic75 = diagnosticIterator.next();
@@ -735,7 +735,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The opposite of a transient reference must be transient if it is proxy resolving", removeObjectHashCode(diagnostic75.getMessage()));
     assertEquals(11, diagnostic75.getCode());
     assertEquals(0, diagnostic75.getChildren().size());
-    assertEquals(2, diagnostic75.getData().size());
+    assertEquals(4, diagnostic75.getData().size());
     assertNull(diagnostic75.getException());
 
     Diagnostic diagnostic76 = diagnosticIterator.next();
@@ -744,7 +744,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A container reference must have upper bound of 1 not 2", removeObjectHashCode(diagnostic76.getMessage()));
     assertEquals(28, diagnostic76.getCode());
     assertEquals(0, diagnostic76.getChildren().size());
-    assertEquals(1, diagnostic76.getData().size());
+    assertEquals(2, diagnostic76.getData().size());
     assertNull(diagnostic76.getException());
 
     Diagnostic diagnostic77 = diagnosticIterator.next();
@@ -753,7 +753,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The opposite of a containment reference must not be a containment reference", removeObjectHashCode(diagnostic77.getMessage()));
     assertEquals(12, diagnostic77.getCode());
     assertEquals(0, diagnostic77.getChildren().size());
-    assertEquals(2, diagnostic77.getData().size());
+    assertEquals(3, diagnostic77.getData().size());
     assertNull(diagnostic77.getException());
 
     Diagnostic diagnostic78 = diagnosticIterator.next();
@@ -762,7 +762,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The opposite of a containment reference must not be a containment reference", removeObjectHashCode(diagnostic78.getMessage()));
     assertEquals(12, diagnostic78.getCode());
     assertEquals(0, diagnostic78.getChildren().size());
-    assertEquals(2, diagnostic78.getData().size());
+    assertEquals(3, diagnostic78.getData().size());
     assertNull(diagnostic78.getException());
 
     Diagnostic diagnostic79 = diagnosticIterator.next();
@@ -771,7 +771,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A containment reference of a type with a container feature org.eclipse.emf.ecore.impl.EReferenceImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//opposite/requiredToBeContainedElsewhere/BB/a} that requires instances to be contained elsewhere cannot be populated", removeObjectHashCode(diagnostic79.getMessage()));
     assertEquals(51, diagnostic79.getCode());
     assertEquals(0, diagnostic79.getChildren().size());
-    assertEquals(2, diagnostic79.getData().size());
+    assertEquals(3, diagnostic79.getData().size());
     assertNull(diagnostic79.getException());
 
     Diagnostic diagnostic80 = diagnosticIterator.next();
@@ -780,7 +780,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The lower bound -1 must be greater than or equal to 0", removeObjectHashCode(diagnostic80.getMessage()));
     assertEquals(39, diagnostic80.getCode());
     assertEquals(0, diagnostic80.getChildren().size());
-    assertEquals(1, diagnostic80.getData().size());
+    assertEquals(2, diagnostic80.getData().size());
     assertNull(diagnostic80.getException());
 
     Diagnostic diagnostic81 = diagnosticIterator.next();
@@ -789,7 +789,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The upper bound 0 must be -2, -1, or greater than 0", removeObjectHashCode(diagnostic81.getMessage()));
     assertEquals(41, diagnostic81.getCode());
     assertEquals(0, diagnostic81.getChildren().size());
-    assertEquals(1, diagnostic81.getData().size());
+    assertEquals(2, diagnostic81.getData().size());
     assertNull(diagnostic81.getException());
 
     Diagnostic diagnostic82 = diagnosticIterator.next();
@@ -798,7 +798,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The upper bound -3 must be -2, -1, or greater than 0", removeObjectHashCode(diagnostic82.getMessage()));
     assertEquals(41, diagnostic82.getCode());
     assertEquals(0, diagnostic82.getChildren().size());
-    assertEquals(1, diagnostic82.getData().size());
+    assertEquals(2, diagnostic82.getData().size());
     assertNull(diagnostic82.getException());
 
     Diagnostic diagnostic83 = diagnosticIterator.next();
@@ -807,7 +807,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The lower bound 2 must be less than or equal to the upper bound 1", removeObjectHashCode(diagnostic83.getMessage()));
     assertEquals(6, diagnostic83.getCode());
     assertEquals(0, diagnostic83.getChildren().size());
-    assertEquals(1, diagnostic83.getData().size());
+    assertEquals(3, diagnostic83.getData().size());
     assertNull(diagnostic83.getException());
 
     Diagnostic diagnostic84 = diagnosticIterator.next();
@@ -825,7 +825,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic attribute type must not refer to a class", removeObjectHashCode(diagnostic85.getMessage()));
     assertEquals(19, diagnostic85.getCode());
     assertEquals(0, diagnostic85.getChildren().size());
-    assertEquals(1, diagnostic85.getData().size());
+    assertEquals(2, diagnostic85.getData().size());
     assertNull(diagnostic85.getException());
 
     Diagnostic diagnostic86 = diagnosticIterator.next();
@@ -843,7 +843,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic reference type must not refer to a data type", removeObjectHashCode(diagnostic87.getMessage()));
     assertEquals(20, diagnostic87.getCode());
     assertEquals(0, diagnostic87.getChildren().size());
-    assertEquals(1, diagnostic87.getData().size());
+    assertEquals(2, diagnostic87.getData().size());
     assertNull(diagnostic87.getException());
 
     Diagnostic diagnostic88 = diagnosticIterator.next();
@@ -852,7 +852,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A generic type can't refer to both a type parameter and a classifier", removeObjectHashCode(diagnostic88.getMessage()));
     assertEquals(21, diagnostic88.getCode());
     assertEquals(0, diagnostic88.getChildren().size());
-    assertEquals(1, diagnostic88.getData().size());
+    assertEquals(3, diagnostic88.getData().size());
     assertNull(diagnostic88.getException());
 
     Diagnostic diagnostic89 = diagnosticIterator.next();
@@ -861,7 +861,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A generic super type must refer to a class", removeObjectHashCode(diagnostic89.getMessage()));
     assertEquals(18, diagnostic89.getCode());
     assertEquals(0, diagnostic89.getChildren().size());
-    assertEquals(1, diagnostic89.getData().size());
+    assertEquals(2, diagnostic89.getData().size());
     assertNull(diagnostic89.getException());
 
     Diagnostic diagnostic90 = diagnosticIterator.next();
@@ -870,7 +870,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A generic super type must refer to a class", removeObjectHashCode(diagnostic90.getMessage()));
     assertEquals(18, diagnostic90.getCode());
     assertEquals(0, diagnostic90.getChildren().size());
-    assertEquals(1, diagnostic90.getData().size());
+    assertEquals(2, diagnostic90.getData().size());
     assertNull(diagnostic90.getException());
 
     Diagnostic diagnostic91 = diagnosticIterator.next();
@@ -879,7 +879,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic super types at index '1' and '0' must not be duplicates", removeObjectHashCode(diagnostic91.getMessage()));
     assertEquals(16, diagnostic91.getCode());
     assertEquals(0, diagnostic91.getChildren().size());
-    assertEquals(3, diagnostic91.getData().size());
+    assertEquals(4, diagnostic91.getData().size());
     assertNull(diagnostic91.getException());
 
     Diagnostic diagnostic92 = diagnosticIterator.next();
@@ -888,7 +888,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A generic type in this context must refer to a classifier or a type parameter", removeObjectHashCode(diagnostic92.getMessage()));
     assertEquals(24, diagnostic92.getCode());
     assertEquals(0, diagnostic92.getChildren().size());
-    assertEquals(1, diagnostic92.getData().size());
+    assertEquals(3, diagnostic92.getData().size());
     assertNull(diagnostic92.getException());
 
     Diagnostic diagnostic93 = diagnosticIterator.next();
@@ -897,7 +897,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A generic type must not have both a lower and an upper bound", removeObjectHashCode(diagnostic93.getMessage()));
     assertEquals(9, diagnostic93.getCode());
     assertEquals(0, diagnostic93.getChildren().size());
-    assertEquals(1, diagnostic93.getData().size());
+    assertEquals(3, diagnostic93.getData().size());
     assertNull(diagnostic93.getException());
 
     Diagnostic diagnostic94 = diagnosticIterator.next();
@@ -906,7 +906,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A generic type may have bounds only when used as a type argument", removeObjectHashCode(diagnostic94.getMessage()));
     assertEquals(7, diagnostic94.getCode());
     assertEquals(0, diagnostic94.getChildren().size());
-    assertEquals(1, diagnostic94.getData().size());
+    assertEquals(2, diagnostic94.getData().size());
     assertNull(diagnostic94.getException());
 
     Diagnostic diagnostic95 = diagnosticIterator.next();
@@ -915,7 +915,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A generic type with bounds must not also refer to a type parameter or classifier", removeObjectHashCode(diagnostic95.getMessage()));
     assertEquals(8, diagnostic95.getCode());
     assertEquals(0, diagnostic95.getChildren().size());
-    assertEquals(1, diagnostic95.getData().size());
+    assertEquals(2, diagnostic95.getData().size());
     assertNull(diagnostic95.getException());
 
     Diagnostic diagnostic96 = diagnosticIterator.next();
@@ -924,7 +924,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A generic type may have arguments only if it refers to a classifier", removeObjectHashCode(diagnostic96.getMessage()));
     assertEquals(5, diagnostic96.getCode());
     assertEquals(0, diagnostic96.getChildren().size());
-    assertEquals(1, diagnostic96.getData().size());
+    assertEquals(2, diagnostic96.getData().size());
     assertNull(diagnostic96.getException());
 
     Diagnostic diagnostic97 = diagnosticIterator.next();
@@ -933,7 +933,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type associated with the 'EJavaClass' classifier should have 1 type argument(s) to match the number of type parameter(s) of the classifier ", removeObjectHashCode(diagnostic97.getMessage()));
     assertEquals(4, diagnostic97.getCode());
     assertEquals(0, diagnostic97.getChildren().size());
-    assertEquals(1, diagnostic97.getData().size());
+    assertEquals(2, diagnostic97.getData().size());
     assertNull(diagnostic97.getException());
 
     Diagnostic diagnostic98 = diagnosticIterator.next();
@@ -942,7 +942,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type associated with the 'EJavaClass' classifier must not have 2 argument(s) when the classifier has 1 type parameter(s)", removeObjectHashCode(diagnostic98.getMessage()));
     assertEquals(2, diagnostic98.getCode());
     assertEquals(0, diagnostic98.getChildren().size());
-    assertEquals(1, diagnostic98.getData().size());
+    assertEquals(2, diagnostic98.getData().size());
     assertNull(diagnostic98.getException());
 
     Diagnostic diagnostic99 = diagnosticIterator.next();
@@ -951,7 +951,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A generic type may only refer to a type parameter that is in scope", removeObjectHashCode(diagnostic99.getMessage()));
     assertEquals(23, diagnostic99.getCode());
     assertEquals(0, diagnostic99.getChildren().size());
-    assertEquals(1, diagnostic99.getData().size());
+    assertEquals(2, diagnostic99.getData().size());
     assertNull(diagnostic99.getException());
 
     Diagnostic diagnostic100 = diagnosticIterator.next();
@@ -960,7 +960,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic super types instantiate 'org.eclipse.emf.ecore.impl.EClassImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//genericType/BaseClass}' inconsistently", removeObjectHashCode(diagnostic100.getMessage()));
     assertEquals(15, diagnostic100.getCode());
     assertEquals(0, diagnostic100.getChildren().size());
-    assertEquals(3, diagnostic100.getData().size());
+    assertEquals(4, diagnostic100.getData().size());
     assertNull(diagnostic100.getException());
 
     Diagnostic diagnostic101 = diagnosticIterator.next();
@@ -969,7 +969,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A generic type may only refer to a type parameter that is in scope", removeObjectHashCode(diagnostic101.getMessage()));
     assertEquals(23, diagnostic101.getCode());
     assertEquals(0, diagnostic101.getChildren().size());
-    assertEquals(1, diagnostic101.getData().size());
+    assertEquals(2, diagnostic101.getData().size());
     assertNull(diagnostic101.getException());
 
     Diagnostic diagnostic102 = diagnosticIterator.next();
@@ -978,7 +978,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A generic type may only refer to a type parameter that is in scope", removeObjectHashCode(diagnostic102.getMessage()));
     assertEquals(23, diagnostic102.getCode());
     assertEquals(0, diagnostic102.getChildren().size());
-    assertEquals(1, diagnostic102.getData().size());
+    assertEquals(2, diagnostic102.getData().size());
     assertNull(diagnostic102.getException());
 
     Diagnostic diagnostic103 = diagnosticIterator.next();
@@ -987,7 +987,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The primitive type 'int' cannot be used in this context", removeObjectHashCode(diagnostic103.getMessage()));
     assertEquals(22, diagnostic103.getCode());
     assertEquals(0, diagnostic103.getChildren().size());
-    assertEquals(1, diagnostic103.getData().size());
+    assertEquals(2, diagnostic103.getData().size());
     assertNull(diagnostic103.getException());
 
     Diagnostic diagnostic104 = diagnosticIterator.next();
@@ -996,7 +996,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The primitive type 'int' cannot be used in this context", removeObjectHashCode(diagnostic104.getMessage()));
     assertEquals(22, diagnostic104.getCode());
     assertEquals(0, diagnostic104.getChildren().size());
-    assertEquals(1, diagnostic104.getData().size());
+    assertEquals(2, diagnostic104.getData().size());
     assertNull(diagnostic104.getException());
 
     Diagnostic diagnostic105 = diagnosticIterator.next();
@@ -1005,7 +1005,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The primitive type 'int' cannot be used in this context", removeObjectHashCode(diagnostic105.getMessage()));
     assertEquals(22, diagnostic105.getCode());
     assertEquals(0, diagnostic105.getChildren().size());
-    assertEquals(1, diagnostic105.getData().size());
+    assertEquals(2, diagnostic105.getData().size());
     assertNull(diagnostic105.getException());
 
     Diagnostic diagnostic106 = diagnosticIterator.next();
@@ -1014,7 +1014,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The primitive type 'int' cannot be used in this context", removeObjectHashCode(diagnostic106.getMessage()));
     assertEquals(22, diagnostic106.getCode());
     assertEquals(0, diagnostic106.getChildren().size());
-    assertEquals(1, diagnostic106.getData().size());
+    assertEquals(2, diagnostic106.getData().size());
     assertNull(diagnostic106.getException());
 
     Diagnostic diagnostic107 = diagnosticIterator.next();
@@ -1023,7 +1023,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The primitive type 'int' cannot be used in this context", removeObjectHashCode(diagnostic107.getMessage()));
     assertEquals(22, diagnostic107.getCode());
     assertEquals(0, diagnostic107.getChildren().size());
-    assertEquals(1, diagnostic107.getData().size());
+    assertEquals(2, diagnostic107.getData().size());
     assertNull(diagnostic107.getException());
 
     Diagnostic diagnostic108 = diagnosticIterator.next();
@@ -1032,7 +1032,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The key 'org.eclipse.emf.ecore.impl.EAttributeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//key/ReferenceWithKeyNotFromReferenceType/a}' must be feature of the reference's type", removeObjectHashCode(diagnostic108.getMessage()));
     assertEquals(10, diagnostic108.getCode());
     assertEquals(0, diagnostic108.getChildren().size());
-    assertEquals(2, diagnostic108.getData().size());
+    assertEquals(3, diagnostic108.getData().size());
     assertNull(diagnostic108.getException());
 
     Diagnostic diagnostic109 = diagnosticIterator.next();
@@ -1041,7 +1041,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A containment or bidirectional reference must be unique if its upper bound is different from 1", removeObjectHashCode(diagnostic109.getMessage()));
     assertEquals(50, diagnostic109.getCode());
     assertEquals(0, diagnostic109.getChildren().size());
-    assertEquals(1, diagnostic109.getData().size());
+    assertEquals(2, diagnostic109.getData().size());
     assertNull(diagnostic109.getException());
 
     Diagnostic diagnostic110 = diagnosticIterator.next();
@@ -1050,7 +1050,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("A containment or bidirectional reference must be unique if its upper bound is different from 1", removeObjectHashCode(diagnostic110.getMessage()));
     assertEquals(50, diagnostic110.getCode());
     assertEquals(0, diagnostic110.getChildren().size());
-    assertEquals(1, diagnostic110.getData().size());
+    assertEquals(2, diagnostic110.getData().size());
     assertNull(diagnostic110.getException());
 
     Diagnostic diagnostic111 = diagnosticIterator.next();
@@ -1059,7 +1059,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/f/b//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/U}'", removeObjectHashCode(diagnostic111.getMessage()));
     assertEquals(3, diagnostic111.getCode());
     assertEquals(0, diagnostic111.getChildren().size());
-    assertEquals(3, diagnostic111.getData().size());
+    assertEquals(4, diagnostic111.getData().size());
     assertNull(diagnostic111.getException());
 
     Diagnostic diagnostic112 = diagnosticIterator.next();
@@ -1068,7 +1068,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/f/d//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/U}'", removeObjectHashCode(diagnostic112.getMessage()));
     assertEquals(3, diagnostic112.getCode());
     assertEquals(0, diagnostic112.getChildren().size());
-    assertEquals(3, diagnostic112.getData().size());
+    assertEquals(4, diagnostic112.getData().size());
     assertNull(diagnostic112.getException());
 
     Diagnostic diagnostic113 = diagnosticIterator.next();
@@ -1077,7 +1077,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/f/g//.2}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/V}'", removeObjectHashCode(diagnostic113.getMessage()));
     assertEquals(3, diagnostic113.getCode());
     assertEquals(0, diagnostic113.getChildren().size());
-    assertEquals(3, diagnostic113.getData().size());
+    assertEquals(4, diagnostic113.getData().size());
     assertNull(diagnostic113.getException());
 
     Diagnostic diagnostic114 = diagnosticIterator.next();
@@ -1086,7 +1086,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container2/g/b//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container2/U}'", removeObjectHashCode(diagnostic114.getMessage()));
     assertEquals(3, diagnostic114.getCode());
     assertEquals(0, diagnostic114.getChildren().size());
-    assertEquals(3, diagnostic114.getData().size());
+    assertEquals(4, diagnostic114.getData().size());
     assertNull(diagnostic114.getException());
 
     Diagnostic diagnostic115 = diagnosticIterator.next();
@@ -1095,7 +1095,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container2/g/d//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container2/U}'", removeObjectHashCode(diagnostic115.getMessage()));
     assertEquals(3, diagnostic115.getCode());
     assertEquals(0, diagnostic115.getChildren().size());
-    assertEquals(3, diagnostic115.getData().size());
+    assertEquals(4, diagnostic115.getData().size());
     assertNull(diagnostic115.getException());
 
     Diagnostic diagnostic116 = diagnosticIterator.next();
@@ -1104,7 +1104,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/g/b//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/U}'", removeObjectHashCode(diagnostic116.getMessage()));
     assertEquals(3, diagnostic116.getCode());
     assertEquals(0, diagnostic116.getChildren().size());
-    assertEquals(3, diagnostic116.getData().size());
+    assertEquals(4, diagnostic116.getData().size());
     assertNull(diagnostic116.getException());
 
     Diagnostic diagnostic117 = diagnosticIterator.next();
@@ -1113,7 +1113,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/g/d//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/U}'", removeObjectHashCode(diagnostic117.getMessage()));
     assertEquals(3, diagnostic117.getCode());
     assertEquals(0, diagnostic117.getChildren().size());
-    assertEquals(3, diagnostic117.getData().size());
+    assertEquals(4, diagnostic117.getData().size());
     assertNull(diagnostic117.getException());
 
     Diagnostic diagnostic118 = diagnosticIterator.next();
@@ -1122,7 +1122,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/g/g//.2}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/V}'", removeObjectHashCode(diagnostic118.getMessage()));
     assertEquals(3, diagnostic118.getCode());
     assertEquals(0, diagnostic118.getChildren().size());
-    assertEquals(3, diagnostic118.getData().size());
+    assertEquals(4, diagnostic118.getData().size());
     assertNull(diagnostic118.getException());
 
     Diagnostic diagnostic119 = diagnosticIterator.next();
@@ -1131,7 +1131,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/g/j//.2}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/V}'", removeObjectHashCode(diagnostic119.getMessage()));
     assertEquals(3, diagnostic119.getCode());
     assertEquals(0, diagnostic119.getChildren().size());
-    assertEquals(3, diagnostic119.getData().size());
+    assertEquals(4, diagnostic119.getData().size());
     assertNull(diagnostic119.getException());
 
     Diagnostic diagnostic120 = diagnosticIterator.next();
@@ -1140,7 +1140,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type associated with the 'A' classifier should have 1 type argument(s) to match the number of type parameter(s) of the classifier ", removeObjectHashCode(diagnostic120.getMessage()));
     assertEquals(4, diagnostic120.getCode());
     assertEquals(0, diagnostic120.getChildren().size());
-    assertEquals(1, diagnostic120.getData().size());
+    assertEquals(2, diagnostic120.getData().size());
     assertNull(diagnostic120.getException());
 
     Diagnostic diagnostic121 = diagnosticIterator.next();
@@ -1149,7 +1149,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/h/b//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/U}'", removeObjectHashCode(diagnostic121.getMessage()));
     assertEquals(3, diagnostic121.getCode());
     assertEquals(0, diagnostic121.getChildren().size());
-    assertEquals(3, diagnostic121.getData().size());
+    assertEquals(4, diagnostic121.getData().size());
     assertNull(diagnostic121.getException());
 
     Diagnostic diagnostic122 = diagnosticIterator.next();
@@ -1158,7 +1158,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/h/d//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/U}'", removeObjectHashCode(diagnostic122.getMessage()));
     assertEquals(3, diagnostic122.getCode());
     assertEquals(0, diagnostic122.getChildren().size());
-    assertEquals(3, diagnostic122.getData().size());
+    assertEquals(4, diagnostic122.getData().size());
     assertNull(diagnostic122.getException());
 
     Diagnostic diagnostic123 = diagnosticIterator.next();
@@ -1167,7 +1167,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/h/g//.2}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/V}'", removeObjectHashCode(diagnostic123.getMessage()));
     assertEquals(3, diagnostic123.getCode());
     assertEquals(0, diagnostic123.getChildren().size());
-    assertEquals(3, diagnostic123.getData().size());
+    assertEquals(4, diagnostic123.getData().size());
     assertNull(diagnostic123.getException());
 
     Diagnostic diagnostic124 = diagnosticIterator.next();
@@ -1176,7 +1176,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/h/j//.2}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/V}'", removeObjectHashCode(diagnostic124.getMessage()));
     assertEquals(3, diagnostic124.getCode());
     assertEquals(0, diagnostic124.getChildren().size());
-    assertEquals(3, diagnostic124.getData().size());
+    assertEquals(4, diagnostic124.getData().size());
     assertNull(diagnostic124.getException());
 
     Diagnostic diagnostic125 = diagnosticIterator.next();
@@ -1185,7 +1185,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The generic type associated with the 'B' classifier should have 1 type argument(s) to match the number of type parameter(s) of the classifier ", removeObjectHashCode(diagnostic125.getMessage()));
     assertEquals(4, diagnostic125.getCode());
     assertEquals(0, diagnostic125.getChildren().size());
-    assertEquals(1, diagnostic125.getData().size());
+    assertEquals(2, diagnostic125.getData().size());
     assertNull(diagnostic125.getException());
 
     Diagnostic diagnostic126 = diagnosticIterator.next();
@@ -1194,7 +1194,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The default value literal '256' must be a valid literal of the attribute's type", removeObjectHashCode(diagnostic126.getMessage()));
     assertEquals(38, diagnostic126.getCode());
     assertEquals(1, diagnostic126.getChildren().size());
-    assertEquals(1, diagnostic126.getData().size());
+    assertEquals(2, diagnostic126.getData().size());
     assertNull(diagnostic126.getException());
 
     Diagnostic diagnostic127 = diagnosticIterator.next();
@@ -1212,7 +1212,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("The default value literal '' must be a valid literal of the attribute's type", removeObjectHashCode(diagnostic128.getMessage()));
     assertEquals(38, diagnostic128.getCode());
     assertEquals(0, diagnostic128.getChildren().size());
-    assertEquals(1, diagnostic128.getData().size());
+    assertEquals(2, diagnostic128.getData().size());
     assertNull(diagnostic128.getException());
 
     Diagnostic diagnostic129 = diagnosticIterator.next();
