@@ -213,8 +213,7 @@ public class XcoreDiagnosticConverter extends XtextDiagnosticConverter
         case EcoreValidator.UNIQUE_ENUMERATOR_LITERALS:
         case EcoreValidator.UNIQUE_ENUMERATOR_NAMES:
         {
-          return getCauser((EObject)diagnostic.getData().get(2));
-
+          return getCauser((EObject)diagnostic.getData().get(1));
         }
       }
     }
