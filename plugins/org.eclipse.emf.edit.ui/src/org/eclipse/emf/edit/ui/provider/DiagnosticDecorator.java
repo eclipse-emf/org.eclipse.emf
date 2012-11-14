@@ -862,7 +862,8 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
           Diagnostic objectDiagnostic = decorate(decorations, object, objects.get(AdapterFactoryEditingDomain.unwrap(object)), path);
           if (treeContentProvider != null)
           {
-            objectDiagnostic = decorate(objects, treeContentProvider, object, path);
+            Set<Object> visited = new HashSet<Object>();
+            objectDiagnostic = decorate(objects, treeContentProvider, visited, object, path);
           }
           decorate(decorations, input, objectDiagnostic, null);
         }
@@ -870,18 +871,21 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
     }
   }
 
-  protected BasicDiagnostic decorate(Map<Object, BasicDiagnostic> objects, ITreeContentProvider treeContentProvider, Object object, List<Integer> path)
+  protected BasicDiagnostic decorate(Map<Object, BasicDiagnostic> objects, ITreeContentProvider treeContentProvider, Set<Object> visited, Object object, List<Integer> path)
   {
     BasicDiagnostic result = decorations.get(object);
-    int index = 0;
-    int last = path.size();
-    for (Object child : treeContentProvider.getChildren(object))
+    if (visited.add(object))
     {
-      path.add(index++);
-      BasicDiagnostic childResult = decorate(decorations, child, objects.get(AdapterFactoryEditingDomain.unwrap(child)), path);
-      childResult = decorate(objects, treeContentProvider, child, path);
-      path.remove(last);
-      result = decorate(decorations, object, childResult, path);
+      int index = 0;
+      int last = path.size();
+      for (Object child : treeContentProvider.getChildren(object))
+      {
+        path.add(index++);
+        BasicDiagnostic childResult = decorate(decorations, child, objects.get(AdapterFactoryEditingDomain.unwrap(child)), path);
+        childResult = decorate(objects, treeContentProvider, visited, child, path);
+        path.remove(last);
+        result = decorate(decorations, object, childResult, path);
+      }
     }
     return result;
   }
