@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
@@ -26,6 +27,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -270,6 +272,19 @@ public class FeatureEditorDialog extends Dialog
              }
            });
       }
+      if (unique)
+      {
+        choiceTableViewer.addFilter
+          (new ViewerFilter()
+           {
+             
+             @Override
+             public boolean select(Viewer viewer, Object parentElement, Object element)
+             {
+               return !values.getChildren().contains(element);
+             }
+           });
+      }
       choiceTableViewer.setInput(new ItemProvider(choiceOfValues));
     }
 
@@ -374,9 +389,10 @@ public class FeatureEditorDialog extends Dialog
     featureTableViewer.setContentProvider(contentProvider);
     featureTableViewer.setLabelProvider(labelProvider);
     featureTableViewer.setInput(values);
-    if (!values.getChildren().isEmpty())
+    final EList<Object> children = values.getChildren();
+    if (!children.isEmpty())
     {
-      featureTableViewer.setSelection(new StructuredSelection(values.getChildren().get(0)));
+      featureTableViewer.setSelection(new StructuredSelection(children.get(0)));
     }
     
     if (choiceTableViewer != null)
@@ -417,8 +433,9 @@ public class FeatureEditorDialog extends Dialog
               try
               {
                 Object value = EcoreUtil.createFromString((EDataType)eClassifier, choiceText.getText());
-                values.getChildren().add(value);
+                children.add(value);
                 choiceText.setText("");
+                featureTableViewer.refresh();
                 featureTableViewer.setSelection(new StructuredSelection(value));
                 event.doit = false;
               }
@@ -447,8 +464,8 @@ public class FeatureEditorDialog extends Dialog
           for (Iterator<?> i = selection.iterator(); i.hasNext();)
           {
             Object value = i.next();
-            int index = values.getChildren().indexOf(value);
-            values.getChildren().move(Math.max(index - 1, minIndex++), value);
+            int index = children.indexOf(value);
+            children.move(Math.max(index - 1, minIndex++), value);
           }
         }
       });
@@ -460,12 +477,13 @@ public class FeatureEditorDialog extends Dialog
         public void widgetSelected(SelectionEvent event)
         {
           IStructuredSelection selection = (IStructuredSelection)featureTableViewer.getSelection();
-          int maxIndex = values.getChildren().size() - selection.size();
-          for (Iterator<?> i = selection.iterator(); i.hasNext();)
+          int maxIndex = children.size() - 1;
+          List<?> objects = selection.toList();
+          for (ListIterator<?> i = objects.listIterator(objects.size()); i.hasPrevious();)
           {
-            Object value = i.next();
-            int index = values.getChildren().indexOf(value);
-            values.getChildren().move(Math.min(index + 1, maxIndex++), value);
+            Object value = i.previous();
+            int index = children.indexOf(value);
+            children.move(Math.min(index + 1, maxIndex--), value);
           }
         }
       });
@@ -483,23 +501,26 @@ public class FeatureEditorDialog extends Dialog
             for (Iterator<?> i = selection.iterator(); i.hasNext();)
             {
               Object value = i.next();
-              if (!unique || !values.getChildren().contains(value))
+              if (!unique || !children.contains(value))
               {
-                values.getChildren().add(value);
+                children.add(value);
               }
             }
+            featureTableViewer.refresh();
             featureTableViewer.setSelection(selection);
+            choiceTableViewer.refresh();
           }
           else if (choiceText != null)
           {
             try
             {
               Object value = EcoreUtil.createFromString((EDataType)eClassifier, choiceText.getText());
-              if (!unique || !values.getChildren().contains(value))
+              if (!unique || !children.contains(value))
               {
-                values.getChildren().add(value);
+                children.add(value);
                 choiceText.setText("");
               }
+              featureTableViewer.refresh();
               featureTableViewer.setSelection(new StructuredSelection(value));
             }
             catch (RuntimeException exception)
@@ -526,16 +547,17 @@ public class FeatureEditorDialog extends Dialog
             {
               firstValue = value;
             }
-            values.getChildren().remove(value);
+            children.remove(value);
           }
 
-          if (!values.getChildren().isEmpty())
+          if (!children.isEmpty())
           {
-            featureTableViewer.setSelection(new StructuredSelection(values.getChildren().get(0)));
+            featureTableViewer.setSelection(new StructuredSelection(children.get(0)));
           }
 
           if (choiceTableViewer != null)
           {
+            choiceTableViewer.refresh();
             choiceTableViewer.setSelection(selection);
           }
           else if (choiceText != null)
