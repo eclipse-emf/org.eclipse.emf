@@ -1669,7 +1669,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
                 @Override
                 public ListIterator<EClass> listIterator(int index)
                 {
-                  return basicListIterator();
+                  return basicListIterator(index);
                 }
 
                 @Override
