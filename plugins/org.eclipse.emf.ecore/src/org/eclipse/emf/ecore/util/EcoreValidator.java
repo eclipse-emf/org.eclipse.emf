@@ -999,14 +999,19 @@ public class EcoreValidator extends EObjectValidator
                     {
                       result = false;
   
+                      EModelElement target = getTarget(otherEOperation);
                       diagnostics.add
                         (createDiagnostic
                           (Diagnostic.ERROR,
                            DIAGNOSTIC_SOURCE,
                            messageCode,
                            messageKey,
-                           new Object[] { getObjectLabel(getTarget(otherEOperation), context), getObjectLabel(eOperation, context) },
-                           new Object[] { eClass, getTarget(otherEOperation), eOperation, EcorePackage.Literals.ECLASS__EALL_OPERATIONS },
+                           messageCode == DISJOINT_FEATURE_AND_OPERATION_SIGNATURES ? 
+                             new Object[] { getObjectLabel(eOperation, context), getObjectLabel(target, context) } :
+                             new Object[] { getObjectLabel(target, context), getObjectLabel(eOperation, context) },
+                           messageCode == DISJOINT_FEATURE_AND_OPERATION_SIGNATURES ? 
+                             new Object[] { eClass, eOperation, target, EcorePackage.Literals.ECLASS__EALL_OPERATIONS } :
+                             new Object[] { eClass, target, eOperation, EcorePackage.Literals.ECLASS__EALL_OPERATIONS },
                            context));
                     }
                   }
