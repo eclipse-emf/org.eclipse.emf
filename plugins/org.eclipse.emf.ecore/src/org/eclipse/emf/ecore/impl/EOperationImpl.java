@@ -187,7 +187,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation, EOp
                 @Override
                 public ListIterator<EClassifier> listIterator(int index)
                 {
-                  return basicListIterator();
+                  return basicListIterator(index);
                 }
 
                 @Override
