@@ -186,13 +186,14 @@ public class ContentHandlerImpl implements ContentHandler
   }
 
   /**
-   * 
    * Returns the line delimiter of the input stream interpreted using the specified character set.
+   * It is the caller's responsibility to close the input stream.
    * @since 2.9
    */
   public static String getLineDelimiter(InputStream inputStream, String charset) throws IOException
   {
-    Reader reader = new InputStreamReader(inputStream, charset);
+    @SuppressWarnings("resource")
+    Reader reader = charset == null ? new InputStreamReader(inputStream) : new InputStreamReader(inputStream, charset);
     char [] text = new char [4048];
     char target = 0;
     for (int count = reader.read(text); count > -1; count = reader.read(text))
