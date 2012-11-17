@@ -489,4 +489,15 @@
          <selection class="org.eclipse.core.resources.IResource"/>
       </wizard>
    </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            class="org.eclipse.emf.ecore.presentation.EcoreEditor"
+            contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor$Reflective"
+            extensions="xcore"
+            icon="icons/full/obj16/ReflectiveXcoreModelFile.gif"
+            id="org.eclipse.emf.ecore.presentation.ReflectiveEditorID"
+            name="%_UI_ReflectiveEcoreEditor_label">
+      </editor>
+   </extension>
 </plugin>

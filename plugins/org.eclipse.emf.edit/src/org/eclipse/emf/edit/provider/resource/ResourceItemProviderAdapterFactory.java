@@ -156,7 +156,10 @@ public class ResourceItemProviderAdapterFactory
   @Override
   public Adapter adapt(Notifier notifier, Object type)
   {
-    return super.adapt(notifier, this);
+    synchronized (notifier)
+    {
+      return super.adapt(notifier, this);
+    }
   }
 
   /**

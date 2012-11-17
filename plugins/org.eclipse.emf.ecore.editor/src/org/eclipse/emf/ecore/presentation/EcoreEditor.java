@@ -527,14 +527,7 @@ public class EcoreEditor
                     {
                       if ((delta.getFlags() & IResourceDelta.MARKERS) != 0)
                       {
-                        getSite().getShell().getDisplay().asyncExec
-                          (new Runnable()
-                           {
-                             public void run()
-                             {
-                               DiagnosticDecorator.DiagnosticAdapter.update(resource, markerHelper.getMarkerDiagnostics(resource, (IFile)delta.getResource()));
-                             }
-                           });
+                        DiagnosticDecorator.DiagnosticAdapter.update(resource, markerHelper.getMarkerDiagnostics(resource, (IFile)delta.getResource()));
                       }
                       if ((delta.getFlags() & IResourceDelta.CONTENT) != 0)
                       {

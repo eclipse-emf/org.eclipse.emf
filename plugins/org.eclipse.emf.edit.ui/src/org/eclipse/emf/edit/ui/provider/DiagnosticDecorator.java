@@ -186,10 +186,16 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
 
     protected abstract void updateDiagnostic(Diagnostic diagnostic);
 
+    /**
+     * This will typically compute a diagnostic for the resource and call {@link #updateDiagnostic(Diagnostic)}.
+     */
+    protected abstract void handleResourceDiagnostics(List<Resource> resources);
+
     @Override
     public void notifyChanged(Notification notification)
     {
-      if (notification.getNotifier() instanceof Resource)
+      Object notifier = notification.getNotifier();
+      if (notifier instanceof Resource)
       {
         switch (notification.getFeatureID(Resource.class))
         {
@@ -197,35 +203,29 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
           case Resource.RESOURCE__ERRORS:
           case Resource.RESOURCE__WARNINGS:
           {
-            final Resource resource = (Resource)notification.getNotifier();
-            Display.getDefault().asyncExec
-              (new Runnable()
-               {
-                 public void run()
-                 {
-                   handleResourceDiagnostics(resource);
-                 }
-               });
+            Resource resource = (Resource)notifier;
+            handleResourceDiagnostics(Collections.singletonList(resource));
             break;
           }
         }
       }
       else
       {
-        super.notifyChanged(notification);
+        // Be careful because we're adding the adapter on a background thread.
+        //
+        synchronized (notifier)
+        {
+          super.notifyChanged(notification);
+        }
       }
     }
-
-    protected abstract void handleResourceDiagnostics(Resource resource);
 
     @Override
     protected void setTarget(ResourceSet target)
     {
       super.setTarget(target);
-      for (Resource resource : target.getResources())
-      {
-        handleResourceDiagnostics(resource);
-      }
+
+      handleResourceDiagnostics(target.getResources());
     }
 
     @Override
@@ -307,19 +307,19 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
              if (!(mostRecentCommand instanceof AbstractCommand.NonDirtying))
              {
                scheduledResources.addAll(editingDomain.getResourceSet().getResources());
-               schedule();
+               scheduleValidation();
              }
            }
          });
     }
 
-    public void schedule(Resource resource)
+    public void scheduleValidation(Resource resource)
     {
       scheduledResources.add(resource);
-      schedule();
+      scheduleValidation();
     }
 
-    public void schedule()
+    public void scheduleValidation()
     {
       if (validationJob == null)
       {
@@ -364,16 +364,60 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
                   }
                 };
 
-              List<Resource> resources = Arrays.asList(scheduledResources.toArray(new Resource[0]));
+              final ResourceSet resourceSet = editingDomain.getResourceSet();
+
+              List<Resource> resources = new ArrayList<Resource>(Arrays.asList(scheduledResources.toArray(new Resource[0])));
               scheduledResources.removeAll(resources);
 
+              // Count all the objects we need to validate and resolve proxies.
+              //
               int count = 0;
-              for (Iterator<?> i = EcoreUtil.getAllContents(resources); i.hasNext(); i.next())
+              for (Resource resource : resources)
               {
-                ++count;
+                synchronized (resource)
+                {
+                  synchronized (resourceSet)
+                  {
+                    for (Iterator<EObject> i = resource.getAllContents(); i.hasNext(); )
+                    {
+                      ++count;
+                      EObject eObject = i.next();
+                      for (@SuppressWarnings("unused") EObject eCrossReference : eObject.eCrossReferences())
+                      {
+                        // Just resolve proxies.
+                      }
+                    }
+                  }
+                }
               }
 
-              final ResourceSet resourceSet = editingDomain.getResourceSet();
+              // Also count all the objects we need to validate from resources loaded because of proxy resolution.
+              //
+              for (List<Resource> moreResources = Arrays.asList(scheduledResources.toArray(new Resource[0]));
+                   !moreResources.isEmpty();
+                   moreResources = Arrays.asList(scheduledResources.toArray(new Resource[0])))
+              {
+                resources.addAll(moreResources);
+                scheduledResources.removeAll(moreResources);
+                for (Resource resource : moreResources)
+                {
+                  synchronized (resource)
+                  {
+                    synchronized (resourceSet)
+                    {
+                      for (Iterator<EObject> i = resource.getAllContents(); i.hasNext(); )
+                      {
+                        ++count;
+                        EObject eObject = i.next();
+                        for (@SuppressWarnings("unused") EObject eCrossReference : eObject.eCrossReferences())
+                        {
+                          // Just resolve proxies.
+                        }
+                      }
+                    }
+                  }
+                }
+              }
 
               monitor.beginTask("", count);
               final BasicDiagnostic diagnostic =
@@ -395,9 +439,15 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
                      EMFEditUIPlugin.INSTANCE.getString("_UI_DiagnosisOfNObjects_message", new String[] { "1" }),
                      new Object [] { resource } );
 
-                for (EObject eObject : resource.getContents())
+                synchronized (resource)
                 {
-                  diagnostician.validate(eObject, resourceDiagnostic, context);
+                  synchronized (resourceSet)
+                  {
+                    for (EObject eObject : resource.getContents())
+                    {
+                      diagnostician.validate(eObject, resourceDiagnostic, context);
+                    }
+                  }
                 }
 
                 for (Resource.Diagnostic warning : resource.getWarnings())
@@ -420,16 +470,17 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
                 monitor.worked(1);
               }
 
+              DiagnosticAdapter.update(resourceSet, diagnostic);
+
               Display.getDefault().asyncExec
                 (new Runnable()
                  {
                    public void run()
                    {
-                     DiagnosticAdapter.update(resourceSet, diagnostic);
                      validationJob = null;
                      if (!scheduledResources.isEmpty())
                      {
-                       LiveValidator.this.schedule();
+                       LiveValidator.this.scheduleValidation();
                      }
                    }
                  });
@@ -437,7 +488,8 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
               return Status.OK_STATUS;
             }
           };
-        validationJob.schedule();
+        validationJob.setPriority(Job.DECORATE);
+        validationJob.schedule(2000);
       }
     }
 
@@ -464,18 +516,162 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
     }
   }
 
-  private class DiagnosticDecoratorAdapter extends DiagnosticAdapter
+  public class DiagnosticDecoratorAdapter extends DiagnosticAdapter
   {
-    @Override
-    public void updateDiagnostic(Diagnostic diagnostic)
+    protected class Dispatcher implements Runnable
     {
-      handleDiagnostic(diagnostic);
+      protected Display display = Display.getDefault();
+
+      protected List<Diagnostic> diagnostics;
+
+      protected int expectedSize;
+
+      public void dispatch(Diagnostic diagnostic)
+      {
+        List<Diagnostic> currentDiagnostics = null;
+        synchronized (this)
+        {
+          if (diagnostics == null)
+          {
+            diagnostics = new ArrayList<Diagnostic>();
+          }
+
+          // Merge in the new diagnostics with the ones we have cached for dispatching.
+          //
+          updateDiagnotics(diagnostics, diagnostic);
+
+          // If we didn't delay dispatching, then prepare to dispatch this to the decorator.
+          //
+          if (!dispatch())
+          {
+            currentDiagnostics = diagnostics;
+            diagnostics = null;
+          }
+        }
+
+        // If we have are dispatching the diagnostics immediately...
+        //
+        if (currentDiagnostics != null)
+        {
+          dispatch(currentDiagnostics);
+        }
+      }
+
+      /**
+       * Returns <code>true</code> when a delayed dispatch has been scheduled.
+       */
+      protected boolean dispatch()
+      {
+        // If we're not in the display thread...
+        //
+        if (Display.getCurrent() != display)
+        {
+          // Set up the expected size and do a delayed asynchronous call.
+          //
+          expectedSize = diagnostics.size();
+          display.asyncExec
+            (new Runnable()
+             {
+               public void run()
+               {
+                 display.timerExec(1000, Dispatcher.this);
+               }
+             });
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+
+      /**
+       * Dispatches the diagnostics to the decorator.
+       */
+      protected void dispatch(List<Diagnostic> diagnostics)
+      {
+        BasicDiagnostic resourceSetDiagnostic =
+          new BasicDiagnostic
+            (EObjectValidator.DIAGNOSTIC_SOURCE,
+             0,
+             EMFEditUIPlugin.INSTANCE.getString("_UI_DiagnosisOfNObjects_message", new String[] { "" + diagnostics.size() }),
+             new Object [] { resourceSet } );
+        for (Diagnostic diagnostic : diagnostics)
+        {
+          resourceSetDiagnostic.add(diagnostic);
+        }
+        handleDiagnostic(resourceSetDiagnostic);
+      }
+
+      public void run()
+      {
+        List<Diagnostic> currentDiagnostics;
+        synchronized (this)
+        {
+          // If the diagnostics have already been dispatched, don't do anything else.
+          //
+          if (diagnostics == null)
+          {
+            return;
+          }
+
+          // If we've added more diagnostics since we started a delayed dispatch, delay a little longer.
+          //
+          if (diagnostics.size() != expectedSize)
+          {
+            expectedSize = diagnostics.size();
+            display.asyncExec
+              (new Runnable()
+               {
+                 public void run()
+                 {
+                   display.timerExec(1000, Dispatcher.this);
+                 }
+               });
+            return;
+          }
+          currentDiagnostics = diagnostics;
+          diagnostics = null;
+        }
+
+        // Dispatch the diagnostics immediately.
+        //
+        dispatch(currentDiagnostics);
+      }
+    }
+
+    protected  Dispatcher dispatcher;
+
+    protected Dispatcher getDispatcher()
+    {
+      if (dispatcher == null)
+      {
+        dispatcher = new Dispatcher();
+      }
+      return dispatcher;
     }
 
     @Override
-    protected void handleResourceDiagnostics(Resource resource)
+    public void updateDiagnostic(Diagnostic diagnostic)
     {
-      handleDiagnostic(markerHelper.getMarkerDiagnostics(resource, null));
+      getDispatcher().dispatch(diagnostic);
+    }
+
+    @Override
+    protected void handleResourceDiagnostics(List<Resource> resources)
+    {
+      final BasicDiagnostic diagnostic =
+        new BasicDiagnostic
+          (EObjectValidator.DIAGNOSTIC_SOURCE,
+           0,
+           EMFEditUIPlugin.INSTANCE.getString("_UI_DiagnosisOfNObjects_message", new String[] { "" + resources.size() }),
+           new Object [] { resourceSet } );
+      for (Resource resource : resources)
+      {
+        diagnostic.add(markerHelper.getMarkerDiagnostics(resource, null));
+        getLiveValidator().scheduleValidation(resource);
+      }
+      updateDiagnostic(diagnostic);
     }
   }
 
@@ -491,7 +687,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
   protected MarkerHelper markerHelper = new EditUIMarkerHelper();
   protected Object input;
   protected IContentProvider contentProvider;
-  protected Set<Diagnostic> diagnostics = new HashSet<Diagnostic>();
+  protected List<Diagnostic> diagnostics = new ArrayList<Diagnostic>();
   protected boolean isDecorating = true;
 
   /**
@@ -646,14 +842,14 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
     return decorations;
   }
 
-  protected void updateDiagnotics(Diagnostic diagnostic)
+  protected void updateDiagnotics(List<Diagnostic> diagnostics, Diagnostic diagnostic)
   {
     String markerSource = markerHelper.getDiagnosticSource();
     String source = diagnostic.getSource();
     if (markerSource.equals(source))
     {
       // Diagnostics produced from markers are expected to have a root diagnostic with the resource as the data,
-      // so we clean up old diagnostics that the same source and for that resource.
+      // so we clean up old diagnostics that have the same source and for that resource.
       //
       for (Iterator<Diagnostic> i = diagnostics.iterator(); i.hasNext(); )
       {
@@ -664,14 +860,6 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
         }
       }
       diagnostics.add(diagnostic);
-
-      // Schedule live validation of the resource to produce more detailed information than what was recorded in the marker.
-      //
-      LiveValidator liveValidator = getLiveValidator();
-      if (liveValidator != null)
-      {
-        liveValidator.schedule((Resource)diagnostic.getData().get(0));
-      }
     }
     else
     {
@@ -682,12 +870,12 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
       {
         for (Diagnostic child : diagnostic.getChildren())
         {
-          updateDiagnotics(child);
+          updateDiagnotics(diagnostics, child);
         }
       }
       else
       {
-        // Generally ehse will be per resource diagnostics.
+        // Generally these will be per resource diagnostics.
         // We clean up old diagnostics with a marker source or the same source and with the same data.
         //
         for (Iterator<Diagnostic> i = diagnostics.iterator(); i.hasNext(); )
@@ -708,7 +896,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
   {
     // Update the decorative diagnostics.
     //
-    updateDiagnotics(rootDiagnostic);
+    updateDiagnotics(diagnostics, rootDiagnostic);
 
     // Redecorate with the current diagnostics.
     //

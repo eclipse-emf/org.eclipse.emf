@@ -657,14 +657,7 @@ public class <%=genPackage.getEditorClassName()%>
 										{
 											if ((delta.getFlags() & IResourceDelta.MARKERS) != 0)
 											{
-												getSite().getShell().getDisplay().asyncExec
-													(new Runnable()
-													 {
-														 public void run()
-														 {
-															 <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>.DiagnosticAdapter.update(resource, markerHelper.getMarkerDiagnostics(resource, (IFile)delta.getResource()));
-														 }
-													 });
+												<%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>.DiagnosticAdapter.update(resource, markerHelper.getMarkerDiagnostics(resource, (IFile)delta.getResource()));
 											}
 											if ((delta.getFlags() & IResourceDelta.CONTENT) != 0)
 											{

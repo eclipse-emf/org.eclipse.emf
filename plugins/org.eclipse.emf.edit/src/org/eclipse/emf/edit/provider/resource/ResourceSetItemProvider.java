@@ -22,7 +22,6 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.EMFEditPlugin;
@@ -75,26 +74,10 @@ public class ResourceSetItemProvider
   public Collection<?> getChildren(Object object)
   {
     ResourceSet resourceSet = (ResourceSet)object;
-    return resourceSet.getResources();
-  }
-
-  /**
-   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-   * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand(Object, EditingDomain, Class, org.eclipse.emf.edit.command.CommandParameter) createCommand}.
-   */
-  @Override
-  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
-  {
-    if (childrenFeatures == null)
+    synchronized (resourceSet)
     {
-      super.getChildrenFeatures(object);
-/*
-      ResourceSet resourceSet = (ResourceSet)object;
-      childrenFeatures.add(ResourcePackage.eINSTANCE.getResourceSet_Resources());
-*/
+      return new ArrayList<Resource>(resourceSet.getResources());
     }
-    return childrenFeatures;
   }
 
   /**

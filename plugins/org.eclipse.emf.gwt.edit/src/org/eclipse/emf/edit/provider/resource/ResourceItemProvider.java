@@ -23,7 +23,6 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -298,44 +297,30 @@ public class ResourceItemProvider
   @Override
   public Collection<?> getChildren(Object object)
   {
-    // Don't include controlled children here, they'll show up under their container.
-    //
-    Resource.Internal resource = (Resource.Internal)object;
-    if (resource.isLoading())
+    synchronized (object)
     {
-      // TODO
-      return Collections.singleton("Loading...");
-    }
-    else
-    {
-      List<EObject> contents = resource.getContents();
-      Collection<Object> result = new ArrayList<Object>(contents.size());
-      for (Object o : contents)
+      // Don't include controlled children here, they'll show up under their container.
+      //
+      Resource.Internal resource = (Resource.Internal)object;
+      if (resource.isLoading())
       {
-        if (!AdapterFactoryEditingDomain.isControlled(o))
-        {
-          result.add(o);
-        }
+        // TODO
+        return Collections.singleton("Loading...");
       }
-      return result;
+      else
+      {
+        List<EObject> contents = resource.getContents();
+        Collection<Object> result = new ArrayList<Object>(contents.size());
+        for (Object o : contents)
+        {
+          if (!AdapterFactoryEditingDomain.isControlled(o))
+          {
+            result.add(o);
+          }
+        }
+        return result;
+      }
     }
-  }
-
-  /**
-   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-   * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand(Object, EditingDomain, Class, org.eclipse.emf.edit.command.CommandParameter) createCommand}.
-   */
-  @Override
-  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
-  {
-    if (childrenFeatures == null)
-    {
-      super.getChildrenFeatures(object);
-      // Resource resource = (Resource)object;
-      // childrenFeatures.add(ResourcePackage.eINSTANCE.getResource_Contents());
-    }
-    return childrenFeatures;
   }
 
   /**
