@@ -41,6 +41,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EClassifierImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreValidator;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xcore.XAnnotation;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XAttribute;
@@ -70,6 +71,7 @@ import org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess;
 import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.ILeafNode;
+import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.xbase.XBlockExpression;
 
@@ -257,58 +259,104 @@ public class XcoreEcoreBuilder
         }
       }
     }
+    handleAnnotations(xModelElement, eModelElement, true);
     runnables.add
       (new Runnable()
        {
          public void run()
          {
-           EList<EAnnotation> eAnnotations = eModelElement.getEAnnotations();
-           for (XAnnotation xAnnotation : xModelElement.getAnnotations())
-           {
-             //      map(eAnnotation, xAnnotation);
-             String sourceURI = null;
-             XAnnotationDirective source = xAnnotation.getSource();
-             if (source != null)
-             {
-               sourceURI = source.getSourceURI();
-             }
-             EClass eClass = EcorePackage.eNS_URI.equals(sourceURI) ? eModelElement.eClass() : null;
-
-             EMap<String, String> details = xAnnotation.getDetails();
-             if (details.isEmpty())
-             {
-               EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-               eAnnotation.setSource(sourceURI);
-               eAnnotations.add(eAnnotation);
-             }
-             else
-             {
-               for (Map.Entry<String, String> detail : details)
-               {
-                 String key = detail.getKey();
-                 String value = detail.getValue();
-                 if (eClass != null)
-                 {
-                   EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(key);
-                   if (eStructuralFeature instanceof EAttribute)
-                   {
-                     // Be more careful about exceptions.
-                     // TODO
-                     //
-                     eModelElement.eSet(eStructuralFeature, value);
-                     continue;
-                   }
-                 }
-                 if (EcoreUtil.getAnnotation(eModelElement, sourceURI, key) == null)
-                 {
-                   EcoreUtil.setAnnotation(eModelElement, sourceURI, key, value);
-                 }
-               }
-             }
-           }
+           handleAnnotations(xModelElement, eModelElement, false);
          }
        });
-     }
+  }
+
+  protected void handleAnnotations(final XModelElement xModelElement, final EModelElement eModelElement, boolean preIndexing)
+  {
+    EList<EAnnotation> eAnnotations = eModelElement.getEAnnotations();
+    for (XAnnotation xAnnotation : xModelElement.getAnnotations())
+    {
+      //      map(eAnnotation, xAnnotation);
+      String sourceURI = null;
+
+      if (preIndexing)
+      {
+        List<INode> nodes = NodeModelUtils.findNodesForFeature(xAnnotation, XcorePackage.Literals.XANNOTATION__SOURCE);
+        StringBuilder annotationLiteral = new StringBuilder();
+        for (INode node : nodes)
+        {
+          annotationLiteral.append(NodeModelUtils.getTokenText(node));
+        }
+        int index = annotationLiteral.lastIndexOf(" ");
+        if (index != -1)
+        {
+          annotationLiteral.delete(0, index + 1);
+        }
+        index = annotationLiteral.lastIndexOf(".");
+        if (index != -1)
+        {
+          annotationLiteral.delete(0, index + 1);
+        }
+        String simpleAnnotationName = annotationLiteral.toString();
+        if ("GenModel".equals(simpleAnnotationName))
+        {
+          sourceURI = GenModelPackage.eNS_URI;
+        }
+        else if ("Ecore".equals(simpleAnnotationName))
+        {
+          sourceURI = EcorePackage.eNS_URI;
+        }
+        else if ("ExtendedMetaData".equals(simpleAnnotationName))
+        {
+          sourceURI = ExtendedMetaData.ANNOTATION_URI;
+        }
+      }
+      else
+      {
+        XAnnotationDirective source = xAnnotation.getSource();
+        if (source != null)
+        {
+          sourceURI = source.getSourceURI();
+        }
+      }
+
+      if (sourceURI != null)
+      {
+        EClass eClass = EcorePackage.eNS_URI.equals(sourceURI) ? eModelElement.eClass() : null;
+   
+        EMap<String, String> details = xAnnotation.getDetails();
+        if (details.isEmpty())
+        {
+          EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+          eAnnotation.setSource(sourceURI);
+          eAnnotations.add(eAnnotation);
+        }
+        else
+        {
+          for (Map.Entry<String, String> detail : details)
+          {
+            String key = detail.getKey();
+            String value = detail.getValue();
+            if (eClass != null)
+            {
+              EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(key);
+              if (eStructuralFeature instanceof EAttribute)
+              {
+                // Be more careful about exceptions.
+                // TODO
+                //
+                eModelElement.eSet(eStructuralFeature, value);
+                continue;
+              }
+            }
+            if (EcoreUtil.getAnnotation(eModelElement, sourceURI, key) == null)
+            {
+              EcoreUtil.setAnnotation(eModelElement, sourceURI, key, value);
+            }
+          }
+        }
+      }
+    }
+  }
 
   EClassifier getEClassifier(final XClassifier xClassifier)
   {

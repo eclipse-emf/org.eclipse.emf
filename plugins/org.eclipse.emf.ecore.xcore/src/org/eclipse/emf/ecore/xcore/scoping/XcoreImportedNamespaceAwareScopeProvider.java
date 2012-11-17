@@ -625,62 +625,69 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
         final int index = i;
         final QualifiedName actualQualifiedName = QualifiedName.create("xcore", "lang",name);
         final QualifiedName qualifiedName = QualifiedName.create(name);
-        AbstractEObjectDescription eObjectDescription =
-          new AbstractEObjectDescription()
+        class AnnotationDescription extends AbstractEObjectDescription
+        {
+          protected QualifiedName name;
+          
+          public AnnotationDescription(QualifiedName name)
           {
-            public QualifiedName getQualifiedName()
-            {
-              return qualifiedName;
-            }
+            this.name = name;
+          }
 
-            public QualifiedName getName()
-            {
-              return qualifiedName;
-            }
+          public QualifiedName getQualifiedName()
+          {
+            return actualQualifiedName;
+          }
 
-            public URI getEObjectURI()
-            {
-              IEObjectDescription element = getElement();
-              return element == null ? getSyntheticEObjectURI() : element.getEObjectURI();
-            }
+          public QualifiedName getName()
+          {
+            return name;
+          }
 
-            public EObject getEObjectOrProxy()
-            {
-              IEObjectDescription element = getElement();
-              if (element == null)
-              {
-                InternalEObject xAnnotationDirective = (InternalEObject)XcoreFactory.eINSTANCE.createXAnnotationDirective();
-                xAnnotationDirective.eSetProxyURI(getSyntheticEObjectURI());
-                return xAnnotationDirective;
-              }
-              else
-              {
-                return element.getEObjectOrProxy();
-              }
-            }
+          public URI getEObjectURI()
+          {
+            IEObjectDescription element = getElement();
+            return element == null ? getSyntheticEObjectURI() : element.getEObjectURI();
+          }
 
-            public EClass getEClass()
+          public EObject getEObjectOrProxy()
+          {
+            IEObjectDescription element = getElement();
+            if (element == null)
             {
-              return XcorePackage.Literals.XANNOTATION_DIRECTIVE;
+              InternalEObject xAnnotationDirective = (InternalEObject)XcoreFactory.eINSTANCE.createXAnnotationDirective();
+              xAnnotationDirective.eSetProxyURI(getSyntheticEObjectURI());
+              return xAnnotationDirective;
             }
+            else
+            {
+              return element.getEObjectOrProxy();
+            }
+          }
 
-            protected URI getSyntheticEObjectURI()
-            {
-              // TODO
-              return LOGICAL_XCORE_LANG_URI.appendFragment("/0/@annotationDirectives." + index/2);
-            }
+          public EClass getEClass()
+          {
+            return XcorePackage.Literals.XANNOTATION_DIRECTIVE;
+          }
 
-            protected IEObjectDescription getElement()
+          protected URI getSyntheticEObjectURI()
+          {
+            // TODO
+            return LOGICAL_XCORE_LANG_URI.appendFragment("/0/@annotationDirectives." + index/2);
+          }
+
+          protected IEObjectDescription getElement()
+          {
+            IEObjectDescription element = getParent().getSingleElement(actualQualifiedName);
+            if (element == null)
             {
-              IEObjectDescription element = getParent().getSingleElement(actualQualifiedName);
-              if (element == null)
-              {
-                getXcoreLangResource(resourceSet);
-              }
-              return element;
+              getXcoreLangResource(resourceSet);
             }
-          };
-        result.add(eObjectDescription);
+            return element;
+          }
+        }
+        result.add(new AnnotationDescription(qualifiedName));
+        result.add(new AnnotationDescription(actualQualifiedName));
       }
       return result;
     }

@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelBuilder;
+import org.eclipse.emf.ecore.xcore.util.XcoreGenModelInitializer;
 import org.eclipse.emf.ecore.xcore.util.XcoreJvmInferrer;
 import org.eclipse.xtext.common.types.JvmIdentifiableElement;
 import org.eclipse.xtext.common.types.TypesPackage;
@@ -66,6 +67,9 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
   @Inject
   private IReferableElementsUnloader unloader;
 
+  @Inject
+  private XcoreGenModelInitializer genModelInitializer;
+
   public void installDerivedState(DerivedStateAwareResource resource, boolean preLinkingPhase)
   {
     if (resource.getParseResult() != null && resource.getParseResult().getRootASTElement() instanceof XPackage)
@@ -76,6 +80,7 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
       resource.getContents().add(ePackage);
       GenModel genModel = genModelBuilder.getGenModel(model);
       genModel.setCanGenerate(true);
+      genModelInitializer.initialize(genModel, true);
       if (!preLinkingPhase)
       {
         xcoreEcoreBuilder.link();

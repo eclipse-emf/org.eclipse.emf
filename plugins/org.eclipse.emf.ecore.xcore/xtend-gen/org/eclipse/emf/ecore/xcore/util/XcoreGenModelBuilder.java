@@ -53,15 +53,11 @@ import org.eclipse.emf.ecore.xcore.mappings.XPackageMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XParameterMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XTypeParameterMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
-import org.eclipse.emf.ecore.xcore.util.XcoreGenModelInitializer;
 
 @SuppressWarnings("all")
 public class XcoreGenModelBuilder {
   @Inject
   private XcoreMapper mapper;
-  
-  @Inject
-  private XcoreGenModelInitializer genModelInitializer;
   
   public GenModel getGenModel(final XPackage pack) {
     XPackageMapping _mapping = this.mapper.getMapping(pack);
@@ -220,7 +216,6 @@ public class XcoreGenModelBuilder {
   }
   
   public void initializeUsedGenPackages(final GenModel genModel) {
-    this.genModelInitializer.initialize(genModel, true);
     HashSet<EPackage> _hashSet = new HashSet<EPackage>();
     final HashSet<EPackage> referencedEPackages = _hashSet;
     UniqueEList<EPackage> _uniqueEList = new UniqueEList<EPackage>();
