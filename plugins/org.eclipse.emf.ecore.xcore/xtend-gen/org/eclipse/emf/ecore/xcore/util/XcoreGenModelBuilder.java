@@ -333,7 +333,9 @@ public class XcoreGenModelBuilder {
               if (_and_1) {
                 EList<EObject> _contents_1 = resource.getContents();
                 EObject _get = _contents_1.get(0);
-                GenPackage _findGenPackage_1 = ((GenModel) _get).findGenPackage(referencedEPackage);
+                final GenModel usedGenModel = ((GenModel) _get);
+                usedGenModel.reconcile();
+                GenPackage _findGenPackage_1 = usedGenModel.findGenPackage(referencedEPackage);
                 usedGenPackage = _findGenPackage_1;
                 boolean _notEquals_1 = (!Objects.equal(usedGenPackage, null));
                 if (_notEquals_1) {

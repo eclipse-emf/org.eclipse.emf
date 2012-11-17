@@ -206,7 +206,9 @@ class XcoreGenModelBuilder
             val resource = resources.get(i)
             if ("genmodel".equals(resource.URI.fileExtension) && !resource.getContents().isEmpty())
             {
-              usedGenPackage = (resource.contents.get(0) as GenModel).findGenPackage(referencedEPackage)
+              val GenModel usedGenModel = resource.contents.get(0) as GenModel
+              usedGenModel.reconcile
+              usedGenPackage = usedGenModel.findGenPackage(referencedEPackage)
               if (usedGenPackage != null)
               {
                  genModel.usedGenPackages.add(usedGenPackage)
