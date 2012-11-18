@@ -11,6 +11,7 @@ package org.eclipse.emf.ecore.xcore.ui;
 import org.eclipse.emf.ecore.xcore.interpreter.IClassLoaderProvider;
 import org.eclipse.emf.ecore.xcore.ui.builder.XcoreBuildParticipant;
 import org.eclipse.emf.ecore.xcore.ui.builder.XcoreFileSystemAccess;
+import org.eclipse.emf.ecore.xcore.ui.builder.XcoreWorkingCopyOwnerProvider;
 import org.eclipse.emf.ecore.xcore.ui.container.XcoreJavaProjectsState;
 import org.eclipse.emf.ecore.xcore.ui.contentassist.ImportingTypesProposalProvider;
 import org.eclipse.emf.ecore.xcore.ui.contentassist.XcoreVariableCompletions;
@@ -28,6 +29,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.builder.EclipseResourceFileSystemAccess2;
 import org.eclipse.xtext.builder.IXtextBuilderParticipant;
 import org.eclipse.xtext.common.types.access.jdt.IJavaProjectProvider;
+import org.eclipse.xtext.common.types.access.jdt.IWorkingCopyOwnerProvider;
 import org.eclipse.xtext.common.types.ui.refactoring.JdtRenameRefactoringProcessorFactory;
 import org.eclipse.xtext.common.types.util.jdt.IJavaElementFinder;
 import org.eclipse.xtext.common.types.xtext.ui.ITypesProposalProvider;
@@ -166,5 +168,10 @@ public class XcoreUiModule extends AbstractXcoreUiModule
   public Class<? extends IEObjectHoverDocumentationProvider> bindIEObjectHoverDocumentationProvider()
   {
     return XcoreHoverDocumentationProvider.class;
+  }
+
+  public Class<? extends IWorkingCopyOwnerProvider> bindIWorkingCopyOwnerProvider()
+  {
+    return XcoreWorkingCopyOwnerProvider.class;
   }
 }
