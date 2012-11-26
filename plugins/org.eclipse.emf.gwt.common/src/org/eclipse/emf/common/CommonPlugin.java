@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2010 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,7 +14,7 @@ package org.eclipse.emf.common;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
 
-import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.shared.GWT;
 
 
 /**
