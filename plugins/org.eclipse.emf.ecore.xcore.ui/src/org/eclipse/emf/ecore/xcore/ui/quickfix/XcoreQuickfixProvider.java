@@ -8,14 +8,18 @@
 package org.eclipse.emf.ecore.xcore.ui.quickfix;
 
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xcore.XAttribute;
 import org.eclipse.emf.ecore.xcore.XGenericType;
 import org.eclipse.emf.ecore.xcore.formatting.XcoreImportOrganizer;
 import org.eclipse.emf.ecore.xcore.validation.XcoreIssueCodes;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.xtext.common.types.access.jdt.IJavaProjectProvider;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
@@ -23,6 +27,7 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.model.edit.IModification;
 import org.eclipse.xtext.ui.editor.model.edit.IModificationContext;
+import org.eclipse.xtext.ui.editor.model.edit.ISemanticModification;
 import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider;
 import org.eclipse.xtext.ui.editor.quickfix.Fix;
 import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor;
@@ -38,6 +43,12 @@ public class XcoreQuickfixProvider extends DefaultQuickfixProvider
 {
   @Inject
   protected Provider<XcoreImportOrganizer> xcoreImportOrganizerProvider;
+
+  @Inject
+  private IJavaProjectProvider projectProvider;
+
+  @Inject
+  XcoreClasspathUpdater classpathUpdater;
 
   @Fix(EcoreValidator.DIAGNOSTIC_SOURCE + '.' + EcoreValidator.CONSISTENT_TYPE_CLASS_NOT_PERMITTED)
   public void convertToReference(final Issue issue, final IssueResolutionAcceptor acceptor)
@@ -312,4 +323,42 @@ public class XcoreQuickfixProvider extends DefaultQuickfixProvider
        });
   }
 
+  @Fix(XcoreIssueCodes.XBASE_LIB_NOT_ON_CLASSPATH)
+  public void addXbaseLibToClasspath(final Issue issue, final IssueResolutionAcceptor acceptor)
+  {
+    acceptor.accept
+      (issue,
+       "Add Xbase library to classpath",
+       "Add 'org.eclipse.xtext.xbase.lib' to the project's classpath",
+       "full/obj16/correction_change.gif",
+       new ISemanticModification()
+       {
+         public void apply(EObject element, IModificationContext context) throws Exception
+         {
+           ResourceSet resourceSet = element.eResource().getResourceSet();
+           IJavaProject javaProject = projectProvider.getJavaProject(resourceSet);
+           classpathUpdater.addBundle(javaProject, "org.eclipse.xtext.xbase.lib", new NullProgressMonitor());
+         }
+       });
+
+  }
+
+  @Fix(XcoreIssueCodes.XCORE_LIB_NOT_ON_CLASSPATH)
+  public void addXcoreLibToClasspath(final Issue issue, final IssueResolutionAcceptor acceptor)
+  {
+    acceptor.accept
+      (issue,
+       "Add Xcore library to classpath",
+       "Add 'org.eclipse.emf.ecore.xcore.lib' to the project's classpath",
+       "full/obj16/correction_change.gif",
+       new ISemanticModification()
+       {
+         public void apply(EObject element, IModificationContext context) throws Exception
+         {
+           ResourceSet resourceSet = element.eResource().getResourceSet();
+           IJavaProject javaProject = projectProvider.getJavaProject(resourceSet);
+           classpathUpdater.addBundle(javaProject, "org.eclipse.emf.ecore.xcore.lib", new NullProgressMonitor());
+         }
+       });
+  }
 }

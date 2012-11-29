@@ -18,6 +18,9 @@ public final class XcoreIssueCodes
 
   public static final String CONTAINER_WITHOUT_OPPOSITE = ISSUE_CODE_PREFIX + "container_without_opposite";
 
+  public static final String XBASE_LIB_NOT_ON_CLASSPATH = ISSUE_CODE_PREFIX + "xbase_lib_not_on_classpath";
+  public static final String XCORE_LIB_NOT_ON_CLASSPATH = ISSUE_CODE_PREFIX + "xcore_lib_not_on_classpath";
+
   private XcoreIssueCodes()
   {
   }

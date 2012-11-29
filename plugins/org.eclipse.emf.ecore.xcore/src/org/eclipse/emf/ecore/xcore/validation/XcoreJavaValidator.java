@@ -11,6 +11,7 @@ package org.eclipse.emf.ecore.xcore.validation;
 import static com.google.common.collect.Maps.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,17 +24,25 @@ import org.eclipse.emf.ecore.xcore.XImportDirective;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XReference;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.emf.ecore.xcore.lib.XcoreIterableExtensions;
 import org.eclipse.emf.ecore.xcore.util.XcoreUtil;
 import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.common.types.TypesPackage;
+import org.eclipse.xtext.common.types.util.TypeReferences;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.validation.Check;
+import org.eclipse.xtext.xbase.XBlockExpression;
 import org.eclipse.xtext.xbase.XbasePackage;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xtype.XtypePackage;
+
+import com.google.inject.Inject;
 
 
 public class XcoreJavaValidator extends AbstractXcoreJavaValidator
 {
+  @Inject
+  TypeReferences typeReferences;
 
   @Override
   protected List<EPackage> getEPackages()
@@ -201,5 +210,35 @@ public class XcoreJavaValidator extends AbstractXcoreJavaValidator
     {
       error("The container reference " + xReference.getName() + " must specify an opposite", xReference, XcorePackage.Literals.XREFERENCE__OPPOSITE, XcoreIssueCodes.CONTAINER_WITHOUT_OPPOSITE);
     }
+  }
+
+  @Check
+  public void checkClasspath(XPackage xPackage)
+  {
+    for (Iterator<EObject> i = xPackage.eAllContents(); i.hasNext(); )
+    {
+      if (i.next() instanceof XBlockExpression)
+      {
+        if (typeReferences.findDeclaredType(Exceptions.class, xPackage) == null) 
+        {
+          error
+            ("The required library 'org.eclipse.xtext.xbase.lib' isn't on the classpath", 
+             xPackage, 
+             XcorePackage.Literals.XNAMED_ELEMENT__NAME, 
+             XcoreIssueCodes.XBASE_LIB_NOT_ON_CLASSPATH);
+        }
+        if (typeReferences.findDeclaredType(XcoreIterableExtensions.class, xPackage) == null)
+        {
+          error
+            ("The required library 'org.eclipse.emf.xcore.lib' isn't on the classpath", 
+             xPackage, 
+             XcorePackage.Literals.XNAMED_ELEMENT__NAME, 
+             XcoreIssueCodes.XCORE_LIB_NOT_ON_CLASSPATH);
+          
+        }
+        return;
+      }
+    }
+    
   }
 }
