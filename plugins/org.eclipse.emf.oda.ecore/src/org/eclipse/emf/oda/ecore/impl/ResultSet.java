@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2011 Kenn Hussey and others.
+ * Copyright (c) 2010-2012 Kenn Hussey and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -267,7 +267,7 @@ public abstract class ResultSet implements IResultSet
 
   public void setMaxRows(int max) throws OdaException
   {
-    if (maxRows < 0 || maxRows > results.size())
+    if (max < 0)
     {
       throw new OdaException(new IllegalArgumentException(String.valueOf(max)));
     }
