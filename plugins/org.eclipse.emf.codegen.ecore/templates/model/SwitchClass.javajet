@@ -168,7 +168,7 @@ public class <%=genPackage.getSwitchClassName()%><%=templateParameters%><%if (su
 		switch (classifierID)
 		{
 <%for (GenClass genClass : genPackage.getGenClasses()) {%>
-<%if (!genClass.isExternalInterface() && !genClass.isEObject() || genClass.isMapEntry()) { String result = "result".equals(genClass.getSafeUncapName()) ? "theResult" : "result"; %>
+<%if (!genClass.isEObject()) { String result = "result".equals(genClass.getSafeUncapName()) ? "theResult" : "result"; %>
 			case <%=genPackage.getImportedPackageInterfaceName()%>.<%=genPackage.getClassifierID(genClass)%>:
 			{
 				<%if (genClass.isUncheckedCast() || genClass.isMapEntry() && genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {%>@SuppressWarnings("unchecked") <%}%><%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%>)theEObject;

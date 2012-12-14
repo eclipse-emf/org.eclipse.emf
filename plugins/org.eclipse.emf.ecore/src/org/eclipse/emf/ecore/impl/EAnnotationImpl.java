@@ -197,7 +197,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
   public EModelElement getEModelElement()
   {
     if (eContainerFeatureID() != EcorePackage.EANNOTATION__EMODEL_ELEMENT) return null;
-    return (EModelElement)eContainer();
+    return (EModelElement)eInternalContainer();
   }
 
   /**

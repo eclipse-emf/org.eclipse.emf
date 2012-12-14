@@ -230,7 +230,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   public EClass getEContainingClass()
   {
     if (eContainerFeatureID() != EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS) return null;
-    return (EClass)eContainer();
+    return (EClass)eInternalContainer();
   }
 
   /**

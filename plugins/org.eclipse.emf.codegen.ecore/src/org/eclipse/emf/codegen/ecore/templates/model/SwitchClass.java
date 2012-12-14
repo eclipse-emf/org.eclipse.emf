@@ -200,7 +200,7 @@ if (genModel.useGenerics())
     stringBuffer.append(returnType);
     stringBuffer.append(TEXT_30);
     for (GenClass genClass : genPackage.getGenClasses()) {
-    if (!genClass.isExternalInterface() && !genClass.isEObject() || genClass.isMapEntry()) { String result = "result".equals(genClass.getSafeUncapName()) ? "theResult" : "result"; 
+    if (!genClass.isEObject()) { String result = "result".equals(genClass.getSafeUncapName()) ? "theResult" : "result"; 
     stringBuffer.append(TEXT_31);
     stringBuffer.append(genPackage.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_32);
