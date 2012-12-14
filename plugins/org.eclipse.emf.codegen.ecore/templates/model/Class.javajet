@@ -622,7 +622,11 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     <%if (genModel.isDynamicDelegation()) {%>
 		return <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType(genClass)%>)eDynamicGet(<%=genClass.getQualifiedFeatureID(genFeature)%>, <%=genFeature.getQualifiedFeatureAccessor()%>, true, <%=!genFeature.isEffectiveSuppressEMFTypes()%>)<%if (!isJDK50 && genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
     <%} else if (genModel.isReflectiveDelegation()) {%>
+      <%if (genFeature.hasGetterBody()) {%>
+		<%=genFeature.getGetterBody(genModel.getIndentation(stringBuffer))%>
+      <%} else {%>
 		return <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType(genClass)%>)eGet(<%=genFeature.getQualifiedFeatureAccessor()%>, true)<%if (!isJDK50 && genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
+      <%}%>
     <%} else if (genFeature.hasSettingDelegate()) {%>
 		return <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType(genClass)%>)<%=genFeature.getUpperName()%>__ESETTING_DELEGATE.dynamicGet(this, null, 0, true, false)<%if (!isJDK50 && genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
     <%} else if (!genFeature.isVolatile()) {%>
@@ -771,6 +775,8 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
       <%} else {%>
 		return (<%=genFeature.getImportedType(genClass)%>)get<%=delegateFeature.getAccessorName()%>().get(<%=genFeature.getQualifiedFeatureAccessor()%>, false);
       <%}%>
+    <%} else if (genFeature.hasGetterBody()) {%>
+		<%=genFeature.getGetterBody(genModel.getIndentation(stringBuffer))%>
     <%} else {%>
 <%@ include file="Class/basicGetGenFeature.TODO.override.javajetinc" fail="alternative" %>
 <%@ start %>
