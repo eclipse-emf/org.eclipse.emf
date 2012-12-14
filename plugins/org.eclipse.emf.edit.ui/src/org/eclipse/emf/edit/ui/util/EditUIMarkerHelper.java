@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 
 /**
@@ -258,6 +259,7 @@ public class EditUIMarkerHelper extends MarkerHelper
     if (object instanceof Resource)
     {
       Resource resource = (Resource)object;
+      EditingDomain editingDomain = AdapterFactoryEditingDomain.getEditingDomainFor(resource.getResourceSet());
       BasicDiagnostic diagnostic = new BasicDiagnostic(getDiagnosticSource(), 0, null, new Object[] { resource });
       if (file != null)
       {
@@ -268,26 +270,7 @@ public class EditUIMarkerHelper extends MarkerHelper
             String message = marker.getAttribute(IMarker.MESSAGE, "");
             int severity = marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
             String sourceID = marker.getAttribute(IMarker.SOURCE_ID, "");
-            String uri = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
-            if (uri == null)
-            {
-              uri = marker.getAttribute("URI_KEY", null);
-            }
-  
-            EObject eObject = null;
-            if (uri != null)
-            {
-              try
-              {
-                eObject = resource.getResourceSet().getEObject(URI.createURI(uri), false);
-              }
-              catch (Throwable throwable)
-              {
-                // Ignore if the URI is bad or we can't locate an EObject for some other reason.
-              }
-            }
-            Object[] data = new Object[] { eObject == null ? resource : eObject };
-  
+            List<?> data = getTargetObjects(editingDomain, marker);
             diagnostic.add
               (new BasicDiagnostic
                  (severity == IMarker.SEVERITY_ERROR ?
@@ -298,7 +281,7 @@ public class EditUIMarkerHelper extends MarkerHelper
                   sourceID,
                   0, 
                   message, 
-                  data));
+                  data.toArray(new Object[data.size()])));
           }
         }
         catch (CoreException exception)

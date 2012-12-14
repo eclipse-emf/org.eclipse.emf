@@ -85,6 +85,7 @@ import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
+import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 
 
@@ -602,6 +603,7 @@ public class EcoreActionBarContributor
   {
     super(ADDITIONS_LAST_STYLE);
     loadResourceAction = new ExtendedLoadResourceAction();
+    liveValidationAction = new DiagnosticDecorator.LiveValidator.LiveValidationAction(EcoreEditorPlugin.getPlugin().getDialogSettings());
     validateAction = new ValidateAction();
     controlAction = new ControlAction();
     

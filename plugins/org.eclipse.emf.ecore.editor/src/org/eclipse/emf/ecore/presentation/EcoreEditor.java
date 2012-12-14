@@ -1248,7 +1248,7 @@ public class EcoreEditor
       setCurrentViewer(selectionViewer);
 
       selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-      selectionViewer.setLabelProvider(new DecoratingColumLabelProvider(new AdapterFactoryLabelProvider(adapterFactory), new DiagnosticDecorator(editingDomain, selectionViewer)));
+      selectionViewer.setLabelProvider(new DecoratingColumLabelProvider(new AdapterFactoryLabelProvider(adapterFactory), new DiagnosticDecorator(editingDomain, selectionViewer, EcoreEditorPlugin.getPlugin().getDialogSettings())));
       selectionViewer.setInput(editingDomain.getResourceSet());
       selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
 
@@ -1417,7 +1417,7 @@ public class EcoreEditor
           // Set up the tree viewer.
           //
           contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-          contentOutlineViewer.setLabelProvider(new DecoratingColumLabelProvider(new AdapterFactoryLabelProvider(adapterFactory), new DiagnosticDecorator(editingDomain, contentOutlineViewer)));
+          contentOutlineViewer.setLabelProvider(new DecoratingColumLabelProvider(new AdapterFactoryLabelProvider(adapterFactory), new DiagnosticDecorator(editingDomain, contentOutlineViewer, EcoreEditorPlugin.getPlugin().getDialogSettings())));
           contentOutlineViewer.setInput(editingDomain.getResourceSet());
 
           new ColumnViewerInformationControlToolTipSupport(contentOutlineViewer, new DiagnosticDecorator.EditingDomainLocationListener(editingDomain, contentOutlineViewer));
@@ -1479,7 +1479,7 @@ public class EcoreEditor
     if (propertySheetPage == null)
     {
       propertySheetPage =
-        new ExtendedPropertySheetPage(editingDomain, ExtendedPropertySheetPage.Decoration.LIVE)
+        new ExtendedPropertySheetPage(editingDomain, ExtendedPropertySheetPage.Decoration.LIVE, EcoreEditorPlugin.getPlugin().getDialogSettings())
         {
           @Override
           public void setSelectionToViewer(List<?> selection)

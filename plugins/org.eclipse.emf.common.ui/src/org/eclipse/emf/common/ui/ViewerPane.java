@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.common.ui.viewer.IUndecoratingLabelProvider;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -554,9 +555,6 @@ public abstract class ViewerPane implements IPropertyListener, Listener
    */
   public void updateTitles() 
   {
-    // IViewPart view = getViewPart();
-    // titleLabel.setText(view.getTitle());
-    // titleLabel.setImage(view.getTitleImage());
     titleLabel.update();
   }
 
@@ -573,6 +571,11 @@ public abstract class ViewerPane implements IPropertyListener, Listener
           {
             titleLabel.setImage(null);
             titleLabel.setText("");
+          }
+          else if (labelProvider instanceof IUndecoratingLabelProvider)
+          {
+            titleLabel.setImage(((IUndecoratingLabelProvider)labelProvider).getUndecoratedImage(object));
+            titleLabel.setText(((IUndecoratingLabelProvider)labelProvider).getUndecoratedText(object));
           }
           else
           {

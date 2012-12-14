@@ -7,6 +7,7 @@
  */
 package org.eclipse.emf.edit.ui.provider;
 
+import org.eclipse.emf.common.ui.viewer.IUndecoratingLabelProvider;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.IColorProvider;
@@ -23,7 +24,7 @@ import org.eclipse.swt.graphics.Point;
  *
  * @since 2.9
  */
-public class DecoratingColumLabelProvider extends ColumnLabelProvider
+public class DecoratingColumLabelProvider extends ColumnLabelProvider implements IUndecoratingLabelProvider
 {
   protected ILabelProvider labelProvider;
   protected IFontProvider fontProvider;
@@ -78,6 +79,16 @@ public class DecoratingColumLabelProvider extends ColumnLabelProvider
   public String getText(Object element)
   {
     return labelDecorator.decorateText(labelProvider.getText(element), element);
+  }
+
+  public Image getUndecoratedImage(Object element)
+  {
+    return labelProvider.getImage(element);
+  }
+
+  public String getUndecoratedText(Object element)
+  {
+    return labelProvider.getText(element);
   }
 
   @Override

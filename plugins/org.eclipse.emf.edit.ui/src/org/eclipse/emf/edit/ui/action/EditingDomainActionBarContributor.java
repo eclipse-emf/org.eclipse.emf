@@ -12,6 +12,7 @@ package org.eclipse.emf.edit.ui.action;
 
 
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -105,6 +106,12 @@ public class EditingDomainActionBarContributor
    * This is the action used to perform validation.
    */
   protected ValidateAction validateAction;
+
+  /**
+   * This is the action used to perform validation.
+   * @since 2.9
+   */
+  protected DiagnosticDecorator.LiveValidator.LiveValidationAction liveValidationAction;
 
   /**
    * This style bit indicates that the "additions" separator should come after the "edit" separator.
@@ -345,6 +352,11 @@ public class EditingDomainActionBarContributor
       validateAction.setActiveWorkbenchPart(null);
     }
 
+    if (liveValidationAction != null)
+    {
+      liveValidationAction.setActiveWorkbenchPart(null);
+    }
+
     ISelectionProvider selectionProvider = 
       activeEditor instanceof ISelectionProvider ?
         (ISelectionProvider)activeEditor :
@@ -393,6 +405,11 @@ public class EditingDomainActionBarContributor
     if (validateAction != null)
     {
       validateAction.setActiveWorkbenchPart(activeEditor);
+    }
+
+    if (liveValidationAction != null)
+    {
+      liveValidationAction.setActiveWorkbenchPart(activeEditor);
     }
 
     ISelectionProvider selectionProvider = 
@@ -457,6 +474,11 @@ public class EditingDomainActionBarContributor
     {
       loadResourceAction.update();
     }
+
+    if (liveValidationAction != null)
+    {
+      liveValidationAction.update();
+    }
   }
 
   /**
@@ -505,6 +527,11 @@ public class EditingDomainActionBarContributor
     if (validateAction != null)
     {
       menuManager.insertBefore(key, new ActionContributionItem(validateAction));
+    }
+
+    if (liveValidationAction != null)
+    {
+      menuManager.insertBefore(key, new ActionContributionItem(liveValidationAction));
     }
 
     if (controlAction != null)

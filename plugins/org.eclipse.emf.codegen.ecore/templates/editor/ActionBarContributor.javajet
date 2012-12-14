@@ -227,6 +227,9 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 		super(ADDITIONS_LAST_STYLE);
 		loadResourceAction = new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.LoadResourceAction")%>();
 		validateAction = new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.ValidateAction")%>();
+<%if (genModel.getDecoration() == GenDecoration.LIVE) {%>
+		liveValidationAction = new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>.LiveValidator.LiveValidationAction(<%=genPackage.getImportedEditorPluginClassName()%>.getPlugin().getDialogSettings());
+<%}%>
 		controlAction = new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.ControlAction")%>();
 	}
 

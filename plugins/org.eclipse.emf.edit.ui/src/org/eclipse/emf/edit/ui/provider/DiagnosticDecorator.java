@@ -35,9 +35,11 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.ui.ImageURIRegistry;
 import org.eclipse.emf.common.ui.MarkerHelper;
 import org.eclipse.emf.common.ui.viewer.ColumnViewerInformationControlToolTipSupport;
+import org.eclipse.emf.common.ui.viewer.IUndecoratingLabelProvider;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
@@ -51,17 +53,21 @@ import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.ComposedImage;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelDecorator;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
@@ -70,6 +76,7 @@ import org.eclipse.swt.browser.LocationEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * A {@link ILabelDecorator label decorator} for associating {@link Diagnostic diagnostic} decorations with a {@link StructuredViewer structured viewer}'s content labels.
@@ -284,17 +291,98 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
 
   public static class LiveValidator
   {
+    public static class LiveValidationAction extends Action
+    {
+      public static final String LIVE_VALIDATOR_DIALOG_SETTINGS_KEY = "liveValidator";
+
+      protected EditingDomain domain;
+      protected IDialogSettings dialogSettings;
+
+      public LiveValidationAction(EditingDomain domain, IDialogSettings dialogSettings)
+      {
+        this(dialogSettings);
+        this.domain = domain;
+        update();
+      }
+
+      public LiveValidationAction(IDialogSettings dialogSettings)
+      {
+        super(EMFEditUIPlugin.INSTANCE.getString("_UI_LiveValidation_menu_item"));
+        setDescription(EMFEditUIPlugin.INSTANCE.getString("_UI_LiveValidation_simple_description"));
+        this.dialogSettings = dialogSettings;
+      }
+
+      public EditingDomain getEditingDomain()
+      {
+        return domain;
+      }
+
+      public void setEditingDomain(EditingDomain domain)
+      {
+        this.domain = domain;
+      }
+
+      @Override
+      public void run()
+      {
+        boolean checked = isChecked();
+        if (dialogSettings != null)
+        {
+          dialogSettings.put(LIVE_VALIDATOR_DIALOG_SETTINGS_KEY, checked);
+        }
+        update();
+        LiveValidator liveValidator = LIVE_VALIDATORS.get(domain);
+        if (liveValidator != null)
+        {
+          ResourceSet resourceSet = domain.getResourceSet();
+          EList<Resource> resources = resourceSet.getResources();
+          if (checked)
+          {
+            liveValidator.scheduledResources.addAll(resources);
+            liveValidator.scheduleValidation();
+          }
+          else
+          {
+            for (Adapter adapter : resourceSet.eAdapters())
+            {
+              if (adapter instanceof DiagnosticDecoratorAdapter)
+              {
+                DiagnosticDecoratorAdapter diagnosticDecoratorAdapter = (DiagnosticDecoratorAdapter)adapter;
+                diagnosticDecoratorAdapter.refreshResourceDiagnostics(resources);
+              }
+            }
+          }
+        }
+      }
+
+      public void update()
+      {
+        setEnabled(domain != null);
+        if (dialogSettings != null)
+        {
+          setChecked(dialogSettings.getBoolean(LIVE_VALIDATOR_DIALOG_SETTINGS_KEY));
+        }
+      }
+
+      public void setActiveWorkbenchPart(IWorkbenchPart workbenchPart)
+      {
+        setEditingDomain(workbenchPart instanceof IEditingDomainProvider ? ((IEditingDomainProvider)workbenchPart).getEditingDomain() : null);
+      }
+    }
+
     private final List<DiagnosticDecorator> diagnosticDecorators = new ArrayList<DiagnosticDecorator>();
 
     protected EditingDomain editingDomain;
+    protected IDialogSettings dialogSettings;
     protected AdapterFactory adapterFactory;
     protected ILabelProvider labelProvider;
     protected Job validationJob;
     protected List<Resource> scheduledResources = Collections.synchronizedList(new UniqueEList<Resource>());
 
-    public LiveValidator(final EditingDomain editingDomain)
+    public LiveValidator(final EditingDomain editingDomain, IDialogSettings dialogSettings)
     {
       this.editingDomain = editingDomain;
+      this.dialogSettings = dialogSettings;
       adapterFactory = editingDomain instanceof AdapterFactoryEditingDomain ? ((AdapterFactoryEditingDomain)editingDomain).getAdapterFactory() : null;
       labelProvider = adapterFactory == null ? null : new AdapterFactoryLabelProvider(adapterFactory);
 
@@ -321,7 +409,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
 
     public void scheduleValidation()
     {
-      if (validationJob == null)
+      if (validationJob == null && (dialogSettings == null || dialogSettings.getBoolean(LiveValidationAction.LIVE_VALIDATOR_DIALOG_SETTINGS_KEY)))
       {
         validationJob =
           new Job("Validation Job")
@@ -489,7 +577,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
             }
           };
         validationJob.setPriority(Job.DECORATE);
-        validationJob.schedule(2000);
+        validationJob.schedule(500);
       }
     }
 
@@ -666,11 +754,32 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
            0,
            EMFEditUIPlugin.INSTANCE.getString("_UI_DiagnosisOfNObjects_message", new String[] { "" + resources.size() }),
            new Object [] { resourceSet } );
+      LiveValidator liveValidator = getLiveValidator();
+      if (liveValidator != null)
+      {
+        for (Resource resource : resources)
+        {
+          diagnostic.add(markerHelper.getMarkerDiagnostics(resource, null));
+          liveValidator.scheduleValidation(resource);
+        }
+      }
+      updateDiagnostic(diagnostic);
+    }
+
+    protected void refreshResourceDiagnostics(List<Resource> resources)
+    {
+      final BasicDiagnostic diagnostic =
+        new BasicDiagnostic
+          (EObjectValidator.DIAGNOSTIC_SOURCE,
+           0,
+           EMFEditUIPlugin.INSTANCE.getString("_UI_DiagnosisOfNObjects_message", new String[] { "" + resources.size() }),
+           new Object [] { resourceSet } );
       for (Resource resource : resources)
       {
         diagnostic.add(markerHelper.getMarkerDiagnostics(resource, null));
-        getLiveValidator().scheduleValidation(resource);
+        liveValidator.scheduleValidation(resource);
       }
+      diagnostics.clear();
       updateDiagnostic(diagnostic);
     }
   }
@@ -683,12 +792,12 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
   protected ResourceSet resourceSet;
   protected StructuredViewer viewer;
   protected ExtendedPropertySheetPage propertySheetPage;
+  protected IDialogSettings dialogSettings;
   protected Map<Object, BasicDiagnostic> decorations = new HashMap<Object, BasicDiagnostic>();
   protected MarkerHelper markerHelper = new EditUIMarkerHelper();
   protected Object input;
   protected IContentProvider contentProvider;
   protected List<Diagnostic> diagnostics = new ArrayList<Diagnostic>();
-  protected boolean isDecorating = true;
 
   /**
    * Creates an instance that doesn't support {@link LiveValidator live validation}.
@@ -711,9 +820,18 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
    */
   public DiagnosticDecorator(EditingDomain editingDomain, StructuredViewer viewer)
   {
+    this(editingDomain, viewer, null);
+  }
+
+  /**
+   * Creates an instance that supports {@link LiveValidator live validation} and supports {@link DiagnosticDecorator.LiveValidator.LiveValidationAction#LIVE_VALIDATOR_DIALOG_SETTINGS_KEY enablement} via {@link IDialogSettings dialog setting}.
+   */
+  public DiagnosticDecorator(EditingDomain editingDomain, StructuredViewer viewer, IDialogSettings dialogSettings)
+  {
     this.editingDomain = editingDomain;
-    this.viewer = viewer;
     this.resourceSet = editingDomain.getResourceSet();
+    this.viewer = viewer;
+    this.dialogSettings = dialogSettings;
 
     diagnosticAdapter = new DiagnosticDecoratorAdapter();
     resourceSet.eAdapters().add(diagnosticAdapter);
@@ -742,9 +860,18 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
    */
   public DiagnosticDecorator(EditingDomain editingDomain, ExtendedPropertySheetPage propertySheetPage)
   {
+    this(editingDomain, propertySheetPage, null);
+  }
+
+  /**
+   * Creates an instance that supports {@link LiveValidator live validation} and supports {@link DiagnosticDecorator.LiveValidator.LiveValidationAction#LIVE_VALIDATOR_DIALOG_SETTINGS_KEY enablement} via {@link IDialogSettings dialog setting}.
+   */
+  public DiagnosticDecorator(EditingDomain editingDomain, ExtendedPropertySheetPage propertySheetPage, IDialogSettings dialogSettings)
+  {
     this.editingDomain = editingDomain;
     this.resourceSet = editingDomain.getResourceSet();
     this.propertySheetPage = propertySheetPage;
+    this.dialogSettings = dialogSettings;
 
     diagnosticAdapter = new DiagnosticDecoratorAdapter();
     resourceSet.eAdapters().add(diagnosticAdapter);
@@ -759,7 +886,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
       liveValidator = LIVE_VALIDATORS.get(editingDomain);
       if (liveValidator == null)
       {
-        liveValidator = new LiveValidator(editingDomain);
+        liveValidator = new LiveValidator(editingDomain, dialogSettings);
         LIVE_VALIDATORS.put(editingDomain, liveValidator);
       }
       liveValidator.register(this);
@@ -774,15 +901,15 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
 
   public Image decorateImage(Image image, Object object)
   {
-    if (isDecorating)
+    Diagnostic diagnostic = getDecorations().get(object);
+    if (diagnostic != null && diagnostic.getSeverity() >= Diagnostic.WARNING)
     {
-      Diagnostic diagnostic = getDecorations().get(object);
-      if (diagnostic != null && diagnostic.getSeverity() >= Diagnostic.WARNING)
-      {
-        return decorate(image, diagnostic);
-      }
+      return decorate(image, diagnostic);
     }
-    return image;
+    else
+    {
+      return image;
+    }
   }
 
   public Image decorate(Image image, Diagnostic diagnostic)
@@ -940,17 +1067,20 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
         if (!decorations.isEmpty() || !oldDecorations.isEmpty())
         {
           final Control control = propertySheetPage.getControl();
-          control.getDisplay().asyncExec
-            (new Runnable()
-             {
-               public void run()
+          if (!control.isDisposed())
+          {
+            control.getDisplay().asyncExec
+              (new Runnable()
                {
-                 if (!control.isDisposed())
+                 public void run()
                  {
-                   propertySheetPage.refresh();
+                   if (!control.isDisposed())
+                   {
+                     propertySheetPage.refresh();
+                   }
                  }
-               }
-             });
+               });
+          }
         }
       }
       else
@@ -992,17 +1122,20 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
           else
           {
             final Control control = viewer.getControl();
-            control.getDisplay().asyncExec
-              (new Runnable()
-               {
-                 public void run()
+            if (!control.isDisposed())
+            {
+              control.getDisplay().asyncExec
+                (new Runnable()
                  {
-                   if (!control.isDisposed())
+                   public void run()
                    {
-                     viewer.update(objectsToRefresh.toArray(), null);
+                     if (!control.isDisposed())
+                     {
+                       viewer.update(objectsToRefresh.toArray(), null);
+                     }
                    }
-                 }
-               });
+                 });
+            }
           }
         }
       }
@@ -1085,10 +1218,45 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
     if (diagnostic != null)
     {
       ILabelProvider labelProvider = (ILabelProvider)viewer.getLabelProvider();
+      if (labelProvider instanceof IUndecoratingLabelProvider)
+      {
+        final IUndecoratingLabelProvider undecoratingLabelProvider = (IUndecoratingLabelProvider)labelProvider;
+        labelProvider = 
+          new ILabelProvider()
+          {
+            public void removeListener(ILabelProviderListener listener)
+            {
+              undecoratingLabelProvider.removeListener(listener);
+            }
+
+            public boolean isLabelProperty(Object element, String property)
+            {
+              return undecoratingLabelProvider.isLabelProperty(element, property);
+            }
+
+            public void dispose()
+            {
+              undecoratingLabelProvider.dispose();
+            }
+
+            public void addListener(ILabelProviderListener listener)
+            {
+              undecoratingLabelProvider.addListener(listener);
+            }
+
+            public String getText(Object element)
+            {
+              return undecoratingLabelProvider.getUndecoratedText(element);
+            }
+
+            public Image getImage(Object element)
+            {
+              return undecoratingLabelProvider.getUndecoratedImage(element);
+            }
+          };
+      }
       StringBuilder result = new StringBuilder();
-      isDecorating = false;
       buildToolTipText(result, labelProvider, diagnostic, object);
-      isDecorating = true;
       return result.length() == 0 ? null : result.toString();
     }
     else

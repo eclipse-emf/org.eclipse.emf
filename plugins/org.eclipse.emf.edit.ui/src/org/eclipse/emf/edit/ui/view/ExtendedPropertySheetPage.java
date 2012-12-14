@@ -30,6 +30,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.graphics.Image;
@@ -63,6 +64,11 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
    * @since 2.9
    */
   protected DiagnosticDecorator diagnosticDecorator;
+
+  /**
+   * @since 2.9
+   */
+  protected IDialogSettings dialogSettings;
 
   /**
    * @since 2.9
@@ -109,7 +115,16 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
    */
   public ExtendedPropertySheetPage(AdapterFactoryEditingDomain editingDomain, Decoration decoration)
   {
+    this(editingDomain, decoration, null);
+  }
+
+  /**
+   * @since 2.9
+   */
+  public ExtendedPropertySheetPage(AdapterFactoryEditingDomain editingDomain, Decoration decoration, IDialogSettings dialogSettings)
+  {
     this(editingDomain);
+    this.dialogSettings = dialogSettings;
     diagnosticDecorator =  createDiagnosticDecorator(decoration);
   }
 
@@ -126,7 +141,7 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
       }
       case LIVE:
       {
-        return new DiagnosticDecorator(editingDomain, this);
+        return new DiagnosticDecorator(editingDomain, this, dialogSettings);
       }
       default:
       {
