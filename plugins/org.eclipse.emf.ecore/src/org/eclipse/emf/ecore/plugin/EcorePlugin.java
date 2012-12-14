@@ -418,7 +418,7 @@ public class EcorePlugin  extends EMFPlugin
               InputStream inputStream = null;
               try
               {
-                inputStream = manifest.getContents(); 
+                inputStream = manifest.getContents(true); 
                 int available = inputStream.available();
                 if (bytes.length < available)
                 {
@@ -458,7 +458,7 @@ public class EcorePlugin  extends EMFPlugin
               {
                 try
                 {
-                  parser.parse(new InputSource(plugin.getContents()), handler);
+                  parser.parse(new InputSource(plugin.getContents(true)), handler);
                 }
                 catch (Exception exception)
                 {
