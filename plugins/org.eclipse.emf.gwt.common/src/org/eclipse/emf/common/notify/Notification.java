@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2010 IBM Corporation and others.
+ * Copyright (c) 2002-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -145,7 +145,10 @@ public interface Notification
 
   /**
    * Returns the value of the notifier's feature after the change occurred.
-   * For a list-based feature, this represents a value, or a list of values, added to the list.
+   * For a list-based feature, this represents a value, or a list of values, added to the list,
+   * an array of <code>int</code> containing the original index of each value in the list of values removed from the list (except for the case of a clear),
+   * the value moved within the list,
+   * or null otherwise.
    * @return the new value of the notifier's feature.
    */
   Object getNewValue();
