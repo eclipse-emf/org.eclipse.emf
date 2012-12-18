@@ -538,11 +538,11 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
       }
     }
 
-    private static final URI ECORE_XCORE_URI = URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.xcore");
+    private static final URI ECORE_XCORE_URI = URI.createURI("platform:/resource/org.eclipse.emf.ecore/model/Ecore.xcore");
 
     private static final URI ECORE_GEN_MODEL_URI =
        EMFPlugin.IS_ECLIPSE_RUNNING ?
-         URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel") :
+         URI.createURI("platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel") :
          URI.createURI(EcorePlugin.INSTANCE.getBaseURL().toString() + "model/Ecore.genmodel");
 
 
@@ -593,7 +593,7 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
 
   protected static class XAnnotationDirectiveScope extends AbstractScope
   {
-    private static final URI LOGICAL_XCORE_LANG_URI = URI.createURI("platform:/plugin/org.eclipse.emf.ecore.xcore/model/XcoreLang.xcore");
+    private static final URI LOGICAL_XCORE_LANG_URI = URI.createURI("platform:/resource/org.eclipse.emf.ecore.xcore/model/XcoreLang.xcore");
 
     private static final URI PHYSICAL_XCORE_LANG_URI =
        EMFPlugin.IS_ECLIPSE_RUNNING ?

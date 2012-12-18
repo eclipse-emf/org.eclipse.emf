@@ -1202,7 +1202,7 @@ public class EcorePlugin  extends EMFPlugin
         {
           // If there is an underlying resource, use the platform resource URI referencing the project in the workspace as the location.
           //
-          location = URI.createPlatformResourceURI(underlyingResource.getFullPath().toString(), true);
+          location = URI.createPlatformResourceURI(underlyingResource.getProject().getFullPath().toString(), true);
         }
         else if (installLocation != null)
         {
