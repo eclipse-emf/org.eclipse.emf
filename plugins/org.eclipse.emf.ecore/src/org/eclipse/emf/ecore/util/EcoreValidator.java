@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2009 IBM Corporation and others.
+ * Copyright (c) 2006-2012 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -841,7 +840,7 @@ public class EcoreValidator extends EObjectValidator
           EList<EStructuralFeature> eAllStructuralFeatures = eSuperType.getEAllStructuralFeatures();
           for (Iterator<Map.Entry<String, List<EStructuralFeature>>> i = keys.entrySet().iterator(); i.hasNext(); )
           {
-            Entry<String, List<EStructuralFeature>> entry = i.next();
+            Map.Entry<String, List<EStructuralFeature>> entry = i.next();
             if (eAllStructuralFeatures.containsAll(entry.getValue()))
             {
               i.remove();
@@ -2305,48 +2304,6 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateEPackage_UniqueClassifierNames(EPackage ePackage, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    /*
-    boolean result = true;
-    List<String> names = new ArrayList<String>();
-    EList<EClassifier> eClassifiers = ePackage.getEClassifiers();
-    for (EClassifier eClassifier : eClassifiers)
-    {
-      String name = eClassifier.getName();
-      if (name != null)
-      {
-        String key = name.replace("_", "").toUpperCase();
-        int index = names.indexOf(key);
-        if (index != -1)
-        {
-          if (diagnostics == null)
-          {
-            return false;
-          }
-          else
-          {
-            result = false;
-            EClassifier otherEClassifier = eClassifiers.get(index);
-            String otherName = otherEClassifier.getName();
-            diagnostics.add
-              (createDiagnostic
-                (name.equals(otherName) ? Diagnostic.ERROR : Diagnostic.WARNING,
-                 DIAGNOSTIC_SOURCE,
-                 UNIQUE_CLASSIFIER_NAMES,
-                 name.equals(otherName) ? new Object[] { name } : new Object[] { name, otherName },
-                 new Object[] { ePackage, otherEClassifier, eClassifier, EcorePackage.Literals.EPACKAGE__ECLASSIFIERS },
-                 context));
-          }
-        }
-        names.add(key);
-      }
-      else
-      {
-        names.add(null);
-      }
-    }
-    return result;
-    */
-    
     boolean result = true;
     Map<String, List<EClassifier>> keys = new HashMap<String, List<EClassifier>>();
     for (EClassifier eClassifier : ePackage.getEClassifiers())
@@ -2821,6 +2778,7 @@ public class EcoreValidator extends EObjectValidator
     Object defaultValue = null;
     EDataType eDataType = null;
     boolean result = true;
+    boolean warning = false;
     if (defaultValueLiteral != null)
     {
       EClassifier eType = eStructuralFeature.getEType();
@@ -2831,9 +2789,36 @@ public class EcoreValidator extends EObjectValidator
         if (defaultValue == null)
         {
           // We need to be conservative and diagnose a problem only if we are quite sure that type is built-in 
-          // and hence that the lack of a default value really represents a problem with being unable to convert the literal to a value.
+          // and hence that the lack of a default value really represents a problem with being unable to convert the literal to a value dynamically,
+          // not just a problem that the specialized factory conversion logic hasn't been generated yet.
           // 
-          result = !isBuiltinEDataType(eDataType);
+          if (isBuiltinEDataType(eDataType))
+          {
+            result = false;
+          }
+          else
+          {
+            // If there is a conversion delegate then the lack of a default value really does indicate that there is a problem converting the literal to a value.
+            //
+            EDataType.Internal.ConversionDelegate conversionDelegate = ((EDataType.Internal)eDataType).getConversionDelegate();
+            if (conversionDelegate != null)
+            {
+              result = false;
+            }
+            else
+            {
+              // If the data type is an enum or derives from an enum 
+              // then it's unlikely there is ever specialized code for converting the value 
+              // so probably the literal is bad and we should at least produce a warning.
+              //
+              EEnum eEnum = getEEnum(eDataType);
+              if (eEnum != null)
+              {
+                result = false;
+                warning = true;
+              }
+            }
+          }
         }
         else
         {
@@ -2849,7 +2834,7 @@ public class EcoreValidator extends EObjectValidator
     {
       BasicDiagnostic diagnostic =
         createDiagnostic
-         (Diagnostic.ERROR,
+         (warning? Diagnostic.WARNING : Diagnostic.ERROR,
           DIAGNOSTIC_SOURCE,
           VALID_DEFAULT_VALUE_LITERAL,
           "_UI_EStructuralFeatureValidDefaultValueLiteral_diagnostic",
@@ -2865,6 +2850,22 @@ public class EcoreValidator extends EObjectValidator
     return result;
   }
   
+  private EEnum getEEnum(EDataType eDataType)
+  {
+    if (eDataType instanceof EEnum)
+    {
+      return (EEnum)eDataType;
+    }
+
+    EDataType baseType = ExtendedMetaData.INSTANCE.getBaseType(eDataType);
+    if (baseType != null)
+    {
+      return getEEnum(baseType);
+    }
+
+    return null;
+  }
+
   protected boolean isBuiltinEDataType(EDataType eDataType)
   {
     EPackage ePackage = eDataType.getEPackage();

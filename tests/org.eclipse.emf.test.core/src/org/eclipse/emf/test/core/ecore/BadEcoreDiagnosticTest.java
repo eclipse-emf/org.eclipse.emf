@@ -68,7 +68,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("org.eclipse.emf.ecore", diagnostic1.getSource());
     assertEquals("Diagnosis of org.eclipse.emf.ecore.impl.EPackageImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#/}", removeObjectHashCode(diagnostic1.getMessage()));
     assertEquals(0, diagnostic1.getCode());
-    assertEquals(112, diagnostic1.getChildren().size());
+    assertEquals(113, diagnostic1.getChildren().size());
     assertEquals(1, diagnostic1.getData().size());
     assertNull(diagnostic1.getException());
 
@@ -1189,13 +1189,22 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertNull(diagnostic125.getException());
 
     Diagnostic diagnostic126 = diagnosticIterator.next();
-    assertEquals(Diagnostic.ERROR, diagnostic126.getSeverity());
-    assertEquals("org.eclipse.emf.ecore", diagnostic126.getSource());
-    assertEquals("The feature 'eSubpackages' of 'org.eclipse.emf.ecore.impl.EPackageImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#/}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EPackageImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#/1}'", removeObjectHashCode(diagnostic126.getMessage()));
-    assertEquals(4, diagnostic126.getCode());
+    assertEquals(Diagnostic.WARNING, diagnostic126.getSeverity());
+    assertEquals("org.eclipse.emf.ecore.model", diagnostic126.getSource());
+    assertEquals("The default value literal '' must be a valid literal of the attribute's type", removeObjectHashCode(diagnostic126.getMessage()));
+    assertEquals(38, diagnostic126.getCode());
     assertEquals(0, diagnostic126.getChildren().size());
-    assertEquals(3, diagnostic126.getData().size());
+    assertEquals(2, diagnostic126.getData().size());
     assertNull(diagnostic126.getException());
+
+    Diagnostic diagnostic127 = diagnosticIterator.next();
+    assertEquals(Diagnostic.ERROR, diagnostic127.getSeverity());
+    assertEquals("org.eclipse.emf.ecore", diagnostic127.getSource());
+    assertEquals("The feature 'eSubpackages' of 'org.eclipse.emf.ecore.impl.EPackageImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#/}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EPackageImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#/1}'", removeObjectHashCode(diagnostic127.getMessage()));
+    assertEquals(4, diagnostic127.getCode());
+    assertEquals(0, diagnostic127.getChildren().size());
+    assertEquals(3, diagnostic127.getData().size());
+    assertNull(diagnostic127.getException());
     
     assertFalse(diagnosticIterator.hasNext());
   }

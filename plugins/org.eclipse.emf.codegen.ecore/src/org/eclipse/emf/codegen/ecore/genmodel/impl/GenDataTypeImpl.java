@@ -1105,33 +1105,39 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     if (eDataType instanceof EEnum)
     {
       GenEnum genEnum = findGenEnum((EEnum)eDataType);
-      return genEnum.getStaticValue(literal);
+      if (genEnum != null)
+      {
+        return genEnum.getStaticValue(literal);
+      }
     }
 
-    // If there is a base XML or Ecore type, use one of the two corresponding built-in factories to create a value from the literal string.
-    //
-    EDataType base = getBasicType();
-    if (base != null && !useFactoryFor(base))
+    if (((EDataType.Internal)eDataType).getConversionDelegate() == null)
     {
-      Object value = isPrimitiveType() ? base.getDefaultValue() : null;
-
-      if (literal != null)
-      {
-        try
-        {
-          value = EcoreUtil.createFromString(base, literal);
-        }
-        catch (Exception e)
-        {
-          return "";  // cause a syntax error
-        }
-      }
-
-      // Get the Java literal expression for the value.
+      // If there is a base XML or Ecore type, use one of the two corresponding built-in factories to create a value from the literal string.
       //
-      if (value == null) return "null";
-      Class<?> typeClass = getInstanceClass(base);
-      return Literals.toLiteral(value, typeClass != null && !typeClass.isPrimitive(), getGenModel());
+      EDataType base = getBasicType();
+      if (base != null && !useFactoryFor(base))
+      {
+        Object value = isPrimitiveType() ? base.getDefaultValue() : null;
+  
+        if (literal != null)
+        {
+          try
+          {
+            value = EcoreUtil.createFromString(base, literal);
+          }
+          catch (Exception e)
+          {
+            return "";  // cause a syntax error
+          }
+        }
+  
+        // Get the Java literal expression for the value.
+        //
+        if (value == null) return "null";
+        Class<?> typeClass = getInstanceClass(base);
+        return Literals.toLiteral(value, typeClass != null && !typeClass.isPrimitive(), getGenModel());
+      }
     }
 
     // Otherwise, produce an expression that uses the appropriate factory to create a value from the literal.

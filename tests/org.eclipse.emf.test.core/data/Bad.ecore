@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="bad"
-    nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore" nsPrefix="bad">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="bad" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore"
+    nsPrefix="bad">
   <eSubpackages name="annotation" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//annotation"
       nsPrefix="bad.annotation">
     <eAnnotations source="">
@@ -961,12 +960,18 @@
   </eSubpackages>
   <eSubpackages name="structuralFeatureDefaultValueLiteral" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//structuralFeatureDefaultValueLiteral"
       nsPrefix="bad.structural.feature.default.value.literal">
+    <eClassifiers xsi:type="ecore:EEnum" name="YesNo">
+      <eLiterals name="No" literal="NO"/>
+      <eLiterals name="Yes" literal="YES"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BadDefaultValueLiteral">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="badAttributeDefaultValueLiteral"
           eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//UnsignedByte"
           defaultValueLiteral="256"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="badReferenceDefaultValueLiteral"
           eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" defaultValueLiteral=""/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="badEnumDefaultValueLiteral"
+          eType="#//structuralFeatureDefaultValueLiteral/YesNo" defaultValueLiteral=""/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages href="#/1"/>
