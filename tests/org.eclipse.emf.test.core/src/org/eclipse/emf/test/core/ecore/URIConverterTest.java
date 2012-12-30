@@ -91,9 +91,9 @@ public class URIConverterTest extends TestCase
     assertEquals(contentsFromUncompressedFile, contents);
     new File(URI.createURI(uri.authority().replaceAll("!", "")).toFileString()).delete();
     
-    //Reads the data.zip file from our CVS repository using http
+    // Reads the data.zip file from our git repository using http
     //
-    uri = URI.createURI("archive:http://dev.eclipse.org/viewcvs/index.cgi/org.eclipse.emf/org.eclipse.emf/tests/org.eclipse.emf.test.core/%64ata/data.zip?root=Modeling_Project&view=co!/%66ile.txt");    
+    uri = URI.createURI("archive:http://git.eclipse.org/c/emf/org.eclipse.emf.git/plain/tests/org.eclipse.emf.test.core/data/data.zip!/%66ile.txt");    
     contents = readFile(uriConverter.createInputStream(uri)); 
     assertEquals(contentsFromUncompressedFile, contents);
   }
