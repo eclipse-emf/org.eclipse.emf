@@ -658,7 +658,38 @@ public class Generator extends CodeGen
       IProject project = null;
       try
       {
-        List<IClasspathEntry> classpathEntries = new UniqueEList<IClasspathEntry>();
+        List<IClasspathEntry> classpathEntries = 
+          new UniqueEList<IClasspathEntry>()
+          {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean contains(Object object)
+            {
+              if (super.contains(object))
+              {
+                return true;
+              }
+              else if (object instanceof IClasspathEntry)
+              {
+                IClasspathEntry classpathEntry = (IClasspathEntry)object;
+                if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_CONTAINER)
+                {
+                  IPath path = classpathEntry.getPath();
+                  for (int i = 0; i < size; ++i)
+                  {
+                    IClasspathEntry otherClasspathEntry = get(i);
+                    if (otherClasspathEntry.getEntryKind() == IClasspathEntry.CPE_CONTAINER &&
+                          path.equals(otherClasspathEntry.getPath()))
+                    {
+                      return true;
+                    }
+                  }
+                }
+              }
+              return false;
+            }
+          };
 
         progressMonitor.beginTask("", 10);
         progressMonitor.subTask
