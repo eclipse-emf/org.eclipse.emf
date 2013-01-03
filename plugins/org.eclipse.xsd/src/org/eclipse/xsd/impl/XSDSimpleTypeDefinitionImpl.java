@@ -700,7 +700,14 @@ public class XSDSimpleTypeDefinitionImpl
                 resolveSimpleTypeDefinition(theMemberTypeDefinition.getTargetNamespace(), theMemberTypeDefinition.getName());
               if ((forceResolve || newMemberTypeDefinition.getContainer() != null) && newMemberTypeDefinition != theMemberTypeDefinition)
               {
-                theMemberTypeDefinitions.set(newMemberTypeDefinition);
+                if (memberTypeDefinitions.contains(newMemberTypeDefinition))
+                {
+                  theMemberTypeDefinitions.remove();
+                }
+                else
+                {
+                  theMemberTypeDefinitions.set(newMemberTypeDefinition);
+                }
               }
             }
           }
