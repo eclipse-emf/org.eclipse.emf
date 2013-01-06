@@ -796,6 +796,16 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EOperation getEClass__GetFeatureType__EStructuralFeature()
+  {
+    return eClassEClass.getEOperations().get(9);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getEDataType()
   {
     return eDataTypeEClass;
@@ -1641,6 +1651,16 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EOperation getEGenericType__IsInstance__Object()
+  {
+    return eGenericTypeEClass.getEOperations().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getETypeParameter()
   {
     return eTypeParameterEClass;
@@ -2313,6 +2333,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     createEOperation(eClassEClass, ECLASS___GET_EOPERATION__INT);
     createEOperation(eClassEClass, ECLASS___GET_OPERATION_ID__EOPERATION);
     createEOperation(eClassEClass, ECLASS___GET_OVERRIDE__EOPERATION);
+    createEOperation(eClassEClass, ECLASS___GET_FEATURE_TYPE__ESTRUCTURALFEATURE);
 
     eClassifierEClass = createEClass(ECLASSIFIER);
     createEAttribute(eClassifierEClass, ECLASSIFIER__INSTANCE_CLASS_NAME);
@@ -2431,6 +2452,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     createEReference(eGenericTypeEClass, EGENERIC_TYPE__ELOWER_BOUND);
     createEReference(eGenericTypeEClass, EGENERIC_TYPE__ETYPE_PARAMETER);
     createEReference(eGenericTypeEClass, EGENERIC_TYPE__ECLASSIFIER);
+    createEOperation(eGenericTypeEClass, EGENERIC_TYPE___IS_INSTANCE__OBJECT);
 
     eTypeParameterEClass = createEClass(ETYPE_PARAMETER);
     createEReference(eTypeParameterEClass, ETYPE_PARAMETER__EBOUNDS);
@@ -2576,6 +2598,9 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
 
     op = initEOperation(getEClass__GetOverride__EOperation(), this.getEOperation(), "getOverride", 0, 1, IS_UNIQUE, IS_ORDERED);
     addEParameter(op, this.getEOperation(), "operation", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+    op = initEOperation(getEClass__GetFeatureType__EStructuralFeature(), this.getEGenericType(), "getFeatureType", 0, 1, IS_UNIQUE, IS_ORDERED);
+    addEParameter(op, this.getEStructuralFeature(), "feature", 0, 1, IS_UNIQUE, IS_ORDERED);
 
     initEClass(eClassifierEClass, EClassifier.class, "EClassifier", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getEClassifier_InstanceClassName(), this.getEString(), "instanceClassName", null, 0, 1, EClassifier.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2767,6 +2792,9 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initEReference(getEGenericType_ELowerBound(), this.getEGenericType(), null, "eLowerBound", null, 0, 1, EGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEGenericType_ETypeParameter(), this.getETypeParameter(), null, "eTypeParameter", null, 0, 1, EGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEGenericType_EClassifier(), this.getEClassifier(), null, "eClassifier", null, 0, 1, EGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    op = initEOperation(getEGenericType__IsInstance__Object(), this.getEBoolean(), "isInstance", 0, 1, IS_UNIQUE, IS_ORDERED);
+    addEParameter(op, this.getEJavaObject(), "object", 0, 1, IS_UNIQUE, IS_ORDERED);
 
     initEClass(eTypeParameterEClass, ETypeParameter.class, "ETypeParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getETypeParameter_EBounds(), this.getEGenericType(), null, "eBounds", null, 0, -1, ETypeParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

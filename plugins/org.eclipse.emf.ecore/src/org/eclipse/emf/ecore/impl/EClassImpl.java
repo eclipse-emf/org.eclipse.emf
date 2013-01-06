@@ -107,6 +107,11 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
   protected ESuperAdapter eSuperAdapter;
 
   /**
+   * @since 2.9
+   */
+  protected EGenericType[] eAllStructuralFeatureTypes;
+
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -901,7 +906,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
     return eAllStructuralFeatures;
   }
-  
+
   private static final EStructuralFeature[] NO_EALL_STRUCTURE_FEATURES_DATA = {};
 
   /**
@@ -1226,6 +1231,8 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
         return getOperationID((EOperation)arguments.get(0));
       case EcorePackage.ECLASS___GET_OVERRIDE__EOPERATION:
         return getOverride((EOperation)arguments.get(0));
+      case EcorePackage.ECLASS___GET_FEATURE_TYPE__ESTRUCTURALFEATURE:
+        return getFeatureType((EStructuralFeature)arguments.get(0));
     }
     return eDynamicInvoke(operationID, arguments);
   }
@@ -1477,6 +1484,37 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       }
     }
     return -1;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public EGenericType getFeatureType(EStructuralFeature feature)
+  {
+    int featureID = getFeatureID(feature);
+    if (featureID != -1)
+    {
+      if (eAllStructuralFeatureTypes == null)
+      {
+        EGenericType[] result = new EGenericType[eAllStructuralFeaturesData.length];
+        for (int i = 0; i < eAllStructuralFeaturesData.length; ++i)
+        {
+          EGenericType eGenericType = eAllStructuralFeaturesData[i].getEGenericType();
+          if (eGenericType != null)
+          {
+            result[i] = EcoreUtil.getReifiedType(this, eGenericType);
+          }
+        }
+        eAllStructuralFeatureTypes = result;
+      }
+      return eAllStructuralFeatureTypes[featureID];
+    }
+    else
+    {
+      return feature.getEGenericType();
+    }
   }
 
   /**

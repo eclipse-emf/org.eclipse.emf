@@ -1398,13 +1398,22 @@ public interface EcorePackage extends EPackage
   int ECLASS___GET_OVERRIDE__EOPERATION = ECLASSIFIER_OPERATION_COUNT + 8;
 
   /**
+   * The operation id for the '<em>Get Feature Type</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS___GET_FEATURE_TYPE__ESTRUCTURALFEATURE = ECLASSIFIER_OPERATION_COUNT + 9;
+
+  /**
    * The number of operations of the '<em>EClass</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ECLASS_OPERATION_COUNT = ECLASSIFIER_OPERATION_COUNT + 9;
+  int ECLASS_OPERATION_COUNT = ECLASSIFIER_OPERATION_COUNT + 10;
 
   /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -2795,13 +2804,22 @@ public interface EcorePackage extends EPackage
   int EGENERIC_TYPE_FEATURE_COUNT = 6;
 
   /**
+   * The operation id for the '<em>Is Instance</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EGENERIC_TYPE___IS_INSTANCE__OBJECT = 0;
+
+  /**
    * The number of operations of the '<em>EGeneric Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EGENERIC_TYPE_OPERATION_COUNT = 0;
+  int EGENERIC_TYPE_OPERATION_COUNT = 1;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.impl.ETypeParameterImpl <em>EType Parameter</em>}' class.
@@ -3564,6 +3582,16 @@ public interface EcorePackage extends EPackage
    * @generated
    */
   EOperation getEClass__GetOverride__EOperation();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EClass#getFeatureType(org.eclipse.emf.ecore.EStructuralFeature) <em>Get Feature Type</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get Feature Type</em>' operation.
+   * @see org.eclipse.emf.ecore.EClass#getFeatureType(org.eclipse.emf.ecore.EStructuralFeature)
+   * @generated
+   */
+  EOperation getEClass__GetFeatureType__EStructuralFeature();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.EDataType <em>EData Type</em>}'.
@@ -4680,6 +4708,16 @@ public interface EcorePackage extends EPackage
   EReference getEGenericType_EClassifier();
 
   /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EGenericType#isInstance(java.lang.Object) <em>Is Instance</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Is Instance</em>' operation.
+   * @see org.eclipse.emf.ecore.EGenericType#isInstance(java.lang.Object)
+   * @generated
+   */
+  EOperation getEGenericType__IsInstance__Object();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.ETypeParameter <em>EType Parameter</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -5381,6 +5419,14 @@ public interface EcorePackage extends EPackage
      * @generated
      */
     EOperation ECLASS___GET_OVERRIDE__EOPERATION = eINSTANCE.getEClass__GetOverride__EOperation();
+
+    /**
+     * The meta object literal for the '<em><b>Get Feature Type</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation ECLASS___GET_FEATURE_TYPE__ESTRUCTURALFEATURE = eINSTANCE.getEClass__GetFeatureType__EStructuralFeature();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EClassifierImpl <em>EClassifier</em>}' class.
@@ -6229,6 +6275,14 @@ public interface EcorePackage extends EPackage
      * @generated
      */
     EReference EGENERIC_TYPE__ECLASSIFIER = eINSTANCE.getEGenericType_EClassifier();
+
+    /**
+     * The meta object literal for the '<em><b>Is Instance</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EGENERIC_TYPE___IS_INSTANCE__OBJECT = eINSTANCE.getEGenericType__IsInstance__Object();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.ETypeParameterImpl <em>EType Parameter</em>}' class.

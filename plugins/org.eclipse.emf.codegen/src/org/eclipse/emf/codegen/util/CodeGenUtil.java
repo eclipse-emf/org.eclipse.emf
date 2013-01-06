@@ -1009,6 +1009,36 @@ public class CodeGenUtil
     return sb.length() == 0 ? "_": sb.toString();
   }
 
+  /**
+   * Return true if the string representing a type contains type arguments that specify anything other than unbounded wildcards.
+   * @since 2.9
+   */
+  public static boolean isUncheckedCast(String type)
+  {
+    int start = type.indexOf("<");
+    int end = type.lastIndexOf(">");
+    if (start != -1 && end != -1)
+    {
+      for (int i = start + 1; i < end; ++i)
+      {
+        switch (type.charAt(i))
+        {
+          case ' ':
+          case ',':
+          case '?':
+          {
+            continue;
+          }
+          default:
+          {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
   public static class EclipseUtil
   {
     /**

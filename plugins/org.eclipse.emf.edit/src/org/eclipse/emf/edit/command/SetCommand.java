@@ -24,7 +24,7 @@ import org.eclipse.emf.common.command.StrictCompoundCommand;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -510,17 +510,17 @@ public class SetCommand extends AbstractOverrideableCommand
 
       // Get the owner's meta object.
       //
-      EClass eMetaObject = owner.eClass();
+      EClass eClass = owner.eClass();
 
       // Is the feature an attribute of the owner...
       //
-      EList<EStructuralFeature> eAllStructuralFeatures = eMetaObject.getEAllStructuralFeatures();
+      EList<EStructuralFeature> eAllStructuralFeatures = eClass.getEAllStructuralFeatures();
       if (eAllStructuralFeatures.contains(feature) ||
-            feature != null && eAllStructuralFeatures.contains(ExtendedMetaData.INSTANCE.getAffiliation(eMetaObject, feature)))
+            feature != null && eAllStructuralFeatures.contains(ExtendedMetaData.INSTANCE.getAffiliation(eClass, feature)))
       {
         // If must be of this type then.
         //
-        EClassifier eType = feature.getEType();
+        EGenericType eType = eClass.getFeatureType(feature);
 
         if (ownerList != null)
         {

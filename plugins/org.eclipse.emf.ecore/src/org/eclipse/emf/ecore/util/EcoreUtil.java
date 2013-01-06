@@ -4180,6 +4180,150 @@ public class EcoreUtil
   }
 
   /**
+   * @since 2.9
+   */
+  public static EGenericType getReifiedType(EClass eClass, EGenericType eGenericType)
+  {
+    if (eGenericType == null)
+    {
+      return null;
+    }
+    else
+    {
+      Map<ETypeParameter, EGenericType> substitutions = new HashMap<ETypeParameter, EGenericType>();
+      for (EGenericType eGenericSuperType : eClass.getEAllGenericSuperTypes())
+      {
+        EClassifier eClassifier = eGenericSuperType.getEClassifier();
+        if (eClassifier != null)
+        {
+          EList<ETypeParameter> eTypeParameters = eClassifier.getETypeParameters();
+          int size = eTypeParameters.size();
+          if (size > 0)
+          {
+            EList<EGenericType> eTypeArguments = eGenericSuperType.getETypeArguments();
+            if (eTypeArguments.size() == size)
+            {
+              for (int i = 0; i < size; ++i)
+              {
+                substitutions.put(eTypeParameters.get(i), eTypeArguments.get(i));
+              }
+            }
+          }
+        }
+      }
+      if (substitutions.isEmpty() || !hasReifiedType(substitutions, eGenericType))
+      {
+        return eGenericType;
+      }
+      else
+      {
+        EGenericType reifiedType = getReifiedType(substitutions, eGenericType);
+
+        // Ensure that erasure produces the correct type of classifier by creating a container that forces it.
+        //
+        EObject eContainer = eGenericType.eContainer();
+        if (eContainer instanceof EClass || eContainer instanceof EReference)
+        {
+          EcoreFactory.eINSTANCE.createEReference().setEGenericType(reifiedType);
+        }
+        else if (eContainer instanceof EAttribute)
+        {
+          EcoreFactory.eINSTANCE.createEAttribute().setEGenericType(reifiedType);
+        }
+
+        return reifiedType;
+      }
+    }
+  }
+
+  private static boolean hasReifiedType(Map<ETypeParameter, EGenericType> substitutions, EGenericType eGenericType)
+  {
+    ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
+    if (eTypeParameter != null)
+    {
+      return substitutions.containsKey(eTypeParameter);
+    }
+    else
+    {
+      EList<EGenericType> eTypeArguments = eGenericType.getETypeArguments();
+      if (!eTypeArguments.isEmpty())
+      {
+        for (EGenericType eTypeArgument : eTypeArguments)
+        {
+          if (hasReifiedType(substitutions, eTypeArgument))
+          {
+            return true;
+          }
+        }
+        return false;
+      }
+      else
+      {
+        EGenericType eLowerBound = eGenericType.getELowerBound();
+        if (eLowerBound != null)
+        {
+          return hasReifiedType(substitutions, eLowerBound);
+        }
+        else
+        {
+          EGenericType eUpperBound = eGenericType.getEUpperBound();
+          return eUpperBound != null && hasReifiedType(substitutions, eUpperBound);
+        }
+      }
+    }
+  }
+
+  private static EGenericType getReifiedType(Map<ETypeParameter, EGenericType> substitutions, EGenericType eGenericType)
+  {
+    ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
+    if (eTypeParameter != null)
+    {
+      EGenericType substitution = substitutions.get(eTypeParameter);
+      if (substitution == null)
+      {
+        EGenericType result = EcoreFactory.eINSTANCE.createEGenericType();
+        result.setETypeParameter(eTypeParameter);
+        return result;
+      }
+      else
+      {
+        return getReifiedType(substitutions, substitution);
+      }
+    }
+    else
+    {
+      EGenericType result = EcoreFactory.eINSTANCE.createEGenericType();
+      EClassifier eClassifier = eGenericType.getEClassifier();
+      if (eClassifier != null)
+      {
+        result.setEClassifier(eClassifier);
+        EList<EGenericType> eTypeArguments = result.getETypeArguments();
+        for (EGenericType eTypeArgument : eGenericType.getETypeArguments())
+        {
+          eTypeArguments.add(getReifiedType(substitutions, eTypeArgument));
+        }
+      }
+      else
+      {
+        EGenericType eLowerBound = eGenericType.getELowerBound();
+        if (eLowerBound != null)
+        {
+          result.setELowerBound(getReifiedType(substitutions, eLowerBound));
+        }
+        else
+        {
+          EGenericType eUpperBound = eGenericType.getEUpperBound();
+          if (eUpperBound != null)
+          {
+            result.setEUpperBound(getReifiedType(substitutions, eUpperBound));
+          }
+        }
+      }
+      return result;
+    }
+  }
+
+  /**
    * @since 2.6
    */
   public static boolean isInvariant(EOperation eOperation)

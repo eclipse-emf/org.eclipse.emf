@@ -169,4 +169,14 @@ public interface EGenericType extends EObject
    */
   void setEClassifier(EClassifier value);
 
+  /**
+   * <!-- begin-user-doc -->
+   * Returns whether the object is an instance of this generic type.
+   * @since 2.9
+   * <!-- end-user-doc -->
+   * @model
+   * @generated
+   */
+  boolean isInstance(Object object);
+
 } // EGenericType

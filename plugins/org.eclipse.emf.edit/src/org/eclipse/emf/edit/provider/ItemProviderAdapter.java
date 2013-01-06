@@ -38,6 +38,9 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -783,7 +786,7 @@ public class ItemProviderAdapter
 
     // Build the collection of new child descriptors.
     //
-    Collection<Object> newChildDescriptors = new ArrayList<Object>();
+    ArrayList<Object> newChildDescriptors = new ArrayList<Object>();
     collectNewChildDescriptors(newChildDescriptors, object);
 
     // Add child descriptors contributed by extenders.
@@ -791,6 +794,40 @@ public class ItemProviderAdapter
     if (adapterFactory instanceof IChildCreationExtender)
     {
       newChildDescriptors.addAll(((IChildCreationExtender)adapterFactory).getNewChildDescriptors(object, editingDomain));
+    }
+
+    // Visit all the child descriptors...
+    //
+    EClass eClass = eObject.eClass();
+    for (int i = newChildDescriptors.size(); --i >= 0; )
+    {
+      Object descriptor = newChildDescriptors.get(i);
+      if (descriptor instanceof CommandParameter)
+      {
+        // Check that it's a command parameter and has a child value.
+        //
+        CommandParameter parameter = (CommandParameter)descriptor;
+        EStructuralFeature childFeature = parameter.getEStructuralFeature();
+        Object child = parameter.getValue();
+        if (childFeature != null && child != null)
+        {
+          // If that child is properly an instance of the feature's type...
+          //
+          EClassifier eType = childFeature.getEType();
+          if (eType.isInstance(child))
+          {
+            // Check that it's also properly an instance of the feature's reified type.
+            //
+            EGenericType reifiedType = eClass.getFeatureType(childFeature);
+            if (reifiedType != null && !reifiedType.isInstance(child))
+            {
+              // If not, remove it.
+              //
+              newChildDescriptors.remove(i);
+            }
+          }
+        }
+      }
     }
 
     // If a sibling has been specified, add the best index possible to each CommandParameter.

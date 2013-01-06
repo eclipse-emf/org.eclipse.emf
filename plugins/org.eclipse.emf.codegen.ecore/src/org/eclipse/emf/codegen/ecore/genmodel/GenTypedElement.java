@@ -171,6 +171,18 @@ public interface GenTypedElement extends GenBase
   String getRawListItemType(); 
 
   /**
+   * This returns the raw imported name of the feature type/wrapper class, or if a multi-valued feature, the type of the EList members.
+   * @since 2.9
+   */
+  String getRawListItemType(GenClass context); 
+  
+  /**
+   * This returns the imported name of the array type.
+   * @since 2.9
+   */
+  String getArrayItemType(GenClass context);
+
+  /**
    * This returns the imported name of the feature type/wrapper class, or if a multi-valued feature, the type of the EList members
    * @since 2.3
    */

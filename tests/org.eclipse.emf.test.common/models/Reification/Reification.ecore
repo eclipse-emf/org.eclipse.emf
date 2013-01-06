@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="reification" nsURI="http://www.eclipse.org/emf/test/common/Reification"
+    nsPrefix="reification">
+  <eClassifiers xsi:type="ecore:EClass" name="Root">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//Container"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unboundedGenericContainerWithRawType"
+        eType="#//UnboundedGenericContainer" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unboundedGenericContainerWithWildcard"
+        containment="true">
+      <eGenericType eClassifier="#//UnboundedGenericContainer">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unboundedGenericContainerWithSuper"
+        containment="true">
+      <eGenericType eClassifier="#//UnboundedGenericContainer">
+        <eTypeArguments>
+          <eLowerBound eClassifier="#//Medium"/>
+        </eTypeArguments>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unboundedGenericContainerWithExtends"
+        containment="true">
+      <eGenericType eClassifier="#//UnboundedGenericContainer">
+        <eTypeArguments>
+          <eUpperBound eClassifier="#//Medium"/>
+        </eTypeArguments>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boundedGenericContainerWithRawType"
+        eType="#//BoundedGenericContainer" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boundedGenericContainerWithWildcard"
+        containment="true">
+      <eGenericType eClassifier="#//BoundedGenericContainer">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boundedGenericContainerWithSuper"
+        containment="true">
+      <eGenericType eClassifier="#//BoundedGenericContainer">
+        <eTypeArguments>
+          <eLowerBound eClassifier="#//Medium"/>
+        </eTypeArguments>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boundedGenericContainerWithExtends"
+        containment="true">
+      <eGenericType eClassifier="#//BoundedGenericContainer">
+        <eTypeArguments>
+          <eUpperBound eClassifier="#//Medium"/>
+        </eTypeArguments>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VeryLow"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Low" eSuperTypes="#//VeryLow"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Medium" eSuperTypes="#//Low"/>
+  <eClassifiers xsi:type="ecore:EClass" name="High" eSuperTypes="#//Medium"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VeryHigh" eSuperTypes="#//High"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Container"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnboundedGenericContainer">
+    <eTypeParameters name="T"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="content" containment="true">
+      <eGenericType eTypeParameter="#//UnboundedGenericContainer/T"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RawUnboundedContainer" eSuperTypes="#//UnboundedGenericContainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MediumUnboundedContainer">
+    <eGenericSuperTypes eClassifier="#//UnboundedGenericContainer">
+      <eTypeArguments eClassifier="#//Medium"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BoundedGenericContainer">
+    <eTypeParameters name="T">
+      <eBounds eClassifier="#//Medium"/>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="content">
+      <eGenericType eTypeParameter="#//BoundedGenericContainer/T"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HighBoundedContainer">
+    <eGenericSuperTypes eClassifier="#//BoundedGenericContainer">
+      <eTypeArguments eClassifier="#//High"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KeyValuePair">
+    <eTypeParameters name="K">
+      <eBounds eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eTypeParameters name="V">
+      <eBounds eClassifier="#//KeyValuePair">
+        <eTypeArguments eTypeParameter="#//KeyValuePair/K"/>
+        <eTypeArguments eTypeParameter="#//KeyValuePair/V"/>
+      </eBounds>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" transient="true">
+      <eGenericType eTypeParameter="#//KeyValuePair/K"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" containment="true">
+      <eGenericType eTypeParameter="#//KeyValuePair/V"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RawKeyValuePair" eSuperTypes="#//KeyValuePair"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StringListKeyValuePair">
+    <eGenericSuperTypes eClassifier="#//KeyValuePair">
+      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eTypeArguments>
+      <eTypeArguments eClassifier="#//StringListKeyValuePair"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TListKeyValuePair">
+    <eTypeParameters name="T"/>
+    <eGenericSuperTypes eClassifier="#//KeyValuePair">
+      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments eTypeParameter="#//TListKeyValuePair/T"/>
+      </eTypeArguments>
+      <eTypeArguments eClassifier="#//TListKeyValuePair">
+        <eTypeArguments eTypeParameter="#//TListKeyValuePair/T"/>
+      </eTypeArguments>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BoundedTListKeyValuePair">
+    <eTypeParameters name="T">
+      <eBounds eClassifier="#//Medium"/>
+    </eTypeParameters>
+    <eGenericSuperTypes eClassifier="#//TListKeyValuePair">
+      <eTypeArguments eTypeParameter="#//BoundedTListKeyValuePair/T"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HighListKeyValuePair">
+    <eGenericSuperTypes eClassifier="#//BoundedTListKeyValuePair">
+      <eTypeArguments eClassifier="#//High"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntegerListKeyValuePair">
+    <eGenericSuperTypes eClassifier="#//TListKeyValuePair">
+      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KeyValuePairContainer">
+    <eTypeParameters name="K">
+      <eBounds eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eTypeParameters name="V">
+      <eBounds eClassifier="#//KeyValuePair">
+        <eTypeArguments eTypeParameter="#//KeyValuePairContainer/K"/>
+        <eTypeArguments eTypeParameter="#//KeyValuePairContainer/V"/>
+      </eBounds>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="keyValuePairs" upperBound="-1">
+      <eGenericType eClassifier="#//KeyValuePair">
+        <eTypeArguments eTypeParameter="#//KeyValuePairContainer/K"/>
+        <eTypeArguments eTypeParameter="#//KeyValuePairContainer/V"/>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StringListKeyValuePairContainer">
+    <eGenericSuperTypes eClassifier="#//KeyValuePairContainer">
+      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eTypeArguments>
+      <eTypeArguments eClassifier="#//StringListKeyValuePair"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Bidirectional">
+    <eTypeParameters name="T">
+      <eBounds eClassifier="#//Bidirectional">
+        <eTypeArguments eTypeParameter="#//Bidirectional/T"/>
+      </eBounds>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="in" eOpposite="#//Bidirectional/out">
+      <eGenericType eTypeParameter="#//Bidirectional/T"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="out" eOpposite="#//Bidirectional/in">
+      <eGenericType eTypeParameter="#//Bidirectional/T"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value">
+      <eGenericType eTypeParameter="#//Bidirectional/T"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1">
+      <eGenericType eTypeParameter="#//Bidirectional/T"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Link">
+    <eGenericSuperTypes eClassifier="#//Bidirectional">
+      <eTypeArguments eClassifier="#//Link"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RawLink" eSuperTypes="#//Bidirectional"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkItem">
+    <eGenericSuperTypes eClassifier="#//Bidirectional">
+      <eTypeArguments eClassifier="#//LinkItem"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MediumBidirectional">
+    <eTypeParameters name="T">
+      <eBounds eClassifier="#//MediumBidirectional">
+        <eTypeArguments eTypeParameter="#//MediumBidirectional/T"/>
+      </eBounds>
+      <eBounds eClassifier="#//Medium"/>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contents" upperBound="-1">
+      <eGenericType eClassifier="#//MediumBidirectional">
+        <eTypeArguments eTypeParameter="#//MediumBidirectional/T"/>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MediumLink">
+    <eGenericSuperTypes eClassifier="#//MediumBidirectional">
+      <eTypeArguments eClassifier="#//MediumLink"/>
+    </eGenericSuperTypes>
+    <eGenericSuperTypes eClassifier="#//Medium"/>
+  </eClassifiers>
+</ecore:EPackage>

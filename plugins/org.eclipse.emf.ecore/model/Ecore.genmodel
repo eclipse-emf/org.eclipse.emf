@@ -4,7 +4,7 @@
     runtimeJar="true" modelName="Ecore" updateClasspath="false" testsDirectory=""
     booleanFlagsField="eFlags" booleanFlagsReservedBits="8" importerID="org.eclipse.emf.importer.ecore"
     containmentProxies="true" minimalReflectiveMethods="false" complianceLevel="5.0"
-    language="en" operationReflection="true" decoration="Live">
+    language="en" operationReflection="true">
   <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">
     <genAnnotations source="selectedPackages">
       <details key="http://www.eclipse.org/emf/2002/Ecore" value="Ecore.xsd"/>
@@ -127,6 +127,9 @@
       </genOperations>
       <genOperations ecoreOperation="Ecore.ecore#//EClass/getOverride">
         <genParameters ecoreParameter="Ecore.ecore#//EClass/getOverride/operation"/>
+      </genOperations>
+      <genOperations ecoreOperation="Ecore.ecore#//EClass/getFeatureType">
+        <genParameters ecoreParameter="Ecore.ecore#//EClass/getFeatureType/feature"/>
       </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="Ecore.ecore#//EClassifier">
@@ -337,6 +340,9 @@
           propertySortChoices="true" ecoreFeature="ecore:EReference Ecore.ecore#//EGenericType/eTypeParameter"/>
       <genFeatures notify="false" createChild="false" propertyDescription="The classifier denoted by this generic type"
           propertySortChoices="true" ecoreFeature="ecore:EReference Ecore.ecore#//EGenericType/eClassifier"/>
+      <genOperations ecoreOperation="Ecore.ecore#//EGenericType/isInstance">
+        <genParameters ecoreParameter="Ecore.ecore#//EGenericType/isInstance/object"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//ETypeParameter">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Ecore.ecore#//ETypeParameter/eBounds"/>

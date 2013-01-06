@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2013 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,27 +10,27 @@
  */
 package org.eclipse.emf.ecore.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 
@@ -625,6 +625,502 @@ public class EGenericTypeImpl extends MinimalEObjectImpl.Container implements EG
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public boolean isInstance(Object object)
+  {
+    // If there is type parameter...
+    //
+    ETypeParameter eTypeParameter = getETypeParameter();
+    if (eTypeParameter != null)
+    {
+      // If the object isn't an instance of all of the bounds, then it's not an instance of this generic type.
+      //
+      EList<EGenericType> eBounds = eTypeParameter.getEBounds();
+      for (EGenericType eBound : eBounds)
+      {
+        if (!eBound.isInstance(object))
+        {
+          return false;
+        }
+      }
+
+      // No contradiction is found, so it must be an instance.
+      //
+      return true;
+    }
+    else
+    {
+      // If there is no classifier, or the object isn't an instance of that classifier, then it's not an instance of this generic type.
+      //
+      EClassifier eClassifier = getEClassifier();
+      if (eClassifier == null || !eClassifier.isInstance(object))
+      {
+        return false;
+      }
+      else if (eClassifier instanceof EDataType)
+      {
+        // If we're dealing with a data type instance, we don't have more Ecore information about the instance so we must assume it's a proper instance.
+        // We could consider using reified Java reflection for further checking.
+        //
+        return true;
+      }
+      else
+      {
+        // Otherwise we're dealing with an instance of an EClass.
+        //
+        EClass eClass = (EClass)eClassifier;
+
+        // If the class has no type parameters, we're done.
+        //
+        EList<ETypeParameter> eTypeParameters = eClass.getETypeParameters();
+        if (eTypeParameters.isEmpty())
+        {
+          return true;
+        }
+        else
+        {
+          // If the generic type has no corresponding arguments, we're done.
+          //
+          EList<EGenericType> eTypeArguments = getETypeArguments();
+          int size = eTypeArguments.size();
+          if (size == 0)
+          {
+            return true;
+          }
+          else
+          {
+            // The object is an instance of the eClass, so it must be an EObject.
+            //
+            EObject eObject = (EObject)object;
+            EClass instanceEClass = eObject.eClass();
+
+            // If the classes are the same, we're done.
+            //
+            if (eClass == instanceEClass)
+            {
+              return true;
+            }
+            else
+            {
+              // We must necessarily find the class among all the generic super types.
+              //
+              for (EGenericType eGenericSuperType : instanceEClass.getEAllGenericSuperTypes())
+              {
+                if (eGenericSuperType.getEClassifier() == eClass)
+                {
+                  // If it's specified as a raw type, we're done.
+                  //
+                  EList<EGenericType> instanceETypeArguments = eGenericSuperType.getETypeArguments();
+                  if (instanceETypeArguments.isEmpty())
+                  {
+                    return true;
+                  }
+                  else
+                  {
+                    // Look for a contradiction between the type arguments of this generic type and the type arguments specified for the instance.
+                    //
+                    for (int i = 0; i < size; ++i)
+                    {
+                      EGenericType instanceETypeArgument = instanceETypeArguments.get(i);
+                      EGenericType eTypeArgument = eTypeArguments.get(i);
+                      EGenericType reifiedType = EcoreUtil.getReifiedType(instanceEClass, instanceETypeArgument);
+                      if (eTypeArgument.getETypeParameter() == null ? !isCompatibleArgument(reifiedType, eTypeArgument) : !isSuperType(reifiedType, eTypeArgument))
+                      {
+                        return false;
+                      }
+                    }
+
+                    return true;
+                  }
+                }
+              }
+
+              // We should not get here.
+              //
+              return false;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private static boolean isSuperType(EGenericType eGenericType, EGenericType superEGenericType)
+  {
+    // If there is type parameter...
+    //
+    ETypeParameter eTypeParameter = superEGenericType.getETypeParameter();
+    if (eTypeParameter != null)
+    {
+      // If the type is not a subtype of of all of the bounds, then it's not an subtype.
+      //
+      EList<EGenericType> eBounds = eTypeParameter.getEBounds();
+      for (EGenericType eBound : eBounds)
+      {
+        if (!isSuperType(eGenericType, eBound))
+        {
+          return false;
+        }
+      }
+
+      // No contradiction is found, so it subtype.
+      //
+      return true;
+    }
+    else
+    {
+      // If there is no classifier, we treat it as a type argument and check for compatibility.
+      //
+      EClassifier eClassifier = superEGenericType.getEClassifier();
+      if (eClassifier == null)
+      {
+        return isCompatibleArgument(eGenericType, superEGenericType);
+      }
+      else
+      {
+        // If the type doesn't have a classifier, then it's not a subtype.
+        //
+        EClassifier eGenericTypeEClassifier = eGenericType.getEClassifier();
+        if (eGenericTypeEClassifier == null)
+        {
+          return false;
+        }
+        else
+        {
+           // If both the instance classes are non-null, check Java assignability for them.
+           //
+           Class<?> instanceClass = eClassifier.getInstanceClass();
+           Class<?> instanceTypeArgumentInstanceClass = eGenericTypeEClassifier.getInstanceClass();
+           if (instanceClass != null && instanceTypeArgumentInstanceClass != null)
+           {
+             if (!instanceClass.isAssignableFrom(instanceTypeArgumentInstanceClass))
+             {
+               return false;
+             }
+           }
+           // If their both EClasses, check Ecore super types.
+           //
+           else if (eClassifier instanceof EClass && eGenericTypeEClassifier instanceof EClass)
+           {
+             if (!((EClass)eClassifier).isSuperTypeOf((EClass)eGenericTypeEClassifier))
+             {
+               return false;
+             }
+           }
+           else if (eClassifier != eGenericTypeEClassifier)
+           {
+             // Otherwise they're not compatible.
+             //
+             return false;
+           }
+
+          // If the class has no type parameters, we're done.
+          //
+          EList<ETypeParameter> eTypeParameters = eClassifier.getETypeParameters();
+          if (eTypeParameters.isEmpty())
+          {
+            return true;
+          }
+          else
+          {
+            // If the generic type has no corresponding arguments, we're done.
+            //
+            EList<EGenericType> eTypeArguments = superEGenericType.getETypeArguments();
+            int size = eTypeArguments.size();
+            if (size == 0)
+            {
+              return true;
+            }
+            else if (eClassifier instanceof EDataType)
+            {
+              // If it's an EDataType, check that the arguments, if any, are compatible.
+              //
+              return isCompatibleArguments(eGenericType.getETypeArguments(), eTypeArguments);
+            }
+            else
+            {
+              // They are both EClasses...
+              //
+              EClass eClass = (EClass)eClassifier;
+              EClass eGenericTypeEClass = (EClass)eGenericTypeEClassifier;
+
+              // If the classes are the same, check that the type arguments, if any, are compatible.
+              //
+              if (eClass == eGenericTypeEClass)
+              {
+                return isCompatibleArguments(eGenericType.getETypeArguments(), eTypeArguments);
+              }
+              else
+              {
+                // We generally expect to find the class among all the generic super types.
+                //
+                for (EGenericType eGenericSuperType : eGenericTypeEClass.getEAllGenericSuperTypes())
+                {
+                  if (eGenericSuperType.getEClassifier() == eClass)
+                  {
+                    // If it's specified as a raw type, we're done.
+                    //
+                    EList<EGenericType> instanceETypeArguments = eGenericSuperType.getETypeArguments();
+                    if (instanceETypeArguments.isEmpty())
+                    {
+                      return true;
+                    }
+                    else
+                    {
+                      // Look for a contradiction between the type arguments of this generic type and the type arguments specified for the instance.
+                      //
+                      for (int i = 0; i < size; ++i)
+                      {
+                        EGenericType instanceETypeArgument = instanceETypeArguments.get(i);
+                        EGenericType eTypeArgument = eTypeArguments.get(i);
+                        EGenericType reifiedType = EcoreUtil.getReifiedType(eGenericTypeEClass, instanceETypeArgument);
+                        if (!isCompatibleArgument(reifiedType, eTypeArgument))
+                        {
+                          return false;
+                        }
+                      }
+
+                      return true;
+                    }
+                  }
+                }
+
+                // We should not get here.
+                //
+                return true;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private static boolean isCompatibleArguments(EList<EGenericType> instanceETypeArguments, EList<EGenericType> eTypeArguments)
+  {
+    // Check any argument, if present, for compatibility.
+    //
+    int size = instanceETypeArguments.size();
+    if (size > 0)
+    {
+      for (int i = 0; i < size; ++i)
+      {
+        if (!isCompatibleArgument(instanceETypeArguments.get(i), eTypeArguments.get(i)))
+        {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  protected static boolean isCompatibleArgument(EGenericType instanceETypeArgument, EGenericType eTypeArgument)
+  {
+    // If the type argument specifies a type parameter...
+    //
+    ETypeParameter eTypeParameter = eTypeArgument.getETypeParameter();
+    if (eTypeParameter != null)
+    {
+      // The instance type argument must not be incompatible with any of the type argument's bounds.
+      //
+      for (EGenericType eBound : eTypeParameter.getEBounds())
+      {
+        if (!isCompatibleArgument(instanceETypeArgument, eBound))
+        {
+          return false;
+        }
+      }
+      return true;
+    }
+    else
+    {
+      // If the type argument specifies a classifier...
+      //
+      EClassifier eClassifier = eTypeArgument.getEClassifier();
+      if (eClassifier != null)
+      {
+        // If the instance type argument specifies a classifier...
+        //
+        EClassifier instanceTypeArgumentEClassifier = instanceETypeArgument.getEClassifier();
+        if (instanceTypeArgumentEClassifier != null)
+        {
+          // If they're the same classifier they're compatible...
+          //
+          if (eClassifier == instanceTypeArgumentEClassifier)
+          {
+            return isEqualArguments(instanceETypeArgument.getETypeArguments(), eTypeArgument.getETypeArguments());
+          }
+          else
+          {
+            // If both the instance classes are non-null, check Java assignability for them.
+            //
+            Class<?> instanceClass = eClassifier.getInstanceClass();
+            Class<?> instanceTypeArgumentInstanceClass = instanceTypeArgumentEClassifier.getInstanceClass();
+            if (instanceClass != null && instanceTypeArgumentInstanceClass != null)
+            {
+              // The arguments must be equal.
+              //
+              return instanceClass.isAssignableFrom(instanceTypeArgumentInstanceClass) && isEqualArguments(instanceETypeArgument.getETypeArguments(), eTypeArgument.getETypeArguments());
+            }
+            // If their both EClasses, check Ecore super types.
+            //
+            else if (eClassifier instanceof EClass && instanceTypeArgumentEClassifier instanceof EClass)
+            {
+              // The arguments must be equal.
+              //
+              return ((EClass)eClassifier).isSuperTypeOf((EClass)instanceTypeArgumentEClassifier) && isEqualArguments(instanceETypeArgument.getETypeArguments(), eTypeArgument.getETypeArguments());
+            }
+            else
+            {
+              // Otherwise they're not compatible.
+              //
+              return false;
+            }
+          }
+        }
+        else
+        {
+          // If the type argument specifies a type parameter...
+          //
+          ETypeParameter instanceTypeArgumentETypeParameter = instanceETypeArgument.getETypeParameter();
+          if (instanceTypeArgumentETypeParameter != null)
+          {
+            // One of the bounds must be compatible...
+            //
+            for (EGenericType eBound : instanceTypeArgumentETypeParameter.getEBounds())
+            {
+              if (isCompatibleArgument(eBound, eTypeArgument))
+              {
+                return true;
+              }
+            }
+            return false;
+          }
+          else
+          {
+            // It must be wildcard of some sort, but that's not valid.
+            //
+            return false;
+          }
+        }
+      }
+      else
+      {
+        EGenericType eLowerBound = eTypeArgument.getELowerBound();
+        if (eLowerBound != null)
+        {
+          return isCompatibleArgument(eLowerBound, instanceETypeArgument);
+        }
+        else
+        {
+          EGenericType eUpperBound = eTypeArgument.getEUpperBound();
+          if (eUpperBound != null)
+          {
+            return isCompatibleArgument(instanceETypeArgument, eUpperBound);
+          }
+          else
+          {
+            // An unbounded wildcard is compatible with anything.
+            //
+            return true;
+          }
+        }
+      }
+    }
+  }
+
+  protected static boolean isEqualArguments(EList<EGenericType> instanceETypeArguments, EList<EGenericType> eTypeArguments)
+  {
+    // Check all the arguments, if any, for equality.
+    //
+    int size = instanceETypeArguments.size();
+    if (size != 0)
+    {
+      for (int i = 0; i < size; ++i)
+      {
+        if (!isEqualArgument(instanceETypeArguments.get(i), eTypeArguments.get(i)))
+        {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  protected static boolean isEqualArgument(EGenericType eGenericType1, EGenericType eGenericType2)
+  {
+    // If they are the same instance they are equal.
+    //
+    if (eGenericType1 == eGenericType2)
+    {
+      return true;
+    }
+    // If one is null (but the other is not) then they are not equal.
+    //
+    else if (eGenericType1 == null || eGenericType2 == null)
+    {
+      return false;
+    }
+    else
+    {
+      // Consider the classifiers in a special way
+      // to take into account the fact they they often acts as wrappers for instance type names
+      // and that two classifiers that wrap the same instance type name should be considered equal.
+      //
+      EClassifier eClassifier1 = eGenericType1.getEClassifier();
+      EClassifier eClassifier2 = eGenericType2.getEClassifier();
+
+      // If they are the same classifier, they are of course equal.
+      //
+      if (eClassifier1 != eClassifier2)
+      {
+        // If they both aren't null...
+        //
+        if (eClassifier1 != null && eClassifier2 != null)
+        {
+          // Consider the instance type names they wrap
+          // to see if they are non-null and equal.
+          //
+          String instanceTypeName1 = eClassifier1.getInstanceTypeName();
+          String instanceTypeName2 = eClassifier2.getInstanceTypeName();
+
+          // I.e., the classifiers are considered equal if they wrap the same non-null type.
+          //
+          if (instanceTypeName1 == null || !instanceTypeName1.equals(instanceTypeName2))
+          {
+            return false;
+          }
+        }
+        // If one is null (but the other is not) then they can't be equal.
+        //
+        else if (eClassifier1 != null || eClassifier2 != null)
+        {
+          return false;
+        }
+      }
+
+      // Type parameters are assumed to be equal.
+      //
+      ETypeParameter eTypeParameter1 = eGenericType1.getETypeParameter();
+      ETypeParameter eTypeParameter2 = eGenericType2.getETypeParameter();
+      if (eTypeParameter1 != null && eTypeParameter2 != null)
+      {
+        return true;
+      }
+
+      // The arguments, type parameters, lower bounds and upper bounds must be equal type arguments.
+      //
+      return
+        isEqualArguments(eGenericType1.getETypeArguments(), eGenericType2.getETypeArguments()) &&
+          isEqualArgument(eGenericType1.getELowerBound(), eGenericType2.getELowerBound()) &&
+          isEqualArgument(eGenericType1.getEUpperBound(), eGenericType2.getEUpperBound());
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   @Override
@@ -754,6 +1250,22 @@ public class EGenericTypeImpl extends MinimalEObjectImpl.Container implements EG
         return eClassifier != null;
     }
     return eDynamicIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException
+  {
+    switch (operationID)
+    {
+      case EcorePackage.EGENERIC_TYPE___IS_INSTANCE__OBJECT:
+        return isInstance(arguments.get(0));
+    }
+    return eDynamicInvoke(operationID, arguments);
   }
 
   @Override

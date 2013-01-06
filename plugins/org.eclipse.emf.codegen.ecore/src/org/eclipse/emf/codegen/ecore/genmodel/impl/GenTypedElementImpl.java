@@ -21,6 +21,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypedElement;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -32,6 +33,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -368,6 +370,41 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   public String getRawListItemType()
   {
     return getImportedType(getContext(), getEcoreTypedElement().getEType(), true, true);
+  }
+
+  public String getRawListItemType(GenClass context)
+  {
+    return getGenModel().useGenerics() ? getTypeArgument(context, getEcoreTypedElement().getEGenericType(), true, true) : getImportedType(context, getEcoreTypedElement().getEType(), true, true);
+  }
+
+  public String getArrayItemType(GenClass context)
+  {
+    if (getGenModel().useGenerics())
+    {
+      EGenericType eGenericType = getEcoreTypedElement().getEGenericType();
+      eGenericType = EcoreUtil.getReifiedType(context.getEcoreClass(), eGenericType);
+      ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
+      if (eTypeParameter != null)
+      {
+        EList<EGenericType> eBounds = eTypeParameter.getEBounds();
+        if (eBounds.isEmpty())
+        {
+          return getImportedType(context, eGenericType.getERawType(), true, true);
+        }
+        else
+        {
+          return getTypeArgument(context, eBounds.get(0), true, false);
+        }
+      }
+      else
+      {
+        return getTypeArgument(context, eGenericType, true, false);
+      }
+    }
+    else
+    {
+      return getRawListItemType(null);
+    }
   }
 
   @Deprecated

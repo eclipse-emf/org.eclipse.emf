@@ -14,10 +14,12 @@ package org.eclipse.emf.edit.provider;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.MissingResourceException;
 
 import org.eclipse.emf.common.command.Command;
@@ -33,6 +35,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -784,65 +787,72 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
   {
     if (object instanceof EObject)
     {
+      EObject eObject = (EObject)object;
+      EClass eClass = eObject.eClass();
       if (parentReferences != null)
       {
         Collection<Object> result = new UniqueEList<Object>();
         for (int i = 0; i < parentReferences.length; ++i)
         {
-          result.addAll(getReachableObjectsOfType((EObject)object, parentReferences[i].getEType()));
+          result.addAll(getReachableObjectsOfType(eObject, eClass.getFeatureType(parentReferences[i])));
         }
         return result;
       }
       else if (feature != null)
       {
+        EGenericType eGenericType = eClass.getFeatureType(feature);
         if (feature instanceof EReference)
         {
-          Collection<EObject> result = getReachableObjectsOfType((EObject)object, feature.getEType());
+          Collection<EObject> result = getReachableObjectsOfType(eObject, eGenericType);
           if (!feature.isMany() && !result.contains(null))
           {
             result.add(null);
           }
           return result;
         }
-        else if (feature.getEType() instanceof EEnum)
+        else
         {
-          EEnum eEnum = (EEnum)feature.getEType();
-          List<Enumerator> enumerators = new ArrayList<Enumerator>();
-          for (EEnumLiteral eEnumLiteral :  eEnum.getELiterals())
+          EClassifier eType = eGenericType.getERawType();
+          if (eType instanceof EEnum)
           {
-            enumerators.add(eEnumLiteral.getInstance());
-          }
-          return enumerators;
-        }
-        else 
-        {
-          EDataType eDataType = (EDataType)feature.getEType();
-          List<String> enumeration = ExtendedMetaData.INSTANCE.getEnumerationFacet(eDataType);
-          if (!enumeration.isEmpty())
-          {
-            List<Object> enumerators = new ArrayList<Object>();
-            for (String enumerator : enumeration)
+            EEnum eEnum = (EEnum)eType;
+            List<Enumerator> enumerators = new ArrayList<Enumerator>();
+            for (EEnumLiteral eEnumLiteral :  eEnum.getELiterals())
             {
-              enumerators.add(EcoreUtil.createFromString(eDataType, enumerator));
+              enumerators.add(eEnumLiteral.getInstance());
             }
             return enumerators;
           }
-          else
+          else 
           {
-            for (EDataType baseType = ExtendedMetaData.INSTANCE.getBaseType(eDataType);
-                 baseType != null;
-                 baseType = ExtendedMetaData.INSTANCE.getBaseType(baseType))
+            EDataType eDataType = (EDataType)eType;
+            List<String> enumeration = ExtendedMetaData.INSTANCE.getEnumerationFacet(eDataType);
+            if (!enumeration.isEmpty())
             {
-              if (baseType instanceof EEnum)
+              List<Object> enumerators = new ArrayList<Object>();
+              for (String enumerator : enumeration)
               {
-                EEnum eEnum = (EEnum)baseType;
-                List<Enumerator> enumerators = new ArrayList<Enumerator>();
-                enumerators.add(null);
-                for (EEnumLiteral eEnumLiteral :  eEnum.getELiterals())
+                enumerators.add(EcoreUtil.createFromString(eDataType, enumerator));
+              }
+              return enumerators;
+            }
+            else
+            {
+              for (EDataType baseType = ExtendedMetaData.INSTANCE.getBaseType(eDataType);
+                   baseType != null;
+                   baseType = ExtendedMetaData.INSTANCE.getBaseType(baseType))
+              {
+                if (baseType instanceof EEnum)
                 {
-                  enumerators.add(eEnumLiteral.getInstance());
+                  EEnum eEnum = (EEnum)baseType;
+                  List<Enumerator> enumerators = new ArrayList<Enumerator>();
+                  enumerators.add(null);
+                  for (EEnumLiteral eEnumLiteral :  eEnum.getELiterals())
+                  {
+                    enumerators.add(eEnumLiteral.getInstance());
+                  }
+                  return enumerators;
                 }
-                return enumerators;
               }
             }
           }
@@ -935,6 +945,146 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       if (object != EcorePackage.Literals.EOBJECT)
       {
         EClass eClass = object.eClass();
+        for (EStructuralFeature eStructuralFeature : eClass.getEAllStructuralFeatures())
+        {
+          if (!eStructuralFeature.isDerived())
+          {
+            if (eStructuralFeature instanceof EReference)
+            {
+              EReference eReference = (EReference)eStructuralFeature;
+              if (eReference.isMany())
+              {
+                @SuppressWarnings("unchecked")
+                List<EObject> list = ((List<EObject>)object.eGet(eReference));
+                itemQueue.addAll(list);
+              }
+              else
+              {
+                EObject eObject = (EObject)object.eGet(eReference);
+  
+                // Explicitly exclude walking up the container reference for EClassifiers of the EcorePackage instance
+                // except for EClass instances (other than EObject which was excluded above already).
+                // This avoids pulling in all the EcorePackage's meta data simply because an EDataType was used.
+                //
+                if (eObject != null && 
+                      (eObject != EcorePackage.eINSTANCE ||
+                         eStructuralFeature != EcorePackage.Literals.ECLASSIFIER__EPACKAGE ||
+                         object instanceof EClass))
+                {
+                  itemQueue.addLast(eObject);
+                }
+              }
+            }
+            else if (FeatureMapUtil.isFeatureMap(eStructuralFeature))
+            {
+              for (FeatureMap.Entry entry : (FeatureMap)object.eGet(eStructuralFeature))
+              {
+                if (entry.getEStructuralFeature() instanceof EReference && entry.getValue() != null)
+                {
+                  itemQueue.addLast((EObject)entry.getValue());
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+  /**
+   * This yields all reachable references from object with a meta object which indicates that it is a subtype of type.
+   * @since 2.9
+   */
+  static public Collection<EObject> getReachableObjectsOfType(EObject object, EGenericType type)
+  {
+    LinkedList<EObject> itemQueue = new LinkedList<EObject>();
+    Collection<EObject> visited  = new HashSet<EObject>();
+    Collection<EObject> result = new ArrayList<EObject>();
+    Map<EClass, Boolean> subtypes = new HashMap<EClass, Boolean>();
+    Resource resource = object.eResource();
+    if (resource != null)
+    {
+      ResourceSet resourceSet = resource.getResourceSet();
+      if (resourceSet != null)
+      {
+        for (TreeIterator<?> i = resourceSet.getAllContents(); i.hasNext(); )
+        {
+          Object child = i.next();
+          if (child instanceof EObject)
+          {
+            collectReachableObjectsOfType(visited, itemQueue, subtypes, result, (EObject)child, type);
+            i.prune();
+          }
+        }
+      }
+      else
+      {
+        for (EObject eObject : resource.getContents())
+        {
+          collectReachableObjectsOfType(visited, itemQueue, subtypes, result, eObject, type);
+        }
+      }
+    }
+    else
+    {
+      collectReachableObjectsOfType(visited, itemQueue, subtypes, result, EcoreUtil.getRootContainer(object), type);
+    }
+
+    while (!itemQueue.isEmpty()) 
+    {
+      EObject nextItem = itemQueue.removeFirst();
+      collectReachableObjectsOfType(visited, itemQueue, subtypes, result, nextItem, type);
+    } 
+
+    return result;
+  }
+ 
+  /**
+   * This will visit all reachable references from object except those in visited;
+   * it updates visited and adds to result any object with a meta object that indicates that it is a subtype of type.
+   * @since 2.9
+   */
+  static public void collectReachableObjectsOfType(Collection<EObject> visited, Collection<EObject> result, EObject object, EGenericType type)
+  {
+    LinkedList<EObject> itemQueue = new LinkedList<EObject>();
+    Map<EClass, Boolean> subtypes = new HashMap<EClass, Boolean>();
+    collectReachableObjectsOfType(visited, itemQueue, subtypes, result, object, type);
+    while (!itemQueue.isEmpty()) 
+    {
+      EObject nextItem = itemQueue.removeFirst();
+      collectReachableObjectsOfType(visited, itemQueue, subtypes, result, nextItem, type);
+    } 
+  }
+
+  /**
+   * This will visit all reachable references from object except those in visited and add them to the queue.
+   * The queue is processed outside this recursive traversal to avoid stack overflows.
+   * It updates visited and adds to result any object with a meta object that indicates that it is a subtype of type.
+   * @since 2.9
+   */
+  static private void collectReachableObjectsOfType
+    (Collection<EObject> visited,  LinkedList<EObject> itemQueue, Map<EClass, Boolean> subtypes, Collection<EObject> result,  EObject object,  EGenericType type)
+  {
+    if (visited.add(object))
+    {
+      EClass eClass = object.eClass();
+      Boolean isInstance = subtypes.get(eClass);
+      if (isInstance == null)
+      {
+        isInstance = type.isInstance(object) ? Boolean.TRUE : Boolean.FALSE;
+        subtypes.put(eClass, isInstance);
+      }
+      if (isInstance == Boolean.TRUE)
+      {
+        result.add(object);
+      }
+
+      // Don't traverse the structure of the EcorePackage's EObject EClass instance.
+      // This avoids pulling in all the EcorePackage's meta data simply because EObject was used.
+      //
+      if (object != EcorePackage.Literals.EOBJECT)
+      {
         for (EStructuralFeature eStructuralFeature : eClass.getEAllStructuralFeatures())
         {
           if (!eStructuralFeature.isDerived())
@@ -1374,6 +1524,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
   public void setPropertyValue(Object object, Object value)
   {
     EObject eObject = (EObject)object;
+    EClass eClass = eObject.eClass();
     EditingDomain editingDomain = getEditingDomain(object);
 
     if (parentReferences != null)
@@ -1389,7 +1540,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
           {
             return;
           }
-          else if (parentReference.getEType().isInstance(value))
+          else if (eClass.getFeatureType(parentReference).isInstance(value))
           {
             if (editingDomain == null)
             {
@@ -1419,7 +1570,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       for (int i = 0; i < parentReferences.length; ++i)
       {
         final EReference parentReference = parentReferences[i];
-        if (parentReference.getEType().isInstance(value))
+        if (eClass.getFeatureType(parentReference).isInstance(value))
         {
           if (editingDomain == null)
           {

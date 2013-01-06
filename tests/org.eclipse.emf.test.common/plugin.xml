@@ -124,4 +124,12 @@
        class="org.eclipse.emf.test.models.order.util.OrderResourceFactoryImpl" />
   </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated Reification -->
+      <package
+            uri="http://www.eclipse.org/emf/test/common/Reification"
+            class="org.eclipse.emf.test.common.reification.ReificationPackage"
+            genModel="models/Reification/Reification.genmodel"/>
+   </extension>
+
 </plugin>

@@ -19,6 +19,7 @@ import java.util.Set;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -313,13 +314,14 @@ public class AddCommand extends AbstractOverrideableCommand
 
       // Check each object... 
       //
+      EGenericType eType = owner == null ? feature.getEGenericType() : owner.eClass().getFeatureType(feature);
       for (Object object : collection)
       {
         boolean containment = false;
 
         // Check type of object.
         //
-        if (!feature.getEType().isInstance(object))
+        if (!eType.isInstance(object))
         {
           return false;
         }

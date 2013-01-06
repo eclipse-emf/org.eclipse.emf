@@ -173,6 +173,24 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 
 <%}%>
 <%if (isImplementation && !genModel.isReflectiveDelegation()) {%>
+  <%for (GenFeature genFeature : genClass.getReifiedGenFeatures()) {%>
+      <%if (genModel.isArrayAccessors() && genFeature.isListType() && !genFeature.isFeatureMapType() && !genFeature.isMapType()) { String rawListItemType = genFeature.getRawListItemType(genClass); int index = rawListItemType.indexOf('['); String head = rawListItemType; String tail = ""; if (index != -1) { head = rawListItemType.substring(0, index); tail = rawListItemType.substring(index); } %>
+	/**
+	 * The empty value for the '{@link #<%=genFeature.getGetArrayAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' array accessor.
+	 * This is specialized for the more specific element type known in this context.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #<%=genFeature.getGetArrayAccessor()%>()
+	 * @generated
+	 * @ordered
+	 */
+        <%if (genFeature.getQualifiedListItemType(genClass).contains("<") || genFeature.getArrayItemType(genClass).contains("<")) {%>
+	@SuppressWarnings("rawtypes")
+        <%}%>
+	protected static final <%=rawListItemType%>[] <%=genFeature.getUpperName()%>_EEMPTY_ARRAY = new <%=head%> [0]<%=tail%>;
+
+      <%}%>
+  <%}%>
   <%for (GenFeature genFeature : genClass.getDeclaredFieldGenFeatures()) {%>
 <%@ include file="Class/declaredFieldGenFeature.override.javajetinc" fail="alternative" %>
 <%@ start %>
@@ -206,7 +224,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	protected <%=genFeature.getImportedInternalType(genClass)%> <%=genFeature.getSafeName()%>;
 
       <%}%>
-      <%if (genModel.isArrayAccessors() && genFeature.isListType() && !genFeature.isFeatureMapType() && !genFeature.isMapType()) { String rawListItemType = genFeature.getRawListItemType(); int index = rawListItemType.indexOf('['); String head = rawListItemType; String tail = ""; if (index != -1) { head = rawListItemType.substring(0, index); tail = rawListItemType.substring(index); } %>
+      <%if (genModel.isArrayAccessors() && genFeature.isListType() && !genFeature.isFeatureMapType() && !genFeature.isMapType()) { String rawListItemType = genFeature.getRawListItemType(genClass); int index = rawListItemType.indexOf('['); String head = rawListItemType; String tail = ""; if (index != -1) { head = rawListItemType.substring(0, index); tail = rawListItemType.substring(index); } %>
 	/**
 	 * The empty value for the '{@link #<%=genFeature.getGetArrayAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' array accessor.
 	 * <!-- begin-user-doc -->
@@ -215,8 +233,8 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * @generated
 	 * @ordered
 	 */
-        <%if (genFeature.getQualifiedListItemType(genClass).contains("<")) {%>
-	@SuppressWarnings("unchecked")
+        <%if (genFeature.getQualifiedListItemType(genClass).contains("<") || genFeature.getArrayItemType(genClass).contains("<")) {%>
+	@SuppressWarnings("rawtypes")
         <%}%>
 	protected static final <%=rawListItemType%>[] <%=genFeature.getUpperName()%>_EEMPTY_ARRAY = new <%=head%> [0]<%=tail%>;
 
@@ -430,31 +448,142 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 
 <%}%>
 <%@ end %><%//Class/reflectiveDelegation.override.javajetinc%>
+<%if (isImplementation) {%>
+<%new Runnable() { public void run() { GenClass classExtendsGenClass = genClass.getClassExtendsGenClass(); List<GenFeature> classExtendsAllGenFeatures = classExtendsGenClass == null? Collections.<GenFeature>emptyList() : classExtendsGenClass.getAllGenFeatures();%>
+  <%for (GenFeature genFeature : genClass.getReifiedGenFeatures()) {%>
+<%@ include file="Class/genFeatureReified.override.javajetinc" fail="alternative" %>
+<%@ start %>
+  <%if (genModel.isArrayAccessors() && genFeature.isListType() && !genFeature.isFeatureMapType() && !genFeature.isMapType()) { String arrayElementType = genFeature.getArrayItemType(genClass);%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * This is specialized for the more specific element type known in this context.
+	 * @generated
+	 */
+    <%if (genModel.useGenerics() && CodeGenUtil.isUncheckedCast(arrayElementType)) {%>
+	@SuppressWarnings("unchecked")
+    <%}%>
+    <%if (classExtendsAllGenFeatures.contains(genFeature)) {%>
+	@Override
+    <%}%>
+	public <%=arrayElementType%>[] <%=genFeature.getGetArrayAccessor()%>()
+	{
+      <%if (genFeature.isVolatile()) {%>
+		<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%><%=genFeature.getListTemplateArguments(genClass)%> list = (<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%><%=genFeature.getListTemplateArguments(genClass)%>)<%=genFeature.getGetAccessor()%>();
+		if (list.isEmpty()) return <%=genFeature.getUpperName()%>_EEMPTY_ARRAY;
+      <%} else {%>
+		if (<%=genFeature.getSafeName()%> == null || <%=genFeature.getSafeName()%>.isEmpty()) return <%=genFeature.getUpperName()%>_EEMPTY_ARRAY;
+		<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%><%=genFeature.getListTemplateArguments(genClass)%> list = (<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%><%=genFeature.getListTemplateArguments(genClass)%>)<%=genFeature.getSafeName()%>;
+      <%}%>
+		list.shrink();
+		return (<%=arrayElementType%>[])list.data();
+	}
+
+  <%}%>
+  <%if (genFeature.isGet() && genFeature.isListType()) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * This is specialized for the more specific element type known in this context.
+	 * @generated
+	 */
+<%if (isJDK50) { //Class/getGenFeature.annotations.insert.javajetinc%>
+<%@ include file="Class/getGenFeature.annotations.insert.javajetinc" fail="silent" %>
+<%}%>
+  <%if (genFeature.isListType() && genModel.isVirtualDelegation()) {%>
+	@SuppressWarnings("unchecked")
+  <%}%>
+    <%if (classExtendsAllGenFeatures.contains(genFeature)) {%>
+	@Override
+    <%}%>
+	public <%=genFeature.getImportedType(genClass)%> <%=genFeature.getGetAccessor()%><%if (genClass.hasCollidingGetAccessorOperation(genFeature)) {%>_<%}%>()
+	{
+<%@ include file="Class/getGenFeature.pre.insert.javajetinc" fail="silent" %>
+        <%if (genModel.isVirtualDelegation()) {%>
+		<%=genFeature.getImportedType(genClass)%> <%=genFeature.getSafeName()%> = (<%=genFeature.getImportedType(genClass)%>)eVirtualGet(<%=genClass.getQualifiedFeatureID(genFeature)%><%=positiveOffsetCorrection%>);
+        <%}%>
+		if (<%=genFeature.getSafeName()%> == null)
+		{
+        <%if (genModel.isVirtualDelegation()) {%>
+			eVirtualSet(<%=genClass.getQualifiedFeatureID(genFeature)%><%=positiveOffsetCorrection%>, <%=genFeature.getSafeName()%> = new <%=genClass.getListConstructor(genFeature)%>);
+        <%} else {%>
+			<%=genFeature.getSafeName()%> = new <%=genClass.getListConstructor(genFeature)%>;
+        <%}%>
+		}
+		return <%=genFeature.getSafeName()%><%=genFeature.isMapType() && genFeature.isEffectiveSuppressEMFTypes() ? ".map()" : ""%>;
+	}
+
+  <%}%>
+  <%if (!genModel.isReflectiveDelegation() && genFeature.isBasicSet()) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * This is specialized for the more specific type known in this context.
+	 * @generated
+	 */
+<%if (isJDK50) { //Class/basicSetGenFeature.annotations.insert.javajetinc%>
+<%@ include file="Class/basicSetGenFeature.annotations.insert.javajetinc" fail="silent" %>
+<%}%>
+    <%if (classExtendsAllGenFeatures.contains(genFeature)) {%>
+	@Override
+    <%}%>
+	public <%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> basicSet<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedInternalType(genClass)%> new<%=genFeature.getCapName()%>, <%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> msgs)
+	{
+		return super.basicSet<%=genFeature.getAccessorName()%>(new<%=genFeature.getCapName()%>, msgs);
+	}
+
+  <%}%>
+  <%if (genFeature.isSet() && !(!genModel.isReflectiveDelegation() && genFeature.isBasicSet())) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * This is specialized for the more specific type known in this context.
+	 * @generated
+	 */
+<%if (isJDK50) { //Class/setGenFeature.annotations.insert.javajetinc%>
+<%@ include file="Class/setGenFeature.annotations.insert.javajetinc" fail="silent" %>
+<%}%>
+<%{ GenOperation setAccessorOperation = genClass.getSetAccessorOperation(genFeature);%>
+    <%if (classExtendsAllGenFeatures.contains(genFeature)) {%>
+	@Override
+    <%}%>
+	public void set<%=genFeature.getAccessorName()%><%if (genClass.hasCollidingSetAccessorOperation(genFeature)) {%>_<%}%>(<%=genFeature.getImportedType(genClass)%> <%=setAccessorOperation == null ? "new" + genFeature.getCapName() : setAccessorOperation.getGenParameters().get(0).getName()%>)
+	{
+		super.set<%=genFeature.getAccessorName()%><%if (genClass.hasCollidingSetAccessorOperation(genFeature)) {%>_<%}%>(<%=setAccessorOperation == null ? "new" + genFeature.getCapName() : setAccessorOperation.getGenParameters().get(0).getName()%>);
+	}
+
+<%}%>
+  <%}%>
+<%@ end %><%//Class/genFeatureReified.override.javajetinc%>
+<%}}}.run();}%>
 <%new Runnable() { public void run() {%>
 <%for (GenFeature genFeature : (isImplementation ? genClass.getImplementedGenFeatures() : genClass.getDeclaredGenFeatures())) {%>
 <%@ include file="Class/genFeature.override.javajetinc" fail="alternative" %>
 <%@ start %>
-  <%if (genModel.isArrayAccessors() && genFeature.isListType() && !genFeature.isFeatureMapType() && !genFeature.isMapType()) {%>
+  <%if (genModel.isArrayAccessors() && genFeature.isListType() && !genFeature.isFeatureMapType() && !genFeature.isMapType()) { String arrayElementType = genFeature.getArrayItemType(genClass);%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
     <%if (!isImplementation) {%>
-	<%=genFeature.getListItemType(genClass)%>[] <%=genFeature.getGetArrayAccessor()%>();
+	<%=arrayElementType%>[] <%=genFeature.getGetArrayAccessor()%>();
 
     <%} else {%>
-	public <%=genFeature.getListItemType(genClass)%>[] <%=genFeature.getGetArrayAccessor()%>()
+    <%if (genModel.useGenerics() && CodeGenUtil.isUncheckedCast(arrayElementType)) {%>
+	@SuppressWarnings("unchecked")
+    <%}%>
+	public <%=arrayElementType%>[] <%=genFeature.getGetArrayAccessor()%>()
 	{
       <%if (genFeature.isVolatile()) {%>
 		<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%><%=genFeature.getListTemplateArguments(genClass)%> list = (<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%><%=genFeature.getListTemplateArguments(genClass)%>)<%=genFeature.getGetAccessor()%>();
-		if (list.isEmpty()) return <%if (genModel.useGenerics() && !genFeature.getListItemType(genClass).contains("<") && !genFeature.getListItemType(null).equals(genFeature.getListItemType(genClass))) {%>(<%=genFeature.getListItemType(genClass)%>[])<%}%><%=genFeature.getUpperName()%>_EEMPTY_ARRAY;
+		if (list.isEmpty()) return <%=genFeature.getUpperName()%>_EEMPTY_ARRAY;
       <%} else {%>
-		if (<%=genFeature.getSafeName()%> == null || <%=genFeature.getSafeName()%>.isEmpty()) return <%if (genModel.useGenerics() && !genFeature.getListItemType(genClass).contains("<") && !genFeature.getListItemType(null).equals(genFeature.getListItemType(genClass))) {%>(<%=genFeature.getListItemType(genClass)%>[])<%}%><%=genFeature.getUpperName()%>_EEMPTY_ARRAY;
+		if (<%=genFeature.getSafeName()%> == null || <%=genFeature.getSafeName()%>.isEmpty()) return <%=genFeature.getUpperName()%>_EEMPTY_ARRAY;
 		<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%><%=genFeature.getListTemplateArguments(genClass)%> list = (<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%><%=genFeature.getListTemplateArguments(genClass)%>)<%=genFeature.getSafeName()%>;
       <%}%>
 		list.shrink();
-		return (<%=genFeature.getListItemType(genClass)%>[])list.data();
+		return (<%=arrayElementType%>[])list.data();
 	}
 
     <%}%>

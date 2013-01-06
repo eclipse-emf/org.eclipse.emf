@@ -174,7 +174,7 @@ public class <%=genPackage.getSwitchClassName()%><%=templateParameters%><%if (su
 				<%if (genClass.isUncheckedCast() || genClass.isMapEntry() && genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {%>@SuppressWarnings("unchecked") <%}%><%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%>)theEObject;
 				<%=returnType%> <%=result%> = case<%=genPackage.getClassUniqueName(genClass)%>(<%=genClass.getSafeUncapName()%>);
 <%for (GenClass baseGenClass : genClass.getSwitchGenClasses()) {%>
-				if (<%=result%> == null) <%=result%> = case<%=genPackage.getClassUniqueName(baseGenClass)%>(<%if (genClass.isMapEntry()) {%>(<%=baseGenClass.getImportedInterfaceName()%><%=baseGenClass.getInterfaceTypeArguments()%>)<%}%><%=genClass.getSafeUncapName()%>);
+				if (<%=result%> == null) <%=result%> = <%if (genClass.isRawBaseClass(baseGenClass)) {%>(<%=returnType%>)<%}%>case<%=genPackage.getClassUniqueName(baseGenClass)%>(<%if (genClass.isMapEntry()) {%>(<%=baseGenClass.getImportedInterfaceName()%><%=baseGenClass.getInterfaceTypeArguments()%>)<%}%><%=genClass.getSafeUncapName()%>);
 <%}%>
 				if (<%=result%> == null) <%=result%> = defaultCase(theEObject);
 				return <%=result%>;

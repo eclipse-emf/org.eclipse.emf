@@ -16,6 +16,7 @@ import java.util.Collections;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.EMFEditPlugin;
@@ -244,9 +245,10 @@ public class ReplaceCommand extends AbstractOverrideableCommand
     {
       // Make sure each object conforms to the type of the feature.
       //
+      EGenericType eType = owner == null ? feature.getEGenericType() : owner.eClass().getFeatureType(feature);
       for (Object replacement : collection)
       {
-        if (!feature.getEType().isInstance(replacement))
+        if (!eType.isInstance(replacement))
         {
           return false;
         }

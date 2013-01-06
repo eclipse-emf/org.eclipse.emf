@@ -12,6 +12,7 @@ package org.eclipse.emf.ecore;
 
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 
 /**
@@ -419,6 +420,21 @@ public interface EClass extends EClassifier
    * @generated
    */
   EOperation getOverride(EOperation operation);
+
+  /**
+   * <!-- begin-user-doc -->
+   * Returns the generic type representing the effective {@link EcoreUtil#getReifiedType(EClass, EGenericType) reified type} of the feature in the context of this specific class.
+   * This will be different from the {@link ETypedElement#getEGenericType feature's actual type} 
+   * only if the {@link ETypedElement#getEGenericType feature's generic type} 
+   * is specified using {@link EGenericType#getETypeParameter type parameters}.
+   * In that case, if the type parameter is bound to a more specific type in the {@link #getEAllGenericSuperTypes() super types}, that more specific type is sustituted.
+   * @return the generic type representing the effective type of the feature in the context of this specific class.
+   * @since 2.9
+   * <!-- end-user-doc -->
+   * @model
+   * @generated
+   */
+  EGenericType getFeatureType(EStructuralFeature feature);
 
   /**
    * <!-- begin-user-doc -->

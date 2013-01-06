@@ -642,4 +642,14 @@ public interface GenClass extends GenClassifier
    * @since 2.8
    */
   String getQualifiedClassExtends();
+
+  /**
+   * @since 2.9
+   */
+  List<GenFeature> getReifiedGenFeatures();
+  
+  /**
+   * @since 2.9
+   */
+  boolean isRawBaseClass(GenClass baseClass);
 }

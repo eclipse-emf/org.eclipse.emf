@@ -449,6 +449,23 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return collectGenClasses(getEcoreClass().getEAllSuperTypes(), null);
   }
 
+  public boolean isRawBaseClass(GenClass baseClass)
+  {
+    EClass eClass = baseClass.getEcoreClass();
+    EList<ETypeParameter> eTypeParameters = eClass.getETypeParameters();
+    if (!eTypeParameters.isEmpty())
+    {
+      for (EGenericType eGenericSuperType : getEcoreClass().getEGenericSuperTypes())
+      {
+        if (eGenericSuperType.getEClassifier() == eClass)
+        {
+          return eGenericSuperType.getETypeArguments().isEmpty();
+        }
+      }
+    }
+    return false;
+  }
+
   public List<GenClass> getSwitchGenClasses()
   { 
     // Traverse the supertypes to find the maximum depths.
@@ -932,6 +949,41 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public List<GenFeature> getAllGenFeatures()
   {
     return collectGenFeatures(getAllBaseGenClasses(), getGenFeatures(), null);
+  }
+
+  public List<GenFeature> getReifiedGenFeatures()
+  {
+    List<GenFeature> result = new ArrayList<GenFeature>();
+    if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      GenClass classExtendsGenClass = getClassExtendsGenClass();
+      if (classExtendsGenClass != null)
+      {
+        List<GenFeature> inheritedGenFeatures = getInheritedGenFeatures();
+        GenModel genModel = getGenModel();
+        for (GenFeature genFeature : inheritedGenFeatures)
+        {
+          if (genFeature.isSet() || 
+                genFeature.isBasicSet() && !genModel.isReflectiveDelegation() || 
+                genFeature.isGet() && 
+                  genFeature.isListType() && 
+                  !genModel.isDynamicDelegation() && 
+                  !genModel.isReflectiveDelegation() &&
+                  !genFeature.hasSettingDelegate() &&
+                  !genFeature.isVolatile())
+          {
+            EGenericType eGenericType = genFeature.getEcoreFeature().getEGenericType();
+            String baseType = getTypeArgument(classExtendsGenClass, eGenericType, false, true);
+            String reifiedType = getTypeArgument(this, eGenericType, false, true);
+            if (!baseType.equals(reifiedType))
+            {
+              result.add(genFeature);
+            }
+          }
+        }
+      }
+    }
+    return result;
   }
 
   public List<GenFeature> getInheritedGenFeatures()
@@ -3198,7 +3250,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         sb.append('>');
       }
       sb.append("(");
-      sb.append(genFeature.getRawListItemType());
+      sb.append(getTypeArgument(this, genFeature.getEcoreFeature().getEGenericType(), true, true));
       sb.append(".class)");
     }
     else if (genFeature.isEffectiveContains())
@@ -3219,7 +3271,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           sb.append('>');
         }
         sb.append("(");
-        sb.append(genFeature.getRawListItemType());
+        sb.append(getTypeArgument(this, genFeature.getEcoreFeature().getEGenericType(), true, true));
         sb.append(".class, this, ");
         sb.append(getQualifiedFeatureID(genFeature));
         sb.append(offsetCorrectionField);
@@ -3247,7 +3299,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           sb.append('>');
         }
         sb.append("(");
-        sb.append(genFeature.getRawListItemType());
+        sb.append(getTypeArgument(this, genFeature.getEcoreFeature().getEGenericType(), true, true));
         sb.append(".class, this, ");
         sb.append(getQualifiedFeatureID(genFeature));
         sb.append(offsetCorrectionField);
@@ -3279,7 +3331,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           sb.append('>');
         }
         sb.append("(");
-        sb.append(genFeature.getRawListItemType());
+        sb.append(getTypeArgument(this, genFeature.getEcoreFeature().getEGenericType(), true, true));
         sb.append(".class, this, ");
         sb.append(getQualifiedFeatureID(genFeature));
         sb.append(offsetCorrectionField);
@@ -3310,7 +3362,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           sb.append('>');
         }
         sb.append("(");
-        sb.append(genFeature.getRawListItemType());
+        sb.append(getTypeArgument(this, genFeature.getEcoreFeature().getEGenericType(), true, true));
         sb.append(".class, this, ");
         sb.append(getQualifiedFeatureID(genFeature));
         sb.append(offsetCorrectionField);
@@ -3335,7 +3387,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         sb.append('>');
       }
       sb.append("(");
-      sb.append(genFeature.getRawListItemType());
+      sb.append(getTypeArgument(this, genFeature.getEcoreFeature().getEGenericType(), true, true));
       sb.append(".class, this, ");
       sb.append(getQualifiedFeatureID(genFeature));
       sb.append(offsetCorrectionField);
