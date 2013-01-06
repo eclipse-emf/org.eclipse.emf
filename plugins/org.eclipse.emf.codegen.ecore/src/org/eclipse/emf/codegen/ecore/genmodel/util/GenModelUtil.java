@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2008 IBM Corporation and others.
+ * Copyright (c) 2005-2013 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,12 +16,18 @@ import java.util.Map;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.merge.java.JControlModel;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jdt.core.IJavaProject;
 
 /**
  * This class contains convenient static methods for working with GenModel objects.
@@ -46,7 +52,65 @@ public class GenModelUtil
     }
     genAnnotation.getDetails().put(key, value);
   }
-  
+
+  private static IJavaProject getJavaProject(GenModel genModel)
+  {
+    // Try to get the Java project for the target model directory...
+    //
+    String modelDirectory = genModel.getModelDirectory();
+    try
+    {
+      URI uri = URI.createURI(modelDirectory);
+      return getJavaProject(uri);
+    }
+    catch (Throwable throwable)
+    {
+      // Ignore.
+    }
+
+    // Failing that, try to get the Java project from the GenModel's resource's project.
+    //
+    Resource resource = genModel.eResource();
+    if (resource != null)
+    {
+      return getJavaProject(resource.getURI());
+    }
+    return null;
+  }
+
+  private static IJavaProject getJavaProject(URI uri)
+  {
+    String projectName = null;
+    if (uri != null)
+    {
+      if (uri.isPlatformResource())
+      {
+        projectName = uri.segment(1);
+      }
+      else if (uri.isHierarchical() && uri.segmentCount() > 1)
+      {
+        projectName = uri.segment(0);
+      }
+    }
+
+    if (projectName != null)
+    {
+      IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+      try
+      {
+        if (project.isAccessible() && project.hasNature(JavaCore.NATURE_ID))
+        {
+          return JavaCore.create(project);
+        }
+      }
+      catch (CoreException exception)
+      {
+        // Ignore.
+      }
+    }
+    return null;
+  }
+
   /**
    * @since 2.5
    */
@@ -63,7 +127,8 @@ public class GenModelUtil
     }
     else
     {
-      Map<?, ?> options = JavaCore.getOptions();
+      IJavaProject javaProject = getJavaProject(genModel);
+      Map<?, ?> options = javaProject != null ? javaProject.getOptions(true) : JavaCore.getOptions();
       String tabSize = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE);
       String braceStyle = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_BRACE_POSITION_FOR_TYPE_DECLARATION);
       String tabCharacter = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
