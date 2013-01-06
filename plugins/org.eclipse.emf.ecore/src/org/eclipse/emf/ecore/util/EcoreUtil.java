@@ -2380,11 +2380,19 @@ public class EcoreUtil
     {
       // If the set states are the same, and the values of the feature are the structurally equal, they are equal.
       //
-      return 
-        eObject1.eIsSet(feature) == eObject2.eIsSet(feature)&& 
-          (feature instanceof EReference ?
-             haveEqualReference(eObject1, eObject2, (EReference)feature) :
-             haveEqualAttribute(eObject1, eObject2, (EAttribute)feature));
+      final boolean isSet1 = eObject1.eIsSet(feature);
+      final boolean isSet2 = eObject2.eIsSet(feature);
+      if (isSet1 && isSet2)
+      {
+        return 
+          feature instanceof EReference ?
+            haveEqualReference(eObject1, eObject2, (EReference)feature) :
+            haveEqualAttribute(eObject1, eObject2, (EAttribute)feature);
+      }
+      else
+      {
+        return isSet1 == isSet2;
+      }
     }
 
     /**
