@@ -168,7 +168,7 @@ public class XcoreExporter extends ModelExporter
 
       // Create an appropriate resource set for Xcore models.
       //
-      ResourceSet resourceSet = new ResourceSetImpl();
+      final ResourceSet resourceSet = new ResourceSetImpl();
       resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
 
       // Load a clone of the GenModel in the new resource set.
@@ -378,7 +378,7 @@ public class XcoreExporter extends ModelExporter
 
       // Do this is a job so that Xtext nature we added as a chance to build the index needed by the serializer.
       //
-      Job job = 
+      Job job =
         new Job("Save")
         {
           @Override
@@ -386,7 +386,12 @@ public class XcoreExporter extends ModelExporter
           {
             try
             {
+              // Temporarily clear the mappings so that the serializer properly finds the non-normalized URIs in the index.
+              //
+              Map<URI, URI> uriMap = resourceSet.getURIConverter().getURIMap();
+              Map<URI, URI> copyiedURIMap = new HashMap<URI, URI>(uriMap);
               outputResource.save(options);
+              uriMap.putAll(copyiedURIMap);
             }
             catch (IOException exception)
             {
