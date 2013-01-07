@@ -515,6 +515,10 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           result.add(eGenericSuperType);
         }
         computationInProgress.remove(this);
+        if (computationInProgress.isEmpty())
+        {
+          COMPUTATION_IN_PROGRESS.remove();
+        }
       }
 
       result.eliminateEquivalentDuplicates();
@@ -588,6 +592,10 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           result.addAll(eSuperType.getEAllAttributes());
         }
         computationInProgress.remove(this);
+        if (computationInProgress.isEmpty())
+        {
+          COMPUTATION_IN_PROGRESS.remove();
+        }
       }
       for (EStructuralFeature eStructuralFeature : getEStructuralFeatures())
       {
@@ -666,6 +674,10 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           result.addAll(eSuperType.getEAllReferences());
         }
         computationInProgress.remove(this);
+        if (computationInProgress.isEmpty())
+        {
+          COMPUTATION_IN_PROGRESS.remove();
+        }
       }
       for (EStructuralFeature eStructuralFeature : getEStructuralFeatures())
       {
@@ -773,6 +785,10 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           result.addAll(eSuperType.getEAllStructuralFeatures());
         }
         computationInProgress.remove(this);
+        if (computationInProgress.isEmpty())
+        {
+          COMPUTATION_IN_PROGRESS.remove();
+        }
       }
       int featureID = result.size();
       for (Iterator<EStructuralFeature> i = getEStructuralFeatures().iterator(); i.hasNext(); ++featureID)
@@ -944,6 +960,10 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           result.addAll(eSuperType.getEAllOperations());
         }
         computationInProgress.remove(this);
+        if (computationInProgress.isEmpty())
+        {
+          COMPUTATION_IN_PROGRESS.remove();
+        }
       }
       int operationID = result.size();
       for (Iterator<EOperation> i = getEOperations().iterator(); i.hasNext(); ++operationID)

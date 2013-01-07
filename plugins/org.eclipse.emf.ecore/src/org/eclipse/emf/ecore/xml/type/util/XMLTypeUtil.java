@@ -11,6 +11,8 @@
 package org.eclipse.emf.ecore.xml.type.util;
 
  
+import java.util.concurrent.atomic.AtomicReference;
+
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -83,10 +85,9 @@ public final class XMLTypeUtil
     return DataValue.XMLChar.isSpace(value);
   }
 
-  // TODO
   // This is faster than many charAt() calls.
   //
-  private static class CharArrayThreadLocal extends ThreadLocal<char[]>
+  private static final class CharArrayPool
   {
     private static final int MAX_CACHE_CAPACITY;
     static
@@ -109,38 +110,59 @@ public final class XMLTypeUtil
       MAX_CACHE_CAPACITY = result;
     }
 
-    private long cachedThread = -1;
-    private char [] cachedResult;
-
-    public final char [] get(int capacity)
+    private class Buffer
     {
-      if (capacity > MAX_CACHE_CAPACITY)
+      Buffer next;
+      char[] value;
+
+      public char[] get(int capacity)
       {
-        return new char [capacity];
+        if (value == null || value.length < capacity)
+        {
+          value = new char [capacity < 20 ? 20 : capacity];
+        }
+        return value;
       }
-      long currentThread = Thread.currentThread().getId();
-      char [] result = cachedResult;
-      if (cachedThread != currentThread)
+
+      public void finished()
       {
-        cachedThread = currentThread;
-        result = get();
+        if (value.length <= MAX_CACHE_CAPACITY)
+        {
+          for (;;)
+          {
+            next = head.get();
+            if (head.compareAndSet(next, this))
+            {
+              break;
+            }
+          }
+        }
       }
-      if (result.length < capacity)
-      {
-        result = new char [capacity];
-        set(result);
-      }
-      return cachedResult = result;
     }
 
-    @Override
-    protected char [] initialValue()
+    private AtomicReference<Buffer> head = new AtomicReference<Buffer>();
+
+    public Buffer get()
     {
-      return new char [20];
+      for (;;)
+      {
+        Buffer buffer = head.get();
+        if (buffer != null)
+        {
+          if (head.compareAndSet(buffer, buffer.next))
+          {
+            return buffer;
+          }
+        }
+        else
+        {
+          return new Buffer();
+        }
+      }
     }
   }
 
-  private static final CharArrayThreadLocal VALUE = new CharArrayThreadLocal();
+  private static final CharArrayPool VALUE = new CharArrayPool();
 
   public static String normalize(String value, boolean collapse) 
   {
@@ -155,7 +177,9 @@ public final class XMLTypeUtil
       return "";
     }
 
-    char [] valueArray = VALUE.get(length);
+    CharArrayPool.Buffer pooledBuffer = VALUE.get();
+
+    char [] valueArray = pooledBuffer.get(length);
     value.getChars(0, length, valueArray, 0);
     StringBuffer buffer = null;
     boolean skipSpace = collapse;
@@ -190,6 +214,8 @@ public final class XMLTypeUtil
         skipSpace = false;
       }
     }
+
+    pooledBuffer.finished();
 
     if (skipSpace) 
     {
