@@ -4586,6 +4586,32 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           {
             GenClass featureClass = childCreationData.createFeature.getGenClass();
             GenPackage featureGenPackage = featureClass.getGenPackage();
+
+            // If the GenClass for this creation data is from a different package...
+            //
+            if (genPackage != featureGenPackage)
+            {
+              // And its base GenClass doesn't contain this creation feature...
+              //
+              GenClass baseGenClass = genClass.getBaseGenClass();
+              if (baseGenClass != null && !baseGenClass.getAllGenFeatures().contains(childCreationData.createFeature))
+              {
+                // Then we're getting this child from multiple inheritance and we'd better produce a specialized creation factory for this GenClass's package.
+                //
+                Map<GenClass, List<GenClass.ChildCreationData>> map = result.get(genPackage);
+                if (map == null)
+                {
+                  result.put(genPackage, map = new LinkedHashMap<GenClass, List<GenClass.ChildCreationData>>());
+                }
+                List<GenClass.ChildCreationData> data = map.get(featureClass);
+                if (data == null)
+                {
+                  map.put(featureClass, data = new UniqueEList<GenClass.ChildCreationData>());
+                }
+                data.add(childCreationData);
+              }
+            }
+
             Map<GenClass, List<GenClass.ChildCreationData>> map = result.get(featureGenPackage);
             if (map == null)
             {

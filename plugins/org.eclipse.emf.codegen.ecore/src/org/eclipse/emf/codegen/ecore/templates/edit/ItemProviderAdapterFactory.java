@@ -179,8 +179,8 @@ public class ItemProviderAdapterFactory
   protected final String TEXT_162 = " getNewChildDescriptors(Object object, ";
   protected final String TEXT_163 = " editingDomain)" + NL + "\t\t{" + NL + "\t\t\t";
   protected final String TEXT_164 = " result = new ";
-  protected final String TEXT_165 = "();" + NL + "\t\t   new CreationSwitch(result, editingDomain).doSwitch((";
-  protected final String TEXT_166 = ")object);" + NL + "\t\t   return result;" + NL + "\t\t}" + NL + "" + NL + "\t\t/**" + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @generated" + NL + "\t\t */" + NL + "\t\tpublic ";
+  protected final String TEXT_165 = "();" + NL + "\t\t\tnew CreationSwitch(result, editingDomain).doSwitch((";
+  protected final String TEXT_166 = ")object);" + NL + "\t\t\treturn result;" + NL + "\t\t}" + NL + "" + NL + "\t\t/**" + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @generated" + NL + "\t\t */" + NL + "\t\tpublic ";
   protected final String TEXT_167 = " getResourceLocator()" + NL + "\t\t{" + NL + "\t\t\treturn ";
   protected final String TEXT_168 = ".INSTANCE;" + NL + "\t\t}" + NL + "\t}" + NL;
   protected final String TEXT_169 = NL + "}";

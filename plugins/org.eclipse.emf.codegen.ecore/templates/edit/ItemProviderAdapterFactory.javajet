@@ -536,8 +536,8 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 		public <%=_Collection%> getNewChildDescriptors(Object object, <%=genModel.getImportedName("org.eclipse.emf.edit.domain.EditingDomain")%> editingDomain)
 		{
 			<%=_ArrayList%> result = new <%=_ArrayList%>();
-		   new CreationSwitch(result, editingDomain).doSwitch((<%=genModel.getImportedName("org.eclipse.emf.ecore.EObject")%>)object);
-		   return result;
+			new CreationSwitch(result, editingDomain).doSwitch((<%=genModel.getImportedName("org.eclipse.emf.ecore.EObject")%>)object);
+			return result;
 		}
 
 		/**
