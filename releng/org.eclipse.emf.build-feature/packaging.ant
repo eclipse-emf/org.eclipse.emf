@@ -118,12 +118,12 @@
 			<isset property="bundle.pools" />
 		</condition>
 		
-		<echo>install.ius: ${install.ius}</echo>
+		<!--<echo>install.ius: ${install.ius}</echo>
 		<echo>profile.properties: ${profile.properties}</echo>
 		<echo>artifact.repositories: ${artifact.repositories}</echo>
 		<echo>metadata.repositories: ${metadata.repositories}</echo>
 		<echo>launcher.jar: ${launcher.jar}</echo>
-		<echo>sp:output: ${sp:output}</echo>
+		<echo>sp:output: ${sp:output}</echo>-->
 		<java jar="${launcher.jar}" fork="true" failonerror="true" logerror="true">
 			<arg value="-consolelog" />
 			<arg value="-application" />
