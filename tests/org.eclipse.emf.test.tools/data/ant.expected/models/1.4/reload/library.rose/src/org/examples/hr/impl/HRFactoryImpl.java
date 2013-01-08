@@ -31,7 +31,7 @@ public class HRFactoryImpl extends EFactoryImpl implements HRFactory
   {
     try
     {
-      HRFactory theHRFactory = (HRFactory)EPackage.Registry.INSTANCE.getEFactory("hr.xmi"); //$NON-NLS-1$ 
+      HRFactory theHRFactory = (HRFactory)EPackage.Registry.INSTANCE.getEFactory(HRPackage.eNS_URI);
       if (theHRFactory != null)
       {
         return theHRFactory;

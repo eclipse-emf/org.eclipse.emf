@@ -31,7 +31,7 @@ public class HrFactoryImpl extends EFactoryImpl implements HrFactory
   {
     try
     {
-      HrFactory theHrFactory = (HrFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.eclipse.org/Library3"); //$NON-NLS-1$ 
+      HrFactory theHrFactory = (HrFactory)EPackage.Registry.INSTANCE.getEFactory(HrPackage.eNS_URI);
       if (theHrFactory != null)
       {
         return theHrFactory;

@@ -32,7 +32,7 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
   {
     try
     {
-      ElementsFactory theElementsFactory = (ElementsFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.eclipse.org/Library1"); 
+      ElementsFactory theElementsFactory = (ElementsFactory)EPackage.Registry.INSTANCE.getEFactory(ElementsPackage.eNS_URI);
       if (theElementsFactory != null)
       {
         return theElementsFactory;

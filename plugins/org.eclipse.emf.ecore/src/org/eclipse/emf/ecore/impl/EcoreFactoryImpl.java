@@ -46,7 +46,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
   {
     try
     {
-      EcoreFactory theEcoreFactory = (EcoreFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2002/Ecore"); 
+      EcoreFactory theEcoreFactory = (EcoreFactory)EPackage.Registry.INSTANCE.getEFactory(EcorePackage.eNS_URI); 
       if (theEcoreFactory != null)
       {
         return theEcoreFactory;

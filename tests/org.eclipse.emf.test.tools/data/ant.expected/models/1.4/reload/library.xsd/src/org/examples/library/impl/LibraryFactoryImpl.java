@@ -32,7 +32,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
   {
     try
     {
-      LibraryFactory theLibraryFactory = (LibraryFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.eclipse.org/Library"); //$NON-NLS-1$ 
+      LibraryFactory theLibraryFactory = (LibraryFactory)EPackage.Registry.INSTANCE.getEFactory(LibraryPackage.eNS_URI);
       if (theLibraryFactory != null)
       {
         return theLibraryFactory;

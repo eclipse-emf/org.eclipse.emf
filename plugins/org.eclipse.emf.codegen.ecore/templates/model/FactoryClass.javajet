@@ -105,7 +105,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	{
 		try
 		{
-			<%=factoryType%> the<%=genPackage.getFactoryName()%> = (<%=factoryType%>)<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEFactory("<%=genPackage.getNSURI()%>");<%=genModel.getNonNLS()%> 
+			<%=factoryType%> the<%=genPackage.getFactoryName()%> = (<%=factoryType%>)<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEFactory(<%=genPackage.getPackageInterfaceName()%>.eNS_URI);
 			if (the<%=genPackage.getFactoryName()%> != null)
 			{
 				return the<%=genPackage.getFactoryName()%>;
