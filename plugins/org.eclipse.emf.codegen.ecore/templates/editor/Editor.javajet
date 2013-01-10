@@ -535,7 +535,7 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected EContentAdapter problemIndicationAdapter = 
+	protected EContentAdapter problemIndicationAdapter =
 		new EContentAdapter()
 		{
 <%if (genModel.useClassOverrideAnnotation()) {%>
@@ -825,7 +825,7 @@ public class <%=genPackage.getEditorClassName()%>
 			updateProblemIndication();
 		}
 	}
-  
+
 	/**
 	 * Updates the problems indication with the information described in the specified diagnostic.
 	 * <!-- begin-user-doc -->
@@ -1289,7 +1289,7 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) 
+	public Diagnostic analyzeResourceProblems(Resource resource, Exception exception)
 	{
 		if (!resource.getErrors().isEmpty() || !resource.getWarnings().isEmpty())
 		{
@@ -2043,7 +2043,7 @@ public class <%=genPackage.getEditorClassName()%>
 
 	/**
 	 * This returns whether something has been persisted to the URI of the specified resource.
-	 * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
+	 * The implementation uses the URI converter from the editor's resource set to try to open an input stream.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

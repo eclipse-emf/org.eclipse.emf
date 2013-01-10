@@ -123,8 +123,11 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 
 import org.eclipse.emf.ecore.resource.Resource;
@@ -1164,14 +1167,90 @@ public class EcoreEditor
 
   public void createModel()
   {
-    editingDomain.getResourceSet().getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
+    boolean isReflective = getActionBarContributor() instanceof EcoreActionBarContributor.Reflective;
+    
+    final ResourceSet resourceSet = editingDomain.getResourceSet();
+    final EPackage.Registry packageRegistry = resourceSet.getPackageRegistry();
+    resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
+
+    if (isReflective)
+    {
+      // If we're in the reflective editor, set up an option to handle missing packages.
+      //
+      final EPackage genModelEPackage = packageRegistry.getEPackage("http://www.eclipse.org/emf/2002/GenModel");
+      if (genModelEPackage != null)
+      {
+        resourceSet.getLoadOptions().put
+          (XMLResource.OPTION_MISSING_PACKAGE_HANDLER,
+           new XMLResource.MissingPackageHandler()
+           {
+             protected EClass genModelEClass;
+             protected EStructuralFeature genPackagesFeature;
+             protected EClass genPackageEClass;
+             protected EStructuralFeature ecorePackageFeature;
+             protected Map<String, URI> ePackageNsURIToGenModelLocationMap;
+
+             public EPackage getPackage(String nsURI)
+             {
+               // Initialize the metadata for accessing the GenModel reflective the first time.
+               //
+               if (genModelEClass == null)
+               {
+                 genModelEClass = (EClass)genModelEPackage.getEClassifier("GenModel");
+                 genPackagesFeature = genModelEClass.getEStructuralFeature("genPackages");
+                 genPackageEClass = (EClass)genModelEPackage.getEClassifier("GenPackage");
+                 ecorePackageFeature = genPackageEClass.getEStructuralFeature("ecorePackage");
+               }
+
+               // Initialize the map from registered package namespaces to their GenModel locations the first time.
+               //
+               if (ePackageNsURIToGenModelLocationMap == null)
+               {
+                 ePackageNsURIToGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true);
+               }
+
+               // Look up the namespace URI in the map.
+               //
+               EPackage ePackage = null;
+               URI uri = ePackageNsURIToGenModelLocationMap.get(nsURI);
+               if (uri != null)
+               {
+                 // If we find it, demand load the model.
+                 //
+                 Resource resource = resourceSet.getResource(uri, true);
+
+                 // Locate the GenModel and fetech it's genPackages.
+                 //
+                 EObject genModel = (EObject)EcoreUtil.getObjectByType(resource.getContents(), genModelEClass);
+                 @SuppressWarnings("unchecked")
+                 List<EObject> genPackages = (List<EObject>)genModel.eGet(genPackagesFeature);
+                 for (EObject genPackage : genPackages)
+                 {
+                   // Check if that package's Ecore Package has them matching namespace URI.
+                   //
+                   EPackage dynamicEPackage = (EPackage)genPackage.eGet(ecorePackageFeature);
+                   if (nsURI.equals(dynamicEPackage.getNsURI()))
+                   {
+                     // If so, that's the package we want to return, and we add it to the registry so it's easy to find from now on.
+                     //
+                     ePackage = dynamicEPackage;
+                     packageRegistry.put(nsURI, ePackage);
+                     break;
+                   }
+                 }
+               }
+               return ePackage;
+             }
+           });
+       }
+    }
 
     createModelGen();
 
-    if (!editingDomain.getResourceSet().getResources().isEmpty())
+    if (!resourceSet.getResources().isEmpty())
     {
-      Resource resource = editingDomain.getResourceSet().getResources().get(0);
-      if (getActionBarContributor() instanceof EcoreActionBarContributor.Reflective && resource instanceof XMLResource)
+      Resource resource = resourceSet.getResources().get(0);
+      if (isReflective && resource instanceof XMLResource)
       {
         ((XMLResource)resource).getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, 10);
       }

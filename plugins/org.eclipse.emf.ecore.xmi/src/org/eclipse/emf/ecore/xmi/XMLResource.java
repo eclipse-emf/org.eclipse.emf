@@ -543,6 +543,25 @@ public interface XMLResource extends Resource
    * @since 2.9
    */
   String OPTION_USE_PACKAGE_NS_URI_AS_LOCATION = "USE_PACKAGE_NS_URI_AS_LOCATION";
+  
+  /**
+   * Handles missing packages as a last resort when all other mechanisms have failed.
+   * @see #OPTION_MISSING_PACKAGE_HANDLER
+   * @since 2.9.
+   */
+  interface MissingPackageHandler
+  {
+    /**
+     * Returns a package for the given {@link EPackage#getNsURI() nsURI}, whenever possible, or null.
+     */
+    EPackage getPackage(String nsURI);
+  }
+
+  /**
+   * A load option that specifies a {@link MissingPackageHandler missing package handler} instance that's used to as a final opportunity to locate a package when all other mechanisms have failed.
+   * @since 2.9
+   */
+  String OPTION_MISSING_PACKAGE_HANDLER = "MISSING_PACKAGE_HANDLER";
 
   String HREF = "href";
   String NIL = "nil";

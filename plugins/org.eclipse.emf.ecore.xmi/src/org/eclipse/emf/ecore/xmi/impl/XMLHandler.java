@@ -340,6 +340,11 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected boolean usePackageNsURIAsLocation;
 
   /**
+   * @since 2.9
+   */
+  protected XMLResource.MissingPackageHandler missingPackageHandler;
+
+  /**
    */
   public XMLHandler(XMLResource xmlResource, XMLHelper helper, Map<?, ?> options)
   {
@@ -502,6 +507,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     }
 
     usePackageNsURIAsLocation = !Boolean.FALSE.equals(options.get(XMLResource.OPTION_USE_PACKAGE_NS_URI_AS_LOCATION));
+    missingPackageHandler = (XMLResource.MissingPackageHandler)options.get(XMLResource.OPTION_MISSING_PACKAGE_HANDLER);
   }
 
   protected void setExtendedMetaDataOption(Object extendedMetaDataOption)
@@ -2637,7 +2643,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       }
     }
 
-    return null;
+    return missingPackageHandler != null ? missingPackageHandler.getPackage(uriString) : null;
   }
 
   protected URIConverter getURIConverter()
