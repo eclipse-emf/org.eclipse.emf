@@ -390,6 +390,7 @@ public class XcoreExporter extends ModelExporter
               //
               Map<URI, URI> uriMap = resourceSet.getURIConverter().getURIMap();
               Map<URI, URI> copyiedURIMap = new HashMap<URI, URI>(uriMap);
+              uriMap.clear();
               outputResource.save(options);
               uriMap.putAll(copyiedURIMap);
             }
