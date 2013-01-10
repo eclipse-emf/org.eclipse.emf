@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess;
 import org.eclipse.xtext.formatting.impl.FormattingConfig;
 import org.eclipse.xtext.xbase.formatting.XbaseFormatter;
 import org.eclipse.xtext.xbase.services.XbaseGrammarAccess;
+import org.eclipse.xtext.xbase.services.XtypeGrammarAccess;
 
 import com.google.inject.Inject;
 
@@ -43,7 +44,7 @@ public class XcoreFormatter extends XbaseFormatter
     configureXAnnotation(config, grammarAccess.getXAnnotationAccess());
     configureXStringToStringMapEntry(config, grammarAccess.getXStringToStringMapEntryAccess());
     configureXImportDirective(config, grammarAccess.getXImportDirectiveAccess());
-    configureQualifiedNameWithWildcard(config, grammarAccess.getQualifiedNameWithWildcardAccess());
+    configureQualifiedNameWithWildcard(config, grammarAccess.getQualifiedNameWithWildCardAccess());
     configureXAnnotationDirective(config, grammarAccess.getXAnnotationDirectiveAccess());
     configureXClassifier(config, grammarAccess.getXClassifierAccess());
     configureXDataType(config, grammarAccess.getXDataTypeAccess());
@@ -155,7 +156,7 @@ public class XcoreFormatter extends XbaseFormatter
     // No configuration required.
   }
 
-  public void configureQualifiedNameWithWildcard(FormattingConfig config, XcoreGrammarAccess.QualifiedNameWithWildcardElements elements)
+  public void configureQualifiedNameWithWildcard(FormattingConfig config, XtypeGrammarAccess.QualifiedNameWithWildCardElements elements)
   {
     // No configuration required.
   }

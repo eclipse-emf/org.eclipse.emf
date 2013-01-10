@@ -1,6 +1,12 @@
+/**
+ * Copyright (c) 2011-2012 Eclipse contributors and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.eclipse.emf.ecore.xcore.generator;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -38,6 +44,7 @@ import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.xbase.XBlockExpression;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 
 @SuppressWarnings("all")
 public class XcoreGenerator implements IGenerator {
@@ -61,11 +68,11 @@ public class XcoreGenerator implements IGenerator {
         XOperationMapping _mapping = this.mappings.getMapping(op);
         final EOperation eOperation = _mapping.getEOperation();
         final XBlockExpression body = op.getBody();
-        boolean _notEquals = (!Objects.equal(body, null));
+        boolean _notEquals = ObjectExtensions.operator_notEquals(body, null);
         if (_notEquals) {
           XOperationMapping _mapping_1 = this.mappings.getMapping(op);
           final JvmOperation jvmOperation = _mapping_1.getJvmOperation();
-          boolean _notEquals_1 = (!Objects.equal(jvmOperation, null));
+          boolean _notEquals_1 = ObjectExtensions.operator_notEquals(jvmOperation, null);
           if (_notEquals_1) {
             final XcoreAppendable appendable = this.createAppendable();
             appendable.declareVariable(jvmOperation, "this");
@@ -86,7 +93,7 @@ public class XcoreGenerator implements IGenerator {
         XFeatureMapping _mapping = this.mappings.getMapping(feature);
         final EStructuralFeature eStructuralFeature = _mapping.getEStructuralFeature();
         final XBlockExpression getBody = feature.getGetBody();
-        boolean _notEquals = (!Objects.equal(getBody, null));
+        boolean _notEquals = ObjectExtensions.operator_notEquals(getBody, null);
         if (_notEquals) {
           XFeatureMapping _mapping_1 = this.mappings.getMapping(feature);
           final JvmOperation getter = _mapping_1.getGetter();
@@ -112,11 +119,11 @@ public class XcoreGenerator implements IGenerator {
         XDataTypeMapping _mapping_1 = this.mappings.getMapping(dataType);
         final JvmOperation creator = _mapping_1.getCreator();
         boolean _and = false;
-        boolean _notEquals = (!Objects.equal(createBody, null));
+        boolean _notEquals = ObjectExtensions.operator_notEquals(createBody, null);
         if (!_notEquals) {
           _and = false;
         } else {
-          boolean _notEquals_1 = (!Objects.equal(creator, null));
+          boolean _notEquals_1 = ObjectExtensions.operator_notEquals(creator, null);
           _and = (_notEquals && _notEquals_1);
         }
         if (_and) {
@@ -135,11 +142,11 @@ public class XcoreGenerator implements IGenerator {
         XDataTypeMapping _mapping_2 = this.mappings.getMapping(dataType);
         final JvmOperation converter = _mapping_2.getConverter();
         boolean _and_1 = false;
-        boolean _notEquals_2 = (!Objects.equal(convertBody, null));
+        boolean _notEquals_2 = ObjectExtensions.operator_notEquals(convertBody, null);
         if (!_notEquals_2) {
           _and_1 = false;
         } else {
-          boolean _notEquals_3 = (!Objects.equal(converter, null));
+          boolean _notEquals_3 = ObjectExtensions.operator_notEquals(converter, null);
           _and_1 = (_notEquals_2 && _notEquals_3);
         }
         if (_and_1) {
@@ -203,7 +210,7 @@ public class XcoreGenerator implements IGenerator {
   public Diagnostic generateGenModel(final GenModel genModel, final IFileSystemAccess fsa) {
     Diagnostic _xifexpression = null;
     String _modelDirectory = genModel.getModelDirectory();
-    boolean _notEquals = (!Objects.equal(_modelDirectory, null));
+    boolean _notEquals = ObjectExtensions.operator_notEquals(_modelDirectory, null);
     if (_notEquals) {
       Diagnostic _xblockexpression = null;
       {

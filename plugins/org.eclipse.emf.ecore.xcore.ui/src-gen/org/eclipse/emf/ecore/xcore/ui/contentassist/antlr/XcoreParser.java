@@ -84,13 +84,13 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getJvmArgumentTypeReferenceAccess().getAlternatives(), "rule__JvmArgumentTypeReference__Alternatives");
 					put(grammarAccess.getJvmWildcardTypeReferenceAccess().getAlternatives_2(), "rule__JvmWildcardTypeReference__Alternatives_2");
 					put(grammarAccess.getJvmTypeParameterAccess().getAlternatives_1(), "rule__JvmTypeParameter__Alternatives_1");
+					put(grammarAccess.getXImportDeclarationAccess().getAlternatives_1(), "rule__XImportDeclaration__Alternatives_1");
 					put(grammarAccess.getXPackageAccess().getGroup(), "rule__XPackage__Group__0");
 					put(grammarAccess.getXAnnotationAccess().getGroup(), "rule__XAnnotation__Group__0");
 					put(grammarAccess.getXAnnotationAccess().getGroup_2(), "rule__XAnnotation__Group_2__0");
 					put(grammarAccess.getXAnnotationAccess().getGroup_2_2(), "rule__XAnnotation__Group_2_2__0");
 					put(grammarAccess.getXStringToStringMapEntryAccess().getGroup(), "rule__XStringToStringMapEntry__Group__0");
 					put(grammarAccess.getXImportDirectiveAccess().getGroup(), "rule__XImportDirective__Group__0");
-					put(grammarAccess.getQualifiedNameWithWildcardAccess().getGroup(), "rule__QualifiedNameWithWildcard__Group__0");
 					put(grammarAccess.getXAnnotationDirectiveAccess().getGroup(), "rule__XAnnotationDirective__Group__0");
 					put(grammarAccess.getXDataTypeAccess().getGroup(), "rule__XDataType__Group__0");
 					put(grammarAccess.getXDataTypeAccess().getGroup_3(), "rule__XDataType__Group_3__0");
@@ -300,6 +300,9 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getJvmLowerBoundAccess().getGroup(), "rule__JvmLowerBound__Group__0");
 					put(grammarAccess.getJvmTypeParameterAccess().getGroup(), "rule__JvmTypeParameter__Group__0");
 					put(grammarAccess.getJvmTypeParameterAccess().getGroup_1_0(), "rule__JvmTypeParameter__Group_1_0__0");
+					put(grammarAccess.getQualifiedNameWithWildCardAccess().getGroup(), "rule__QualifiedNameWithWildCard__Group__0");
+					put(grammarAccess.getXImportDeclarationAccess().getGroup(), "rule__XImportDeclaration__Group__0");
+					put(grammarAccess.getXImportDeclarationAccess().getGroup_1_0(), "rule__XImportDeclaration__Group_1_0__0");
 					put(grammarAccess.getXPackageAccess().getAnnotationsAssignment_1(), "rule__XPackage__AnnotationsAssignment_1");
 					put(grammarAccess.getXPackageAccess().getNameAssignment_3(), "rule__XPackage__NameAssignment_3");
 					put(grammarAccess.getXPackageAccess().getImportDirectivesAssignment_4(), "rule__XPackage__ImportDirectivesAssignment_4");
@@ -533,6 +536,12 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getJvmTypeParameterAccess().getConstraintsAssignment_1_0_0(), "rule__JvmTypeParameter__ConstraintsAssignment_1_0_0");
 					put(grammarAccess.getJvmTypeParameterAccess().getConstraintsAssignment_1_0_1(), "rule__JvmTypeParameter__ConstraintsAssignment_1_0_1");
 					put(grammarAccess.getJvmTypeParameterAccess().getConstraintsAssignment_1_1(), "rule__JvmTypeParameter__ConstraintsAssignment_1_1");
+					put(grammarAccess.getXImportSectionAccess().getImportDeclarationsAssignment(), "rule__XImportSection__ImportDeclarationsAssignment");
+					put(grammarAccess.getXImportDeclarationAccess().getStaticAssignment_1_0_0(), "rule__XImportDeclaration__StaticAssignment_1_0_0");
+					put(grammarAccess.getXImportDeclarationAccess().getExtensionAssignment_1_0_1(), "rule__XImportDeclaration__ExtensionAssignment_1_0_1");
+					put(grammarAccess.getXImportDeclarationAccess().getImportedTypeAssignment_1_0_2(), "rule__XImportDeclaration__ImportedTypeAssignment_1_0_2");
+					put(grammarAccess.getXImportDeclarationAccess().getImportedTypeAssignment_1_1(), "rule__XImportDeclaration__ImportedTypeAssignment_1_1");
+					put(grammarAccess.getXImportDeclarationAccess().getImportedNamespaceAssignment_1_2(), "rule__XImportDeclaration__ImportedNamespaceAssignment_1_2");
 					put(grammarAccess.getXDataTypeAccess().getUnorderedGroup_6(), "rule__XDataType__UnorderedGroup_6");
 					put(grammarAccess.getXAttributeAccess().getUnorderedGroup_2(), "rule__XAttribute__UnorderedGroup_2");
 					put(grammarAccess.getXAttributeAccess().getUnorderedGroup_6(), "rule__XAttribute__UnorderedGroup_6");

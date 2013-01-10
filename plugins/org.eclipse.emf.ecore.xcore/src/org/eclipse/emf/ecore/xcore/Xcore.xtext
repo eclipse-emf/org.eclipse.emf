@@ -37,11 +37,7 @@ XStringToStringMapEntry:
 ;
 
 XImportDirective:
-	'import' (importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName])
-;
-
-QualifiedNameWithWildcard:
-  QualifiedName '.*'
+	'import' (importedNamespace=QualifiedNameWithWildCard | importedObject=[EObject|QualifiedName])
 ;
 
 XAnnotationDirective:
