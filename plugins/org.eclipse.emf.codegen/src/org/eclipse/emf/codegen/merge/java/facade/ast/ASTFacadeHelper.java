@@ -388,7 +388,9 @@ public class ASTFacadeHelper extends FacadeHelper
     useCurrentOption(javaCoreOptions, DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
     useCurrentOption(javaCoreOptions, DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE, "2");
     useCurrentOption(javaCoreOptions, DefaultCodeFormatterConstants.FORMATTER_INDENTATION_SIZE, "2");
-    
+
+    javaCoreOptions.put(JavaCore.COMPILER_DOC_COMMENT_SUPPORT, "enabled");
+
     if (getControlModel() != null)
     {
       String indent = getControlModel().getLeadingTabReplacement();
