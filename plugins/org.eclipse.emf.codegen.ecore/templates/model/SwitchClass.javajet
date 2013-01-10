@@ -116,7 +116,7 @@ public class <%=genPackage.getSwitchClassName()%><%=templateParameters%><%if (su
 	{
 		return ePackage == modelPackage;
 	}
-<%} else {%>
+<%} else { boolean isUnnecessaryElse = genModel.isUnnecessaryElse(); String indent = isUnnecessaryElse ? "" : "\t";%>
 	/**
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
 	 * <!-- begin-user-doc -->
@@ -142,14 +142,18 @@ public class <%=genPackage.getSwitchClassName()%><%=templateParameters%><%if (su
 		{
 			return doSwitch(theEClass.getClassifierID(), theEObject);
 		}
+  <%if (!isUnnecessaryElse) {%>
 		else
 		{
-			<%=genModel.getImportedName("java.util.List")%><%if (genModel.useGenerics()) {%><<%=genModel.getImportedName("org.eclipse.emf.ecore.EClass")%>><%}%> eSuperTypes = theEClass.getESuperTypes();
-			return
-				eSuperTypes.isEmpty() ?
-					defaultCase(theEObject) :
-					doSwitch(<%if (!genModel.useGenerics()) {%>(EClass)<%}%>eSuperTypes.get(0), theEObject);
+  <%}%>
+		<%=indent%><%=genModel.getImportedName("java.util.List")%><%if (genModel.useGenerics()) {%><<%=genModel.getImportedName("org.eclipse.emf.ecore.EClass")%>><%}%> eSuperTypes = theEClass.getESuperTypes();
+		<%=indent%>return
+		<%=indent%>	eSuperTypes.isEmpty() ?
+		<%=indent%>		defaultCase(theEObject) :
+		<%=indent%>		doSwitch(<%if (!genModel.useGenerics()) {%>(EClass)<%}%>eSuperTypes.get(0), theEObject);
+  <%if (!isUnnecessaryElse) {%>
 		}
+  <%}%>
 	}
 <%}%>
 

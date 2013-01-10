@@ -2923,4 +2923,9 @@ public interface GenModel extends GenBase
    * @since 2.8
    */
   GenOperation findGenOperation(EOperation eOperation);
+
+  /**
+   * @since 2.9
+   */
+  boolean isUnnecessaryElse();
 }

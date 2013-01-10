@@ -112,6 +112,17 @@ public class GenModelUtil
   }
 
   /**
+   * @since 2.9,
+   */
+  public static Map<String, String> getJavaOptions(GenModel genModel)
+  {
+    IJavaProject javaProject = getJavaProject(genModel);
+    @SuppressWarnings("unchecked")
+    Map<String, String> options = javaProject != null ? javaProject.getOptions(true) : JavaCore.getOptions();
+    return options;
+  }
+
+  /**
    * @since 2.5
    */
   public static Generator createGenerator(GenModel genModel)
@@ -127,11 +138,10 @@ public class GenModelUtil
     }
     else
     {
-      IJavaProject javaProject = getJavaProject(genModel);
-      Map<?, ?> options = javaProject != null ? javaProject.getOptions(true) : JavaCore.getOptions();
-      String tabSize = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE);
-      String braceStyle = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_BRACE_POSITION_FOR_TYPE_DECLARATION);
-      String tabCharacter = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
+      Map<String, String> options = getJavaOptions(genModel);
+      String tabSize = options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE);
+      String braceStyle = options.get(DefaultCodeFormatterConstants.FORMATTER_BRACE_POSITION_FOR_TYPE_DECLARATION);
+      String tabCharacter = options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
       if (JavaCore.TAB.equals(tabCharacter))
       {
         jControlModel.setLeadingTabReplacement("\t");

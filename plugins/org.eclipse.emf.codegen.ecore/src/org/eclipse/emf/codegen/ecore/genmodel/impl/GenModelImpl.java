@@ -64,6 +64,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
+import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.codegen.jet.JETCompiler;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
@@ -9847,8 +9848,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
   }
 
+  public boolean isUnnecessaryElse()
+  {
+    if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
+    {
+      return !JavaCore.IGNORE.equals(EclipseHelper.getJavaOptions(this).get(JavaCore.COMPILER_PB_UNNECESSARY_ELSE));
+    }
+    return false;
+  }
+
   private static class EclipseHelper
   {
+    static Map<String, String> getJavaOptions(GenModel genModel)
+    {
+      if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
+      {
+        return GenModelUtil.getJavaOptions(genModel);
+      }
+      else return Collections.emptyMap();
+    }
+
     static String getModelDirectory(URI uri)
     {
       if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE && uri.segmentCount() >= 2)
