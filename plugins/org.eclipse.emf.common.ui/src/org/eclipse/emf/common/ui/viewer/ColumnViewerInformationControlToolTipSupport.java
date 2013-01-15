@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.emf.common.ui.CommonUIPlugin;
 import org.eclipse.emf.common.util.URI;
@@ -93,6 +94,53 @@ public final class ColumnViewerInformationControlToolTipSupport
     public PathLocationListener(StructuredViewer viewer)
     {
       this.viewer = viewer;
+    }
+
+    public URI getURI(Object object)
+    {
+      IContentProvider contentProvider = viewer.getContentProvider();
+      if (contentProvider instanceof IStructuredContentProvider)
+      {
+        IStructuredContentProvider structuredContentProvider = (IStructuredContentProvider)contentProvider;
+        List<Object> elements = Arrays.asList(structuredContentProvider.getElements(viewer.getInput()));
+        if (structuredContentProvider instanceof ITreeContentProvider)
+        {
+          return traverse(elements, (ITreeContentProvider)structuredContentProvider, object);
+        }
+        else
+        {
+          int index = elements.indexOf(object);
+          if (index != -1)
+          {
+            return URI.createURI("path:/" + index);
+          }
+        }
+      }
+      return null;
+    }
+
+    protected URI traverse(List<Object> elements, ITreeContentProvider treeContentProvider, Object object)
+    {
+      int index = elements.indexOf(object);
+      if (index != -1)
+      {
+        return URI.createURI("path:/" + index);
+      }
+      Object parent = treeContentProvider.getParent(object);
+      if (parent != null)
+      {
+        URI uri = traverse(elements, treeContentProvider, parent);
+        if (uri != null)
+        {
+          List<Object> children = Arrays.asList(treeContentProvider.getChildren(parent));
+          index = children.indexOf(object);
+          if (index != -1)
+          {
+            return uri.appendSegment(Integer.toString(index));
+          }
+        }
+      }
+      return null;
     }
 
     public void changing(LocationEvent event)
