@@ -122,7 +122,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   public GenClass getGenClass()
   {
     if (eContainerFeatureID() != GenModelPackage.GEN_OPERATION__GEN_CLASS) return null;
-    return (GenClass)eContainer();
+    return (GenClass)eInternalContainer();
   }
 
   /**

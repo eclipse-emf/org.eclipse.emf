@@ -40,7 +40,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
   {
     try
     {
-      GenModelFactory theGenModelFactory = (GenModelFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2002/GenModel"); 
+      GenModelFactory theGenModelFactory = (GenModelFactory)EPackage.Registry.INSTANCE.getEFactory(GenModelPackage.eNS_URI);
       if (theGenModelFactory != null)
       {
         return theGenModelFactory;

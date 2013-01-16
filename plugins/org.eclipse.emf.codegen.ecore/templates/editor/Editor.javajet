@@ -30,6 +30,8 @@
 <%String _AdapterFactoryLabelProvider = "AdapterFactoryLabelProvider" + (genModel.isFontProviders() && genModel.isColorProviders() ? ".FontAndColorProvider" : genModel.isFontProviders() ? ".FontProvider" : genModel.isColorProviders() ? ".ColorProvider" : "");%>
 <%String _ArrayListOfString = "ArrayList" + (genModel.useGenerics() ? "<String>" : "");%>
 <%String _ListOfString = "List" + (genModel.useGenerics() ? "<String>" : "");%>
+<%String _ListOfPropertySheetPage = "List" + (genModel.useGenerics() ? "<PropertySheetPage>" : "");%>
+<%String _ArrayListOfPropertySheetPage = "ArrayList" + (genModel.useGenerics() ? "<PropertySheetPage>" : "");%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getPresentationPackageName()%>;
 
@@ -332,7 +334,7 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected PropertySheetPage propertySheetPage;
+	protected <%=_ListOfPropertySheetPage%> propertySheetPages = new <%=_ArrayListOfPropertySheetPage%>();
 
 	/**
 	 * This is the viewer that shadows the selection in the content outline.
@@ -460,7 +462,7 @@ public class <%=genPackage.getEditorClassName()%>
 				}
 				else if (p instanceof PropertySheet)
 				{
-					if (((PropertySheet)p).getCurrentPage() == propertySheetPage)
+					if (propertySheetPages.contains(((PropertySheet)p).getCurrentPage()))
 					{
 						getActionBarContributor().setActiveEditor(<%=genPackage.getEditorClassName()%>.this);
 						handleActivate();
@@ -988,9 +990,17 @@ public class <%=genPackage.getEditorClassName()%>
 								  {
 									  setSelectionToViewer(mostRecentCommand.getAffectedObjects());
 								  }
-								  if (propertySheetPage != null && !propertySheetPage.getControl().isDisposed())
+								  for (Iterator<%if (genModel.useGenerics()) {%><PropertySheetPage><%}%> i = propertySheetPages.iterator(); i.hasNext(); )
 								  {
-									  propertySheetPage.refresh();
+									  PropertySheetPage propertySheetPage = <%if (!genModel.useGenerics()) {%>(PropertySheetPage)<%}%>i.next();
+									  if (propertySheetPage.getControl().isDisposed())
+									  {
+										  i.remove();
+									  }
+									  else
+									  {
+										  propertySheetPage.refresh();
+									  }
 								  }
 							  }
 						  });
@@ -1842,31 +1852,29 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	public IPropertySheetPage getPropertySheetPage()
 	{
-		if (propertySheetPage == null)
-		{
-			propertySheetPage =
-				new ExtendedPropertySheetPage(editingDomain<%if (genModel.getDecoration() == GenDecoration.MANUAL) {%>, ExtendedPropertySheetPage.Decoration.MANUAL<%} else if (genModel.getDecoration() == GenDecoration.LIVE) {%>, ExtendedPropertySheetPage.Decoration.LIVE, <%=genPackage.getImportedEditorPluginClassName()%>.getPlugin().getDialogSettings()<%}%>)
-				{
+		PropertySheetPage propertySheetPage =
+			new ExtendedPropertySheetPage(editingDomain<%if (genModel.getDecoration() == GenDecoration.MANUAL) {%>, ExtendedPropertySheetPage.Decoration.MANUAL<%} else if (genModel.getDecoration() == GenDecoration.LIVE) {%>, ExtendedPropertySheetPage.Decoration.LIVE, <%=genPackage.getImportedEditorPluginClassName()%>.getPlugin().getDialogSettings()<%}%>)
+			{
 <%if (genModel.useClassOverrideAnnotation()) {%>
-					@Override
+				@Override
 <%}%>
-					public void setSelectionToViewer(<%=_ListOfAnything%> selection)
-					{
-						<%=genPackage.getEditorClassName()%>.this.setSelectionToViewer(selection);
-						<%=genPackage.getEditorClassName()%>.this.setFocus();
-					}
+				public void setSelectionToViewer(<%=_ListOfAnything%> selection)
+				{
+					<%=genPackage.getEditorClassName()%>.this.setSelectionToViewer(selection);
+					<%=genPackage.getEditorClassName()%>.this.setFocus();
+				}
 
 <%if (genModel.useClassOverrideAnnotation()) {%>
-					@Override
+				@Override
 <%}%>
-					public void setActionBars(IActionBars actionBars)
-					{
-						super.setActionBars(actionBars);
-						getActionBarContributor().shareGlobalActions(this, actionBars);
-					}
-				};
-			propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
-		}
+				public void setActionBars(IActionBars actionBars)
+				{
+					super.setActionBars(actionBars);
+					getActionBarContributor().shareGlobalActions(this, actionBars);
+				}
+			};
+		propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
+		propertySheetPages.add(propertySheetPage);
 
 		return propertySheetPage;
 	}
@@ -2435,8 +2443,15 @@ public class <%=genPackage.getEditorClassName()%>
 			getActionBarContributor().setActiveEditor(null);
 		}
 
-		if (propertySheetPage != null)
+<%if (genModel.useGenerics()) {%>
+		for (PropertySheetPage propertySheetPage : propertySheetPages)
+<%} else {%>
+		for (Iterator i = propertySheetPages.iterator(); i.hasNext(); )
+<%}%>
 		{
+<%if (!genModel.useGenerics()) {%>
+			PropertySheetPage propertySheetPage = (PropertySheetPage)i.next();
+<%}%>
 			propertySheetPage.dispose();
 		}
 
