@@ -88,7 +88,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
   public GenOperation getGenOperation()
   {
     if (eContainerFeatureID() != GenModelPackage.GEN_PARAMETER__GEN_OPERATION) return null;
-    return (GenOperation)eContainer();
+    return (GenOperation)eInternalContainer();
   }
 
   /**

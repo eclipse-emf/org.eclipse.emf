@@ -549,7 +549,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   public GenClass getGenClass()
   {
     if (eContainerFeatureID() != GenModelPackage.GEN_FEATURE__GEN_CLASS) return null;
-    return (GenClass)eContainer();
+    return (GenClass)eInternalContainer();
   }
 
   /**

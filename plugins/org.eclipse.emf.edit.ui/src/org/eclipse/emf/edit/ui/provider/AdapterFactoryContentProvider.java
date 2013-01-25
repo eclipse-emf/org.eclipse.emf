@@ -12,10 +12,12 @@ package org.eclipse.emf.edit.ui.provider;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -482,6 +484,10 @@ public class AdapterFactoryContentProvider
           viewer.setSelection(StructuredSelection.EMPTY);
         }
 
+        AbstractTreeViewer treeViewer = structuredViewer instanceof AbstractTreeViewer ? (AbstractTreeViewer)structuredViewer : null;
+        List<Object> expandedElements = treeViewer == null ? Collections.emptyList() : Arrays.asList(treeViewer.getExpandedElements());
+        boolean isStaleExpandedElements = AdapterFactoryEditingDomain.isStale(expandedElements);
+
         if (element != null)
         {
           if (notification.isContentRefresh())
@@ -498,7 +504,7 @@ public class AdapterFactoryContentProvider
           structuredViewer.refresh(notification.isLabelUpdate());
         }
 
-        if (isStaleSelection)
+        if (isStaleSelection || isStaleExpandedElements)
         {
           Object object = structuredViewer.getInput();
           EditingDomain editingDomain = AdapterFactoryEditingDomain.getEditingDomainFor(object);
@@ -515,8 +521,16 @@ public class AdapterFactoryContentProvider
           }
           if (editingDomain instanceof AdapterFactoryEditingDomain)
           {
-            structuredViewer.setSelection
-              (new StructuredSelection(((AdapterFactoryEditingDomain)editingDomain).resolve(((IStructuredSelection)selection).toList())), true);
+            AdapterFactoryEditingDomain adapterFactoryEditingDomain = (AdapterFactoryEditingDomain)editingDomain;
+            if (treeViewer != null && isStaleExpandedElements)
+            {
+              treeViewer.setExpandedElements(adapterFactoryEditingDomain.resolve(expandedElements).toArray());
+            }
+            if (isStaleSelection)
+            {
+              structuredViewer.setSelection
+                (new StructuredSelection(adapterFactoryEditingDomain.resolve(((IStructuredSelection)selection).toList())), true);
+            }
           }
         }
       }

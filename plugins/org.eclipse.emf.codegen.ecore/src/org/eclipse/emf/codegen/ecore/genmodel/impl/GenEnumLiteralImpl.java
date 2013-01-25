@@ -82,7 +82,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
   public GenEnum getGenEnum()
   {
     if (eContainerFeatureID() != GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM) return null;
-    return (GenEnum)eContainer();
+    return (GenEnum)eInternalContainer();
   }
 
   /**

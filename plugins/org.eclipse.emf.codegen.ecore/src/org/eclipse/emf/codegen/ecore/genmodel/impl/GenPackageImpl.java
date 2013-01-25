@@ -1273,7 +1273,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   public GenModel getGenModelGen()
   {
     if (eContainerFeatureID() != GenModelPackage.GEN_PACKAGE__GEN_MODEL) return null;
-    return (GenModel)eContainer();
+    return (GenModel)eInternalContainer();
   }
 
   /**

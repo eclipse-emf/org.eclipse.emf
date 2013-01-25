@@ -167,7 +167,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
   public GenBase getGenBase()
   {
     if (eContainerFeatureID() != GenModelPackage.GEN_ANNOTATION__GEN_BASE) return null;
-    return (GenBase)eContainer();
+    return (GenBase)eInternalContainer();
   }
 
   /**

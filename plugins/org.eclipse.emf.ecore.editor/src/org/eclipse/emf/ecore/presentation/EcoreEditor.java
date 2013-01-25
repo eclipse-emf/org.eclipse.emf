@@ -272,7 +272,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected PropertySheetPage propertySheetPage;
+  protected List<PropertySheetPage> propertySheetPages = new ArrayList<PropertySheetPage>();
 
   /**
    * This is the viewer that shadows the selection in the content outline.
@@ -346,7 +346,7 @@ public class EcoreEditor
         }
         else if (p instanceof PropertySheet)
         {
-          if (((PropertySheet)p).getCurrentPage() == propertySheetPage)
+          if (propertySheetPages.contains(((PropertySheet)p).getCurrentPage()))
           {
             getActionBarContributor().setActiveEditor(EcoreEditor.this);
             handleActivate();
@@ -861,9 +861,17 @@ public class EcoreEditor
                   {
                     setSelectionToViewer(mostRecentCommand.getAffectedObjects());
                   }
-                  if (propertySheetPage != null && !propertySheetPage.getControl().isDisposed())
+                  for (Iterator<PropertySheetPage> i = propertySheetPages.iterator(); i.hasNext(); )
                   {
-                    propertySheetPage.refresh();
+                    PropertySheetPage propertySheetPage = i.next();
+                    if (propertySheetPage.getControl().isDisposed())
+                    {
+                      i.remove();
+                    }
+                    else
+                    {
+                      propertySheetPage.refresh();
+                    }
                   }
                 }
               });
@@ -1555,27 +1563,25 @@ public class EcoreEditor
    */
   public IPropertySheetPage getPropertySheetPage()
   {
-    if (propertySheetPage == null)
-    {
-      propertySheetPage =
-        new ExtendedPropertySheetPage(editingDomain, ExtendedPropertySheetPage.Decoration.LIVE, EcoreEditorPlugin.getPlugin().getDialogSettings())
+    PropertySheetPage propertySheetPage =
+      new ExtendedPropertySheetPage(editingDomain, ExtendedPropertySheetPage.Decoration.LIVE, EcoreEditorPlugin.getPlugin().getDialogSettings())
+      {
+        @Override
+        public void setSelectionToViewer(List<?> selection)
         {
-          @Override
-          public void setSelectionToViewer(List<?> selection)
-          {
-            EcoreEditor.this.setSelectionToViewer(selection);
-            EcoreEditor.this.setFocus();
-          }
+          EcoreEditor.this.setSelectionToViewer(selection);
+          EcoreEditor.this.setFocus();
+        }
 
-          @Override
-          public void setActionBars(IActionBars actionBars)
-          {
-            super.setActionBars(actionBars);
-            getActionBarContributor().shareGlobalActions(this, actionBars);
-          }
-        };
-      propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
-    }
+        @Override
+        public void setActionBars(IActionBars actionBars)
+        {
+          super.setActionBars(actionBars);
+          getActionBarContributor().shareGlobalActions(this, actionBars);
+        }
+      };
+    propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
+    propertySheetPages.add(propertySheetPage);
 
     return propertySheetPage;
   }
@@ -1698,7 +1704,7 @@ public class EcoreEditor
 
   /**
    * This returns whether something has been persisted to the URI of the specified resource.
-   * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
+   * The implementation uses the URI converter from the editor's resource set to try to open an input stream.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -2019,7 +2025,7 @@ public class EcoreEditor
       getActionBarContributor().setActiveEditor(null);
     }
 
-    if (propertySheetPage != null)
+    for (PropertySheetPage propertySheetPage : propertySheetPages)
     {
       propertySheetPage.dispose();
     }

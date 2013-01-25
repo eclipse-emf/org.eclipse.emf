@@ -43,6 +43,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -55,6 +56,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
@@ -101,8 +103,6 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -186,7 +186,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected PropertySheetPage propertySheetPage;
+  protected List<PropertySheetPage> propertySheetPages = new ArrayList<PropertySheetPage>();
 
   /**
    * This is the viewer that shadows the selection in the content outline.
@@ -260,7 +260,7 @@ public class GenModelEditor
         }
         else if (p instanceof PropertySheet)
         {
-          if (((PropertySheet)p).getCurrentPage() == propertySheetPage)
+          if (propertySheetPages.contains(((PropertySheet)p).getCurrentPage()))
           {
             getActionBarContributor().setActiveEditor(GenModelEditor.this);
             handleActivate();
@@ -391,6 +391,18 @@ public class GenModelEditor
       protected void unsetTarget(Resource target)
       {
         basicUnsetTarget(target);
+        resourceToDiagnosticMap.remove(target);
+        if (updateProblemIndication)
+        {
+          getSite().getShell().getDisplay().asyncExec
+            (new Runnable()
+             {
+               public void run()
+               {
+                 updateProblemIndication();
+               }
+             });
+        }
       }
     };
 
@@ -434,6 +446,7 @@ public class GenModelEditor
                     }
                   }
                 }
+                return false;
               }
 
               return true;
@@ -699,6 +712,8 @@ public class GenModelEditor
    */
   protected void initializeEditingDomain()
   {
+    // Create an adapter factory that yields item providers.
+    //
     adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
     // Create the command stack that will notify this editor as commands are executed.
@@ -726,10 +741,17 @@ public class GenModelEditor
                   {
                     setSelectionToViewer(mostRecentCommand.getAffectedObjects());
                   }
-
-                  if (propertySheetPage != null && !propertySheetPage.getControl().isDisposed())
+                  for (Iterator<PropertySheetPage> i = propertySheetPages.iterator(); i.hasNext(); )
                   {
-                    propertySheetPage.refresh();
+                    PropertySheetPage propertySheetPage = i.next();
+                    if (propertySheetPage.getControl().isDisposed())
+                    {
+                      i.remove();
+                    }
+                    else
+                    {
+                      propertySheetPage.refresh();
+                    }
                   }
                 }
               });
@@ -952,7 +974,7 @@ public class GenModelEditor
     getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
 
     int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
-    Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
+    Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance(), LocalSelectionTransfer.getTransfer(), FileTransfer.getInstance() };
     viewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(viewer));
     viewer.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(editingDomain, viewer));
   }
@@ -1284,27 +1306,25 @@ public class GenModelEditor
    */
   public IPropertySheetPage getPropertySheetPage()
   {
-    if (propertySheetPage == null)
-    {
-      propertySheetPage =
-        new ExtendedPropertySheetPage(editingDomain)
+    PropertySheetPage propertySheetPage =
+      new ExtendedPropertySheetPage(editingDomain)
+      {
+        @Override
+        public void setSelectionToViewer(List<?> selection)
         {
-          @Override
-          public void setSelectionToViewer(List<?> selection)
-          {
-            GenModelEditor.this.setSelectionToViewer(selection);
-            GenModelEditor.this.setFocus();
-          }
+          GenModelEditor.this.setSelectionToViewer(selection);
+          GenModelEditor.this.setFocus();
+        }
 
-          @Override
-          public void setActionBars(IActionBars actionBars)
-          {
-            super.setActionBars(actionBars);
-            getActionBarContributor().shareGlobalActions(this, actionBars);
-          }
-        };
-      propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
-    }
+        @Override
+        public void setActionBars(IActionBars actionBars)
+        {
+          super.setActionBars(actionBars);
+          getActionBarContributor().shareGlobalActions(this, actionBars);
+        }
+      };
+    propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
+    propertySheetPages.add(propertySheetPage);
 
     return propertySheetPage;
   }
@@ -1365,6 +1385,7 @@ public class GenModelEditor
     //
     final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
     saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+    saveOptions.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
 
     // Do the work within an operation because this is a long running activity that modifies the workbench.
     //
@@ -1426,7 +1447,7 @@ public class GenModelEditor
 
   /**
    * This returns whether something has been persisted to the URI of the specified resource.
-   * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
+   * The implementation uses the URI converter from the editor's resource set to try to open an input stream.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1508,25 +1529,10 @@ public class GenModelEditor
    */
   public void gotoMarker(IMarker marker)
   {
-    try
+    List<?> targetObjects = markerHelper.getTargetObjects(editingDomain, marker);
+    if (!targetObjects.isEmpty())
     {
-      if (marker.getType().equals(EValidator.MARKER))
-      {
-        String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
-        if (uriAttribute != null)
-        {
-          URI uri = URI.createURI(uriAttribute);
-          EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
-          if (eObject != null)
-          {
-            setSelectionToViewer(Collections.singleton(editingDomain.getWrapper(eObject)));
-          }
-        }
-      }
-    }
-    catch (CoreException exception)
-    {
-      GenModelEditPlugin.INSTANCE.log(exception);
+      setSelectionToViewer(targetObjects);
     }
   }
 
@@ -1735,7 +1741,7 @@ public class GenModelEditor
       getActionBarContributor().setActiveEditor(null);
     }
 
-    if (propertySheetPage != null)
+    for (PropertySheetPage propertySheetPage : propertySheetPages)
     {
       propertySheetPage.dispose();
     }
