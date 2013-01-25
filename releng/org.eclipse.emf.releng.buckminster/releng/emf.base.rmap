@@ -8,8 +8,6 @@
 	<locator pattern="^org\.eclipse\.emf(?:\..+)?$" searchPathRef="emf" />
 	<locator pattern="^org\.eclipse\.xsd(?:\..+)?$" searchPathRef="xsd" />
 
-	<locator pattern="^org\.eclipse\.test$" searchPathRef="eclipse.test" />
-	<locator pattern="^org\.eclipse\.ant\.optional\.junit$" searchPathRef="eclipse.test" />
 
 	<locator pattern="^org\.eclipse\.datatools(?:\..+)?$" searchPathRef="datatools" />
 	<locator pattern="^org\.eclipse\.rap(?:\..+)?$" searchPathRef="rap" />
@@ -136,18 +134,6 @@
 		</provider>
 	</searchPath>
 	
-	<searchPath name="eclipse.test">
-		<provider componentTypes="osgi.bundle" readerType="cvs" source="true" mutable="false">
-			<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/eclipse,{0}">
-				<bc:propertyRef key="buckminster.component" />
-			</uri>
-		</provider>
-		<provider componentTypes="eclipse.feature" readerType="cvs" source="true" mutable="false">
-			<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/eclipse,{0}-feature">
-				<bc:propertyRef key="buckminster.component" />
-			</uri>
-		</provider>
-	</searchPath>
 
 	<searchPath name="datatools">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"

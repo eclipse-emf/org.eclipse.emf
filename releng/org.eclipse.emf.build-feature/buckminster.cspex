@@ -9,6 +9,8 @@
 		<cs:dependency filter="(eclipse.target.platform=Galileo)" name="org.eclipse.equinox.common" componentType="osgi.bundle"  versionDesignator="[3.5.0,3.6.0)"/>
 		<cs:dependency name="org.eclipse.emf.base" componentType="eclipse.feature" />
 		<cs:dependency name="org.eclipse.rcp" componentType="eclipse.feature" />
+		<!-- balance for now missing org.eclipse.test transitive dependencies -->
+		<cs:dependency name="org.eclipse.ui.ide.application" componentType="osgi.bundle" />
 		<cs:dependency name="org.eclipse.pde.core" componentType="osgi.bundle" />
 		<cs:dependency name="org.eclipse.pde.junit.runtime" componentType="osgi.bundle" />
 		<cs:dependency name="org.eclipse.equinox.frameworkadmin.equinox" componentType="osgi.bundle" />
