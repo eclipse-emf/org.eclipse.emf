@@ -240,7 +240,7 @@ public class XcoreMapperTest {
           }
         }
       }
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }

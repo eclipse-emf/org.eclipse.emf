@@ -86,7 +86,7 @@ public class XcoreSmokeTest extends AbstractSmokeTest {
     try {
       EObject _parse = this.parser.parse(model);
       this.validationTestHelper.validate(_parse);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }

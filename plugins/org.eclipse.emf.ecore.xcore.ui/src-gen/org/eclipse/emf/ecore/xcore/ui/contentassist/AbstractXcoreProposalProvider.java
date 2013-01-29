@@ -5,7 +5,6 @@ package org.eclipse.emf.ecore.xcore.ui.contentassist;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.*;
-import org.eclipse.xtext.xbase.ui.contentassist.XbaseProposalProvider;
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
 
@@ -15,7 +14,7 @@ import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
  * with a more concrete subtype. 
  */
 @SuppressWarnings("all")
-public class AbstractXcoreProposalProvider extends XbaseProposalProvider {
+public class AbstractXcoreProposalProvider extends org.eclipse.xtext.xbase.ui.contentassist.XbaseProposalProvider {
 		
 	public void completeXPackage_Annotations(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
 		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);

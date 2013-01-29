@@ -98,7 +98,7 @@ public class MultiFileTest {
       final GenBase referencedGenClass = _type.getType();
       String _name = ((GenClass) referencedGenClass).getName();
       Assert.assertEquals("TypeB", _name);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -161,7 +161,7 @@ public class MultiFileTest {
       GenFeature _opposite_1 = ((XReference) _xFeature).getOpposite();
       XStructuralFeature _xFeature_1 = this.mapper.getXFeature(_opposite_1);
       Assert.assertEquals(ref, _xFeature_1);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }

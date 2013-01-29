@@ -316,10 +316,5 @@ public abstract class AbstractXcoreUiModule extends DefaultUiModule {
 		return org.eclipse.xtext.xbase.ui.contentassist.ImportingTypesProposalProvider.class;
 	}
 
-	// contributed by org.eclipse.xtext.generator.xbase.XbaseGeneratorFragment
-	public Class<? extends org.eclipse.xtext.xbase.imports.IUnresolvedTypeResolver> bindIUnresolvedTypeResolver() {
-		return org.eclipse.xtext.xbase.ui.imports.InteractiveUnresolvedTypeResolver.class;
-	}
-
 
 }

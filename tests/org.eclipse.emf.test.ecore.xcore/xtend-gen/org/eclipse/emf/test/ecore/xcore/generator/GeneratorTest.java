@@ -60,7 +60,7 @@ public class GeneratorTest {
       String _plus = (IFileSystemAccess.DEFAULT_OUTPUT + "/test/util/TestSwitch.java");
       CharSequence _get = _files_2.get(_plus);
       Assert.assertNotNull(_get);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }

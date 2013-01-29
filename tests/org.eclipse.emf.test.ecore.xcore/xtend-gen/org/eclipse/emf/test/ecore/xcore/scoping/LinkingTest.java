@@ -66,7 +66,7 @@ public class LinkingTest {
       Assert.assertFalse(_eIsProxy);
       String _qualifiedName = intType.getQualifiedName();
       Assert.assertEquals("int", _qualifiedName);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -98,7 +98,7 @@ public class LinkingTest {
       Assert.assertFalse(_eIsProxy);
       String _qualifiedName = stringType.getQualifiedName();
       Assert.assertEquals("java.lang.String", _qualifiedName);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -130,7 +130,7 @@ public class LinkingTest {
       Assert.assertFalse(_eIsProxy);
       String _qualifiedName = stringType.getQualifiedName();
       Assert.assertEquals("foo.Bar", _qualifiedName);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -163,7 +163,7 @@ public class LinkingTest {
       Assert.assertFalse(_eIsProxy);
       String _simpleName = feature.getSimpleName();
       Assert.assertEquals("operator_plus", _simpleName);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }

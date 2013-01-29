@@ -62,7 +62,7 @@ public class ParsingTest {
       final XPackage parse = this.parser.parse("package foo");
       String _name = parse.getName();
       Assert.assertEquals("foo", _name);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -86,7 +86,7 @@ public class ParsingTest {
       Resource _eResource = pack.eResource();
       EcoreUtil.resolveAll(_eResource);
       this.vth.assertNoErrors(pack);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -110,7 +110,7 @@ public class ParsingTest {
       GenClass _genClass = this.exts.getGenClass(_head);
       String _name = _genClass.getName();
       Assert.assertEquals("A", _name);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -134,7 +134,7 @@ public class ParsingTest {
       GenClass _genClass = this.exts.getGenClass(_head);
       String _name = _genClass.getName();
       Assert.assertEquals("A", _name);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -161,7 +161,7 @@ public class ParsingTest {
       XAnnotation _head_1 = IterableExtensions.<XAnnotation>head(_annotations);
       XAnnotationDirective _source = _head_1.getSource();
       Assert.assertEquals(_head, _source);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -266,7 +266,7 @@ public class ParsingTest {
         int _size = _contents_2.size();
         Assert.assertEquals(elements, _size);
       }
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -297,7 +297,7 @@ public class ParsingTest {
       Assert.assertTrue(_isEmpty);
       XGenericType _type = operation.getType();
       Assert.assertNull(_type);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -324,7 +324,7 @@ public class ParsingTest {
       int _size = _errors_1.size();
       boolean _lessEqualsThan = (1 <= _size);
       Assert.assertTrue(_string, _lessEqualsThan);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -356,7 +356,7 @@ public class ParsingTest {
       GenBase _type_3 = _type_2.getType();
       String _name = ((GenClassifier) _type_3).getName();
       Assert.assertEquals("EString", _name);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -443,7 +443,7 @@ public class ParsingTest {
       Resource _eResource = pack.eResource();
       EcoreUtil.resolveAll(_eResource);
       this.vth.assertNoErrors(pack);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }

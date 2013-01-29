@@ -1923,10 +1923,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__99;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:97:7: ( '::' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:97:9: '::'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:97:7: ( 'static' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:97:9: 'static'
             {
-            match("::"); 
+            match("static"); 
 
 
             }
@@ -1944,10 +1944,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__100;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:98:8: ( 'new' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:98:10: 'new'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:98:8: ( 'extension' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:98:10: 'extension'
             {
-            match("new"); 
+            match("extension"); 
 
 
             }
@@ -1965,10 +1965,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__101;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:99:8: ( 'false' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:99:10: 'false'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:99:8: ( '::' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:99:10: '::'
             {
-            match("false"); 
+            match("::"); 
 
 
             }
@@ -1986,10 +1986,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__102;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:100:8: ( 'true' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:100:10: 'true'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:100:8: ( 'new' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:100:10: 'new'
             {
-            match("true"); 
+            match("new"); 
 
 
             }
@@ -2007,10 +2007,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__103;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:101:8: ( 'null' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:101:10: 'null'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:101:8: ( 'false' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:101:10: 'false'
             {
-            match("null"); 
+            match("false"); 
 
 
             }
@@ -2028,10 +2028,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__104;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:102:8: ( 'typeof' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:102:10: 'typeof'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:102:8: ( 'true' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:102:10: 'true'
             {
-            match("typeof"); 
+            match("true"); 
 
 
             }
@@ -2049,10 +2049,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__105;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:103:8: ( 'throw' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:103:10: 'throw'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:103:8: ( 'null' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:103:10: 'null'
             {
-            match("throw"); 
+            match("null"); 
 
 
             }
@@ -2070,10 +2070,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__106;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:104:8: ( 'return' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:104:10: 'return'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:104:8: ( 'typeof' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:104:10: 'typeof'
             {
-            match("return"); 
+            match("typeof"); 
 
 
             }
@@ -2091,10 +2091,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__107;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:105:8: ( 'try' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:105:10: 'try'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:105:8: ( 'throw' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:105:10: 'throw'
             {
-            match("try"); 
+            match("throw"); 
 
 
             }
@@ -2112,10 +2112,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__108;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:106:8: ( 'finally' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:106:10: 'finally'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:106:8: ( 'return' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:106:10: 'return'
             {
-            match("finally"); 
+            match("return"); 
 
 
             }
@@ -2133,10 +2133,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__109;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:107:8: ( 'catch' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:107:10: 'catch'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:107:8: ( 'try' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:107:10: 'try'
             {
-            match("catch"); 
+            match("try"); 
 
 
             }
@@ -2154,10 +2154,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__110;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:108:8: ( 'static' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:108:10: 'static'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:108:8: ( 'finally' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:108:10: 'finally'
             {
-            match("static"); 
+            match("finally"); 
 
 
             }
@@ -2175,10 +2175,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = T__111;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:109:8: ( 'extension' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:109:10: 'extension'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:109:8: ( 'catch' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:109:10: 'catch'
             {
-            match("extension"); 
+            match("catch"); 
 
 
             }
@@ -2196,10 +2196,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_HEX;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8367:10: ( ( '0x' | '0X' ) ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+ ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )? )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8367:12: ( '0x' | '0X' ) ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+ ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )?
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8427:10: ( ( '0x' | '0X' ) ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+ ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )? )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8427:12: ( '0x' | '0X' ) ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+ ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )?
             {
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8367:12: ( '0x' | '0X' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8427:12: ( '0x' | '0X' )
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -2227,7 +2227,7 @@ public class InternalXcoreLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8367:13: '0x'
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8427:13: '0x'
                     {
                     match("0x"); 
 
@@ -2235,7 +2235,7 @@ public class InternalXcoreLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8367:18: '0X'
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8427:18: '0X'
                     {
                     match("0X"); 
 
@@ -2245,7 +2245,7 @@ public class InternalXcoreLexer extends Lexer {
 
             }
 
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8367:24: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8427:24: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+
             int cnt2=0;
             loop2:
             do {
@@ -2283,7 +2283,7 @@ public class InternalXcoreLexer extends Lexer {
                 cnt2++;
             } while (true);
 
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8367:58: ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )?
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8427:58: ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -2292,10 +2292,10 @@ public class InternalXcoreLexer extends Lexer {
             }
             switch (alt4) {
                 case 1 :
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8367:59: '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) )
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8427:59: '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) )
                     {
                     match('#'); 
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8367:63: ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) )
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8427:63: ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) )
                     int alt3=2;
                     int LA3_0 = input.LA(1);
 
@@ -2313,7 +2313,7 @@ public class InternalXcoreLexer extends Lexer {
                     }
                     switch (alt3) {
                         case 1 :
-                            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8367:64: ( 'b' | 'B' ) ( 'i' | 'I' )
+                            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8427:64: ( 'b' | 'B' ) ( 'i' | 'I' )
                             {
                             if ( input.LA(1)=='B'||input.LA(1)=='b' ) {
                                 input.consume();
@@ -2337,7 +2337,7 @@ public class InternalXcoreLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8367:84: ( 'l' | 'L' )
+                            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8427:84: ( 'l' | 'L' )
                             {
                             if ( input.LA(1)=='L'||input.LA(1)=='l' ) {
                                 input.consume();
@@ -2376,11 +2376,11 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8369:10: ( '0' .. '9' ( '0' .. '9' | '_' )* )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8369:12: '0' .. '9' ( '0' .. '9' | '_' )*
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8429:10: ( '0' .. '9' ( '0' .. '9' | '_' )* )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8429:12: '0' .. '9' ( '0' .. '9' | '_' )*
             {
             matchRange('0','9'); 
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8369:21: ( '0' .. '9' | '_' )*
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8429:21: ( '0' .. '9' | '_' )*
             loop5:
             do {
                 int alt5=2;
@@ -2429,11 +2429,11 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_DECIMAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8371:14: ( RULE_INT ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )? ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )? )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8371:16: RULE_INT ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )? ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )?
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8431:14: ( RULE_INT ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )? ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )? )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8431:16: RULE_INT ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )? ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )?
             {
             mRULE_INT(); 
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8371:25: ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )?
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8431:25: ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )?
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -2442,7 +2442,7 @@ public class InternalXcoreLexer extends Lexer {
             }
             switch (alt7) {
                 case 1 :
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8371:26: ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8431:26: ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT
                     {
                     if ( input.LA(1)=='E'||input.LA(1)=='e' ) {
                         input.consume();
@@ -2453,7 +2453,7 @@ public class InternalXcoreLexer extends Lexer {
                         recover(mse);
                         throw mse;}
 
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8371:36: ( '+' | '-' )?
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8431:36: ( '+' | '-' )?
                     int alt6=2;
                     int LA6_0 = input.LA(1);
 
@@ -2486,7 +2486,7 @@ public class InternalXcoreLexer extends Lexer {
 
             }
 
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8371:58: ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )?
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8431:58: ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )?
             int alt8=3;
             int LA8_0 = input.LA(1);
 
@@ -2498,7 +2498,7 @@ public class InternalXcoreLexer extends Lexer {
             }
             switch (alt8) {
                 case 1 :
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8371:59: ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' )
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8431:59: ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' )
                     {
                     if ( input.LA(1)=='B'||input.LA(1)=='b' ) {
                         input.consume();
@@ -2522,7 +2522,7 @@ public class InternalXcoreLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8371:87: ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' )
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8431:87: ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' )
                     {
                     if ( input.LA(1)=='D'||input.LA(1)=='F'||input.LA(1)=='L'||input.LA(1)=='d'||input.LA(1)=='f'||input.LA(1)=='l' ) {
                         input.consume();
@@ -2555,10 +2555,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8373:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )* )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8373:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )*
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8433:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )* )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8433:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )*
             {
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8373:11: ( '^' )?
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8433:11: ( '^' )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -2567,7 +2567,7 @@ public class InternalXcoreLexer extends Lexer {
             }
             switch (alt9) {
                 case 1 :
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8373:11: '^'
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8433:11: '^'
                     {
                     match('^'); 
 
@@ -2585,7 +2585,7 @@ public class InternalXcoreLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8373:44: ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )*
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8433:44: ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )*
             loop10:
             do {
                 int alt10=2;
@@ -2634,10 +2634,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8375:13: ( ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8375:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8435:13: ( ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8435:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8375:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8435:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt13=2;
             int LA13_0 = input.LA(1);
 
@@ -2655,10 +2655,10 @@ public class InternalXcoreLexer extends Lexer {
             }
             switch (alt13) {
                 case 1 :
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8375:16: '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8435:16: '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8375:20: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8435:20: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop11:
                     do {
                         int alt11=3;
@@ -2674,7 +2674,7 @@ public class InternalXcoreLexer extends Lexer {
 
                         switch (alt11) {
                     	case 1 :
-                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8375:21: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
+                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8435:21: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
                     	    {
                     	    match('\\'); 
                     	    if ( input.LA(1)=='\"'||input.LA(1)=='\''||input.LA(1)=='\\'||input.LA(1)=='b'||input.LA(1)=='f'||input.LA(1)=='n'||input.LA(1)=='r'||(input.LA(1)>='t' && input.LA(1)<='u') ) {
@@ -2690,7 +2690,7 @@ public class InternalXcoreLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8375:66: ~ ( ( '\\\\' | '\"' ) )
+                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8435:66: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -2715,10 +2715,10 @@ public class InternalXcoreLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8375:86: '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8435:86: '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8375:91: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8435:91: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop12:
                     do {
                         int alt12=3;
@@ -2734,7 +2734,7 @@ public class InternalXcoreLexer extends Lexer {
 
                         switch (alt12) {
                     	case 1 :
-                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8375:92: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
+                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8435:92: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
                     	    {
                     	    match('\\'); 
                     	    if ( input.LA(1)=='\"'||input.LA(1)=='\''||input.LA(1)=='\\'||input.LA(1)=='b'||input.LA(1)=='f'||input.LA(1)=='n'||input.LA(1)=='r'||(input.LA(1)>='t' && input.LA(1)<='u') ) {
@@ -2750,7 +2750,7 @@ public class InternalXcoreLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8375:137: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8435:137: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -2793,12 +2793,12 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8377:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8377:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8437:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8437:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8377:24: ( options {greedy=false; } : . )*
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8437:24: ( options {greedy=false; } : . )*
             loop14:
             do {
                 int alt14=2;
@@ -2823,7 +2823,7 @@ public class InternalXcoreLexer extends Lexer {
 
                 switch (alt14) {
             	case 1 :
-            	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8377:52: .
+            	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8437:52: .
             	    {
             	    matchAny(); 
 
@@ -2853,12 +2853,12 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8379:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8379:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8439:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8439:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8379:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8439:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop15:
             do {
                 int alt15=2;
@@ -2871,7 +2871,7 @@ public class InternalXcoreLexer extends Lexer {
 
                 switch (alt15) {
             	case 1 :
-            	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8379:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8439:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -2891,7 +2891,7 @@ public class InternalXcoreLexer extends Lexer {
                 }
             } while (true);
 
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8379:40: ( ( '\\r' )? '\\n' )?
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8439:40: ( ( '\\r' )? '\\n' )?
             int alt17=2;
             int LA17_0 = input.LA(1);
 
@@ -2900,9 +2900,9 @@ public class InternalXcoreLexer extends Lexer {
             }
             switch (alt17) {
                 case 1 :
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8379:41: ( '\\r' )? '\\n'
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8439:41: ( '\\r' )? '\\n'
                     {
-                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8379:41: ( '\\r' )?
+                    // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8439:41: ( '\\r' )?
                     int alt16=2;
                     int LA16_0 = input.LA(1);
 
@@ -2911,7 +2911,7 @@ public class InternalXcoreLexer extends Lexer {
                     }
                     switch (alt16) {
                         case 1 :
-                            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8379:41: '\\r'
+                            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8439:41: '\\r'
                             {
                             match('\r'); 
 
@@ -2943,10 +2943,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8381:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8381:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8441:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8441:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8381:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8441:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt18=0;
             loop18:
             do {
@@ -3000,8 +3000,8 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8383:16: ( . )
-            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8383:18: .
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8443:16: ( . )
+            // ../org.eclipse.emf.ecore.xcore/src-gen/org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.g:8443:18: .
             {
             matchAny(); 
 
@@ -3784,28 +3784,28 @@ public class InternalXcoreLexer extends Lexer {
 
     protected DFA19 dfa19 = new DFA19(this);
     static final String DFA19_eotS =
-        "\1\uffff\1\63\4\uffff\1\72\3\63\1\110\1\112\3\63\2\uffff\11\63\1"+
-        "\145\1\uffff\1\151\1\154\1\156\1\160\2\uffff\1\164\1\166\1\170\1"+
-        "\173\1\uffff\1\176\2\63\2\u0085\1\61\1\uffff\2\61\2\uffff\1\63\10"+
-        "\uffff\2\63\1\u008e\1\63\1\u0090\1\63\1\u0092\4\63\1\u009a\4\uffff"+
-        "\11\63\2\uffff\5\63\1\u00b2\6\63\1\u00ba\1\63\33\uffff\5\63\2\uffff"+
-        "\1\u0085\3\uffff\4\63\1\uffff\1\63\1\uffff\1\63\1\uffff\4\63\1\u00cb"+
-        "\1\63\2\uffff\23\63\1\u00e1\1\u00e2\2\63\1\uffff\1\u00e5\1\u00e6"+
-        "\5\63\1\uffff\1\63\1\u00ed\2\63\1\u00f0\10\63\1\u00fa\1\63\1\u00fc"+
-        "\1\uffff\7\63\1\u0104\1\63\1\u0106\1\63\1\u0108\10\63\1\u0111\2"+
-        "\uffff\2\63\2\uffff\5\63\1\u0119\1\uffff\2\63\1\uffff\1\u011c\4"+
-        "\63\1\u0121\3\63\1\uffff\1\63\1\uffff\1\u0127\1\u0128\1\u0129\3"+
-        "\63\1\u012d\1\uffff\1\u012e\1\uffff\1\63\1\uffff\2\63\1\u0134\5"+
-        "\63\1\uffff\2\63\1\u013c\2\63\1\u013f\1\63\1\uffff\1\u0141\1\63"+
-        "\1\uffff\1\63\1\u0144\2\63\1\uffff\2\63\1\u0149\1\63\1\u014b\3\uffff"+
-        "\1\u014c\2\63\2\uffff\3\63\1\u0152\1\63\1\uffff\2\63\1\u0156\1\u0157"+
-        "\3\63\1\uffff\1\u015b\1\u015c\1\uffff\1\63\1\uffff\1\63\1\u015f"+
-        "\1\uffff\4\63\1\uffff\1\63\2\uffff\1\u0165\1\63\1\u0168\2\63\1\uffff"+
-        "\3\63\2\uffff\1\63\1\u016f\1\u0170\2\uffff\1\63\1\u0172\1\uffff"+
-        "\3\63\1\u0176\1\63\1\uffff\1\u0178\1\63\1\uffff\3\63\1\u017d\1\63"+
-        "\1\u017f\2\uffff\1\u0180\1\uffff\1\u0181\2\63\1\uffff\1\u0184\1"+
-        "\uffff\1\u0185\1\u0186\1\u0187\1\63\1\uffff\1\u0189\3\uffff\1\u018a"+
-        "\1\u018b\4\uffff\1\u018c\4\uffff";
+        "\1\uffff\1\63\4\uffff\1\72\3\63\1\110\1\112\3\63\2\uffff\11\63"+
+        "\1\145\1\uffff\1\151\1\154\1\156\1\160\2\uffff\1\164\1\166\1\170"+
+        "\1\173\1\uffff\1\176\2\63\2\u0085\1\61\1\uffff\2\61\2\uffff\1\63"+
+        "\10\uffff\2\63\1\u008e\1\63\1\u0090\1\63\1\u0092\4\63\1\u009a\4"+
+        "\uffff\11\63\2\uffff\5\63\1\u00b2\6\63\1\u00ba\1\63\33\uffff\5\63"+
+        "\2\uffff\1\u0085\3\uffff\4\63\1\uffff\1\63\1\uffff\1\63\1\uffff"+
+        "\4\63\1\u00cb\1\63\2\uffff\23\63\1\u00e1\1\u00e2\2\63\1\uffff\1"+
+        "\u00e5\1\u00e6\5\63\1\uffff\1\63\1\u00ed\2\63\1\u00f0\10\63\1\u00fa"+
+        "\1\63\1\u00fc\1\uffff\7\63\1\u0104\1\63\1\u0106\1\63\1\u0108\10"+
+        "\63\1\u0111\2\uffff\2\63\2\uffff\5\63\1\u0119\1\uffff\2\63\1\uffff"+
+        "\1\u011c\4\63\1\u0121\3\63\1\uffff\1\63\1\uffff\1\u0127\1\u0128"+
+        "\1\u0129\3\63\1\u012d\1\uffff\1\u012e\1\uffff\1\63\1\uffff\2\63"+
+        "\1\u0134\5\63\1\uffff\2\63\1\u013c\2\63\1\u013f\1\63\1\uffff\1\u0141"+
+        "\1\63\1\uffff\1\63\1\u0144\2\63\1\uffff\2\63\1\u0149\1\63\1\u014b"+
+        "\3\uffff\1\u014c\2\63\2\uffff\3\63\1\u0152\1\63\1\uffff\2\63\1\u0156"+
+        "\1\u0157\3\63\1\uffff\1\u015b\1\u015c\1\uffff\1\63\1\uffff\1\63"+
+        "\1\u015f\1\uffff\4\63\1\uffff\1\63\2\uffff\1\u0165\1\63\1\u0168"+
+        "\2\63\1\uffff\3\63\2\uffff\1\63\1\u016f\1\u0170\2\uffff\1\63\1\u0172"+
+        "\1\uffff\3\63\1\u0176\1\63\1\uffff\1\u0178\1\63\1\uffff\3\63\1\u017d"+
+        "\1\63\1\u017f\2\uffff\1\u0180\1\uffff\1\u0181\2\63\1\uffff\1\u0184"+
+        "\1\uffff\1\u0185\1\u0186\1\u0187\1\63\1\uffff\1\u0189\3\uffff\1"+
+        "\u018a\1\u018b\4\uffff\1\u018c\4\uffff";
     static final String DFA19_eofS =
         "\u018d\uffff";
     static final String DFA19_minS =
@@ -3877,18 +3877,18 @@ public class InternalXcoreLexer extends Lexer {
         "\1\147\1\2\1\3\1\4\1\5\1\72\1\100\1\6\14\uffff\1\101\1\13\1\75\1"+
         "\14\11\uffff\1\21\1\22\16\uffff\1\71\1\55\1\56\1\102\1\111\1\57"+
         "\1\105\1\112\1\60\1\67\1\61\1\62\1\66\1\63\1\64\1\70\1\113\1\73"+
-        "\1\110\1\77\1\104\1\151\1\152\1\106\1\107\1\127\1\117\5\uffff\1"+
+        "\1\110\1\77\1\104\1\151\1\152\1\106\1\107\1\131\1\117\5\uffff\1"+
         "\144\1\145\1\uffff\1\146\1\150\1\153\4\uffff\1\36\1\uffff\1\114"+
         "\1\uffff\1\11\6\uffff\1\103\1\76\27\uffff\1\124\7\uffff\1\53\20"+
-        "\uffff\1\137\25\uffff\1\125\1\126\2\uffff\1\40\1\41\6\uffff\1\122"+
-        "\2\uffff\1\130\11\uffff\1\12\1\uffff\1\132\7\uffff\1\121\1\uffff"+
-        "\1\20\1\uffff\1\115\10\uffff\1\37\7\uffff\1\52\2\uffff\1\133\4\uffff"+
-        "\1\42\5\uffff\1\135\1\15\1\123\3\uffff\1\24\1\141\5\uffff\1\43\7"+
-        "\uffff\1\65\2\uffff\1\50\1\uffff\1\131\2\uffff\1\7\4\uffff\1\134"+
-        "\1\uffff\1\54\1\16\5\uffff\1\30\3\uffff\1\47\1\136\3\uffff\1\116"+
-        "\1\142\2\uffff\1\1\5\uffff\1\17\2\uffff\1\26\6\uffff\1\35\1\120"+
-        "\1\uffff\1\140\3\uffff\1\23\1\uffff\1\44\4\uffff\1\31\1\uffff\1"+
-        "\33\1\51\1\25\2\uffff\1\32\1\46\1\143\1\27\1\uffff\1\45\1\74\1\10"+
+        "\uffff\1\141\25\uffff\1\125\1\126\2\uffff\1\40\1\41\6\uffff\1\122"+
+        "\2\uffff\1\132\11\uffff\1\12\1\uffff\1\134\7\uffff\1\121\1\uffff"+
+        "\1\20\1\uffff\1\115\10\uffff\1\37\7\uffff\1\52\2\uffff\1\135\4\uffff"+
+        "\1\42\5\uffff\1\137\1\15\1\123\3\uffff\1\24\1\143\5\uffff\1\43\7"+
+        "\uffff\1\65\2\uffff\1\50\1\uffff\1\133\2\uffff\1\7\4\uffff\1\136"+
+        "\1\uffff\1\54\1\16\5\uffff\1\30\3\uffff\1\47\1\140\3\uffff\1\116"+
+        "\1\127\2\uffff\1\1\5\uffff\1\17\2\uffff\1\26\6\uffff\1\35\1\120"+
+        "\1\uffff\1\142\3\uffff\1\23\1\uffff\1\44\4\uffff\1\31\1\uffff\1"+
+        "\33\1\51\1\25\2\uffff\1\32\1\46\1\130\1\27\1\uffff\1\45\1\74\1\10"+
         "\1\34";
     static final String DFA19_specialS =
         "\1\0\55\uffff\1\1\1\2\u015d\uffff}>";

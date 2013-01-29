@@ -84,7 +84,7 @@ public class XcoreInterpreterTest {
       BasicEList<String> _basicEList = new BasicEList<String>(_newArrayList);
       Object _eInvoke = foo.eInvoke(_head, _basicEList);
       Assert.assertEquals("Foo says hi to Bar", _eInvoke);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -136,7 +136,7 @@ public class XcoreInterpreterTest {
       BasicEList<String> _basicEList = new BasicEList<String>(_newArrayList);
       Object _eInvoke = foo.eInvoke(_head, _basicEList);
       Assert.assertEquals("call1call2call1Bar", _eInvoke);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -194,7 +194,7 @@ public class XcoreInterpreterTest {
       EOperation _get_1 = _eOperations_1.get(1);
       Object _eInvoke = foo.eInvoke(_get_1, null);
       Assert.assertEquals("Bar", _eInvoke);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -227,7 +227,7 @@ public class XcoreInterpreterTest {
       EFactory _eFactoryInstance_1 = ePackage.getEFactoryInstance();
       String _convertToString = _eFactoryInstance_1.convertToString(uriDataType, uri);
       Assert.assertEquals(literal, _convertToString);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -265,7 +265,7 @@ public class XcoreInterpreterTest {
       EStructuralFeature _eStructuralFeature_1 = fooClass.getEStructuralFeature("alias");
       Object _eGet = foo.eGet(_eStructuralFeature_1);
       Assert.assertEquals("Sven", _eGet);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
@@ -336,7 +336,7 @@ public class XcoreInterpreterTest {
       EStructuralFeature _eStructuralFeature_2 = nodeClass.getEStructuralFeature("nodeKind");
       Object _eGet_2 = node.eGet(_eStructuralFeature_2);
       Assert.assertEquals(_eEnumLiteral_1, _eGet_2);
-    } catch (Exception _e) {
+    } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }

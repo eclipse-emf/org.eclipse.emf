@@ -44,7 +44,7 @@ public class XcoreFormatter extends XbaseFormatter
     configureXAnnotation(config, grammarAccess.getXAnnotationAccess());
     configureXStringToStringMapEntry(config, grammarAccess.getXStringToStringMapEntryAccess());
     configureXImportDirective(config, grammarAccess.getXImportDirectiveAccess());
-    configureQualifiedNameWithWildcard(config, grammarAccess.getQualifiedNameWithWildCardAccess());
+    configureQualifiedNameWithWildcard(config, grammarAccess.getQualifiedNameWithWildcardAccess());
     configureXAnnotationDirective(config, grammarAccess.getXAnnotationDirectiveAccess());
     configureXClassifier(config, grammarAccess.getXClassifierAccess());
     configureXDataType(config, grammarAccess.getXDataTypeAccess());
@@ -156,7 +156,7 @@ public class XcoreFormatter extends XbaseFormatter
     // No configuration required.
   }
 
-  public void configureQualifiedNameWithWildcard(FormattingConfig config, XtypeGrammarAccess.QualifiedNameWithWildCardElements elements)
+  public void configureQualifiedNameWithWildcard(FormattingConfig config, XtypeGrammarAccess.QualifiedNameWithWildcardElements elements)
   {
     // No configuration required.
   }
