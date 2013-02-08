@@ -206,15 +206,21 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       eObjectInputStream.loadResource(this);
 
       // Load the extrinsic ID map.
-      // If this stream wasn't produced by XMLResourceImpl, there won't be a map.
-      //
-      if (inputStream.available() > 0)
-      {
-        for (int i = 0, size = eObjectInputStream.readCompressedInt(); i < size; ++i)
-        {
-          setID(eObjectInputStream.loadEObject(), eObjectInputStream.readString());
-        }
-      }
+       int size = 0;
+       try
+       {
+         // If this stream wasn't produced by XMLResourceImpl, there won't be a map.
+         //
+         size = eObjectInputStream.readCompressedInt();
+       }
+       catch (IOException exception)
+       {
+         // Ignore
+       }
+       for (int i = 0; i < size; ++i)
+       {
+         setID(eObjectInputStream.loadEObject(), eObjectInputStream.readString());
+       }
 
       if (handler != null)
       {
