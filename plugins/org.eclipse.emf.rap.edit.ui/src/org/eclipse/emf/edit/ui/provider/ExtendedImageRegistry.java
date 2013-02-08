@@ -69,14 +69,14 @@ public class ExtendedImageRegistry
     Method instanceMethod = null;
     try
     {
-      Class<?> singletonUtilityClass = CommonPlugin.loadClass("org.eclipse.rap.rwt", "SingletonUtil");
+      Class<?> singletonUtilityClass = CommonPlugin.loadClass("org.eclipse.rap.rwt", "org.eclipse.rap.rwt.SingletonUtil");
       instanceMethod = singletonUtilityClass.getMethod("getSessionInstance", Class.class);
     }
     catch (Exception exception)
     {
       try
       {
-        Class<?> singletonUtilityClass = CommonPlugin.loadClass("org.eclipse.rap.rwt", "SessionSingletonBase");
+        Class<?> singletonUtilityClass = CommonPlugin.loadClass("org.eclipse.rap.rwt", "org.eclipse.rap.rwt.SessionSingletonBase");
         instanceMethod = singletonUtilityClass.getMethod("getInstance", Class.class);
       }
       catch (Exception exception2)
