@@ -2989,7 +2989,9 @@ public class EcoreUtil
       Resource resource = eObject.eResource();
       if (resource != null)
       {
-        return resource.getURI().appendFragment(resource.getURIFragment(eObject));
+        URI uri = resource.getURI();
+        String uriFragment = resource.getURIFragment(eObject);
+        return uri == null ? URI.createURI("#" + uriFragment) : uri.appendFragment(uriFragment);
       }
       else
       {
