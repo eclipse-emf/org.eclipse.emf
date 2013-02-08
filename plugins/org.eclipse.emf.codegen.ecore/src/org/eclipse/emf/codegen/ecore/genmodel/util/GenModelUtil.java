@@ -17,7 +17,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
@@ -26,6 +26,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.core.IJavaProject;
 
@@ -61,7 +62,11 @@ public class GenModelUtil
     try
     {
       URI uri = URI.createURI(modelDirectory);
-      return getJavaProject(uri);
+      IJavaProject javaProject = getJavaProject(uri);
+      if (javaProject != null)
+      {
+        return javaProject;
+      }
     }
     catch (Throwable throwable)
     {
@@ -95,17 +100,21 @@ public class GenModelUtil
 
     if (projectName != null)
     {
-      IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-      try
+      IWorkspaceRoot workspaceRoot = EcorePlugin.getWorkspaceRoot();
+      if (workspaceRoot != null)
       {
-        if (project.isAccessible() && project.hasNature(JavaCore.NATURE_ID))
+        IProject project = workspaceRoot.getProject(projectName);
+        try
         {
-          return JavaCore.create(project);
+          if (project.isAccessible() && project.hasNature(JavaCore.NATURE_ID))
+          {
+            return JavaCore.create(project);
+          }
         }
-      }
-      catch (CoreException exception)
-      {
-        // Ignore.
+        catch (CoreException exception)
+        {
+          // Ignore.
+        }
       }
     }
     return null;
