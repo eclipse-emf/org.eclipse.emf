@@ -638,12 +638,20 @@ public abstract class ArrayDelegatingEList<E> extends AbstractEList<E> implement
 
     @SuppressWarnings("unchecked") E oldObject = (E)data[index];
 
-    Object[] newData = newData(size - 1);
-    System.arraycopy(data, 0, newData, 0, index);
-    int shifted = size - index - 1;
-    if (shifted > 0)
+    Object[] newData;
+    if (size == 1)
     {
-      System.arraycopy(data, index+1, newData, index, shifted);
+      newData = null;
+    }
+    else
+    {
+      newData = newData(size - 1);
+      System.arraycopy(data, 0, newData, 0, index);
+      int shifted = size - index - 1;
+      if (shifted > 0)
+      {
+        System.arraycopy(data, index+1, newData, index, shifted);
+      }
     }
 
     setData(newData);

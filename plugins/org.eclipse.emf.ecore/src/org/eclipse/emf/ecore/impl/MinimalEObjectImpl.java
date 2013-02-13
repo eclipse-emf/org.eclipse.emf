@@ -33,8 +33,9 @@ import org.eclipse.emf.ecore.util.ECrossReferenceEList;
 
 /**
  * A space compact implementation of the model object '<em><b>EObject</b></em>'.
+ * @since 2.5
  */
-public class MinimalEObjectImpl extends BasicEObjectImpl implements EObject, EStructuralFeature.Internal.DynamicValueHolder
+public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralFeature.Internal.DynamicValueHolder
 {
   public static class Container extends MinimalEObjectImpl
   {
@@ -470,8 +471,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EObject, ESt
       public void setData(Object[] data)
       {
         ++modCount;
-        InternalEObject eContainer = eInternalContainer();
-        if (eContainer instanceof BasicEObjectImpl)
+        if (data != null)
         {
           Adapter[] eContainerAdapterArray = eContainerAdapterArray();
           if (Arrays.equals(data, eContainerAdapterArray))
@@ -484,35 +484,35 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EObject, ESt
       }
 
       @Override
-      protected void didAdd(int index, Adapter newObject)
+      protected void didAdd(int index, Adapter newAdapter)
       {
-        Listener[] listeners = (Listener[])getField(ADAPTER_LISTENER);
+        newAdapter.setTarget(MinimalEObjectImpl.this);
+        Listener[] listeners = eBasicAdapterListeners();
         if (listeners != null)
         {
           for (Listener listener : listeners)
           {
-            listener.added(MinimalEObjectImpl.this, newObject);
+            listener.added(MinimalEObjectImpl.this, newAdapter);
           }
         }
-        newObject.setTarget(MinimalEObjectImpl.this);
       }
 
       @Override
-      protected void didRemove(int index, Adapter oldObject)
+      protected void didRemove(int index, Adapter oldAdapter)
       {
-        Listener[] listeners = (Listener[])getField(ADAPTER_LISTENER);
+        Listener[] listeners = eBasicAdapterListeners();
         if (listeners != null)
         {
           for (Listener listener : listeners)
           {
-            listener.removed(MinimalEObjectImpl.this, oldObject);
+            listener.removed(MinimalEObjectImpl.this, oldAdapter);
           }
         }
-        Adapter adapter = oldObject;
+        Adapter adapter = oldAdapter;
         if (eDeliver())
         {
           Notification notification =
-            new NotificationImpl(Notification.REMOVING_ADAPTER, oldObject, null, index)
+            new NotificationImpl(Notification.REMOVING_ADAPTER, oldAdapter, null, index)
             {
               @Override
               public Object getNotifier()
@@ -534,7 +534,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EObject, ESt
 
       public void addListener(Listener listener)
       {
-        Listener[] listeners = (Listener[])getField(ADAPTER_LISTENER);
+        Listener[] listeners = eBasicAdapterListeners();
         if (listeners == null)
         {
           listeners = new Listener [] { listener };
@@ -546,12 +546,12 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EObject, ESt
           newListeners[listeners.length] = listener;
           listeners = newListeners;
         }
-        setField(ADAPTER_LISTENER, listeners);
+        eBasicSetAdapterListeners(listeners);
       }
 
       public void removeListener(Listener listener)
       {
-        Listener[] listeners = (Listener[])getField(ADAPTER_LISTENER);
+        Listener[] listeners = eBasicAdapterListeners();
         if (listeners != null)
         {
           for (int i = 0; i < listeners.length; ++i)
@@ -572,7 +572,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EObject, ESt
                 } 
                 listeners = newListeners;
               }
-              setField(ADAPTER_LISTENER, listeners);
+              eBasicSetAdapterListeners(listeners);
               break;
             }
           }
@@ -597,6 +597,22 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EObject, ESt
   protected boolean eBasicHasAdapters()
   {
     return hasField(ADAPTER);
+  }
+
+  /**
+   * @since 2.9
+   */
+  protected EObservableAdapterList.Listener[] eBasicAdapterListeners()
+  {
+    return (EObservableAdapterList.Listener[])getField(ADAPTER_LISTENER);
+  }
+
+  /**
+   * @since 2.9
+   */
+  protected void eBasicSetAdapterListeners(EObservableAdapterList.Listener[] eAdapterListeners)
+  {
+    setField(ADAPTER_LISTENER, eAdapterListeners);
   }
 
   @Override
@@ -708,7 +724,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EObject, ESt
       int size =  eClass().getFeatureCount() - eStaticFeatureCount();
       if (size != 0)
       {
-        eBasicSetSettings(size == 0 ? EPropertiesHolderBaseImpl.NO_SETTINGS : new Object [size]);
+        eBasicSetSettings(new Object [size]);
       }
     }
 
@@ -739,7 +755,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EObject, ESt
     return ECrossReferenceEList.createECrossReferenceEList(this);
   }
 
-  private Object[] eDynamicSettings()
+  Object[] eDynamicSettings()
   {
     Object[] settings = eBasicSettings();
     if (settings == null)
