@@ -959,7 +959,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       GenClass classExtendsGenClass = getClassExtendsGenClass();
       if (classExtendsGenClass != null)
       {
-        List<GenFeature> inheritedGenFeatures = getInheritedGenFeatures();
+        List<GenFeature> inheritedGenFeatures = classExtendsGenClass.getImplementedGenFeatures();
         GenModel genModel = getGenModel();
         for (GenFeature genFeature : inheritedGenFeatures)
         {
