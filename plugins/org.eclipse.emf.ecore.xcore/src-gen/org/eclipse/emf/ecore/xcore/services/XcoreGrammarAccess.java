@@ -2612,7 +2612,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 
 	//OpMultiAssign:
 	//
-	//	"+=";
+	//	"+=" | "-=";
 	public XbaseGrammarAccess.OpMultiAssignElements getOpMultiAssignAccess() {
 		return gaXbase.getOpMultiAssignAccess();
 	}
@@ -2684,7 +2684,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 
 	//OpEquality:
 	//
-	//	"==" | "!=";
+	//	"==" | "!=" | "===";
 	public XbaseGrammarAccess.OpEqualityElements getOpEqualityAccess() {
 		return gaXbase.getOpEqualityAccess();
 	}
@@ -2734,7 +2734,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 
 	//OpOther:
 	//
-	//	"->" | ".." | "=>" | ">" (=> (">" ">") | ">") | "<" (=> ("<" "<") | "<") | "<>" | "?:" | "<=>";
+	//	"->" | "..<" | ">" ".." | ".." | "=>" | ">" (=> (">" ">") | ">") | "<" (=> ("<" "<") | "<") | "<>" | "?:" | "<=>";
 	public XbaseGrammarAccess.OpOtherElements getOpOtherAccess() {
 		return gaXbase.getOpOtherAccess();
 	}
