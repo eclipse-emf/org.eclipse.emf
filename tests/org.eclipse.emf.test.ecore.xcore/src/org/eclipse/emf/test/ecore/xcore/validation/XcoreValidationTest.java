@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.parameterized.InjectParameter;
-import org.eclipse.xtext.junit4.parameterized.ParameterizedXtextRunner;
 import org.eclipse.xtext.junit4.parameterized.ResourceURIs;
 import org.eclipse.xtext.junit4.parameterized.XpectLines;
 import org.eclipse.xtext.resource.XtextResource;
@@ -56,11 +55,10 @@ import com.google.inject.Inject;
  */
 @SuppressWarnings("restriction")
 @InjectWith(XcoreInjectorProvider.class)
-@RunWith(ParameterizedXtextRunner.class)
-@ResourceURIs(baseDir = "src/org/eclipse/emf/test/ecore/xcore/validation", fileExtensions = "xcore")
+@RunWith(XcoreParameterizedTestRunner.class)
+@ResourceURIs(baseDir = "src/org/eclipse/emf/test/ecore/xcore/validation", fileExtensions = "xcore_test")
 public class XcoreValidationTest
 {
-
   @InjectParameter
   private XtextResource resource;
 

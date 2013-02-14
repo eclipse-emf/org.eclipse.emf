@@ -39,7 +39,6 @@ Export-Package: org.eclipse.emf.ecore.xcore,
  org.eclipse.emf.ecore.xcore.resource,
  org.eclipse.emf.ecore.xcore.scoping,
  org.eclipse.emf.ecore.xcore.services,
- org.eclipse.emf.ecore.xcore.typing,
  org.eclipse.emf.ecore.xcore.util,
  org.eclipse.emf.ecore.xcore.validation
 

@@ -41,4 +41,21 @@ class XbaseScopingTest {
 		validator.assertNoErrors(pack)
 	}
 	
+	@Test
+	def testImports() {
+		val pack = parser.parse('''
+			package foo.bar
+			
+			import java.math.BigDecimal
+			
+			class X {
+				op BigDecimal foo(BigDecimal y) {
+					val BigDecimal x = 42bd
+					return x + y
+				}
+			}
+		''')
+		validator.assertNoErrors(pack)
+	}
+	
 }

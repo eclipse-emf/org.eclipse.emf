@@ -36,14 +36,14 @@ import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.util.Pair;
-import org.eclipse.xtext.xbase.resource.XbaseResource;
+import org.eclipse.xtext.xbase.resource.BatchLinkableResource;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 
-public class XcoreResource extends XbaseResource
+public class XcoreResource extends BatchLinkableResource
 {
   @Inject
   private LazyCreationProxyURIConverter proxyConverter;

@@ -30,19 +30,13 @@ import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XReference;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
-import org.eclipse.xtext.EcoreUtil2;
-import org.eclipse.xtext.common.types.JvmDeclaredType;
-import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractScope;
-import org.eclipse.xtext.xbase.scoping.XbaseScopeProvider;
-import org.eclipse.xtext.xbase.scoping.featurecalls.JvmFeatureScope;
-import org.eclipse.xtext.xbase.scoping.featurecalls.LocalVarDescription;
+import org.eclipse.xtext.xbase.annotations.typesystem.XbaseWithAnnotationsBatchScopeProvider;
 
-import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
 
@@ -53,48 +47,13 @@ import com.google.inject.Inject;
  * how and when to use it
  *
  */
-public class XcoreScopeProvider extends XbaseScopeProvider
+public class XcoreScopeProvider extends XbaseWithAnnotationsBatchScopeProvider
 {
   @Inject
   private XcoreMapper mapper;
 
   @Inject
   private IQualifiedNameConverter qualifiedNameConverter;
-
-  @Override
-  protected IScope createLocalVarScopeForJvmDeclaredType(JvmDeclaredType type, IScope parentScope)
-  {
-    EList<JvmTypeReference> superTypes = type.getSuperTypes();
-    if (superTypes.isEmpty())
-    {
-      return new JvmFeatureScope(parentScope, "this", new LocalVarDescription(THIS, type));
-    }
-    else
-    {
-      return
-        new JvmFeatureScope
-          (parentScope,
-           "this & super",
-           Lists.newArrayList( new LocalVarDescription(THIS, type),  new LocalVarDescription(SUPER, superTypes.get(0).getType())));
-    }
-  }
-
-  @Override
-  protected JvmDeclaredType getContextType(EObject call)
-  {
-    if (call == null)
-    {
-      return null;
-    }
-    else
-    {
-      XClass containerClass = EcoreUtil2.getContainerOfType(call, XClass.class);
-      return
-        containerClass != null ?
-          mapper.getMapping(containerClass).getInterfaceType() : // TODO use implementation class
-          super.getContextType(call);
-    }
-  }
 
   @Override
   public IScope getScope(final EObject context, EReference reference)

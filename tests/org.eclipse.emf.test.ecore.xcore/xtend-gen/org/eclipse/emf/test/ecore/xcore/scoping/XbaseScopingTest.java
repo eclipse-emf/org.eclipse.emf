@@ -55,4 +55,37 @@ public class XbaseScopingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
+  
+  @Test
+  public void testImports() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo.bar");
+      _builder.newLine();
+      _builder.newLine();
+      _builder.append("import java.math.BigDecimal");
+      _builder.newLine();
+      _builder.newLine();
+      _builder.append("class X {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("op BigDecimal foo(BigDecimal y) {");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("val BigDecimal x = 42bd");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("return x + y");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      final XPackage pack = this.parser.parse(_builder);
+      this.validator.assertNoErrors(pack);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
 }

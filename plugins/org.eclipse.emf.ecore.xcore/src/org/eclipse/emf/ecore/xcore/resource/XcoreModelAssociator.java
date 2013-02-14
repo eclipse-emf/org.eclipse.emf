@@ -24,11 +24,15 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.xcore.XDataType;
+import org.eclipse.emf.ecore.xcore.XModelElement;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.emf.ecore.xcore.mappings.ToXcoreMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XDataTypeMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.util.XcoreEcoreBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelBuilder;
@@ -98,7 +102,7 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
             {
               boolean needsEcoreEditSupport = false;
               EPackage ecorePackage = genPackage.getEcorePackage();
-              
+
               // Consider all the class of the package...
               LOOP:
               for (EClassifier eClassifier : ePackage.getEClassifiers())
@@ -178,7 +182,50 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
 
   public XExpression getAssociatedExpression(JvmIdentifiableElement element)
   {
-    // TODO
+    ToXcoreMapping mapping = mapper.getToXcoreMapping(element);
+    XNamedElement xcoreElement = mapping.getXcoreElement();
+    if (xcoreElement instanceof XOperation)
+    {
+      XOperation xOperation = (XOperation)xcoreElement;
+      if (element == mapper.getMapping(xOperation).getJvmOperation())
+      {
+        return xOperation.getBody();
+      }
+    }
+    else if (xcoreElement instanceof XDataType)
+    {
+      XDataType xDataType = (XDataType)xcoreElement;
+      XDataTypeMapping typeMapping = mapper.getMapping(xDataType);
+      if (element == typeMapping.getConverter())
+      {
+        return xDataType.getConvertBody();
+      }
+      else if (element == typeMapping.getCreator())
+      {
+        return xDataType.getCreateBody();
+      }
+    }
+    else if (xcoreElement instanceof XStructuralFeature)
+    {
+      XStructuralFeature feature = (XStructuralFeature)xcoreElement;
+      XFeatureMapping featureMapping = mapper.getMapping(feature);
+      if (element == featureMapping.getGetter())
+      {
+        return feature.getGetBody();
+      }
+      else if (element == featureMapping.getSetter())
+      {
+        return feature.getSetBody();
+      }
+      else if (element == featureMapping.getIsSetter())
+      {
+        return feature.getIsSetBody();
+      }
+      else if (element == featureMapping.getUnsetter())
+      {
+        return feature.getUnsetBody();
+      }
+    }
     return null;
   }
 
@@ -262,12 +309,12 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
   {
     for (EObject eContainer = eObject; eContainer != null; eContainer = eContainer.eContainer())
     {
-      if (eContainer instanceof XBlockExpression)
+      if (eContainer instanceof XExpression && eContainer.eContainer() instanceof XModelElement)
       {
         return getLogicalContainer(eContainer);
       }
     }
     return null;
   }
-  
+
 }

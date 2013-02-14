@@ -72,7 +72,55 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
   {
     // Ignore
   }
-  
+
+  @Override
+  @Ignore
+  @Test
+  public void testArrays_01() throws Exception
+  {
+    super.testReservedWordEnum();
+  }
+
+  @Override
+  @Ignore
+  @Test
+  public void testArrays_02() throws Exception
+  {
+    super.testReservedWordEnum();
+  }
+
+  @Override
+  @Ignore
+  @Test
+  public void testReservedWordEnum() throws Exception
+  {
+    super.testReservedWordEnum();
+  }
+
+  @Override
+  @Ignore
+  @Test
+  public void testReservedWordInterface() throws Exception
+  {
+    super.testReservedWordInterface();
+  }
+
+  @Override
+  @Ignore
+  @Test
+  public void testReservedWordAnnotation() throws Exception
+  {
+    super.testReservedWordAnnotation();
+  }
+
+  @Override
+  @Ignore
+  @Test
+  public void testReservedWordClass() throws Exception
+  {
+    super.testReservedWordClass();
+  }
+
   @Override
   @Test
   @Ignore("Fails with old type system")
@@ -81,7 +129,7 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
     // TODO Re-activate when we start using the new type system 
     super.testBlock_02();
   }
-  
+
   @Override
   @Test
   @Ignore("Fails with old type system")
@@ -90,7 +138,7 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
     // TODO Re-activate when we start using the new type system 
     super.testForLoop_16();
   }
-  
+
   @Override
   @Test
   @Ignore("Fails with old type system")
@@ -99,7 +147,7 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
     // TODO Re-activate when we start using the new type system 
     super.testSwitchExpression_24();
   }
-  
+
   @Override
   @Test
   @Ignore("Fails with old type system")
@@ -108,7 +156,7 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
     // TODO Re-activate when we start using the new type system 
     super.testReduceWithPlusOperator();
   }
-  
+
   @Override
   @Test
   @Ignore("Fails with old type system")
@@ -117,7 +165,7 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
     // TODO Re-activate when we start using the new type system 
     super.testCollectionExtensions_08();
   }
-  
+
   @Override
   @Test
   @Ignore("Fails with old type system")
@@ -126,7 +174,7 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
     // TODO Re-activate when we start using the new type system 
     super.testCollectionExtensions_10();
   }
-  
+
   @Override
   @Test
   @Ignore("Fails with old type system")
@@ -135,7 +183,7 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
     // TODO Re-activate when we start using the new type system 
     super.testExceptionInClosure_01();
   }
-  
+
   @Override
   @Test
   @Ignore("Fails with old type system")
@@ -144,7 +192,7 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
     // TODO Re-activate when we start using the new type system 
     super.testExceptionInClosure_02();
   }
-  
+
   @Override
   @Test
   @Ignore("Fails with old type system")
@@ -153,7 +201,7 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
     // TODO Re-activate when we start using the new type system 
     super.testExceptionInClosure_03();
   }
-  
+
   @Override
   @Test
   @Ignore("Fails with old type system")

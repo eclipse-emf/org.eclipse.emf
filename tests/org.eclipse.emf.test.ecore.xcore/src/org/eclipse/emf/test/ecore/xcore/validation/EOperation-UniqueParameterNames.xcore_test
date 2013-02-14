@@ -1,0 +1,13 @@
+package foo
+
+//TODO suppress duplicate local variable error message.
+/* XPECT validationIssues ---
+error at 'a' message 'Duplicate local variable a'
+error at 'a' message 'Duplicate local variable a'
+error at 'op void foo(A a, A a)' message 'There may not be two parameters named 'a''
+--- */
+
+class A
+{
+	op void foo(A a, A a)
+} 
