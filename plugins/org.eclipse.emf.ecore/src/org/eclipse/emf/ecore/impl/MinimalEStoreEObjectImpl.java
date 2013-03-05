@@ -51,7 +51,7 @@ public abstract class MinimalEStoreEObjectImpl extends MinimalEObjectImpl
 
   @Override
   public abstract InternalEObject.EStore eStore();
-  
+
   protected boolean eIsCaching()
   {
     return true;

@@ -599,17 +599,11 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
     return hasField(ADAPTER);
   }
 
-  /**
-   * @since 2.9
-   */
   protected EObservableAdapterList.Listener[] eBasicAdapterListeners()
   {
     return (EObservableAdapterList.Listener[])getField(ADAPTER_LISTENER);
   }
 
-  /**
-   * @since 2.9
-   */
   protected void eBasicSetAdapterListeners(EObservableAdapterList.Listener[] eAdapterListeners)
   {
     setField(ADAPTER_LISTENER, eAdapterListeners);
