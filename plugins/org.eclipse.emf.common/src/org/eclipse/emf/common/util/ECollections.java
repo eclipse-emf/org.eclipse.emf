@@ -11,6 +11,9 @@
 package org.eclipse.emf.common.util;
 
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1430,6 +1433,128 @@ public class ECollections
         result.add(t);
       }
       return result;
+    }
+  }
+
+  /**
+   * Returns a synchronized, i.e., thread-safe view of the interning set.
+   * The result is serializeable if the argument is serializeable.
+   * @param set the interning set to which this interning set delegates.
+   * @return a synchronized view of the interning set.
+   * @since 2.9
+   */
+  public static <T> InterningSet<T> synchronizedInterningSet(InterningSet<T> set)
+  {
+    return new SynchronizedInterningSet<T>(set);
+  }
+
+  private static final class SynchronizedInterningSet<E> implements InterningSet<E>, Serializable
+  {
+    private static final long serialVersionUID = 1L;
+
+    private InterningSet<E> set;
+
+    public SynchronizedInterningSet(InterningSet<E> set)
+    {
+      this.set = set;
+    }
+
+    public synchronized E intern(E object)
+    {
+      return set.intern(object);
+    }
+
+    public synchronized E get(E object)
+    {
+      return set.get(object);
+    }
+
+    public synchronized int size()
+    {
+      return set.size();
+    }
+
+    public synchronized boolean isEmpty()
+    {
+      return set.isEmpty();
+    }
+
+    public synchronized boolean contains(Object o)
+    {
+      return set.contains(o);
+    }
+
+    public synchronized Iterator<E> iterator()
+    {
+      return set.iterator();
+    }
+
+    public synchronized Object[] toArray()
+    {
+      return set.toArray();
+    }
+
+    public synchronized <T> T[] toArray(T[] a)
+    {
+      return set.toArray(a);
+    }
+
+    public synchronized boolean add(E e)
+    {
+      return set.add(e);
+    }
+
+    public synchronized boolean remove(Object o)
+    {
+      return set.remove(o);
+    }
+
+    public synchronized boolean containsAll(Collection<?> c)
+    {
+      return set.containsAll(c);
+    }
+
+    public synchronized boolean addAll(Collection<? extends E> c)
+    {
+      return set.addAll(c);
+    }
+
+    public synchronized boolean retainAll(Collection<?> c)
+    {
+      return set.retainAll(c);
+    }
+
+    public synchronized boolean removeAll(Collection<?> c)
+    {
+      return set.removeAll(c);
+    }
+
+    public synchronized void clear()
+    {
+      set.clear();
+    }
+
+    @Override
+    public synchronized boolean equals(Object o)
+    {
+      return set.equals(o);
+    }
+
+    @Override
+    public synchronized int hashCode()
+    {
+      return set.hashCode();
+    }
+
+    @Override
+    public synchronized String toString()
+    {
+      return set.toString();
+    }
+
+    private synchronized void writeObject(ObjectOutputStream out) throws IOException
+    {
+      out.defaultWriteObject();
     }
   }
 }

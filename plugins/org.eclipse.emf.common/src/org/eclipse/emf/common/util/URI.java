@@ -1,26 +1,22 @@
 /**
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2013 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.common.util;
 
 import java.io.File;
+import java.lang.ref.Reference;
+import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 /**
@@ -69,7 +65,7 @@ import java.util.StringTokenizer;
  * can be used, in which a non-null <code>device</code> parameter can be
  * specified.
  *
- * <p><a name="archive_explanation"> 
+ * <p><a name="archive_explanation">
  * The other enhancement provides support for the almost-hierarchical
  * form used for files within archives, such as the JAR scheme, defined
  * for the Java Platform in the documentation for {@link
@@ -97,7 +93,7 @@ import java.util.StringTokenizer;
  * #createURI(String) createURI} to have parsed them correctly from a single
  * URI string.  If necessary in the future, these tests may be made more
  * strict, to better conform to the RFC.
- * 
+ *
  * <p>Another group of static methods, whose names begin with "encode", use
  * percent escaping to encode any characters that are not permitted in the
  * various URI components. Another static method is provided to {@link
@@ -129,103 +125,1825 @@ import java.util.StringTokenizer;
  * preserved.  In the latter case, the empty authority will override the
  * base authority, resulting in <code>http:///bar</code>!
  */
-public final class URI
+public abstract class URI
 {
-  // Common to all URI types.
-  private final int hashCode;
-  private static final int HIERARICHICAL_FLAG = 0x0100;
-  private final String scheme;  // null -> relative URI reference
-  private final String authority;
-  private final String fragment;
-  private URI cachedTrimFragment;
-  private String cachedToString;
-  //private final boolean iri;
-  //private URI cachedASCIIURI;
+  protected static final boolean DEBUG = false;
 
-  // Applicable only to a hierarchical URI.
-  private final String device;
-  private static final int ABSOLUTE_PATH_FLAG = 0x0010;
-  private final String[] segments; // empty last segment -> trailing separator
-  private final String query;
+  /**
+   * The cached hash code of the URI.
+   * This is always equal to the hash code of {@link #toString()}
+   */
+  protected final int hashCode;
 
-  // A cache of URIs, keyed by the strings from which they were created.
-  // The fragment of any URI is removed before caching it here, to minimize
-  // the size of the cache in the usual case where most URIs only differ by
-  // the fragment.
-  private static final URICache uriCache = new URICache();
-    
-  private static class URICache extends HashMap<String,WeakReference<URI>>
+  /**
+   * A weakly cached reference to the string representation.
+   */
+  protected WeakReference<String> toString;
+
+  /**
+   * A pool for caching URIs.
+   */
+  protected static class URIPool extends Pool<URI>
   {
-    private static final long serialVersionUID = 1L;
+    protected static final long serialVersionUID = 1L;
 
-    static final int MIN_LIMIT = 1000;
-    int count;
-    int limit = MIN_LIMIT;
+    /**
+     * A reference queue for managing the {@link URI#toString} values.
+     */
+    protected final ReferenceQueue<String> cachedToStrings;
 
-    public synchronized URI get(String key)
+    public URIPool(ReferenceQueue<Object> queue)
     {
-      WeakReference<URI> reference = super.get(key);
-      return reference == null ? null : reference.get();
+      super(1031, null, queue);
+
+      // The string cache will be managed by either an internal or external cache as appropriate.
+      //
+      cachedToStrings = externalQueue == null ? new ReferenceQueue<String>() : null;
     }
-         
-    public synchronized void put(String key, URI value)
+
+    /**
+     * A based access unit for this pool.
+     */
+    protected static class URIPoolAccessUnitBase extends AccessUnit<URI>
     {
-      super.put(key, new WeakReference<URI>(value));
-      if (++count > limit)
+      protected URIPoolAccessUnitBase(Pool.AccessUnit.Queue<URI> queue)
       {
-        cleanGCedValues();
+        super(queue);
+      }
+
+      @Override
+      protected URI getValue()
+      {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      protected void setValue(URI value)
+      {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      protected boolean setArbitraryValue(Object value)
+      {
+        throw new UnsupportedOperationException();
       }
     }
-      
-    private void cleanGCedValues()
+
+    /**
+     * Access units for basic string access.
+     */
+    protected final StringAccessUnit.Queue stringAccessUnits = new StringAccessUnit.Queue(this);
+
+    /**
+     * An access unit for basic string access.
+     */
+    protected static class StringAccessUnit extends URIPoolAccessUnitBase
     {
-      for (Iterator<Map.Entry<String,WeakReference<URI>>> i = entrySet().iterator(); i.hasNext(); )
+      protected static class Queue extends AccessUnit.Queue<URI>
       {
-        Map.Entry<String,WeakReference<URI>> entry = i.next();
-        WeakReference<URI> reference = entry.getValue();
-        if (reference.get() == null)
+        private static final long serialVersionUID = 1L;
+
+        final protected URIPool pool;
+
+        public Queue(URIPool pool)
         {
-          i.remove();
+          this.pool = pool;
+        }
+
+        @Override
+        public StringAccessUnit pop(boolean isExclusive)
+        {
+          return (StringAccessUnit)super.pop(isExclusive);
+        }
+
+        @Override
+        protected AccessUnit<URI> newAccessUnit()
+        {
+          return new StringAccessUnit(this, pool);
         }
       }
-      count = 0;
-      limit = Math.max(MIN_LIMIT, size() / 2);
+
+      /**
+       * This unit's pool.
+       */
+      protected final URIPool pool;
+
+      /**
+       * The value being accessed.
+       */
+      protected String value;
+
+      /**
+       * The cached hash code computed by {@link #findMajorSeparator(int, String, int)} and {@link #findSegmentEnd(int, String, int)}.
+       */
+      protected int findHashCode;
+
+      /**
+       * The cached terminating character computed by {@link #findMajorSeparator(int, String, int)} and {@link #findSegmentEnd(int, String, int)}.
+       */
+      protected char findTerminatingCharacter;
+
+      /**
+       * Creates an instance managed by this queue and pool.
+       */
+      protected StringAccessUnit(Queue queue, URIPool pool)
+      {
+        super(queue);
+        this.pool = pool;
+      }
+
+      /**
+       * Caches the parameters.
+       */
+      protected void setValue(String value)
+      {
+        this.value = value;
+        this.hashCode = value.hashCode();
+      }
+
+      @Override
+      protected boolean matches(URI value)
+      {
+        return value.matches(this.value);
+      }
+
+      @Override
+      public URI match()
+      {
+        // If we fail to match, use getInternalizedValue to parse and cache an instance.
+        //
+        URI result = super.match();
+        return result == null ? getInternalizedValue() : result;
+      }
+
+      @Override
+      public URI getInternalizedValue()
+      {
+        return parseIntoURI(value);
+      }
+
+      /**
+       * A string-parsing implementation.
+       * This method creates instances in the pool as a side-effect.
+       * Note that we never pass in a string with a fragment separator to this method.
+       */
+      protected URI parseIntoURI(String uri)
+      {
+        // The initial values for what we'll compute.
+        //
+        boolean hasExpectedHashCode = true;
+        String scheme = null;
+        String authority = null;
+        String device = null;
+        boolean absolutePath = false;
+        String[] segments = NO_SEGMENTS;
+        int segmentsHashCode = 1;
+        String query = null;
+        boolean isArchiveScheme = false;
+        boolean isPlatformScheme = false;
+
+        // Look for the major separator, i.e., one of ":/?"
+        //
+        int length = uri.length();
+        int i = 0;
+        int j = findMajorSeparator(length, uri, i);
+
+        // If we've found the scheme separator...
+        //
+        if (findTerminatingCharacter == SCHEME_SEPARATOR)
+        {
+          // Look if the scheme's hash code matches one of the most likely schemes we expect to find...
+          //
+          int findHashCode = this.findHashCode;
+          if (findHashCode == SCHEME_PLATFORM_HASH_CODE)
+          {
+            scheme = SCHEME_PLATFORM;
+            isPlatformScheme = true;
+          }
+          else if (findHashCode == SCHEME_FILE_HASH_CODE)
+          {
+            scheme = SCHEME_FILE;
+          }
+          else if (findHashCode == SCHEME_HTTP_HASH_CODE)
+          {
+            scheme = SCHEME_HTTP;
+          }
+          else if (findHashCode == SCHEME_JAR_HASH_CODE)
+          {
+            scheme = SCHEME_JAR;
+            isArchiveScheme = true;
+          }
+          else if (findHashCode == SCHEME_ARCHIVE_HASH_CODE)
+          {
+            scheme = SCHEME_ARCHIVE;
+            isArchiveScheme = true;
+          }
+          else if (findHashCode == SCHEME_ZIP_HASH_CODE)
+          {
+            scheme = SCHEME_ZIP;
+            isArchiveScheme = true;
+          }
+
+          // If it isn't one of the expected schemes, or it is, then we need to make sure it's really equal to what's in the URI, not an accidential hash code collision...
+          //
+          if (scheme == null || !scheme.regionMatches(0, uri, 0, j))
+          {
+            // Intern the lower case version of the scheme.
+            //
+            scheme = CommonUtil.STRING_POOL.intern(true, CommonUtil.STRING_POOL.intern(uri, 0, j, findHashCode));
+
+            // Check whether it's a different string; we'll need to compute the right hash code if we've lower cased the scheme.
+            //
+            hasExpectedHashCode = scheme.hashCode() == findHashCode;
+
+            // Check if it's an archive scheme...
+            //
+            for (String archiveScheme : ARCHIVE_SCHEMES)
+            {
+              if (scheme == archiveScheme)
+              {
+                isArchiveScheme = true;
+                break;
+              }
+            }
+            
+            isPlatformScheme = scheme == SCHEME_PLATFORM;
+          }
+
+          // Look for the end of the following segment.
+          //
+          i = j + 1;
+          j = findSegmentEnd(length, uri, i);
+        }
+
+        if (isArchiveScheme)
+        {
+          // Look for the archive separator, which must be present.
+          //
+          j = uri.lastIndexOf(ARCHIVE_SEPARATOR);
+          if (j == -1)
+          {
+            throw new IllegalArgumentException("no archive separator");
+          }
+
+          // In that case it's an absolute path and the authority is everything up to and including the ! of the archive separator.
+          //
+          absolutePath = true;
+          authority = CommonUtil.intern(uri, i, ++j - i);
+
+          // Look for the end of the following segment starting after the / in the archive separator.
+          //
+          i = j + 1;
+          j = findSegmentEnd(length, uri, i);
+        }
+        else if (i == j && findTerminatingCharacter == SEGMENT_SEPARATOR)
+        {
+          // If we're starting with a / so it's definitely hierarchical.
+          // Look for the next segment end, and if we find a / as the next character...
+          //
+          j = findSegmentEnd(length, uri, ++i);
+          if (j == i && findTerminatingCharacter == SEGMENT_SEPARATOR)
+          {
+            // Look for the segment that follows; it's the authority, even if it's empty.
+            //
+            j = findSegmentEnd(length, uri, ++i);
+            authority = CommonUtil.STRING_POOL.intern(uri, i,  j - i, findHashCode);
+            i = j;
+
+            // If the authority is followed by a /...
+            //
+            if (findTerminatingCharacter == SEGMENT_SEPARATOR)
+            {
+              // Then it's an absolute path so look for the end of the following segment.
+              //
+              absolutePath = true;
+              j = findSegmentEnd(length, uri, ++i);
+            }
+          }
+          else
+          {
+            // Because it started with a /, the current segment, which we'll capcture below, is the start of an absolute path.
+            //
+            absolutePath = true;
+          }
+        }
+        else if (scheme != null)
+        {
+          // There's a scheme, but it's not followed immediately by a /, so it's an opaque URI.
+          //
+          authority = CommonUtil.intern(uri, i, length - i);
+          return pool.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_NONE, false, scheme, authority, null, false, null, null);
+        }
+
+        // Start analyzing the first segment...
+        //
+        boolean segmentsRemain = false;
+        int start = i;
+        int len =  j - i;
+        i = j;
+        if (len == 0)
+        {
+          // If we found a /, then we have one single empty segment so far.
+          //
+          if (findTerminatingCharacter != QUERY_SEPARATOR)
+          {
+            segments = ONE_EMPTY_SEGMENT;
+            segmentsHashCode = 31;
+
+            // Look for the next segment. There is one even if it's empty.
+            //
+            j = findSegmentEnd(length, uri, ++i);
+            segmentsRemain = true;
+          }
+        }
+        // If this first segment ends with a : and we're not processing an archive URI, then treat it as the device...
+        //
+        else if (!isArchiveScheme && !isPlatformScheme && uri.charAt(j - 1) == DEVICE_IDENTIFIER)
+        {
+          device = CommonUtil.STRING_POOL.intern(uri, start, len, findHashCode);
+
+          // If the device is at the end of the URI...
+          //
+          if (findTerminatingCharacter == QUERY_SEPARATOR)
+          {
+            // Then there's no absolute path and no segments remain.
+            //
+            absolutePath = false;
+          }
+          else
+          {
+            // Look for the segment that follows.
+            //
+            j = findSegmentEnd(length, uri, ++i);
+
+            // If it's empty, then we ignore it because the empty segment is implicit from this being an absolute path.
+            // Or, if there is another /, then we have another segment to process.
+            //
+            segmentsRemain = i != j || findTerminatingCharacter == SEGMENT_SEPARATOR;
+          }
+        }
+        else
+        {
+          // Append the segment...
+          //
+          segments = SegmentSequence.STRING_ARRAY_POOL.intern(uri, start, j - start, findHashCode);
+          segmentsHashCode = 31 * segmentsHashCode + findHashCode;
+
+          // If we're not already at the end...
+          //
+          if (findTerminatingCharacter != QUERY_SEPARATOR)
+          {
+            // Find the end of the following segment, and indicate that we should process it.
+            //
+            j = findSegmentEnd(length, uri, ++i);
+            segmentsRemain = true;
+          }
+        }
+
+        // If we have more segments to process...
+        //
+        if (segmentsRemain)
+        {
+          for (;;)
+          {
+            // Append that segment...
+            //
+            segments = SegmentSequence.STRING_ARRAY_POOL.intern(segmentsHashCode, segments, segments.length, uri, i, j - i, findHashCode);
+            segmentsHashCode = 31 * segmentsHashCode + findHashCode;
+            i = j;
+
+            // If the current segment is terminated by a /...
+            //
+            if (findTerminatingCharacter == SEGMENT_SEPARATOR)
+            {
+              // Find the end of the following segment.
+              //
+              j = findSegmentEnd(length, uri, ++i);
+            }
+            else
+            {
+              // Otherwise, we're done.
+              //
+              break;
+            }
+          }
+        }
+
+        // If we're not yet past the end of the string, what remains must be the query string.
+        //
+        if (i++ < length)  // implies uri.charAt(i) == QUERY_SEPARATOR
+        {
+          // Intern what's left to the end of the string.
+          //
+          query = CommonUtil.intern(uri, i, length - i);
+        }
+
+        // If we're sure we have the right hash code (the scheme was not lower cased), we can use it, otherwise, we must compute a hash code.
+        //
+        return
+          hasExpectedHashCode ?
+            pool.intern(true, true, scheme, authority, device, absolutePath, segments, query, hashCode) :
+            pool.intern(true, URIPool.URIComponentsAccessUnit.VALIDATE_NONE, true, scheme, authority, device, absolutePath, segments, query);
+      }
+
+      /**
+       * Looks for a '/', ':', or '?', computing the {@link #findHashCode hash code} and {@link #findTerminatingCharacter setting the character} that terminated the scan.
+       */
+      protected int findMajorSeparator(int length, String s, int i)
+      {
+        findTerminatingCharacter = QUERY_SEPARATOR;
+        int hashCode = 0;
+        for (; i < length; i++)
+        {
+          char c = s.charAt(i);
+          if (c == SEGMENT_SEPARATOR || c == SCHEME_SEPARATOR || c == QUERY_SEPARATOR)
+          {
+            findTerminatingCharacter = c;
+            break;
+          }
+          hashCode = 31 * hashCode + c;
+        }
+        findHashCode = hashCode;
+        return i;
+      }
+
+      /**
+       * Looks for a '/', or '?', computing the {@link #findHashCode hash code} and {@link #findTerminatingCharacter setting the character} that terminated the scan.
+       */
+      protected int findSegmentEnd(int length, String s, int i)
+      {
+        findTerminatingCharacter = QUERY_SEPARATOR;
+        int hashCode = 0;
+        for (; i < length; i++)
+        {
+          char c = s.charAt(i);
+          if (c == SEGMENT_SEPARATOR || c == QUERY_SEPARATOR)
+          {
+            findTerminatingCharacter = c;
+            break;
+          }
+          hashCode = 31 * hashCode + c;
+        }
+        findHashCode = hashCode;
+        return i;
+      }
+
+      @Override
+      public void reset(boolean isExclusive)
+      {
+        value = null;
+        super.reset(isExclusive);
+      }
+    }
+
+    /**
+     * Access units for platform URI string-based access.
+     */
+    protected final PlatformAccessUnit.Queue platformAccessUnits = new PlatformAccessUnit.Queue();
+
+    /**
+     * An access units for platform URI string-based access.
+     */
+    protected static class PlatformAccessUnit extends URIPoolAccessUnitBase
+    {
+      protected static class Queue extends AccessUnit.Queue<URI>
+      {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public PlatformAccessUnit pop(boolean isExclusive)
+        {
+          return (PlatformAccessUnit)super.pop(isExclusive);
+        }
+
+        @Override
+        protected AccessUnit<URI> newAccessUnit()
+        {
+          return new PlatformAccessUnit(this);
+        }
+      }
+
+      /**
+       * The hash code of <code>"platform:/resource/"</code>.
+       */
+      protected static final int PLATFORM_RESOURCE_BASE_FULL_HASH_CODE = "platform:/resource/".hashCode();
+
+      /**
+       * The hash code of <code>"platform:/plugin/"</code>.
+       */
+      protected static final int PLATFORM_PLUGIN_BASE_FULL_HASH_CODE = "platform:/plugin/".hashCode();
+
+      /**
+       * The hash code of <code>"platform:/resource"</code>.
+       */
+      protected static final int PLATFORM_RESOURCE_BASE_INITIAL_HASH_CODE = "platform:/resource".hashCode();
+
+      /**
+       * The hash code of <code>"platform:/plugin/"</code>.
+       */
+      protected static final int PLATFORM_PLUGIN_BASE_INITIAL_HASH_CODE = "platform:/plugin".hashCode();
+
+      /**
+       * The base that implicitly precedes the {@link #path}.
+       */
+      protected String base;
+
+      /**
+       * The path being accessed.
+       */
+      protected String path;
+
+      /**
+       * Whether the pathName needs encoding.
+       */
+      protected boolean encode;
+
+      /**
+       * A buffer uses for processing the path.
+       */
+      protected char[] characters = new char[100];
+
+      /**
+       * The accumulated segments pulled from the path.
+       */
+      protected String[] segments = new String[20];
+
+      /**
+       * The number of {@link #segments}.
+       */
+      protected int segmentCount;
+
+      /**
+       * The boundaries of the path segments.
+       */
+      protected int[] segmentBoundaries = new int[100];
+
+      /**
+       * The hash code of the path segments.
+       */
+      protected int[] segmentHashCodes = new int[100];
+
+      /**
+       * The path after it's been encoded.
+       */
+      protected String encodedPath;
+
+      /**
+       * Creates and instance managed by the given queue.
+       */
+      protected PlatformAccessUnit(Queue queue)
+      {
+        super(queue);
+      }
+
+      /**
+       * Caches the parameters and computes the hash code, which can involve encoding the path.
+       */
+      protected void setValue(String base, String path, boolean encode)
+      {
+        this.base = base;
+        this.path = path;
+        this.encode = encode;
+
+        int length = path.length();
+        if (length == 0)
+        {
+          encodedPath = "/";
+          segmentBoundaries[segmentCount] = 0;
+          segmentBoundaries[segmentCount++] = 1;
+          this.hashCode =  base == SEGMENT_RESOURCE ? PLATFORM_RESOURCE_BASE_FULL_HASH_CODE : PLATFORM_PLUGIN_BASE_FULL_HASH_CODE;
+        }
+        else
+        {
+          // At most each character could need encoding and that would triple the length.
+          //
+          int maxEncodedLength = encode ? 3 * length : length;
+          if (characters.length <= maxEncodedLength)
+          {
+            // Leave room for one more character, i.e., the leading / that may need to be added.
+            //
+            characters = new char[maxEncodedLength + 1];
+          }
+
+          // There can be at most as many segments as characters.
+          //
+          if (segmentBoundaries.length < length)
+          {
+            segmentBoundaries = new int[length];
+            segmentHashCodes = new int[length];
+          }
+
+          // Keep track of whether any characters were encoded.
+          //
+          boolean isModified = false;
+
+          // Treat this character the same as a /.  In fact, on non-Wwindows systems this will be a / anyway.
+          //
+          char separatorchar = File.separatorChar;
+
+          char character = path.charAt(0);
+          if (character == SEGMENT_SEPARATOR)
+          {
+            // If the path starts with a /, copy over all the characters into the buffer.
+            //
+            path.getChars(0, length, characters, 0);
+          }
+          else if (character == separatorchar)
+          {
+            // If the path starts with a \, put a / at the start and copy over all the characters except the first into the buffer.
+            //
+            characters[0] = SEGMENT_SEPARATOR;
+            if (length != 1)
+            {
+              path.getChars(1, length, characters, 1);
+            }
+            // Indicate that we've modified the original path.
+            //
+            isModified = true;
+          }
+          else
+          {
+            // It doesn't start with a separator character so put a / at the start and copy all the characters into the buffer after that.
+            //
+            characters[0] = SEGMENT_SEPARATOR;
+            path.getChars(0, length, characters, 1);
+
+            // The string is now one character longer and we've modified the path.
+            //
+            ++length;
+            isModified = true;
+          }
+
+          // The first character in the buffer is a /, so that's the initial hash code.
+          //
+          int hashCode = SEGMENT_SEPARATOR;
+          int segmentHashCode = 0;
+
+          // If we're encoding...
+          //
+          if (encode)
+          {
+            // Iterate over all the characters...
+            //
+            for (int i = 1; i < length; ++i)
+            {
+              // If the character is one that needs encoding, including the path separators...
+              //
+              character = characters[i];
+              if (character < 160 && !URI.matches(character, SEGMENT_CHAR_HI, SEGMENT_CHAR_LO))
+              {
+                if (character == SEGMENT_SEPARATOR)
+                {
+                  // If it's a /, cache the segment hash code, and boundary, reset the segment hash code, and compose the complete hash code.
+                  //
+                  segmentHashCodes[segmentCount] = segmentHashCode;
+                  segmentBoundaries[segmentCount++] = i;
+                  segmentHashCode = 0;
+                  hashCode = 31 * hashCode + SEGMENT_SEPARATOR;
+                }
+                else if (character == separatorchar)
+                {
+                  // If it's a \, convert it to a /, cache the segment hash code, and boundary, reset the segment hash code, and compose the complete hash code, and indicate we've modified the original path.
+                  //
+                  characters[i] = SEGMENT_SEPARATOR;
+                  segmentHashCodes[segmentCount] = segmentHashCode;
+                  segmentBoundaries[segmentCount++] = i;
+                  segmentHashCode = 0;
+                  hashCode = 31 * hashCode + SEGMENT_SEPARATOR;
+                  isModified = true;
+                }
+                else
+                {
+                  // Escape the character.
+                  //
+                  isModified = true;
+
+                  // Shift the buffer to the right 3 characters.
+                  //
+                  System.arraycopy(characters, i + 1, characters, i + 3, length - i - 1);
+
+                  // Add a % and compose the segment hashCode and the complete hash code.
+                  //
+                  characters[i] = ESCAPE;
+                  hashCode = 31 * hashCode + ESCAPE;
+                  segmentHashCode = 31 * segmentHashCode + ESCAPE;
+
+                  // Add the first hex digit and compose the segment hashCode and the complete hash code.
+                  //
+                  char firstHexCharacter = characters[++i] = HEX_DIGITS[(character >> 4) & 0x0F];
+                  hashCode = 31 * hashCode + firstHexCharacter;
+                  segmentHashCode = 31 * segmentHashCode + firstHexCharacter;
+
+                  // Add the second hex digit and compose the segment hashCode and the complete hash code.
+                  //
+                  char secondHexCharacter = characters[++i] = HEX_DIGITS[character & 0x0F];
+                  hashCode = 31 * hashCode + secondHexCharacter;
+                  segmentHashCode = 31 * segmentHashCode + secondHexCharacter;
+
+                  // The length is two characters bigger than before.
+                  //
+                  length += 2;
+                }
+              }
+              else
+              {
+                // No encoding required, so just compose the segment hash code and the complete hash code.
+                //
+                hashCode = 31 * hashCode + character;
+                segmentHashCode = 31 * segmentHashCode + character;
+              }
+            }
+          }
+          else
+          {
+            // Don't encode any characters.
+            //
+            for (int i = 1; i < length; ++i)
+            {
+              character = characters[i];
+              if (character == SEGMENT_SEPARATOR)
+              {
+                // If it's a /, cache the segment hash code, and boundary, reset the segment hash code, and compose the complete hash code.
+                //
+                segmentHashCodes[segmentCount] = segmentHashCode;
+                segmentBoundaries[segmentCount++] = i;
+                segmentHashCode = 0;
+                hashCode = 31 * hashCode + SEGMENT_SEPARATOR;
+              }
+              else if (character == separatorchar)
+              {
+                // If it's a \, convert it to a /, cache the segment hash code, and boundary, reset the segment hash code, and compose the complete hash code, and indicate we've modified the original path.
+                //
+                characters[i] = SEGMENT_SEPARATOR;
+                segmentHashCodes[segmentCount] = segmentHashCode;
+                segmentBoundaries[segmentCount++] = i;
+                segmentHashCode = 0;
+                hashCode = 31 * hashCode + SEGMENT_SEPARATOR;
+                isModified = true;
+              }
+              else
+              {
+                // No encoding required, so just compose the segment hash code and the complete hash code.
+                //
+                hashCode = 31 * hashCode + character;
+                segmentHashCode = 31 * segmentHashCode + character;
+              }
+            }
+          }
+
+          // Set cache the final segment's hash code and boundary.
+          //
+          segmentHashCodes[segmentCount] = segmentHashCode;
+          segmentBoundaries[segmentCount++] = length;
+
+          // Compose the overall hash code to include the base's hash code.
+          //
+          this.hashCode = (base == SEGMENT_RESOURCE ? PLATFORM_RESOURCE_BASE_INITIAL_HASH_CODE : PLATFORM_PLUGIN_BASE_INITIAL_HASH_CODE) * CommonUtil.powerOf31(length) + hashCode;
+          encodedPath = isModified ? CommonUtil.STRING_POOL.intern(characters, 0, length, hashCode) : path;
+        }
+      }
+
+      @Override
+      protected boolean matches(URI value)
+      {
+        return value.matches(base, encodedPath);
+      }
+
+      @Override
+      public URI getInternalizedValue()
+      {
+        // Ensure that there are enough segments to hold the results.
+        //
+        if (segments.length <= segmentCount)
+        {
+          segments = new String[segmentCount + 1];
+        }
+
+        // Start with the given base segment.
+        //
+        segments[0] = base;
+
+        // Compute the hash code of the segments array.
+        // The offset is the start of the segment within the character's buffer, which is initially at index 1, i.e., after the leading /.
+        //
+        int hashCode = 31 + base.hashCode();
+        for (int i = 0, offset = 1, segmentCount = this.segmentCount; i < segmentCount; )
+        {
+          // Get the segment's hash code.
+          //
+          int segmentHashCode = segmentHashCodes[i];
+
+          // Get the terminating boundary for this segment.
+          //
+          int end = segmentBoundaries[i++];
+
+          // The number of characters in the segment.
+          //
+          int count = end - offset;
+
+          // Intern that character range with the known segment hash code.
+          //
+          segments[i] = CommonUtil.STRING_POOL.intern(characters, offset, count, segmentHashCode);
+
+          // Compose the segment's hash code.
+          //
+          hashCode = 31 * hashCode + segmentHashCode;
+
+          // Set the offset to be one character after the terminating /.
+          offset = end + 1;
+        }
+
+        // Create a hierarchical platform-scheme URI from the interned segments.
+        //
+        return new Hierarchical(this.hashCode, true, SCHEME_PLATFORM, null, null, true, SegmentSequence.STRING_ARRAY_POOL.intern(segments, 0, segmentCount + 1, hashCode), null);
+      }
+
+      @Override
+      public void reset(boolean isExclusive)
+      {
+        for (int i = 1; i <= segmentCount; ++i)
+        {
+          segments[i] = null;
+        }
+        segmentCount = 0;
+        encodedPath = null;
+        path = null;
+
+        super.reset(isExclusive);
+      }
+    }
+
+    /**
+     * Access units for file URI string-based access.
+     */
+    protected final FileAccessUnit.Queue fileAccessUnits = new FileAccessUnit.Queue();
+
+    /**
+     * An Access unit for file URI string-based access.
+     */
+    protected static class FileAccessUnit extends URIPoolAccessUnitBase
+    {
+      protected static class Queue extends AccessUnit.Queue<URI>
+      {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public FileAccessUnit pop(boolean isExclusive)
+        {
+          return (FileAccessUnit)super.pop(isExclusive);
+        }
+
+        @Override
+        protected AccessUnit<URI> newAccessUnit()
+        {
+          return new FileAccessUnit(this);
+        }
+      }
+
+      /**
+       * The base URI for file scheme URIs.
+       */
+      protected static final String FILE_BASE = "file:/";
+
+      /**
+       * The length of the base URI for file scheme URIs.
+       */
+      protected static final int FILE_BASE_LENGTH = "file:/".length();
+
+      /**
+       * The hash code of the base URI for file scheme URIs.
+       */
+      protected static final int FILE_BASE_HASH_CODE = FILE_BASE.hashCode();
+
+      /**
+       * The file path being accessed.
+       */
+      protected String path;
+
+      /**
+       * The buffer for absolute file paths.
+       */
+      protected char[] absoluteCharacters = new char[100];
+
+      /**
+       * The buffer for relative file paths.
+       */
+      protected char[] relativeCharacters = new char[100];
+
+      /**
+       * The segments of the path.
+       */
+      protected String[] segments = new String[20];
+
+      /**
+       * The number of segments in the path.
+       */
+      protected int segmentCount;
+
+      /**
+       * The boundaries of the segments in the path.
+       */
+      protected int[] segmentBoundaries = new int[100];
+
+      /**
+       * The hash codes of the segments in the path.
+       */
+      protected int[] segmentHashCodes = new int[100];
+
+      /**
+       * The final encoded path.
+       */
+      protected String encodedPath;
+
+      /**
+       * Whether the file path represents an absolute file.
+       */
+      protected boolean isAbsoluteFile;
+
+      /**
+       * Whether the path itself is absolute.
+       */
+      protected boolean isAbsolutePath;
+
+      /**
+       * Creates an instance managed by the given queue.
+       */
+      public FileAccessUnit(Queue queue)
+      {
+        super(queue);
+
+        // Caches the base absolute file path characters.
+        //
+        FILE_BASE.getChars(0, FILE_BASE_LENGTH, absoluteCharacters, 0);
+      }
+
+      /**
+       * Caches the parameter and computes the hash code.
+       */
+      protected void setValue(String path)
+      {
+        this.path = path;
+
+        int length = path.length();
+        if (length == 0)
+        {
+          // It's just the empty string with the zero hash code.
+          //
+          encodedPath = "";
+          this.hashCode =  0;
+        }
+        else
+        {
+          // Is this path considered an absolute file by the file system implementation?
+          //
+          isAbsoluteFile = new File(path).isAbsolute();
+
+          // This will use either the absoluteCharacters or the relativeCharacters...
+          //
+          char[] characters;
+
+          // Check the first character.
+          //
+          char character = path.charAt(0);
+
+          // We're convert this character to a /.
+          //
+          char separatorchar = File.separatorChar;
+
+          // Compose the hash code.
+          //
+          int hashCode;
+
+          // Walk the path segments...
+          //
+          int i;
+
+          // There can be at most as many boundaries as characters.
+          //
+          if (segmentBoundaries.length < length)
+          {
+            segmentBoundaries = new int[length];
+            segmentHashCodes = new int[length];
+          }
+
+          if (isAbsoluteFile)
+          {
+            // If it's an absolute file then it must be an absolute path.
+            //
+            isAbsolutePath = true;
+
+            // There can be at most as many encoded characters as three times the length, plus we need to account for the characters in the base.
+            //
+            int maxEncodedLength = 3 * length + FILE_BASE_LENGTH;
+            if (absoluteCharacters.length <= maxEncodedLength)
+            {
+              // Allocate one slightly larger and copy in the base path.
+              //
+              absoluteCharacters = new char[maxEncodedLength + 1];
+              FILE_BASE.getChars(0, FILE_BASE_LENGTH, absoluteCharacters, 0);
+            }
+
+            // Process the absolute characters.
+            //
+            characters = absoluteCharacters;
+
+            if (character == SEGMENT_SEPARATOR || character == separatorchar)
+            {
+              // If the path starts with a separator, copy over the characters after that / to the buffer after the base.
+              //
+              path.getChars(1, length, characters, FILE_BASE_LENGTH);
+
+              // The length is larger by one less than the base.
+              //
+              length += FILE_BASE_LENGTH - 1;
+            }
+            else
+            {
+              // If the path doesn't start with a /, copy over all the characters into the buffer after the base.
+              //
+              path.getChars(0, length, characters, FILE_BASE_LENGTH);
+
+              // The length is larger by the base.
+              //
+              length += FILE_BASE_LENGTH;
+            }
+
+            // The first boundary is after the base and that's where we start processing the characters.
+            //
+            segmentBoundaries[0] = i = FILE_BASE_LENGTH;
+
+            // The hash code so far is the base's hash code.
+            //
+            hashCode = FILE_BASE_HASH_CODE;
+          }
+          else
+          {
+            // There can be at most as many encoded characters as three times the length.
+            //
+            int maxEncodedLength = 3 * length;
+            if (relativeCharacters.length <= maxEncodedLength)
+            {
+              // Allocate one slightly larger.
+              //
+              relativeCharacters = new char[maxEncodedLength + 1];
+            }
+
+            // Process the relative characters.
+            //
+            characters = relativeCharacters;
+
+            if (character == SEGMENT_SEPARATOR || character == separatorchar)
+            {
+              // If the path starts with a separator, then it's an absolute path.
+              //
+              isAbsolutePath = true;
+
+              // Set the leading / and   copy over the characters after the leading / or \ to the buffer after that.
+              //
+              characters[0] = SEGMENT_SEPARATOR;
+              path.getChars(1, length, characters, 1);
+
+              // The first boundary is after the / and that's where we start processing the characters.
+              //
+              segmentBoundaries[0] = i = 1;
+
+              // The hash code so far is the /'s hash code.
+              //
+              hashCode = SEGMENT_SEPARATOR;
+            }
+            else
+            {
+              // No leading separator so it's a relative path.
+              //
+              isAbsolutePath = false;
+
+              //  Copy over all the characters in the bufffer.
+              //
+              path.getChars(0, length, characters, 0);
+
+              // The first boundary is at the start and that's where we start processing the characters.
+              //
+              segmentBoundaries[0] = i = 0;
+
+              // The hash code so far is zero.
+              //
+              hashCode = 0;
+            }
+          }
+
+          // Compose the segment hash code as we scan the characters.
+          //
+          int segmentHashCode = 0;
+          for (; i < length; ++i)
+          {
+            // If the current character needs encoding (including the separator characters) or is the device identifier and we're processing the first segment of an absolute path...
+            //
+            character = characters[i];
+            if (character < 160 && (!URI.matches(character, SEGMENT_CHAR_HI, SEGMENT_CHAR_LO) || character == DEVICE_IDENTIFIER && !isAbsolutePath && segmentCount == 0))
+            {
+              if (character == SEGMENT_SEPARATOR)
+              {
+                // If it's a /, cache the segment hash code and the segment boundary, reset the segment hash code, and compose the segments hash code.
+                //
+                segmentHashCodes[segmentCount] = segmentHashCode;
+                segmentBoundaries[++segmentCount] = i;
+                segmentHashCode = 0;
+                hashCode = 31 * hashCode + SEGMENT_SEPARATOR;
+              }
+              else if (character == separatorchar)
+              {
+                // If it's a \, change it to a /, cache the segment hash code and the segment boundary, reset the segment hash code, and compose the segments hash code.
+                //
+                characters[i] = SEGMENT_SEPARATOR;
+                segmentHashCodes[segmentCount] = segmentHashCode;
+                segmentBoundaries[++segmentCount] = i;
+                segmentHashCode = 0;
+                hashCode = 31 * hashCode + SEGMENT_SEPARATOR;
+              }
+              else
+              {
+                // Shift the buffer to the right 3 characters.
+                //
+                System.arraycopy(characters, i + 1, characters, i + 3, length - i - 1);
+
+                // Add a % and compose the segment hashCode and the complete hash code.
+                //
+                characters[i] = ESCAPE;
+                hashCode = 31 * hashCode + ESCAPE;
+                segmentHashCode = 31 * segmentHashCode + ESCAPE;
+
+                // Add the first hex digit and compose the segment hashCode and the complete hash code.
+                //
+                char firstHexCharacter = characters[++i] = HEX_DIGITS[(character >> 4) & 0x0F];
+                hashCode = 31 * hashCode + firstHexCharacter;
+                segmentHashCode = 31 * segmentHashCode + firstHexCharacter;
+
+                // Add the second hex digit and compose the segment hashCode and the complete hash code.
+                //
+                char secondHexCharacter = characters[++i] = HEX_DIGITS[character & 0x0F];
+                hashCode = 31 * hashCode + secondHexCharacter;
+                segmentHashCode = 31 * segmentHashCode + secondHexCharacter;
+
+                // The length is two characters bigger than before.
+                //
+                length += 2;
+              }
+            }
+            else
+            {
+              // No encoding required, so just compose the segment hash code and the complete hash code.
+              //
+              hashCode = 31 * hashCode + character;
+              segmentHashCode = 31 * segmentHashCode + character;
+            }
+          }
+
+          // Set cache the final segment's hash code and boundary.
+          //
+          segmentHashCodes[segmentCount] = segmentHashCode;
+          segmentBoundaries[++segmentCount] = length;
+
+          // Compose the overall hash code to include the base's hash code.
+          //
+          this.hashCode = hashCode;
+
+          // Cache the encoded path.
+          //
+          encodedPath = CommonUtil.STRING_POOL.intern(characters, 0, length, hashCode);
+        }
+      }
+
+      @Override
+      protected boolean matches(URI value)
+      {
+        return value.matches(encodedPath);
+      }
+
+      @Override
+      public URI getInternalizedValue()
+      {
+        // Ensure that we have enough room for all the segments.
+        //
+        int segmentCount = this.segmentCount;
+        if (segments.length <= segmentCount)
+        {
+          segments = new String[segmentCount + 1];
+        }
+
+        // Process the appropriate characters.
+        //
+        char[] characters = isAbsoluteFile ? absoluteCharacters : relativeCharacters;
+
+        // Parse out the device and the authority...
+        //
+        String device = null;
+        String authority = null;
+
+        // The initial hash code for the over all final segments.
+        //
+        int segmentsHashCode = 1;
+
+        // Where we expect the special device segment to appear.
+        //
+        int deviceIndex = 0;
+
+        // An empty segment at this index will be igored.
+        //
+        int ignoredEmptySegmentIndex = -1;
+
+        // Whether we ignored an empty segment.
+        //
+        boolean ignoredEmptySegment = false;
+
+        // Process all the segments...
+        //
+        for (int i = 0, segmentIndex = 0, offset = segmentBoundaries[0]; segmentIndex < segmentCount; ++i)
+        {
+          // The end of the current segment's boundary.
+          //
+          int end = segmentBoundaries[i + 1];
+
+          // The number of characters of the current segment.
+          //
+          int count = end - offset;
+
+          // If this is an empty segment we wish to ignore...
+          //
+          if (i == ignoredEmptySegmentIndex && count == 0)
+          {
+            // Ignore it and indicate that we ignored a leading empty segment.
+            //
+            --segmentCount;
+            ignoredEmptySegment = true;
+          }
+          else
+          {
+            // Retrieve the segment's hash code.
+            //
+            int segmentHashCode = segmentHashCodes[i];
+
+            // Intern the segment characters...
+            //
+            String segment = CommonUtil.STRING_POOL.intern(characters, offset, count, segmentHashCode);
+
+            // If we're at a device index while processing an absolute file, and we have an empty segment that's not the only segment or the last character of the segment is the device identifier...
+            //
+            if (i == deviceIndex && isAbsoluteFile && (count == 0 && segmentCount > 1 || characters[end - 1] == DEVICE_IDENTIFIER))
+            {
+              // If the segment has zero length...
+              //
+              if (count == 0)
+              {
+                // Proceed to the next segment; there must be one because of the guard...
+                //
+                offset = end + 1;
+                segmentHashCode = segmentHashCodes[++i];
+                end = segmentBoundaries[i + 1];
+                count = end - offset;
+
+                // This segment is really the authority...
+                //
+                authority = CommonUtil.STRING_POOL.intern(characters, offset, count, segmentHashCode);
+
+                // There are now two fewer segments.
+                //
+                segmentCount -= 2;
+
+                // We should still check for a device at index 2.
+                //
+                deviceIndex = 2;
+
+                // We should still consider ignoring an empty segment if it's at index 2.
+                //
+                ignoredEmptySegmentIndex = 2;
+              }
+              else
+              {
+                // Otherwise the segment must end with a :, so it must be the device.
+                //
+                device = segment;
+
+                // There's one fewer real segment.
+                //
+                --segmentCount;
+
+                // We should ignore an empty segment if it comes next.
+                //
+                ignoredEmptySegmentIndex = deviceIndex + 1;
+              }
+            }
+            else
+            {
+              // It's a normal segment so include it and compose the overall segments hash code.
+              //
+              segments[segmentIndex++] = segment;
+              segmentsHashCode = 31 * segmentsHashCode + segmentHashCode;
+            }
+          }
+
+          // Continue with the characters after the current segment's closing boundary.
+          //
+          offset = end + 1;
+        }
+
+        // Intern the segments array itself.
+        //
+        String[] internedSegments = SegmentSequence.STRING_ARRAY_POOL.intern(segments, 0, segmentCount, segmentsHashCode);
+        if (isAbsoluteFile)
+        {
+          // If it's absolute, we include the file scheme, and it has an absolute path, if there is one or more segments, or if we ignored an empty segment.
+          //
+          return new Hierarchical(this.hashCode, true, SCHEME_FILE, authority, device, segmentCount > 0 || ignoredEmptySegment, internedSegments, null);
+        }
+        else
+        {
+          // It's a relative URI...
+          //
+          return new Hierarchical(this.hashCode, true, null, null, null, isAbsolutePath, internedSegments, null);
+        }
+      }
+
+      @Override
+      public void reset(boolean isExclusive)
+      {
+        for (int i = 1; i <= segmentCount; ++i)
+        {
+          segments[i] = null;
+        }
+        segmentCount = 0;
+        encodedPath = null;
+        path = null;
+
+        super.reset(isExclusive);
+      }
+    }
+
+    /**
+     * Access units for component-based access.
+     */
+    protected final URIComponentsAccessUnit.Queue uriComponentsAccessUnits = new URIComponentsAccessUnit.Queue();
+
+    /**
+     * An Access unit for component-based access.
+     */
+    protected static class URIComponentsAccessUnit extends URIPoolAccessUnitBase
+    {
+      /**
+       * A value for {@link #validate} that implies no checking or interning of components is required.
+       */
+      protected static final int VALIDATE_NONE = -1;
+
+      /**
+       * A value for {@link #validate} that implies all components need to be validated.
+       */
+      protected static final int VALIDATE_ALL = -2;
+
+      /**
+       * A value for {@link #validate} that implies only the query componet needs validating.
+       */
+      protected static final int VALIDATE_QUERY = -3;
+
+      protected static class Queue extends AccessUnit.Queue<URI>
+      {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public URIComponentsAccessUnit pop(boolean isExclusive)
+        {
+          return (URIComponentsAccessUnit)super.pop(isExclusive);
+        }
+
+        @Override
+        protected AccessUnit<URI> newAccessUnit()
+        {
+          return new URIComponentsAccessUnit(this);
+        }
+      }
+
+      /**
+       * One of the special values {@link #VALIDATE_NONE}, {@link #VALIDATE_ALL}, or {@link #VALIDATE_QUERY}, or the index in the {@link #segments} that need validation.
+       */
+      int validate;
+
+      /**
+       * Whether the components being accesses are for a hierarchical URI
+       */
+      boolean hierarchical;
+
+      /**
+       * The scheme being accessed.
+       */
+      String scheme;
+
+      /**
+       * The authority (or opaque part) being accessed.
+       */
+      String authority;
+
+      /**
+       * The device being accessed.
+       */
+      String device;
+      /**
+       * Whether the components being accesses are for an absolute path.
+       */
+      boolean absolutePath;
+
+      /**
+       * The segments being accessed.
+       */
+      String[] segments;
+
+      /**
+       * The query being accessed.
+       */
+      String query;
+
+      /**
+       * Creates an instance managed by the given queue.
+       * @param queue
+       */
+      protected URIComponentsAccessUnit(Queue queue)
+      {
+        super(queue);
+      }
+
+      /**
+       * Caches the parameters.
+       */
+      protected void setValue(boolean hierarchical, String scheme, String authority, String device, boolean absolutePath, String[] segments, String query, int hashCode)
+      {
+        this.validate = VALIDATE_NONE;
+        this.hierarchical = hierarchical;
+        this.scheme = scheme;
+        this.authority = authority;
+        this.device = device;
+        this.absolutePath = absolutePath;
+        this.segments = segments;
+        this.query = query;
+        this.hashCode = hashCode;
+      }
+
+      /**
+       * Caches the parameters and computes the hash code.
+       */
+      protected void setValue(int validate, boolean hierarchical, String scheme, String authority, String device, boolean absolutePath, String[] segments, String query)
+      {
+        int hashCode = 0;
+        if (scheme != null)
+        {
+          if (validate == VALIDATE_ALL)
+          {
+            scheme = CommonUtil.STRING_POOL.intern(true, scheme);
+          }
+          hashCode = scheme.hashCode() * 31 + SCHEME_SEPARATOR;
+        }
+
+        this.validate = validate;
+        this.hierarchical = hierarchical;
+        this.scheme = scheme;
+        this.authority = authority;
+        this.device = device;
+        this.absolutePath = absolutePath;
+        this.segments = segments;
+        this.query = query;
+
+        if (hierarchical)
+        {
+          if (segments == null)
+          {
+            segments = NO_SEGMENTS;
+          }
+
+          this.segments = segments;
+
+          if (authority != null)
+          {
+            if (!isArchiveScheme(scheme)) hashCode = hashCode * 961 + AUTHORITY_SEPARATOR_HASH_CODE;
+            hashCode = hashCode * CommonUtil.powerOf31(authority.length()) + authority.hashCode();
+          }
+
+          if (device != null)
+          {
+            hashCode = hashCode * 31 + SEGMENT_SEPARATOR;
+            hashCode = hashCode * CommonUtil.powerOf31(device.length()) + device.hashCode();
+          }
+
+          if (absolutePath) hashCode = hashCode * 31 + SEGMENT_SEPARATOR;
+
+          for (int i = 0, len = segments.length; i < len; i++)
+          {
+            if (i != 0) hashCode = hashCode * 31 + SEGMENT_SEPARATOR;
+            String segment = segments[i];
+            if (segment == null)
+            {
+              throw new IllegalArgumentException("invalid segment: null");
+            }
+            hashCode = hashCode * CommonUtil.powerOf31(segment.length()) + segment.hashCode();
+          }
+
+          if (query != null)
+          {
+            hashCode = hashCode * 31 + QUERY_SEPARATOR;
+            hashCode = hashCode * CommonUtil.powerOf31(query.length()) + query.hashCode();
+          }
+        }
+        else
+        {
+          hashCode = hashCode * CommonUtil.powerOf31(authority.length()) + authority.hashCode();
+        }
+
+        this.hashCode = hashCode;
+      }
+
+      @Override
+      protected boolean matches(URI value)
+      {
+        return value.matches(validate, hierarchical, scheme, authority, device, absolutePath, segments, query);
+      }
+
+      @Override
+      public URI getInternalizedValue()
+      {
+        if (validate == VALIDATE_ALL)
+        {
+          // Validate all the components.
+          //
+          validateURI(hierarchical, scheme, authority, device, absolutePath, segments, query, null);
+
+          // Intern the components.
+          //
+          authority = CommonUtil.intern(authority);
+          device = CommonUtil.intern(device);
+          segments = SegmentSequence.STRING_ARRAY_POOL.intern(true, true, segments, segments.length);
+          query = CommonUtil.intern(query);
+        }
+        else if (validate == VALIDATE_QUERY)
+        {
+          // Validate just the query.
+          //
+          if (!validQuery(query))
+          {
+            throw new IllegalArgumentException("invalid query portion: " + query);
+          }
+
+          // Intern the just the query.
+          //
+          query = CommonUtil.intern(query);
+        }
+        else if (validate != VALIDATE_NONE)
+        {
+          // Validate the segments that need validation.
+          //
+          for (int i = validate, length = segments.length; i < length; ++i)
+          {
+            String segment = segments[i];
+            if (!validSegment(segment))
+            {
+              throw new IllegalArgumentException("invalid segment: " + segment);
+            }
+          }
+        }
+
+        // Create the appropriate type of URI.
+        //
+        if (hierarchical)
+        {
+          return new Hierarchical(hashCode, hierarchical, scheme, authority, device, absolutePath, segments, query);
+        }
+        else
+        {
+          return new Opaque(hashCode, scheme, authority);
+        }
+      }
+
+      @Override
+      public void reset(boolean isExclusive)
+      {
+        this.scheme = null;
+        this.authority = null;
+        this.device = null;
+        this.segments = null;
+        this.query = null;
+        super.reset(isExclusive);
+      }
+    }
+
+    /**
+     * Intern a URI from its string representation, parsing if necessary.
+     * The string must not contain the fragment separator.
+     */
+    protected URI intern(String string)
+    {
+      StringAccessUnit accessUnit = stringAccessUnits.pop(false);
+      accessUnit.setValue(string);
+      return doIntern(false, accessUnit);
+    }
+
+    /**
+     * Intern a platform URI from its path representation, parsing if necessary.
+     */
+    protected URI intern(String base, String pathName, boolean encode)
+    {
+      PlatformAccessUnit accessUnit = platformAccessUnits.pop(false);
+      accessUnit.setValue(base, pathName, encode);
+      return doIntern(false, accessUnit);
+    }
+
+    /**
+     * Intern a file URI from its path representation, parsing if necessary.
+     */
+    protected URI internFile(String pathName)
+    {
+      FileAccessUnit accessUnit = fileAccessUnits.pop(false);
+      accessUnit.setValue(pathName);
+      return doIntern(false, accessUnit);
+    }
+
+    /**
+     * Intern a URI from its component parts.
+     * If <code>isExclusive</code> is true, acquire the {@link #writeLock} first.
+     * Use {@link #intern(boolean, boolean, String, String, String, boolean, String[], String, int)} if the hash code is known and no validation is required.
+     */
+    protected URI intern(boolean isExclusive, int validate, boolean hierarchical, String scheme, String authority, String device, boolean absolutePath, String[] segments, String query)
+    {
+      if (isExclusive)
+      {
+        writeLock.lock();
+      }
+      URI uri;
+      try
+      {
+        URIComponentsAccessUnit accessUnit = uriComponentsAccessUnits.pop(isExclusive);
+        accessUnit.setValue(validate, hierarchical, scheme, authority, device, absolutePath, segments, query);
+        uri = doIntern(isExclusive, accessUnit);
+      }
+      finally
+      {
+        if (isExclusive)
+        {
+          writeLock.unlock();
+        }
+      }
+      return uri;
+    }
+
+    /**
+     * Intern a URI from its component parts.
+     * If <code>isExclusive</code> is true, acquire the {@link #writeLock} first.
+     */
+    protected URI intern(boolean isExclusive, boolean hierarchical, String scheme, String authority, String device, boolean absolutePath, String[] segments, String query, int hashCode)
+    {
+      if (isExclusive)
+      {
+        writeLock.lock();
+      }
+      URI uri;
+      try
+      {
+        URIComponentsAccessUnit accessUnit = uriComponentsAccessUnits.pop(isExclusive);
+        accessUnit.setValue(hierarchical, scheme, authority, device, absolutePath, segments, query, hashCode);
+        uri = doIntern(isExclusive, accessUnit);
+      }
+      finally
+      {
+        if (isExclusive)
+        {
+          writeLock.unlock();
+        }
+      }
+      return uri;
+    }
+
+    /**
+     * Specialized to manage the {@link #cachedToStrings}.
+     */
+    @Override
+    protected void doCleanup()
+    {
+      super.doCleanup();
+      for (;;)
+      {
+        Reference<? extends String> cachedToString = cachedToStrings.poll();
+        if (cachedToString == null)
+        {
+          return;
+        }
+        else
+        {
+          cachedToString.clear();
+        }
+      }
+    }
+
+    /**
+     * A specialized weak reference used by {@link URI#toString} that removes the URI's reference when {@link #clear()} is called.
+     *
+     */
+    protected static class CachedToString extends WeakReference<String>
+    {
+      protected final URI uri;
+
+      public CachedToString(URI uri, String string, ReferenceQueue<? super String> queue)
+      {
+        super(string, queue);
+        this.uri = uri;
+      }
+
+      @Override
+      public void clear()
+      {
+        uri.toString = null;
+
+        super.clear();
+      }
+    }
+
+    protected WeakReference<String> newCachedToString(URI uri, String string)
+    {
+      return
+        cachedToStrings == null ?
+          new CachedToString(uri, string, externalQueue) :
+          new CachedToString(uri, string, cachedToStrings);
     }
   }
 
+  /**
+   * A pool for managing {@link URI} instances.
+   */
+  protected static final URIPool POOL = new URIPool(CommonUtil.REFERENCE_CLEARING_QUEUE);
+
   // The lower-cased schemes that will be used to identify archive URIs.
-  private static final Set<String> archiveSchemes;
+  protected static final String[] ARCHIVE_SCHEMES;
 
   // Identifies a file-type absolute URI.
-  private static final String SCHEME_FILE = "file";
-  private static final String SCHEME_JAR = "jar";
-  private static final String SCHEME_ZIP = "zip";
-  private static final String SCHEME_ARCHIVE = "archive";
-  private static final String SCHEME_PLATFORM = "platform";
+  protected static final String SCHEME_FILE = "file";
+  protected static final String SCHEME_JAR = "jar";
+  protected static final String SCHEME_ZIP = "zip";
+  protected static final String SCHEME_ARCHIVE = "archive";
+  protected static final String SCHEME_PLATFORM = "platform";
+  protected static final String SCHEME_HTTP = "http";
+
+  protected static final int SCHEME_FILE_HASH_CODE = SCHEME_FILE.hashCode();
+  protected static final int SCHEME_JAR_HASH_CODE = SCHEME_JAR.hashCode();
+  protected static final int SCHEME_ZIP_HASH_CODE = SCHEME_ZIP.hashCode();
+  protected static final int SCHEME_ARCHIVE_HASH_CODE = SCHEME_ARCHIVE.hashCode();
+  protected static final int SCHEME_PLATFORM_HASH_CODE = SCHEME_PLATFORM.hashCode();
+  protected static final int SCHEME_HTTP_HASH_CODE = SCHEME_HTTP.hashCode();
 
   // Special segment values interpreted at resolve and resolve time.
-  private static final String SEGMENT_EMPTY = "";
-  private static final String SEGMENT_SELF = ".";
-  private static final String SEGMENT_PARENT = "..";
-  private static final String[] NO_SEGMENTS = new String[0];
+  protected static final String SEGMENT_EMPTY = "";
+  protected static final String SEGMENT_SELF = ".";
+  protected static final String SEGMENT_PARENT = "..";
+
+  // Special segments used for platform URIs.
+  protected static final String SEGMENT_PLUGIN = "plugin";
+  protected static final String SEGMENT_RESOURCE = "resource";
+
+  // Ensure that all the string constants used as components in URIs are directly in the string pool.
+  //
+  static
+  {
+    // Ensure that all the string constants are themselves Java interned in the string pool.
+    //
+    CommonUtil.STRING_POOL.javaIntern(SCHEME_FILE);
+    CommonUtil.STRING_POOL.javaIntern(SCHEME_JAR);
+    CommonUtil.STRING_POOL.javaIntern(SCHEME_ZIP);
+    CommonUtil.STRING_POOL.javaIntern(SCHEME_ARCHIVE);
+    CommonUtil.STRING_POOL.javaIntern(SCHEME_PLATFORM);
+    CommonUtil.STRING_POOL.javaIntern(SCHEME_HTTP);
+
+    CommonUtil.STRING_POOL.javaIntern(SEGMENT_EMPTY);
+    CommonUtil.STRING_POOL.javaIntern(SEGMENT_SELF);
+    CommonUtil.STRING_POOL.javaIntern(SEGMENT_PARENT);
+
+    CommonUtil.STRING_POOL.javaIntern(SEGMENT_PLUGIN);
+    CommonUtil.STRING_POOL.javaIntern(SEGMENT_RESOURCE);
+  }
+
+  // Special arrays uses for segments
+  protected static final String[] NO_SEGMENTS = SegmentSequence.EMPTY_ARRAY;
+  protected static final String[] ONE_EMPTY_SEGMENT = SegmentSequence.EMPTY_STRING_ARRAY;
+  protected static final String[] ONE_SELF_SEGMENT = SegmentSequence.STRING_ARRAY_POOL.intern(SEGMENT_SELF, false);
 
   // Separators for parsing a URI string.
-  private static final char SCHEME_SEPARATOR = ':';
-  private static final String AUTHORITY_SEPARATOR = "//";
-  private static final char DEVICE_IDENTIFIER = ':';
-  private static final char SEGMENT_SEPARATOR = '/';
-  private static final char QUERY_SEPARATOR = '?';
-  private static final char FRAGMENT_SEPARATOR = '#';
-  private static final char USER_INFO_SEPARATOR = '@';
-  private static final char PORT_SEPARATOR = ':';
-  private static final char FILE_EXTENSION_SEPARATOR = '.';
-  private static final char ARCHIVE_IDENTIFIER = '!';
-  private static final String ARCHIVE_SEPARATOR = "!/";
+  protected static final char SCHEME_SEPARATOR = ':';
+  protected static final String AUTHORITY_SEPARATOR = "//";
+  protected static final int AUTHORITY_SEPARATOR_HASH_CODE = AUTHORITY_SEPARATOR.hashCode();
+  protected static final char DEVICE_IDENTIFIER = ':';
+  protected static final char SEGMENT_SEPARATOR = '/';
+  protected static final char QUERY_SEPARATOR = '?';
+  protected static final char FRAGMENT_SEPARATOR = '#';
+  protected static final char USER_INFO_SEPARATOR = '@';
+  protected static final char PORT_SEPARATOR = ':';
+  protected static final char FILE_EXTENSION_SEPARATOR = '.';
+  protected static final char ARCHIVE_IDENTIFIER = '!';
+  protected static final String ARCHIVE_SEPARATOR = "!/";
 
   // Characters to use in escaping.
-  private static final char ESCAPE = '%';
-  private static final char[] HEX_DIGITS = {
-    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+  protected static final char ESCAPE = '%';
+  protected static final char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
   // Some character classes, as defined in RFC 2396's BNF for URI.
   // These are 128-bit bitmasks, stored as two longs, where the Nth bit is set
@@ -233,34 +1951,32 @@ public final class URI
   // created with the highBitmask() and lowBitmask() methods defined below,
   // and a character is tested against them using matches().
   //
-  private static final long ALPHA_HI = highBitmask('a', 'z') | highBitmask('A', 'Z');
-  private static final long ALPHA_LO = lowBitmask('a', 'z')  | lowBitmask('A', 'Z');
-  private static final long DIGIT_HI = highBitmask('0', '9');
-  private static final long DIGIT_LO = lowBitmask('0', '9');
-  private static final long ALPHANUM_HI = ALPHA_HI | DIGIT_HI;
-  private static final long ALPHANUM_LO = ALPHA_LO | DIGIT_LO;
-  private static final long HEX_HI = DIGIT_HI | highBitmask('A', 'F') | highBitmask('a', 'f');
-  private static final long HEX_LO = DIGIT_LO | lowBitmask('A', 'F')  | lowBitmask('a', 'f');
-  private static final long UNRESERVED_HI = ALPHANUM_HI | highBitmask("-_.!~*'()"); 
-  private static final long UNRESERVED_LO = ALPHANUM_LO | lowBitmask("-_.!~*'()");
-  private static final long RESERVED_HI = highBitmask(";/?:@&=+$,");
-  private static final long RESERVED_LO = lowBitmask(";/?:@&=+$,");
-  private static final long URIC_HI = RESERVED_HI | UNRESERVED_HI;  // | ucschar | escaped
-  private static final long URIC_LO = RESERVED_LO | UNRESERVED_LO;
+  protected static final long ALPHA_HI = highBitmask('a', 'z') | highBitmask('A', 'Z');
+  protected static final long ALPHA_LO = lowBitmask('a', 'z')  | lowBitmask('A', 'Z');
+  protected static final long DIGIT_HI = highBitmask('0', '9');
+  protected static final long DIGIT_LO = lowBitmask('0', '9');
+  protected static final long ALPHANUM_HI = ALPHA_HI | DIGIT_HI;
+  protected static final long ALPHANUM_LO = ALPHA_LO | DIGIT_LO;
+  protected static final long HEX_HI = DIGIT_HI | highBitmask('A', 'F') | highBitmask('a', 'f');
+  protected static final long HEX_LO = DIGIT_LO | lowBitmask('A', 'F')  | lowBitmask('a', 'f');
+  protected static final long UNRESERVED_HI = ALPHANUM_HI | highBitmask("-_.!~*'()");
+  protected static final long UNRESERVED_LO = ALPHANUM_LO | lowBitmask("-_.!~*'()");
+  protected static final long RESERVED_HI = highBitmask(";/?:@&=+$,");
+  protected static final long RESERVED_LO = lowBitmask(";/?:@&=+$,");
+  protected static final long URIC_HI = RESERVED_HI | UNRESERVED_HI;  // | ucschar | escaped
+  protected static final long URIC_LO = RESERVED_LO | UNRESERVED_LO;
 
   // Additional useful character classes, including characters valid in certain
-  // URI components and separators used in parsing them out of a string. 
+  // URI components and separators used in parsing them out of a string.
   //
-  private static final long SEGMENT_CHAR_HI = UNRESERVED_HI | highBitmask(";:@&=+$,");  // | ucschar | escaped
-  private static final long SEGMENT_CHAR_LO = UNRESERVED_LO | lowBitmask(";:@&=+$,");
-  private static final long PATH_CHAR_HI = SEGMENT_CHAR_HI | highBitmask('/');  // | ucschar | escaped
-  private static final long PATH_CHAR_LO = SEGMENT_CHAR_LO | lowBitmask('/');
-//  private static final long SCHEME_CHAR_HI = ALPHANUM_HI | highBitmask("+-.");
-//  private static final long SCHEME_CHAR_LO = ALPHANUM_LO | lowBitmask("+-.");
-  private static final long MAJOR_SEPARATOR_HI = highBitmask(":/?#");
-  private static final long MAJOR_SEPARATOR_LO = lowBitmask(":/?#");
-  private static final long SEGMENT_END_HI = highBitmask("/?#");
-  private static final long SEGMENT_END_LO = lowBitmask("/?#");
+  protected static final long SEGMENT_CHAR_HI = UNRESERVED_HI | highBitmask(";:@&=+$,");  // | ucschar | escaped
+  protected static final long SEGMENT_CHAR_LO = UNRESERVED_LO | lowBitmask(";:@&=+$,");
+  protected static final long PATH_CHAR_HI = SEGMENT_CHAR_HI | highBitmask('/');  // | ucschar | escaped
+  protected static final long PATH_CHAR_LO = SEGMENT_CHAR_LO | lowBitmask('/');
+  protected static final long MAJOR_SEPARATOR_HI = highBitmask(":/?#");
+  protected static final long MAJOR_SEPARATOR_LO = lowBitmask(":/?#");
+  protected static final long SEGMENT_END_HI = highBitmask("/?#");
+  protected static final long SEGMENT_END_LO = lowBitmask("/?#");
 
   // The intent of this was to switch over to encoding platform resource URIs
   // by default, but allow people to use a system property to avoid this.
@@ -268,48 +1984,54 @@ public final class URI
   // encoding and introduce yet another factory method that explicitly enables
   // encoding.
   //
-  private static final boolean ENCODE_PLATFORM_RESOURCE_URIS =
+  protected static final boolean ENCODE_PLATFORM_RESOURCE_URIS =
     System.getProperty("org.eclipse.emf.common.util.URI.encodePlatformResourceURIs") != null &&
     !"false".equalsIgnoreCase(System.getProperty("org.eclipse.emf.common.util.URI.encodePlatformResourceURIs"));
 
   // Static initializer for archiveSchemes.
   static
   {
-    Set<String> set = new HashSet<String>();
+    // Initialize the archive schemes.
+    //
+    List<String> list = new UniqueEList<String>();
+
     String propertyValue = System.getProperty("org.eclipse.emf.common.util.URI.archiveSchemes");
 
-    if (propertyValue == null)
+    list.add(SCHEME_JAR);
+    list.add(SCHEME_ZIP);
+    list.add(SCHEME_ARCHIVE);
+
+    if (propertyValue != null)
     {
-      set.add(SCHEME_JAR);
-      set.add(SCHEME_ZIP);
-      set.add(SCHEME_ARCHIVE);
-    }
-    else
-    { 
       for (StringTokenizer t = new StringTokenizer(propertyValue); t.hasMoreTokens(); )
       {
-        set.add(t.nextToken().toLowerCase());
+        String token = t.nextToken().toLowerCase();
+        if (validScheme(token))
+        {
+          String scheme = CommonUtil.javaIntern(token);
+          list.add(scheme);
+        }
       }
     }
-    
-    archiveSchemes = Collections.unmodifiableSet(set);
+
+    ARCHIVE_SCHEMES = list.toArray(new String[list.size()]);
   }
 
   // Returns the lower half bitmask for the given ASCII character.
-  private static long lowBitmask(char c)
+  protected static long lowBitmask(char c)
   {
     return c < 64 ? 1L << c : 0L;
   }
 
   // Returns the upper half bitmask for the given ACSII character.
-  private static long highBitmask(char c)
+  protected static long highBitmask(char c)
   {
     return c >= 64 && c < 128 ? 1L << (c - 64) : 0L;
   }
 
   // Returns the lower half bitmask for all ASCII characters between the two
   // given characters, inclusive.
-  private static long lowBitmask(char from, char to)
+  protected static long lowBitmask(char from, char to)
   {
     long result = 0L;
     if (from < 64 && from <= to)
@@ -325,14 +2047,14 @@ public final class URI
 
   // Returns the upper half bitmask for all AsCII characters between the two
   // given characters, inclusive.
-  private static long highBitmask(char from, char to)
+  protected static long highBitmask(char from, char to)
   {
     return to < 64 ? 0 : lowBitmask((char)(from < 64 ? 0 : from - 64), (char)(to - 64));
   }
 
   // Returns the lower half bitmask for all the ASCII characters in the given
   // string.
-  private static long lowBitmask(String chars)
+  protected static long lowBitmask(String chars)
   {
     long result = 0L;
     for (int i = 0, len = chars.length(); i < len; i++)
@@ -345,7 +2067,7 @@ public final class URI
 
   // Returns the upper half bitmask for all the ASCII characters in the given
   // string.
-  private static long highBitmask(String chars)
+  protected static long highBitmask(String chars)
   {
     long result = 0L;
     for (int i = 0, len = chars.length(); i < len; i++)
@@ -358,7 +2080,7 @@ public final class URI
 
   // Returns whether the given character is in the set specified by the given
   // bitmask.
-  private static boolean matches(char c, long highBitmask, long lowBitmask)
+  protected static boolean matches(char c, long highBitmask, long lowBitmask)
   {
     if (c >= 128) return false;
     return c < 64 ?
@@ -368,7 +2090,7 @@ public final class URI
 
   // Debugging method: converts the given long to a string of binary digits.
 /*
-  private static String toBits(long l)
+  protected static String toBits(long l)
   {
     StringBuffer result = new StringBuffer();
     for (int i = 0; i < 64; i++)
@@ -393,8 +2115,7 @@ public final class URI
    * validScheme}, {@link #validOpaquePart validOpaquePart}, or {@link
    * #validFragment validFragment}, respectively.
    */
-  public static URI createGenericURI(String scheme, String opaquePart,
-                                     String fragment)
+  public static URI createGenericURI(String scheme, String opaquePart, String fragment)
   {
     if (scheme == null)
     {
@@ -406,8 +2127,7 @@ public final class URI
       throw new IllegalArgumentException("non-hierarchical archive URI");
     }
 
-    validateURI(false, scheme, opaquePart, null, false, NO_SEGMENTS, null, fragment);
-    return new URI(false, scheme, opaquePart, null, false, NO_SEGMENTS, null, fragment);
+    return POOL.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_ALL, false, scheme, opaquePart, null, false, NO_SEGMENTS, null).appendFragment(fragment);
   }
 
   /**
@@ -426,14 +2146,11 @@ public final class URI
    * {@link #validQuery validQuery}, or {@link #validFragment validFragment},
    * respectively.
    */
-  public static URI createHierarchicalURI(String scheme, String authority,
-                                          String device, String query,
-                                          String fragment)
+  public static URI createHierarchicalURI(String scheme, String authority, String device, String query, String fragment)
   {
     if (scheme != null && authority == null && device == null)
     {
-      throw new IllegalArgumentException(
-        "absolute hierarchical URI without authority, device, path");
+      throw new IllegalArgumentException("absolute hierarchical URI without authority, device, path");
     }
 
     if (isArchiveScheme(scheme))
@@ -441,23 +2158,22 @@ public final class URI
       throw new IllegalArgumentException("archive URI with no path");
     }
 
-    validateURI(true, scheme, authority, device, false, NO_SEGMENTS, query, fragment);
-    return new URI(true, scheme, authority, device, false, NO_SEGMENTS, query, fragment);
+    return POOL.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_ALL, true, scheme, authority, device, false, NO_SEGMENTS, query).appendFragment(fragment);
   }
 
   /**
    * Static factory method for a hierarchical URI with absolute path.
    * The URI will be relative if <code>scheme</code> is non-null, and
-   * absolute otherwise. 
+   * absolute otherwise.
    *
    * @param segments an array of non-null strings, each representing one
    * segment of the path.  As an absolute path, it is automatically
    * preceded by a <code>/</code> separator.  If desired, a trailing
    * separator should be represented by an empty-string segment as the last
-   * element of the array. 
+   * element of the array.
    *
    * @exception java.lang.IllegalArgumentException if <code>scheme</code> is
-   * an <a href="#archive_explanation">archive URI</a> scheme and 
+   * an <a href="#archive_explanation">archive URI</a> scheme and
    * <code>device</code> is non-null, or if <code>scheme</code>,
    * <code>authority</code>, <code>device</code>, <code>segments</code>,
    * <code>query</code>, or <code>fragment</code> is not valid according to
@@ -467,18 +2183,21 @@ public final class URI
    * #validQuery validQuery}, or {@link #validFragment validFragment}, as
    * appropriate.
    */
-  public static URI createHierarchicalURI(String scheme, String authority,
-                                          String device, String[] segments,
-                                          String query, String fragment)
+  public static URI createHierarchicalURI(String scheme, String authority, String device, String[] segments, String query, String fragment)
   {
-    if (isArchiveScheme(scheme) && device != null)
+    if (device != null)
     {
-      throw new IllegalArgumentException("archive URI with device");
+      if (isArchiveScheme(scheme))
+      {
+        throw new IllegalArgumentException("archive URI with device");
+      }
+      if (SCHEME_PLATFORM.equals(scheme))
+      {
+        throw new IllegalArgumentException("platform URI with device");
+      }
     }
 
-    segments = fix(segments);
-    validateURI(true, scheme, authority, device, true, segments, query, fragment);
-    return new URI(true, scheme, authority, device, true, segments, query, fragment);
+    return POOL.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_ALL, true, scheme, authority, device, true, segments, query).appendFragment(fragment);
   }
 
   /**
@@ -490,27 +2209,17 @@ public final class URI
    * empty-string segment at the end of the array.
    *
    * @exception java.lang.IllegalArgumentException if <code>segments</code>,
-   * <code>query</code>, or <code>fragment</code> is not valid according to 
+   * <code>query</code>, or <code>fragment</code> is not valid according to
    * {@link #validSegments validSegments}, {@link #validQuery validQuery}, or
    * {@link #validFragment validFragment}, respectively.
    */
-  public static URI createHierarchicalURI(String[] segments, String query,
-                                          String fragment)
+  public static URI createHierarchicalURI(String[] segments, String query, String fragment)
   {
-    segments = fix(segments);
-    validateURI(true, null, null, null, false, segments, query, fragment);
-    return new URI(true, null, null, null, false, segments, query, fragment);
+    return POOL.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_ALL, true, null, null, null, false, segments, query).appendFragment(fragment);
   }
 
-  // Converts null to length-zero array, and clones array to ensure
-  // immutability.
-  private static String[] fix(String[] segments)
-  {
-    return segments == null ? NO_SEGMENTS : (String[])segments.clone();
-  }
-  
   /**
-   * Static factory method based on parsing a URI string, with 
+   * Static factory method based on parsing a URI string, with
    * <a href="#device_explanation">explicit device support</a> and handling
    * for <a href="#archive_explanation">archive URIs</a> enabled. The
    * specified string is parsed as described in <a
@@ -519,7 +2228,7 @@ public final class URI
    * validity testing is not as strict as in the RFC; essentially, only
    * separator characters are considered.  This method also does not perform
    * encoding of invalid characters, so it should only be used when the URI
-   * string is known to have already been encoded, so as to avoid double 
+   * string is known to have already been encoded, so as to avoid double
    * encoding.
    *
    * @exception java.lang.IllegalArgumentException if any component parsed
@@ -532,7 +2241,7 @@ public final class URI
    */
   public static URI createURI(String uri)
   {
-    return createURIWithCache(uri); 
+    return createURIWithCache(uri);
   }
 
   /**
@@ -541,7 +2250,7 @@ public final class URI
    * If more than one <code>#</code> is in the string, the last one is
    * assumed to be the fragment's separator, and any others are encoded.
    * This method is the simplest way to safely parse an arbitrary URI string.
-   *  
+   *
    * @param ignoreEscaped <code>true</code> to leave <code>%</code> characters
    * unescaped if they already begin a valid three-character escape sequence;
    * <code>false</code> to encode all <code>%</code> characters.  This
@@ -584,24 +2293,24 @@ public final class URI
    * the fragment separator, and any others should be encoded.
    * @see #createURI(String, boolean, int)
    */
-  public static final int FRAGMENT_LAST_SEPARATOR = 2; 
+  public static final int FRAGMENT_LAST_SEPARATOR = 2;
 
   /**
    * Static factory method that encodes and parses the given URI string.
    * Appropriate encoding is performed for each component of the URI.
-   * Control is provided over which, if any, <code>#</code> should be 
+   * Control is provided over which, if any, <code>#</code> should be
    * taken as the fragment separator and which should be encoded.
    * This method is the preferred way to safely parse an arbitrary URI string
    * that is known to contain <code>#</code> characters in the fragment or to
    * have no fragment at all.
-   * 
+   *
    * @param ignoreEscaped <code>true</code> to leave <code>%</code> characters
    * unescaped if they already begin a valid three-character escape sequence;
    * <code>false</code> to encode all <code>%</code> characters.  This
    * capability is provided to allow partially encoded URIs to be "fixed",
    * while avoiding adding double encoding; however, it is usual just to
    * specify <code>false</code> to perform ordinary encoding.
-   * 
+   *
    * @param fragmentLocationStyle one of {@link #FRAGMENT_NONE},
    * {@link #FRAGMENT_FIRST_SEPARATOR}, or {@link #FRAGMENT_LAST_SEPARATOR},
    * indicating which, if any, of the <code>#</code> characters should be
@@ -621,8 +2330,8 @@ public final class URI
   }
 
   /**
-   * Static factory method based on parsing a URI string, with 
-   * <a href="#device_explanation">explicit device support</a> enabled.  
+   * Static factory method based on parsing a URI string, with
+   * <a href="#device_explanation">explicit device support</a> enabled.
    * Note that validity testing is not a strict as in the RFC; essentially,
    * only separator characters are considered.  So, for example, non-Latin
    * alphabet characters appearing in the scheme would not be considered an
@@ -645,170 +2354,20 @@ public final class URI
     return createURIWithCache(uri);
   }
 
-  // Uses a cache to speed up creation of a URI from a string.  The cache
-  // is consulted to see if the URI, less any fragment, has already been
-  // created.  If needed, the fragment is re-appended to the cached URI,
-  // which is considerably more efficient than creating the whole URI from
-  // scratch.  If the URI wasn't found in the cache, it is created using
-  // parseIntoURI() and then cached.  This method should always be used
-  // by string-parsing factory methods, instead of parseIntoURI() directly.
+  // Uses the URI pool to speed up creation of a URI from a string. 
   /**
    * This method was included in the public API by mistake.
-   * 
+   *
    * @deprecated Please use {@link #createURI(String) createURI} instead.
    */
   @Deprecated
   public static URI createURIWithCache(String uri)
   {
-    int i = uri.indexOf(FRAGMENT_SEPARATOR);
-    String base = i == -1 ? uri : uri.substring(0, i);
-    String fragment = i == -1 ? null : uri.substring(i + 1);
-
-    URI result = uriCache.get(base);
-
-    if (result == null)
-    {
-      result = parseIntoURI(base);
-      uriCache.put(base, result);
-      if (fragment != null)
-      {
-        result = result.appendFragment(fragment);
-      }
-    }
-    else if (fragment != null)
-    {
-      result = result.appendFragment(new String(fragment));
-    }
-    return result;
-  }
-
-  // String-parsing implementation.
-  private static URI parseIntoURI(String uri)
-  {
-    boolean hierarchical = true;
-    String scheme = null;
-    String authority = null;
-    String device = null;
-    boolean absolutePath = false;
-    String[] segments = NO_SEGMENTS;
-    String query = null;
-    String fragment = null;
-
-    int i = 0;
-    int j = find(uri, i, MAJOR_SEPARATOR_HI, MAJOR_SEPARATOR_LO);
-
-    if (j < uri.length() && uri.charAt(j) == SCHEME_SEPARATOR)
-    {
-      scheme = uri.substring(i, j);
-      i = j + 1;
-    }
-
-    boolean archiveScheme = isArchiveScheme(scheme);
-    if (archiveScheme)
-    {
-      j = uri.lastIndexOf(ARCHIVE_SEPARATOR);
-      if (j == -1)
-      {
-        throw new IllegalArgumentException("no archive separator");
-      }
-      hierarchical = true;
-      authority = uri.substring(i, ++j);
-      i = j;
-    }
-    else if (uri.startsWith(AUTHORITY_SEPARATOR, i))
-    {
-      i += AUTHORITY_SEPARATOR.length();
-      j = find(uri, i, SEGMENT_END_HI, SEGMENT_END_LO);
-      authority = uri.substring(i, j);
-      i = j;
-    }
-    else if (scheme != null &&
-             (i == uri.length() || uri.charAt(i) != SEGMENT_SEPARATOR))
-    {
-      hierarchical = false;
-      j = uri.indexOf(FRAGMENT_SEPARATOR, i);
-      if (j == -1) j = uri.length();
-      authority = uri.substring(i, j);
-      i = j;
-    }
-
-    if (!archiveScheme && i < uri.length() && uri.charAt(i) == SEGMENT_SEPARATOR)
-    {
-      j = find(uri, i + 1, SEGMENT_END_HI, SEGMENT_END_LO);
-      String s = uri.substring(i + 1, j);
-      
-      if (s.length() > 0 && s.charAt(s.length() - 1) == DEVICE_IDENTIFIER)
-      {
-        device = s;
-        i = j;
-      }
-    }
-
-    if (i < uri.length() && uri.charAt(i) == SEGMENT_SEPARATOR)
-    {
-      i++;
-      absolutePath = true;
-    }
-
-    if (segmentsRemain(uri, i))
-    {
-      List<String> segmentList = new ArrayList<String>();
-
-      while (segmentsRemain(uri, i))
-      {
-        j = find(uri, i, SEGMENT_END_HI, SEGMENT_END_LO);
-        segmentList.add(uri.substring(i, j));
-        i = j;
-
-        if (i < uri.length() && uri.charAt(i) == SEGMENT_SEPARATOR)
-        {
-          if (!segmentsRemain(uri, ++i)) segmentList.add(SEGMENT_EMPTY);
-        }
-      }
-      segments = new String[segmentList.size()];
-      segmentList.toArray(segments);
-    }
-
-    if (i < uri.length() && uri.charAt(i) == QUERY_SEPARATOR)
-    {
-      j = uri.indexOf(FRAGMENT_SEPARATOR, ++i);
-      if (j == -1) j = uri.length();
-      query = uri.substring(i, j);
-      i = j;
-    }
-
-    if (i < uri.length()) // && uri.charAt(i) == FRAGMENT_SEPARATOR (implied)
-    {
-      fragment = uri.substring(++i);
-    }
-
-    validateURI(hierarchical, scheme, authority, device, absolutePath, segments, query, fragment);
-    return new URI(hierarchical, scheme, authority, device, absolutePath, segments, query, fragment);
-  }
-
-  // Checks whether the string contains any more segments after the one that
-  // starts at position i.
-  private static boolean segmentsRemain(String uri, int i)
-  {
-    return i < uri.length() && uri.charAt(i) != QUERY_SEPARATOR &&
-      uri.charAt(i) != FRAGMENT_SEPARATOR;
-  }
-
-  // Finds the next occurrence of one of the characters in the set represented
-  // by the given bitmask in the given string, beginning at index i. The index
-  // of the first found character, or s.length() if there is none, is
-  // returned.  Before searching, i is limited to the range [0, s.length()].
-  //
-  private static int find(String s, int i, long highBitmask, long lowBitmask)
-  {
-    int len = s.length();
-    if (i >= len) return len;
-
-    for (i = i > 0 ? i : 0; i < len; i++)
-    {
-      if (matches(s.charAt(i), highBitmask, lowBitmask)) break;
-    }
-    return i;
+    int index = uri.indexOf(FRAGMENT_SEPARATOR);
+    return
+      index == -1 ?
+        POOL.intern(uri) :
+        POOL.intern(uri.substring(0, index)).appendFragment(uri.substring(index + 1));
   }
 
   /**
@@ -828,7 +2387,7 @@ public final class URI
    *
    * <p>A relative path with a specified device (something like
    * <code>C:myfile.txt</code>) cannot be expressed as a valid URI.
-   * 
+   *
    * @exception java.lang.IllegalArgumentException if <code>pathName</code>
    * specifies a device and a relative path, or if any component of the path
    * is not valid according to {@link #validAuthority validAuthority}, {@link
@@ -837,23 +2396,7 @@ public final class URI
    */
   public static URI createFileURI(String pathName)
   {
-    File file = new File(pathName);
-    String uri = File.separatorChar != '/' ? pathName.replace(File.separatorChar, SEGMENT_SEPARATOR) : pathName;
-    uri = encode(uri, PATH_CHAR_HI, PATH_CHAR_LO, false);
-    if (file.isAbsolute())
-    {
-      URI result = createURI((uri.charAt(0) == SEGMENT_SEPARATOR ? "file:" : "file:/") + uri);
-      return result;
-    }
-    else
-    {
-      URI result = createURI(uri);
-      if (result.scheme() != null)
-      {
-        throw new IllegalArgumentException("invalid relative pathName: " + pathName);
-      }
-      return result;
-    }
+    return POOL.internFile(pathName);
   }
 
   /**
@@ -874,10 +2417,10 @@ public final class URI
    * stand-alone EMF.
    *
    * <p>Path encoding is performed only if the
-   * <code>org.eclipse.emf.common.util.URI.encodePlatformResourceURIs</code> 
+   * <code>org.eclipse.emf.common.util.URI.encodePlatformResourceURIs</code>
    * system property is set to "true". Decoding can be performed with the
    * static {@link #decode(String) decode} method.
-   * 
+   *
    * @exception java.lang.IllegalArgumentException if any component parsed
    * from the path is not valid according to {@link #validDevice validDevice},
    * {@link #validSegments validSegments}, {@link #validQuery validQuery}, or
@@ -918,7 +2461,7 @@ public final class URI
    * the static {@link #decode(String) decode} method. It is strongly
    * recommended to specify <code>true</code> to enable encoding, unless the
    * path string has already been encoded.
-   * 
+   *
    * @exception java.lang.IllegalArgumentException if any component parsed
    * from the path is not valid according to {@link #validDevice validDevice},
    * {@link #validSegments validSegments}, {@link #validQuery validQuery}, or
@@ -928,7 +2471,7 @@ public final class URI
    */
   public static URI createPlatformResourceURI(String pathName, boolean encode)
   {
-    return createPlatformURI("platform:/resource", "platform:/resource/", pathName, encode);
+    return POOL.intern(SEGMENT_RESOURCE, pathName, encode);
   }
 
   /**
@@ -955,7 +2498,7 @@ public final class URI
    * the static {@link #decode(String) decode} method. It is strongly
    * recommended to specify <code>true</code> to enable encoding, unless the
    * path string has already been encoded.
-   * 
+   *
    * @exception java.lang.IllegalArgumentException if any component parsed
    * from the path is not valid according to {@link #validDevice validDevice},
    * {@link #validSegments validSegments}, {@link #validQuery validQuery}, or
@@ -966,135 +2509,78 @@ public final class URI
    */
   public static URI createPlatformPluginURI(String pathName, boolean encode)
   {
-    return createPlatformURI("platform:/plugin", "platform:/plugin/", pathName, encode);
+    return POOL.intern(SEGMENT_PLUGIN, pathName, encode);
   }
 
-  // Private constructor for use of platform factory methods.
-  private static URI createPlatformURI(String unrootedBase, String rootedBase, String pathName, boolean encode)
+  // Splits the fragment into a segment sequence if it starts with a /, i.e., if it's used as a fragment path by EMF's resource implementation.
+  //
+  protected static CharSequence splitInternFragment(String fragment)
   {
-    if (File.separatorChar != SEGMENT_SEPARATOR)
+    if (fragment.length() > 0 && fragment.charAt(0) == SEGMENT_SEPARATOR)
     {
-      pathName = pathName.replace(File.separatorChar, SEGMENT_SEPARATOR);
-    }
-
-    if (encode)
-    {
-      pathName = encode(pathName, PATH_CHAR_HI, PATH_CHAR_LO, false);
-    }
-    URI result = createURI((pathName.charAt(0) == SEGMENT_SEPARATOR ? unrootedBase : rootedBase) + pathName);
-    return result;
-  }
-  
-  // Private constructor for use of static factory methods.
-  private URI(boolean hierarchical, String scheme, String authority,
-              String device, boolean absolutePath, String[] segments,
-              String query, String fragment)
-  {
-    int hashCode = 0;
-    //boolean iri = false;
-
-    if (scheme != null)
-    {
-      hashCode ^= scheme.toLowerCase().hashCode();
-    }
-    if (authority != null)
-    {
-      hashCode ^= authority.hashCode();
-      //iri = iri || containsNonASCII(authority);
-    }
-    if (device != null)
-    {
-      hashCode ^= device.hashCode();
-      //iri = iri || containsNonASCII(device);
-    }
-    if (query != null)
-    {
-      hashCode ^= query.hashCode();
-      //iri = iri || containsNonASCII(query);
-    }
-    if (fragment != null)
-    {
-      hashCode ^= fragment.hashCode();
-      //iri = iri || containsNonASCII(fragment);
-    }
-
-    for (int i = 0, len = segments.length; i < len; i++)
-    {
-      hashCode ^= segments[i].hashCode();
-      //iri = iri || containsNonASCII(segments[i]);
-    }
-
-    if (hierarchical)
-    {
-      hashCode |= HIERARICHICAL_FLAG;
+      return SegmentSequence.create("/", fragment);
     }
     else
     {
-      hashCode &= ~HIERARICHICAL_FLAG;
+      return CommonUtil.intern(fragment);
     }
-    if (absolutePath)
-    {
-      hashCode |= ABSOLUTE_PATH_FLAG;
-    }
-    else
-    {
-      hashCode &= ~ABSOLUTE_PATH_FLAG;
-    }
+  }
+
+  // Protected constructor for use of pool.
+  //
+  protected URI(int hashCode)
+  {
     this.hashCode = hashCode;
-    //this.iri = iri;
-    this.scheme = scheme == null ? null : scheme.intern();
-    this.authority = authority;
-    this.device = device;
-    this.segments = segments;
-    this.query = query;
-    this.fragment = fragment;
   }
-  
+
   // Validates all of the URI components.  Factory methods should call this
   // before using the constructor, though they must ensure that the
   // inter-component requirements described in their own Javadocs are all
   // satisfied, themselves.  If a new URI is being constructed out of
   // an existing URI, this need not be called.  Instead, just the new
   // components may be validated individually.
-  private static void validateURI(boolean hierarchical, String scheme,
-                                    String authority, String device,
-                                    boolean absolutePath, String[] segments,
-                                    String query, String fragment)
+  protected static boolean validateURI(boolean hierarchical, String scheme, String authority, String device, boolean absolutePath, String[] segments, String query, String fragment)
   {
     if (!validScheme(scheme))
     {
       throw new IllegalArgumentException("invalid scheme: " + scheme);
     }
-    if (!hierarchical && !validOpaquePart(authority))
+
+    if (!hierarchical)
     {
-      throw new IllegalArgumentException("invalid opaquePart: " + authority);
+      if (!validOpaquePart(authority))
+      {
+        throw new IllegalArgumentException("invalid opaquePart: " + authority);
+      }
     }
-    if (hierarchical && !isArchiveScheme(scheme) && !validAuthority(authority))
+    else if (isArchiveScheme(scheme) ? !validArchiveAuthority(authority) : !validAuthority(authority))
     {
       throw new IllegalArgumentException("invalid authority: " + authority);
     }
-    if (hierarchical && isArchiveScheme(scheme) && !validArchiveAuthority(authority))
-    {
-      throw new IllegalArgumentException("invalid authority: " + authority);
-    }
+
     if (!validDevice(device))
     {
       throw new IllegalArgumentException("invalid device: " + device);
     }
+
     if (!validSegments(segments))
     {
       String s = segments == null ? "invalid segments: null" :
         "invalid segment: " + firstInvalidSegment(segments);
       throw new IllegalArgumentException(s);
     }
+
     if (!validQuery(query))
     {
       throw new IllegalArgumentException("invalid query: " + query);
     }
+
     if (!validFragment(fragment))
     {
       throw new IllegalArgumentException("invalid fragment: " + fragment);
     }
+
+    return true;
   }
 
   // Alternate, stricter implementations of the following validation methods
@@ -1109,7 +2595,7 @@ public final class URI
    */
   public static boolean validScheme(String value)
   {
-    return value == null || !contains(value, MAJOR_SEPARATOR_HI, MAJOR_SEPARATOR_LO);  
+    return value == null || !contains(value, MAJOR_SEPARATOR_HI, MAJOR_SEPARATOR_LO);
 
   // <p>A valid scheme may be null, or consist of a single letter followed
   // by any number of letters, numbers, and the following characters:
@@ -1132,12 +2618,11 @@ public final class URI
    */
   public static boolean validOpaquePart(String value)
   {
-    return value != null && value.indexOf(FRAGMENT_SEPARATOR) == -1 &&
-    value.length() > 0 && value.charAt(0) != SEGMENT_SEPARATOR;
+    return value != null && value.indexOf(FRAGMENT_SEPARATOR) == -1 && value.length() > 0 && value.charAt(0) != SEGMENT_SEPARATOR;
 
   // <p>A valid opaque part must be non-null and non-empty. It may contain
   // any allowed URI characters, but its first character may not be
-  // <code>/</code> 
+  // <code>/</code>
 
     //return value != null && value.length() != 0 &&
     //  value.charAt(0) != SEGMENT_SEPARATOR &&
@@ -1167,13 +2652,12 @@ public final class URI
    * href="#archive_explanation">archive URI</a>; <code>false</code>
    * otherwise.
    *
-   * <p>To be valid, the authority, itself, must be a URI with no fragment,
+   * <p>To be valid, the authority, itself, must be a URI with no fragment or query,
    * followed by the character <code>!</code>.
    */
   public static boolean validArchiveAuthority(String value)
   {
-    if (value != null && value.length() > 0 &&
-        value.charAt(value.length() - 1) == ARCHIVE_IDENTIFIER)
+    if (value != null && value.length() > 0 && value.charAt(value.length() - 1) == ARCHIVE_IDENTIFIER)
     {
       try
       {
@@ -1194,7 +2678,7 @@ public final class URI
    * URI</a>. This method has been replaced by {@link #validArchiveAuthority
    * validArchiveAuthority} since the same form of URI is now supported
    * for schemes other than "jar". This now simply calls that method.
-   * 
+   *
    * @deprecated As of EMF 2.0, replaced by {@link #validArchiveAuthority
    * validArchiveAuthority}.
    */
@@ -1213,11 +2697,10 @@ public final class URI
    * character must be <code>:</code>
    */
   public static boolean validDevice(String value)
-  {    
+  {
     if (value == null) return true;
     int len = value.length();
-    return len > 0 && value.charAt(len - 1) == DEVICE_IDENTIFIER &&
-      !contains(value, SEGMENT_END_HI, SEGMENT_END_LO);
+    return len > 0 && value.charAt(len - 1) == DEVICE_IDENTIFIER && !contains(value, SEGMENT_END_HI, SEGMENT_END_LO);
   }
 
   /**
@@ -1232,7 +2715,7 @@ public final class URI
     return value != null && !contains(value, SEGMENT_END_HI, SEGMENT_END_LO);
 
   // <p>A valid path segment must be non-null and may contain any allowed URI
-  // characters except for the following: <code>/ ?</code> 
+  // characters except for the following: <code>/ ?</code>
 
     //return value != null && validate(value, SEGMENT_CHAR_HI, SEGMENT_CHAR_LO, true, true);
   }
@@ -1256,8 +2739,8 @@ public final class URI
 
   // Returns null if the specified value is null or would be a valid path
   // segment array of a URI; otherwise, the value of the first invalid
-  // segment. 
-  private static String firstInvalidSegment(String[] value)
+  // segment.
+  protected static String firstInvalidSegment(String[] value)
   {
     if (value == null) return null;
     for (int i = 0, len = value.length; i < len; i++)
@@ -1300,7 +2783,8 @@ public final class URI
 
   // Searches the specified string for any characters in the set represented
   // by the 128-bit bitmask.  Returns true if any occur, or false otherwise.
-  private static boolean contains(String s, long highBitmask, long lowBitmask)
+  //
+  protected static boolean contains(String s, long highBitmask, long lowBitmask)
   {
     for (int i = 0, len = s.length(); i < len; i++)
     {
@@ -1309,32 +2793,1883 @@ public final class URI
     return false;
   }
 
-  // Tests the non-null string value to see if it contains only ASCII
-  // characters in the set represented by the specified 128-bit bitmask,
-  // as well as, optionally, non-ASCII characters 0xA0 and above, and,
-  // also optionally, escape sequences of % followed by two hex digits.
-  // This method is used for the new, strict URI validation that is not
-  // not currently in place.
-/*
-  private static boolean validate(String value, long highBitmask, long lowBitmask,
-                                     boolean allowNonASCII, boolean allowEscaped)
+  /**
+   * A subclass for representing a hierarchical URI.
+   */
+  protected static final class Hierarchical extends URI
   {
-    for (int i = 0, length = value.length(); i < length; i++)
-    { 
-      char c = value.charAt(i);
+    /**
+     * The {@link #flags} bit for representing {@link URI#hasAbsolutePath()}.
+     */
+    protected static final int HAS_ABSOLUTE_PATH               = 1 << 0;
+    
+    /**
+     * The {@link #flags} bit for representing {@link URI#hasRelativePath()}.
+     */
+    protected static final int HAS_RELATIVE_PATH               = 1 << 1;
+    
+    /**
+     * The {@link #flags} bit for representing {@link URI#hasEmptyPath()}.
+     */
+    protected static final int HAS_EMPTY_PATH                  = 1 << 2;
+    
+    /**
+     * The {@link #flags} bit for representing {@link URI#isCurrentDocumentReference()}.
+     */
+    protected static final int IS_CURRENT_DOCUMENT_REFERENCE   = 1 << 3;
+    
+    /**
+     * The {@link #flags} bit for representing {@link URI#isFile()}.
+     */
+    protected static final int IS_FILE                         = 1 << 4;
+    
+    /**
+     * The {@link #flags} bit for representing {@link URI#isPlatform()}.
+     */
+    protected static final int IS_PLATFORM                     = 1 << 5;
+    
+    /**
+     * The {@link #flags} bit for representing {@link URI#isPlatformResource()}.
+     */
+    protected static final int IS_PLATFORM_RESOURCE            = 1 << 6;
+    
+    /**
+     * The {@link #flags} bit for representing {@link URI#isPlatformPlugin()}.
+     */
+    protected static final int IS_PLATFORM_PLUGIN              = 1 << 7;
+    
+    /**
+     * The {@link #flags} bit for representing {@link URI#isArchive()}.
+     */
+    protected static final int IS_ARCHIVE                      = 1 << 8;
+    
+    /**
+     * The {@link #flags} bit for representing {@link URI#hasTrailingPathSeparator()}.
+     */
+    protected static final int HAS_TRAILING_PATH_SEPARATOR     = 1 << 9;
+    
+    /**
+     * The {@link #flags} bit for representing {@link URI#isPrefix()}.
+     */
+    protected static final int IS_PREFIX                       = 1 << 10;
 
-      if (matches(c, highBitmask, lowBitmask)) continue;
-      if (allowNonASCII && c >= 160) continue;
-      if (allowEscaped && isEscaped(value, i))
+    /**
+     * The {@link #flags} bits for representing {@link URI#hasPath()}.
+     */
+    protected static final int HAS_PATH = HAS_ABSOLUTE_PATH | HAS_RELATIVE_PATH;
+
+    /**
+     * Bit flags for the results of all the boolean no-argument methods.
+     */
+    protected final int flags;
+
+    /**
+     * The scheme of the hierarchical URIs.
+     */
+    protected final String scheme;  // null -> relative URI reference
+    
+    /**
+     * The authority of the hierarchical URI.
+     */
+    protected final String authority;
+
+    /**
+     * The device of the hierarchical URI.
+     */
+    protected final String device;
+    
+    /**
+     * The segments of the hierarchical URI.
+     */
+    protected final String[] segments; // empty last segment -> trailing separator
+    
+    /**
+     * The query of the hierarchical URI.
+     */
+    protected final String query;
+
+    /**
+     * Creates an instance from the components, computing the {@link #flags} bits.
+     * Assertions are used to validate the integrity of the result.
+     * I.e., all components must be interned and the hash code must be equal to the hash code of the {@link #toString()}.
+     */
+    protected Hierarchical(int hashCode, boolean hierarchical, String scheme, String authority, String device, boolean absolutePath, String[] segments, String query)
+    {
+      super(hashCode);
+
+      int flags = 0;
+      if (absolutePath)
       {
-        i += 2;
-        continue;
+        flags |= HAS_ABSOLUTE_PATH;
+      }
+      else if (device == null && authority == null)
+      {
+        flags |= HAS_RELATIVE_PATH;
+        if (segments == NO_SEGMENTS)
+        {
+          flags |= HAS_EMPTY_PATH;
+          if (query == null)
+          {
+            flags |= IS_CURRENT_DOCUMENT_REFERENCE;
+          }
+        }
+
+        if (query == null)
+        {
+          flags |= IS_FILE;
+        }
+      }
+
+      if (scheme != null)
+      {
+        if (scheme == SCHEME_FILE)
+        {
+          flags |= IS_FILE;
+        }
+        else if (scheme == SCHEME_PLATFORM)
+        {
+          if (authority == null && device == null && segments.length >= 2)
+          {
+            flags |= IS_PLATFORM;
+            String firstSegment = segments[0];
+            if (firstSegment == SEGMENT_RESOURCE)
+            {
+              flags |= IS_PLATFORM_RESOURCE;
+            }
+            else if (firstSegment == SEGMENT_PLUGIN)
+            {
+              flags |= IS_PLATFORM_PLUGIN;
+            }
+          }
+        }
+        else
+        {
+          for (String archiveScheme : ARCHIVE_SCHEMES)
+          {
+            if (scheme == archiveScheme)
+            {
+              flags |= IS_ARCHIVE;
+              break;
+            }
+          }
+        }
+      }
+
+      if (segments == NO_SEGMENTS)
+      {
+        if (absolutePath && query == null)
+        {
+          flags |= IS_PREFIX;
+        }
+      }
+      else if (segments[segments.length - 1] == SEGMENT_EMPTY)
+      {
+        flags |= HAS_TRAILING_PATH_SEPARATOR;
+        if (query == null)
+        {
+          flags |= IS_PREFIX;
+        }
+      }
+
+      this.flags = flags;
+      this.scheme = scheme;
+      this.authority = authority;
+      this.device = device;
+      this.segments = segments;
+      this.query = query;
+
+      // The segments array must be interned.
+      //
+      assert segments == SegmentSequence.STRING_ARRAY_POOL.intern(true, true, segments, segments.length);
+
+      // The scheme must be interned and must be lower cased.
+      //
+      assert scheme == CommonUtil.internToLowerCase(scheme);
+
+      // The authority must be interned.
+      //
+      assert authority == CommonUtil.intern(authority);
+
+      // The query must be interned.
+      //
+      assert query == CommonUtil.intern(query);
+
+      // The device must be interned.
+      //
+      assert device == CommonUtil.intern(device);
+
+      // The components must be valid.
+      //
+      assert validateURI(true, scheme, authority, device, hasAbsolutePath(), segments, query, null);
+
+      // The hash code must be the same as that of the string representation
+      //
+      assert hashCode == toString().hashCode();
+    }
+
+    @Override
+    public boolean isRelative()
+    {
+      return scheme == null;
+    }
+
+    @Override
+    protected boolean isBase()
+    {
+      return scheme != null;
+    }
+
+    @Override
+    public boolean isHierarchical()
+    {
+      return true;
+    }
+
+    @Override
+    public boolean hasAuthority()
+    {
+      return authority != null;
+    }
+
+    @Override
+    public boolean hasDevice()
+    {
+      return device != null;
+    }
+
+    @Override
+    public boolean hasPath()
+    {
+      // note: (absolutePath || authority == null) -> hierarchical
+      // (authority == null && device == null && !absolutePath) -> scheme == null
+      return (flags & HAS_PATH) != 0;
+    }
+
+    @Override
+    protected boolean hasDeviceOrPath()
+    {
+      return (flags & HAS_PATH) != 0 || device != null;
+    }
+
+    @Override
+    public boolean hasAbsolutePath()
+    {
+      // note: absolutePath -> hierarchical
+      return (flags & HAS_ABSOLUTE_PATH) != 0;
+    }
+
+    @Override
+    public boolean hasRelativePath()
+    {
+      // note: authority == null -> hierarchical
+      // (authority == null && device == null && !absolutePath) -> scheme == null
+      return (flags & HAS_RELATIVE_PATH) != 0;
+    }
+
+    @Override
+    public boolean hasEmptyPath()
+    {
+      // note: authority == null -> hierarchical
+      // (authority == null && device == null && !absolutePath) -> scheme == null
+      return (flags & HAS_EMPTY_PATH) != 0;
+    }
+
+    @Override
+    public boolean hasQuery()
+    {
+      // note: query != null -> hierarchical
+      return query != null;
+    }
+
+    @Override
+    public boolean isCurrentDocumentReference()
+    {
+      // note: authority == null -> hierarchical
+      // (authority == null && device == null && !absolutePath) -> scheme == null
+      return (flags & IS_CURRENT_DOCUMENT_REFERENCE) != 0;
+    }
+
+    @Override
+    public boolean isEmpty()
+    {
+      // note: authority == null -> hierarchical
+      // (authority == null && device == null && !absolutePath) -> scheme == null
+      return (flags & IS_CURRENT_DOCUMENT_REFERENCE) != 0;
+    }
+
+    @Override
+    public boolean isFile()
+    {
+      return (flags & IS_FILE) != 0;
+    }
+
+    @Override
+    public boolean isPlatform()
+    {
+      return (flags & IS_PLATFORM) != 0;
+    }
+
+    @Override
+    public boolean isPlatformResource()
+    {
+      return (flags & IS_PLATFORM_RESOURCE) != 0;
+    }
+
+    @Override
+    public boolean isPlatformPlugin()
+    {
+      return (flags & IS_PLATFORM_PLUGIN) != 0;
+    }
+
+    @Override
+    public boolean isArchive()
+    {
+      return (flags & IS_ARCHIVE) != 0;
+    }
+
+    @Override
+    protected boolean segmentsEqual(URI uri)
+    {
+      String[] segments = this.segments;
+      int length = segments.length;
+      if (length != uri.segmentCount()) return false;
+      for (int i = 0; i < length; i++)
+      {
+        if (segments[i] != uri.segment(i)) return false;
+      }
+      return true;
+    }
+
+    @Override
+    public String scheme()
+    {
+      return scheme;
+    }
+
+    @Override
+    public String authority()
+    {
+      return authority;
+    }
+
+    @Override
+    public String userInfo()
+    {
+      if (!hasAuthority()) return null;
+
+      int i = authority.indexOf(USER_INFO_SEPARATOR);
+      return i < 0 ? null : authority.substring(0, i);
+    }
+
+    @Override
+    public String host()
+    {
+      if (!hasAuthority()) return null;
+
+      int i = authority.indexOf(USER_INFO_SEPARATOR);
+      int j = authority.indexOf(PORT_SEPARATOR);
+      return j < 0 ? authority.substring(i + 1) : authority.substring(i + 1, j);
+    }
+
+    @Override
+    public String port()
+    {
+      if (!hasAuthority()) return null;
+
+      int i = authority.indexOf(PORT_SEPARATOR);
+      return i < 0 ? null : authority.substring(i + 1);
+    }
+
+    @Override
+    public String device()
+    {
+      return device;
+    }
+
+    @Override
+    public String[] segments()
+    {
+      return segments.clone();
+    }
+
+    @Override
+    protected String[] rawSegments()
+    {
+      return segments;
+    }
+
+    @Override
+    public List<String> segmentsList()
+    {
+      return Collections.unmodifiableList(Arrays.asList(segments));
+    }
+
+    @Override
+    public int segmentCount()
+    {
+      return segments.length;
+    }
+
+    @Override
+    public String segment(int i)
+    {
+      return segments[i];
+    }
+
+    @Override
+    public String lastSegment()
+    {
+      int len = segments.length;
+      if (len == 0) return null;
+      return segments[len - 1];
+    }
+
+    @Override
+    public String path()
+    {
+      if (!hasPath()) return null;
+
+      CommonUtil.StringPool.StringsAccessUnit result = CommonUtil.STRING_POOL.getStringBuilder();
+      if (hasAbsolutePath()) result.append(SEGMENT_SEPARATOR);
+
+      String[] segments = this.segments;
+      for (int i = 0, len = segments.length; i < len; i++)
+      {
+        if (i != 0) result.append(SEGMENT_SEPARATOR);
+        result.append(segments[i]);
+      }
+      return CommonUtil.STRING_POOL.intern(result);
+    }
+
+    @Override
+    public String devicePath()
+    {
+      if (!hasPath()) return null;
+
+      CommonUtil.StringPool.StringsAccessUnit result = CommonUtil.STRING_POOL.getStringBuilder();
+
+      if (hasAuthority())
+      {
+        if (!isArchive()) result.append(AUTHORITY_SEPARATOR);
+        result.append(authority);
+
+        if (hasDevice()) result.append(SEGMENT_SEPARATOR);
+      }
+
+      if (hasDevice()) result.append(device);
+      if (hasAbsolutePath()) result.append(SEGMENT_SEPARATOR);
+
+      String[] segments = this.segments;
+      for (int i = 0, len = segments.length; i < len; i++)
+      {
+        if (i != 0) result.append(SEGMENT_SEPARATOR);
+        result.append(segments[i]);
+      }
+      return CommonUtil.STRING_POOL.intern(result);
+    }
+
+    @Override
+    public String query()
+    {
+      return query;
+    }
+
+    @Override
+    public URI appendQuery(String query)
+    {
+      return POOL.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_QUERY, true, scheme, authority, device, hasAbsolutePath(), segments, query);
+    }
+
+    @Override
+    public URI trimQuery()
+    {
+      if (query == null)
+      {
+        return this;
+      }
+      else
+      {
+        return POOL.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_NONE, true, scheme, authority, device, hasAbsolutePath(), segments, null);
+      }
+    }
+
+    @Override
+    public URI resolve(URI base, boolean preserveRootParents)
+    {
+      if (!base.isBase())
+      {
+        throw new IllegalArgumentException("resolve against non-hierarchical or relative base");
+      }
+
+      // an absolute URI needs no resolving
+      if (!isRelative()) return this;
+
+      String newAuthority = authority;
+      String newDevice = device;
+      boolean newAbsolutePath = hasAbsolutePath();
+      String[] newSegments = segments;
+      String newQuery = query;
+      
+      // note: it's okay for two URIs to share a segments array, since neither will ever modify it
+
+      if (authority == null)
+      {
+        // no authority: use base's
+        newAuthority = base.authority();
+
+        if (device == null)
+        {
+          // no device: use base's
+          newDevice = base.device();
+
+          if (hasEmptyPath() && query == null)
+          {
+            // current document reference: use base path and query
+            newAbsolutePath = base.hasAbsolutePath();
+            newSegments = base.rawSegments();
+            newQuery = base.query();
+          }
+          else if (hasRelativePath())
+          {
+            // relative path: merge with base and keep query.
+            // note that if the base has no path and this a non-empty relative path, there is an implied root in the resulting path
+            newAbsolutePath = base.hasAbsolutePath() || !hasEmptyPath();
+            newSegments = newAbsolutePath ? mergePath(base, preserveRootParents) : NO_SEGMENTS;
+          }
+          // else absolute path: keep it and query
+        }
+        // else keep device, path, and query
+      }
+      // else keep authority, device, path, and query
+
+      // Use scheme from base; no validation needed because all components are from existing URIs
+      return POOL.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_NONE, true, base.scheme(), newAuthority, newDevice, newAbsolutePath, newSegments, newQuery);
+    }
+
+    // Merges this URI's relative path with the base non-relative path.  
+    // If base has no path, treat it as the root absolute path, unless this has  no path either.
+    //
+    protected String[] mergePath(URI base, boolean preserveRootParents)
+    {
+      if (base.hasRelativePath())
+      {
+        throw new IllegalArgumentException("merge against relative path");
+      }
+      if (!hasRelativePath())
+      {
+        throw new IllegalStateException("merge non-relative path");
+      }
+
+      int baseSegmentCount = base.segmentCount();
+      int segmentCount = segments.length;
+      String[] stack = new String[baseSegmentCount + segmentCount];
+      int sp = 0;
+
+      // use a stack to accumulate segments of base, except for the last
+      // (i.e. skip trailing separator and anything following it), and of relative path
+      //
+      for (int i = 0; i < baseSegmentCount - 1; i++)
+      {
+        sp = accumulate(stack, sp, base.segment(i), preserveRootParents);
+      }
+
+      for (int i = 0; i < segmentCount; i++)
+      {
+        sp = accumulate(stack, sp, segments[i], preserveRootParents);
+      }
+
+      // if the relative path is empty or ends in an empty segment, a parent
+      // reference, or a self reference, add a trailing separator to a
+      // non-empty path
+      if (sp > 0)
+      {
+        if (segmentCount == 0)
+        {
+          stack[sp++] = SEGMENT_EMPTY;
+        }
+        else
+        {
+          String segment = segments[segmentCount - 1];
+          if (segment == SEGMENT_EMPTY || segment == SEGMENT_PARENT || segment == SEGMENT_SELF)
+          {
+            stack[sp++] = SEGMENT_EMPTY;
+          }
+        }
+      }
+
+      // return a correctly sized result
+      return SegmentSequence.STRING_ARRAY_POOL.intern(stack, 0, sp);
+    }
+
+    // Adds a segment to a stack, skipping empty segments and self references,
+    // and interpreting parent references.
+    protected static int accumulate(String[] stack, int sp, String segment, boolean preserveRootParents)
+    {
+      if (SEGMENT_PARENT == segment)
+      {
+        if (sp == 0)
+        {
+          // special care must be taken for a root's parent reference: it is
+          // either ignored or the symbolic reference itself is pushed
+          if (preserveRootParents) stack[sp++] = segment;
+        }
+        else
+        {
+          // unless we're already accumulating root parent references,
+          // parent references simply pop the last segment descended
+          if (SEGMENT_PARENT == stack[sp - 1]) stack[sp++] = segment;
+          else sp--;
+        }
+      }
+      else if (SEGMENT_EMPTY != segment && SEGMENT_SELF != segment)
+      {
+        // skip empty segments and self references; push everything else
+        stack[sp++] = segment;
+      }
+      return sp;
+    }
+
+    @Override
+    public URI deresolve(URI base, boolean preserveRootParents, boolean anyRelPath, boolean shorterRelPath)
+    {
+      if (!base.isBase() || isRelative()) return this;
+
+      // note: these assertions imply that neither this nor the base URI has a
+      // relative path; thus, both have either an absolute path or no path
+
+      // different scheme: need complete, absolute URI
+      if (scheme != base.scheme()) return this;
+
+      String newAuthority = authority;
+      String newDevice = device;
+      boolean newAbsolutePath = hasAbsolutePath();
+      String[] newSegments = segments;
+      String newQuery = query;
+
+      if (authority == base.authority() && (hasDeviceOrPath() || !base.hasDeviceOrPath()))
+      {
+        // matching authorities and no device or path removal
+        newAuthority = null;
+
+        if (device == base.device())
+        {
+          boolean hasPath = hasPath();
+          boolean baseHasPath = base.hasPath();
+          if (hasPath || !baseHasPath)
+          {
+            // matching devices and no path removal
+            newDevice = null;
+
+            // exception if (!hasPath() && base.hasPath())
+
+            if (!anyRelPath && !shorterRelPath)
+            {
+              // user rejects a relative path: keep absolute or no path
+            }
+            else if (hasPath == baseHasPath && segmentsEqual(base) && query == base.query())
+            {
+              // current document reference: keep no path or query
+              newAbsolutePath = false;
+              newSegments = NO_SEGMENTS;
+              newQuery = null;
+            }
+            else if (hasPath && !baseHasPath)
+            {
+              // no paths: keep query only
+              newAbsolutePath = false;
+              newSegments = NO_SEGMENTS;
+            }
+            // exception if (!hasAbsolutePath())
+            else if (hasCollapsableSegments(preserveRootParents))
+            {
+              // path form demands an absolute path: keep it and query
+            }
+            else
+            {
+              // keep query and select relative or absolute path based on length
+              String[] rel = findRelativePath(base, preserveRootParents);
+              if (anyRelPath || segments.length > rel.length)
+              {
+                // user demands a relative path or the absolute path is longer
+                newAbsolutePath = false;
+                newSegments = rel;
+              }
+              // else keep shorter absolute path
+            }
+          }
+        }
+        // else keep device, path, and query
+      }
+      // else keep authority, device, path, and query
+
+      // always include fragment, even if null;
+      // no validation needed since all components are from existing URIs
+      return POOL.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_NONE, true, null, newAuthority, newDevice, newAbsolutePath, newSegments, newQuery);
+    }
+
+    // Returns true if the non-relative path includes segments that would be
+    // collapsed when resolving; false otherwise.  If preserveRootParents is
+    // true, collapsible segments include any empty segments, except for the
+    // last segment, as well as and parent and self references.  If
+    // preserveRootsParents is false, parent references are not collapsible if
+    // they are the first segment or preceded only by other parent
+    // references.
+    protected boolean hasCollapsableSegments(boolean preserveRootParents)
+    {
+      if (hasRelativePath())
+      {
+        throw new IllegalStateException("test collapsability of relative path");
+      }
+
+      String[] segments = this.segments;
+      for (int i = 0, len = segments.length; i < len; i++)
+      {
+        String segment = segments[i];
+        if ((i < len - 1 && SEGMENT_EMPTY == segment) ||
+              SEGMENT_SELF == segment ||
+              SEGMENT_PARENT == segment && (!preserveRootParents || (i != 0 && SEGMENT_PARENT != segments[i - 1])))
+        {
+          return true;
+        }
       }
       return false;
     }
-    return true;
+
+    // Returns the shortest relative path between the the non-relative path of
+    // the given base and this absolute path.  If the base has no path, it is
+    // treated as the root absolute path.
+    protected String[] findRelativePath(URI base, boolean preserveRootParents)
+    {
+      if (base.hasRelativePath())
+      {
+        throw new IllegalArgumentException(
+          "find relative path against base with relative path");
+      }
+      if (!hasAbsolutePath())
+      {
+        throw new IllegalArgumentException(
+          "find relative path of non-absolute path");
+      }
+
+      // treat an empty base path as the root absolute path
+      String[] startPath = base.collapseSegments(preserveRootParents);
+      String[] endPath = segments;
+
+      // drop last segment from base, as in resolving
+      int startCount = startPath.length > 0 ? startPath.length - 1 : 0;
+      int endCount = endPath.length;
+
+      // index of first segment that is different between endPath and startPath
+      int diff = 0;
+
+      // if endPath is shorter than startPath, the last segment of endPath may
+      // not be compared: because startPath has been collapsed and had its
+      // last segment removed, all preceding segments can be considered non-
+      // empty and followed by a separator, while the last segment of endPath
+      // will either be non-empty and not followed by a separator, or just empty
+      for (int count = startCount < endCount ? startCount : endCount - 1; diff < count && startPath[diff] == endPath[diff]; diff++)
+      {
+        // Empty statement.
+      }
+
+      int upCount = startCount - diff;
+      int downCount = endCount - diff;
+
+      // a single separator, possibly preceded by some parent reference
+      // segments, is redundant
+      if (downCount == 1 && SEGMENT_EMPTY == endPath[endCount - 1])
+      {
+        downCount = 0;
+      }
+
+      // an empty path needs to be replaced by a single "." if there is no
+      // query, to distinguish it from a current document reference
+      int length = upCount + downCount;
+      if (length == 0)
+      {
+        if (query == null) return ONE_SELF_SEGMENT;
+        return NO_SEGMENTS;
+      }
+
+      // return a correctly sized result
+      String[] result = new String[length];
+      Arrays.fill(result, 0, upCount, SEGMENT_PARENT);
+      System.arraycopy(endPath, diff, result, upCount, downCount);
+      return SegmentSequence.STRING_ARRAY_POOL.intern(false, false, result, length);
+    }
+
+    @Override
+    protected String[] collapseSegments(boolean preserveRootParents)
+    {
+      if (hasRelativePath())
+      {
+        throw new IllegalStateException("collapse relative path");
+      }
+
+      if (!hasCollapsableSegments(preserveRootParents)) return rawSegments();
+
+      // use a stack to accumulate segments
+      String[] segments = this.segments;
+      int segmentCount = segments.length;
+      String[] stack = new String[segmentCount];
+      int sp = 0;
+
+      for (int i = 0; i < segmentCount; i++)
+      {
+        sp = accumulate(stack, sp, segments[i], preserveRootParents);
+      }
+
+      // if the path is non-empty and originally ended in an empty segment, a
+      // parent reference, or a self reference, add a trailing separator
+      if (sp > 0)
+      {
+        String segment = segments[segmentCount - 1];
+        if (segment == SEGMENT_EMPTY || segment == SEGMENT_PARENT || segment == SEGMENT_SELF)
+        {
+          stack[sp++] = SEGMENT_EMPTY;
+        }
+      }
+
+      // return a correctly sized result
+      return SegmentSequence.STRING_ARRAY_POOL.intern(stack, 0, sp);
+    }
+
+    @Override
+    public String toString()
+    {
+      // Check if there is a cached result with a non-garbage collected referent...
+      //
+      WeakReference<String> toString = this.toString;
+      if (toString != null)
+      {
+        String result = toString.get();
+        if (result == null)
+        {
+          toString.clear();
+        }
+        else
+        {
+          return result;
+        }
+      }
+
+      CommonUtil.StringPool.StringsAccessUnit result = CommonUtil.STRING_POOL.getStringBuilder();
+
+      if (!isRelative())
+      {
+        result.append(scheme);
+        result.append(SCHEME_SEPARATOR);
+      }
+
+      if (hasAuthority())
+      {
+        if (!isArchive()) result.append(AUTHORITY_SEPARATOR);
+        result.append(authority);
+      }
+
+      if (hasDevice())
+      {
+        result.append(SEGMENT_SEPARATOR);
+        result.append(device);
+      }
+
+      if (hasAbsolutePath()) result.append(SEGMENT_SEPARATOR);
+
+      for (int i = 0, len = segments.length; i < len; i++)
+      {
+        if (i != 0) result.append(SEGMENT_SEPARATOR);
+        result.append(segments[i]);
+      }
+
+      if (hasQuery())
+      {
+        result.append(QUERY_SEPARATOR);
+        result.append(query);
+      }
+
+      String string = CommonUtil.STRING_POOL.intern(result);
+      this.toString = POOL.newCachedToString(this, string);
+      return string;
+    }
+
+    @Override
+    protected int matches(String string, int length)
+    {
+      WeakReference<String> toString = this.toString;
+      if (toString != null)
+      {
+        String cachedString = toString.get();
+        if (cachedString == null)
+        {
+          toString.clear();
+        }
+        else
+        {
+          return cachedString.startsWith(string) ? length : -1;
+        }
+      }
+
+      int index = 0;
+      if (!isRelative())
+      {
+        if (!string.startsWith(scheme))
+        {
+          return -1;
+        }
+        index += scheme.length();
+        if (index >= length || string.charAt(index) != SCHEME_SEPARATOR)
+        {
+          return -1;
+        }
+        ++index;
+      }
+
+      if (hasAuthority())
+      {
+        if (!isArchive())
+        {
+          if (!string.startsWith(AUTHORITY_SEPARATOR, index))
+          {
+            return -1;
+          }
+          index += 2;
+        }
+        if (!string.startsWith(authority, index))
+        {
+          return -1;
+        }
+        index += authority.length();
+      }
+
+      if (hasDevice())
+      {
+        if (index >= length || string.charAt(index) != SEGMENT_SEPARATOR)
+        {
+          return -1;
+        }
+        ++index;
+        if (!string.startsWith(device, index))
+        {
+          return -1;
+        }
+        index += device.length();
+      }
+
+      if (hasAbsolutePath())
+      {
+        if (index >= length || string.charAt(index) != SEGMENT_SEPARATOR)
+        {
+          return -1;
+        }
+        ++index;
+      }
+
+      String[] segments = this.segments;
+      for (int i = 0, len = segments.length; i < len; i++)
+      {
+        if (i != 0)
+        {
+          if (index >= length || string.charAt(index) != SEGMENT_SEPARATOR)
+          {
+            return -1;
+          }
+          ++index;
+        }
+        String segment = segments[i];
+        if (!string.startsWith(segment, index))
+        {
+          return -1;
+        }
+        index += segment.length();
+      }
+
+      if (hasQuery())
+      {
+        if (index >= length || string.charAt(index) != QUERY_SEPARATOR)
+        {
+          return -1;
+        }
+        ++index;
+        if (!string.startsWith(query, index))
+        {
+          return -1;
+        }
+        index += query.length();
+      }
+
+      return index;
+    }
+
+    @Override
+    protected boolean matches(int validate, boolean hierarchical, String scheme, String authority, String device, boolean absolutePath, String[] segments, String query)
+    {
+      return
+        hierarchical &&
+          hasAbsolutePath() == absolutePath &&
+          (validate >= URIPool.URIComponentsAccessUnit.VALIDATE_NONE ?
+             this.segments == segments && this.scheme == scheme && this.authority == authority && this.device == device && this.query == query :
+             Arrays.equals(this.segments, segments) && equals(this.scheme, scheme) && equals(this.authority, authority) && equals(this.device, device) && equals(this.query, query));
+    }
+
+    @Override
+    protected boolean matches(String base, String path)
+    {
+      if (!isPlatform() || segments[0] != base)
+      {
+        return false;
+      }
+
+      String[] segments = this.segments;
+      int length = path.length();
+      for (int i = 1, len = segments.length, index = 1; i < len; i++)
+      {
+        if (i != 1)
+        {
+          if (index >= length || path.charAt(index) != SEGMENT_SEPARATOR)
+          {
+            return false;
+          }
+          ++index;
+        }
+        String segment = segments[i];
+        if (!path.startsWith(segment, index))
+        {
+          return false;
+        }
+        index += segment.length();
+      }
+      return true;
+    }
+
+    @Override
+    public String toFileString()
+    {
+      if (!isFile()) return null;
+
+      CommonUtil.StringPool.StringsAccessUnit result = CommonUtil.STRING_POOL.getStringBuilder();
+      char separator = File.separatorChar;
+      boolean hasDevice = hasDevice();
+
+      if (hasAuthority())
+      {
+        result.append("//");
+        result.append(authority);
+
+        if (hasDevice) result.append(separator);
+      }
+
+      if (hasDevice) result.append(device);
+      if (hasAbsolutePath()) result.append(separator);
+
+      String[] segments = this.segments;
+      for (int i = 0, len = segments.length; i < len; i++)
+      {
+        if (i != 0) result.append(separator);
+        result.append(segments[i]);
+      }
+
+      return decode(CommonUtil.STRING_POOL.intern(result));
+    }
+
+    @Override
+    public String toPlatformString(boolean decode)
+    {
+      if (isPlatform())
+      {
+        CommonUtil.StringPool.StringsAccessUnit result = CommonUtil.STRING_POOL.getStringBuilder();
+        String[] segments = this.segments;
+        for (int i = 1, len = segments.length; i < len; i++)
+        {
+          result.append('/');
+          result.append(decode ? URI.decode(segments[i]) : segments[i]);
+        }
+        return CommonUtil.STRING_POOL.intern(result);
+      }
+      return null;
+    }
+
+    @Override
+    public URI appendSegment(String segment)
+    {
+      // Do preliminary checking now but full checking later.
+      //
+      if (segment == null)
+      {
+        throw new IllegalArgumentException("invalid segment: null");
+      }
+
+      // absolute path or no path -> absolute path
+      boolean newAbsolutePath = !hasRelativePath();
+
+      String[] newSegments = SegmentSequence.STRING_ARRAY_POOL.intern(segments, segments.length, segment, true);
+      return POOL.intern(false, segments.length, true, scheme, authority, device, newAbsolutePath, newSegments, query);
+    }
+
+    @Override
+    public URI appendSegments(String[] segments)
+    {
+      // Do preliminary checking now but full checking later.
+      //
+      if (segments == null)
+      {
+        throw new IllegalArgumentException("invalid segments: null");
+      }
+      else
+      {
+        for (String segment : segments)
+        {
+          if (segment == null)
+          {
+            throw new IllegalArgumentException("invalid segment: null");
+          }
+        }
+      }
+
+      // absolute path or no path -> absolute path
+      boolean newAbsolutePath = !hasRelativePath();
+
+      String[] newSegments = SegmentSequence.STRING_ARRAY_POOL.intern(this.segments, segments, true);
+      return POOL.intern(false, this.segments.length, true, scheme, authority, device, newAbsolutePath, newSegments, query);
+    }
+
+    @Override
+    public URI trimSegments(int i)
+    {
+      if (i < 1) return this;
+
+      String[] newSegments;
+      int len = segments.length - i;
+      if (len > 0)
+      {
+        newSegments = SegmentSequence.STRING_ARRAY_POOL.intern(segments, 0, len);
+      }
+      else
+      {
+        newSegments = NO_SEGMENTS;
+      }
+
+      return POOL.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_NONE, true, scheme, authority, device, hasAbsolutePath(), newSegments, query);
+    }
+
+    @Override
+    public boolean hasTrailingPathSeparator()
+    {
+      return (flags & HAS_TRAILING_PATH_SEPARATOR) != 0;
+    }
+
+    @Override
+    public String fileExtension()
+    {
+      int len = segments.length;
+      if (len == 0) return null;
+
+      String lastSegment = segments[len - 1];
+      int i = lastSegment.lastIndexOf(FILE_EXTENSION_SEPARATOR);
+      return i < 0 ? null : lastSegment.substring(i + 1);
+    }
+
+    @Override
+    public URI appendFileExtension(String fileExtension)
+    {
+      // Do preliminary checking now and full validation later.
+      if (fileExtension == null)
+      {
+        throw new IllegalArgumentException("invalid segment portion: null");
+      }
+
+      int len = segments.length;
+      if (len == 0)
+      {
+        if (!validSegment(fileExtension))
+        {
+          throw new IllegalArgumentException("invalid segment portion: " + fileExtension);
+        }
+        return this;
+      }
+
+      String lastSegment = segments[len - 1];
+      if (SEGMENT_EMPTY == lastSegment)
+      {
+        if (!validSegment(fileExtension))
+        {
+          throw new IllegalArgumentException("invalid segment portion: " + fileExtension);
+        }
+        return this;
+      }
+
+      CommonUtil.StringPool.StringsAccessUnit newLastSegment = CommonUtil.STRING_POOL.getStringBuilder();
+      newLastSegment.append(lastSegment);
+      newLastSegment.append(FILE_EXTENSION_SEPARATOR);
+      newLastSegment.append(fileExtension);
+
+      String[] newSegments = SegmentSequence.STRING_ARRAY_POOL.intern(segments, segments.length - 1, CommonUtil.STRING_POOL.intern(newLastSegment), false);
+
+      // note: segments.length > 0 -> hierarchical
+      return POOL.intern(false, len, true, scheme, authority, device, hasAbsolutePath(), newSegments, query);
+    }
+
+    @Override
+    public URI trimFileExtension()
+    {
+      int len = segments.length;
+      if (len == 0) return this;
+
+      String lastSegment = segments[len - 1];
+      int i = lastSegment.lastIndexOf(FILE_EXTENSION_SEPARATOR);
+      if (i < 0) return this;
+
+      String newLastSegment = lastSegment.substring(0, i);
+      String[] newSegments = SegmentSequence.STRING_ARRAY_POOL.intern(segments, len - 1, newLastSegment, true);
+
+      // note: segments.length > 0 -> hierarchical
+      return POOL.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_NONE, true, scheme, authority, device, hasAbsolutePath(), newSegments, query);
+    }
+
+    @Override
+    public boolean isPrefix()
+    {
+      return (flags & IS_PREFIX) != 0;
+    }
+
+    @Override
+    public URI replacePrefix(URI oldPrefix, URI newPrefix)
+    {
+      if (!oldPrefix.isPrefix() || !newPrefix.isPrefix())
+      {
+        String which = oldPrefix.isPrefix() ? "new" : "old";
+        throw new IllegalArgumentException("non-prefix " + which + " value");
+      }
+
+      // Don't even consider it unless this is hierarchical and has scheme,
+      // authority, device and path absoluteness equal to those of the prefix.
+      if (scheme != oldPrefix.scheme() || authority != oldPrefix.authority() || device != oldPrefix.device() || hasAbsolutePath() != oldPrefix.hasAbsolutePath())
+      {
+        return null;
+      }
+
+      String[] segments = this.segments;
+      int segmentsLength = segments.length;
+
+      // If the prefix has no segments, then it is the root absolute path, and
+      // we know this is an absolute path, too.
+      // Get what's left of the segments after trimming the prefix.
+      String [] oldPrefixSegments = oldPrefix.rawSegments();
+      int oldPrefixSegmentCount = oldPrefixSegments.length;
+      int tailSegmentCount;
+      if (oldPrefixSegmentCount == 0)
+      {
+        tailSegmentCount = segmentsLength;
+      }
+      else
+      {
+        // This must have no fewer segments than the prefix.  Since the prefix
+        // is not the root absolute path, its last segment is empty; all others
+        // must match.
+        int i = 0;
+        int segmentsToCompare = oldPrefixSegmentCount - 1;
+        if (segmentsLength <= segmentsToCompare) return null;
+
+        for (; i < segmentsToCompare; i++)
+        {
+          if (segments[i] != oldPrefixSegments[i]) return null;
+        }
+
+        // The prefix really is a prefix of this.  If this has just one more,
+        // empty segment, the paths are the same.
+        if (i == segmentsLength - 1 && segments[i] == SEGMENT_EMPTY)
+        {
+          return newPrefix;
+        }
+        else
+        {
+          tailSegmentCount = segmentsLength - i;
+        }
+      }
+
+      // If the new prefix has segments, it is not the root absolute path,
+      // and we need to drop the trailing empty segment and append the tail
+      // segments.
+      String [] newPrefixSegments = newPrefix.rawSegments();
+      int newPrefixSegmentCount = newPrefixSegments.length;
+      String[] mergedSegments;
+      if (newPrefixSegmentCount == 0)
+      {
+        mergedSegments = tailSegmentCount == segmentsLength ? segments : SegmentSequence.STRING_ARRAY_POOL.intern(segments, segmentsLength - tailSegmentCount, tailSegmentCount);
+      }
+      else
+      {
+        mergedSegments = SegmentSequence.STRING_ARRAY_POOL.intern(newPrefixSegments, 0, newPrefixSegmentCount - 1, segments, segmentsLength - tailSegmentCount, tailSegmentCount);
+      }
+
+      // no validation needed since all components are from existing URIs
+      return POOL.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_NONE, true, newPrefix.scheme(), newPrefix.authority(), newPrefix.device(), newPrefix.hasAbsolutePath(), mergedSegments, query);
+    }
   }
-*/
+
+  /**
+   * A subclass for representing an opaque URI.
+   */
+  protected final static class Opaque extends URI
+  {
+    /**
+     * The scheme of the opaque URI.
+     */
+    protected final String scheme;
+    
+    /**
+     * The opaque part of the opaque URI.
+     */
+    protected final String opaquePart;
+
+    /**
+     * Creates an instance from the components.
+     * Assertions are used to validate the integrity of the result.
+     * I.e., both components must be interned and the hash code must be equal to the hash code of the {@link #toString()}.
+     */
+    protected Opaque(int hashCode, String scheme, String opaquePart)
+    {
+      super(hashCode);
+
+      this.scheme = scheme;
+      this.opaquePart = opaquePart;
+
+      // The scheme must be interned and must be lower cased.
+      //
+      assert scheme == CommonUtil.internToLowerCase(scheme);
+
+      // The authority must be interned.
+      //
+      assert opaquePart == CommonUtil.intern(opaquePart);
+
+      // The components must be valid.
+      //
+      assert validateURI(false, scheme, opaquePart, null, false, NO_SEGMENTS, null, null);
+
+      // The hash code must be the same as that of the string representation
+      //
+      assert hashCode == toString().hashCode();
+    }
+
+    @Override
+    public boolean hasOpaquePart()
+    {
+      return true;
+    }
+
+    @Override
+    public String scheme()
+    {
+      return scheme;
+    }
+
+    @Override
+    public String opaquePart()
+    {
+      return opaquePart;
+    }
+
+    @Override
+    public String toString()
+    {
+      WeakReference<String> toString = this.toString;
+      if (toString != null)
+      {
+        String result = toString.get();
+        if (result == null)
+        {
+          toString.clear();
+        }
+        else
+        {
+          return result;
+        }
+      }
+
+      CommonUtil.StringPool.StringsAccessUnit result = CommonUtil.STRING_POOL.getStringBuilder();
+      result.append(scheme);
+      result.append(SCHEME_SEPARATOR);
+      result.append(opaquePart);
+
+      String string = CommonUtil.STRING_POOL.intern(result);
+      this.toString = POOL.newCachedToString(this, string);
+      return string;
+    }
+
+    @Override
+    protected int matches(String string, int length)
+    {
+      WeakReference<String> toString = this.toString;
+      if (toString != null)
+      {
+        String cachedString = toString.get();
+        if (cachedString == null)
+        {
+          toString.clear();
+        }
+        else
+        {
+          return string.startsWith(cachedString) ? length : -1;
+        }
+      }
+
+      int index = 0;
+      if (!string.startsWith(scheme))
+      {
+        return -1;
+      }
+      index += scheme.length();
+      if (index >= length || string.charAt(index) != SCHEME_SEPARATOR)
+      {
+        return -1;
+      }
+      ++index;
+
+      if (!string.startsWith(opaquePart, index))
+      {
+        return -1;
+      }
+      index += opaquePart.length();
+
+      return index;
+    }
+
+    @Override
+    protected boolean matches(int validate, boolean hierarchical, String scheme, String authority, String device, boolean absolutePath, String[] segments, String query)
+    {
+      return
+        !hierarchical &&
+          !absolutePath &&
+          segments == null &&
+          query == null &&
+          (validate >= URIPool.URIComponentsAccessUnit.VALIDATE_NONE ?
+             this.scheme == scheme && this.opaquePart == authority :
+             equals(this.scheme, scheme) && equals(this.opaquePart, authority));
+    }
+  }
+
+  /**
+   * A subclass for representing a URI with a fragment.
+   * Most methods simply delegate to the {@link #trimFragment() base} URI.
+   */
+  protected static final class Fragment extends URI
+  {
+    /**
+     * The {@link #trimFragment() base} URI.
+     */
+    protected final URI uri;
+    
+    /**
+     * The representation of the fragment.
+     * The fragment is {@link #splitInternFragment(String) split interned}.
+     */
+    protected final CharSequence fragment;
+
+    /**
+     * Creates an instance from the components.
+     * Assertions are used to validate the integrity of the result.
+     * I.e., the fragment must be non-null and {@link #splitInternFragment(String) split interned} and the hash code must be equal to the hash code of the {@link #toString()}.
+     */
+    protected Fragment(int hashCode, URI uri, CharSequence fragment)
+    {
+      super(hashCode);
+
+      this.uri = uri;
+      this.fragment = fragment;
+
+      // There must be a fragment.
+      //
+      assert fragment != null;
+
+      // The fragment must be split and interned.
+      //
+      assert fragment == splitInternFragment(fragment.toString());
+
+      // The hash code must be the same as that of the string representation
+      //
+      assert hashCode == toString().hashCode();
+    }
+
+    @Override
+    public boolean isRelative()
+    {
+      return uri.isRelative();
+    }
+
+    @Override
+    protected boolean isBase()
+    {
+      return uri.isBase();
+    }
+
+    @Override
+    public boolean isHierarchical()
+    {
+      return uri.isHierarchical();
+    }
+
+    @Override
+    public boolean hasAuthority()
+    {
+      return uri.hasAuthority();
+    }
+
+    @Override
+    public boolean hasOpaquePart()
+    {
+      return uri.hasOpaquePart();
+    }
+
+    @Override
+    public boolean hasDevice()
+    {
+      return uri.hasDevice();
+    }
+
+    @Override
+    public boolean hasPath()
+    {
+      return uri.hasPath();
+    }
+
+    @Override
+    protected boolean hasDeviceOrPath()
+    {
+      return uri.hasDeviceOrPath();
+    }
+
+    @Override
+    public boolean hasAbsolutePath()
+    {
+      return uri.hasAbsolutePath();
+    }
+
+    @Override
+    public boolean hasRelativePath()
+    {
+      return uri.hasRelativePath();
+    }
+
+    @Override
+    public boolean hasEmptyPath()
+    {
+      return uri.hasEmptyPath();
+    }
+
+    @Override
+    public boolean hasQuery()
+    {
+      return uri.hasQuery();
+    }
+
+    @Override
+    public boolean hasFragment()
+    {
+      return true;
+    }
+
+    @Override
+    public boolean isCurrentDocumentReference()
+    {
+      return uri.isCurrentDocumentReference();
+    }
+
+    @Override
+    public boolean isEmpty()
+    {
+      return false;
+    }
+
+    @Override
+    public boolean isFile()
+    {
+      return uri.isFile();
+    }
+
+    @Override
+    public boolean isPlatform()
+    {
+      return uri.isPlatform();
+    }
+
+    @Override
+    public boolean isPlatformResource()
+    {
+      return uri.isPlatformResource();
+    }
+
+    @Override
+    public boolean isPlatformPlugin()
+    {
+      return uri.isPlatformPlugin();
+    }
+
+    @Override
+    public boolean isArchive()
+    {
+      return uri.isArchive();
+    }
+
+    @Override
+    protected boolean segmentsEqual(URI uri)
+    {
+      return uri.segmentsEqual(uri);
+    }
+
+    @Override
+    public String scheme()
+    {
+      return uri.scheme();
+    }
+
+    @Override
+    public String opaquePart()
+    {
+      return uri.opaquePart();
+    }
+
+    @Override
+    public String authority()
+    {
+      return uri.authority();
+    }
+
+    @Override
+    public String userInfo()
+    {
+      return uri.userInfo();
+    }
+
+    @Override
+    public String host()
+    {
+      return uri.host();
+    }
+
+    @Override
+    public String port()
+    {
+      return uri.port();
+    }
+
+    @Override
+    public String device()
+    {
+      return uri.device();
+    }
+
+    @Override
+    public String[] segments()
+    {
+      return uri.segments();
+    }
+
+    @Override
+    protected String[] rawSegments()
+    {
+      return uri.rawSegments();
+    }
+
+    @Override
+    public List<String> segmentsList()
+    {
+      return uri.segmentsList();
+    }
+
+    @Override
+    public int segmentCount()
+    {
+      return uri.segmentCount();
+    }
+
+    @Override
+    public String segment(int i)
+    {
+      return uri.segment(i);
+    }
+
+    @Override
+    public String lastSegment()
+    {
+      return uri.lastSegment();
+    }
+
+    @Override
+    public String path()
+    {
+      return uri.path();
+    }
+
+    @Override
+    public String devicePath()
+    {
+      return uri.devicePath();
+    }
+
+    @Override
+    public String query()
+    {
+      return uri.query();
+    }
+
+    @Override
+    public URI appendQuery(String query)
+    {
+      return uri.appendQuery(query).rawAppendFragment(fragment);
+    }
+
+    @Override
+    public URI trimQuery()
+    {
+      URI result = uri.trimQuery();
+      return result == uri ? this : result.rawAppendFragment(fragment);
+    }
+
+    @Override
+    public String fragment()
+    {
+      return fragment.toString();
+    }
+
+    @Override
+    public URI appendFragment(String fragment)
+    {
+      return uri.appendFragment(fragment);
+    }
+
+    @Override
+    public URI trimFragment()
+    {
+      return uri;
+    }
+
+    @Override
+    public URI resolve(URI base, boolean preserveRootParents)
+    {
+      URI result = uri.resolve(base, preserveRootParents);
+      return result == uri ? this : result.rawAppendFragment(fragment);
+    }
+
+    @Override
+    public URI deresolve(URI base, boolean preserveRootParents, boolean anyRelPath, boolean shorterRelPath)
+    {
+      URI result = uri.deresolve(base, preserveRootParents, anyRelPath, shorterRelPath);
+      return result == uri ? this : result.rawAppendFragment(fragment);
+    }
+
+    @Override
+    protected String[] collapseSegments(boolean preserveRootParents)
+    {
+      return uri.collapseSegments(preserveRootParents);
+    }
+
+    @Override
+    public String toString()
+    {
+      WeakReference<String> toString = this.toString;
+      if (toString != null)
+      {
+        String result = toString.get();
+        if (result == null)
+        {
+          toString.clear();
+        }
+        else
+        {
+          return result;
+        }
+      }
+
+      CommonUtil.StringPool.StringsAccessUnit result = CommonUtil.STRING_POOL.getStringBuilder();
+      result.append(uri.toString());
+      result.append(FRAGMENT_SEPARATOR);
+      result.append(fragment);
+
+      String string = CommonUtil.STRING_POOL.intern(result);
+      this.toString = POOL.newCachedToString(this, string);
+      return string;
+    }
+
+    @Override
+    public boolean equals(Object object)
+    {
+      if (object == this)
+      {
+        return true;
+      }
+      if (!(object instanceof Fragment))
+      {
+        return false;
+      }
+      Fragment that = (Fragment)object;
+      return uri == that.uri && fragment == that.fragment;
+    }
+
+    @Override
+    public String toFileString()
+    {
+      return uri.toFileString();
+    }
+
+    @Override
+    public String toPlatformString(boolean decode)
+    {
+      return uri.toPlatformString(decode);
+    }
+
+    @Override
+    public URI appendSegment(String segment)
+    {
+      URI result = uri.appendSegment(segment);
+      return result == uri ? this : result.rawAppendFragment(fragment);
+    }
+
+    @Override
+    public URI appendSegments(String[] segments)
+    {
+      URI result = uri.appendSegments(segments);
+      return result == uri ? this : result.rawAppendFragment(fragment);
+    }
+
+    @Override
+    public URI trimSegments(int i)
+    {
+      URI result = uri.trimSegments(i);
+      return result == uri ? this : result.rawAppendFragment(fragment);
+    }
+
+    @Override
+    public boolean hasTrailingPathSeparator()
+    {
+      return uri.hasTrailingPathSeparator();
+    }
+
+    @Override
+    public String fileExtension()
+    {
+      return uri.fileExtension();
+    }
+
+    @Override
+    public URI appendFileExtension(String fileExtension)
+    {
+      URI result = uri.appendFileExtension(fileExtension);
+      return result == uri ? this : result.rawAppendFragment(fragment);
+    }
+
+    @Override
+    public URI trimFileExtension()
+    {
+      URI result = uri.trimFileExtension();
+      return result == uri ? this : result.rawAppendFragment(fragment);
+    }
+
+    @Override
+    public URI replacePrefix(URI oldPrefix, URI newPrefix)
+    {
+      URI result = uri.replacePrefix(oldPrefix, newPrefix);
+      return result == uri ? this : result == null ? null : result.rawAppendFragment(fragment);
+    }
+  }
 
   /**
    * Returns <code>true</code> if this is a relative URI, or
@@ -1342,7 +4677,14 @@ public final class URI
    */
   public boolean isRelative()
   {
-    return scheme == null;
+    return false;
+  }
+
+  // Whether this this URI valid has a base URI against which to resolve.
+  //
+  protected boolean isBase()
+  {
+    return false;
   }
 
   /**
@@ -1351,16 +4693,16 @@ public final class URI
    */
   public boolean isHierarchical()
   {
-    return (hashCode & HIERARICHICAL_FLAG) != 0;
+    return false;
   }
 
   /**
    * Returns <code>true</code> if this is a hierarchical URI with an authority
-   * component; <code>false</code> otherwise. 
+   * component; <code>false</code> otherwise.
    */
   public boolean hasAuthority()
   {
-    return isHierarchical() && authority != null;
+    return false;
   }
 
   /**
@@ -1370,7 +4712,7 @@ public final class URI
   public boolean hasOpaquePart()
   {
     // note: hierarchical -> authority != null
-    return !isHierarchical();
+    return false;
   }
 
   /**
@@ -1380,7 +4722,12 @@ public final class URI
   public boolean hasDevice()
   {
     // note: device != null -> hierarchical
-    return device != null;
+    return false;
+  }
+
+  protected boolean hasDeviceOrPath()
+  {
+    return false;
   }
 
   /**
@@ -1391,7 +4738,7 @@ public final class URI
   {
     // note: (absolutePath || authority == null) -> hierarchical
     // (authority == null && device == null && !absolutePath) -> scheme == null
-    return hasAbsolutePath() || (authority == null && device == null);
+    return false;
   }
 
   /**
@@ -1402,7 +4749,7 @@ public final class URI
   public boolean hasAbsolutePath()
   {
     // note: absolutePath -> hierarchical
-    return (hashCode & ABSOLUTE_PATH_FLAG) != 0;
+    return false;
   }
 
   /**
@@ -1414,12 +4761,12 @@ public final class URI
   {
     // note: authority == null -> hierarchical
     // (authority == null && device == null && !absolutePath) -> scheme == null
-    return authority == null && device == null && !hasAbsolutePath();
+    return false;
   }
 
   /**
    * Returns <code>true</code> if this is a hierarchical URI with an empty
-   * relative path; <code>false</code> otherwise.  
+   * relative path; <code>false</code> otherwise.
    *
    * <p>Note that <code>!hasEmpty()</code> does <em>not</em> imply that this
    * URI has any path segments; however, <code>hasRelativePath &&
@@ -1429,8 +4776,7 @@ public final class URI
   {
     // note: authority == null -> hierarchical
     // (authority == null && device == null && !absolutePath) -> scheme == null
-    return authority == null && device == null && !hasAbsolutePath() &&
-      segments.length == 0;
+    return false;
   }
 
   /**
@@ -1440,7 +4786,7 @@ public final class URI
   public boolean hasQuery()
   {
     // note: query != null -> hierarchical
-    return query != null;
+    return false;
   }
 
   /**
@@ -1449,7 +4795,7 @@ public final class URI
    */
   public boolean hasFragment()
   {
-    return fragment != null;
+    return false;
   }
 
   /**
@@ -1462,8 +4808,7 @@ public final class URI
   {
     // note: authority == null -> hierarchical
     // (authority == null && device == null && !absolutePath) -> scheme == null
-    return authority == null && device == null && !hasAbsolutePath() &&
-      segments.length == 0 && query == null;
+    return false;
   }
 
   /**
@@ -1477,8 +4822,7 @@ public final class URI
   {
     // note: authority == null -> hierarchical
     // (authority == null && device == null && !absolutePath) -> scheme == null
-    return authority == null && device == null && !hasAbsolutePath() &&
-      segments.length == 0 && query == null && fragment == null;
+    return false;
   }
 
   /**
@@ -1489,8 +4833,7 @@ public final class URI
    */
   public boolean isFile()
   {
-    return isHierarchical() &&
-      ((isRelative() && !hasQuery()) || SCHEME_FILE.equalsIgnoreCase(scheme));
+    return false;
   }
 
   /**
@@ -1501,8 +4844,7 @@ public final class URI
    */
   public boolean isPlatform()
   {
-    return isHierarchical() && !hasAuthority() && segmentCount() >= 2 && 
-      SCHEME_PLATFORM.equalsIgnoreCase(scheme);
+    return false;
   }
 
   /**
@@ -1514,7 +4856,7 @@ public final class URI
    */
   public boolean isPlatformResource()
   {
-    return isPlatform() && "resource".equals(segments[0]);
+    return false;
   }
 
   /**
@@ -1526,7 +4868,7 @@ public final class URI
    */
   public boolean isPlatformPlugin()
   {
-    return isPlatform() && "plugin".equals(segments[0]);
+    return false;
   }
 
   /**
@@ -1536,7 +4878,7 @@ public final class URI
    */
   public boolean isArchive()
   {
-    return isArchiveScheme(scheme);
+    return false;
   }
 
   /**
@@ -1550,67 +4892,36 @@ public final class URI
     // Returns true if the given value is an archive scheme, as defined by
     // the org.eclipse.emf.common.util.URI.archiveSchemes system property.
     // By default, "jar", "zip", and "archive" are considered archives.
-    return value != null && archiveSchemes.contains(value.toLowerCase());
+    for (String scheme : ARCHIVE_SCHEMES)
+    {
+      if (scheme.equals(value))
+      {
+        return true;
+      }
+    }
+    return false;
   }
-  
+
   /**
    * Returns the hash code.
    */
   @Override
-  public int hashCode()
+  public final int hashCode()
   {
     return hashCode;
   }
 
-  /**
-   * Returns <code>true</code> if <code>object</code> is an instance of
-   * <code>URI</code> equal to this one; <code>false</code> otherwise.
-   *
-   * <p>Equality is determined strictly by comparing components, not by
-   * attempting to interpret what resource is being identified.  The
-   * comparison of schemes is case-insensitive.
-   */
-  @Override
-  public boolean equals(Object object)
+  // Tests whether this URI's path segment array is equal to that of the given uri.
+  protected boolean segmentsEqual(URI uri)
   {
-    if (this == object) return true;
-    if (!(object instanceof URI)) return false;
-    URI uri = (URI) object;
-
-    return hashCode == uri.hashCode() &&
-      equals(scheme, uri.scheme(), true) &&
-      equals(authority, isHierarchical() ? uri.authority() : uri.opaquePart()) &&
-      equals(device, uri.device()) &&
-      equals(query, uri.query()) && 
-      equals(fragment, uri.fragment()) &&
-      segmentsEqual(uri);
-  }
-
-  // Tests whether this URI's path segment array is equal to that of the
-  // given uri.
-  private boolean segmentsEqual(URI uri)
-  {
-    if (segments.length != uri.segmentCount()) return false;
-    for (int i = 0, len = segments.length; i < len; i++)
-    {
-      if (!segments[i].equals(uri.segment(i))) return false;
-    }
-    return true;
+    return false;
   }
 
   // Tests two objects for equality, tolerating nulls; null is considered
   // to be a valid value that is only equal to itself.
-  private static boolean equals(Object o1, Object o2)
+  protected static boolean equals(Object o1, Object o2)
   {
-    return o1 == null ? o2 == null : o1.equals(o2);
-  }
-
-  // Tests two strings for equality, tolerating nulls and optionally
-  // ignoring case.
-  private static boolean equals(String s1, String s2, boolean ignoreCase)
-  {
-    return s1 == null ? s2 == null :
-      ignoreCase ? s1.equalsIgnoreCase(s2) : s1.equals(s2);
+    return o1 == o2 || o1 != null && o1.equals(o2);
   }
 
   /**
@@ -1619,7 +4930,7 @@ public final class URI
    */
   public String scheme()
   {
-    return scheme;
+    return null;
   }
 
   /**
@@ -1628,7 +4939,7 @@ public final class URI
    */
   public String opaquePart()
   {
-    return isHierarchical() ? null : authority;
+    return null;
   }
 
   /**
@@ -1637,7 +4948,7 @@ public final class URI
    */
   public String authority()
   {
-    return isHierarchical() ? authority : null;
+    return null;
   }
 
   /**
@@ -1645,11 +4956,8 @@ public final class URI
    * user info portion, returns it; <code>null</code> otherwise.
    */
   public String userInfo()
-  { 
-    if (!hasAuthority()) return null;
-   
-    int i = authority.indexOf(USER_INFO_SEPARATOR);
-    return i < 0 ? null : authority.substring(0, i);
+  {
+    return null;
   }
 
   /**
@@ -1658,11 +4966,7 @@ public final class URI
    */
   public String host()
   {
-    if (!hasAuthority()) return null;
-    
-    int i = authority.indexOf(USER_INFO_SEPARATOR);
-    int j = authority.indexOf(PORT_SEPARATOR);
-    return j < 0 ? authority.substring(i + 1) : authority.substring(i + 1, j);
+    return null;
   }
 
   /**
@@ -1671,10 +4975,7 @@ public final class URI
    */
   public String port()
   {
-    if (!hasAuthority()) return null;
-
-    int i = authority.indexOf(PORT_SEPARATOR);
-    return i < 0 ? null : authority.substring(i + 1);
+    return null;
   }
 
   /**
@@ -1683,7 +4984,7 @@ public final class URI
    */
   public String device()
   {
-    return device;
+    return null;
   }
 
   /**
@@ -1695,7 +4996,14 @@ public final class URI
    */
   public String[] segments()
   {
-    return segments.clone();
+    return NO_SEGMENTS;
+  }
+
+  // Directly returns the underlying segments without cloning them.
+  //
+  protected String[] rawSegments()
+  {
+    return NO_SEGMENTS;
   }
 
   /**
@@ -1704,7 +5012,7 @@ public final class URI
    */
   public List<String> segmentsList()
   {
-    return Collections.unmodifiableList(Arrays.asList(segments));
+    return Collections.emptyList();
   }
 
   /**
@@ -1713,7 +5021,7 @@ public final class URI
    */
   public int segmentCount()
   {
-    return segments.length;
+    return 0;
   }
 
   /**
@@ -1725,7 +5033,7 @@ public final class URI
    */
   public String segment(int i)
   {
-    return segments[i];
+    throw new IndexOutOfBoundsException("No such segment: " + i);
   }
 
   /**
@@ -1733,9 +5041,7 @@ public final class URI
    */
   public String lastSegment()
   {
-    int len = segments.length;
-    if (len == 0) return null;
-    return segments[len - 1];
+    return null;
   }
 
   /**
@@ -1748,24 +5054,14 @@ public final class URI
    */
   public String path()
   {
-    if (!hasPath()) return null;
-
-    StringBuffer result = new StringBuffer();
-    if (hasAbsolutePath()) result.append(SEGMENT_SEPARATOR);
-
-    for (int i = 0, len = segments.length; i < len; i++)
-    {
-      if (i != 0) result.append(SEGMENT_SEPARATOR);
-      result.append(segments[i]);
-    }
-    return result.toString();
+    return null;
   }
 
   /**
    * If this is a hierarchical URI with a path, returns a string
-   * representation of the path, including the authority and the 
-   * <a href="#device_explanation">device component</a>; 
-   * <code>null</code> otherwise.  
+   * representation of the path, including the authority and the
+   * <a href="#device_explanation">device component</a>;
+   * <code>null</code> otherwise.
    *
    * <p>If there is no authority, the format of this string is:
    * <pre>
@@ -1781,27 +5077,7 @@ public final class URI
    */
   public String devicePath()
   {
-    if (!hasPath()) return null;
-
-    StringBuffer result = new StringBuffer();
-
-    if (hasAuthority())
-    {
-      if (!isArchive()) result.append(AUTHORITY_SEPARATOR);
-      result.append(authority);
-
-      if (hasDevice()) result.append(SEGMENT_SEPARATOR);
-    }
-
-    if (hasDevice()) result.append(device);
-    if (hasAbsolutePath()) result.append(SEGMENT_SEPARATOR);
-
-    for (int i = 0, len = segments.length; i < len; i++)
-    {
-      if (i != 0) result.append(SEGMENT_SEPARATOR);
-      result.append(segments[i]);
-    }
-    return result.toString();
+    return null;
   }
 
   /**
@@ -1810,9 +5086,8 @@ public final class URI
    */
   public String query()
   {
-    return query;
+    return null;
   }
-
 
   /**
    * Returns the URI formed from this URI and the given query.
@@ -1825,10 +5100,9 @@ public final class URI
   {
     if (!validQuery(query))
     {
-      throw new IllegalArgumentException(
-        "invalid query portion: " + query);
+      throw new IllegalArgumentException("invalid query portion: " + query);
     }
-    return new URI(isHierarchical(), scheme, authority, device, hasAbsolutePath(), segments, query, fragment); 
+    return this;
   }
 
   /**
@@ -1837,23 +5111,15 @@ public final class URI
    */
   public URI trimQuery()
   {
-    if (query == null)
-    {
-      return this;
-    }
-    else
-    {
-      return new URI(isHierarchical(), scheme, authority, device, hasAbsolutePath(), segments, null, fragment); 
-    }
+    return this;
   }
 
   /**
-   * If this URI has a fragment component, returns it; <code>null</code>
-   * otherwise.
+   * If this URI has a fragment component, returns it; <code>null</code> otherwise.
    */
   public String fragment()
   {
-    return fragment;
+    return null;
   }
 
   /**
@@ -1865,18 +5131,30 @@ public final class URI
    */
   public URI appendFragment(String fragment)
   {
-    if (!validFragment(fragment))
+    if (fragment == null)
     {
-      throw new IllegalArgumentException(
-        "invalid fragment portion: " + fragment);
+      return this;
     }
-    URI result = new URI(isHierarchical(), scheme, authority, device, hasAbsolutePath(), segments, query, fragment); 
+    else
+    {
+      int hashCode = ((this.hashCode * 31) + FRAGMENT_SEPARATOR) * CommonUtil.powerOf31(fragment.length()) + fragment.hashCode();
+      return new Fragment(hashCode, this, splitInternFragment(fragment));
+    }
+  }
 
-    if (!hasFragment())
+  // Returns the URI formed from this uri and the already properly interned fragment representation.
+  //
+  protected URI rawAppendFragment(CharSequence fragment)
+  {
+    if (fragment == null)
     {
-      result.cachedTrimFragment = this;
+      return this;
     }
-    return result;
+    else
+    {
+      int hashCode = ((this.hashCode * 31) + FRAGMENT_SEPARATOR) * CommonUtil.powerOf31(fragment.length()) + fragment.hashCode();
+      return new Fragment(hashCode, this, fragment);
+    }
   }
 
   /**
@@ -1885,16 +5163,7 @@ public final class URI
    */
   public URI trimFragment()
   {
-    if (fragment == null)
-    {
-      return this;
-    }
-    else if (cachedTrimFragment == null)
-    {
-      cachedTrimFragment = new URI(isHierarchical(), scheme, authority, device, hasAbsolutePath(), segments, query, null); 
-    }
-
-    return cachedTrimFragment;
+    return this;
   }
 
   /**
@@ -1947,140 +5216,13 @@ public final class URI
       throw new IllegalArgumentException(
         "resolve against non-hierarchical or relative base");
     }
-
-    // an absolute URI needs no resolving
-    if (!isRelative()) return this;
-
-    // note: isRelative() -> hierarchical
-
-    String newAuthority = authority;
-    String newDevice = device;
-    boolean newAbsolutePath = hasAbsolutePath();
-    String[] newSegments = segments;
-    String newQuery = query;
-    // note: it's okay for two URIs to share a segments array, since
-    // neither will ever modify it
-    
-    if (authority == null)
-    {
-      // no authority: use base's
-      newAuthority = base.authority();
-
-      if (device == null)
-      {
-        // no device: use base's
-        newDevice = base.device();
-
-        if (hasEmptyPath() && query == null)
-        {
-          // current document reference: use base path and query
-          newAbsolutePath = base.hasAbsolutePath();
-          newSegments = base.segments();
-          newQuery = base.query();
-        }
-        else if (hasRelativePath())
-        {
-          // relative path: merge with base and keep query (note: if the
-          // base has no path and this a non-empty relative path, there is
-          // an implied root in the resulting path) 
-          newAbsolutePath = base.hasAbsolutePath() || !hasEmptyPath();
-          newSegments = newAbsolutePath ? mergePath(base, preserveRootParents)
-            : NO_SEGMENTS;
-        }
-        // else absolute path: keep it and query
-      }
-      // else keep device, path, and query
-    }
-    // else keep authority, device, path, and query
-    
-    // always keep fragment, even if null, and use scheme from base;
-    // no validation needed since all components are from existing URIs
-    return new URI(true, base.scheme(), newAuthority, newDevice,
-                   newAbsolutePath, newSegments, newQuery, fragment);
-  }
-
-  // Merges this URI's relative path with the base non-relative path.  If
-  // base has no path, treat it as the root absolute path, unless this has
-  // no path either.
-  private String[] mergePath(URI base, boolean preserveRootParents)
-  {
-    if (base.hasRelativePath())
-    {
-      throw new IllegalArgumentException("merge against relative path");
-    }
-    if (!hasRelativePath())
-    {
-      throw new IllegalStateException("merge non-relative path");
-    }
-
-    int baseSegmentCount = base.segmentCount();
-    int segmentCount = segments.length;
-    String[] stack = new String[baseSegmentCount + segmentCount];
-    int sp = 0;
-
-    // use a stack to accumulate segments of base, except for the last
-    // (i.e. skip trailing separator and anything following it), and of
-    // relative path
-    for (int i = 0; i < baseSegmentCount - 1; i++)
-    {
-      sp = accumulate(stack, sp, base.segment(i), preserveRootParents);
-    }
-
-    for (int i = 0; i < segmentCount; i++)
-    {
-      sp = accumulate(stack, sp, segments[i], preserveRootParents);
-    }
-
-    // if the relative path is empty or ends in an empty segment, a parent 
-    // reference, or a self reference, add a trailing separator to a
-    // non-empty path
-    if (sp > 0 &&  (segmentCount == 0 ||
-                    SEGMENT_EMPTY.equals(segments[segmentCount - 1]) ||
-                    SEGMENT_PARENT.equals(segments[segmentCount - 1]) ||
-                    SEGMENT_SELF.equals(segments[segmentCount - 1])))
-    {
-      stack[sp++] = SEGMENT_EMPTY;
-    }
-
-    // return a correctly sized result
-    String[] result = new String[sp];
-    System.arraycopy(stack, 0, result, 0, sp);
-    return result;
-  }
-
-  // Adds a segment to a stack, skipping empty segments and self references,
-  // and interpreting parent references.
-  private static int accumulate(String[] stack, int sp, String segment,
-                                boolean preserveRootParents)
-  {
-    if (SEGMENT_PARENT.equals(segment))
-    {
-      if (sp == 0)
-      {
-        // special care must be taken for a root's parent reference: it is
-        // either ignored or the symbolic reference itself is pushed
-        if (preserveRootParents) stack[sp++] = segment;
-      }
-      else
-      {
-        // unless we're already accumulating root parent references,
-        // parent references simply pop the last segment descended
-        if (SEGMENT_PARENT.equals(stack[sp - 1])) stack[sp++] = segment;
-        else sp--;
-      }
-    }
-    else if (!SEGMENT_EMPTY.equals(segment) && !SEGMENT_SELF.equals(segment))
-    {
-      // skip empty segments and self references; push everything else
-      stack[sp++] = segment;
-    }
-    return sp;
+    return this;
   }
 
   /**
    * Finds the shortest relative or, if necessary, the absolute URI that,
    * when resolved against the given <code>base</code> absolute hierarchical
-   * URI using {@link #resolve(URI) resolve}, will yield this absolute URI.  
+   * URI using {@link #resolve(URI) resolve}, will yield this absolute URI.
    * If <code>base</code> is non-hierarchical or is relative,
    * or <code>this</code> is non-hierarchical or is relative,
    * <code>this</code> will be returned.
@@ -2109,321 +5251,48 @@ public final class URI
    * of segments) than the absolute path.  If both <code>anyRelPath</code>
    * and this parameter are <code>false</code>, it will be absolute.
    */
-  public URI deresolve(URI base, boolean preserveRootParents,
-                       boolean anyRelPath, boolean shorterRelPath)
+  public URI deresolve(URI base, boolean preserveRootParents, boolean anyRelPath, boolean shorterRelPath)
   {
-    if (!base.isHierarchical() || base.isRelative()) return this;
-    
-    if (isRelative()) return this;
-
-    // note: these assertions imply that neither this nor the base URI has a
-    // relative path; thus, both have either an absolute path or no path
-    
-    // different scheme: need complete, absolute URI
-    if (!scheme.equalsIgnoreCase(base.scheme())) return this;
-
-    // since base must be hierarchical, and since a non-hierarchical URI
-    // must have both scheme and opaque part, the complete absolute URI is
-    // needed to resolve to a non-hierarchical URI
-    if (!isHierarchical()) return this;
-
-    String newAuthority = authority;
-    String newDevice = device;
-    boolean newAbsolutePath = hasAbsolutePath();
-    String[] newSegments = segments;
-    String newQuery = query;
-
-    if (equals(authority, base.authority()) &&
-        (hasDevice() || hasPath() || (!base.hasDevice() && !base.hasPath())))
-    {
-      // matching authorities and no device or path removal
-      newAuthority = null;
-
-      if (equals(device, base.device()) && (hasPath() || !base.hasPath()))
-      {
-        // matching devices and no path removal
-        newDevice = null;
-
-        // exception if (!hasPath() && base.hasPath())
-
-        if (!anyRelPath && !shorterRelPath)
-        {
-          // user rejects a relative path: keep absolute or no path
-        }
-        else if (hasPath() == base.hasPath() && segmentsEqual(base) &&
-                 equals(query, base.query()))
-        {
-          // current document reference: keep no path or query
-          newAbsolutePath = false;
-          newSegments = NO_SEGMENTS;
-          newQuery = null;
-        }
-        else if (!hasPath() && !base.hasPath())
-        {
-          // no paths: keep query only
-          newAbsolutePath = false;
-          newSegments = NO_SEGMENTS;
-        }
-        // exception if (!hasAbsolutePath())
-        else if (hasCollapsableSegments(preserveRootParents))
-        {
-          // path form demands an absolute path: keep it and query
-        }
-        else
-        {
-          // keep query and select relative or absolute path based on length
-          String[] rel = findRelativePath(base, preserveRootParents);
-          if (anyRelPath || segments.length > rel.length)
-          {
-            // user demands a relative path or the absolute path is longer
-            newAbsolutePath = false;
-            newSegments = rel;
-          }
-          // else keep shorter absolute path
-        }
-      }
-      // else keep device, path, and query
-    }
-    // else keep authority, device, path, and query
-
-    // always include fragment, even if null;
-    // no validation needed since all components are from existing URIs
-    return new URI(true, null, newAuthority, newDevice, newAbsolutePath,
-                   newSegments, newQuery, fragment);
+    return this;
   }
 
-  // Returns true if the non-relative path includes segments that would be
-  // collapsed when resolving; false otherwise.  If preserveRootParents is
-  // true, collapsible segments include any empty segments, except for the
-  // last segment, as well as and parent and self references.  If
-  // preserveRootsParents is false, parent references are not collapsible if
-  // they are the first segment or preceded only by other parent
-  // references.
-  private boolean hasCollapsableSegments(boolean preserveRootParents)
+  protected String[] collapseSegments(boolean preserveRootParents)
   {
-    if (hasRelativePath())
-    {
-      throw new IllegalStateException("test collapsability of relative path");
-    }
+    return NO_SEGMENTS;
+  }
 
-    for (int i = 0, len = segments.length; i < len; i++)
-    {
-      String segment = segments[i];
-      if ((i < len - 1 && SEGMENT_EMPTY.equals(segment)) ||
-          SEGMENT_SELF.equals(segment) ||
-          SEGMENT_PARENT.equals(segment) && (
-            !preserveRootParents || (
-              i != 0 && !SEGMENT_PARENT.equals(segments[i - 1]))))
-      {
-        return true;
-      }
-    }
+  // Returns whether the string representation of the URI fully matches the given string.
+  //
+  final protected boolean matches(String string)
+  {
+    int length = string.length();
+    return matches(string, length) == length;
+  }
+
+  // Matches the string representation of the URI against the string of given length, returning the index up to which it matched.
+  //
+  protected int matches(String string, int length)
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  // Used to match a URI against the specified components.
+  //
+  protected boolean matches(int validate, boolean hierarchical, String scheme, String authority, String device, boolean absolutePath, String[] segments, String query)
+  {
     return false;
   }
 
-  // Returns the shortest relative path between the the non-relative path of
-  // the given base and this absolute path.  If the base has no path, it is
-  // treated as the root absolute path.
-  private String[] findRelativePath(URI base, boolean preserveRootParents)
+  // Used to match a platform URI composed from these two components.
+  //
+  protected boolean matches(String base, String path)
   {
-    if (base.hasRelativePath())
-    {
-      throw new IllegalArgumentException(
-        "find relative path against base with relative path");
-    }
-    if (!hasAbsolutePath())
-    {
-      throw new IllegalArgumentException(
-        "find relative path of non-absolute path");
-    }
-
-    // treat an empty base path as the root absolute path
-    String[] startPath = base.collapseSegments(preserveRootParents);
-    String[] endPath = segments;
-
-    // drop last segment from base, as in resolving
-    int startCount = startPath.length > 0 ? startPath.length - 1 : 0;
-    int endCount = endPath.length;
-
-    // index of first segment that is different between endPath and startPath
-    int diff = 0;
-
-    // if endPath is shorter than startPath, the last segment of endPath may
-    // not be compared: because startPath has been collapsed and had its
-    // last segment removed, all preceding segments can be considered non-
-    // empty and followed by a separator, while the last segment of endPath
-    // will either be non-empty and not followed by a separator, or just empty
-    for (int count = startCount < endCount ? startCount : endCount - 1;
-         diff < count && startPath[diff].equals(endPath[diff]); diff++)
-    {
-      // Empty statement.
-    }
-
-    int upCount = startCount - diff;
-    int downCount = endCount - diff;
-
-    // a single separator, possibly preceded by some parent reference
-    // segments, is redundant
-    if (downCount == 1 && SEGMENT_EMPTY.equals(endPath[endCount - 1]))
-    {
-      downCount = 0;
-    }
-
-    // an empty path needs to be replaced by a single "." if there is no
-    // query, to distinguish it from a current document reference
-    if (upCount + downCount == 0)
-    {
-      if (query == null) return new String[] { SEGMENT_SELF };
-      return NO_SEGMENTS;
-    }
-
-    // return a correctly sized result
-    String[] result = new String[upCount + downCount];
-    Arrays.fill(result, 0, upCount, SEGMENT_PARENT);
-    System.arraycopy(endPath, diff, result, upCount, downCount);
-    return result;
-  }
-
-  // Collapses non-ending empty segments, parent references, and self
-  // references in a non-relative path, returning the same path that would
-  // be produced from the base hierarchical URI as part of a resolve.
-  String[] collapseSegments(boolean preserveRootParents)
-  {
-    if (hasRelativePath())
-    {
-      throw new IllegalStateException("collapse relative path");
-    }
-
-    if (!hasCollapsableSegments(preserveRootParents)) return segments();
-
-    // use a stack to accumulate segments
-    int segmentCount = segments.length;
-    String[] stack = new String[segmentCount];
-    int sp = 0;
-
-    for (int i = 0; i < segmentCount; i++)
-    {
-      sp = accumulate(stack, sp, segments[i], preserveRootParents);
-    }
-
-    // if the path is non-empty and originally ended in an empty segment, a
-    // parent reference, or a self reference, add a trailing separator
-    if (sp > 0 && (SEGMENT_EMPTY.equals(segments[segmentCount - 1]) ||
-                   SEGMENT_PARENT.equals(segments[segmentCount - 1]) ||
-                   SEGMENT_SELF.equals(segments[segmentCount - 1])))
-    {                   
-      stack[sp++] = SEGMENT_EMPTY;
-    }
-
-    // return a correctly sized result
-    String[] result = new String[sp];
-    System.arraycopy(stack, 0, result, 0, sp);
-    return result;
-  }
-
-  /**
-   * Returns the string representation of this URI.  For a generic,
-   * non-hierarchical URI, this looks like:
-   * <pre>
-   *   scheme:opaquePart#fragment</pre>
-   * 
-   * <p>For a hierarchical URI, it looks like:
-   * <pre>
-   *   scheme://authority/device/pathSegment1/pathSegment2...?query#fragment</pre>
-   *
-   * <p>For an <a href="#archive_explanation">archive URI</a>, it's just:
-   * <pre>
-   *   scheme:authority/pathSegment1/pathSegment2...?query#fragment</pre>
-   * <p>Of course, absent components and their separators will be omitted.
-   */
-  @Override
-  public String toString()
-  {
-    if (cachedToString == null)
-    {
-      StringBuffer result = new StringBuffer();
-      if (!isRelative())
-      {
-        result.append(scheme);
-        result.append(SCHEME_SEPARATOR);
-      }
-
-      if (isHierarchical())
-      {
-        if (hasAuthority())
-        {
-          if (!isArchive()) result.append(AUTHORITY_SEPARATOR);
-          result.append(authority);
-        }
-
-        if (hasDevice())
-        {
-          result.append(SEGMENT_SEPARATOR);
-          result.append(device);
-        }
-
-        if (hasAbsolutePath()) result.append(SEGMENT_SEPARATOR);
-
-        for (int i = 0, len = segments.length; i < len; i++)
-        {
-          if (i != 0) result.append(SEGMENT_SEPARATOR);
-          result.append(segments[i]);
-        }
-
-        if (hasQuery())
-        {
-          result.append(QUERY_SEPARATOR);
-          result.append(query);
-        }
-      }
-      else
-      {
-        result.append(authority);
-      }
-
-      if (hasFragment())
-      {
-        result.append(FRAGMENT_SEPARATOR);
-        result.append(fragment);
-      }
-      cachedToString = result.toString();
-    }
-    return cachedToString;
-  }
-
-  // Returns a string representation of this URI for debugging, explicitly
-  // showing each of the components.
-  String toString(boolean includeSimpleForm)
-  {
-    StringBuffer result = new StringBuffer();
-    if (includeSimpleForm) result.append(toString());
-    result.append("\n hierarchical: ");
-    result.append(isHierarchical());
-    result.append("\n       scheme: ");
-    result.append(scheme);
-    result.append("\n    authority: ");
-    result.append(authority);
-    result.append("\n       device: ");
-    result.append(device);
-    result.append("\n absolutePath: ");
-    result.append(hasAbsolutePath());
-    result.append("\n     segments: ");
-    if (segments.length == 0) result.append("<empty>");
-    for (int i = 0, len = segments.length; i < len; i++)
-    {
-      if (i > 0) result.append("\n               ");
-      result.append(segments[i]);
-    }
-    result.append("\n        query: ");
-    result.append(query);
-    result.append("\n     fragment: ");
-    result.append(fragment);
-    return result.toString();
+    return false;
   }
 
   /**
    * If this URI may refer directly to a locally accessible file, as
-   * determined by {@link #isFile isFile}, {@link #decode decodes} and formats  
+   * determined by {@link #isFile isFile}, {@link #decode decodes} and formats
    * the URI as a pathname to that file; returns null otherwise.
    *
    * <p>If there is no authority, the format of this string is:
@@ -2433,38 +5302,15 @@ public final class URI
    * <p>If there is an authority, it is:
    * <pre>
    *   //authority/device/pathSegment1/pathSegment2...</pre>
-   * 
+   *
    * <p>However, the character used as a separator is system-dependent and
    * obtained from {@link java.io.File#separatorChar}.
    */
   public String toFileString()
   {
-    if (!isFile()) return null;
-
-    StringBuffer result = new StringBuffer();
-    char separator = File.separatorChar;
-
-    if (hasAuthority())
-    {
-      result.append(separator);
-      result.append(separator);
-      result.append(authority);
-
-      if (hasDevice()) result.append(separator);
-    }
-
-    if (hasDevice()) result.append(device);
-    if (hasAbsolutePath()) result.append(separator);
-
-    for (int i = 0, len = segments.length; i < len; i++)
-    {
-      if (i != 0) result.append(separator);
-      result.append(segments[i]);
-    }
-
-    return decode(result.toString());
+    return null;
   }
-  
+
   /**
    * If this is a platform URI, as determined by {@link #isPlatform}, returns
    * the workspace-relative or plug-in-based path to the resource, optionally
@@ -2475,15 +5321,6 @@ public final class URI
    */
   public String toPlatformString(boolean decode)
   {
-    if (isPlatform())
-    {
-      StringBuffer result = new StringBuffer();
-      for (int i = 1, len = segments.length; i < len; i++)
-      {
-        result.append('/').append(decode ? URI.decode(segments[i]) : segments[i]);
-      }
-      return result.toString();
-    }
     return null;
   }
 
@@ -2503,18 +5340,7 @@ public final class URI
       throw new IllegalArgumentException("invalid segment: " + segment);
     }
 
-    if (!isHierarchical()) return this;
-
-    // absolute path or no path -> absolute path
-    boolean newAbsolutePath = !hasRelativePath();
-
-    int len = segments.length;
-    String[] newSegments = new String[len + 1];
-    System.arraycopy(segments, 0, newSegments, 0, len);
-    newSegments[len] = segment;
-
-    return new URI(true, scheme, authority, device, newAbsolutePath,
-                   newSegments, query, fragment);
+    return this;
   }
 
   /**
@@ -2535,24 +5361,11 @@ public final class URI
   {
     if (!validSegments(segments))
     {
-      String s = segments == null ? "invalid segments: null" :
-        "invalid segment: " + firstInvalidSegment(segments);
+      String s = segments == null ? "invalid segments: null" : "invalid segment: " + firstInvalidSegment(segments);
       throw new IllegalArgumentException(s);
     }
 
-    if (!isHierarchical()) return this;
-
-    // absolute path or no path -> absolute path
-    boolean newAbsolutePath = !hasRelativePath(); 
-
-    int len = this.segments.length;
-    int segmentsCount = segments.length;
-    String[] newSegments = new String[len + segmentsCount];
-    System.arraycopy(this.segments, 0, newSegments, 0, len);
-    System.arraycopy(segments, 0, newSegments, len, segmentsCount);
-    
-    return new URI(true, scheme, authority, device, newAbsolutePath,
-                   newSegments, query, fragment);
+    return this;
   }
 
   /**
@@ -2563,25 +5376,15 @@ public final class URI
    *
    * <p>Note that if all segments are trimmed from an absolute path, the
    * root absolute path remains.
-   * 
+   *
    * @param i the number of segments to be trimmed in the returned URI.  If
    * less than 1, this URI is returned unchanged; if equal to or greater
    * than the number of segments in this URI's path, all segments are
-   * trimmed.  
+   * trimmed.
    */
   public URI trimSegments(int i)
   {
-    if (!isHierarchical() || i < 1) return this;
-
-    String[] newSegments = NO_SEGMENTS;
-    int len = segments.length - i;
-    if (len > 0)
-    {
-      newSegments = new String[len];
-      System.arraycopy(segments, 0, newSegments, 0, len);
-    }
-    return new URI(true, scheme, authority, device, hasAbsolutePath(),
-                   newSegments, query, fragment);
+    return this;
   }
 
   /**
@@ -2594,8 +5397,7 @@ public final class URI
    */
   public boolean hasTrailingPathSeparator()
   {
-    return segments.length > 0 && 
-      SEGMENT_EMPTY.equals(segments[segments.length - 1]);
+    return false;
   }
 
   /**
@@ -2609,12 +5411,7 @@ public final class URI
    */
   public String fileExtension()
   {
-    int len = segments.length;
-    if (len == 0) return null;
-
-    String lastSegment = segments[len - 1];
-    int i = lastSegment.lastIndexOf(FILE_EXTENSION_SEPARATOR);
-    return i < 0 ? null : lastSegment.substring(i + 1);
+    return null;
   }
 
   /**
@@ -2634,26 +5431,10 @@ public final class URI
   {
     if (!validSegment(fileExtension))
     {
-      throw new IllegalArgumentException(
-        "invalid segment portion: " + fileExtension);
+      throw new IllegalArgumentException("invalid segment portion: " + fileExtension);
     }
 
-    int len = segments.length;
-    if (len == 0) return this;
-
-    String lastSegment = segments[len - 1];
-    if (SEGMENT_EMPTY.equals(lastSegment)) return this;
-    StringBuffer newLastSegment = new StringBuffer(lastSegment);
-    newLastSegment.append(FILE_EXTENSION_SEPARATOR);
-    newLastSegment.append(fileExtension);
-
-    String[] newSegments = new String[len];
-    System.arraycopy(segments, 0, newSegments, 0, len - 1);
-    newSegments[len - 1] = newLastSegment.toString();
-    
-    // note: segments.length > 0 -> hierarchical
-    return new URI(true, scheme, authority, device, hasAbsolutePath(),
-                   newSegments, query, fragment); 
+    return this;
   }
 
   /**
@@ -2662,21 +5443,7 @@ public final class URI
    */
   public URI trimFileExtension()
   {
-    int len = segments.length;
-    if (len == 0) return this;
-
-    String lastSegment = segments[len - 1];
-    int i = lastSegment.lastIndexOf(FILE_EXTENSION_SEPARATOR);
-    if (i < 0) return this;
-
-    String newLastSegment = lastSegment.substring(0, i);
-    String[] newSegments = new String[len];
-    System.arraycopy(segments, 0, newSegments, 0, len - 1);
-    newSegments[len - 1] = newLastSegment;
-
-    // note: segments.length > 0 -> hierarchical
-    return new URI(true, scheme, authority, device, hasAbsolutePath(),
-                   newSegments, query, fragment); 
+    return this;
   }
 
   /**
@@ -2687,8 +5454,7 @@ public final class URI
    */
   public boolean isPrefix()
   {
-    return isHierarchical() && query == null && fragment == null &&
-      (hasTrailingPathSeparator() || (hasAbsolutePath() && segments.length == 0));
+    return false;
   }
 
   /**
@@ -2713,113 +5479,37 @@ public final class URI
       throw new IllegalArgumentException("non-prefix " + which + " value");
     }
 
-    // Get what's left of the segments after trimming the prefix.
-    String[] tailSegments = getTailSegments(oldPrefix);
-    if (tailSegments == null) return null;
-
-    // If the new prefix has segments, it is not the root absolute path,
-    // and we need to drop the trailing empty segment and append the tail
-    // segments.
-    String[] mergedSegments = tailSegments;
-    if (newPrefix.segmentCount() != 0)
-    {
-      int segmentsToKeep = newPrefix.segmentCount() - 1;
-      mergedSegments = new String[segmentsToKeep + tailSegments.length];
-      System.arraycopy(newPrefix.segments(), 0, mergedSegments, 0,
-                       segmentsToKeep);
-
-      if (tailSegments.length != 0)
-      {
-        System.arraycopy(tailSegments, 0, mergedSegments, segmentsToKeep,
-                         tailSegments.length);
-      }
-    }
-
-    // no validation needed since all components are from existing URIs
-    return new URI(true, newPrefix.scheme(), newPrefix.authority(),
-                   newPrefix.device(), newPrefix.hasAbsolutePath(),
-                   mergedSegments, query, fragment);
-  }
-
-  // If this is a hierarchical URI reference and prefix is a prefix of it,
-  // returns the portion of the path remaining after that prefix has been
-  // trimmed; null otherwise.
-  private String[] getTailSegments(URI prefix)
-  {
-    if (!prefix.isPrefix())
-    {
-      throw new IllegalArgumentException("non-prefix trim");
-    }
-
-    // Don't even consider it unless this is hierarchical and has scheme,
-    // authority, device and path absoluteness equal to those of the prefix.
-    if (!isHierarchical() ||
-        !equals(scheme, prefix.scheme(), true) ||
-        !equals(authority, prefix.authority()) ||
-        !equals(device, prefix.device()) ||
-        hasAbsolutePath() != prefix.hasAbsolutePath())
-    {
-      return null;
-    }
-
-    // If the prefix has no segments, then it is the root absolute path, and
-    // we know this is an absolute path, too.
-    if (prefix.segmentCount() == 0) return segments;
-
-    // This must have no fewer segments than the prefix.  Since the prefix
-    // is not the root absolute path, its last segment is empty; all others
-    // must match.
-    int i = 0;
-    int segmentsToCompare = prefix.segmentCount() - 1;
-    if (segments.length <= segmentsToCompare) return null;
-
-    for (; i < segmentsToCompare; i++)
-    {
-      if (!segments[i].equals(prefix.segment(i))) return null;
-    }
-
-    // The prefix really is a prefix of this.  If this has just one more,
-    // empty segment, the paths are the same.
-    if (i == segments.length - 1 && SEGMENT_EMPTY.equals(segments[i]))
-    {
-      return NO_SEGMENTS;
-    }
-    
-    // Otherwise, the path needs only the remaining segments.
-    String[] newSegments = new String[segments.length - i];
-    System.arraycopy(segments, i, newSegments, 0, newSegments.length);
-    return newSegments;
+    return null;
   }
 
   /**
    * Encodes a string so as to produce a valid opaque part value, as defined
    * by the RFC.  All excluded characters, such as space and <code>#</code>,
    * are escaped, as is <code>/</code> if it is the first character.
-   * 
+   *
    * @param ignoreEscaped <code>true</code> to leave <code>%</code> characters
    * unescaped if they already begin a valid three-character escape sequence;
    * <code>false</code> to encode all <code>%</code> characters.  Note that
    * if a <code>%</code> is not followed by 2 hex digits, it will always be
-   * escaped. 
+   * escaped.
    */
   public static String encodeOpaquePart(String value, boolean ignoreEscaped)
   {
     String result = encode(value, URIC_HI, URIC_LO, ignoreEscaped);
-    return result != null && result.length() > 0 && result.charAt(0) == SEGMENT_SEPARATOR ?
-      "%2F" + result.substring(1) :
-      result;
+    return
+      result != null && result.length() > 0 && result.charAt(0) == SEGMENT_SEPARATOR ? "%2F" + result.substring(1) : result;
   }
 
   /**
    * Encodes a string so as to produce a valid authority, as defined by the
    * RFC.  All excluded characters, such as space and <code>#</code>,
    * are escaped, as are <code>/</code> and <code>?</code>
-   * 
+   *
    * @param ignoreEscaped <code>true</code> to leave <code>%</code> characters
    * unescaped if they already begin a valid three-character escape sequence;
    * <code>false</code> to encode all <code>%</code> characters.  Note that
    * if a <code>%</code> is not followed by 2 hex digits, it will always be
-   * escaped. 
+   * escaped.
    */
   public static String encodeAuthority(String value, boolean ignoreEscaped)
   {
@@ -2830,12 +5520,12 @@ public final class URI
    * Encodes a string so as to produce a valid segment, as defined by the
    * RFC.  All excluded characters, such as space and <code>#</code>,
    * are escaped, as are <code>/</code> and <code>?</code>
-   * 
+   *
    * @param ignoreEscaped <code>true</code> to leave <code>%</code> characters
    * unescaped if they already begin a valid three-character escape sequence;
    * <code>false</code> to encode all <code>%</code> characters.  Note that
    * if a <code>%</code> is not followed by 2 hex digits, it will always be
-   * escaped. 
+   * escaped.
    */
   public static String encodeSegment(String value, boolean ignoreEscaped)
   {
@@ -2845,12 +5535,12 @@ public final class URI
   /**
    * Encodes a string so as to produce a valid query, as defined by the RFC.
    * Only excluded characters, such as space and <code>#</code>, are escaped.
-   * 
+   *
    * @param ignoreEscaped <code>true</code> to leave <code>%</code> characters
    * unescaped if they already begin a valid three-character escape sequence;
    * <code>false</code> to encode all <code>%</code> characters.  Note that
    * if a <code>%</code> is not followed by 2 hex digits, it will always be
-   * escaped. 
+   * escaped.
    */
   public static String encodeQuery(String value, boolean ignoreEscaped)
   {
@@ -2861,12 +5551,12 @@ public final class URI
    * Encodes a string so as to produce a valid fragment, as defined by the
    * RFC.  Only excluded characters, such as space and <code>#</code>, are
    * escaped.
-   * 
+   *
    * @param ignoreEscaped <code>true</code> to leave <code>%</code> characters
    * unescaped if they already begin a valid three-character escape sequence;
    * <code>false</code> to encode all <code>%</code> characters.  Note that
    * if a <code>%</code> is not followed by 2 hex digits, it will always be
-   * escaped. 
+   * escaped.
    */
   public static String encodeFragment(String value, boolean ignoreEscaped)
   {
@@ -2876,7 +5566,7 @@ public final class URI
   // Encodes a complete URI, optionally leaving % characters unescaped when
   // beginning a valid three-character escape sequence.  We can either treat
   // the first or # as a fragment separator, or encode them all.
-  private static String encodeURI(String uri, boolean ignoreEscaped, int fragmentLocationStyle)
+  protected static String encodeURI(String uri, boolean ignoreEscaped, int fragmentLocationStyle)
   {
     if (uri == null) return null;
 
@@ -2889,10 +5579,13 @@ public final class URI
       result.append(scheme);
       result.append(SCHEME_SEPARATOR);
     }
-    
+
     int j =
-      fragmentLocationStyle == FRAGMENT_FIRST_SEPARATOR ? uri.indexOf(FRAGMENT_SEPARATOR) :
-        fragmentLocationStyle == FRAGMENT_LAST_SEPARATOR ? uri.lastIndexOf(FRAGMENT_SEPARATOR) : -1;
+      fragmentLocationStyle == FRAGMENT_FIRST_SEPARATOR ?
+        uri.indexOf(FRAGMENT_SEPARATOR) :
+        fragmentLocationStyle == FRAGMENT_LAST_SEPARATOR ?
+          uri.lastIndexOf(FRAGMENT_SEPARATOR) :
+          -1;
 
     if (j != -1)
     {
@@ -2908,7 +5601,7 @@ public final class URI
       String sspart = uri.substring(++i);
       result.append(encode(sspart, URIC_HI, URIC_LO, ignoreEscaped));
     }
-    
+
     return result.toString();
   }
 
@@ -2917,7 +5610,7 @@ public final class URI
   // below 0xA0 by an escape sequence of % followed by two hex digits.  If
   // % is not in the set but ignoreEscaped is true, then % will not be encoded
   // iff it already begins a valid escape sequence.
-  private static String encode(String value, long highBitmask, long lowBitmask, boolean ignoreEscaped)
+  protected static String encode(String value, long highBitmask, long lowBitmask, boolean ignoreEscaped)
   {
     if (value == null) return null;
 
@@ -2927,8 +5620,7 @@ public final class URI
     {
       char c = value.charAt(i);
 
-      if (!matches(c, highBitmask, lowBitmask) && c < 160 &&
-          (!ignoreEscaped || !isEscaped(value, i)))
+      if (!matches(c, highBitmask, lowBitmask) && c < 160 && (!ignoreEscaped || !isEscaped(value, i)))
       {
         if (result == null)
         {
@@ -2946,17 +5638,15 @@ public final class URI
 
   // Tests whether an escape occurs in the given string, starting at index i.
   // An escape sequence is a % followed by two hex digits.
-  private static boolean isEscaped(String s, int i)
+  protected static boolean isEscaped(String s, int i)
   {
-    return s.charAt(i) == ESCAPE && s.length() > i + 2 &&
-      matches(s.charAt(i + 1), HEX_HI, HEX_LO) &&
-      matches(s.charAt(i + 2), HEX_HI, HEX_LO);
+    return s.charAt(i) == ESCAPE && s.length() > i + 2 && matches(s.charAt(i + 1), HEX_HI, HEX_LO) && matches(s.charAt(i + 2), HEX_HI, HEX_LO);
   }
 
   // Computes a three-character escape sequence for the byte, appending
   // it to the StringBuffer.  Only characters up to 0xFF should be escaped;
   // all but the least significant byte will be ignored.
-  private static void appendEscaped(StringBuffer result, byte b)
+  protected static void appendEscaped(StringBuffer result, byte b)
   {
     result.append(ESCAPE);
 
@@ -2990,11 +5680,11 @@ public final class URI
       int expectedBytes = 0;
       for (int len = value.length(); i < len; i++)
       {
-        if (isEscaped(value, i)) 
+        if (isEscaped(value, i))
         {
           char character = unescape(value.charAt(i + 1), value.charAt(i + 2));
           i += 2;
-          
+
           if (expectedBytes > 0)
           {
             if ((character & 0xC0) == 0x80)
@@ -3078,136 +5768,33 @@ public final class URI
   // Returns the character encoded by % followed by the two given hex digits,
   // which is always 0xFF or less, so can safely be casted to a byte.  If
   // either character is not a hex digit, a bogus result will be returned.
-  private static char unescape(char highHexDigit, char lowHexDigit)
+  protected static char unescape(char highHexDigit, char lowHexDigit)
   {
     return (char)((valueOf(highHexDigit) << 4) | valueOf(lowHexDigit));
   }
 
   // Returns the int value of the given hex digit.
-  private static int valueOf(char hexDigit)
+  protected static int valueOf(char hexDigit)
   {
-    if (hexDigit >= 'A' && hexDigit <= 'F')
+    if (hexDigit <= '9')
     {
-      return hexDigit - 'A' + 10;
+      if (hexDigit >= '0')
+      {
+        return hexDigit - '0';
+      }
     }
-    if (hexDigit >= 'a' && hexDigit <= 'f')
+    else if (hexDigit <= 'F')
+    {
+      if (hexDigit >= 'A')
+      {
+        return hexDigit - 'A' + 10;
+      }
+    }
+    else if (hexDigit >= 'a' && hexDigit <= 'f')
     {
       return hexDigit - 'a' + 10;
     }
-    if (hexDigit >= '0' && hexDigit <= '9')
-    {
-      return hexDigit - '0';
-    }
+
     return 0;
   }
-
-  /*
-   * Returns <code>true</code> if this URI contains non-ASCII characters;
-   * <code>false</code> otherwise.
-   *
-   * This unused code is included for possible future use... 
-   */
-/*
-  public boolean isIRI()
-  {
-    return iri; 
-  }
-
-  // Returns true if the given string contains any non-ASCII characters;
-  // false otherwise.
-  private static boolean containsNonASCII(String value)
-  {
-    for (int i = 0, length = value.length(); i < length; i++)
-    {
-      if (value.charAt(i) > 127) return true;
-    }
-    return false;
-  }
-*/
-
-  /*
-   * If this is an {@link #isIRI IRI}, converts it to a strict ASCII URI,
-   * using the procedure described in Section 3.1 of the
-   * <a href="http://www.w3.org/International/iri-edit/draft-duerst-iri-09.txt">IRI
-   * Draft RFC</a>.  Otherwise, this URI, itself, is returned.
-   *
-   * This unused code is included for possible future use...
-   */
-/*
-  public URI toASCIIURI()
-  {
-    if (!iri) return this;
-
-    if (cachedASCIIURI == null)
-    {
-      String eAuthority = encodeAsASCII(authority);
-      String eDevice = encodeAsASCII(device);
-      String eQuery = encodeAsASCII(query);
-      String eFragment = encodeAsASCII(fragment);
-      String[] eSegments = new String[segments.length];
-      for (int i = 0; i < segments.length; i++)
-      {
-        eSegments[i] = encodeAsASCII(segments[i]);
-      }
-      cachedASCIIURI = new URI(hierarchical, scheme, eAuthority, eDevice, absolutePath, eSegments, eQuery, eFragment); 
-
-    }
-    return cachedASCIIURI;
-  }
-
-  // Returns a strict ASCII encoding of the given value.  Each non-ASCII
-  // character is converted to bytes using UTF-8 encoding, which are then
-  // represented using % escaping.
-  private String encodeAsASCII(String value)
-  {
-    if (value == null) return null;
-
-    StringBuffer result = null;
-
-    for (int i = 0, length = value.length(); i < length; i++)
-    {
-      char c = value.charAt(i);
-
-      if (c >= 128)
-      {
-        if (result == null)
-        {
-          result = new StringBuffer(value.substring(0, i));
-        }
-
-        try
-        {
-          byte[] encoded = (new String(new char[] { c })).getBytes("UTF-8");
-          for (int j = 0, encLen = encoded.length; j < encLen; j++)
-          {
-            appendEscaped(result, encoded[j]);
-          }
-        }
-        catch (UnsupportedEncodingException e)
-        {
-          throw new WrappedException(e);
-        }
-      }
-      else if (result != null)
-      {
-        result.append(c);
-      }
-
-    }
-    return result == null ? value : result.toString();
-  }
-
-  // Returns the number of valid, consecutive, three-character escape
-  // sequences in the given string, starting at index i.
-  private static int countEscaped(String s, int i)
-  {
-    int result = 0;
-
-    for (int length = s.length(); i < length; i += 3)
-    {
-      if (isEscaped(s, i)) result++;
-    }
-    return result;
-  }
-*/
 }

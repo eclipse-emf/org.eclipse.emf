@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2012 IBM Corporation and others.
+ * Copyright (c) 2002-2013 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -39,6 +38,7 @@ import org.eclipse.emf.common.notify.impl.NotifyingListImpl;
 import org.eclipse.emf.common.util.AbstractTreeIterator;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.SegmentSequence;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
@@ -666,11 +666,12 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       }
       else
       {
-        List<String> uriFragmentPath = new ArrayList<String>();
+        SegmentSequence.Builder builder = SegmentSequence.newBuilder("/");
+
         boolean isContained = false;
         for (InternalEObject container = internalEObject.eInternalContainer(); container != null; container = internalEObject.eInternalContainer())
         {
-          uriFragmentPath.add(container.eURIFragmentSegment(internalEObject.eContainingFeature(), internalEObject));
+          builder.append(container.eURIFragmentSegment(internalEObject.eContainingFeature(), internalEObject));
           internalEObject = container;
           if (container.eDirectResource() == this || unloadingContents != null && unloadingContents.contains(container))
           {
@@ -678,21 +679,20 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
             break;
           }
         }
-
+  
         if (!isContained)
         {
           return "/-1";
         }
+  
+        builder.append(getURIFragmentRootSegment(internalEObject));
+        builder.append("");
+        builder.reverse();
 
-        StringBuffer result = new StringBuffer("/");
-        result.append(getURIFragmentRootSegment(internalEObject));
-
-        for (int i = uriFragmentPath.size() - 1; i >= 0; --i)
-        {
-          result.append('/');
-          result.append(uriFragmentPath.get(i));
-        }
-        return result.toString();
+        // Note that we convert it to a segment sequence because the most common use case is that callers of this method will call URI.appendFragment.
+        // By creating the segment sequence here, we ensure that it's found in the cache.
+        //
+        return builder.toSegmentSequence().toString();
       }
     }
   }
@@ -739,18 +739,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     {
       if (uriFragment.charAt(0) == '/')
       {
-        ArrayList<String> uriFragmentPath = new ArrayList<String>(4);
-        int start = 1;
-        for (int i = 1; i < length; ++i)
-        {
-          if (uriFragment.charAt(i) == '/')
-          {
-            uriFragmentPath.add(start == i ? "" : uriFragment.substring(start, i));
-            start = i + 1;
-          }
-        }
-        uriFragmentPath.add(uriFragment.substring(start));
-        return getEObject(uriFragmentPath);
+        return getEObject(SegmentSequence.create("/", uriFragment).subSegmentsList(1));
       }
       else if (uriFragment.charAt(length - 1) == '?')
       {
