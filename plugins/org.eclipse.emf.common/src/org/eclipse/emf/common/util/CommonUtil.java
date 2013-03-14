@@ -659,7 +659,7 @@ public final class CommonUtil
       {
         // If the region matches, it's a match.
         //
-        return value.regionMatches(0, string, offset, count);
+        return value.length() == count && value.regionMatches(0, string, offset, count);
       }
 
       /**
@@ -931,7 +931,7 @@ public final class CommonUtil
         if (strings.length <= length)
         {
           String[] newStrings = new String[length * 2];
-          System.arraycopy(strings, 0, newStrings, 0, length);
+          System.arraycopy(strings, 0, newStrings, 0, this.length);
           strings = newStrings;
         }
       }

@@ -534,7 +534,7 @@ public final class SegmentSequence implements CharSequence
       {
         // This case can't match, except for the special case of the empty delimiter and the empty string.
         //
-        return string.isEmpty() && delimiter.isEmpty();
+        return string.length() == 0 && delimiter.length() == 0;
       }
       else if (segmentCount == 1)
       {
@@ -835,7 +835,15 @@ public final class SegmentSequence implements CharSequence
       @Override
       protected boolean matches(String[] value)
       {
-        return value.length == 1 && this.value.regionMatches(offset, value[0], 0, count);
+        if (value.length != 1)
+        {
+          return false;
+        }
+        else
+        {
+          String segment = value[0];
+          return segment.length() == count && this.value.regionMatches(offset, segment, 0, count);
+        }
       }
 
       @Override
@@ -1086,7 +1094,8 @@ public final class SegmentSequence implements CharSequence
             }
           }
 
-          return segment.regionMatches(offset, value[length], 0, count);
+          String lastValue = value[length];
+          return lastValue.length() == count && segment.regionMatches(offset, lastValue, 0, count);
         }
       }
 
@@ -1982,7 +1991,7 @@ public final class SegmentSequence implements CharSequence
         int delimiterLength = delimiter.length();
         if (delimiterLength == 0)
         {
-          if (string.isEmpty())
+          if (string.length() == 0)
           {
             return new SegmentSequence(delimiter, EMPTY_ARRAY, hashCode);
           }
@@ -2706,7 +2715,7 @@ public final class SegmentSequence implements CharSequence
     }
     // The empty delimiter is not used for splitting.
     //
-    else if (delimiter.isEmpty())
+    else if (delimiter.length() == 0)
     {
       // Iterate over the segments and create a new list of segments only when needed for omitting empty segments.
       //
@@ -2716,7 +2725,7 @@ public final class SegmentSequence implements CharSequence
         // If the segment is empty...
         //
         String segment = segments[i];
-        if (segment.isEmpty())
+        if (segment.length() == 0)
         {
           // If we haven't already created a list for the result...
           //
