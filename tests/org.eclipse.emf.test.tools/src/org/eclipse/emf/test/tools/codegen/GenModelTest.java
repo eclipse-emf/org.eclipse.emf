@@ -12,6 +12,7 @@ package org.eclipse.emf.test.tools.codegen;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.Test;
@@ -24,9 +25,11 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
@@ -54,6 +57,7 @@ public class GenModelTest extends TestCase
     ts.addTest(new GenModelTest("testGenPackageSubstitutions"));
     ts.addTest(new GenModelTest("testNestedGenPackageSubstitutions"));
     ts.addTest(new GenModelTest("testGenModelClasses"));
+    ts.addTest(new GenModelTest("testURIFragments"));
     return ts;
   }
   
@@ -550,4 +554,90 @@ public class GenModelTest extends TestCase
     assertEquals("com.example.internal.domain.presentation.DomainEditorPlugin", genModel.getEditorPluginClass());
     assertEquals("com.example.internal.domain.tests.DomainAllTests", genModel.getTestSuiteClass());
   }
+
+  /*
+   * Bugzilla 403547
+   */
+  public void testURIFragments() throws Exception
+  {
+    new ResourceImpl(URI.createURI("foo.bar")).getContents().add(genModel);
+    
+    GenAnnotation nestedGenAnnotation = genModel.createGenAnnotation();
+    nestedGenAnnotation.setSource("%");
+    nestedGenAnnotation.getDetails().put("1.1", "one.one");
+    nestedGenAnnotation.getDetails().put("1.2", "one.two");
+    nestedGenAnnotation.getReferences().add(genModel);
+    nestedGenAnnotation.getReferences().add(genModel.getGenPackages().get(1));
+    nestedGenAnnotation.getReferences().add(EcorePackage.Literals.EATTRIBUTE);
+    
+    GenAnnotation genAnnotation = genModel.createGenAnnotation();
+    genAnnotation.setSource("http://foo.bar");
+    genAnnotation.getDetails().put("1", "one");
+    genAnnotation.getDetails().put("2", "two");
+    genAnnotation.getReferences().add(genModel);
+    genAnnotation.getReferences().add(genModel.getGenPackages().get(1));
+    genAnnotation.getReferences().add(EcorePackage.Literals.EATTRIBUTE);
+
+    genAnnotation.getReferences().add(nestedGenAnnotation);
+    nestedGenAnnotation.getReferences().add(genAnnotation);
+    genAnnotation.getGenAnnotations().add(nestedGenAnnotation);
+    genModel.getGenAnnotations().add(genAnnotation);
+    
+    assertURIFragments(genModel);
+
+    GenModel newGenModel = createGenModel();
+    ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("bar", new ResourceFactoryImpl());
+    resourceSet.createResource(URI.createURI("foo.bar")).getContents().add(newGenModel);
+    newGenModel.reconcile(genModel);
+    
+    assertURIFragments(genModel);
+    assertURIFragments(newGenModel);
+    
+    assertURIFragments(genModel.eResource(), newGenModel.eResource());
+  }
+
+  protected void assertURIFragments(GenModel genModel) throws Exception
+  {
+    assertEquals(1, genModel.getGenAnnotations().size());
+    
+    GenAnnotation genAnnotation = genModel.getGenAnnotations().get(0);
+    assertEquals("http://foo.bar", genAnnotation.getSource());
+    assertEquals(2, genAnnotation.getDetails().size());
+    assertEquals("one", genAnnotation.getDetails().get("1"));
+    assertEquals("two", genAnnotation.getDetails().get("2"));
+    assertEquals(4, genAnnotation.getReferences().size());
+    assertEquals(genModel, genAnnotation.getReferences().get(0));
+    assertEquals(genModel.getGenPackages().get(1), genAnnotation.getReferences().get(1));
+    assertEquals(EcorePackage.Literals.EATTRIBUTE, genAnnotation.getReferences().get(2));
+    
+    assertEquals(1, genAnnotation.getGenAnnotations().size());
+    
+    GenAnnotation nestedGenAnnotation = genAnnotation.getGenAnnotations().get(0);
+    assertEquals("%", nestedGenAnnotation.getSource());
+    assertEquals(2, nestedGenAnnotation.getDetails().size());
+    assertEquals("one.one", nestedGenAnnotation.getDetails().get("1.1"));
+    assertEquals("one.two", nestedGenAnnotation.getDetails().get("1.2"));
+    assertEquals(4, nestedGenAnnotation.getReferences().size());
+    assertEquals(genModel, nestedGenAnnotation.getReferences().get(0));
+    assertEquals(genModel.getGenPackages().get(1), nestedGenAnnotation.getReferences().get(1));
+    assertEquals(EcorePackage.Literals.EATTRIBUTE, nestedGenAnnotation.getReferences().get(2));
+    
+    assertEquals(genAnnotation, nestedGenAnnotation.getReferences().get(3));
+    assertEquals(nestedGenAnnotation, genAnnotation.getReferences().get(3));
+  }
+
+  protected void assertURIFragments(Resource genModelResource, Resource newGenModelResource) throws Exception
+  {
+    for (Iterator<EObject> i = genModelResource.getAllContents(); i.hasNext(); )
+    {
+      EObject eObject = i.next();
+      String uriFragment = genModelResource.getURIFragment(eObject);
+      EObject newEObject = genModelResource.getEObject(uriFragment);
+      assertNotNull(newEObject);
+      String newURIFragment = genModelResource.getURIFragment(newEObject);
+      assertEquals(uriFragment, newURIFragment);
+    }
+  }
+
 }

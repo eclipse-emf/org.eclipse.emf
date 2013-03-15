@@ -689,6 +689,26 @@ public class Pool<E> extends WeakInterningHashSet<E>
   }
 
   /**
+   * Gets the first entry with the matching hash code.
+   * Use {@link Entry#getNextEntry()} to navigate to the next entry with the same hash code.
+   * This method does no locking so it may fail to find matches if the pool is rehashing or another thread is adding the entry.
+   */
+  @Override
+  protected Entry<E> getEntry(int hashCode)
+  {
+    Entry<E>[] entries = this.entries;
+    int index = index(hashCode, entries.length);
+    for (Entry<E> entry = entries[index]; entry != null; entry = entry.next)
+    {
+      if (hashCode == entry.hashCode)
+      {
+        return entry;
+      }
+    }
+    return null;
+  }
+
+  /**
    * Collect all the values with a matching hash code.
    * If <code>isReadLocked</code> is <code>true</code> it's expected that the {@link #readLock read lock} is already locked.
    * In this case the access will reliably collect all the matching entries currently in the pool.

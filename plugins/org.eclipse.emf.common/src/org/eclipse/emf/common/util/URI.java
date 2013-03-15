@@ -136,11 +136,6 @@ public abstract class URI
   protected final int hashCode;
 
   /**
-   * A weakly cached reference to the string representation.
-   */
-  protected WeakReference<String> toString;
-
-  /**
    * A pool for caching URIs.
    */
   protected static class URIPool extends Pool<URI>
@@ -166,6 +161,41 @@ public abstract class URI
      */
     protected static class URIPoolAccessUnitBase extends AccessUnit<URI>
     {
+      /**
+       * A local access unit for exclusive use in {@link #intern(char[], int, int)}.
+       */
+      protected CommonUtil.StringPool.CharactersAccessUnit charactersAccessUnit =  new CommonUtil.StringPool.CharactersAccessUnit(null);
+
+      /**
+       * A local access unit for exclusive for normalizing the scheme in {@link #intern(String)}, {@link #intern(boolean, String)}, and {@link StringAccessUnit#parseIntoURI(String)}.
+       */
+      protected CommonUtil.StringPool.StringAccessUnit stringAccessUnit =  new CommonUtil.StringPool.StringAccessUnit(CommonUtil.STRING_POOL, null);
+
+      /**
+       * The string pool entry found during the most recent use of {@link #substringAccessUnit}.
+       */
+      protected CommonUtil.StringPool.StringPoolEntry stringPoolEntry;
+
+      /**
+       * A local access unit for exclusive use in {@link #intern(String, int, int)} and {@link #intern(String, int, int, int)}.
+       * It {@link #stringPoolEntry} the string pool entry that was matched when {@link CommonUtil.StringPool.SubstringAccessUnit#reset(boolean)} is called.
+       */
+      protected CommonUtil.StringPool.SubstringAccessUnit substringAccessUnit =
+        new CommonUtil.StringPool.SubstringAccessUnit(null)
+        {
+          @Override
+          public void reset(boolean isExclusive)
+          {
+            stringPoolEntry = (CommonUtil.StringPool.StringPoolEntry)getEntry();
+            super.reset(isExclusive);
+          }
+        };
+
+      /**
+       * An access unit for exclusive use in {@link #internArray(String[], int, int, int)}.
+       */
+      protected SegmentSequence.StringArrayPool.SegmentsAndSegmentCountAccessUnit stringArraySegmentsAndSegmentCountAccessUnit = new SegmentSequence.StringArrayPool.SegmentsAndSegmentCountAccessUnit(null);
+
       protected URIPoolAccessUnitBase(Pool.AccessUnit.Queue<URI> queue)
       {
         super(queue);
@@ -187,6 +217,55 @@ public abstract class URI
       protected boolean setArbitraryValue(Object value)
       {
         throw new UnsupportedOperationException();
+      }
+
+      protected String intern(String string)
+      {
+        stringAccessUnit.setValue(string);
+        return CommonUtil.STRING_POOL.doIntern(false, stringAccessUnit);
+      }
+
+      protected String intern(boolean toLowerCase, String string)
+      {
+        stringAccessUnit.setValue(toLowerCase, string);
+        return CommonUtil.STRING_POOL.doIntern(false, stringAccessUnit);
+      }
+
+      protected String intern(String string, int offset, int count, int hashCode)
+      {
+        substringAccessUnit.setValue(string, offset, count, hashCode);
+        return CommonUtil.STRING_POOL.doIntern(false, substringAccessUnit);
+      }
+
+      protected String intern(String string, int offset, int count)
+      {
+        substringAccessUnit.setValue(string, offset, count);
+        return CommonUtil.STRING_POOL.doIntern(false, substringAccessUnit);
+      }
+
+      protected String intern(char[] characters, int offset, int count)
+      {
+        charactersAccessUnit.setValue(characters, offset, count);
+        return CommonUtil.STRING_POOL.doIntern(false, charactersAccessUnit);
+      }
+
+      protected String intern(char[] characters, int offset, int count, int hashCode)
+      {
+        charactersAccessUnit.setValue(characters, offset, count, hashCode);
+        return CommonUtil.STRING_POOL.doIntern(false, charactersAccessUnit);
+      }
+
+      protected String[] internArray(String[] segments, int offset, int segmentCount, int hashCode)
+      {
+        stringArraySegmentsAndSegmentCountAccessUnit.setValue(segments, offset, segmentCount, hashCode);
+        return SegmentSequence.STRING_ARRAY_POOL.doIntern(false, stringArraySegmentsAndSegmentCountAccessUnit);
+      }
+
+      @Override
+      public void reset(boolean isExclusive)
+      {
+        stringPoolEntry = null;
+        super.reset(isExclusive);
       }
     }
 
@@ -245,6 +324,35 @@ public abstract class URI
       protected char findTerminatingCharacter;
 
       /**
+       * An access unit for exclusive use in {@link #internArray(String, int, int, int)}.
+       */
+      protected SegmentSequence.StringArrayPool.SubstringAccessUnit stringArraySubstringAccessUnit = new SegmentSequence.StringArrayPool.SubstringAccessUnit(null);
+
+      /**
+       * An access unit for exclusive use in {@link #internArray(int, String[], int, String, int, int, int)}.
+       */
+      protected SegmentSequence.StringArrayPool.SegmentsAndSubsegmentAccessUnit stringArraySegmentsAndSubsegmentAccessUnit = new SegmentSequence.StringArrayPool.SegmentsAndSubsegmentAccessUnit(null);
+
+      protected String[] internArray(String segment, int offset, int count, int hashCode)
+      {
+        stringArraySubstringAccessUnit.setValue(segment, offset, count, hashCode);
+        return SegmentSequence.STRING_ARRAY_POOL.doIntern(false, stringArraySubstringAccessUnit);
+      }
+
+      protected String[] internArray(int hashCode, String[] segments, int segmentCount, String segment, int offset, int count, int segmentHashCode)
+      {
+        if (segmentCount == 0)
+        {
+          return internArray(segment, offset, count, segmentHashCode);
+        }
+        else
+        {
+          stringArraySegmentsAndSubsegmentAccessUnit.setValue(hashCode, segments, segmentCount, segment, offset, count, segmentHashCode);
+          return SegmentSequence.STRING_ARRAY_POOL.doIntern(false, stringArraySegmentsAndSubsegmentAccessUnit);
+        }
+      }
+
+      /**
        * Creates an instance managed by this queue and pool.
        */
       protected StringAccessUnit(Queue queue, URIPool pool)
@@ -260,6 +368,15 @@ public abstract class URI
       {
         this.value = value;
         this.hashCode = value.hashCode();
+      }
+
+      /**
+       * Caches the parameters.
+       */
+      protected void setValue(String value, int hashCode)
+      {
+        this.value = value;
+        this.hashCode = hashCode;
       }
 
       @Override
@@ -293,6 +410,7 @@ public abstract class URI
         // The initial values for what we'll compute.
         //
         boolean hasExpectedHashCode = true;
+        boolean isSchemeNormal = true;
         String scheme = null;
         String authority = null;
         String device = null;
@@ -349,11 +467,22 @@ public abstract class URI
           //
           if (scheme == null || !scheme.regionMatches(0, uri, 0, j))
           {
+            // Intern the provided version of the scheme.
+            //
+            String unnormalizedScheme = intern(uri, 0, j, findHashCode);
+
             // Intern the lower case version of the scheme.
             //
-            scheme = CommonUtil.STRING_POOL.intern(true, CommonUtil.STRING_POOL.intern(uri, 0, j, findHashCode));
+            stringAccessUnit.setValue(true, unnormalizedScheme);
+            stringAccessUnit.add(unnormalizedScheme, stringPoolEntry);
+            scheme = stringAccessUnit.match();
+            stringAccessUnit.reset(false);
 
-            // Check whether it's a different string; we'll need to compute the right hash code if we've lower cased the scheme.
+            // Determine if the provided version is in normal form, i.e., already lower cased.
+            //
+            isSchemeNormal = unnormalizedScheme == scheme;
+
+            // Check whether it's a different hash code; we'll need to compute the right hash code if we've lower cased the scheme.
             //
             hasExpectedHashCode = scheme.hashCode() == findHashCode;
 
@@ -367,7 +496,7 @@ public abstract class URI
                 break;
               }
             }
-            
+
             isPlatformScheme = scheme == SCHEME_PLATFORM;
           }
 
@@ -390,7 +519,7 @@ public abstract class URI
           // In that case it's an absolute path and the authority is everything up to and including the ! of the archive separator.
           //
           absolutePath = true;
-          authority = CommonUtil.intern(uri, i, ++j - i);
+          authority = intern(uri, i, ++j - i);
 
           // Look for the end of the following segment starting after the / in the archive separator.
           //
@@ -408,7 +537,7 @@ public abstract class URI
             // Look for the segment that follows; it's the authority, even if it's empty.
             //
             j = findSegmentEnd(length, uri, ++i);
-            authority = CommonUtil.STRING_POOL.intern(uri, i,  j - i, findHashCode);
+            authority = intern(uri, i,  j - i, findHashCode);
             i = j;
 
             // If the authority is followed by a /...
@@ -432,8 +561,14 @@ public abstract class URI
         {
           // There's a scheme, but it's not followed immediately by a /, so it's an opaque URI.
           //
-          authority = CommonUtil.intern(uri, i, length - i);
-          return pool.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_NONE, false, scheme, authority, null, false, null, null);
+          authority = intern(uri, i, length - i);
+          URI resultURI = pool.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_NONE, false, scheme, authority, null, false, null, null);
+
+          // If something tries to add an entry for this access unit, we'd better be sure that the hash code is that of the transformed URI.
+          //
+          this.hashCode = resultURI.hashCode();
+
+          return resultURI;
         }
 
         // Start analyzing the first segment...
@@ -461,7 +596,7 @@ public abstract class URI
         //
         else if (!isArchiveScheme && !isPlatformScheme && uri.charAt(j - 1) == DEVICE_IDENTIFIER)
         {
-          device = CommonUtil.STRING_POOL.intern(uri, start, len, findHashCode);
+          device = intern(uri, start, len, findHashCode);
 
           // If the device is at the end of the URI...
           //
@@ -487,7 +622,7 @@ public abstract class URI
         {
           // Append the segment...
           //
-          segments = SegmentSequence.STRING_ARRAY_POOL.intern(uri, start, j - start, findHashCode);
+          segments = internArray(uri, start, j - start, findHashCode);
           segmentsHashCode = 31 * segmentsHashCode + findHashCode;
 
           // If we're not already at the end...
@@ -509,7 +644,7 @@ public abstract class URI
           {
             // Append that segment...
             //
-            segments = SegmentSequence.STRING_ARRAY_POOL.intern(segmentsHashCode, segments, segments.length, uri, i, j - i, findHashCode);
+            segments = internArray(segmentsHashCode, segments, segments.length, uri, i, j - i, findHashCode);
             segmentsHashCode = 31 * segmentsHashCode + findHashCode;
             i = j;
 
@@ -536,15 +671,31 @@ public abstract class URI
         {
           // Intern what's left to the end of the string.
           //
-          query = CommonUtil.intern(uri, i, length - i);
+          query = intern(uri, i, length - i);
         }
 
         // If we're sure we have the right hash code (the scheme was not lower cased), we can use it, otherwise, we must compute a hash code.
         //
-        return
-          hasExpectedHashCode ?
-            pool.intern(true, true, scheme, authority, device, absolutePath, segments, query, hashCode) :
-            pool.intern(true, URIPool.URIComponentsAccessUnit.VALIDATE_NONE, true, scheme, authority, device, absolutePath, segments, query);
+        URI resultURI;
+        if (hasExpectedHashCode)
+        {
+          resultURI = pool.intern(true, true, scheme, authority, device, absolutePath, segments, query, hashCode);
+        }
+        else
+        {
+          resultURI = pool.intern(true, URIPool.URIComponentsAccessUnit.VALIDATE_NONE, true, scheme, authority, device, absolutePath, segments, query);
+
+          // If something tries to add an entry for this access unit, we'd better be sure that the hash code is that of the transformed URI.
+          //
+          this.hashCode = resultURI.hashCode();
+        }
+
+        if (isSchemeNormal)
+        {
+          resultURI.cacheString(uri);
+        }
+
+        return resultURI;
       }
 
       /**
@@ -900,7 +1051,7 @@ public abstract class URI
           // Compose the overall hash code to include the base's hash code.
           //
           this.hashCode = (base == SEGMENT_RESOURCE ? PLATFORM_RESOURCE_BASE_INITIAL_HASH_CODE : PLATFORM_PLUGIN_BASE_INITIAL_HASH_CODE) * CommonUtil.powerOf31(length) + hashCode;
-          encodedPath = isModified ? CommonUtil.STRING_POOL.intern(characters, 0, length, hashCode) : path;
+          encodedPath = isModified ? intern(characters, 0, length, hashCode) : path;
         }
       }
 
@@ -944,7 +1095,7 @@ public abstract class URI
 
           // Intern that character range with the known segment hash code.
           //
-          segments[i] = CommonUtil.STRING_POOL.intern(characters, offset, count, segmentHashCode);
+          segments[i] = intern(characters, offset, count, segmentHashCode);
 
           // Compose the segment's hash code.
           //
@@ -956,7 +1107,7 @@ public abstract class URI
 
         // Create a hierarchical platform-scheme URI from the interned segments.
         //
-        return new Hierarchical(this.hashCode, true, SCHEME_PLATFORM, null, null, true, SegmentSequence.STRING_ARRAY_POOL.intern(segments, 0, segmentCount + 1, hashCode), null);
+        return new Hierarchical(this.hashCode, true, SCHEME_PLATFORM, null, null, true, internArray(segments, 0, segmentCount + 1, hashCode), null);
       }
 
       @Override
@@ -1310,7 +1461,7 @@ public abstract class URI
 
           // Cache the encoded path.
           //
-          encodedPath = CommonUtil.STRING_POOL.intern(characters, 0, length, hashCode);
+          encodedPath = intern(characters, 0, length, hashCode);
         }
       }
 
@@ -1385,7 +1536,7 @@ public abstract class URI
 
             // Intern the segment characters...
             //
-            String segment = CommonUtil.STRING_POOL.intern(characters, offset, count, segmentHashCode);
+            String segment = intern(characters, offset, count, segmentHashCode);
 
             // If we're at a device index while processing an absolute file, and we have an empty segment that's not the only segment or the last character of the segment is the device identifier...
             //
@@ -1404,7 +1555,7 @@ public abstract class URI
 
                 // This segment is really the authority...
                 //
-                authority = CommonUtil.STRING_POOL.intern(characters, offset, count, segmentHashCode);
+                authority = intern(characters, offset, count, segmentHashCode);
 
                 // There are now two fewer segments.
                 //
@@ -1449,7 +1600,7 @@ public abstract class URI
 
         // Intern the segments array itself.
         //
-        String[] internedSegments = SegmentSequence.STRING_ARRAY_POOL.intern(segments, 0, segmentCount, segmentsHashCode);
+        String[] internedSegments = internArray(segments, 0, segmentCount, segmentsHashCode);
         if (isAbsoluteFile)
         {
           // If it's absolute, we include the file scheme, and it has an absolute path, if there is one or more segments, or if we ignored an empty segment.
@@ -1561,12 +1712,30 @@ public abstract class URI
       String query;
 
       /**
+       * An access unit for exclusive use in {@link #internArray(String[], int)}.
+       */
+      SegmentSequence.StringArrayPool.SegmentsAccessUnit stringArraySegmentsAccessUnit = new SegmentSequence.StringArrayPool.SegmentsAccessUnit(null);
+
+      /**
        * Creates an instance managed by the given queue.
        * @param queue
        */
       protected URIComponentsAccessUnit(Queue queue)
       {
         super(queue);
+      }
+
+      protected String[] internArray(String[] segments, int count)
+      {
+        if (segments == null)
+        {
+          return SegmentSequence.EMPTY_ARRAY;
+        }
+        else
+        {
+          stringArraySegmentsAccessUnit.setValue(true, true, segments, count);
+          return SegmentSequence.STRING_ARRAY_POOL.doIntern(false, stringArraySegmentsAccessUnit);
+        }
       }
 
       /**
@@ -1595,7 +1764,7 @@ public abstract class URI
         {
           if (validate == VALIDATE_ALL)
           {
-            scheme = CommonUtil.STRING_POOL.intern(true, scheme);
+            scheme = intern(true, scheme);
           }
           hashCode = scheme.hashCode() * 31 + SCHEME_SEPARATOR;
         }
@@ -1674,10 +1843,19 @@ public abstract class URI
 
           // Intern the components.
           //
-          authority = CommonUtil.intern(authority);
-          device = CommonUtil.intern(device);
-          segments = SegmentSequence.STRING_ARRAY_POOL.intern(true, true, segments, segments.length);
-          query = CommonUtil.intern(query);
+          if (authority != null)
+          {
+            authority = intern(authority);
+          }
+          if (device != null)
+          {
+            device = intern(device);
+          }
+          segments = internArray(segments, segments.length);
+          if (query != null)
+          {
+            query = intern(query);
+          }
         }
         else if (validate == VALIDATE_QUERY)
         {
@@ -1690,7 +1868,10 @@ public abstract class URI
 
           // Intern the just the query.
           //
-          query = CommonUtil.intern(query);
+          if (query != null)
+          {
+            query = intern(query);
+          }
         }
         else if (validate != VALIDATE_NONE)
         {
@@ -1736,9 +1917,46 @@ public abstract class URI
      */
     protected URI intern(String string)
     {
-      StringAccessUnit accessUnit = stringAccessUnits.pop(false);
-      accessUnit.setValue(string);
-      return doIntern(false, accessUnit);
+      if (string == null)
+      {
+        return null;
+      }
+      else
+      {
+        // Iterate over the entries with the matching hash code.
+        //
+        int hashCode = string.hashCode();
+        for (Entry<URI> entry = getEntry(hashCode); entry != null; entry = entry.getNextEntry())
+        {
+          // Check that the referent isn't garbage collected and then compare it.
+          //
+          URI uri = entry.get();
+          if (uri != null && uri.matches(string))
+          {
+            // Return that already present value.
+            //
+            return uri;
+          }
+        }
+
+        writeLock.lock();
+        try
+        {
+          StringAccessUnit accessUnit = stringAccessUnits.pop(true);
+          accessUnit.setValue(string, hashCode);
+
+          // The implementation returns an internalized value that's already pooled as a side effect.
+          //
+          URI result = accessUnit.getInternalizedValue();
+
+          accessUnit.reset(true);
+          return result;
+        }
+        finally
+        {
+          writeLock.unlock();
+        }
+      }
     }
 
     /**
@@ -1854,7 +2072,7 @@ public abstract class URI
       @Override
       public void clear()
       {
-        uri.toString = null;
+        uri.flushCachedString();
 
         super.clear();
       }
@@ -2354,7 +2572,7 @@ public abstract class URI
     return createURIWithCache(uri);
   }
 
-  // Uses the URI pool to speed up creation of a URI from a string. 
+  // Uses the URI pool to speed up creation of a URI from a string.
   /**
    * This method was included in the public API by mistake.
    *
@@ -2802,52 +3020,52 @@ public abstract class URI
      * The {@link #flags} bit for representing {@link URI#hasAbsolutePath()}.
      */
     protected static final int HAS_ABSOLUTE_PATH               = 1 << 0;
-    
+
     /**
      * The {@link #flags} bit for representing {@link URI#hasRelativePath()}.
      */
     protected static final int HAS_RELATIVE_PATH               = 1 << 1;
-    
+
     /**
      * The {@link #flags} bit for representing {@link URI#hasEmptyPath()}.
      */
     protected static final int HAS_EMPTY_PATH                  = 1 << 2;
-    
+
     /**
      * The {@link #flags} bit for representing {@link URI#isCurrentDocumentReference()}.
      */
     protected static final int IS_CURRENT_DOCUMENT_REFERENCE   = 1 << 3;
-    
+
     /**
      * The {@link #flags} bit for representing {@link URI#isFile()}.
      */
     protected static final int IS_FILE                         = 1 << 4;
-    
+
     /**
      * The {@link #flags} bit for representing {@link URI#isPlatform()}.
      */
     protected static final int IS_PLATFORM                     = 1 << 5;
-    
+
     /**
      * The {@link #flags} bit for representing {@link URI#isPlatformResource()}.
      */
     protected static final int IS_PLATFORM_RESOURCE            = 1 << 6;
-    
+
     /**
      * The {@link #flags} bit for representing {@link URI#isPlatformPlugin()}.
      */
     protected static final int IS_PLATFORM_PLUGIN              = 1 << 7;
-    
+
     /**
      * The {@link #flags} bit for representing {@link URI#isArchive()}.
      */
     protected static final int IS_ARCHIVE                      = 1 << 8;
-    
+
     /**
      * The {@link #flags} bit for representing {@link URI#hasTrailingPathSeparator()}.
      */
     protected static final int HAS_TRAILING_PATH_SEPARATOR     = 1 << 9;
-    
+
     /**
      * The {@link #flags} bit for representing {@link URI#isPrefix()}.
      */
@@ -2867,7 +3085,7 @@ public abstract class URI
      * The scheme of the hierarchical URIs.
      */
     protected final String scheme;  // null -> relative URI reference
-    
+
     /**
      * The authority of the hierarchical URI.
      */
@@ -2877,16 +3095,21 @@ public abstract class URI
      * The device of the hierarchical URI.
      */
     protected final String device;
-    
+
     /**
      * The segments of the hierarchical URI.
      */
     protected final String[] segments; // empty last segment -> trailing separator
-    
+
     /**
      * The query of the hierarchical URI.
      */
     protected final String query;
+
+    /**
+     * A weakly cached reference to the string representation.
+     */
+    protected WeakReference<String> toString;
 
     /**
      * Creates an instance from the components, computing the {@link #flags} bits.
@@ -3309,7 +3532,7 @@ public abstract class URI
       boolean newAbsolutePath = hasAbsolutePath();
       String[] newSegments = segments;
       String newQuery = query;
-      
+
       // note: it's okay for two URIs to share a segments array, since neither will ever modify it
 
       if (authority == null)
@@ -3346,7 +3569,7 @@ public abstract class URI
       return POOL.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_NONE, true, base.scheme(), newAuthority, newDevice, newAbsolutePath, newSegments, newQuery);
     }
 
-    // Merges this URI's relative path with the base non-relative path.  
+    // Merges this URI's relative path with the base non-relative path.
     // If base has no path, treat it as the root absolute path, unless this has  no path either.
     //
     protected String[] mergePath(URI base, boolean preserveRootParents)
@@ -3635,10 +3858,20 @@ public abstract class URI
     }
 
     @Override
-    public String toString()
+    protected void cacheString(String string)
     {
-      // Check if there is a cached result with a non-garbage collected referent...
-      //
+      toString = POOL.newCachedToString(this, string);
+    }
+
+    @Override
+    protected void flushCachedString()
+    {
+      toString = null;
+    }
+
+    @Override
+    protected String getCachedString()
+    {
       WeakReference<String> toString = this.toString;
       if (toString != null)
       {
@@ -3651,6 +3884,17 @@ public abstract class URI
         {
           return result;
         }
+      }
+      return null;
+    }
+
+    @Override
+    public String toString()
+    {
+      String cachedToString = getCachedString();
+      if (cachedToString != null)
+      {
+        return cachedToString;
       }
 
       CommonUtil.StringPool.StringsAccessUnit result = CommonUtil.STRING_POOL.getStringBuilder();
@@ -3693,33 +3937,27 @@ public abstract class URI
     }
 
     @Override
-    protected int matches(String string, int length)
+    protected boolean matches(String string)
     {
-      WeakReference<String> toString = this.toString;
-      if (toString != null)
+      String cachedString = getCachedString();
+      if (cachedString != null)
       {
-        String cachedString = toString.get();
-        if (cachedString == null)
-        {
-          toString.clear();
-        }
-        else
-        {
-          return cachedString.startsWith(string) ? length : -1;
-        }
+        return cachedString.equals(string);
       }
+
+      int length = string.length();
 
       int index = 0;
       if (!isRelative())
       {
         if (!string.startsWith(scheme))
         {
-          return -1;
+          return false;
         }
         index += scheme.length();
         if (index >= length || string.charAt(index) != SCHEME_SEPARATOR)
         {
-          return -1;
+          return false;
         }
         ++index;
       }
@@ -3730,13 +3968,13 @@ public abstract class URI
         {
           if (!string.startsWith(AUTHORITY_SEPARATOR, index))
           {
-            return -1;
+            return false;
           }
           index += 2;
         }
         if (!string.startsWith(authority, index))
         {
-          return -1;
+          return false;
         }
         index += authority.length();
       }
@@ -3745,12 +3983,12 @@ public abstract class URI
       {
         if (index >= length || string.charAt(index) != SEGMENT_SEPARATOR)
         {
-          return -1;
+          return false;
         }
         ++index;
         if (!string.startsWith(device, index))
         {
-          return -1;
+          return false;
         }
         index += device.length();
       }
@@ -3759,7 +3997,7 @@ public abstract class URI
       {
         if (index >= length || string.charAt(index) != SEGMENT_SEPARATOR)
         {
-          return -1;
+          return false;
         }
         ++index;
       }
@@ -3771,14 +4009,14 @@ public abstract class URI
         {
           if (index >= length || string.charAt(index) != SEGMENT_SEPARATOR)
           {
-            return -1;
+            return false;
           }
           ++index;
         }
         String segment = segments[i];
         if (!string.startsWith(segment, index))
         {
-          return -1;
+          return false;
         }
         index += segment.length();
       }
@@ -3787,17 +4025,17 @@ public abstract class URI
       {
         if (index >= length || string.charAt(index) != QUERY_SEPARATOR)
         {
-          return -1;
+          return false;
         }
         ++index;
         if (!string.startsWith(query, index))
         {
-          return -1;
+          return false;
         }
         index += query.length();
       }
 
-      return index;
+      return index == length;
     }
 
     @Override
@@ -4115,11 +4353,16 @@ public abstract class URI
      * The scheme of the opaque URI.
      */
     protected final String scheme;
-    
+
     /**
      * The opaque part of the opaque URI.
      */
     protected final String opaquePart;
+
+    /**
+     * A weakly cached reference to the string representation.
+     */
+    protected WeakReference<String> toString;
 
     /**
      * Creates an instance from the components.
@@ -4169,7 +4412,19 @@ public abstract class URI
     }
 
     @Override
-    public String toString()
+    protected void cacheString(String string)
+    {
+      toString = POOL.newCachedToString(this, string);
+    }
+
+    @Override
+    protected void flushCachedString()
+    {
+      toString = null;
+    }
+
+    @Override
+    protected String getCachedString()
     {
       WeakReference<String> toString = this.toString;
       if (toString != null)
@@ -4184,6 +4439,17 @@ public abstract class URI
           return result;
         }
       }
+      return null;
+    }
+
+    @Override
+    public String toString()
+    {
+      String cachedString = getCachedString();
+      if (cachedString != null)
+      {
+        return cachedString;
+      }
 
       CommonUtil.StringPool.StringsAccessUnit result = CommonUtil.STRING_POOL.getStringBuilder();
       result.append(scheme);
@@ -4196,41 +4462,35 @@ public abstract class URI
     }
 
     @Override
-    protected int matches(String string, int length)
+    protected boolean matches(String string)
     {
-      WeakReference<String> toString = this.toString;
-      if (toString != null)
+      String cachedString = getCachedString();
+      if (cachedString != null)
       {
-        String cachedString = toString.get();
-        if (cachedString == null)
-        {
-          toString.clear();
-        }
-        else
-        {
-          return string.startsWith(cachedString) ? length : -1;
-        }
+        return cachedString.equals(string);
       }
 
       int index = 0;
       if (!string.startsWith(scheme))
       {
-        return -1;
+        return false;
       }
+
+      int length = string.length();
       index += scheme.length();
       if (index >= length || string.charAt(index) != SCHEME_SEPARATOR)
       {
-        return -1;
+        return false;
       }
       ++index;
 
       if (!string.startsWith(opaquePart, index))
       {
-        return -1;
+        return false;
       }
       index += opaquePart.length();
 
-      return index;
+      return index == length;
     }
 
     @Override
@@ -4257,7 +4517,7 @@ public abstract class URI
      * The {@link #trimFragment() base} URI.
      */
     protected final URI uri;
-    
+
     /**
      * The representation of the fragment.
      * The fragment is {@link #splitInternFragment(String) split interned}.
@@ -4565,28 +4825,11 @@ public abstract class URI
     @Override
     public String toString()
     {
-      WeakReference<String> toString = this.toString;
-      if (toString != null)
-      {
-        String result = toString.get();
-        if (result == null)
-        {
-          toString.clear();
-        }
-        else
-        {
-          return result;
-        }
-      }
-
       CommonUtil.StringPool.StringsAccessUnit result = CommonUtil.STRING_POOL.getStringBuilder();
       result.append(uri.toString());
       result.append(FRAGMENT_SEPARATOR);
       result.append(fragment);
-
-      String string = CommonUtil.STRING_POOL.intern(result);
-      this.toString = POOL.newCachedToString(this, string);
-      return string;
+      return CommonUtil.STRING_POOL.intern(result);
     }
 
     @Override
@@ -4669,6 +4912,21 @@ public abstract class URI
       URI result = uri.replacePrefix(oldPrefix, newPrefix);
       return result == uri ? this : result == null ? null : result.rawAppendFragment(fragment);
     }
+  }
+
+  protected void flushCachedString()
+  {
+    // Do nothing.
+  }
+
+  protected void cacheString(String string)
+  {
+    // Do nothing.
+  }
+
+  protected String getCachedString()
+  {
+    return null;
   }
 
   /**
@@ -5263,17 +5521,9 @@ public abstract class URI
 
   // Returns whether the string representation of the URI fully matches the given string.
   //
-  final protected boolean matches(String string)
+  protected boolean matches(String string)
   {
-    int length = string.length();
-    return matches(string, length) == length;
-  }
-
-  // Matches the string representation of the URI against the string of given length, returning the index up to which it matched.
-  //
-  protected int matches(String string, int length)
-  {
-    throw new UnsupportedOperationException();
+    return false;
   }
 
   // Used to match a URI against the specified components.

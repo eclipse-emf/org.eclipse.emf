@@ -152,7 +152,7 @@ public final class CommonUtil
   {
     private static final long serialVersionUID = 1L;
 
-    private static final String EMPTY_STRING = "";
+    protected static final String EMPTY_STRING = "";
     
     private static final Locale DEFAULT_LOCALE = Locale.getDefault();
 
@@ -268,7 +268,6 @@ public final class CommonUtil
        */
       protected final ObjectAccessUnit<String> helperAccessUnit = new ObjectAccessUnit<String>(null);
 
-
       /**
        * Creates an instance for the given pool managed by the given queue.
        */
@@ -287,7 +286,16 @@ public final class CommonUtil
         this.value = value;
         this.hashCode = value.hashCode();
       }
-      
+
+      /**
+       * Sets the value being accessed.
+       */
+      protected void setValue(String value, int hashCode)
+      {
+        this.value = value;
+        this.hashCode = hashCode;
+      }
+
       @Override
       protected boolean setArbitraryValue(Object value)
       {
@@ -539,6 +547,23 @@ public final class CommonUtil
         this.count = count;
       }
 
+      /**
+       * Sets the {@link #characters}, {@link #offset}, and {@link #count}, and computes the {@link #hashCode()} of the value being {@link StringPool#intern(char[], int, int) accessed}.
+       */
+      public void setValue(char[] characters, int offset, int count)
+      {
+        this.characters = characters;
+        this.offset = offset;
+        this.count = count;
+
+        int hashCode = 0;
+        for (int i = offset, limit = offset + count; i < limit; ++i)
+        {
+          hashCode = 31 * hashCode + characters[i];
+        }
+        this.hashCode = hashCode;
+      }
+
       @Override
       protected boolean matches(String value)
       {
@@ -652,6 +677,22 @@ public final class CommonUtil
         this.string = string;
         this.offset = offset;
         this.count = count;
+      }
+
+      /**
+       * Sets the {@link #characters}, {@link #offset}, and {@link #count} and computes the {@link #hashCode()} of the value being {@link StringPool#intern(char[], int, int) accessed}.
+       */
+      public void setValue(String string, int offset, int count)
+      {
+        this.string = string;
+        this.offset = offset;
+        this.count = count;
+        int hashCode = 0;
+        for (int i = offset, limit = offset + count; i < limit; ++i)
+        {
+          hashCode = 31 * hashCode + string.charAt(i);
+        }
+        this.hashCode = hashCode;
       }
 
       @Override
@@ -1233,9 +1274,42 @@ public final class CommonUtil
     @Override
     public final String intern(String string)
     {
-      StringAccessUnit accessUnit = stringAccessUnits.pop(false);
-      accessUnit.setValue(string);
-      return doIntern(false, accessUnit);
+      if (string == null)
+      {
+        return null;
+      }
+      else
+      {
+        // Iterate over the entries with the matching hash code.
+        //
+        int hashCode = string.hashCode();
+        for (Entry<String> entry = getEntry(hashCode); entry != null; entry = entry.getNextEntry())
+        {
+          // Check that the referent isn't garbage collected and then compare it.
+          //
+          String value = entry.get();
+          if (value == string || string.equals(value))
+          {
+            // Return that already present value.
+            //
+            return value;
+          }
+        }
+
+        writeLock.lock();
+        try
+        {
+          StringAccessUnit accessUnit = stringAccessUnits.pop(true);
+          accessUnit.setValue(string, hashCode);
+          String result = addEntry(true, accessUnit.getInternalizedValue(), accessUnit);
+          accessUnit.reset(true);
+          return result;
+        }
+        finally
+        {
+          writeLock.unlock();
+        }
+      }
     }
 
     protected final String intern(boolean toLowerCase, String string)
@@ -1280,6 +1354,48 @@ public final class CommonUtil
         //
         CharactersAccessUnit accessUnit = charactersAccessUnits.pop(false);
         accessUnit.setValue(characters, offset, count, hashCode);
+        return doIntern(false, accessUnit);
+      }
+    }
+
+    /**
+     * Returns the interned string for the given character range and its hash code, which must be equivalent to what's computed by {@link String#hashCode()}.
+     */
+    protected final String intern(char[] characters, int offset, int count)
+    {
+      // If there are no characters, we can just return the empty string, which we've ensured in the constructor is actually in the pool.
+      //
+      if (count == 0)
+      {
+        return EMPTY_STRING;
+      }
+      else
+      {
+        // Retrieve an access unit for exclusive use in this call for the current thread thread.
+        //
+        CharactersAccessUnit accessUnit = charactersAccessUnits.pop(false);
+        accessUnit.setValue(characters, offset, count);
+        return doIntern(false, accessUnit);
+      }
+    }
+
+    /**
+     * Returns the interned string for the given character range; the hash code will be computed
+     */
+    protected final String intern(String string, int offset, int count)
+    {
+      // If there are no characters, we can just return the empty string, which we've ensured in the constructor is actually in the pool.
+      //
+      if (count == 0)
+      {
+        return EMPTY_STRING;
+      }
+      else
+      {
+        // Retrieve an access unit for exclusive use in this call for the current thread thread.
+        //
+        SubstringAccessUnit accessUnit = substringAccessUnits.pop(false);
+        accessUnit.setValue(string, offset, count);
         return doIntern(false, accessUnit);
       }
     }
@@ -1413,14 +1529,7 @@ public final class CommonUtil
    */
   public static String intern(char[] characters, int offset, int count)
   {
-    // Compute the hash code and forward the request to the pool.
-    //
-    int hashCode = 0;
-    for (int i = offset, limit = offset + count; i < limit; ++i)
-    {
-      hashCode = 31 * hashCode + characters[i];
-    }
-    return STRING_POOL.intern(characters, offset, count, hashCode);
+    return STRING_POOL.intern(characters, offset, count);
   }
 
   /**
@@ -1430,14 +1539,7 @@ public final class CommonUtil
    */
   public static String intern(String string, int offset, int count)
   {
-    // Compute the hash code and forward the request to the pool.
-    //
-    int hashCode = 0;
-    for (int i = offset, limit = offset + count; i < limit; ++i)
-    {
-      hashCode = 31 * hashCode + string.charAt(i);
-    }
-    return STRING_POOL.intern(string, offset, count, hashCode);
+    return STRING_POOL.intern(string, offset, count);
   }
 
   /**

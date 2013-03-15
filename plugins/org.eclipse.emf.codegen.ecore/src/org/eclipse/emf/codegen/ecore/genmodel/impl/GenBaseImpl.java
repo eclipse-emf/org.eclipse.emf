@@ -1111,7 +1111,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected boolean isPrimitiveType(EClassifier eType)
   {
-    return CodeGenUtil.isJavaPrimitiveType(eType.getInstanceClassName());
+    return eType != null && CodeGenUtil.isJavaPrimitiveType(eType.getInstanceClassName());
   }
 
   protected String getPrimitiveObjectType(EClassifier eType)
@@ -2395,8 +2395,9 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             }
           }
         }
+        name = URI.encodeSegment(name, false);
         return
-          count > 0 ?
+          count > 0 || name.contains(".") ?
             name + "." + count :
             name;
       }
@@ -2409,8 +2410,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     if (!uriFragmentSegment.startsWith("@"))
     {
-      int index = uriFragmentSegment.indexOf(".");
-      String name = index == -1 ? uriFragmentSegment : uriFragmentSegment.substring(0, index);
+      int index = uriFragmentSegment.lastIndexOf(".");
+      String name = URI.decode(index == -1 ? uriFragmentSegment : uriFragmentSegment.substring(0, index));
       int count = 0;
       if (index != -1)
       {

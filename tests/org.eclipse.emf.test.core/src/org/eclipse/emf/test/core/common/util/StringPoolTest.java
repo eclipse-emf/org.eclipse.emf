@@ -101,7 +101,7 @@ public class StringPoolTest extends TestCase
       allStrings.add(data[i] = new String(characters));
     }
 
-    final InterningSet<String> strings = newStringPool();
+    final Pool<String> strings = newStringPool();
     int size = strings.size();
     int expectedSize = size + allStrings.size();
 
@@ -158,11 +158,30 @@ public class StringPoolTest extends TestCase
       }
     }
 
+    Set<String> duplicateCheck = new HashSet<String>();
+    strings.getReadLock().lock();
+    int nulls = 0;
+    int empty = 0;
+    int countedSize= 0;
+    for (String value : strings)
+    {
+      ++countedSize;
+      if (!duplicateCheck.add(value))
+      {
+        fail("bogus entry \"" + value + "\"");
+      }
+      if (!allStrings.contains(value) && (value == null ? ++nulls != 1 : value.length() != 0 || ++empty != 1))
+      {
+        fail("bogus entry \"" + value + "\"");
+      }
+    }
+    strings.getReadLock().unlock();
+
     // Test that all the strings are added.
     //
     if (isGarbageCollectingWhileInterning)
     {
-      assertTrue(expectedSize >= strings.size());
+      assertTrue(expectedSize >= countedSize);
     }
     else
     {
@@ -548,15 +567,15 @@ public class StringPoolTest extends TestCase
     }
   }
 
-  private static final Class<InterningSet<String>> STRING_POOL_CLASS;
+  private static final Class<Pool<String>> STRING_POOL_CLASS;
 
   static
   {
-    Class<InterningSet<String>> stringPoolClass = null;
+    Class<Pool<String>> stringPoolClass = null;
     try
     {
       @SuppressWarnings("unchecked")
-      Class<InterningSet<String>> result = (Class<InterningSet<String>>)Class.forName("org.eclipse.emf.common.util.CommonUtil$StringPool");
+      Class<Pool<String>> result = (Class<Pool<String>>)Class.forName("org.eclipse.emf.common.util.CommonUtil$StringPool");
       stringPoolClass = result;
     }
     catch (ClassNotFoundException e)
@@ -566,11 +585,11 @@ public class StringPoolTest extends TestCase
     STRING_POOL_CLASS = stringPoolClass;
   }
 
-  static InterningSet<String> newStringPool()
+  static Pool<String> newStringPool()
   {
     try
     {
-      Constructor<InterningSet<String>> constructor = STRING_POOL_CLASS.getDeclaredConstructor();
+      Constructor<Pool<String>> constructor = STRING_POOL_CLASS.getDeclaredConstructor();
       constructor.setAccessible(true);
       return constructor.newInstance();
     }

@@ -160,7 +160,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
     /**
      * Returns the next entry in the collision chain with the same {@link #hashCode}.
      */
-    public Entry<E> getNextEntry()
+    public final Entry<E> getNextEntry()
     {
       for (Entry<E> entry = next; entry != null; entry = entry.next)
       {

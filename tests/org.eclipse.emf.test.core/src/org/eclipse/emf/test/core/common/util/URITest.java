@@ -15,6 +15,7 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -118,7 +119,7 @@ public class URITest extends TestCase
 
   protected static final String[] QUERIES = { "", "?q=huh" };
   
-  protected static final String[] FRAGMENTS = { "", "#toc" };
+  protected static final String[] FRAGMENTS = { "", "#toc", "#/a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p" };
 
   protected static final String BASE_URI = "http://a/b/c/d;p?q";
 
@@ -678,6 +679,10 @@ public class URITest extends TestCase
   public void testPlatformURI() throws Exception
   {
     {
+      URI uri = URI.createURI("platform:/d:/resource/foo?bar");
+      assertFalse(uri.isPlatformResource());
+    }
+    {
       String resource = "platform:/resource/myProject/foo.txt";
       URI uri = URI.createURI(resource);
       assertTrue(uri.isPlatform());
@@ -1033,6 +1038,18 @@ public class URITest extends TestCase
   @SuppressWarnings("unused")
   public static void main(String[] args) throws Exception
   {
+    System.out.println(URI.createPlatformPluginURI("org.eclipse.m2m.tests.qvt.oml/parserTestData/externlib/FooLib.qvto?ns=.", true));
+    System.out.println(URI.createURI(URI.createPlatformPluginURI("org.eclipse.m2m.tests.qvt.oml/parserTestData/externlib/FooLib.qvto?ns=.", false).toString()).query());
+    System.out.println(URI.createURI("platform:/resource/org.eclipse.m2m.tests.qvt.oml/parserTestData/externlib/FooLib.qvto?ns=.").query());
+    
+    Collection<? super URI> collection = new ArrayList<URI>();
+    URI urix = null;
+    collection.add(urix);
+    
+    System.out.println("###" + URI.createURI("http:///dasfasfsa#/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a"));
+    System.out.println("###" + URI.createURI("http:///abcdef"));
+    URI.createURI("ABC:xxx");
+    
     URI.createURI(": ");
     URI.createURI(" : /");
     // URI.createHierarchicalURI(new String[] { null }, null, null);
@@ -1107,12 +1124,12 @@ public class URITest extends TestCase
     // CommonUtil.STRING_POOL.grow(10000000);
     // SegmentSequence.STRING_ARRAY_POOL.grow(10000000);
 
-    int count = 50000;
-    int repetitions = 20;
-    URI[][] uris = new URI[repetitions][];
+    final int count = 500000;
+    final int repetitions = 10;
+    final URI[][] uris = new URI[repetitions][];
     uris[0] = new URI[count];
 
-    URI2[][] uri2s = new URI2[repetitions][];
+    final URI2[][] uri2s = new URI2[repetitions][];
     uri2s[0] = new URI2[count];
 
     System.gc();
@@ -1169,6 +1186,8 @@ public class URITest extends TestCase
     // if (stop) return;
     for (int repeat = 0; repeat < repetitions; ++repeat)
     {
+      final int rep = repeat;
+
       /*
       URI[] array = POOL.toArray(new URI[0]);
       HashSet<String> strings = new HashSet();
@@ -1182,40 +1201,125 @@ public class URITest extends TestCase
       strings.clear();
       */
 
-      System.gc();
-      uri2s[repeat] = new URI2[count];
+      final String[] values = new String[count];
+      for (int i = 0; i < count; ++i)
       {
-        long start = System.currentTimeMillis();
-        int dummy = 0;
-        for (int i = 0; i < count; ++i)
-        {
-          dummy += (uri2s[repeat][i] = URI2.createURI("http://bar/a/b/c/d/e/f/g/h/i/j" + UUID.randomUUID() + "#/" + UUID.randomUUID())).hashCode();
-          // dummy += (uri2s[repeat][i] = URI2.createPlatformResourceURI("\bar /a b/c d/" + UUID.randomUUID(), true)).hashCode();
-          // dummy += (uri2s[repeat][i] = URI2.createFileURI("c:\\bar /a#b/d%e/" + UUID.randomUUID())).hashCode();
-        }
-        long end = System.currentTimeMillis();
-        System.out.println("URI2             {" + dummy + "} elapsed time: " + (end - start));
+        String value = "http://bar/a/b/c/d/e/f/g/h/i/j" + UUID.randomUUID(); //  + "#/" + UUID.randomUUID();
+        values[i] = value;
       }
 
       System.gc();
-      uris[repeat] = new URI[count];
-      {
-        long start = System.currentTimeMillis();
-        int dummy = 0;
-        for (int i = 0; i < count; ++i)
+      uri2s[repeat] = new URI2[count];
+      new  Runnable()
+      { 
+        public void run()
         {
-          dummy += (uris[repeat][i] = URI.createURI("http://bar/a/b/c/d/e/f/g/h/i/j" + UUID.randomUUID() + "#/" + UUID.randomUUID())).hashCode();
-          // dummy += (uris[repeat][i] = URI.createPlatformResourceURI("\bar /a b/c d/" + UUID.randomUUID(), true)).hashCode();
-          // dummy += (uris[repeat][i] = URI.createFileURI("c:\\bar /a#b/d%e/" + UUID.randomUUID())).hashCode();
+          testURI2Create();
+          
         }
-        long end = System.currentTimeMillis();
-        System.out.println("URI              {" + dummy + "} elapsed time: " + (end - start));
-      }
+        public void testURI2Create()
+        {
+          long start = System.currentTimeMillis();
+          int dummy = 0;
+          for (int i = 0; i < count; ++i)
+          {
+            dummy += (uri2s[rep][i] = URI2.createURI(values[i])).hashCode();
+            // dummy += (uri2s[repeat][i] = URI2.createPlatformResourceURI("\bar /a b/c d/" + UUID.randomUUID(), true)).hashCode();
+            // dummy += (uri2s[repeat][i] = URI2.createFileURI("c:\\bar /a#b/d%e/" + UUID.randomUUID())).hashCode();
+          }
+          long end = System.currentTimeMillis();
+          System.out.println("URI2             {" + dummy + "} elapsed time: " + (end - start));
+        }
+      }.run();
+
+      System.gc();
+      // uri2s[repeat] = new URI2[count];
+      new  Runnable()
+      { 
+        public void run()
+        {
+          testURI2Lookup();
+          
+        }
+
+        public void testURI2Lookup()
+        {
+          long start = System.currentTimeMillis();
+          int dummy = 0;
+          for (int i = 0; i < count; ++i)
+          {
+            dummy += (uri2s[rep][i] = URI2.createURI(values[i])).hashCode();
+            // dummy += (uri2s[repeat][i] = URI2.createPlatformResourceURI("\bar /a b/c d/" + UUID.randomUUID(), true)).hashCode();
+            // dummy += (uri2s[repeat][i] = URI2.createFileURI("c:\\bar /a#b/d%e/" + UUID.randomUUID())).hashCode();
+          }
+          long end = System.currentTimeMillis();
+          System.out.println("URI2+            {" + dummy + "} elapsed time: " + (end - start));
+        }
+      }.run();
+
+      System.gc();
+      uris[repeat] = new URI[count];
+      new  Runnable()
+      { 
+        public void run()
+        {
+          testURICreate();
+          
+        }
+
+        public void testURICreate()
+        {
+          long start = System.currentTimeMillis();
+          int dummy = 0;
+          for (int i = 0; i < count; ++i)
+          {
+            dummy += (uris[rep][i] = URI.createURI(values[i])).hashCode();
+            // dummy += (uris[repeat][i] = URI.createPlatformResourceURI("\bar /a b/c d/" + UUID.randomUUID(), true)).hashCode();
+            // dummy += (uris[repeat][i] = URI.createFileURI("c:\\bar /a#b/d%e/" + UUID.randomUUID())).hashCode();
+          }
+          long end = System.currentTimeMillis();
+          System.out.println("URI              {" + dummy + "} elapsed time: " + (end - start));
+        }
+      }.run();
+
+      // System.out.println("POOL Capacity " + URI_POOL.capacityIndex);
+      // System.out.println("STRING_POOL Capacity " + URI_POOL.STRING_POOL.capacityIndex);
+      // System.out.println("STRING_ARRAY_POOL Capacity " + URI_POOL.STRING_ARRAY_POOL.capacityIndex);
+      System.gc();
+      // uris[repeat] = new URI[count];
+      new  Runnable()
+      { 
+        public void run()
+        {
+          testURILookup();
+          
+        }
+
+        public void testURILookup()
+        {
+          long start = System.currentTimeMillis();
+          int dummy = 0;
+          for (int i = 0; i < count; ++i)
+          {
+            URI value = URI.createURI(values[i]);
+            if (value != uris[rep][i])
+            {
+              System.out.println("###");
+            }
+            dummy += (uris[rep][i] = value).hashCode();
+            // dummy += (uris[repeat][i] = URI.createPlatformResourceURI("\bar /a b/c d/" + UUID.randomUUID(), true)).hashCode();
+            // dummy += (uris[repeat][i] = URI.createFileURI("c:\\bar /a#b/d%e/" + UUID.randomUUID())).hashCode();
+          }
+          long end = System.currentTimeMillis();
+          System.out.println("URI+             {" + dummy + "} elapsed time: " + (end - start));
+        }
+      }.run();
       // System.out.println("POOL Capacity " + URI_POOL.capacityIndex);
       // System.out.println("STRING_POOL Capacity " + URI_POOL.STRING_POOL.capacityIndex);
       // System.out.println("STRING_ARRAY_POOL Capacity " + URI_POOL.STRING_ARRAY_POOL.capacityIndex);
       System.gc();
 
+      /*
       System.gc();
       {
         long start = System.currentTimeMillis();
@@ -1239,6 +1343,13 @@ public class URITest extends TestCase
         long end = System.currentTimeMillis();
         System.out.println("URI2.appendFrag  {" + dummy + "} elapsed time: " + (end - start));
       }
+      System.gc();
+      */
+
+      // Let them be garbage collected now
+      //
+      uris[repeat] = null;
+      uri2s[repeat] = null;
       System.gc();
     }
 

@@ -33,7 +33,7 @@ public final class SegmentSequence implements CharSequence
    * The instance used to represent no segments.
    */
   static final String[] EMPTY_ARRAY = new String [0];
-  
+
   /**
    * The array containing only the empty string.
    */
@@ -118,7 +118,7 @@ public final class SegmentSequence implements CharSequence
       else
       {
         return POOL.intern(hashCode, delimiter, segments, segmentSequence.segments, false);
-        
+
       }
     }
   }
@@ -351,7 +351,7 @@ public final class SegmentSequence implements CharSequence
   /**
    * Returns the segments from the given start.
    */
-  public String[] subSegments(int start) 
+  public String[] subSegments(int start)
   {
     return subSegments(start, segments.length);
   }
@@ -359,7 +359,7 @@ public final class SegmentSequence implements CharSequence
   /**
    * Returns the segments from the given start and before the given end.
    */
-  public String[] subSegments(int start, int end) 
+  public String[] subSegments(int start, int end)
   {
     rangeCheck(segments, start, end);
     int count = end - start;
@@ -367,7 +367,7 @@ public final class SegmentSequence implements CharSequence
     System.arraycopy(segments, start, result, 0, count);
     return result;
   }
-  
+
   /**
    * A list that's a read-only view of an array.
    */
@@ -379,7 +379,7 @@ public final class SegmentSequence implements CharSequence
     {
       this.array = array;
     }
-    
+
     @Override
     public E get(int index)
     {
@@ -398,15 +398,15 @@ public final class SegmentSequence implements CharSequence
    */
   static void rangeCheck(Object[] array, int start, int end)
   {
-    if (start < 0) 
+    if (start < 0)
     {
       throw new IndexOutOfBoundsException("start=" + start);
     }
-    if (start > array.length) 
+    if (start > array.length)
     {
       throw new IndexOutOfBoundsException("end = " + end);
     }
-    if (start > end) 
+    if (start > end)
     {
       throw new IndexOutOfBoundsException("start=" + start + " > " + "end="+ end);
     }
@@ -420,7 +420,7 @@ public final class SegmentSequence implements CharSequence
     final int start;
     final int end;
     final protected E[] array;
-    
+
 
     public UnmodifiableArraySubList(E[] array, int start, int end)
     {
@@ -465,7 +465,7 @@ public final class SegmentSequence implements CharSequence
   /**
    * Returns a read-only list view of the segments from the given start and before the given end.
    */
-  public List<String> subSegmentsList(int start, int end) 
+  public List<String> subSegmentsList(int start, int end)
   {
     rangeCheck(segments, start, end);
 
@@ -627,7 +627,7 @@ public final class SegmentSequence implements CharSequence
 
       addEntry(1, newEntry(EMPTY_ARRAY, 1));
       addEntry(31, newEntry(EMPTY_STRING_ARRAY, 31));
-      
+
       segmentsAccessUnits = (SegmentsAccessUnit.Queue)primaryAccessUnits;
     }
 
@@ -639,7 +639,7 @@ public final class SegmentSequence implements CharSequence
     {
       return Arrays.hashCode(object);
     }
-    
+
     /**
      * Returns the {@link Arrays#equals(Object[], Object[])}'s value for these two objects object.
      */
@@ -648,7 +648,7 @@ public final class SegmentSequence implements CharSequence
     {
       return Arrays.equals(object, otherObject);
     }
-    
+
     /**
      * Checks whether the object is string array and casts it or return <code>null</code.
      */
@@ -663,6 +663,16 @@ public final class SegmentSequence implements CharSequence
      */
     protected static class AccessUnitBase extends AccessUnit<String[]>
     {
+      /**
+       * An access unit for exclusive use in {@link #internString(String)}.
+       */
+      protected CommonUtil.StringPool.StringAccessUnit stringAccessUnit = new CommonUtil.StringPool.StringAccessUnit(CommonUtil.STRING_POOL, null);
+
+      /**
+       * An access unit for exclusive use in {@link #internString(String, int, int, int)}.
+       */
+      protected CommonUtil.StringPool.SubstringAccessUnit substringAccessUnit = new CommonUtil.StringPool.SubstringAccessUnit(null);
+
       protected AccessUnitBase(AccessUnit.Queue<String[]> queue)
       {
         super(queue);
@@ -690,6 +700,29 @@ public final class SegmentSequence implements CharSequence
       protected boolean matches(String[] value)
       {
         throw new UnsupportedOperationException();
+      }
+
+      protected String internString(String string)
+      {
+        stringAccessUnit.setValue(string);
+        return CommonUtil.STRING_POOL.doIntern(false, stringAccessUnit);
+      }
+
+      protected String internString(String string, int offset, int count, int hashCode)
+      {
+        // If there are no characters, we can just return the empty string, which we've ensured in the constructor is actually in the pool.
+        //
+        if (count == 0)
+        {
+          return CommonUtil.StringPool.EMPTY_STRING;
+        }
+        else
+        {
+          // Retrieve an access unit for exclusive use in this call for the current thread thread.
+          //
+          substringAccessUnit.setValue(string, offset, count, hashCode);
+          return CommonUtil.STRING_POOL.doIntern(false, substringAccessUnit);
+        }
       }
     }
 
@@ -741,8 +774,6 @@ public final class SegmentSequence implements CharSequence
 
       /**
        * Caches the parameters and computes the hash code.
-       * @param value
-       * @param needsInterning
        */
       protected void setValue(String value, boolean needsInterning)
       {
@@ -760,9 +791,9 @@ public final class SegmentSequence implements CharSequence
       @Override
       public String[] getInternalizedValue()
       {
-        return new String [] { needsInterning ? CommonUtil.STRING_POOL.intern(value) : value };
+        return new String [] { needsInterning ? internString(value) : value };
       }
-      
+
       @Override
       public void reset(boolean isExclusive)
       {
@@ -775,7 +806,7 @@ public final class SegmentSequence implements CharSequence
      * Access units for accessing a single segment that's a substring of a larger string.
      */
     protected final SubstringAccessUnit.Queue substringAccessUnits = new SubstringAccessUnit.Queue();
-      
+
     /**
      * An Access units for accessing a single segment that's a substring of a larger string.
      */
@@ -802,12 +833,12 @@ public final class SegmentSequence implements CharSequence
        * The value being accessed.
        */
       protected String value;
-      
+
       /**
        * The offset within the value.
        */
       protected int offset;
-      
+
       /**
        * The number of characters from the offset.
        */
@@ -849,7 +880,7 @@ public final class SegmentSequence implements CharSequence
       @Override
       public String[] getInternalizedValue()
       {
-        return new String [] { CommonUtil.STRING_POOL.intern(value, offset, count, hashCode - 31) };
+        return new String [] { internString(value, offset, count, hashCode - 31) };
       }
 
       @Override
@@ -864,7 +895,7 @@ public final class SegmentSequence implements CharSequence
      * Access units for accessing segments and one additional segment.
      */
     protected final SegmentsAndSegmentAccessUnit.Queue segmentsAndSegmentAccessUnits = new SegmentsAndSegmentAccessUnit.Queue();
-      
+
     /**
      * An access units for accessing segments and one additional segment.
      */
@@ -891,17 +922,17 @@ public final class SegmentSequence implements CharSequence
        * The segments being accessed.
        */
       protected String[] segments;
-      
+
       /**
        * The number of those segments to include.
        */
       protected int segmentCount;
-      
+
       /**
        * The one additional segment.
        */
       protected String segment;
-      
+
       /**
        * Whether that additional segment needs interning.
        */
@@ -962,7 +993,7 @@ public final class SegmentSequence implements CharSequence
         int length = segmentCount;
         String[] newSegments = new String [length + 1];
         System.arraycopy(segments, 0, newSegments, 0, length);
-        newSegments[length] = needsInterning ? CommonUtil.STRING_POOL.intern(segment) : segment;
+        newSegments[length] = needsInterning ? internString(segment) : segment;
         return newSegments;
       }
 
@@ -979,7 +1010,7 @@ public final class SegmentSequence implements CharSequence
      * Access units for accessing subsegments and a substring of one additional segment.
      */
     protected final SegmentsAndSubsegmentAccessUnit.Queue segmentsAndSubsegmentAccessUnits = new SegmentsAndSubsegmentAccessUnit.Queue();
-    
+
     /**
      * An access unit for accessing segments and a substring of one additional segment.
      */
@@ -1001,12 +1032,12 @@ public final class SegmentSequence implements CharSequence
           return new SegmentsAndSubsegmentAccessUnit(this);
         }
       }
-      
+
       /**
        * The segments being accessed.
        */
       protected String[] segments;
-      
+
       /**
        * The number of segments to consider.
        */
@@ -1026,7 +1057,7 @@ public final class SegmentSequence implements CharSequence
        * The number of characters from the offset.
        */
       protected int count;
-      
+
       /**
        * Hash code of character range of the additional segment.
        */
@@ -1039,7 +1070,7 @@ public final class SegmentSequence implements CharSequence
       {
         super(queue);
       }
-      
+
       /**
        * Caches the parameters and computes the hash code.
        */
@@ -1105,7 +1136,7 @@ public final class SegmentSequence implements CharSequence
         int length = segmentCount;
         String[] newSegments = new String [length + 1];
         System.arraycopy(segments, 0, newSegments, 0, length);
-        newSegments[length] = CommonUtil.STRING_POOL.intern(segment, offset, count, segmentHashCode);
+        newSegments[length] = internString(segment, offset, count, segmentHashCode);
         return newSegments;
       }
 
@@ -1122,7 +1153,7 @@ public final class SegmentSequence implements CharSequence
      * Access units for accessing a range of segments.
      */
     protected final SegmentsAndSegmentCountAccessUnit.Queue segmentsAndSegmentCountAccessUnits = new SegmentsAndSegmentCountAccessUnit.Queue();
-    
+
     /**
      * An Access units for accessing a range of segments.
      */
@@ -1260,17 +1291,17 @@ public final class SegmentSequence implements CharSequence
        * Whether the segments need copying when interned.
        */
       protected boolean needsCopying;
-      
+
       /**
        * Whether the strings with in the segments needto be interned.
        */
       protected boolean needsToIntern;
-      
+
       /**
        * The segments being access.
        */
       protected String[] segments;
-      
+
       /**
        * The number of segments to consider.
        */
@@ -1389,7 +1420,7 @@ public final class SegmentSequence implements CharSequence
               //
               for (int i = 0; i < length; ++i)
               {
-                newSegments[i] = CommonUtil.STRING_POOL.intern(segments[i]);
+                newSegments[i] = internString(segments[i]);
               }
             }
             else
@@ -1406,7 +1437,7 @@ public final class SegmentSequence implements CharSequence
           //
           for (int i = 0; i < length; ++i)
           {
-            segments[i] = CommonUtil.STRING_POOL.intern(segments[i]);
+            segments[i] = internString(segments[i]);
           }
         }
 
@@ -1457,7 +1488,7 @@ public final class SegmentSequence implements CharSequence
        * The first segments.
        */
       protected String[] segments2;
-      
+
       /**
        * Whether the second segment's string need to be interned.
        */
@@ -1520,7 +1551,7 @@ public final class SegmentSequence implements CharSequence
               }
             }
           }
-          else 
+          else
           {
             for (int j = 0; j < length2; ++j, ++i)
             {
@@ -1546,7 +1577,7 @@ public final class SegmentSequence implements CharSequence
         {
           for (int i = 0, j = length1; i < length2; ++i, ++j)
           {
-            newSegments[j] = CommonUtil.STRING_POOL.intern(segments2[i]);
+            newSegments[j] = internString(segments2[i]);
           }
         }
         else
@@ -1569,7 +1600,7 @@ public final class SegmentSequence implements CharSequence
      * Access units for accessing the composition of two subsequences.
      */
     protected final SubsegmentsAndSubsegmentsAccessUnit.Queue subsegmentsAndSubsegmentsAccessUnits = new SubsegmentsAndSubsegmentsAccessUnit.Queue();
- 
+
     /**
      * An access units for accessing the composition of two subsequences.
      */
@@ -1596,27 +1627,27 @@ public final class SegmentSequence implements CharSequence
        * The first segments.
        */
       protected String[] segments1;
-      
+
       /**
        * The offset within the first segments.
        */
       protected int offset1;
-      
+
       /**
        * The number of segments from the offset of the first segments.
        */
       protected int count1;
-      
+
       /**
        * The second segments.
        */
       protected String[] segments2;
-      
+
       /**
        * The offset within the second segments.
        */
       protected int offset2;
-      
+
       /**
        * The number of segments from the offset of the second segments.
        */
@@ -1630,7 +1661,7 @@ public final class SegmentSequence implements CharSequence
       {
         super(queue);
       }
-      
+
       /**
        * Caches the parameters and computes the hash code.
        */
@@ -1750,7 +1781,7 @@ public final class SegmentSequence implements CharSequence
       if (segments.length == 0)
       {
         return intern(segment, offset, count, segmentHashCode);
-        
+
       }
       else
       {
@@ -1759,7 +1790,7 @@ public final class SegmentSequence implements CharSequence
         return doIntern(false, accessUnit);
       }
     }
- 
+
     /**
      * Intern subsegments and a substring of one additional segment.
      */
@@ -1768,7 +1799,7 @@ public final class SegmentSequence implements CharSequence
       if (segments.length == 0)
       {
         return intern(segment, offset, count, segmentHashCode);
-        
+
       }
       else
       {
@@ -1916,7 +1947,7 @@ public final class SegmentSequence implements CharSequence
      * Access units for basic string access.
      */
     protected final StringAccessUnit.Queue stringAccessUnits = new StringAccessUnit.Queue();
-    
+
     /**
      * An access unit for basic string access.
      */
@@ -1965,6 +1996,11 @@ public final class SegmentSequence implements CharSequence
       protected String string;
 
       /**
+       * An access unit for exclusive use in {@link #internString(char[], int, int, int)}.
+       */
+      protected  CommonUtil.StringPool.CharactersAccessUnit charactersAccessUnit = new CommonUtil.StringPool.CharactersAccessUnit(null);
+
+      /**
        * Create an instance managed by the given queue.
        * @param queue
        */
@@ -1972,7 +2008,13 @@ public final class SegmentSequence implements CharSequence
       {
         super(queue);
       }
-      
+
+      protected String internString(char[] characters, int offset, int count, int hashCode)
+      {
+        charactersAccessUnit.setValue(characters, offset, count, hashCode);
+        return CommonUtil.STRING_POOL.doIntern(false, charactersAccessUnit);
+      }
+
       /**
        * Records the parameters and computes the hash code.
        */
@@ -2060,7 +2102,7 @@ public final class SegmentSequence implements CharSequence
                 // Put the interned segment into the segment buffer.
                 // Note that we do this without needing to create a string.
                 //
-                segmentBuffer[segmentCount++] = CommonUtil.STRING_POOL.intern(buffer, start, i - start, segmentHashCode);
+                segmentBuffer[segmentCount++] = internString(buffer, start, i - start, segmentHashCode);
 
                 // Mark the start of the next segment.
                 //
@@ -2093,7 +2135,7 @@ public final class SegmentSequence implements CharSequence
           // Add the interned final segment to the segment buffer as well.
           //
           ensureSegmentCapacity(segmentCount);
-          segmentBuffer[segmentCount++] = CommonUtil.STRING_POOL.intern(buffer, start, length - start, segmentHashCode);
+          segmentBuffer[segmentCount++] = internString(buffer, start, length - start, segmentHashCode);
 
           // Allocate the new segments, fill them, and create an instance from that.
           // Note that there will always be at least one segment to store the value.
@@ -2146,7 +2188,7 @@ public final class SegmentSequence implements CharSequence
      * Access units for accessing a delimiter and segments.
      */
     protected final SegmentsAccessUnit.Queue segmentsAccessUnits = new SegmentsAccessUnit.Queue();
-    
+
     /**
      * An access unit for accessing a delimiter and segments.
      */
@@ -2173,12 +2215,12 @@ public final class SegmentSequence implements CharSequence
        * Whether the segments need copying when interned.
        */
       protected boolean needsCopying;
-      
+
       /**
        * Whether the string sin the segments need interning.
        */
       protected boolean needsToIntern;
-      
+
       /**
        * The delimiter being accessed.
        */
@@ -2188,7 +2230,7 @@ public final class SegmentSequence implements CharSequence
        * The segments being accessed.
        */
       protected String[] segments;
-      
+
       /**
        * The number of segments to consider.
        */
@@ -2287,17 +2329,17 @@ public final class SegmentSequence implements CharSequence
        * The delimiters being accessed.
        */
       protected String delimiter;
-      
+
       /**
        * The segments being accessed.
        */
       protected String[] segments;
-      
+
       /**
        * The one additional segment being accessed
        */
       protected String segment;
-      
+
       /**
        * Creates an instance managed by the given queue.
        * @param queue
@@ -2415,7 +2457,7 @@ public final class SegmentSequence implements CharSequence
        * The second segments being accessed.
        */
       protected String[] segments2;
-      
+
       /**
        * Whether the strings in the second segments need interning.
        */
@@ -2425,7 +2467,7 @@ public final class SegmentSequence implements CharSequence
       {
         super(queue);
       }
-      
+
       /**
        * Caches the parameters and computes the hash code.
        */
@@ -2596,7 +2638,7 @@ public final class SegmentSequence implements CharSequence
      */
     protected WeakReference<String> newCachedToString(SegmentSequence segmentSequence, String string)
     {
-      return 
+      return
         cachedToStrings == null ?
           new CachedToString(segmentSequence, string, externalQueue) :
           new CachedToString(segmentSequence, string, cachedToStrings);
@@ -2638,7 +2680,7 @@ public final class SegmentSequence implements CharSequence
     }
 
     /**
-     * Interns the segments along with the one additional segment, taking into account the delimiter and interning the additional segment. 
+     * Interns the segments along with the one additional segment, taking into account the delimiter and interning the additional segment.
      * All callers of this method will already have interned the segments.
      */
     protected SegmentSequence intern(int hashCode, String delimiter, String[] segments, String segment)
@@ -2651,7 +2693,7 @@ public final class SegmentSequence implements CharSequence
     }
 
     /**
-     * Interns the composed segments, taking into account the delimiter. 
+     * Interns the composed segments, taking into account the delimiter.
      * All callers of this method will already have interned the segments.
      */
     protected SegmentSequence intern(int hashCode, String delimiter, String[] segments1, String[] segments2, boolean needsToIntern)
@@ -2696,7 +2738,10 @@ public final class SegmentSequence implements CharSequence
   protected static SegmentSequence create(String delimiter, String[] segments, int count)
   {
     String[] splitSegments = split(delimiter, segments, count);
-    return POOL.intern(segments == splitSegments, true, delimiter, splitSegments, count);
+    return 
+      splitSegments == segments ?
+        POOL.intern(true, true, delimiter, splitSegments, count) :
+        POOL.intern(false, true, delimiter, splitSegments, splitSegments.length);
   }
 
   /**
@@ -2813,17 +2858,17 @@ public final class SegmentSequence implements CharSequence
      * The delimiter of the builder.
      */
     protected final String delimiter;
-    
+
     /**
      * The number of strings in the builder.
      */
     protected int size;
-    
+
     /**
      * The string sin the builder.
      */
     protected String[] strings;
-    
+
     /**
      * Creates an instance with the given capacity.
      */
