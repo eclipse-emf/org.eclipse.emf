@@ -130,7 +130,7 @@ public class DecoratingColumLabelProvider extends ColumnLabelProvider implements
   @Override
   public boolean useNativeToolTip(Object object)
   {
-    return cellLabelProvider == null ? null : cellLabelProvider.useNativeToolTip(object);
+    return cellLabelProvider != null && cellLabelProvider.useNativeToolTip(object);
   }
 
   @Override
