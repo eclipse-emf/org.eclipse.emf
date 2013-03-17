@@ -792,7 +792,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
       Notifier notifier = contents.get(i);
       removeAdapter(notifier);
     }
-    unloadedEObjects.remove(target);
+    unloadedResources.remove(target);
   }
 
   /**
