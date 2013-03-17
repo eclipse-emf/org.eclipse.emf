@@ -1412,7 +1412,7 @@ public class BinaryResourceImpl extends ResourceImpl
         URI uri = readURI();
         if (resourceSet != null)
         {
-          ePackageData.ePackage = EPackage.Registry.INSTANCE.getEPackage(nsURI);
+          ePackageData.ePackage = resourceSet.getPackageRegistry().getEPackage(nsURI);
           if (ePackageData.ePackage == null)
           {
             ePackageData.ePackage = (EPackage)resourceSet.getEObject(uri, true);
