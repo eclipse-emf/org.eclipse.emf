@@ -187,10 +187,17 @@ public class EditUIMarkerHelper extends MarkerHelper
       if (uriAttribute != null)
       {
         URI uri = URI.createURI(uriAttribute);
-        EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
-        if (eObject != null)
+        try
         {
-          result.add(editingDomain.getWrapper(eObject));
+          EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
+          if (eObject != null)
+          {
+            result.add(editingDomain.getWrapper(eObject));
+          }
+        }
+        catch (Throwable throwable)
+        {
+          // Ignore if we can resolve the object.
         }
       }
       String relatedURIsAttribute = marker.getAttribute(EValidator.RELATED_URIS_ATTRIBUTE, null);
@@ -199,10 +206,17 @@ public class EditUIMarkerHelper extends MarkerHelper
         for (String relatedURI : relatedURIsAttribute.split(" "))
         {
           URI uri = URI.createURI(URI.decode(relatedURI));
-          EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
-          if (eObject != null)
+          try
           {
-            result.add(editingDomain.getWrapper(eObject));
+            EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
+            if (eObject != null)
+            {
+              result.add(editingDomain.getWrapper(eObject));
+            }
+          }
+          catch (Throwable throwable)
+          {
+            // Ignore if we can't resolve the object.
           }
         }
       }
