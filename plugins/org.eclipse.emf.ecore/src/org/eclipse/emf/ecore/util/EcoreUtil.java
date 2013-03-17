@@ -20,6 +20,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -392,7 +393,7 @@ public class EcoreUtil
    * and to {@link #copyReference copyReference}, during the cross reference phase.
    * This allows tailored handling through derivation.
    */
-  public static class Copier extends HashMap<EObject, EObject>
+  public static class Copier extends LinkedHashMap<EObject, EObject>
   {
     private static final long serialVersionUID = 1L;
 
