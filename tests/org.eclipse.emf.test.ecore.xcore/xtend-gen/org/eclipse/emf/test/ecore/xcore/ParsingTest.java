@@ -38,6 +38,7 @@ import org.eclipse.xtext.junit4.util.ParseHelper;
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.junit.Assert;
 import org.junit.Test;
@@ -51,9 +52,11 @@ public class ParsingTest {
   private ParseHelper<XPackage> parser;
   
   @Inject
+  @Extension
   private XcoreExtensions exts;
   
   @Inject
+  @Extension
   private ValidationTestHelper vth;
   
   @Test

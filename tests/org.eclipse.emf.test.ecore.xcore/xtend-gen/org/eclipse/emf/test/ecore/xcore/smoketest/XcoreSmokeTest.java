@@ -20,6 +20,7 @@ import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.Extension;
 import org.junit.runner.RunWith;
 
 @RunWith(XtextRunner.class)
@@ -27,9 +28,11 @@ import org.junit.runner.RunWith;
 @SuppressWarnings("all")
 public class XcoreSmokeTest extends AbstractSmokeTest {
   @Inject
+  @Extension
   private ParseHelper<EObject> parser;
   
   @Inject
+  @Extension
   private ValidationTestHelper validationTestHelper;
   
   /**

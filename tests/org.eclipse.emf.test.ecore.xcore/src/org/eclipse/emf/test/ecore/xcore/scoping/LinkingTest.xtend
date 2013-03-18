@@ -19,7 +19,6 @@ import org.eclipse.xtext.junit4.util.ParseHelper
 import org.eclipse.emf.ecore.xcore.XPackage
 import org.eclipse.emf.ecore.xcore.XClass
 import org.eclipse.emf.ecore.xcore.XOperation
-import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XBinaryOperation
 
@@ -98,7 +97,7 @@ class LinkingTest {
 	def firstVariableDeclaration(XPackage pack) {
 		val clazz = pack.classifiers.head as XClass
 		val operation = clazz.members.head as XOperation
-		val block = operation.body as XBlockExpression
+		val block = operation.body
 		val declaration = block.expressions.head as XVariableDeclaration
 		declaration
 	}

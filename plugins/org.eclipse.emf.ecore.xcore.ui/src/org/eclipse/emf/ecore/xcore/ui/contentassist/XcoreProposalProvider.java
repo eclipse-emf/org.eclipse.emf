@@ -209,8 +209,8 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
     {
       EObject eObject = contentAssistContext.getCurrentModel();
       ImmutableList<AbstractElement> firstSetGrammarElements = contentAssistContext.getFirstSetGrammarElements();
-      if (firstSetGrammarElements.contains(xcoreGrammarAccess.getXAttributeAccess().getTypeAssignment_3_0_0()) ||
-            firstSetGrammarElements.contains(xcoreGrammarAccess.getXAttributeAccess().getNameAssignment_4()) ||
+      if (firstSetGrammarElements.contains(xcoreGrammarAccess.getXAttributeAccess().getTypeAssignment_3()) ||
+            firstSetGrammarElements.contains(xcoreGrammarAccess.getXAttributeAccess().getNameAssignment_5()) ||
             firstSetGrammarElements.contains(xcoreGrammarAccess.getXGenericTypeAccess().getTypeAssignment_0()) && eObject instanceof XAttribute)
       {
         final Predicate<IEObjectDescription> baseFilter = filter;

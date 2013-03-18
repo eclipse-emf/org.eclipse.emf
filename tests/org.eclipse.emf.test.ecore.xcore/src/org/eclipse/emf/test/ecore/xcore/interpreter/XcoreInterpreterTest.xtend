@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EDataType
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EEnum
 import java.util.List
+import org.eclipse.emf.ecore.EObject
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(XcoreInjectorProvider))
@@ -159,7 +160,7 @@ class XcoreInterpreterTest {
 		val node = ePackage.EFactoryInstance.create(nodeClass)
 		assertEquals(nodeKindEnum.getEEnumLiteral("Singleton"), node.eGet(nodeClass.getEStructuralFeature("nodeKind")));
 		val childNode = ePackage.EFactoryInstance.create(nodeClass)
-		(node.eGet(nodeClass.getEStructuralFeature("children")) as List).add(childNode);
+		(node.eGet(nodeClass.getEStructuralFeature("children")) as List<EObject>).add(childNode);
 		assertEquals(nodeKindEnum.getEEnumLiteral("Root"), node.eGet(nodeClass.getEStructuralFeature("nodeKind")));
 	}
 }

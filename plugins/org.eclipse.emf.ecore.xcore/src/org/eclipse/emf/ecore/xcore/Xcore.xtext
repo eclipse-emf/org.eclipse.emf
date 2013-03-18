@@ -41,7 +41,7 @@ XImportDirective:
 ;
 
 XAnnotationDirective:
-	'annotation' sourceURI=STRING 'as' name=ValidID
+	=>('annotation' sourceURI=STRING) 'as' name=ValidID
 ;
 
 XClassifier:
@@ -116,7 +116,7 @@ XAttribute:
 	  (derived?='derived')? &
 	  (iD?='id')?
 	)
-    (type=XGenericType multiplicity=XMultiplicity? | 'void')
+    type=XGenericType multiplicity=XMultiplicity?
     name=ID
     ('=' defaultValueLiteral=STRING)?
 	/*
@@ -238,10 +238,15 @@ XQualifiedName:
 ;
 
 XID:
-	ID | 'get' | 'set' | 'isSet' | 'unset' 
+	ID | 'get' | 'isSet' | 'set' | 'unset'
 ;
 
 ValidID:
 	XID | 'void'
 ;
 
+FeatureCallID:
+	ValidID | 'abstract' | 'annotation' | 'as' | 'class' | 'container' | 'contains' | 'convert' | 'create' | 'derived' | 'enum' | 'extends' | 'extension' | 'id' | 'import' | 'keys' | 
+	'interface'| 'local' | 'op' | 'opposite' | 'package' | 'readonly' | 'refers' | 'resolving' | 'static' | 'throws' | 'transient' | 'unique' | 'unordered' | 'unsettable'| 
+	'volatile' | 'wraps' 
+;

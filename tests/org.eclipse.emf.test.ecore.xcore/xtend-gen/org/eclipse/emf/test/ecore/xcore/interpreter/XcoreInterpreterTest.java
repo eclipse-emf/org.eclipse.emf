@@ -331,7 +331,7 @@ public class XcoreInterpreterTest {
       final EObject childNode = _eFactoryInstance_1.create(nodeClass);
       EStructuralFeature _eStructuralFeature_1 = nodeClass.getEStructuralFeature("children");
       Object _eGet_1 = node.eGet(_eStructuralFeature_1);
-      ((List) _eGet_1).add(childNode);
+      ((List<EObject>) _eGet_1).add(childNode);
       EEnumLiteral _eEnumLiteral_1 = nodeKindEnum.getEEnumLiteral("Root");
       EStructuralFeature _eStructuralFeature_2 = nodeClass.getEStructuralFeature("nodeKind");
       Object _eGet_2 = node.eGet(_eStructuralFeature_2);

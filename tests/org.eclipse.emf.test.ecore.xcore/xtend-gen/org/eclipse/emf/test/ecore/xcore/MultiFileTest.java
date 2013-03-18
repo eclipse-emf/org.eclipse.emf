@@ -32,6 +32,7 @@ import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.util.StringInputStream;
 import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.junit.Assert;
@@ -49,6 +50,7 @@ public class MultiFileTest {
   private ValidationTestHelper validator;
   
   @Inject
+  @Extension
   private XcoreMapper mapper;
   
   @Test

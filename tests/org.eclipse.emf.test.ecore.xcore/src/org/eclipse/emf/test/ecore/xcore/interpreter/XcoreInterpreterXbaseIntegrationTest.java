@@ -19,19 +19,16 @@ import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.junit4.util.ParseHelper;
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
 import org.eclipse.xtext.xbase.junit.evaluation.AbstractXbaseEvaluationTest;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.google.inject.Inject;
 
 
-@SuppressWarnings("restriction")
 @RunWith(XtextRunner.class)
 @InjectWith(XcoreInjectorProvider.class)
 public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluationTest
 {
-
   @Inject
   private ParseHelper<XPackage> parser;
 
@@ -50,164 +47,70 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
   }
 
   @Override
-  public void testShortCircuitBooleanExpression_03() throws Exception
+  @Test 
+  public void testReservedWordEnum() throws Exception 
   {
-    // Ignore
+    assertEvaluatesTo(Boolean.TRUE, "typeof(java.lang.^annotation.RetentionPolicy).enum");
   }
 
   @Override
-  public void testShortCircuitBooleanExpression_04() throws Exception
-  {
-    // Ignore
-  }
-
-  @Override
-  public void testFunctionConversion_00() throws Exception
-  {
-    // Ignore
-  }
-
-  @Override
-  public void testMapConstruction_01() throws Exception
-  {
-    // Ignore
-  }
-
-  @Override
-  @Ignore
   @Test
   public void testArrays_01() throws Exception
   {
-    super.testReservedWordEnum();
+    try
+    {
+      super.testArrays_01();
+      fail("Expecting an exception; it must be working now.");
+    }
+    catch (Exception exception)
+    {
+      // Expecting it to fail right now.
+    }
   }
 
   @Override
-  @Ignore
   @Test
   public void testArrays_02() throws Exception
   {
-    super.testReservedWordEnum();
-  }
-
-  @Override
-  @Ignore
-  @Test
-  public void testReservedWordEnum() throws Exception
-  {
-    super.testReservedWordEnum();
-  }
-
-  @Override
-  @Ignore
-  @Test
-  public void testReservedWordInterface() throws Exception
-  {
-    super.testReservedWordInterface();
-  }
-
-  @Override
-  @Ignore
-  @Test
-  public void testReservedWordAnnotation() throws Exception
-  {
-    super.testReservedWordAnnotation();
-  }
-
-  @Override
-  @Ignore
-  @Test
-  public void testReservedWordClass() throws Exception
-  {
-    super.testReservedWordClass();
+    try
+    {
+      super.testArrays_02();
+      fail("Expecting an exception; it must be working now.");
+    }
+    catch (Exception exception)
+    {
+      // Expecting it to fail right now.
+    }
   }
 
   @Override
   @Test
-  @Ignore("Fails with old type system")
-  public void testBlock_02() throws Exception
+  public void testClosure_31() throws Exception
   {
-    // TODO Re-activate when we start using the new type system 
-    super.testBlock_02();
+    try
+    {
+      super.testClosure_31();
+
+      fail("Expecting an exception; it must be working now.");
+    }
+    catch (Exception exception)
+    {
+      // Expecting it to fail right now.
+    }
   }
 
   @Override
-  @Test
-  @Ignore("Fails with old type system")
-  public void testForLoop_16() throws Exception
+  public void testClosure_32() throws Exception
   {
-    // TODO Re-activate when we start using the new type system 
-    super.testForLoop_16();
-  }
+    try
+    {
+      super.testClosure_32();
 
-  @Override
-  @Test
-  @Ignore("Fails with old type system")
-  public void testSwitchExpression_24() throws Exception
-  {
-    // TODO Re-activate when we start using the new type system 
-    super.testSwitchExpression_24();
-  }
-
-  @Override
-  @Test
-  @Ignore("Fails with old type system")
-  public void testReduceWithPlusOperator() throws Exception
-  {
-    // TODO Re-activate when we start using the new type system 
-    super.testReduceWithPlusOperator();
-  }
-
-  @Override
-  @Test
-  @Ignore("Fails with old type system")
-  public void testCollectionExtensions_08() throws Exception
-  {
-    // TODO Re-activate when we start using the new type system 
-    super.testCollectionExtensions_08();
-  }
-
-  @Override
-  @Test
-  @Ignore("Fails with old type system")
-  public void testCollectionExtensions_10() throws Exception
-  {
-    // TODO Re-activate when we start using the new type system 
-    super.testCollectionExtensions_10();
-  }
-
-  @Override
-  @Test
-  @Ignore("Fails with old type system")
-  public void testExceptionInClosure_01() throws Exception
-  {
-    // TODO Re-activate when we start using the new type system 
-    super.testExceptionInClosure_01();
-  }
-
-  @Override
-  @Test
-  @Ignore("Fails with old type system")
-  public void testExceptionInClosure_02() throws Exception
-  {
-    // TODO Re-activate when we start using the new type system 
-    super.testExceptionInClosure_02();
-  }
-
-  @Override
-  @Test
-  @Ignore("Fails with old type system")
-  public void testExceptionInClosure_03() throws Exception
-  {
-    // TODO Re-activate when we start using the new type system 
-    super.testExceptionInClosure_03();
-  }
-
-  @Override
-  @Test
-  @Ignore("Fails with old type system")
-  public void testExceptionInClosure_04() throws Exception
-  {
-    // TODO Re-activate when we start using the new type system 
-    super.testExceptionInClosure_04();
+      fail("Expecting an exception; it must be working now.");
+    }
+    catch (Exception exception)
+    {
+      // Expecting it to fail right now.
+    }
   }
 }

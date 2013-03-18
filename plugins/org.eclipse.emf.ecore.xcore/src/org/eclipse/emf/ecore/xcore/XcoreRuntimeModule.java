@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionStrategy;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreScopeProvider;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnosticConverter;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnostician;
+import org.eclipse.emf.ecore.xcore.validation.XcoreResourceValidator;
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.conversion.impl.QualifiedNameValueConverter;
 import org.eclipse.xtext.generator.IGenerator;
@@ -41,6 +42,7 @@ import org.eclipse.xtext.serializer.ISerializer;
 import org.eclipse.xtext.serializer.impl.Serializer;
 import org.eclipse.xtext.service.SingletonBinding;
 import org.eclipse.xtext.validation.IDiagnosticConverter;
+import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.xbase.featurecalls.IdentifiableSimpleNameProvider;
 import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations;
 import org.eclipse.xtext.xbase.jvmmodel.ILogicalContainerProvider;
@@ -166,5 +168,11 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   public Class<? extends ImplicitlyImportedTypes> bindImplicitlyImportedTypes()
   {
     return XcoreImplicitlyImportedTypes.class;
+  }
+
+  @Override
+  public Class<? extends IResourceValidator> bindIResourceValidator()
+  {
+    return XcoreResourceValidator.class;
   }
 }

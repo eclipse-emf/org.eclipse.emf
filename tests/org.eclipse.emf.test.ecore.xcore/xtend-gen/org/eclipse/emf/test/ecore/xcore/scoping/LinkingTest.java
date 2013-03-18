@@ -177,8 +177,7 @@ public class LinkingTest {
       EList<XMember> _members = clazz.getMembers();
       XMember _head_1 = IterableExtensions.<XMember>head(_members);
       final XOperation operation = ((XOperation) _head_1);
-      XBlockExpression _body = operation.getBody();
-      final XBlockExpression block = ((XBlockExpression) _body);
+      final XBlockExpression block = operation.getBody();
       EList<XExpression> _expressions = block.getExpressions();
       XExpression _head_2 = IterableExtensions.<XExpression>head(_expressions);
       final XVariableDeclaration declaration = ((XVariableDeclaration) _head_2);
