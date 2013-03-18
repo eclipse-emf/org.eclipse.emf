@@ -513,13 +513,16 @@ public class ECrossReferenceAdapter implements Adapter.Internal
               if (entry.getValue() == notifier)
               {
                 i.remove();
-                EObject eObject = entry.getKey();
-                Collection<EStructuralFeature.Setting> settings = inverseCrossReferencer.get(eObject);
-                if (settings != null)
+                if (!resolve())
                 {
-                  for (EStructuralFeature.Setting setting : settings)
+                  EObject eObject = entry.getKey();
+                  Collection<EStructuralFeature.Setting> settings = inverseCrossReferencer.get(eObject);
+                  if (settings != null)
                   {
-                    inverseCrossReferencer.addProxy(eObject, setting.getEObject());
+                    for (EStructuralFeature.Setting setting : settings)
+                    {
+                      inverseCrossReferencer.addProxy(eObject, setting.getEObject());
+                    }
                   }
                 }
               }
