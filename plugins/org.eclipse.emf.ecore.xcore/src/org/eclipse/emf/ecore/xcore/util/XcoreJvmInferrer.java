@@ -295,7 +295,18 @@ public class XcoreJvmInferrer
           @Override
           protected void inferDeepStructure()
           {
-            inferredElement.getSuperTypes().add(getJvmTypeReference("org.eclipse.emf.ecore.util.Switch", genPackage));
+            final JvmTypeParameter typeParameter = TypesFactory.eINSTANCE.createJvmTypeParameter();
+            typeParameter.setName("T");
+            inferredElement.getTypeParameters().add(typeParameter);
+
+            JvmParameterizedTypeReference typeParameterReference = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+            typeParameterReference.setType(typeParameter);
+
+            JvmParameterizedTypeReference switchTypeReference = (JvmParameterizedTypeReference)getJvmTypeReference("org.eclipse.emf.ecore.util.Switch", genPackage);
+            switchTypeReference.getArguments().add(typeParameterReference);
+
+            inferredElement.getSuperTypes().add(switchTypeReference);
+
             EList<JvmMember> members = inferredElement.getMembers();
             for (final GenClass genClass : genPackage.getAllSwitchGenClasses())
             {
@@ -309,7 +320,10 @@ public class XcoreJvmInferrer
                     {
                       JvmOperation jvmOperation = TypesFactory.eINSTANCE.createJvmOperation();
                       jvmOperation.setVisibility(JvmVisibility.PUBLIC);
-                      jvmOperation.setReturnType(getJvmTypeReference("org.eclipse.emf.common.notify.Adapter", genClass));
+
+                      JvmParameterizedTypeReference typeParameterReference = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+                      typeParameterReference.setType(typeParameter);
+                      jvmOperation.setReturnType(typeParameterReference);
 
                       JvmFormalParameter jvmFormalParameter = createJvmFormalParameter(genClass, "object", getJvmTypeReference(genClass.getQualifiedInterfaceName(), genPackage));
                       jvmOperation.getParameters().add(jvmFormalParameter);
