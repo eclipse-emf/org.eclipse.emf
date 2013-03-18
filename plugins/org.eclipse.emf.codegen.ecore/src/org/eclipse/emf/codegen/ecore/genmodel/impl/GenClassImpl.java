@@ -963,27 +963,29 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         GenModel genModel = getGenModel();
         for (GenFeature genFeature : inheritedGenFeatures)
         {
-          if (genFeature.isSet() || 
-                genFeature.isBasicSet() && !genModel.isReflectiveDelegation() || 
-                genFeature.isGet() && 
-                  genFeature.isListType() && 
-                  !genModel.isDynamicDelegation() && 
-                  !genModel.isReflectiveDelegation() &&
-                  !genFeature.hasSettingDelegate() &&
-                  !genFeature.isVolatile())
+          if ((genFeature.isSet() || 
+                 genFeature.isBasicSet() && !genModel.isReflectiveDelegation() || 
+                 genFeature.isGet() && 
+                   genFeature.isListType() && 
+                   !genModel.isDynamicDelegation() && 
+                   !genModel.isReflectiveDelegation() &&
+                   !genFeature.hasSettingDelegate() &&
+                   !genFeature.isVolatile()) &&
+                isReifiedType(classExtendsGenClass, genFeature.getEcoreFeature().getEGenericType()))
           {
-            EGenericType eGenericType = genFeature.getEcoreFeature().getEGenericType();
-            String baseType = getTypeArgument(classExtendsGenClass, eGenericType, false, true);
-            String reifiedType = getTypeArgument(this, eGenericType, false, true);
-            if (!baseType.equals(reifiedType))
-            {
-              result.add(genFeature);
-            }
+            result.add(genFeature);
           }
         }
       }
     }
     return result;
+  }
+
+  public boolean isReifiedType(GenClass sourceContext, EGenericType eGenericType)
+  {
+    String baseType = getTypeArgument(sourceContext, eGenericType, false, true);
+    String reifiedType = getTypeArgument(this, eGenericType, false, true);
+    return !baseType.equals(reifiedType);
   }
 
   public List<GenFeature> getInheritedGenFeatures()
@@ -3283,6 +3285,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           sb.append(getOffsetCorrectionField(genFeature));
         }
         sb.append(")");
+        appendReifiedFeatureInverseOverride(sb, genFeature);
       }
       else
       {
@@ -3343,6 +3346,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           sb.append(getOffsetCorrectionField(genFeature));
         }
         sb.append(")");
+        appendReifiedFeatureInverseOverride(sb, genFeature);
       }
       else
       {
@@ -3394,6 +3398,20 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       sb.append(")");
     }
     return sb.toString();
+  }
+
+  private void appendReifiedFeatureInverseOverride(StringBuffer sb, GenFeature genFeature)
+  {
+    GenClass sourceGenClass = genFeature.getGenClass();
+    EGenericType eGenericType = genFeature.getEcoreFeature().getEGenericType();
+    if (isReifiedType(sourceGenClass, eGenericType))
+    {
+      sb.append(" { private static final long serialVersionUID = 1L; @Override public ");
+      sb.append(getGenModel().getImportedName("java.lang.Class"));
+      sb.append("<?> getInverseFeatureClass() { return ");
+      sb.append(getTypeArgument(sourceGenClass, eGenericType, true, true));
+      sb.append(".class; } }");
+    }
   }
 
   public boolean isModelRoot()
