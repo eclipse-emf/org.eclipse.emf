@@ -13,9 +13,11 @@ package org.eclipse.emf.ecore.change.util;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -222,6 +224,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
   {
     ChangeDescription changeDescription = getChangeDescription();
     List<EObject> orphanedObjects = changeDescription.getObjectsToAttach();
+    Set<Notifier> originalTargetObjects = new HashSet<Notifier>(this.originalTargetObjects);
     for (Object target : targetObjects)
     {
       if (target instanceof EObject)
