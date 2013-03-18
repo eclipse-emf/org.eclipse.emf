@@ -359,7 +359,7 @@ public class BasicEList<E> extends AbstractEList<E> implements RandomAccess, Clo
   @Override
   public E basicGet(int index)
   {
-    if (index >= size)
+    if (data == null || index >= size)
       throw new BasicIndexOutOfBoundsException(index, size);
 
     return primitiveGet(index);
