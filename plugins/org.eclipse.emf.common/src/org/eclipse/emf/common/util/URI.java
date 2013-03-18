@@ -868,8 +868,9 @@ public abstract class URI
         else
         {
           // At most each character could need encoding and that would triple the length.
+          // Even when not encoding, we still check for the ? and # and encode those.
           //
-          int maxEncodedLength = encode ? 3 * length : length;
+          int maxEncodedLength = 3 * length;
           if (characters.length <= maxEncodedLength)
           {
             // Leave room for one more character, i.e., the leading / that may need to be added.
@@ -931,88 +932,15 @@ public abstract class URI
           int hashCode = SEGMENT_SEPARATOR;
           int segmentHashCode = 0;
 
-          // If we're encoding...
+          // Iterate over all the characters...
           //
-          if (encode)
+          for (int i = 1; i < length; ++i)
           {
-            // Iterate over all the characters...
+            // If the character is one that needs encoding, including the path separators or special characters.
             //
-            for (int i = 1; i < length; ++i)
+            character = characters[i];
+            if (encode ? character < 160 && !URI.matches(character, SEGMENT_CHAR_HI, SEGMENT_CHAR_LO) : URI.matches(character, PLATFORM_SEGMENT_RESERVED_HI, PLATFORM_SEGMENT_RESERVED_LO))
             {
-              // If the character is one that needs encoding, including the path separators...
-              //
-              character = characters[i];
-              if (character < 160 && !URI.matches(character, SEGMENT_CHAR_HI, SEGMENT_CHAR_LO))
-              {
-                if (character == SEGMENT_SEPARATOR)
-                {
-                  // If it's a /, cache the segment hash code, and boundary, reset the segment hash code, and compose the complete hash code.
-                  //
-                  segmentHashCodes[segmentCount] = segmentHashCode;
-                  segmentBoundaries[segmentCount++] = i;
-                  segmentHashCode = 0;
-                  hashCode = 31 * hashCode + SEGMENT_SEPARATOR;
-                }
-                else if (character == separatorchar)
-                {
-                  // If it's a \, convert it to a /, cache the segment hash code, and boundary, reset the segment hash code, and compose the complete hash code, and indicate we've modified the original path.
-                  //
-                  characters[i] = SEGMENT_SEPARATOR;
-                  segmentHashCodes[segmentCount] = segmentHashCode;
-                  segmentBoundaries[segmentCount++] = i;
-                  segmentHashCode = 0;
-                  hashCode = 31 * hashCode + SEGMENT_SEPARATOR;
-                  isModified = true;
-                }
-                else
-                {
-                  // Escape the character.
-                  //
-                  isModified = true;
-
-                  // Shift the buffer to the right 3 characters.
-                  //
-                  System.arraycopy(characters, i + 1, characters, i + 3, length - i - 1);
-
-                  // Add a % and compose the segment hashCode and the complete hash code.
-                  //
-                  characters[i] = ESCAPE;
-                  hashCode = 31 * hashCode + ESCAPE;
-                  segmentHashCode = 31 * segmentHashCode + ESCAPE;
-
-                  // Add the first hex digit and compose the segment hashCode and the complete hash code.
-                  //
-                  char firstHexCharacter = characters[++i] = HEX_DIGITS[(character >> 4) & 0x0F];
-                  hashCode = 31 * hashCode + firstHexCharacter;
-                  segmentHashCode = 31 * segmentHashCode + firstHexCharacter;
-
-                  // Add the second hex digit and compose the segment hashCode and the complete hash code.
-                  //
-                  char secondHexCharacter = characters[++i] = HEX_DIGITS[character & 0x0F];
-                  hashCode = 31 * hashCode + secondHexCharacter;
-                  segmentHashCode = 31 * segmentHashCode + secondHexCharacter;
-
-                  // The length is two characters bigger than before.
-                  //
-                  length += 2;
-                }
-              }
-              else
-              {
-                // No encoding required, so just compose the segment hash code and the complete hash code.
-                //
-                hashCode = 31 * hashCode + character;
-                segmentHashCode = 31 * segmentHashCode + character;
-              }
-            }
-          }
-          else
-          {
-            // Don't encode any characters.
-            //
-            for (int i = 1; i < length; ++i)
-            {
-              character = characters[i];
               if (character == SEGMENT_SEPARATOR)
               {
                 // If it's a /, cache the segment hash code, and boundary, reset the segment hash code, and compose the complete hash code.
@@ -1035,11 +963,43 @@ public abstract class URI
               }
               else
               {
-                // No encoding required, so just compose the segment hash code and the complete hash code.
+                // Escape the character.
                 //
-                hashCode = 31 * hashCode + character;
-                segmentHashCode = 31 * segmentHashCode + character;
+                isModified = true;
+
+                // Shift the buffer to the right 3 characters.
+                //
+                System.arraycopy(characters, i + 1, characters, i + 3, length - i - 1);
+
+                // Add a % and compose the segment hashCode and the complete hash code.
+                //
+                characters[i] = ESCAPE;
+                hashCode = 31 * hashCode + ESCAPE;
+                segmentHashCode = 31 * segmentHashCode + ESCAPE;
+
+                // Add the first hex digit and compose the segment hashCode and the complete hash code.
+                //
+                char firstHexCharacter = characters[++i] = HEX_DIGITS[(character >> 4) & 0x0F];
+                hashCode = 31 * hashCode + firstHexCharacter;
+                segmentHashCode = 31 * segmentHashCode + firstHexCharacter;
+
+                // Add the second hex digit and compose the segment hashCode and the complete hash code.
+                //
+                char secondHexCharacter = characters[++i] = HEX_DIGITS[character & 0x0F];
+                hashCode = 31 * hashCode + secondHexCharacter;
+                segmentHashCode = 31 * segmentHashCode + secondHexCharacter;
+
+                // The length is two characters bigger than before.
+                //
+                length += 2;
               }
+            }
+            else
+            {
+              // No encoding required, so just compose the segment hash code and the complete hash code.
+              //
+              hashCode = 31 * hashCode + character;
+              segmentHashCode = 31 * segmentHashCode + character;
             }
           }
 
@@ -2195,6 +2155,8 @@ public abstract class URI
   protected static final long MAJOR_SEPARATOR_LO = lowBitmask(":/?#");
   protected static final long SEGMENT_END_HI = highBitmask("/?#");
   protected static final long SEGMENT_END_LO = lowBitmask("/?#");
+  protected static final long PLATFORM_SEGMENT_RESERVED_HI = highBitmask("/?#\\");
+  protected static final long PLATFORM_SEGMENT_RESERVED_LO = lowBitmask("/?#\\");
 
   // The intent of this was to switch over to encoding platform resource URIs
   // by default, but allow people to use a system property to avoid this.
