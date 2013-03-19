@@ -63,7 +63,7 @@ public class XcoreResource extends BatchLinkableResource
 
     public FragmentCache(XcoreResource xcoreResource)
     {
-      XcoreResource.this.eAdapters.add(this);
+      XcoreResource.this.eAdapters().add(this);
     }
 
     public EObject get(String uriFragment)

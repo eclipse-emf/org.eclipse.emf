@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xcore.XImportDirective;
@@ -495,10 +496,12 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
           DerivedStateAwareResource ecoreXcoreResource = (DerivedStateAwareResource)resourceSet.getResource(ECORE_XCORE_URI, false);
           if (ecoreXcoreResource == null)
           {
-            Resource genModelResource = resourceSet.getResource(ECORE_GEN_MODEL_URI, true);
+            final ResourceSet localResourceSet = new ResourceSetImpl();
+            localResourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
+            Resource genModelResource = localResourceSet.getResource(ECORE_GEN_MODEL_URI, true);
             final GenModel genModel = (GenModel)genModelResource.getContents().get(0);
             final EPackage ePackage = genModel.getGenPackages().get(0).getEcorePackage();
-            Resource ecoreResource = ePackage.eResource();
+
             final EcoreXcoreBuilder ecoreXcoreBuilder = ecoreXcoreBuilderProvider.get();
             ecoreXcoreBuilder.initialize(genModel);
             EcoreUtil.resolveAll(genModel);
@@ -528,9 +531,6 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
                    throw new UnsupportedOperationException();
                  }
                });
-
-            resourceSet.getResources().remove(genModelResource);
-            resourceSet.getResources().remove(ecoreResource);
           }
           eObject = ecoreXcoreResource.getEObject("/1/ecore/" + eDataType.getName());
         }

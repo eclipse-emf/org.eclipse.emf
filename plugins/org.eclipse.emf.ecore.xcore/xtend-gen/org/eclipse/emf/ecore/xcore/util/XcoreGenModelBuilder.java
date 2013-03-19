@@ -312,7 +312,7 @@ public class XcoreGenModelBuilder {
           Resource _eResource = genModel.eResource();
           ResourceSet _resourceSet = _eResource.getResourceSet();
           final EList<Resource> resources = _resourceSet.getResources();
-          i = 0;
+          i = 1;
           boolean found = false;
           boolean _and = false;
           int _size_1 = resources.size();
@@ -327,30 +327,41 @@ public class XcoreGenModelBuilder {
           while (_while_1) {
             {
               final Resource resource = resources.get(i);
-              boolean _and_1 = false;
-              URI _uRI = resource.getURI();
-              String _fileExtension = _uRI.fileExtension();
-              boolean _equals_2 = "genmodel".equals(_fileExtension);
-              if (!_equals_2) {
-                _and_1 = false;
-              } else {
-                EList<EObject> _contents = resource.getContents();
-                boolean _isEmpty = _contents.isEmpty();
-                boolean _not_1 = (!_isEmpty);
-                _and_1 = (_equals_2 && _not_1);
-              }
-              if (_and_1) {
-                EList<EObject> _contents_1 = resource.getContents();
-                EObject _get = _contents_1.get(0);
-                final GenModel usedGenModel = ((GenModel) _get);
-                usedGenModel.reconcile();
-                GenPackage _findGenPackage_1 = usedGenModel.findGenPackage(referencedEPackage);
-                usedGenPackage = _findGenPackage_1;
-                boolean _notEquals_1 = (!Objects.equal(usedGenPackage, null));
-                if (_notEquals_1) {
-                  EList<GenPackage> _usedGenPackages_1 = genModel.getUsedGenPackages();
-                  _usedGenPackages_1.add(usedGenPackage);
-                  found = true;
+              final EList<EObject> contents = resource.getContents();
+              boolean _isEmpty = contents.isEmpty();
+              boolean _not_1 = (!_isEmpty);
+              if (_not_1) {
+                URI _uRI = resource.getURI();
+                final String fileExtension = _uRI.fileExtension();
+                boolean _equals_2 = "xcore".equals(fileExtension);
+                if (_equals_2) {
+                  EList<EObject> _contents = resource.getContents();
+                  EObject _get = _contents.get(1);
+                  final GenModel usedGenModel = ((GenModel) _get);
+                  GenPackage _findGenPackage_1 = usedGenModel.findGenPackage(referencedEPackage);
+                  usedGenPackage = _findGenPackage_1;
+                  boolean _notEquals_1 = (!Objects.equal(usedGenPackage, null));
+                  if (_notEquals_1) {
+                    EList<GenPackage> _usedGenPackages_1 = genModel.getUsedGenPackages();
+                    _usedGenPackages_1.add(usedGenPackage);
+                    found = true;
+                  }
+                } else {
+                  boolean _equals_3 = "genmodel".equals(fileExtension);
+                  if (_equals_3) {
+                    EList<EObject> _contents_1 = resource.getContents();
+                    EObject _get_1 = _contents_1.get(0);
+                    final GenModel usedGenModel_1 = ((GenModel) _get_1);
+                    usedGenModel_1.reconcile();
+                    GenPackage _findGenPackage_2 = usedGenModel_1.findGenPackage(referencedEPackage);
+                    usedGenPackage = _findGenPackage_2;
+                    boolean _notEquals_2 = (!Objects.equal(usedGenPackage, null));
+                    if (_notEquals_2) {
+                      EList<GenPackage> _usedGenPackages_2 = genModel.getUsedGenPackages();
+                      _usedGenPackages_2.add(usedGenPackage);
+                      found = true;
+                    }
+                  }
                 }
               }
               int _plus = (i + 1);
