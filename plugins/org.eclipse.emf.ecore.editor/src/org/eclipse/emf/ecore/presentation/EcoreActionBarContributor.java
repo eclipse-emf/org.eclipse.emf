@@ -112,7 +112,7 @@ public class EcoreActionBarContributor
       return new MenuManager(EcoreEditorPlugin.getPlugin().getString("_UI_ReflectiveEditor_menu"), "org.eclipse.emf.ecoreMenuID");
     }
   }
-  
+
   public static class ExtendedLoadResourceAction extends LoadResourceAction
   {
     @Override
@@ -122,19 +122,19 @@ public class EcoreActionBarContributor
       ExtendedLoadResourceDialog loadResourceDialog =
         new ExtendedLoadResourceDialog
           (shell, domain);
-    
+
       if (loadResourceDialog.open() == Window.OK && !loadResourceDialog.getRegisteredPackages().isEmpty())
       {
         String source = EcoreEditorPlugin.INSTANCE.getSymbolicName();
-        BasicDiagnostic diagnosic = 
+        BasicDiagnostic diagnosic =
           new BasicDiagnostic(Diagnostic.INFO, source, 0, EcoreEditorPlugin.INSTANCE.getString("_UI_RuntimePackageDetail_message"), null);
         for (EPackage ePackage : loadResourceDialog.getRegisteredPackages())
         {
           diagnosic.add(new BasicDiagnostic(Diagnostic.INFO, source, 0, ePackage.getNsURI(), null));
         }
         new DiagnosticDialog
-         (shell, 
-          EcoreEditorPlugin.INSTANCE.getString("_UI_Information_title"), 
+         (shell,
+          EcoreEditorPlugin.INSTANCE.getString("_UI_Information_title"),
           EcoreEditorPlugin.INSTANCE.getString("_UI_RuntimePackageHeader_message"),
           diagnosic,
           Diagnostic.INFO).open();
@@ -149,7 +149,7 @@ public class EcoreActionBarContributor
       {
         super(parent, domain);
       }
-      
+
       @Override
       protected boolean processResource(Resource resource)
       {
@@ -176,17 +176,17 @@ public class EcoreActionBarContributor
       protected Collection<EPackage> getAllPackages(Resource resource)
       {
         List<EPackage> result = new ArrayList<EPackage>();
-        for (TreeIterator<?> j = 
+        for (TreeIterator<?> j =
                new EcoreUtil.ContentTreeIterator<Object>(resource.getContents())
                {
                  private static final long serialVersionUID = 1L;
-  
+
                  @Override
                  protected Iterator<? extends EObject> getEObjectChildren(EObject eObject)
                  {
-                   return 
-                     eObject instanceof EPackage ? 
-                       ((EPackage)eObject).getESubpackages().iterator() : 
+                   return
+                     eObject instanceof EPackage ?
+                       ((EPackage)eObject).getESubpackages().iterator() :
                          Collections.<EObject>emptyList().iterator();
                  }
                };
@@ -225,7 +225,7 @@ public class EcoreActionBarContributor
           data.right = new FormAttachment(browseRegisteredPackagesButton, -CONTROL_OFFSET);
           browseTargetPlatformPackagesButton.setLayoutData(data);
         }
-        
+
         return composite;
       }
 
@@ -247,12 +247,11 @@ public class EcoreActionBarContributor
                {
                  List<?> nsURIs = Arrays.asList(result);
                  ResourceSet resourceSet = new ResourceSetImpl();
-                 // resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(domain.getResourceSet().getResources().get(0).getURI()));
                  resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
 
                  // To support Xcore resources, we need a resource with a URI that helps determine the containing project
                  //
-                 Resource dummyResource = resourceSet.createResource(domain.getResourceSet().getResources().get(0).getURI());
+                 Resource dummyResource = domain == null ? null : resourceSet.createResource(domain.getResourceSet().getResources().get(0).getURI());
 
                  StringBuffer uris = new StringBuffer();
                  Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true);
@@ -305,7 +304,7 @@ public class EcoreActionBarContributor
 
                    // To support Xcore resources, we need a resource with a URI that helps determine the containing project
                    //
-                   Resource dummyResource = resourceSet.createResource(domain.getResourceSet().getResources().get(0).getURI());
+                   Resource dummyResource = domain == null ? null : resourceSet.createResource(domain.getResourceSet().getResources().get(0).getURI());
 
                    StringBuffer uris = new StringBuffer();
                    Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(false);
@@ -345,7 +344,7 @@ public class EcoreActionBarContributor
                  }
                }
              }
-           });      
+           });
       }
     }
 
@@ -357,7 +356,7 @@ public class EcoreActionBarContributor
       public TargetPlatformPackageDialog(Shell parent)
       {
         super
-          (parent, 
+          (parent,
            new LabelProvider()
            {
              @Override
@@ -366,7 +365,7 @@ public class EcoreActionBarContributor
                return ExtendedImageRegistry.getInstance().getImage(EcoreEditPlugin.INSTANCE.getImage("full/obj16/EPackage"));
              }
            });
-        
+
         setMultipleSelection(true);
         setMessage(EcoreEditorPlugin.INSTANCE.getString("_UI_SelectRegisteredPackageURI"));
         setFilter("*");
@@ -397,7 +396,7 @@ public class EcoreActionBarContributor
       public RegisteredPackageDialog(Shell parent)
       {
         super
-          (parent, 
+          (parent,
            new LabelProvider()
            {
              @Override
@@ -406,18 +405,18 @@ public class EcoreActionBarContributor
                return ExtendedImageRegistry.getInstance().getImage(EcoreEditPlugin.INSTANCE.getImage("full/obj16/EPackage"));
              }
            });
-        
+
         setMultipleSelection(true);
         setMessage(EcoreEditorPlugin.INSTANCE.getString("_UI_SelectRegisteredPackageURI"));
         setFilter("*");
         setTitle(EcoreEditorPlugin.INSTANCE.getString("_UI_PackageSelection_label"));
       }
-      
+
       public boolean isDevelopmentTimeVersion()
       {
         return isDevelopmentTimeVersion;
       }
-      
+
       protected void updateElements()
       {
         if (isDevelopmentTimeVersion)
@@ -445,7 +444,7 @@ public class EcoreActionBarContributor
         buttonGroup.setLayout(layout);
         final Button developmentTimeVersionButton = new Button(buttonGroup, SWT.RADIO);
         developmentTimeVersionButton.addSelectionListener
-          (new SelectionAdapter() 
+          (new SelectionAdapter()
            {
              @Override
              public void widgetSelected(SelectionEvent event)
@@ -570,8 +569,8 @@ public class EcoreActionBarContributor
   protected IMenuManager createSiblingMenuManager;
 
   protected SelectionChangedEvent lastSelectionChangedEvent;
-  
-  protected ViewerFilterAction showGenericsAction = 
+
+  protected ViewerFilterAction showGenericsAction =
     new ViewerFilterAction(EcoreEditorPlugin.INSTANCE.getString("_UI_ShowGenerics_menu_item"), IAction.AS_CHECK_BOX)
     {
       @Override
@@ -580,19 +579,19 @@ public class EcoreActionBarContributor
         super.refreshViewers();
         if (lastSelectionChangedEvent != null && activeEditorPart instanceof EcoreEditor)
         {
-          selectionChanged(lastSelectionChangedEvent); 
+          selectionChanged(lastSelectionChangedEvent);
         }
       }
-      
+
       @Override
       public boolean select(Viewer viewer, Object parentElement, Object element)
       {
         return isChecked() ||
-         !(element instanceof ETypeParameter || 
+         !(element instanceof ETypeParameter ||
            element instanceof EGenericType);
-      }    
+      }
     };
-  
+
   /**
    * This creates an instance of the contributor.
    * <!-- begin-user-doc -->
@@ -606,11 +605,11 @@ public class EcoreActionBarContributor
     liveValidationAction = new DiagnosticDecorator.LiveValidator.LiveValidationAction(EcoreEditorPlugin.getPlugin().getDialogSettings());
     validateAction = new ValidateAction();
     controlAction = new ControlAction();
-    
+
     showGenericsAction.setChecked
-      (Boolean.parseBoolean(EcoreEditorPlugin.getPlugin().getDialogSettings().get("showGenericsAction")));    
+      (Boolean.parseBoolean(EcoreEditorPlugin.getPlugin().getDialogSettings().get("showGenericsAction")));
   }
-  
+
   public void showGenerics(boolean isChecked)
   {
     if (showGenericsAction != null)
@@ -624,7 +623,7 @@ public class EcoreActionBarContributor
   {
     EcoreEditorPlugin.getPlugin().getDialogSettings().put(
       "showGenericsAction", Boolean.toString(showGenericsAction.isChecked()));
-    
+
     super.dispose();
   }
 
@@ -670,7 +669,7 @@ public class EcoreActionBarContributor
     //
     createSiblingMenuManager = new MenuManager(EcoreEditorPlugin.getPlugin().getString("_UI_CreateSibling_menu_item"));
     submenuManager.insertBefore("additions", createSiblingMenuManager);
-    
+
     // Force an update because Eclipse hides empty menus now.
     //
     submenuManager.addMenuListener
@@ -725,12 +724,12 @@ public class EcoreActionBarContributor
       }
     }
   }
-  
+
   @Override
   public void setActiveEditor(IEditorPart part)
   {
     setActiveEditorGen(part);
-    
+
     if (part instanceof EcoreEditor)
     {
       showGenericsAction.addViewer(((EcoreEditor)part).getViewer());
@@ -739,7 +738,7 @@ public class EcoreActionBarContributor
     else
     {
       showGenericsAction.setEnabled(false);
-    }    
+    }
   }
 
   /**
@@ -795,7 +794,7 @@ public class EcoreActionBarContributor
       createSiblingMenuManager.update(true);
     }
   }
-  
+
   public void selectionChanged(SelectionChangedEvent event)
   {
     lastSelectionChangedEvent = event;
@@ -862,7 +861,7 @@ public class EcoreActionBarContributor
   {
     return feature == EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES ||
       feature == EcorePackage.Literals.ECLASSIFIER__ETYPE_PARAMETERS ||
-      feature == EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS || 
+      feature == EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS ||
       feature == EcorePackage.Literals.EOPERATION__ETYPE_PARAMETERS ||
       feature == EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE;
   }
@@ -893,7 +892,7 @@ public class EcoreActionBarContributor
       }
     }
   }
-    
+
   /**
    * This removes from the specified <code>manager</code> all {@link org.eclipse.jface.action.ActionContributionItem}s
    * based on the {@link org.eclipse.jface.action.IAction}s contained in the <code>actions</code> collection.
