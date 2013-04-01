@@ -1551,7 +1551,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       String emitterResult = CodeGenUtil.unicodeEscapeEncode(jetEmitter.generate(createMonitor(monitor, 1), arguments, getLineDelimiter()));
       byte[] bytes = emitterResult.toString().getBytes(PROPERTIES_ENCODING);
 
-      if (exists(targetFile))
+      if (shouldMerge(targetFile) && exists(targetFile))
       {
         // Merge with an existing file.
         //
@@ -1715,6 +1715,19 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   }
 
   /**
+   * Whether {@link #generateJava(String, String, String, JETEmitter, Object[], Monitor) generateJava) or
+   * {@link #generateProperties(String, JETEmitter, Object[], Monitor) generateProperties}
+   * should merge the newly generated contents with the existing contents 
+   * or should simply overwrite the old contents.
+   * This implementation always returns true.
+   * @since 2.9
+   */
+  protected boolean shouldMerge(URI workspacePath)
+  {
+    return true;
+  }
+
+  /**
    * Generates a Java source file using JET, with {@link org.eclipse.emf.codegen.util.ImportManager import management}
    * and, when running under Eclipse, {@link org.eclipse.emf.codegen.merge.java.JMerger merging} and
    * {@link org.eclipse.jdt.core.formatter.CodeFormatter code formatting} capabilities.
@@ -1779,7 +1792,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       createImportManager(packageName, className);
       String targetFileContents = null;
       String targetFileEncoding = getEncoding(targetFile);
-      if (exists(targetFile) && jMerger != null)
+      if (shouldMerge(targetFile) && exists(targetFile) && jMerger != null)
       {
         // Prime the import manager with the existing imports of the target.
         //

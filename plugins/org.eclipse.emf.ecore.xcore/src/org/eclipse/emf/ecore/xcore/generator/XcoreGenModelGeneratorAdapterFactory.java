@@ -77,6 +77,26 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
     return isDefaultOutput;
   }
 
+  private boolean shouldMerge(URI workspacePath)
+  {
+    if (isDefaultOutput())
+    {
+      int segmentCount = modelDirectory.segmentCount() - 1;
+      if (workspacePath.segmentCount() > segmentCount)
+      {
+        for (int i = 0; i < segmentCount; ++i)
+        {
+          if (!workspacePath.segment(i).equals(modelDirectory.segment(i)))
+          {
+            return true;
+          }
+        }
+        return false;
+      }
+    }
+    return true;
+  }
+
   protected OutputStream createOutputStream(URI workspacePath)
   {
     if (!isDefaultOutput())
@@ -142,6 +162,12 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
             inputStreamRequest(workspacePath);
             return super.createInputStream(workspacePath);
           }
+
+          @Override
+          protected boolean shouldMerge(URI workspacePath)
+          {
+            return XcoreGenModelGeneratorAdapterFactory.this.shouldMerge(workspacePath);
+          }
         };
     }
     return genModelGeneratorAdapter;
@@ -170,6 +196,12 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
           {
             inputStreamRequest(workspacePath);
             return super.createInputStream(workspacePath);
+          }
+
+          @Override
+          protected boolean shouldMerge(URI workspacePath)
+          {
+            return XcoreGenModelGeneratorAdapterFactory.this.shouldMerge(workspacePath);
           }
         };
     }
@@ -200,6 +232,12 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
             inputStreamRequest(workspacePath);
             return super.createInputStream(workspacePath);
           }
+
+          @Override
+          protected boolean shouldMerge(URI workspacePath)
+          {
+            return XcoreGenModelGeneratorAdapterFactory.this.shouldMerge(workspacePath);
+          }
         };
     }
     return genClassGeneratorAdapter;
@@ -228,6 +266,12 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
           {
             inputStreamRequest(workspacePath);
             return super.createInputStream(workspacePath);
+          }
+
+          @Override
+          protected boolean shouldMerge(URI workspacePath)
+          {
+            return XcoreGenModelGeneratorAdapterFactory.this.shouldMerge(workspacePath);
           }
         };
     }
