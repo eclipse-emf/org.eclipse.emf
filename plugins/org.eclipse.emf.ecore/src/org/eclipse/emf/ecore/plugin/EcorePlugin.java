@@ -294,7 +294,7 @@ public class EcorePlugin  extends EMFPlugin
    * This allows each plugin to be {@link org.eclipse.emf.ecore.resource.URIConverter#getURIMap() treated} 
    * as if it were a project in the workspace.
    * If the workspace or {@link #getPlatformResourceMap() platform resource map} already contains a project for the plugin location, no such mapping is produced.
-   * In addition, when running stand alone with {@link ExtensionProcessor#process(ClassLoader) extension processing} enabled,
+   * In addition, when running stand alone and after invoking {@link ExtensionProcessor#process(ClassLoader) extension processing},
    * mappings from <code>platform:/plugin/&lt;plugin-id>/</code> to the physical location of the plugin's archive or root folder are produced.
    * This allows the URIs to be loaded from their proper physical location.
    * @param uris a collections of {@link URI}s.
@@ -663,7 +663,7 @@ public class EcorePlugin  extends EMFPlugin
      * This explicitly triggers processing of all plugin.xml registered extensions.
      * It does nothing if invoked in the context of an Eclipse application as processing of extensions happens implicitly during {@link Implementation#start(BundleContext) bundle activation}.
      * As such this method is useful only in non-Eclipse applications to ensure that plugin.xml registrations are processed just as they are in an Eclipse application.
-     * The exploit this mechanism, the classpath of the application must minimally include <code>org.eclipse.equinox.common</code>, <code>org.eclispe.equinox.registry</code>, and <code>org.eclipse.osgi</code>
+     * The exploit this mechanism, the classpath of the application must minimally include <code>org.eclipse.equinox.common</code>, <code>org.eclipse.equinox.registry</code>, and <code>org.eclipse.osgi</code>
      * <p>
      * This method creates a registry if {@link RegistryFactory#getRegistry() one does not already exist}.
      * It will first consider all entries on the classpath as provided by {@link System#getProperty(String) System.getProperty("java.class.path")}
