@@ -60,15 +60,15 @@ public class BasicInternalEList<E> extends BasicEList<E> implements InternalELis
     }
   }
 
-  protected final Class<? extends E> dataClass;
+  protected final Class<?> dataClass;
 
-  public BasicInternalEList(Class<? extends E> dataClass)
+  public BasicInternalEList(Class<?> dataClass)
   {
     super();
     this.dataClass = dataClass;
   }
 
-  public BasicInternalEList(Class<? extends E> dataClass, int initialCapacity)
+  public BasicInternalEList(Class<?> dataClass, int initialCapacity)
   {
     super();
     this.dataClass = dataClass;
@@ -81,7 +81,7 @@ public class BasicInternalEList<E> extends BasicEList<E> implements InternalELis
     data = newData(initialCapacity);
   }
 
-  public BasicInternalEList(Class<? extends E> dataClass, Collection<? extends E> collection)
+  public BasicInternalEList(Class<?> dataClass, Collection<? extends E> collection)
   {
     super();
     this.dataClass = dataClass;
@@ -98,7 +98,7 @@ public class BasicInternalEList<E> extends BasicEList<E> implements InternalELis
     }
   }
 
-  public BasicInternalEList(Class<? extends E> dataClass, int size, Object[] data)
+  public BasicInternalEList(Class<?> dataClass, int size, Object[] data)
   {
     super(size, data);
     this.dataClass = dataClass;
