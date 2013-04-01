@@ -15,16 +15,14 @@ import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter
 import org.eclipse.emf.common.util.BasicMonitor
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.emf.ecore.xcore.XClass
 import org.eclipse.emf.ecore.xcore.XDataType
-import org.eclipse.emf.ecore.xcore.XOperation
 import org.eclipse.emf.ecore.xcore.XPackage
-import org.eclipse.emf.ecore.xcore.XStructuralFeature
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler
 
-import static extension org.eclipse.emf.ecore.xcore.XcoreExtensions.*
 import java.util.Collections
 
 class XcoreGenerator implements IGenerator {
@@ -40,52 +38,57 @@ class XcoreGenerator implements IGenerator {
 
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		val pack = resource.contents.head as XPackage
-		// install operation bodies
-		for (op : pack.allContentsIterable.filter(typeof(XOperation))) {
-			val eOperation = op.mapping.EOperation
-			val body = op.body
-			if (body != null)
-			{
-				val jvmOperation = mappings.getMapping(op).jvmOperation
-				if (jvmOperation != null)
-				{
+		for (xClassifier : pack.classifiers) {
+			if (xClassifier instanceof XDataType) {
+				val xDataType = xClassifier as XDataType;
+				val eDataType = xDataType.mapping.eDataType
+				val createBody = xDataType.createBody
+				val creator = xDataType.mapping.creator
+				if (createBody != null && creator != null) {
 					val appendable = createAppendable
-					appendable.declareVariable(jvmOperation, "this")
-					compiler.compile(body, appendable, jvmOperation.returnType, Collections::emptySet)
-					EcoreUtil::setAnnotation(eOperation, GenModelPackage::eNS_URI, "body", extractBody(appendable.toString))
+					appendable.declareVariable(creator.parameters.get(0), "it")
+					compiler.compile(createBody, appendable, creator.returnType, Collections::emptySet)
+					EcoreUtil::setAnnotation(eDataType, GenModelPackage::eNS_URI, "create", extractBody(appendable.toString))
+				}
+				val convertBody = xDataType.convertBody
+				val converter = xDataType.mapping.converter
+				if (convertBody != null && converter != null) {
+					val appendable = createAppendable
+					appendable.declareVariable(converter.parameters.get(0), "it")
+					compiler.compile(convertBody, appendable, converter.returnType, Collections::emptySet)
+					EcoreUtil::setAnnotation(eDataType, GenModelPackage::eNS_URI, "convert", extractBody(appendable.toString))
 				}
 			}
-		}
-		// install feature accessors
-		for (feature : pack.allContentsIterable.filter(typeof(XStructuralFeature))) {
-			val eStructuralFeature = feature.mapping.EStructuralFeature
-			val getBody = feature.getBody
-			if (getBody != null) {
-				val getter = mappings.getMapping(feature).getter
-				val appendable = createAppendable
-				appendable.declareVariable(getter.declaringType, "this")
-				compiler.compile(getBody, appendable, getter.returnType, Collections::emptySet)
-				EcoreUtil::setAnnotation(eStructuralFeature, GenModelPackage::eNS_URI, "get", extractBody(appendable.toString))
-			}
-		}
-		// install data type converters
-		for (dataType : pack.allContentsIterable.filter(typeof(XDataType))) {
-			val eDataType = dataType.mapping.EDataType
-			val createBody = dataType.createBody
-			val creator = dataType.mapping.creator
-			if (createBody != null && creator != null) {
-				val appendable = createAppendable
-				appendable.declareVariable(creator.parameters.get(0), "it")
-				compiler.compile(createBody, appendable, creator.returnType, Collections::emptySet)
-				EcoreUtil::setAnnotation(eDataType, GenModelPackage::eNS_URI, "create", extractBody(appendable.toString))
-			}
-			val convertBody = dataType.convertBody
-			val converter = dataType.mapping.converter
-			if (convertBody != null && converter != null) {
-				val appendable = createAppendable
-				appendable.declareVariable(converter.parameters.get(0), "it")
-				compiler.compile(convertBody, appendable, converter.returnType, Collections::emptySet)
-				EcoreUtil::setAnnotation(eDataType, GenModelPackage::eNS_URI, "convert", extractBody(appendable.toString))
+			else {
+				val xClass = xClassifier as XClass;
+				val eClass = xClass.mapping.EClass;
+				for (eStructuralFeature : eClass.eAllStructuralFeatures) {
+					val xFeature = mappings.getXFeature(eStructuralFeature);
+					if (xFeature != null) {
+						val getBody = xFeature.getBody
+						if (getBody != null) {
+							val getter = mappings.getMapping(xFeature).getter
+							val appendable = createAppendable
+							appendable.declareVariable(getter.declaringType, "this")
+							compiler.compile(getBody, appendable, getter.returnType, Collections::emptySet)
+							EcoreUtil::setAnnotation(eStructuralFeature, GenModelPackage::eNS_URI, "get", extractBody(appendable.toString)) }
+					}
+				}
+				for (eOperation : eClass.eAllOperations) {
+					val xOperation = mappings.getXOperation(eOperation);
+					if (xOperation != null) {
+						val body = xOperation.body
+						if (body != null) {
+							val jvmOperation = mappings.getMapping(xOperation).jvmOperation
+							if (jvmOperation != null) {
+								val appendable = createAppendable
+								appendable.declareVariable(jvmOperation, "this")
+								compiler.compile(body, appendable, jvmOperation.returnType, Collections::emptySet)
+								EcoreUtil::setAnnotation(eOperation, GenModelPackage::eNS_URI, "body", extractBody(appendable.toString))
+							}
+						}
+					}
+				}
 			}
 		}
 
