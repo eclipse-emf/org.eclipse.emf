@@ -38,6 +38,7 @@ class XcoreGenerator implements IGenerator {
 
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		val pack = resource.contents.head as XPackage
+		val processed = newHashSet();
 		for (xClassifier : pack.classifiers) {
 			if (xClassifier instanceof XDataType) {
 				val xDataType = xClassifier as XDataType;
@@ -63,28 +64,32 @@ class XcoreGenerator implements IGenerator {
 				val xClass = xClassifier as XClass;
 				val eClass = xClass.mapping.EClass;
 				for (eStructuralFeature : eClass.eAllStructuralFeatures) {
-					val xFeature = mappings.getXFeature(eStructuralFeature);
-					if (xFeature != null) {
-						val getBody = xFeature.getBody
-						if (getBody != null) {
-							val getter = mappings.getMapping(xFeature).getter
-							val appendable = createAppendable
-							appendable.declareVariable(getter.declaringType, "this")
-							compiler.compile(getBody, appendable, getter.returnType, Collections::emptySet)
-							EcoreUtil::setAnnotation(eStructuralFeature, GenModelPackage::eNS_URI, "get", extractBody(appendable.toString)) }
+					if (processed.add(eStructuralFeature)) {
+						val xFeature = mappings.getXFeature(eStructuralFeature);
+						if (xFeature != null) {
+							val getBody = xFeature.getBody
+							if (getBody != null) {
+								val getter = mappings.getMapping(xFeature).getter
+								val appendable = createAppendable
+								appendable.declareVariable(getter.declaringType, "this")
+								compiler.compile(getBody, appendable, getter.returnType, Collections::emptySet)
+								EcoreUtil::setAnnotation(eStructuralFeature, GenModelPackage::eNS_URI, "get", extractBody(appendable.toString)) }
+						}
 					}
 				}
 				for (eOperation : eClass.eAllOperations) {
-					val xOperation = mappings.getXOperation(eOperation);
-					if (xOperation != null) {
-						val body = xOperation.body
-						if (body != null) {
-							val jvmOperation = mappings.getMapping(xOperation).jvmOperation
-							if (jvmOperation != null) {
-								val appendable = createAppendable
-								appendable.declareVariable(jvmOperation, "this")
-								compiler.compile(body, appendable, jvmOperation.returnType, Collections::emptySet)
-								EcoreUtil::setAnnotation(eOperation, GenModelPackage::eNS_URI, "body", extractBody(appendable.toString))
+					if (processed.add(eOperation)) {
+						val xOperation = mappings.getXOperation(eOperation);
+						if (xOperation != null) {
+							val body = xOperation.body
+							if (body != null) {
+								val jvmOperation = mappings.getMapping(xOperation).jvmOperation
+								if (jvmOperation != null) {
+									val appendable = createAppendable
+									appendable.declareVariable(jvmOperation, "this")
+									compiler.compile(body, appendable, jvmOperation.returnType, Collections::emptySet)
+									EcoreUtil::setAnnotation(eOperation, GenModelPackage::eNS_URI, "body", extractBody(appendable.toString))
+								}
 							}
 						}
 					}

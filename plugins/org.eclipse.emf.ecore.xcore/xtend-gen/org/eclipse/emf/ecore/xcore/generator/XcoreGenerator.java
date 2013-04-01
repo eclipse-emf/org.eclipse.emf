@@ -12,6 +12,7 @@ import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -24,6 +25,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XClass;
@@ -47,6 +49,7 @@ import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.xbase.XBlockExpression;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
+import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 
@@ -66,6 +69,7 @@ public class XcoreGenerator implements IGenerator {
     EList<EObject> _contents = resource.getContents();
     EObject _head = IterableExtensions.<EObject>head(_contents);
     final XPackage pack = ((XPackage) _head);
+    final HashSet<ETypedElement> processed = CollectionLiterals.<ETypedElement>newHashSet();
     EList<XClassifier> _classifiers = pack.getClassifiers();
     for (final XClassifier xClassifier : _classifiers) {
       if ((xClassifier instanceof XDataType)) {
@@ -124,7 +128,8 @@ public class XcoreGenerator implements IGenerator {
         final EClass eClass = _mapping_3.getEClass();
         EList<EStructuralFeature> _eAllStructuralFeatures = eClass.getEAllStructuralFeatures();
         for (final EStructuralFeature eStructuralFeature : _eAllStructuralFeatures) {
-          {
+          boolean _add = processed.add(eStructuralFeature);
+          if (_add) {
             final XStructuralFeature xFeature = this.mappings.getXFeature(eStructuralFeature);
             boolean _notEquals_4 = (!Objects.equal(xFeature, null));
             if (_notEquals_4) {
@@ -148,25 +153,26 @@ public class XcoreGenerator implements IGenerator {
         }
         EList<EOperation> _eAllOperations = eClass.getEAllOperations();
         for (final EOperation eOperation : _eAllOperations) {
-          {
+          boolean _add_1 = processed.add(eOperation);
+          if (_add_1) {
             final XOperation xOperation = this.mappings.getXOperation(eOperation);
-            boolean _notEquals_4 = (!Objects.equal(xOperation, null));
-            if (_notEquals_4) {
+            boolean _notEquals_6 = (!Objects.equal(xOperation, null));
+            if (_notEquals_6) {
               final XBlockExpression body = xOperation.getBody();
-              boolean _notEquals_5 = (!Objects.equal(body, null));
-              if (_notEquals_5) {
-                XOperationMapping _mapping_4 = this.mappings.getMapping(xOperation);
-                final JvmOperation jvmOperation = _mapping_4.getJvmOperation();
-                boolean _notEquals_6 = (!Objects.equal(jvmOperation, null));
-                if (_notEquals_6) {
-                  final XcoreAppendable appendable_2 = this.createAppendable();
-                  appendable_2.declareVariable(jvmOperation, "this");
-                  JvmTypeReference _returnType_2 = jvmOperation.getReturnType();
-                  Set<JvmTypeReference> _emptySet_2 = Collections.<JvmTypeReference>emptySet();
-                  this.compiler.compile(body, appendable_2, _returnType_2, _emptySet_2);
-                  String _string_2 = appendable_2.toString();
-                  String _extractBody_2 = this.extractBody(_string_2);
-                  EcoreUtil.setAnnotation(eOperation, GenModelPackage.eNS_URI, "body", _extractBody_2);
+              boolean _notEquals_7 = (!Objects.equal(body, null));
+              if (_notEquals_7) {
+                XOperationMapping _mapping_5 = this.mappings.getMapping(xOperation);
+                final JvmOperation jvmOperation = _mapping_5.getJvmOperation();
+                boolean _notEquals_8 = (!Objects.equal(jvmOperation, null));
+                if (_notEquals_8) {
+                  final XcoreAppendable appendable_3 = this.createAppendable();
+                  appendable_3.declareVariable(jvmOperation, "this");
+                  JvmTypeReference _returnType_3 = jvmOperation.getReturnType();
+                  Set<JvmTypeReference> _emptySet_3 = Collections.<JvmTypeReference>emptySet();
+                  this.compiler.compile(body, appendable_3, _returnType_3, _emptySet_3);
+                  String _string_3 = appendable_3.toString();
+                  String _extractBody_3 = this.extractBody(_string_3);
+                  EcoreUtil.setAnnotation(eOperation, GenModelPackage.eNS_URI, "body", _extractBody_3);
                 }
               }
             }
