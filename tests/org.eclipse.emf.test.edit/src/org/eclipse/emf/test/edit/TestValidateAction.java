@@ -25,6 +25,7 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 
+import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -32,6 +33,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
 import org.eclipse.emf.test.common.TestUtil;
 
@@ -55,6 +58,11 @@ public class TestValidateAction extends TestCase
   
   protected static class MyValidateAction extends ValidateAction
   {
+    public MyValidateAction()
+    {
+      this.domain = new AdapterFactoryEditingDomain(new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE), new BasicCommandStack());
+    }
+
     public List<EObject> filterRootEObjects(List<?> objects)
     {
       updateSelection(new StructuredSelection(objects));
