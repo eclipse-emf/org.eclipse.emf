@@ -226,11 +226,14 @@ public class ValidateAction extends Action implements ISelectionChangedListener
   {
     int selectionSize = selectedObjects.size();
     int count = selectionSize;
-    for (EObject eObject : selectedObjects)
+    synchronized (domain.getResourceSet())
     {
-      for (Iterator<?> i = eObject.eAllContents(); i.hasNext(); i.next())
+      for (EObject eObject : selectedObjects)
       {
-        ++count;
+        for (Iterator<?> i = eObject.eAllContents(); i.hasNext(); i.next())
+        {
+          ++count;
+        }
       }
     }
 
@@ -265,6 +268,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
 
   protected Diagnostician createDiagnostician(final AdapterFactory adapterFactory, final IProgressMonitor progressMonitor)
   {
+    final ResourceSet resourceSet = domain.getResourceSet();
     return
       new Diagnostician()
       {
@@ -284,10 +288,13 @@ public class ValidateAction extends Action implements ISelectionChangedListener
         }
 
         @Override
-        public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
+        protected boolean doValidate(EValidator eValidator, EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
         {
           progressMonitor.worked(1);
-          return super.validate(eClass, eObject, diagnostics, context);
+          synchronized (resourceSet)
+          {
+            return super.doValidate(eValidator, eClass, eObject, diagnostics, context);
+          }
         }
       };
   }

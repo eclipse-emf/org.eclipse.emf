@@ -155,13 +155,20 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
       }
     }
     boolean circular = context.get(EObjectValidator.ROOT_OBJECT) == eObject;
-    @SuppressWarnings("null")
-    boolean result = ((EValidator)eValidator).validate(eClass, eObject, diagnostics, context);
+    boolean result = doValidate((EValidator)eValidator, eClass, eObject, diagnostics, context);
     if ((result || diagnostics != null) && !circular)
     {
       result &= doValidateContents(eObject, diagnostics, context);
     }
     return result;
+  }
+
+  /**
+   * @since 2.9
+   */
+  protected boolean doValidate(EValidator eValidator, EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    return eValidator.validate(eClass, eObject, diagnostics, context);
   }
 
   protected boolean doValidateContents(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
@@ -200,6 +207,14 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
       eValidator = eValidatorRegistry.get(null);
     }
 
-    return ((EValidator)eValidator).validate(eDataType, value, diagnostics, context);
+    return doValidate((EValidator)eValidator, eDataType, value, diagnostics, context);
+  }
+
+  /**
+   * @since 2.9
+   */
+  protected boolean doValidate(EValidator eValidator, EDataType eDataType, Object value, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    return eValidator.validate(eDataType, value, diagnostics, context);
   }
 }

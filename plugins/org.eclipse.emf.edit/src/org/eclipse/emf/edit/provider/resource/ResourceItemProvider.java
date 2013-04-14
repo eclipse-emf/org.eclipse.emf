@@ -18,11 +18,13 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -71,8 +73,10 @@ public class ResourceItemProvider
   {
     // Don't include controlled children here, they'll show up under their container.
     //
-    List<EObject> contents = ((Resource)object).getContents();
-    Collection<Object> result = new ArrayList<Object>(contents.size());
+    Resource resource = (Resource)object;
+    Object[] contents = getContents(resource);
+
+    Collection<Object> result = new ArrayList<Object>(contents.length);
     for (Object o : contents)
     {
       if (!AdapterFactoryEditingDomain.isControlled(o))
@@ -81,6 +85,31 @@ public class ResourceItemProvider
       }
     }
     return result;
+  }
+
+  /**
+   * Copies the contents of the resource to an array while holding a lock on the resource and subsequently its resource set, if the resource is contained by a resource set.
+   * @since 2.9
+   */
+  protected EObject[] getContents(Resource resource)
+  {
+    synchronized (resource)
+    {
+      ResourceSet resourceSet = resource.getResourceSet();
+      if (resourceSet != null)
+      {
+        synchronized (resourceSet)
+        {
+          EList<EObject> contents = resource.getContents();
+          return contents.toArray(new EObject[contents.size()]);
+        }
+      }
+      else 
+      {
+        EList<EObject> contents = resource.getContents();
+        return contents.toArray(new EObject[contents.size()]);
+      }
+    }
   }
 
   /**
@@ -120,7 +149,7 @@ public class ResourceItemProvider
 
     // Overlay if the resource is the target for any controlled objects. 
     //
-    for (Object o : resource.getContents())
+    for (Object o : getContents(resource))
     {
       if (AdapterFactoryEditingDomain.isControlled(o))
       {
