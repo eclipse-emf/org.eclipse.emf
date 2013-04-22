@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.CommonUtil;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -34,6 +35,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -95,6 +97,28 @@ public class BinaryResourceImpl extends ResourceImpl
   public static final String OPTION_STYLE_BINARY_ENUMERATOR = "BINARY_ENUMERATOR";
 
   /**
+   * A Boolean save option to specify whether values should be serialized using {@link DataConverter data converters}.
+   * In general, a value will use a data converter only if the {@link EFactory factory} of the {@link EDataType data type}
+   * implements its {@link DataConverter.Factory data converter factory} to return a non-null data converter.
+   * If that data converter specifies that values should be {@link DataConverter.isTabulated() tabulated},
+   * every {@link Object#equals(Object) unique} value will be serialized in full at most once.
+   * Note that String values have specialized built-in data converter support and will hence also be tabulated if this option is specified.
+   * This style option is only supported for serializations with {@link Version#VERSION_1_1 version 1.1} or higher.
+   * The default value is false.
+   * @since 2.9
+   */
+  public static final String OPTION_STYLE_DATA_CONVERTER = "DATA_CONVERTER";
+
+  /**
+   * A Boolean load option to specify whether proxies should be eagerly resolved during loading.
+   * This can improve subsequent performance by saving the cost of repeatedly resolving the same proxy for each different use of that proxy.
+   * It could also harm performance by forcing the loading of a large number of resources that might never otherwise be loaded.
+   * Consider carefully the trade-offs involved in using this option.
+   * @since 2.9
+   */
+  public static final String OPTION_EAGER_PROXY_RESOLUTION = "EAGER_PROXY_RESOLUTION";
+
+  /**
    * Specify the capacity of the buffered stream
    * used when {@link #doSave(OutputStream, Map) saving} or {@link #doLoad(InputStream, Map) loading} the resource content.
    * The value must be an integer.
@@ -128,6 +152,37 @@ public class BinaryResourceImpl extends ResourceImpl
       }
     }
     return DEFAULT_BUFFER_CAPACITY;
+  }
+
+  /**
+   * Specify the capacity of the internal byte array used in {@link EObjectInputStream} or {@link EObjectOutputStream} for buffering the reading and writing of bytes.
+   * Note that this implies that {@link EObjectInputStream} will read more bytes from the input stream than it may actually consume,
+   * and that {@link EObjectOutputStream } will write more bytes to the byte array than have actually been produced in the output stream.
+   * In both cases it's necessary to call flush
+   * either to put back the unused bytes, which is only possible if the wrapped input stream {@link InputStream#markSupported() supports marks}
+   * or to emit the retained bytes.
+   * A value less then 2 disables internal buffering; the default is 0.
+   * @since 2.9
+   */
+  public static final String OPTION_INTERNAL_BUFFER_CAPACITY = "INTERNAL_BUFFER_CAPACITY";
+
+  /**
+   * Extract the {@link #OPTION_INTERNAL_BUFFER_CAPACITY} from the options.
+   * @param options a map of options.
+   * @return the value associated with the {@link #OPTION_INTERNAL_BUFFER_CAPACITY} key in the options map.
+   * @since 2.9
+   */
+  public static int getInternalBufferCapacity(Map<?, ?> options)
+  {
+    if (options != null)
+    {
+      Integer capacity = (Integer)options.get(OPTION_INTERNAL_BUFFER_CAPACITY);
+      if (capacity != null)
+      {
+        return capacity;
+      }
+    }
+    return 0;
   }
 
   public BinaryResourceImpl()
@@ -165,8 +220,9 @@ public class BinaryResourceImpl extends ResourceImpl
 
       try
       {
-        EObjectOutputStream eObjectOutputStream = new EObjectOutputStream(outputStream, options);
+        EObjectOutputStream eObjectOutputStream = createEObjectOutputStream(outputStream, options);
         eObjectOutputStream.saveResource(this);
+        eObjectOutputStream.flush();
       }
       finally
       {
@@ -176,6 +232,14 @@ public class BinaryResourceImpl extends ResourceImpl
         }
       }
     }
+  }
+
+  /**
+   * @since 2.9
+   */
+  protected EObjectOutputStream createEObjectOutputStream(OutputStream outputStream, Map<?, ?> options) throws IOException
+  {
+    return new EObjectOutputStream(outputStream, options);
   }
 
   @Override
@@ -196,9 +260,65 @@ public class BinaryResourceImpl extends ResourceImpl
         }
       }
 
-      EObjectInputStream eObjectInputStream = new EObjectInputStream(inputStream, options);
+      EObjectInputStream eObjectInputStream = createEObjectInputStream(inputStream, options);
       eObjectInputStream.loadResource(this);
+      eObjectInputStream.flush();
     }
+  }
+
+  /**
+   * @since 2.9
+   */
+  protected EObjectInputStream createEObjectInputStream(InputStream inputStream, Map<?, ?> options) throws IOException
+  {
+    return new EObjectInputStream(inputStream, options);
+  }
+
+  /**
+   * Generally this abstract class is extended as a stateless singleton returned by a generated factory that implements the {@link DataConverter#Factory factory} interface.
+   * The default implementation of {@link EFactoryImpl#create(EDataType)} returns <code>null</code>.
+   * @since 2.9
+   */
+  public static abstract class DataConverter<T>
+  {
+    static final DataConverter<Object> NULL =
+      new DataConverter<Object>()
+      {
+        @Override
+        public Object read(EObjectInputStream eObjectInputStream) throws IOException
+        {
+          throw new UnsupportedOperationException();
+        }
+
+        @Override
+        protected void doWrite(EObjectOutputStream eObjectOutputStream, Object value) throws IOException
+        {
+          throw new UnsupportedOperationException();
+        }
+      };
+
+    /**
+     * @see EFactoryImpl#create(EDataType)
+     */
+    public interface Factory
+    {
+      DataConverter<?> create(EDataType eDataType);
+    }
+
+    public boolean isTabulated()
+    {
+      return true;
+    }
+
+    public abstract T read(EObjectInputStream eObjectInputStream) throws IOException;
+
+    @SuppressWarnings("unchecked")
+    public void write(EObjectOutputStream eObjectOutputStream, Object value) throws IOException
+    {
+      doWrite(eObjectOutputStream, (T)value);
+    }
+
+    protected abstract void doWrite(EObjectOutputStream eObjectOutputStream, T value) throws IOException;
   }
 
   public static class BinaryIO
@@ -219,25 +339,31 @@ public class BinaryResourceImpl extends ResourceImpl
      * @see BinaryResourceImpl#OPTION_STYLE_BINARY_FLOATING_POINT
      * @since 2.7
      */
-    public static final int STYLE_BINARY_FLOATING_POINT = 0x1;
+    public static final int STYLE_BINARY_FLOATING_POINT = 1 << 0;
 
     /**
      * @see BinaryResourceImpl#OPTION_STYLE_BINARY_DATE
      * @since 2.7
      */
-    public static final int STYLE_BINARY_DATE = 0x2;
+    public static final int STYLE_BINARY_DATE = 1 << 1;
 
     /**
      * @see BinaryResourceImpl#OPTION_STYLE_PROXY_ATTRIBUTES
      * @since 2.7
      */
-    public static final int STYLE_PROXY_ATTRIBUTES = 0x4;
+    public static final int STYLE_PROXY_ATTRIBUTES = 1 << 2;
 
     /**
      * @see BinaryResourceImpl#OPTION_STYLE_BINARY_ENUMERATOR
      * @since 2.8
      */
-    public static final int STYLE_BINARY_ENUMERATOR = 0x8;
+    public static final int STYLE_BINARY_ENUMERATOR = 1 << 3;
+
+    /**
+     * @see BinaryResourceImpl#OPTION_STYLE_DATA_CONVERTER
+     * @since 2.9
+     */
+    public static final int STYLE_DATA_CONVERTER = 1 << 4;
 
     protected Version version;
 
@@ -251,6 +377,8 @@ public class BinaryResourceImpl extends ResourceImpl
     protected char[] characters;
     protected InternalEObject[][] internalEObjectDataArrayBuffer = new InternalEObject[50][];
     protected int internalEObjectDataArrayBufferCount = -1;
+
+    Map<EDataType, DataConverter<?>> dataConverterMap = new HashMap<EDataType, DataConverter<?>>();
 
     protected static int getStyle(Map<?, ?> options)
     {
@@ -272,6 +400,10 @@ public class BinaryResourceImpl extends ResourceImpl
         if (Boolean.TRUE.equals(options.get(OPTION_STYLE_BINARY_ENUMERATOR)))
         {
           result |= STYLE_BINARY_ENUMERATOR;
+        }
+        if (Boolean.TRUE.equals(options.get(OPTION_STYLE_DATA_CONVERTER)))
+        {
+          result |= STYLE_DATA_CONVERTER;
         }
       }
       return result;
@@ -518,6 +650,34 @@ public class BinaryResourceImpl extends ResourceImpl
         }
       }
     }
+
+    static final int MAX_DELIMITER = 0xC0;
+    static final String[] DELIMITERS = new String[MAX_DELIMITER];
+    static final List<String> INTRINSIC_STRINGS = new ArrayList<String>();
+    static final Map<String, Integer> INTRINSIC_STRING_TO_ID_MAP = new HashMap<String, Integer>();
+
+    static
+    {
+      INTRINSIC_STRING_TO_ID_MAP.put("", 0);
+      INTRINSIC_STRINGS.add("");
+
+      for (char c = 0; c < MAX_DELIMITER; ++c)
+      {
+        if (Character.isDigit(c))
+        {
+          String string =  CommonUtil.javaIntern(Character.toString(c));
+          INTRINSIC_STRING_TO_ID_MAP.put(string, INTRINSIC_STRINGS.size());
+          INTRINSIC_STRINGS.add(string);
+        }
+        else if (!Character.isLetter(c))
+        {
+          String delimiter = CommonUtil.javaIntern(Character.toString(c));
+          DELIMITERS[c] = delimiter;
+          INTRINSIC_STRING_TO_ID_MAP.put(delimiter, INTRINSIC_STRINGS.size());
+          INTRINSIC_STRINGS.add(delimiter);
+        }
+      }
+    }
   }
 
   public static class EObjectOutputStream extends BinaryIO
@@ -567,13 +727,24 @@ public class BinaryResourceImpl extends ResourceImpl
       public FeatureKind kind;
       public EFactory eFactory;
       public EDataType eDataType;
+      /**
+       * @since 2.9
+       */
+      public DataConverter<?> dataConverter;
     }
+
+    private byte[] bytes;
+    private int index;
 
     protected OutputStream outputStream;
     protected Map<EPackage, EPackageData> ePackageDataMap = new HashMap<EPackage, EPackageData>();
     protected Map<EClass, EClassData> eClassDataMap = new HashMap<EClass, EClassData>();
     protected Map<EObject, Integer> eObjectIDMap = new HashMap<EObject, Integer>();
     protected Map<URI, Integer> uriToIDMap = new HashMap<URI, Integer>();
+
+    private Map<String, Integer> segmentedStringToIDMap;
+    private Map<String, Integer> segmentToIDMap;
+    private String[] segments;
 
     public EObjectOutputStream(OutputStream outputStream, Map<?, ?> options) throws IOException
     {
@@ -594,11 +765,24 @@ public class BinaryResourceImpl extends ResourceImpl
       this.options = options;
       this.version = version;
       this.style = style;
+
+      int bufferCapacity = getInternalBufferCapacity(options);
+      if (bufferCapacity > 1)
+      {
+       bytes = new byte[bufferCapacity];
+      }
+
       writeSignature();
       writeVersion();
       if (version.ordinal() > 0)
       {
         writeStyle();
+      }
+
+      if ((style & STYLE_DATA_CONVERTER) != 0)
+      {
+        segmentedStringToIDMap = new HashMap<String, Integer>();
+        segmentToIDMap = new HashMap<String, Integer>(INTRINSIC_STRING_TO_ID_MAP);
       }
     }
 
@@ -641,7 +825,7 @@ public class BinaryResourceImpl extends ResourceImpl
         ePackageData.id = id;
         ePackageData.eClassData = new EClassData[ePackage.getEClassifiers().size()];
         writeCompressedInt(id);
-        writeString(ePackage.getNsURI());
+        writeSegmentedString(ePackage.getNsURI());
         writeURI(EcoreUtil.getURI(ePackage));
         ePackageDataMap.put(ePackage, ePackageData);
       }
@@ -678,6 +862,76 @@ public class BinaryResourceImpl extends ResourceImpl
             eStructuralFeatureData.eDataType = eDataType;
             eStructuralFeatureData.eFactory = eDataType.getEPackage().getEFactoryInstance();
             eStructuralFeatureData.isProxyTransient = eStructuralFeatureData.kind == FeatureKind.FEATURE_MAP;
+            if (segmentedStringToIDMap != null)
+            {
+              DataConverter<?> dataConverter = dataConverterMap.get(eDataType);
+              if (dataConverter != DataConverter.NULL)
+              {
+                if (dataConverter == null)
+                {
+                  final DataConverter<?> rawDataConverter = ((DataConverter.Factory)eStructuralFeatureData.eFactory).create(eDataType);
+                  if (rawDataConverter == null)
+                  {
+                    dataConverterMap.put(eDataType,  DataConverter.NULL);
+                  }
+                  else
+                  {
+                    if (rawDataConverter.isTabulated())
+                    {
+                      DataConverter<?> tabulatedDataConverter =
+                        new DataConverter<Object>()
+                        {
+                          Map<Object, Integer> objectToIDMap = new HashMap<Object, Integer>();
+
+                          @Override
+                          public Object read(EObjectInputStream eObjectInputStream) throws IOException
+                          {
+                            throw new UnsupportedOperationException();
+                          }
+
+                          @Override
+                          public void write(EObjectOutputStream eObjectOutputStream, Object value) throws IOException
+                          {
+                            if (value == null)
+                            {
+                              eObjectOutputStream.writeCompressedInt(-1);
+                            }
+                            else
+                            {
+                              Integer id = objectToIDMap.get(value);
+                              if (id == null)
+                              {
+                                int idValue = objectToIDMap.size();
+                                objectToIDMap.put(value, idValue);
+                                eObjectOutputStream.writeCompressedInt(idValue);
+                                super.write(eObjectOutputStream, value);
+                              }
+                              else
+                              {
+                                eObjectOutputStream.writeCompressedInt(id);
+                              }
+                            }
+                          }
+
+                          @Override
+                          protected void doWrite(EObjectOutputStream eObjectOutputStream, Object value) throws IOException
+                          {
+                            rawDataConverter.write(eObjectOutputStream, value);
+                          }
+                        };
+                      dataConverter = tabulatedDataConverter;
+                    }
+                    else
+                    {
+                      dataConverter = rawDataConverter;
+                    }
+                    dataConverterMap.put(eDataType, dataConverter);
+                  }
+                }
+
+                eStructuralFeatureData.dataConverter = dataConverter;
+              }
+            }
           }
           else
           {
@@ -705,6 +959,10 @@ public class BinaryResourceImpl extends ResourceImpl
       if (eStructuralFeatureData.name != null)
       {
         writeString(eStructuralFeatureData.name);
+        if (segmentedStringToIDMap != null && eStructuralFeatureData.eDataType != null)
+        {
+          writeBoolean(eStructuralFeatureData.dataConverter != null);
+        }
         eStructuralFeatureData.name = null;
       }
       return eStructuralFeatureData;
@@ -819,24 +1077,32 @@ public class BinaryResourceImpl extends ResourceImpl
         }
         case STRING:
         {
-          writeString((String)value);
+          writeSegmentedString((String)value);
           break;
         }
         case DATE:
         {
-          if ((style & STYLE_BINARY_DATE) != 0)
+          if (eStructuralFeatureData.dataConverter != null)
+          {
+            eStructuralFeatureData.dataConverter.write(this, value);
+          }
+          else if ((style & STYLE_BINARY_DATE) != 0)
           {
             writeDate((Date)value);
           }
           else
           {
-            writeString(eStructuralFeatureData.eFactory.convertToString(eStructuralFeatureData.eDataType, value));
+            writeSegmentedString(eStructuralFeatureData.eFactory.convertToString(eStructuralFeatureData.eDataType, value));
           }
           break;
         }
         case ENUMERATOR:
         {
-          if ((style & STYLE_BINARY_ENUMERATOR) != 0)
+          if (eStructuralFeatureData.dataConverter != null)
+          {
+            eStructuralFeatureData.dataConverter.write(this, value);
+          }
+          else if ((style & STYLE_BINARY_ENUMERATOR) != 0)
           {
             writeInt(((Enumerator)value).getValue());
           }
@@ -849,8 +1115,15 @@ public class BinaryResourceImpl extends ResourceImpl
         case DATA:
         case DATA_LIST:
         {
-          String literal = eStructuralFeatureData.eFactory.convertToString(eStructuralFeatureData.eDataType, value);
-          writeString(literal);
+          if (eStructuralFeatureData.dataConverter != null)
+          {
+            eStructuralFeatureData.dataConverter.write(this, value);
+          }
+          else
+          {
+            String literal = eStructuralFeatureData.eFactory.convertToString(eStructuralFeatureData.eDataType, value);
+            writeSegmentedString(literal);
+          }
           break;
         }
         default:
@@ -963,158 +1236,223 @@ public class BinaryResourceImpl extends ResourceImpl
         if (eStructuralFeatureData.name != null)
         {
           writeString(eStructuralFeatureData.name);
+          if (segmentedStringToIDMap != null && eStructuralFeatureData.eDataType != null)
+          {
+            writeBoolean(eStructuralFeatureData.dataConverter != null);
+          }
           eStructuralFeatureData.name = null;
         }
         Object value = internalEObject.eGet(featureID, false, true);
-        switch (eStructuralFeatureData.kind)
+        saveFeatureValue(internalEObject, value, featureID, eStructuralFeatureData);
+      }
+    }
+
+    /**
+     * @since 2.9
+     */
+    protected void saveFeatureValue(InternalEObject internalEObject, Object value, int featureID, EStructuralFeatureData eStructuralFeatureData) throws IOException
+    {
+      switch (eStructuralFeatureData.kind)
+      {
+        case EOBJECT:
+        case EOBJECT_CONTAINMENT:
         {
-          case EOBJECT:
-          case EOBJECT_CONTAINMENT:
+          saveEObject((InternalEObject)value, Check.NOTHING);
+          break;
+        }
+        case EOBJECT_CONTAINER_PROXY_RESOLVING:
+        {
+          saveEObject((InternalEObject)value, Check.RESOURCE);
+          break;
+        }
+        case EOBJECT_CONTAINMENT_PROXY_RESOLVING:
+        {
+          saveEObject((InternalEObject)value, Check.DIRECT_RESOURCE);
+          break;
+        }
+        case EOBJECT_PROXY_RESOLVING:
+        {
+          saveEObject((InternalEObject)value, Check.RESOURCE);
+          break;
+        }
+        case EOBJECT_LIST:
+        case EOBJECT_CONTAINMENT_LIST:
+        {
+          @SuppressWarnings("unchecked")
+          InternalEList<? extends InternalEObject> internalEList = (InternalEList<? extends InternalEObject>)value;
+          saveEObjects(internalEList, Check.NOTHING);
+          break;
+        }
+        case EOBJECT_CONTAINMENT_LIST_PROXY_RESOLVING:
+        {
+          @SuppressWarnings("unchecked")
+          InternalEList<? extends InternalEObject> internalEList = (InternalEList<? extends InternalEObject>)value;
+          saveEObjects(internalEList, Check.DIRECT_RESOURCE);
+          break;
+        }
+        case EOBJECT_LIST_PROXY_RESOLVING:
+        {
+          @SuppressWarnings("unchecked")
+          InternalEList<? extends InternalEObject> internalEList = (InternalEList<? extends InternalEObject>)value;
+          saveEObjects(internalEList, Check.RESOURCE);
+          break;
+        }
+        case BOOLEAN:
+        {
+          writeBoolean((Boolean)value);
+          break;
+        }
+        case BYTE:
+        {
+          writeByte((Byte)value);
+          break;
+        }
+        case CHAR:
+        {
+          writeChar((Character)value);
+          break;
+        }
+        case DOUBLE:
+        {
+          writeDouble((Double)value);
+          break;
+        }
+        case FLOAT:
+        {
+          writeFloat((Float)value);
+          break;
+        }
+        case INT:
+        {
+          writeInt((Integer)value);
+          break;
+        }
+        case LONG:
+        {
+          writeLong((Long)value);
+          break;
+        }
+        case SHORT:
+        {
+          writeShort((Short)value);
+          break;
+        }
+        case STRING:
+        {
+          writeSegmentedString((String)value);
+          break;
+        }
+        case FEATURE_MAP:
+        {
+          FeatureMap.Internal featureMap = (FeatureMap.Internal)value;
+          saveFeatureMap(featureMap);
+          break;
+        }
+        case DATE:
+        {
+          if (eStructuralFeatureData.dataConverter != null)
           {
-            saveEObject((InternalEObject)value, Check.NOTHING);
-            break;
+            eStructuralFeatureData.dataConverter.write(this, value);
           }
-          case EOBJECT_CONTAINER_PROXY_RESOLVING:
+          else if ((style & STYLE_BINARY_DATE) != 0)
           {
-            saveEObject((InternalEObject)value, Check.RESOURCE);
-            break;
+            writeDate((Date)value);
           }
-          case EOBJECT_CONTAINMENT_PROXY_RESOLVING:
+          else
           {
-            saveEObject((InternalEObject)value, Check.DIRECT_RESOURCE);
-            break;
+            writeSegmentedString(eStructuralFeatureData.eFactory.convertToString(eStructuralFeatureData.eDataType, value));
           }
-          case EOBJECT_PROXY_RESOLVING:
+          break;
+        }
+        case ENUMERATOR:
+        {
+          if (eStructuralFeatureData.dataConverter != null)
           {
-            saveEObject((InternalEObject)value, Check.RESOURCE);
-            break;
+            eStructuralFeatureData.dataConverter.write(this, value);
           }
-          case EOBJECT_LIST:
-          case EOBJECT_CONTAINMENT_LIST:
+          else if ((style & STYLE_BINARY_ENUMERATOR) != 0)
           {
-            @SuppressWarnings("unchecked")
-            InternalEList<? extends InternalEObject> internalEList = (InternalEList<? extends InternalEObject>)value;
-            saveEObjects(internalEList, Check.NOTHING);
-            break;
+            writeInt(((Enumerator)value).getValue());
           }
-          case EOBJECT_CONTAINMENT_LIST_PROXY_RESOLVING:
+          else
           {
-            @SuppressWarnings("unchecked")
-            InternalEList<? extends InternalEObject> internalEList = (InternalEList<? extends InternalEObject>)value;
-            saveEObjects(internalEList, Check.DIRECT_RESOURCE);
-            break;
+            writeString(eStructuralFeatureData.eFactory.convertToString(eStructuralFeatureData.eDataType, value));
           }
-          case EOBJECT_LIST_PROXY_RESOLVING:
+          break;
+        }
+        case DATA:
+        {
+          if (eStructuralFeatureData.dataConverter != null)
           {
-            @SuppressWarnings("unchecked")
-            InternalEList<? extends InternalEObject> internalEList = (InternalEList<? extends InternalEObject>)value;
-            saveEObjects(internalEList, Check.RESOURCE);
-            break;
+            eStructuralFeatureData.dataConverter.write(this, value);
           }
-          case BOOLEAN:
-          {
-            writeBoolean((Boolean)value);
-            break;
-          }
-          case BYTE:
-          {
-            writeByte((Byte)value);
-            break;
-          }
-          case CHAR:
-          {
-            writeChar((Character)value);
-            break;
-          }
-          case DOUBLE:
-          {
-            writeDouble((Double)value);
-            break;
-          }
-          case FLOAT:
-          {
-            writeFloat((Float)value);
-            break;
-          }
-          case INT:
-          {
-            writeInt((Integer)value);
-            break;
-          }
-          case LONG:
-          {
-            writeLong((Long)value);
-            break;
-          }
-          case SHORT:
-          {
-            writeShort((Short)value);
-            break;
-          }
-          case STRING:
-          {
-            writeString((String)value);
-            break;
-          }
-          case FEATURE_MAP:
-          {
-            FeatureMap.Internal featureMap = (FeatureMap.Internal)value;
-            saveFeatureMap(featureMap);
-            break;
-          }
-          case DATE:
-          {
-            if ((style & STYLE_BINARY_DATE) != 0)
-            {
-              writeDate((Date)value);
-            }
-            else
-            {
-              writeString(eStructuralFeatureData.eFactory.convertToString(eStructuralFeatureData.eDataType, value));
-            }
-            break;
-          }
-          case ENUMERATOR:
-          {
-            if ((style & STYLE_BINARY_ENUMERATOR) != 0)
-            {
-              writeInt(((Enumerator)value).getValue());
-            }
-            else
-            {
-              writeString(eStructuralFeatureData.eFactory.convertToString(eStructuralFeatureData.eDataType, value));
-            }
-            break;
-          }
-          case DATA:
+          else
           {
             String literal = eStructuralFeatureData.eFactory.convertToString(eStructuralFeatureData.eDataType, value);
-            writeString(literal);
-            break;
+            writeSegmentedString(literal);
           }
-          case DATA_LIST:
+          break;
+        }
+        case DATA_LIST:
+        {
+          List<?> dataValues = (List<?>)value;
+          int length = dataValues.size();
+          writeCompressedInt(length);
+          if (eStructuralFeatureData.dataConverter != null)
           {
-            List<?> dataValues = (List<?>)value;
-            int length = dataValues.size();
-            writeCompressedInt(length);
+            for (int j = 0; j < length; ++j)
+            {
+              eStructuralFeatureData.dataConverter.write(this, dataValues.get(j));
+            }
+          }
+          else
+          {
             for (int j = 0; j < length; ++j)
             {
               String literal = eStructuralFeatureData.eFactory.convertToString(eStructuralFeatureData.eDataType, dataValues.get(j));
-              writeString(literal);
+              writeSegmentedString(literal);
             }
-            break;
           }
-          default:
-          {
-            throw new IOException("Unhandled case " + eStructuralFeatureData.kind);
-          }
+          break;
+        }
+        default:
+        {
+          throw new IOException("Unhandled case " + eStructuralFeatureData.kind);
         }
       }
     }
 
     public void writeByte(int value) throws IOException
     {
-      outputStream.write(value);
+      if (bytes == null)
+      {
+        outputStream.write(value);
+      }
+      else
+      {
+        if (index == bytes.length)
+        {
+          doFlush();
+        }
+        bytes[index++] = (byte)value;
+      }
+    }
+
+    /**
+     * @since 2.9
+     */
+    public void flush() throws IOException
+    {
+      if (bytes != null && index > 0)
+      {
+        doFlush();
+      }
+    }
+
+    private void doFlush() throws IOException
+    {
+      outputStream.write(bytes, 0, index);
+      index = 0;
     }
 
     public void writeBoolean(boolean value) throws IOException
@@ -1175,41 +1513,125 @@ public class BinaryResourceImpl extends ResourceImpl
     public void writeCompressedInt(int value) throws IOException
     {
       ++value;
-      int firstByte = value >> 24 & 0xFF;
-      int secondByte = value >> 16 & 0xFF;
-      int thirdByte = value >> 8 & 0xFF;
-      int fourthBtye = value & 0xFF;
-      if (firstByte > 0x3F)
+      if ( value < 0)
       {
         handleInvalidValue(value);
       }
-      else if (firstByte != 0 || secondByte > 0x3F)
+      else if (value <= 0x3F)
       {
-        writeByte(firstByte | 0xC0);
-        writeByte(secondByte);
-        writeByte(thirdByte);
-        writeByte(fourthBtye);
+        writeByte(value);
       }
-      else if (secondByte != 0 || thirdByte > 0x3F)
+      else if (value <= 0x3FFF)
       {
-        writeByte(secondByte | 0x80);
-        writeByte(thirdByte);
-        writeByte(fourthBtye);
+        writeByte(value >> 8 | 0x40);
+        writeByte(value & 0xFF);
       }
-      else if (thirdByte != 0 || fourthBtye > 0x3F)
+      else if (value <= 0x3FFFFF)
       {
-        writeByte(thirdByte | 0x40);
-        writeByte(fourthBtye);
+        writeByte(value >> 16 | 0x80);
+        writeByte(value >> 8 & 0xFF);
+        writeByte(value & 0xFF);
+      }
+      else if (value <= 0x3FFFFFFF)
+      {
+        writeByte(value >> 24 | 0xC0);
+        writeByte(value >> 16 & 0xFF);
+        writeByte(value >> 8 & 0xFF);
+        writeByte(value & 0xFF);
       }
       else
       {
-        writeByte(fourthBtye);
+        handleInvalidValue(value);
       }
     }
 
     private final void handleInvalidValue(int value) throws IOException
     {
       throw new IOException("Invalid value " + value);
+    }
+
+    private void ensureSegmentCapacity(int capacity)
+    {
+      if (segments == null)
+      {
+        segments = new String [Math.max(20, capacity)];
+      }
+      else if (segments.length < capacity)
+      {
+        String[] newSegments = new String [Math.max(2 * segments.length, capacity)];
+        System.arraycopy(segments, 0, newSegments, 0, segments.length);
+        segments = newSegments;
+      }
+    }
+
+    /**
+     * @since 2.9
+     */
+    public void writeSegmentedString(String value) throws IOException
+    {
+      if (segmentedStringToIDMap == null)
+      {
+        writeString(value);
+      }
+      else if (value == null)
+      {
+        writeCompressedInt(-1);
+      }
+      else
+      {
+        Integer id = segmentedStringToIDMap.get(value);
+        if (id == null)
+        {
+          int idValue = segmentedStringToIDMap.size();
+          segmentedStringToIDMap.put(value, idValue);
+          writeCompressedInt(idValue);
+
+          int segmentCount = 0;
+          int start = 0;
+          int end = value.length();
+          for (int i = 0; i < end; ++i)
+          {
+            char c = value.charAt(i);
+            if (c < MAX_DELIMITER)
+            {
+              String delimiter = DELIMITERS[c];
+              if (delimiter != null)
+              {
+                ensureSegmentCapacity(segmentCount + 2);
+                if (start < i)
+                {
+                  segments[segmentCount++] = value.substring(start, i);
+                }
+                segments[segmentCount++] = delimiter;
+                start = i + 1;
+              }
+            }
+          }
+          if (start == 0 || segmentCount == 1 && start == end)
+          {
+            writeCompressedInt(0);
+            writeString(value);
+          }
+          else
+          {
+            if (start < end)
+            {
+              ensureSegmentCapacity(segmentCount + 1);
+              segments[segmentCount++] = value.substring(start, end);
+            }
+
+            writeCompressedInt(segmentCount);
+            for (int i = 0; i < segmentCount; ++i)
+            {
+              writeString(segments[i]);
+            }
+          }
+        }
+        else
+        {
+          writeCompressedInt(id);
+        }
+      }
     }
 
     public void writeString(String value) throws IOException
@@ -1220,6 +1642,22 @@ public class BinaryResourceImpl extends ResourceImpl
       }
       else
       {
+        if (segmentToIDMap != null)
+        {
+          Integer id = segmentToIDMap.get(value);
+          if (id != null)
+          {
+            writeCompressedInt(id);
+            return;
+          }
+          else
+          {
+            int idValue = segmentToIDMap.size();
+            segmentToIDMap.put(value, idValue);
+            writeCompressedInt(idValue);
+          }
+        }
+
         int length = value.length();
         writeCompressedInt(length);
         if (characters == null || characters.length < length)
@@ -1274,13 +1712,13 @@ public class BinaryResourceImpl extends ResourceImpl
           int idValue = uriToIDMap.size();
           uriToIDMap.put(uri, idValue);
           writeCompressedInt(idValue);
-          writeString(deresolve(uri).toString());
+          writeSegmentedString(deresolve(uri).toString());
         }
         else
         {
           writeCompressedInt(id);
         }
-        writeString(fragment);
+        writeSegmentedString(fragment);
       }
     }
   }
@@ -1311,7 +1749,6 @@ public class BinaryResourceImpl extends ResourceImpl
       public EClass eClass;
       public EFactory eFactory;
       public EStructuralFeatureData[] eStructuralFeatureData;
-
     }
 
     protected static class EStructuralFeatureData
@@ -1321,31 +1758,227 @@ public class BinaryResourceImpl extends ResourceImpl
       public FeatureKind kind;
       public EFactory eFactory;
       public EDataType eDataType;
+      /**
+       * @since 2.9
+       */
+      public DataConverter<?> dataConverter;
     }
+
+    private static class InternalEObjectList extends BasicEList<InternalEObject>
+    {
+      private static final long serialVersionUID = 1L;
+
+      public InternalEObject[] eObjects;
+
+      public InternalEObjectList()
+      {
+        super(1000);
+      }
+
+      @Override
+      protected Object[] newData(int capacity)
+      {
+        return eObjects = new InternalEObject[capacity];
+      }
+
+      @Override
+      public final boolean add(InternalEObject object)
+      {
+        if (size == eObjects.length)
+        {
+          grow(size + 1);
+        }
+        eObjects[size++] = object;
+        return true;
+      }
+    }
+
+    private static class StringList extends BasicEList<String>
+    {
+      private static final long serialVersionUID = 1L;
+
+      public String[] strings;
+
+      public StringList()
+      {
+        super(1000);
+      }
+
+      @Override
+      protected Object[] newData(int capacity)
+      {
+        return strings = new String[capacity];
+      }
+
+      @Override
+      public final boolean add(String object)
+      {
+        if (size == strings.length)
+        {
+          grow(size + 1);
+        }
+        strings[size++] = object;
+        return true;
+      }
+    }
+
+    private static class URIList extends BasicEList<URI>
+    {
+      private static final long serialVersionUID = 1L;
+
+      public URI[] uris;
+
+      public URIList()
+      {
+        super(1000);
+      }
+
+      @Override
+      protected Object[] newData(int capacity)
+      {
+        return uris = new URI[capacity];
+      }
+
+      @Override
+      public final boolean add(URI object)
+      {
+        if (size == uris.length)
+        {
+          grow(size + 1);
+        }
+        uris[size++] = object;
+        return true;
+      }
+    }
+
+    private static class DataValueList extends BasicEList<Object>
+    {
+      private static final long serialVersionUID = 1L;
+
+      public Object[] values;
+
+      public DataValueList()
+      {
+        super(1000);
+      }
+
+      @Override
+      protected Object[] newData(int capacity)
+      {
+        return values = new Object[capacity];
+      }
+
+      @Override
+      public final boolean add(Object object)
+      {
+        if (size == data.length)
+        {
+          grow(size + 1);
+        }
+        data[size++] = object;
+        return true;
+      }
+    }
+
+    private static class EPackageDataList extends BasicEList<EPackageData>
+    {
+      private static final long serialVersionUID = 1L;
+
+      public EPackageData[] ePackageData;
+
+      public EPackageDataList()
+      {
+        super(20);
+      }
+
+      @Override
+      protected Object[] newData(int capacity)
+      {
+        return ePackageData = new EPackageData[capacity];
+      }
+
+      @Override
+      public final boolean add(EPackageData object)
+      {
+        if (size == data.length)
+        {
+          grow(size + 1);
+        }
+        ePackageData[size++] = object;
+        return true;
+      }
+
+    }
+
+    private boolean isMarkSupported;
+    private byte[] bytes;
+    private int index;
+    private int count;
 
     protected ResourceSet resourceSet;
     protected InputStream inputStream;
-    protected List<EPackageData> ePackageDataList = new ArrayList<EPackageData>();
-    protected List<EClassData> eClassDataList = new ArrayList<EClassData>();
-    protected List<InternalEObject> eObjectList = new ArrayList<InternalEObject>();
-    protected List<URI> uriList = new ArrayList<URI>();
+
+    private EPackageDataList internalEPackageDataList = new EPackageDataList();
+    protected List<EPackageData> ePackageDataList = internalEPackageDataList;
+
+    private InternalEObjectList internalInternalEObjectList = new InternalEObjectList();
+    protected List<InternalEObject> eObjectList = internalInternalEObjectList;
+
+    private URIList internalURIList = new URIList();
+    protected List<URI> uriList = internalURIList;
 
     protected BasicEList<InternalEObject> internalEObjectList = new BasicEList<InternalEObject>();
     protected BasicEList<Object> dataValueList = new BasicEList<Object>();
+
+    private final StringList segmentedStringsList;
+    private final StringList segmentsList;
+    private char[] builder;
+
+    /**
+     * @since 2.9
+     */
+    protected boolean isEagerProxyResolution;
 
     public EObjectInputStream(InputStream inputStream, Map<?, ?> options) throws IOException
     {
       this.inputStream = inputStream;
       this.options = options;
+
+      int bufferCapacity = getInternalBufferCapacity(options);
+      if (bufferCapacity > 1)
+      {
+       bytes = new byte[bufferCapacity];
+      }
+      isMarkSupported = inputStream.markSupported();
+
+      if (options != null)
+      {
+        isEagerProxyResolution = Boolean.TRUE.equals(options.get(OPTION_EAGER_PROXY_RESOLUTION));
+      }
+
       readSignature();
       readVersion();
       if (version.ordinal() > 0)
       {
         readStyle();
+        if ((style & STYLE_DATA_CONVERTER) != 0)
+        {
+          segmentedStringsList = new StringList();
+          segmentsList = new StringList();
+          segmentsList.addAllUnique(INTRINSIC_STRINGS);
+          builder = new char[200];
+        }
+        else
+        {
+          segmentedStringsList = null;
+          segmentsList = null;
+        }
       }
       else
       {
         style = STYLE_BINARY_FLOATING_POINT;
+        segmentedStringsList = null;
+        segmentsList = null;
       }
     }
 
@@ -1405,10 +2038,10 @@ public class BinaryResourceImpl extends ResourceImpl
     protected EPackageData readEPackage() throws IOException
     {
       int id = readCompressedInt();
-      if (ePackageDataList.size() <= id)
+      if (internalEPackageDataList.size() <= id)
       {
         EPackageData ePackageData = new EPackageData();
-        String nsURI = readString();
+        String nsURI = readSegmentedString();
         URI uri = readURI();
         if (resourceSet != null)
         {
@@ -1423,28 +2056,60 @@ public class BinaryResourceImpl extends ResourceImpl
           ePackageData.ePackage = EPackage.Registry.INSTANCE.getEPackage(nsURI);
         }
         ePackageData.eClassData = new EClassData [ePackageData.ePackage.getEClassifiers().size()];
-        ePackageDataList.add(ePackageData);
+        internalEPackageDataList.add(ePackageData);
         return ePackageData;
       }
       else
       {
-        return ePackageDataList.get(id);
+        return internalEPackageDataList.ePackageData[id];
       }
     }
 
     protected EClassData readEClass() throws IOException
     {
+      // This is a fast pat for the case that there is an internal buffer with at least two bytes,
+      // which most likely represent the ID of the package and the ID of the class in that package.
+      //
+      if (index + 2 < count)
+      {
+        // If the first byte represents the entire compressed integer ID of the package and there are that many packages already read...
+        //
+        int packageID = bytes[index];
+        if (packageID <= 0x3F && packageID >= 0 && --packageID < internalEPackageDataList.size())
+        {
+          // If the second byte represents the entire compressed integer ID of the class...
+          //
+          int classID = bytes[index + 1];
+          if (classID <= 0x3F && classID >= 0)
+          {
+            // Increment the index as if we'd read the bytes...
+            //
+            index += 2;
+
+            // Initialize the class data, if it's not already initialized.
+            //
+            EPackageData ePackageData =  internalEPackageDataList.ePackageData[packageID];
+            EClassData eClassData = ePackageData.eClassData[--classID];
+            return eClassData == null ? initEClassData(ePackageData, classID) : eClassData;
+          }
+        }
+      }
+
+      // Just process the data as normal.
+      //
       EPackageData ePackageData = readEPackage();
       int id = readCompressedInt();
       EClassData eClassData = ePackageData.eClassData[id];
-      if (eClassData == null)
-      {
-        eClassData = ePackageData.eClassData[id] = new EClassData();
-        String name = readString();
-        eClassData.eClass = (EClass)ePackageData.ePackage.getEClassifier(name);
-        eClassData.eFactory = ePackageData.ePackage.getEFactoryInstance();
-        eClassData.eStructuralFeatureData = new EStructuralFeatureData [eClassData.eClass.getFeatureCount()];
-      }
+      return eClassData == null ? initEClassData(ePackageData, id) : eClassData;
+    }
+
+    private EClassData initEClassData(EPackageData ePackageData, int id) throws IOException
+    {
+      EClassData eClassData = ePackageData.eClassData[id] = new EClassData();
+      String name = readString();
+      eClassData.eClass = (EClass)ePackageData.ePackage.getEClassifier(name);
+      eClassData.eFactory = ePackageData.ePackage.getEFactoryInstance();
+      eClassData.eStructuralFeatureData = new EStructuralFeatureData [eClassData.eClass.getFeatureCount()];
       return eClassData;
     }
 
@@ -1470,6 +2135,55 @@ public class BinaryResourceImpl extends ResourceImpl
           EAttribute eAttribute = (EAttribute)eStructuralFeatureData.eStructuralFeature;
           eStructuralFeatureData.eDataType = eAttribute.getEAttributeType();
           eStructuralFeatureData.eFactory = eStructuralFeatureData.eDataType.getEPackage().getEFactoryInstance();
+          if (segmentedStringsList != null && readBoolean())
+          {
+            DataConverter<?> dataConverter = dataConverterMap.get(eStructuralFeatureData.eDataType);
+            if (dataConverter == null)
+            {
+              final DataConverter<?> rawDataConverter = ((DataConverter.Factory)eStructuralFeatureData.eFactory).create(eStructuralFeatureData.eDataType);
+              if (rawDataConverter.isTabulated())
+              {
+                DataConverter<?> tabulatedDataConverter =
+                  new DataConverter<Object>()
+                  {
+                    final DataValueList objects = new DataValueList();
+
+                    @Override
+                    public Object read(EObjectInputStream eObjectInputStream) throws IOException
+                    {
+                      int id = eObjectInputStream.readCompressedInt();
+                      if (id == -1)
+                      {
+                        return null;
+                      }
+                      else if (objects.size() <= id)
+                      {
+                        Object value = rawDataConverter.read(eObjectInputStream);
+                        objects.add(value);
+                        return value;
+                      }
+                      else
+                      {
+                        return objects.values[id];
+                      }
+                    }
+
+                    @Override
+                    protected void doWrite(EObjectOutputStream eObjectOutputStream, Object value) throws IOException
+                    {
+                      throw new UnsupportedOperationException();
+                    }
+                  };
+                dataConverter = tabulatedDataConverter;
+              }
+              else
+              {
+                dataConverter = rawDataConverter;
+              }
+              dataConverterMap.put(eStructuralFeatureData.eDataType, dataConverter);
+            }
+            eStructuralFeatureData.dataConverter = dataConverter;
+          }
         }
       }
       return eStructuralFeatureData;
@@ -1515,7 +2229,7 @@ public class BinaryResourceImpl extends ResourceImpl
       if (existingSize == 0)
       {
         internalEObjectList.setData(size, values);
-        internalEObjects.addAllUnique(internalEObjectList);
+        internalEObjects.addAllUnique(0, internalEObjectList);
       }
       else
       {
@@ -1662,24 +2376,32 @@ public class BinaryResourceImpl extends ResourceImpl
         }
         case STRING:
         {
-          value = readString();
+          value = readSegmentedString();
           break;
         }
         case DATE:
         {
-          if ((style & STYLE_BINARY_DATE) != 0)
+          if (eStructuralFeatureData.dataConverter != null)
+          {
+            value = eStructuralFeatureData.dataConverter.read(this);
+          }
+          else if ((style & STYLE_BINARY_DATE) != 0)
           {
             value = readDate();
           }
           else
           {
-            value = eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, readString());
+            value = eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, readSegmentedString());
           }
           break;
         }
         case ENUMERATOR:
         {
-          if ((style & STYLE_BINARY_ENUMERATOR) != 0)
+          if (eStructuralFeatureData.dataConverter != null)
+          {
+            value = eStructuralFeatureData.dataConverter.read(this);
+          }
+          else if ((style & STYLE_BINARY_ENUMERATOR) != 0)
           {
             value = ((EEnum)eStructuralFeatureData.eDataType).getEEnumLiteral(readInt()).getInstance();
           }
@@ -1692,8 +2414,10 @@ public class BinaryResourceImpl extends ResourceImpl
         case DATA:
         case DATA_LIST:
         {
-          String literal = readString();
-          value = eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, literal);
+          value =
+            eStructuralFeatureData.dataConverter != null ?
+              eStructuralFeatureData.dataConverter.read(this) :
+              eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, readSegmentedString());
           break;
         }
         case BOOLEAN:
@@ -1753,37 +2477,56 @@ public class BinaryResourceImpl extends ResourceImpl
       }
       else
       {
-        if (eObjectList.size() <= id)
+        if (internalInternalEObjectList.size() <= id)
         {
           EClassData eClassData = readEClass();
           InternalEObject internalEObject =  (InternalEObject)eClassData.eFactory.create(eClassData.eClass);
-          eObjectList.add(internalEObject);
-          for (;;)
+          InternalEObject result = internalEObject;
+
+          // Check if we have a "feature" representing the proxy URI...
+          //
+          int featureID = readCompressedInt() - 1;
+          if (featureID == -2)
           {
-            int featureID = readCompressedInt() - 1;
-            if (featureID == -1)
+            internalEObject.eSetProxyURI(readURI());
+            if (isEagerProxyResolution)
             {
-              break;
-            }
-            else if (featureID == -2)
-            {
-              internalEObject.eSetProxyURI(readURI());
+              result = (InternalEObject)EcoreUtil.resolve(internalEObject, resource);
+              internalInternalEObjectList.add(result);
               if ((style & STYLE_PROXY_ATTRIBUTES) == 0)
               {
-                break;
+                return result;
               }
             }
             else
             {
-              EStructuralFeatureData eStructuralFeatureData = getEStructuralFeatureData(eClassData, featureID);
-              loadFeatureValue(internalEObject, eStructuralFeatureData);
+              internalInternalEObjectList.add(internalEObject);
+              if ((style & STYLE_PROXY_ATTRIBUTES) == 0)
+              {
+                return internalEObject;
+              }
             }
+
+            // We must process the proxy attributes even for the case of eager proxy resolution when we will immediately discard the proxy.
+            //
+            featureID = readCompressedInt() - 1;
           }
-          return internalEObject;
+          else
+          {
+            internalInternalEObjectList.add(internalEObject);
+          }
+
+          for (; featureID != -1; featureID = readCompressedInt() - 1)
+          {
+            EStructuralFeatureData eStructuralFeatureData = getEStructuralFeatureData(eClassData, featureID);
+            loadFeatureValue(internalEObject, eStructuralFeatureData);
+          }
+
+          return result;
         }
         else
         {
-          return eObjectList.get(id);
+          return internalInternalEObjectList.eObjects[id];
         }
       }
     }
@@ -1814,7 +2557,7 @@ public class BinaryResourceImpl extends ResourceImpl
         }
         case STRING:
         {
-          internalEObject.eSet(eStructuralFeatureData.featureID, readString());
+          internalEObject.eSet(eStructuralFeatureData.featureID, readSegmentedString());
           break;
         }
         case FEATURE_MAP:
@@ -1825,19 +2568,27 @@ public class BinaryResourceImpl extends ResourceImpl
         }
         case DATE:
         {
-          if ((style & STYLE_BINARY_DATE) != 0)
+          if (eStructuralFeatureData.dataConverter != null)
+          {
+            internalEObject.eSet(eStructuralFeatureData.featureID,  eStructuralFeatureData.dataConverter.read(this));
+          }
+          else if ((style & STYLE_BINARY_DATE) != 0)
           {
             internalEObject.eSet(eStructuralFeatureData.featureID, readDate());
           }
           else
           {
-            internalEObject.eSet(eStructuralFeatureData.featureID, eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, readString()));
+            internalEObject.eSet(eStructuralFeatureData.featureID, eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, readSegmentedString()));
           }
           break;
         }
         case ENUMERATOR:
         {
-          if ((style & STYLE_BINARY_ENUMERATOR) != 0)
+          if (eStructuralFeatureData.dataConverter != null)
+          {
+            internalEObject.eSet(eStructuralFeatureData.featureID,  eStructuralFeatureData.dataConverter.read(this));
+          }
+          else if ((style & STYLE_BINARY_ENUMERATOR) != 0)
           {
             internalEObject.eSet(eStructuralFeatureData.featureID, ((EEnum)eStructuralFeatureData.eDataType).getEEnumLiteral(readInt()).getInstance());
           }
@@ -1849,8 +2600,11 @@ public class BinaryResourceImpl extends ResourceImpl
         }
         case DATA:
         {
-          String literal = readString();
-          internalEObject.eSet(eStructuralFeatureData.featureID, eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, literal));
+          Object value =
+            eStructuralFeatureData.dataConverter != null ?
+              eStructuralFeatureData.dataConverter.read(this) :
+              eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, readSegmentedString());
+          internalEObject.eSet(eStructuralFeatureData.featureID, value);
           break;
         }
         case DATA_LIST:
@@ -1858,15 +2612,25 @@ public class BinaryResourceImpl extends ResourceImpl
           int size = readCompressedInt();
           dataValueList.grow(size);
           Object[] dataValues = dataValueList.data();
-          for (int i = 0; i < size; ++i)
+          if (eStructuralFeatureData.dataConverter != null)
           {
-            String literal = readString();
-            dataValues[i] = eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, literal);
+            for (int i = 0; i < size; ++i)
+            {
+              dataValues[i] = eStructuralFeatureData.dataConverter.read(this);
+            }
+          }
+          else
+          {
+            for (int i = 0; i < size; ++i)
+            {
+              String literal = readSegmentedString();
+              dataValues[i] = eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, literal);
+            }
           }
           dataValueList.setData(size, dataValues);
           @SuppressWarnings("unchecked")
-          List<Object> values = (List<Object>)internalEObject.eGet(eStructuralFeatureData.featureID, false, true);
-          values.addAll(dataValueList);
+          InternalEList<Object> values = (InternalEList<Object>)internalEObject.eGet(eStructuralFeatureData.featureID, false, true);
+          values.addAllUnique(dataValueList);
           break;
         }
         case BOOLEAN:
@@ -1918,12 +2682,58 @@ public class BinaryResourceImpl extends ResourceImpl
 
     public byte readByte() throws IOException
     {
-      int result = inputStream.read();
-      if (result == -1)
+      return index < count ? bytes[index++] : fill();
+    }
+
+    private byte fill() throws IOException
+    {
+      if (bytes == null)
       {
-        throw new IOException("Unexpected end of stream");
+        int result = inputStream.read();
+        if (result == -1)
+        {
+          throw new IOException("Unexpected end of stream");
+        }
+        return (byte)result;
       }
-      return (byte)result;
+      else
+      {
+        if (isMarkSupported)
+        {
+          inputStream.mark(bytes.length);
+        }
+        count = inputStream.read(bytes, 0, bytes.length);
+        if (count == -1)
+        {
+          throw new IOException("Unexpected end of stream");
+        }
+        index = 1;
+        return bytes[0];
+      }
+    }
+
+    /**
+     * @since 2.9
+     */
+    public void flush() throws IOException
+    {
+      if (bytes != null && index < count)
+      {
+        if (isMarkSupported)
+        {
+          // Put back all the bytes buffered since the last call to fill.
+          //
+          inputStream.reset();
+
+          // Read back out again all the bytes that were consumed by readByte.
+          //
+          inputStream.read(bytes, 0, index);
+        }
+        else
+        {
+          throw new IOException("Unable to place " + index + "unconsumed bytes back into the input stream; specify an OPTION_BUFFER_CAPACITY to support this");
+        }
+      }
     }
 
     public boolean readBoolean() throws IOException
@@ -1938,7 +2748,7 @@ public class BinaryResourceImpl extends ResourceImpl
 
     public short readShort() throws IOException
     {
-      return (short)((readByte()<< 8) & 0xFF00 | readByte() & 0xFF);
+      return (short)((readByte() << 8) & 0xFF00 | readByte() & 0xFF);
     }
 
     public int readInt() throws IOException
@@ -1977,30 +2787,152 @@ public class BinaryResourceImpl extends ResourceImpl
 
     public int readCompressedInt() throws IOException
     {
-      byte initialByte = readByte();
-      int code = (initialByte >> 6) & 0x3;
-      switch (code)
+      // If the internal buffer holds all the bytes we could potentially need, i.e., all 4 bytes...
+      //
+      if (index + 4 < count)
       {
-        case 0:
+        // Do all the processing directly from the buffered bytes rather than by calling readByte.
+        //
+        int initialByte = bytes[index++];
+        int code = (initialByte >> 6) & 0x3;
+        switch (code)
         {
-          return initialByte - 1;
+          case 0:
+          {
+            return initialByte - 1;
+          }
+          case 1:
+          {
+            return (initialByte << 8 & 0x3F00 | bytes[index++] & 0xFF) - 1;
+          }
+          case 2:
+          {
+            return ((initialByte << 16) & 0x3F0000 | (bytes[index++] << 8) & 0xFF00 | bytes[index++] & 0xFF) - 1;
+          }
+          default:
+          {
+            return ((initialByte << 24) & 0x3F000000 | (bytes[index++] << 16) & 0xFF0000 | (bytes[index++] << 8) & 0xFF00 | bytes[index++] & 0xFF) - 1;
+          }
         }
-        case 1:
+      }
+      else
+      {
+        // Do the processing by reading each individual byte as needed.
+        //
+        int initialByte = readByte();
+        int code = (initialByte >> 6) & 0x3;
+        switch (code)
         {
-          return (initialByte << 8 & 0x3F00 | readByte() & 0xFF) - 1;
+          case 0:
+          {
+            return initialByte - 1;
+          }
+          case 1:
+          {
+            return (initialByte << 8 & 0x3F00 | readByte() & 0xFF) - 1;
+          }
+          case 2:
+          {
+            return ((initialByte << 16) & 0x3F0000 | (readByte() << 8) & 0xFF00 | readByte() & 0xFF) - 1;
+          }
+          default:
+          {
+            return ((initialByte << 24) & 0x3F000000 | (readByte() << 16) & 0xFF0000 | (readByte() << 8) & 0xFF00 | readByte() & 0xFF) - 1;
+          }
         }
-        case 2:
+      }
+    }
+
+    /**
+     * @since 2.9
+     */
+    public String readSegmentedString() throws IOException
+    {
+      if (segmentedStringsList == null)
+      {
+        return basicReadString();
+      }
+      else
+      {
+        int id = readCompressedInt();
+        if (id == -1)
         {
-          return ((initialByte << 16) & 0x3F0000 | (readByte() << 8) & 0xFF00 | readByte() & 0xFF) - 1;
+          return null;
         }
-        default:
+        else if (segmentedStringsList.size() <= id)
         {
-          return ((initialByte << 24) & 0x3F000000 | (readByte() << 16) & 0xFF0000 | (readByte() << 8) & 0xFF00 | readByte() & 0xFF) - 1;
+          int segmentCount = readCompressedInt();
+          String value;
+          if (segmentCount == 0)
+          {
+            value = readString();
+          }
+          else
+          {
+            int length = 0;
+            for (int i = 0; i < segmentCount; ++i)
+            {
+              String segment = readString();
+
+              int segmentLength = segment.length();
+              int newLength = length + segmentLength;
+              if (builder.length < newLength)
+              {
+                char[] newBuilder = new char [Math.max(2 * builder.length, newLength)];
+                System.arraycopy(builder, 0, newBuilder, 0, builder.length);
+                builder = newBuilder;
+              }
+
+              if (segmentLength == 1)
+              {
+                builder[length] = segment.charAt(0);
+              }
+              else
+              {
+                segment.getChars(0, segmentLength, builder, length);
+              }
+
+              length = newLength;
+            }
+            value = new String(builder, 0, length);
+          }
+          segmentedStringsList.add(value);
+          return value;
+        }
+        else
+        {
+          return segmentedStringsList.strings[id];
         }
       }
     }
 
     public String readString() throws IOException
+    {
+      if (segmentsList != null)
+      {
+        int id = readCompressedInt();
+        if (id == -1)
+        {
+          return null;
+        }
+        else if (segmentsList.size() <= id)
+        {
+          String value = basicReadString();
+          segmentsList.add(value);
+          return value;
+        }
+        else
+        {
+          return segmentsList.strings[id];
+        }
+      }
+      else
+      {
+        return basicReadString();
+      }
+    }
+
+    private String basicReadString() throws IOException
     {
       int length = readCompressedInt();
       if (length == -1)
@@ -2051,17 +2983,17 @@ public class BinaryResourceImpl extends ResourceImpl
       else
       {
         URI uri;
-        if (uriList.size() <= id)
+        if (internalURIList.size() <= id)
         {
-          String value = readString();
+          String value = readSegmentedString();
           uri = resolve(URI.createURI(value));
-          uriList.add(uri);
+          internalURIList.add(uri);
         }
         else
         {
-          uri = uriList.get(id);
+          uri = internalURIList.uris[id];
         }
-        String fragment = readString();
+        String fragment = readSegmentedString();
         if (fragment != null)
         {
           uri = uri.appendFragment(fragment);

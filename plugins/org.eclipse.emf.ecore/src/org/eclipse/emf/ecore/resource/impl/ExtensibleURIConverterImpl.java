@@ -406,7 +406,8 @@ public class ExtensibleURIConverterImpl implements URIConverter
   {
     String fragment = uri.fragment();
     String query = uri.query();
-    URI result = getInternalURIMap().getURI(uri.trimFragment().trimQuery());
+    URI trimmedURI = uri.trimFragment().trimQuery();
+    URI result = getInternalURIMap().getURI(trimmedURI);
     String scheme = result.scheme();
     if (scheme == null)
     {
@@ -429,22 +430,23 @@ public class ExtensibleURIConverterImpl implements URIConverter
         }
       }
     }
-    if (fragment != null)
+
+    if (result == trimmedURI)
     {
-      result = result.appendFragment(fragment);
+      return uri;
     }
+
     if (query != null)
     {
       result = result.appendQuery(query);
     }
-    if (result.equals(uri))
+    if (fragment != null)
     {
-      return uri;
+      result = result.appendFragment(fragment);
     }
-    else
-    {
-      return normalize(result);
-    }
+
+
+    return normalize(result);
   }
 
   /*

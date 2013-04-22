@@ -109,38 +109,35 @@ public final class CommonUtil
    */
   static int powerOf31(int n)
   {
-    // Check that the array is big enough to hold at least n values.
+    // Look up the result in the array.
+    //
+    return POWERS_OF_31.length <= n ? synchronizedPowerOf31(n) : POWERS_OF_31[n];
+  }
+
+  private static synchronized int synchronizedPowerOf31(int n)
+  {
+    // Check again now that we've synchronized.
     //
     if (POWERS_OF_31.length <= n)
     {
-      synchronized (CommonUtil.class)
+      // Create a larger array.
+      //
+      int[] result = new int [Math.max(n + 100, 200)];
+ 
+      // Compute the power values.
+      //
+      int powerOf31 = 1;
+      for (int i = 0; i < result.length; ++i)
       {
-        // Check again now that we've synchronized.
-        //
-        if (POWERS_OF_31.length <= n)
-        {
-          // Create a larger array.
-          //
-          int[] result = new int [Math.max(n + 100, 200)];
-
-          // Compute the power values.
-          //
-          int powerOf31 = 1;
-          for (int i = 0; i < result.length; ++i)
-          {
-            result[i] = powerOf31;
-            powerOf31 *= 31;
-          }
-
-          // Cache the result.
-          //
-          POWERS_OF_31 = result;
-        }
+        result[i] = powerOf31;
+        powerOf31 *= 31;
       }
+ 
+      // Cache the result.
+      //
+      POWERS_OF_31 = result;
     }
 
-    // Look up the result in the array.
-    //
     return POWERS_OF_31[n];
   }
 

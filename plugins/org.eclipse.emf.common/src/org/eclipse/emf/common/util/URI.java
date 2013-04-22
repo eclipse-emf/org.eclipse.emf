@@ -133,7 +133,7 @@ public abstract class URI
    * The cached hash code of the URI.
    * This is always equal to the hash code of {@link #toString()}
    */
-  protected final int hashCode;
+  protected int hashCode;
 
   /**
    * A pool for caching URIs.
@@ -4484,7 +4484,7 @@ public abstract class URI
      * The representation of the fragment.
      * The fragment is {@link #splitInternFragment(String) split interned}.
      */
-    protected final CharSequence fragment;
+    protected CharSequence fragment;
 
     /**
      * Creates an instance from the components.
@@ -4502,13 +4502,10 @@ public abstract class URI
       //
       assert fragment != null;
 
-      // The fragment must be split and interned.
+      // The hash code must be the same as that of the string representation,
+      // unless it's deferred.
       //
-      assert fragment == splitInternFragment(fragment.toString());
-
-      // The hash code must be the same as that of the string representation
-      //
-      assert hashCode == toString().hashCode();
+      assert hashCode == 0 || hashCode == toString().hashCode();
     }
 
     @Override
@@ -4733,22 +4730,33 @@ public abstract class URI
       return uri.query();
     }
 
+    private URI appendFragment(URI uri)
+    {
+      // If the hash code is 0 then it's highly likely we've deferred split interning the fragment, so don't use rawAppendFragment in that case.
+      //
+      return hashCode == 0 ? uri.appendFragment(fragment.toString()) : uri.rawAppendFragment(fragment);
+    }
+
     @Override
     public URI appendQuery(String query)
     {
-      return uri.appendQuery(query).rawAppendFragment(fragment);
+      return appendFragment(uri.appendQuery(query));
     }
 
     @Override
     public URI trimQuery()
     {
       URI result = uri.trimQuery();
-      return result == uri ? this : result.rawAppendFragment(fragment);
+      return result == uri ? this : appendFragment(result);
     }
 
     @Override
     public String fragment()
     {
+      if (hashCode == 0)
+      {
+        hashCode();
+      }
       return fragment.toString();
     }
 
@@ -4768,14 +4776,14 @@ public abstract class URI
     public URI resolve(URI base, boolean preserveRootParents)
     {
       URI result = uri.resolve(base, preserveRootParents);
-      return result == uri ? this : result.rawAppendFragment(fragment);
+      return result == uri ? this : appendFragment(result);
     }
 
     @Override
     public URI deresolve(URI base, boolean preserveRootParents, boolean anyRelPath, boolean shorterRelPath)
     {
       URI result = uri.deresolve(base, preserveRootParents, anyRelPath, shorterRelPath);
-      return result == uri ? this : result.rawAppendFragment(fragment);
+      return result == uri ? this : appendFragment(result);
     }
 
     @Override
@@ -4794,6 +4802,29 @@ public abstract class URI
       return CommonUtil.STRING_POOL.intern(result);
     }
 
+    /**
+     * If the hash code is <code>0</code> then most likely we've got a pending lazy {@link LazyFragmentInitializer}.
+     */
+    @Override
+    public int hashCode()
+    {
+      // Check if we have a deferred hash code initialization pending...
+      // Note there is the very remote possibility that the hash code could really be 0...
+      //
+      if (hashCode == 0)
+      {
+        hashCode = ((uri.hashCode * 31) + FRAGMENT_SEPARATOR) * CommonUtil.powerOf31(fragment.length()) + fragment.hashCode();
+
+        // In that case, also split intern the fragment, but check if it's really a string, because otherwise it really must be split interned already.
+        //
+        if (fragment instanceof String)
+        {
+          fragment = splitInternFragment(fragment.toString());
+        }
+      }
+      return hashCode;
+    }
+
     @Override
     public boolean equals(Object object)
     {
@@ -4801,12 +4832,16 @@ public abstract class URI
       {
         return true;
       }
+
       if (!(object instanceof Fragment))
       {
         return false;
       }
+
+      // Be careful to accommodate the case of a deferred split interned fragment.
+      //
       Fragment that = (Fragment)object;
-      return uri == that.uri && fragment == that.fragment;
+      return uri == that.uri && (fragment == that.fragment || fragment.toString().equals(that.fragment().toString()));
     }
 
     @Override
@@ -4825,21 +4860,21 @@ public abstract class URI
     public URI appendSegment(String segment)
     {
       URI result = uri.appendSegment(segment);
-      return result == uri ? this : result.rawAppendFragment(fragment);
+      return result == uri ? this : appendFragment(result);
     }
 
     @Override
     public URI appendSegments(String[] segments)
     {
       URI result = uri.appendSegments(segments);
-      return result == uri ? this : result.rawAppendFragment(fragment);
+      return result == uri ? this : appendFragment(result);
     }
 
     @Override
     public URI trimSegments(int i)
     {
       URI result = uri.trimSegments(i);
-      return result == uri ? this : result.rawAppendFragment(fragment);
+      return result == uri ? this : appendFragment(result);
     }
 
     @Override
@@ -4858,7 +4893,7 @@ public abstract class URI
     public URI appendFileExtension(String fileExtension)
     {
       URI result = uri.appendFileExtension(fileExtension);
-      return result == uri ? this : result.rawAppendFragment(fragment);
+      return result == uri ? this : appendFragment(result);
     }
 
     @Override
@@ -4872,7 +4907,7 @@ public abstract class URI
     public URI replacePrefix(URI oldPrefix, URI newPrefix)
     {
       URI result = uri.replacePrefix(oldPrefix, newPrefix);
-      return result == uri ? this : result == null ? null : result.rawAppendFragment(fragment);
+      return result == uri ? this : result == null ? null : appendFragment(result);
     }
   }
 
@@ -5126,7 +5161,7 @@ public abstract class URI
    * Returns the hash code.
    */
   @Override
-  public final int hashCode()
+  public int hashCode()
   {
     return hashCode;
   }
@@ -5343,6 +5378,32 @@ public abstract class URI
   }
 
   /**
+   * A weak reference for the external queue that when cleared will 
+   */
+  private static class LazyFragmentInitializer extends WeakReference<URI.Fragment>
+  {
+    protected final String fragment;
+
+    public LazyFragmentInitializer(URI.Fragment uri, ReferenceQueue<? super URI> queue, String fragment)
+    {
+      super(uri, queue);
+      this.fragment = fragment;
+      enqueue();
+    }
+
+    @Override
+    public void clear()
+    {
+      URI.Fragment uri = get();
+      if (uri != null)
+      {
+        uri.fragment = splitInternFragment(fragment);
+        uri.hashCode = ((uri.uri.hashCode * 31) + FRAGMENT_SEPARATOR) * CommonUtil.powerOf31(fragment.length()) + uri.fragment.hashCode();
+      }
+    }
+  }
+
+  /**
    * Returns the URI formed from this URI and the given fragment.
    *
    * @exception java.lang.IllegalArgumentException if
@@ -5357,8 +5418,17 @@ public abstract class URI
     }
     else
     {
-      int hashCode = ((this.hashCode * 31) + FRAGMENT_SEPARATOR) * CommonUtil.powerOf31(fragment.length()) + fragment.hashCode();
-      return new Fragment(hashCode, this, splitInternFragment(fragment));
+      if (POOL.externalQueue != null)
+      {
+        final Fragment result = new Fragment(0, this, fragment);
+        new LazyFragmentInitializer(result, POOL.externalQueue, fragment);
+        return result;
+      }
+      else
+      {
+        int hashCode = ((this.hashCode * 31) + FRAGMENT_SEPARATOR) * CommonUtil.powerOf31(fragment.length()) + fragment.hashCode();
+        return new Fragment(hashCode, this, splitInternFragment(fragment));
+      }
     }
   }
 

@@ -47,10 +47,12 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
 
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>EFactory</b></em>'.
+ * @implements BinaryResourceImpl.DataConverter.Factory
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
@@ -61,7 +63,7 @@ import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
  *
  * @generated
  */
-public class EFactoryImpl extends EModelElementImpl implements EFactory
+public class EFactoryImpl extends EModelElementImpl implements EFactory, BinaryResourceImpl.DataConverter.Factory
 {
   /**
    * The cached value of the '{@link #getEPackage() <em>EPackage</em>}' reference.
@@ -273,6 +275,14 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
        eClass.getInstanceClassName() == "java.util.Map$Entry" ?
          new DynamicEObjectImpl.BasicEMapEntry<String, String>(eClass) :
          new DynamicEObjectImpl(eClass);
+  }
+
+  /**
+   * @since 2.9
+   */
+  public BinaryResourceImpl.DataConverter<?> create(EDataType eDataType)
+  {
+    return null;
   }
 
   /**

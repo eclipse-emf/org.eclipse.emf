@@ -45,7 +45,6 @@ public class BinaryResourceTest extends TestCase
 {
   private URI resourceURI;
   private List<EObject> rootObjects;
-  private EcoreUtil.EqualityHelper equalityHelper;
 
   public BinaryResourceTest(String name)
   {
@@ -59,6 +58,8 @@ public class BinaryResourceTest extends TestCase
     ts.addTest(new BinaryResourceTest("testSaveAndLoad2"));
     ts.addTest(new BinaryResourceTest("testSaveAndLoadWithXMIResource"));
     ts.addTest(new BinaryResourceTest("testSaveWithBinaryResourceAndLoadWithXMIResource"));
+    ts.addTest(new BinaryResourceTest("testSaveWithBinaryResourceAndLoadWithXMIResourceAndInternalBuffer"));
+    ts.addTest(new BinaryResourceTest("testSaveWithBinaryResourceAndLoadWithXMIResourceAndInternalBuffer2"));
     ts.addTest(new BinaryResourceTest("testSaveAndLoadNoCache1"));
     ts.addTest(new BinaryResourceTest("testSaveAndLoadNoCache2"));
     return ts;
@@ -98,8 +99,6 @@ public class BinaryResourceTest extends TestCase
         item.setQuantity(i * j);
       }
     }
-
-    equalityHelper = new EcoreUtil.EqualityHelper();
   }
 
   @Override
@@ -111,24 +110,42 @@ public class BinaryResourceTest extends TestCase
 
   public void testSaveAndLoad1() throws Exception
   {
+    testSaveAndLoad1Helper(null);
+    Map<Object, Object> options = new HashMap<Object, Object>();
+    options.put(BinaryResourceImpl.OPTION_STYLE_DATA_CONVERTER, Boolean.TRUE);
+    options.put(BinaryResourceImpl.OPTION_VERSION, BinaryResourceImpl.BinaryIO.Version.VERSION_1_1);
+    testSaveAndLoad1Helper(options);
+  }
+
+  public void testSaveAndLoad1Helper(Map<?, ?> options) throws Exception
+  {
     Resource resource = new BinaryResourceImpl(resourceURI);
     resource.getContents().addAll(rootObjects);
-    resource.save(null);
+    resource.save(options);
     assertTrue(resourceURI.toString(), URIConverter.INSTANCE.exists(resourceURI, null));
 
     resource = new BinaryResourceImpl(resourceURI);
-    resource.load(null);
-    assertTrue(equalityHelper.equals(rootObjects, resource.getContents()));
+    resource.load(options);
+    assertTrue(EcoreUtil.equals(rootObjects, resource.getContents()));
   }
 
   public void testSaveAndLoad2() throws Exception
+  {
+    testSaveAndLoad2Helper(null);
+    Map<Object, Object> options = new HashMap<Object, Object>();
+    options.put(BinaryResourceImpl.OPTION_STYLE_DATA_CONVERTER, Boolean.TRUE);
+    options.put(BinaryResourceImpl.OPTION_VERSION, BinaryResourceImpl.BinaryIO.Version.VERSION_1_1);
+    testSaveAndLoad2Helper(options);
+  }
+
+  public void testSaveAndLoad2Helper(Map<?, ?> options) throws Exception
   {
     Resource resource = new BinaryResourceImpl();
     resource.getContents().addAll(rootObjects);
     OutputStream outputStream = URIConverter.INSTANCE.createOutputStream(resourceURI);
     try
     {
-      resource.save(outputStream, null);
+      resource.save(outputStream, options);
     }
     finally
     {
@@ -140,13 +157,13 @@ public class BinaryResourceTest extends TestCase
     InputStream inputStream = URIConverter.INSTANCE.createInputStream(resourceURI);
     try
     {
-      resource.load(inputStream, null);
+      resource.load(inputStream, options);
     }
     finally
     {
       inputStream.close();
     }
-    assertTrue(equalityHelper.equals(rootObjects, resource.getContents()));
+    assertTrue(EcoreUtil.equals(rootObjects, resource.getContents()));
   }
 
   public void testSaveAndLoadWithXMIResource() throws Exception
@@ -159,7 +176,7 @@ public class BinaryResourceTest extends TestCase
     XMLResource loadedResource = new XMIResourceImpl(resourceURI);
     loadedResource.getDefaultLoadOptions().put(XMLResource.OPTION_BINARY, Boolean.TRUE);
     loadedResource.load(null);
-    assertTrue(equalityHelper.equals(rootObjects, loadedResource.getContents()));
+    assertTrue(EcoreUtil.equals(rootObjects, loadedResource.getContents()));
     for (int i = 0, size = rootObjects.size(); i < size; ++i)
     {
       String loadedURIFragment = loadedResource.getURIFragment(loadedResource.getContents().get(i));
@@ -187,13 +204,81 @@ public class BinaryResourceTest extends TestCase
     XMLResource loadedResource = new XMIResourceImpl(resourceURI);
     loadedResource.getDefaultLoadOptions().put(XMLResource.OPTION_BINARY, Boolean.TRUE);
     loadedResource.load(null);
-    assertTrue(equalityHelper.equals(rootObjects, loadedResource.getContents()));
+    assertTrue(EcoreUtil.equals(rootObjects, loadedResource.getContents()));
     for (int i = 0, size = rootObjects.size(); i < size; ++i)
     {
       String loadedID = loadedResource.getID(loadedResource.getContents().get(i));
       assertNotNull(loadedID);
       assertEquals(savedResource.getID(rootObjects.get(i)), loadedID);
     }
+  }
+
+  public void testSaveWithBinaryResourceAndLoadWithXMIResourceAndInternalBuffer() throws Exception
+  {
+    XMLResource savedResource = 
+      new XMIResourceImpl(resourceURI)
+      {
+        @Override
+        protected boolean useUUIDs()
+        {
+          return true;
+        }
+      };
+    savedResource.getDefaultSaveOptions().put(XMLResource.OPTION_BINARY, Boolean.TRUE);
+    savedResource.getDefaultSaveOptions().put(BinaryResourceImpl.OPTION_INTERNAL_BUFFER_CAPACITY, 256);
+    savedResource.getContents().addAll(rootObjects);
+    savedResource.save(null);
+    assertTrue(resourceURI.toString(), URIConverter.INSTANCE.exists(resourceURI, null));
+
+    XMLResource loadedResource = new XMIResourceImpl(resourceURI);
+    loadedResource.getDefaultLoadOptions().put(XMLResource.OPTION_BINARY, Boolean.TRUE);
+    loadedResource.getDefaultLoadOptions().put(BinaryResourceImpl.OPTION_INTERNAL_BUFFER_CAPACITY, 256);
+    loadedResource.load(null);
+    assertTrue(EcoreUtil.equals(rootObjects, loadedResource.getContents()));
+    for (int i = 0, size = rootObjects.size(); i < size; ++i)
+    {
+      String loadedID = loadedResource.getID(loadedResource.getContents().get(i));
+      assertNotNull(loadedID);
+      assertEquals(savedResource.getID(rootObjects.get(i)), loadedID);
+    }
+  }
+
+  public void testSaveWithBinaryResourceAndLoadWithXMIResourceAndInternalBuffer2() throws Exception
+  {
+    OutputStream outputStream = URIConverter.INSTANCE.createOutputStream(resourceURI);
+    XMLResource savedResource = 
+      new XMIResourceImpl(resourceURI)
+      {
+        @Override
+        protected boolean useUUIDs()
+        {
+          return true;
+        }
+      };
+    savedResource.getDefaultSaveOptions().put(XMLResource.OPTION_BINARY, Boolean.TRUE);
+    savedResource.getDefaultSaveOptions().put(BinaryResourceImpl.OPTION_INTERNAL_BUFFER_CAPACITY, 256);
+    savedResource.getContents().addAll(rootObjects);
+    savedResource.save(outputStream, null);
+    savedResource.save(outputStream, null);
+    outputStream.close();
+    assertTrue(resourceURI.toString(), URIConverter.INSTANCE.exists(resourceURI, null));
+
+    InputStream inputStream = new BufferedInputStream(URIConverter.INSTANCE.createInputStream(resourceURI));
+    for (int count = 0; count < 2; ++count)
+    {
+      XMLResource loadedResource = new XMIResourceImpl(resourceURI);
+      loadedResource.getDefaultLoadOptions().put(XMLResource.OPTION_BINARY, Boolean.TRUE);
+      loadedResource.getDefaultLoadOptions().put(BinaryResourceImpl.OPTION_INTERNAL_BUFFER_CAPACITY, 256);
+      loadedResource.load(inputStream, null);
+      assertTrue(EcoreUtil.equals(rootObjects, loadedResource.getContents()));
+      for (int i = 0, size = rootObjects.size(); i < size; ++i)
+      {
+        String loadedID = loadedResource.getID(loadedResource.getContents().get(i));
+        assertNotNull(loadedID);
+        assertEquals(savedResource.getID(rootObjects.get(i)), loadedID);
+      }
+    }
+    inputStream.close();
   }
 
   public void testSaveAndLoadNoCache1() throws Exception
@@ -208,7 +293,7 @@ public class BinaryResourceTest extends TestCase
 
     resource = new BinaryResourceImpl(resourceURI);
     resource.load(options);
-    assertTrue(equalityHelper.equals(rootObjects, resource.getContents()));
+    assertTrue(EcoreUtil.equals(rootObjects, resource.getContents()));
   }
 
   public void testSaveAndLoadNoCache2() throws Exception
@@ -236,6 +321,6 @@ public class BinaryResourceTest extends TestCase
     {
       inputStream.close();
     }
-    assertTrue(equalityHelper.equals(rootObjects, resource.getContents()));
+    assertTrue(EcoreUtil.equals(rootObjects, resource.getContents()));
   }
 }

@@ -202,15 +202,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       {
         uriHandler.setBaseURI(getURI());
       }
-      EObjectInputStream eObjectInputStream =
-        new EObjectInputStream(inputStream, options)
-        {
-          @Override
-          protected URI resolve(URI uri) 
-          { 
-            return uriHandler == null ? super.resolve(uri) : uriHandler.resolve(uri);
-          }
-        };
+      EObjectInputStream eObjectInputStream = createEObjectInputStream(inputStream, options, uriHandler);
       ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
       if (handler != null)
       {
@@ -219,21 +211,23 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       eObjectInputStream.loadResource(this);
 
       // Load the extrinsic ID map.
-       int size = 0;
-       try
-       {
-         // If this stream wasn't produced by XMLResourceImpl, there won't be a map.
-         //
-         size = eObjectInputStream.readCompressedInt();
-       }
-       catch (IOException exception)
-       {
-         // Ignore
-       }
-       for (int i = 0; i < size; ++i)
-       {
-         setID(eObjectInputStream.loadEObject(), eObjectInputStream.readString());
-       }
+      int size = 0;
+      try
+      {
+        // If this stream wasn't produced by XMLResourceImpl, there won't be a map.
+        //
+        size = eObjectInputStream.readCompressedInt();
+      }
+      catch (IOException exception)
+      {
+        // Ignore
+      }
+      for (int i = 0; i < size; ++i)
+      {
+        setID(eObjectInputStream.loadEObject(), eObjectInputStream.readString());
+      }
+
+      eObjectInputStream.flush();
 
       if (handler != null)
       {
@@ -264,6 +258,22 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
         handler.postLoad(this, inputStream, options);
       }
     }
+  }
+
+  /**
+   * @since 2.9
+   */
+  protected EObjectInputStream createEObjectInputStream(InputStream inputStream, Map<?, ?> options, final URIHandler uriHandler) throws IOException
+  {
+    return
+      new EObjectInputStream(inputStream, options)
+      {
+        @Override
+        protected URI resolve(URI uri) 
+        { 
+          return uriHandler == null ? super.resolve(uri) : uriHandler.resolve(uri);
+        }
+      };
   }
 
   @Override
@@ -303,16 +313,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
         }
         BinaryResourceImpl.BinaryIO.Version version = 
           options != null && options.containsKey(BinaryResourceImpl.OPTION_VERSION)? (Version)options.get(BinaryResourceImpl.OPTION_VERSION) : BinaryResourceImpl.BinaryIO.Version.VERSION_1_0;
-        EObjectOutputStream eObjectOutputStream = 
-          new EObjectOutputStream(outputStream, options, version)
-          {
-            @Override
-            protected URI deresolve(URI uri)
-            {
-              return uriHandler == null ? super.deresolve(uri) : uriHandler.deresolve(uri);
-            }
-          };
-
+        EObjectOutputStream eObjectOutputStream = createEObjectOutputStream(outputStream, options, version, uriHandler);
         eObjectOutputStream.saveResource(this);
 
         // Save the extrinsic ID map.
@@ -330,6 +331,8 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
         {
           eObjectOutputStream.writeCompressedInt(0);
         }
+
+        eObjectOutputStream.flush();
       }
       finally
       {
@@ -366,6 +369,22 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
         handler.postSave(this, outputStream, options);
       }
     }
+  }
+
+  /**
+   * @since 2.9
+   */
+  protected EObjectOutputStream createEObjectOutputStream(OutputStream outputStream, Map<?, ?> options, BinaryResourceImpl.BinaryIO.Version version, final URIHandler uriHandler) throws IOException
+  {
+    return
+      new EObjectOutputStream(outputStream, options, version)
+      {
+        @Override
+        protected URI deresolve(URI uri)
+        {
+          return uriHandler == null ? super.deresolve(uri) : uriHandler.deresolve(uri);
+        }
+      };
   }
 
   /**
