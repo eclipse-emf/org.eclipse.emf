@@ -8,6 +8,7 @@
 			<accessrule kind="accessible" pattern="org/eclipse/xtext/ui/editor/findrefs/**"/>
 			<accessrule kind="accessible" pattern="org/eclipse/xtext/common/types/ui/refactoring/**"/>
 			<accessrule kind="accessible" pattern="org/eclipse/jdt/internal/corext/refactoring/rename/**"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/preferences/**"/>
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>

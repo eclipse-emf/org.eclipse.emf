@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.xcore.XClass;
+import org.eclipse.emf.ecore.xcore.XDataType;
 import org.eclipse.emf.ecore.xcore.XGenericType;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XReference;
@@ -35,7 +36,7 @@ import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractScope;
-import org.eclipse.xtext.xbase.annotations.typesystem.XbaseWithAnnotationsBatchScopeProvider;
+import org.eclipse.xtext.xbase.annotations.scoping.XbaseWithAnnotationsScopeProvider;
 
 import com.google.inject.Inject;
 
@@ -47,7 +48,7 @@ import com.google.inject.Inject;
  * how and when to use it
  *
  */
-public class XcoreScopeProvider extends XbaseWithAnnotationsBatchScopeProvider
+public class XcoreScopeProvider extends XbaseWithAnnotationsScopeProvider
 {
   @Inject
   private XcoreMapper mapper;
@@ -60,109 +61,136 @@ public class XcoreScopeProvider extends XbaseWithAnnotationsBatchScopeProvider
   {
     if (reference == XcorePackage.Literals.XREFERENCE__OPPOSITE)
     {
-      return
-        new AbstractScope(IScope.NULLSCOPE, false)
-        {
-          @Override
-          protected Iterable<IEObjectDescription> getAllLocalElements()
-          {
-            ArrayList<IEObjectDescription> result = new ArrayList<IEObjectDescription>();
-            if (context instanceof XReference)
-            {
-              XReference xReference = (XReference)context;
-              XGenericType type = xReference.getType();
-              if (type != null)
-              {
-                GenBase genType = type.getType();
-                if (genType instanceof GenTypeParameter)
-                {
-                  GenTypeParameter genTypeParameter = (GenTypeParameter)genType;
-                  ETypeParameter eTypeParameter = genTypeParameter.getEcoreTypeParameter();
-                  for (EGenericType eGenericType : eTypeParameter.getEBounds())
-                  {
-                    EClassifier eRawType = eGenericType.getERawType();
-                    if (eRawType instanceof EClass)
-                    {
-                      genType = genType.getGenModel().findGenClassifier(eRawType);
-                      break;
-                    }
-                  }
-                }
-                if (genType instanceof GenClass)
-                {
-                  GenClass genClass = (GenClass)genType;
-                  for (GenFeature opposite : genClass.getGenFeatures())
-                  {
-                    if (opposite.isReferenceType())
-                    {
-                      String name = opposite.getName();
-                      if (name != null)
-                      {
-                        result.add(new EObjectDescription(qualifiedNameConverter.toQualifiedName(name), opposite, null));
-                      }
-                    }
-                  }
-                }
-              }
-            }
-            return result;
-          }
-        };
+      return new OppositeScope(qualifiedNameConverter, IScope.NULLSCOPE, false, context);
     }
     else if (reference == XcorePackage.Literals.XREFERENCE__KEYS)
     {
-      return
-        new AbstractScope(IScope.NULLSCOPE, false)
-        {
-          @Override
-          protected Iterable<IEObjectDescription> getAllLocalElements()
-          {
-            ArrayList<IEObjectDescription> result = new ArrayList<IEObjectDescription>();
-            if (context instanceof XReference)
-            {
-              XReference ref = (XReference)context;
-              GenFeature genFeature = mapper.getMapping(ref).getGenFeature();
-              if (genFeature != null)
-              {
-                GenClass genClass = genFeature.getTypeGenClass();
-                if (genClass != null)
-                {
-                  for (GenFeature key : genClass.getAllGenFeatures())
-                  {
-                    if (!key.isReferenceType())
-                    {
-                      String name = key.getName();
-                      if (name != null)
-                      {
-                        result.add(new EObjectDescription(qualifiedNameConverter.toQualifiedName(name), key, null));
-                      }
-                    }
-                  }
-                }
-              }
-            }
-            return result;
-          }
-        };
-
+      return new KeyScope(mapper, qualifiedNameConverter, IScope.NULLSCOPE, false, context);
     }
     else
     {
       IScope scope = super.getScope(context, reference);
       return
         reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE ?
-          new TypeParameterScope(scope, false, context) :
+          new TypeParameterScope(mapper, qualifiedNameConverter, scope, false, context) :
           scope;
     }
   }
 
-  protected class TypeParameterScope extends AbstractScope
+  protected static final class KeyScope extends AbstractScope
   {
+    private final XcoreMapper mapper;
+    private final IQualifiedNameConverter qualifiedNameConverter;
     private final EObject context;
 
-    public TypeParameterScope(IScope parent, boolean ignoreCase, EObject context)
+    public KeyScope(XcoreMapper mapper, IQualifiedNameConverter qualifiedNameConverter, IScope parent, boolean ignoreCase, EObject context)
     {
       super(parent, ignoreCase);
+      this.mapper = mapper;
+      this.qualifiedNameConverter = qualifiedNameConverter;
+      this.context = context;
+    }
+
+    @Override
+    protected Iterable<IEObjectDescription> getAllLocalElements()
+    {
+      ArrayList<IEObjectDescription> result = new ArrayList<IEObjectDescription>();
+      if (context instanceof XReference)
+      {
+        XReference ref = (XReference)context;
+        GenFeature genFeature = mapper.getMapping(ref).getGenFeature();
+        if (genFeature != null)
+        {
+          GenClass genClass = genFeature.getTypeGenClass();
+          if (genClass != null)
+          {
+            for (GenFeature key : genClass.getAllGenFeatures())
+            {
+              if (!key.isReferenceType())
+              {
+                String name = key.getName();
+                if (name != null)
+                {
+                  result.add(new EObjectDescription(qualifiedNameConverter.toQualifiedName(name), key, null));
+                }
+              }
+            }
+          }
+        }
+      }
+      return result;
+    }
+  }
+
+  protected static final class OppositeScope extends AbstractScope
+  {
+    private final IQualifiedNameConverter qualifiedNameConverter;
+    private final EObject context;
+
+    public OppositeScope(IQualifiedNameConverter qualifiedNameConverter, IScope parent, boolean ignoreCase, EObject context)
+    {
+      super(parent, ignoreCase);
+      this.qualifiedNameConverter = qualifiedNameConverter;
+      this.context = context;
+    }
+
+    @Override
+    protected Iterable<IEObjectDescription> getAllLocalElements()
+    {
+      ArrayList<IEObjectDescription> result = new ArrayList<IEObjectDescription>();
+      if (context instanceof XReference)
+      {
+        XReference xReference = (XReference)context;
+        XGenericType type = xReference.getType();
+        if (type != null)
+        {
+          GenBase genType = type.getType();
+          if (genType instanceof GenTypeParameter)
+          {
+            GenTypeParameter genTypeParameter = (GenTypeParameter)genType;
+            ETypeParameter eTypeParameter = genTypeParameter.getEcoreTypeParameter();
+            for (EGenericType eGenericType : eTypeParameter.getEBounds())
+            {
+              EClassifier eRawType = eGenericType.getERawType();
+              if (eRawType instanceof EClass)
+              {
+                genType = genType.getGenModel().findGenClassifier(eRawType);
+                break;
+              }
+            }
+          }
+          if (genType instanceof GenClass)
+          {
+            GenClass genClass = (GenClass)genType;
+            for (GenFeature opposite : genClass.getGenFeatures())
+            {
+              if (opposite.isReferenceType())
+              {
+                String name = opposite.getName();
+                if (name != null)
+                {
+                  result.add(new EObjectDescription(qualifiedNameConverter.toQualifiedName(name), opposite, null));
+                }
+              }
+            }
+          }
+        }
+      }
+      return result;
+    }
+  }
+
+  protected static class TypeParameterScope extends AbstractScope
+  {
+    private final XcoreMapper mapper;
+    private final IQualifiedNameConverter qualifiedNameConverter;
+    private final EObject context;
+
+    public TypeParameterScope(XcoreMapper mapper, IQualifiedNameConverter qualifiedNameConverter, IScope parent, boolean ignoreCase, EObject context)
+    {
+      super(parent, ignoreCase);
+      this.mapper = mapper;
+      this.qualifiedNameConverter = qualifiedNameConverter;
       this.context = context;
     }
 
@@ -195,6 +223,15 @@ public class XcoreScopeProvider extends XbaseWithAnnotationsBatchScopeProvider
         else if (eObject instanceof XClass)
         {
           GenClassifier genClassifier = mapper.getMapping((XClass)eObject).getGenClass();
+          if (genClassifier != null)
+          {
+            handleGenTypeParameters(result, genClassifier.getGenTypeParameters());
+          }
+          break;
+        }
+        else if (eObject instanceof XDataType)
+        {
+          GenClassifier genClassifier = mapper.getMapping((XDataType)eObject).getGenDataType();
           if (genClassifier != null)
           {
             handleGenTypeParameters(result, genClassifier.getGenTypeParameters());

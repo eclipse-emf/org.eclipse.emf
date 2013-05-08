@@ -107,6 +107,7 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXEnumLiteralAccess().getGroup(), "rule__XEnumLiteral__Group__0");
 					put(grammarAccess.getXEnumLiteralAccess().getGroup_2(), "rule__XEnumLiteral__Group_2__0");
 					put(grammarAccess.getXEnumLiteralAccess().getGroup_3(), "rule__XEnumLiteral__Group_3__0");
+					put(grammarAccess.getSignedIntAccess().getGroup(), "rule__SignedInt__Group__0");
 					put(grammarAccess.getXClassAccess().getGroup(), "rule__XClass__Group__0");
 					put(grammarAccess.getXClassAccess().getGroup_2_0(), "rule__XClass__Group_2_0__0");
 					put(grammarAccess.getXClassAccess().getGroup_4(), "rule__XClass__Group_4__0");

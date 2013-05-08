@@ -5,8 +5,8 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-grammar org.eclipse.emf.ecore.xcore.Xcore 
-  with org.eclipse.xtext.xbase.Xbase 
+grammar org.eclipse.emf.ecore.xcore.Xcore
+  with org.eclipse.xtext.xbase.Xbase
 
 import "http://www.eclipse.org/emf/2002/Ecore"
 import "http://www.eclipse.org/emf/2002/GenModel" as genmodel
@@ -52,7 +52,7 @@ XClassifier:
 
 XDataType:
 	(annotations+=XAnnotation)*
-	'type' name = ID 
+	'type' name = ID
 	('<' typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')?
 	'wraps' instanceType=JvmTypeReference
 	(
@@ -62,7 +62,7 @@ XDataType:
 	   */
 	  (serializable?='create' createBody=XBlockExpression)? &
 	  /*
-	   * In scope for create should be what's visible in XyzFactoryImpl 
+	   * In scope for create should be what's visible in XyzFactoryImpl
 	   * and 'this' will denote an instance of the wrapped type.
 	   * The block expression must yield a java.lang.String.
 	   */
@@ -80,9 +80,13 @@ XEnum:
 
 XEnumLiteral:
 	(annotations+=XAnnotation)*
-    name=ID 
-    ('as' literal=STRING)? 
-    ('=' value=INT)?
+    name=ID
+    ('as' literal=STRING)?
+    ('=' value=SignedInt)?
+;
+
+SignedInt returns EInt :
+	'-'? INT
 ;
 
 XClass:
@@ -152,7 +156,7 @@ XReference:
 	multiplicity=XMultiplicity?
     name=ID
     (
-      'opposite' opposite=[genmodel::GenFeature|ValidID] 
+      'opposite' opposite=[genmodel::GenFeature|ValidID]
     )?
     (
       'keys' keys+=[genmodel::GenFeature|ValidID] (',' keys+=[genmodel::GenFeature|ValidID])*
@@ -174,13 +178,13 @@ XOperation:
 	'op'
 	(
 	  unordered?='unordered' unique?='unique'? |
-	  unique?='unique' unordered?='unordered'? 
+	  unique?='unique' unordered?='unordered'?
 	)?
-	('<' typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')? 
-	(type=XGenericType | 'void') 
+	('<' typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')?
+	(type=XGenericType | 'void')
 	multiplicity=XMultiplicity?
-	name=ID 
-	'(' (parameters+=XParameter (',' parameters+=XParameter)*)? ')' 
+	name=ID
+	'(' (parameters+=XParameter (',' parameters+=XParameter)*)? ')'
 	('throws' exceptions+=XGenericType (',' exceptions+=XGenericType)*)?
 	/*
 	 * This is the logic for the operation.
@@ -194,9 +198,9 @@ XParameter:
 	(annotations+=XAnnotation)*
 	(
 	  unordered?='unordered' unique?='unique'? |
-	  unique?='unique' unordered?='unordered'? 
+	  unique?='unique' unordered?='unordered'?
 	)?
-    type=XGenericType 
+    type=XGenericType
     multiplicity=XMultiplicity?
     name=ID
 ;
@@ -246,7 +250,7 @@ ValidID:
 ;
 
 FeatureCallID:
-	ValidID | 'abstract' | 'annotation' | 'as' | 'class' | 'container' | 'contains' | 'convert' | 'create' | 'derived' | 'enum' | 'extends' | 'extension' | 'id' | 'import' | 'keys' | 
-	'interface'| 'local' | 'op' | 'opposite' | 'package' | 'readonly' | 'refers' | 'resolving' | 'static' | 'throws' | 'transient' | 'unique' | 'unordered' | 'unsettable'| 
-	'volatile' | 'wraps' 
+	ValidID | 'abstract' | 'annotation' | 'as' | 'class' | 'container' | 'contains' | 'convert' | 'create' | 'derived' | 'enum' | 'extends' | 'extension' | 'id' | 'import' | 'keys' |
+	'interface'| 'local' | 'op' | 'opposite' | 'package' | 'readonly' | 'refers' | 'resolving' | 'static' | 'throws' | 'transient' | 'unique' | 'unordered' | 'unsettable'|
+	'volatile' | 'wraps'
 ;

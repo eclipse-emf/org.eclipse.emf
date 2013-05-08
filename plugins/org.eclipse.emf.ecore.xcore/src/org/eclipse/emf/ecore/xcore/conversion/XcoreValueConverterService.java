@@ -33,6 +33,9 @@ public class XcoreValueConverterService extends XbaseValueConverterService
   @Inject
   private KeywordAlternativeConverter validIDConverter;
 
+  @Inject
+  private SignedIntValueConverter signedIntValueConverter;
+
   @ValueConverter(rule = "XQualifiedName")
   public IValueConverter<String> getXQualifiedNameValueConverter()
   {
@@ -57,4 +60,9 @@ public class XcoreValueConverterService extends XbaseValueConverterService
     return validIDConverter;
   }
 
+  @ValueConverter(rule = "SignedInt")
+  public IValueConverter<Integer> getSignedInt()
+  {
+    return signedIntValueConverter;
+  }
 }

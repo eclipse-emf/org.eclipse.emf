@@ -932,24 +932,58 @@ ruleXEnumLiteral returns [EObject current=null]
     }
 (
 (
-		lv_value_5_0=RULE_INT
-		{
-			newLeafNode(lv_value_5_0, grammarAccess.getXEnumLiteralAccess().getValueINTTerminalRuleCall_3_1_0()); 
-		}
-		{
+		{ 
+	        newCompositeNode(grammarAccess.getXEnumLiteralAccess().getValueSignedIntParserRuleCall_3_1_0()); 
+	    }
+		lv_value_5_0=ruleSignedInt		{
 	        if ($current==null) {
-	            $current = createModelElement(grammarAccess.getXEnumLiteralRule());
+	            $current = createModelElementForParent(grammarAccess.getXEnumLiteralRule());
 	        }
-       		setWithLastConsumed(
+       		set(
        			$current, 
        			"value",
         		lv_value_5_0, 
-        		"INT");
+        		"SignedInt");
+	        afterParserOrEnumRuleCall();
 	    }
 
 )
 ))?)
 ;
+
+
+
+
+
+// Entry rule entryRuleSignedInt
+entryRuleSignedInt returns [String current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getSignedIntRule()); } 
+	 iv_ruleSignedInt=ruleSignedInt 
+	 { $current=$iv_ruleSignedInt.current.getText(); }  
+	 EOF 
+;
+
+// Rule SignedInt
+ruleSignedInt returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((
+	kw='-' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getSignedIntAccess().getHyphenMinusKeyword_0()); 
+    }
+)?    this_INT_1=RULE_INT    {
+		$current.merge(this_INT_1);
+    }
+
+    { 
+    newLeafNode(this_INT_1, grammarAccess.getSignedIntAccess().getINTTerminalRuleCall_1()); 
+    }
+)
+    ;
 
 
 

@@ -10,7 +10,9 @@
  */
 package org.eclipse.emf.ecore.xcore.exporter;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -69,11 +71,18 @@ import org.eclipse.emf.exporter.ModelExporter;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
+import org.eclipse.xtext.parser.IParseResult;
+import org.eclipse.xtext.preferences.IPreferenceValues;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.SaveOptions;
+import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.ui.XtextProjectHelper;
+import org.eclipse.xtext.xbase.formatting.FormattingPreferenceValues;
+import org.eclipse.xtext.xbase.formatting.IBasicFormatter;
+import org.eclipse.xtext.xbase.formatting.IFormattingPreferenceValuesProvider;
+import org.eclipse.xtext.xbase.formatting.TextReplacement;
 
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
@@ -102,6 +111,11 @@ public class XcoreExporter extends ModelExporter
   @Inject
   private IQualifiedNameConverter qualifiedNameConverter;
 
+  @Inject
+  protected IBasicFormatter formatter;
+
+  @Inject
+  private IFormattingPreferenceValuesProvider preferencesProvider;
 
   private static final Set<String> IMPLICIT_ALIASES = Sets.newHashSet();
   static
@@ -177,9 +191,9 @@ public class XcoreExporter extends ModelExporter
       inputGenModel.reconcile();
 
       Resource inputResource = inputGenModel.eResource();
-      final Resource outputResource = resourceSet.createResource(xcoreLocationURI);
+      final XtextResource outputResource = (XtextResource)resourceSet.createResource(xcoreLocationURI);
 
-      // Create a fresh newly GenModel for the packages we just loaded.
+      // Create a fresh new GenModel for the packages we just loaded.
       //
       GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
       List<EPackage> ePackageClones = new ArrayList<EPackage>();
@@ -376,7 +390,7 @@ public class XcoreExporter extends ModelExporter
       final Map<Object, Object> options = new HashMap<Object, Object>();
       SaveOptions.newBuilder().format().noValidation().getOptions().addTo(options);
 
-      // Do this is a job so that Xtext nature we added as a chance to build the index needed by the serializer.
+      // Do this in a job so that Xtext nature we added has a chance to build the index needed by the serializer.
       //
       Job job =
         new Job("Save")
@@ -393,6 +407,38 @@ public class XcoreExporter extends ModelExporter
               uriMap.clear();
               outputResource.save(options);
               uriMap.putAll(copyiedURIMap);
+
+              outputResource.unload();
+              outputResource.load(null);
+              IParseResult parseResult = outputResource.getParseResult();
+              if (parseResult != null)
+              {
+                IPreferenceValues configuration = preferencesProvider.getPreferenceValues(outputResource);
+                try
+                {
+                  List<TextReplacement> edits = formatter.format(outputResource, 0, parseResult.getRootNode().getLength(), new FormattingPreferenceValues(configuration));
+
+                  BufferedInputStream bufferedInputStream = new BufferedInputStream(resourceSet.getURIConverter().createInputStream(outputResource.getURI()));
+                  byte[] input = new byte[bufferedInputStream.available()];
+                  bufferedInputStream.read(input);
+                  bufferedInputStream.close();
+                  String text = new String(input, outputResource.getEncoding());
+                  StringBuilder builder = new StringBuilder(text);
+                  for (int i = edits.size(); --i >= 0; )
+                  {
+                    TextReplacement replacement = edits.get(i);
+                    builder.replace(replacement.getOffset(), replacement.getOffset() + replacement.getLength(), replacement.getText());
+                  }
+
+                  OutputStream outputStream = resourceSet.getURIConverter().createOutputStream(outputResource.getURI());
+                  outputStream.write(builder.toString().getBytes(outputResource.getEncoding()));
+                  outputStream.close();
+                }
+                catch (Throwable throwable)
+                {
+                  XcoreExporterPlugin.INSTANCE.log(throwable);
+                }
+              }
             }
             catch (IOException exception)
             {

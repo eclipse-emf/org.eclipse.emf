@@ -7,6 +7,8 @@
 			<accessrule kind="accessible" pattern="org/eclipse/xtext/xtype/**"/>
 			<accessrule kind="accessible" pattern="org/eclipse/xtext/common/types/**"/>
 			<accessrule kind="accessible" pattern="org/eclipse/xtext/xtext/**"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/xbase/formatting/**"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/preferences/**"/>
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>

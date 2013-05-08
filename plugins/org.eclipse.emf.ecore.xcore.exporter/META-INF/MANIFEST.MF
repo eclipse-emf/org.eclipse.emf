@@ -17,7 +17,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xcore.ui,
  org.eclipse.emf.ecore.xcore,
  org.eclipse.xtext.ui,
- org.eclipse.jdt.core
+ org.eclipse.jdt.core,
+ org.eclipse.xtext.xbase
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
 

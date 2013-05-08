@@ -3355,7 +3355,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
           int index = eTypeParameters.indexOf(eTypeParameter);
           if (index != -1 && eGenericSuperType.getETypeArguments().size() > index)
           {
-            return getTypeArgument(context, eGenericSuperType.getETypeArguments().get(index), isImported, isErased);
+            EGenericType eTypeArgument = eGenericSuperType.getETypeArguments().get(index);
+            if (eTypeArgument != eGenericType)
+            {
+              return getTypeArgument(context, eTypeArgument, isImported, isErased);
+            }
           }
         }
         if (isErased)

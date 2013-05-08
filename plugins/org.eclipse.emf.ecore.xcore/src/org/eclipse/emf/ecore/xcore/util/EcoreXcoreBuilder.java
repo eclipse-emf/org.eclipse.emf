@@ -677,7 +677,7 @@ public class EcoreXcoreBuilder
     if (eReference.isContainment())
     {
       xReference.setContainment(true);
-      if (eReference.isResolveProxies())
+      if (genFeature.isResolveProxies())
       {
         xReference.setResolveProxies(true);
       }
@@ -685,7 +685,7 @@ public class EcoreXcoreBuilder
     else if (eReference.isContainer())
     {
       xReference.setContainer(true);
-      if (eReference.isResolveProxies())
+      if (genFeature.isResolveProxies())
       {
         xReference.setResolveProxies(true);
       }

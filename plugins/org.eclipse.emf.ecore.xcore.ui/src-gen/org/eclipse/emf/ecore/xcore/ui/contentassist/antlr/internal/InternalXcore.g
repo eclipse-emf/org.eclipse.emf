@@ -309,6 +309,34 @@ finally {
 
 
 
+// Entry rule entryRuleSignedInt
+entryRuleSignedInt 
+:
+{ before(grammarAccess.getSignedIntRule()); }
+	 ruleSignedInt
+{ after(grammarAccess.getSignedIntRule()); } 
+	 EOF 
+;
+
+// Rule SignedInt
+ruleSignedInt
+    @init {
+		int stackSize = keepStackSize();
+    }
+	:
+(
+{ before(grammarAccess.getSignedIntAccess().getGroup()); }
+(rule__SignedInt__Group__0)
+{ after(grammarAccess.getSignedIntAccess().getGroup()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
+
 // Entry rule entryRuleXClass
 entryRuleXClass 
 :
@@ -6272,6 +6300,69 @@ rule__XEnumLiteral__Group_3__1__Impl
 { before(grammarAccess.getXEnumLiteralAccess().getValueAssignment_3_1()); }
 (rule__XEnumLiteral__ValueAssignment_3_1)
 { after(grammarAccess.getXEnumLiteralAccess().getValueAssignment_3_1()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
+
+
+
+
+rule__SignedInt__Group__0
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+	rule__SignedInt__Group__0__Impl
+	rule__SignedInt__Group__1
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__SignedInt__Group__0__Impl
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+(
+{ before(grammarAccess.getSignedIntAccess().getHyphenMinusKeyword_0()); }
+(
+	'-' 
+)?
+{ after(grammarAccess.getSignedIntAccess().getHyphenMinusKeyword_0()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
+rule__SignedInt__Group__1
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+	rule__SignedInt__Group__1__Impl
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__SignedInt__Group__1__Impl
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+(
+{ before(grammarAccess.getSignedIntAccess().getINTTerminalRuleCall_1()); }
+	RULE_INT
+{ after(grammarAccess.getSignedIntAccess().getINTTerminalRuleCall_1()); }
 )
 
 ;
@@ -24208,8 +24299,8 @@ rule__XEnumLiteral__ValueAssignment_3_1
     }
 :
 (
-{ before(grammarAccess.getXEnumLiteralAccess().getValueINTTerminalRuleCall_3_1_0()); }
-	RULE_INT{ after(grammarAccess.getXEnumLiteralAccess().getValueINTTerminalRuleCall_3_1_0()); }
+{ before(grammarAccess.getXEnumLiteralAccess().getValueSignedIntParserRuleCall_3_1_0()); }
+	ruleSignedInt{ after(grammarAccess.getXEnumLiteralAccess().getValueSignedIntParserRuleCall_3_1_0()); }
 )
 
 ;

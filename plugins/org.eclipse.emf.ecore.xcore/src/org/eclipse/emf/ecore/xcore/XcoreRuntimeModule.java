@@ -11,6 +11,7 @@ package org.eclipse.emf.ecore.xcore;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xcore.conversion.XcoreQualifiedNameValueConverter;
 import org.eclipse.emf.ecore.xcore.conversion.XcoreValueConverterService;
+import org.eclipse.emf.ecore.xcore.formatting.XcoreFormatter;
 import org.eclipse.emf.ecore.xcore.generator.XcoreGenerator;
 import org.eclipse.emf.ecore.xcore.resource.XcoreModelAssociator;
 import org.eclipse.emf.ecore.xcore.resource.XcoreReferableElementsUnloader;
@@ -22,9 +23,12 @@ import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvi
 import org.eclipse.emf.ecore.xcore.scoping.XcoreQualifiedNameProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionManager;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionStrategy;
+import org.eclipse.emf.ecore.xcore.scoping.XcoreBatchScopeProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreScopeProvider;
+import org.eclipse.emf.ecore.xcore.scoping.XcoreSerializerScopeProvider;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnosticConverter;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnostician;
+import org.eclipse.emf.ecore.xcore.validation.XcoreJvmTypeReferencesValidator;
 import org.eclipse.emf.ecore.xcore.validation.XcoreResourceValidator;
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.conversion.impl.QualifiedNameValueConverter;
@@ -40,14 +44,17 @@ import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.serializer.ISerializer;
 import org.eclipse.xtext.serializer.impl.Serializer;
+import org.eclipse.xtext.serializer.tokens.SerializerScopeProviderBinding;
 import org.eclipse.xtext.service.SingletonBinding;
 import org.eclipse.xtext.validation.IDiagnosticConverter;
 import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.xbase.featurecalls.IdentifiableSimpleNameProvider;
+import org.eclipse.xtext.xbase.formatting.IBasicFormatter;
 import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations;
 import org.eclipse.xtext.xbase.jvmmodel.ILogicalContainerProvider;
 import org.eclipse.xtext.xbase.scoping.batch.ImplicitlyImportedTypes;
 import org.eclipse.xtext.xbase.scoping.batch.XbaseBatchScopeProvider;
+import org.eclipse.xtext.xbase.validation.JvmTypeReferencesValidator;
 
 import com.google.inject.Binder;
 import com.google.inject.name.Names;
@@ -65,7 +72,7 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   {
     return Serializer.class;
   }
-  
+
   @Override
   public Class<? extends IDefaultResourceDescriptionStrategy> bindIDefaultResourceDescriptionStrategy()
   {
@@ -92,9 +99,15 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   }
 
   @Override
-  public Class<? extends XbaseBatchScopeProvider> bindXbaseBatchScopeProvider() 
+  public void configureSerializerIScopeProvider(com.google.inject.Binder binder)
   {
-    return XcoreScopeProvider.class;
+    binder.bind(IScopeProvider.class).annotatedWith(SerializerScopeProviderBinding.class).to(XcoreSerializerScopeProvider.class);
+  }
+
+  @Override
+  public Class<? extends XbaseBatchScopeProvider> bindXbaseBatchScopeProvider()
+  {
+    return XcoreBatchScopeProvider.class;
   }
 
   @Override
@@ -148,7 +161,7 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   {
     return XcoreContainerManager.class;
   }
-  
+
   public Class<? extends IJvmModelAssociations> bindIJvmModelAssociations()
   {
     return XcoreModelAssociator.class;
@@ -174,5 +187,23 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   public Class<? extends IResourceValidator> bindIResourceValidator()
   {
     return XcoreResourceValidator.class;
+  }
+
+  @Override
+  public Class<? extends IScopeProvider> bindIScopeProvider()
+  {
+    return XcoreScopeProvider.class;
+  }
+
+  public Class<? extends IBasicFormatter> bindIBasicFormatter()
+  {
+    return XcoreFormatter.class;
+  }
+  
+  @Override
+  @SingletonBinding(eager=true)
+  public Class<? extends JvmTypeReferencesValidator> bindJvmTypeReferencesValidator()
+  {
+    return XcoreJvmTypeReferencesValidator.class;
   }
 }
