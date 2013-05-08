@@ -19,7 +19,7 @@ public class XcoreJvmTypeReferencesValidator extends JvmTypeReferencesValidator
   public void checkTypeArgsAgainstTypeParameters(JvmParameterizedTypeReference typeRef)
   {
     if (typeRef.eContainmentFeature() != XcorePackage.Literals.XCLASSIFIER__INSTANCE_TYPE ||
-         ((XClassifier)typeRef.eContainer()).getTypeParameters().isEmpty())
+         ((XClassifier)typeRef.eContainer()).getTypeParameters().isEmpty() && !"java.util.Map$Entry".equals(typeRef.getIdentifier()))
     {
       super.checkTypeArgsAgainstTypeParameters(typeRef);
     }
