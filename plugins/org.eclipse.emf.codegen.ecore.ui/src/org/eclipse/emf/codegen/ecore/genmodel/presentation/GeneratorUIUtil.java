@@ -187,9 +187,9 @@ public class GeneratorUIUtil
              });
         }
       }
-      catch (Exception exception)
+      catch (Throwable throwable)
       {
-        GenModelEditPlugin.INSTANCE.log(exception);
+        GenModelEditPlugin.INSTANCE.log(throwable);
       }
       progressMonitor.done();      
     }
