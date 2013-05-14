@@ -2561,6 +2561,14 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         result.add(name);
       }
     }
+    for (GenEnum genEnum : getGenEnums())
+    {
+      String name = genEnum.getName();
+      if (CodeGenUtil.isJavaDefaultType(name))
+      {
+        result.add(name);
+      }
+    }
     return result;
   }
 
