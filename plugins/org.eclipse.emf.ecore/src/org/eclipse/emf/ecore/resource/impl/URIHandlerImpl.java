@@ -86,6 +86,18 @@ public class URIHandlerImpl implements URIHandler
   }
 
   /**
+   * Returns the value of the {@link URIConverter#OPTION_TIMEOUT timeout option}.
+   * @param options the options in which to look for the timeout option.
+   * @return the value of the timeout option, or <code>0</code> if not present.
+   * @since 2.9
+   */
+  protected int getTimeout(Map<?, ?> options)
+  {
+    Integer timeout = (Integer)options.get(URIConverter.OPTION_TIMEOUT);
+    return timeout == null ? 0 : timeout.intValue();
+  }
+
+  /**
    * Creates an output stream for the URI, assuming it's a URL, and returns it.
    * Specialized support is provided for HTTP URLs.
    * @return an open output stream.
@@ -98,6 +110,11 @@ public class URIHandlerImpl implements URIHandler
       URL url = new URL(uri.toString());
       final URLConnection urlConnection = url.openConnection();
       urlConnection.setDoOutput(true);
+      int timeout = getTimeout(options);
+      if (timeout != 0)
+      {
+        urlConnection.setConnectTimeout(timeout);
+      }
       if (urlConnection instanceof HttpURLConnection)
       {
         final HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;
@@ -169,6 +186,12 @@ public class URIHandlerImpl implements URIHandler
     {
       URL url = new URL(uri.toString());
       final URLConnection urlConnection = url.openConnection();
+      int timeout = getTimeout(options);
+      if (timeout != 0)
+      {
+        urlConnection.setConnectTimeout(timeout);
+        urlConnection.setReadTimeout(timeout);
+      }
       InputStream result = urlConnection.getInputStream();
       Map<Object, Object> response = getResponse(options);
       if (response != null)
@@ -193,6 +216,11 @@ public class URIHandlerImpl implements URIHandler
       URL url = new URL(uri.toString());
       URLConnection urlConnection = url.openConnection();
       urlConnection.setDoOutput(true);
+      int timeout = getTimeout(options);
+      if (timeout != 0)
+      {
+        urlConnection.setConnectTimeout(timeout);
+      }
       if (urlConnection instanceof HttpURLConnection)
       {
         final HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;
@@ -302,6 +330,12 @@ public class URIHandlerImpl implements URIHandler
     {
       URL url = new URL(uri.toString());
       URLConnection urlConnection = url.openConnection();
+      int timeout = getTimeout(options);
+      if (timeout != 0)
+      {
+        urlConnection.setConnectTimeout(timeout);
+        urlConnection.setReadTimeout(timeout);
+      }
       if (urlConnection instanceof HttpURLConnection)
       {
         HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;
@@ -337,6 +371,12 @@ public class URIHandlerImpl implements URIHandler
       if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_READ_ONLY))
       {
         urlConnection = url.openConnection();
+        int timeout = getTimeout(options);
+        if (timeout != 0)
+        {
+          urlConnection.setConnectTimeout(timeout);
+          urlConnection.setReadTimeout(timeout);
+        }
         if (urlConnection instanceof HttpURLConnection)
         {
           HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;
@@ -360,6 +400,12 @@ public class URIHandlerImpl implements URIHandler
         if (urlConnection == null)
         {
           urlConnection = url.openConnection();
+          int timeout = getTimeout(options);
+          if (timeout != 0)
+          {
+            urlConnection.setConnectTimeout(timeout);
+            urlConnection.setReadTimeout(timeout);
+          }
           if (urlConnection instanceof HttpURLConnection)
           {
             HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;
@@ -378,6 +424,12 @@ public class URIHandlerImpl implements URIHandler
         if (urlConnection == null)
         {
           urlConnection = url.openConnection();
+          int timeout = getTimeout(options);
+          if (timeout != 0)
+          {
+            urlConnection.setConnectTimeout(timeout);
+            urlConnection.setReadTimeout(timeout);
+          }
           if (urlConnection instanceof HttpURLConnection)
           {
             HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;

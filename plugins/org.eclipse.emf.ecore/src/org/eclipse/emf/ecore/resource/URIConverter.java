@@ -22,6 +22,7 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
+import java.net.SocketTimeoutException;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -83,6 +84,17 @@ public interface URIConverter
    * @since 2.7
    */
   String RESPONSE_URI = "URI";
+
+  /**
+   * An option to pass a timeout value, i.e., a non-negative <code>Integer</code>, to the URI converter's methods.
+   * If the operation cannot be completed within the specified number of milliseconds
+   * and the {@link #getURIHandler(URI) handler} for the URI supports timeouts,
+   * an {@link IOException} is thrown,
+   * e.g., a URI with <code>http</code> scheme will throw {@link SocketTimeoutException}.
+   * The default value is <code>0</code>, i.e., infinite timeout.
+   * @since 2.9
+   */
+  String OPTION_TIMEOUT = "TIMEOUT";
 
   /**
    * Returns the normalized form of the URI.
