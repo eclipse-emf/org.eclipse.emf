@@ -330,10 +330,18 @@ public interface EStructuralFeature extends ETypedElement
     interface DynamicValueHolder
     {
       /**
-       * An object use to represent being set to null <code>null</code>  
+       * An object used to represent being set to <code>null</code> 
        * as opposed to having no value and hence being in the default state.
        */
-      Object NIL = new Object();
+      Object NIL =
+        new Object()
+        {
+          @Override
+          public String toString()
+          {
+            return "NIL";
+          }
+        };
 
       /**
        * Returns the value of the feature.
