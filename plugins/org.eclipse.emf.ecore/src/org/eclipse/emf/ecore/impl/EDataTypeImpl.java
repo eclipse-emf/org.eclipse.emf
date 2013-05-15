@@ -333,13 +333,17 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType, EDataTy
       List<String> conversionDelegates = EcoreUtil.getConversionDelegates(getEPackage());
       if (!conversionDelegates.isEmpty())
       {
-        for (String eDataTypeDelegateUri : conversionDelegates)
+        for (String eDataTypeDelegateURI : conversionDelegates)
         {
-          if (this.getEAnnotation(eDataTypeDelegateUri) != null)
+          if (this.getEAnnotation(eDataTypeDelegateURI) != null)
           {
             EDataType.Internal.ConversionDelegate.Factory eDataTypeDelegateFactory = EcoreUtil.getConversionDelegateFactory(this);
-            conversionDelegate = eDataTypeDelegateFactory.createConversionDelegate(this);
-            conversionDelegateIsSet = true;
+            if (eDataTypeDelegateFactory != null)
+            {
+              conversionDelegate = eDataTypeDelegateFactory.createConversionDelegate(this);
+              conversionDelegateIsSet = true;
+              break;
+            }
           }
         }
       }

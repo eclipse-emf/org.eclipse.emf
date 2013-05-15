@@ -913,11 +913,11 @@ public class FactoryClass
     stringBuffer.append(TEXT_173);
     }
     stringBuffer.append(TEXT_174);
-    } else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {
+    } else if (!genDataType.hasConversionDelegate() && genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {
     stringBuffer.append(TEXT_175);
     stringBuffer.append(genDataType.getImportedParameterizedObjectInstanceClassName());
     stringBuffer.append(TEXT_176);
-    } else if (genDataType.isArrayType()) {
+    } else if (!genDataType.hasConversionDelegate() && genDataType.isArrayType()) {
     stringBuffer.append(TEXT_177);
     stringBuffer.append(genModel.getImportedName("java.lang.UnsupportedOperationException"));
     stringBuffer.append(TEXT_178);
@@ -933,7 +933,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_183);
     if (!genDataType.isObjectType()) {
     stringBuffer.append(TEXT_184);
-    stringBuffer.append(genDataType.getObjectInstanceClassName());
+    stringBuffer.append(genDataType.getImportedParameterizedObjectInstanceClassName());
     stringBuffer.append(TEXT_185);
     }
     stringBuffer.append(TEXT_186);
@@ -1096,7 +1096,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_256);
     stringBuffer.append(genDataType.getName());
     stringBuffer.append(TEXT_257);
-    } else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {
+    } else if (!genDataType.hasConversionDelegate() && genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {
     stringBuffer.append(TEXT_258);
     if (!genDataType.isObjectType()) {
     stringBuffer.append(TEXT_259);
@@ -1104,7 +1104,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_260);
     }
     stringBuffer.append(TEXT_261);
-    } else if (genDataType.isArrayType()) {
+    } else if (!genDataType.hasConversionDelegate() && genDataType.isArrayType()) {
     stringBuffer.append(TEXT_262);
     stringBuffer.append(genModel.getImportedName("java.lang.UnsupportedOperationException"));
     stringBuffer.append(TEXT_263);
@@ -1112,7 +1112,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_264);
     if (!genDataType.isObjectType()) {
     stringBuffer.append(TEXT_265);
-    stringBuffer.append(genDataType.getObjectInstanceClassName());
+    stringBuffer.append(genDataType.getImportedParameterizedObjectInstanceClassName());
     stringBuffer.append(TEXT_266);
     }
     stringBuffer.append(TEXT_267);
@@ -1330,9 +1330,9 @@ public class FactoryClass
     stringBuffer.append(TEXT_361);
     stringBuffer.append(eDataType);
     stringBuffer.append(TEXT_362);
-    } else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {
+    } else if (!genDataType.hasConversionDelegate() && genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {
     stringBuffer.append(TEXT_363);
-    } else if (genDataType.isArrayType()) {
+    } else if (!genDataType.hasConversionDelegate() && genDataType.isArrayType()) {
     stringBuffer.append(TEXT_364);
     stringBuffer.append(genModel.getImportedName("java.lang.UnsupportedOperationException"));
     stringBuffer.append(TEXT_365);
@@ -1496,9 +1496,9 @@ public class FactoryClass
     stringBuffer.append(genDataType.getImportedBoundedWildcardInstanceClassName());
     stringBuffer.append(TEXT_438);
     }
-    } else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {
+    } else if (!genDataType.hasConversionDelegate() && genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {
     stringBuffer.append(TEXT_439);
-    } else if (genDataType.isArrayType()) {
+    } else if (!genDataType.hasConversionDelegate() && genDataType.isArrayType()) {
     stringBuffer.append(TEXT_440);
     stringBuffer.append(genModel.getImportedName("java.lang.UnsupportedOperationException"));
     stringBuffer.append(TEXT_441);

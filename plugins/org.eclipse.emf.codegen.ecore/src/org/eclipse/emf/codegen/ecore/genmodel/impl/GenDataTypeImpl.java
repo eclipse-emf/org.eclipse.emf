@@ -1111,7 +1111,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       }
     }
 
-    if (((EDataType.Internal)eDataType).getConversionDelegate() == null)
+    if (!hasConversionDelegate())
     {
       // If there is a base XML or Ecore type, use one of the two corresponding built-in factories to create a value from the literal string.
       //
@@ -1195,6 +1195,23 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   public String getCreatorBody(String indentation)
   {
     return indentAndImport(getCreatorBody(), indentation);
+  }
+
+  public boolean hasConversionDelegate()
+  {
+    List<String> conversionDelegates = EcoreUtil.getConversionDelegates(getGenPackage().getEcorePackage());
+    if (!conversionDelegates.isEmpty())
+    {
+      EDataType eDataType = getEcoreDataType();
+      for (String eDataTypeDelegateURI : conversionDelegates)
+      {
+        if (eDataType.getEAnnotation(eDataTypeDelegateURI) != null)
+        {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   protected String getConverterBody()

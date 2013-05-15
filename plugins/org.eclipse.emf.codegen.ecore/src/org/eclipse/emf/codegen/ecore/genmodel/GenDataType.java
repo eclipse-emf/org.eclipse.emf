@@ -135,4 +135,9 @@ public interface GenDataType extends GenClassifier
    * @since 2.8
    */
   String getConverterBody(String indentation);
+
+  /**
+   * @since 2.9
+   */
+  boolean hasConversionDelegate();
 }

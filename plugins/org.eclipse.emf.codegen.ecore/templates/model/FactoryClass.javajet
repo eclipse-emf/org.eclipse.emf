@@ -313,16 +313,16 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 		if (<%if (!genDataType.isPrimitiveType()) {%>result != null || <%}%>exception == null) return result;
     
 		throw exception;
-    <%} else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {%>
+    <%} else if (!genDataType.hasConversionDelegate() && genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {%>
 		return (<%=genDataType.getImportedParameterizedObjectInstanceClassName()%>)super.createFromString(literal);
-    <%} else if (genDataType.isArrayType()) {%>
+    <%} else if (!genDataType.hasConversionDelegate() && genDataType.isArrayType()) {%>
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new <%=genModel.getImportedName("java.lang.UnsupportedOperationException")%>();
     <%} else if (genDataType.isPrimitiveType() && genModel.getComplianceLevel().getValue() < GenJDKLevel.JDK50) {%>
 		return ((<%=genDataType.getObjectInstanceClassName()%>)super.createFromString(<%=eDataType%>, literal)).<%=genDataType.getPrimitiveValueFunction()%>();
     <%} else {%>
-		return <%if (!genDataType.isObjectType()) {%>(<%=genDataType.getObjectInstanceClassName()%>)<%}%>super.createFromString(<%=eDataType%>, literal);
+		return <%if (!genDataType.isObjectType()) {%>(<%=genDataType.getImportedParameterizedObjectInstanceClassName()%>)<%}%>super.createFromString(<%=eDataType%>, literal);
     <%}%>
 	}
 
@@ -409,14 +409,14 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
       <%}%>
     <%} else if (genPackage.isDataTypeConverters() || genDataType.hasCreatorBody()) {%>
 		return create<%=genDataType.getName()%>(initialValue);
-    <%} else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {%>
+    <%} else if (!genDataType.hasConversionDelegate() && genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {%>
 		return <%if (!genDataType.isObjectType()) {%>(<%=genDataType.getImportedParameterizedObjectInstanceClassName()%>)<%}%>super.createFromString(initialValue);
-    <%} else if (genDataType.isArrayType()) {%>
+    <%} else if (!genDataType.hasConversionDelegate() && genDataType.isArrayType()) {%>
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new <%=genModel.getImportedName("java.lang.UnsupportedOperationException")%>();
     <%} else {%>
-		return <%if (!genDataType.isObjectType()) {%>(<%=genDataType.getObjectInstanceClassName()%>)<%}%>super.createFromString(eDataType, initialValue);
+		return <%if (!genDataType.isObjectType()) {%>(<%=genDataType.getImportedParameterizedObjectInstanceClassName()%>)<%}%>super.createFromString(eDataType, initialValue);
     <%}%>
 	}
 
@@ -531,9 +531,9 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
         <%}%>
       <%}%>
 		throw new IllegalArgumentException("Invalid value: '"+instanceValue+"' for datatype :"+<%=eDataType%>.getName());
-    <%} else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {%>
+    <%} else if (!genDataType.hasConversionDelegate() && genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {%>
 		return super.convertToString(instanceValue);
-    <%} else if (genDataType.isArrayType()) {%>
+    <%} else if (!genDataType.hasConversionDelegate() && genDataType.isArrayType()) {%>
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new <%=genModel.getImportedName("java.lang.UnsupportedOperationException")%>();
@@ -625,9 +625,9 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
         <%} else {%>
 		return convert<%=genDataType.getName()%>((<%=genDataType.getImportedBoundedWildcardInstanceClassName()%>)instanceValue);
         <%}%>
-    <%} else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {%>
+    <%} else if (!genDataType.hasConversionDelegate() && genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {%>
 		return super.convertToString(instanceValue);
-    <%} else if (genDataType.isArrayType()) {%>
+    <%} else if (!genDataType.hasConversionDelegate() && genDataType.isArrayType()) {%>
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new <%=genModel.getImportedName("java.lang.UnsupportedOperationException")%>();
