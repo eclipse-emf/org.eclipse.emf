@@ -34,10 +34,12 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.change.ChangeDescription;
+import org.eclipse.emf.ecore.change.ChangeFactory;
 import org.eclipse.emf.ecore.change.ChangePackage;
 import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.change.ResourceChange;
+import org.eclipse.emf.ecore.change.util.ListDifferenceAnalyzer;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -428,18 +430,56 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
 
   public void copyAndReverse(final Map<EObject, URI> eObjectToProxyURIMap)
   {
-    // Cache this list early, because it's result depends on calling preApply(false).
+    // Cache this list early, because its result depends on calling preApply(false).
     //
-    EList<EObject> objectToDetach = getObjectsToDetach();
+    EList<EObject> objectsToDetach = getObjectsToDetach();
 
     // Get ready to apply the changes, even though we really won't apply them to the originals.
     //
     preApply(true);
 
+    // Cache the object changes.
+    //
+    final EMap<EObject, EList<FeatureChange>> objectChanges = getObjectChanges();
+
+    // Create a specialized copier that creaties proxy copies.
+    //
     EcoreUtil.Copier copier =
       new EcoreUtil.Copier()
       {
         private static final long serialVersionUID = 1L;
+
+        @Override
+        public Set<Map.Entry<EObject, EObject>> entrySet()
+        {
+          // Copy the entry set so that copyReferences isn't broken when proxies are created during its process.
+          //
+          return new HashSet<Map.Entry<EObject,EObject>>(super.entrySet());
+        }
+
+        @Override
+        public EObject get(Object key)
+        {
+          EObject eObject = super.get(key);
+
+          // If the object isn't already in the map...
+          //
+          if (eObject == null)
+          {
+            // Any object in the original proxy map is copied as proxy as needed.
+            //
+            URI proxyURI = eObjectToProxyURIMap.get(key);
+            if (proxyURI != null)
+            {
+              EObject keyEObject = (EObject)key;
+              InternalEObject copyEObject = (InternalEObject)createCopy(keyEObject);
+              copyEObject.eSetProxyURI(proxyURI);
+              put(keyEObject, copyEObject);
+              return copyEObject;
+            }
+          }
+          return eObject;
+        }
 
         @Override
         public EObject copy(EObject eObject)
@@ -453,26 +493,17 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
           }
           else
           {
-            // Create proxies copies for objects in the proxy map.
+            // Otherwise create a normal copy.
             //
-            URI proxyURI = eObjectToProxyURIMap.get(eObject);
-            if (proxyURI != null)
-            {
-              InternalEObject copyEObject = (InternalEObject)createCopy(eObject);
-              copyEObject.eSetProxyURI(proxyURI);
-              put(eObject, copyEObject);
-              return copyEObject;
-            }
-            else
-            {
-              // Otherwise create a normal copy.
-              //
-              return super.copy(eObject);
-            }
+            return super.copy(eObject);
           }
         }
       };
-    Collection<EObject> newObjectsToAttach = copier.copyAll(objectToDetach);
+
+    // Ensure that references between the copied objects are properly populated as in the originals, but using proxies as needed.
+    //
+    Collection<EObject> newObjectsToAttach = copier.copyAll(objectsToDetach);
+    copier.copyReferences();
 
     // The children of the objects to attach might become orphans;
     // we'll need to check for that later.
@@ -486,10 +517,10 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
       }
     }
 
-    // Apply the change to the proxified copy and reverse the change information.
+    // Reverse the change information, and redirect any original objects to their proxy copies.
     //
     EMap<EObject, EList<FeatureChange>> oldObjectChanges =  new BasicEMap<EObject, EList<FeatureChange>>();
-    oldObjectChanges.putAll(getObjectChanges());
+    oldObjectChanges.putAll(objectChanges);
     for (Map.Entry<EObject, EList<FeatureChange>> entry : oldObjectChanges)
     {
       // Get the copied version of the object to be changed.
@@ -497,80 +528,63 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
       EObject objectToChange = entry.getKey();
       EObject copiedObjectToChange = copier.get(objectToChange);
 
-      for (FeatureChange featureChange : entry.getValue())
+      // Discard any recorded changes for non-proxy copies, i.e., for objects that will appear in their current state in the objectsToAttach list.
+      //
+      if (copiedObjectToChange != null && !copiedObjectToChange.eIsProxy())
       {
-        // If there is a real, non-proxy copy...
+        objectChanges.remove(objectToChange);
+      }
+      else
+      {
+        // For each feature change...
         //
-        if (copiedObjectToChange != null && !copiedObjectToChange.eIsProxy())
+        for (FeatureChange featureChange : entry.getValue())
         {
-          // Apply the change to that copy.
-          //
-          featureChange.applyAndReverse(copiedObjectToChange);
-        }
-        else
-        {
-          // Otherwise use copy and reverse for the original object.
+          // Reverse the change relative to the original object.
           //
           featureChange.reverse(objectToChange);
-        }
 
-        EObject referenceValue = featureChange.getReferenceValue();
-        if (referenceValue != null)
-        {
-          // Try to get the copy corresponding to the reference value.
+          // If there is a reference value...
           //
-          EObject copiedReferenceValue = copier.get(referenceValue);
-          if (copiedReferenceValue == null)
+          EObject referenceValue = featureChange.getReferenceValue();
+          if (referenceValue != null)
           {
-            // If there isn't one, create a proxified copy of it.
+            // Switch it to the copy.
             //
-            copiedReferenceValue = copier.copy(referenceValue);
+            featureChange.setReferenceValue(copier.get(referenceValue));
           }
-          // Switch to the copy.
-          //
-          featureChange.setReferenceValue(copiedReferenceValue);
-        }
-        else
-        {
-          // Otherwise deal with the list changes.
-          //
-          for (ListChange listChange : featureChange.getListChanges())
+          else
           {
-            for (ListIterator<EObject> referenceValues = listChange.getReferenceValues().listIterator(); referenceValues.hasNext();)
+            // Otherwise deal with the list changes.
+            //
+            for (ListChange listChange : featureChange.getListChanges())
             {
-              // Deal with each reference value in exactly the same way as the single value case.
+              // Look at each referenced value in the list change...
               //
-              referenceValue = referenceValues.next();
-              EObject copiedReferenceValue = copier.get(referenceValue);
-              if (copiedReferenceValue == null)
+              for (ListIterator<EObject> referenceValues = listChange.getReferenceValues().listIterator(); referenceValues.hasNext();)
               {
-                copiedReferenceValue = copier.copy(referenceValue);
+                // Deal with each reference value in exactly the same way as the single value case, i.e., switch it to the copy.
+                //
+                referenceValue = referenceValues.next();
+                referenceValues.set(copier.get(referenceValue));
               }
-              referenceValues.set(copiedReferenceValue);
             }
           }
         }
+
+        // Remove the entry for the original object.
+        //
+        objectChanges.remove(objectToChange);
+
+        // Add an entry for the proxy copy with the value we updated above.
+        //
+        objectChanges.put(copiedObjectToChange, entry.getValue());
       }
-
-      // Remove the entry for the original object.
-      //
-      objectChanges.remove(objectToChange);
-
-      // Ensure that we have a copy of the original object, even if it's just a proxified one.
-      //
-      if (copiedObjectToChange == null)
-      {
-        copiedObjectToChange = copier.copy(objectToChange);
-      }
-
-      // Update the value of the new entry to the value of the old entry, which we updated above.
-      //
-      objectChanges.put(copiedObjectToChange, entry.getValue());
     }
 
     for (ResourceChange resourceChange : getResourceChanges())
     {
-      // Copy and reverse the resource change itself.
+      // Reverse the resource change.
       //
       resourceChange.reverse();
 
@@ -578,24 +592,17 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
       //
       for (ListChange listChange : resourceChange.getListChanges())
       {
+        // Look at each referenced value in the list change.
+        //
         for (ListIterator<EObject> referenceValues = listChange.getReferenceValues().listIterator(); referenceValues.hasNext();)
         {
-          // Deal with each reference value exactly like we did multi-valued feature changes.
+          // Deal with each reference value exactly like we did for multi-valued feature changes.
           //
           EObject referenceValue = referenceValues.next();
-          EObject copiedReferenceValue = copier.get(referenceValue);
-          if (copiedReferenceValue == null)
-          {
-            copiedReferenceValue = copier.copy(referenceValue);
-          }
-          referenceValues.set(copiedReferenceValue);
+          referenceValues.set(copier.get(referenceValue));
         }
       }
     }
-
-    // Ensure that references between the copied objects are properly populated as in the originals.
-    //
-    copier.copyReferences();
 
     // Check for objects that became orphans as a result of applying the changes.
     //
@@ -611,11 +618,151 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
       }
     }
 
+    // Visit all the content tree and all cross references to look for references to proxies.
+    //
+    class Visitor
+    {
+      ListDifferenceAnalyzer listDifferenceAnalyzer;
+
+      void visit(Collection<EObject> eObjects)
+      {
+        for (EObject eObject : eObjects)
+        {
+          visit(eObject);
+        }
+      }
+
+      void visit(EObject eObject)
+      {
+        // Consider all the references of the object's class.
+        //
+        EClass eClass = eObject.eClass();
+        for (EReference eReference : eClass.getEAllReferences())
+        {
+          // If the reference is a containment or a bidirectional cross reference...
+          //
+          if (eReference.isContainment() || !eReference.isContainer() && eReference.getEOpposite() != null)
+          {
+            // If it's a multi-valued feature...
+            //
+            if (eReference.isMany())
+            {
+              // Prepare to prune out any references to proxies...
+              //
+              @SuppressWarnings("unchecked") InternalEList<EObject> eObjects = (InternalEList<EObject>)eObject.eGet(eReference);
+
+              // If we modify the eObjects, we'll keep a copy of the original contents in this list.
+              //
+              EList<EObject> originalEObjects = null;
+
+              // Visit all the values...
+              //
+              for (int i = 0, size = eObjects.size(); i < size; )
+              {
+                // Get the value without resolving it and check if it's a proxy.
+                //
+                EObject value = eObjects.basicGet(i);
+                if (value.eIsProxy())
+                {
+                  // If we don't have a cached original yet...
+                  //
+                  if (originalEObjects == null)
+                  {
+                    // Create one.
+                    //
+                    originalEObjects = new BasicEList<EObject>(eObjects);
+                  }
+
+                  // Prune out the value and shrink the size.
+                  //
+                  eObjects.remove(i);
+                  --size;
+                }
+                else
+                {
+                  // Step to the next item.
+                  //
+                  ++i;
+                }
+              }
+
+              // If the list was modified...
+              //
+              if (originalEObjects != null)
+              {
+                // Ensure that a list of feature changes exists.
+                //
+                EList<FeatureChange> featureChanges = objectChanges.get(eObject);
+                if (featureChanges == null)
+                {
+                  Map.Entry<EObject, EList<FeatureChange>> entry = ChangeFactory.eINSTANCE.createEObjectToChangesMapEntry(eObject);
+                  objectChanges.add(entry);
+                  featureChanges = entry.getValue();
+                }
+
+                // Create a feature change for this reference.
+                //
+                FeatureChange featureChange = ChangeFactory.eINSTANCE.createFeatureChange();
+                featureChange.setFeature(eReference);
+
+                // If there isn't a list difference analyzer yet, create one.
+                //
+                if (listDifferenceAnalyzer == null)
+                {
+                  listDifferenceAnalyzer = new ListDifferenceAnalyzer();
+                }
+
+                // Use the analyzer to create the list changes for the things we removed from the list.
+                //
+                @SuppressWarnings("unchecked")
+                EList<Object> modifiedEObjects = (EList<Object>)(EList<?>)eObjects;
+                listDifferenceAnalyzer.analyzeLists(modifiedEObjects, originalEObjects, featureChange.getListChanges());
+                featureChanges.add(featureChange);
+              }
+            }
+            else
+            {
+              // Get the value, without resolving the proxy and if it's a proxy...
+              //
+              InternalEObject referencedEObject = (InternalEObject)eObject.eGet(eReference, false);
+              if (referencedEObject != null && referencedEObject.eIsProxy())
+              {
+                // Remove it.
+                //
+                eObject.eUnset(eReference);
+
+                // Ensure that a list of feature changes exists.
+                //
+                EList<FeatureChange> featureChanges = objectChanges.get(eObject);
+                if (featureChanges == null)
+                {
+                  Map.Entry<EObject, EList<FeatureChange>> entry = ChangeFactory.eINSTANCE.createEObjectToChangesMapEntry(eObject);
+                  objectChanges.add(entry);
+                  featureChanges = entry.getValue();
+                }
+
+                // Create a feature change for this reference to set the referenced object.
+                //
+                FeatureChange featureChange = ChangeFactory.eINSTANCE.createFeatureChange();
+                featureChange.setFeature(eReference);
+                featureChange.setReferenceValue(referencedEObject);
+              }
+            }
+          }
+        }
+
+        // Visit the whole content tree.
+        //
+        visit(eObject.eContents());
+      }
+    }
+    new Visitor().visit(newObjectsToAttach);
+
     // Reverse the objects to attach and detach lists.
     //
-    getObjectsToAttach().clear();
-
-    getObjectsToAttach().addAll(newObjectsToAttach);
+    EList<EObject> objectsToAttach = getObjectsToAttach();
+    objectsToAttach.clear();
+    objectsToAttach.addAll(newObjectsToAttach);
 
     // Clear this cached information.
     //
