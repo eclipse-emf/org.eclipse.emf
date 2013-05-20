@@ -274,10 +274,13 @@ public class XcoreGenModelBuilder {
                   if (eCrossReference instanceof EStructuralFeature) {
                     final EStructuralFeature _eStructuralFeature = (EStructuralFeature)eCrossReference;
                     _matched=true;
-                    EClass _eContainingClass = _eStructuralFeature.getEContainingClass();
-                    final EPackage referencedEPackage = _eContainingClass.getEPackage();
-                    ePackages.add(referencedEPackage);
-                    referencedEPackages.add(referencedEPackage);
+                    final EClass eContainingClass = _eStructuralFeature.getEContainingClass();
+                    boolean _notEquals = (!Objects.equal(eContainingClass, null));
+                    if (_notEquals) {
+                      final EPackage referencedEPackage = eContainingClass.getEPackage();
+                      ePackages.add(referencedEPackage);
+                      referencedEPackages.add(referencedEPackage);
+                    }
                   }
                 }
               }

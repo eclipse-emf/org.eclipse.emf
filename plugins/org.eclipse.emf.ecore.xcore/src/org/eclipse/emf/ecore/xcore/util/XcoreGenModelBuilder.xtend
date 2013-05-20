@@ -173,9 +173,13 @@ class XcoreGenModelBuilder
              }
              EStructuralFeature:
              {
-               val EPackage referencedEPackage = eCrossReference.getEContainingClass().getEPackage
-               ePackages.add(referencedEPackage)
-               referencedEPackages.add(referencedEPackage)
+               val eContainingClass = eCrossReference.getEContainingClass()
+               if (eContainingClass != null)
+               {
+                 val EPackage referencedEPackage = eContainingClass.getEPackage
+                 ePackages.add(referencedEPackage)
+                 referencedEPackages.add(referencedEPackage)
+               }
              }
            }
          }
