@@ -232,7 +232,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
     {
       super.setTarget(target);
 
-      handleResourceDiagnostics(target.getResources());
+      handleResourceDiagnostics(new ArrayList<Resource>(target.getResources()));
     }
 
     @Override
