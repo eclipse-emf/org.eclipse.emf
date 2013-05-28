@@ -7,13 +7,15 @@
  */
 package org.eclipse.emf.ecore.xcore.scoping;
 
- 
+
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
+import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.xtext.ecore.EcoreResourceDescriptionStrategy;
 import org.eclipse.xtext.resource.IEObjectDescription;
@@ -28,7 +30,6 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
   @Inject
   private EcoreResourceDescriptionStrategy ecoreResourceDescriptionStrategy;
 
-  
   @Override
   public boolean createEObjectDescriptions(EObject eObject, IAcceptor<IEObjectDescription> acceptor)
   {
@@ -40,19 +41,25 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
     }
     else if (ePackage == GenModelPackage.eINSTANCE)
     {
+      if (eClass == GenModelPackage.Literals.GEN_MODEL || eClass == GenModelPackage.Literals.GEN_PACKAGE)
+      {
+        return true;
+      }
+
       super.createEObjectDescriptions(eObject, acceptor);
+
       return !(eObject instanceof GenClassifier);
     }
     else if (ePackage == XcorePackage.eINSTANCE)
     {
-      if (eClass == XcorePackage.Literals.XANNOTATION_DIRECTIVE)
+      if (eClass == XcorePackage.Literals.XPACKAGE)
       {
-        return super.createEObjectDescriptions(eObject, acceptor);
+        for (XAnnotationDirective xAnnotationDirective : ((XPackage)eObject).getAnnotationDirectives())
+        {
+          super.createEObjectDescriptions(xAnnotationDirective, acceptor);
+        }
       }
-      else
-      {
-        return eClass == XcorePackage.Literals.XPACKAGE;
-      }
+      return false;
     }
     else
     {

@@ -54,7 +54,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XGenericType;
 import org.eclipse.emf.ecore.xcore.XImportDirective;
@@ -64,10 +63,12 @@ import org.eclipse.emf.ecore.xcore.XcoreFactory;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvider;
+import org.eclipse.emf.ecore.xcore.ui.quickfix.XcoreClasspathUpdater;
 import org.eclipse.emf.ecore.xcore.util.EcoreXcoreBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelInitializer;
 import org.eclipse.emf.exporter.ModelExporter;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -116,6 +117,9 @@ public class XcoreExporter extends ModelExporter
 
   @Inject
   private IFormattingPreferenceValuesProvider preferencesProvider;
+
+  @Inject
+  private Provider<ResourceSet> resourceSetProvider;
 
   private static final Set<String> IMPLICIT_ALIASES = Sets.newHashSet();
   static
@@ -177,12 +181,15 @@ public class XcoreExporter extends ModelExporter
           newNatures[natures.length] = XtextProjectHelper.NATURE_ID;
           description.setNatureIds(newNatures);
           xcoreProject.setDescription(description, null);
+          XcoreClasspathUpdater xcoreClasspathUpdater = new XcoreClasspathUpdater();
+          xcoreClasspathUpdater.addBundle(JavaCore.create(xcoreProject), "org.eclipse.emf.ecore.xcore.lib", null);
+          xcoreClasspathUpdater.addBundle(JavaCore.create(xcoreProject), "org.eclipse.xtext.xbase.lib", null);
         }
       }
 
       // Create an appropriate resource set for Xcore models.
       //
-      final ResourceSet resourceSet = new ResourceSetImpl();
+      final ResourceSet resourceSet = resourceSetProvider.get();
       resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
 
       // Load a clone of the GenModel in the new resource set.

@@ -3,10 +3,12 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-SymbolicName: org.eclipse.emf.ecore.xcore.lib
+Bundle-SymbolicName: org.eclipse.emf.ecore.xcore.lib;singleton:=true
 Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Require-Bundle: com.google.guava;bundle-version="10.0.1";visibility:=reexport,
+Require-Bundle: org.eclipse.emf.ecore;resolution:=optional,
  org.eclipse.emf.common,
  org.eclipse.xtext.xbase.lib
+Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.emf.ecore.xcore.lib

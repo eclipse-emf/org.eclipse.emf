@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
-import org.eclipse.xtext.xbase.XBlockExpression;
 import org.eclipse.xtext.xbase.ui.labeling.XbaseLabelProvider;
 
 import com.google.inject.Inject;
@@ -54,11 +53,5 @@ class XcoreLabelProvider extends XbaseLabelProvider
 
     }
     return result;
-  }
-
-  def dispatch String text(XBlockExpression xBlockExpression)
-  {
-    val String role = xBlockExpression.eContainmentFeature().getName();
-    return role.substring(0, role.length() - 4) + " {}";
   }
 }

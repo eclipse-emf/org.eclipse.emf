@@ -42,7 +42,7 @@ class XcoreGenerator implements IGenerator {
 		for (xClassifier : pack.classifiers) {
 			if (xClassifier instanceof XDataType) {
 				val xDataType = xClassifier as XDataType;
-				val eDataType = xDataType.mapping.eDataType
+				val eDataType = xDataType.mapping.EDataType
 				val createBody = xDataType.createBody
 				val creator = xDataType.mapping.creator
 				if (createBody != null && creator != null) {
@@ -63,7 +63,7 @@ class XcoreGenerator implements IGenerator {
 			else {
 				val xClass = xClassifier as XClass;
 				val eClass = xClass.mapping.EClass;
-				for (eStructuralFeature : eClass.eAllStructuralFeatures) {
+				for (eStructuralFeature : eClass.EAllStructuralFeatures) {
 					if (processed.add(eStructuralFeature)) {
 						val xFeature = mappings.getXFeature(eStructuralFeature);
 						if (xFeature != null) {
@@ -77,7 +77,7 @@ class XcoreGenerator implements IGenerator {
 						}
 					}
 				}
-				for (eOperation : eClass.eAllOperations) {
+				for (eOperation : eClass.EAllOperations) {
 					if (processed.add(eOperation)) {
 						val xOperation = mappings.getXOperation(eOperation);
 						if (xOperation != null) {
