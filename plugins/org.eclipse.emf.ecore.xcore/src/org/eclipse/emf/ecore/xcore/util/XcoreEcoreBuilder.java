@@ -188,11 +188,11 @@ public class XcoreEcoreBuilder
       // At least to this for Ecore to avoid inducing a model with circular inheritance.
       // TODO
       //
-      if (ePackage.getNsURI() != null)
+      if (ePackage.getNsURI() == null)
       {
         ePackage.setNsURI("org.eclipse.emf.ecore".equals(name) ? EcorePackage.eNS_URI : name);
       }
-      if (ePackage.getNsPrefix() != null)
+      if (ePackage.getNsPrefix() == null)
       {
         ePackage.setNsPrefix(ePackage.getName());
       }
