@@ -24,6 +24,9 @@ import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler
 
 import java.util.Collections
+import java.util.HashSet
+import org.eclipse.xtext.common.types.JvmFormalParameter
+import org.eclipse.xtext.common.types.JvmTypeReference
 
 class XcoreGenerator implements IGenerator {
 
@@ -71,7 +74,6 @@ class XcoreGenerator implements IGenerator {
 							if (getBody != null) {
 								val getter = mappings.getMapping(xFeature).getter
 								val appendable = createAppendable
-								appendable.declareVariable(getter.declaringType, "this")
 								compiler.compile(getBody, appendable, getter.returnType, Collections::emptySet)
 								EcoreUtil::setAnnotation(eStructuralFeature, GenModelPackage::eNS_URI, "get", extractBody(appendable.toString)) }
 						}
@@ -86,8 +88,10 @@ class XcoreGenerator implements IGenerator {
 								val jvmOperation = mappings.getMapping(xOperation).jvmOperation
 								if (jvmOperation != null) {
 									val appendable = createAppendable
-									appendable.declareVariable(jvmOperation, "this")
-									compiler.compile(body, appendable, jvmOperation.returnType, Collections::emptySet)
+									for (JvmFormalParameter parameter : jvmOperation.parameters) {
+										appendable.declareVariable(parameter, parameter.getName())
+									}
+									compiler.compile(body, appendable, jvmOperation.returnType, new HashSet<JvmTypeReference>(jvmOperation.exceptions))
 									EcoreUtil::setAnnotation(eOperation, GenModelPackage::eNS_URI, "body", extractBody(appendable.toString))
 								}
 							}

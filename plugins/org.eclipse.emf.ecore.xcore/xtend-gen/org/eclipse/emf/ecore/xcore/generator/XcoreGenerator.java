@@ -41,7 +41,6 @@ import org.eclipse.emf.ecore.xcore.mappings.XDataTypeMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
-import org.eclipse.xtext.common.types.JvmDeclaredType;
 import org.eclipse.xtext.common.types.JvmFormalParameter;
 import org.eclipse.xtext.common.types.JvmOperation;
 import org.eclipse.xtext.common.types.JvmTypeReference;
@@ -139,8 +138,6 @@ public class XcoreGenerator implements IGenerator {
                 XFeatureMapping _mapping_4 = this.mappings.getMapping(xFeature);
                 final JvmOperation getter = _mapping_4.getGetter();
                 final XcoreAppendable appendable_2 = this.createAppendable();
-                JvmDeclaredType _declaringType = getter.getDeclaringType();
-                appendable_2.declareVariable(_declaringType, "this");
                 JvmTypeReference _returnType_2 = getter.getReturnType();
                 Set<JvmTypeReference> _emptySet_2 = Collections.<JvmTypeReference>emptySet();
                 this.compiler.compile(getBody, appendable_2, _returnType_2, _emptySet_2);
@@ -166,10 +163,15 @@ public class XcoreGenerator implements IGenerator {
                 boolean _notEquals_8 = (!Objects.equal(jvmOperation, null));
                 if (_notEquals_8) {
                   final XcoreAppendable appendable_3 = this.createAppendable();
-                  appendable_3.declareVariable(jvmOperation, "this");
+                  EList<JvmFormalParameter> _parameters_2 = jvmOperation.getParameters();
+                  for (final JvmFormalParameter parameter : _parameters_2) {
+                    String _name = parameter.getName();
+                    appendable_3.declareVariable(parameter, _name);
+                  }
                   JvmTypeReference _returnType_3 = jvmOperation.getReturnType();
-                  Set<JvmTypeReference> _emptySet_3 = Collections.<JvmTypeReference>emptySet();
-                  this.compiler.compile(body, appendable_3, _returnType_3, _emptySet_3);
+                  EList<JvmTypeReference> _exceptions = jvmOperation.getExceptions();
+                  HashSet<JvmTypeReference> _hashSet = new HashSet<JvmTypeReference>(_exceptions);
+                  this.compiler.compile(body, appendable_3, _returnType_3, _hashSet);
                   String _string_3 = appendable_3.toString();
                   String _extractBody_3 = this.extractBody(_string_3);
                   EcoreUtil.setAnnotation(eOperation, GenModelPackage.eNS_URI, "body", _extractBody_3);
