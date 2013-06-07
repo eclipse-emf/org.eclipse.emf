@@ -17,19 +17,12 @@
    </extension>
 
    <extension point="org.eclipse.ui.newWizards">
-      <!-- @generated Ecore -->
+      <!-- @generated Ecore NOT -->
+      <!--
       <category
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
-      <wizard
-            id="org.eclipse.emf.ecore.presentation.EcoreModelWizardID"
-            name="%_UI_EcoreModelWizard_label"
-            class="org.eclipse.emf.ecore.presentation.EcoreModelWizard"
-            category="org.eclipse.emf.ecore.Wizard.category.ID"
-            icon="icons/full/obj16/EcoreModelFile.gif">
-         <description>%_UI_EcoreModelWizard_description</description>
-         <selection class="org.eclipse.core.resources.IResource"/>
-      </wizard>
+      -->
    </extension>
 
    <extension point="org.eclipse.ui.editors">
