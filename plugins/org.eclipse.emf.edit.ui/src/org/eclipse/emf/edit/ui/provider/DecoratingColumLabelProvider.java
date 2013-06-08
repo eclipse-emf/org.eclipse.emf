@@ -39,7 +39,7 @@ public class DecoratingColumLabelProvider extends ColumnLabelProvider implements
     {
       this.fontProvider = (IFontProvider)labelProvider;
     }
-    if (labelProvider instanceof IFontProvider)
+    if (labelProvider instanceof IColorProvider)
     {
       this.colorProvider = (IColorProvider)labelProvider;
     }
