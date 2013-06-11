@@ -8,7 +8,6 @@
 package org.eclipse.emf.ecore.xcore.lib;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -73,7 +72,7 @@ public class XcoreEListExtensions
    */
   public static <T> EList<T> sortInplace(EList<T> list, Comparator<? super T> comparator)
   {
-    Collections.sort(list, comparator);
+    ECollections.sort(list, comparator);
     return list;
   }
 
