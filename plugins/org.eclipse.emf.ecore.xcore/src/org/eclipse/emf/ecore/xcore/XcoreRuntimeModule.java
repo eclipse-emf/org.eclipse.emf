@@ -210,6 +210,7 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
 
   @SuppressWarnings("deprecation")
   @SingletonBinding(eager=true)
+  @Override
   public Class<? extends org.eclipse.xtext.xbase.scoping.featurecalls.StaticImplicitMethodsFeatureForTypeProvider.ExtensionClassNameProvider> 
     bindStaticImplicitMethodsFeatureForTypeProvider$ExtensionClassNameProvider()
   {
