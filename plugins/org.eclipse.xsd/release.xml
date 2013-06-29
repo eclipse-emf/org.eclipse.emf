@@ -1,110 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <release>
-	<feature name="org.eclipse.xsd" version="2.8.0">
+	<feature name="org.eclipse.xsd" version="2.9.0">
 		<feature name="org.eclipse.xsd.license" version="2.7.0" license="true"/>
-		<plugin name="org.eclipse.xsd" version="2.8.0"/>
+		<plugin name="org.eclipse.xsd" version="2.9.0"/>
 	</feature>
-	<feature name="org.eclipse.xsd.doc" version="2.7.0">
+	<feature name="org.eclipse.xsd.doc" version="2.8.0">
 		<feature name="org.eclipse.xsd.license" version="2.7.0" license="true"/>
-		<plugin name="org.eclipse.xsd.doc" version="2.6.0"/>
+		<plugin name="org.eclipse.xsd.doc" version="2.7.0"/>
 		<plugin name="org.eclipse.xsd.cheatsheets" version="2.6.0"/>
 	</feature>
-	<feature name="org.eclipse.xsd.doc.source" version="2.7.0">
-		<plugin name="org.eclipse.xsd.cheatsheets.source" version="2.6.0"/>
-	</feature>
-	<feature name="org.eclipse.xsd.ecore.converter" version="2.7.0">
+	<feature name="org.eclipse.xsd.doc.source" version="0.0.0"/> <!-- UNRESOLVED -->
+	<feature name="org.eclipse.xsd.ecore.converter" version="2.8.0">
 		<feature name="org.eclipse.xsd.license" version="2.7.0" license="true"/>
 		<plugin name="org.eclipse.xsd.ecore.converter" version="2.6.0"/>
-		<plugin name="org.eclipse.xsd.ecore.importer" version="2.6.0"/>
+		<plugin name="org.eclipse.xsd.ecore.importer" version="2.7.0"/>
 		<plugin name="org.eclipse.xsd.ecore.exporter" version="2.5.0"/>
 	</feature>
-	<feature name="org.eclipse.xsd.ecore.converter.source" version="2.7.0">
-		<plugin name="org.eclipse.xsd.ecore.exporter.source" version="2.5.0"/>
-		<plugin name="org.eclipse.xsd.ecore.importer.source" version="2.6.0"/>
-	</feature>
+	<feature name="org.eclipse.xsd.ecore.converter.source" version="0.0.0"/> <!-- UNRESOLVED -->
 	<feature name="org.eclipse.xsd.edit" version="2.7.0">
 		<feature name="org.eclipse.xsd.license" version="2.7.0" license="true"/>
 		<plugin name="org.eclipse.xsd.edit" version="2.6.0"/>
 	</feature>
-	<feature name="org.eclipse.xsd.edit.source" version="2.7.0">
-		<plugin name="org.eclipse.xsd.edit.source" version="2.6.0"/>
-	</feature>
+	<feature name="org.eclipse.xsd.edit.source" version="0.0.0"/> <!-- UNRESOLVED -->
 	<feature name="org.eclipse.xsd.editor" version="2.7.0">
 		<feature name="org.eclipse.xsd.license" version="2.7.0" license="true"/>
 		<plugin name="org.eclipse.xsd.editor" version="2.6.0"/>
 	</feature>
-	<feature name="org.eclipse.xsd.editor.source" version="2.7.0">
-		<plugin name="org.eclipse.xsd.editor.source" version="2.6.0"/>
-	</feature>
+	<feature name="org.eclipse.xsd.editor.source" version="0.0.0"/> <!-- UNRESOLVED -->
 	<feature name="org.eclipse.xsd.license" version="2.7.0"/>
 	<feature name="org.eclipse.xsd.mapping" version="2.7.0">
 		<feature name="org.eclipse.xsd.license" version="2.7.0" license="true"/>
 		<plugin name="org.eclipse.xsd.mapping" version="2.6.0"/>
 		<plugin name="org.eclipse.emf.mapping.xsd2ecore" version="2.5.0"/>
 	</feature>
-	<feature name="org.eclipse.xsd.mapping.editor" version="2.7.0">
+	<feature name="org.eclipse.xsd.mapping.editor" version="2.8.0">
 		<feature name="org.eclipse.xsd.license" version="2.7.0" license="true"/>
-		<plugin name="org.eclipse.xsd.mapping.editor" version="2.6.0"/>
+		<plugin name="org.eclipse.xsd.mapping.editor" version="2.7.0"/>
 		<plugin name="org.eclipse.emf.mapping.xsd2ecore.editor" version="2.6.0"/>
 	</feature>
-	<feature name="org.eclipse.xsd.mapping.editor.source" version="2.7.0">
-		<plugin name="org.eclipse.emf.mapping.xsd2ecore.editor.source" version="2.6.0"/>
-	</feature>
-	<feature name="org.eclipse.xsd.mapping.source" version="2.7.0">
-		<plugin name="org.eclipse.emf.mapping.xsd2ecore.source" version="2.5.0"/>
-	</feature>
-	<feature name="org.eclipse.xsd.sdk" version="2.8.0">
+	<feature name="org.eclipse.xsd.mapping.editor.source" version="0.0.0"/> <!-- UNRESOLVED -->
+	<feature name="org.eclipse.xsd.mapping.source" version="0.0.0"/> <!-- UNRESOLVED -->
+	<feature name="org.eclipse.xsd.sdk" version="2.9.0">
 		<feature name="org.eclipse.xsd.license" version="2.7.0" license="true"/>
-		<feature name="org.eclipse.xsd" version="2.8.0"/>
-		<feature name="org.eclipse.xsd.source" version="2.8.0"/>
-		<feature name="org.eclipse.xsd.ecore.converter" version="2.7.0"/>
-		<feature name="org.eclipse.xsd.ecore.converter.source" version="2.7.0"/>
+		<feature name="org.eclipse.xsd" version="2.9.0"/>
+		<feature name="org.eclipse.xsd.source" version="0.0.0"/> <!-- UNRESOLVED -->
+		<feature name="org.eclipse.xsd.ecore.converter" version="2.8.0"/>
+		<feature name="org.eclipse.xsd.ecore.converter.source" version="0.0.0"/> <!-- UNRESOLVED -->
 		<feature name="org.eclipse.xsd.edit" version="2.7.0"/>
-		<feature name="org.eclipse.xsd.edit.source" version="2.7.0"/>
+		<feature name="org.eclipse.xsd.edit.source" version="0.0.0"/> <!-- UNRESOLVED -->
 		<feature name="org.eclipse.xsd.editor" version="2.7.0"/>
-		<feature name="org.eclipse.xsd.editor.source" version="2.7.0"/>
+		<feature name="org.eclipse.xsd.editor.source" version="0.0.0"/> <!-- UNRESOLVED -->
 		<feature name="org.eclipse.xsd.mapping" version="2.7.0"/>
-		<feature name="org.eclipse.xsd.mapping.source" version="2.7.0"/>
-		<feature name="org.eclipse.xsd.mapping.editor" version="2.7.0"/>
-		<feature name="org.eclipse.xsd.mapping.editor.source" version="2.7.0"/>
-		<feature name="org.eclipse.xsd.doc" version="2.7.0"/>
-		<feature name="org.eclipse.xsd.doc.source" version="2.7.0"/>
-		<plugin name="org.eclipse.xsd.cheatsheets" version="2.6.0"/>
-		<plugin name="org.eclipse.xsd.doc" version="2.6.0"/>
-		<plugin name="org.eclipse.emf.mapping.xsd2ecore" version="2.5.0"/>
-		<plugin name="org.eclipse.emf.mapping.xsd2ecore.editor" version="2.6.0"/>
-		<plugin name="org.eclipse.xsd" version="2.8.0"/>
-		<plugin name="org.eclipse.xsd.ecore.converter" version="2.6.0"/>
-		<plugin name="org.eclipse.xsd.ecore.exporter" version="2.5.0"/>
-		<plugin name="org.eclipse.xsd.ecore.importer" version="2.6.0"/>
-		<plugin name="org.eclipse.xsd.edit" version="2.6.0"/>
-		<plugin name="org.eclipse.xsd.editor" version="2.6.0"/>
-		<plugin name="org.eclipse.xsd.example.installer" version="1.1.0"/>
-		<plugin name="org.eclipse.xsd.mapping" version="2.6.0"/>
-		<plugin name="org.eclipse.xsd.mapping.editor" version="2.6.0"/>
+		<feature name="org.eclipse.xsd.mapping.source" version="0.0.0"/> <!-- UNRESOLVED -->
+		<feature name="org.eclipse.xsd.mapping.editor" version="2.8.0"/>
+		<feature name="org.eclipse.xsd.mapping.editor.source" version="0.0.0"/> <!-- UNRESOLVED -->
+		<feature name="org.eclipse.xsd.doc" version="2.8.0"/>
+		<feature name="org.eclipse.xsd.doc.source" version="0.0.0"/> <!-- UNRESOLVED -->
+		<plugin name="org.eclipse.xsd.example.installer" version="1.2.0"/>
 	</feature>
-	<feature name="org.eclipse.xsd.source" version="2.8.0">
-		<plugin name="org.eclipse.xsd.source" version="2.8.0"/>
-	</feature>
+	<feature name="org.eclipse.xsd.source" version="0.0.0"/> <!-- UNRESOLVED -->
 	<plugin name="org.eclipse.emf.mapping.xsd2ecore" version="2.5.0"/>
 	<plugin name="org.eclipse.emf.mapping.xsd2ecore.editor" version="2.6.0"/>
-	<plugin name="org.eclipse.emf.mapping.xsd2ecore.editor.source" version="2.6.0"/>
-	<plugin name="org.eclipse.emf.mapping.xsd2ecore.source" version="2.5.0"/>
-	<plugin name="org.eclipse.xsd" version="2.8.0"/>
+	<plugin name="org.eclipse.xsd" version="2.9.0"/>
 	<plugin name="org.eclipse.xsd.cheatsheets" version="2.6.0"/>
-	<plugin name="org.eclipse.xsd.cheatsheets.source" version="2.6.0"/>
-	<plugin name="org.eclipse.xsd.doc" version="2.6.0"/>
+	<plugin name="org.eclipse.xsd.doc" version="2.7.0"/>
 	<plugin name="org.eclipse.xsd.ecore.converter" version="2.6.0"/>
 	<plugin name="org.eclipse.xsd.ecore.exporter" version="2.5.0"/>
-	<plugin name="org.eclipse.xsd.ecore.exporter.source" version="2.5.0"/>
-	<plugin name="org.eclipse.xsd.ecore.importer" version="2.6.0"/>
-	<plugin name="org.eclipse.xsd.ecore.importer.source" version="2.6.0"/>
+	<plugin name="org.eclipse.xsd.ecore.importer" version="2.7.0"/>
 	<plugin name="org.eclipse.xsd.edit" version="2.6.0"/>
-	<plugin name="org.eclipse.xsd.edit.source" version="2.6.0"/>
 	<plugin name="org.eclipse.xsd.editor" version="2.6.0"/>
-	<plugin name="org.eclipse.xsd.editor.source" version="2.6.0"/>
-	<plugin name="org.eclipse.xsd.example.installer" version="1.1.0"/>
+	<plugin name="org.eclipse.xsd.example.installer" version="1.2.0"/>
 	<plugin name="org.eclipse.xsd.mapping" version="2.6.0"/>
-	<plugin name="org.eclipse.xsd.mapping.editor" version="2.6.0"/>
-	<plugin name="org.eclipse.xsd.source" version="2.8.0"/>
+	<plugin name="org.eclipse.xsd.mapping.editor" version="2.7.0"/>
 </release>
