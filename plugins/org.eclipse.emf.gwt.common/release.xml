@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <release>
-	<feature name="org.eclipse.emf.gwt" version="2.8.0">
+	<feature name="org.eclipse.emf.gwt" version="2.9.0">
 		<feature name="org.eclipse.emf.license" version="2.7.0" license="true"/>
-		<feature name="org.eclipse.emf.gwt.common" version="2.8.0"/>
-		<feature name="org.eclipse.emf.gwt.ecore" version="2.8.0"/>
+		<feature name="org.eclipse.emf.gwt.common" version="2.9.0"/>
+		<feature name="org.eclipse.emf.gwt.ecore" version="2.9.0"/>
 		<feature name="org.eclipse.emf.gwt.edit" version="2.8.0"/>
 		<feature name="org.eclipse.emf.gwt.ecore.edit" version="2.8.0"/>
 		<feature name="org.eclipse.emf.gwt.edit.ui" version="2.7.0"/>
 		<plugin name="org.eclipse.emf.gwt" version="2.6.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.gwt.common" version="2.8.0">
+	<feature name="org.eclipse.emf.gwt.common" version="2.9.0">
 		<feature name="org.eclipse.emf.license" version="2.7.0" license="true"/>
-		<plugin name="org.eclipse.emf.gwt.common" version="2.7.0"/>
+		<plugin name="org.eclipse.emf.gwt.common" version="2.9.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.gwt.ecore" version="2.8.0">
+	<feature name="org.eclipse.emf.gwt.ecore" version="2.9.0">
 		<feature name="org.eclipse.emf.license" version="2.7.0" license="true"/>
-		<plugin name="org.eclipse.emf.gwt.ecore" version="2.8.0"/>
+		<plugin name="org.eclipse.emf.gwt.ecore" version="2.9.0"/>
 		<plugin name="org.eclipse.emf.gwt.ecore.change" version="2.8.0"/>
 	</feature>
 	<feature name="org.eclipse.emf.gwt.ecore.edit" version="2.8.0">
@@ -30,23 +30,16 @@
 		<feature name="org.eclipse.emf.license" version="2.7.0" license="true"/>
 		<plugin name="org.eclipse.emf.gwt.edit.ui" version="2.7.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.gwt.sdk" version="2.8.0">
+	<feature name="org.eclipse.emf.gwt.sdk" version="2.9.0">
 		<feature name="org.eclipse.emf.license" version="2.7.0" license="true"/>
-		<feature name="org.eclipse.emf.gwt" version="2.8.0"/>
+		<feature name="org.eclipse.emf.gwt" version="2.9.0"/>
 		<feature name="org.eclipse.emf.gwt.source" version="0.0.0"/> <!-- UNRESOLVED -->
-		<plugin name="org.eclipse.emf.gwt.common" version="2.7.0"/>
-		<plugin name="org.eclipse.emf.gwt.ecore" version="2.8.0"/>
-		<plugin name="org.eclipse.emf.gwt.ecore.change" version="2.8.0"/>
-		<plugin name="org.eclipse.emf.gwt.ecore.edit" version="2.8.0"/>
-		<plugin name="org.eclipse.emf.gwt.edit" version="2.8.0"/>
-		<plugin name="org.eclipse.emf.gwt" version="2.6.0"/>
-		<plugin name="org.eclipse.emf.gwt.edit.ui" version="2.7.0"/>
 	</feature>
 	<feature name="org.eclipse.emf.gwt.source" version="0.0.0"/> <!-- UNRESOLVED -->
 	<feature name="org.eclipse.emf.license" version="2.7.0"/>
 	<plugin name="org.eclipse.emf.gwt" version="2.6.0"/>
-	<plugin name="org.eclipse.emf.gwt.common" version="2.7.0"/>
-	<plugin name="org.eclipse.emf.gwt.ecore" version="2.8.0"/>
+	<plugin name="org.eclipse.emf.gwt.common" version="2.9.0"/>
+	<plugin name="org.eclipse.emf.gwt.ecore" version="2.9.0"/>
 	<plugin name="org.eclipse.emf.gwt.ecore.change" version="2.8.0"/>
 	<plugin name="org.eclipse.emf.gwt.ecore.edit" version="2.8.0"/>
 	<plugin name="org.eclipse.emf.gwt.edit" version="2.8.0"/>
