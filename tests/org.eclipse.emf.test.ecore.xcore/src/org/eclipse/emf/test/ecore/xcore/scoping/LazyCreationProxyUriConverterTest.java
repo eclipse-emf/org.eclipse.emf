@@ -28,7 +28,7 @@ import org.junit.runner.RunWith;
 
 import com.google.inject.Inject;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 
 
 @RunWith(XtextRunner.class)
