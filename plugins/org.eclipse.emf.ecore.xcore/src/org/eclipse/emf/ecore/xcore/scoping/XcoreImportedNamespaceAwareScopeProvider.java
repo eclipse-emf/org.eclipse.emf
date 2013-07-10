@@ -29,8 +29,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xcore.XImportDirective;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
-import org.eclipse.emf.ecore.xcore.util.EcoreXcoreBuilder;
-import org.eclipse.emf.ecore.xcore.util.XcoreJvmInferrer;
 import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -51,19 +49,12 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 
 public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceAwareLocalScopeProvider
 {
   @Inject
   private IQualifiedNameConverter nameConverter;
-
-  @Inject
-  private Provider<EcoreXcoreBuilder> ecoreXcoreBuilderProvider;
-
-  @Inject
-  private XcoreJvmInferrer jvmInferrer;
 
   @Inject
   private IResourceDescription.Manager manager;
@@ -474,8 +465,9 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
 
       protected URI getSyntheticEObjectURI()
       {
-        return ECORE_XCORE_URI.appendFragment("/1/ecore/" + eDataType.getName());
+        return ECORE_GEN_MODEL_URI.appendFragment("//ecore/" + eDataType.getName());
       }
+
       protected IEObjectDescription getElement()
       {
         IEObjectDescription element = getParent().getSingleElement(actualQualifiedName);
@@ -483,7 +475,7 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
       }
     }
 
-    private static final URI ECORE_XCORE_URI = URI.createURI("platform:/resource/org.eclipse.emf.ecore/model/Ecore.xcore");
+    private static final URI ECORE_GEN_MODEL_URI = URI.createURI("platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel");
 
     private IQualifiedNameConverter nameConverter;
 
