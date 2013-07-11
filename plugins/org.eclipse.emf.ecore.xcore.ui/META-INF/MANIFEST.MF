@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.eclipse.emf.ecore.xcore.ui;singleton:=true
 Bundle-Localization: plugin
-Bundle-Version: 1.1.0.qualifier
+Bundle-Version: 1.2.0.qualifier
 Bundle-Activator: org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -28,7 +28,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.codegen.ecore.xtext.ui,
  org.eclipse.debug.ui,
  org.eclipse.jdt.ui,
- org.eclipse.jdt.core.manipulation
+ org.eclipse.jdt.core.manipulation,
+ org.eclipse.core.expressions
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.ecore.xcore.ui,

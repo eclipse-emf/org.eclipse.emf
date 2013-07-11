@@ -532,7 +532,7 @@
         </handler>
         <handler
             class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.emf.ecore.xcore.ui.handler.XcoreOrganizeImportsHandler"
-            commandId="org.eclipse.emf.ecore.xcore.ui.organizeImports">
+            commandId="org.eclipse.xtext.xbase.ui.organizeImports">
                <activeWhen>
                 <reference
                     definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
@@ -543,15 +543,32 @@
 
     <extension point="org.eclipse.ui.commands">
       <command
+            categoryId="org.eclipse.ui.category.file"
             description="%command.description.1"
             id="org.eclipse.emf.ecore.xcore.ui.CreateDynamicInstance"
             name="%command.name.1">
       </command>
-      <command
-            description="%command.description.2"
-            id="org.eclipse.emf.ecore.xcore.ui.organizeImports"
-            name="%command.name.2"/>
     </extension>
+   
+   <extension
+         point="org.eclipse.ui.contexts">
+      <context
+            description="%XcoreContext_description"
+            id="org.eclipse.emf.ecore.xcore.ui.XcoreEditorScope"
+            name="%XcoreContext_name"
+            parentId="org.eclipse.xtext.ui.XtextEditorScope">
+      </context>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            contextId="org.eclipse.emf.ecore.xcore.ui.XcoreEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+M2+I"
+            commandId="org.eclipse.emf.ecore.xcore.ui.CreateDynamicInstance">
+      </key>
+   </extension>
 
     <extension point="org.eclipse.ui.menus">
         <menuContribution
@@ -570,7 +587,7 @@
          <menuContribution
             locationURI="popup:#TextEditorContext?after=group.edit">
              <command
-                 commandId="org.eclipse.emf.ecore.xcore.ui.organizeImports"
+                 commandId="org.eclipse.xtext.xbase.ui.organizeImports"
                  style="push"
                  tooltip="%command.tooltip.2">
             <visibleWhen checkEnabled="false">
