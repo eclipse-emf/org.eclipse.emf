@@ -27,6 +27,7 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.xml.xmi.OrderTest.suite()
     ,org.eclipse.emf.test.xml.xmi.QNameTest.suite()
     ,org.eclipse.emf.test.xml.xmi.CrossResourceReferencesTest.suite()
+    ,org.eclipse.emf.test.xml.xmi.UnloadXMIResourceTest.suite()
     ,org.eclipse.emf.test.xml.xmi.MultipleDocumentRootTest.suite()
     ,org.eclipse.emf.test.xml.encoding.UnicodeEncodingTest.suite() 
     ,org.eclipse.emf.test.xml.encoding.XMLHeaderTest.suite() 
