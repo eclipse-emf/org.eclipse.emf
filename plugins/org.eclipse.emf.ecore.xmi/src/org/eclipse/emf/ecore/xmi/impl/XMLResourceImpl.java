@@ -655,7 +655,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   @Override
   protected void detachedHelper(EObject eObject)
   {
-    if (useIDs())
+    if (useIDs() && unloadingContents == null)
     {
       if (useUUIDs())
       {
