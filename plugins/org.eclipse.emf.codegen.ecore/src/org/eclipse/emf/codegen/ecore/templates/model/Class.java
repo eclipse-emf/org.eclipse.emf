@@ -2699,7 +2699,7 @@ public class Class
     stringBuffer.append(TEXT_345);
     stringBuffer.append(genFeature.getFeatureKind());
     stringBuffer.append(TEXT_346);
-    if (genFeature.isListType()) {
+    if (genFeature.isListType() && genFeature.getEcoreFeature().getEGenericType().getETypeParameter() == null) {
     if (genFeature.isMapType()) { GenFeature keyFeature = genFeature.getMapEntryTypeGenClass().getMapEntryKeyFeature(); GenFeature valueFeature = genFeature.getMapEntryTypeGenClass().getMapEntryValueFeature(); 
     stringBuffer.append(TEXT_347);
     if (keyFeature.isListType()) {

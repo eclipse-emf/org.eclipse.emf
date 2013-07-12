@@ -660,7 +660,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 <%@ start %>
 	/**
 	 * Returns the value of the '<em><b><%=genFeature.getFormattedName()%></b></em>' <%=genFeature.getFeatureKind()%>.
-    <%if (genFeature.isListType()) {%>
+    <%if (genFeature.isListType() && genFeature.getEcoreFeature().getEGenericType().getETypeParameter() == null) {%>
       <%if (genFeature.isMapType()) { GenFeature keyFeature = genFeature.getMapEntryTypeGenClass().getMapEntryKeyFeature(); GenFeature valueFeature = genFeature.getMapEntryTypeGenClass().getMapEntryValueFeature(); %>
 	 * The key is of type <%if (keyFeature.isListType()) {%>list of {@link <%=keyFeature.getQualifiedListItemType(genClass)%>}<%} else {%>{@link <%=keyFeature.getType(genClass)%>}<%}%>,
 	 * and the value is of type <%if (valueFeature.isListType()) {%>list of {@link <%=valueFeature.getQualifiedListItemType(genClass)%>}<%} else {%>{@link <%=valueFeature.getType(genClass)%>}<%}%>,
