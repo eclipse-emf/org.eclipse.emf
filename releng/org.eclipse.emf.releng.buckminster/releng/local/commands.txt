@@ -1,3 +1,17 @@
+importprefs -F ${checkout.location}/releng/org.eclipse.emf.releng.buckminster/releng/buckminster.workspace.epf
+importproxysettings
+
+setpref complianceLevel=1.5
+setpref targetPlatformPath="${WORKSPACE}/buildroot/target.platform"
+
+import -Dbuild.type=N -Dwithout.gdt=true -Dwithout.rap=true "${checkout.location}/releng/org.eclipse.emf.releng.buckminster/releng/emf.base-all.mspec"
+import -Dbuild.type=N -Dwithout.gdt=true -Dwithout.rap=true "${checkout.location}/releng/org.eclipse.emf.releng.buckminster/releng/emf-all.mspec"
+import -Dbuild.type=N -Dwithout.gdt=true -Dwithout.rap=true "${checkout.location}/releng/org.eclipse.emf.xcore.releng/releng/xcore-platform.mspec"
+resolve -Dbuild.type=N -Dwithout.gdt=true -Dwithout.rap=true "${checkout.location}/releng/org.eclipse.emf.xcore.releng/releng/xcore.cquery"
+build
+
+junit --stderr --stdout --launch "org.eclipse.emf.test.core/Test EMF Core.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Core.xml"
+
 #importproxysettings
 
 setpref complianceLevel=1.5
@@ -6,9 +20,9 @@ setpref targetPlatformPath="${WORKSPACE}/buildroot/target.platform"
 #setpref org.eclipse.buckminster.core.maxParallelMaterializations=1
 
 # Import all but rap.sdk cause it has a bad dependency to eclipse 4.3
-import --properties "${releng.proj.loc}/releng/local/local-build.properties" -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true  -Dwithout.rap=true "${releng.proj.loc}/releng/emf-all.mspec"
-import --properties "${releng.proj.loc}/releng/local/local-build.properties" -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true "${releng.proj.loc}/releng/emf-platform.base.sources.cquery"
-build
+#import --properties "${releng.proj.loc}/releng/local/local-build.properties" -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true  -Dwithout.rap=true "${releng.proj.loc}/releng/emf-all.mspec"
+#import --properties "${releng.proj.loc}/releng/local/local-build.properties" -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true "${releng.proj.loc}/releng/emf-platform.base.sources.cquery"
+#build
 
 #junit --launch "org.eclipse.emf.test.core/Test EMF Core.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Core.xml"
 #junit --launch "org.eclipse.emf.test.databinding/Test EMF Databinding.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Databinding.xml"
@@ -19,13 +33,13 @@ build
 #junit --launch "org.eclipse.emf.test.examples/Test EMF Examples.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Examples.xml"
 
 # Freeze galileo target platform information 
-perform --properties "${releng.proj.loc}/releng/local/local-build.properties" "org.eclipse.emf.all#jar.contents"
-perform --properties "${releng.proj.loc}/releng/local/local-build.properties" "org.eclipse.emf.gwt.sdk#jar.contents"
+#perform --properties "${releng.proj.loc}/releng/local/local-build.properties" "org.eclipse.emf.all#jar.contents"
+#perform --properties "${releng.proj.loc}/releng/local/local-build.properties" "org.eclipse.emf.gwt.sdk#jar.contents"
 
 # Import rap.sdk now, eclipse 4.3 will be imported in the TP too
-import --properties "${releng.proj.loc}/releng/local/local-build.properties" -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true "${releng.proj.loc}/releng/rap/emf.rap.mspec"
-build
+#import --properties "${releng.proj.loc}/releng/local/local-build.properties" -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true "${releng.proj.loc}/releng/rap/emf.rap.mspec"
+#build
 
 # Package all together
-perform --properties "${releng.proj.loc}/releng/local/local-build.properties" "org.eclipse.emf.build#build"
-perform --properties "${releng.proj.loc}/releng/local/local-build.properties" "org.eclipse.emf.releng.buckminster#setup.promoter"
+#perform --properties "${releng.proj.loc}/releng/local/local-build.properties" "org.eclipse.emf.build#build"
+#perform --properties "${releng.proj.loc}/releng/local/local-build.properties" "org.eclipse.emf.releng.buckminster#setup.promoter"

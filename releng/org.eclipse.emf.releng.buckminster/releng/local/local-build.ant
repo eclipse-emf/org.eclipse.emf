@@ -20,8 +20,7 @@
 	<property name="checkout.location" value="${user.home}/git/org.eclipse.emf/" />
 	<property name="releng.proj.loc" value="${checkout.location}/releng/org.eclipse.emf.releng.buckminster" />
 	<!-- Buckminster headless 3.7 to use. See http://www.eclipse.org/buckminster/downloads.html -->
-	<property name="buckminster.home" location="${user.home}/Entwicklung/buckminster" />
-
+	<property name="buckminster.home" location="${user.home}/buckminster" />
 
 	<!-- Against which platform to build (Galileo,Juno)-->
 	<property name="ECLIPSE.TARGET.ALIAS" value="Galileo" />
@@ -43,6 +42,7 @@
 		<!-- What is to do -->
 		<property name="commands.file" value="${releng.proj.loc}/releng/local/commands.txt" />
 		<!-- Where to build. This folder will be cleaned up, so dont point to ~ or / :) -->
+		<mkdir dir="${user.home}/hudsonbuild/emf-core-head" />
 		<property name="WORKSPACE" location="${user.home}/hudsonbuild/emf-core-head" />
 		<antcall target="-reset.target-platform" inheritall="true" />
 		<antcall target="start-build" inheritall="true" />
