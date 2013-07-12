@@ -1165,7 +1165,22 @@ public class ItemProviderAdapter
 
   /**
    * This creates a primitive {@link org.eclipse.emf.edit.command.ReplaceCommand}.
+   * @since 2.10
    */
+  protected Command createReplaceCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value, Collection<?> collection) 
+  {
+    if (value instanceof EObject)
+    {
+      return createReplaceCommand(domain, owner, feature, (EObject)value, collection);
+    }
+    return new ReplaceCommand(domain, owner, feature, value, collection);
+  }
+
+  /**
+   * This creates a primitive {@link org.eclipse.emf.edit.command.ReplaceCommand}.
+   * @deprecated As of EMF 2.10, replaced by {@link #createReplaceCommand(EditingDomain, EObject, EStructuralFeature, Object, Collection)}.
+   */
+  @Deprecated
   protected Command createReplaceCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, EObject value, Collection<?> collection) 
   {
     if (feature instanceof EReference)
