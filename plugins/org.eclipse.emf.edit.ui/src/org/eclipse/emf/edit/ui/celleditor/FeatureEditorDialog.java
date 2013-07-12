@@ -56,6 +56,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -167,7 +168,7 @@ public class FeatureEditorDialog extends Dialog
          choiceOfValues,
          false,
          false,
-         eStructuralFeature.isUnique());
+         eStructuralFeature.isUnique() || eStructuralFeature instanceof EReference);
   }
 
   @Override

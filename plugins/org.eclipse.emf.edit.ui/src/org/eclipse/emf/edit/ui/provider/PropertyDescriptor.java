@@ -463,7 +463,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
                     new ArrayList<Object>(choiceOfValues),
                     false,
                     itemPropertyDescriptor.isSortChoices(object),
-                    feature.isUnique());
+                    feature.isUnique() || feature instanceof EReference);
                   dialog.open();
                   return dialog.getResult();
                 }

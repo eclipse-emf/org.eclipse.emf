@@ -136,19 +136,19 @@ public class DecoratingColumLabelProvider extends ColumnLabelProvider implements
   @Override
   public int getToolTipTimeDisplayed(Object object)
   {
-    return cellLabelProvider == null ? null : cellLabelProvider.getToolTipTimeDisplayed(object);
+    return cellLabelProvider == null ? 0 : cellLabelProvider.getToolTipTimeDisplayed(object);
   }
 
   @Override
   public int getToolTipDisplayDelayTime(Object object)
   {
-    return cellLabelProvider == null ? null : cellLabelProvider.getToolTipDisplayDelayTime(object);
+    return cellLabelProvider == null ? 0 : cellLabelProvider.getToolTipDisplayDelayTime(object);
   }
 
   @Override
   public int getToolTipStyle(Object object)
   {
-    return cellLabelProvider == null ? null : cellLabelProvider.getToolTipStyle(object);
+    return cellLabelProvider == null ? 0 : cellLabelProvider.getToolTipStyle(object);
   }
 
   @Override
