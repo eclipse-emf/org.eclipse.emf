@@ -22,10 +22,15 @@ import org.eclipse.jface.viewers.ITableColorProvider;
 import org.eclipse.jface.viewers.ITableFontProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
+import org.eclipse.jface.viewers.StyledString;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
+import org.eclipse.jface.viewers.StyledString.Styler;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.TextStyle;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
@@ -34,11 +39,13 @@ import org.eclipse.emf.edit.provider.IChangeNotifier;
 import org.eclipse.emf.edit.provider.IItemColorProvider;
 import org.eclipse.emf.edit.provider.IItemFontProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemStyledLabelProvider;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.ITableItemColorProvider;
 import org.eclipse.emf.edit.provider.ITableItemFontProvider;
 import org.eclipse.emf.edit.provider.ITableItemLabelProvider;
 import org.eclipse.emf.edit.provider.IViewerNotification;
+import org.eclipse.emf.edit.provider.StyledString.Fragment;
 
 
 /**
@@ -147,6 +154,45 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
   }
 
   /**
+   * An extended version of the adapter factory label provider that also provides for styled string.
+   * <p>
+   * {@link ExtendedColorRegistry} and {@link ExtendedFontRegistry} may be queried to build {@link StyledString}.
+   *  Therefore, constructors need to get default font, foreground color and background color. As such, it also 
+   * implements {@link IFontProvider} and {@link IColorProvider}.
+   * 
+   * @author <a href="mailto:mikael.barbero@obeo.fr">Mikael Barbero</a>
+   * @since 2.10
+   */
+  public static class StyledLabelProvider extends AdapterFactoryLabelProvider implements IStyledLabelProvider, IColorProvider, IFontProvider, ITableColorProvider, ITableFontProvider
+  {
+
+    /**
+     * Construct an instance that wraps the given factory and specifies the given default font and colors.
+     * @param adapterFactory an adapter factory that yield adapters that implement the various item label provider interfaces.
+     * @param defaultFont the font that will be used when no font is specified.
+     * @param defaultForeground the foreground color that will be used when no foreground color is specified.
+     * @param defaultBackground the background color that will be used when no background color is specified.
+     */
+    public StyledLabelProvider(AdapterFactory adapterFactory, Font defaultFont, Color defaultForeground, Color defaultBackground)
+    {
+      super(adapterFactory);
+      setDefaultFont(defaultFont);
+      setDefaultForeground(defaultForeground);
+      setDefaultBackground(defaultBackground);
+    }
+
+    /**
+     * Construct an instance that wraps the given factory and uses the font and colors of the viewer's control.
+     * @param adapterFactory an adapter factory that yield adapters that implement the various item label provider interfaces.
+     * @param viewer the viewer for which the control's font and color should be used.
+     */
+    public StyledLabelProvider(AdapterFactory adapterFactory, Viewer viewer)
+    {
+      this(adapterFactory, viewer.getControl().getFont(), viewer.getControl().getForeground(), viewer.getControl().getBackground());
+    }
+  }
+
+  /**
    * This keep track of the one factory we are using.
    * Use a {@link org.eclipse.emf.edit.provider.ComposedAdapterFactory} 
    * if adapters from more the one factory are involved in the model.
@@ -184,6 +230,7 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
   private static final Class<?> IItemColorProviderClass = IItemColorProvider.class;
   private static final Class<?> ITableItemFontProviderClass = ITableItemFontProvider.class;
   private static final Class<?> ITableItemColorProviderClass = ITableItemColorProvider.class;
+  private static final Class<?> IItemStyledLabelProviderClass = IItemStyledLabelProvider.class;
 
   /**
    *  Construct an instance that wraps the given factory.
@@ -396,6 +443,197 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
   protected Font getFontFromObject(Object object)
   {
     return object == null ? null : ExtendedFontRegistry.INSTANCE.getFont(defaultFont, object);
+  }
+
+  /**
+   *  This implements {@link org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider}.getStyledText by forwarding it to an object that implements 
+   * {@link org.eclipse.emf.edit.provider.IItemStyledLabelProvider#getStyledText IItemStyledLabelProvider.getStyledText}
+   * @since 2.10
+   */
+  public StyledString getStyledText(Object object)
+  {
+    // Get the adapter from the factory.
+    //
+    IItemStyledLabelProvider itemStyledLabelProvider = (IItemStyledLabelProvider) adapterFactory
+        .adapt(object, IItemStyledLabelProviderClass);
+
+    return itemStyledLabelProvider != null ? getStyledStringFromObject(itemStyledLabelProvider
+        .getStyledText(object)) : new StyledString(getText(object));
+  }
+
+  /**
+   * @since 2.10
+   */
+  protected StyledString getStyledStringFromObject(Object object)
+  {
+    if (object == null)
+    {
+      return new StyledString();
+    }
+    else if (object instanceof StyledString)
+    {
+      return (StyledString) object;
+    }
+    else if (object instanceof String)
+    {
+      return new StyledString((String) object);
+    }
+    else if (object instanceof org.eclipse.emf.edit.provider.StyledString)
+    {
+      return toJFaceStyledString((org.eclipse.emf.edit.provider.StyledString) object);
+    }
+    else
+    {
+      return new StyledString(object.toString());
+    }
+  }
+  
+  /**
+   * @since 2.10
+   */
+  protected StyledString toJFaceStyledString(org.eclipse.emf.edit.provider.StyledString styledString) 
+  {
+    StyledString result = new StyledString();
+    for (Fragment fragment : styledString)
+    {
+      org.eclipse.emf.edit.provider.StyledString.Style style = fragment.getStyle();
+      String string = fragment.getString();
+      if (string == null)
+      {
+        result.append("");
+      }
+      else if (style == org.eclipse.emf.edit.provider.StyledString.Style.NO_STYLE)
+      {
+        result.append(string);
+      }
+      else if (style == org.eclipse.emf.edit.provider.StyledString.Style.COUNTER_STYLER)
+      {
+        result.append(string, StyledString.COUNTER_STYLER);
+      }
+      else if (style == org.eclipse.emf.edit.provider.StyledString.Style.DECORATIONS_STYLER)
+      {
+        result.append(string, StyledString.DECORATIONS_STYLER);
+      }
+      else if (style == org.eclipse.emf.edit.provider.StyledString.Style.QUALIFIER_STYLER)
+      {
+        result.append(string, StyledString.QUALIFIER_STYLER);
+      }
+      else
+      {
+        Styler styler = createStyler(style);
+        result.append(string, styler);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Returns a new styler with the same styling information as the given style.
+   */
+  protected Styler createStyler(org.eclipse.emf.edit.provider.StyledString.Style style)
+  {
+    return new ConvertingStyler(style);
+  }
+
+  /**
+   * A extended {@link Styler} that wraps a {@link org.eclipse.emf.edit.provider.StyledString.Style} 
+   * and uses it as data source for {@link #applyStyles(TextStyle) applying style}.
+   * 
+   * @author <a href="mailto:mikael.barbero@obeo.fr">Mikael Barbero</a>
+   * @since 2.10
+   */
+  protected class ConvertingStyler extends Styler
+  {
+    /** 
+     * The wrapped style .
+     */
+    protected final org.eclipse.emf.edit.provider.StyledString.Style style;
+  
+    protected ConvertingStyler(org.eclipse.emf.edit.provider.StyledString.Style style)
+    {
+      this.style = style;
+    }
+  
+    @Override
+    public void applyStyles(TextStyle textStyle)
+    {
+      textStyle.font = getFontFromObject(style.getFont());
+  
+      textStyle.background = getColorFromObject(style.getBackgoundColor());
+      textStyle.foreground = getColorFromObject(style.getForegroundColor());
+  
+      textStyle.strikeout = style.isStrikedout();
+      textStyle.strikeoutColor = getColorFromObject(style.getStrikeoutColor());
+  
+      textStyle.borderColor = getColorFromObject(style.getBorderColor());
+      switch (style.getBorderStyle())
+      {
+        case NONE:
+        {
+          textStyle.borderStyle = SWT.NONE;
+          break;
+        }
+        case SOLID:
+        {
+          textStyle.borderStyle = SWT.BORDER_SOLID;
+          break;
+        }
+        case DOT:
+        {
+          textStyle.borderStyle = SWT.BORDER_DOT;
+          break;
+        }
+        case DASH:
+        {
+          textStyle.borderStyle = SWT.BORDER_DASH;
+          break;
+        }
+      }
+  
+      switch (style.getUnderlineStyle())
+      {
+        case NONE:
+        {
+          textStyle.underline = false;
+          break;
+        }
+        case SINGLE:
+        {
+          textStyle.underline = true;
+          textStyle.underlineStyle = SWT.UNDERLINE_SINGLE;
+          textStyle.underlineColor = getColorFromObject(style.getUnderlineColor());
+          break;
+        }
+        case DOUBLE:
+        {
+          textStyle.underline = true;
+          textStyle.underlineStyle = SWT.UNDERLINE_DOUBLE;
+          textStyle.underlineColor = getColorFromObject(style.getUnderlineColor());
+          break;
+        }
+        case ERROR:
+        {
+          textStyle.underline = true;
+          textStyle.underlineStyle = SWT.UNDERLINE_ERROR;
+          textStyle.underlineColor = getColorFromObject(style.getUnderlineColor());
+          break;
+        }
+        case LINK:
+        {
+          textStyle.underline = true;
+          textStyle.underlineStyle = SWT.UNDERLINE_LINK;
+          textStyle.underlineColor = getColorFromObject(style.getUnderlineColor());
+          break;
+        }
+        case SQUIGGLE:
+        {
+          textStyle.underline = true;
+          textStyle.underlineStyle = SWT.UNDERLINE_SQUIGGLE;
+          textStyle.underlineColor = getColorFromObject(style.getUnderlineColor());
+          break;
+        }
+      }
+    }
   }
 
   /**

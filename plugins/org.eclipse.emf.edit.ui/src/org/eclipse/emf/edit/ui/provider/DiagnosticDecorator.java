@@ -35,6 +35,7 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.ui.ImageURIRegistry;
 import org.eclipse.emf.common.ui.MarkerHelper;
 import org.eclipse.emf.common.ui.viewer.ColumnViewerInformationControlToolTipSupport;
+import org.eclipse.emf.common.ui.viewer.IStyledLabelDecorator;
 import org.eclipse.emf.common.ui.viewer.IUndecoratingLabelProvider;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -61,7 +62,9 @@ import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.IDialogSettings;
+import org.eclipse.jface.preference.JFacePreferences;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.IContentProvider;
@@ -71,9 +74,14 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.StyledString;
+import org.eclipse.jface.viewers.StyledString.Styler;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.LocationEvent;
+import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.TextStyle;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPart;
@@ -601,6 +609,229 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
       {
         validationJob.cancel();
       }
+    }
+  }
+  
+  /**
+   * An extended {@link DiagnosticDecorator} that handle style strings decoration.
+   * @since 2.10
+   */
+  public static class Styled extends DiagnosticDecorator implements IStyledLabelDecorator
+  {
+    /**
+     * Creates an instance that supports {@link LiveValidator live validation} and supports 
+     * {@link DiagnosticDecorator.LiveValidator.LiveValidationAction#LIVE_VALIDATOR_DIALOG_SETTINGS_KEY enablement} 
+     * via {@link IDialogSettings dialog setting}.
+     */
+    public Styled(EditingDomain editingDomain, ExtendedPropertySheetPage propertySheetPage, IDialogSettings dialogSettings)
+    {
+      super(editingDomain, propertySheetPage, dialogSettings);
+    }
+
+    /**
+     * Creates an instance that supports {@link LiveValidator live validation}.
+     */
+    public Styled(EditingDomain editingDomain, ExtendedPropertySheetPage propertySheetPage)
+    {
+      super(editingDomain, propertySheetPage);
+    }
+
+    /**
+     * Creates an instance that supports {@link LiveValidator live validation} and supports 
+     * {@link DiagnosticDecorator.LiveValidator.LiveValidationAction#LIVE_VALIDATOR_DIALOG_SETTINGS_KEY enablement} 
+     * via {@link IDialogSettings dialog setting}.
+     */
+    public Styled(EditingDomain editingDomain, StructuredViewer viewer, IDialogSettings dialogSettings)
+    {
+      super(editingDomain, viewer, dialogSettings);
+    }
+
+    /**
+     * Creates an instance that supports {@link LiveValidator live validation}.
+     */
+    public Styled(EditingDomain editingDomain, StructuredViewer viewer)
+    {
+      super(editingDomain, viewer);
+    }
+
+    /**
+     * Creates an instance that doesn't support {@link LiveValidator live validation}.
+     * Only decorations explicitly produced from {@link ValidateAction} or those 
+     * {@link EditUIMarkerHelper#getMarkerDiagnostics(Object, org.eclipse.core.resources.IFile) 
+     * derived from markers} are displayed.
+     */
+    public Styled(ResourceSet resourceSet, ExtendedPropertySheetPage propertySheetPage)
+    {
+      super(resourceSet, propertySheetPage);
+    }
+
+    /**
+     * Creates an instance that doesn't support {@link LiveValidator live validation}.
+     * Only decorations explicitly produced from {@link ValidateAction} or those 
+     * {@link EditUIMarkerHelper#getMarkerDiagnostics(Object, org.eclipse.core.resources.IFile) 
+     * derived from markers} are displayed.
+     */
+    public Styled(ResourceSet resourceSet, StructuredViewer viewer)
+    {
+      super(resourceSet, viewer);
+    }
+    
+    public StyledString decorateStyledText(StyledString styledString, Object object)
+    {
+      return styledString;
+    }
+  }
+
+  /**
+   * A styled diagnostic decorator that will decorate the given styled string by underlying it 
+     * with a {@link SWT#UNDERLINE_ERROR} underline style colored in {@link JFacePreferences#ERROR_COLOR}.
+   * @author mbarbero
+   *
+   */
+  public static class StyledError extends DiagnosticDecorator.Styled implements IStyledLabelDecorator
+  {
+    
+    public StyledError(EditingDomain editingDomain,
+        ExtendedPropertySheetPage propertySheetPage,
+        IDialogSettings dialogSettings)
+    {
+      super(editingDomain, propertySheetPage, dialogSettings);
+    }
+
+    public StyledError(EditingDomain editingDomain,
+        ExtendedPropertySheetPage propertySheetPage)
+    {
+      super(editingDomain, propertySheetPage);
+    }
+
+    public StyledError(EditingDomain editingDomain, StructuredViewer viewer,
+        IDialogSettings dialogSettings)
+    {
+      super(editingDomain, viewer, dialogSettings);
+    }
+
+    public StyledError(EditingDomain editingDomain, StructuredViewer viewer)
+    {
+      super(editingDomain, viewer);
+    }
+
+    public StyledError(ResourceSet resourceSet,
+        ExtendedPropertySheetPage propertySheetPage)
+    {
+      super(resourceSet, propertySheetPage);
+    }
+
+    public StyledError(ResourceSet resourceSet, StructuredViewer viewer)
+    {
+      super(resourceSet, viewer);
+    }
+
+    /**
+     * Decorate the given {@code styledString} by underlying the whole given {@code styledString} 
+     * with a {@link SWT#UNDERLINE_ERROR} underline style colored in {@link JFacePreferences#ERROR_COLOR}.
+     */
+    public StyledString decorateStyledText(StyledString styledString, Object object)
+    {
+      if (styledString == null || object == null)
+      {
+        throw new NullPointerException();
+      }
+      Diagnostic diagnostic = getDecorations().get(object);
+      if (diagnostic != null && diagnostic.getSeverity() >= Diagnostic.WARNING)
+      {
+        StyledString result = new StyledString();
+        StyleRange[] styleRanges = styledString.getStyleRanges();
+        String string = styledString.getString();
+        if (styleRanges.length == 0)
+        {
+          result.append(string, ErrorStyler.INSTANCE);
+        }
+        else
+        {
+          int start = 0;
+          for (StyleRange range : styleRanges)
+          {
+            if (start < range.start)
+            {
+              result.append(string.substring(start, (range.start - start)), ErrorStyler.INSTANCE);
+            }
+            start = range.start + range.length;
+            result.append(string.substring(range.start, start), new ComposedStyler(range, ErrorStyler.INSTANCE));
+          }
+          if (start < styledString.length())
+          {
+            result.append(string.substring(start, string.length()), ErrorStyler.INSTANCE);
+          }
+        }
+        
+        return result;
+      }
+      return styledString;
+    }
+    
+    /**
+     * A styler underlying the given text with a {@link SWT#UNDERLINE_ERROR} underline style colored 
+     * in {@link JFacePreferences#ERROR_COLOR}.
+     * @since 2.10
+     */
+    public static final class ErrorStyler extends Styler
+    {
+      public static final Styler INSTANCE = new ErrorStyler();
+      
+      @Override
+      public void applyStyles(TextStyle textStyle)
+      {
+        textStyle.underline = true;
+        textStyle.underlineStyle = SWT.UNDERLINE_ERROR;
+        textStyle.underlineColor = JFaceResources.getColorRegistry().get(JFacePreferences.ERROR_COLOR);
+      }
+    }
+    
+    /**
+     * An extended styler applying a wrapped base style first, and successively apply other 
+     * stylers to the given TextStyle, overriding any previous style.
+     * 
+     * @since 2.10
+     */
+    public static class ComposedStyler extends Styler
+    {
+      protected TextStyle baseStyle;
+      protected Styler[] stylers;
+
+      public ComposedStyler(TextStyle baseStyle, Styler... stylers)
+      {
+        this.baseStyle = baseStyle;
+        this.stylers = stylers;
+      }
+      
+      @Override
+      public void applyStyles(TextStyle textStyle)
+      {
+        textStyle.font = baseStyle.font;
+        textStyle.metrics = baseStyle.metrics;
+        textStyle.rise = baseStyle.rise;
+        
+        textStyle.background = baseStyle.background;
+        textStyle.foreground = baseStyle.foreground;
+
+        textStyle.borderColor = baseStyle.borderColor;
+        textStyle.borderStyle = baseStyle.borderStyle;
+        
+        textStyle.strikeout = baseStyle.strikeout;
+        textStyle.strikeoutColor = baseStyle.strikeoutColor;
+
+        textStyle.underline = baseStyle.underline;
+        textStyle.underlineStyle = baseStyle.underlineStyle;
+        textStyle.underlineColor = baseStyle.underlineColor;
+        
+        textStyle.data = baseStyle.data;
+
+        for (Styler styler : stylers)
+        {
+          styler.applyStyles(textStyle);
+        }
+      }
+      
     }
   }
 

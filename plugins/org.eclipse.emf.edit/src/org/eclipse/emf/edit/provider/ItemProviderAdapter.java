@@ -738,6 +738,17 @@ public class ItemProviderAdapter
   }
 
   /**
+   * This implements {@link IItemStyledLabelProvider#getStyledText IItemStyledLabelProvider.getStyledText} by simply creating
+   * an {@link IStyledString IStyledString} from the value returned {@link #getText getText}.
+   * 
+   * @since 2.10
+   */
+  public Object getStyledText(Object object)
+  {
+    return new StyledString(getText(object));
+  }
+
+  /**
    * This implements {@link IUpdateableItemText#getUpdateableText IUpdateableItemText.getUpdateableText} 
    * by simply calling {@link #getText}.
    * This will often be correct as is.

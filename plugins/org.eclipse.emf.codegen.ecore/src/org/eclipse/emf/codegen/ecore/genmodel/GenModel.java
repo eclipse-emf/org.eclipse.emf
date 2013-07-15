@@ -125,6 +125,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isImportOrganizing <em>Import Organizing</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getPluginKey <em>Plugin Key</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getDecoration <em>Decoration</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isStyleProviders <em>Style Providers</em>}</li>
  * </ul>
  * </p>
  *
@@ -2212,6 +2213,30 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setDecoration(GenDecoration value);
+
+  /**
+   * Returns the value of the '<em><b>Style Providers</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.10
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Style Providers</em>' attribute.
+   * @see #setStyleProviders(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_StyleProviders()
+   * @model
+   * @generated
+   */
+  boolean isStyleProviders();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isStyleProviders <em>Style Providers</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.10
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Style Providers</em>' attribute.
+   * @see #isStyleProviders()
+   * @generated
+   */
+  void setStyleProviders(boolean value);
 
   EList<GenPackage> getStaticGenPackages();
 

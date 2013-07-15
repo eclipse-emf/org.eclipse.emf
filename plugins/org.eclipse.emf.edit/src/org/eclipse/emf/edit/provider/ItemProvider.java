@@ -246,6 +246,7 @@ public class ItemProvider
     IItemLabelProvider, 
     IItemColorProvider,
     IItemFontProvider,
+    IItemStyledLabelProvider,
     IStructuredItemContentProvider, 
     ITreeItemContentProvider, 
     IUpdateableItemParent
@@ -274,6 +275,12 @@ public class ItemProvider
    * This is the color returned by {@link IItemColorProvider#getBackground getBackground(Object)}.
    */
   protected Object background;
+
+  /**
+   * This is the text returned by {@link IItemStyledLabelProvider#getStyledText getStyledText(Object)}.
+   * @since 2.10
+   */
+  protected Object styledText;
 
   /**
    * This is the parent returned by {@link ITreeItemContentProvider#getParent getParent(Object)}.
@@ -1025,5 +1032,49 @@ public class ItemProvider
   public Command createCommand(Object object, EditingDomain editingDomain, Class<? extends Command> commandClass, CommandParameter commandParameter)
   {
     return UnexecutableCommand.INSTANCE;
+  }
+
+  /**
+   * This implements {@link IItemStyledLabelProvider#getStyledText(Object) IItemStyledLabelProvider.getStyledText} 
+   * by returning {@link #styledText}.
+   * @since 2.10
+   */
+  public Object getStyledText(Object object) 
+  {
+    if (styledText == null) 
+    {
+      return new StyledString(getText(object));
+    }
+    return styledText;
+  }
+
+  /**
+   * This delegates to {@link #getStyledText(Object) getStyledText(this)}.
+   * @since 2.10
+   */
+  public Object getStyledText() 
+  {
+    return getStyledText(this);
+  }
+
+  /**
+   * This allows {@link #styledText} to be set.
+   * If there is a domain notifier, it fires the appropriate domain event.
+   * @since 2.10
+   */
+  public void setStyledText(Object object, Object styledText)
+  {
+    this.styledText = styledText;
+    
+    fireNotifyChanged(new ItemProviderNotification(Notification.SET, null, styledText, Notification.NO_INDEX, false, false, true));
+  }
+
+  /**
+   * This delegates to {@link #getStyledText(Object, Object) getStyledText(this, styledText)}.
+   * @since 2.10
+   */
+  public void setStyledText(Object styledText)
+  {
+	  setStyledText(this, styledText);
   }
 }

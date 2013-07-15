@@ -4520,6 +4520,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     {
       result.add("org.eclipse.emf.edit.provider.IItemFontProvider");
     }
+    if (getGenModel().isStyleProviders())
+    {
+      result.add("org.eclipse.emf.edit.provider.IItemStyledLabelProvider");
+    }
     return result;
   }
 

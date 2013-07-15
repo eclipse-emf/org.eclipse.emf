@@ -222,6 +222,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/pluginKey"/>
       <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="The style of validation decorations to support"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/decoration"/>
+      <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether item providers should provide support for specifying styled labels"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/styleProviders"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenPackage">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The prefix for names of several packaged-related classes, including package, factory, switch, and adapter factory"

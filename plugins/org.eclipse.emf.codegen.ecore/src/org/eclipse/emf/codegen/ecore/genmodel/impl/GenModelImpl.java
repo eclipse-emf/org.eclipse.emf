@@ -208,6 +208,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isImportOrganizing <em>Import Organizing</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getPluginKey <em>Plugin Key</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getDecoration <em>Decoration</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isStyleProviders <em>Style Providers</em>}</li>
  * </ul>
  * </p>
  *
@@ -1820,6 +1821,28 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected GenDecoration decoration = DECORATION_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isStyleProviders() <em>Style Providers</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.10
+   * <!-- end-user-doc -->
+   * @see #isStyleProviders()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean STYLE_PROVIDERS_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isStyleProviders() <em>Style Providers</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.10
+   * <!-- end-user-doc -->
+   * @see #isStyleProviders()
+   * @generated
+   * @ordered
+   */
+  protected boolean styleProviders = STYLE_PROVIDERS_EDEFAULT;
 
   protected boolean validateModel = false;
 
@@ -6483,6 +6506,31 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   /**
    * <!-- begin-user-doc -->
+   * @since 2.10
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isStyleProviders()
+  {
+    return styleProviders;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * @since 2.10
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setStyleProviders(boolean newStyleProviders)
+  {
+    boolean oldStyleProviders = styleProviders;
+    styleProviders = newStyleProviders;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__STYLE_PROVIDERS, oldStyleProviders, styleProviders));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
@@ -6690,6 +6738,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getPluginKey();
       case GenModelPackage.GEN_MODEL__DECORATION:
         return getDecoration();
+      case GenModelPackage.GEN_MODEL__STYLE_PROVIDERS:
+        return isStyleProviders();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -6963,6 +7013,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__DECORATION:
         setDecoration((GenDecoration)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__STYLE_PROVIDERS:
+        setStyleProviders((Boolean)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -7226,6 +7279,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__DECORATION:
         setDecoration(DECORATION_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__STYLE_PROVIDERS:
+        setStyleProviders(STYLE_PROVIDERS_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -7406,6 +7462,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return PLUGIN_KEY_EDEFAULT == null ? pluginKey != null : !PLUGIN_KEY_EDEFAULT.equals(pluginKey);
       case GenModelPackage.GEN_MODEL__DECORATION:
         return decoration != DECORATION_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__STYLE_PROVIDERS:
+        return styleProviders != STYLE_PROVIDERS_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -7577,6 +7635,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(pluginKey);
     result.append(", decoration: ");
     result.append(decoration);
+    result.append(", styleProviders: ");
+    result.append(styleProviders);
     result.append(')');
     return result.toString();
   }
@@ -8892,6 +8952,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
 
     setDecoration(oldGenModelVersion.getDecoration());
+    setStyleProviders(oldGenModelVersion.isStyleProviders());
   }
 
   public boolean reconcile()

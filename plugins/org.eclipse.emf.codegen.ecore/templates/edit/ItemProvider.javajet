@@ -233,6 +233,9 @@ public class <%=genClass.getProviderClassName()%>
 	{
 <%@ include file="ItemProvider/getText.override.javajetinc" fail="alternative" %>
 <%@ start %>
+<%if (genModel.isStyleProviders()) {%>
+		return ((<%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString")%>)getStyledText(object)).getString();
+<%} else {%>
 <%if (genClass.isMapEntry()) {%>
 		<%=genClass.getImportedInterfaceName()%><%if (genModel.useGenerics()) {%><?, ?><%}%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%><%if (genModel.useGenerics()) {%><?, ?><%}%>)object;
   <%if (!genClass.getMapEntryKeyFeature().isPropertyMultiLine() && !genClass.getMapEntryValueFeature().isPropertyMultiLine()) {%>
@@ -276,8 +279,75 @@ public class <%=genClass.getProviderClassName()%>
 <%} else {%>
 		return getString("_UI_<%=genClass.getName()%>_type");<%=genModel.getNonNLS()%>
 <%}%>
+<%}%>
 <%@ end %><%//ItemProvider/getText.override.javajetinc%>
 	}
+	
+<%if (genModel.isStyleProviders()) {%>
+	/**
+	 * This returns the label styled text for the adapted class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
+	public Object getStyledText(Object object)
+	{
+<%@ include file="ItemProvider/getStyledText.override.javajetinc" fail="alternative" %>
+<%@ start %>
+<%if (genClass.isMapEntry()) {%>
+		<%=genClass.getImportedInterfaceName()%><%if (genModel.useGenerics()) {%><?, ?><%}%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%><%if (genModel.useGenerics()) {%><?, ?><%}%>)object;
+  <%if (!genClass.getMapEntryKeyFeature().isPropertyMultiLine() && !genClass.getMapEntryValueFeature().isPropertyMultiLine()) {%>
+		return new <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString")%>("" + <%=genClass.getSafeUncapName()%>.getKey()).append(" -> ", <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString$Style")%>.QUALIFIER_STYLER).append("" + <%=genClass.getSafeUncapName()%>.getValue());<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+  <%} else {%>
+    <%if (genClass.getMapEntryKeyFeature().isPropertyMultiLine()) {%>
+		String key = crop("" + <%=genClass.getSafeUncapName()%>.getKey());<%=genModel.getNonNLS()%>
+    <%} else {%>
+		String key = "" + <%=genClass.getSafeUncapName()%>.getKey();<%=genModel.getNonNLS()%>
+    <%}%>
+    <%if (genClass.getMapEntryValueFeature().isPropertyMultiLine()) {%>
+		String value = crop("" + <%=genClass.getSafeUncapName()%>.getValue());<%=genModel.getNonNLS()%>
+    <%} else {%>
+		String value = "" + <%=genClass.getSafeUncapName()%>.getValue();<%=genModel.getNonNLS()%>
+    <%}%>
+		return new <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString")%>(key).append(" -> ", <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString$Style")%>.QUALIFIER_STYLER).append(value);<%=genModel.getNonNLS()%>
+  <%}%>
+<%} else if (genClass.getLabelFeature() != null) { GenFeature labelFeature = genClass.getLabelFeature();%>
+  <%if (labelFeature.isPrimitiveType() && !labelFeature.getGenClass().isDynamic() && !labelFeature.isSuppressedGetVisibility()) {%>
+		<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%>)object;
+		return new <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString")%>(getString("_UI_<%=genClass.getName()%>_type", <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString$Style")%>.QUALIFIER_STYLER).append(" ").append(<%=genClass.getSafeUncapName()%>.<%=genClass.getLabelFeature().getGetAccessor()%>());<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+  <%} else {%>
+    <%if (labelFeature.isStringType() && !labelFeature.getGenClass().isDynamic() && !labelFeature.isSuppressedGetVisibility()) {%>
+      <%if (labelFeature.isPropertyMultiLine()) {%>
+		String label = crop(((<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%>)object).<%=labelFeature.getGetAccessor()%>());
+      <%} else {%>
+		String label = ((<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%>)object).<%=labelFeature.getGetAccessor()%>();
+      <%}%>
+    <%} else {%>
+      <%if (labelFeature.isSuppressedGetVisibility() || labelFeature.getGenClass().isDynamic()) {%>
+		<%=genModel.getImportedName("java.lang.Object")%> labelValue = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.EObject")%>)object).eGet(<%=labelFeature.getQualifiedFeatureAccessor()%>);
+      <%} else {%>
+		<%=labelFeature.getRawImportedType()%> labelValue = ((<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%>)object).<%=labelFeature.getGetAccessor()%>();
+      <%}%>
+		String label = labelValue == null ? null : labelValue.toString();
+    <%}%>
+    	<%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString")%> styledLabel = new <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString")%>();
+		if (label == null || label.length() == 0) 
+		{
+			styledLabel.append(getString("_UI_<%=genClass.getName()%>_type"), <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString$Style")%>.QUALIFIER_STYLER); <%=genModel.getNonNLS()%>
+		} else {
+			styledLabel.append(getString("_UI_<%=genClass.getName()%>_type"), <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString$Style")%>.QUALIFIER_STYLER).append(" " + label);<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+		}
+		return styledLabel;
+  <%}%>
+<%} else {%>
+		return new <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString")%>(getString("_UI_<%=genClass.getName()%>_type"));<%=genModel.getNonNLS()%>
+<%}%>
+<%@ end %><%//ItemProvider/getStyledText.override.javajetinc%>
+	}	
+<%}%>
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
