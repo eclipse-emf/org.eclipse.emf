@@ -715,7 +715,10 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
 
   public void initialize(EOperation eOperation)
   {
-    setEcoreOperation(eOperation);
+    if (eOperation != getEcoreOperation())
+    {
+      setEcoreOperation(eOperation);
+    }
 
     List<EParameter> parameters = eOperation.getEParameters();
     LOOP:

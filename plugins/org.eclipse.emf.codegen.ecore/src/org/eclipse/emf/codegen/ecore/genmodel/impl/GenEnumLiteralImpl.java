@@ -374,7 +374,10 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
 
   public void initialize(EEnumLiteral eEnumLiteral)
   {
-    setEcoreEnumLiteral(eEnumLiteral);
+    if (eEnumLiteral != getEcoreEnumLiteral())
+    {
+      setEcoreEnumLiteral(eEnumLiteral);
+    }
   }
 
   @Override

@@ -186,7 +186,10 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
 
   public void initialize(ETypeParameter eTypeParameter)
   {
-    setEcoreTypeParameter(eTypeParameter);
+    if (eTypeParameter != getEcoreTypeParameter())
+    {
+      setEcoreTypeParameter(eTypeParameter);
+    }
   }
 
   public boolean reconcile(GenTypeParameter oldGenTypeParameterVersion)
