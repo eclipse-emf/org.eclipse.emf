@@ -320,7 +320,10 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
 
   public void initialize(EParameter eParameter)
   {
-    setEcoreParameter(eParameter);
+    if (eParameter != getEcoreParameter())
+    {
+      setEcoreParameter(eParameter);
+    }
   }
 
   public boolean reconcile(GenParameter oldGenParameterVersion)

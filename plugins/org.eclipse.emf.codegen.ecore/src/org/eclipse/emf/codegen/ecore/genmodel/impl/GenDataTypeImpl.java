@@ -823,7 +823,11 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public void initialize(EDataType eDataType)
   {
-    setEcoreDataType(eDataType);
+    if (eDataType != getEcoreDataType())
+    {
+      setEcoreDataType(eDataType);
+    }
+
     List<ETypeParameter> typeParameters = eDataType.getETypeParameters();
     LOOP:
     for (int i = 0; i < typeParameters.size(); ++i) 
