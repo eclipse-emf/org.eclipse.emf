@@ -1424,7 +1424,7 @@ public class XSDConstants
     }
 
     Element leaf = null;
-    for (; node.getNodeType() == Node.ELEMENT_NODE; node = node.getParentNode())
+    for (; node != null && node.getNodeType() == Node.ELEMENT_NODE; node = node.getParentNode())
     {
       Element elementNode = (Element)node;
       if (leaf == null)
