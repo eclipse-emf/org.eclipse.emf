@@ -614,14 +614,14 @@ public interface ExtendedMetaData
   void setAffiliation(EStructuralFeature eStructuralFeature, EStructuralFeature affiliation);
 
   /**
-   * Returns the feature respresenting the model group or subtitution group head feature to which the implementation
+   * Returns the feature representing the model group feature, substitution group head feature, or wildcard feature to which the implementation
    * of the given feature is delegated.
    * <p>details key: "group"
    */
   EStructuralFeature getGroup(EStructuralFeature eStructuralFeature);
 
   /**
-   * Sets a group or substitution group head feature, to which the implementation of the given feature should be
+   * Sets a model group feature, substitution group head feature, or wildcard feature, to which the implementation of the given feature should be
    * delegated.
    * <p>details key: "group"
    */

@@ -1230,29 +1230,47 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       if (qualifiedName != null)
       {
         int fragmentIndex = qualifiedName.lastIndexOf('#');
+        EClass eContainingClass = eStructuralFeature.getEContainingClass();
+        String namespace;
+        String name;
         if (fragmentIndex == -1)
         {
-          return 
-            getElement
-              (eStructuralFeature.getEContainingClass(), 
-               getNamespace(eStructuralFeature.getEContainingClass().getEPackage()), 
-               qualifiedName);
+          namespace = getNamespace(eContainingClass.getEPackage());
+          name = qualifiedName;
         }
         else if (fragmentIndex == 0)
         {
-          return 
-            getElement
-              (eStructuralFeature.getEContainingClass(), 
-               null, 
-               qualifiedName.substring(1));
+          namespace = null;
+          name = qualifiedName.substring(1);
         }
         else
         {
-          return 
-            getElement
-              (eStructuralFeature.getEContainingClass(), 
-               qualifiedName.substring(0, fragmentIndex), 
-               qualifiedName.substring(fragmentIndex + 1));
+          namespace = qualifiedName.substring(0, fragmentIndex);
+          name = qualifiedName.substring(fragmentIndex + 1);
+        }
+
+        switch (getFeatureKind(eStructuralFeature)) 
+        {
+          case ATTRIBUTE_FEATURE:
+          case ATTRIBUTE_WILDCARD_FEATURE:
+          {
+            return 
+              getAttribute
+                (eContainingClass, 
+                 namespace,
+                 name);
+          }
+          case UNSPECIFIED_FEATURE:
+          case ELEMENT_FEATURE:
+          case ELEMENT_WILDCARD_FEATURE:
+          case GROUP_FEATURE:
+          {
+            return 
+              getElement
+                (eContainingClass, 
+                 namespace,
+                 name);
+          }
         }
       }
     }
