@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.emf.ecore.dynamic_package">
+      <resource
+            location="model/XcoreLang.xcore"
+            uri="xcore.lang">
+      </resource>
+   </extension>
+</plugin>

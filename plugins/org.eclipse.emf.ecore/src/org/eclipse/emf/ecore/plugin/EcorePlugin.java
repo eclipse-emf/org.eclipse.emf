@@ -1245,7 +1245,11 @@ public class EcorePlugin  extends EMFPlugin
             // String point = pluginExtension.getPoint();
             //
             String point = (String)invoke(pluginExtension, PLUGIN_EXTENSION_GET_POINT_METHOD);
-            if ("org.eclipse.emf.ecore.generated_package".equals(point))
+            
+            // Process both generated and dynamic extension points.
+            //
+            boolean isGeneratedPackage = "org.eclipse.emf.ecore.generated_package".equals(point);
+            if (isGeneratedPackage || "org.eclipse.emf.ecore.dynamic_package".equals(point))
             {
               // Iterate over the child elements, i.e., the <package> elements, of the generated package extension point...
               //
@@ -1265,7 +1269,7 @@ public class EcorePlugin  extends EMFPlugin
                   // IPluginAttribute genModel = pluginElement.getAttribute("genModel");
                   //
                   Object uri = invoke(child, PLUGIN_ELEMENT_GET_ATTRIBUTE_METHOD, "uri");
-                  Object genModel = invoke(child, PLUGIN_ELEMENT_GET_ATTRIBUTE_METHOD, "genModel");
+                  Object genModel = invoke(child, PLUGIN_ELEMENT_GET_ATTRIBUTE_METHOD, isGeneratedPackage ? "genModel" : "location");
                   if (uri != null && genModel != null)
                   {
                     // We need the logical location of the plugin, so if we haven't computed it already, do so now..
@@ -1299,7 +1303,7 @@ public class EcorePlugin  extends EMFPlugin
                         //
                         URI resourceURI = logicalLocation.appendSegment("");
   
-                        // But only an actual project doesn't already exist in the workspace.
+                        // But only if an actual project doesn't already exist in the workspace.
                         //
                         boolean exists = root.getProject(symbolicName).isAccessible();
   
@@ -1344,11 +1348,14 @@ public class EcorePlugin  extends EMFPlugin
                       continue LOOP;
                     }
   
-                    // Map the nsURI to the logical location URI of the registered GenModel.
+                    // Map the nsURI to the logical location URI of the registered GenModel, if we're dealing with a generated package extension point.
                     //
                     // nsURIMap.put(uri.getValue(), logicalLocation.appendSegments(new Path(genModel.getValue()).segments()));
                     //
-                    nsURIMap.put((String)invoke(uri, PLUGIN_ATTRIBUTE_GET_VALUE_METHOD), logicalLocation.appendSegments(new Path((String)invoke(genModel, PLUGIN_ATTRIBUTE_GET_VALUE_METHOD)).segments()));
+                    if (isGeneratedPackage)
+                    {
+                      nsURIMap.put((String)invoke(uri, PLUGIN_ATTRIBUTE_GET_VALUE_METHOD), logicalLocation.appendSegments(new Path((String)invoke(genModel, PLUGIN_ATTRIBUTE_GET_VALUE_METHOD)).segments()));
+                    }
                   }
                 }
               }
