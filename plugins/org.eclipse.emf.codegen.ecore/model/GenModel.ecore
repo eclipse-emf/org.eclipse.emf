@@ -322,6 +322,7 @@
     <eLiterals name="EMF27" value="5" literal="2.7"/>
     <eLiterals name="EMF28" value="6" literal="2.8"/>
     <eLiterals name="EMF29" value="7" literal="2.9"/>
+    <eLiterals name="EMF210" value="8" literal="2.10"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="GenRuntimePlatform">
     <eLiterals name="IDE"/>
