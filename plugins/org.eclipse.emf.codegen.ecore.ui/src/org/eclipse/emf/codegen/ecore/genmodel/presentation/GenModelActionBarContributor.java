@@ -295,7 +295,7 @@ public class GenModelActionBarContributor
             for (int i = 0; i < projectTypes.length; i++)
             {
               Object projectType = projectTypes[i].getType();
-              if (GenBaseGeneratorAdapter.EDIT_PROJECT_TYPE.equals(projectType))
+              if (GenBaseGeneratorAdapter.EDIT_PROJECT_TYPE.equals(projectType) && genModel.hasEditSupport())
               {
                 IProject editProject = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(genModel.getEditDirectory())).getProject();
                 if (!editProject.exists())
@@ -303,7 +303,7 @@ public class GenModelActionBarContributor
                   projects.add(editProject);
                 }
               }
-              if (GenBaseGeneratorAdapter.EDITOR_PROJECT_TYPE.equals(projectType))
+              if (GenBaseGeneratorAdapter.EDITOR_PROJECT_TYPE.equals(projectType) && genModel.hasEditorSupport())
               {
                 IProject editorProject = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(genModel.getEditorDirectory())).getProject();
                 if (!editorProject.exists())
@@ -311,7 +311,7 @@ public class GenModelActionBarContributor
                   projects.add(editorProject);
                 }
               }
-              if (GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE.equals(projectType))
+              if (GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE.equals(projectType) && genModel.hasTestSupport())
               {
                 IProject testsProject = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(genModel.getTestsDirectory())).getProject();
                 if (!testsProject.exists())
