@@ -396,7 +396,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
     addAnnotation
       (bookEClass, 
        source, 
@@ -404,7 +404,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "name", "Book",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getBook_Title(), 
        source, 
@@ -412,7 +412,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element",
        "name", "title"
-       });		
+       });	
     addAnnotation
       (getBook_Pages(), 
        source, 
@@ -420,7 +420,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element",
        "name", "pages"
-       });		
+       });	
     addAnnotation
       (getBook_Category(), 
        source, 
@@ -428,7 +428,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element",
        "name", "category"
-       });		
+       });	
     addAnnotation
       (getBook_Author(), 
        source, 
@@ -436,14 +436,14 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element",
        "name", "author"
-       });		
+       });	
     addAnnotation
       (bookCategoryEEnum, 
        source, 
        new String[] 
        {
        "name", "BookCategory"
-       });		
+       });	
     addAnnotation
       (bookCategoryObjectEDataType, 
        source, 
@@ -451,7 +451,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "name", "BookCategory:Object",
        "baseType", "BookCategory"
-       });		
+       });	
     addAnnotation
       (libraryEClass, 
        source, 
@@ -459,7 +459,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "name", "Library",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getLibrary_Name(), 
        source, 
@@ -467,7 +467,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element",
        "name", "name"
-       });		
+       });	
     addAnnotation
       (getLibrary_Writers(), 
        source, 
@@ -475,7 +475,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element",
        "name", "writers"
-       });		
+       });	
     addAnnotation
       (getLibrary_Books(), 
        source, 
@@ -483,7 +483,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element",
        "name", "books"
-       });		
+       });	
     addAnnotation
       (writerEClass, 
        source, 
@@ -491,7 +491,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "name", "Writer",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getWriter_Name(), 
        source, 
@@ -499,7 +499,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element",
        "name", "name"
-       });		
+       });	
     addAnnotation
       (getWriter_Books(), 
        source, 

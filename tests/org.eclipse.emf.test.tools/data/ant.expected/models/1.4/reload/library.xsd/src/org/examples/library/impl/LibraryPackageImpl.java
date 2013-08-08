@@ -405,7 +405,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$	
     addAnnotation
       (bookEClass, 
        source, 
@@ -413,7 +413,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "name", "Book", //$NON-NLS-1$ //$NON-NLS-2$
        "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getBook_Title(), 
        source, 
@@ -421,7 +421,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "title" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getBook_Pages(), 
        source, 
@@ -429,7 +429,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "pages" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getBook_Category(), 
        source, 
@@ -437,7 +437,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "category" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getBook_Author(), 
        source, 
@@ -445,14 +445,14 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "author" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (bookCategoryEEnum, 
        source, 
        new String[] 
        {
        "name", "BookCategory" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (bookCategoryObjectEDataType, 
        source, 
@@ -460,7 +460,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "name", "BookCategory:Object", //$NON-NLS-1$ //$NON-NLS-2$
        "baseType", "BookCategory" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (libraryEClass, 
        source, 
@@ -468,7 +468,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "name", "Library", //$NON-NLS-1$ //$NON-NLS-2$
        "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getLibrary_Name(), 
        source, 
@@ -476,7 +476,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getLibrary_Site(), 
        source, 
@@ -484,7 +484,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "site" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getLibrary_Writers(), 
        source, 
@@ -492,7 +492,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "writers" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getLibrary_Books(), 
        source, 
@@ -500,7 +500,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "books" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (writerEClass, 
        source, 
@@ -508,7 +508,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "name", "Writer", //$NON-NLS-1$ //$NON-NLS-2$
        "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getWriter_Name(), 
        source, 
@@ -516,7 +516,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getWriter_Books(), 
        source, 

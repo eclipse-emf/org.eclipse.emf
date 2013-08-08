@@ -343,7 +343,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
     addAnnotation
       (bookEClass, 
        source, 
@@ -351,7 +351,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "name", "Book",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getBook_Title(), 
        source, 
@@ -359,7 +359,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "kind", "element",
        "name", "title"
-       });		
+       });	
     addAnnotation
       (getBook_Pages(), 
        source, 
@@ -367,7 +367,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "kind", "element",
        "name", "pages"
-       });		
+       });	
     addAnnotation
       (getBook_Category(), 
        source, 
@@ -375,7 +375,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "kind", "element",
        "name", "category"
-       });		
+       });	
     addAnnotation
       (getBook_Author(), 
        source, 
@@ -383,14 +383,14 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "kind", "element",
        "name", "author"
-       });		
+       });	
     addAnnotation
       (bookCategoryEEnum, 
        source, 
        new String[] 
        {
        "name", "BookCategory"
-       });		
+       });	
     addAnnotation
       (bookCategoryObjectEDataType, 
        source, 
@@ -398,7 +398,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "name", "BookCategory:Object",
        "baseType", "BookCategory"
-       });		
+       });	
     addAnnotation
       (writerEClass, 
        source, 
@@ -406,7 +406,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "name", "Writer",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getWriter_Name(), 
        source, 
@@ -414,7 +414,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "kind", "element",
        "name", "name"
-       });		
+       });	
     addAnnotation
       (getWriter_Books(), 
        source, 
