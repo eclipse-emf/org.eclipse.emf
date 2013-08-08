@@ -213,7 +213,7 @@ public class XcoreEcoreBuilder
     return ePackage;
   }
 
-  void handleAnnotations(final XModelElement xModelElement, final EModelElement eModelElement)
+  protected void handleAnnotations(final XModelElement xModelElement, final EModelElement eModelElement)
   {
     ICompositeNode node = NodeModelUtils.getNode(xModelElement);
     if (node != null)
@@ -364,7 +364,7 @@ public class XcoreEcoreBuilder
     }
   }
 
-  EClassifier getEClassifier(final XClassifier xClassifier)
+  protected EClassifier getEClassifier(final XClassifier xClassifier)
   {
     final EClassifier eClassifier = xClassifier instanceof XClass ? getEClass((XClass)xClassifier) : xClassifier instanceof XEnum
       ? getEEnum((XEnum)xClassifier) : getEDataType((XDataType)xClassifier);
@@ -412,7 +412,7 @@ public class XcoreEcoreBuilder
     return eClassifier;
   }
 
-  EClass getEClass(final XClass xClass)
+  protected EClass getEClass(final XClass xClass)
   {
     final EClass eClass = EcoreFactory.eINSTANCE.createEClass();
     mapper.getMapping(xClass).setEClass(eClass);
@@ -460,7 +460,7 @@ public class XcoreEcoreBuilder
     return eClass;
   }
 
-  EOperation getEOperation(XOperation xOperation)
+  protected EOperation getEOperation(XOperation xOperation)
   {
     EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
     mapper.getMapping(xOperation).setEOperation(eOperation);
@@ -498,7 +498,7 @@ public class XcoreEcoreBuilder
     return eOperation;
   }
 
-  EParameter getEParameter(XParameter xParameter)
+  protected EParameter getEParameter(XParameter xParameter)
   {
     EParameter eParameter = EcoreFactory.eINSTANCE.createEParameter();
     mapper.getMapping(xParameter).setEParameter(eParameter);
@@ -508,7 +508,7 @@ public class XcoreEcoreBuilder
     return eParameter;
   }
 
-  ETypeParameter getETypeParameter(XTypeParameter xTypeParameter)
+  protected ETypeParameter getETypeParameter(XTypeParameter xTypeParameter)
   {
     ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
     mapper.getMapping(xTypeParameter).setETypeParameter(eTypeParameter);
@@ -523,7 +523,7 @@ public class XcoreEcoreBuilder
     return eTypeParameter;
   }
 
-  void handleETypedElement(ETypedElement eTypedElement, XTypedElement xTypedElement)
+  protected void handleETypedElement(ETypedElement eTypedElement, XTypedElement xTypedElement)
   {
     eTypedElement.setName(nonNullName(xTypedElement.getName()));
     handleAnnotations(xTypedElement, eTypedElement);
@@ -583,7 +583,7 @@ public class XcoreEcoreBuilder
     }
   }
 
-  EGenericType getEGenericType(final XGenericType xGenericType)
+  protected EGenericType getEGenericType(final XGenericType xGenericType)
   {
     if (xGenericType == null)
     {
@@ -628,7 +628,7 @@ public class XcoreEcoreBuilder
     }
   }
 
-  EReference getEReference(final XReference xReference)
+  protected EReference getEReference(final XReference xReference)
   {
     final EReference eReference = EcoreFactory.eINSTANCE.createEReference();
     mapper.getMapping(xReference).setEStructuralFeature(eReference);
@@ -676,7 +676,7 @@ public class XcoreEcoreBuilder
     return eReference;
   }
 
-  EAttribute getEAttribute(final XAttribute xAttribute)
+  protected EAttribute getEAttribute(final XAttribute xAttribute)
   {
     final EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
     mapper.getMapping(xAttribute).setEStructuralFeature(eAttribute);
@@ -691,7 +691,7 @@ public class XcoreEcoreBuilder
     return eAttribute;
   }
 
-  void handleEStructuralFeature(EStructuralFeature eStructuralFeature, XStructuralFeature xStructuralFeature)
+  protected void handleEStructuralFeature(EStructuralFeature eStructuralFeature, XStructuralFeature xStructuralFeature)
   {
     eStructuralFeature.setName(nonNullName(xStructuralFeature.getName()));
     handleETypedElement(eStructuralFeature, xStructuralFeature);
@@ -739,7 +739,7 @@ public class XcoreEcoreBuilder
     }
   }
 
-  EDataType getEDataType(XDataType xDataType)
+  protected EDataType getEDataType(XDataType xDataType)
   {
     EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
     mapper.getMapping(xDataType).setEDataType(eDataType);
@@ -760,7 +760,7 @@ public class XcoreEcoreBuilder
     return eDataType;
   }
 
-  EEnum getEEnum(XEnum xEnum)
+  protected EEnum getEEnum(XEnum xEnum)
   {
     EEnum eEnum = EcoreFactory.eINSTANCE.createEEnum();
     mapper.getMapping(xEnum).setEDataType(eEnum);
@@ -773,7 +773,7 @@ public class XcoreEcoreBuilder
     return eEnum;
   }
 
-  EEnumLiteral getEEnumLiteral(XEnumLiteral xEnumLiteral)
+  protected EEnumLiteral getEEnumLiteral(XEnumLiteral xEnumLiteral)
   {
     EEnumLiteral eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
     mapper.getToXcoreMapping(eEnumLiteral).setXcoreElement(xEnumLiteral);

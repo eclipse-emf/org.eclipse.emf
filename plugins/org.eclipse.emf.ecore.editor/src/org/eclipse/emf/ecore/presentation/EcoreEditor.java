@@ -899,6 +899,7 @@ public class EcoreEditor
             boolean result =
                 "java".equals(uri.scheme()) ||
                  "xcore".equals(uri.fileExtension()) ||
+                 "xcoreiq".equals(uri.fileExtension()) ||
                  "genmodel".equals(uri.fileExtension()) ||
                  uri.isPlatformResource() && !resourceSet.getURIConverter().normalize(uri).isPlatformResource();
             if (resourceToReadOnlyMap != null)

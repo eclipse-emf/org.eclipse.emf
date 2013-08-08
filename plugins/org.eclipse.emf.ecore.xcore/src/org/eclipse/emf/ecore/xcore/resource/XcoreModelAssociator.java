@@ -57,22 +57,22 @@ import com.google.inject.Provider;
 public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalContainerProvider, IDerivedStateComputer
 {
   @Inject
-  private XcoreJvmInferrer jvmInferrer;
+  protected XcoreJvmInferrer jvmInferrer;
 
   @Inject
-  private XcoreGenModelBuilder genModelBuilder;
+  protected XcoreGenModelBuilder genModelBuilder;
 
   @Inject
   private Provider<XcoreEcoreBuilder> xcoreEcoreBuilderProvider;
 
   @Inject
-  private XcoreMapper mapper;
+  protected XcoreMapper mapper;
 
   @Inject
   private IReferableElementsUnloader unloader;
 
   @Inject
-  private XcoreGenModelInitializer genModelInitializer;
+  protected XcoreGenModelInitializer genModelInitializer;
 
   public void installDerivedState(DerivedStateAwareResource resource, boolean preLinkingPhase)
   {

@@ -26,7 +26,7 @@ public class XcoreBatchScopeProvider extends XbaseWithAnnotationsBatchScopeProvi
   private XcoreMapper mapper;
 
   @Inject
-  private IQualifiedNameConverter qualifiedNameConverter;
+  protected IQualifiedNameConverter qualifiedNameConverter;
 
   
   @Override
