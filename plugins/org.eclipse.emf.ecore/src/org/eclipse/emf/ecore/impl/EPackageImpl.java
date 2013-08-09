@@ -1673,6 +1673,46 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     }
   }
 
+  /**
+   * @since 2.10
+   */
+  protected void addAnnotation(ENamedElement eNamedElement, boolean [] path, String source, String [] details)
+  {
+    addAnnotation(eNamedElement, path, source, details, null);
+  }
+
+  /**
+   * @since 2.10
+   */
+  protected void addAnnotation(ENamedElement eNamedElement, boolean path[], String source, String [] details, URI [] references)
+  {
+    EAnnotation eAnnotation = ecoreFactory.createEAnnotation();
+    eAnnotation.setSource(source);
+    EMap<String, String> theDetails = eAnnotation.getDetails();
+    for (int i = 1; i < details.length; i += 2)
+    {
+      theDetails.put(details[i - 1], details[i]);
+    }
+    EList<EAnnotation> annotations = eNamedElement.getEAnnotations();
+    for (boolean isNonContent : path)
+    {
+      EAnnotation childAnnotation = annotations.get(annotations.size() - 1);
+      @SuppressWarnings("unchecked") EList<EAnnotation> childAnnotations = isNonContent ? childAnnotation.getEAnnotations() : (EList<EAnnotation>)(EList<?>)childAnnotation.getContents();
+      annotations = childAnnotations;
+    }
+    annotations.add(eAnnotation);
+    if (references != null)
+    {
+      InternalEList<EObject> eAnnotationReferences = (InternalEList<EObject>)eAnnotation.getReferences();
+      for (URI reference : references)
+      {
+        InternalEObject internalEObject = (InternalEObject)ecoreFactory.createEObject();
+        internalEObject.eSetProxyURI(reference);
+        eAnnotationReferences.addUnique(internalEObject);
+      }
+    }
+  }
+
   protected void initializeFromLoadedEPackage(EPackage target, EPackage source)
   {
     target.setName(source.getName());
