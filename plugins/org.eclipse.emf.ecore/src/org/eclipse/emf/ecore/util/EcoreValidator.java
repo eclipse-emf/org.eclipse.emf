@@ -2564,6 +2564,22 @@ public class EcoreValidator extends EObjectValidator
       }
       if (result)
       {
+        result = eReference != eOpposite;
+        if (diagnostics != null && !result)
+        {
+          diagnostics.add
+            (createDiagnostic
+              (Diagnostic.ERROR,
+               DIAGNOSTIC_SOURCE,
+               CONSISTENT_OPPOSITE_BAD_TRANSIENT,
+               "_UI_EReferenceSelfOpposite_diagnostic",
+               null,
+               new Object[] { eReference, eOpposite, EcorePackage.Literals.EREFERENCE__EOPPOSITE, EcorePackage.Literals.EREFERENCE__EOPPOSITE },
+               context));
+        }
+      }
+      if (result)
+      {
         result =
           !isEffectivelyTransient(eReference) ||
             isEffectivelyTransient(eOpposite) ||
