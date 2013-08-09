@@ -34,7 +34,7 @@ class XcoreGenerator implements IGenerator {
 	extension XcoreMapper mappings
 
 	@Inject
-	XbaseCompiler compiler
+	protected XbaseCompiler compiler
 
 	@Inject
 	Provider<XcoreGeneratorImpl> xcoreGeneratorImplProvider

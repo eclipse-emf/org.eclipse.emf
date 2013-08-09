@@ -51,7 +51,7 @@ import com.google.inject.Inject;
 public class XcoreScopeProvider extends XbaseWithAnnotationsScopeProvider
 {
   @Inject
-  private XcoreMapper mapper;
+  protected XcoreMapper mapper;
 
   @Inject
   private IQualifiedNameConverter qualifiedNameConverter;
@@ -77,7 +77,7 @@ public class XcoreScopeProvider extends XbaseWithAnnotationsScopeProvider
     }
   }
 
-  protected static final class KeyScope extends AbstractScope
+  public static final class KeyScope extends AbstractScope
   {
     private final XcoreMapper mapper;
     private final IQualifiedNameConverter qualifiedNameConverter;
@@ -122,7 +122,7 @@ public class XcoreScopeProvider extends XbaseWithAnnotationsScopeProvider
     }
   }
 
-  protected static final class OppositeScope extends AbstractScope
+  public static final class OppositeScope extends AbstractScope
   {
     private final IQualifiedNameConverter qualifiedNameConverter;
     private final EObject context;
@@ -180,7 +180,7 @@ public class XcoreScopeProvider extends XbaseWithAnnotationsScopeProvider
     }
   }
 
-  protected static class TypeParameterScope extends AbstractScope
+  public static class TypeParameterScope extends AbstractScope
   {
     private final XcoreMapper mapper;
     private final IQualifiedNameConverter qualifiedNameConverter;

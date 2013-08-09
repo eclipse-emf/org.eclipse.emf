@@ -59,7 +59,7 @@ public class XcoreGenerator implements IGenerator {
   private XcoreMapper mappings;
   
   @Inject
-  private XbaseCompiler compiler;
+  protected XbaseCompiler compiler;
   
   @Inject
   private Provider<XcoreGeneratorImpl> xcoreGeneratorImplProvider;

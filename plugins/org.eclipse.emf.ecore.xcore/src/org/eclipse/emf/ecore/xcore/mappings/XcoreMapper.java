@@ -108,7 +108,7 @@ public class XcoreMapper
     }
   }
 
-  private void remove(EList<Adapter> adapters, Class<?> type)
+  protected void remove(EList<Adapter> adapters, Class<?> type)
   {
     for (ListIterator<Adapter> i = adapters.listIterator(); i.hasNext();)
     {
