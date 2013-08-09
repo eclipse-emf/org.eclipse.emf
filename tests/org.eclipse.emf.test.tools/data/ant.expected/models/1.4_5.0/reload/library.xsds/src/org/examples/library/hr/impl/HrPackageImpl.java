@@ -233,7 +233,7 @@ public class HrPackageImpl extends EPackageImpl implements HrPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$	
     addAnnotation
       (personEClass, 
        source, 
@@ -241,7 +241,7 @@ public class HrPackageImpl extends EPackageImpl implements HrPackage
        {
        "name", "Person", //$NON-NLS-1$ //$NON-NLS-2$
        "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getPerson_Name(), 
        source, 
@@ -249,7 +249,7 @@ public class HrPackageImpl extends EPackageImpl implements HrPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getPerson_Library(), 
        source, 
