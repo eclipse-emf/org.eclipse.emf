@@ -383,7 +383,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$	
     addAnnotation
       (bookEClass, 
        source, 
@@ -391,7 +391,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "name", "Book", //$NON-NLS-1$ //$NON-NLS-2$
        "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getBook_Title(), 
        source, 
@@ -399,7 +399,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "title" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getBook_Pages(), 
        source, 
@@ -407,7 +407,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "pages" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getBook_Category(), 
        source, 
@@ -415,7 +415,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "category" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getBook_Author(), 
        source, 
@@ -423,7 +423,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "author" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getBook_Uuid(), 
        source, 
@@ -431,14 +431,14 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "uuid" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (bookCategoryEEnum, 
        source, 
        new String[] 
        {
        "name", "BookCategory" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (bookCategoryObjectEDataType, 
        source, 
@@ -446,7 +446,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "name", "BookCategory:Object", //$NON-NLS-1$ //$NON-NLS-2$
        "baseType", "BookCategory" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (uuidEDataType, 
        source, 
@@ -455,7 +455,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        "name", "UUID", //$NON-NLS-1$ //$NON-NLS-2$
        "baseType", "http://www.eclipse.org/emf/2003/XMLType#hexBinary", //$NON-NLS-1$ //$NON-NLS-2$
        "length", "16" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (writerEClass, 
        source, 
@@ -463,7 +463,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "name", "Writer", //$NON-NLS-1$ //$NON-NLS-2$
        "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getWriter_Books(), 
        source, 

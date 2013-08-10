@@ -333,6 +333,13 @@
             eOpposite="#//opposite/requiredToBeContainedElsewhere/AA/b"/>
       </eClassifiers>
     </eSubpackages>
+    <eSubpackages name="oppositeSelf" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//oppositeSelf"
+        nsPrefix="bad.opposite.self">
+      <eClassifiers xsi:type="ecore:EClass" name="AA">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="a" eType="#//opposite/oppositeSelf/AA"
+            eOpposite="#//opposite/oppositeSelf/AA/a"/>
+      </eClassifiers>
+    </eSubpackages>
   </eSubpackages>
   <eSubpackages name="typedElementBounds" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//typedElementBounds"
       nsPrefix="bad.typed.element.bounds">

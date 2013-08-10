@@ -238,7 +238,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
     addAnnotation
       (libraryEClass, 
        source, 
@@ -246,7 +246,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "name", "Library",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getLibrary_Name(), 
        source, 
@@ -254,7 +254,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element",
        "name", "name"
-       });		
+       });	
     addAnnotation
       (getLibrary_Writers(), 
        source, 
@@ -262,7 +262,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element",
        "name", "writers"
-       });		
+       });	
     addAnnotation
       (getLibrary_Books(), 
        source, 

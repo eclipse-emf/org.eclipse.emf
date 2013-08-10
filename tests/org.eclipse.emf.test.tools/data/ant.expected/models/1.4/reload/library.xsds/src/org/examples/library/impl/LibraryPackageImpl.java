@@ -252,7 +252,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$	
     addAnnotation
       (libraryEClass, 
        source, 
@@ -260,7 +260,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "name", "Library", //$NON-NLS-1$ //$NON-NLS-2$
        "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getLibrary_Name(), 
        source, 
@@ -268,7 +268,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getLibrary_Writers(), 
        source, 
@@ -276,7 +276,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "writers" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getLibrary_Books(), 
        source, 
@@ -284,7 +284,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
        {
        "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
        "name", "books" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getLibrary_Employees(), 
        source, 
