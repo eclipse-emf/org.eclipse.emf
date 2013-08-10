@@ -4,6 +4,7 @@
   <cs:dependencies>
 
     <cs:dependency name="org.eclipse.emf.all" componentType="eclipse.feature"/>
+    <cs:dependency name="org.eclipse.emf.tests" componentType="eclipse.feature"/>
 
     <cs:dependency name="org.eclipse.equinox.executable" componentType="eclipse.feature"/>
     <cs:dependency name="org.eclipse.platform" componentType="eclipse.feature"/>
