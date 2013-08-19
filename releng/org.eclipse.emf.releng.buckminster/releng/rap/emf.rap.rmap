@@ -29,14 +29,14 @@
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=S))"
 		>
-			<uri format="{0}/modeling/emf/emf/updates/2.9milestones/base">
+			<uri format="{0}/modeling/emf/emf/updates/2.9.x/base">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=R))"
 		>
-			<uri format="{0}/modeling/emf/emf/updates/2.9/base">
+			<uri format="{0}/modeling/emf/emf/updates/2.9.x/base">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider> 
