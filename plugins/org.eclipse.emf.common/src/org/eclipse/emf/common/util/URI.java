@@ -1811,7 +1811,7 @@ public abstract class URI
           {
             device = intern(device);
           }
-          segments = internArray(segments, segments.length);
+          segments = segments == null ? null : internArray(segments, segments.length);
           if (query != null)
           {
             query = intern(query);
@@ -2307,7 +2307,7 @@ public abstract class URI
       throw new IllegalArgumentException("non-hierarchical archive URI");
     }
 
-    return POOL.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_ALL, false, scheme, opaquePart, null, false, NO_SEGMENTS, null).appendFragment(fragment);
+    return POOL.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_ALL, false, scheme, opaquePart, null, false, null, null).appendFragment(fragment);
   }
 
   /**
@@ -2733,21 +2733,24 @@ public abstract class URI
         throw new IllegalArgumentException("invalid opaquePart: " + authority);
       }
     }
-    else if (isArchiveScheme(scheme) ? !validArchiveAuthority(authority) : !validAuthority(authority))
+    else
     {
-      throw new IllegalArgumentException("invalid authority: " + authority);
+      if (isArchiveScheme(scheme) ? !validArchiveAuthority(authority) : !validAuthority(authority))
+      {
+        throw new IllegalArgumentException("invalid authority: " + authority);
+      }
+
+      if (!validSegments(segments))
+      {
+        String s = segments == null ? "invalid segments: null" :
+          "invalid segment: " + firstInvalidSegment(segments);
+        throw new IllegalArgumentException(s);
+      }
     }
 
     if (!validDevice(device))
     {
       throw new IllegalArgumentException("invalid device: " + device);
-    }
-
-    if (!validSegments(segments))
-    {
-      String s = segments == null ? "invalid segments: null" :
-        "invalid segment: " + firstInvalidSegment(segments);
-      throw new IllegalArgumentException(s);
     }
 
     if (!validQuery(query))
