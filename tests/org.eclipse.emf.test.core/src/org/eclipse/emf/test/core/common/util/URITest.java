@@ -55,6 +55,7 @@ public class URITest extends TestCase
     suite.addTest(new URITest("testFileExtensions"));
     suite.addTest(new URITest("testPrefixReplacement"));
     suite.addTest(new URITest("testIdentity"));
+    suite.addTest(new URITest("testGenericURI"));
     suite.addTest(new URITest("testThreadSafety"));
     return suite;
   }
@@ -776,7 +777,33 @@ public class URITest extends TestCase
       assertSame("Non-unique strings " + s, toString, URI.createURI(s).toString());
     }
   }
-  
+
+  public void testGenericURI()
+  {
+    {
+      URI uri1 = URI.createURI("foo:bar");
+      URI uri2 = URI.createGenericURI("foo", "bar", null);
+      assertSame("Non-unique generic URI foo:bar", uri1, uri2);
+    }
+    {
+      URI uri1 = URI.createURI("foo:bar/");
+      URI uri2 = URI.createGenericURI("foo", "bar/", null);
+      assertSame("Non-unique generic URI foo:bar/", uri1, uri2);
+    }
+    {
+      try
+      {
+        URI uri = URI.createGenericURI("foo", "/bar", null);
+        fail("Expecting an IllegalArgumentException for " + uri);
+      }
+      catch (IllegalArgumentException exception)
+      {
+        // Expected failure.
+      }
+      
+    }
+  }
+
   public void testThreadSafety()
   {
     testThreadSafety(100000, 10);
