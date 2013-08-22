@@ -2708,22 +2708,25 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
                            IBinding binding = node.resolveBinding();
                            if (binding instanceof ITypeBinding)
                            {
-                             // If there is a type binding, remove the qualified name of its erasure from the unused imports.
+                             // If there is a type binding, ensure it has an erasure and then remove the qualified name of its erasure from the unused imports.
                              //
-                             unusedImports.remove(((ITypeBinding)binding).getErasure().getQualifiedName());
-                           }
-                           else if (binding == null)
-                           {
-                             // If we can't resolve it at all, better assume it should resolve to an import...
-                             //
-                             String suffix = "." + node.getIdentifier();
-                             for (String unusedImport : unusedImports)
+                             ITypeBinding erasure = ((ITypeBinding)binding).getErasure();
+                             if (erasure != null)
                              {
-                               if (unusedImport.endsWith(suffix))
-                               {
-                                 unusedImports.remove(unusedImport);
-                                 break;
-                               }
+                               unusedImports.remove(erasure.getQualifiedName());
+                               return false;
+                             }
+                           }
+
+                           // If we can't resolve it at all, or the erasure is null, better assume it should resolve to an import...
+                           //
+                           String suffix = "." + node.getIdentifier();
+                           for (String unusedImport : unusedImports)
+                           {
+                             if (unusedImport.endsWith(suffix))
+                             {
+                               unusedImports.remove(unusedImport);
+                               break;
                              }
                            }
                            return false;
