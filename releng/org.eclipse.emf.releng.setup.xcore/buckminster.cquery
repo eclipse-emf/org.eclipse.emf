@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cq:componentQuery xmlns:cq="http://www.eclipse.org/buckminster/CQuery-1.0" resourceMap="buckminster.rmap">
+
+  <cq:property key="target.arch" value="*"/>
+  <cq:property key="target.os" value="*"/>
+  <cq:property key="target.ws" value="*"/>
+
+  <cq:rootRequest name="org.eclipse.emf.releng.setup.xcore" componentType="buckminster"/>
+
+  <cq:advisorNode namePattern="^org\.eclipse\.(?:emf|xsd)(?:\..+)?\.source$" skipComponent="true"/>
+  <cq:advisorNode namePattern="^org\.eclipse\.equinox\.launcher\..+$" skipComponent="true"/>
+  <!-- skip MacOS X Carbon components, as they are not provided by platform 4.x -->
+  <cq:advisorNode namePattern="^org\.eclipse\.(?:ui|swt)\.carbon(?:\..+)?$" skipComponent="true"/>
+  <cq:advisorNode filter="(resolve.target.platform=true)" useTargetPlatform="false"/>
+
+</cq:componentQuery>
