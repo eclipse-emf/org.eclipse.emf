@@ -208,11 +208,11 @@ class XcoreGenModelBuilder
           while (i < resources.size && !found)
           {
             val resource = resources.get(i)
-            val contents = resource.contents;
-            if (!contents.empty)
+            val fileExtension = resource.URI.fileExtension
+            if ("xcore".equals(fileExtension))
             {
-              val fileExtension = resource.URI.fileExtension
-              if ("xcore".equals(fileExtension))
+              val contents = resource.contents;
+              if (!contents.empty)
               {
                 val GenModel usedGenModel = resource.contents.get(1) as GenModel
                 usedGenPackage = usedGenModel.findGenPackage(referencedEPackage)
@@ -222,7 +222,11 @@ class XcoreGenModelBuilder
                   found = true
                 }
               }
-              else if ("genmodel".equals(fileExtension))
+            }
+            else if ("genmodel".equals(fileExtension))
+            {
+              val contents = resource.contents;
+              if (!contents.empty)
               {
                 val GenModel usedGenModel = resource.contents.get(0) as GenModel
                 usedGenModel.reconcile
