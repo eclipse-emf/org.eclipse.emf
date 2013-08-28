@@ -330,14 +330,14 @@ public class XcoreGenModelBuilder {
           while (_while_1) {
             {
               final Resource resource = resources.get(i);
-              final EList<EObject> contents = resource.getContents();
-              boolean _isEmpty = contents.isEmpty();
-              boolean _not_1 = (!_isEmpty);
-              if (_not_1) {
-                URI _uRI = resource.getURI();
-                final String fileExtension = _uRI.fileExtension();
-                boolean _equals_2 = "xcore".equals(fileExtension);
-                if (_equals_2) {
+              URI _uRI = resource.getURI();
+              final String fileExtension = _uRI.fileExtension();
+              boolean _equals_2 = "xcore".equals(fileExtension);
+              if (_equals_2) {
+                final EList<EObject> contents = resource.getContents();
+                boolean _isEmpty = contents.isEmpty();
+                boolean _not_1 = (!_isEmpty);
+                if (_not_1) {
                   EList<EObject> _contents = resource.getContents();
                   EObject _get = _contents.get(1);
                   final GenModel usedGenModel = ((GenModel) _get);
@@ -349,9 +349,14 @@ public class XcoreGenModelBuilder {
                     _usedGenPackages_1.add(usedGenPackage);
                     found = true;
                   }
-                } else {
-                  boolean _equals_3 = "genmodel".equals(fileExtension);
-                  if (_equals_3) {
+                }
+              } else {
+                boolean _equals_3 = "genmodel".equals(fileExtension);
+                if (_equals_3) {
+                  final EList<EObject> contents_1 = resource.getContents();
+                  boolean _isEmpty_1 = contents_1.isEmpty();
+                  boolean _not_2 = (!_isEmpty_1);
+                  if (_not_2) {
                     EList<EObject> _contents_1 = resource.getContents();
                     EObject _get_1 = _contents_1.get(0);
                     final GenModel usedGenModel_1 = ((GenModel) _get_1);
