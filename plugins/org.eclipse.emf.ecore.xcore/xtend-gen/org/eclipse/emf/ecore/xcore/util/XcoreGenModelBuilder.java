@@ -312,10 +312,10 @@ public class XcoreGenModelBuilder {
           EList<GenPackage> _usedGenPackages = genModel.getUsedGenPackages();
           _usedGenPackages.add(usedGenPackage);
         } else {
-          Resource _eResource = genModel.eResource();
-          ResourceSet _resourceSet = _eResource.getResourceSet();
+          final Resource genModelResource = genModel.eResource();
+          ResourceSet _resourceSet = genModelResource.getResourceSet();
           final EList<Resource> resources = _resourceSet.getResources();
-          i = 1;
+          i = 0;
           boolean found = false;
           boolean _and = false;
           int _size_1 = resources.size();
@@ -330,44 +330,47 @@ public class XcoreGenModelBuilder {
           while (_while_1) {
             {
               final Resource resource = resources.get(i);
-              URI _uRI = resource.getURI();
-              final String fileExtension = _uRI.fileExtension();
-              boolean _equals_2 = "xcore".equals(fileExtension);
-              if (_equals_2) {
-                final EList<EObject> contents = resource.getContents();
-                boolean _isEmpty = contents.isEmpty();
-                boolean _not_1 = (!_isEmpty);
-                if (_not_1) {
-                  EList<EObject> _contents = resource.getContents();
-                  EObject _get = _contents.get(1);
-                  final GenModel usedGenModel = ((GenModel) _get);
-                  GenPackage _findGenPackage_1 = usedGenModel.findGenPackage(referencedEPackage);
-                  usedGenPackage = _findGenPackage_1;
-                  boolean _notEquals_1 = (!Objects.equal(usedGenPackage, null));
-                  if (_notEquals_1) {
-                    EList<GenPackage> _usedGenPackages_1 = genModel.getUsedGenPackages();
-                    _usedGenPackages_1.add(usedGenPackage);
-                    found = true;
-                  }
-                }
-              } else {
-                boolean _equals_3 = "genmodel".equals(fileExtension);
-                if (_equals_3) {
-                  final EList<EObject> contents_1 = resource.getContents();
-                  boolean _isEmpty_1 = contents_1.isEmpty();
-                  boolean _not_2 = (!_isEmpty_1);
-                  if (_not_2) {
-                    EList<EObject> _contents_1 = resource.getContents();
-                    EObject _get_1 = _contents_1.get(0);
-                    final GenModel usedGenModel_1 = ((GenModel) _get_1);
-                    usedGenModel_1.reconcile();
-                    GenPackage _findGenPackage_2 = usedGenModel_1.findGenPackage(referencedEPackage);
-                    usedGenPackage = _findGenPackage_2;
+              boolean _notEquals_1 = (!Objects.equal(resource, genModelResource));
+              if (_notEquals_1) {
+                URI _uRI = resource.getURI();
+                final String fileExtension = _uRI.fileExtension();
+                boolean _equals_2 = "xcore".equals(fileExtension);
+                if (_equals_2) {
+                  final EList<EObject> contents = resource.getContents();
+                  boolean _isEmpty = contents.isEmpty();
+                  boolean _not_1 = (!_isEmpty);
+                  if (_not_1) {
+                    EList<EObject> _contents = resource.getContents();
+                    EObject _get = _contents.get(1);
+                    final GenModel usedGenModel = ((GenModel) _get);
+                    GenPackage _findGenPackage_1 = usedGenModel.findGenPackage(referencedEPackage);
+                    usedGenPackage = _findGenPackage_1;
                     boolean _notEquals_2 = (!Objects.equal(usedGenPackage, null));
                     if (_notEquals_2) {
-                      EList<GenPackage> _usedGenPackages_2 = genModel.getUsedGenPackages();
-                      _usedGenPackages_2.add(usedGenPackage);
+                      EList<GenPackage> _usedGenPackages_1 = genModel.getUsedGenPackages();
+                      _usedGenPackages_1.add(usedGenPackage);
                       found = true;
+                    }
+                  }
+                } else {
+                  boolean _equals_3 = "genmodel".equals(fileExtension);
+                  if (_equals_3) {
+                    final EList<EObject> contents_1 = resource.getContents();
+                    boolean _isEmpty_1 = contents_1.isEmpty();
+                    boolean _not_2 = (!_isEmpty_1);
+                    if (_not_2) {
+                      EList<EObject> _contents_1 = resource.getContents();
+                      EObject _get_1 = _contents_1.get(0);
+                      final GenModel usedGenModel_1 = ((GenModel) _get_1);
+                      usedGenModel_1.reconcile();
+                      GenPackage _findGenPackage_2 = usedGenModel_1.findGenPackage(referencedEPackage);
+                      usedGenPackage = _findGenPackage_2;
+                      boolean _notEquals_3 = (!Objects.equal(usedGenPackage, null));
+                      if (_notEquals_3) {
+                        EList<GenPackage> _usedGenPackages_2 = genModel.getUsedGenPackages();
+                        _usedGenPackages_2.add(usedGenPackage);
+                        found = true;
+                      }
                     }
                   }
                 }

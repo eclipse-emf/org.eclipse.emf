@@ -202,39 +202,43 @@ class XcoreGenModelBuilder
         }
         else
         {
-          val resources = genModel.eResource.resourceSet.resources
-          i = 1
+          val genModelResource = genModel.eResource
+          val resources = genModelResource.resourceSet.resources
+          i = 0
           var boolean found = false
           while (i < resources.size && !found)
           {
             val resource = resources.get(i)
-            val fileExtension = resource.URI.fileExtension
-            if ("xcore".equals(fileExtension))
+            if (resource != genModelResource)
             {
-              val contents = resource.contents;
-              if (!contents.empty)
+              val fileExtension = resource.URI.fileExtension
+              if ("xcore".equals(fileExtension))
               {
-                val GenModel usedGenModel = resource.contents.get(1) as GenModel
-                usedGenPackage = usedGenModel.findGenPackage(referencedEPackage)
-                if (usedGenPackage != null)
+                val contents = resource.contents;
+                if (!contents.empty)
                 {
-                  genModel.usedGenPackages.add(usedGenPackage)
-                  found = true
+                  val GenModel usedGenModel = resource.contents.get(1) as GenModel
+                  usedGenPackage = usedGenModel.findGenPackage(referencedEPackage)
+                  if (usedGenPackage != null)
+                  {
+                    genModel.usedGenPackages.add(usedGenPackage)
+                    found = true
+                  }
                 }
               }
-            }
-            else if ("genmodel".equals(fileExtension))
-            {
-              val contents = resource.contents;
-              if (!contents.empty)
+              else if ("genmodel".equals(fileExtension))
               {
-                val GenModel usedGenModel = resource.contents.get(0) as GenModel
-                usedGenModel.reconcile
-                usedGenPackage = usedGenModel.findGenPackage(referencedEPackage)
-                if (usedGenPackage != null)
+                val contents = resource.contents;
+                if (!contents.empty)
                 {
-                  genModel.usedGenPackages.add(usedGenPackage)
-                  found = true
+                  val GenModel usedGenModel = resource.contents.get(0) as GenModel
+                  usedGenModel.reconcile
+                  usedGenPackage = usedGenModel.findGenPackage(referencedEPackage)
+                  if (usedGenPackage != null)
+                  {
+                    genModel.usedGenPackages.add(usedGenPackage)
+                    found = true
+                  }
                 }
               }
             }
