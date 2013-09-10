@@ -68,6 +68,7 @@ import org.eclipse.emf.ecore.xcore.util.EcoreXcoreBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelBuilder;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelInitializer;
 import org.eclipse.emf.exporter.ModelExporter;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
@@ -181,10 +182,11 @@ public class XcoreExporter extends ModelExporter
           newNatures[natures.length] = XtextProjectHelper.NATURE_ID;
           description.setNatureIds(newNatures);
           xcoreProject.setDescription(description, null);
-          XcoreClasspathUpdater xcoreClasspathUpdater = new XcoreClasspathUpdater();
-          xcoreClasspathUpdater.addBundle(JavaCore.create(xcoreProject), "org.eclipse.emf.ecore.xcore.lib", null);
-          xcoreClasspathUpdater.addBundle(JavaCore.create(xcoreProject), "org.eclipse.xtext.xbase.lib", null);
         }
+        XcoreClasspathUpdater xcoreClasspathUpdater = new XcoreClasspathUpdater();
+        IJavaProject xcoreJavaProject = JavaCore.create(xcoreProject);
+        xcoreClasspathUpdater.addBundle(xcoreJavaProject, "org.eclipse.emf.ecore.xcore.lib", null);
+        xcoreClasspathUpdater.addBundle(xcoreJavaProject, "org.eclipse.xtext.xbase.lib", null);
       }
 
       // Create an appropriate resource set for Xcore models.
