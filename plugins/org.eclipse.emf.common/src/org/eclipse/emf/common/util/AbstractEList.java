@@ -15,6 +15,7 @@ import java.util.AbstractList;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
@@ -1158,14 +1159,8 @@ public abstract class AbstractEList<E> extends AbstractList<E> implements EList<
    */
   protected Collection<E> getNonDuplicates(Collection<? extends E> collection)
   {
-    Collection<E> result = useEquals() ?  new UniqueEList<E>(collection.size()) : new UniqueEList.FastCompare<E>(collection.size());
-    for (E object : collection)
-    {
-      if (!contains(object))
-      {
-        result.add(object);
-      }
-    }
+    Collection<E> result = new LinkedHashSet<E>(collection);
+    result.removeAll(this);
     return result;
   }
 }
