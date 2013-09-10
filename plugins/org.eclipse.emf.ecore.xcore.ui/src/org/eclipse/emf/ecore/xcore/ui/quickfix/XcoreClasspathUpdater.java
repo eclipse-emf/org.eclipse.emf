@@ -106,21 +106,25 @@ public class XcoreClasspathUpdater
 
   protected boolean addBundleToManifest(IProject project, String bundleID, IProgressMonitor monitor) throws IOException, CoreException
   {
-    IResource manifestFile = project.findMember("META-INF/MANIFEST.MF");
-    if (manifestFile != null && manifestFile.isAccessible() && !manifestFile.getResourceAttributes().isReadOnly() && manifestFile instanceof IFile)
+    IResource manifestResource = project.findMember("META-INF/MANIFEST.MF");
+    if (manifestResource != null && manifestResource.isAccessible() && !manifestResource.getResourceAttributes().isReadOnly() && manifestResource instanceof IFile)
     {
       OutputStream output = null;
       InputStream input = null;
       try
       {
-        MergeableManifest manifest = new MergeableManifest(((IFile)manifestFile).getContents());
+        IFile manifestFile = (IFile)manifestResource;
+        MergeableManifest manifest = new MergeableManifest(manifestFile.getContents());
         manifest.addRequiredBundles(Collections.singleton(bundleID));
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        output = new BufferedOutputStream(out);
-        manifest.write(output);
-        ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
-        input = new BufferedInputStream(in);
-        ((IFile)manifestFile).setContents(input, true, true, monitor);
+        if (manifest.isModified())
+        {
+          ByteArrayOutputStream out = new ByteArrayOutputStream();
+          output = new BufferedOutputStream(out);
+          manifest.write(output);
+          ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
+          input = new BufferedInputStream(in);
+          manifestFile.setContents(input, true, true, monitor);
+        }
         return true;
       }
       finally
