@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <release>
 	<feature name="org.eclipse.emf.license" version="2.7.0"/>
-	<feature name="org.eclipse.emf.tests" version="2.9.0">
+	<feature name="org.eclipse.emf.tests" version="2.9.1">
 		<feature name="org.eclipse.emf.license" version="2.7.0" license="true"/>
 		<plugin name="org.eclipse.emf.tests" version="2.6.0"/>
 		<plugin name="org.eclipse.emf.test.build" version="2.6.0"/>
 		<plugin name="org.eclipse.emf.test.common" version="1.4.0"/>
-		<plugin name="org.eclipse.emf.test.core" version="2.9.0"/>
+		<plugin name="org.eclipse.emf.test.core" version="2.9.1"/>
 		<plugin name="org.eclipse.emf.test.edit" version="2.6.0"/>
 		<plugin name="org.eclipse.emf.test.tools" version="2.8.0"/>
-		<plugin name="org.eclipse.emf.test.xml" version="2.7.0"/>
+		<plugin name="org.eclipse.emf.test.xml" version="2.7.1"/>
 		<plugin name="org.eclipse.emf.test.examples" version="2.6.0"/>
 		<plugin name="org.eclipse.emf.test.databinding" version="1.1.0"/>
 		<plugin name="org.eclipse.emf.test.databinding.edit" version="1.0.0"/>
 	</feature>
 	<plugin name="org.eclipse.emf.test.build" version="2.6.0"/>
 	<plugin name="org.eclipse.emf.test.common" version="1.4.0"/>
-	<plugin name="org.eclipse.emf.test.core" version="2.9.0"/>
+	<plugin name="org.eclipse.emf.test.core" version="2.9.1"/>
 	<plugin name="org.eclipse.emf.test.databinding" version="1.1.0"/>
 	<plugin name="org.eclipse.emf.test.databinding.edit" version="1.0.0"/>
 	<plugin name="org.eclipse.emf.test.edit" version="2.6.0"/>
 	<plugin name="org.eclipse.emf.test.examples" version="2.6.0"/>
 	<plugin name="org.eclipse.emf.test.tools" version="2.8.0"/>
-	<plugin name="org.eclipse.emf.test.xml" version="2.7.0"/>
+	<plugin name="org.eclipse.emf.test.xml" version="2.7.1"/>
 	<plugin name="org.eclipse.emf.tests" version="2.6.0"/>
 </release>
