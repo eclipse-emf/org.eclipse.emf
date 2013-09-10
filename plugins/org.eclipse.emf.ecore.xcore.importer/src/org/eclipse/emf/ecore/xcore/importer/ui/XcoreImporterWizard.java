@@ -15,13 +15,19 @@ import org.eclipse.emf.converter.ModelConverter;
 import org.eclipse.emf.ecore.xcore.importer.XcoreImporter;
 import org.eclipse.emf.importer.ui.contribution.base.ModelImporterWizard;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+
 
 public class XcoreImporterWizard extends ModelImporterWizard
 {
+  @Inject
+  Provider<XcoreImporter> xcoreImporterProvider;
+  
   @Override
   protected ModelConverter createModelConverter()
   {
-    return new XcoreImporter();
+    return xcoreImporterProvider.get();
   }
 
   @Override

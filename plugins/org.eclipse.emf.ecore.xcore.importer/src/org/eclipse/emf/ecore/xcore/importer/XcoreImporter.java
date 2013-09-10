@@ -31,12 +31,20 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xcore.XPackage;
+import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.emf.ecore.xcore.generator.XcoreGenerator;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.xtext.resource.XtextResourceSet;
+
+import com.google.inject.Inject;
 
 
 public class XcoreImporter extends ModelImporter
 {
+  @Inject
+  protected XcoreGenerator xcoreGenerator;
+
   protected ResourceSet resourceSet;
 
   public XcoreImporter()
@@ -78,21 +86,35 @@ public class XcoreImporter extends ModelImporter
         Resource inputResource = resourceSet.getResource(locationURI, true);
         EcoreUtil.resolveAll(resourceSet);
 
-        GenModel genModel =   (GenModel)EcoreUtil.getObjectByType(inputResource.getContents(), GenModelPackage.Literals.GEN_MODEL);
-        EPackage ePackage =   (EPackage)EcoreUtil.getObjectByType(inputResource.getContents(), EcorePackage.Literals.EPACKAGE);
-        List<EPackage> ePackages = getEPackages();
-        if (ePackage != null)
+        XPackage xPackage = (XPackage)EcoreUtil.getObjectByType(inputResource.getContents(), XcorePackage.Literals.XPACKAGE);
+        if (xPackage != null)
         {
-          inputResource.getContents().remove(ePackage);
-          ePackages.add(ePackage);
+          xcoreGenerator.generateBodyAnnotations(xPackage);
         }
+      }
 
-        EList<GenPackage> usedGenPackages = genModel.getUsedGenPackages();
-        for (GenPackage usedGenPackage : usedGenPackages)
+      for (URI locationURI : locationURIs)
+      {
+        Resource inputResource = resourceSet.getResource(locationURI, false);
+
+        GenModel genModel = (GenModel)EcoreUtil.getObjectByType(inputResource.getContents(), GenModelPackage.Literals.GEN_MODEL);
+        if (genModel != null)
         {
-          ePackages.add(usedGenPackage.getEcorePackage());
+          EPackage ePackage = (EPackage)EcoreUtil.getObjectByType(inputResource.getContents(), EcorePackage.Literals.EPACKAGE);
+          List<EPackage> ePackages = getEPackages();
+          if (ePackage != null)
+          {
+            inputResource.getContents().remove(ePackage);
+            ePackages.add(ePackage);
+          }
+  
+          EList<GenPackage> usedGenPackages = genModel.getUsedGenPackages();
+          for (GenPackage usedGenPackage : usedGenPackages)
+          {
+            ePackages.add(usedGenPackage.getEcorePackage());
+          }
+          getReferencedGenPackages().addAll(usedGenPackages);
         }
-        getReferencedGenPackages().addAll(usedGenPackages);
       }
     }
 

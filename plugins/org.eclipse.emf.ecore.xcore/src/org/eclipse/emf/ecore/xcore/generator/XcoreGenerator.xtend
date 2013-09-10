@@ -34,17 +34,16 @@ class XcoreGenerator implements IGenerator {
 	extension XcoreMapper mappings
 
 	@Inject
-	protected XbaseCompiler compiler
+	XbaseCompiler compiler
 
 	@Inject
 	Provider<XcoreGeneratorImpl> xcoreGeneratorImplProvider
 
-	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
-		val pack = resource.contents.head as XPackage
-		val processed = newHashSet();
+	def void generateBodyAnnotations(XPackage pack) {
+		val processed = newHashSet()
 		for (xClassifier : pack.classifiers) {
 			if (xClassifier instanceof XDataType) {
-				val xDataType = xClassifier as XDataType;
+				val xDataType = xClassifier as XDataType
 				val eDataType = xDataType.mapping.EDataType
 				val createBody = xDataType.createBody
 				val creator = xDataType.mapping.creator
@@ -64,11 +63,11 @@ class XcoreGenerator implements IGenerator {
 				}
 			}
 			else {
-				val xClass = xClassifier as XClass;
-				val eClass = xClass.mapping.EClass;
+				val xClass = xClassifier as XClass
+				val eClass = xClass.mapping.EClass
 				for (eStructuralFeature : eClass.EAllStructuralFeatures) {
 					if (processed.add(eStructuralFeature)) {
-						val xFeature = mappings.getXFeature(eStructuralFeature);
+						val xFeature = mappings.getXFeature(eStructuralFeature)
 						if (xFeature != null) {
 							val getBody = xFeature.getBody
 							if (getBody != null) {
@@ -81,13 +80,18 @@ class XcoreGenerator implements IGenerator {
 				}
 				for (eOperation : eClass.EAllOperations) {
 					if (processed.add(eOperation)) {
-						val xOperation = mappings.getXOperation(eOperation);
+						val xOperation = mappings.getXOperation(eOperation)
 						if (xOperation != null) {
 							val body = xOperation.body
 							if (body != null) {
 								val jvmOperation = mappings.getMapping(xOperation).jvmOperation
 								if (jvmOperation != null) {
 									val appendable = createAppendable
+									appendable.declareVariable(jvmOperation.declaringType, "this")
+									val superType = jvmOperation.declaringType.superTypes.head
+									if (superType != null) {
+										appendable.declareVariable(superType.type, "super")
+									}
 									for (JvmFormalParameter parameter : jvmOperation.parameters) {
 										appendable.declareVariable(parameter, parameter.getName())
 									}
@@ -100,7 +104,10 @@ class XcoreGenerator implements IGenerator {
 				}
 			}
 		}
+	}
 
+	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
+		generateBodyAnnotations(resource.contents.head as XPackage)
 		generateGenModel(resource.contents.filter(typeof(GenModel)).head, fsa)
 	}
 

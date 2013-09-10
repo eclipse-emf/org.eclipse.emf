@@ -41,8 +41,10 @@ import org.eclipse.emf.ecore.xcore.mappings.XDataTypeMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
+import org.eclipse.xtext.common.types.JvmDeclaredType;
 import org.eclipse.xtext.common.types.JvmFormalParameter;
 import org.eclipse.xtext.common.types.JvmOperation;
+import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IGenerator;
@@ -59,15 +61,12 @@ public class XcoreGenerator implements IGenerator {
   private XcoreMapper mappings;
   
   @Inject
-  protected XbaseCompiler compiler;
+  private XbaseCompiler compiler;
   
   @Inject
   private Provider<XcoreGeneratorImpl> xcoreGeneratorImplProvider;
   
-  public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
-    EList<EObject> _contents = resource.getContents();
-    EObject _head = IterableExtensions.<EObject>head(_contents);
-    final XPackage pack = ((XPackage) _head);
+  public void generateBodyAnnotations(final XPackage pack) {
     final HashSet<ETypedElement> processed = CollectionLiterals.<ETypedElement>newHashSet();
     EList<XClassifier> _classifiers = pack.getClassifiers();
     for (final XClassifier xClassifier : _classifiers) {
@@ -163,6 +162,16 @@ public class XcoreGenerator implements IGenerator {
                 boolean _notEquals_8 = (!Objects.equal(jvmOperation, null));
                 if (_notEquals_8) {
                   final XcoreAppendable appendable_3 = this.createAppendable();
+                  JvmDeclaredType _declaringType = jvmOperation.getDeclaringType();
+                  appendable_3.declareVariable(_declaringType, "this");
+                  JvmDeclaredType _declaringType_1 = jvmOperation.getDeclaringType();
+                  EList<JvmTypeReference> _superTypes = _declaringType_1.getSuperTypes();
+                  final JvmTypeReference superType = IterableExtensions.<JvmTypeReference>head(_superTypes);
+                  boolean _notEquals_9 = (!Objects.equal(superType, null));
+                  if (_notEquals_9) {
+                    JvmType _type = superType.getType();
+                    appendable_3.declareVariable(_type, "super");
+                  }
                   EList<JvmFormalParameter> _parameters_2 = jvmOperation.getParameters();
                   for (final JvmFormalParameter parameter : _parameters_2) {
                     String _name = parameter.getName();
@@ -182,6 +191,12 @@ public class XcoreGenerator implements IGenerator {
         }
       }
     }
+  }
+  
+  public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
+    EList<EObject> _contents = resource.getContents();
+    EObject _head = IterableExtensions.<EObject>head(_contents);
+    this.generateBodyAnnotations(((XPackage) _head));
     EList<EObject> _contents_1 = resource.getContents();
     Iterable<GenModel> _filter = Iterables.<GenModel>filter(_contents_1, GenModel.class);
     GenModel _head_1 = IterableExtensions.<GenModel>head(_filter);

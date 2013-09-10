@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.ecore.xcore.importer;singleton:=true
-Bundle-Version: 1.1.0.qualifier
+Bundle-Version: 1.2.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.ecore.xcore.importer.XcoreImporterPlugin$Implementation
 Bundle-Vendor: %providerName
@@ -16,6 +16,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.codegen.ecore.ui;resolution:=optional,
  org.eclipse.emf.ecore.xcore,
  org.eclipse.emf.ecore.xcore.ui,
- org.eclipse.jdt.core
+ org.eclipse.jdt.core,
+ org.eclipse.xtext.ui
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
