@@ -10,15 +10,21 @@ package org.eclipse.emf.ecore.xcore.util;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.emf.ecore.xcore.XAnnotation;
+import org.eclipse.emf.ecore.xcore.XGenericType;
 import org.eclipse.xtext.CrossReference;
-import org.eclipse.xtext.common.types.TypesPackage;
+import org.eclipse.xtext.common.types.JvmAnnotationType;
+import org.eclipse.xtext.common.types.JvmEnumerationType;
+import org.eclipse.xtext.common.types.JvmGenericType;
+import org.eclipse.xtext.common.types.JvmType;
+import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
+import org.eclipse.xtext.xbase.XConstructorCall;
+import org.eclipse.xtext.xbase.XFeatureCall;
+import org.eclipse.xtext.xbase.XTypeLiteral;
 
 final public class XcoreUtil
 {
@@ -49,23 +55,29 @@ final public class XcoreUtil
       while (nodes.hasNext())
       {
         INode nextNode = nodes.next();
-        if (nextNode.getGrammarElement() instanceof CrossReference)
+        EObject grammarElement = nextNode.getGrammarElement();
+        if (grammarElement instanceof CrossReference)
         {
-          EClassifier classifier = ((CrossReference)nextNode.getGrammarElement()).getType().getClassifier();
-          if (classifier instanceof EClass)
+          EObject semanticElement = nextNode.getSemanticElement();
+          if (semanticElement instanceof JvmTypeReference)
           {
-            EClass eClass = (EClass)classifier;
- 
-            // We're interested in references to Jvm types or constructors, Xcore annotation directives, or GenModel base references that aren't references to features, i.e., opposites and keys.
-            //
-            boolean isJvmTypeReference = TypesPackage.Literals.JVM_TYPE.isSuperTypeOf(eClass) || TypesPackage.Literals.JVM_CONSTRUCTOR.isSuperTypeOf(eClass);
-            if (isJvmTypeReference ||
-                  (XcorePackage.Literals.XANNOTATION_DIRECTIVE.isSuperTypeOf(eClass)) ||
-                  GenModelPackage.Literals.GEN_BASE.isSuperTypeOf(eClass) && !GenModelPackage.Literals.GEN_FEATURE.isSuperTypeOf(eClass))
+            JvmType jvmType = ((JvmTypeReference)semanticElement).getType();
+            if (jvmType instanceof JvmGenericType ||
+                  jvmType instanceof JvmEnumerationType ||
+                  jvmType instanceof JvmAnnotationType)
             {
               node = nextNode;
               break;
             }
+          }
+          else if (semanticElement instanceof XGenericType && ((XGenericType)semanticElement).getType() instanceof GenClassifier ||
+                     semanticElement instanceof XAnnotation && ((XAnnotation)semanticElement).getSource() != null ||
+                     semanticElement instanceof XConstructorCall ||
+                     semanticElement instanceof XFeatureCall && ((XFeatureCall)semanticElement).isTypeLiteral() ||
+                     semanticElement instanceof XTypeLiteral)
+          {
+            node = nextNode;
+            break;
           }
         }
       }

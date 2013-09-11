@@ -30,6 +30,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.common.util.CommonUtil;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -171,7 +172,7 @@ public class XcoreJvmInferrer
           if (type != null)
           {
             URI eProxyURI = type.eProxyURI();
-            if (eProxyURI != null && eProxyURI.scheme() ==  TYPE_PARAMETER_REFERENCE_SCHEME)
+            if (eProxyURI != null && eProxyURI.scheme() == TYPE_PARAMETER_REFERENCE_SCHEME)
             {
               String name = eProxyURI.fragment();
               for (EObject eContainer = eObject.eContainer(); eContainer != null; eContainer = eContainer.eContainer())
@@ -2542,7 +2543,7 @@ public class XcoreJvmInferrer
     return parameterInferrer.getInferredElement();
   }
 
-  protected static final String TYPE_PARAMETER_REFERENCE_SCHEME = "type_parameter_reference";
+  protected static final String TYPE_PARAMETER_REFERENCE_SCHEME = CommonUtil.javaIntern("type_parameter_reference");
   protected static final URI TYPE_PARAMETER_REFERENCE_SCHEME_BASE_URI = URI.createURI(TYPE_PARAMETER_REFERENCE_SCHEME + "://");
 
   protected JvmTypeReference getJvmTypeReference(String instanceTypeName, EObject context)
