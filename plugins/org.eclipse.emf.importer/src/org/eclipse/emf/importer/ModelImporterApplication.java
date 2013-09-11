@@ -622,8 +622,11 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
       genModel.setComplianceLevel(genJDKLevel);
     }
     genModel.setImportOrganizing(importOrganizing);
-    genModel.setOperationReflection(false);
-    genModel.setRootExtendsClass("org.eclipse.emf.ecore.impl.EObjectImpl");
+    if (!reload)
+    {
+      genModel.setOperationReflection(false);
+      genModel.setRootExtendsClass("org.eclipse.emf.ecore.impl.EObjectImpl");
+    }
     // Subclasses may overwrite
   }
   
