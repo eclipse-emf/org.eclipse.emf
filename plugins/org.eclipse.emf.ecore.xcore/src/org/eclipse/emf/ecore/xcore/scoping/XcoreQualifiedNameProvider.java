@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.xcore.mappings.ToXcoreMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.common.types.JvmConstructor;
 import org.eclipse.xtext.common.types.JvmType;
+import org.eclipse.xtext.common.types.JvmTypeParameter;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -61,7 +62,7 @@ public class XcoreQualifiedNameProvider extends DefaultDeclarativeQualifiedNameP
       String typeName = constructor.getQualifiedName();
       return typeName == null ? null : nameConverter.toQualifiedName(typeName);
     }
-    else if (eObject instanceof JvmType)
+    else if (eObject instanceof JvmType && !(eObject instanceof JvmTypeParameter))
     {
       JvmType type = (JvmType)eObject;
       String typeName = type.getQualifiedName();

@@ -30,6 +30,7 @@ import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.common.types.util.TypeReferences;
 import org.eclipse.xtext.nodemodel.INode;
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.xbase.XBlockExpression;
 import org.eclipse.xtext.xbase.XbasePackage;
@@ -163,7 +164,7 @@ public class XcoreJavaValidator extends AbstractXcoreJavaValidator
     //
     for (INode node : XcoreUtil.importableCrossReferences(xPackage))
     {
-      String simpleName = node.getText().trim();
+      String simpleName = NodeModelUtils.getTokenText(node);
       if (simpleName.endsWith("::"))
       {
         simpleName = simpleName.substring(0, simpleName.length() - 2);

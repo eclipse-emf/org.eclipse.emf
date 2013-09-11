@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-Version: 1.1.1.qualifier
+Bundle-Version: 1.1.2.qualifier
 Bundle-ClassPath: .
 Bundle-SymbolicName: org.eclipse.emf.ecore.xcore;singleton:=true
 Bundle-Activator: org.eclipse.emf.ecore.xcore.XcorePlugin$Implementation
