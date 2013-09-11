@@ -12,6 +12,7 @@ package org.eclipse.emf.common.util;
 
 
 import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -1161,6 +1162,6 @@ public abstract class AbstractEList<E> extends AbstractList<E> implements EList<
   {
     Collection<E> result = new LinkedHashSet<E>(collection);
     result.removeAll(this);
-    return result;
+    return new ArrayList<E>(result);
   }
 }
