@@ -52,6 +52,14 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
   {
     assertEvaluatesTo(Boolean.TRUE, "typeof(java.lang.^annotation.RetentionPolicy).enum");
   }
+  
+  @Override
+  @Test 
+  public void testSwitchExpression_27() throws Exception {
+	  // annotation is a reserved word in Xcore
+	  assertEvaluatesTo(null, 
+				"{ val Object policy = java.lang.^annotation.RetentionPolicy.SOURCE switch policy { java.lang.^annotation.RetentionPolicy case CLASS: false } }");
+  }
 
   @Override
   @Test
