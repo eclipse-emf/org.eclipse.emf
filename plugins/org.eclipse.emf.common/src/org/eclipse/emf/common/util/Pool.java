@@ -462,7 +462,6 @@ public class Pool<E> extends WeakInterningHashSet<E>
         @SuppressWarnings("unchecked")
         Entry<E>[] expectedEntries = new Entry[expectedSize];
         int[] newIndices = new int[expectedSize];
-        Entry<E>[] newEntries = pool.newEntries(expectedCapacity);
         int entryCount = 0;
         LOOP:
         for (int i = 0, length = oldEntries.length; i < length; ++i)
@@ -470,21 +469,7 @@ public class Pool<E> extends WeakInterningHashSet<E>
           for (Entry<E> entry = oldEntries[i]; entry != null; entry = entry.next)
           {
             expectedEntries[entryCount] = entry;
-            int newIndex = index(entry.hashCode, expectedCapacity);
-            if (newEntries[newIndex] == null)
-            {
-              // If there is no collision, put the entry where it's expected to end up.
-              //
-              newEntries[newIndex] = entry;
-              newIndices[entryCount++] = newIndex;
-            }
-            else
-            {
-              // Set a negative index to indicate there will be a collision.
-              //
-              newIndices[entryCount++] = -1 - newIndex;
-            }
-
+            newIndices[entryCount++] = index(entry.hashCode, expectedCapacity);
             if (entryCount >= expectedSize)
             {
               break LOOP;
@@ -510,7 +495,7 @@ public class Pool<E> extends WeakInterningHashSet<E>
             {
               ++pool.capacityIndex;
               int newSize = pool.containsNull ? 1 : 0;
-              pool.entries = newEntries;
+              pool.entries =  pool.newEntries(expectedCapacity);
 
               // Our computations are useful and we'll apply them.
               //
@@ -527,21 +512,9 @@ public class Pool<E> extends WeakInterningHashSet<E>
                     if (expectedEntry == entry)
                     {
                       // If this is the entry we're expecting, put it back in the pool with index we computed earlier.
-                      // It will be negative if it's expect to be a collision.
                       //
                       int newIndex = newIndices[entryIndex++];
-                      if (newIndex < 0)
-                      {
-                        pool.putEntry(-1 - newIndex, entry);
-                      }
-                      else
-                      {
-                        // The entry is in the right place, but we'd better be sure the next pointer is set to null, because it will be the last entry in the collision chain.
-                        //
-                        entry.next = null;
-                      }
-                      // Increment the entry count so we're prepared to match the next expected entry.
-                      //
+                      pool.putEntry(newIndex, entry);
                       ++newSize;
                       continue LOOP;
                     }
