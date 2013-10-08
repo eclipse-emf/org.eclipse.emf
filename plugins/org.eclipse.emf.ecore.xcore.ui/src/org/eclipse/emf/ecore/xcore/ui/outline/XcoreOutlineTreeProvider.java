@@ -8,47 +8,65 @@
 package org.eclipse.emf.ecore.xcore.ui.outline;
 
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.xcore.XClassifier;
+import org.eclipse.emf.ecore.xcore.XGenericType;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.ui.editor.outline.IOutlineNode;
-import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider;
+import org.eclipse.xtext.ui.editor.outline.impl.BackgroundOutlineTreeProvider;
+import org.eclipse.xtext.ui.editor.outline.impl.EObjectNode;
+import org.eclipse.xtext.xbase.XBlockExpression;
 
 
 /**
- * Customization of the default outline structure.
+ * Customization of the background outline structure.
  * 
  */
-public class XcoreOutlineTreeProvider extends DefaultOutlineTreeProvider
+public class XcoreOutlineTreeProvider extends BackgroundOutlineTreeProvider
 {
-  protected void _createNode(IOutlineNode parentNode, JvmTypeReference jvmTypeReference)
+  protected ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+  
+  @Override
+  protected Object getText(Object modelElement)
   {
-    // Filter it from the outline.
+    IItemLabelProvider itemLabelProvider = (IItemLabelProvider)adapterFactory.adapt(modelElement, IItemLabelProvider.class);
+    return itemLabelProvider != null ? itemLabelProvider.getText(modelElement) : super.getText(modelElement);
+  }
+  
+  @Override
+  protected ImageDescriptor getImageDescriptor(Object modelElement)
+  {
+    IItemLabelProvider itemLabelProvider = (IItemLabelProvider)adapterFactory.adapt(modelElement, IItemLabelProvider.class);
+    return 
+      itemLabelProvider != null ?
+        ExtendedImageRegistry.INSTANCE.getImageDescriptor(itemLabelProvider.getImage(modelElement)) :
+        super.getImageDescriptor(modelElement);
+  }
+  
+  @Override
+  protected EObjectNode createNode(IOutlineNode parentNode, EObject modelElement)
+  {
+    return isExcluded(modelElement) ? null : super.createNode(parentNode, modelElement);
   }
 
-  protected boolean _isLeaf(XClassifier xClassifier)
+  protected boolean isExcluded(EObject modelElement)
   {
-    // Efficiently test if there are contained objects other than the instance type.
-    //
-    JvmTypeReference instanceType = xClassifier.getInstanceType();
-    List<EObject> children = xClassifier.eContents();
-    if (instanceType == null)
+    return modelElement instanceof XGenericType || modelElement instanceof JvmTypeReference || modelElement instanceof XBlockExpression;
+  }
+
+  @Override
+  protected boolean isLeaf(EObject modelElement)
+  {
+    for (EObject child : modelElement.eContents())
     {
-      return children.isEmpty();
-    }
-    else
-    {
-      for (Iterator<EObject> i = children.iterator(); i.hasNext(); )
+      if (!isExcluded(child))
       {
-        if (i.next() != instanceType)
-        {
-          return false;
-        }
+        return false;
       }
-      return true;
     }
+    return true;
   }
 }

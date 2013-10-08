@@ -25,8 +25,9 @@ public class XcoreExtensions {
     boolean _matched = false;
     if (!_matched) {
       if (t instanceof GenClass) {
+        final GenClass _genClass = (GenClass)t;
         _matched=true;
-        _switchResult = ((GenClass)t);
+        _switchResult = _genClass;
       }
     }
     if (!_matched) {
@@ -42,8 +43,9 @@ public class XcoreExtensions {
     boolean _matched = false;
     if (!_matched) {
       if (t instanceof GenTypeParameter) {
+        final GenTypeParameter _genTypeParameter = (GenTypeParameter)t;
         _matched=true;
-        _switchResult = ((GenTypeParameter)t);
+        _switchResult = _genTypeParameter;
       }
     }
     if (!_matched) {

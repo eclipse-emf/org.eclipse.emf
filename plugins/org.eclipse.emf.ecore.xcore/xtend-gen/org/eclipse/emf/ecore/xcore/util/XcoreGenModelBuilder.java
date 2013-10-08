@@ -87,128 +87,136 @@ public class XcoreGenModelBuilder {
       boolean _matched = false;
       if (!_matched) {
         if (genElement instanceof GenPackage) {
+          final GenPackage _genPackage = (GenPackage)genElement;
           _matched=true;
-          EPackage _ecorePackage = ((GenPackage)genElement).getEcorePackage();
+          EPackage _ecorePackage = _genPackage.getEcorePackage();
           ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecorePackage);
           XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
           final XPackage xPackage = ((XPackage) _xcoreElement);
           boolean _notEquals = (!Objects.equal(xPackage, null));
           if (_notEquals) {
             XPackageMapping _mapping = this.mapper.getMapping(xPackage);
-            _mapping.setGenPackage(((GenPackage)genElement));
-            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
+            _mapping.setGenPackage(_genPackage);
+            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(_genPackage);
             _toXcoreMapping_1.setXcoreElement(xPackage);
           }
         }
       }
       if (!_matched) {
         if (genElement instanceof GenClass) {
+          final GenClass _genClass = (GenClass)genElement;
           _matched=true;
-          EClass _ecoreClass = ((GenClass)genElement).getEcoreClass();
+          EClass _ecoreClass = _genClass.getEcoreClass();
           ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecoreClass);
           XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
           final XClass xClass = ((XClass) _xcoreElement);
           boolean _notEquals = (!Objects.equal(xClass, null));
           if (_notEquals) {
             XClassMapping _mapping = this.mapper.getMapping(xClass);
-            _mapping.setGenClass(((GenClass)genElement));
-            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
+            _mapping.setGenClass(_genClass);
+            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(_genClass);
             _toXcoreMapping_1.setXcoreElement(xClass);
           }
         }
       }
       if (!_matched) {
         if (genElement instanceof GenDataType) {
+          final GenDataType _genDataType = (GenDataType)genElement;
           _matched=true;
-          EDataType _ecoreDataType = ((GenDataType)genElement).getEcoreDataType();
+          EDataType _ecoreDataType = _genDataType.getEcoreDataType();
           ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecoreDataType);
           XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
           final XDataType xDataType = ((XDataType) _xcoreElement);
           boolean _notEquals = (!Objects.equal(xDataType, null));
           if (_notEquals) {
             XDataTypeMapping _mapping = this.mapper.getMapping(xDataType);
-            _mapping.setGenDataType(((GenDataType)genElement));
-            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
+            _mapping.setGenDataType(_genDataType);
+            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(_genDataType);
             _toXcoreMapping_1.setXcoreElement(xDataType);
           }
         }
       }
       if (!_matched) {
         if (genElement instanceof GenFeature) {
+          final GenFeature _genFeature = (GenFeature)genElement;
           _matched=true;
-          EStructuralFeature _ecoreFeature = ((GenFeature)genElement).getEcoreFeature();
+          EStructuralFeature _ecoreFeature = _genFeature.getEcoreFeature();
           ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecoreFeature);
           XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
           final XStructuralFeature xFeature = ((XStructuralFeature) _xcoreElement);
           boolean _notEquals = (!Objects.equal(xFeature, null));
           if (_notEquals) {
             XFeatureMapping _mapping = this.mapper.getMapping(xFeature);
-            _mapping.setGenFeature(((GenFeature)genElement));
-            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
+            _mapping.setGenFeature(_genFeature);
+            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(_genFeature);
             _toXcoreMapping_1.setXcoreElement(xFeature);
           }
         }
       }
       if (!_matched) {
         if (genElement instanceof GenOperation) {
+          final GenOperation _genOperation = (GenOperation)genElement;
           _matched=true;
-          EOperation _ecoreOperation = ((GenOperation)genElement).getEcoreOperation();
+          EOperation _ecoreOperation = _genOperation.getEcoreOperation();
           ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecoreOperation);
           XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
           final XOperation xOperation = ((XOperation) _xcoreElement);
           boolean _notEquals = (!Objects.equal(xOperation, null));
           if (_notEquals) {
             XOperationMapping _mapping = this.mapper.getMapping(xOperation);
-            _mapping.setGenOperation(((GenOperation)genElement));
-            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
+            _mapping.setGenOperation(_genOperation);
+            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(_genOperation);
             _toXcoreMapping_1.setXcoreElement(xOperation);
           }
         }
       }
       if (!_matched) {
         if (genElement instanceof GenParameter) {
+          final GenParameter _genParameter = (GenParameter)genElement;
           _matched=true;
-          EParameter _ecoreParameter = ((GenParameter)genElement).getEcoreParameter();
+          EParameter _ecoreParameter = _genParameter.getEcoreParameter();
           ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecoreParameter);
           XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
           final XParameter xParameter = ((XParameter) _xcoreElement);
           boolean _notEquals = (!Objects.equal(xParameter, null));
           if (_notEquals) {
             XParameterMapping _mapping = this.mapper.getMapping(xParameter);
-            _mapping.setGenParameter(((GenParameter)genElement));
-            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
+            _mapping.setGenParameter(_genParameter);
+            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(_genParameter);
             _toXcoreMapping_1.setXcoreElement(xParameter);
           }
         }
       }
       if (!_matched) {
         if (genElement instanceof GenTypeParameter) {
+          final GenTypeParameter _genTypeParameter = (GenTypeParameter)genElement;
           _matched=true;
-          ETypeParameter _ecoreTypeParameter = ((GenTypeParameter)genElement).getEcoreTypeParameter();
+          ETypeParameter _ecoreTypeParameter = _genTypeParameter.getEcoreTypeParameter();
           ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecoreTypeParameter);
           XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
           final XTypeParameter xTypeParameter = ((XTypeParameter) _xcoreElement);
           boolean _notEquals = (!Objects.equal(xTypeParameter, null));
           if (_notEquals) {
             XTypeParameterMapping _mapping = this.mapper.getMapping(xTypeParameter);
-            _mapping.setGenTypeParameter(((GenTypeParameter)genElement));
-            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
+            _mapping.setGenTypeParameter(_genTypeParameter);
+            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(_genTypeParameter);
             _toXcoreMapping_1.setXcoreElement(xTypeParameter);
           }
         }
       }
       if (!_matched) {
         if (genElement instanceof GenEnumLiteral) {
+          final GenEnumLiteral _genEnumLiteral = (GenEnumLiteral)genElement;
           _matched=true;
-          EEnumLiteral _ecoreEnumLiteral = ((GenEnumLiteral)genElement).getEcoreEnumLiteral();
+          EEnumLiteral _ecoreEnumLiteral = _genEnumLiteral.getEcoreEnumLiteral();
           ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecoreEnumLiteral);
           XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
           final XEnumLiteral xEnumLiteral = ((XEnumLiteral) _xcoreElement);
           boolean _notEquals = (!Objects.equal(xEnumLiteral, null));
           if (_notEquals) {
             XEnumLiteralMapping _mapping = this.mapper.getMapping(xEnumLiteral);
-            _mapping.setGenEnumLiteral(((GenEnumLiteral)genElement));
-            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
+            _mapping.setGenEnumLiteral(_genEnumLiteral);
+            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(_genEnumLiteral);
             _toXcoreMapping_1.setXcoreElement(xEnumLiteral);
           }
         }
@@ -255,16 +263,18 @@ public class XcoreGenModelBuilder {
                 boolean _matched = false;
                 if (!_matched) {
                   if (eCrossReference instanceof EClassifier) {
+                    final EClassifier _eClassifier = (EClassifier)eCrossReference;
                     _matched=true;
-                    final EPackage referencedEPackage = ((EClassifier)eCrossReference).getEPackage();
+                    final EPackage referencedEPackage = _eClassifier.getEPackage();
                     ePackages.add(referencedEPackage);
                     referencedEPackages.add(referencedEPackage);
                   }
                 }
                 if (!_matched) {
                   if (eCrossReference instanceof EStructuralFeature) {
+                    final EStructuralFeature _eStructuralFeature = (EStructuralFeature)eCrossReference;
                     _matched=true;
-                    final EClass eContainingClass = ((EStructuralFeature)eCrossReference).getEContainingClass();
+                    final EClass eContainingClass = _eStructuralFeature.getEContainingClass();
                     boolean _notEquals = (!Objects.equal(eContainingClass, null));
                     if (_notEquals) {
                       final EPackage referencedEPackage = eContainingClass.getEPackage();

@@ -52,7 +52,11 @@ public class ExtendedImageRegistry
     return INSTANCE;
   }
 
+  protected final Display display;
+
   protected HashMap<Object, Image> table = new HashMap<Object, Image>(10);
+
+  protected HashMap<Object, ImageDescriptor> imageDescriptorTable = new HashMap<Object, ImageDescriptor>(10);
 
   public ExtendedImageRegistry() 
   {
@@ -68,11 +72,17 @@ public class ExtendedImageRegistry
              hookDisplayDispose(defaultDisplay);
            }
          });
+      this.display = defaultDisplay;
+    }
+    else
+    {
+      this.display = display;
     }
   }
 
   public ExtendedImageRegistry(Display display) 
   {
+    this.display = display;
     hookDisplayDispose(display);
   }
 
@@ -179,12 +189,10 @@ public class ExtendedImageRegistry
         {
           table.put(object, result);
         }
-
       }
       return result;
     }
   }
-
 
   public ImageDescriptor getImageDescriptor(Object object) 
   {
@@ -192,7 +200,7 @@ public class ExtendedImageRegistry
     {
       return (ImageDescriptor)object;
     }
-    else
+    else if (display == Display.getCurrent())
     {
       final Image image = getImage(object);
       if (image != null)
@@ -203,6 +211,108 @@ public class ExtendedImageRegistry
       {
         return null;
       }
+    }
+    else
+    {
+      return getImageDescriptorOnBackgroundThread(object);
+    }
+  }
+
+  protected synchronized ImageDescriptor getImageDescriptorOnBackgroundThread(Object object) 
+  {
+    if (object instanceof ImageDescriptor)
+    {
+      return (ImageDescriptor)object;
+    }
+    else
+    {
+      ImageDescriptor result = imageDescriptorTable.get(object);
+      if (result == null)
+      {
+        if (object instanceof Image)
+        {
+          result = new ImageWrapperImageDescriptor((Image)object);
+        }
+        else
+        {
+          Image image = table.get(object);
+          if (image != null)
+          {
+            result = new ImageWrapperImageDescriptor(image);
+          }
+          else if (object instanceof URL || object instanceof URI)
+          {
+            String urlString = object.toString(); 
+            if (urlString.startsWith(resourceURLPrefix))
+            {
+              if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
+              {
+                result = 
+                  PlatformUI.getWorkbench().getEditorRegistry().getImageDescriptor 
+                    ("dummy." + urlString.substring(resourceURLPrefix.length()));
+              }
+              else
+              {
+                result = getImageDescriptor(resourceURL);
+              }
+            }
+            else if (urlString.startsWith(itemURLPrefix))
+            {
+              try
+              {
+                URL url = new URL(urlString.substring(0, itemURLPrefix.length()));
+                String key1 = urlString.substring(itemURLPrefix.length());
+                result = new URLImageDescriptor(url, key1, null);
+              }
+              catch (IOException exception)
+              {
+                // Ignore
+              }
+            }
+            else if (urlString.startsWith(createChildURLPrefix))
+            {
+              try
+              {
+                URL url = new URL(urlString.substring(0, createChildURLPrefix.length()));
+                String key1 = urlString.substring(createChildURLPrefix.length() + 1);
+                String key2 = null;
+                int index = key1.indexOf("/");
+                if (index != -1)
+                {
+                  key2 =  key1.substring(index + 1);
+                  key1 =  key1.substring(0, index);
+                }
+                result = new URLImageDescriptor(url, key1, key2);
+              }
+              catch (IOException exception)
+              {
+                // Ignore
+              }
+            }
+            else
+            {
+              try
+              {
+                result = ImageDescriptor.createFromURL(new URL(urlString));
+              }
+              catch (IOException exception)
+              {
+                // Ignore
+              }
+            }
+          }
+          else if (object instanceof ComposedImage)
+          {
+            result = new ComposedImageDescriptor((ComposedImage)object);
+          }
+        }
+
+        if (result != null)
+        {
+          imageDescriptorTable.put(object,  result);
+        }
+      }
+      return result;
     }
   }
 
