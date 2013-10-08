@@ -902,7 +902,7 @@ public class PersistenceTest extends TestCase
     
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     OutputStream os = cipher.encrypt(baos);
-    os.write(originalMessage.toString().getBytes());
+    os.write(originalMessage.toString().getBytes("UTF-8"));
     cipher.finish(os);
     os.close();
     
@@ -918,7 +918,7 @@ public class PersistenceTest extends TestCase
     int i = buffer.length;
     while ((i = is.read(buffer)) >= 0)
     {
-      message.append(new String(buffer, 0, i));
+      message.append(new String(buffer, 0, i, "UTF-8"));
     }  
     return message.toString().trim();
   }
@@ -947,7 +947,7 @@ public class PersistenceTest extends TestCase
         URIConverter.Cipher cipher = options == null ? 
           null : (URIConverter.Cipher)options.get(Resource.OPTION_CIPHER);
         return cipher != null ?
-          readEncriptedBytes(cipher, bytes) : new String(bytes);
+          readEncriptedBytes(cipher, bytes) : new String(bytes, "UTF-8");
       }
       
       protected EObject instantiateModel()
@@ -962,13 +962,14 @@ public class PersistenceTest extends TestCase
       public byte[] testSave(URI uri, Map<String, Object> options) throws Exception
       {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Resource resource = new XMIResourceImpl(uri); 
+        XMLResource resource = new XMIResourceImpl(uri); 
+        resource.setEncoding("UTF-8");
         resource.getContents().add(instantiateModel());
         resource.save(baos, options);
         
         byte[] bytes = baos.toByteArray();
         
-        String contents = new String(bytes);
+        String contents = new String(bytes, "UTF-8");
         boolean notEncripted = options == null || !options.containsKey(Resource.OPTION_CIPHER);
         assertEquals(contents, notEncripted, contents.contains("Root"));
         assertEquals(contents, notEncripted, contents.contains("items"));
@@ -981,7 +982,8 @@ public class PersistenceTest extends TestCase
       {
         File file = File.createTempFile("TestSaveOnlyIfChanged.xml", null);
         URI uri = URI.createFileURI(file.getPath());
-        Resource resource = new XMIResourceImpl(uri); 
+        XMLResource resource = new XMIResourceImpl(uri); 
+        resource.setEncoding("UTF-8");
         resource.getContents().add(instantiateModel());
         resource.save(options);
 

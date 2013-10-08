@@ -2277,16 +2277,24 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
       simpleDependencies = new ArrayList<GenPackage>();
       List<GenPackage> usedGenPackages = new ArrayList<GenPackage>(getGenModel().getUsedGenPackages());
+      List<GenPackage> genPackages = new ArrayList<GenPackage>(getGenModel().getGenPackages());
+
       for (GenPackage usedGenPackage : usedGenPackages.toArray(new GenPackage [usedGenPackages.size()]))
       {
-        usedGenPackages.removeAll(usedGenPackage.getGenModel().getUsedGenPackages());
+        EList<GenPackage> indirectlyUsedGenPackages = usedGenPackage.getGenModel().getUsedGenPackages();
+        if (indirectlyUsedGenPackages.contains(GenPackageImpl.this))
+        {
+          genPackages.add(usedGenPackage);
+          usedGenPackages.remove(usedGenPackage);
+        }
+        usedGenPackages.removeAll(indirectlyUsedGenPackages);
       }
 
       collectPackages(simpleDependencies, usedGenPackages, 1);
       addAll(simpleDependencies);
       
       interDependencies = new UniqueEList<GenPackage>();
-      collectPackages(interDependencies, getGenModel().getGenPackages(), -1);
+      collectPackages(interDependencies, genPackages, -1);
       interDependencies.remove(GenPackageImpl.this);
       addAll(interDependencies);
 
@@ -2373,30 +2381,6 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
       initializationDependencies.remove(GenPackageImpl.this);
       initializationDependencies.remove(findGenPackage(EcorePackage.eINSTANCE));
-
-      // These are used packages for which there is a cyclic dependency.
-      // So they're not really simple dependencies.
-      //
-      for (GenPackage genPackage : initializationDependencies)
-      {
-        if (simpleDependencies.contains(genPackage))
-        {
-          GenModel genModel = genPackage.getGenModel();
-          if (genModel != getGenModel() && genModel.getAllUsedGenPackagesWithClassifiers().contains(GenPackageImpl.this))
-          {
-            simpleDependencies.remove(genPackage);
-            interDependencies.add(genPackage);
-            if (genPackage.isLoadedInitialization())
-            {
-              loadInterDependencies.add(genPackage);
-            }
-            else
-            {
-              buildInterDependencies.add(genPackage);
-            }
-          }
-        }
-      }
     }
 
     protected void handle(EList<EGenericType> eGenericTypes)
