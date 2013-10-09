@@ -314,7 +314,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
       resolveAll(eObject);
     }
     
-    EObject eContainer = eObject.eContainer();
+    EObject eContainer = resolve ? eObject.eContainer() : ((InternalEObject)eObject).eInternalContainer();
     if (eContainer != null)
     {
       result.add(((InternalEObject)eContainer).eSetting(eObject.eContainmentFeature()));
@@ -373,7 +373,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
         }
         else
         {
-          URI.createHierarchicalURI(null, null, resource.getURIFragment(eObject));
+          uri = URI.createHierarchicalURI(null, null, resource.getURIFragment(eObject));
         }
         List<EObject> proxies = inverseCrossReferencer.removeProxies(uri);
         if (proxies != null)
