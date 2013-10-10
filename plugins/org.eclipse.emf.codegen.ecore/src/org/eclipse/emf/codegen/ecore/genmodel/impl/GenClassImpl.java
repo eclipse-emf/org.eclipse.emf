@@ -3785,4 +3785,21 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     return hasCollidingAccessorOperation(genFeature, "unset" + genFeature.getAccessorName());
   }
+
+  public boolean hasStaticFeatures()
+  {
+    switch (getGenModel().getFeatureDelegation())
+    {
+      case DYNAMIC_LITERAL:
+      case REFLECTIVE_LITERAL:
+      {
+        GenClass classExtendsGenClass = getClassExtendsGenClass();
+        return classExtendsGenClass != null && classExtendsGenClass.hasStaticFeatures();
+      }
+      default:
+      {
+        return getAllGenFeatures().size() > 0;
+      }
+    }
+  }
 }

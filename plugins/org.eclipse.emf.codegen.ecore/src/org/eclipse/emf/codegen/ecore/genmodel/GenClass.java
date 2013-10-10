@@ -652,4 +652,9 @@ public interface GenClass extends GenClassifier
    * @since 2.9
    */
   boolean isRawBaseClass(GenClass baseClass);
+
+  /**
+   * @since 2.10
+   */
+  boolean hasStaticFeatures();
 }
