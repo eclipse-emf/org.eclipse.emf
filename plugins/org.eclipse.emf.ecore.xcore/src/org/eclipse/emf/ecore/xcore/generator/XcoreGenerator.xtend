@@ -74,6 +74,11 @@ class XcoreGenerator implements IGenerator {
 							if (getBody != null) {
 								val getter = mappings.getMapping(xFeature).getter
 								val appendable = createAppendable
+								appendable.declareVariable(getter.declaringType, "this")
+								val superType = getter.declaringType.superTypes.head
+								if (superType != null) {
+									appendable.declareVariable(superType.type, "super")
+								}
 								compiler.compile(getBody, appendable, getter.returnType, Collections::emptySet)
 								EcoreUtil::setAnnotation(eStructuralFeature, GenModelPackage::eNS_URI, "get", extractBody(appendable.toString)) }
 						}
@@ -88,6 +93,11 @@ class XcoreGenerator implements IGenerator {
 								val jvmOperation = mappings.getMapping(xOperation).jvmOperation
 								if (jvmOperation != null) {
 									val appendable = createAppendable
+									appendable.declareVariable(jvmOperation.declaringType, "this")
+									val superType = jvmOperation.declaringType.superTypes.head
+									if (superType != null) {
+										appendable.declareVariable(superType.type, "super")
+									}
 									for (JvmFormalParameter parameter : jvmOperation.parameters) {
 										appendable.declareVariable(parameter, parameter.getName())
 									}
