@@ -8,7 +8,11 @@
 package org.eclipse.emf.ecore.xcore.scoping;
 
 
+import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Lists.newArrayList;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
@@ -31,6 +35,9 @@ import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XReference;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
+import org.eclipse.xtext.common.types.JvmDeclaredType;
+import org.eclipse.xtext.common.types.JvmGenericType;
+import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
@@ -38,6 +45,7 @@ import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractScope;
 import org.eclipse.xtext.xbase.annotations.scoping.XbaseWithAnnotationsScopeProvider;
 
+import com.google.common.base.Predicate;
 import com.google.inject.Inject;
 
 
@@ -240,6 +248,58 @@ public class XcoreScopeProvider extends XbaseWithAnnotationsScopeProvider
         }
       }
       return result;
+    }
+  }
+
+  @SuppressWarnings("deprecation")
+  @Override
+  protected void createLocalVarScopeForJvmDeclaredType(JvmDeclaredType type, LocalVariableAcceptor acceptor)
+  {
+    Iterator<JvmTypeReference> classes = filter(type.getSuperTypes(), new Predicate<JvmTypeReference>()
+      {
+        public boolean apply(JvmTypeReference input)
+        {
+          if (input.getType() instanceof JvmGenericType)
+          {
+            return !((JvmGenericType)input.getType()).isInterface();
+          }
+          return false;
+        }
+      }).iterator();
+    JvmGenericType superType = null;
+    if (classes.hasNext())
+    {
+      superType = (JvmGenericType)classes.next().getType();
+    }
+    else
+    {
+      classes = filter(type.getSuperTypes(), new Predicate<JvmTypeReference>()
+        {
+          public boolean apply(JvmTypeReference input)
+          {
+            if (input.getType() instanceof JvmGenericType)
+            {
+              return true;
+            }
+            return false;
+          }
+        }).iterator();
+      if (classes.hasNext())
+      {
+        superType = (JvmGenericType)classes.next().getType();
+      }
+    }
+    if (superType == null)
+    {
+      acceptor.accept("this", new org.eclipse.xtext.xbase.scoping.featurecalls.LocalVarDescription(THIS, type));
+    }
+    else
+    {
+      acceptor.accept
+        ("this & super", 
+         newArrayList
+           (new org.eclipse.xtext.xbase.scoping.featurecalls.LocalVarDescription(THIS, type), 
+            new org.eclipse.xtext.xbase.scoping.featurecalls.LocalVarDescription(SUPER, superType)));
     }
   }
 }

@@ -391,6 +391,14 @@ public class ImportManager
     int i = qualifiedName.lastIndexOf('.');
     if (i == -1)
     {
+      if ("this".equals(qualifiedName) || "super".equals(qualifiedName))
+      {
+        String qualifiedThisOrSuper = shortNameToImportMap.get(qualifiedName);
+        if (qualifiedThisOrSuper!= null)
+        {
+          return qualifiedThisOrSuper;
+        }
+      }
       return qualifiedName;
     }
 
@@ -552,6 +560,8 @@ public class ImportManager
     packageName = normalize(packageName);
     shortName = normalize(shortName);
     shortNameToImportMap.put(shortName, new StringBuilder(packageName).append('.').append(shortName).toString());
+    shortNameToImportMap.put("this", shortName + ".this");
+    shortNameToImportMap.put("super", shortName + ".super");
   }
 
   /**

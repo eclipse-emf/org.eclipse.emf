@@ -137,6 +137,16 @@ public class XcoreGenerator implements IGenerator {
                 XFeatureMapping _mapping_4 = this.mappings.getMapping(xFeature);
                 final JvmOperation getter = _mapping_4.getGetter();
                 final XcoreAppendable appendable_2 = this.createAppendable();
+                JvmDeclaredType _declaringType = getter.getDeclaringType();
+                appendable_2.declareVariable(_declaringType, "this");
+                JvmDeclaredType _declaringType_1 = getter.getDeclaringType();
+                EList<JvmTypeReference> _superTypes = _declaringType_1.getSuperTypes();
+                final JvmTypeReference superType = IterableExtensions.<JvmTypeReference>head(_superTypes);
+                boolean _notEquals_6 = (!Objects.equal(superType, null));
+                if (_notEquals_6) {
+                  JvmType _type = superType.getType();
+                  appendable_2.declareVariable(_type, "super");
+                }
                 JvmTypeReference _returnType_2 = getter.getReturnType();
                 Set<JvmTypeReference> _emptySet_2 = Collections.<JvmTypeReference>emptySet();
                 this.compiler.compile(getBody, appendable_2, _returnType_2, _emptySet_2);
@@ -152,25 +162,25 @@ public class XcoreGenerator implements IGenerator {
           boolean _add_1 = processed.add(eOperation);
           if (_add_1) {
             final XOperation xOperation = this.mappings.getXOperation(eOperation);
-            boolean _notEquals_6 = (!Objects.equal(xOperation, null));
-            if (_notEquals_6) {
+            boolean _notEquals_7 = (!Objects.equal(xOperation, null));
+            if (_notEquals_7) {
               final XBlockExpression body = xOperation.getBody();
-              boolean _notEquals_7 = (!Objects.equal(body, null));
-              if (_notEquals_7) {
+              boolean _notEquals_8 = (!Objects.equal(body, null));
+              if (_notEquals_8) {
                 XOperationMapping _mapping_5 = this.mappings.getMapping(xOperation);
                 final JvmOperation jvmOperation = _mapping_5.getJvmOperation();
-                boolean _notEquals_8 = (!Objects.equal(jvmOperation, null));
-                if (_notEquals_8) {
+                boolean _notEquals_9 = (!Objects.equal(jvmOperation, null));
+                if (_notEquals_9) {
                   final XcoreAppendable appendable_3 = this.createAppendable();
-                  JvmDeclaredType _declaringType = jvmOperation.getDeclaringType();
-                  appendable_3.declareVariable(_declaringType, "this");
-                  JvmDeclaredType _declaringType_1 = jvmOperation.getDeclaringType();
-                  EList<JvmTypeReference> _superTypes = _declaringType_1.getSuperTypes();
-                  final JvmTypeReference superType = IterableExtensions.<JvmTypeReference>head(_superTypes);
-                  boolean _notEquals_9 = (!Objects.equal(superType, null));
-                  if (_notEquals_9) {
-                    JvmType _type = superType.getType();
-                    appendable_3.declareVariable(_type, "super");
+                  JvmDeclaredType _declaringType_2 = jvmOperation.getDeclaringType();
+                  appendable_3.declareVariable(_declaringType_2, "this");
+                  JvmDeclaredType _declaringType_3 = jvmOperation.getDeclaringType();
+                  EList<JvmTypeReference> _superTypes_1 = _declaringType_3.getSuperTypes();
+                  final JvmTypeReference superType_1 = IterableExtensions.<JvmTypeReference>head(_superTypes_1);
+                  boolean _notEquals_10 = (!Objects.equal(superType_1, null));
+                  if (_notEquals_10) {
+                    JvmType _type_1 = superType_1.getType();
+                    appendable_3.declareVariable(_type_1, "super");
                   }
                   EList<JvmFormalParameter> _parameters_2 = jvmOperation.getParameters();
                   for (final JvmFormalParameter parameter : _parameters_2) {
