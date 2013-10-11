@@ -1673,8 +1673,8 @@ public class EObjectValidator implements EValidator
         (severity,
          source,
          code,
-         getString("_UI_ConstraintDelegateException_diagnostic", new Object[] { constraint, getValueLabel(eDataType, value, context), throwable.getLocalizedMessage() }),
-         new Object [] { value }));
+         getString("_UI_ConstraintDelegateException_diagnostic", new Object[] { constraint, getValueLabel(eDataType, value, context), throwable.getClass().getName() + ": " + throwable.getLocalizedMessage() }),
+         new Object [] { value, throwable }));
   }
 
   /**
@@ -1715,8 +1715,8 @@ public class EObjectValidator implements EValidator
         (severity,
          source,
          code,
-         getString("_UI_ConstraintDelegateException_diagnostic", new Object[] { constraint, getObjectLabel(eObject, context), throwable.getLocalizedMessage() }),
-         new Object [] { eObject }));
+         getString("_UI_ConstraintDelegateException_diagnostic", new Object[] { constraint, getObjectLabel(eObject, context), throwable.getClass().getName() + ": " + throwable.getLocalizedMessage() }),
+         new Object [] { eObject, throwable }));
   }
 
   /**
@@ -1757,8 +1757,8 @@ public class EObjectValidator implements EValidator
         (severity,
          source,
          code,
-         EcorePlugin.INSTANCE.getString("_UI_InvariantDelegateException_diagnostic", new Object[] { invariant.getName(), getObjectLabel(eObject, context), throwable.getLocalizedMessage() }),
-         new Object [] { eObject }));
+         EcorePlugin.INSTANCE.getString("_UI_InvariantDelegateException_diagnostic", new Object[] { invariant.getName(), getObjectLabel(eObject, context), throwable.getClass().getName() + ": " + throwable.getLocalizedMessage() }),
+         new Object [] { eObject, throwable }));
   }
 
   /**
