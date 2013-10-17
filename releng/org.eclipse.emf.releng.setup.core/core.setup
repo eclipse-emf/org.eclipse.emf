@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<setup:Project xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:predicates="http://www.eclipse.org/CDO/releng/predicates/1.0" xmlns:setup="http://www.eclipse.org/CDO/releng/setup/1.0" name="EMF">
+  <setupTasks xsi:type="setup:P2Task">
+    <p2Repositories url="http://download.eclipse.org/releases/kepler"/>
+    <p2Repositories url="http://download.eclipse.org/modeling/emf/cdo/updates/integration"/>
+    <p2Repositories url="http://download.eclipse.org/mylyn/snapshots/weekly"/>
+    <p2Repositories url="http://download.eclipse.org/tools/buckminster/updates-4.3"/>
+    <p2Repositories url="http://download.eclipse.org/egit/updates-nightly"/>
+    <p2Repositories url="http://download.eclipse.org/egit/github/updates-nightly"/>
+    <installableUnits id="org.eclipse.emf.cdo.releng.launches.feature.group"/>
+    <installableUnits id="org.eclipse.emf.cdo.releng.manifests.feature.group"/>
+    <installableUnits id="org.eclipse.emf.cdo.releng.projectcopy.feature.group"/>
+    <installableUnits id="org.eclipse.emf.cdo.releng.relativepaths.feature.group"/>
+    <installableUnits id="org.eclipse.emf.cdo.releng.tasks.feature.group"/>
+    <installableUnits id="org.eclipse.emf.cdo.releng.version.feature.group"/>
+    <installableUnits id="org.eclipse.emf.cdo.releng.workingsets.feature.group"/>
+    <installableUnits id="org.eclipse.egit.feature.group"/>
+    <installableUnits id="org.eclipse.buckminster.core.feature.feature.group"/>
+    <installableUnits id="org.eclipse.buckminster.git.feature.feature.group"/>
+    <installableUnits id="org.eclipse.buckminster.pde.feature.feature.group"/>
+  </setupTasks>
+  <setupTasks xsi:type="setup:EclipseIniTask" option="-data" value="${setup.branch.dir}/ws"/>
+  <setupTasks xsi:type="setup:EclipseIniTask" option="-Djgit.gitprefix" value="=${setup.git.prefix}" vm="true"/>
+  <setupTasks xsi:type="setup:EclipseIniTask" option="-Dorg.eclipse.buckminster.core.bundle.pool" value="=${setup.install.dir}/.p2pool-tp" vm="true"/>
+  <setupTasks xsi:type="setup:EclipseIniTask" option="-Xmx" value="2048m" vm="true"/>
+  <setupTasks xsi:type="setup:EclipsePreferenceTask" key="instance/org.eclipse.jdt.launching/org.eclipse.jdt.launching.PREF_STRICTLY_COMPATIBLE_JRE_NOT_AVAILABLE" value="ignore"/>
+  <setupTasks xsi:type="setup:WorkingSetTask">
+    <workingSets name="EMF Documentation">
+      <predicates xsi:type="predicates:AndPredicate">
+        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
+        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
+        <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.doc"/>
+      </predicates>
+    </workingSets>
+    <workingSets name="EMF Tests">
+      <predicates xsi:type="predicates:AndPredicate">
+        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
+        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
+        <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.test.*"/>
+      </predicates>
+    </workingSets>
+    <workingSets name="EMF Examples">
+      <predicates xsi:type="predicates:AndPredicate">
+        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
+        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
+        <operands xsi:type="predicates:OrPredicate">
+          <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.cheatsheets.*"/>
+          <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.example.*"/>
+          <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.exporter\.html"/>
+          <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.java.*"/>
+        </operands>
+      </predicates>
+    </workingSets>
+    <workingSets name="EMF Releng">
+      <predicates xsi:type="predicates:AndPredicate">
+        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
+        <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.releng.*"/>
+      </predicates>
+    </workingSets>
+    <workingSets name="EMF ODA">
+      <predicates xsi:type="predicates:AndPredicate">
+        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf.oda"/>
+        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
+        <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.oda.*"/>
+      </predicates>
+    </workingSets>
+    <workingSets name="EMF ODA Features">
+      <predicates xsi:type="predicates:AndPredicate">
+        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf.oda"/>
+        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.FeatureNature"/>
+        <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.oda.*"/>
+      </predicates>
+    </workingSets>
+    <workingSets name="EMF Core">
+      <predicates xsi:type="predicates:AndPredicate">
+        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
+        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
+      </predicates>
+    </workingSets>
+    <workingSets name="EMF Core Features">
+      <predicates xsi:type="predicates:AndPredicate">
+        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
+        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.FeatureNature"/>
+      </predicates>
+    </workingSets>
+    <workingSets name="XSD Examples">
+      <predicates xsi:type="predicates:AndPredicate">
+        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.xsd"/>
+        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
+        <operands xsi:type="predicates:OrPredicate">
+          <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.xsd\.cheatsheets.*"/>
+          <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.xsd\.example.*"/>
+        </operands>
+      </predicates>
+    </workingSets>
+    <workingSets name="XSD Documentation">
+      <predicates xsi:type="predicates:AndPredicate">
+        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.xsd"/>
+        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
+        <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.xsd\.doc"/>
+      </predicates>
+    </workingSets>
+    <workingSets name="XSD">
+      <predicates xsi:type="predicates:AndPredicate">
+        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.xsd"/>
+        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
+      </predicates>
+    </workingSets>
+    <workingSets name="XSD Features">
+      <predicates xsi:type="predicates:AndPredicate">
+        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.xsd"/>
+        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.FeatureNature"/>
+      </predicates>
+    </workingSets>
+  </setupTasks>
+  <branches name="master">
+    <setupTasks xsi:type="setup:P2Task">
+      <p2Repositories url="http://download.eclipse.org/releases/kepler"/>
+      <installableUnits id="org.eclipse.emf.sdk.feature.group"/>
+      <installableUnits id="org.eclipse.emf.ecoretools.sdk.feature.group"/>
+    </setupTasks>
+    <setupTasks xsi:type="setup:GitCloneTask" name="emf" remoteURI="ssh://git.eclipse.org:29418/emf/org.eclipse.emf" checkoutBranch="master"/>
+    <setupTasks xsi:type="setup:StringVariableTask" requirements="//@branches.0/@setupTasks.1" name="git.clone.emf" value="${setup.branch.dir}/git/emf" description="Location of EMF's Git clone."/>
+    <setupTasks xsi:type="setup:GitCloneTask" name="xsd" remoteURI="ssh://git.eclipse.org/gitroot/xsd/org.eclipse.xsd.git" checkoutBranch="master"/>
+    <setupTasks xsi:type="setup:StringVariableTask" requirements="//@branches.0/@setupTasks.3" name="git.clone.xsd" value="${setup.branch.dir}/git/xsd" description="Location of XSD's Git clone."/>
+    <setupTasks xsi:type="setup:BuckminsterImportTask" requirements="//@branches.0/@setupTasks.2" mspec="${setup.branch.dir|uri}/git/emf/releng/org.eclipse.emf.releng.setup.core/buckminster.mspec" targetPlatform="${setup.branch.dir}/tp" bundlePool="${setup.install.dir}/.p2pool-tp"/>
+  </branches>
+</setup:Project>
