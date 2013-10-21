@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <setup:Project xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:predicates="http://www.eclipse.org/CDO/releng/predicates/1.0" xmlns:setup="http://www.eclipse.org/CDO/releng/setup/1.0" name="EMF">
+  <setupTasks xsi:type="setup:EclipsePreferenceTask" key="instance/org.eclipse.ui.ide/WORKSPACE_NAME" value="EMF"/>
   <setupTasks xsi:type="setup:P2Task">
     <p2Repositories url="http://download.eclipse.org/releases/kepler"/>
     <p2Repositories url="http://download.eclipse.org/modeling/emf/cdo/updates/integration"/>
@@ -19,9 +20,9 @@
     <installableUnits id="org.eclipse.buckminster.git.feature.feature.group"/>
     <installableUnits id="org.eclipse.buckminster.pde.feature.feature.group"/>
   </setupTasks>
-  <setupTasks xsi:type="setup:EclipseIniTask" option="-data" value="${setup.branch.dir}/ws"/>
+  <setupTasks xsi:type="setup:EclipseIniTask" option="-data" value="${setup.branch.dir/ws}"/>
   <setupTasks xsi:type="setup:EclipseIniTask" option="-Djgit.gitprefix" value="=${setup.git.prefix}" vm="true"/>
-  <setupTasks xsi:type="setup:EclipseIniTask" option="-Dorg.eclipse.buckminster.core.bundle.pool" value="=${setup.install.dir}/.p2pool-tp" vm="true"/>
+  <setupTasks xsi:type="setup:EclipseIniTask" option="-Dorg.eclipse.buckminster.core.bundle.pool" value="=${setup.install.dir/.p2pool-tp}" vm="true"/>
   <setupTasks xsi:type="setup:EclipseIniTask" option="-Xmx" value="2048m" vm="true"/>
   <setupTasks xsi:type="setup:EclipsePreferenceTask" key="instance/org.eclipse.jdt.launching/org.eclipse.jdt.launching.PREF_STRICTLY_COMPATIBLE_JRE_NOT_AVAILABLE" value="ignore"/>
   <setupTasks xsi:type="setup:WorkingSetTask">
@@ -120,9 +121,11 @@
       <installableUnits id="org.eclipse.emf.ecoretools.sdk.feature.group"/>
     </setupTasks>
     <setupTasks xsi:type="setup:GitCloneTask" name="emf" remoteURI="ssh://git.eclipse.org:29418/emf/org.eclipse.emf" checkoutBranch="master"/>
-    <setupTasks xsi:type="setup:StringVariableTask" requirements="//@branches.0/@setupTasks.1" name="git.clone.emf" value="${setup.branch.dir}/git/emf" description="Location of EMF's Git clone."/>
+    <setupTasks xsi:type="setup:StringVariableTask" requirements="//@branches.0/@setupTasks.1" name="git.clone.emf" value="${setup.branch.dir/git/emf}" description="Location of EMF's Git clone."/>
     <setupTasks xsi:type="setup:GitCloneTask" name="xsd" remoteURI="ssh://git.eclipse.org/gitroot/xsd/org.eclipse.xsd.git" checkoutBranch="master"/>
-    <setupTasks xsi:type="setup:StringVariableTask" requirements="//@branches.0/@setupTasks.3" name="git.clone.xsd" value="${setup.branch.dir}/git/xsd" description="Location of XSD's Git clone."/>
-    <setupTasks xsi:type="setup:BuckminsterImportTask" requirements="//@branches.0/@setupTasks.2" mspec="${setup.branch.dir|uri}/git/emf/releng/org.eclipse.emf.releng.setup.core/buckminster.mspec" targetPlatform="${setup.branch.dir}/tp" bundlePool="${setup.install.dir}/.p2pool-tp"/>
+    <setupTasks xsi:type="setup:StringVariableTask" requirements="//@branches.0/@setupTasks.3" name="git.clone.xsd" value="${setup.branch.dir/git/xsd}" description="Location of XSD's Git clone."/>
+    <setupTasks xsi:type="setup:StringVariableTask" name="p2.platform" value="http://download.eclipse.org/eclipse/updates/3.5" description="URI of the platform's p2 update site"/>
+    <setupTasks xsi:type="setup:StringVariableTask" name="p2.datatools" value="http://download.eclipse.org/datatools/downloads/drops/M_updates_1.9" description="URI of the datatool's p2 update site"/>
+    <setupTasks xsi:type="setup:BuckminsterImportTask" requirements="//@branches.0/@setupTasks.2 //@branches.0/@setupTasks.4 //@branches.0/@setupTasks.6 //@branches.0/@setupTasks.5" mspec="${setup.branch.dir|uri}/git/emf/releng/org.eclipse.emf.releng.setup.core/buckminster.mspec" targetPlatform="${setup.branch.dir/tp}" bundlePool="${setup.install.dir/.p2pool-tp}"/>
   </branches>
 </setup:Project>
