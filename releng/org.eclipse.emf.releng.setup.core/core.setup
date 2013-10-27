@@ -21,7 +21,7 @@
   <setupTasks xsi:type="setup:EclipseIniTask" option="-Dorg.eclipse.buckminster.core.bundle.pool" value="=${setup.install.dir/.p2pool-tp}" vm="true"/>
   <setupTasks xsi:type="setup:EclipseIniTask" option="-Xmx" value="2048m" vm="true"/>
   <setupTasks xsi:type="setup:EclipsePreferenceTask" key="instance/org.eclipse.jdt.launching/org.eclipse.jdt.launching.PREF_STRICTLY_COMPATIBLE_JRE_NOT_AVAILABLE" value="ignore"/>
-  <setupTasks xsi:type="setup:WorkingSetTask">
+  <setupTasks xsi:type="setup:WorkingSetTask" requirements="//@branches.0/@setupTasks.7">
     <workingSets name="EMF Documentation">
       <predicates xsi:type="predicates:AndPredicate">
         <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
