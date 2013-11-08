@@ -17,7 +17,7 @@
     <installableUnits id="org.eclipse.emf.cdo.releng.manifests.feature.group"/>
     <installableUnits id="org.eclipse.emf.cdo.releng.projectcopy.feature.group"/>
     <installableUnits id="org.eclipse.emf.cdo.releng.relativepaths.feature.group"/>
-    <installableUnits id="org.eclipse.emf.cdo.releng.workingsets.group"/>
+    <installableUnits id="org.eclipse.emf.cdo.releng.workingsets.feature.group"/>
   </setupTasks>
   <setupTasks xsi:type="setup:EclipseIniTask" option="-data" value="${setup.branch.dir/ws}"/>
   <setupTasks xsi:type="setup:EclipseIniTask" option="-Djgit.gitprefix" value="=${setup.git.prefix}" vm="true"/>
