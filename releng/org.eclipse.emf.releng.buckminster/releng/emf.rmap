@@ -74,7 +74,7 @@
 	</searchPath>
 
 	<property key="eclipse.download" value="http://download.eclipse.org" />
-	<property key="emf.base.nightly" value="https://hudson.eclipse.org/hudson/job/emf-base-head/lastSuccessfulBuild/artifact/EMF.Base.p2.repository/" />
+	<property key="emf.base.nightly" value="https://hudson.eclipse.org/mexx/job/emf-base/lastSuccessfulBuild/artifact/build-result/p2.repository/" />
 	
 	<property key="resolve.target.platform" value="false" />
 	<property key="resolve.target.platform.base.sources" value="false" />

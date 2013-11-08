@@ -2,7 +2,7 @@
 <rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
 	<rm:property key="checkout.location" value="${workspace.root}/" />
 	<rm:property key="xtext.p2.repository" value="${eclipse.download}/modeling/tmf/xtext/updates/composite" />
-	<rm:property key="hudson.emf.p2.repository" value="https://hudson.eclipse.org/hudson/job/emf-core-head/lastSuccessfulBuild/artifact/EMF.p2.repository/" />
+	<rm:property key="hudson.emf.p2.repository" value="https://hudson.eclipse.org/mexx/job/emf-core/lastSuccessfulBuild/artifact/build-result/p2.repository/" />
 	<rm:property key="emf.p2.repository" value="${eclipse.download}/modeling/emf/emf/updates" />
 	
 	<!-- self -->

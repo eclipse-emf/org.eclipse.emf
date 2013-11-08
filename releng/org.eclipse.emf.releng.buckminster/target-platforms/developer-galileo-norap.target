@@ -11,7 +11,7 @@
 <location includeAllPlatforms="false" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.emf.sdk.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.xsd.feature.group" version="0.0.0"/>
-<repository location="https://hudson.eclipse.org/hudson/job/emf-core-head/lastSuccessfulBuild/artifact/EMF.p2.repository/"/>
+<repository location="https://hudson.eclipse.org/mexx/job/emf-core/lastSuccessfulBuild/artifact/build-result/p2.repository/"/>
 </location>
 <location includeAllPlatforms="false" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.jdt.feature.group" version="3.5.2.r352_v20100108-7r88FEwFI0WTuoBl0iaG0tyhfZH6"/>
