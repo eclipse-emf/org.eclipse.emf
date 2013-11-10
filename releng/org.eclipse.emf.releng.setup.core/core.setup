@@ -123,26 +123,28 @@
   </setupTasks>
   <branches name="master">
     <setupTasks xsi:type="setup:ContextVariableTask" name="luna.url" value="http://download.eclipse.org/releases/luna"/>
-    <setupTasks xsi:type="setup:P2Task" requirements="//@branches.0/@setupTasks.0">
+    <setupTasks xsi:type="setup:P2Task" requirements="//@branches[name='master']/@setupTasks.0">
       <p2Repositories url="${luna.url}"/>
       <installableUnits id="org.eclipse.emf.sdk.feature.group"/>
       <installableUnits id="org.eclipse.emf.ecoretools.sdk.feature.group"/>
     </setupTasks>
+    <setupTasks xsi:type="setup:ContextVariableTask" name="emf.git.location" value="${setup.branch.dir/git/emf}"/>
     <setupTasks xsi:type="setup:ContextVariableTask" name="emf.git.url" value="ssh://git.eclipse.org:29418/emf/org.eclipse.emf"/>
-    <setupTasks xsi:type="setup:GitCloneTask" requirements="//@branches.0/@setupTasks.2" name="emf" remoteURI="${emf.git.url}" checkoutBranch="master"/>
+    <setupTasks xsi:type="setup:GitCloneTask" requirements="//@branches[name='master']/@setupTasks.3" location="${emf.git.location}" remoteURI="${emf.git.url}" checkoutBranch="master" name="emf"/>
+    <setupTasks xsi:type="setup:ContextVariableTask" name="xsd.git.location" value="${setup.branch.dir/git/xsd}"/>
     <setupTasks xsi:type="setup:ContextVariableTask" name="xsd.git.url" value="ssh://git.eclipse.org/gitroot/xsd/org.eclipse.xsd.git"/>
-    <setupTasks xsi:type="setup:GitCloneTask" requirements="//@branches.0/@setupTasks.4" name="xsd" remoteURI="${xsd.git.url}" checkoutBranch="master"/>
+    <setupTasks xsi:type="setup:GitCloneTask" requirements="//@branches[name='master']/@setupTasks.6" location="${xsd.git.location}" remoteURI="${xsd.git.url}" checkoutBranch="master" name="xsd"/>
     <setupTasks xsi:type="setup:ContextVariableTask" name="p2.platform" value="http://download.eclipse.org/eclipse/updates/3.5"/>
     <setupTasks xsi:type="setup:ContextVariableTask" name="p2.datatools" value="http://download.eclipse.org/datatools/downloads/drops/M_updates_1.9"/>
-    <setupTasks xsi:type="setup:MaterializationTask" requirements="//@branches.0/@setupTasks.6 //@branches.0/@setupTasks.7 //@branches.0/@setupTasks.3 //@branches.0/@setupTasks.5" targetPlatform="${setup.branch.dir/tp}" bundlePool="${setup.install.dir/.p2pool-tp}">
+    <setupTasks xsi:type="setup:MaterializationTask" requirements="//@branches[name='master']/@setupTasks.8 //@branches[name='master']/@setupTasks.9 //@branches[name='master']/@setupTasks.4 //@branches[name='master']/@setupTasks.7" targetPlatform="${setup.branch.dir/tp}" bundlePool="${setup.install.dir/.p2pool-tp}">
       <rootComponents name="org.eclipse.emf.all"/>
       <rootComponents name="org.eclipse.equinox.executable"/>
       <rootComponents name="org.eclipse.platform"/>
       <rootComponents name="org.eclipse.jdt"/>
       <rootComponents name="org.eclipse.pde"/>
       <rootComponents name="org.eclipse.emf.tests"/>
-      <sourceLocators xsi:type="setup:AutomaticSourceLocator" rootFolder="${setup.branch.dir/git/xsd}"/>
-      <sourceLocators xsi:type="setup:AutomaticSourceLocator" rootFolder="${setup.branch.dir/git/emf}"/>
+      <sourceLocators xsi:type="setup:AutomaticSourceLocator" rootFolder="${xsd.git.location}"/>
+      <sourceLocators xsi:type="setup:AutomaticSourceLocator" rootFolder="${emf.git.location}"/>
       <p2Repositories url="${p2.platform}"/>
       <p2Repositories url="${p2.datatools}"/>
     </setupTasks>
