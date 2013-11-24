@@ -20,7 +20,6 @@
     <installableUnits id="org.eclipse.emf.cdo.releng.workingsets.feature.group"/>
   </setupTasks>
   <setupTasks xsi:type="setup:EclipseIniTask" option="-data" value="${setup.branch.dir/ws}"/>
-  <setupTasks xsi:type="setup:EclipseIniTask" option="-Djgit.gitprefix" value="=${setup.git.prefix}" vm="true"/>
   <setupTasks xsi:type="setup:EclipseIniTask" option="-Dorg.eclipse.buckminster.core.bundle.pool" value="=${setup.install.dir/.p2pool-tp}" vm="true"/>
   <setupTasks xsi:type="setup:EclipseIniTask" option="-Xmx" value="2048m" vm="true"/>
   <setupTasks xsi:type="setup:EclipsePreferenceTask" key="instance/org.eclipse.jdt.launching/org.eclipse.jdt.launching.PREF_STRICTLY_COMPATIBLE_JRE_NOT_AVAILABLE" value="ignore"/>
@@ -29,10 +28,10 @@
       <predicates xsi:type="predicates:AndPredicate">
         <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
         <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.9/@workingSets.1"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.9/@workingSets.2"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.9/@workingSets.4"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.9/@workingSets.6"/>
+        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.8/@workingSets.1"/>
+        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.8/@workingSets.2"/>
+        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.8/@workingSets.4"/>
+        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.8/@workingSets.6"/>
       </predicates>
     </workingSets>
     <workingSets name="EMF Tests" id="EMF EMF Tests">
@@ -59,7 +58,7 @@
       <predicates xsi:type="predicates:AndPredicate">
         <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
         <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.FeatureNature"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.9/@workingSets.7"/>
+        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.8/@workingSets.7"/>
       </predicates>
     </workingSets>
     <workingSets name="EMF Documentation" id="EMF EMF Documentation">
@@ -93,8 +92,8 @@
       <predicates xsi:type="predicates:AndPredicate">
         <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.xsd"/>
         <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.9/@workingSets.9"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.9/@workingSets.11"/>
+        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.8/@workingSets.9"/>
+        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.8/@workingSets.11"/>
       </predicates>
     </workingSets>
     <workingSets name="XSD Examples" id="EMF XSD Examples">
@@ -136,7 +135,7 @@
     <setupTasks xsi:type="setup:GitCloneTask" requirements="//@branches[name='master']/@setupTasks.6" location="${xsd.git.location}" remoteURI="${xsd.git.url}" checkoutBranch="master" name="xsd"/>
     <setupTasks xsi:type="setup:ContextVariableTask" name="p2.platform" value="http://download.eclipse.org/eclipse/updates/3.5"/>
     <setupTasks xsi:type="setup:ContextVariableTask" name="p2.datatools" value="http://download.eclipse.org/datatools/downloads/drops/M_updates_1.9"/>
-    <setupTasks xsi:type="setup:MaterializationTask" requirements="//@branches[name='master']/@setupTasks.8 //@branches[name='master']/@setupTasks.9 //@branches[name='master']/@setupTasks.4 //@branches[name='master']/@setupTasks.7" targetPlatform="${setup.branch.dir/tp}">
+    <setupTasks xsi:type="setup:MaterializationTask" requirements="//@branches[name='master']/@setupTasks.8 //@branches[name='master']/@setupTasks.9 //@branches[name='master']/@setupTasks.4 //@branches[name='master']/@setupTasks.7">
       <rootComponents name="org.eclipse.emf.all"/>
       <rootComponents name="org.eclipse.equinox.executable"/>
       <rootComponents name="org.eclipse.platform"/>
