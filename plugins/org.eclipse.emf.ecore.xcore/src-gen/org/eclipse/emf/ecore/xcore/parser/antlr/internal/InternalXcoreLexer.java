@@ -3899,9 +3899,9 @@ public class InternalXcoreLexer extends Lexer {
 
     protected DFA19 dfa19 = new DFA19(this);
     static final String DFA19_eotS =
-        "\1\uffff\1\64\4\uffff\1\73\3\64\1\111\1\113\3\64\2\uffff\1\131"+
-        "\11\64\1\151\1\uffff\1\155\1\157\1\161\1\163\2\uffff\1\167\1\171"+
-        "\1\174\1\uffff\1\177\1\uffff\2\64\2\u0088\1\62\1\uffff\2\62\2\uffff"+
+        "\1\uffff\1\64\4\uffff\1\73\3\64\1\111\1\113\3\64\2\uffff\1\131\11"+
+        "\64\1\151\1\uffff\1\155\1\157\1\161\1\163\2\uffff\1\167\1\171\1"+
+        "\174\1\uffff\1\177\1\uffff\2\64\2\u0088\1\62\1\uffff\2\62\2\uffff"+
         "\1\64\5\uffff\1\u008e\2\uffff\2\64\1\u0092\1\64\1\u0094\1\64\1\u0096"+
         "\4\64\1\u009e\4\uffff\11\64\5\uffff\5\64\1\u00b6\6\64\1\u00be\1"+
         "\64\12\uffff\1\u00c1\5\uffff\1\u00c3\10\uffff\5\64\1\uffff\1\u0088"+

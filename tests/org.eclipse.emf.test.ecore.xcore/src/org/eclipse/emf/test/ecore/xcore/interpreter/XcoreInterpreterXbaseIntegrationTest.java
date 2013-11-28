@@ -57,7 +57,7 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
   @Test 
   public void testSwitchExpression_27() throws Exception {
 	  // annotation is a reserved word in Xcore
-	  assertEvaluatesTo(null, 
+	  assertEvaluatesTo(Boolean.FALSE, 
 				"{ val Object policy = java.lang.^annotation.RetentionPolicy.SOURCE switch policy { java.lang.^annotation.RetentionPolicy case CLASS: false } }");
   }
 
