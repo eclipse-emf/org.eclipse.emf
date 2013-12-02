@@ -92,7 +92,9 @@ Workflow {
 			fragment = exporting.QualifiedNamesFragment {}
 
 			// labeling API 
-			fragment = labeling.LabelProviderFragment {}
+			fragment = labeling.LabelProviderFragment {
+				generateXtendStub = true
+			}
 
 			// outline API 
             fragment = outline.OutlineTreeProviderFragment {}
@@ -139,6 +141,7 @@ Workflow {
 			fragment = types.TypesGeneratorFragment {}
 			fragment = xbase.XbaseGeneratorFragment {
 				generateXtendInferrer = false
+				skipExportedPackage = true
 			}
 		}
 	}

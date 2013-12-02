@@ -41,4 +41,5 @@ Export-Package: org.eclipse.emf.ecore.xcore.ui,
  org.eclipse.emf.ecore.xcore.ui.outline,
  org.eclipse.emf.ecore.xcore.ui.quickfix,
  org.eclipse.emf.ecore.xcore.ui.refactoring
-Import-Package: org.apache.log4j
+Import-Package: org.apache.log4j,
+ org.eclipse.xtext.xbase.lib

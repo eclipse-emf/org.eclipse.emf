@@ -57,8 +57,7 @@ public class GeneratorTest {
       int _size = _files_1.size();
       Assert.assertEquals(_string, 8, _size);
       Map<String,CharSequence> _files_2 = inmemFsa.getFiles();
-      String _plus = (IFileSystemAccess.DEFAULT_OUTPUT + "/test/util/TestSwitch.java");
-      CharSequence _get = _files_2.get(_plus);
+      CharSequence _get = _files_2.get((IFileSystemAccess.DEFAULT_OUTPUT + "/test/util/TestSwitch.java"));
       Assert.assertNotNull(_get);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
