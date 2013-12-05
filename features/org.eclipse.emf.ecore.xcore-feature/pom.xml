@@ -5,13 +5,18 @@
 	<artifactId>org.eclipse.emf.ecore.xcore.parent</artifactId>
 	<version>1.2.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 	<properties>
 		<tycho-version>0.18.1</tycho-version>
 	</properties>
 	<modules>
-	<module>../../plugins/org.eclipse.emf.ecore.xcore.lib</module>
-	<module>../../plugins/org.eclipse.emf.codegen.ecore.xtext</module>
-	<module>../../plugins/org.eclipse.emf.ecore.xcore</module>
+		<module>../../plugins/org.eclipse.emf.ecore.xcore.lib</module>
+		<module>../../plugins/org.eclipse.emf.codegen.ecore.xtext</module>
+		<module>../../plugins/org.eclipse.emf.ecore.xcore</module>
 	</modules>
 	<repositories>
 		<repository>
@@ -25,14 +30,77 @@
 			<layout>p2</layout>
 		</repository>
 	</repositories>
+	<licenses>
+		<license>
+			<name>Eclipse Public License - v 1.0</name>
+			<url>http://www.eclipse.org/legal/epl-v10.html</url>
+		</license>
+	</licenses>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
-		<resources>
-			<resource>
-				<directory>model</directory>
-			</resource>
-		</resources>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<configuration>
+					<executable>/usr/local/bin/gpg</executable>
+					<skip>true</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<compilerId>eclipse</compilerId>
+					<optimize>true</optimize>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.codehaus.plexus</groupId>
+						<artifactId>plexus-compiler-eclipse</artifactId>
+						<version>2.2</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.6</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-maven-plugin</artifactId>
@@ -64,5 +132,28 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	<scm>
+		<connection>scm:git:git://git.eclipse.org/gitroot/emf/org.eclipse.emf.git</connection>
+		<developerConnection>scm:git:ssh://git.eclipse.org:29418/emf/org.eclipse.emf.git</developerConnection>
+		<url>http://git.eclipse.org/c/emf/org.eclipse.emf.git?h=R2_9_maintenance</url>
+	</scm>
+	<url>http://www.eclipse.org/xtend/</url>
+	<description>Eclipse Modeling Framework</description>
+	<developers>
+		<developer>
+			<id>dennis.huebner</id>
+			<name>Dennis</name>
+			<email>dennis.huebner@itemis.de</email>
+			<organization>itemis AG</organization>
+		</developer>
+		<developer>
+			<id>ed.merks</id>
+			<name>Ed</name>
+			<email>ed.merks@itemis.de</email>
+			<organization>itemis AG</organization>
+			<roles>
+				<role>project lead</role>
+			</roles>
+		</developer>
+	</developers>
 </project>
