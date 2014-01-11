@@ -22,16 +22,22 @@
     <installableUnits id="org.eclipse.emf.ecoretools.sdk.feature.group"/>
     <p2Repositories url="${tool.url}"/>
   </setupTasks>
+  <setupTasks xsi:type="setup:ContextVariableTask" name="branch.name" value="master"/>
   <setupTasks xsi:type="setup:ContextVariableTask" name="emf.git.location" value="${setup.branch.dir/git/emf}"/>
   <setupTasks xsi:type="setup:ContextVariableTask" name="emf.git.url" value="ssh://git.eclipse.org:29418/emf/org.eclipse.emf"/>
-  <setupTasks xsi:type="setup:ContextVariableTask" name="branch.name" value="master"/>
-  <setupTasks xsi:type="setup:GitCloneTask" requirements="//@setupTasks.8" location="${emf.git.location}" remoteURI="${emf.git.url}" checkoutBranch="${branch.name}" name="emf"/>
+  <setupTasks xsi:type="setup:GitCloneTask" requirements="//@setupTasks.9" location="${emf.git.location}" remoteURI="${emf.git.url}" checkoutBranch="${branch.name}" name="emf"/>
   <setupTasks xsi:type="setup:ContextVariableTask" name="xsd.git.location" value="${setup.branch.dir/git/xsd}"/>
   <setupTasks xsi:type="setup:ContextVariableTask" name="xsd.git.url" value="ssh://git.eclipse.org/gitroot/xsd/org.eclipse.xsd.git"/>
   <setupTasks xsi:type="setup:GitCloneTask" requirements="//@setupTasks.12" location="${xsd.git.location}" remoteURI="${xsd.git.url}" checkoutBranch="${branch.name}" name="xsd"/>
-  <setupTasks xsi:type="setup:ContextVariableTask" name="p2.platform" value="http://download.eclipse.org/eclipse/updates/3.5"/>
-  <setupTasks xsi:type="setup:ContextVariableTask" name="p2.datatools" value="http://download.eclipse.org/datatools/downloads/drops/M_updates_1.9"/>
-  <setupTasks xsi:type="setup:MaterializationTask" requirements="//@setupTasks.14 //@setupTasks.15 //@setupTasks.10 //@setupTasks.13">
+  <setupTasks xsi:type="setup:ContextVariableTask" documentation="The release train repository location that will be used to materialize a target platform.  EMF and XSD are built and tested with Eclipse 3.5, i.e., Galileo." name="tp.materialization.url">
+    <choices value="http://www.eclipse.org/downloads/packages/release/galileo/r" label="Galileo - 3.5"/>
+    <choices value="http://download.eclipse.org/releases/helios" label="Helios - 3.6"/>
+    <choices value="http://download.eclipse.org/releases/indigo" label="Indigo - 3.7"/>
+    <choices value="http://download.eclipse.org/releases/juno" label="Juno - 4.2"/>
+    <choices value="http://download.eclipse.org/releases/kepler" label="Kepler - 4.3"/>
+    <choices value="http://download.eclipse.org/releases/luna" label="Luna - 4.4"/>
+  </setupTasks>
+  <setupTasks xsi:type="setup:MaterializationTask" requirements="//@setupTasks.10 //@setupTasks.13">
     <rootComponents name="org.eclipse.emf.all"/>
     <rootComponents name="org.eclipse.equinox.executable"/>
     <rootComponents name="org.eclipse.platform"/>
@@ -40,18 +46,17 @@
     <rootComponents name="org.eclipse.emf.tests"/>
     <sourceLocators xsi:type="setup:AutomaticSourceLocator" rootFolder="${xsd.git.location}"/>
     <sourceLocators xsi:type="setup:AutomaticSourceLocator" rootFolder="${emf.git.location}"/>
-    <p2Repositories url="${p2.platform}"/>
-    <p2Repositories url="${p2.datatools}"/>
+    <p2Repositories url="${tp.materialization.url}"/>
   </setupTasks>
   <setupTasks xsi:type="setup:WorkingSetTask">
     <workingSets name="EMF Core" id="EMF EMF Core">
       <predicates xsi:type="predicates:AndPredicate">
         <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
         <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.17/@workingSets.1"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.17/@workingSets.2"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.17/@workingSets.4"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.17/@workingSets.6"/>
+        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.16/@workingSets.1"/>
+        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.16/@workingSets.2"/>
+        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.16/@workingSets.4"/>
+        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.16/@workingSets.6"/>
       </predicates>
     </workingSets>
     <workingSets name="EMF Tests" id="EMF EMF Tests">
@@ -78,7 +83,7 @@
       <predicates xsi:type="predicates:AndPredicate">
         <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
         <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.FeatureNature"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.17/@workingSets.7"/>
+        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.16/@workingSets.7"/>
       </predicates>
     </workingSets>
     <workingSets name="EMF Documentation" id="EMF EMF Documentation">
@@ -112,8 +117,8 @@
       <predicates xsi:type="predicates:AndPredicate">
         <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.xsd"/>
         <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.17/@workingSets.9"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.17/@workingSets.11"/>
+        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.16/@workingSets.9"/>
+        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.16/@workingSets.11"/>
       </predicates>
     </workingSets>
     <workingSets name="XSD Examples" id="EMF XSD Examples">
@@ -141,9 +146,12 @@
     </workingSets>
   </setupTasks>
   <setupTasks xsi:type="setup:JRETask" version="JavaSE-1.6" location="${jre.1.6.location}"/>
-  <branches name="master"/>
+  <branches name="master">
+    <restrictions href="http://git.eclipse.org/c/cdo/cdo.git/plain/plugins/org.eclipse.emf.cdo.releng.setup/Configuration.setup#//@eclipseVersions[version='4.4']" version="4.4"/>
+  </branches>
   <branches name="2.9">
     <setupTasks xsi:type="setup:ContextVariableTask" name="branch.name" value="R2_9_maintenance"/>
     <setupTasks xsi:type="setup:ContextVariableTask" name="tool.url" value="http://download.eclipse.org/releases/kepler"/>
+    <restrictions href="http://git.eclipse.org/c/cdo/cdo.git/plain/plugins/org.eclipse.emf.cdo.releng.setup/Configuration.setup#//@eclipseVersions[version='4.3']" version="4.3"/>
   </branches>
 </setup:Project>
