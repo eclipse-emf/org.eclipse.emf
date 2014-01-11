@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <setup:Project setup:toolVersion="4" xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:predicates="http://www.eclipse.org/CDO/releng/predicates/1.0" xmlns:setup="http://www.eclipse.org/CDO/releng/setup/1.0" xmlns:workingsets="http://www.eclipse.org/CDO/releng/workingsets/1.0" name="EMF.RAP" label="EMF RAP SDK">
+  <setupTasks xsi:type="setup:CompoundSetupTask" name="/org.eclipse.emf.common/release.xml">
+    <setupTasks xsi:type="setup:EclipsePreferenceTask" key="/instance/org.eclipse.emf.cdo.releng.version///org.eclipse.emf.common/release.xml" value="PARTIAL"/>
+  </setupTasks>
   <setupTasks xsi:type="setup:CompoundSetupTask" name="compilers.p.unresolved-ex-points">
     <setupTasks xsi:type="setup:EclipsePreferenceTask" key="/instance/org.eclipse.pde/compilers.p.unresolved-ex-points" value="2"/>
   </setupTasks>
@@ -8,7 +11,7 @@
   <setupTasks xsi:type="setup:EclipsePreferenceTask" key="instance/org.eclipse.jdt.launching/org.eclipse.jdt.launching.PREF_STRICTLY_COMPATIBLE_JRE_NOT_AVAILABLE" value="ignore"/>
   <setupTasks xsi:type="setup:ResourceCreationTask" excludedTriggers="STARTUP MANUAL" content="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;section name=&quot;Workbench&quot;>&#xD;&#xA;&#x9;&lt;section name=&quot;org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart&quot;>&#xD;&#xA;&#x9;&#x9;&lt;item value=&quot;true&quot; key=&quot;group_libraries&quot;/>&#xD;&#xA;&#x9;&#x9;&lt;item value=&quot;false&quot; key=&quot;linkWithEditor&quot;/>&#xD;&#xA;&#x9;&#x9;&lt;item value=&quot;2&quot; key=&quot;layout&quot;/>&#xD;&#xA;&#x9;&#x9;&lt;item value=&quot;2&quot; key=&quot;rootMode&quot;/>&#xD;&#xA;&#x9;&#x9;&lt;item value=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;packageExplorer configured=&amp;quot;true&amp;quot; group_libraries=&amp;quot;1&amp;quot; layout=&amp;quot;2&amp;quot; linkWithEditor=&amp;quot;0&amp;quot; rootMode=&amp;quot;2&amp;quot; sortWorkingSets=&amp;quot;false&amp;quot; workingSetName=&amp;quot;&amp;quot;&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;localWorkingSetManager&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;workingSet editPageId=&amp;quot;org.eclipse.jdt.internal.ui.OthersWorkingSet&amp;quot; factoryID=&amp;quot;org.eclipse.ui.internal.WorkingSetFactory&amp;quot; id=&amp;quot;1382792884467_1&amp;quot; label=&amp;quot;Other Projects&amp;quot; name=&amp;quot;Other Projects&amp;quot;/&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;/localWorkingSetManager&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;activeWorkingSet workingSetName=&amp;quot;Other Projects&amp;quot;/&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;allWorkingSets workingSetName=&amp;quot;Other Projects&amp;quot;/&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;/packageExplorer&amp;gt;&quot; key=&quot;memento&quot;/>&#xD;&#xA;&#x9;&lt;/section>&#xD;&#xA;&lt;/section>&#xD;&#xA;" targetURL="${setup.ws.dir|uri}/.metadata/.plugins/org.eclipse.jdt.ui/dialog_settings.xml" encoding="UTF-8"/>
   <setupTasks xsi:type="setup:ContextVariableTask" name="egit.url" value="http://download.eclipse.org/egit/updates-nightly"/>
-  <setupTasks xsi:type="setup:P2Task" requirements="//@setupTasks.5">
+  <setupTasks xsi:type="setup:P2Task" requirements="//@setupTasks.6">
     <installableUnits id="org.eclipse.pde.api.tools.ee.feature.feature.group"/>
     <installableUnits id="org.eclipse.emf.cdo.releng.version.feature.group"/>
     <installableUnits id="org.eclipse.emf.cdo.releng.launches.feature.group"/>
@@ -30,12 +33,11 @@
   <setupTasks xsi:type="setup:ContextVariableTask" name="branch.name" value="master"/>
   <setupTasks xsi:type="setup:ContextVariableTask" name="emf.git.location" value="${setup.branch.dir/git/emf}"/>
   <setupTasks xsi:type="setup:ContextVariableTask" name="emf.git.url" value="ssh://git.eclipse.org:29418/emf/org.eclipse.emf"/>
-  <setupTasks xsi:type="setup:GitCloneTask" requirements="//@setupTasks.11" location="${emf.git.location}" remoteURI="${emf.git.url}" checkoutBranch="${branch.name}" name="emf"/>
+  <setupTasks xsi:type="setup:GitCloneTask" requirements="//@setupTasks.12" location="${emf.git.location}" remoteURI="${emf.git.url}" checkoutBranch="${branch.name}" name="emf"/>
   <setupTasks xsi:type="setup:ContextVariableTask" name="tp.materialization.url" value="${train.url}"/>
-  <setupTasks xsi:type="setup:ContextVariableTask" name="rap.url" value="http://download.eclipse.org/rt/rap/2.2"/>
-  <setupTasks xsi:type="setup:MaterializationTask" requirements="//@setupTasks.12">
+  <setupTasks xsi:type="setup:MaterializationTask" requirements="//@setupTasks.13">
     <rootComponents name="org.eclipse.emf.rap.sdk"/>
-    <rootComponents name="org.eclipse.equinox.executable"/>
+    <rootComponents name="org.eclipse.rap.sdk.feature.feature.group"/>
     <sourceLocators xsi:type="setup:AutomaticSourceLocator" rootFolder="${emf.git.location}"/>
     <p2Repositories url="${tp.materialization.url}"/>
   </setupTasks>
