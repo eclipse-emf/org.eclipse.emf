@@ -29,8 +29,8 @@
   <setupTasks xsi:type="setup:ContextVariableTask" name="xsd.git.location" value="${setup.branch.dir/git/xsd}"/>
   <setupTasks xsi:type="setup:ContextVariableTask" name="xsd.git.url" value="ssh://git.eclipse.org/gitroot/xsd/org.eclipse.xsd.git"/>
   <setupTasks xsi:type="setup:GitCloneTask" requirements="//@setupTasks.12" location="${xsd.git.location}" remoteURI="${xsd.git.url}" checkoutBranch="${branch.name}" name="xsd"/>
-  <setupTasks xsi:type="setup:ContextVariableTask" documentation="The release train repository location that will be used to materialize a target platform.  EMF and XSD are built and tested with Eclipse 3.5, i.e., Galileo." name="tp.materialization.url">
-    <choices value="http://www.eclipse.org/downloads/packages/release/galileo/r" label="Galileo - 3.5"/>
+  <setupTasks xsi:type="setup:ContextVariableTask" documentation="The release train repository location that will be used to materialize a target platform.  EMF and XSD are built and tested with Eclipse 3.5, i.e., Galileo." name="tp.materialization.url" label="Target Platform">
+    <choices value="http://download.eclipse.org/releases/galileo" label="Galileo - 3.5"/>
     <choices value="http://download.eclipse.org/releases/helios" label="Helios - 3.6"/>
     <choices value="http://download.eclipse.org/releases/indigo" label="Indigo - 3.7"/>
     <choices value="http://download.eclipse.org/releases/juno" label="Juno - 4.2"/>
