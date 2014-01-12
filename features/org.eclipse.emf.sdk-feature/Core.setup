@@ -148,7 +148,7 @@
     </workingSets>
   </setupTasks>
   <branches name="master">
-    <setupTasks xsi:type="setup:TextModifyTask" url="${setup.branch.dir/setup.xmi|uri}" encoding="UTF-8">
+    <setupTasks xsi:type="setup:TextModifyTask" excludedTriggers="BOOTSTRAP" url="${setup.branch.dir/setup.xmi|uri}" encoding="UTF-8">
       <modifications pattern="(href=&quot;)http://git\.eclipse\.org/c/emf/org\.eclipse\.emf\.git/plain/(features/org\.eclipse\.emf\.sdk-feature/Core\.setup#)">
         <substitutions>\1${emf.git.location/\2}</substitutions>
       </modifications>
