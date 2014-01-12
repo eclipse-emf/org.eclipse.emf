@@ -44,97 +44,22 @@
   <setupTasks xsi:type="setup:WorkingSetTask">
     <workingSets name="EMF Core" id="EMF EMF Core">
       <predicates xsi:type="predicates:AndPredicate">
-        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
+        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf.common"/>
         <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
         <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.16/@workingSets.1"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.16/@workingSets.2"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.16/@workingSets.4"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.16/@workingSets.6"/>
       </predicates>
     </workingSets>
-    <workingSets name="EMF Tests" id="EMF EMF Tests">
+    <workingSets name="EMF RAP" id="EMF EMF Core">
       <predicates xsi:type="predicates:AndPredicate">
-        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
+        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf.rap"/>
         <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
-        <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.test.*"/>
+        <operands xsi:type="predicates:NamePredicate" pattern=".*\.rap(\..*)?"/>
       </predicates>
     </workingSets>
-    <workingSets name="EMF Examples" id="EMF EMF Examples">
+    <workingSets name="EMF Core and RAP Features" id="EMF EMF Core Features">
       <predicates xsi:type="predicates:AndPredicate">
-        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
-        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
-        <operands xsi:type="predicates:OrPredicate">
-          <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.cheatsheets.*"/>
-          <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.example.*"/>
-          <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.exporter\.html"/>
-          <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.java.*"/>
-          <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.activities"/>
-        </operands>
-      </predicates>
-    </workingSets>
-    <workingSets name="EMF Core Features" id="EMF EMF Core Features">
-      <predicates xsi:type="predicates:AndPredicate">
-        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
+        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf.common"/>
         <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.FeatureNature"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.16/@workingSets.7"/>
-      </predicates>
-    </workingSets>
-    <workingSets name="EMF Documentation" id="EMF EMF Documentation">
-      <predicates xsi:type="predicates:AndPredicate">
-        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
-        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
-        <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.doc"/>
-      </predicates>
-    </workingSets>
-    <workingSets name="EMF Releng" id="EMF EMF Releng">
-      <predicates xsi:type="predicates:AndPredicate">
-        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf"/>
-        <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.releng.*"/>
-      </predicates>
-    </workingSets>
-    <workingSets name="EMF ODA" id="EMF EMF ODA">
-      <predicates xsi:type="predicates:AndPredicate">
-        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf.oda"/>
-        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
-        <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.oda.*"/>
-      </predicates>
-    </workingSets>
-    <workingSets name="EMF ODA Features" id="EMF EMF ODA Features">
-      <predicates xsi:type="predicates:AndPredicate">
-        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.emf.oda"/>
-        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.FeatureNature"/>
-        <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.emf\.oda.*"/>
-      </predicates>
-    </workingSets>
-    <workingSets name="XSD" id="EMF XSD">
-      <predicates xsi:type="predicates:AndPredicate">
-        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.xsd"/>
-        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.16/@workingSets.9"/>
-        <operands xsi:type="workingsets:ExclusionPredicate" excludedWorkingSets="//@setupTasks.16/@workingSets.11"/>
-      </predicates>
-    </workingSets>
-    <workingSets name="XSD Examples" id="EMF XSD Examples">
-      <predicates xsi:type="predicates:AndPredicate">
-        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.xsd"/>
-        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
-        <operands xsi:type="predicates:OrPredicate">
-          <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.xsd\.cheatsheets.*"/>
-          <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.xsd\.example.*"/>
-        </operands>
-      </predicates>
-    </workingSets>
-    <workingSets name="XSD Features" id="EMF XSD Features">
-      <predicates xsi:type="predicates:AndPredicate">
-        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.xsd"/>
-        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.FeatureNature"/>
-      </predicates>
-    </workingSets>
-    <workingSets name="XSD Documentation" id="EMF XSD Documentation">
-      <predicates xsi:type="predicates:AndPredicate">
-        <operands xsi:type="predicates:RepositoryPredicate" project="org.eclipse.xsd"/>
-        <operands xsi:type="predicates:NaturePredicate" nature="org.eclipse.pde.PluginNature"/>
-        <operands xsi:type="predicates:NamePredicate" pattern="org\.eclipse\.xsd\.doc"/>
       </predicates>
     </workingSets>
   </setupTasks>
