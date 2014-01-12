@@ -148,6 +148,11 @@
     </workingSets>
   </setupTasks>
   <branches name="master">
+    <setupTasks xsi:type="setup:TextModifyTask" url="${setup.branch.dir/setup.xmi}" encoding="UTF-8">
+      <modifications pattern="(href=&quot;)http://git\.eclipse\.org/c/emf/org\.eclipse\.emf\.git/plain/(features/org\.eclipse\.emf\.sdk-feature/Core\.setup#)">
+        <substitutions>\1${emf.git.location/\2}</substitutions>
+      </modifications>
+    </setupTasks>
     <restrictions href="http://git.eclipse.org/c/cdo/cdo.git/plain/plugins/org.eclipse.emf.cdo.releng.setup/Configuration.setup#//@eclipseVersions[version='4.4']" version="4.4"/>
   </branches>
   <branches name="2.9">
