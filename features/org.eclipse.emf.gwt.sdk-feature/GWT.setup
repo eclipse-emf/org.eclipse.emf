@@ -11,6 +11,7 @@
     <installableUnits id="org.eclipse.emf.cdo.releng.version.feature.group"/>
     <installableUnits id="org.eclipse.emf.cdo.releng.launches.feature.group"/>
     <installableUnits id="org.eclipse.emf.cdo.releng.manifests.feature.group"/>
+    <installableUnits id="org.eclipse.emf.cdo.releng.projectconfig.feature.group"/>
     <installableUnits id="org.eclipse.emf.cdo.releng.projectcopy.feature.group"/>
     <installableUnits id="org.eclipse.emf.cdo.releng.relativepaths.feature.group"/>
     <installableUnits id="org.eclipse.emf.cdo.releng.workingsets.feature.group"/>
