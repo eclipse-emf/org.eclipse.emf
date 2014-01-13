@@ -46,8 +46,19 @@ public class EditUIMarkerHelper extends MarkerHelper
     {
       Resource resource = (Resource)datum;
       URI uri = resource.getURI();
-      uri = resource.getResourceSet().getURIConverter().normalize(uri);
-      return getFile(uri);
+      if (uri == null)
+      {
+        return null;
+      }
+      else
+      {
+        ResourceSet resourceSet = resource.getResourceSet();
+        if (resourceSet != null)
+        {
+          uri = resourceSet.getURIConverter().normalize(uri);
+        }
+        return getFile(uri);
+      }
     }
     else if (datum instanceof EObject)
     {
