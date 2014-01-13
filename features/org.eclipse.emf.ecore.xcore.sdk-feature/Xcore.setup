@@ -229,6 +229,6 @@
     </workingSets>
   </setupTasks>
   <branches name="master">
-    <setupTasks xsi:type="setup:EclipseIniTask" option="-Dsetup.branch.uri" value="=${emf.git.location|uri}/org.eclipse.emf.ecore.xcore.sdk-feature/Xcore.setup" vm="true"/>
+    <setupTasks xsi:type="setup:EclipseIniTask" option="-Dsetup.branch.uri" value="=${emf.git.location|uri}/features/org.eclipse.emf.ecore.xcore.sdk-feature/Xcore.setup" vm="true"/>
   </branches>
 </setup:Project>
