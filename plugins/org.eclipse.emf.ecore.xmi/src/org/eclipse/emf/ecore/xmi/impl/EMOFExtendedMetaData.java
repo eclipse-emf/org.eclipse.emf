@@ -12,6 +12,7 @@ package org.eclipse.emf.ecore.xmi.impl;
 
 import java.util.HashMap;
 
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EPackage;
@@ -27,7 +28,6 @@ public class EMOFExtendedMetaData extends BasicExtendedMetaData
 {
   public static final String EMOF_PACKAGE_NS_PREFIX = "emof";
   /**
-   * See <a href="http://www.omg.org/docs/html/06-01-01/Output/apndx_a.html#77093">OMG Issue 77093</a> but note that it has a typo and that "orb" should be "org".
    * @since 2.4
    */
   public static final String EMOF_PACKAGE_NS_URI_2_0 = "http://schema.omg.org/spec/MOF/2.0/emof.xml";
@@ -60,6 +60,13 @@ public class EMOFExtendedMetaData extends BasicExtendedMetaData
   public static final String EMOF_COMMENT_ANNOTATION_SOURCE = EMOF_PACKAGE_NS_URI_2_0 + "#Comment";
 
   public static final String EMOF_PROPERTY_CLASS_NAME = "Property";
+  
+  /**
+   * <a href="http://www.omg.org/issues/mof2core-rtf.html#Issue12800">OMG Issue 12800</a> suggested using this name for EMOF comments and Ecore annotations
+   * to identify the name at the opposite end of an non-navigable property reference. 
+   * The eventual MOF resolution used a <code>org.omg.emof.oppositeRoleName</code> tag. 
+   * This name is used as the {@link EAnnotation#getSource() source} for an {@link EReference} annotation whose {@link #EMOF_COMMENT_BODY} detail provides the opposite name.
+   */
   public static final String EMOF_PROPERTY_OPPOSITE_ROLE_NAME_ANNOTATION_SOURCE = EMOF_PACKAGE_NS_URI_2_0 + "#Property.oppositeRoleName";
 
   /**
