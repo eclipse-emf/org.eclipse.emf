@@ -915,7 +915,7 @@ public class EcorePlugin  extends EMFPlugin
     {
       // Split out the entries on the classpath.
       //
-      for (String classpathEntry: classpath.split(";"))
+      for (String classpathEntry: classpath.split(File.pathSeparator))
       {
         classpathEntry = classpathEntry.trim();
 
