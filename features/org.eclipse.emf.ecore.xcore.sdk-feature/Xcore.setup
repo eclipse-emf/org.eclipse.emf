@@ -63,6 +63,7 @@
     <rootComponents name="org.junit" type="osgi.bundle" versionRange="(3.0.0,4.0.0]"/>
     <sourceLocators xsi:type="setup:AutomaticSourceLocator" rootFolder="${emf.git.location}"/>
     <sourceLocators xsi:type="setup:AutomaticSourceLocator" rootFolder="${xtext.git.location}" locateNestedProjects="true"/>
+    <sourceLocators xsi:type="setup:AutomaticSourceLocator" rootFolder="${xsd.git.location}"/>
     <p2Repositories url="http://download.eclipse.org/tools/orbit/downloads/drops/S20131024145017/repository/"/>
     <p2Repositories url="${train.url}"/>
     <p2Repositories url="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
