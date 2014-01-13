@@ -65,6 +65,7 @@
     </workingSets>
   </setupTasks>
   <branches name="master">
+    <setupTasks xsi:type="setup:EclipseIniTask" option="-Dsetup.branch.uri" value="=${emf.git.location/features//org.eclipse.emf.rap.sdk-feature/RAP.setup|uri}" vm="true"/>
     <restrictions href="http://git.eclipse.org/c/cdo/cdo.git/plain/plugins/org.eclipse.emf.cdo.releng.setup/Configuration.setup#//@eclipseVersions[version='4.4']" version="4.4"/>
   </branches>
   <branches name="2.9">

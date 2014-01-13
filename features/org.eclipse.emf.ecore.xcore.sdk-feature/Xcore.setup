@@ -227,5 +227,7 @@
       </predicates>
     </workingSets>
   </setupTasks>
-  <branches name="master"/>
+  <branches name="master">
+    <setupTasks xsi:type="setup:EclipseIniTask" option="-Dsetup.branch.uri" value="=${emf.git.location/features/org.eclipse.emf.sdk-feature/Core.setup|uri}" vm="true"/>
+  </branches>
 </setup:Project>
