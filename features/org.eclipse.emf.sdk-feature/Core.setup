@@ -148,7 +148,7 @@
       <choices value="http://download.eclipse.org/releases/kepler" label="Kepler - 4.3"/>
       <choices value="http://download.eclipse.org/releases/luna" label="Luna - 4.4"/>
     </setupTasks>
-    <setupTasks xsi:type="setup:EclipseIniTask" option="-Dsetup.branch.uri" value="=${emf.git.location/features/org.eclipse.emf.sdk-feature/Core.setup|uri}" vm="true"/>
+    <setupTasks xsi:type="setup:EclipseIniTask" option="-Dsetup.branch.uri" value="=${emf.git.location|uri}/features/org.eclipse.emf.sdk-feature/Core.setup" vm="true"/>
     <restrictions href="http://git.eclipse.org/c/cdo/cdo.git/plain/plugins/org.eclipse.emf.cdo.releng.setup/Configuration.setup#//@eclipseVersions[version='4.4']" version="4.4"/>
   </branches>
   <branches name="2.9">
