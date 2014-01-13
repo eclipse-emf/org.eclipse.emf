@@ -14,6 +14,9 @@ import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
 
 public class XcoreAppendable extends FakeTreeAppendable
 {
+  private boolean inSingleQuotedString;
+  private boolean inDoubleQuotedString;
+  
   public XcoreAppendable()
   {
     super(new XcoreImportManager(), "\t", "\n");
@@ -23,7 +26,27 @@ public class XcoreAppendable extends FakeTreeAppendable
   public ITreeAppendable append(CharSequence value)
   {
     String string = value.toString();
-    if (string.startsWith(" else") || string.startsWith(" catch") || string.startsWith(" finally") || string.startsWith("\n"))
+    if (string.equals("'"))
+    {
+      if (!inDoubleQuotedString)
+      {
+        inSingleQuotedString = !inSingleQuotedString;
+      }
+      return super.append(value);
+    }
+    else if (string.equals("\""))
+    {
+      if (!inSingleQuotedString)
+      {
+        inDoubleQuotedString = !inDoubleQuotedString;
+      }
+      return super.append(value);
+    }
+    else if (inSingleQuotedString || inDoubleQuotedString)
+    {
+      return super.append(string.replace("<%", "<%<%><%%%>"));
+    }
+    else if (string.startsWith(" else") || string.startsWith(" catch") || string.startsWith(" finally") || string.startsWith("\n"))
     {
       return super.append("\n").append(string.substring(1));
     }

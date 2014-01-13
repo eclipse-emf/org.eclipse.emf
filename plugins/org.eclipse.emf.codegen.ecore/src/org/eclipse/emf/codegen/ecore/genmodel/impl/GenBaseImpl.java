@@ -3584,7 +3584,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             String qualifiedName = stringBuffer.substring(start + 2, end);
             String importedName = getGenModel().getImportedName(qualifiedName);
             stringBuffer.replace(start, end + 2, importedName);
-            i += importedName.length();
+            i = start + importedName.length();
           }
         }
       }
