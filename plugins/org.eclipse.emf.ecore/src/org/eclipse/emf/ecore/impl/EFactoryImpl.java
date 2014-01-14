@@ -46,7 +46,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
-
 import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
 
 /**
@@ -749,7 +748,22 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory, BinaryR
 
   protected String [] split(String value)
   {
-    return WHITE_SPACE.split(value);
+    String[] result = WHITE_SPACE.split(value);
+    int length = result.length;
+    if (length > 0)
+    {
+      if (result[0].length() == 0)
+      {
+        int count = length - 1;
+        String[] trimmedResult = new String[count];
+        for (int i = 0; i < count; )
+        {
+          trimmedResult[i] = result[++i];
+        }
+        result = trimmedResult;
+      }
+    }
+    return result;
   }
 
   private static class SafeSimpleDateFormat extends SimpleDateFormat
