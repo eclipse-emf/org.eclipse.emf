@@ -826,6 +826,11 @@ public abstract class URI
       protected int segmentCount;
 
       /**
+       * The number of segments populated with strings during intern that need to be nulled during reset.
+       */
+      protected int usedSegmentCount;
+
+      /**
        * The boundaries of the path segments.
        */
       protected int[] segmentBoundaries = new int[100];
@@ -1065,20 +1070,26 @@ public abstract class URI
           offset = end + 1;
         }
 
+        // The number of segments populated and needing to be reset to null.
+        //
+        usedSegmentCount = segmentCount + 1;
+
         // Create a hierarchical platform-scheme URI from the interned segments.
         //
-        return new Hierarchical(this.hashCode, true, SCHEME_PLATFORM, null, null, true, internArray(segments, 0, segmentCount + 1, hashCode), null);
+        return new Hierarchical(this.hashCode, true, SCHEME_PLATFORM, null, null, true, internArray(segments, 0, usedSegmentCount, hashCode), null);
       }
 
       @Override
       public void reset(boolean isExclusive)
       {
-        for (int i = 1; i <= segmentCount; ++i)
+        for (int i = 0; i < usedSegmentCount; ++i)
         {
           segments[i] = null;
         }
         segmentCount = 0;
+        usedSegmentCount = 0;
         encodedPath = null;
+        base = null;
         path = null;
 
         super.reset(isExclusive);
@@ -1151,6 +1162,11 @@ public abstract class URI
        * The number of segments in the path.
        */
       protected int segmentCount;
+
+      /**
+       * The number of segments populated with strings during intern that need to be nulled during reset.
+       */
+      protected int usedSegmentCount;
 
       /**
        * The boundaries of the segments in the path.
@@ -1558,6 +1574,10 @@ public abstract class URI
           offset = end + 1;
         }
 
+        // Remember which segments need to be cleared in reset.
+        //
+        usedSegmentCount = segmentCount;
+
         // Intern the segments array itself.
         //
         String[] internedSegments = internArray(segments, 0, segmentCount, segmentsHashCode);
@@ -1578,10 +1598,11 @@ public abstract class URI
       @Override
       public void reset(boolean isExclusive)
       {
-        for (int i = 1; i <= segmentCount; ++i)
+        for (int i = 0; i < usedSegmentCount; ++i)
         {
           segments[i] = null;
         }
+        usedSegmentCount = 0;
         segmentCount = 0;
         encodedPath = null;
         path = null;
