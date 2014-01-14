@@ -9,6 +9,7 @@ package org.eclipse.emf.edit.ui.provider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EventObject;
 import java.util.HashMap;
@@ -1154,21 +1155,27 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
       List<Object> images = new ArrayList<Object>(2);
       images.add(image);
       images.add(EMFEditUIPlugin.INSTANCE.getImage(diagnostic.getSeverity() == Diagnostic.WARNING ? "full/ovr16/warning_ovr.gif" : "full/ovr16/error_ovr.gif"));
-      ComposedImage composedImage =
-        new ComposedImage(images)
-        {
-          @Override
-          public List<Point> getDrawPoints(Size size)
-          {
-            List<Point> result = new ArrayList<Point>();
-            result.add(new Point());
-            Point overlay = new Point();
-            overlay.y = 7;
-            result.add(overlay);
-            return result;
-          }
-        };
+      ComposedImage composedImage = new DecoratedComposedImage(images);
       return ExtendedImageRegistry.INSTANCE.getImage(composedImage);
+    }
+  }
+
+  private static final class DecoratedComposedImage extends ComposedImage
+  {
+    private DecoratedComposedImage(Collection<?> images)
+    {
+      super(images);
+    }
+
+    @Override
+    public List<Point> getDrawPoints(Size size)
+    {
+      List<Point> result = new ArrayList<Point>();
+      result.add(new Point());
+      Point overlay = new Point();
+      overlay.y = 7;
+      result.add(overlay);
+      return result;
     }
   }
 

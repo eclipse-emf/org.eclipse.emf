@@ -18,6 +18,10 @@ import java.util.List;
 
 /**
  * This implements a wrapper that can be used to specify how a composed image should look.
+ * Be careful to avoid creating a non-static subclass because a composed image is often used as a key in a long-lived map, 
+ * for example, EMF's ExtendedImageRegistry,
+ * and as such, anonymous or non-static nested classes will tend to cause contextual cause leaks,
+ * e.g., <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=419364">419364</a>.
  */
 public class ComposedImage 
 {

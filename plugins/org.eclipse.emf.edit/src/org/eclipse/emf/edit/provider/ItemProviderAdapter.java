@@ -1874,19 +1874,25 @@ public class ItemProviderAdapter
         (IItemLabelProvider)((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory().adapt(child, IItemLabelProvider.class);
       images.add(itemLabelProvider.getImage(child));
       images.add(EMFEditPlugin.INSTANCE.getImage("full/ovr16/CreateChild"));
-      return
-        new ComposedImage(images)
-        {
-          @Override
-          public List<Point> getDrawPoints(Size size)
-          {
-            List<Point> result = super.getDrawPoints(size);
-            result.get(1).x = size.width - 7;
-            return result;
-          }
-        };
+      return new ChildCreationComposedImage(images);
     }
     return EMFEditPlugin.INSTANCE.getImage("full/ctool16/CreateChild");
+  }
+
+  private static final class ChildCreationComposedImage extends ComposedImage
+  {
+    private ChildCreationComposedImage(Collection<?> images)
+    {
+      super(images);
+    }
+
+    @Override
+    public List<Point> getDrawPoints(Size size)
+    {
+      List<Point> result = super.getDrawPoints(size);
+      result.get(1).x = size.width - 7;
+      return result;
+    }
   }
 
   /**

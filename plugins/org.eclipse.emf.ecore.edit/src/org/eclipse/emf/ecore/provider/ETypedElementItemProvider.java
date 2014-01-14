@@ -478,20 +478,29 @@ public class ETypedElementItemProvider
         -2 : 
         -3;
 
-    return 
-      new ComposedImage(images)
+    return new MultiplicityComposedImage(images, offset);
+  }
+  
+  private static final class MultiplicityComposedImage extends ComposedImage
+  {
+    private final int offset;
+
+    private MultiplicityComposedImage(Collection<?> images, int offset)
+    {
+      super(images);
+      this.offset = offset;
+    }
+
+    @Override
+    public List<ComposedImage.Point> getDrawPoints(Size size)
+    {
+      List<ComposedImage.Point> result = super.getDrawPoints(size);
+      if (result.size() > 1)
       {
-        @Override
-        public List<ComposedImage.Point> getDrawPoints(Size size)
-        {
-          List<ComposedImage.Point> result = super.getDrawPoints(size);
-          if (result.size() > 1)
-          {
-            result.get(0).y = offset;
-          }
-          return result;
-        }
-      };
+        result.get(0).y = offset;
+      }
+      return result;
+    }
   }
 
   @Override
