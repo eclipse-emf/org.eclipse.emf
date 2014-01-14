@@ -426,7 +426,9 @@ public class XMLSaveImpl implements XMLSave
         escape = Boolean.TRUE.equals(options.get(XMLResource.OPTION_SKIP_ESCAPE)) ? null : new Escape();
       }
 
-      doc.setLineSeparator((String)options.get(Resource.OPTION_LINE_DELIMITER));
+      String lineSeparator = (String)options.get(Resource.OPTION_LINE_DELIMITER);
+      escape.setLineFeed(lineSeparator);
+      doc.setLineSeparator(lineSeparator);
 
       if (Boolean.FALSE.equals(options.get(XMLResource.OPTION_FORMATTED)))
       {
@@ -3243,6 +3245,11 @@ public class XMLSaveImpl implements XMLSave
     protected final char[] QUOTE = { '&', 'q', 'u', 'o', 't', ';' };
     protected final char[] LINE_FEED = System.getProperty("line.separator").toCharArray();
 
+    /**
+     * @since 2.10
+     */
+    protected char[] lineFeed = LINE_FEED;
+
     public Escape()
     {
       value = new char[100];
@@ -3261,6 +3268,14 @@ public class XMLSaveImpl implements XMLSave
     public void setUseCDATA(boolean useCDATA)
     {
       this.useCDATA = useCDATA;
+    }
+
+    /**
+     * @since 2.10
+     */
+    public void setLineFeed(String lineFeed)
+    {
+      this.lineFeed = lineFeed == null || lineFeed.equals(Resource.OPTION_LINE_DELIMITER_UNSPECIFIED) ? LINE_FEED : lineFeed.toCharArray();
     }
 
     /*
@@ -3502,7 +3517,7 @@ public class XMLSaveImpl implements XMLSave
           }
           case '\n':
           {
-            outputPos = replaceChars(outputPos, LINE_FEED, inputLength);
+            outputPos = replaceChars(outputPos, lineFeed, inputLength);
             changed = true;
             break;
           }
@@ -3602,7 +3617,7 @@ public class XMLSaveImpl implements XMLSave
         {
           case '\n':
           {
-            outputPos = replaceChars(outputPos, LINE_FEED, inputLength);
+            outputPos = replaceChars(outputPos, lineFeed, inputLength);
             changed = true;
             break;
           }
