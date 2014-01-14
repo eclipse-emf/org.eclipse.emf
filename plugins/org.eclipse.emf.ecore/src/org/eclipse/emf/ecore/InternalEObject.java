@@ -52,6 +52,12 @@ public interface InternalEObject extends EObject
    * The index is used only for {@link ETypedElement#isMany() many-valued} features;
    * it represents the position within the list.
    * </p>
+   * <p>
+   * Given given an <code>eObject</code> present in the <code>eFeature</code> of some other {@link InternalEObject} <code>x</code>, the following condition must hold:
+   * <pre>
+   *   x.eObjectForURIFragmentSegment(x.eURIFragmentSegment(eFeature, eObject)) == eObject
+   * </pre>
+   * </p>
    * @param eFeature the feature relating the given object to this object, or <code>null</code>.
    * @param eObject the object to be identified.
    * @return the fragment segment that resolves to the given object in this object's given feature.
@@ -63,7 +69,7 @@ public interface InternalEObject extends EObject
    * <p>
    * The fragment segment encoding will typically be of the form returned by {@link #eURIFragmentSegment eURIFragmentSegment}.
    * @param uriFragmentSegment a fragment segment.
-   * @return the fragment segment that resolves to the given object in this object's given feature.
+   * @return the object resolved by the fragment segment.
    */
   EObject eObjectForURIFragmentSegment(String uriFragmentSegment);
 
