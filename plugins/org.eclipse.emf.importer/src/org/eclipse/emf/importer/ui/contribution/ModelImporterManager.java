@@ -11,11 +11,11 @@
 package org.eclipse.emf.importer.ui.contribution;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.jface.wizard.IWizard;
-
 import org.eclipse.emf.converter.ui.contribution.ModelConverterManager;
 import org.eclipse.emf.importer.ImporterPlugin;
 
@@ -161,6 +161,17 @@ public class ModelImporterManager extends ModelConverterManager<ModelImporterDes
     return descriptors;
   }
 
+  private static List<String> DEFAULT_IMPORTER_IDS =
+    Arrays.asList
+      (new String[] 
+       { 
+        "org.eclipse.emf.importer.ecore",
+        "org.eclipse.emf.importer.java",
+        "org.eclipse.emf.importer.rose",
+        "org.eclipse.xsd.ecore.importer",
+        "org.eclipse.emf.ecore.xcoreimporter"
+       });
+  
   public List<ModelImporterDescriptor> filterModelImporterDescriptors(String extension)
   {
     List<ModelImporterDescriptor> descriptors = new ArrayList<ModelImporterDescriptor>();
@@ -168,7 +179,14 @@ public class ModelImporterManager extends ModelConverterManager<ModelImporterDes
     {
       if (descriptor.getExtensions().contains(extension))
       {
-        descriptors.add(descriptor);
+        if (DEFAULT_IMPORTER_IDS.contains(descriptor.getID()))
+        {
+          descriptors.add(0, descriptor);
+        }
+        else
+        {
+          descriptors.add(descriptor);
+        }
       }
     }
     return descriptors;
