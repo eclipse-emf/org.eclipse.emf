@@ -4,7 +4,7 @@
 	<rm:property key="xtext.p2.repository" value="${eclipse.download}/modeling/tmf/xtext/updates/composite" />
 	<rm:property key="xtext.nightly.repository" value="${xtext.p2.repository}/nightly" />
 	<rm:property key="xtext.stable.repository" value="${xtext.p2.repository}/milestones" />
-	<rm:property key="hudson.emf.p2.repository" value="https://hudson.eclipse.org/hudson/view/EMF/job/emf-core-maintenance/lastSuccessfulBuild/artifact/EMF.p2.repository/" />
+	<rm:property key="hudson.emf.p2.repository" value="https://hudson.eclipse.org/xtext/job/emf-core-maintenance/lastSuccessfulBuild/artifact/build-result/p2.repository/" />
 	<rm:property key="emf.p2.repository" value="${eclipse.download}/modeling/emf/emf/updates/milestones" />
 	
 	<!-- self -->

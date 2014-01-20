@@ -88,6 +88,6 @@
 		</provider>
 	</searchPath>
 	
-	<property key="emf.base.nightly" value="https://hudson.eclipse.org/hudson/job/emf-base-head/lastSuccessfulBuild/artifact/EMF.Base.p2.repository/" />
+	<property key="emf.base.nightly" value="https://hudson.eclipse.org/xtext/job/emf-base-maintenance/lastSuccessfulBuild/artifact/build-result/p2.repository/" />
 	<property key="eclipse.download" value="http://download.eclipse.org" />
 </rmap>
