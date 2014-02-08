@@ -17,6 +17,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 
 /**
@@ -419,6 +420,21 @@ public interface InternalEObject extends EObject
    * @param resolve whether to resolve.
    * @param coreType whether to return the core type value or the API type value.
    * @return the value of the given feature of the object.
+   * @exception IllegalArgumentException 
+   * if the feature is not one the {@link #eClass meta class}'s 
+   * {@link EClass#getEAllStructuralFeatures features}
+   * and is also not {@link ExtendedMetaData#getAffiliation(EClass, EStructuralFeature) affiliated} with one of the meta class's features.
+   * <p>
+   * Note that for high-performance generated model implementation classes,
+   * full checking whether the feature is among of the meta class's features
+   * is performed only if assertions are enabled for the JVM.
+   * As such,
+   * the return value for an invalid feature,
+   * in the absence of enabled assertions,
+   * is undefined,
+   * though typically it will be the value of the {@link EClass#getEStructuralFeature(int) meta class's feature}
+   * with the same {@link EStructuralFeature#getFeatureID() ID} as the given feature.
+   * </p>
    * @see EObject#eGet(EStructuralFeature, boolean)
    */
   public Object eGet(EStructuralFeature eFeature, boolean resolve, boolean coreType);
