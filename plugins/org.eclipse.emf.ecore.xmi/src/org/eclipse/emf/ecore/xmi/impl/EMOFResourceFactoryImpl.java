@@ -28,8 +28,11 @@ public class EMOFResourceFactoryImpl extends ResourceFactoryImpl
     super();
 
     XMLResource.XMLMap xmlMap = new XMLMapImpl();
-
-    xmlMap.add(EcorePackage.Literals.EFACTORY, createXMLInfo("Factory"));
+    
+    // Force proper initialization by using EcorePackage.eINSTANCE in case this constructor call is the first thing done in a JVM.
+    // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=425841
+    //
+    xmlMap.add(EcorePackage.eINSTANCE.getEFactory(), createXMLInfo("Factory"));
     xmlMap.add(EcorePackage.Literals.EPACKAGE, createXMLInfo("Package"));
     xmlMap.add(EcorePackage.Literals.EATTRIBUTE, createXMLInfo("Property"));
     xmlMap.add(EcorePackage.Literals.EREFERENCE, createXMLInfo("Property"));
