@@ -141,6 +141,12 @@ public class URIHandlerImpl implements URIHandler
                 }
               }
             }
+
+            @Override
+            public void write(byte[] b, int off, int len) throws IOException
+            {
+              out.write(b, off, len);
+            }
           };
       }
       else
@@ -163,6 +169,12 @@ public class URIHandlerImpl implements URIHandler
                 {
                   response.put(URIConverter.RESPONSE_TIME_STAMP_PROPERTY, urlConnection.getLastModified());
                 }
+              }
+
+              @Override
+              public void write(byte[] b, int off, int len) throws IOException
+              {
+                out.write(b, off, len);
               }
             };
         }

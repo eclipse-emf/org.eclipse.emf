@@ -563,6 +563,12 @@ public class ArchiveURLConnection extends URLConnection
               tempFile.delete();
             }
           }
+
+          @Override
+          public void write(byte[] b, int off, int len) throws IOException
+          {
+            out.write(b, off, len);
+          }
         };
       return outputZipEntry == null ? result : yield(outputZipEntry, result);
     }
