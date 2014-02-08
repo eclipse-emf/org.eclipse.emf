@@ -8,6 +8,7 @@
 package org.eclipse.emf.ecore.xcore.generator;
 
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +23,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IFileSystemAccessExtension2;
+import org.eclipse.xtext.generator.IFileSystemAccessExtension3;
 
 
 public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapterFactory
@@ -118,7 +120,14 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
             @Override
             public void close() throws IOException
             {
-              fsa.generateFile(targetFile.toString(), new String(this.toByteArray()));
+              if (fsa instanceof IFileSystemAccessExtension3)
+              {
+                ((IFileSystemAccessExtension3)fsa).generateFile(targetFile.toString(), new ByteArrayInputStream(buf, 0, count));
+              }
+              else
+              {
+                fsa.generateFile(targetFile.toString(), new String(this.toByteArray()));
+              }
               super.close();
             }
           };
