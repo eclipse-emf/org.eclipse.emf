@@ -8,6 +8,7 @@
 package org.eclipse.emf.ecore.xcore.resource;
 
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -84,11 +85,16 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
       resource.getContents().add(ePackage);
       GenModel genModel = genModelBuilder.getGenModel(model);
       genModel.setCanGenerate(true);
-      genModelInitializer.initialize(genModel, true);
+      Collection<? extends Runnable> runnables = genModelInitializer.initialize(genModel, true);
       if (!preLinkingPhase)
       {
         xcoreEcoreBuilder.link();
         genModelBuilder.initializeUsedGenPackages(genModel);
+
+        for (Runnable runnable : runnables)
+        {
+          runnable.run();
+        }
 
         // If the model has edit support, it's important to determine if we have a dependencies on Ecore's generated item providers...
         //

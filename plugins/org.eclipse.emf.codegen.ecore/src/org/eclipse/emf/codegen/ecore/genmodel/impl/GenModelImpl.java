@@ -14,7 +14,6 @@ package org.eclipse.emf.codegen.ecore.genmodel.impl;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-import org.eclipse.emf.codegen.ecore.genmodel.GenDecoration;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -49,6 +48,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
+import org.eclipse.emf.codegen.ecore.genmodel.GenDecoration;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
@@ -9804,8 +9804,22 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return getEditorModuleName();
   }
 
+  public Collection<? extends Runnable> prelinkInitialize(boolean handleAnnotations)
+  {
+    return initialize(handleAnnotations, true);
+  }
+
   public void initialize(boolean handleAnnotations)
   {
+    initialize(handleAnnotations, false);
+  }
+
+  /**
+   * @since 2.10
+   */
+  protected Collection<? extends Runnable> initialize(boolean handleAnnotations, boolean isPreLinking)
+  {
+    List<Runnable> result = isPreLinking ? new ArrayList<Runnable>() : null;
     if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
     {
       Resource resource = eResource();
@@ -9846,11 +9860,20 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           EModelElement eModelElement = genBase.getEcoreModelElement();
           if (eModelElement != null)
           {
-            handleAnnotations(genBase, eModelElement);
+            if (result == null)
+            {
+              handleAnnotations(genBase, eModelElement);
+            }
+            else
+            {
+              handleAnnotations(result, genBase, eModelElement);
+            }
           }
         }
       }
     }
+
+    return result;
   }
 
   /**
@@ -9858,14 +9881,22 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    */
   protected void handleAnnotations(GenBase genBase, EModelElement eModelElement)
   {
+    handleAnnotations(null, genBase, eModelElement);
+  }
+
+  /**
+   * @since 2.10
+   */
+  protected void handleAnnotations(Collection<Runnable> runnables, final GenBase genBase, EModelElement eModelElement)
+  {
     EAnnotation eAnnotation = eModelElement.getEAnnotation(GenModelPackage.eNS_URI);
     if (eAnnotation != null)
     {
       EClass eClass = genBase.eClass();
       for (Map.Entry<String, String> entry : eAnnotation.getDetails())
       {
-        EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(entry.getKey());
-        String literal = entry.getValue();
+        final EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(entry.getKey());
+        final String literal = entry.getValue();
         if (eStructuralFeature instanceof EAttribute)
         {
           EAttribute eAttribute = (EAttribute)eStructuralFeature;
@@ -9896,13 +9927,35 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         }
         else if (eStructuralFeature instanceof EReference)
         {
-          for (GenFeature genFeature : ((GenClass)genBase).getAllGenFeatures())
+          
+          if (runnables == null)
           {
-            if (literal.equals(genFeature.getName()))
+            for (GenFeature genFeature : ((GenClass)genBase).getAllGenFeatures())
             {
-              genBase.eSet(eStructuralFeature, genFeature);
-              break;
+              if (literal.equals(genFeature.getName()))
+              {
+                genBase.eSet(eStructuralFeature, genFeature);
+                break;
+              }
             }
+          }
+          else
+          {
+            runnables.add
+              (new Runnable()
+               {
+                 public void run()
+                 {
+                   for (GenFeature genFeature : ((GenClass)genBase).getAllGenFeatures())
+                   {
+                     if (literal.equals(genFeature.getName()))
+                     {
+                       genBase.eSet(eStructuralFeature, genFeature);
+                       break;
+                     }
+                   }
+                 }
+               });
           }
         }
       }

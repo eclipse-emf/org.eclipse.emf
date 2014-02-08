@@ -2935,6 +2935,12 @@ public interface GenModel extends GenBase
   void initialize(boolean handleAnnotations);
 
   /**
+   * Set up reasonable initial defaults for a prelinked model.
+   * @since 2.10
+   */
+  Collection<? extends Runnable> prelinkInitialize(boolean handleAnnotations);
+
+  /**
    * @since 2.8
    */
   GenTypeParameter findGenTypeParameter(ETypeParameter eTypeParameter);

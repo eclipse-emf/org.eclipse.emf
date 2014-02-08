@@ -8,6 +8,8 @@
 package org.eclipse.emf.ecore.xcore.util;
 
 
+import java.util.Collection;
+
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.EList;
 
@@ -17,7 +19,7 @@ public class XcoreGenModelInitializer
   private static final String XBASE_LIB = "org.eclipse.xtext.xbase.lib";
   private static final String XCORE_LIB = "org.eclipse.emf.ecore.xcore.lib";
 
-  public void initialize(GenModel genModel, boolean handleAnnotations)
+  public Collection<? extends Runnable> initialize(GenModel genModel, boolean handleAnnotations)
   {
     // Disable all generation exception for the model sources by default.
     // This can be overridden by annotations which are processed by the call to initialize.
@@ -45,6 +47,6 @@ public class XcoreGenModelInitializer
     //
     genModel.setContainmentProxies(true);
 
-    genModel.initialize(handleAnnotations);
+    return genModel.prelinkInitialize(handleAnnotations);
   }
 }
