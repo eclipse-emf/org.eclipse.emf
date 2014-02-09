@@ -39,7 +39,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -55,7 +54,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.RegistryFactory;
 import org.eclipse.core.runtime.spi.IRegistryProvider;
 import org.eclipse.core.runtime.spi.RegistryStrategy;
-
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -524,12 +522,44 @@ public class EcorePlugin  extends EMFPlugin
 
   /**
    * Computes a map so that plugins in the workspace will override those in the target platform or the environment
-   * and so that plugins with Ecore and GenModels in the target platform or the environment will look like projects in the workspace.
+   * and so that plugins with Ecore and GenModels in the target platform or the environment will look like projects in the workspace,
+   * i.e., so that each plugin can be accessed via a logical <code>platform:/resource</code> URI 
+   * equivalent to what would be used if the plugin were actually imported into the workspace.
+   * If there is no target platform, i.e., if the PDE is not installed, it defaults back to the environment 
+   * as if <code>targetPlatform</code> were <code>false</code>.
+   * <p>
+   * If <code>targetPlatform</code> is <code>false</code>, it's computed from the environment like this:
+   *<pre>
+      result.putAll(computePlatformPluginToPlatformResourceMap());
+      result.putAll(computePlatformResourceToPlatformPluginMap(new HashSet<URI>(EcorePlugin.getEPackageNsURIToGenModelLocationMap(false).values())));
+   *</pre>
+   * If <code>targetPlatform</code> is <code>true</code>, it does essentially the same logical thing, 
+   * however, it uses the PDE's target platform to determine the available plugins rather than the environment.
+   * The essential difference being that it produces results based on the physical location of all the non-workspace plugins in the PDE's target platform, 
+   * rather than based on <code>platform:/plugin</code> URIs
+   * that always refer to plugins in the running environment.
+   * For example, suppose there is a jarred plugin with ID <code>org.example.model</code> in the target platform but not in the workspace
+   * that registers a generated model's GenModel at location <code>model/Example.genmodel</code>,
+   * the mapping from <code>platform:/resource/org.example.model/</code> to <code>archive:file:/&lt;location-of-plugin-jar>!/</code>
+   * is produced.
+   * If instead that same plugin were actually in the workspace,
+   * the mapping from <code>platform:/plugin/org.example.model/</code> to <code>platform/resource/org.example.model/</code>
+   * would be produced.
+   * </p>
+   * <p>
+   * The expected usage of this API is to initialize a resource set's URI converter's {@link URIConverter#getURIMap()} as follows:
+   *<pre>
+   *  resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
+   *</pre>
+   * This is particularly important when working with Ecore and GenModel resources because they often have references to models in the environment.
+   * </p>
+   * @param targetPlatform whether to compute locations for the target platform or for the environment itself; the former is preferred.
    * @return computes a map so that plugins in the workspace will override those in the target platform of the environment
    * and so that plugins in the target platform or environment with Ecore and GenModels will look like projects in the workspace.
    * @see org.eclipse.emf.ecore.resource.URIConverter#getURIMap()
    * @see #computePlatformPluginToPlatformResourceMap()
    * @see #computePlatformResourceToPlatformPluginMap(Collection)
+   * @see #getEPackageNsURIToGenModelLocationMap(boolean)
    * @since 2.9
    */
   public static Map<URI, URI> computePlatformURIMap(boolean targetPlatform)
