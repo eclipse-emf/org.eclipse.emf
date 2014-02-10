@@ -100,6 +100,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.TreeNode;
 import com.google.gwt.user.client.ui.Button;
@@ -1381,7 +1382,7 @@ public abstract class EditorEntryPoint implements EntryPoint
                        dialogBox.setText("Save conflict");
                        final Button okButton = new Button("OK");
                        final Tree tree = new Tree();
-                       tree.addItem(caught.getLocalizedMessage());
+                       tree.addItem(SafeHtmlUtils.fromString(caught.getLocalizedMessage()));
                        Grid grid = new Grid();
                        grid.setWidth("150em");
                        grid.resize(2, 1);
@@ -1432,7 +1433,7 @@ public abstract class EditorEntryPoint implements EntryPoint
                        dialogBox.setText("Delete conflict");
                        final Button okButton = new Button("OK");
                        final Tree tree = new Tree();
-                       tree.addItem(caught.getLocalizedMessage());
+                       tree.addItem(SafeHtmlUtils.fromString(caught.getLocalizedMessage()));
                        Grid grid = new Grid();
                        grid.setWidth("150em");
                        grid.resize(2, 1);
@@ -1469,7 +1470,7 @@ public abstract class EditorEntryPoint implements EntryPoint
       {
         protected TreeItem createTreeItems(Diagnostic diagnostic)
         {
-          TreeItem treeItem = new TreeItem(diagnostic.getMessage());
+          TreeItem treeItem = new TreeItem(SafeHtmlUtils.fromString(diagnostic.getMessage()));
           List<?> data = diagnostic.getData();
           if (!data.isEmpty())
           {
@@ -1512,7 +1513,7 @@ public abstract class EditorEntryPoint implements EntryPoint
           final Tree tree = new Tree();
           if (diagnostics.getSeverity() == Diagnostic.OK)
           {
-            tree.addItem("No problems detected");
+            tree.addItem(SafeHtmlUtils.fromString("No problems detected"));
           }
           else
           {
