@@ -11,7 +11,7 @@ import com.google.common.base.Objects;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.Map;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
@@ -29,7 +29,7 @@ import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XParameter;
 import org.eclipse.emf.ecore.xcore.XReference;
 import org.eclipse.emf.ecore.xcore.XTypeParameter;
-import org.eclipse.emf.ecore.xcore.XcorePackage.Literals;
+import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.xtext.common.types.JvmFormalParameter;
 import org.eclipse.xtext.common.types.JvmGenericArrayTypeReference;
 import org.eclipse.xtext.common.types.JvmParameterizedTypeReference;
@@ -66,7 +66,6 @@ import org.eclipse.xtext.xbase.formatting.FormattingDataInit;
 import org.eclipse.xtext.xbase.formatting.NodeModelAccess;
 import org.eclipse.xtext.xbase.formatting.XbaseFormatter2;
 import org.eclipse.xtext.xbase.lib.Extension;
-import org.eclipse.xtext.xbase.lib.Functions.Function0;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
@@ -82,12 +81,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
   @Extension
   private FormattingDataFactory _formattingDataFactory;
   
-  private final BlankLineKey blankLines = new Function0<BlankLineKey>() {
-    public BlankLineKey apply() {
-      BlankLineKey _blankLineKey = new BlankLineKey("foo", Integer.valueOf(1));
-      return _blankLineKey;
-    }
-  }.apply();
+  private final BlankLineKey blankLines = new BlankLineKey("foo", Integer.valueOf(1));
   
   protected void _format(final XAnnotation xAnnotation, final FormattableDocument format) {
     ILeafNode _nodeForKeyword = this._nodeModelAccess.nodeForKeyword(xAnnotation, "@");
@@ -129,7 +123,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     Function1<? super FormattableDocument,? extends Iterable<FormattingData>> _append_2 = this._formattingDataFactory.append(rightParenthesis, _function_4);
     format.operator_add(_append_2);
     EMap<String,String> _details = xAnnotation.getDetails();
-    for (final Entry<String,String> entry : _details) {
+    for (final Map.Entry<String,String> entry : _details) {
       {
         final EObject detail = ((EObject) entry);
         final ILeafNode equals = this._nodeModelAccess.nodeForKeyword(detail, "=");
@@ -174,7 +168,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     };
     Function1<? super FormattableDocument,? extends Iterable<FormattingData>> _prepend = this._formattingDataFactory.prepend(_nodeForEObject, _function);
     format.operator_add(_prepend);
-    INode _nodeForFeature = this._nodeModelAccess.nodeForFeature(xPackage, Literals.XNAMED_ELEMENT__NAME);
+    INode _nodeForFeature = this._nodeModelAccess.nodeForFeature(xPackage, XcorePackage.Literals.XNAMED_ELEMENT__NAME);
     final Procedure1<FormattingDataInit> _function_1 = new Procedure1<FormattingDataInit>() {
       public void apply(final FormattingDataInit it) {
         it.oneSpace();
@@ -223,7 +217,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
         }
       }
     } else {
-      INode _nodeForFeature_1 = this._nodeModelAccess.nodeForFeature(xPackage, Literals.XNAMED_ELEMENT__NAME);
+      INode _nodeForFeature_1 = this._nodeModelAccess.nodeForFeature(xPackage, XcorePackage.Literals.XNAMED_ELEMENT__NAME);
       final Procedure1<FormattingDataInit> _function_2 = new Procedure1<FormattingDataInit>() {
         public void apply(final FormattingDataInit it) {
           it.cfg(XcoreFormatter.this.blankLines);
@@ -403,7 +397,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
   protected void _format(final XReference xReference, final FormattableDocument format) {
     EList<XAnnotation> _annotations = xReference.getAnnotations();
     this.formatAnnotations(_annotations, format);
-    final INode multiplicity = this._nodeModelAccess.nodeForFeature(xReference, Literals.XTYPED_ELEMENT__MULTIPLICITY);
+    final INode multiplicity = this._nodeModelAccess.nodeForFeature(xReference, XcorePackage.Literals.XTYPED_ELEMENT__MULTIPLICITY);
     boolean _notEquals = (!Objects.equal(multiplicity, null));
     if (_notEquals) {
       final Procedure1<FormattingDataInit> _function = new Procedure1<FormattingDataInit>() {
@@ -432,7 +426,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
   protected void _format(final XAttribute xAttribute, final FormattableDocument format) {
     EList<XAnnotation> _annotations = xAttribute.getAnnotations();
     this.formatAnnotations(_annotations, format);
-    final INode multiplicity = this._nodeModelAccess.nodeForFeature(xAttribute, Literals.XTYPED_ELEMENT__MULTIPLICITY);
+    final INode multiplicity = this._nodeModelAccess.nodeForFeature(xAttribute, XcorePackage.Literals.XTYPED_ELEMENT__MULTIPLICITY);
     boolean _notEquals = (!Objects.equal(multiplicity, null));
     if (_notEquals) {
       final Procedure1<FormattingDataInit> _function = new Procedure1<FormattingDataInit>() {
@@ -461,7 +455,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
   protected void _format(final XOperation xOperation, final FormattableDocument format) {
     EList<XAnnotation> _annotations = xOperation.getAnnotations();
     this.formatAnnotations(_annotations, format);
-    final INode multiplicity = this._nodeModelAccess.nodeForFeature(xOperation, Literals.XTYPED_ELEMENT__MULTIPLICITY);
+    final INode multiplicity = this._nodeModelAccess.nodeForFeature(xOperation, XcorePackage.Literals.XTYPED_ELEMENT__MULTIPLICITY);
     boolean _notEquals = (!Objects.equal(multiplicity, null));
     if (_notEquals) {
       final Procedure1<FormattingDataInit> _function = new Procedure1<FormattingDataInit>() {
@@ -549,7 +543,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
   protected void _format(final XParameter xParameter, final FormattableDocument format) {
     EList<XAnnotation> _annotations = xParameter.getAnnotations();
     this.formatAnnotations(_annotations, format);
-    final INode multiplicity = this._nodeModelAccess.nodeForFeature(xParameter, Literals.XTYPED_ELEMENT__MULTIPLICITY);
+    final INode multiplicity = this._nodeModelAccess.nodeForFeature(xParameter, XcorePackage.Literals.XTYPED_ELEMENT__MULTIPLICITY);
     boolean _notEquals = (!Objects.equal(multiplicity, null));
     if (_notEquals) {
       final Procedure1<FormattingDataInit> _function = new Procedure1<FormattingDataInit>() {

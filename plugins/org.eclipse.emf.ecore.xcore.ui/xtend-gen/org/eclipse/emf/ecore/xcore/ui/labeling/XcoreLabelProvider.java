@@ -41,7 +41,7 @@ public class XcoreLabelProvider extends XbaseLabelProvider {
     if (!_equals) {
       _and = false;
     } else {
-      _and = (_equals && (element instanceof EObject));
+      _and = (element instanceof EObject);
     }
     if (_and) {
       final QualifiedName name = this.nameProvider.getFullyQualifiedName(((EObject) element));

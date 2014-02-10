@@ -68,7 +68,6 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.conversion.IValueConverterService;
-import org.eclipse.xtext.conversion.impl.STRINGValueConverter;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.ILeafNode;
 import org.eclipse.xtext.nodemodel.INode;
@@ -89,9 +88,6 @@ public class XcoreEditor extends XtextEditor
 {
   @Inject
   private XcoreMapper mapper;
-
-  @Inject
-  private STRINGValueConverter stringValueConverter;
 
   @Inject
   private IValueConverterService valueConverterService;

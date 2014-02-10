@@ -14,8 +14,10 @@ import com.google.inject.Provider;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -71,7 +73,7 @@ public class XcoreGenerator implements IGenerator {
     EList<XClassifier> _classifiers = pack.getClassifiers();
     for (final XClassifier xClassifier : _classifiers) {
       if ((xClassifier instanceof XDataType)) {
-        final XDataType xDataType = ((XDataType) xClassifier);
+        final XDataType xDataType = ((XDataType)xClassifier);
         XDataTypeMapping _mapping = this.mappings.getMapping(xDataType);
         final EDataType eDataType = _mapping.getEDataType();
         final XBlockExpression createBody = xDataType.getCreateBody();
@@ -83,7 +85,7 @@ public class XcoreGenerator implements IGenerator {
           _and = false;
         } else {
           boolean _notEquals_1 = (!Objects.equal(creator, null));
-          _and = (_notEquals && _notEquals_1);
+          _and = _notEquals_1;
         }
         if (_and) {
           final XcoreAppendable appendable = this.createAppendable();
@@ -106,7 +108,7 @@ public class XcoreGenerator implements IGenerator {
           _and_1 = false;
         } else {
           boolean _notEquals_3 = (!Objects.equal(converter, null));
-          _and_1 = (_notEquals_2 && _notEquals_3);
+          _and_1 = _notEquals_3;
         }
         if (_and_1) {
           final XcoreAppendable appendable_1 = this.createAppendable();
@@ -167,20 +169,32 @@ public class XcoreGenerator implements IGenerator {
               final XBlockExpression body = xOperation.getBody();
               boolean _notEquals_8 = (!Objects.equal(body, null));
               if (_notEquals_8) {
-                XOperationMapping _mapping_5 = this.mappings.getMapping(xOperation);
-                final JvmOperation jvmOperation = _mapping_5.getJvmOperation();
+                final XOperationMapping xOperationMapping = this.mappings.getMapping(xOperation);
+                final JvmOperation jvmOperation = xOperationMapping.getJvmOperation();
                 boolean _notEquals_9 = (!Objects.equal(jvmOperation, null));
                 if (_notEquals_9) {
                   final XcoreAppendable appendable_3 = this.createAppendable();
-                  JvmDeclaredType _declaringType_2 = jvmOperation.getDeclaringType();
-                  appendable_3.declareVariable(_declaringType_2, "this");
-                  JvmDeclaredType _declaringType_3 = jvmOperation.getDeclaringType();
-                  EList<JvmTypeReference> _superTypes_1 = _declaringType_3.getSuperTypes();
-                  final JvmTypeReference superType_1 = IterableExtensions.<JvmTypeReference>head(_superTypes_1);
-                  boolean _notEquals_10 = (!Objects.equal(superType_1, null));
-                  if (_notEquals_10) {
-                    JvmType _type_1 = superType_1.getType();
-                    appendable_3.declareVariable(_type_1, "super");
+                  JvmDeclaredType declaringType = jvmOperation.getDeclaringType();
+                  GenOperation _genOperation = xOperationMapping.getGenOperation();
+                  GenClass _genClass = _genOperation.getGenClass();
+                  boolean _isExternalInterface = _genClass.isExternalInterface();
+                  if (_isExternalInterface) {
+                    final EList<JvmTypeReference> superTypes = declaringType.getSuperTypes();
+                    final JvmTypeReference effectiveTypeReference = IterableExtensions.<JvmTypeReference>head(superTypes);
+                    boolean _notEquals_10 = (!Objects.equal(effectiveTypeReference, null));
+                    if (_notEquals_10) {
+                      JvmType _type_1 = effectiveTypeReference.getType();
+                      appendable_3.declareVariable(_type_1, "this");
+                    }
+                  } else {
+                    appendable_3.declareVariable(declaringType, "this");
+                    EList<JvmTypeReference> _superTypes_1 = declaringType.getSuperTypes();
+                    final JvmTypeReference superType_1 = IterableExtensions.<JvmTypeReference>head(_superTypes_1);
+                    boolean _notEquals_11 = (!Objects.equal(superType_1, null));
+                    if (_notEquals_11) {
+                      JvmType _type_2 = superType_1.getType();
+                      appendable_3.declareVariable(_type_2, "super");
+                    }
                   }
                   EList<JvmFormalParameter> _parameters_2 = jvmOperation.getParameters();
                   for (final JvmFormalParameter parameter : _parameters_2) {
@@ -214,8 +228,7 @@ public class XcoreGenerator implements IGenerator {
   }
   
   public XcoreAppendable createAppendable() {
-    XcoreAppendable _xcoreAppendable = new XcoreAppendable();
-    return _xcoreAppendable;
+    return new XcoreAppendable();
   }
   
   public String extractBody(final String body) {
@@ -224,8 +237,7 @@ public class XcoreGenerator implements IGenerator {
       String _xifexpression = null;
       boolean _startsWith = body.startsWith("\n");
       if (_startsWith) {
-        String _substring = body.substring(1);
-        _xifexpression = _substring;
+        _xifexpression = body.substring(1);
       } else {
         _xifexpression = body;
       }
@@ -239,8 +251,7 @@ public class XcoreGenerator implements IGenerator {
           result = _replace;
           int _length = result.length();
           int _minus = (_length - 2);
-          String _substring_1 = result.substring(1, _minus);
-          _xblockexpression_1 = (_substring_1);
+          _xblockexpression_1 = (result.substring(1, _minus));
         }
         _xifexpression_1 = _xblockexpression_1;
       } else {
@@ -271,8 +282,7 @@ public class XcoreGenerator implements IGenerator {
         BasicMonitor _basicMonitor_2 = new BasicMonitor();
         generator.generate(genModel, GenBaseGeneratorAdapter.EDITOR_PROJECT_TYPE, _basicMonitor_2);
         BasicMonitor _basicMonitor_3 = new BasicMonitor();
-        Diagnostic _generate = generator.generate(genModel, GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE, _basicMonitor_3);
-        _xblockexpression = (_generate);
+        _xblockexpression = (generator.generate(genModel, GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE, _basicMonitor_3));
       }
       _xifexpression = _xblockexpression;
     }

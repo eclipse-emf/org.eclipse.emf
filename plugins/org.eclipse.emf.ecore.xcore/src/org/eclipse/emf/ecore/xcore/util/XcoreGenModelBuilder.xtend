@@ -261,7 +261,7 @@ class XcoreGenModelBuilder
       {
         if (content instanceof GenModel)
         {
-          val genPackage = (content as GenModel).findGenPackage(ePackage)
+          val genPackage = content.findGenPackage(ePackage)
           if (genPackage != null)
           {
            return genPackage

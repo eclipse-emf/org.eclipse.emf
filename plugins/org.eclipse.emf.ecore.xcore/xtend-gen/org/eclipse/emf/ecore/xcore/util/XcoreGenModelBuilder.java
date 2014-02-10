@@ -217,10 +217,8 @@ public class XcoreGenModelBuilder {
   }
   
   public void initializeUsedGenPackages(final GenModel genModel) {
-    HashSet<EPackage> _hashSet = new HashSet<EPackage>();
-    final HashSet<EPackage> referencedEPackages = _hashSet;
-    UniqueEList<EPackage> _uniqueEList = new UniqueEList<EPackage>();
-    final List<EPackage> ePackages = _uniqueEList;
+    final HashSet<EPackage> referencedEPackages = new HashSet<EPackage>();
+    final List<EPackage> ePackages = new UniqueEList<EPackage>();
     EList<GenPackage> _genPackages = genModel.getGenPackages();
     for (final GenPackage genPackage : _genPackages) {
       {
@@ -312,7 +310,7 @@ public class XcoreGenModelBuilder {
           if (!_lessThan_1) {
             _and = false;
           } else {
-            _and = (_lessThan_1 && (!found));
+            _and = (!found);
           }
           boolean _while_1 = _and;
           while (_while_1) {
@@ -371,13 +369,12 @@ public class XcoreGenModelBuilder {
             if (!_lessThan_2) {
               _and_1 = false;
             } else {
-              _and_1 = (_lessThan_2 && (!found));
+              _and_1 = (!found);
             }
             _while_1 = _and_1;
           }
           if ((!found)) {
-            RuntimeException _runtimeException = new RuntimeException(("No GenPackage found for " + referencedEPackage));
-            throw _runtimeException;
+            throw new RuntimeException(("No GenPackage found for " + referencedEPackage));
           }
         }
       }
@@ -392,7 +389,7 @@ public class XcoreGenModelBuilder {
       EList<EObject> _contents = _eResource_1.getContents();
       for (final EObject content : _contents) {
         if ((content instanceof GenModel)) {
-          final GenPackage genPackage = ((GenModel) content).findGenPackage(ePackage);
+          final GenPackage genPackage = ((GenModel)content).findGenPackage(ePackage);
           boolean _notEquals_1 = (!Objects.equal(genPackage, null));
           if (_notEquals_1) {
             return genPackage;

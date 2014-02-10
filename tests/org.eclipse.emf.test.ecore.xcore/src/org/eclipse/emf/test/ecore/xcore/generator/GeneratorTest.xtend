@@ -40,8 +40,8 @@ class GeneratorTest {
 		''')
 		val inmemFsa = new InMemoryFileSystemAccess()
 		xcoreGenerator.doGenerate(xPackage.eResource, inmemFsa)
-		assertEquals(inmemFsa.files.keySet.toString, 8, inmemFsa.files.size)
+		assertEquals(inmemFsa.allFiles.keySet.toString, 8, inmemFsa.allFiles.size)
 		
-		assertNotNull(inmemFsa.files.get(IFileSystemAccess::DEFAULT_OUTPUT+'/test/util/TestSwitch.java'))
+		assertNotNull(inmemFsa.allFiles.get(IFileSystemAccess::DEFAULT_OUTPUT+'/test/util/TestSwitch.java'))
 	}
 }

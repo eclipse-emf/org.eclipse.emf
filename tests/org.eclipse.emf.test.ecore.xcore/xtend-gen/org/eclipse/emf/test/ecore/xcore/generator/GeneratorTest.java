@@ -46,18 +46,17 @@ public class GeneratorTest {
       _builder.append("class X {}");
       _builder.newLine();
       final XPackage xPackage = this.parser.parse(_builder);
-      InMemoryFileSystemAccess _inMemoryFileSystemAccess = new InMemoryFileSystemAccess();
-      final InMemoryFileSystemAccess inmemFsa = _inMemoryFileSystemAccess;
+      final InMemoryFileSystemAccess inmemFsa = new InMemoryFileSystemAccess();
       Resource _eResource = xPackage.eResource();
       this.xcoreGenerator.doGenerate(_eResource, inmemFsa);
-      Map<String,CharSequence> _files = inmemFsa.getFiles();
-      Set<String> _keySet = _files.keySet();
+      Map<String,Object> _allFiles = inmemFsa.getAllFiles();
+      Set<String> _keySet = _allFiles.keySet();
       String _string = _keySet.toString();
-      Map<String,CharSequence> _files_1 = inmemFsa.getFiles();
-      int _size = _files_1.size();
+      Map<String,Object> _allFiles_1 = inmemFsa.getAllFiles();
+      int _size = _allFiles_1.size();
       Assert.assertEquals(_string, 8, _size);
-      Map<String,CharSequence> _files_2 = inmemFsa.getFiles();
-      CharSequence _get = _files_2.get((IFileSystemAccess.DEFAULT_OUTPUT + "/test/util/TestSwitch.java"));
+      Map<String,Object> _allFiles_2 = inmemFsa.getAllFiles();
+      Object _get = _allFiles_2.get((IFileSystemAccess.DEFAULT_OUTPUT + "/test/util/TestSwitch.java"));
       Assert.assertNotNull(_get);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);

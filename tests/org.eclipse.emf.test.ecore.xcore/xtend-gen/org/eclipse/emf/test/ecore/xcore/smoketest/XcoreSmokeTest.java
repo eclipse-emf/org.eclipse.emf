@@ -8,7 +8,6 @@
 package org.eclipse.emf.test.ecore.xcore.smoketest;
 
 import com.google.inject.Inject;
-import java.util.ArrayList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -81,8 +80,7 @@ public class XcoreSmokeTest extends AbstractSmokeTest {
     _builder.append("type ListOfStringArray wraps java.util.List<String[]>");
     _builder.newLine();
     String _string = _builder.toString();
-    ArrayList<String> _newArrayList = CollectionLiterals.<String>newArrayList(_string);
-    return _newArrayList;
+    return CollectionLiterals.<String>newArrayList(_string);
   }
   
   public void processModel(final String model) {

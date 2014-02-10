@@ -163,9 +163,6 @@ public class XcoreStandaloneSetup extends XcoreStandaloneSetupGenerated
       @Inject
       private ContainersStateFactory factory;
 
-      @Inject
-      private PathTraverser traverser;
-
       @Override
       public List<String> getClassPathEntries()
       {

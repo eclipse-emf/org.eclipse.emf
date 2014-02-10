@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
-import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.jdt.ui.JavaElementLabels;
 import org.eclipse.xtext.common.types.JvmAnyTypeReference;
 import org.eclipse.xtext.common.types.JvmConstructor;
@@ -40,9 +39,6 @@ public class XcoreHoverSignatureProvider extends XbaseDeclarativeHoverSignatureP
 
   @Inject
   private IQualifiedNameConverter nameConverter;
-
-  @Inject
-  private XcoreMapper mapper;
 
   @Override
   protected String internalGetSignature(EObject object, boolean typeAtEnd)
