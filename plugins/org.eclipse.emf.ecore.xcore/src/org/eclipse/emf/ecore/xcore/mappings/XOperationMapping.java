@@ -8,6 +8,7 @@
 package org.eclipse.emf.ecore.xcore.mappings;
 
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.xcore.util.XcoreJvmInferrer;
@@ -42,6 +43,8 @@ public class XOperationMapping extends AbstractMapping
 
   public JvmOperation getJvmOperation()
   {
-    return XcoreJvmInferrer.<JvmOperation>getInferredElement(genOperation, genOperation.getGenClass().getQualifiedInterfaceName() + "." + genOperation.getName());
+    GenClass genClass = genOperation.getGenClass();
+    String qualifiedInterfaceName = genClass.isExternalInterface() ? "$" + genClass.getEcoreClass().getInstanceClassName() : genClass.getQualifiedInterfaceName();
+    return XcoreJvmInferrer.<JvmOperation>getInferredElement(genOperation, qualifiedInterfaceName + "." + genOperation.getName());
   }
 }

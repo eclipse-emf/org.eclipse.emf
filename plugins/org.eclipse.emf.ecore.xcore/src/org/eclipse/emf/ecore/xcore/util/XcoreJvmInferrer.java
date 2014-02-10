@@ -60,7 +60,6 @@ import org.eclipse.xtext.common.types.JvmLowerBound;
 import org.eclipse.xtext.common.types.JvmMember;
 import org.eclipse.xtext.common.types.JvmOperation;
 import org.eclipse.xtext.common.types.JvmParameterizedTypeReference;
-import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.common.types.JvmTypeConstraint;
 import org.eclipse.xtext.common.types.JvmTypeParameter;
 import org.eclipse.xtext.common.types.JvmTypeParameterDeclarator;
@@ -1793,7 +1792,7 @@ public class XcoreJvmInferrer
           //
           if (isInterface && genClass.isExternalInterface())
           {
-            String externalInterfaceName = genClass.getEcoreClass().getInstanceClassName();
+            String externalInterfaceName = "$" + genClass.getEcoreClass().getInstanceClassName();
             int index = externalInterfaceName.lastIndexOf('.');
             if (index == -1)
             {
@@ -1833,25 +1832,21 @@ public class XcoreJvmInferrer
               // For the interface inferred for an external interface, we want to make that actual interface the super type of this "fake" inferred interface.
               // This will ensure that operations in the real interface that aren't declared in the XClass are still in scope.
               //
-              Class<?> instanceClass = genClass.getEcoreClass().getInstanceClass();
-              if (instanceClass != null)
+              String instanceTypeName = genClass.getEcoreClass().getInstanceTypeName();
+              if (instanceTypeName != null)
               {
-                JvmType declaredType = typeReferences.findDeclaredType(instanceClass, genClass);
-                if (declaredType  != null)
+                JvmTypeReference jvmTypeReference = getJvmTypeReference(instanceTypeName, genClass);
+                if (jvmTypeReference != null)
                 {
-                  JvmParameterizedTypeReference jvmParameterizedTypeReference = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
-                  jvmParameterizedTypeReference.setType(declaredType);
-                  superTypes.add(jvmParameterizedTypeReference);
+                  superTypes.add(jvmTypeReference);
                 }
               }
             }
-            else
+
+            List<String> qualifiedInterfaceExtendsList = genClass.getQualifiedInterfaceExtendsList();
+            for (String instanceTypeName : qualifiedInterfaceExtendsList)
             {
-              List<String> qualifiedInterfaceExtendsList = genClass.getQualifiedInterfaceExtendsList();
-              for (String instanceTypeName : qualifiedInterfaceExtendsList)
-              {
-                superTypes.add(getJvmTypeReference(instanceTypeName, genClass));
-              }
+              superTypes.add(getJvmTypeReference(instanceTypeName, genClass));
             }
 
             if (superTypes.isEmpty())
@@ -2237,7 +2232,10 @@ public class XcoreJvmInferrer
             }
           }
 
-          for (GenOperation genOperation : isImplementation ? genClass.getImplementedGenOperations() : genClass.getDeclaredGenOperations())
+          // This uses !isInterface because with suppressed interface both isInteface and isImplementation could be true.
+          // In that case, we want to infer operations only if the class actually declares the GenOperation.
+          //
+          for (GenOperation genOperation : !isInterface ? genClass.getImplementedGenOperations() : genClass.getDeclaredGenOperations())
           {
             members.add(getJvmOperation(genClass, genOperation, isInterface, isImplementation));
           }

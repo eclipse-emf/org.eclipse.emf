@@ -9,6 +9,8 @@ package org.eclipse.emf.ecore.xcore.generator
 
 import com.google.inject.Inject
 import com.google.inject.Provider
+import java.util.Collections
+import java.util.HashSet
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter
@@ -19,14 +21,11 @@ import org.eclipse.emf.ecore.xcore.XClass
 import org.eclipse.emf.ecore.xcore.XDataType
 import org.eclipse.emf.ecore.xcore.XPackage
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper
+import org.eclipse.xtext.common.types.JvmFormalParameter
+import org.eclipse.xtext.common.types.JvmTypeReference
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler
-
-import java.util.Collections
-import java.util.HashSet
-import org.eclipse.xtext.common.types.JvmFormalParameter
-import org.eclipse.xtext.common.types.JvmTypeReference
 
 class XcoreGenerator implements IGenerator {
 
@@ -43,7 +42,7 @@ class XcoreGenerator implements IGenerator {
 		val processed = newHashSet()
 		for (xClassifier : pack.classifiers) {
 			if (xClassifier instanceof XDataType) {
-				val xDataType = xClassifier as XDataType
+				val XDataType xDataType = xClassifier
 				val eDataType = xDataType.mapping.EDataType
 				val createBody = xDataType.createBody
 				val creator = xDataType.mapping.creator
@@ -89,13 +88,24 @@ class XcoreGenerator implements IGenerator {
 						if (xOperation != null) {
 							val body = xOperation.body
 							if (body != null) {
-								val jvmOperation = mappings.getMapping(xOperation).jvmOperation
+								val xOperationMapping = mappings.getMapping(xOperation)
+								val jvmOperation = xOperationMapping.jvmOperation
 								if (jvmOperation != null) {
 									val appendable = createAppendable
-									appendable.declareVariable(jvmOperation.declaringType, "this")
-									val superType = jvmOperation.declaringType.superTypes.head
-									if (superType != null) {
-										appendable.declareVariable(superType.type, "super")
+									var declaringType = jvmOperation.declaringType
+									if (xOperationMapping.genOperation.genClass.externalInterface) {
+										// For an external interface, the synthetic inferred interface should be skipped to use the super type.
+										val superTypes = declaringType.superTypes
+										val effectiveTypeReference = superTypes.head
+										if (effectiveTypeReference != null) {
+											appendable.declareVariable(effectiveTypeReference.type, "this")
+										}
+									} else {
+										appendable.declareVariable(declaringType, "this")
+										val superType = declaringType.superTypes.head
+										if (superType != null) {
+											appendable.declareVariable(superType.type, "super")
+										}
 									}
 									for (JvmFormalParameter parameter : jvmOperation.parameters) {
 										appendable.declareVariable(parameter, parameter.getName())

@@ -764,34 +764,38 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public List<String> getQualifiedInterfaceExtendsList()
   {
     List<String> result = new UniqueEList<String>();
-    String rootExtendsInterface = getGenModel().getRootExtendsInterface();
-    if (rootExtendsInterface == null)
+
+    if (!isExternalInterface())
     {
-      rootExtendsInterface = "";
-    }
-    if (getBaseGenClasses().isEmpty())
-    {
-      if (!isEObject() && !isBlank(rootExtendsInterface))
+      String rootExtendsInterface = getGenModel().getRootExtendsInterface();
+      if (rootExtendsInterface == null)
+      {
+        rootExtendsInterface = "";
+      } 
+      if (getBaseGenClasses().isEmpty())
+      {
+        if (!isEObject() && !isBlank(rootExtendsInterface))
+        {
+          result.add(rootExtendsInterface);
+        }
+        return result;
+      }
+
+      boolean needsRootExtendsInterface = true;
+      for (GenClass genClass : getAllBaseGenClasses())
+      {
+        if (genClass.getEcoreClass().getInstanceClassName() == null &&
+              rootExtendsInterface.equals(genClass.getGenModel().getRootExtendsInterface()))
+        {
+          needsRootExtendsInterface = false;
+          break;
+        }
+      }
+
+      if (needsRootExtendsInterface && !isBlank(rootExtendsInterface))
       {
         result.add(rootExtendsInterface);
       }
-      return result;
-    }
-
-    boolean needsRootExtendsInterface = true;
-    for (GenClass genClass : getAllBaseGenClasses())
-    {
-      if (genClass.getEcoreClass().getInstanceClassName() == null &&
-            rootExtendsInterface.equals(genClass.getGenModel().getRootExtendsInterface()))
-      {
-        needsRootExtendsInterface = false;
-        break;
-      }
-    }
-
-    if (needsRootExtendsInterface && !isBlank(rootExtendsInterface))
-    {
-      result.add(rootExtendsInterface);
     }
 
     boolean includeTypeArguments = getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50;
