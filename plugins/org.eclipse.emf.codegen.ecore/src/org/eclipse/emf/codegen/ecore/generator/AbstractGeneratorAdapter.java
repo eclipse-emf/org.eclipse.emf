@@ -1805,7 +1805,10 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
           {
             JImport jImport = (JImport)node;
             String qualifiedName = jImport.getQualifiedName();
-            importManager.addImport(qualifiedName);
+            if (!qualifiedName.endsWith(".*"))
+            {
+              importManager.addImport(qualifiedName);
+            }
           }
         }
         targetFileContents = jMerger.getTargetCompilationUnitContents();
