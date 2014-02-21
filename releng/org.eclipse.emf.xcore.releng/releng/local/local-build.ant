@@ -23,7 +23,7 @@
 	<property name="commands.file" value="${releng.project.location}/releng/local/commands.txt" />
 	
 	<!-- Buckminster headless 3.7 to use. See http://www.eclipse.org/buckminster/downloads.html -->
-	<property name="buckminster.home" location="${user.home}/Entwicklung/buckminster" />
+	<property name="buckminster.home" location="${user.home}/buckminster" />
 
 	<!-- Against which platform to build (Galileo,Juno)-->
 	<property name="ECLIPSE.TARGET.ALIAS" value="Galileo" />
@@ -72,7 +72,7 @@
 	         - - - - - - - - - - - - - - - - - -->
 	<target name="reset.target-platform">
 		<delete includeemptydirs="true" verbose="false">
-			<fileset dir="${build.root}" defaultexcludes="false">
+			<fileset dir="${build.root}/" defaultexcludes="false" >
 				<include name="**/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/" />
 				<include name="**/target.platform/" />
 			</fileset>
