@@ -39,6 +39,7 @@ import org.eclipse.xtext.common.types.JvmWildcardTypeReference;
 import org.eclipse.xtext.nodemodel.ILeafNode;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.xbase.XAssignment;
+import org.eclipse.xtext.xbase.XBasicForLoopExpression;
 import org.eclipse.xtext.xbase.XBinaryOperation;
 import org.eclipse.xtext.xbase.XBlockExpression;
 import org.eclipse.xtext.xbase.XCatchClause;
@@ -634,6 +635,9 @@ public class XcoreFormatter extends XbaseFormatter2 {
       return;
     } else if (xAttribute instanceof JvmWildcardTypeReference) {
       _format((JvmWildcardTypeReference)xAttribute, format);
+      return;
+    } else if (xAttribute instanceof XBasicForLoopExpression) {
+      _format((XBasicForLoopExpression)xAttribute, format);
       return;
     } else if (xAttribute instanceof XBlockExpression) {
       _format((XBlockExpression)xAttribute, format);
