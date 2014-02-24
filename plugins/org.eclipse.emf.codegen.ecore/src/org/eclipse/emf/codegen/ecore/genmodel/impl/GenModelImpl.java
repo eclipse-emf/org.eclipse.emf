@@ -209,6 +209,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getPluginKey <em>Plugin Key</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getDecoration <em>Decoration</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isStyleProviders <em>Style Providers</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCleanup <em>Cleanup</em>}</li>
  * </ul>
  * </p>
  *
@@ -1843,6 +1844,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean styleProviders = STYLE_PROVIDERS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isCleanup() <em>Cleanup</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isCleanup()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean CLEANUP_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isCleanup() <em>Cleanup</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isCleanup()
+   * @generated
+   * @ordered
+   */
+  protected boolean cleanup = CLEANUP_EDEFAULT;
 
   protected boolean validateModel = false;
 
@@ -6534,6 +6555,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isCleanup()
+  {
+    return cleanup;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setCleanup(boolean newCleanup)
+  {
+    boolean oldCleanup = cleanup;
+    cleanup = newCleanup;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__CLEANUP, oldCleanup, cleanup));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @SuppressWarnings("unchecked")
   @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
@@ -6740,6 +6784,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getDecoration();
       case GenModelPackage.GEN_MODEL__STYLE_PROVIDERS:
         return isStyleProviders();
+      case GenModelPackage.GEN_MODEL__CLEANUP:
+        return isCleanup();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -7016,6 +7062,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__STYLE_PROVIDERS:
         setStyleProviders((Boolean)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__CLEANUP:
+        setCleanup((Boolean)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -7282,6 +7331,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__STYLE_PROVIDERS:
         setStyleProviders(STYLE_PROVIDERS_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__CLEANUP:
+        setCleanup(CLEANUP_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -7464,6 +7516,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return decoration != DECORATION_EDEFAULT;
       case GenModelPackage.GEN_MODEL__STYLE_PROVIDERS:
         return styleProviders != STYLE_PROVIDERS_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__CLEANUP:
+        return cleanup != CLEANUP_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -7637,6 +7691,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(decoration);
     result.append(", styleProviders: ");
     result.append(styleProviders);
+    result.append(", cleanup: ");
+    result.append(cleanup);
     result.append(')');
     return result.toString();
   }
@@ -8945,6 +9001,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
     setCommentFormatting(oldGenModelVersion.isCommentFormatting());
     setImportOrganizing(oldGenModelVersion.isImportOrganizing());
+    setCleanup(oldGenModelVersion.isCleanup());
 
     if (oldGenModelVersion.eIsSet(GenModelPackage.Literals.GEN_MODEL__PLUGIN_KEY))
     {

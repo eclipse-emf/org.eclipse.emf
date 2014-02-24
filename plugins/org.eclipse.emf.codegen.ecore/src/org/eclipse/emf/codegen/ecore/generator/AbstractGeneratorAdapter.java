@@ -2230,14 +2230,21 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
   /**
    * Creates an <code>OutputStream</code> for the file identified by the given workspace path URI.
+   * Calls back to the generator to indicate output was {@link Generator#generatedOutput(URI) generated}.
    */
   protected OutputStream createOutputStream(URI workspacePath) throws Exception
   {
+    OutputStream result;
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
     {
-      return URIConverter.INSTANCE.createOutputStream(toPlatformResourceURI(workspacePath), null);
+      result = URIConverter.INSTANCE.createOutputStream(toPlatformResourceURI(workspacePath), null);
     }
-    return getURIConverter().createOutputStream(toPlatformResourceURI(workspacePath), null);
+    else
+    {
+      result = getURIConverter().createOutputStream(toPlatformResourceURI(workspacePath), null);
+    }
+    getGenerator().generatedOutput(workspacePath);
+    return result;
   }
 
   /**

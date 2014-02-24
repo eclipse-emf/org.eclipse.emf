@@ -14,7 +14,6 @@ package org.eclipse.emf.codegen.ecore.genmodel.util;
 import java.util.Map;
 
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -24,7 +23,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
-import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -138,34 +136,6 @@ public class GenModelUtil
   {
     Generator generator = new Generator();
     generator.setInput(genModel);
-    JControlModel jControlModel = generator.getJControlModel();
-
-    if (genModel.isCodeFormatting())
-    {
-      jControlModel.setLeadingTabReplacement(null);
-      jControlModel.setConvertToStandardBraceStyle(false);
-    }
-    else
-    {
-      Map<String, String> options = getJavaOptions(genModel);
-      String tabSize = options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE);
-      String braceStyle = options.get(DefaultCodeFormatterConstants.FORMATTER_BRACE_POSITION_FOR_TYPE_DECLARATION);
-      String tabCharacter = options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
-      if (JavaCore.TAB.equals(tabCharacter))
-      {
-        jControlModel.setLeadingTabReplacement("\t");
-      }
-      else
-      {
-        String spaces = "";
-        for (int i = Integer.parseInt(tabSize); i > 0; --i)
-        {
-          spaces += " ";
-        }
-        jControlModel.setLeadingTabReplacement(spaces);
-      }
-      jControlModel.setConvertToStandardBraceStyle(DefaultCodeFormatterConstants.END_OF_LINE.equals(braceStyle));
-    }
     return generator;
   }  
 }

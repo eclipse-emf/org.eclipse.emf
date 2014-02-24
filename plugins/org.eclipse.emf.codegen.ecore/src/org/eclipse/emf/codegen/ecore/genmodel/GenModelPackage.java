@@ -884,13 +884,22 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__STYLE_PROVIDERS = GEN_BASE_FEATURE_COUNT + 83;
 
   /**
+   * The feature id for the '<em><b>Cleanup</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__CLEANUP = GEN_BASE_FEATURE_COUNT + 84;
+
+  /**
    * The number of structural features of the '<em>Gen Model</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 84;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 85;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -2918,6 +2927,17 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenModel_StyleProviders();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCleanup <em>Cleanup</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Cleanup</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCleanup()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_Cleanup();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage <em>Gen Package</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4580,6 +4600,14 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_MODEL__STYLE_PROVIDERS = eINSTANCE.getGenModel_StyleProviders();
+
+    /**
+     * The meta object literal for the '<em><b>Cleanup</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__CLEANUP = eINSTANCE.getGenModel_Cleanup();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.

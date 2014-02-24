@@ -114,6 +114,7 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
       }
       else
       {
+        getGenerator().generatedOutput(workspacePath);
         return
           new ByteArrayOutputStream()
           {

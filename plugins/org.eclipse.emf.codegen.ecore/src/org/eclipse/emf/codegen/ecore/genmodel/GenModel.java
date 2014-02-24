@@ -126,6 +126,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getPluginKey <em>Plugin Key</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getDecoration <em>Decoration</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isStyleProviders <em>Style Providers</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCleanup <em>Cleanup</em>}</li>
  * </ul>
  * </p>
  *
@@ -2237,6 +2238,32 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setStyleProviders(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Cleanup</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * @since 2.10
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Cleanup</em>' attribute.
+   * @see #setCleanup(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_Cleanup()
+   * @model
+   * @generated
+   */
+  boolean isCleanup();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCleanup <em>Cleanup</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.10
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Cleanup</em>' attribute.
+   * @see #isCleanup()
+   * @generated
+   */
+  void setCleanup(boolean value);
 
   EList<GenPackage> getStaticGenPackages();
 

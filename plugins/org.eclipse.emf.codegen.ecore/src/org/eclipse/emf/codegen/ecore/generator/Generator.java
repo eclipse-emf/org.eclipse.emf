@@ -16,22 +16,32 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 
 
 /**
@@ -136,6 +146,12 @@ public class Generator
     public boolean importOrganizing;
 
     /**
+     * Whether registered cleanup actions should be applied to the generated source code.
+     * @since 2.10
+     */
+    public boolean cleanup;
+
+    /**
      * Code formatter options to be used instead of the defaults for Java code formatting.
      */
     public Map<?, ?> codeFormatterOptions;
@@ -186,6 +202,11 @@ public class Generator
   protected boolean initializeNeeded = true;
 
   protected JControlModel jControlModel;
+
+  /**
+   * @since 2.10
+   */
+  protected Set<URI> generatedOutputs = new LinkedHashSet<URI>();
 
   /**
    * Creates a generator that delegates directly to the {@link GeneratorAdapterFactory.Descriptor.Registry#INSTANCE global}
@@ -309,7 +330,8 @@ public class Generator
       {
         if (input instanceof GenModel)
         {
-          switch (((GenModel)input).getComplianceLevel())
+          GenModel genModel = (GenModel)input;
+          switch (genModel.getComplianceLevel())
           {
             case JDK14_LITERAL:
             {
@@ -331,6 +353,33 @@ public class Generator
               facadeHelper.setCompilerCompliance(JavaCore.VERSION_1_7); 
               break;
             }
+          }
+
+          if (genModel.isCodeFormatting())
+          {
+            jControlModel.setLeadingTabReplacement(null);
+            jControlModel.setConvertToStandardBraceStyle(false);
+          }
+          else
+          {
+            Map<String, String> options = GenModelUtil.getJavaOptions(genModel);
+            String tabSize = options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE);
+            String braceStyle = options.get(DefaultCodeFormatterConstants.FORMATTER_BRACE_POSITION_FOR_TYPE_DECLARATION);
+            String tabCharacter = options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
+            if (JavaCore.TAB.equals(tabCharacter))
+            {
+              jControlModel.setLeadingTabReplacement("\t");
+            }
+            else
+            {
+              String spaces = "";
+              for (int i = Integer.parseInt(tabSize); i > 0; --i)
+              {
+                spaces += " ";
+              }
+              jControlModel.setLeadingTabReplacement(spaces);
+            }
+            jControlModel.setConvertToStandardBraceStyle(DefaultCodeFormatterConstants.END_OF_LINE.equals(braceStyle));
           }
         }
       }
@@ -664,12 +713,77 @@ public class Generator
       {
         result.add(data[i].adapter.postGenerate(data[i].object, projectType));
       }
+
+      // Optionally invoke any source cleanup actions.
+      // This is only possible if JDT and JDT UI are available.
+      //
+      if (getOptions().cleanup && CommonPlugin.IS_RESOURCES_BUNDLE_AVAILABLE && !generatedOutputs.isEmpty() && jControlModel != null && jControlModel.getFacadeHelper() != null)
+      {
+        EclipseHelper.sourceCleanup(generatedOutputs);
+      }
+
       return result;
     }
     finally
     {
       monitor.done();
       if (SYSOUT_BEGIN_END) System.out.println("******* End: " + new java.util.Date());
+    }
+  }
+
+  /**
+   * Clients are not expect to implement this interface.
+   * It can only be implemented if the JDT UI is available, because source cleanup actions are implemented there.
+   * @since 2.10
+   */
+  public interface CleanupScheduler
+  {
+    void schedule(Set<ICompilationUnit> compilationUnits);
+  }
+
+  private static class EclipseHelper
+  {
+    private static final CleanupScheduler SCHEDULER;
+    static
+    {
+      CleanupScheduler cleanupScheduler = null;
+      try
+      {
+        Class<?> generatorUIUtilClass = CommonPlugin.loadClass("org.eclipse.emf.codegen.ecore.ui", "org.eclipse.emf.codegen.ecore.genmodel.presentation.GeneratorUIUtil");
+        cleanupScheduler = (CleanupScheduler)generatorUIUtilClass.getField("CLEANUP_SCHEDULER").get(null);
+      }
+      catch (Exception exception)
+      {
+        // Ignore
+      }
+
+      SCHEDULER = cleanupScheduler;
+    }
+
+    public static void sourceCleanup(final Set<URI> generatedOutputs)
+    {
+      if (SCHEDULER != null)
+      {
+        IWorkspaceRoot workspaceRoot = EcorePlugin.getWorkspaceRoot();
+        if (workspaceRoot != null)
+        {
+          Set<ICompilationUnit> compilationUnits = new LinkedHashSet<ICompilationUnit>();
+          for (URI generatedOutput : generatedOutputs)
+          {
+            if ("java".equals(generatedOutput.fileExtension()))
+            {
+              IFile file = workspaceRoot.getFile(new Path(generatedOutput.toString()));
+              ICompilationUnit compilationUnit = JavaCore.createCompilationUnitFrom(file);
+              if (compilationUnit.getJavaProject().isOnClasspath(compilationUnit))
+              {
+                compilationUnits.add(compilationUnit);
+              }
+            }
+          }
+
+          SCHEDULER.schedule(compilationUnits);
+        }
+      }
     }
   }
 
@@ -683,6 +797,28 @@ public class Generator
   protected boolean canContinue(Diagnostic diagnostic)
   {
     return diagnostic.getSeverity() != Diagnostic.CANCEL;
+  }
+
+  /**
+   * A {@link AbstractGeneratorAdapter#createOutputStream(URI) callback} indicating that output was generated for the given workspace path.
+   * @see #getGeneratedOutputs()
+   * @see AbstractGeneratorAdapter#createOutputStream(URI)
+   * @since 2.10
+   */
+  public void generatedOutput(URI workspacePath)
+  {
+    generatedOutputs.add(workspacePath);
+  }
+
+  /**
+   * Returns the workspace paths for which outputs have been {@link AbstractGeneratorAdapter#createOutputStream(URI) generated}.
+   * @since 2.10
+   * @see #generatedOutput(URI)
+   * @see AbstractGeneratorAdapter#createOutputStream(URI)
+   */
+  public Set<URI> getGeneratedOutputs()
+  {
+    return generatedOutputs;
   }
 
   /**

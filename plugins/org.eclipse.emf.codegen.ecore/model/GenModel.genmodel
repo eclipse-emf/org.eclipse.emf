@@ -225,6 +225,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/decoration"/>
       <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether item providers should provide support for specifying styled labels"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/styleProviders"/>
+      <genFeatures createChild="false" propertyCategory="JET" propertyDescription="Whether to invoke the configured source clean actions after generating"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/cleanup"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenPackage">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The prefix for names of several packaged-related classes, including package, factory, switch, and adapter factory"

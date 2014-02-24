@@ -10,29 +10,46 @@
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
-
+import org.eclipse.ui.progress.UIJob;
+import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.generator.Generator;
+import org.eclipse.emf.codegen.ecore.generator.Generator.CleanupScheduler;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -199,4 +216,140 @@ public class GeneratorUIUtil
       return diagnostic.getSeverity() != Diagnostic.CANCEL;
     }    
   }  
+
+  /**
+   * @since 2.10
+   */
+  public static final CleanupScheduler CLEANUP_SCHEDULER;
+  static
+  {
+    CleanupScheduler cleanupScheduler = null;
+    try
+    {
+      cleanupScheduler = new CleanupSchedulerImpl();
+    }
+    catch (Exception e)
+    {
+      // Ignore if JDT UI isn't available.
+    }
+    CLEANUP_SCHEDULER = cleanupScheduler;
+  }
+
+  private static class CleanupSchedulerImpl implements CleanupScheduler
+  {
+    private final Set<ICompilationUnit> compilationUnits = new LinkedHashSet<ICompilationUnit>();
+
+    private final Class<?> javaPluginClass = CommonPlugin.loadClass("org.eclipse.jdt.ui", "org.eclipse.jdt.internal.ui.JavaPlugin");
+    private final Method getDefaultMethod = javaPluginClass.getMethod("getDefault");
+    private final Object javaPlugin = getDefaultMethod.invoke(null);
+    private final Method getCleanUpRegistryMethod = javaPluginClass.getMethod("getCleanUpRegistry");
+    private final Method createCleanUpsMethod = getCleanUpRegistryMethod.getReturnType().getMethod("createCleanUps");
+    private final Class<?> cleanUpRefactoringClass = CommonPlugin.loadClass("org.eclipse.jdt.ui", "org.eclipse.jdt.internal.corext.fix.CleanUpRefactoring");
+    private final Constructor<?> cleanupRefactoringConstructor = cleanUpRefactoringClass.getConstructor(String.class);
+    private final Method setUseOptionsFromProfileMethod = cleanUpRefactoringClass.getMethod("setUseOptionsFromProfile", boolean.class);
+    private final Class<?> iCleanUpClass = CommonPlugin.loadClass("org.eclipse.jdt.ui", "org.eclipse.jdt.ui.cleanup.ICleanUp");
+    private final Method addCleanUpMethod = cleanUpRefactoringClass.getMethod("addCleanUp", iCleanUpClass);
+    private final Class<?> refactoringClass = CommonPlugin.loadClass("org.eclipse.jdt.ui", "org.eclipse.ltk.core.refactoring.Refactoring");
+    private final Class<?> refactoringExecutionHelperClass = CommonPlugin.loadClass("org.eclipse.jdt.ui", "org.eclipse.jdt.internal.ui.refactoring.RefactoringExecutionHelper");
+    private final Constructor<?> refactoringExecutionHelperConstructor = refactoringExecutionHelperClass.getConstructor(refactoringClass, int.class, int.class, Shell.class, IRunnableContext.class);
+    private final Method performMethod = refactoringExecutionHelperClass.getMethod("perform", boolean.class, boolean.class, boolean.class);
+
+    private Job job;
+
+    public CleanupSchedulerImpl() throws Exception
+    {
+      // TODO Auto-generated constructor stub
+    }
+    
+    public synchronized Job getJob()
+    {
+      if (job == null)
+      {
+        job = new UIJob(Display.getDefault(), "Cleanup Generated Java")
+          {
+            @Override
+            public IStatus runInUIThread(IProgressMonitor monitor)
+            {
+              try
+              {
+                Set<ICompilationUnit> compilationUnits = getScheduledCompilationUnits();
+                ICompilationUnit[] units = compilationUnits.toArray(new ICompilationUnit[compilationUnits.size()]);
+
+                // ICleanUp[] cleanUps = JavaPlugin.getDefault().getCleanUpRegistry().createCleanUps();
+                //
+                Object cleanUpRegistry = getCleanUpRegistryMethod.invoke(javaPlugin);
+                Object[] cleanups = (Object[])createCleanUpsMethod.invoke(cleanUpRegistry);
+
+                // CleanUpRefactoring cleanupRefactoring= new CleanUpRefactoring("Cleanup Generated Java");
+                //
+                Object cleanUpRefactoring = cleanupRefactoringConstructor.newInstance("Clean Generated Java");
+                
+                Method addCompilationUnitMethod = cleanUpRefactoringClass.getMethod("addCompilationUnit", ICompilationUnit.class);
+                for (ICompilationUnit unit : units)
+                {
+                  // cleanupRefactoring.addCompilationUnit(unit);
+                  //
+                  addCompilationUnitMethod.invoke(cleanUpRefactoring, unit);
+                }
+
+                // cleanupRefactoring.setUseOptionsFromProfile(true);
+                //
+                setUseOptionsFromProfileMethod.invoke(cleanUpRefactoring, Boolean.TRUE);
+                
+                for (Object cleanup : cleanups)
+                {
+                  // cleanupRefactoring.addCleanUp(cleanUps[i]);
+                  //
+                  addCleanUpMethod.invoke(cleanUpRefactoring, cleanup);
+                }
+
+                IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+                
+                // RefactoringExecutionHelper helper= new RefactoringExecutionHelper(cleanupRefactoring, IStatus.INFO, RefactoringSaveHelper.SAVE_REFACTORING, activeWorkbenchWindow.getShell(), activeWorkbenchWindow);
+                //
+                Object refactoringExecutionHelper = refactoringExecutionHelperConstructor.newInstance(cleanUpRefactoring, IStatus.INFO, 4, activeWorkbenchWindow.getShell(), activeWorkbenchWindow);
+
+                // refactoringExecutionHelper.perform(true, true, true);
+                performMethod.invoke(refactoringExecutionHelper, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE);
+              }
+              catch (Exception e)
+              {
+                if (e.getCause() instanceof OperationCanceledException)
+                {
+                  return Status.CANCEL_STATUS;
+                }
+                else
+                {
+                  return new Status(IStatus.ERROR, CodeGenEcorePlugin.ID, "Refactoring failure", e);
+                }
+              }
+
+              return Status.OK_STATUS;
+            }
+          };
+
+        job.setRule(EcorePlugin.getWorkspaceRoot());
+        job.schedule();
+      }
+
+      return job;
+    }
+
+    public synchronized Set<ICompilationUnit> getScheduledCompilationUnits()
+    {
+      job = null;
+      Set<ICompilationUnit> result = new LinkedHashSet<ICompilationUnit>(compilationUnits);
+      compilationUnits.clear();
+      return result;
+    }
+
+    public synchronized void schedule(Set<ICompilationUnit> compilationUnits)
+    {
+      if (!compilationUnits.isEmpty())
+      {
+        this.compilationUnits.addAll(compilationUnits);
+        getJob();
+      }
+    }
+  }
 }

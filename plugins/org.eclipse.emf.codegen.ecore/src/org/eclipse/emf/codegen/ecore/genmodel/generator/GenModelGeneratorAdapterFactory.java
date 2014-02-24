@@ -171,6 +171,7 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
     options.codeFormatting = genModel.isCodeFormatting();
     options.commentFormatting = genModel.isCommentFormatting();
     options.importOrganizing = genModel.isImportOrganizing();
+    options.cleanup = genModel.isCleanup();
     options.resourceSet = resource != null ? resource.getResourceSet() : null;
     options.templateClasspath = genModel.getTemplatePluginVariables();
   }
