@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
-
+import org.eclipse.ui.views.properties.IPropertySource2;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 
@@ -26,7 +26,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
  * This is used to encapsulate an {@link IItemPropertySource} along with the object for which it is an item property source
  * and make it behave like an {@link org.eclipse.ui.views.properties.IPropertySource}.
  */
-public class PropertySource implements IPropertySource
+public class PropertySource implements IPropertySource, IPropertySource2
 {
   /**
    * This is the object for which this class is a property source.
@@ -92,6 +92,17 @@ public class PropertySource implements IPropertySource
   public boolean isPropertySet(Object propertyId)
   {
     return itemPropertySource.getPropertyDescriptor(object, propertyId).isPropertySet(object);
+  }
+
+  /**
+   * This returns <code>true</code> only when {@link IItemPropertyDescriptor#isPropertySet IItemPropertyDescriptor.isPropertySet} 
+   * and {@link IItemPropertyDescriptor#canSetProperty IItemPropertyDescriptor.canSetProperty} are <code>true</code>.
+   * @since 2.10
+   */
+  public boolean isPropertyResettable(Object propertyId)
+  {
+    IItemPropertyDescriptor propertyDescriptor = itemPropertySource.getPropertyDescriptor(object, propertyId);
+    return propertyDescriptor.canSetProperty(object) && propertyDescriptor.isPropertySet(object);
   }
 
   /**
