@@ -291,9 +291,23 @@ public class ValidateAction extends Action implements ISelectionChangedListener
         protected boolean doValidate(EValidator eValidator, EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
         {
           progressMonitor.worked(1);
-          synchronized (resourceSet)
+          Resource resource = eObject.eResource();
+          if (resource == null)
           {
-            return super.doValidate(eValidator, eClass, eObject, diagnostics, context);
+            synchronized (resourceSet)
+            {
+              return super.doValidate(eValidator, eClass, eObject, diagnostics, context);
+            }
+          }
+          else
+          {
+            synchronized (resource)
+            {
+              synchronized (resourceSet)
+              {
+                return super.doValidate(eValidator, eClass, eObject, diagnostics, context);
+              }
+            }
           }
         }
       };
