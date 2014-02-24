@@ -286,7 +286,7 @@ public class EditUIMarkerHelper extends MarkerHelper
       Resource resource = (Resource)object;
       EditingDomain editingDomain = AdapterFactoryEditingDomain.getEditingDomainFor(resource.getResourceSet());
       BasicDiagnostic diagnostic = new BasicDiagnostic(getDiagnosticSource(), 0, null, new Object[] { resource });
-      if (file != null)
+      if (file != null && file.isAccessible())
       {
         try
         {

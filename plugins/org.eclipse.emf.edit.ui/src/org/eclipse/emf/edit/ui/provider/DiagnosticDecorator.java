@@ -463,7 +463,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
 
               final ResourceSet resourceSet = editingDomain.getResourceSet();
 
-              List<Resource> resources = new ArrayList<Resource>(Arrays.asList(scheduledResources.toArray(new Resource[0])));
+              List<Resource> resources = new UniqueEList<Resource>(Arrays.asList(scheduledResources.toArray(new Resource[0])));
               scheduledResources.removeAll(resources);
 
               // Count all the objects we need to validate and resolve proxies.
@@ -731,6 +731,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
      * Decorate the given {@code styledString} by underlying the whole given {@code styledString} 
      * with a {@link SWT#UNDERLINE_ERROR} underline style colored in {@link JFacePreferences#ERROR_COLOR}.
      */
+    @Override
     public StyledString decorateStyledText(StyledString styledString, Object object)
     {
       if (styledString == null || object == null)
