@@ -1419,7 +1419,8 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
         for (Object object : ((IStructuredContentProvider)contentProvider).getElements(input))
         {
           path.set(0, index++);
-          Diagnostic objectDiagnostic = decorate(decorations, object, objects.get(AdapterFactoryEditingDomain.unwrap(object)), path);
+          BasicDiagnostic childDiagnostic = getDiagnostic(objects, object, path);
+          Diagnostic objectDiagnostic = decorate(decorations, object, childDiagnostic, path);
           if (treeContentProvider != null)
           {
             Set<Object> visited = new HashSet<Object>();
@@ -1429,6 +1430,38 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
         }
       }
     }
+  }
+
+  /**
+   * @since 2.10
+   */
+  protected BasicDiagnostic getDiagnostic(Map<Object, BasicDiagnostic> objects, Object object, List<Integer> path)
+  {
+    BasicDiagnostic childDiagnostic = objects.get(object);
+    if (childDiagnostic == null)
+    {
+      // Check if the unwrapped child is different and has diagnostics...
+      //
+      Object unwrappedChild = AdapterFactoryEditingDomain.unwrap(object);
+      if (object != unwrappedChild)
+      {
+        childDiagnostic = objects.get(unwrappedChild);
+        if (childDiagnostic != null)
+        {
+          // Create a new diagnostic wrapper for it.
+          //
+          childDiagnostic = 
+            new BasicDiagnostic
+              (childDiagnostic.getSource(), 
+               childDiagnostic.getCode(), 
+               childDiagnostic.getChildren(), 
+               childDiagnostic.getMessage(), 
+               new Object[] { object, path.toArray(new Integer[path.size()]) });
+          objects.put(object, childDiagnostic);
+        }
+      }
+    }
+    return childDiagnostic;
   }
 
   protected BasicDiagnostic decorate(Map<Object, BasicDiagnostic> objects, ITreeContentProvider treeContentProvider, Set<Object> visited, Object object, List<Integer> path)
@@ -1441,7 +1474,8 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
       for (Object child : treeContentProvider.getChildren(object))
       {
         path.add(index++);
-        BasicDiagnostic childResult = decorate(decorations, child, objects.get(AdapterFactoryEditingDomain.unwrap(child)), path);
+        BasicDiagnostic childDiagnostic = getDiagnostic(objects, child, path);
+        BasicDiagnostic childResult = decorate(decorations, child, childDiagnostic, path);
         childResult = decorate(objects, treeContentProvider, visited, child, path);
         path.remove(last);
         result = decorate(decorations, object, childResult, path);
@@ -1584,7 +1618,6 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
   {
     List<?> data = diagnostic.getData();
     Object object = data.get(0);
-    Integer[] path = (Integer[])data.get(1);
 
     List<Diagnostic> children = diagnostic.getChildren();
     Diagnostic child = children.get(0);
@@ -1602,6 +1635,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
       }
       result.append("<a href='");
       result.append("path:");
+      Integer[] path = (Integer[])data.get(1);
       for (Integer segment : path)
       {
         result.append('/');
