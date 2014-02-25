@@ -219,7 +219,7 @@ XMultiplicity returns XMultiplicity:
 XBlockExpression returns xbase::XBlockExpression:
  {xbase::XBlockExpression}
  '{'
-  (expressions+=XExpressionInsideBlock ';'?)*
+  (expressions+=XExpressionOrVarDeclaration ';'?)*
  '}'
 ;
 

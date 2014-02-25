@@ -73,8 +73,7 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXCollectionLiteralAccess().getAlternatives(), "rule__XCollectionLiteral__Alternatives");
 					put(grammarAccess.getXSwitchExpressionAccess().getAlternatives_2(), "rule__XSwitchExpression__Alternatives_2");
 					put(grammarAccess.getXCasePartAccess().getAlternatives_3(), "rule__XCasePart__Alternatives_3");
-					put(grammarAccess.getXBasicForLoopExpressionAccess().getAlternatives_3(), "rule__XBasicForLoopExpression__Alternatives_3");
-					put(grammarAccess.getXExpressionInsideBlockAccess().getAlternatives(), "rule__XExpressionInsideBlock__Alternatives");
+					put(grammarAccess.getXExpressionOrVarDeclarationAccess().getAlternatives(), "rule__XExpressionOrVarDeclaration__Alternatives");
 					put(grammarAccess.getXVariableDeclarationAccess().getAlternatives_1(), "rule__XVariableDeclaration__Alternatives_1");
 					put(grammarAccess.getXVariableDeclarationAccess().getAlternatives_2(), "rule__XVariableDeclaration__Alternatives_2");
 					put(grammarAccess.getXFeatureCallAccess().getAlternatives_3_1(), "rule__XFeatureCall__Alternatives_3_1");
@@ -263,8 +262,8 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXForLoopExpressionAccess().getGroup_0(), "rule__XForLoopExpression__Group_0__0");
 					put(grammarAccess.getXForLoopExpressionAccess().getGroup_0_0(), "rule__XForLoopExpression__Group_0_0__0");
 					put(grammarAccess.getXBasicForLoopExpressionAccess().getGroup(), "rule__XBasicForLoopExpression__Group__0");
+					put(grammarAccess.getXBasicForLoopExpressionAccess().getGroup_3(), "rule__XBasicForLoopExpression__Group_3__0");
 					put(grammarAccess.getXBasicForLoopExpressionAccess().getGroup_3_1(), "rule__XBasicForLoopExpression__Group_3_1__0");
-					put(grammarAccess.getXBasicForLoopExpressionAccess().getGroup_3_1_1(), "rule__XBasicForLoopExpression__Group_3_1_1__0");
 					put(grammarAccess.getXBasicForLoopExpressionAccess().getGroup_7(), "rule__XBasicForLoopExpression__Group_7__0");
 					put(grammarAccess.getXBasicForLoopExpressionAccess().getGroup_7_1(), "rule__XBasicForLoopExpression__Group_7_1__0");
 					put(grammarAccess.getXWhileExpressionAccess().getGroup(), "rule__XWhileExpression__Group__0");
@@ -298,6 +297,9 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXTryCatchFinallyExpressionAccess().getGroup_3_0(), "rule__XTryCatchFinallyExpression__Group_3_0__0");
 					put(grammarAccess.getXTryCatchFinallyExpressionAccess().getGroup_3_0_1(), "rule__XTryCatchFinallyExpression__Group_3_0_1__0");
 					put(grammarAccess.getXTryCatchFinallyExpressionAccess().getGroup_3_1(), "rule__XTryCatchFinallyExpression__Group_3_1__0");
+					put(grammarAccess.getXSynchronizedExpressionAccess().getGroup(), "rule__XSynchronizedExpression__Group__0");
+					put(grammarAccess.getXSynchronizedExpressionAccess().getGroup_0(), "rule__XSynchronizedExpression__Group_0__0");
+					put(grammarAccess.getXSynchronizedExpressionAccess().getGroup_0_0(), "rule__XSynchronizedExpression__Group_0_0__0");
 					put(grammarAccess.getXCatchClauseAccess().getGroup(), "rule__XCatchClause__Group__0");
 					put(grammarAccess.getQualifiedNameAccess().getGroup(), "rule__QualifiedName__Group__0");
 					put(grammarAccess.getQualifiedNameAccess().getGroup_1(), "rule__QualifiedName__Group_1__0");
@@ -506,8 +508,7 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXForLoopExpressionAccess().getForExpressionAssignment_1(), "rule__XForLoopExpression__ForExpressionAssignment_1");
 					put(grammarAccess.getXForLoopExpressionAccess().getEachExpressionAssignment_3(), "rule__XForLoopExpression__EachExpressionAssignment_3");
 					put(grammarAccess.getXBasicForLoopExpressionAccess().getInitExpressionsAssignment_3_0(), "rule__XBasicForLoopExpression__InitExpressionsAssignment_3_0");
-					put(grammarAccess.getXBasicForLoopExpressionAccess().getInitExpressionsAssignment_3_1_0(), "rule__XBasicForLoopExpression__InitExpressionsAssignment_3_1_0");
-					put(grammarAccess.getXBasicForLoopExpressionAccess().getInitExpressionsAssignment_3_1_1_1(), "rule__XBasicForLoopExpression__InitExpressionsAssignment_3_1_1_1");
+					put(grammarAccess.getXBasicForLoopExpressionAccess().getInitExpressionsAssignment_3_1_1(), "rule__XBasicForLoopExpression__InitExpressionsAssignment_3_1_1");
 					put(grammarAccess.getXBasicForLoopExpressionAccess().getExpressionAssignment_5(), "rule__XBasicForLoopExpression__ExpressionAssignment_5");
 					put(grammarAccess.getXBasicForLoopExpressionAccess().getUpdateExpressionsAssignment_7_0(), "rule__XBasicForLoopExpression__UpdateExpressionsAssignment_7_0");
 					put(grammarAccess.getXBasicForLoopExpressionAccess().getUpdateExpressionsAssignment_7_1_1(), "rule__XBasicForLoopExpression__UpdateExpressionsAssignment_7_1_1");
@@ -551,6 +552,8 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXTryCatchFinallyExpressionAccess().getCatchClausesAssignment_3_0_0(), "rule__XTryCatchFinallyExpression__CatchClausesAssignment_3_0_0");
 					put(grammarAccess.getXTryCatchFinallyExpressionAccess().getFinallyExpressionAssignment_3_0_1_1(), "rule__XTryCatchFinallyExpression__FinallyExpressionAssignment_3_0_1_1");
 					put(grammarAccess.getXTryCatchFinallyExpressionAccess().getFinallyExpressionAssignment_3_1_1(), "rule__XTryCatchFinallyExpression__FinallyExpressionAssignment_3_1_1");
+					put(grammarAccess.getXSynchronizedExpressionAccess().getParamAssignment_1(), "rule__XSynchronizedExpression__ParamAssignment_1");
+					put(grammarAccess.getXSynchronizedExpressionAccess().getExpressionAssignment_3(), "rule__XSynchronizedExpression__ExpressionAssignment_3");
 					put(grammarAccess.getXCatchClauseAccess().getDeclaredParamAssignment_2(), "rule__XCatchClause__DeclaredParamAssignment_2");
 					put(grammarAccess.getXCatchClauseAccess().getExpressionAssignment_4(), "rule__XCatchClause__ExpressionAssignment_4");
 					put(grammarAccess.getXFunctionTypeRefAccess().getParamTypesAssignment_0_1_0(), "rule__XFunctionTypeRef__ParamTypesAssignment_0_1_0");
