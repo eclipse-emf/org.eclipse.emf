@@ -1,0 +1,18 @@
+importprefs -F ${checkout.location}/releng/org.eclipse.emf.releng.buckminster/releng/buckminster.workspace.epf
+importproxysettings
+
+setpref complianceLevel=1.5
+setpref targetPlatformPath="${WORKSPACE}/buildroot/target.platform"
+
+importtargetdefinition -A  ${checkout.location}/releng/org.eclipse.emf.releng.buckminster/target-platforms/developer-galileo-rap.target
+resolve "${checkout.location}/releng/org.eclipse.emf.releng.buckminster/releng/emf-tests.cquery"
+build
+
+
+junit --launch "org.eclipse.emf.test.core/Test EMF Core.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Core.xml"
+junit --launch "org.eclipse.emf.test.databinding/Test EMF Databinding.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Databinding.xml"
+junit --launch "org.eclipse.emf.test.xml/Test EMF XML.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF XML.xml"
+junit --launch "org.eclipse.emf.test.tools/Test EMF Tools.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Tools.xml"
+junit --launch "org.eclipse.emf.test.edit/Test EMF Edit.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Edit.xml"
+junit --launch "org.eclipse.emf.test.databinding.edit/Test EMF Databinding Edit.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Databinding Edit.xml"
+junit --launch "org.eclipse.emf.test.examples/Test EMF Examples.launch" --flatXML --output "${WORKSPACE}/buildroot/test.results/Test EMF Examples.xml"

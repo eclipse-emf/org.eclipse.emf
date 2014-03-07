@@ -48,6 +48,16 @@
 		<antcall target="start-build" inheritall="true" />
 
 	</target>
+	
+	<target name="test-rap" >
+		<!-- What is to do -->
+		<property name="commands.file" value="${releng.proj.loc}/releng/local/test-rap.txt" />
+		<!-- Where to build. This folder will be cleaned up, so dont point to ~ or / :) -->
+		<mkdir dir="${user.home}/hudsonbuild/emf-rap-tests" />
+		<property name="WORKSPACE" location="${user.home}/hudsonbuild/emf-rap-tests" />
+		<antcall target="start-build" inheritall="true" />
+
+	</target>
 
 	<!-- ================================= 
           target: Runs 
