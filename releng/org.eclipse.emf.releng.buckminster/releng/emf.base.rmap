@@ -10,7 +10,6 @@
 
 
 	<locator pattern="^org\.eclipse\.datatools(?:\..+)?$" searchPathRef="datatools" />
-	<locator pattern="^org\.eclipse\.rap(?:\..+)?$" searchPathRef="rap" />
 	<locator pattern="^com\.google\.(?:appengine|gdt|gwt)\.eclipse(?:\..+)?$" searchPathRef="google" />
 	<locator searchPathRef="platform" />
 
