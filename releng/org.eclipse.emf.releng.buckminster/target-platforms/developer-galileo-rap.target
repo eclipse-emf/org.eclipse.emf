@@ -21,13 +21,13 @@
 <repository location="http://download.eclipse.org/datatools/downloads/drops/M_updates_1.9"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.emf.rap.edit.ui.feature.group" version="2.9.0.v20140303-1041"/>
-<unit id="org.eclipse.emf.rap.common.ui.feature.group" version="2.8.0.v20140303-1041"/>
-<unit id="org.eclipse.emf.rap.sdk.feature.group" version="2.10.0.v20140303-1041"/>
-<unit id="org.eclipse.emf.rap.feature.group" version="2.10.0.v20140303-1041"/>
-<unit id="org.eclipse.emf.sdk.feature.group" version="2.10.0.v20140303-1041"/>
-<unit id="org.eclipse.xsd.feature.group" version="2.10.0.v20140303-1041"/>
-<repository location="https://hudson.eclipse.org/xtext/job/emf-core/lastSuccessfulBuild/artifact/build-result/p2.repository/"/>
+<unit id="org.eclipse.emf.rap.edit.ui.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.emf.rap.common.ui.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.emf.rap.sdk.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.emf.rap.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.emf.sdk.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.xsd.feature.group" version="0.0.0"/>
+<repository location="https://hudson.eclipse.org/xtext/job/emf-core/lastStableBuild/artifact/build-result/p2.repository/"/>
 </location>
 </locations>
 <includeBundles>
