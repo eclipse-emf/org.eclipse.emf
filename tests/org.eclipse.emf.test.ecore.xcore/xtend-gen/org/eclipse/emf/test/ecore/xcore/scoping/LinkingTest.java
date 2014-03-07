@@ -181,7 +181,7 @@ public class LinkingTest {
       EList<XExpression> _expressions = block.getExpressions();
       XExpression _head_2 = IterableExtensions.<XExpression>head(_expressions);
       final XVariableDeclaration declaration = ((XVariableDeclaration) _head_2);
-      _xblockexpression = (declaration);
+      _xblockexpression = declaration;
     }
     return _xblockexpression;
   }

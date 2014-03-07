@@ -251,13 +251,13 @@ public class XcoreGenerator implements IGenerator {
           result = _replace;
           int _length = result.length();
           int _minus = (_length - 2);
-          _xblockexpression_1 = (result.substring(1, _minus));
+          _xblockexpression_1 = result.substring(1, _minus);
         }
         _xifexpression_1 = _xblockexpression_1;
       } else {
         _xifexpression_1 = result;
       }
-      _xblockexpression = (_xifexpression_1);
+      _xblockexpression = _xifexpression_1;
     }
     return _xblockexpression;
   }
@@ -282,7 +282,7 @@ public class XcoreGenerator implements IGenerator {
         BasicMonitor _basicMonitor_2 = new BasicMonitor();
         generator.generate(genModel, GenBaseGeneratorAdapter.EDITOR_PROJECT_TYPE, _basicMonitor_2);
         BasicMonitor _basicMonitor_3 = new BasicMonitor();
-        _xblockexpression = (generator.generate(genModel, GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE, _basicMonitor_3));
+        _xblockexpression = generator.generate(genModel, GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE, _basicMonitor_3);
       }
       _xifexpression = _xblockexpression;
     }
