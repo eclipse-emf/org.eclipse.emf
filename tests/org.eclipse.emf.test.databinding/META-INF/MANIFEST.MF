@@ -12,7 +12,7 @@ Export-Package: org.eclipse.emf.test.databinding.emfdb,
  org.eclipse.emf.test.databinding.emfdb.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.junit,
+ org.junit;bundle-version="[0.0.0,4.0.0)",
  org.eclipse.core.databinding,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.emf.test.common,
