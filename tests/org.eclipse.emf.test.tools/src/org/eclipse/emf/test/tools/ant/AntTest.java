@@ -302,6 +302,8 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/creation/library.rose");
     File antScript = new File(rootDir, "build/build.xml");
     
+    AntUtil.copyFiles(new File(rootExpectedDir, ".settings"), new File(rootDir, ".settings"), true);
+
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
@@ -333,6 +335,7 @@ public class AntTest extends TestCase
     
     AntUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
     AntUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
+    AntUtil.copyFiles(new File(rootExpectedDir, ".settings"), new File(rootDir, ".settings"), true);
    
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
@@ -363,6 +366,8 @@ public class AntTest extends TestCase
     File rootDir = new File(EXAMPLES_COPY_DIR, "/library.xsd." + directorySegment);
     File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/creation/library.xsd");
     File antScript = new File(rootDir, "build/codeGenFromXSD.xml");
+
+    AntUtil.copyFiles(new File(rootExpectedDir, ".settings"), new File(rootDir, ".settings"), true);
 
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
@@ -395,6 +400,7 @@ public class AntTest extends TestCase
     
     AntUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
     AntUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
+    AntUtil.copyFiles(new File(rootExpectedDir, ".settings"), new File(rootDir, ".settings"), true);
    
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
@@ -423,6 +429,8 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/creation/library.xsds");
     File antScript = new File(rootDir, "build/codeGenFromMultipleXSD.xml");
 
+    AntUtil.copyFiles(new File(rootExpectedDir, ".settings"), new File(rootDir, ".settings"), true);
+    
     String[] testTokenReplacements = new String[2];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = getVMType();
@@ -459,6 +467,7 @@ public class AntTest extends TestCase
     
     AntUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
     AntUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
+    AntUtil.copyFiles(new File(rootExpectedDir, ".settings"), new File(rootDir, ".settings"), true);
    
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
@@ -493,6 +502,8 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/creation/library.ecore");
     File antScript = new File(rootDir, "build/build.xml");
     
+    AntUtil.copyFiles(new File(rootExpectedDir, ".settings"), new File(rootDir, ".settings"), true);
+
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
@@ -524,6 +535,7 @@ public class AntTest extends TestCase
     
     AntUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
     AntUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
+    AntUtil.copyFiles(new File(rootExpectedDir, ".settings"), new File(rootDir, ".settings"), true);
    
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
@@ -557,6 +569,8 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/creation/library.java");
     File antScript = new File(rootDir, "build/build.xml");
     
+    AntUtil.copyFiles(new File(rootExpectedDir, ".settings"), new File(rootDir, ".settings"), true);
+
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = "/library.java." + directorySegment + "/src";
     testTokenReplacements[1] = File.separator;
@@ -588,6 +602,7 @@ public class AntTest extends TestCase
     
     AntUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
     AntUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
+    AntUtil.copyFiles(new File(rootExpectedDir, ".settings"), new File(rootDir, ".settings"), true);
    
     String[] testTokenReplacements = new String[3];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
@@ -646,7 +661,7 @@ public class AntTest extends TestCase
       }
       else if (children[i].isDirectory())
       {
-        if (!"CVS".equals(children[i].getName()))
+        if (!"CVS".equals(children[i].getName()) && !".settings".equals(children[i].getName()))
         {
           assertGeneratedFiles(rootDir, rootExpectedDir, children[i], testTokenReplacements);
         }
