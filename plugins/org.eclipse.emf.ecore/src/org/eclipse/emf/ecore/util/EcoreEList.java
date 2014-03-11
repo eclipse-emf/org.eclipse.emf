@@ -348,7 +348,7 @@ public abstract class EcoreEList<E> extends NotifyingInternalEListImpl<E> implem
           boolean result = 
             eContainer == owner && 
               (hasNavigableInverse() ? 
-                 eObject.eBaseStructuralFeatureID(eObject.eContainerFeatureID(), dataClass) == getInverseFeatureID() :
+                 eObject.eBaseStructuralFeatureID(eObject.eContainerFeatureID(), getInverseFeatureClass()) == getInverseFeatureID() :
                  InternalEObject.EOPPOSITE_FEATURE_BASE - eObject.eContainerFeatureID() == getFeatureID());
           if (hasProxies() && !result && eContainer == null && eObject.eDirectResource() != null)
           {
