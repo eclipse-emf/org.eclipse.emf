@@ -473,7 +473,7 @@ public class EcoreXcoreBuilder
 
   XOperation getXOperation(EOperation eOperation)
   {
-    XOperation xOperation = XcoreFactory.eINSTANCE.createXOperation();
+    final XOperation xOperation = XcoreFactory.eINSTANCE.createXOperation();
     XOperationMapping mapping = mapper.getMapping(xOperation);
     mapping.setEOperation(eOperation);
     GenOperation genOperation = genModel.findGenOperation(eOperation);
@@ -520,6 +520,25 @@ public class EcoreXcoreBuilder
       {
         xOperation.setBody((XBlockExpression)body);
       }
+    }
+
+    if (genOperation.isInvariant())
+    {
+      runnables.add
+        (new Runnable()
+         {
+           public void run()
+           {
+             XAnnotation xAnnotation = xOperation.getAnnotation(EcorePackage.eNS_URI);
+             if (xAnnotation == null)
+             {
+               xAnnotation = XcoreFactory.eINSTANCE.createXAnnotation();
+               xAnnotation.setSource(getXAnnotationDirective(xOperation, EcorePackage.eNS_URI));
+               xOperation.getAnnotations().add(xAnnotation);
+             }
+             xAnnotation.getDetails().put("invariant", "true");
+          }
+        });
     }
     return xOperation;
   }

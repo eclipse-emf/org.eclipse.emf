@@ -270,24 +270,26 @@ public class XcoreExporter extends ModelExporter
       outputResource.getContents().add(inputGenModel);
       outputResource.getContents().add(inputGenPackage.getEcorePackage());
 
-      // Put all the specialize internal GenPackages in appropriately named resources so the serialize can resolve them.
+      // Put all the specialize internal GenPackages in appropriately named resources so the serializer can resolve them.
+      // Xtext complains about duplicate resources in the resource set if we put them in the original resource set.
       //
+      ResourceSet additionalResources = resourceSetProvider.get();
       GenPackage ecoreGenPackage = inputGenModel.getEcoreGenPackage();
       if (ecoreGenPackage != null)
       {
-        Resource ecoreResource = resourceSet.createResource(URI.createPlatformResourceURI("/org.eclipse.emf.ecore/model/Ecore.genmodel", false));
+        Resource ecoreResource = additionalResources.createResource(URI.createPlatformResourceURI("/org.eclipse.emf.ecore/model/Ecore.genmodel", false));
         ecoreResource.getContents().add(ecoreGenPackage.getGenModel());
       }
       GenPackage xmlTypeGenPackage = inputGenModel.getXMLTypeGenPackage();
       if (xmlTypeGenPackage != null)
       {
-        Resource xmlTypeResource = resourceSet.createResource(URI.createPlatformResourceURI("/org.eclipse.emf.ecore/model/XMLType.genmodel", false));
+        Resource xmlTypeResource = additionalResources.createResource(URI.createPlatformResourceURI("/org.eclipse.emf.ecore/model/XMLType.genmodel", false));
         xmlTypeResource.getContents().add(xmlTypeGenPackage.getGenModel());
       }
       GenPackage xmlNamespaceGenPackage = inputGenModel.getXMLNamespaceGenPackage();
       if (xmlNamespaceGenPackage != null)
       {
-        Resource xmlNamespaceResource = resourceSet.createResource(URI.createPlatformResourceURI("/org.eclipse.emf.ecore/model/XMLNamespace.genmodel", false));
+        Resource xmlNamespaceResource = additionalResources.createResource(URI.createPlatformResourceURI("/org.eclipse.emf.ecore/model/XMLNamespace.genmodel", false));
         xmlNamespaceResource.getContents().add(xmlNamespaceGenPackage.getGenModel());
       }
 

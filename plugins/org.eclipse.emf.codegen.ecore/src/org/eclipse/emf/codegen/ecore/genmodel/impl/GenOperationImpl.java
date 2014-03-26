@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -1041,14 +1042,22 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
 
   public boolean isInvariant()
   {
-    return
-      getReturnType() != null && 
-        "boolean".equals(getReturnType()) &&
-        getGenParameters().size() == 2 &&
-        "org.eclipse.emf.common.util.DiagnosticChain".equals
-          ((getGenParameters().get(0)).getEcoreParameter().getEType().getInstanceClassName()) &&
-        "java.util.Map".equals
-          ((getGenParameters().get(1)).getEcoreParameter().getEType().getInstanceClassName());
+    String invariantValue = EcoreUtil.getAnnotation(getEcoreOperation(), EcorePackage.eNS_URI, "invariant");
+    if (invariantValue != null)
+    {
+      return "true".equals(invariantValue);
+    }
+    else
+    {
+      return
+        getReturnType() != null && 
+          "boolean".equals(getReturnType()) &&
+          getGenParameters().size() == 2 &&
+          "org.eclipse.emf.common.util.DiagnosticChain".equals
+            ((getGenParameters().get(0)).getEcoreParameter().getEType().getInstanceClassName()) &&
+          "java.util.Map".equals
+            ((getGenParameters().get(1)).getEcoreParameter().getEType().getInstanceClassName());
+    }
   }
 
   public String getParameterNames(String separator)
