@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.RegistryFactory;
 
 import org.eclipse.emf.common.util.URI;
@@ -68,8 +67,7 @@ class URIMappingRegistryReader extends RegistryReader
           {
             targetURI = 
               targetURI.resolve
-                (URI.createURI
-                  (Platform.getBundle(element.getDeclaringExtension().getContributor().getName()).getEntry("/").toString()));
+                (URI.createPlatformPluginURI(element.getDeclaringExtension().getContributor().getName() + "/", true));
           }
           URIConverter.URI_MAP.put(sourceURI, targetURI);
           IConfigurationElement previous = map.put(sourceURI, element);

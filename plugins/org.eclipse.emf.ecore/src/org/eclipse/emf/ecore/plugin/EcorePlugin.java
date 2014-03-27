@@ -808,7 +808,14 @@ public class EcorePlugin  extends EMFPlugin
 
                 // Compute the map entry from platform:/plugin/<bundleSymbolicName>/ to the location URI's root.
                 //
-                platformPluginToLocationURIMap.put(URI.createPlatformPluginURI(bundleSymbolicName, true).appendSegment(""), pluginLocation.isArchive() ? pluginLocation : pluginLocation.appendSegment(""));
+                URI logicalPlatformPluginURI = URI.createPlatformPluginURI(bundleSymbolicName, true).appendSegment("");
+                URI pluginLocationURI = pluginLocation.isArchive() ? pluginLocation : pluginLocation.appendSegment("");
+                platformPluginToLocationURIMap.put(logicalPlatformPluginURI, pluginLocationURI);
+
+                // Also create a global URI mapping so that any uses of platform:/plugin/<plugin-ID> will map to the physical location of that plugin.
+                // This ensures that registered URI mappings that use a relative URI into the plugin will work correctly.
+                //
+                URIConverter.URI_MAP.put(logicalPlatformPluginURI, pluginLocationURI);
 
                 // Find the localization resource bundle, if there is one.
                 //
