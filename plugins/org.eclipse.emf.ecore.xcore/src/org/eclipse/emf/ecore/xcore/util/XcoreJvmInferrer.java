@@ -44,6 +44,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xcore.XDataType;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
+import org.eclipse.emf.ecore.xcore.XcorePlugin;
 import org.eclipse.emf.ecore.xcore.mappings.ToXcoreMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyURIConverter;
@@ -245,8 +246,15 @@ public class XcoreJvmInferrer
     {
       for (JvmElementInferrer<?> jvmElementInferrer : Lists.newArrayList(((InferenceAdapter)adapter).jvmElementInferrers))
       {
-        jvmElementInferrer.inferDeepStructure();
-        jvmElementInferrer.resolveTypeParameterReferences();
+        try
+        {
+          jvmElementInferrer.inferDeepStructure();
+          jvmElementInferrer.resolveTypeParameterReferences();
+        }
+        catch (Throwable throwable)
+        {
+          XcorePlugin.INSTANCE.log(throwable);
+        }
       }
     }
   }

@@ -21,6 +21,7 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -123,14 +124,16 @@ public class XcoreJavaProjectProvider extends XtextResourceSetBasedProjectProvid
     IJavaProject project = getJavaProject(resourceSet);
     if (project != null)
     {
-      IWorkspaceRoot workspaceRoot = project.getProject().getWorkspace().getRoot();
+      IProject iProject = project.getProject();
+      IWorkspaceRoot workspaceRoot = iProject.getWorkspace().getRoot();
       List<URL> libraryURLs = new UniqueEList<URL>();
       try
       {
-        getAllReferencedProjects(libraryURLs, new IProject[] { project.getProject() });
+        getAllReferencedProjects(libraryURLs, new IProject[] { iProject });
         IClasspathEntry [] classpath = project.getResolvedClasspath(true);
         if (classpath != null)
         {
+          String projectName = iProject.getName();
           for (int i = 0; i < classpath.length; ++i)
           {
             IClasspathEntry classpathEntry =  classpath[i];
@@ -139,12 +142,18 @@ public class XcoreJavaProjectProvider extends XtextResourceSetBasedProjectProvid
               case IClasspathEntry.CPE_LIBRARY:
               case IClasspathEntry.CPE_CONTAINER:
               {
-                libraryURLs.add(new URL(URI.createFileURI(classpathEntry.getPath().toString()).toString()));
+                IPath path = classpathEntry.getPath();
+                if (path.segment(0).equals(projectName))
+                {
+                  path = iProject.getLocation().append(path.removeFirstSegments(1));
+                }
+                libraryURLs.add(new URL(URI.createFileURI(path.toString()).toString()));
                 break;
               }
               case IClasspathEntry.CPE_PROJECT:
               {
-                IProject referencedProject = workspaceRoot.getProject(classpathEntry.getPath().segment(0));
+                IPath path = classpathEntry.getPath();
+                IProject referencedProject = workspaceRoot.getProject(path.segment(0));
                 IJavaProject referencedJavaProject = JavaCore.create(referencedProject);
                 IContainer container = workspaceRoot.getFolder(referencedJavaProject.getOutputLocation());
                 libraryURLs.add(new URL(URI.createFileURI(container.getLocation().toString() + "/").toString()));

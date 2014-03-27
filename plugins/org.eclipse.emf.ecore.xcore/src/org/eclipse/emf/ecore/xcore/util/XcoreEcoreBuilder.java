@@ -61,6 +61,7 @@ import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XTypedElement;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.emf.ecore.xcore.XcorePlugin;
 import org.eclipse.emf.ecore.xcore.interpreter.IClassLoaderProvider;
 import org.eclipse.emf.ecore.xcore.interpreter.XcoreConversionDelegate;
 import org.eclipse.emf.ecore.xcore.interpreter.XcoreInterpreter;
@@ -120,11 +121,25 @@ public class XcoreEcoreBuilder
     runnables.clear();
     for (Runnable runnable : currentRunnables)
     {
-      runnable.run();
+      try
+      {
+        runnable.run();
+      }
+      catch (Throwable throwable)
+      {
+        XcorePlugin.INSTANCE.log(throwable);
+      }
     }
     for (Runnable runnable : runnables)
     {
-      runnable.run();
+      try
+      {
+        runnable.run();
+      }
+      catch (Throwable throwable)
+      {
+        XcorePlugin.INSTANCE.log(throwable);
+      }
     }
   }
 
@@ -134,7 +149,14 @@ public class XcoreEcoreBuilder
     //
     for (Runnable runnable : instanceTypeRunnables)
     {
-      runnable.run();
+      try
+      {
+        runnable.run();
+      }
+      catch (Throwable throwable)
+      {
+        XcorePlugin.INSTANCE.log(throwable);
+      }
     }
   }
 
@@ -382,6 +404,19 @@ public class XcoreEcoreBuilder
         //
         eClassifier.setInstanceTypeName("java.lang.Cloneable");
       }
+
+      // Populate the instance type early because GenOperation IDs depend on the data type's unqualified instance type and it might not be set so early.
+      List<INode> nodes = NodeModelUtils.findNodesForFeature(xClassifier, XcorePackage.Literals.XCLASSIFIER__INSTANCE_TYPE);
+      if (!nodes.isEmpty())
+      {
+        StringBuilder instanceTypeLiteral = new StringBuilder();
+        for (INode node : nodes)
+        {
+          instanceTypeLiteral.append(NodeModelUtils.getTokenText(node));
+        }
+        eClassifier.setInstanceTypeName(instanceTypeLiteral.toString());
+      }
+
       instanceTypeRunnables.add
         (new Runnable()
          {

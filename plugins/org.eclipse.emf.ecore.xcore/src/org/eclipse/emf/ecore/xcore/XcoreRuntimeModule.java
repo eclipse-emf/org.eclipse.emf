@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.xcore.resource.containers.XcoreContainerManager;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreIdentifableSimpleNameProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreImplicitlyImportedTypes;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvider;
+import org.eclipse.emf.ecore.xcore.scoping.XcoreImportsConfiguration;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreLogicalContainerAwareReentrantTypeResolver;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreQualifiedNameProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionManager;
@@ -53,6 +54,7 @@ import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.featurecalls.IdentifiableSimpleNameProvider;
 import org.eclipse.xtext.xbase.formatting.IBasicFormatter;
+import org.eclipse.xtext.xbase.imports.IImportsConfiguration;
 import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations;
 import org.eclipse.xtext.xbase.jvmmodel.ILogicalContainerProvider;
 import org.eclipse.xtext.xbase.scoping.batch.ImplicitlyImportedTypes;
@@ -230,5 +232,10 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   public Class<? extends DefaultReentrantTypeResolver> bindDefaultReentrantTypeResolver()
   {
     return XcoreLogicalContainerAwareReentrantTypeResolver.class;
+  }
+
+  public Class<? extends IImportsConfiguration> bindIImportsConfiguration() 
+  {
+    return XcoreImportsConfiguration.class;
   }
 }

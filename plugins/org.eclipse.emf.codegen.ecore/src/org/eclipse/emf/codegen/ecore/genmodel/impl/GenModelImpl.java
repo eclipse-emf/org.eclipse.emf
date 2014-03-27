@@ -1924,7 +1924,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
     // A single set of special packages should be cached by the main GenModel.
     //
-    if (!isMainGenModel() &&
+    boolean isMainGenModel = isMainGenModel();
+    if (!isMainGenModel &&
         (ePackage == EcorePackage.eINSTANCE || ePackage == XMLTypePackage.eINSTANCE || ePackage == XMLNamespacePackage.eINSTANCE))
     {
       result = getMainGenModel().findGenPackage(ePackage);
@@ -1981,6 +1982,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       {
         GenPackage genPackage = pIter.next();
         result = findGenPackageHelper(genPackage, ePackage);
+      }
+
+      // With Xcore the GenModel might be in a state where the usedGenPackages aren't populated yet for the dependency
+      // so also try to look up the GenPackage in the main GenModel.
+      //
+      if (result == null && !isMainGenModel)
+      {
+        result = getMainGenModel().findGenPackage(ePackage);
       }
     }
 
