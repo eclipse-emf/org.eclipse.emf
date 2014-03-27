@@ -13,6 +13,14 @@
             class="org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage" genModel="model/GenModel.genmodel"/>
    </extension>
 
+   <!--
+   <extension point="org.eclipse.emf.ecore.content_parser">
+      <parser
+            contentTypeIdentifier="org.eclipse.emf.codegen.genmodel"
+            class="org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl"/>
+   </extension>
+   -->
+
    <extension id="Generator" point="org.eclipse.core.runtime.applications">
       <application>
          <run class="org.eclipse.emf.codegen.ecore.Generator$PlatformRunnable"/>

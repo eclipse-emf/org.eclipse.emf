@@ -38,6 +38,7 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenJDKLevel/JDK50"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenJDKLevel/JDK60"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenJDKLevel/JDK70"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenJDKLevel/JDK80"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenRuntimeVersion">
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF22"/>

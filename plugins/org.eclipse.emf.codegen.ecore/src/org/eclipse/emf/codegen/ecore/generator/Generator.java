@@ -353,6 +353,11 @@ public class Generator
               facadeHelper.setCompilerCompliance(JavaCore.VERSION_1_7); 
               break;
             }
+            case JDK80_LITERAL:
+            {
+              facadeHelper.setCompilerCompliance("1.8"); 
+              break;
+            }
           }
 
           if (genModel.isCodeFormatting())

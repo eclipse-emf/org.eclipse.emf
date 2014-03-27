@@ -309,6 +309,7 @@
     <eLiterals name="JDK50" value="1" literal="5.0"/>
     <eLiterals name="JDK60" value="2" literal="6.0"/>
     <eLiterals name="JDK70" value="3" literal="7.0"/>
+    <eLiterals name="JDK80" value="4" literal="8.0"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenTypeParameter" eSuperTypes="#//GenBase">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreTypeParameter" lowerBound="1"
