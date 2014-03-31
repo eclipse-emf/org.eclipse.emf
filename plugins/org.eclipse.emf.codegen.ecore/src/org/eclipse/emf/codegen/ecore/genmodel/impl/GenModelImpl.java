@@ -9133,9 +9133,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   protected void getMissingPackagesHelper(List<EPackage> ePackages, List<GenPackage> genPackages)
   {
-    for (GenPackage genPackage : genPackages)
+    for (int i = 0; i < genPackages.size(); ++i)
     {
-      EPackage ePackage = genPackage.getEcorePackage();
+      EPackage ePackage = genPackages.get(i).getEcorePackage();
       if (ePackage != null)
       {
         for (Iterator<EObject> j = ePackage.eAllContents(); j.hasNext();)

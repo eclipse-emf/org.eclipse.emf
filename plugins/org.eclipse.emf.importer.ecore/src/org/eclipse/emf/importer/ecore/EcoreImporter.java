@@ -10,6 +10,7 @@
  */
 package org.eclipse.emf.importer.ecore;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -65,9 +66,18 @@ public class EcoreImporter extends ModelImporter
       }
       EcoreUtil.resolveAll(ecoreResourceSet);
 
+      List<EPackage> ePackages = getEPackages();
       for (Resource resource : ecoreResourceSet.getResources())
       {
-        getEPackages().addAll(EcoreUtil.<EPackage>getObjectsByType(resource.getContents(), EcorePackage.Literals.EPACKAGE));
+        ePackages.addAll(EcoreUtil.<EPackage>getObjectsByType(resource.getContents(), EcorePackage.Literals.EPACKAGE));
+      }
+      
+      for (Iterator<EPackage> i = ePackages.iterator(); i.hasNext(); )
+      {
+        if ("xcore.lang".equals(i.next().getNsURI()))
+        {
+          i.remove();
+        }
       }
 
       BasicDiagnostic diagnosticChain = 
@@ -76,7 +86,7 @@ public class EcoreImporter extends ModelImporter
            ConverterUtil.ACTION_MESSAGE_NONE,
            EcoreImporterPlugin.INSTANCE.getString("_UI_ErrorsWereDetectedEcore_message"),
            null);
-      for (EPackage ePackage : getEPackages())
+      for (EPackage ePackage : ePackages)
       {
         Diagnostician.INSTANCE.validate(ePackage, diagnosticChain);
       }

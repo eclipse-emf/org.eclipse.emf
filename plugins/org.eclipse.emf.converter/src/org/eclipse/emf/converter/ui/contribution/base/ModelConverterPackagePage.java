@@ -83,6 +83,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ItemProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
@@ -740,7 +741,8 @@ public class ModelConverterPackagePage extends ModelConverterPage
         {
           IFile file = (IFile)element;
           URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
-          return "genmodel".equals(file.getFileExtension())
+          String fileExtension = file.getFileExtension();
+          return ("genmodel".equals(fileExtension) || "xcore".equals(fileExtension))
             && !file.getFullPath().equals(genModelPath)
             && !genModelURIs.contains(uri);
         }
@@ -762,7 +764,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
       {
         URI genModelURI = URI.createPlatformResourceURI(files[i].getFullPath().toString(), true);
         Resource genModelResource = referencedGenModels.getResource(genModelURI, true);
-        GenModel genModel = (GenModel)genModelResource.getContents().get(0);
+        GenModel genModel = (GenModel)EcoreUtil.getObjectByType(genModelResource.getContents(), GenModelPackage.Literals.GEN_MODEL);
         genModels.add(genModel);
       }
       
