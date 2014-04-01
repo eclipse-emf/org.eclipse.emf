@@ -455,6 +455,10 @@ public interface GenClass extends GenClassifier
   GenClass getProviderExtendsGenClass();
   String getProviderBaseClassName();
   List<GenClass> getProviderImplementedGenClasses();
+  /**
+   * @since 2.10
+   */
+  List<String> getProviderImplementsClassNames();
 
   List<GenFeature> getLabelFeatureCandidates();
   List<GenFeature> getPropertyFeatures();

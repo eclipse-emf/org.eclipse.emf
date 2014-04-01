@@ -2119,6 +2119,17 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return baseClass;
   }
 
+  public List<String> getProviderImplementsClassNames()
+  {
+    List<String> result = new ArrayList<String>(getGenPackage().getProviderSupportedTypes());
+    GenClass classExtendsGenClass = getClassExtendsGenClass();
+    if (classExtendsGenClass != null)
+    {
+      result.removeAll(classExtendsGenClass.getGenPackage().getProviderSupportedTypes());
+    }
+    return result;
+  }
+
   public String getProviderBaseClassName()
   {
     GenClass baseClass = getProviderExtendsGenClass();
