@@ -399,8 +399,14 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
               }
             }
 
-            IProject modelProject = workspace.getRoot().getProject(genModel.getModelProjectDirectory());
-            IPath javaSource = new Path(genModel.getModelDirectory());
+            IProject modelProject = null;
+            IPath javaSource = null;
+            String modelProjectDirectory = genModel.getModelProjectDirectory();
+            if (modelProjectDirectory != null && !"".equals(modelProjectDirectory))
+            {
+              modelProject = workspace.getRoot().getProject(modelProjectDirectory);
+              javaSource = new Path(genModel.getModelDirectory());
+            }
 
             //DMS factor this into a method? Use a non-static subclass? 
             int style = 0;
@@ -426,8 +432,11 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
                   projectLocation = getLocationURI(testsProject);
                 }
 
-                referencedProjects.add(modelProject);
-                referencedProjects.addAll(Arrays.asList(modelProject.getDescription().getReferencedProjects()));
+                if (modelProject != null)
+                {
+                  referencedProjects.add(modelProject);
+                  referencedProjects.addAll(Arrays.asList(modelProject.getDescription().getReferencedProjects()));
+                }
               }
             }
             else if ((style & Generator.EMF_MODEL_PROJECT_STYLE) == 0 && genModel.hasEditSupport())
@@ -442,7 +451,10 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
                   projectLocation = getLocationURI(editProject);
                 }
 
-                referencedProjects.add(modelProject);
+                if (modelProject != null)
+                {
+                  referencedProjects.add(modelProject);
+                }
               }
   
               for (GenPackage genPackage : genModel.getUsedGenPackages())
@@ -482,7 +494,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
               }
             }
 
-            if (projectLocation != null)
+            if (projectLocation != null && javaSource != null)
             {
               projectLocation = projectLocation.trimSegments(1).appendSegment(javaSource.segment(0));
             }
@@ -495,6 +507,11 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
             if ((style & Generator.EMF_MODEL_PROJECT_STYLE) == 0 || genModel.hasPluginSupport())
             {
               style |= Generator.EMF_PLUGIN_PROJECT_STYLE;
+            }
+
+            if (javaSource == null)
+            {
+              javaSource = new Path(genModel.getEditorDirectory());
             }
 
             Generator.createEMFProject

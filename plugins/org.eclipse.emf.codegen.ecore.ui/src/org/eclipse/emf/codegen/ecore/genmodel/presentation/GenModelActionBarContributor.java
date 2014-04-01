@@ -274,49 +274,53 @@ public class GenModelActionBarContributor
       Set<IWorkingSet> workingSets = new HashSet<IWorkingSet>();
       if (genModel != null)
       {
-        IProject project = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(genModel.getModelDirectory())).getProject();
-        if (project != null)
+        String modelDirectory = genModel.getModelDirectory();
+        if (modelDirectory != null && !"".equals(modelDirectory))
         {
-          IWorkbench workbench = PlatformUI.getWorkbench();
-          for (IWorkingSet workingSet : workbench.getWorkingSetManager().getAllWorkingSets())
+          IProject project = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(modelDirectory)).getProject();
+          if (project != null)
           {
-            IAdaptable[] elements = workingSet.getElements();
-            for (IAdaptable element : elements)
+            IWorkbench workbench = PlatformUI.getWorkbench();
+            for (IWorkingSet workingSet : workbench.getWorkingSetManager().getAllWorkingSets())
             {
-              if (project.equals(element.getAdapter(IProject.class)))
+              IAdaptable[] elements = workingSet.getElements();
+              for (IAdaptable element : elements)
               {
-                workingSets.add(workingSet);
-                continue;
+                if (project.equals(element.getAdapter(IProject.class)))
+                {
+                  workingSets.add(workingSet);
+                  continue;
+                }
               }
             }
-          }
-          if (!workingSets.isEmpty())
-          {
-            for (int i = 0; i < projectTypes.length; i++)
+            if (!workingSets.isEmpty())
             {
-              Object projectType = projectTypes[i].getType();
-              if (GenBaseGeneratorAdapter.EDIT_PROJECT_TYPE.equals(projectType) && genModel.hasEditSupport())
+              for (int i = 0; i < projectTypes.length; i++)
               {
-                IProject editProject = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(genModel.getEditDirectory())).getProject();
-                if (!editProject.exists())
+                Object projectType = projectTypes[i].getType();
+                if (GenBaseGeneratorAdapter.EDIT_PROJECT_TYPE.equals(projectType) && genModel.hasEditSupport())
                 {
-                  projects.add(editProject);
+                  IProject editProject = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(genModel.getEditDirectory())).getProject();
+                  if (!editProject.exists())
+                  {
+                    projects.add(editProject);
+                  }
                 }
-              }
-              if (GenBaseGeneratorAdapter.EDITOR_PROJECT_TYPE.equals(projectType) && genModel.hasEditorSupport())
-              {
-                IProject editorProject = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(genModel.getEditorDirectory())).getProject();
-                if (!editorProject.exists())
+                if (GenBaseGeneratorAdapter.EDITOR_PROJECT_TYPE.equals(projectType) && genModel.hasEditorSupport())
                 {
-                  projects.add(editorProject);
+                  IProject editorProject = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(genModel.getEditorDirectory())).getProject();
+                  if (!editorProject.exists())
+                  {
+                    projects.add(editorProject);
+                  }
                 }
-              }
-              if (GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE.equals(projectType) && genModel.hasTestSupport())
-              {
-                IProject testsProject = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(genModel.getTestsDirectory())).getProject();
-                if (!testsProject.exists())
+                if (GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE.equals(projectType) && genModel.hasTestSupport())
                 {
-                  projects.add(testsProject);
+                  IProject testsProject = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(genModel.getTestsDirectory())).getProject();
+                  if (!testsProject.exists())
+                  {
+                    projects.add(testsProject);
+                  }
                 }
               }
             }
