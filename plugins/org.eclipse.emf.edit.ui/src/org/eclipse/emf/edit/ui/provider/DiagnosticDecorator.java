@@ -543,6 +543,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
                     for (EObject eObject : resource.getContents())
                     {
                       diagnostician.validate(eObject, resourceDiagnostic, context);
+                      context.remove(EObjectValidator.ROOT_OBJECT);
                     }
                   }
                 }

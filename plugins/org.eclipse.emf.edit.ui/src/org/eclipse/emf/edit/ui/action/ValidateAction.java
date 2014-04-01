@@ -262,6 +262,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     {
       progressMonitor.setTaskName(EMFEditUIPlugin.INSTANCE.getString("_UI_Validating_message", new Object [] { diagnostician.getObjectLabel(eObject) }));
       diagnostician.validate(eObject, diagnostic, context);
+      context.remove(EObjectValidator.ROOT_OBJECT);
     }
     return diagnostic;
   }
