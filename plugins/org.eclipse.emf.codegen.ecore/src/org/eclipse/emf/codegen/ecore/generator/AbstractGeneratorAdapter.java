@@ -1111,15 +1111,15 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
           }
           result.append(valueComponent);
         }
-        for (Directive directive : directives)
-        {
-          result.append(';');
-          result.append(directive);
-        }
         for (Attribute attribute : attributes)
         {
           result.append(';');
           result.append(attribute);
+        }
+        for (Directive directive : directives)
+        {
+          result.append(';');
+          result.append(directive);
         }
         return result.toString();
       }
