@@ -69,9 +69,10 @@ public class PluginXML
   protected final String TEXT_52 = " -->";
   protected final String TEXT_53 = NL + "      <parser" + NL + "            type=\"";
   protected final String TEXT_54 = "\"" + NL + "            class=\"";
-  protected final String TEXT_55 = "\"/>" + NL + "   </extension>";
-  protected final String TEXT_56 = NL + NL + "</plugin>";
-  protected final String TEXT_57 = NL;
+  protected final String TEXT_55 = "\"/>";
+  protected final String TEXT_56 = NL + "   </extension>";
+  protected final String TEXT_57 = NL + NL + "</plugin>";
+  protected final String TEXT_58 = NL;
 
   public String generate(Object argument)
   {
@@ -195,15 +196,18 @@ public class PluginXML
     stringBuffer.append(key);
     stringBuffer.append(TEXT_52);
     }
+    for (String fileExtension : genPackage.getFileExtensionList()) {
     stringBuffer.append(TEXT_53);
-    stringBuffer.append(genPackage.getFileExtension());
+    stringBuffer.append(fileExtension);
     stringBuffer.append(TEXT_54);
     stringBuffer.append(genPackage.getQualifiedResourceFactoryClassName());
     stringBuffer.append(TEXT_55);
     }
-    }
     stringBuffer.append(TEXT_56);
+    }
+    }
     stringBuffer.append(TEXT_57);
+    stringBuffer.append(TEXT_58);
     return stringBuffer.toString();
   }
 }

@@ -1027,5 +1027,11 @@ public interface GenPackage extends GenBase
    * @see #getFileExtensions
    * @since 2.4
    */
-  String getFileExtension(); // getFirstFileExtension?
+  String getFileExtension();
+
+  /**
+   * Returns a list of the comma-separated contents of {@link #getFileExtensions()}.
+   * @since 2.10
+   */
+  List<String> getFileExtensionList();
 }

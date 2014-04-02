@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -1166,6 +1167,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       return getPrefix().toLowerCase(getGenModel().getLocale());
     }
     return COMMA_SEPARATOR_PATTERN.matcher(fileExtensions).replaceAll(",");
+  }
+
+  public List<String> getFileExtensionList()
+  {
+    return Arrays.asList(getFileExtensions().split(","));
   }
 
   /**

@@ -61,7 +61,7 @@ _UI_<%=genPackage.getModelWizardClassName()%>_description = Create a new <%=genP
 _UI_<%=genPackage.getEditorClassName()%>_label = <%=genPackage.getPrefix()%> Model Editor
 
 _UI_<%=genPackage.getEditorClassName()%>FilenameDefaultBase = My
-_UI_<%=genPackage.getEditorClassName()%>FilenameExtensions = <%=genPackage.isMultipleFileExtensions() ? genPackage.getFileExtensions() : genPackage.getFileExtension()%>
+_UI_<%=genPackage.getEditorClassName()%>FilenameExtensions = <%=genPackage.getFileExtensions()%>
 
 <%}%>
 _UI_Wizard_label = New

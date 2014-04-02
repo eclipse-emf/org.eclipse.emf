@@ -123,7 +123,7 @@ public class PluginProperties
     stringBuffer.append(TEXT_22);
     stringBuffer.append(genPackage.getEditorClassName());
     stringBuffer.append(TEXT_23);
-    stringBuffer.append(genPackage.isMultipleFileExtensions() ? genPackage.getFileExtensions() : genPackage.getFileExtension());
+    stringBuffer.append(genPackage.getFileExtensions());
     stringBuffer.append(TEXT_24);
     }
     stringBuffer.append(TEXT_25);

@@ -93,12 +93,14 @@
     <%} else if (genPackage.getResource() != GenResourceKind.NONE_LITERAL) {%>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
-  <%if (hasKey) {%>
+      <%if (hasKey) {%>
       <!-- @generated <%=key%> -->
-  <%}%>
+      <%}%>
+      <%for (String fileExtension : genPackage.getFileExtensionList()) {%>
       <parser
-            type="<%=genPackage.getFileExtension()%>"
+            type="<%=fileExtension%>"
             class="<%=genPackage.getQualifiedResourceFactoryClassName()%>"/>
+      <%}%>
    </extension>
     <%}%>
   <%}%>
@@ -276,7 +278,7 @@
             name="%_UI_<%=genPackage.getEditorClassName()%>_label"
             icon="icons/full/obj16/<%=genPackage.getPrefix()%>ModelFile.gif"
     <%if (!genPackage.isContentType()) {%>
-            extensions="<%=genPackage.getFileExtension()%>"
+            extensions="<%=genPackage.getFileExtensions()%>"
     <%}%>
             class="<%=genPackage.getQualifiedEditorClassName()%>"
             contributorClass="<%=genPackage.getQualifiedActionBarContributorClassName()%>">
