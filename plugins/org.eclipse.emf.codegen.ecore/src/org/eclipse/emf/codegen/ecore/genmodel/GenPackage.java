@@ -966,6 +966,11 @@ public interface GenPackage extends GenBase
   boolean hasTests();
 
   /**
+   * @since 2.10
+   */
+  String getSchemaLocation();
+
+  /**
    * Returns a nested map structure describing the child creation extensions that this package provides to other packages.
    * The result maps other packages to their classes that have child creation extension provided by this package.
    * Each inner map maps from the class to the list of child creation data for these extensions.

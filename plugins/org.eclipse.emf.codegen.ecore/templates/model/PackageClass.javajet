@@ -943,7 +943,7 @@ int maxGenericTypeAssignment = 0;
     <%if (genPackage.getSuperGenPackage() == null) {%>
 
 		// Create resource
-		createResource(eNS_URI);
+		createResource(<%=genPackage.getSchemaLocation()%>);
     <%}%>
     <%if (!genPackage.isEcorePackage() && !genPackage.getAnnotationSources().isEmpty()) {%>
 

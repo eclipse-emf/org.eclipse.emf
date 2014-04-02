@@ -2087,6 +2087,12 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return getTestsPackageName() + "." + getExampleClassName();
   }
 
+  public String getSchemaLocation()
+  {
+    String schemaLocation = EcoreUtil.getAnnotation(getEcorePackage(), EcorePackage.eNS_URI, "schemaLocation");
+    return schemaLocation == null ? "eNS_URI" : Literals.toStringLiteral(schemaLocation, getGenModel());
+  }
+
   protected static final boolean NO_CONSTRAINTS = "true".equals(System.getProperty("EMF_NO_CONSTRAINTS")); 
 
   public boolean hasConstraints()
