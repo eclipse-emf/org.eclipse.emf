@@ -209,6 +209,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
       (genModel.getModelDirectory(), genPackage, MODEL_PROJECT_TYPE, genModel.isUpdateClasspath(), createMonitor(monitor, 1));
 
     generateSchema(genPackage, monitor);
+    generatePackagePublication(genPackage, monitor);
     generatePackageSerialization(genPackage, monitor);
     generatePackageInterface(genPackage, monitor);
     generatePackageClass(genPackage, monitor);
@@ -235,6 +236,140 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
       genPackage.generateSchema();
     }
     monitor.worked(1);      
+  }
+
+  /**
+   * @since 2.10
+   */
+  protected void generatePackagePublication(GenPackage genPackage, Monitor monitor)
+  {
+    String publicationLocation = genPackage.getPublicationLocation();
+    if (publicationLocation != null && !"".equals(publicationLocation))
+    {
+      monitor = createMonitor(monitor, 1);
+
+      try
+      {
+        monitor.beginTask("", 2);
+
+        final GenModel genModel = genPackage.getGenModel();
+        message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingPackageSerialization_message", new Object[] { publicationLocation });
+        monitor.subTask(message);
+
+        URI targetFile = toURI(publicationLocation);
+        ensureContainerExists(targetFile.trimSegments(1), createMonitor(monitor, 1));
+
+        final ResourceSet originalSet = genModel.eResource().getResourceSet();
+        EPackage originalPackage = genPackage.getEcorePackage();
+
+        ResourceSet outputSet = new ResourceSetImpl();
+        outputSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new EcoreResourceFactoryImpl());
+        URI targetURI = toPlatformResourceURI(targetFile);
+        Resource outputResource = outputSet.createResource(targetURI);
+
+        // Copy the package.
+        EPackage outputPackage = EcoreUtil.copy(originalPackage);
+        outputResource.getContents().add(outputPackage);
+
+        // This URI handler redirects cross-document references to correct schema-location-based or namespace-based values.
+        //
+        XMLResource.URIHandler uriHandler = 
+          new URIHandlerImpl.PlatformSchemeAware()
+          {
+            private EPackage getRootContainingPackage(EObject object)
+            {
+              EPackage result = null;
+              while (object != null)
+              {
+                if (object instanceof EPackage)
+                {
+                  result = (EPackage)object;
+                }
+                object = object.eContainer();
+              }
+              return result;
+            }
+            
+            private EPackage getContainingPackage(EObject object)
+            {
+              while (object != null)
+              {
+                if (object instanceof EPackage)
+                {
+                  return (EPackage)object;
+                }
+                object = object.eContainer();
+              }
+              return null;
+            }
+
+            private URI redirect(URI uri)
+            {
+              if (!uri.isCurrentDocumentReference() && uri.hasFragment())
+              {
+                EObject object = originalSet.getEObject(uri, false);
+                if (object != null)
+                {
+                  EPackage ePackage = getRootContainingPackage(object);
+                  if (ePackage != null)
+                  {
+                    String schemaLocation = EcoreUtil.getAnnotation(ePackage, EcorePackage.eNS_URI, "schemaLocation");
+                    if (schemaLocation != null)
+                    {
+                      return URI.createURI(schemaLocation).appendFragment(uri.fragment());
+                    }
+                    else
+                    {
+                      String relativeURIFragmentPath = EcoreUtil.getRelativeURIFragmentPath(getContainingPackage(object), object);
+                      return URI.createURI(ePackage.getNsURI()).appendFragment("//" + relativeURIFragmentPath);
+                    }
+                  }
+                }
+              }
+              return uri;
+            }
+
+            @Override
+            public URI deresolve(URI uri)
+            {
+              return redirect(uri);
+            }
+
+            @Override
+            public URI resolve(URI uri)
+            {
+              throw new UnsupportedOperationException("There should be no resolving while serializing");
+            }
+
+            @Override
+            public void setBaseURI(URI uri)
+            {
+              baseURI = uri;
+            }
+          };
+        Map<Object, Object> options = new HashMap<Object, Object>();
+        options.put(XMLResource.OPTION_URI_HANDLER, uriHandler);
+        options.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+        options.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
+
+        try
+        {
+          outputResource.save(options);
+        }
+        catch (IOException exception)
+        {
+          CodeGenEcorePlugin.INSTANCE.log(exception);
+        }
+      }
+      finally
+      {
+        monitor.done();
+      }
+    }
+    else
+    {
+      monitor.worked(1);
+    }
   }
 
   protected void generatePackageSerialization(GenPackage genPackage, Monitor monitor)

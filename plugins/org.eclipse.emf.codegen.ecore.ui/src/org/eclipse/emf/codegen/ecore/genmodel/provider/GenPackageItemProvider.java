@@ -93,6 +93,7 @@ public class GenPackageItemProvider
       addContentTypeIdentifierPropertyDescriptor(object);
       addFileExtensionsPropertyDescriptor(object);
       addEcorePackagePropertyDescriptor(object);
+      addPublicationLocationPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -627,6 +628,29 @@ public class GenPackageItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Publication Location feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addPublicationLocationPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_publicationLocation_feature"),
+         getString("_UI_GenPackage_publicationLocation_description"),
+         GenModelPackage.Literals.GEN_PACKAGE__PUBLICATION_LOCATION,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -735,6 +759,7 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__CONTENT_TYPE_IDENTIFIER:
       case GenModelPackage.GEN_PACKAGE__FILE_EXTENSIONS:
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
+      case GenModelPackage.GEN_PACKAGE__PUBLICATION_LOCATION:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_PACKAGE__GEN_ENUMS:

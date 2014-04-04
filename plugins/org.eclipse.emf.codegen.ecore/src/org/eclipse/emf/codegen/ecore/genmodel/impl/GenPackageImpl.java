@@ -123,6 +123,7 @@ import org.osgi.framework.Bundle;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenClasses <em>Gen Classes</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getNestedGenPackages <em>Nested Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenClassifiers <em>Gen Classifiers</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getPublicationLocation <em>Publication Location</em>}</li>
  * </ul>
  * </p>
  *
@@ -621,6 +622,26 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @ordered
    */
   protected EList<GenPackage> nestedGenPackages;
+
+  /**
+   * The default value of the '{@link #getPublicationLocation() <em>Publication Location</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPublicationLocation()
+   * @generated
+   * @ordered
+   */
+  protected static final String PUBLICATION_LOCATION_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getPublicationLocation() <em>Publication Location</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPublicationLocation()
+   * @generated
+   * @ordered
+   */
+  protected String publicationLocation = PUBLICATION_LOCATION_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -1393,6 +1414,29 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public String getPublicationLocation()
+  {
+    return publicationLocation;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setPublicationLocation(String newPublicationLocation)
+  {
+    String oldPublicationLocation = publicationLocation;
+    publicationLocation = newPublicationLocation;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__PUBLICATION_LOCATION, oldPublicationLocation, publicationLocation));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
@@ -1515,6 +1559,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return getNestedGenPackages();
       case GenModelPackage.GEN_PACKAGE__GEN_CLASSIFIERS:
         return getGenClassifiers();
+      case GenModelPackage.GEN_PACKAGE__PUBLICATION_LOCATION:
+        return getPublicationLocation();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -1618,6 +1664,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         getNestedGenPackages().clear();
         getNestedGenPackages().addAll((Collection<? extends GenPackage>)newValue);
         return;
+      case GenModelPackage.GEN_PACKAGE__PUBLICATION_LOCATION:
+        setPublicationLocation((String)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -1716,6 +1765,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__NESTED_GEN_PACKAGES:
         getNestedGenPackages().clear();
         return;
+      case GenModelPackage.GEN_PACKAGE__PUBLICATION_LOCATION:
+        setPublicationLocation(PUBLICATION_LOCATION_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -1788,6 +1840,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return nestedGenPackages != null && !nestedGenPackages.isEmpty();
       case GenModelPackage.GEN_PACKAGE__GEN_CLASSIFIERS:
         return !getGenClassifiers().isEmpty();
+      case GenModelPackage.GEN_PACKAGE__PUBLICATION_LOCATION:
+        return PUBLICATION_LOCATION_EDEFAULT == null ? publicationLocation != null : !PUBLICATION_LOCATION_EDEFAULT.equals(publicationLocation);
     }
     return super.eIsSet(featureID);
   }
@@ -1847,6 +1901,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.append(contentTypeIdentifier);
     result.append(", fileExtensions: ");
     result.append(fileExtensions);
+    result.append(", publicationLocation: ");
+    result.append(publicationLocation);
     result.append(')');
     return result.toString();
   }
@@ -4052,6 +4108,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
 
     reconcileGenAnnotations(oldGenPackageVersion);
+
+    setPublicationLocation(oldGenPackageVersion.getPublicationLocation());
   }
 
   public boolean reconcile()

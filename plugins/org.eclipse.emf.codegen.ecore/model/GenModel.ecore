@@ -185,6 +185,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="genClassifiers" upperBound="-1"
         eType="#//GenClassifier" changeable="false" volatile="true" transient="true"
         resolveProxies="false" eOpposite="#//GenClassifier/genPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="publicationLocation" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenClass" eSuperTypes="#//GenClassifier">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="provider" eType="#//GenProviderKind"/>

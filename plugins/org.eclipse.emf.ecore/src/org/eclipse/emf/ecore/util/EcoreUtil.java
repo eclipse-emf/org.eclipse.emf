@@ -37,6 +37,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.SegmentSequence;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -2967,9 +2968,9 @@ public class EcoreUtil
   /**
    * Returns a URI for the eObject, 
    * i.e., either 
-   * the eProxyURI,
-   * the URI of the eResource with the fragment produced by the eResource,
-   * or the URI consisting of just the fragment that would be produced by a default Resource 
+   * the {@link InternalEObject#eProxyURI() proxy URI},
+   * the URI of the {@link EObject#eResource() resource} with the {@link Resource#getURIFragment(EObject) fragment} produced by the resource,
+   * or the URI consisting of just the {@link #getRelativeURIFragmentPath(EObject, EObject) fragment path} that would be produced by a default Resource 
    * with the eObject as its only contents.
    * @param eObject the object for which to get the URI.
    * @return the URI for the object.
@@ -3003,26 +3004,90 @@ public class EcoreUtil
         }
         else
         {
-          InternalEObject internalEObject = (InternalEObject)eObject;
-          List<String> uriFragmentPath = new ArrayList<String>();
-          HashSet<InternalEObject> visited = new HashSet<InternalEObject>();
-          for (InternalEObject container = internalEObject.eInternalContainer(); container != null && visited.add(container); container = internalEObject.eInternalContainer())
-          {
-            uriFragmentPath.add(container.eURIFragmentSegment(internalEObject.eContainingFeature(), internalEObject));
-            internalEObject = container;
-          }
-      
-          StringBuffer result = new StringBuffer("#//");
-      
-          for (int i = uriFragmentPath.size() - 1; i >= 0; --i)
-          {
-            result.append('/');
-            result.append(uriFragmentPath.get(i));
-          }
-          return URI.createURI(result.toString());
+          return URI.createURI("#//" + getRelativeURIFragmentPath(null, eObject, false));
         }
       }
     }
+  }
+
+  /**
+   * Returns the fragment path of the descendant object relative to its {@link #isAncestor(EObject, EObject) ancestor}.
+   * The ancestor may be <code>null</code>, it which case the path is relative to the {@link #getRootContainer(EObject) root}.
+   * Otherwise, the resulting fragment path can be passed to {@link #getEObject(EObject, String)} along with the ancestor to the yield the descendant.
+   * @param ancestorEObject the ancestor of the descendant object (can be null)
+   * @param descendantEObject  descendant of the ancestor object
+   * @return the relativefragment path.
+   * @see InternalEObject#eURIFragmentSegment(EStructuralFeature, EObject)
+   * @see #getEObject(EObject, String)
+   * @throws IllegalArgumentException if the ancestor is non-null and is not an ancestor of the descendant.
+   * @since 2.10
+   */
+  public static String getRelativeURIFragmentPath(EObject ancestorEObject, EObject descendantEObject)
+  {
+    return getRelativeURIFragmentPath(ancestorEObject, descendantEObject, true);
+  }
+
+  private  static String getRelativeURIFragmentPath(EObject ancestorEObject, EObject descendantEObject, boolean resolve)
+  {
+    if (ancestorEObject == descendantEObject)
+    {
+      return "";
+    }
+
+    List<String> uriFragmentPath = new ArrayList<String>();
+    HashSet<InternalEObject> visited = new HashSet<InternalEObject>();
+    InternalEObject internalEObject = (InternalEObject)descendantEObject;
+    for (InternalEObject container = resolve ? (InternalEObject)internalEObject.eContainer() : internalEObject.eInternalContainer(); 
+         container != null && visited.add(container);
+         container = resolve ? (InternalEObject)internalEObject.eContainer() : internalEObject.eInternalContainer())
+    {
+      uriFragmentPath.add(container.eURIFragmentSegment(internalEObject.eContainingFeature(), internalEObject));
+      internalEObject = container;
+      if (container == ancestorEObject)
+      {
+        break;
+      }
+    }
+    
+    if (internalEObject != ancestorEObject)
+    {
+      throw new IllegalArgumentException("The ancestor '" + ancestorEObject + "' is not an ancestor of '" + descendantEObject + "'");
+    }
+
+    StringBuilder result = new StringBuilder();
+    int size = uriFragmentPath.size();
+    if (size > 0)
+    {
+      for (int i = uriFragmentPath.size() - 1; i > 0; --i)
+      {
+        result.append(uriFragmentPath.get(i));
+        result.append('/');
+      }
+    }
+    result.append(uriFragmentPath.get(0));
+
+    return result.toString();
+  }
+
+  /**
+   * Returns the object reached via by navigating the relative URI fragment path.
+   * @param rootEObject
+   * @param relativeFragmentPath
+   * @return the object at the path.
+   * @see #getRelativeURIFragmentPath(EObject, EObject)
+   * @see InternalEObject#eObjectForURIFragmentSegment(String)
+   * @since 2.10
+   */
+  public static EObject getEObject(EObject rootEObject, String relativeFragmentPath)
+  {
+    String[] segments = SegmentSequence.create("/", relativeFragmentPath).segments();
+    int size = segments.length;
+    EObject eObject = rootEObject;
+    for (int i = 0; i < size && eObject != null; ++i)
+    {
+      eObject = ((InternalEObject)eObject).eObjectForURIFragmentSegment(segments[i]);
+    }
+    return eObject;
   }
 
   /**

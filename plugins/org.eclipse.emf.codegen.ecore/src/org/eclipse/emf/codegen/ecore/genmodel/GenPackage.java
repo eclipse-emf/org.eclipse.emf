@@ -56,6 +56,7 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenClasses <em>Gen Classes</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getNestedGenPackages <em>Nested Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenClassifiers <em>Gen Classifiers</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getPublicationLocation <em>Publication Location</em>}</li>
  * </ul>
  * </p>
  *
@@ -692,6 +693,31 @@ public interface GenPackage extends GenBase
    * @generated
    */
   EList<GenClassifier> getGenClassifiers();
+
+  /**
+   * Returns the value of the '<em><b>Publication Location</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * @since 2.10
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Publication Location</em>' attribute.
+   * @see #setPublicationLocation(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_PublicationLocation()
+   * @model
+   * @generated
+   */
+  String getPublicationLocation();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getPublicationLocation <em>Publication Location</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Publication Location</em>' attribute.
+   * @see #getPublicationLocation()
+   * @generated
+   */
+  void setPublicationLocation(String value);
 
   String getInterfacePackageName();
   String getReflectionPackageName();
