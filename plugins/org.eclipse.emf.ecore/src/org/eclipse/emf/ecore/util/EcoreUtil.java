@@ -381,8 +381,8 @@ public class EcoreUtil
    * use {@link EcoreUtil#copy EcoreUtil.copy} or {@link EcoreUtil#copyAll EcoreUtil.copyAll} to do routine copies.
    * Since this implementation extends a Map implementation, it acts as the result of the over all copy.
    * The client can call {@link #copy copy} and {@link #copyAll copyAll} repeatedly.
-   * When all the objects have been copied, 
-   * the client should call {@link #copyReferences copyReferences} 
+   * When all the objects have been copied,
+   * the client should call {@link #copyReferences copyReferences}
    * to copy the {@link #copyReference appropriate} {@link EObject#eCrossReferences cross references}.
    *<pre>
    *  Copier copier = new Copier();
@@ -415,7 +415,7 @@ public class EcoreUtil
     {
       super();
     }
-    
+
     /**
      * Creates an instance that resolves proxies or not as specified.
      * @param resolveProxies whether proxies should be resolved while copying.
@@ -466,30 +466,33 @@ public class EcoreUtil
       else
       {
         EObject copyEObject = createCopy(eObject);
-        put(eObject, copyEObject);
-        EClass eClass = eObject.eClass();
-        for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
+        if (copyEObject != null)
         {
-          EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
-          if (eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived())
+          put(eObject, copyEObject);
+          EClass eClass = eObject.eClass();
+          for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
           {
-            if (eStructuralFeature instanceof EAttribute)
+            EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
+            if (eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived())
             {
-              copyAttribute((EAttribute)eStructuralFeature, eObject, copyEObject);
-            }
-            else
-            {
-              EReference eReference = (EReference)eStructuralFeature;
-              if (eReference.isContainment())
+              if (eStructuralFeature instanceof EAttribute)
               {
-                copyContainment(eReference, eObject, copyEObject);
+                copyAttribute((EAttribute)eStructuralFeature, eObject, copyEObject);
+              }
+              else
+              {
+                EReference eReference = (EReference)eStructuralFeature;
+                if (eReference.isContainment())
+                {
+                  copyContainment(eReference, eObject, copyEObject);
+                }
               }
             }
           }
+
+          copyProxyURI(eObject, copyEObject);
         }
-  
-        copyProxyURI(eObject, copyEObject);
-  
+
         return copyEObject;
       }
     }
@@ -511,23 +514,49 @@ public class EcoreUtil
      * Returns a new instance of the object's target class.
      * @param eObject the object to copy.
      * @return a new instance of the target class.
-     * @see #getTarget(EClass)
+     * @see #getTarget(EObject)
      * @see EcoreUtil#create(EClass)
      */
     protected EObject createCopy(EObject eObject)
     {
-      return create(getTarget(eObject.eClass()));
+      EClass eClass = getTarget(eObject);
+      return eClass == null ? null : create(eClass);
+    }
+
+    /**
+     * Returns the target class used to create a copy instance for the given instance object.
+     * @param eObject the object to be copied.
+     * @return the target class used to create a copy instance.
+     * @since 2.10
+     */
+    protected EClass getTarget(EObject eObject)
+    {
+      return getTarget(eObject.eClass());
     }
 
     /**
      * Returns the target class used to create a copy instance for objects of the given source class.
      * @param eClass the source class.
      * @return the target class used to create a copy instance.
-     * @see #getTarget(EStructuralFeature)
+     * @see #getTarget(EStructuralFeature, EObject, EObject)
      */
     protected EClass getTarget(EClass eClass)
     {
       return eClass;
+    }
+
+    /**
+     * Returns a setting for the feature and copy instance to be populated with the original object's source feature's value.
+     * @param eStructuralFeature the source feature.
+     * @return the target feature used to populate a copy instance.
+     * @see #getTarget(EStructuralFeature)
+     * @see #getTarget(EObject)
+     * @since 2.10
+     */
+    protected EStructuralFeature.Setting getTarget(EStructuralFeature eStructuralFeature, EObject eObject, EObject copyEObject)
+    {
+      EStructuralFeature targetEStructuralFeature = getTarget(eStructuralFeature);
+      return targetEStructuralFeature == null ? null : ((InternalEObject)copyEObject).eSetting(targetEStructuralFeature);
     }
 
     /**
@@ -552,23 +581,20 @@ public class EcoreUtil
     {
       if (eObject.eIsSet(eReference))
       {
-        if (eReference.isMany())
+        EStructuralFeature.Setting setting = getTarget(eReference, eObject, copyEObject);
+        if (setting != null)
         {
-          @SuppressWarnings("unchecked") List<EObject> source = (List<EObject>)eObject.eGet(eReference);
-          @SuppressWarnings("unchecked") List<EObject> target = (List<EObject>)copyEObject.eGet(getTarget(eReference));
-          if (source.isEmpty())
+          Object value = eObject.eGet(eReference);
+          if (eReference.isMany())
           {
-            target.clear();
+            @SuppressWarnings("unchecked")
+            List<EObject> target = (List<EObject>)value;
+            setting.set(copyAll(target));
           }
           else
           {
-            target.addAll(copyAll(source));
+            setting.set(copy((EObject)value));
           }
-        }
-        else
-        {
-          EObject childEObject = (EObject)eObject.eGet(eReference);
-          copyEObject.eSet(getTarget(eReference), childEObject == null ? null : copy(childEObject));
         }
       }
     }
@@ -587,37 +613,53 @@ public class EcoreUtil
         if (FeatureMapUtil.isFeatureMap(eAttribute))
         {
           FeatureMap featureMap = (FeatureMap)eObject.eGet(eAttribute);
-          for (int i = 0, size = featureMap.size(); i < size; ++i)
-          {
-            EStructuralFeature feature = featureMap.getEStructuralFeature(i);
-            if (feature instanceof EReference && ((EReference)feature).isContainment())
-            {
-              Object value = featureMap.getValue(i);
-              if (value != null)
-              {
-                copy((EObject)value);
-              }
-            }
-          }
-        }
-        else if (eAttribute.isMany())
-        {
-          List<?> source = (List<?>)eObject.eGet(eAttribute);
-          @SuppressWarnings("unchecked") List<Object> target = (List<Object>)copyEObject.eGet(getTarget(eAttribute));
-          if (source.isEmpty())
-          {
-            target.clear();
-          }
-          else
-          {
-            target.addAll(source);
-          }
+          copyFeatureMap(featureMap);
         }
         else
         {
-          copyEObject.eSet(getTarget(eAttribute), eObject.eGet(eAttribute));
+          EStructuralFeature.Setting setting = getTarget(eAttribute, eObject, copyEObject);
+          if (setting != null)
+          {
+            copyAttributeValue(eAttribute, eObject, eObject.eGet(eAttribute), setting);
+          }
         }
       }
+    }
+
+    /**
+     * Call to handle copying the contained objects within a feature map.
+     * @param featureMap the feature map the copy.
+     * @since 2.10
+     */
+    protected void copyFeatureMap(FeatureMap featureMap)
+    {
+      for (int i = 0, size = featureMap.size(); i < size; ++i)
+      {
+        EStructuralFeature feature = featureMap.getEStructuralFeature(i);
+        if (feature instanceof EReference && ((EReference)feature).isContainment())
+        {
+          Object value = featureMap.getValue(i);
+          if (value != null)
+          {
+            // The containment references are hooked up later during copyReferences.
+            //
+            copy((EObject)value);
+          }
+        }
+      }
+    }
+
+    /**
+     * Called to handle copying of an attribute's value to the target setting.
+     * @param eAttribute the attribute of the source object corresponding to the value.
+     * @param eObject the object being copied.
+     * @param value the value to be copied.
+     * @param setting the feature-value pair that is the target of of the copy.
+     * @since 2.10
+     */
+    protected void copyAttributeValue(EAttribute eAttribute, EObject eObject, Object value, EStructuralFeature.Setting setting)
+    {
+      setting.set(value);
     }
 
     /**
@@ -645,43 +687,47 @@ public class EcoreUtil
             }
             else if (FeatureMapUtil.isFeatureMap(eStructuralFeature))
             {
-              FeatureMap featureMap = (FeatureMap)eObject.eGet(eStructuralFeature);
-              FeatureMap copyFeatureMap = (FeatureMap)copyEObject.eGet(getTarget(eStructuralFeature));
-              int copyFeatureMapSize = copyFeatureMap.size();
-              for (int k = 0, featureMapSize = featureMap.size(); k < featureMapSize; ++k)
+              FeatureMap copyFeatureMap = (FeatureMap)getTarget(eStructuralFeature, eObject, copyEObject);
+              if (copyFeatureMap != null)
               {
-                EStructuralFeature feature = featureMap.getEStructuralFeature(k);
-                if (feature instanceof EReference)
+                FeatureMap featureMap = (FeatureMap)eObject.eGet(eStructuralFeature);
+                int copyFeatureMapSize = copyFeatureMap.size();
+                for (int k = 0, featureMapSize = featureMap.size(); k < featureMapSize; ++k)
                 {
-                  Object referencedEObject = featureMap.getValue(k);
-                  Object copyReferencedEObject = get(referencedEObject);
-                  if (copyReferencedEObject == null && referencedEObject != null)
+                  EStructuralFeature feature = featureMap.getEStructuralFeature(k);
+                  if (feature instanceof EReference)
                   {
-                    EReference reference = (EReference)feature;
-                    if (!useOriginalReferences || reference.isContainment() || reference.getEOpposite() != null)
+                    Object referencedEObject = featureMap.getValue(k);
+                    Object copyReferencedEObject = get(referencedEObject);
+                    if (copyReferencedEObject == null && referencedEObject != null)
                     {
-                      continue;
-                    }
-                    copyReferencedEObject = referencedEObject;
-                  }
-                  // If we can't add it, it must already be in the list so find it and move it to the end.
-                  //
-                  if (!copyFeatureMap.add(feature, copyReferencedEObject))
-                  {
-                    for (int l = 0; l < copyFeatureMapSize; ++l) 
-                    {
-                      if (copyFeatureMap.getEStructuralFeature(l) == feature && copyFeatureMap.getValue(l) == copyReferencedEObject)
+                      EReference reference = (EReference)feature;
+                      if (!useOriginalReferences || reference.isContainment() || reference.getEOpposite() != null)
                       {
-                        copyFeatureMap.move(copyFeatureMap.size() - 1, l);
-                        --copyFeatureMapSize;
-                        break;
+                        continue;
+                      }
+                      copyReferencedEObject = referencedEObject;
+                    }
+  
+                    // If we can't add it, it must already be in the list so find it and move it to the end.
+                    //
+                    if (!copyFeatureMap.add(feature, copyReferencedEObject))
+                    {
+                      for (int l = 0; l < copyFeatureMapSize; ++l)
+                      {
+                        if (copyFeatureMap.getEStructuralFeature(l) == feature && copyFeatureMap.getValue(l) == copyReferencedEObject)
+                        {
+                          copyFeatureMap.move(copyFeatureMap.size() - 1, l);
+                          --copyFeatureMapSize;
+                          break;
+                        }
                       }
                     }
                   }
-                }
-                else
-                {
-                  copyFeatureMap.add(featureMap.get(k));
+                  else
+                  {
+                    copyFeatureMap.add(getTarget(featureMap.getEStructuralFeature(k)), featureMap.getValue(k));
+                  }
                 }
               }
             }
@@ -702,73 +748,77 @@ public class EcoreUtil
     {
       if (eObject.eIsSet(eReference))
       {
-        if (eReference.isMany())
+        EStructuralFeature.Setting setting = getTarget(eReference, eObject, copyEObject);
+        if (setting != null)
         {
-          @SuppressWarnings("unchecked") InternalEList<EObject> source = (InternalEList<EObject>)eObject.eGet(eReference);
-          @SuppressWarnings("unchecked") InternalEList<EObject> target = (InternalEList<EObject>)copyEObject.eGet(getTarget(eReference));
-          if (source.isEmpty())
+          Object value = eObject.eGet(eReference);
+          if (eReference.isMany())
           {
-            target.clear();
-          }
-          else
-          {
-            boolean isBidirectional = eReference.getEOpposite() != null;
-            int index = 0;
-            for (Iterator<EObject> k = resolveProxies ? source.iterator() : source.basicIterator(); k.hasNext();)
+            @SuppressWarnings("unchecked") InternalEList<EObject> source = (InternalEList<EObject>)value;
+            @SuppressWarnings("unchecked") InternalEList<EObject> target = (InternalEList<EObject>)setting;
+            if (source.isEmpty())
             {
-              EObject referencedEObject = k.next();
-              EObject copyReferencedEObject = get(referencedEObject);
-              if (copyReferencedEObject == null)
+              target.clear();
+            }
+            else
+            {
+              boolean isBidirectional = eReference.getEOpposite() != null;
+              int index = 0;
+              for (Iterator<EObject> k = resolveProxies ? source.iterator() : source.basicIterator(); k.hasNext();)
               {
-                if (useOriginalReferences && !isBidirectional)
+                EObject referencedEObject = k.next();
+                EObject copyReferencedEObject = get(referencedEObject);
+                if (copyReferencedEObject == null)
                 {
-                  target.addUnique(index, referencedEObject);
-                  ++index;
-                }
-              }
-              else
-              {
-                if (isBidirectional)
-                {
-                  int position = target.indexOf(copyReferencedEObject);
-                  if (position == -1)
+                  if (useOriginalReferences && !isBidirectional)
                   {
-                    target.addUnique(index, copyReferencedEObject);
-                  }
-                  else if (index != position)
-                  {
-                    target.move(index, copyReferencedEObject);
+                    target.addUnique(index, referencedEObject);
+                    ++index;
                   }
                 }
                 else
                 {
-                  target.addUnique(index, copyReferencedEObject);
+                  if (isBidirectional)
+                  {
+                    int position = target.indexOf(copyReferencedEObject);
+                    if (position == -1)
+                    {
+                      target.addUnique(index, copyReferencedEObject);
+                    }
+                    else if (index != position)
+                    {
+                      target.move(index, copyReferencedEObject);
+                    }
+                  }
+                  else
+                  {
+                    target.addUnique(index, copyReferencedEObject);
+                  }
+                  ++index;
                 }
-                ++index;
               }
             }
-          }
-        }
-        else
-        {
-          Object referencedEObject = eObject.eGet(eReference, resolveProxies);
-          if (referencedEObject == null)
-          {
-            copyEObject.eSet(getTarget(eReference), null);
           }
           else
           {
-            Object copyReferencedEObject = get(referencedEObject);
-            if (copyReferencedEObject == null)
+            if (value == null)
             {
-              if (useOriginalReferences && eReference.getEOpposite() == null)
-              {
-                copyEObject.eSet(getTarget(eReference), referencedEObject);
-              }
+              setting.set(null);
             }
             else
             {
-              copyEObject.eSet(getTarget(eReference), copyReferencedEObject);
+              Object copyReferencedEObject = get(value);
+              if (copyReferencedEObject == null)
+              {
+                if (useOriginalReferences && eReference.getEOpposite() == null)
+                {
+                  setting.set(value);
+                }
+              }
+              else
+              {
+                setting.set(copyReferencedEObject);
+              }
             }
           }
         }
@@ -3049,7 +3099,7 @@ public class EcoreUtil
       }
     }
     
-    if (internalEObject != ancestorEObject)
+    if (internalEObject != ancestorEObject && ancestorEObject != null)
     {
       throw new IllegalArgumentException("The ancestor '" + ancestorEObject + "' is not an ancestor of '" + descendantEObject + "'");
     }
@@ -3063,8 +3113,8 @@ public class EcoreUtil
         result.append(uriFragmentPath.get(i));
         result.append('/');
       }
+      result.append(uriFragmentPath.get(0));
     }
-    result.append(uriFragmentPath.get(0));
 
     return result.toString();
   }

@@ -225,6 +225,8 @@ public class EqualityTest extends TestCase
     supplier2.getStandardOrders().add(EcoreUtil.copy(po2));
     assertTrue(EcoreUtil.equals(supplier1, supplier2));
 
+    assertTrue(EcoreUtil.equals(supplier2, EcoreUtil.copy(supplier2)));
+
     EObject employee1 = createEmployee("Mr. M. D.");
     EObject employee2 = EcoreUtil.copy(employee1);
 
