@@ -34,6 +34,7 @@ import java.util.zip.ZipEntry;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -676,6 +677,18 @@ public class EcorePlugin  extends EMFPlugin
       super.start(context);
       ExtensionProcessor.internalProcessExtensions();
       
+    }
+
+    /**
+     * @since 2.10
+     */
+    public static final class Activator extends EMFPlugin.OSGiDelegatingBundleActivator
+    {
+      @Override
+      protected BundleActivator createBundle()
+      {
+        return new Implementation();
+      }
     }
   }
 

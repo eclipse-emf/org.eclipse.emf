@@ -22,7 +22,8 @@ import java.util.ResourceBundle;
 import java.util.jar.Manifest;
 
 import org.osgi.framework.Bundle;
-
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
@@ -157,6 +158,56 @@ public abstract class EMFPlugin extends DelegatingResourceLocator implements Res
     else
     {
       logger.log(logEntry);
+    }
+  }
+
+  /**
+   * This is just a bundle activator wrapper for delegating to another bundle activator.
+   * It provides a {@link #createBundle() create} method for creating the delegate.
+   * Any exception thrown during creation of the delegate is ignored,
+   * in which case this activator does nothing for {@link #start(BundleContext) start} and {@link #stop(BundleContext) stop}.
+   * The idea is to provide a bundle activator that can delegate to an Equinox-dependent bundle activator,
+   * but behaves gracefully in a non-Equinox OSGi implementation.
+   * 
+   * @since 2.10
+   */
+  public static abstract class OSGiDelegatingBundleActivator implements BundleActivator
+  {
+    private final BundleActivator bundle;
+
+    public OSGiDelegatingBundleActivator()
+    {
+      bundle = createBundleHelper();
+    }
+
+    private BundleActivator createBundleHelper()
+    {
+      try
+      {
+        return createBundle();
+      }
+      catch (Throwable throwable)
+      {
+        return null;
+      }
+    }
+
+    protected abstract BundleActivator createBundle();
+
+    public final void start(BundleContext context) throws Exception
+    {
+      if (bundle != null)
+      {
+        bundle.start(context);
+      }
+    }
+
+    public final void stop(BundleContext context) throws Exception
+    {
+      if (bundle != null)
+      {
+        bundle.stop(context);
+      }
     }
   }
 

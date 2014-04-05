@@ -96,7 +96,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
   public Mapping getMapper()
   {
     if (eContainerFeatureID() != MappingPackage.MAPPING_HELPER__MAPPER) return null;
-    return (Mapping)eContainer();
+    return (Mapping)eInternalContainer();
   }
 
   /**
@@ -184,7 +184,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
   public MappingHelper getNestedIn()
   {
     if (eContainerFeatureID() != MappingPackage.MAPPING_HELPER__NESTED_IN) return null;
-    return (MappingHelper)eContainer();
+    return (MappingHelper)eInternalContainer();
   }
 
   /**

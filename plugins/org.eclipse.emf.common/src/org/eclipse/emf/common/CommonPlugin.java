@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleActivator;
 
 
 /**
@@ -252,6 +253,18 @@ public final class CommonPlugin extends EMFPlugin
       else
       {
         return bundle.loadClass(className);
+      }
+    }
+
+    /**
+     * @since 2.10
+     */
+    public static class Activator extends EMFPlugin.OSGiDelegatingBundleActivator
+    {
+      @Override
+      protected BundleActivator createBundle()
+      {
+        return new Implementation();
       }
     }
   }

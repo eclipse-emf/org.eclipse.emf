@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.emf.ecore.editor; singleton:=true
+Bundle-SymbolicName: org.eclipse.emf.ecore.editor;singleton:=true
 Bundle-Version: 2.10.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.ecore.presentation.EcoreEditorPlugin$Implementation
@@ -11,9 +11,9 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.ecore.action,
  org.eclipse.emf.ecore.presentation
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.core.resources,
+ org.eclipse.core.resources;visibility:=reexport,
  org.eclipse.ui.ide;visibility:=reexport,
- org.eclipse.emf.ecore.xmi,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.emf.ecore.edit;visibility:=reexport,
  org.eclipse.emf.edit.ui;visibility:=reexport,
  org.eclipse.jface.text

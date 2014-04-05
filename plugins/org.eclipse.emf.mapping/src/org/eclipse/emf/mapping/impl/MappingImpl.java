@@ -196,7 +196,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
   public Mapping getNestedIn()
   {
     if (eContainerFeatureID() != MappingPackage.MAPPING__NESTED_IN) return null;
-    return (Mapping)eContainer();
+    return (Mapping)eInternalContainer();
   }
 
   /**

@@ -39,7 +39,7 @@ public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory
   {
     try
     {
-      MappingFactory theMappingFactory = (MappingFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2002/Mapping"); 
+      MappingFactory theMappingFactory = (MappingFactory)EPackage.Registry.INSTANCE.getEFactory(MappingPackage.eNS_URI);
       if (theMappingFactory != null)
       {
         return theMappingFactory;

@@ -154,6 +154,7 @@ public class GenModelItemProvider
       addDecorationPropertyDescriptor(object);
       addStyleProvidersPropertyDescriptor(object);
       addCleanupPropertyDescriptor(object);
+      addOSGiCompatiblePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -1977,6 +1978,29 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the OS Gi Compatible feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addOSGiCompatiblePropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_oSGiCompatible_feature"),
+         getString("_UI_GenModel_oSGiCompatible_description"),
+         GenModelPackage.Literals.GEN_MODEL__OS_GI_COMPATIBLE,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_AllPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -2125,6 +2149,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__DECORATION:
       case GenModelPackage.GEN_MODEL__STYLE_PROVIDERS:
       case GenModelPackage.GEN_MODEL__CLEANUP:
+      case GenModelPackage.GEN_MODEL__OS_GI_COMPATIBLE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:

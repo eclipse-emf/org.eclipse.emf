@@ -39,7 +39,7 @@ public class TreeFactoryImpl extends EFactoryImpl implements TreeFactory
   {
     try
     {
-      TreeFactory theTreeFactory = (TreeFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2002/Tree"); 
+      TreeFactory theTreeFactory = (TreeFactory)EPackage.Registry.INSTANCE.getEFactory(TreePackage.eNS_URI);
       if (theTreeFactory != null)
       {
         return theTreeFactory;

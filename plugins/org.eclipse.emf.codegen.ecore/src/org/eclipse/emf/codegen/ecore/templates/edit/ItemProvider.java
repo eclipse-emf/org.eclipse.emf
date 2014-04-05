@@ -330,11 +330,6 @@ public class ItemProvider
     stringBuffer.append(TEXT_5);
     genModel.addImport("org.eclipse.emf.common.notify.AdapterFactory");
     genModel.addImport("org.eclipse.emf.common.notify.Notification");
-    genModel.addImport("org.eclipse.emf.edit.provider.IEditingDomainItemProvider");
-    genModel.addImport("org.eclipse.emf.edit.provider.IItemLabelProvider");
-    genModel.addImport("org.eclipse.emf.edit.provider.IItemPropertySource");
-    genModel.addImport("org.eclipse.emf.edit.provider.IStructuredItemContentProvider");
-    genModel.addImport("org.eclipse.emf.edit.provider.ITreeItemContentProvider");
     String _List = genModel.getImportedName(genModel.useGenerics() ? "java.util.List<org.eclipse.emf.edit.provider.IItemPropertyDescriptor>" : "java.util.List");
     genModel.markImportLocation(stringBuffer);
     stringBuffer.append(TEXT_6);

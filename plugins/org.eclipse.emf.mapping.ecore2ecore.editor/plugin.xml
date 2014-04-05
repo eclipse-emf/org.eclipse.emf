@@ -17,6 +17,23 @@
       </wizard>
    </extension>
 
+   <!-- Don't generate this
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreModelWizardID"
+            name="%_UI_Ecore2EcoreModelWizard_label"
+            class="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/Ecore2EcoreModelFile.gif">
+         <description>%_UI_Ecore2EcoreModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+   -->
+
    <extension point="org.eclipse.ui.editors">
       <editor
             id="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditorID"

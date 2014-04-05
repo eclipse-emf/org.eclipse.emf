@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.plugin.RegistryReader;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IChildCreationExtender;
+import org.osgi.framework.BundleActivator;
 
 
 /**
@@ -309,6 +310,18 @@ public final class EMFEditPlugin extends EMFPlugin
       // Remember the static instance.
       //
       plugin = this;
+    }
+
+    /**
+     * @since 2.10
+     */
+    public static class Activator extends EMFPlugin.OSGiDelegatingBundleActivator
+    {
+      @Override
+      protected BundleActivator createBundle()
+      {
+        return new Implementation();
+      }
     }
   }
 }

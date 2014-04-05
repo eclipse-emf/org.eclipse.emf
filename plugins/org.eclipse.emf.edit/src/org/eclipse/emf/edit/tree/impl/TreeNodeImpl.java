@@ -94,7 +94,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
   public TreeNode getParent()
   {
     if (eContainerFeatureID() != TreePackage.TREE_NODE__PARENT) return null;
-    return (TreeNode)eContainer();
+    return (TreeNode)eInternalContainer();
   }
 
   /**

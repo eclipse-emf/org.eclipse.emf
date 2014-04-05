@@ -210,6 +210,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getDecoration <em>Decoration</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isStyleProviders <em>Style Providers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCleanup <em>Cleanup</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isOSGiCompatible <em>OS Gi Compatible</em>}</li>
  * </ul>
  * </p>
  *
@@ -1864,6 +1865,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean cleanup = CLEANUP_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isOSGiCompatible() <em>OS Gi Compatible</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isOSGiCompatible()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean OS_GI_COMPATIBLE_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isOSGiCompatible() <em>OS Gi Compatible</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isOSGiCompatible()
+   * @generated
+   * @ordered
+   */
+  protected boolean oSGiCompatible = OS_GI_COMPATIBLE_EDEFAULT;
 
   protected boolean validateModel = false;
 
@@ -6587,6 +6608,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isOSGiCompatible()
+  {
+    return oSGiCompatible;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setOSGiCompatible(boolean newOSGiCompatible)
+  {
+    boolean oldOSGiCompatible = oSGiCompatible;
+    oSGiCompatible = newOSGiCompatible;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__OS_GI_COMPATIBLE, oldOSGiCompatible, oSGiCompatible));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @SuppressWarnings("unchecked")
   @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
@@ -6795,6 +6839,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isStyleProviders();
       case GenModelPackage.GEN_MODEL__CLEANUP:
         return isCleanup();
+      case GenModelPackage.GEN_MODEL__OS_GI_COMPATIBLE:
+        return isOSGiCompatible();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -7074,6 +7120,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__CLEANUP:
         setCleanup((Boolean)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__OS_GI_COMPATIBLE:
+        setOSGiCompatible((Boolean)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -7343,6 +7392,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__CLEANUP:
         setCleanup(CLEANUP_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__OS_GI_COMPATIBLE:
+        setOSGiCompatible(OS_GI_COMPATIBLE_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -7527,6 +7579,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return styleProviders != STYLE_PROVIDERS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__CLEANUP:
         return cleanup != CLEANUP_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__OS_GI_COMPATIBLE:
+        return oSGiCompatible != OS_GI_COMPATIBLE_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -7702,6 +7756,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(styleProviders);
     result.append(", cleanup: ");
     result.append(cleanup);
+    result.append(", oSGiCompatible: ");
+    result.append(oSGiCompatible);
     result.append(')');
     return result.toString();
   }
@@ -9029,6 +9085,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
     setDecoration(oldGenModelVersion.getDecoration());
     setStyleProviders(oldGenModelVersion.isStyleProviders());
+    
+    setOSGiCompatible(oldGenModelVersion.isOSGiCompatible());
   }
 
   public boolean reconcile()

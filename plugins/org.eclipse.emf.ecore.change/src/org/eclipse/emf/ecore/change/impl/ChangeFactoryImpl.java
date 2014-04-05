@@ -45,7 +45,7 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
   {
     try
     {
-      ChangeFactory theChangeFactory = (ChangeFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2003/Change"); 
+      ChangeFactory theChangeFactory = (ChangeFactory)EPackage.Registry.INSTANCE.getEFactory(ChangePackage.eNS_URI);
       if (theChangeFactory != null)
       {
         return theChangeFactory;

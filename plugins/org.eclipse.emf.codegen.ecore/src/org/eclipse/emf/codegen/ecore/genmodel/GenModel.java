@@ -127,6 +127,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getDecoration <em>Decoration</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isStyleProviders <em>Style Providers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCleanup <em>Cleanup</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isOSGiCompatible <em>OS Gi Compatible</em>}</li>
  * </ul>
  * </p>
  *
@@ -2264,6 +2265,30 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setCleanup(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>OS Gi Compatible</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.10
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>OS Gi Compatible</em>' attribute.
+   * @see #setOSGiCompatible(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_OSGiCompatible()
+   * @model
+   * @generated
+   */
+  boolean isOSGiCompatible();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isOSGiCompatible <em>OS Gi Compatible</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.10
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>OS Gi Compatible</em>' attribute.
+   * @see #isOSGiCompatible()
+   * @generated
+   */
+  void setOSGiCompatible(boolean value);
 
   EList<GenPackage> getStaticGenPackages();
 

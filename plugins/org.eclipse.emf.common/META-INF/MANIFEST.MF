@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.common;singleton:=true
 Bundle-Version: 2.10.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: org.eclipse.emf.common.CommonPlugin$Implementation
+Bundle-Activator: org.eclipse.emf.common.CommonPlugin$Implementation$Activator
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
@@ -14,6 +14,7 @@ Export-Package: org.eclipse.emf.common,
  org.eclipse.emf.common.notify,
  org.eclipse.emf.common.notify.impl,
  org.eclipse.emf.common.util
-Require-Bundle: org.eclipse.core.runtime
+Require-Bundle: org.eclipse.core.runtime;resolution:=optional;x-installation:=greedy
+Import-Package: org.osgi.framework
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy

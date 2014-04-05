@@ -43,7 +43,7 @@ public class Ecore2XMLFactoryImpl extends EFactoryImpl implements Ecore2XMLFacto
   {
     try
     {
-      Ecore2XMLFactory theEcore2XMLFactory = (Ecore2XMLFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2005/Ecore2XML"); //$NON-NLS-1$ 
+      Ecore2XMLFactory theEcore2XMLFactory = (Ecore2XMLFactory)EPackage.Registry.INSTANCE.getEFactory(Ecore2XMLPackage.eNS_URI);
       if (theEcore2XMLFactory != null)
       {
         return theEcore2XMLFactory;

@@ -53,4 +53,21 @@
                org.eclipse.emf.edit.provider.IItemLabelProvider
                org.eclipse.emf.edit.provider.IItemPropertySource"/>
    </extension>
+
+   <!-- Don't generate this
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.eclipse.emf.mapping.ecore2xml.presentation.Ecore2XMLModelWizardID"
+            name="%_UI_Ecore2XMLModelWizard_label"
+            class="org.eclipse.emf.mapping.ecore2xml.presentation.Ecore2XMLModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/Ecore2XMLModelFile.gif">
+         <description>%_UI_Ecore2XMLModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+   -->
 </plugin>

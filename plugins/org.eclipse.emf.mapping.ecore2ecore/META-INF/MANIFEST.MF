@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.emf.mapping.ecore2ecore; singleton:=true
-Bundle-Version: 2.7.0.qualifier
+Bundle-SymbolicName: org.eclipse.emf.mapping.ecore2ecore;singleton:=true
+Bundle-Version: 2.8.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: org.eclipse.emf.mapping.ecore2ecore.Ecore2EcorePlugin$Implementation
+Bundle-Activator: org.eclipse.emf.mapping.ecore2ecore.Ecore2EcorePlugin$Implementation$Activator
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
@@ -12,10 +12,12 @@ Export-Package: org.eclipse.emf.mapping.ecore2ecore,
  org.eclipse.emf.mapping.ecore2ecore.impl,
  org.eclipse.emf.mapping.ecore2ecore.provider,
  org.eclipse.emf.mapping.ecore2ecore.util
-Require-Bundle: org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.core.runtime;resolution:=optional;x-installation:=greedy,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.edit;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.eclipse.emf.mapping;visibility:=reexport
+ org.eclipse.emf.mapping;visibility:=reexport,
+ org.eclipse.emf.edit;visibility:=reexport
+Import-Package: org.osgi.framework
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy

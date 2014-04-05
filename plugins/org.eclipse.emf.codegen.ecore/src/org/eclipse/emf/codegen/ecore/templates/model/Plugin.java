@@ -43,9 +43,15 @@ public class Plugin
   protected final String TEXT_27 = " descriptor";
   protected final String TEXT_28 = ")" + NL + "\t\t{" + NL + "\t\t\tsuper(";
   protected final String TEXT_29 = "descriptor";
-  protected final String TEXT_30 = ");" + NL + "" + NL + "\t\t\t// Remember the static instance." + NL + "\t\t\t//" + NL + "\t\t\tplugin = this;" + NL + "\t\t}" + NL + "\t}" + NL;
-  protected final String TEXT_31 = NL + "}";
-  protected final String TEXT_32 = NL;
+  protected final String TEXT_30 = ");" + NL + "" + NL + "\t\t\t// Remember the static instance." + NL + "\t\t\t//" + NL + "\t\t\tplugin = this;" + NL + "\t\t}";
+  protected final String TEXT_31 = NL + "\t" + NL + "\t\t/**" + NL + "\t\t * The actual implementation of the purely OSGi-compatible <b>Bundle Activator</b>." + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @generated" + NL + "\t\t */" + NL + "\t\tpublic static final class Activator extends ";
+  protected final String TEXT_32 = ".OSGiDelegatingBundleActivator" + NL + "\t\t{";
+  protected final String TEXT_33 = NL + "\t\t\t@Override";
+  protected final String TEXT_34 = NL + "\t\t\tprotected ";
+  protected final String TEXT_35 = " createBundle()" + NL + "\t\t\t{" + NL + "\t\t\t\treturn new Implementation();" + NL + "\t\t\t}" + NL + "\t\t}";
+  protected final String TEXT_36 = NL + "\t}" + NL;
+  protected final String TEXT_37 = NL + "}";
+  protected final String TEXT_38 = NL;
 
   public String generate(Object argument)
   {
@@ -126,10 +132,22 @@ public class Plugin
     stringBuffer.append(TEXT_29);
     }
     stringBuffer.append(TEXT_30);
-    }
+    if (genModel.isOSGiCompatible()) {
     stringBuffer.append(TEXT_31);
-    genModel.emitSortedImports();
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.EMFPlugin"));
     stringBuffer.append(TEXT_32);
+    if (genModel.useClassOverrideAnnotation()) {
+    stringBuffer.append(TEXT_33);
+    }
+    stringBuffer.append(TEXT_34);
+    stringBuffer.append(genModel.getImportedName("org.osgi.framework.BundleActivator"));
+    stringBuffer.append(TEXT_35);
+    }
+    stringBuffer.append(TEXT_36);
+    }
+    stringBuffer.append(TEXT_37);
+    genModel.emitSortedImports();
+    stringBuffer.append(TEXT_38);
     return stringBuffer.toString();
   }
 }

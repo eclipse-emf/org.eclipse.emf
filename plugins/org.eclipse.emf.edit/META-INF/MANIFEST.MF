@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.edit; singleton:=true
 Bundle-Version: 2.10.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: org.eclipse.emf.edit.EMFEditPlugin$Implementation
+Bundle-Activator: org.eclipse.emf.edit.EMFEditPlugin$Implementation$Activator
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
@@ -17,9 +17,10 @@ Export-Package: org.eclipse.emf.edit,
  org.eclipse.emf.edit.tree.impl,
  org.eclipse.emf.edit.tree.provider,
  org.eclipse.emf.edit.tree.util
-Require-Bundle: org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.core.runtime;resolution:=optional;x-installation:=greedy,
  org.eclipse.emf.common;visibility:=reexport,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.change;resolution:=optional;visibility:=reexport;x-installation:=greedy
+ Import-Package: org.osgi.framework
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy

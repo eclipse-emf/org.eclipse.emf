@@ -4,14 +4,21 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.ecore.xmi; singleton:=true
 Bundle-Version: 2.10.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: org.eclipse.emf.ecore.xmi.XMIPlugin$Implementation
+Bundle-Activator: org.eclipse.emf.ecore.xmi.XMIPlugin$Implementation$Activator
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.ecore.xmi,
  org.eclipse.emf.ecore.xmi.impl,
  org.eclipse.emf.ecore.xmi.util
-Require-Bundle: org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.core.runtime;resolution:=optional;x-installation:=greedy,
  org.eclipse.emf.ecore;visibility:=reexport
 Eclipse-LazyStart: true
+Import-Package: javax.xml.namespace,
+ javax.xml.parsers,
+ org.osgi.framework,
+ org.w3c.dom,
+ org.xml.sax,
+ org.xml.sax.ext,
+ org.xml.sax.helpers
 Bundle-ActivationPolicy: lazy

@@ -99,6 +99,7 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ContentHandlerImpl;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.ecore.resource.impl.PlatformResourceURIHandlerImpl;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.osgi.framework.BundleException;
 
 /**
@@ -1016,7 +1017,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
           {
             previous = true;
           }
-          result.append(element);
+          result.append(element.toString(lineDelimiter));
         }
         return result.toString();
       }
@@ -1094,8 +1095,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         return valueComponents.hashCode();
       }
 
-      @Override
-      public String toString()
+      public String toString(String lineDelimiter)
       {
         StringBuilder result = new StringBuilder();
         boolean previous = false;
@@ -1114,14 +1114,20 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         for (Attribute attribute : attributes)
         {
           result.append(';');
-          result.append(attribute);
+          result.append(attribute.toString(lineDelimiter));
         }
         for (Directive directive : directives)
         {
           result.append(';');
-          result.append(directive);
+          result.append(directive.toString(lineDelimiter));
         }
         return result.toString();
+      }
+
+      @Override
+      public String toString()
+      {
+        return toString("");
       }
 
       protected static final class Directive
@@ -1129,10 +1135,49 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         public String key;
         public String value;
 
+        public String toString(String lineDelimiter)
+        {
+          if ("x-friends".equals(key))
+          {
+            boolean hasLineDelimiter = lineDelimiter.length() != 0;
+            
+            StringBuilder result = new StringBuilder();
+            if (hasLineDelimiter)
+            {
+              result.append(lineDelimiter);
+              result.append("  ");
+            }
+            result.append(key);
+            result.append(":=\"");
+            List<String> friends = XMLTypeFactory.eINSTANCE.createIDREFS(value.replace(',', ' '));
+            int size = friends.size();
+            if (size > 0)
+            {
+              result.append(friends.get(0));
+              for (int i = 1; i < size; ++i)
+              {
+                result.append(',');
+                if (lineDelimiter.length() != 0)
+                {
+                  result.append(lineDelimiter);
+                  result.append("   ");
+                }
+                result.append(friends.get(i));
+              }
+            }
+            result.append('"');
+            return result.toString();
+          }
+          else
+          {
+            return key + ":=" + quote(value);
+          }
+        }
+
         @Override
         public String toString()
         {
-          return key + ":=" + quote(value);
+          return toString("");
         }
 
         @Override
@@ -1153,10 +1198,15 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         public String key;
         public String value;
 
+        public String toString(String lineDelimiter)
+        {
+          return key + "=" + quote(value);
+        }
+        
         @Override
         public String toString()
         {
-          return key + "=" + quote(value);
+          return toString("");
         }
 
         @Override
@@ -1239,7 +1289,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         //
         if (headerMatcher.find(start) && headerMatcher.start() == start)
         {
-          // Constructure data for it.
+          // Construct data for it.
           //
           AttributeData attribute = new AttributeData();
           attribute.name = headerMatcher.group(1);
@@ -1329,80 +1379,174 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
     {
       // Determine the matching new attribute.
       //
-      AttributeData oldAttribute = oldAttributes.get(i);
-      int index = newAttributes.indexOf(oldAttribute);
+      AttributeData oldAttributeData = oldAttributes.get(i);
+      int index = newAttributes.indexOf(oldAttributeData);
       if (index != -1)
       {
-        AttributeData newAttribute = newAttributes.get(index);
+        AttributeData newAttributeData = newAttributes.get(index);
 
         // Pull in the contents for these specific attributes if the are merging translated attributes...
         //
-        if ("Bundle-Name".equals(oldAttribute.name) || "Bundle-Vendor".equals(oldAttribute.name))
+        if ("Bundle-Name".equals(oldAttributeData.name) || "Bundle-Vendor".equals(oldAttributeData.name))
         {
           // If we should merge translated attributes...
           //
           if (mergeTranslatedAttributes)
           {
-            if (oldAttribute.elements == null)
+            if (oldAttributeData.elements == null)
             {
-              oldAttribute.value = newAttribute.value;
+              oldAttributeData.value = newAttributeData.value;
             }
             else
             {
-              oldAttribute.elements = newAttribute.elements;
+              oldAttributeData.elements = newAttributeData.elements;
             }
           }
         }
 
         // The bundle localization attribute must be what we generate because we must be able to find the properties in that generated properties file.
+        // Also the bundle activator class name can change, so we should use the one we generate.
         //
-        else if ("Bundle-Localization".equals(oldAttribute.name) || "Bundle-SymbolicName".equals(oldAttribute.name))
+        else if ("Bundle-Localization".equals(oldAttributeData.name) || "Bundle-SymbolicName".equals(oldAttributeData.name) || "Bundle-Activator".equals(oldAttributeData.name))
         {
-          if (oldAttribute.elements == null)
+          if (oldAttributeData.elements == null)
           {
-            oldAttribute.value = newAttribute.value;
+            oldAttributeData.value = newAttributeData.value;
           }
           else
           {
-            oldAttribute.elements = newAttribute.elements;
+            oldAttributeData.elements = newAttributeData.elements;
           }
         }
 
         // These attributes have structured content that we should merge...
         //
-        else if ("Export-Package".equals(oldAttribute.name) ||
-                   "Require-Bundle".equals(oldAttribute.name) ||
-                   "Require-Package".equals(oldAttribute.name))
+        else if ("Export-Package".equals(oldAttributeData.name) ||
+                   "Import-Package".equals(oldAttributeData.name) ||
+                   "Require-Bundle".equals(oldAttributeData.name) ||
+                   "Require-Package".equals(oldAttributeData.name))
         {
           // If the new one has structured content...
           //
-          if (newAttribute.elements != null)
+          if (newAttributeData.elements != null)
           {
             // If the old one has no structured content, just pull in the full value.
             //
-            if (oldAttribute.elements == null)
+            if (oldAttributeData.elements == null)
             {
-              oldAttribute.value = newAttribute.value;
+              oldAttributeData.value = newAttributeData.value;
             }
             else
             {
               // Merge the elements...
               //
               LOOP:
-              for (int j = 0, elementSize = newAttribute.elements.size(); j < elementSize; ++j)
+              for (int j = 0, elementSize = newAttributeData.elements.size(); j < elementSize; ++j)
               {
-                AttributeData.Element element = newAttribute.elements.get(j);
-                int elementIndex = oldAttribute.elements.indexOf(element);
-                if (elementIndex == -1)
+                AttributeData.Element element = newAttributeData.elements.get(j);
+                int elementIndex = oldAttributeData.elements.indexOf(element);
+                if (elementIndex != -1)
+                {
+                  AttributeData.Element oldElement = oldAttributeData.elements.get(elementIndex);
+
+                  INNER_LOOP:
+                  for (int m = 0, attributeSize = element.attributes.size(); m < attributeSize; ++m)
+                  {
+                    AttributeData.Element.Attribute attribute = element.attributes.get(m);
+                    int oldAttributeIndex = oldElement.attributes.indexOf(attribute);
+                    if (oldAttributeIndex != -1)
+                    {
+                      // Transfer the attribute value;
+                      //
+                      AttributeData.Element.Attribute oldAttribute = oldElement.attributes.get(oldAttributeIndex);
+                      oldAttribute.value = attribute.value;
+                    }
+                    else
+                    {
+                      // Look backward for an appropriate place after which to insert the new one.
+                      //
+                      for (int n = m - 1; n >= 0; --n)
+                      {
+                        int targetIndex = oldElement.attributes.indexOf(element.attributes.get(n));
+                        if (targetIndex != -1)
+                        {
+                          oldElement.attributes.add(targetIndex + 1, attribute);
+                          continue INNER_LOOP;
+                        }
+                      }
+    
+                      // Failing that, look forward for an appropriate place before which to insert the new one.
+                      //
+                      for (int n = m + 1; n < attributeSize; ++n)
+                      {
+                        int targetIndex = oldElement.attributes.indexOf(element.attributes.get(n));
+                        if (targetIndex != -1)
+                        {
+                          oldElement.attributes.add(targetIndex, attribute);
+                          continue INNER_LOOP;
+                        }
+                      }
+    
+                     // Failing both of those, add the end.
+                     //
+                      oldElement.attributes.add(attribute);
+                    }
+                  }
+  
+                  INNER_LOOP:
+                  for (int m = 0, directiveSize = element.directives.size(); m < directiveSize; ++m)
+                  {
+                    AttributeData.Element.Directive directive = element.directives.get(m);
+                    int oldAttributeIndex = oldElement.directives.indexOf(directive);
+                    if (oldAttributeIndex != -1)
+                    {
+                      // Transfer the directive value;
+                      //
+                      AttributeData.Element.Directive oldDirective = oldElement.directives.get(oldAttributeIndex);
+                      oldDirective.value = directive.value;
+                    }
+                    else
+                    {
+                      // Look backward for an appropriate place after which to insert the new one.
+                      //
+                      for (int n = m - 1; n >= 0; --n)
+                      {
+                        int targetIndex = oldElement.directives.indexOf(element.directives.get(n));
+                        if (targetIndex != -1)
+                        {
+                          oldElement.directives.add(targetIndex + 1, directive);
+                          continue INNER_LOOP;
+                        }
+                      }
+    
+                      // Failing that, look forward for an appropriate place before which to insert the new one.
+                      //
+                      for (int n = m + 1; n < directiveSize; ++n)
+                      {
+                        int targetIndex = oldElement.directives.indexOf(element.directives.get(n));
+                        if (targetIndex != -1)
+                        {
+                          oldElement.directives.add(targetIndex, directive);
+                          continue INNER_LOOP;
+                        }
+                      }
+    
+                     // Failing both of those, add the end.
+                     //
+                      oldElement.directives.add(directive);
+                    }
+                  }
+                }
+                else
                 {
                   // Look backward for an appropriate element after which to insert the new one.
                   //
                   for (int k = j - 1; k >= 0; --k)
                   {
-                    int targetIndex = oldAttribute.elements.indexOf(newAttribute.elements.get(k));
+                    int targetIndex = oldAttributeData.elements.indexOf(newAttributeData.elements.get(k));
                     if (targetIndex != -1)
                     {
-                      oldAttribute.elements.add(targetIndex + 1, element);
+                      oldAttributeData.elements.add(targetIndex + 1, element);
                       continue LOOP;
                     }
                   }
@@ -1411,17 +1555,17 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
                   //
                   for (int k = j + 1; k < elementSize; ++k)
                   {
-                    int targetIndex = oldAttribute.elements.indexOf(newAttribute.elements.get(k));
+                    int targetIndex = oldAttributeData.elements.indexOf(newAttributeData.elements.get(k));
                     if (targetIndex != -1)
                     {
-                     oldAttribute.elements.add(targetIndex, element);
+                     oldAttributeData.elements.add(targetIndex, element);
                      continue LOOP;
                     }
                   }
 
                   // Failing both of those, add the new element at the end.
                   //
-                  oldAttribute.elements.add(element);
+                  oldAttributeData.elements.add(element);
                 }
               }
             }
@@ -1438,7 +1582,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
         // Mark the attribute so it's not pushed in later.
         //
-        newAttribute.value = null;
+        newAttributeData.value = null;
       }
     }
 

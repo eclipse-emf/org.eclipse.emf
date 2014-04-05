@@ -19,7 +19,7 @@ Bundle-SymbolicName: <%=genModel.getModelPluginID()%>;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: <%if (genModel.isRuntimeJar()) {%><%=genModel.getModelPluginID()%>.jar<%}else{%>.<%}%>
 <%if (genModel.hasModelPluginClass()) {%>
-Bundle-Activator: <%=genModel.getQualifiedModelPluginClassName()%>$Implementation
+Bundle-Activator: <%=genModel.getQualifiedModelPluginClassName()%>$Implementation<%if (genModel.isOSGiCompatible()) {%>$Activator<%}%>
 <%}%>
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -37,8 +37,11 @@ Export-Package: <%=pack%><%while(packagesIterator.hasNext()) { pack = packagesIt
  <%=pack%><%}%>
 <%}%>
 <%Iterator<String> requiredPluginIterator = genModel.getModelRequiredPlugins().iterator(); if (requiredPluginIterator.hasNext()) { String pluginID = requiredPluginIterator.next();%>
-Require-Bundle: <%=pluginID%><%if (!pluginID.startsWith("org.eclipse.core.runtime")){%>;visibility:=reexport<%} while(requiredPluginIterator.hasNext()) { pluginID = requiredPluginIterator.next();%>,
- <%=pluginID%><%if (!pluginID.startsWith("org.eclipse.core.runtime")){%>;visibility:=reexport<%}}%>
+Require-Bundle: <%=pluginID%><%if (pluginID.startsWith("org.eclipse.core.runtime")) {if (genModel.isOSGiCompatible()) {%>;resolution:=optional;x-installation:=greedy<%}} else {%>;visibility:=reexport<%} while(requiredPluginIterator.hasNext()) { pluginID = requiredPluginIterator.next();%>,
+ <%=pluginID%><%if (pluginID.startsWith("org.eclipse.core.runtime")) {if (genModel.isOSGiCompatible()) {%>;resolution:=optional;x-installation:=greedy<%}} else {%>;visibility:=reexport<%}}%>
+<%}%>
+<%if (genModel.isOSGiCompatible() && genModel.hasModelPluginClass()) {%>
+Import-Package: org.osgi.framework
 <%}%>
 <%if (genModel.getRuntimeVersion() == GenRuntimeVersion.EMF22 || genModel.getRuntimeVersion() == GenRuntimeVersion.EMF23) {%>
 Eclipse-LazyStart: true
