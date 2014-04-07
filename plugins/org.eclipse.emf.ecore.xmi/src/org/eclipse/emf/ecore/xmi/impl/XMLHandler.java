@@ -2567,7 +2567,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         else
         {
           List<EObject> contents = resource.getContents();
-          content = EcoreUtil.getObjectsByType(contents, EcorePackage.Literals.EPACKAGE);
+          content = EcoreUtil.getObjectByType(contents, EcorePackage.Literals.EPACKAGE);
         }
 
         if (content instanceof EPackage)
