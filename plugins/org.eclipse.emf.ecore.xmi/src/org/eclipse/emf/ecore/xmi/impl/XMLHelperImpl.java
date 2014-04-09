@@ -865,7 +865,7 @@ public class XMLHelperImpl implements XMLHelper
           EClass eClass = (EClass)type;
           if (!eClass.isAbstract())
           {
-            newObject = eFactory.create((EClass)type);
+            newObject = eFactory.create(eClass);
           }
         }
         else
@@ -882,7 +882,7 @@ public class XMLHelperImpl implements XMLHelper
           EClass eClass = (EClass)type;
           if (!eClass.isAbstract())
           {
-            newObject = eFactory.create((EClass)type);
+            newObject = eFactory.create(eClass);
           }
         }
       }
@@ -902,12 +902,12 @@ public class XMLHelperImpl implements XMLHelper
       }
       else
       {
-        EClass eClass = (EClass)ePackage.getEClassifier(typeName);
-        if (eClass == null && xmlMap != null)
+        EClassifier eClassifier = ePackage.getEClassifier(typeName);
+        if (eClassifier == null && xmlMap != null)
         {
           return xmlMap.getClassifier(ePackage.getNsURI(), typeName);
         }
-        return eClass;
+        return eClassifier;
       }
     }
     return null;
