@@ -751,7 +751,7 @@ public class EcoreUtil
         EStructuralFeature.Setting setting = getTarget(eReference, eObject, copyEObject);
         if (setting != null)
         {
-          Object value = eObject.eGet(eReference);
+          Object value = eObject.eGet(eReference, resolveProxies);
           if (eReference.isMany())
           {
             @SuppressWarnings("unchecked") InternalEList<EObject> source = (InternalEList<EObject>)value;
