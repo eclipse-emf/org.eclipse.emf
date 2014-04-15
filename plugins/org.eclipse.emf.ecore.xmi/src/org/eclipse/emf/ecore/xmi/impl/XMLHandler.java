@@ -1066,7 +1066,17 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         {
           // Try to resolve the proxy locally.
           //
-          EObject resolvedEObject = xmlResource.getEObject(proxy.eProxyURI().fragment());
+          EObject resolvedEObject = null;
+          
+          try
+          {
+            resolvedEObject = xmlResource.getEObject(proxy.eProxyURI().fragment());
+          }
+          catch (RuntimeException exception)
+          {
+            // Ignore exceptions, e.g., when a URI fragment is used but is ill-formed.
+          }
+          
           if (resolvedEObject != null)
           {
             // We won't need to process this again later.
@@ -1143,7 +1153,16 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     for (Iterator<SingleReference> i = forwardSingleReferences.iterator(); i.hasNext(); )
     {
       SingleReference ref = i.next();
-      EObject obj = xmlResource.getEObject((String) ref.getValue());
+      EObject obj = null;
+      RuntimeException cause = null;
+      try
+      {
+        obj = xmlResource.getEObject((String) ref.getValue());
+      }
+      catch (RuntimeException exception)
+      {
+        cause = exception;
+      }
 
       if (obj != null)
       {
@@ -1157,12 +1176,12 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       }
       else if (isEndDocument)
       {
-        error
-          (new UnresolvedReferenceException
-            ((String) ref.getValue(),
-             getLocation(),
-             ref.getLineNumber(),
-             ref.getColumnNumber()));
+        UnresolvedReferenceException exception = new UnresolvedReferenceException((String) ref.getValue(), getLocation(), ref.getLineNumber(), ref.getColumnNumber());
+        if (cause != null)
+        {
+          exception.initCause(cause);
+        }
+        error(exception);
       }
     }
 
@@ -1175,20 +1194,30 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       for (int j = 0, l = values.length; j < l; j++)
       {
         String id = (String) values[j];
-        EObject obj = xmlResource.getEObject(id);
-        values[j] = obj;
+        EObject obj = null;
+        RuntimeException cause = null;
+        
+        try
+        {
+          obj = xmlResource.getEObject(id);
+          values[j] = obj;
+        }
+        catch (RuntimeException exception)
+        {
+          cause = exception;
+        }
 
         if (obj == null)
         {
           failure = true;
           if (isEndDocument)
           {
-            error
-              (new UnresolvedReferenceException
-                (id,
-                 getLocation(),
-                 ref.getLineNumber(),
-                 ref.getColumnNumber()));
+            UnresolvedReferenceException exception = new UnresolvedReferenceException(id, getLocation(), ref.getLineNumber(), ref.getColumnNumber()); 
+            if (cause != null)
+            {
+              exception.initCause(cause);
+            }
+            error(exception);
           }
         }
       }
