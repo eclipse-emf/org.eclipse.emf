@@ -637,13 +637,43 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
     protected final ResourceSetImpl resourceSet;
 
     /**
+     * The locator of the resource set at the time this locator is created.
+     * The previous and next locators for a chain that's managed during construction and with dispose.
+     * @see #dispose()
+     * @see #previousResourceLocator
+     */
+    private ResourceLocator previousResourceLocator;
+
+    /**
+     * The locator created at the time this locator was the resource set's locator.
+     * The previous and next locators for a chain that's managed during construction and with dispose.
+     * @see #dispose()
+     * @see #previousResourceLocator
+     */
+    private ResourceLocator nextResourceLocator;
+    
+    /**
      * Creates an instance for the given resource set, and sets the resource set's {@link ResourceSetImpl#resourceLocator resource locator}.
      */
     public ResourceLocator(ResourceSetImpl resourceSet)
     {
-      // Cache the resource set and ensure that the resource set refer back to this as its resource locator.
+      // Cache the resource set.
       //
       this.resourceSet = resourceSet;
+
+      // Hook up a chain of resource locators so we know the previous one to which we must delegate.
+      //
+      previousResourceLocator = resourceSet.resourceLocator;
+      if (previousResourceLocator != null)
+      {
+        // That base one knows this one so if it is disposed, it can redirect this locator's previous resource locator to its previous resource locator,
+        // thereby maintaining the integrity of the chain.
+        //
+        previousResourceLocator.nextResourceLocator = this;
+      }
+
+      // Ensure that the resource set refers back to this as its resource locator.
+      //
       resourceSet.resourceLocator = this;
     }
 
@@ -656,43 +686,155 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
     public abstract Resource getResource(URI uri, boolean loadOnDemand);
 
     /**
-     * Delegates to the {@link #resourceSet resource set}'s {@link ResourceSetImpl#demandCreateResource(URI)}.
+     * Removes this resource locator from the chain of resource locators as if it never existed.
+     * @since 2.10
+     */
+    protected void dispose()
+    {
+      if (previousResourceLocator == null)
+      {
+        // We must be the first in the chain.
+        // Find the last locator in the "next" chain.
+        //
+        ResourceLocator lastLocator = nextResourceLocator;
+        if (lastLocator != null)
+        {
+          while (lastLocator.nextResourceLocator != null)
+          {
+            lastLocator = lastLocator.nextResourceLocator;
+          }
+        }
+
+        // The resource set must point to the last in the chain.
+        //
+        resourceSet.resourceLocator = lastLocator;
+      }
+      else
+      {
+        // We must be later in the chain, or even at the end, so make the previous point at our next, which might even be null.
+        //
+        previousResourceLocator.nextResourceLocator = nextResourceLocator;
+      }
+
+      if (nextResourceLocator == null)
+      {
+        // We're at the end of the chain, so the resource set should point at the one before us, which might even be null.
+        //
+        resourceSet.resourceLocator = previousResourceLocator;
+      }
+      else
+      {
+        // We're not at the end of the chain, so the resource set should point at the one before us, which might even be null.
+        //
+        nextResourceLocator.previousResourceLocator = previousResourceLocator;
+      }
+    }
+
+    /**
+     * Delegates to the {@link #resourceSet resource set}'s {@link ResourceSetImpl#getResource(URI, boolean)}
+     * making sure the resource set's locator is temporarily null to ensure it doesn't delegate back circularly.
+     * or, if the resource set has a resource locator at the time this one was created, delegates to its {@link ResourceLocator#basicGetResource(URI, boolean)}.
+     * @since 2.10
+     */
+    protected Resource basicGetResource(URI uri, boolean loadOnDemand)
+    {
+      if (previousResourceLocator != null)
+      {
+        return previousResourceLocator.getResource(uri, loadOnDemand);
+      }
+      else
+      {
+        ResourceLocator resourceLocator = resourceSet.resourceLocator;
+        resourceSet.resourceLocator = null;
+        try
+        {
+          return resourceSet.getResource(uri, loadOnDemand);
+        }
+        finally
+        {
+          resourceSet.resourceLocator = resourceLocator;
+        }
+      }
+    }
+
+    /**
+     * Delegates to the {@link #resourceSet resource set}'s {@link ResourceSetImpl#demandCreateResource(URI)}
+     * or, if the resource set has a resource locator at the time this one was created, delegates to its {@link ResourceLocator#demandCreateResource(URI)}.
      */
     protected Resource demandCreateResource(URI uri)
     {
-      return resourceSet.demandCreateResource(uri);
+      if (previousResourceLocator != null)
+      {
+        return previousResourceLocator.demandCreateResource(uri);
+      }
+      else
+      {
+        return resourceSet.demandCreateResource(uri);
+      }
     }
 
     /**
-     * Delegates to the {@link #resourceSet resource set}'s {@link ResourceSetImpl#demandLoad(Resource)}.
+     * Delegates to the {@link #resourceSet resource set}'s {@link ResourceSetImpl#demandLoad(Resource)}
+     * or, if the resource set has a resource locator at the time this one was created, delegates to its {@link ResourceLocator#demandCreateResource(URI)}.
      */
     protected void demandLoad(Resource resource) throws IOException
     {
-      resourceSet.demandLoad(resource);
+      if (previousResourceLocator != null)
+      {
+        previousResourceLocator.demandLoad(resource);
+      }
+      else
+      {
+        resourceSet.demandLoad(resource);
+      }
     }
 
     /**
-     * Delegates to the {@link #resourceSet resource set}'s {@link ResourceSetImpl#demandLoadHelper(Resource)}.
+     * Delegates to the {@link #resourceSet resource set}'s {@link ResourceSetImpl#demandLoadHelper(Resource)}
+     * or, if the resource set has a resource locator at the time this one was created, delegates to its {@link ResourceLocator#demandLoadHelper(Resource)}.
      */
     protected void demandLoadHelper(Resource resource)
     {
-      resourceSet.demandLoadHelper(resource);
+      if (previousResourceLocator != null)
+      {
+        previousResourceLocator.demandLoadHelper(resource);
+      }
+      else
+      {
+        resourceSet.demandLoadHelper(resource);
+      }
     }
 
     /**
-     * Delegates to the {@link #resourceSet resource set}'s {@link ResourceSetImpl#handleDemandLoadException(Resource, IOException)}.
+     * Delegates to the {@link #resourceSet resource set}'s {@link ResourceSetImpl#handleDemandLoadException(Resource, IOException)}
+     * or, if the resource set has a resource locator at the time this one was created, delegates to its {@link ResourceLocator#handleDemandLoadException(Resource, IOException)}.
      */
     protected void handleDemandLoadException(Resource resource, IOException exception) throws RuntimeException
     {
+      if (previousResourceLocator != null)
+      {
+        previousResourceLocator.handleDemandLoadException(resource, exception);
+      }
+      else
+      {
       resourceSet.handleDemandLoadException(resource, exception);
+      }
     }
 
     /**
-     * Delegates to the {@link #resourceSet resource set}'s {@link ResourceSetImpl#delegatedGetResource(URI, boolean)}.
+     * Delegates to the {@link #resourceSet resource set}'s {@link ResourceSetImpl#delegatedGetResource(URI, boolean)}
+     * or, if the resource set has a resource locator at the time this one was created, delegates to its {@link ResourceLocator#delegatedGetResource(URI, boolean)}.
      */
     protected Resource delegatedGetResource(URI uri, boolean loadOnDemand)
     {
-      return resourceSet.delegatedGetResource(uri, loadOnDemand);
+      if (previousResourceLocator != null)
+      {
+        return previousResourceLocator.delegatedGetResource(uri, loadOnDemand);
+      }
+      else
+      {
+        return resourceSet.delegatedGetResource(uri, loadOnDemand);
+      }
     }
   }
 

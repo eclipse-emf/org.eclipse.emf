@@ -22,11 +22,6 @@ public class AllSuites extends TestSuite
   private static Test[] suites =
     new Test []
     {
-      org.eclipse.emf.test.core.common.util.WeakInterningHashSetTest.suite(),
-      org.eclipse.emf.test.core.common.util.PoolTest.suite(),
-      org.eclipse.emf.test.core.common.util.StringPoolTest.suite(),
-      org.eclipse.emf.test.core.common.util.SegmentSequenceTest.suite(),
-      org.eclipse.emf.test.core.common.util.URITest.suite(),
       org.eclipse.emf.test.core.ecore.EcoreValidationTest.suite(),
       org.eclipse.emf.test.core.ecore.EcoreTest.suite(),
       org.eclipse.emf.test.core.common.NotificationTest.suite(),
@@ -46,6 +41,7 @@ public class AllSuites extends TestSuite
       org.eclipse.emf.test.core.ecore.ValidationTest.suite(),
       org.eclipse.emf.test.core.ecore.KeyTest.suite(),
       org.eclipse.emf.test.core.ecore.URIConverterTest.suite(),
+      org.eclipse.emf.test.core.ecore.ResourceLocatorTest.suite(),
       org.eclipse.emf.test.core.ecore.GenericTypeBuilderTest.suite(),
       org.eclipse.emf.test.core.featuremap.FeatureMapTest.suite(),
       org.eclipse.emf.test.core.ecore.BadEcoreDiagnosticTest.suite(),
@@ -53,7 +49,12 @@ public class AllSuites extends TestSuite
       org.eclipse.emf.test.core.ecore.BinaryResourceTest.suite(),
       org.eclipse.emf.test.core.ecore.SwitchTest.suite(),
       org.eclipse.emf.test.core.ecore.ResourceSetMappedResourceLocatorTest.suite(),
-      org.eclipse.emf.test.core.ecore.ReificationTest.suite()
+      org.eclipse.emf.test.core.ecore.ReificationTest.suite(),
+      org.eclipse.emf.test.core.common.util.WeakInterningHashSetTest.suite(),
+      org.eclipse.emf.test.core.common.util.PoolTest.suite(),
+      org.eclipse.emf.test.core.common.util.StringPoolTest.suite(),
+      org.eclipse.emf.test.core.common.util.SegmentSequenceTest.suite(),
+      org.eclipse.emf.test.core.common.util.URITest.suite()
     };
 
   public static Test suite()
