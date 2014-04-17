@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xrefs="http://www.eclipse.org/EMF/2014/test/xrefsmodel">
+  <xrefs:A
+      name="a0">
+      <others href="xrefs1.xmi#/0"/>
+      <others href="xrefs1.xmi#/1"/>
+      <nonOthers href="xrefs1.xmi#/2"/>
+  </xrefs:A>
+  <xrefs:A
+      name="a5">
+  </xrefs:A>
+  <xrefs:A
+      name="a6">
+      <others href="xrefs1.xmi#/0"/>
+  </xrefs:A>
+</xmi:XMI>

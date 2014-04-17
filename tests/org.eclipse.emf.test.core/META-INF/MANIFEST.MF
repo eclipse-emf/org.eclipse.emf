@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.emf.test.core; singleton:=true
+Bundle-SymbolicName: org.eclipse.emf.test.core;singleton:=true
 Bundle-Version: 2.10.0.qualifier
 Bundle-ClassPath: test.core.jar
 Bundle-Vendor: %providerName
@@ -19,7 +19,10 @@ Export-Package: org.eclipse.emf.test.core,
  org.eclipse.emf.test.core.featuremap,
  org.eclipse.emf.test.core.featuremap.supplier,
  org.eclipse.emf.test.core.featuremap.supplier.impl,
- org.eclipse.emf.test.core.featuremap.supplier.util
+ org.eclipse.emf.test.core.featuremap.supplier.util,
+ org.eclipse.emf.test.core.xrefsmodel,
+ org.eclipse.emf.test.core.xrefsmodel.impl,
+ org.eclipse.emf.test.core.xrefsmodel.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.emf.ecore,

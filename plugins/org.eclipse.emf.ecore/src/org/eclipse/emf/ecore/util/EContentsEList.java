@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2014 IBM Corporation, itemis AG, CEA, and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,8 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
+ *   Ed Merks (itemis AG) - bug 433027
+ *   Christian W. Damus (CEA) - bug 433027
  */
 package org.eclipse.emf.ecore.util;
 
@@ -311,7 +313,23 @@ public class EContentsEList<E> extends AbstractSequentialInternalEList<E> implem
     // No new methods.
   }
 
-  public static class FeatureIteratorImpl<E> implements FeatureListIterator<E>
+  /**
+   * @since 2.10
+   */
+  public interface FeatureFilter
+  {
+    boolean isIncluded(EStructuralFeature eStructuralFeature);
+  }
+
+  /**
+   * @since 2.10
+   */
+  public interface Filterable
+  {
+    void filter(FeatureFilter featureFilter);
+  }
+
+  public static class FeatureIteratorImpl<E> implements FeatureListIterator<E>, Filterable
   {
     protected final EObject eObject; 
     protected final EStructuralFeature [] eStructuralFeatures;
@@ -327,6 +345,11 @@ public class EContentsEList<E> extends AbstractSequentialInternalEList<E> implem
     protected List<E> valueList;
     protected int valueListSize;
     protected int valueListIndex;
+
+    /**
+     * @since 2.10
+     */
+    protected FeatureFilter featureFilter;
 
     public FeatureIteratorImpl(EObject eObject, List<? extends EStructuralFeature> eStructuralFeatures)
     {
@@ -359,6 +382,19 @@ public class EContentsEList<E> extends AbstractSequentialInternalEList<E> implem
     protected boolean isIncludedEntry(EStructuralFeature eStructuralFeature)
     {
       return eStructuralFeature instanceof EReference && ((EReference)eStructuralFeature).isContainment();
+    }
+
+    /**
+     * @since 2.10
+     */
+    public void filter(FeatureFilter featureFilter)
+    {
+      if (prepared != 0 || this.featureFilter != null)
+      {
+        throw new IllegalStateException("Iterator already in use or already filtered"); //$NON-NLS-1$
+      }
+
+      this.featureFilter = featureFilter;
     }
 
     public EStructuralFeature feature()
@@ -398,7 +434,7 @@ public class EContentsEList<E> extends AbstractSequentialInternalEList<E> implem
             while (featureCursor < eStructuralFeatures.length)
             {
               EStructuralFeature feature = eStructuralFeatures[featureCursor++];
-              if (isIncluded(feature) && (!useIsSet() || eObject.eIsSet(feature)))
+              if (isIncluded(feature) && (featureFilter == null || featureFilter.isIncluded(feature)) && (!useIsSet() || eObject.eIsSet(feature)))
               {
                 Object value = eObject.eGet(feature, resolve());
                 isHandlingFeatureMap = FeatureMapUtil.isFeatureMap(feature);
@@ -505,7 +541,7 @@ public class EContentsEList<E> extends AbstractSequentialInternalEList<E> implem
         {
           FeatureMap.Entry entry = (FeatureMap.Entry)values.next();
           EStructuralFeature entryFeature = entry.getEStructuralFeature();
-          if (isIncludedEntry(entryFeature) && entry.getValue() != null)
+          if (isIncludedEntry(entryFeature) && (featureFilter == null || featureFilter.isIncluded(entryFeature)) && entry.getValue() != null)
           {
             values.previous();
             return true;
@@ -531,7 +567,7 @@ public class EContentsEList<E> extends AbstractSequentialInternalEList<E> implem
                  valueList.get(valueListIndex) : 
                  valueInternalEList.basicGet(valueListIndex));
           EStructuralFeature entryFeature = entry.getEStructuralFeature();
-          if (isIncludedEntry(entryFeature) && entry.getValue() != null)
+          if (isIncludedEntry(entryFeature) && (featureFilter == null || featureFilter.isIncluded(entryFeature)) && entry.getValue() != null)
           {
             return true;
           }
@@ -602,7 +638,7 @@ public class EContentsEList<E> extends AbstractSequentialInternalEList<E> implem
             while (featureCursor > 0)
             {
               EStructuralFeature feature = eStructuralFeatures[--featureCursor];
-              if (isIncluded(feature) && (!useIsSet() || eObject.eIsSet(feature)))
+              if (isIncluded(feature)  && (featureFilter == null || featureFilter.isIncluded(feature)) && (!useIsSet() || eObject.eIsSet(feature)))
               {
                 Object value = eObject.eGet(feature, resolve());
                 isHandlingFeatureMap = FeatureMapUtil.isFeatureMap(feature);
@@ -707,7 +743,7 @@ public class EContentsEList<E> extends AbstractSequentialInternalEList<E> implem
         {
           FeatureMap.Entry entry = (FeatureMap.Entry)values.previous();
           EStructuralFeature entryFeature = entry.getEStructuralFeature();
-          if (isIncludedEntry(entryFeature) && entry.getValue() != null)
+          if (isIncludedEntry(entryFeature) && (featureFilter == null || featureFilter.isIncluded(entryFeature)) && entry.getValue() != null)
           {
             values.next();
             return true;
@@ -729,7 +765,7 @@ public class EContentsEList<E> extends AbstractSequentialInternalEList<E> implem
         {
           FeatureMap.Entry entry = (FeatureMap.Entry)valueList.get(valueListIndex - 1);
           EStructuralFeature entryFeature = entry.getEStructuralFeature();
-          if (isIncludedEntry(entryFeature) && entry.getValue() != null)
+          if (isIncludedEntry(entryFeature) && (featureFilter == null || featureFilter.isIncluded(entryFeature)) && entry.getValue() != null)
           {
             return true;
           }
@@ -786,6 +822,12 @@ public class EContentsEList<E> extends AbstractSequentialInternalEList<E> implem
     public static final ListIterator<?> EMPTY_ITERATOR = 
       new FeatureIteratorImpl<Object>(null, (EStructuralFeature [] )null)
       {
+        @Override
+        public void filter(EContentsEList.FeatureFilter featureFilter)
+        {
+          // I'm empty, so there's nothing to filter
+        }
+
         @Override
         public boolean hasNext()
         {

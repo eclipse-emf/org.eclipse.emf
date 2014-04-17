@@ -7,7 +7,7 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
- *   Christian W. Damus (CEA) - 433108
+ *   Christian W. Damus (CEA) - 433108, 433027
  */
 package org.eclipse.emf.test.core;
 
@@ -52,6 +52,7 @@ public class AllSuites extends TestSuite
       org.eclipse.emf.test.core.ecore.SwitchTest.suite(),
       org.eclipse.emf.test.core.ecore.ResourceSetMappedResourceLocatorTest.suite(),
       org.eclipse.emf.test.core.ecore.ReificationTest.suite(),
+    org.eclipse.emf.test.core.ecore.ECrossReferenceAdapterTest.suite(),
       org.eclipse.emf.test.core.common.util.WeakInterningHashSetTest.suite(),
       org.eclipse.emf.test.core.common.util.PoolTest.suite(),
       org.eclipse.emf.test.core.common.util.StringPoolTest.suite(),

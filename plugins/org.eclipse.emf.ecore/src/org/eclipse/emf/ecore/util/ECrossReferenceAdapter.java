@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2012 IBM Corporation and others.
+ * Copyright (c) 2005-2014 IBM Corporation, CEA, and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
+ *   Christian W. Damus (CEA) - bug 433027
  */
 package org.eclipse.emf.ecore.util;
 
@@ -19,6 +20,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -32,6 +34,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EContentsEList.FeatureIterator;
 
 
 /**
@@ -70,27 +73,97 @@ public class ECrossReferenceAdapter implements Adapter.Internal
 
     protected Map<URI, List<EObject>> proxyMap;
     
+    /**
+     * @since 2.10
+     */
+    protected EContentsEList.FeatureFilter crossReferenceFilter;
+
     protected InverseCrossReferencer()
     {
       super((Collection<Notifier>)null);
+
+      crossReferenceFilter = createCrossReferenceFilter();
+    }
+
+    /**
+     * @since 2.10
+     */
+    protected EContentsEList.FeatureFilter createCrossReferenceFilter()
+    {
+      return new EContentsEList.FeatureFilter()
+        {
+          public boolean isIncluded(EStructuralFeature eStructuralFeature)
+          {
+            return FeatureMapUtil.isFeatureMap(eStructuralFeature) || ECrossReferenceAdapter.this.isIncluded((EReference)eStructuralFeature);
+          }
+        };
     }
     
     @Override
     protected EContentsEList.FeatureIterator<EObject> getCrossReferences(EObject eObject)
     {
-      return
-        new ECrossReferenceEList.FeatureIteratorImpl<EObject>(eObject)
+      InternalEList<EObject> eCrossReferences = (InternalEList<EObject>)eObject.eCrossReferences();
+
+      final EContentsEList.FeatureIterator<EObject> underlyingIterator = (FeatureIterator<EObject>)(resolve() ? eCrossReferences.iterator() : eCrossReferences.basicIterator());
+
+      if (underlyingIterator instanceof EContentsEList.Filterable)
+      {
+        // Simply filter the model-provided iterator to skip the references that we don't need to index
+        ((EContentsEList.Filterable)underlyingIterator).filter(crossReferenceFilter);
+        return underlyingIterator;
+      }
+
+      // Otherwise, we'll post-filter the iterator, ourselves, but this does mean that we may compute derived features unnecessarily
+      return new EContentsEList.FeatureIterator<EObject>()
         {
-          @Override
-          protected boolean isIncluded(EStructuralFeature eStructuralFeature)
+          private boolean prepared;
+
+          private EObject preparedNext;
+
+          private EStructuralFeature preparedFeature;
+
+          private EStructuralFeature feature;
+
+          public boolean hasNext()
           {
-            return FeatureMapUtil.isFeatureMap(eStructuralFeature) || ECrossReferenceAdapter.this.isIncluded((EReference)eStructuralFeature);
+            if (!prepared)
+            {
+              while (underlyingIterator.hasNext())
+              {
+                preparedNext = underlyingIterator.next();
+                preparedFeature = underlyingIterator.feature();
+                if (crossReferenceFilter.isIncluded(preparedFeature))
+                {
+                  prepared = true;
+                  break;
+                }
+              }
+            }
+
+            return prepared;
           }
 
-          @Override
-          protected boolean resolve()
+          public EObject next()
           {
-            return InverseCrossReferencer.this.resolve();
+            if (!prepared && !hasNext())
+            {
+              throw new NoSuchElementException();
+            }
+
+            feature = preparedFeature;
+            prepared = false;
+            return preparedNext;
+          }
+
+          public void remove()
+          {
+            // Must not attempt to remove cross-references in indexing them
+            throw new UnsupportedOperationException();
+          }
+
+          public EStructuralFeature feature()
+          {
+            return feature;
           }
         };
     }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="xrefsmodel" nsURI="http://www.eclipse.org/EMF/2014/test/xrefsmodel"
+    nsPrefix="xrefs">
+  <eClassifiers xsi:type="ecore:EClass" name="A">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="others" upperBound="-1"
+        eType="#//A"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allOthers" upperBound="-1"
+        eType="#//A" changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nonOthers" upperBound="-1"
+        eType="#//A"/>
+  </eClassifiers>
+</ecore:EPackage>
