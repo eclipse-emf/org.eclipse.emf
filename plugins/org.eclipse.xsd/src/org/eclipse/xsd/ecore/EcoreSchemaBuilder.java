@@ -594,6 +594,8 @@ public class EcoreSchemaBuilder extends MapBuilder
           {
             createEcoreAnnotation(facet, "value", Integer.toString(literal.getValue()));
           }
+
+          buildAnnotations(facet, literal);
         }
       }
 
