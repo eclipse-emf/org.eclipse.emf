@@ -29,7 +29,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.helpers.DefaultHandler;
-
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -104,7 +103,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
-
+import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
@@ -132,6 +131,7 @@ import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -150,7 +150,6 @@ import org.eclipse.emf.edit.ui.provider.PropertyDescriptor;
 import org.eclipse.emf.edit.ui.provider.PropertySource;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
-
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDAttributeGroupDefinition;
 import org.eclipse.xsd.XSDAttributeUse;
@@ -194,14 +193,14 @@ public class XSDEditor
   protected AdapterFactoryEditingDomain editingDomain;
 
   /**
-   * This is the adapter factory used for providing the syntactive views of the model.
+   * This is the adapter factory used for providing the syntactic views of the model.
    */
-  protected XSDItemProviderAdapterFactory syntacticAdapterFactory;
+  protected ComposedAdapterFactory syntacticAdapterFactory;
 
   /**
    * This is the adapter factory used for providing the semantic views of the model.
    */
-  protected XSDItemProviderAdapterFactory semanticAdapterFactory;
+  protected ComposedAdapterFactory semanticAdapterFactory;
 
   /**
    * This is the content outline page.
@@ -322,8 +321,10 @@ public class XSDEditor
 
     // Create an adapter factory that yields item providers.
     //
-    syntacticAdapterFactory = new XSDItemProviderAdapterFactory();
-    semanticAdapterFactory = new XSDSemanticItemProviderAdapterFactory();
+    syntacticAdapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+    syntacticAdapterFactory.addAdapterFactory(new XSDItemProviderAdapterFactory());
+    semanticAdapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+    semanticAdapterFactory.addAdapterFactory(new XSDSemanticItemProviderAdapterFactory());
 
     // Create the command stack that will notify this editor as commands are executed.
     //
@@ -351,7 +352,10 @@ public class XSDEditor
                     setSelectionToViewer(mostRecentCommand.getAffectedObjects());
                   }
 
-                  handleStructuredModelChange();
+                  if (!(mostRecentCommand instanceof AbstractCommand.NonDirtying))
+                  {
+                    handleStructuredModelChange();
+                  }
 
                   updateActions();
 
@@ -495,11 +499,25 @@ public class XSDEditor
         {
           public void run()
           {
+            Viewer viewer = currentViewer;
+            if (viewer == sourceViewer)
+            {
+              if (contentOutlineViewer != null && !contentOutlineViewer.getControl().isDisposed())
+              {
+                viewer = contentOutlineViewer;
+              }
+            }
+
             // Try to select the items in the current content viewer of the editor.
             //
-            if (currentViewer != null)
+            if (viewer != null)
             {
-              currentViewer.setSelection(new StructuredSelection(collection.toArray()), true);
+              StructuredSelection selection = new StructuredSelection(collection.toArray());
+              viewer.setSelection(selection, true);
+              if (currentViewer == sourceViewer)
+              {
+                handleContentOutlineSelectionForTextEditor(selection, true);
+              }
             }
           }
         };

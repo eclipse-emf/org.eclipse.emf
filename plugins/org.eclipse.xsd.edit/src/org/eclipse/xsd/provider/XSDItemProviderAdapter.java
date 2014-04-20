@@ -87,7 +87,8 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
   @Override
   public Object getParent(Object object)
   {
-    EObject parent = ((EObject)object).eContainer();
+    EObject eObject = (EObject)object;
+    EObject parent = eObject.eContainer();
     if (parent != null)
     {
       EObject grandParent = parent.eContainer();
@@ -96,6 +97,10 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
       {
         return grandParent;
       }
+    }
+    if (parent == null)
+    {
+      return eObject.eResource();
     }
     return parent;
   }
