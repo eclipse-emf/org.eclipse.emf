@@ -189,9 +189,9 @@
 
 	<property key="git.clones.root" value="${user.home}/git" />
 	<property key="emf.repository.location" value="git://git.eclipse.org/gitroot/emf/org.eclipse.emf.git" />
-	<property key="emf.clone.root" value="${git.clones.root}/org.eclipse.emf" />
+	<property key="emf.clone.root" value="${git.clones.root}/emf-repo" />
 	<property key="xsd.repository.location" value="git://git.eclipse.org/gitroot/xsd/org.eclipse.xsd.git" />
-	<property key="xsd.clone.root" value="${git.clones.root}/org.eclipse.xsd" />
+	<property key="xsd.clone.root" value="${git.clones.root}/xsd-repo" />
 
 	<property key="eclipse.download" value="http://download.eclipse.org" />
 	<property key="google.web.toolkit.repository" value="http://dl.google.com/eclipse/plugin/3.7" />
