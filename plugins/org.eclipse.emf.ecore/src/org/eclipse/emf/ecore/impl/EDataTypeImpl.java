@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2014 IBM Corporation, CEA, and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
+ *   Christian W. Damus (CEA) - 433108
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -21,6 +22,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 
 /**
@@ -68,6 +70,15 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType, EDataTy
   {
     super();
     eFlags |= SERIALIZABLE_EFLAG;
+  }
+
+  @Override
+  protected void freeze()
+  {
+    // Bug 433108: Lock in the shared extended metadata for this data type
+    ExtendedMetaData.INSTANCE.getName(this);
+
+    super.freeze();
   }
 
   protected Object defaultValue = null;
