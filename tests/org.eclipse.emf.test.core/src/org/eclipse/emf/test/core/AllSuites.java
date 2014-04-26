@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2013 IBM Corporation and others.
+ * Copyright (c) 2002-2014 IBM Corporation, CEA, and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
+ *   Christian W. Damus (CEA) - 433108
  */
 package org.eclipse.emf.test.core;
 
@@ -22,6 +23,7 @@ public class AllSuites extends TestSuite
   private static Test[] suites =
     new Test []
     {
+      org.eclipse.emf.test.core.ecore.BasicExtendedMetadataTest.suite(),
       org.eclipse.emf.test.core.ecore.EcoreValidationTest.suite(),
       org.eclipse.emf.test.core.ecore.EcoreTest.suite(),
       org.eclipse.emf.test.core.common.NotificationTest.suite(),

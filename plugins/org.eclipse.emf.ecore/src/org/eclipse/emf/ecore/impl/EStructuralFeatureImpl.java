@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2012 IBM Corporation and others.
+ * Copyright (c) 2002-2014 IBM Corporation, CEA, and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
+ *   Christian W. Damus (CEA) - 433108
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -98,6 +99,15 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.ESTRUCTURAL_FEATURE;
+  }
+
+  @Override
+  protected void freeze()
+  {
+    // Bug 433108: Lock in the shared extended metadata for this feature
+    ExtendedMetaData.INSTANCE.getName(this);
+
+    super.freeze();
   }
 
   protected Object defaultValue = null;
