@@ -58,11 +58,14 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="genModel" type="anyURI">
+         <attribute name="genModel" type="string">
             <annotation>
                <documentation>
-                  An absolute or plugin relative URI of the generator model resource for the package.
+                  The plugin relative URI of the generator model resource for the package.
                </documentation>
+               <appInfo>
+                  <meta.attribute kind="resource"/>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="class" type="string" use="required">
