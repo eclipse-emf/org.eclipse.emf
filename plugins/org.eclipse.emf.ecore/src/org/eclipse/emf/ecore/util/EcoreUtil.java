@@ -447,7 +447,10 @@ public class EcoreUtil
       for (Object object : eObjects)
       {
         @SuppressWarnings("unchecked") T t = (T)copy((EObject)object);
-        result.add(t);
+        if (t != null)
+        {
+          result.add(t);
+        }
       }
       return result;
     }
@@ -2506,8 +2509,21 @@ public class EcoreUtil
       {
         // The values must be Java equal.
         //
-        return value1.equals(value2);
+        return equalValues(value1, value2);
       }
+    }
+
+    /**
+     * Returns whether value1 and value2 are structurally equal.
+     * The default implementation only checks for Java equality.
+     * @param value1 the first non-null value.
+     * @param value2 the second potentially null value.
+     * @return whether value1 and value2 are structurally equal.
+     * @since 2.10
+     */
+    protected boolean equalValues(Object value1, Object value2)
+    {
+      return value1.equals(value2);
     }
 
     /**
@@ -2568,7 +2584,7 @@ public class EcoreUtil
       {
         // If the values aren't Java equal, the feature maps aren't equal.
         //
-        return value1 == null ? value2 == null : value1.equals(value2);
+        return value1 == null ? value2 == null : equalValues(value1, value2);
       }
     }
     
