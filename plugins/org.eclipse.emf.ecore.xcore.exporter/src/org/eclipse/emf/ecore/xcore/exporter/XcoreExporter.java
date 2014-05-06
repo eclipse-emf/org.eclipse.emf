@@ -50,6 +50,7 @@ import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -192,7 +193,9 @@ public class XcoreExporter extends ModelExporter
       // Create an appropriate resource set for Xcore models.
       //
       final ResourceSet resourceSet = resourceSetProvider.get();
-      resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
+      final Map<URI, URI> uriMap = resourceSet.getURIConverter().getURIMap();
+      Registry packageRegistry = resourceSet.getPackageRegistry();
+      uriMap.putAll(EcorePlugin.computePlatformURIMap(true));
 
       // Load a clone of the GenModel in the new resource set.
       //
@@ -277,23 +280,27 @@ public class XcoreExporter extends ModelExporter
       GenPackage ecoreGenPackage = inputGenModel.getEcoreGenPackage();
       if (ecoreGenPackage != null)
       {
-        Resource ecoreResource = additionalResources.createResource(URI.createPlatformResourceURI("/org.eclipse.emf.ecore/model/Ecore.genmodel", false));
+        URI ecoreResourceURI = URI.createPlatformResourceURI("/org.eclipse.emf.ecore/model/Ecore.genmodel", false);
+        packageRegistry.put(ecoreResourceURI.toString(), ecoreGenPackage.getEcorePackage());
+        Resource ecoreResource = additionalResources.createResource(ecoreResourceURI);
         ecoreResource.getContents().add(ecoreGenPackage.getGenModel());
       }
       GenPackage xmlTypeGenPackage = inputGenModel.getXMLTypeGenPackage();
       if (xmlTypeGenPackage != null)
       {
-        Resource xmlTypeResource = additionalResources.createResource(URI.createPlatformResourceURI("/org.eclipse.emf.ecore/model/XMLType.genmodel", false));
+        URI xmlTypeResourceURI = URI.createPlatformResourceURI("/org.eclipse.emf.ecore/model/XMLType.genmodel", false);
+        packageRegistry.put(xmlTypeResourceURI.toString(), xmlTypeGenPackage.getEcorePackage());
+        Resource xmlTypeResource = additionalResources.createResource(xmlTypeResourceURI);
         xmlTypeResource.getContents().add(xmlTypeGenPackage.getGenModel());
       }
       GenPackage xmlNamespaceGenPackage = inputGenModel.getXMLNamespaceGenPackage();
       if (xmlNamespaceGenPackage != null)
       {
-        Resource xmlNamespaceResource = additionalResources.createResource(URI.createPlatformResourceURI("/org.eclipse.emf.ecore/model/XMLNamespace.genmodel", false));
+        URI xmlNamespaceResourceURI = URI.createPlatformResourceURI("/org.eclipse.emf.ecore/model/XMLNamespace.genmodel", false);
+        packageRegistry.put(xmlNamespaceResourceURI.toString(), xmlNamespaceGenPackage.getEcorePackage());
+        Resource xmlNamespaceResource = additionalResources.createResource(xmlNamespaceResourceURI);
         xmlNamespaceResource.getContents().add(xmlNamespaceGenPackage.getGenModel());
       }
-
-      resourceSet.getURIConverter().getURIMap().remove(URI.createPlatformResourceURI("/org.eclipse.emf.ecore/", false));
 
       // Do the final linking step and build the map.
       //
@@ -413,7 +420,6 @@ public class XcoreExporter extends ModelExporter
             {
               // Temporarily clear the mappings so that the serializer properly finds the non-normalized URIs in the index.
               //
-              Map<URI, URI> uriMap = resourceSet.getURIConverter().getURIMap();
               Map<URI, URI> copyiedURIMap = new HashMap<URI, URI>(uriMap);
               uriMap.clear();
               outputResource.save(options);
