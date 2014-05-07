@@ -21,6 +21,6 @@ Require-Bundle: org.eclipse.core.runtime;resolution:=optional;x-installation:=gr
  org.eclipse.emf.common;visibility:=reexport,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.change;resolution:=optional;visibility:=reexport;x-installation:=greedy
- Import-Package: org.osgi.framework
+Import-Package: org.osgi.framework
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
