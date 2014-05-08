@@ -305,23 +305,30 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
             private URI redirect(URI uri)
             {
-              if (!uri.isCurrentDocumentReference() && uri.hasFragment())
+              if (uri.hasFragment())
               {
-                EObject object = originalSet.getEObject(uri, false);
-                if (object != null)
+                if (uri.trimFragment().equals(baseURI))
                 {
-                  EPackage ePackage = getRootContainingPackage(object);
-                  if (ePackage != null)
+                  return super.deresolve(uri);
+                }
+                else
+                {
+                  EObject object = originalSet.getEObject(uri, false);
+                  if (object != null)
                   {
-                    String schemaLocation = EcoreUtil.getAnnotation(ePackage, EcorePackage.eNS_URI, "schemaLocation");
-                    if (schemaLocation != null)
+                    EPackage ePackage = getRootContainingPackage(object);
+                    if (ePackage != null)
                     {
-                      return URI.createURI(schemaLocation).appendFragment(uri.fragment());
-                    }
-                    else
-                    {
-                      String relativeURIFragmentPath = EcoreUtil.getRelativeURIFragmentPath(getContainingPackage(object), object);
-                      return URI.createURI(ePackage.getNsURI()).appendFragment("//" + relativeURIFragmentPath);
+                      String schemaLocation = EcoreUtil.getAnnotation(ePackage, EcorePackage.eNS_URI, "schemaLocation");
+                      if (schemaLocation != null)
+                      {
+                        return URI.createURI(schemaLocation).appendFragment(uri.fragment());
+                      }
+                      else
+                      {
+                        String relativeURIFragmentPath = EcoreUtil.getRelativeURIFragmentPath(getContainingPackage(object), object);
+                        return URI.createURI(ePackage.getNsURI()).appendFragment("//" + relativeURIFragmentPath);
+                      }
                     }
                   }
                 }
@@ -339,12 +346,6 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
             public URI resolve(URI uri)
             {
               throw new UnsupportedOperationException("There should be no resolving while serializing");
-            }
-
-            @Override
-            public void setBaseURI(URI uri)
-            {
-              baseURI = uri;
             }
           };
         Map<Object, Object> options = new HashMap<Object, Object>();
