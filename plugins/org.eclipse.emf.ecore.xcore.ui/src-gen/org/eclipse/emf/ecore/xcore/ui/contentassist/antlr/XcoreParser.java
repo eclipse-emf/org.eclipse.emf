@@ -192,6 +192,7 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXRelationalExpressionAccess().getGroup_1_1(), "rule__XRelationalExpression__Group_1_1__0");
 					put(grammarAccess.getXRelationalExpressionAccess().getGroup_1_1_0(), "rule__XRelationalExpression__Group_1_1_0__0");
 					put(grammarAccess.getXRelationalExpressionAccess().getGroup_1_1_0_0(), "rule__XRelationalExpression__Group_1_1_0_0__0");
+					put(grammarAccess.getOpCompareAccess().getGroup_1(), "rule__OpCompare__Group_1__0");
 					put(grammarAccess.getXOtherOperatorExpressionAccess().getGroup(), "rule__XOtherOperatorExpression__Group__0");
 					put(grammarAccess.getXOtherOperatorExpressionAccess().getGroup_1(), "rule__XOtherOperatorExpression__Group_1__0");
 					put(grammarAccess.getXOtherOperatorExpressionAccess().getGroup_1_0(), "rule__XOtherOperatorExpression__Group_1_0__0");
@@ -546,6 +547,7 @@ public class XcoreParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXConstructorCallAccess().getConstructorAssignment_2(), "rule__XConstructorCall__ConstructorAssignment_2");
 					put(grammarAccess.getXConstructorCallAccess().getTypeArgumentsAssignment_3_1(), "rule__XConstructorCall__TypeArgumentsAssignment_3_1");
 					put(grammarAccess.getXConstructorCallAccess().getTypeArgumentsAssignment_3_2_1(), "rule__XConstructorCall__TypeArgumentsAssignment_3_2_1");
+					put(grammarAccess.getXConstructorCallAccess().getExplicitConstructorCallAssignment_4_0(), "rule__XConstructorCall__ExplicitConstructorCallAssignment_4_0");
 					put(grammarAccess.getXConstructorCallAccess().getArgumentsAssignment_4_1_0(), "rule__XConstructorCall__ArgumentsAssignment_4_1_0");
 					put(grammarAccess.getXConstructorCallAccess().getArgumentsAssignment_4_1_1_0(), "rule__XConstructorCall__ArgumentsAssignment_4_1_1_0");
 					put(grammarAccess.getXConstructorCallAccess().getArgumentsAssignment_4_1_1_1_1(), "rule__XConstructorCall__ArgumentsAssignment_4_1_1_1_1");

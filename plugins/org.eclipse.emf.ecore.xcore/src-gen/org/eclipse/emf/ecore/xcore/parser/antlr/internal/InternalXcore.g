@@ -4014,10 +4014,16 @@ ruleOpMultiAssign returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleT
         newLeafNode(kw, grammarAccess.getOpMultiAssignAccess().getLessThanSignKeyword_5_0()); 
     }
 
-	kw='<=' 
+	kw='<' 
     {
         $current.merge(kw);
-        newLeafNode(kw, grammarAccess.getOpMultiAssignAccess().getLessThanSignEqualsSignKeyword_5_1()); 
+        newLeafNode(kw, grammarAccess.getOpMultiAssignAccess().getLessThanSignKeyword_5_1()); 
+    }
+
+	kw='=' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getOpMultiAssignAccess().getEqualsSignKeyword_5_2()); 
     }
 )
     |(
@@ -4495,13 +4501,19 @@ ruleOpCompare returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken
         newLeafNode(kw, grammarAccess.getOpCompareAccess().getGreaterThanSignEqualsSignKeyword_0()); 
     }
 
-    |
-	kw='<=' 
+    |(
+	kw='<' 
     {
         $current.merge(kw);
-        newLeafNode(kw, grammarAccess.getOpCompareAccess().getLessThanSignEqualsSignKeyword_1()); 
+        newLeafNode(kw, grammarAccess.getOpCompareAccess().getLessThanSignKeyword_1_0()); 
     }
 
+	kw='=' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getOpCompareAccess().getEqualsSignKeyword_1_1()); 
+    }
+)
     |
 	kw='>' 
     {
@@ -4710,6 +4722,13 @@ ruleOpOther returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()
         $current.merge(kw);
         newLeafNode(kw, grammarAccess.getOpOtherAccess().getLessThanSignKeyword_6_1_1()); 
     }
+
+    |
+	kw='=>' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getOpOtherAccess().getEqualsSignGreaterThanSignKeyword_6_1_2()); 
+    }
 ))
     |
 	kw='<>' 
@@ -4723,13 +4742,6 @@ ruleOpOther returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()
     {
         $current.merge(kw);
         newLeafNode(kw, grammarAccess.getOpOtherAccess().getQuestionMarkColonKeyword_8()); 
-    }
-
-    |
-	kw='<=>' 
-    {
-        $current.merge(kw);
-        newLeafNode(kw, grammarAccess.getOpOtherAccess().getLessThanSignEqualsSignGreaterThanSignKeyword_9()); 
     }
 )
     ;
@@ -5449,7 +5461,7 @@ ruleOpSingleAssign
 		{ 
 	        newCompositeNode(grammarAccess.getXMemberFeatureCallAccess().getFeatureJvmIdentifiableElementCrossReference_1_1_2_0()); 
 	    }
-		ruleFeatureCallID		{ 
+		ruleIdOrSuper		{ 
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -7800,11 +7812,27 @@ ruleXConstructorCall returns [EObject current=null]
     {
     	newLeafNode(otherlv_7, grammarAccess.getXConstructorCallAccess().getGreaterThanSignKeyword_3_3());
     }
-)?(((	'(' 
-)=>	otherlv_8='(' 
+)?(((
+(
+	'(' 
+ 
+
+)
+)=>
+(
+		lv_explicitConstructorCall_8_0=	'(' 
     {
-    	newLeafNode(otherlv_8, grammarAccess.getXConstructorCallAccess().getLeftParenthesisKeyword_4_0());
+        newLeafNode(lv_explicitConstructorCall_8_0, grammarAccess.getXConstructorCallAccess().getExplicitConstructorCallLeftParenthesisKeyword_4_0_0());
     }
+ 
+	    {
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getXConstructorCallRule());
+	        }
+       		setWithLastConsumed($current, "explicitConstructorCall", true, "(");
+	    }
+
+)
 )(((((
 )((
 (
@@ -8224,11 +8252,66 @@ ruleXReturnExpression returns [EObject current=null]
     {
     	newLeafNode(otherlv_1, grammarAccess.getXReturnExpressionAccess().getReturnKeyword_1());
     }
-((
-(
-ruleXExpression
-)
-)=>
+((	'get' 
+ | 	'isSet' 
+ | 	'set' 
+ | 	'unset' 
+ | 	'void' 
+ | 	'abstract' 
+ | 	'annotation' 
+ | 	'as' 
+ | 	'class' 
+ | 	'container' 
+ | 	'contains' 
+ | 	'convert' 
+ | 	'create' 
+ | 	'derived' 
+ | 	'enum' 
+ | 	'extends' 
+ | 	'extension' 
+ | 	'id' 
+ | 	'import' 
+ | 	'keys' 
+ | 	'interface' 
+ | 	'local' 
+ | 	'op' 
+ | 	'opposite' 
+ | 	'package' 
+ | 	'readonly' 
+ | 	'refers' 
+ | 	'resolving' 
+ | 	'static' 
+ | 	'throws' 
+ | 	'transient' 
+ | 	'unique' 
+ | 	'unordered' 
+ | 	'unsettable' 
+ | 	'volatile' 
+ | 	'wraps' 
+ | 	'!' 
+ | 	'-' 
+ | 	'+' 
+ | 	'new' 
+ | 	'{' 
+ | 	'switch' 
+ | 	'synchronized' 
+ | 	'<' 
+ | 	'super' 
+ | 	'#' 
+ | 	'[' 
+ | 	'false' 
+ | 	'true' 
+ | 	'null' 
+ | 	'typeof' 
+ | 	'if' 
+ | 	'for' 
+ | 	'while' 
+ | 	'do' 
+ | 	'throw' 
+ | 	'return' 
+ | 	'try' 
+ | 	'(' 
+ | 	RULE_ID | 	RULE_HEX | 	RULE_INT | 	RULE_DECIMAL | 	RULE_STRING)=>
 (
 		{ 
 	        newCompositeNode(grammarAccess.getXReturnExpressionAccess().getExpressionXExpressionParserRuleCall_2_0()); 

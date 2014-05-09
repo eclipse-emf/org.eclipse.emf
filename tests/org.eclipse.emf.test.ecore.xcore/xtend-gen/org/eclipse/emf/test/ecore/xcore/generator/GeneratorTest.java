@@ -49,13 +49,13 @@ public class GeneratorTest {
       final InMemoryFileSystemAccess inmemFsa = new InMemoryFileSystemAccess();
       Resource _eResource = xPackage.eResource();
       this.xcoreGenerator.doGenerate(_eResource, inmemFsa);
-      Map<String,Object> _allFiles = inmemFsa.getAllFiles();
+      Map<String, Object> _allFiles = inmemFsa.getAllFiles();
       Set<String> _keySet = _allFiles.keySet();
       String _string = _keySet.toString();
-      Map<String,Object> _allFiles_1 = inmemFsa.getAllFiles();
+      Map<String, Object> _allFiles_1 = inmemFsa.getAllFiles();
       int _size = _allFiles_1.size();
       Assert.assertEquals(_string, 8, _size);
-      Map<String,Object> _allFiles_2 = inmemFsa.getAllFiles();
+      Map<String, Object> _allFiles_2 = inmemFsa.getAllFiles();
       Object _get = _allFiles_2.get((IFileSystemAccess.DEFAULT_OUTPUT + "/test/util/TestSwitch.java"));
       Assert.assertNotNull(_get);
     } catch (Throwable _e) {
