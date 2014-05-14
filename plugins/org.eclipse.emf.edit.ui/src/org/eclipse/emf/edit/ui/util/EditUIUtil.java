@@ -418,7 +418,17 @@ public class EditUIUtil
         }
       }
 
-      return null;
+      URI uri = (URI)editorInput.getAdapter(URI.class);
+      if (uri == null)
+      {
+        java.net.URI javaNetURI = (java.net.URI)editorInput.getAdapter(java.net.URI.class);
+        if (javaNetURI != null)
+        {
+          uri = URI.createURI(javaNetURI.toString());
+        }
+      }
+      
+      return uri;
     }
     
     public static IEditorInput createFileEditorInput(IFile file)
