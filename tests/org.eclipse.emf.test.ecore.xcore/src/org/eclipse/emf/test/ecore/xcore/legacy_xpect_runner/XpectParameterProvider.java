@@ -37,7 +37,6 @@ import com.google.common.collect.Multimap;
  * 
  * @author Moritz Eysholdt - Initial contribution and API
  */
-@Deprecated
 @SuppressWarnings("restriction")
 public class XpectParameterProvider implements IParameterProvider {
 

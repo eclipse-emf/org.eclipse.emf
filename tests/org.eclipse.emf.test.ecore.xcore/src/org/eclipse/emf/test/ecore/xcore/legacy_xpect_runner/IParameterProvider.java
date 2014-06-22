@@ -14,7 +14,6 @@ import com.google.inject.ImplementedBy;
  * 
  * @author Moritz Eysholdt - Initial contribution and API
  */
-@Deprecated
 @ImplementedBy(XpectParameterProvider.class)
 public interface IParameterProvider {
 

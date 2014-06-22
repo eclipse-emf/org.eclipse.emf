@@ -35,7 +35,6 @@ import com.google.common.collect.Lists;
  * 
  * @author Moritz Eysholdt - Initial contribution and API
  */
-@Deprecated
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @TestExpectationValidator(validator = LinesResultValidator.class)

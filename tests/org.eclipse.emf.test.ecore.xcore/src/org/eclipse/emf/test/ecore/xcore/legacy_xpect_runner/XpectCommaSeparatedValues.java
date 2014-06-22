@@ -32,7 +32,6 @@ import com.google.common.base.Function;
  * 
  * @author Moritz Eysholdt - Initial contribution and API
  */
-@Deprecated
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @TestExpectationValidator(validator = CSVResultValidator.class)

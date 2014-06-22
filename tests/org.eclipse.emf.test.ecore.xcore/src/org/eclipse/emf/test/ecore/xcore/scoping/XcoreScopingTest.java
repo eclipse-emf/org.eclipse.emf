@@ -35,7 +35,6 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
 
-@SuppressWarnings("restriction")
 @InjectWith(XcoreInjectorProvider.class)
 @RunWith(ParameterizedXtextRunner.class)
 @ResourceURIs(baseDir = "src/org/eclipse/emf/test/ecore/xcore/scoping", fileExtensions = "xcore")

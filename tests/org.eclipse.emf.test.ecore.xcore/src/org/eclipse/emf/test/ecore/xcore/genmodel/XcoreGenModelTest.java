@@ -29,7 +29,6 @@ import org.junit.runner.RunWith;
 import com.google.inject.Inject;
 
 
-@SuppressWarnings("restriction")
 @InjectWith(XcoreInjectorProvider.class)
 @RunWith(ParameterizedXtextRunner.class)
 @ResourceURIs(baseDir = "src/org/eclipse/emf/test/ecore/xcore/genmodel", fileExtensions = "xcore")

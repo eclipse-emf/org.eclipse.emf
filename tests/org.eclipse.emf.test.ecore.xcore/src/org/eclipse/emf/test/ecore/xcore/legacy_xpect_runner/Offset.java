@@ -31,7 +31,6 @@ import com.google.common.base.Predicates;
  * 
  * @author Moritz Eysholdt - Initial contribution and API
  */
-@Deprecated
 public class Offset {
 	protected int offset;
 	protected XtextResource resource;
