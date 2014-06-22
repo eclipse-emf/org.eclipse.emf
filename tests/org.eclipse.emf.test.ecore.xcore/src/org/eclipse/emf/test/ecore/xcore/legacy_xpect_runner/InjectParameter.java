@@ -13,7 +13,6 @@ import java.lang.annotation.Target;
  * 
  * @author Moritz Eysholdt - Initial contribution and API
  */
-@Deprecated
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface InjectParameter {

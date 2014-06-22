@@ -52,7 +52,6 @@ import com.google.common.collect.Sets;
  * 
  * @author Moritz Eysholdt - Initial contribution and API
  */
-@Deprecated
 public class ParameterizedXtextRunner extends ParentRunner<ResourceRunner> {
 
 	protected static class MethodWithExpectation {

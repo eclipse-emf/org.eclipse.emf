@@ -13,7 +13,6 @@ import java.lang.annotation.Target;
  * 
  * @author Moritz Eysholdt - Initial contribution and API
  */
-@Deprecated
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD, ElementType.TYPE })

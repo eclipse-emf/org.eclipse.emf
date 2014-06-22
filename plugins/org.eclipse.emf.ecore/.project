@@ -26,7 +26,7 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.eclipse.emf.cdo.releng.version.VersionBuilder</name>
+			<name>org.eclipse.oomph.version.VersionBuilder</name>
 			<arguments>
 				<dictionary>
 					<key>ignore.missing.dependency.ranges</key>
@@ -47,6 +47,6 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.xtext.ui.shared.xtextNature</nature>
-		<nature>org.eclipse.emf.cdo.releng.version.VersionNature</nature>
+		<nature>org.eclipse.oomph.version.VersionNature</nature>
 	</natures>
 </projectDescription>

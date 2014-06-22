@@ -53,7 +53,6 @@ import com.google.inject.Inject;
  * {@link EcoreValidator#WELL_FORMED_SOURCE_URI},
  * 
  */
-@SuppressWarnings("restriction")
 @InjectWith(XcoreInjectorProvider.class)
 @RunWith(XcoreParameterizedTestRunner.class)
 @ResourceURIs(baseDir = "src/org/eclipse/emf/test/ecore/xcore/validation", fileExtensions = "xcore_test")

@@ -26,7 +26,6 @@ import org.junit.ComparisonFailure;
  * 
  * @author Moritz Eysholdt - Initial contribution and API
  */
-@Deprecated
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @SuppressWarnings("restriction")
