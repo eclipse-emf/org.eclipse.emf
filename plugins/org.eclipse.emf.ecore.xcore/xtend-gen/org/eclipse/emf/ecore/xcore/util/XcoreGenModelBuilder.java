@@ -231,17 +231,12 @@ public class XcoreGenModelBuilder {
       }
     }
     int i = 0;
-    int _size = ePackages.size();
-    boolean _lessThan = (i < _size);
-    boolean _while = _lessThan;
-    while (_while) {
+    while ((i < ePackages.size())) {
       {
         final EPackage ePackage = ePackages.get(i);
         i = (i + 1);
         final TreeIterator<EObject> allContents = ePackage.eAllContents();
-        boolean _hasNext = allContents.hasNext();
-        boolean _while_1 = _hasNext;
-        while (_while_1) {
+        while (allContents.hasNext()) {
           {
             final EObject eObject = allContents.next();
             if ((eObject instanceof EPackage)) {
@@ -273,13 +268,8 @@ public class XcoreGenModelBuilder {
               }
             }
           }
-          boolean _hasNext_1 = allContents.hasNext();
-          _while_1 = _hasNext_1;
         }
       }
-      int _size_1 = ePackages.size();
-      boolean _lessThan_1 = (i < _size_1);
-      _while = _lessThan_1;
     }
     for (final EPackage referencedEPackage : referencedEPackages) {
       GenPackage _findGenPackage = genModel.findGenPackage(referencedEPackage);
@@ -304,16 +294,7 @@ public class XcoreGenModelBuilder {
           final EList<Resource> resources = _resourceSet.getResources();
           i = 0;
           boolean found = false;
-          boolean _and = false;
-          int _size_1 = resources.size();
-          boolean _lessThan_1 = (i < _size_1);
-          if (!_lessThan_1) {
-            _and = false;
-          } else {
-            _and = (!found);
-          }
-          boolean _while_1 = _and;
-          while (_while_1) {
+          while (((i < resources.size()) && (!found))) {
             {
               final Resource resource = resources.get(i);
               boolean _notEquals_1 = (!Objects.equal(resource, genModelResource));
@@ -363,15 +344,6 @@ public class XcoreGenModelBuilder {
               }
               i = (i + 1);
             }
-            boolean _and_1 = false;
-            int _size_2 = resources.size();
-            boolean _lessThan_2 = (i < _size_2);
-            if (!_lessThan_2) {
-              _and_1 = false;
-            } else {
-              _and_1 = (!found);
-            }
-            _while_1 = _and_1;
           }
           if ((!found)) {
             throw new RuntimeException(("No GenPackage found for " + referencedEPackage));

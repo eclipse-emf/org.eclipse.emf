@@ -2,5 +2,4 @@ bin
 build.xml
 temp.folder
 *.jar
-.settings
 build

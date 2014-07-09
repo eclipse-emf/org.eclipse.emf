@@ -3,4 +3,4 @@ build.xml
 temp.folder
 *.jar
 newer.src
-.settings
+
