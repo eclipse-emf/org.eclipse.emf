@@ -323,4 +323,13 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
     return null;
   }
 
+  public EObject getPrimaryJvmElement(EObject sourceElement)
+  {
+    return getJvmElements(sourceElement).iterator().next();
+  }	
+
+  public boolean isPrimaryJvmElement(EObject jvmElement)
+  {
+    return getPrimaryJvmElement(getPrimarySourceElement(jvmElement)) == jvmElement;
+  }
 }

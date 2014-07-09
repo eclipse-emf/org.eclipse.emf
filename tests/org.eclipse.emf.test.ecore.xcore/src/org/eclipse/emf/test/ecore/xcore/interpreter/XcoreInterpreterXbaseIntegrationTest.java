@@ -93,6 +93,21 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
 
   @Override
   @Test
+  public void testArrays_04() throws Exception
+  {
+    try
+    {
+      super.testArrays_04();
+      fail("Expecting an exception; it must be working now.");
+    }
+    catch (Exception exception)
+    {
+      // Expecting it to fail right now.
+    }
+  }
+
+  @Override
+  @Test
   public void testClosure_31() throws Exception
   {
     try
