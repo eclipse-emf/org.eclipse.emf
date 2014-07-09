@@ -808,7 +808,7 @@ public final class CommonUtil
         // Compute the hash code for the characters in the buffer.
         //
         int hashCode = buffer[0];
-        for (int i = 0; i < count; ++i)
+        for (int i = 1; i < count; ++i)
         {
           hashCode = 31 * hashCode + buffer[i];
         }
