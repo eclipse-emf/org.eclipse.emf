@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.resource.impl.ContentHandlerImpl;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
  * A specialized {@link ContentHandler} implementation that matches root element names and namespaces.
@@ -229,26 +230,33 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
         EList<EObject> rootContents = documentRoot.eContents();
         String rootElementName = null;
         String rootElementNamespace = null;
-        if (!rootContents.isEmpty())
+        for (EObject root : rootContents)
         {
-          EObject root = rootContents.get(0);
           EReference eContainmentFeature = root.eContainmentFeature();
-          rootElementName = eContainmentFeature.getName();
-          rootElementNamespace = ExtendedMetaData.INSTANCE.getNamespace(eContainmentFeature);
-          if (XMI_KIND.equals(kind) && isXMINameAndNamespace(rootElementName, rootElementNamespace))
+          if (eContainmentFeature.getEContainingClass() != XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT)
           {
-            // Look for the first non-XMI element.
-            //
-            for (EObject candidate : root.eContents())
+            rootElementName = eContainmentFeature.getName();
+            rootElementNamespace = ExtendedMetaData.INSTANCE.getNamespace(eContainmentFeature);
+            if (XMI_KIND.equals(kind) && isXMINameAndNamespace(rootElementName, rootElementNamespace))
             {
-              eContainmentFeature = candidate.eContainmentFeature();
-              rootElementNamespace = ExtendedMetaData.INSTANCE.getNamespace(eContainmentFeature);
-              if (!isXMINamespace(rootElementNamespace))
+              // Look for the first non-XMI element.
+              //
+              for (EObject candidate : root.eContents())
               {
-                rootElementName = eContainmentFeature.getName();
-                break;
+                eContainmentFeature = candidate.eContainmentFeature();
+                if (eContainmentFeature.getEContainingClass() != XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT)
+                {
+                  rootElementNamespace = ExtendedMetaData.INSTANCE.getNamespace(eContainmentFeature);
+                  if (!isXMINamespace(rootElementNamespace))
+                  {
+                    rootElementName = eContainmentFeature.getName();
+                    break;
+                  }
+                }
               }
             }
+
+            break;
           }
         }
 
