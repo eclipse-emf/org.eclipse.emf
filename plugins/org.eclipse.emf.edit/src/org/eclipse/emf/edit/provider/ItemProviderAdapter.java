@@ -1053,7 +1053,7 @@ public class ItemProviderAdapter
     {
       result = 
         createReplaceCommand
-          (domain, commandParameter.getEOwner(), commandParameter.getEStructuralFeature(), (EObject)commandParameter.getValue(), commandParameter.getCollection());
+          (domain, commandParameter.getEOwner(), commandParameter.getEStructuralFeature(), commandParameter.getValue(), commandParameter.getCollection());
     }
     else if (commandClass == DragAndDropCommand.class)
     {
