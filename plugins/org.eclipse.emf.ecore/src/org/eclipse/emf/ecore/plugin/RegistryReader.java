@@ -23,15 +23,16 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IRegistryChangeEvent;
 import org.eclipse.core.runtime.IRegistryChangeListener;
-
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 
 public abstract class RegistryReader
@@ -222,8 +223,6 @@ public abstract class RegistryReader
       @Override
       public EPackage getEPackage()
       {
-        // First try to see if this class has an eInstance 
-        //
         try
         {
           String location = element.getAttribute(attributeName);
@@ -239,11 +238,14 @@ public abstract class RegistryReader
                 locationURI = locationURI.appendFragment(fragment);
               }
             }
-            if (!locationURI.hasFragment())
+            if (locationURI.hasFragment())
             {
-              locationURI = locationURI.appendFragment("/");
+              return (EPackage)resourceSet.getEObject(locationURI, true);
             }
-            return (EPackage)resourceSet.getEObject(locationURI, true);
+            else
+            {
+              return (EPackage) EcoreUtil.getObjectByType(resourceSet.getResource(locationURI, true).getContents(), EcorePackage.Literals.EPACKAGE);
+            }
           }
           else
           {
