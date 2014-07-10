@@ -89,7 +89,7 @@ public class ManifestMF
     stringBuffer.append(TEXT_15);
     stringBuffer.append(TEXT_16);
     stringBuffer.append(pluginID);
-    if (!pluginID.startsWith("org.eclipse.core.runtime")){
+    if (!pluginID.startsWith("org.eclipse.core.runtime") && !pluginID.equals("org.eclipse.xtext.xbase.lib") && !pluginID.equals("org.eclipse.emf.ecore.xcore.lib")) {
     stringBuffer.append(TEXT_17);
     }}
     }

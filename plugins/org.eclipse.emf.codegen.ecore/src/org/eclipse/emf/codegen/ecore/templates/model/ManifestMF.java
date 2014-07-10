@@ -107,7 +107,7 @@ public class ManifestMF
     stringBuffer.append(pluginID);
     if (pluginID.startsWith("org.eclipse.core.runtime")) {if (genModel.isOSGiCompatible()) {
     stringBuffer.append(TEXT_21);
-    }} else {
+    }} else if (!pluginID.equals("org.eclipse.xtext.xbase.lib") && !pluginID.equals("org.eclipse.emf.ecore.xcore.lib")) {
     stringBuffer.append(TEXT_22);
     }}
     }

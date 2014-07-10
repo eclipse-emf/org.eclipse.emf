@@ -38,7 +38,7 @@ Export-Package: <%=pack%><%while(packagesIterator.hasNext()) { pack = packagesIt
 <%}%>
 <%Iterator<String> requiredPluginIterator = genModel.getModelRequiredPlugins().iterator(); if (requiredPluginIterator.hasNext()) { String pluginID = requiredPluginIterator.next();%>
 Require-Bundle: <%=pluginID%><%if (pluginID.startsWith("org.eclipse.core.runtime")) {if (genModel.isOSGiCompatible()) {%>;resolution:=optional;x-installation:=greedy<%}} else {%>;visibility:=reexport<%} while(requiredPluginIterator.hasNext()) { pluginID = requiredPluginIterator.next();%>,
- <%=pluginID%><%if (pluginID.startsWith("org.eclipse.core.runtime")) {if (genModel.isOSGiCompatible()) {%>;resolution:=optional;x-installation:=greedy<%}} else {%>;visibility:=reexport<%}}%>
+ <%=pluginID%><%if (pluginID.startsWith("org.eclipse.core.runtime")) {if (genModel.isOSGiCompatible()) {%>;resolution:=optional;x-installation:=greedy<%}} else if (!pluginID.equals("org.eclipse.xtext.xbase.lib") && !pluginID.equals("org.eclipse.emf.ecore.xcore.lib")) {%>;visibility:=reexport<%}}%>
 <%}%>
 <%if (genModel.isOSGiCompatible() && genModel.hasModelPluginClass()) {%>
 Import-Package: org.osgi.framework
