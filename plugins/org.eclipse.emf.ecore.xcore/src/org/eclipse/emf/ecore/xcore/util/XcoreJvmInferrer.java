@@ -1648,18 +1648,13 @@ public class XcoreJvmInferrer
               associate(genEnumLiteral, enumLiteralInferrer);
               members.add(enumLiteralInferrer.getInferredElement());
  
-              JvmElementInferrer<JvmEnumerationLiteral> enumLiteralValueInferrer =
-                new JvmElementInferrer<JvmEnumerationLiteral>(X_VERY_HIGH)
+              JvmElementInferrer<JvmField> enumLiteralValueInferrer =
+                new JvmElementInferrer<JvmField>(X_VERY_HIGH)
                 {
                   @Override
-                  protected JvmEnumerationLiteral inferStructure()
+                  protected JvmField inferStructure()
                   {
-                    JvmEnumerationLiteral enumLiteralValue = TypesFactory.eINSTANCE.createJvmEnumerationLiteral();
-                    enumLiteralValue.setStatic(true);
-                    enumLiteralValue.setFinal(true);
-                    enumLiteralValue.setVisibility(JvmVisibility.PUBLIC);
-                    enumLiteralValue.setType(getJvmTypeReference("int", genEnumLiteral));
-                    return enumLiteralValue;
+                    return createJvmField(genEnumLiteral, JvmVisibility.PUBLIC, true, true, getJvmTypeReference("int", genEnumLiteral));
                   }
  
                   @Override
@@ -1700,11 +1695,11 @@ public class XcoreJvmInferrer
  
             for (final GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals())
             {
-              JvmElementInferrer<JvmEnumerationLiteral> enumLiteralValueInferrer =
-                new JvmElementInferrer<JvmEnumerationLiteral>(X_VERY_HIGH)
+              JvmElementInferrer<JvmField> enumLiteralValueInferrer =
+                new JvmElementInferrer<JvmField>(X_VERY_HIGH)
                 {
                   @Override
-                  protected JvmEnumerationLiteral inferStructure()
+                  protected JvmField inferStructure()
                   {
                     JvmElementInferrer<JvmField> enumLiteralInferrer =
                       new JvmElementInferrer<JvmField>(X_VERY_HIGH)
@@ -1726,12 +1721,7 @@ public class XcoreJvmInferrer
                     associate(genEnumLiteral, enumLiteralInferrer);
                     members.add(enumLiteralInferrer.getInferredElement());
  
-                    JvmEnumerationLiteral enumLiteralValue = TypesFactory.eINSTANCE.createJvmEnumerationLiteral();
-                    enumLiteralValue.setStatic(true);
-                    enumLiteralValue.setFinal(true);
-                    enumLiteralValue.setVisibility(JvmVisibility.PUBLIC);
-                    enumLiteralValue.setType(getJvmTypeReference("int", genEnumLiteral));
-                    return enumLiteralValue;
+                    return createJvmField(genEnumLiteral, JvmVisibility.PUBLIC, true, true, getJvmTypeReference("int", genEnumLiteral));
                   }
  
                   @Override
