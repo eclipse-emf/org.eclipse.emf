@@ -803,7 +803,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    * A pattern for matching extensions.
    * @since 2.9
    */
-  protected static final Pattern EXTENSION_POINT_PATTERN = Pattern.compile("[ \t]*<extension[^>]+point\\s*=['\"]([^'\"]+)['\"].*?(?:id|class)\\s*=\\s*['\"]([^'\"]+)['\"].*?</extension>[ \t]*(\n\r|\r\n|\n|\r)", Pattern.DOTALL);
+  protected static final Pattern EXTENSION_POINT_PATTERN = Pattern.compile("[ \t]*<extension[^>]+point\\s*=['\"]([^'\"]+)['\"].*?(?<!<category\\s{1,40})(?:id|class)\\s*=\\s*['\"]([^'\"]+)['\"].*?</extension>[ \t]*(\n\r|\r\n|\n|\r)", Pattern.DOTALL);
 
   /**
    * A pattern for matching the <code>@generated</code> comment in an extension.
