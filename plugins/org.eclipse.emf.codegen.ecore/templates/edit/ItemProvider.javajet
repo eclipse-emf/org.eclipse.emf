@@ -314,7 +314,7 @@ public class <%=genClass.getProviderClassName()%> <%if (genClass.getProviderImpl
 <%} else if (genClass.getLabelFeature() != null) { GenFeature labelFeature = genClass.getLabelFeature();%>
   <%if (labelFeature.isPrimitiveType() && !labelFeature.getGenClass().isDynamic() && !labelFeature.isSuppressedGetVisibility()) {%>
 		<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%>)object;
-		return new <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString")%>(getString("_UI_<%=genClass.getName()%>_type", <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString$Style")%>.QUALIFIER_STYLER).append(" ").append(<%=genClass.getSafeUncapName()%>.<%=genClass.getLabelFeature().getGetAccessor()%>());<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+		return new <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString")%>(getString("_UI_<%=genClass.getName()%>_type"), <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString$Style")%>.QUALIFIER_STYLER).append(" ").append(<%=labelFeature.getObjectType(genClass)%>.toString(<%=genClass.getSafeUncapName()%>.<%=genClass.getLabelFeature().getGetAccessor()%>()));<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
   <%} else {%>
     <%if (labelFeature.isStringType() && !labelFeature.getGenClass().isDynamic() && !labelFeature.isSuppressedGetVisibility()) {%>
       <%if (labelFeature.isPropertyMultiLine()) {%>
