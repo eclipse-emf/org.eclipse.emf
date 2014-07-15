@@ -14,8 +14,10 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.library.*;
+import org.eclipse.emf.test.models.library.Book;
+import org.eclipse.emf.test.models.library.Library;
+import org.eclipse.emf.test.models.library.LibraryPackage;
+import org.eclipse.emf.test.models.library.Writer;
 
 /**
  * <!-- begin-user-doc -->

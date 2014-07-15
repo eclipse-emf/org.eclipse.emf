@@ -11,49 +11,19 @@
 package org.eclipse.emf.test.tools.merger;
 
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
-
-public class MergerAllSuites extends TestSuite
+@RunWith(Suite.class)
+@Suite.SuiteClasses
+  ({
+    ASTTest.class,
+    DeprecatedJMergerTest.class,
+    JMergerJDOMTest.class,
+    JMergerASTTest.class,
+  })
+public class MergerAllSuites
 {
-  private static Test[] suites = new Test []{ 
-    org.eclipse.emf.test.tools.merger.ASTTest.suite()
-    ,org.eclipse.emf.test.tools.merger.DeprecatedJMergerTest.suite()
-    ,org.eclipse.emf.test.tools.merger.JMergerJDOMTest.suite()
-    ,org.eclipse.emf.test.tools.merger.JMergerASTTest.suite()
-    ,org.eclipse.emf.test.tools.merger.JMergerTestSuite.suite()
-  };
-
-  public static Test suite()
-  {
-    return new MergerAllSuites("EMF Merge Tests");
-  }
-
-  public MergerAllSuites()
-  {
-    super();
-    populateSuite();
-  }
-
-  public MergerAllSuites(Class<?> theClass)
-  {
-    super(theClass);
-    populateSuite();
-  }
-
-  public MergerAllSuites(String name)
-  {
-    super(name);
-    populateSuite();
-  }
-
-  protected void populateSuite()
-  {
-    for (int i = 0; i < suites.length; i++)
-    {
-      addTest(suites[i]);
-    }
-  }
+  // Empty
 }

@@ -11,13 +11,12 @@
 package org.eclipse.emf.test.xml.xmi;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -33,6 +32,7 @@ import org.eclipse.emf.test.models.library.Library;
 import org.eclipse.emf.test.models.library.LibraryFactory;
 import org.eclipse.emf.test.models.library.LibraryPackage;
 import org.eclipse.emf.test.models.library.Writer;
+import org.junit.Test;
 
 
 /**
@@ -40,21 +40,9 @@ import org.eclipse.emf.test.models.library.Writer;
  * @see <a href="data/library.mdl">data/library.mdl</a>
  * @see <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=412753">Bugzilla 412753</a>
  */
-public class UnloadXMIResourceTest extends TestCase
+public class UnloadXMIResourceTest
 {
-
-  public UnloadXMIResourceTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("UnloadXMIResourceTest");
-    ts.addTestSuite(UnloadXMIResourceTest.class);
-    return ts;
-  }
-
+  @Test
   public void testHREF() throws Exception
   {
     ResourceSet resourceSet = new ResourceSetImpl();
@@ -114,5 +102,4 @@ public class UnloadXMIResourceTest extends TestCase
       assertEquals(proxyURI, ((InternalEObject)eObject).eProxyURI());
     }
   }
-
 }

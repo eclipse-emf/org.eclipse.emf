@@ -10,6 +10,11 @@
  */
 package org.eclipse.emf.test.edit.command;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -25,31 +30,15 @@ import org.eclipse.emf.test.models.ref.E;
 import org.eclipse.emf.test.models.ref.RefFactory;
 import org.eclipse.emf.test.models.ref.RefPackage;
 import org.eclipse.emf.test.models.ref.provider.RefItemProviderAdapterFactory;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for RemoveCommand.  In each case, the model is built, the command is created, executed, undone, and redone.
  * The state of the model and the executability/undoability/redoability of the command are tested between each step.
  */
-public class RemoveCommandTest extends TestCase
+public class RemoveCommandTest
 {
-  public RemoveCommandTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite suite = new TestSuite("RemoveCommandTest");
-    suite.addTest(new RemoveCommandTest("testRemoveSameValue"));
-    suite.addTest(new RemoveCommandTest("testRemoveSameValues"));
-    suite.addTest(new RemoveCommandTest("testRemoveEqualValues"));
-    return suite;
-  }
-
   /**
    * The Ref test package.
    */
@@ -65,17 +54,18 @@ public class RemoveCommandTest extends TestCase
    */
   protected EditingDomain editingDomain;
 
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     refPackage = RefPackage.eINSTANCE;
     refFactory = refPackage.getRefFactory();
-    
+
     AdapterFactory adapterFactory = new RefItemProviderAdapterFactory();
     CommandStack commandStack = new BasicCommandStack();
     editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack);
   }
 
+  @Test
   public void testRemoveSameValue()
   {
     E e = refFactory.createE();
@@ -134,6 +124,7 @@ public class RemoveCommandTest extends TestCase
     assertTrue(stack.canUndo());
   }
 
+  @Test
   public void testRemoveSameValues()
   {
     E e = refFactory.createE();
@@ -193,6 +184,7 @@ public class RemoveCommandTest extends TestCase
     assertTrue(stack.canUndo());
  }
 
+  @Test
   public void testRemoveEqualValues()
   {
     E e = refFactory.createE();

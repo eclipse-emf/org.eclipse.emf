@@ -4,22 +4,25 @@
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/cpl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   Tom Schindl - Initial API and implementation
  */
 package org.eclipse.emf.test.databinding.emfdb.impl;
 
 import java.util.Map;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.test.databinding.emfdb.*;
+import org.eclipse.emf.test.databinding.emfdb.A;
+import org.eclipse.emf.test.databinding.emfdb.B;
+import org.eclipse.emf.test.databinding.emfdb.D;
+import org.eclipse.emf.test.databinding.emfdb.E;
+import org.eclipse.emf.test.databinding.emfdb.EmfdbFactory;
+import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -39,7 +42,7 @@ public class EmfdbFactoryImpl extends EFactoryImpl implements EmfdbFactory
   {
     try
     {
-      EmfdbFactory theEmfdbFactory = (EmfdbFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/emfdb/1.0.0"); 
+      EmfdbFactory theEmfdbFactory = (EmfdbFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/emfdb/1.0.0");
       if (theEmfdbFactory != null)
       {
         return theEmfdbFactory;

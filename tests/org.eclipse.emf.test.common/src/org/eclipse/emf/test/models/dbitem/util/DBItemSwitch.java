@@ -14,8 +14,9 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.dbitem.*;
+import org.eclipse.emf.test.models.dbitem.DBItemPackage;
+import org.eclipse.emf.test.models.dbitem.DbType;
+import org.eclipse.emf.test.models.dbitem.DocumentRoot;
 
 /**
  * <!-- begin-user-doc -->

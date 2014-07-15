@@ -9,7 +9,6 @@ package org.eclipse.emf.test.common.reification.impl;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.test.common.reification.Medium;
 import org.eclipse.emf.test.common.reification.MediumUnboundedContainer;
 import org.eclipse.emf.test.common.reification.ReificationPackage;

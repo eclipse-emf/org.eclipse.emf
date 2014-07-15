@@ -9,13 +9,10 @@ package org.eclipse.emf.test.common.reification.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.test.common.reification.BoundedGenericContainer;
 import org.eclipse.emf.test.common.reification.Container;
 import org.eclipse.emf.test.common.reification.Medium;

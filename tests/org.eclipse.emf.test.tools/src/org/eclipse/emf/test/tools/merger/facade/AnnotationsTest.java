@@ -4,22 +4,21 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.tools.merger.facade;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.codegen.merge.java.facade.JAnnotation;
 import org.eclipse.emf.codegen.merge.java.facade.JNode;
 
 public class AnnotationsTest extends BaseFacadeTest
 {
-  public AnnotationsTest()
-  {
-    super();
-  }
-
   public AnnotationsTest(BaseFacadeTest anotherTest)
   {
     super(anotherTest);
@@ -54,9 +53,9 @@ public class AnnotationsTest extends BaseFacadeTest
     deprecatedAnnotation = facadeHelper.getChildren(parentNode, JAnnotation.class).get(0);
 
     testVersionAnnotation(versionAnnotation);
-    testDeprecatedAnnotation(deprecatedAnnotation);    
+    testDeprecatedAnnotation(deprecatedAnnotation);
   }
-  
+
   protected void testDeprecatedAnnotation(JAnnotation annotation)
   {
     assertEquals("@Deprecated", annotation.getName());
@@ -76,15 +75,15 @@ public class AnnotationsTest extends BaseFacadeTest
 
     testVersionAnnotation(versionAnnotation);
     testDeprecatedAnnotation(deprecatedAnnotation);
-  } 
-  
+  }
+
   protected void testVersionAndDeprecated(JNode parentNode)
   {
     testVersionAndDeprecated(parentNode, 0, 1);
-  }  
-  
+  }
+
   protected void testSwitchedVersionAndDeprecated(JNode parentNode)
   {
     testVersionAndDeprecated(parentNode, 1, 0);
-  }    
+  }
 }

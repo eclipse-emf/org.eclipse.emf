@@ -11,13 +11,11 @@
 package org.eclipse.emf.test.xml.xmi;
 
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
@@ -30,47 +28,34 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.xml.AllSuites;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 
 /**
- * Test for XMI package: loading data/order.xml 
+ * Test for XMI package: loading data/order.xml
  */
-public class NullNamespaceTest extends TestCase
+public class NullNamespaceTest
 {
   final static String BASE_XML_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xml/";
 
-  HashMap<String, Object> options;
+  protected HashMap<String, Object> options;
 
-  public NullNamespaceTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("NullNamespaceTest");
-    ts.addTestSuite(NullNamespaceTest.class);
-    return ts;
-  }
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml", new GenericXMLResourceFactoryImpl());
     options = new HashMap<String, Object>();
   }
 
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
-  @Override
-  protected void tearDown() throws Exception
+  @After
+  public void tearDown() throws Exception
   {
     options = null;
   }
 
+  @Test
   public void testManyNullPrefixes() throws Exception
   {
     URI uri = URI.createFileURI(BASE_XML_URI + "ManyNullPrefix.xml");
@@ -91,6 +76,7 @@ public class NullNamespaceTest extends TestCase
     }
   }
 
+  @Test
   public void testNoNullNamespace() throws Exception
   {
     URI uri = URI.createFileURI(BASE_XML_URI + "NoNullNamespace.xml");
@@ -106,6 +92,7 @@ public class NullNamespaceTest extends TestCase
     assertEquals("http://prefix2", eMap.get(""));
   }
 
+  @Test
   public void testNullNamespaceType() throws Exception
   {
     URI uri = URI.createFileURI(BASE_XML_URI + "NullNamespaceType.xml");
@@ -123,6 +110,7 @@ public class NullNamespaceTest extends TestCase
        ExtendedMetaData.INSTANCE.getNamespace(resource2.getContents().get(0).eContents().get(0).eContents().get(0).eClass()));
   }
 
+  @Test
   public void testNullNamespaceElement() throws Exception
   {
     URI uri = URI.createFileURI(BASE_XML_URI + "NullNamespaceElement.xml");

@@ -4,18 +4,22 @@
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/cpl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   Tom Schindl - Initial API and implementation
  */
 package org.eclipse.emf.test.databinding.emfdb.util;
 
 import java.util.Map;
-import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
-import org.eclipse.emf.test.databinding.emfdb.*;
+import org.eclipse.emf.test.databinding.emfdb.A;
+import org.eclipse.emf.test.databinding.emfdb.B;
+import org.eclipse.emf.test.databinding.emfdb.D;
+import org.eclipse.emf.test.databinding.emfdb.E;
+import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
 
 /**
  * <!-- begin-user-doc -->

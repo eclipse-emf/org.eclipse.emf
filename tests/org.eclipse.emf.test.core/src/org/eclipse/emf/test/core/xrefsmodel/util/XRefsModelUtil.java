@@ -4,10 +4,10 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *   CEA - Initial API and implementation
- * 
+ *
  */
 package org.eclipse.emf.test.core.xrefsmodel.util;
 
@@ -21,8 +21,6 @@ import java.util.ListIterator;
 import java.util.Queue;
 import java.util.Set;
 
-import junit.framework.Assert;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.DelegatingEList;
 import org.eclipse.emf.common.util.EList;
@@ -34,6 +32,7 @@ import org.eclipse.emf.ecore.util.EcoreEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.test.core.xrefsmodel.A;
 import org.eclipse.emf.test.core.xrefsmodel.XRefsModelPackage;
+import org.junit.Assert;
 
 
 public class XRefsModelUtil
@@ -101,7 +100,7 @@ public class XRefsModelUtil
   /**
    * Obtains a list for {@link EObject#eCrossReferences()} which may provide iterators that do not implement
    * the {@link EContentsEList.Filterable} interface.
-   * 
+   *
    * @see #setWrapCrossReferenceIterators(boolean)
    */
   public static EList<EObject> getCrossReferences(EList<EObject> crossReferences)
@@ -113,7 +112,6 @@ public class XRefsModelUtil
   {
     class Wrapper extends DelegatingEList.UnmodifiableEList<EObject> implements InternalEList<EObject>
     {
-
       private static final long serialVersionUID = 1L;
 
       Wrapper(EList<EObject> delegate)
@@ -289,7 +287,7 @@ public class XRefsModelUtil
       {
         return delegateBasicList().basicAdd(object, notifications);
       }
-    };
+    }
 
     return new Wrapper(crossReferences);
   }

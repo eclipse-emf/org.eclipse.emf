@@ -1,5 +1,7 @@
 package org.eclipse.emf.test.tools.codegen;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
@@ -25,15 +27,8 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.tools.AllSuites;
 
-import junit.framework.TestCase;
-
-public class BaseGenModelTest extends TestCase
+public class BaseGenModelTest
 {
-  public BaseGenModelTest(String name)
-  {
-    super(name);
-  }
-
   // For now, I've only used single-package models, but this could be expanded to handle multi-package scenarios.
   //
   protected GenModel loadModel(String filename)

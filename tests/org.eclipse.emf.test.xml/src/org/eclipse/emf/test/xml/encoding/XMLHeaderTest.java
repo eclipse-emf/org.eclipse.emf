@@ -12,36 +12,23 @@
 package org.eclipse.emf.test.xml.encoding;
 
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.Map;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.XMLOptions;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLOptionsImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
+import org.junit.Test;
 
 
-public class XMLHeaderTest extends TestCase
+public class XMLHeaderTest
 {
-  public XMLHeaderTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("XMLHeadterTest");
-    ts.addTest(new XMLHeaderTest("testDeprecatedMethods"));
-    ts.addTest(new XMLHeaderTest("testNonDeprecatedMethods"));
-    return ts;
-  }
-  
+  @Test
   public void testDeprecatedMethods() throws Exception
   {
     test("1.0", "ASCII", true);
@@ -50,6 +37,7 @@ public class XMLHeaderTest extends TestCase
     test("1.1", "UTF-16LE", true);
   }
 
+  @Test
   public void testNonDeprecatedMethods() throws Exception
   {
     test("1.0", "ASCII", false);
@@ -57,7 +45,7 @@ public class XMLHeaderTest extends TestCase
     test("1.1", "UTF-16BE", false);
     test("1.1", "UTF-16LE", false);
   }
-  
+
   protected void test(String xmlVersion, String encoding, boolean useNonDeprecatedMethods) throws Exception
   {
     XMLResource resource = (XMLResource) new XMLResourceFactoryImpl().createResource(URI.createURI("encoding.xml"));

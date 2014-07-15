@@ -4,21 +4,22 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 
 package org.eclipse.emf.test.tools.merger.facade;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-
-import junit.framework.Assert;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.codegen.merge.java.facade.FacadeFlags;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
@@ -33,44 +34,35 @@ import org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.tools.AllSuites;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 
 /**
  * @since 2.2.0
  */
-public class FacadeTest_Example1 extends TestCase
+public class FacadeTest_Example1
 {
   protected boolean testHeader = true;
   protected boolean testComment = true;
   protected boolean testBody = true;
   protected boolean testContent = true;
-  
+
   /**
    * Determines if contents with surrounding comments must be tested.
    */
   protected boolean testContentWithComments = true;
-  
+
   /**
    * Determines if contents must be trimmed (leading and trailing whitespace removed)
    * when comparing contents.
    */
-  protected boolean trimContents = false;  
-  
+  protected boolean trimContents = false;
+
   protected JCompilationUnit compilationUnit;
   protected JType mainType;
 
-  public FacadeTest_Example1(String name)
-  {
-    super(name);
-  }
-  
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("FacadeTest_Example1");
-    ts.addTest(new FacadeTest_Example1("testJDOM"));
-    ts.addTest(new FacadeTest_Example1("testAST"));
-    return ts;
-  }
-  
   protected void setTestActualText(boolean test)
   {
     testHeader = test;
@@ -79,26 +71,28 @@ public class FacadeTest_Example1 extends TestCase
     testContent = test;
     testContentWithComments = test;
   }
-  
+
   protected File getJavaFile()
   {
     return new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/Example1.java").getAbsoluteFile();
   }
-  
-  @Override
-  protected void setUp() throws Exception
+
+  @Before
+  public void setUp() throws Exception
   {
     File javaFile = getJavaFile();
     assertTrue(javaFile.getPath(), javaFile.isFile() && javaFile.canRead());
   }
-  
+
+  @Test
   public void testJDOM() throws Exception
   {
     JDOMFacadeHelper facadeHelper = new JDOMFacadeHelper();
     facadeHelper.setForcedSourceCompatibility(true);
     readTest(facadeHelper, getJavaFile());
   }
-  
+
+  @Test
   public void testAST() throws Exception
   {
     // do not test contents with surrounding comments since AST assigns comments differently
@@ -107,25 +101,25 @@ public class FacadeTest_Example1 extends TestCase
     readTest(new ASTFacadeHelper(), getJavaFile());
   }
 
-  @Override
-  protected void tearDown() throws Exception
+  @After
+  public void tearDown() throws Exception
   {
     compilationUnit = null;
   }
-  
+
   protected void readTest(FacadeHelper facadeHelper, File file) throws Exception
   {
     assertNotNull(facadeHelper);
     facadeHelper.reset();
-    
+
     String content = TestUtil.readFile(file, false);
     compilationUnit = facadeHelper.createCompilationUnit("emf team", content);
     readTest(compilationUnit);
     readTest(facadeHelper.getPackage(compilationUnit));
-    
+
     readTestImports(facadeHelper.getChildren(compilationUnit, JImport.class));
     readTestTypes(facadeHelper.getChildren(compilationUnit, JType.class));
-    
+
     mainType = facadeHelper.getMainType(compilationUnit);
     readTestMainType();
     readTestNestedTypes(facadeHelper.getChildren(mainType, JType.class));
@@ -133,7 +127,7 @@ public class FacadeTest_Example1 extends TestCase
     readTestMethods(facadeHelper.getChildren(mainType, JMethod.class));
     readTestInitializers(facadeHelper.getChildren(mainType, JInitializer.class));
   }
-  
+
   protected void readTest(JCompilationUnit compilationUnit) throws Exception
   {
     assertNotNull(compilationUnit);
@@ -141,7 +135,7 @@ public class FacadeTest_Example1 extends TestCase
     assertContentEquals("Example1.java", compilationUnit.getName());
     assertContentEquals("Example1.java", compilationUnit.getQualifiedName());
     assertEquals(FacadeFlags.DEFAULT, compilationUnit.getFlags());
-    
+
     assertFalse(compilationUnit.getChildren().isEmpty());
     assertEquals(9, compilationUnit.getChildren().size());
     int index = 0;
@@ -154,7 +148,7 @@ public class FacadeTest_Example1 extends TestCase
     testInstanceOf(compilationUnit.getChildren().get(index++), JImport.class);
     testInstanceOf(compilationUnit.getChildren().get(index++), JType.class);
     testInstanceOf(compilationUnit.getChildren().get(index++), JType.class);
-    
+
     StringBuffer expectedHeader = new StringBuffer();
     expectedHeader.append("/**");
     expectedHeader.append("\n").append(" * Copyright (c) 2004-2006 IBM Corporation and others.");
@@ -163,7 +157,7 @@ public class FacadeTest_Example1 extends TestCase
     expectedHeader.append("\n").append(" * which accompanies this distribution, and is available at");
     expectedHeader.append("\n").append(" * http://www.eclipse.org/legal/epl-v10.html");
     expectedHeader.append("\n").append(" * ");
-    expectedHeader.append("\n").append(" * Contributors: "); 
+    expectedHeader.append("\n").append(" * Contributors: ");
     expectedHeader.append("\n").append(" *   IBM - Initial API and implementation");
     expectedHeader.append("\n").append(" */");
     expectedHeader.append("\n").append("\n  // line comment1 ");
@@ -174,7 +168,7 @@ public class FacadeTest_Example1 extends TestCase
     expectedHeader.append("\n");
     if (testHeader) assertContentEquals(expectedHeader.toString(), compilationUnit.getHeader());
   }
-  
+
   protected void readTest(JPackage jPackage) throws Exception
   {
     assertNotNull(jPackage);
@@ -184,21 +178,21 @@ public class FacadeTest_Example1 extends TestCase
     assertEquals(FacadeFlags.DEFAULT, jPackage.getFlags());
 
     if (testContent) assertContentEquals("package org.eclipse.emf.test.tools.merger;\n\n", jPackage.getContents());
-  }  
-  
+  }
+
   protected void readTestImports(List<?> imports) throws Exception
   {
     assertNotNull(imports);
-    assertEquals(6, imports.size());    
+    assertEquals(6, imports.size());
     {
       JImport jImport = (JImport)imports.get(0);
       assertEquals(compilationUnit, jImport.getParent());
       assertContentEquals("java.util.Collections", jImport.getName());
       assertContentEquals("java.util.Collections", jImport.getQualifiedName());
       assertEquals(FacadeFlags.DEFAULT, jImport.getFlags());
-  
+
       assertFalse(jImport.isOnDemand());
-  
+
       if (testContent) assertContentEquals("import java.util.Collections;\n", jImport.getContents());
     }
     {
@@ -207,9 +201,9 @@ public class FacadeTest_Example1 extends TestCase
       assertContentEquals("java.util.List", jImport.getName());
       assertContentEquals("java.util.List", jImport.getQualifiedName());
       assertEquals(FacadeFlags.DEFAULT, jImport.getFlags());
-  
+
       assertFalse(jImport.isOnDemand());
-  
+
       if (testContent) assertContentEquals("import java.util.List;\n", jImport.getContents());
     }
     {
@@ -218,9 +212,9 @@ public class FacadeTest_Example1 extends TestCase
       assertContentEquals("java.util.Map", jImport.getName());
       assertContentEquals("java.util.Map", jImport.getQualifiedName());
       assertEquals(FacadeFlags.DEFAULT, jImport.getFlags());
-  
+
       assertFalse(jImport.isOnDemand());
-  
+
       if (testContent) assertContentEquals("import java.util.Map;\n\n", jImport.getContents());
     }
     {
@@ -229,9 +223,9 @@ public class FacadeTest_Example1 extends TestCase
       assertContentEquals("org.eclipse.emf.common.*", jImport.getName());
       assertContentEquals("org.eclipse.emf.common.*", jImport.getQualifiedName());
       assertEquals(FacadeFlags.DEFAULT, jImport.getFlags());
-  
+
       assertTrue(jImport.isOnDemand());
-  
+
       if (testContent) assertContentEquals("import org.eclipse.emf.common.*;\n", jImport.getContents());
     }
     {
@@ -240,9 +234,9 @@ public class FacadeTest_Example1 extends TestCase
       assertContentEquals("org.eclipse.emf.common.notify.Notification", jImport.getName());
       assertContentEquals("org.eclipse.emf.common.notify.Notification", jImport.getQualifiedName());
       assertEquals(FacadeFlags.DEFAULT, jImport.getFlags());
-  
+
       assertFalse(jImport.isOnDemand());
-  
+
       if (testContentWithComments) assertContentEquals("import org.eclipse.emf.common.notify.Notification;\n// This is importing the EObjectImpl\n", jImport.getContents());
     }
     {
@@ -251,9 +245,9 @@ public class FacadeTest_Example1 extends TestCase
       assertContentEquals("org.eclipse.emf.ecore.impl.EObjectImpl", jImport.getName());
       assertContentEquals("org.eclipse.emf.ecore.impl.EObjectImpl", jImport.getQualifiedName());
       assertEquals(FacadeFlags.DEFAULT, jImport.getFlags());
-  
+
       assertFalse(jImport.isOnDemand());
-  
+
       if (testContent) assertContentEquals("import org.eclipse.emf.ecore.impl.EObjectImpl;\n\n", jImport.getContents());
     }
   }
@@ -274,7 +268,7 @@ public class FacadeTest_Example1 extends TestCase
       assertEquals(0, type.getSuperInterfaces().length);
 
       assertNull(type.getComment());
-      
+
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append("class AnotherClass");
       expectedContents.append("\n").append("{");
@@ -289,7 +283,7 @@ public class FacadeTest_Example1 extends TestCase
       assertContentEquals("Example1", type.getName());
       assertContentEquals("org.eclipse.emf.test.tools.merger.Example1", type.getQualifiedName());
       assertEquals(FacadeFlags.PUBLIC, type.getFlags());
-      
+
       assertEquals(0, type.getTypeParameters().length);
       assertContentEquals("EObjectImpl", type.getSuperclass());
       assertEquals(0, type.getSuperInterfaces().length);
@@ -304,7 +298,7 @@ public class FacadeTest_Example1 extends TestCase
       expectedComment.append("\n").append(" * @generated NOT");
       expectedComment.append("\n").append(" */");
       if (testComment) assertContentEquals(expectedComment.toString(), type.getComment());
-            
+
       assertEquals(21, type.getChildren().size());
       int index = 0;
       testInstanceOf(type.getChildren().get(index++), JType.class);
@@ -326,18 +320,18 @@ public class FacadeTest_Example1 extends TestCase
       testInstanceOf(type.getChildren().get(index++), JInitializer.class);
       testInstanceOf(type.getChildren().get(index++), JField.class);
       testInstanceOf(type.getChildren().get(index++), JField.class);
-      testInstanceOf(type.getChildren().get(index++), JField.class);  
-      testInstanceOf(type.getChildren().get(index++), JField.class);    
+      testInstanceOf(type.getChildren().get(index++), JField.class);
+      testInstanceOf(type.getChildren().get(index++), JField.class);
     }
   }
-  
+
   protected void readTestMainType() throws Exception
   {
     assertNotNull(mainType);
     assertEquals(compilationUnit, mainType.getParent());
     assertEquals(compilationUnit.getChildren().get(8), mainType);
   }
-  
+
   protected void readTestNestedTypes(List<?> types) throws Exception
   {
     assertNotNull(types);
@@ -356,7 +350,7 @@ public class FacadeTest_Example1 extends TestCase
       assertContentEquals("org.eclipse.emf.common.notify.Notifier", type.getSuperInterfaces()[1]);
 
       assertNull(type.getComment());
-      
+
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append((char)9).append("// A public inner class.  It is indented with TABs");
       expectedContents.append("\n").append((char)9).append("public abstract class InnerClass implements Notification, org.eclipse.emf.common.notify.Notifier ");
@@ -379,7 +373,7 @@ public class FacadeTest_Example1 extends TestCase
       assertContentEquals("Notification", type.getSuperInterfaces()[0]);
 
       assertNull(type.getComment());
-      
+
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append("  /*");
       expectedContents.append("\n").append("   * A private static inner interface");
@@ -392,7 +386,7 @@ public class FacadeTest_Example1 extends TestCase
       if (testContentWithComments) assertContentEquals(expectedContents.toString(), type.getContents());
     }
   }
-      
+
   protected void readTestFields(List<?> fields) throws Exception
   {
     assertNotNull(fields);
@@ -406,13 +400,13 @@ public class FacadeTest_Example1 extends TestCase
 
       assertContentEquals("String", field.getType());
       assertContentEquals(" \"something is ; different \\\"//; /*;*/\" /*inte;res;ting*/ + \" !!;;\"", field.getInitializer());
-      
+
       StringBuffer expectedComment = new StringBuffer();
       expectedComment.append("  /**");
       expectedComment.append("\n").append("   * public String constant.");
       expectedComment.append("\n").append("   */");
       if (testComment) assertContentEquals(expectedComment.toString(), field.getComment());
-      
+
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append(expectedComment);
       expectedContents.append("\n").append("  public static final String STR_CONST = \"something is ; different \\\"//; /*;*/\" /*inte;res;ting*/ + \" !!;;\" ;  // = \"original text\";");
@@ -428,14 +422,14 @@ public class FacadeTest_Example1 extends TestCase
 
       assertContentEquals("long", field.getType());
       assertContentEquals("1l", field.getInitializer());
-      
+
       StringBuffer expectedComment = new StringBuffer();
       expectedComment.append("  /**");
       expectedComment.append("\n").append("   * protected static long field.");
       expectedComment.append("\n").append("   * This is a multiline comment.");
       expectedComment.append("\n").append("   */");
       if (testComment) assertContentEquals(expectedComment.toString(), field.getComment());
-      
+
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append(expectedComment);
       expectedContents.append("\n").append("  protected static long longStatic=1l; //A field");
@@ -453,7 +447,7 @@ public class FacadeTest_Example1 extends TestCase
       assertNull(field.getInitializer());
 
       assertNull(field.getComment());
-      
+
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append("  /*");
       expectedContents.append("\n").append("   * package protected boolean field.");
@@ -471,9 +465,9 @@ public class FacadeTest_Example1 extends TestCase
 
       assertContentEquals("Map.Entry", field.getType());
       assertNull(field.getInitializer());
-      
+
       assertNull(field.getComment());
-      
+
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append("  private Map.Entry myEntry;");
       expectedContents.append("\n").append("      \n");
@@ -485,12 +479,12 @@ public class FacadeTest_Example1 extends TestCase
       assertContentEquals("myMatrix", field.getName());
       assertContentEquals("org.eclipse.emf.test.tools.merger.Example1.myMatrix", field.getQualifiedName());
       assertEquals(FacadeFlags.PRIVATE, field.getFlags());
-      
+
       assertContentEquals("int[][]", field.getType());
       assertContentEquals("new int[4][5]", field.getInitializer());
-      
+
       assertNull(field.getComment());
-      
+
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append("  private int[][] myMatrix =new int[4][5];");
       expectedContents.append("\n").append("\n");
@@ -502,53 +496,53 @@ public class FacadeTest_Example1 extends TestCase
       assertContentEquals("a", field.getName());
       assertContentEquals("org.eclipse.emf.test.tools.merger.Example1.a", field.getQualifiedName());
       assertEquals(FacadeFlags.PUBLIC, field.getFlags());
-      
+
       assertContentEquals("int", field.getType());
       assertContentEquals(" 1", field.getInitializer());
-      
+
       assertNull(field.getComment());
-    }     
+    }
     {
       JField field = (JField)fields.get(6);
       assertEquals(mainType, field.getParent());
       assertContentEquals("b", field.getName());
       assertContentEquals("org.eclipse.emf.test.tools.merger.Example1.b", field.getQualifiedName());
       assertEquals(FacadeFlags.PUBLIC, field.getFlags());
-      
+
       assertContentEquals("int", field.getType());
       assertContentEquals(" 2", field.getInitializer());
-      
+
       assertNull(field.getComment());
-    }     
+    }
     {
       JField field = (JField)fields.get(7);
       assertEquals(mainType, field.getParent());
       assertContentEquals("c", field.getName());
       assertContentEquals("org.eclipse.emf.test.tools.merger.Example1.c", field.getQualifiedName());
       assertEquals(FacadeFlags.PUBLIC, field.getFlags());
-      
+
       assertContentEquals("int", field.getType());
       assertContentEquals(" 3", field.getInitializer());
-      
+
       assertNull(field.getComment());
-    }    
+    }
     {
       JField field = (JField)fields.get(8);
       assertEquals(mainType, field.getParent());
       assertContentEquals("floatArray", field.getName());
       assertContentEquals("org.eclipse.emf.test.tools.merger.Example1.floatArray", field.getQualifiedName());
       assertEquals(FacadeFlags.DEFAULT, field.getFlags());
-      
+
       assertContentEquals("float[][][][]", field.getType());
       assertNull(field.getInitializer());
-      
+
       assertNull(field.getComment());
-      
+
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append("  float[][] floatArray[][];");
       expectedContents.append("\n");
       if (testContent) assertContentEquals(expectedContents.toString(), field.getContents());
-    }    
+    }
   }
 
   protected void readTestMethods(List<?> methods) throws Exception
@@ -568,25 +562,25 @@ public class FacadeTest_Example1 extends TestCase
       assertEquals(0, method.getParameterNames().length);
       assertEquals(0, method.getParameterTypes().length);
       assertEquals(0, method.getExceptions().length);
-      
+
       StringBuffer expectedComment = new StringBuffer();
       expectedComment.append("  /**");
       expectedComment.append("\n").append("   * This is a contructor");
       expectedComment.append("\n").append("   */");
       if (testComment) assertContentEquals(expectedComment.toString(), method.getComment());
-      
+
       StringBuffer expectedBody = new StringBuffer();
       expectedBody.append("\n").append("  {");
       expectedBody.append("\n").append("    super();");
       expectedBody.append("\n").append("  }");
       expectedBody.append("\n").append("  \n");
       if (testBody) assertContentEquals(expectedBody.toString(), method.getBody());
-      
+
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append(expectedComment);
       expectedContents.append("\n").append("  public Example1()");
-      expectedContents.append(expectedBody);      
-      if (testContent) assertContentEquals(expectedContents.toString(), method.getContents());      
+      expectedContents.append(expectedBody);
+      if (testContent) assertContentEquals(expectedContents.toString(), method.getContents());
     }
     {
       JMethod method = (JMethod)methods.get(1);
@@ -601,7 +595,7 @@ public class FacadeTest_Example1 extends TestCase
       assertTrue(Arrays.equals(new String[]{"aString","bol"}, method.getParameterNames()));
       assertTrue(Arrays.equals(new String[]{"String","boolean"}, method.getParameterTypes()));
       assertEquals(0, method.getExceptions().length);
-      
+
       assertNull(method.getComment());
 
       StringBuffer expectedBody = new StringBuffer();
@@ -610,11 +604,11 @@ public class FacadeTest_Example1 extends TestCase
       expectedBody.append("\n").append("  }");
       expectedBody.append("\n").append("\n");
       if (testBody) assertContentEquals(expectedBody.toString(), method.getBody());
-      
+
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append("  private Example1(String aString, boolean bol)");
-      expectedContents.append(expectedBody);      
-      if (testContent) assertContentEquals(expectedContents.toString(), method.getContents());      
+      expectedContents.append(expectedBody);
+      if (testContent) assertContentEquals(expectedContents.toString(), method.getContents());
     }
     {
       JMethod method = (JMethod)methods.get(2);
@@ -629,7 +623,7 @@ public class FacadeTest_Example1 extends TestCase
       assertTrue(Arrays.equals(new String[]{"b"}, method.getParameterNames()));
       assertTrue(Arrays.equals(new String[]{"Boolean"}, method.getParameterTypes()));
       assertEquals(0, method.getExceptions().length);
-      
+
       StringBuffer expectedComment = new StringBuffer();
       expectedComment.append("  /**");
       expectedComment.append("\n").append("   * Sets the boolean instance.");
@@ -637,7 +631,7 @@ public class FacadeTest_Example1 extends TestCase
       expectedComment.append("\n").append("   * @generated");
       expectedComment.append("\n").append("   */");
       if (testComment) assertContentEquals(expectedComment.toString(), method.getComment());
-      
+
       StringBuffer expectedBody = new StringBuffer();
       expectedBody.append("\n").append("  {");
       expectedBody.append("\n").append("    if (b != null)");
@@ -651,12 +645,12 @@ public class FacadeTest_Example1 extends TestCase
       expectedBody.append("\n").append("  }");
       expectedBody.append("\n").append("\n");
       if (testBody) assertContentEquals(expectedBody.toString(), method.getBody());
-      
+
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append(expectedComment);
       expectedContents.append("\n").append("  public void setBooleanInstance(Boolean b)");
-      expectedContents.append(expectedBody);      
-      if (testContent) assertContentEquals(expectedContents.toString(), method.getContents());            
+      expectedContents.append(expectedBody);
+      if (testContent) assertContentEquals(expectedContents.toString(), method.getContents());
     }
     {
       JMethod method = (JMethod)methods.get(3);
@@ -680,11 +674,11 @@ public class FacadeTest_Example1 extends TestCase
       expectedBody.append("\n").append("  }");
       expectedBody.append("\n").append("  \n");
       if (testBody) assertContentEquals(expectedBody.toString(), method.getBody());
-      
+
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append("  void setBooleanInstance(int a)");
-      expectedContents.append(expectedBody);      
-      if (testContent) assertContentEquals(expectedContents.toString(), method.getContents());            
+      expectedContents.append(expectedBody);
+      if (testContent) assertContentEquals(expectedContents.toString(), method.getContents());
     }
     {
       JMethod method = (JMethod)methods.get(4);
@@ -707,7 +701,7 @@ public class FacadeTest_Example1 extends TestCase
       expectedComment.append("\n").append("   * @param b");
       expectedComment.append("\n").append("   * @generated NOT");
       expectedComment.append("\n").append("   */");
-      if (testComment) assertContentEquals(expectedComment.toString(), method.getComment());      
+      if (testComment) assertContentEquals(expectedComment.toString(), method.getComment());
 
       StringBuffer expectedBody = new StringBuffer();
       expectedBody.append("\n").append("  {");
@@ -715,12 +709,12 @@ public class FacadeTest_Example1 extends TestCase
       expectedBody.append("\n").append("  }");
       expectedBody.append("\n").append("  \n");
       if (testBody) assertContentEquals(expectedBody.toString(), method.getBody());
-      
+
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append(expectedComment);
       expectedContents.append("\n").append("  public Boolean getBooleanInstance() throws Exception");
-      expectedContents.append(expectedBody);      
-      if (testContent) assertContentEquals(expectedContents.toString(), method.getContents());            
+      expectedContents.append(expectedBody);
+      if (testContent) assertContentEquals(expectedContents.toString(), method.getContents());
     }
     {
       JMethod method = (JMethod)methods.get(5);
@@ -733,8 +727,8 @@ public class FacadeTest_Example1 extends TestCase
       assertContentEquals("List", method.getReturnType());
       assertEquals(0, method.getTypeParameters().length);
       assertEquals(0, method.getParameterNames().length);
-      assertEquals(0, method.getParameterTypes().length);      
-      assertTrue(Arrays.equals(new String[]{"RuntimeException","IllegalAccessError", "java.lang.NullPointerException"}, method.getExceptions())); 
+      assertEquals(0, method.getParameterTypes().length);
+      assertTrue(Arrays.equals(new String[]{"RuntimeException","IllegalAccessError", "java.lang.NullPointerException"}, method.getExceptions()));
 
       assertNull(method.getComment());
 
@@ -744,14 +738,14 @@ public class FacadeTest_Example1 extends TestCase
       expectedBody.append("\n").append("  }");
       expectedBody.append("\n");
       if (testBody) assertContentEquals(expectedBody.toString(), method.getBody());
-      
+
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append("  /*");
       expectedContents.append("\n").append("   * This method returns an empty list.");
-      expectedContents.append("\n").append("   */");      
+      expectedContents.append("\n").append("   */");
       expectedContents.append("\n").append("  protected List aMethodWithComments() throws RuntimeException, IllegalAccessError, java.lang.NullPointerException");
-      expectedContents.append(expectedBody);      
-      if (testContentWithComments) assertContentEquals(expectedContents.toString(), method.getContents());            
+      expectedContents.append(expectedBody);
+      if (testContentWithComments) assertContentEquals(expectedContents.toString(), method.getContents());
     }
     {
       JMethod method = (JMethod)methods.get(6);
@@ -776,16 +770,16 @@ public class FacadeTest_Example1 extends TestCase
       expectedBody.append("\n").append("  }");
       expectedBody.append("\n").append("  \n");
       if (testBody) assertContentEquals(expectedBody.toString(), method.getBody());
-      
+
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append("  // This is a simple comment");
       expectedContents.append("\n\n").append("  //This is another simple comment");
       expectedContents.append("\n").append("  private static long[][] aMethodWithNoComments(int[] a)");
-      expectedContents.append(expectedBody);      
-      if (testContentWithComments) assertContentEquals(expectedContents.toString(), method.getContents());            
-    }    
+      expectedContents.append(expectedBody);
+      if (testContentWithComments) assertContentEquals(expectedContents.toString(), method.getContents());
+    }
   }
-  
+
   protected void readTestInitializers(List<?> initializers) throws Exception
   {
     assertNotNull(initializers);
@@ -796,16 +790,16 @@ public class FacadeTest_Example1 extends TestCase
       assertContentEquals(mainType.getName() + ".0", initializer.getName());
       assertContentEquals("org.eclipse.emf.test.tools.merger.Example1.0", initializer.getQualifiedName());
       assertEquals(FacadeFlags.DEFAULT, initializer.getFlags());
-      
+
       assertNull(initializer.getComment());
-      
+
       StringBuffer expectedBody = new StringBuffer();
       expectedBody.append("{");
       expectedBody.append("\n").append((char)9).append("System.out.println(\"A initializer with Comments\");");
       expectedBody.append("\n").append((char)9).append("}");
       expectedBody.append("\n").append("  \n");
       if (testBody) assertContentEquals(expectedBody.toString(), initializer.getBody());
-      
+
       StringBuffer expectedContent = new StringBuffer();
       expectedContent.append((char)9).append("// An initializer.  It is indented with TABs");
       expectedContent.append("\n").append((char)9).append(expectedBody);
@@ -817,7 +811,7 @@ public class FacadeTest_Example1 extends TestCase
       assertContentEquals(mainType.getName() + ".1", initializer.getName());
       assertContentEquals("org.eclipse.emf.test.tools.merger.Example1.1", initializer.getQualifiedName());
       assertEquals(FacadeFlags.STATIC, initializer.getFlags());
-      
+
       StringBuffer expectedComment = new StringBuffer();
       expectedComment.append("  /**");
       expectedComment.append("\n").append("   * An static initializer");
@@ -836,7 +830,7 @@ public class FacadeTest_Example1 extends TestCase
       expectedContent.append(expectedComment);
       expectedContent.append("\n").append("  static");
       expectedContent.append("\n  ").append(expectedBody);
-      if (testContent) assertContentEquals(expectedContent.toString(), initializer.getContents());      
+      if (testContent) assertContentEquals(expectedContent.toString(), initializer.getContents());
     }
     {
       JInitializer initializer = (JInitializer)initializers.get(2);
@@ -862,24 +856,24 @@ public class FacadeTest_Example1 extends TestCase
       StringBuffer expectedContent = new StringBuffer();
       expectedContent.append(expectedComment);
       expectedContent.append("\n  ").append(expectedBody);
-      if (testContent) assertContentEquals(expectedContent.toString(), initializer.getContents());      
+      if (testContent) assertContentEquals(expectedContent.toString(), initializer.getContents());
     }
   }
-  
+
   protected void testInstanceOf(Object object, Class<?> cls)
   {
     assertTrue(object.toString(), cls.isInstance(object));
   }
-  
+
   public void assertContentEquals(String string1, String string2)
   {
     if (trimContents)
     {
-      Assert.assertEquals(string1.trim(), string2.trim());
+      assertEquals(string1.trim(), string2.trim());
     }
     else
     {
-      Assert.assertEquals(string1, string2);
+      assertEquals(string1, string2);
     }
   }
 }

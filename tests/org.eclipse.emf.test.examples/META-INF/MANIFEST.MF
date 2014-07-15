@@ -2,14 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.test.examples;singleton:=true
-Bundle-Version: 2.7.0.qualifier
+Bundle-Version: 2.7.1.qualifier
 Bundle-ClassPath: test.examples.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.test.examples
 Require-Bundle: org.eclipse.jdt.core,
- org.junit;bundle-version="[0.0.0,4.0.0)",
+ org.junit,
  org.eclipse.core.runtime,
  org.eclipse.emf.exporter,
  org.eclipse.emf.exporter.html,

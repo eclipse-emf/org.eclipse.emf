@@ -15,21 +15,20 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.xml.namespace.QName;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
 import org.eclipse.emf.ecore.util.Diagnostician;
-
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
-import org.eclipse.emf.test.models.qname.*;
+import org.eclipse.emf.test.models.qname.DocumentRoot;
+import org.eclipse.emf.test.models.qname.QNameFactory;
+import org.eclipse.emf.test.models.qname.QNamePackage;
+import org.eclipse.emf.test.models.qname.ResourceType;
 
 /**
  * <!-- begin-user-doc -->

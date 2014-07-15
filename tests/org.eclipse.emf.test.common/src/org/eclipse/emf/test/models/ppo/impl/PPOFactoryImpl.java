@@ -16,12 +16,13 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.test.models.ppo.*;
+import org.eclipse.emf.test.models.ppo.Item;
+import org.eclipse.emf.test.models.ppo.PPOFactory;
+import org.eclipse.emf.test.models.ppo.PPOPackage;
+import org.eclipse.emf.test.models.ppo.PurchaseOrder;
+import org.eclipse.emf.test.models.ppo.USAddress;
 
 /**
  * <!-- begin-user-doc -->

@@ -4,20 +4,20 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.core.common;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
@@ -31,25 +31,14 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.junit.Test;
 
 /**
  * @since 2.2.1
  */
-public class NotificationTest extends TestCase
+public class NotificationTest
 {
-  public NotificationTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("NotificationTest");
-    ts.addTest(new NotificationTest("testMergeRemoveNotifications"));
-    ts.addTest(new NotificationTest("testNotify"));
-    return ts;
-  }
-  
+  @Test
   public void testMergeRemoveNotifications() throws Exception
   {
     Resource resource = new ResourceImpl();
@@ -64,13 +53,13 @@ public class NotificationTest extends TestCase
     resource.getContents().add(EcoreFactory.eINSTANCE.createEOperation());     //8
     resource.getContents().add(EcoreFactory.eINSTANCE.createEPackage());       //9
     resource.getContents().add(EcoreFactory.eINSTANCE.createEParameter());     //10
-    
+
     List<EObject> initialContents = new ArrayList<EObject>(resource.getContents());
-    
+
     class MyAdapter extends AdapterImpl
     {
       public NotificationImpl mergedNotification;
-      
+
       @Override
       public void notifyChanged(Notification msg)
       {
@@ -84,12 +73,12 @@ public class NotificationTest extends TestCase
         }
       }
     }
-    
+
     MyAdapter myAdapter = new MyAdapter();
     resource.eAdapters().add(myAdapter);
 
     List<EObject> removedObjects = new ArrayList<EObject>();
-    
+
     // Remove all, one by one
     for (EObject item : initialContents)
     {
@@ -99,13 +88,13 @@ public class NotificationTest extends TestCase
       }
     }
     removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);
-    
+
     // *** Reset
     removedObjects.clear();
     resource.getContents().clear();
     resource.getContents().addAll(initialContents);
     myAdapter.mergedNotification = null;
-    
+
     // Remove odd items
     int count = 0;
     for (EObject item : initialContents)
@@ -119,14 +108,14 @@ public class NotificationTest extends TestCase
       }
       ++count;
     }
-    removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);    
+    removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);
 
     // *** Reset
     removedObjects.clear();
     resource.getContents().clear();
     resource.getContents().addAll(initialContents);
     myAdapter.mergedNotification = null;
-    
+
     // Remove even items
     count = 0;
     for (EObject item : initialContents)
@@ -140,40 +129,40 @@ public class NotificationTest extends TestCase
       }
       ++count;
     }
-    removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);    
+    removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);
 
     // *** Reset
     removedObjects.clear();
     resource.getContents().clear();
     resource.getContents().addAll(initialContents);
     myAdapter.mergedNotification = null;
-    
+
     // Remove items in the middle
     removedObjects.add(resource.getContents().remove(6));
     removedObjects.add(resource.getContents().remove(4));
     removedObjects.add(resource.getContents().remove(8));
     removedObjects.add(resource.getContents().remove(3));
-    removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);    
+    removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);
 
     // *** Reset
     removedObjects.clear();
     resource.getContents().clear();
     resource.getContents().addAll(initialContents);
     myAdapter.mergedNotification = null;
-    
+
     // Remove items from the ends
     removedObjects.add(resource.getContents().remove(resource.getContents().size()-1));
     removedObjects.add(resource.getContents().remove(0));
     removedObjects.add(resource.getContents().remove(0));
     removedObjects.add(resource.getContents().remove(resource.getContents().size()-1));
-    removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);    
+    removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);
 
     // *** Reset
     removedObjects.clear();
     resource.getContents().clear();
     resource.getContents().addAll(initialContents);
     myAdapter.mergedNotification = null;
-    
+
     // RemoveAll
     removedObjects.add(initialContents.get(0));
     removedObjects.add(initialContents.get(4));
@@ -181,19 +170,19 @@ public class NotificationTest extends TestCase
     removedObjects.add(initialContents.get(1));
     removedObjects.add(initialContents.get(8));
     resource.getContents().removeAll(removedObjects);
-    removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);    
+    removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);
   }
 
   private void removeNotificationMergeCheck(List<?> removedItems, List<?> initialContents, NotificationImpl mergedNotification)
   {
     assertEquals(Notification.REMOVE_MANY, mergedNotification.getEventType());
-    
+
     List<?> oldValue = (List<?>)mergedNotification.getOldValue();
     int[] newValue = (int[])mergedNotification.getNewValue();
-    
+
     assertEquals(removedItems.size(), oldValue.size());
     assertEquals(removedItems.size(), newValue.length);
-    
+
     for (int i=0; i < removedItems.size(); i++)
     {
       assertTrue(removedItems.contains(oldValue.get(i)) );
@@ -204,6 +193,7 @@ public class NotificationTest extends TestCase
   /**
    * @since 2.5
    */
+  @Test
   public void testNotify()
   {
     EClass c = EcoreFactory.eINSTANCE.createEClass();
@@ -220,7 +210,7 @@ public class NotificationTest extends TestCase
     int nameInt = EcorePackage.ENAMED_ELEMENT__NAME;
     EStructuralFeature upperBound = EcorePackage.Literals.ETYPED_ELEMENT__UPPER_BOUND;
     int upperBoundInt = EcorePackage.ETYPED_ELEMENT__UPPER_BOUND;
-    
+
     NotificationResult[] expected = new NotificationResult[]
       {
         new NotificationResult(c, Notification.ADD, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, null, a1, false, false, false, 0),
@@ -244,7 +234,7 @@ public class NotificationTest extends TestCase
     c.getEStructuralFeatures().add(a1);
     c.getEStructuralFeatures().addAll(Arrays.asList(a2, a3, a4, a5));
     c.getEStructuralFeatures().addAll(Collections.<EStructuralFeature>emptyList()); // noop
-    c.getEStructuralFeatures().remove(1);    
+    c.getEStructuralFeatures().remove(1);
     c.getEStructuralFeatures().remove(a6); // noop
     c.getEStructuralFeatures().removeAll(Arrays.asList(a3, a4));
     c.getEStructuralFeatures().removeAll(Arrays.asList(a6)); // noop
@@ -299,6 +289,7 @@ public class NotificationTest extends TestCase
       this.position = position;
     }
 
+    @Test
     public void test(Notification notification)
     {
       assertEquals(notifier, notification.getNotifier());
@@ -321,7 +312,7 @@ public class NotificationTest extends TestCase
         int[] actualInts = (int[])actual;
         if (!Arrays.equals(expectedInts, actualInts))
         {
-          failNotEquals(null, Arrays.toString(expectedInts), Arrays.toString(actualInts));
+          fail(Arrays.toString(expectedInts) + " !=" + Arrays.toString(actualInts));
         }
       }
       else

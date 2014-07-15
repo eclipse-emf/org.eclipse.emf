@@ -11,11 +11,10 @@
 package org.eclipse.emf.test.xml.xmi;
 
 
-import java.util.HashMap;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.util.HashMap;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -32,40 +31,28 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.xml.AllSuites;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 
 /**
- * Test for XMI package: 
+ * Test for XMI package:
  * EAttribute annotated with ExtendedMetaData (kind->simple) does not load correctly at runtime (105746)
  * XMLHandler.handleFeature Fails to Load Certain EReferences When Using ExtendedMetadata (101877)
  */
-public class XMIExtendedMetadataTest extends TestCase
+public class XMIExtendedMetadataTest
 {
   final static String BASE_XML_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xmi/";
 
   final static String BASE_ECORE_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/ecore/";
 
-  ResourceSet resourceSet;
+  protected ResourceSet resourceSet;
 
-  HashMap<String, Object> options;
+  protected HashMap<String, Object> options;
 
-  public XMIExtendedMetadataTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("XMIExtendedMetadataTest");
-    ts.addTestSuite(XMIExtendedMetadataTest.class);
-    return ts;
-  }
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     resourceSet = new ResourceSetImpl();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
@@ -80,16 +67,14 @@ public class XMIExtendedMetadataTest extends TestCase
 
   }
 
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
-  @Override
-  protected void tearDown() throws Exception
+  @After
+  public void tearDown() throws Exception
   {
     options = null;
     resourceSet = null;
   }
 
+  @Test
   public void testTopDescription() throws Exception
   {
 
@@ -101,6 +86,7 @@ public class XMIExtendedMetadataTest extends TestCase
     assertNotNull("Description value must not be null", description.eGet(value));
   }
 
+  @Test
   public void testNestedDescription() throws Exception
   {
 
@@ -109,7 +95,7 @@ public class XMIExtendedMetadataTest extends TestCase
     resource.load(options);
     EObject classification = resource.getContents().get(0);
     EStructuralFeature descriptorGroupFeature = classification.eClass().getEStructuralFeature("descriptorGroup");
-    
+
     EObject descriptorGroup = (EObject)((EList<?>)classification.eGet(descriptorGroupFeature)).get(0);
 
     EStructuralFeature descriptionFeature = descriptorGroup.eClass().getEStructuralFeature("description");
@@ -122,6 +108,7 @@ public class XMIExtendedMetadataTest extends TestCase
    * 101877
    * @throws Exception
    */
+  @Test
   public void testProxy() throws Exception
   {
     Resource ecore = resourceSet.createResource(URI.createFileURI(BASE_ECORE_URI + "proxy.ecore"));

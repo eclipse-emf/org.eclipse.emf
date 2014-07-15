@@ -10,21 +10,23 @@
  */
 package org.eclipse.emf.test.core.ecore;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.junit.Test;
 
-public class ResourceLocatorTest extends TestCase
+public class ResourceLocatorTest
 {
   private static final URI TEST_URI = URI.createURI("test.xml") ;
 
@@ -265,26 +267,7 @@ public class ResourceLocatorTest extends TestCase
     }
   }
 
-  /**
-   * @param name
-   */
-  public ResourceLocatorTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("ResourceLocatorTest");
-    ts.addTest(new ResourceLocatorTest("testResourceSetEvents"));
-    ts.addTest(new ResourceLocatorTest("testResourceSetEventsWithDisposedLocator"));
-    ts.addTest(new ResourceLocatorTest("testResourceSetEventsWithManyDisposedLocator"));
-    ts.addTest(new ResourceLocatorTest("testResourceSetEventsWithLocator"));
-    ts.addTest(new ResourceLocatorTest("testResourceSetEventsWithTwoLocators"));
-    ts.addTest(new ResourceLocatorTest("testResourceSetEventsWithTwoLocatorsAndDispose"));
-    return ts;
-  }
-
+  @Test
   public void testResourceSetEvents() throws Exception
   {
     {
@@ -352,6 +335,7 @@ public class ResourceLocatorTest extends TestCase
     }
   }
 
+  @Test
   public void testResourceSetEventsWithDisposedLocator() throws Exception
   {
     {
@@ -425,6 +409,7 @@ public class ResourceLocatorTest extends TestCase
     }
   }
 
+  @Test
   public void testResourceSetEventsWithManyDisposedLocator() throws Exception
   {
     {
@@ -508,6 +493,7 @@ public class ResourceLocatorTest extends TestCase
     }
   }
 
+  @Test
   public void testResourceSetEventsWithLocator() throws Exception
   {
     {
@@ -587,6 +573,7 @@ public class ResourceLocatorTest extends TestCase
     }
   }
 
+  @Test
   public void testResourceSetEventsWithTwoLocators() throws Exception
   {
     {
@@ -675,6 +662,7 @@ public class ResourceLocatorTest extends TestCase
     }
   }
 
+  @Test
   public void testResourceSetEventsWithTwoLocatorsAndDispose() throws Exception
   {
     {

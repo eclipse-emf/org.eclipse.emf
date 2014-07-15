@@ -14,16 +14,12 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.test.models.dbitem.DBItemFactory;
 import org.eclipse.emf.test.models.dbitem.DBItemPackage;
 import org.eclipse.emf.test.models.dbitem.DbType;
 import org.eclipse.emf.test.models.dbitem.DocumentRoot;
-
 import org.eclipse.emf.test.models.dbprice.DBPricePackage;
-
 import org.eclipse.emf.test.models.dbprice.impl.DBPricePackageImpl;
 
 /**

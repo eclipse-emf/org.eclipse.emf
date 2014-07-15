@@ -12,12 +12,16 @@ package org.eclipse.emf.test.models.customer.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.customer.*;
+import org.eclipse.emf.test.models.customer.AddressType;
+import org.eclipse.emf.test.models.customer.CanadaAddr;
+import org.eclipse.emf.test.models.customer.CreditInfo;
+import org.eclipse.emf.test.models.customer.CustomerPackage;
+import org.eclipse.emf.test.models.customer.CustomerType;
+import org.eclipse.emf.test.models.customer.CustomersType;
+import org.eclipse.emf.test.models.customer.DocumentRoot;
+import org.eclipse.emf.test.models.customer.USAddr;
 
 /**
  * <!-- begin-user-doc -->

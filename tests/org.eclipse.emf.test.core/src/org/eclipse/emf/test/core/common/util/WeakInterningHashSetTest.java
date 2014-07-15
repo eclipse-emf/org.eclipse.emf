@@ -8,6 +8,10 @@
 package org.eclipse.emf.test.core.common.util;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -24,27 +28,12 @@ import java.util.WeakHashMap;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.InterningSet;
 import org.eclipse.emf.common.util.WeakInterningHashSet;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Test;
 
 
-public class WeakInterningHashSetTest extends TestCase
+public class WeakInterningHashSetTest
 {
-  public WeakInterningHashSetTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite suite = new TestSuite("WeakInterningHashSetTest");
-    suite.addTest(new WeakInterningHashSetTest("testBasic"));
-    suite.addTest(new WeakInterningHashSetTest("testWeakness"));
-    return suite;
-  }
-
+  @Test
   public void testBasic()
   {
     WeakInterningHashSet<String> set = new WeakInterningHashSet<String>();
@@ -65,12 +54,12 @@ public class WeakInterningHashSetTest extends TestCase
     set.remove(null);
     assertFalse(set.contains(null));
     assertEquals(1, set.size());
-    
+
     set.clear();
     assertEquals(0, set.size());
     assertTrue(set.isEmpty());
     assertFalse(set.iterator().hasNext());
-    
+
     set.add("bar");
     {
       Iterator<String> iterator = set.iterator();
@@ -80,6 +69,7 @@ public class WeakInterningHashSetTest extends TestCase
     assertEquals(0, set.size());
   }
 
+  @Test
   public void testWeakness()
   {
     WeakInterningHashSet<String> set = new WeakInterningHashSet<String>();
@@ -104,7 +94,7 @@ public class WeakInterningHashSetTest extends TestCase
     assertEquals(0, set.size());
   }
 
-  
+
   @SuppressWarnings("unused")
   public static void main(String[] args) throws IOException, ClassNotFoundException
   {
@@ -424,4 +414,3 @@ public class WeakInterningHashSetTest extends TestCase
     return set;
   }
 }
-  

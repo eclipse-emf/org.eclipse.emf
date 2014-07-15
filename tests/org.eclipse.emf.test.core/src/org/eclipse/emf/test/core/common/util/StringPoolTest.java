@@ -8,6 +8,11 @@
 package org.eclipse.emf.test.core.common.util;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.util.Collections;
@@ -21,29 +26,11 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.emf.common.util.InterningSet;
 import org.eclipse.emf.common.util.Pool;
+import org.junit.Test;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-
-public class StringPoolTest extends TestCase
+public class StringPoolTest
 {
-  public StringPoolTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite suite = new TestSuite("StringPoolTest");
-    suite.addTest(new StringPoolTest("testWeakness"));
-    suite.addTest(new StringPoolTest("testThreadSafetyWithoutCollisions"));
-    suite.addTest(new StringPoolTest("testThreadSafetyWithCollisions"));
-    suite.addTest(new StringPoolTest("testThreadSafetyWithCollisionsAndGarbageCollection"));
-    return suite;
-  }
-
+  @Test
   public void testWeakness()
   {
     InterningSet<String> set = newStringPool();
@@ -69,16 +56,19 @@ public class StringPoolTest extends TestCase
     assertEquals(size, set.size());
   }
 
+  @Test
   public void testThreadSafetyWithoutCollisions()
   {
     testThreadSafety(1000000, 20, false);
   }
 
+  @Test
   public void testThreadSafetyWithCollisions()
   {
     testThreadSafety(1000000, 4, false);
   }
 
+  @Test
   public void testThreadSafetyWithCollisionsAndGarbageCollection()
   {
     testThreadSafety(1000000, 4, true);
@@ -205,7 +195,9 @@ public class StringPoolTest extends TestCase
     System.gc();
     try
     {
-      Thread.sleep(10000);
+      Thread.sleep(5000);
+      System.gc();
+      Thread.sleep(5000);
     }
     catch (InterruptedException e)
     {

@@ -4,11 +4,16 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.core.ecore;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -21,10 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -36,37 +37,22 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.test.models.ppo.Item;
 import org.eclipse.emf.test.models.ppo.PPOFactory;
 import org.eclipse.emf.test.models.ppo.PurchaseOrder;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 
 /**
  * @since 2.6
  */
-public class BinaryResourceTest extends TestCase
+public class BinaryResourceTest
 {
   private URI resourceURI;
   private List<EObject> rootObjects;
 
-  public BinaryResourceTest(String name)
-  {
-    super(name);
-  }
 
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("BinaryResourceTest");
-    ts.addTest(new BinaryResourceTest("testSaveAndLoad1"));
-    ts.addTest(new BinaryResourceTest("testSaveAndLoad2"));
-    ts.addTest(new BinaryResourceTest("testSaveAndLoadWithXMIResource"));
-    ts.addTest(new BinaryResourceTest("testSaveWithBinaryResourceAndLoadWithXMIResource"));
-    ts.addTest(new BinaryResourceTest("testSaveWithBinaryResourceAndLoadWithXMIResourceAndInternalBuffer"));
-    ts.addTest(new BinaryResourceTest("testSaveWithBinaryResourceAndLoadWithXMIResourceAndInternalBuffer2"));
-    ts.addTest(new BinaryResourceTest("testSaveAndLoadNoCache1"));
-    ts.addTest(new BinaryResourceTest("testSaveAndLoadNoCache2"));
-    return ts;
-  }
-
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     File tempDir = new File(System.getProperty("java.io.tmpdir"));
     if (!tempDir.exists())
@@ -101,13 +87,14 @@ public class BinaryResourceTest extends TestCase
     }
   }
 
-  @Override
-  protected void tearDown() throws Exception
+  @After
+  public void tearDown() throws Exception
   {
     URIConverter.INSTANCE.delete(resourceURI, null);
     assertFalse(resourceURI.toString(), URIConverter.INSTANCE.exists(resourceURI, null));
   }
 
+  @Test
   public void testSaveAndLoad1() throws Exception
   {
     testSaveAndLoad1Helper(null);
@@ -129,6 +116,7 @@ public class BinaryResourceTest extends TestCase
     assertTrue(EcoreUtil.equals(rootObjects, resource.getContents()));
   }
 
+  @Test
   public void testSaveAndLoad2() throws Exception
   {
     testSaveAndLoad2Helper(null);
@@ -166,6 +154,7 @@ public class BinaryResourceTest extends TestCase
     assertTrue(EcoreUtil.equals(rootObjects, resource.getContents()));
   }
 
+  @Test
   public void testSaveAndLoadWithXMIResource() throws Exception
   {
     Resource savedResource = new BinaryResourceImpl(resourceURI);
@@ -185,9 +174,10 @@ public class BinaryResourceTest extends TestCase
     }
   }
 
+  @Test
   public void testSaveWithBinaryResourceAndLoadWithXMIResource() throws Exception
   {
-    XMLResource savedResource = 
+    XMLResource savedResource =
       new XMIResourceImpl(resourceURI)
       {
         @Override
@@ -213,9 +203,10 @@ public class BinaryResourceTest extends TestCase
     }
   }
 
+  @Test
   public void testSaveWithBinaryResourceAndLoadWithXMIResourceAndInternalBuffer() throws Exception
   {
-    XMLResource savedResource = 
+    XMLResource savedResource =
       new XMIResourceImpl(resourceURI)
       {
         @Override
@@ -243,10 +234,11 @@ public class BinaryResourceTest extends TestCase
     }
   }
 
+  @Test
   public void testSaveWithBinaryResourceAndLoadWithXMIResourceAndInternalBuffer2() throws Exception
   {
     OutputStream outputStream = URIConverter.INSTANCE.createOutputStream(resourceURI);
-    XMLResource savedResource = 
+    XMLResource savedResource =
       new XMIResourceImpl(resourceURI)
       {
         @Override
@@ -281,6 +273,7 @@ public class BinaryResourceTest extends TestCase
     inputStream.close();
   }
 
+  @Test
   public void testSaveAndLoadNoCache1() throws Exception
   {
     Map<String, Object> options = new HashMap<String, Object>();
@@ -296,6 +289,7 @@ public class BinaryResourceTest extends TestCase
     assertTrue(EcoreUtil.equals(rootObjects, resource.getContents()));
   }
 
+  @Test
   public void testSaveAndLoadNoCache2() throws Exception
   {
     Resource resource = new BinaryResourceImpl();

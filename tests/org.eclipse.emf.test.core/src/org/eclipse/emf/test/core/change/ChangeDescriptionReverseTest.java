@@ -4,22 +4,20 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   Ed Merks - Initial API and implementation
  */
 package org.eclipse.emf.test.core.change;
 
+
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -36,29 +34,13 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.junit.Assert;
+import org.junit.Test;
 
 
-public class ChangeDescriptionReverseTest extends TestCase
+public class ChangeDescriptionReverseTest
 {
-  public ChangeDescriptionReverseTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("ChangeDescription copyAndReverse Test");
-    ts.addTest(new ChangeDescriptionReverseTest("testOne"));
-    ts.addTest(new ChangeDescriptionReverseTest("testTwo"));
-    ts.addTest(new ChangeDescriptionReverseTest("testThree"));
-    ts.addTest(new ChangeDescriptionReverseTest("testFour"));
-    ts.addTest(new ChangeDescriptionReverseTest("testFive"));
-    ts.addTest(new ChangeDescriptionReverseTest("testSix"));
-    ts.addTest(new ChangeDescriptionReverseTest("testSeven"));
-    return ts;
-  }
-
-  abstract class TestHelper
+  public static abstract class TestHelper
   {
     void doit() throws Exception
     {
@@ -71,12 +53,12 @@ public class ChangeDescriptionReverseTest extends TestCase
       changeRecorder.setRecordingTransientFeatures(false);
       changeRecorder.setEObjectToProxyURIMap(eObjectToProxyURIMap);
       changeRecorder.beginRecording(Collections.singleton(originalResourceSet));
-      
+
       makeChanges();
-        
+
       ChangeDescription changeDescription = changeRecorder.endRecording();
       changeDescription.copyAndReverse(eObjectToProxyURIMap);
-      
+
       ResourceSet finalResourceSet = new ResourceSetImpl();
       Resource changeDescriptionResource = finalResourceSet.createResource(URI.createURI("changes.change"));
       changeDescriptionResource.getContents().add(changeDescription);
@@ -85,19 +67,20 @@ public class ChangeDescriptionReverseTest extends TestCase
       changeDescriptionResource.getContents().clear();
       changeDescriptionResource.unload();
       changeDescriptionResource.load(new ByteArrayInputStream(out.toByteArray()), null);
-      
+
       ChangeDescription finalChangeDescription = (ChangeDescription)changeDescriptionResource.getContents().get(0);
       finalChangeDescription.apply();
-      
+
       finalResourceSet.getResources().remove(0);
-      
+
       assertEquals(originalResourceSet, finalResourceSet);
     }
-    
+
     abstract void loadResources(ResourceSet resourceSet);
     abstract void makeChanges();
   }
 
+  @Test
   public void testOne() throws Exception
   {
     new TestHelper()
@@ -109,7 +92,7 @@ public class ChangeDescriptionReverseTest extends TestCase
       {
         ecoreResource = resourceSet.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"), true);
       }
-      
+
       @Override
       void makeChanges()
       {
@@ -119,6 +102,7 @@ public class ChangeDescriptionReverseTest extends TestCase
     }.doit();
   }
 
+  @Test
   public void testTwo() throws Exception
   {
     new TestHelper()
@@ -130,7 +114,7 @@ public class ChangeDescriptionReverseTest extends TestCase
       {
         ecoreResource = resourceSet.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"), true);
       }
-      
+
       @Override
       void makeChanges()
       {
@@ -145,6 +129,7 @@ public class ChangeDescriptionReverseTest extends TestCase
     }.doit();
   }
 
+  @Test
   public void testThree() throws Exception
   {
     new TestHelper()
@@ -156,7 +141,7 @@ public class ChangeDescriptionReverseTest extends TestCase
       {
         ecoreResource = resourceSet.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"), true);
       }
-      
+
       @Override
       void makeChanges()
       {
@@ -166,6 +151,7 @@ public class ChangeDescriptionReverseTest extends TestCase
     }.doit();
   }
 
+  @Test
   public void testFour() throws Exception
   {
     new TestHelper()
@@ -179,7 +165,7 @@ public class ChangeDescriptionReverseTest extends TestCase
         ecoreResource = resourceSet.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"), true);
         xmlTypeResource = resourceSet.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore"), true);
       }
-      
+
       @Override
       void makeChanges()
       {
@@ -189,7 +175,8 @@ public class ChangeDescriptionReverseTest extends TestCase
       }
     }.doit();
   }
-  
+
+  @Test
   public void testFive() throws Exception
   {
     new TestHelper()
@@ -203,7 +190,7 @@ public class ChangeDescriptionReverseTest extends TestCase
         ecoreResource = resourceSet.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"), true);
         xmlTypeResource = resourceSet.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore"), true);
       }
-      
+
       @Override
       void makeChanges()
       {
@@ -215,6 +202,7 @@ public class ChangeDescriptionReverseTest extends TestCase
     }.doit();
   }
 
+  @Test
   public void testSix() throws Exception
   {
     new TestHelper()
@@ -228,7 +216,7 @@ public class ChangeDescriptionReverseTest extends TestCase
         ecoreResource = resourceSet.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"), true);
         xmlTypeResource = resourceSet.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore"), true);
       }
-      
+
       @Override
       void makeChanges()
       {
@@ -244,7 +232,8 @@ public class ChangeDescriptionReverseTest extends TestCase
       }
     }.doit();
   }
-  
+
+  @Test
   public void testSeven() throws Exception
   {
     new TestHelper()
@@ -258,7 +247,7 @@ public class ChangeDescriptionReverseTest extends TestCase
         ecoreResource = resourceSet.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"), true);
         xmlTypeResource = resourceSet.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore"), true);
       }
-      
+
       @Override
       void makeChanges()
       {
@@ -280,8 +269,8 @@ public class ChangeDescriptionReverseTest extends TestCase
       }
     }.doit();
   }
-  
-  void assertEquals(ResourceSet resourceSet1, ResourceSet resourceSet2)
+
+  public static void assertEquals(ResourceSet resourceSet1, ResourceSet resourceSet2)
   {
     EcoreUtil.resolveAll(resourceSet1);
     EcoreUtil.resolveAll(resourceSet2);
@@ -292,11 +281,11 @@ public class ChangeDescriptionReverseTest extends TestCase
     }
   }
 
-  void assertEquals(Resource resource1, Resource resource2)
+  public static void assertEquals(Resource resource1, Resource resource2)
   {
     EList<EObject> eObjects1 = resource1.getContents();
     EList<EObject> eObjects2 = resource2.getContents();
-    assertEquals(eObjects1.size(), eObjects2.size());
+    Assert.assertEquals(eObjects1.size(), eObjects2.size());
     for (int i = 0, size = eObjects1.size(); i < size; ++i)
     {
       assertTrue(EcoreUtil.equals(eObjects1.get(i), eObjects2.get(i)));

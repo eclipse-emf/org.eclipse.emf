@@ -10,10 +10,15 @@
  */
 package org.eclipse.emf.test.databinding.edit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Arrays;
 import java.util.List;
-
-import junit.framework.TestCase;
 
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
@@ -47,9 +52,10 @@ import org.eclipse.emf.test.databinding.emfdb.A;
 import org.eclipse.emf.test.databinding.emfdb.B;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbFactory;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
+import org.junit.Before;
+import org.junit.Test;
 
-
-public class EMFEditPropertiesTest extends TestCase
+public class EMFEditPropertiesTest
 {
   private Resource resource;
   private EditingDomain editingDomain;
@@ -60,11 +66,9 @@ public class EMFEditPropertiesTest extends TestCase
   private SetDiff diff;
   private BasicCommandStack commandStack;
 
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
-    super.setUp();
-
     ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
     ResourceSet resourceSet = new ResourceSetImpl();
     commandStack = new BasicCommandStack();
@@ -88,12 +92,6 @@ public class EMFEditPropertiesTest extends TestCase
     listEntries = null;
   }
 
-  @Override
-  protected void tearDown() throws Exception
-  {
-    super.tearDown();
-  }
-
   //  public void testValueEditingDomainEStructuralFeature()
   //  {
   //    fail("Not yet implemented");
@@ -114,11 +112,11 @@ public class EMFEditPropertiesTest extends TestCase
   //    fail("Not yet implemented");
   //  }
 
+  @Test
   public void testListEditingDomainEStructuralFeature()
   {
     Realm.runWithDefault(testRealm, new Runnable()
       {
-
         public void run()
         {
           _testListEditingDomainEStructuralFeature();
@@ -133,7 +131,6 @@ public class EMFEditPropertiesTest extends TestCase
     IObservableList list = prop.observe(a);
     list.addListChangeListener(new IListChangeListener()
       {
-
         public void handleListChange(ListChangeEvent event)
         {
           flag = true;
@@ -154,6 +151,7 @@ public class EMFEditPropertiesTest extends TestCase
     assertEquals(list.get(0), a.getBlist().get(0));
   }
 
+  @Test
   public void testSetProperty()
   {
     Realm.runWithDefault(testRealm, new Runnable()
@@ -174,7 +172,6 @@ public class EMFEditPropertiesTest extends TestCase
     assertNotNull(set);
     set.addSetChangeListener(new ISetChangeListener()
       {
-
         public void handleSetChange(SetChangeEvent event)
         {
           diff = event.diff;
@@ -208,6 +205,7 @@ public class EMFEditPropertiesTest extends TestCase
   //  {
   //    fail("Not yet implemented");
   //  }
+  @Test
   public void testMultiListEditingDomainEStructuralFeatureArray()
   {
     Realm.runWithDefault(testRealm, new Runnable()
@@ -248,6 +246,7 @@ public class EMFEditPropertiesTest extends TestCase
       });
   }
 
+  @Test
   public void testResourceProperty()
   {
     Realm.runWithDefault(testRealm, new Runnable()
@@ -376,6 +375,7 @@ public class EMFEditPropertiesTest extends TestCase
     commandStack.flush();
   }
 
+  @Test
   public void testListPropertyOnSingleFeature()
   {
     Realm.runWithDefault(testRealm, new Runnable()
@@ -402,7 +402,6 @@ public class EMFEditPropertiesTest extends TestCase
 
         public void handleListChange(ListChangeEvent event)
         {
-          System.err.println("Done");
           assertEquals(2, event.diff.getDifferences().length);
 
           assertEquals(0, event.diff.getDifferences()[0].getPosition());
@@ -417,6 +416,7 @@ public class EMFEditPropertiesTest extends TestCase
     a.setString("Instance 1");
   }
 
+  @Test
   public void testListElementProperty()
   {
     Realm.runWithDefault(testRealm, new Runnable()

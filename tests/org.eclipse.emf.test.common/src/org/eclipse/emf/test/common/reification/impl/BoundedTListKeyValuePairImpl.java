@@ -8,7 +8,6 @@
 package org.eclipse.emf.test.common.reification.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.test.common.reification.BoundedTListKeyValuePair;
 import org.eclipse.emf.test.common.reification.Medium;
 import org.eclipse.emf.test.common.reification.ReificationPackage;

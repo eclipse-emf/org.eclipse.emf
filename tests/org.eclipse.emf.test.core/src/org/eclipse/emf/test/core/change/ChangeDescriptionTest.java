@@ -4,12 +4,17 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.core.change;
 
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -18,10 +23,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -51,37 +52,15 @@ import org.eclipse.emf.test.models.library.LibraryFactory;
 import org.eclipse.emf.test.models.library.Writer;
 import org.eclipse.emf.test.models.tree.Node;
 import org.eclipse.emf.test.models.tree.TreeFactory;
+import org.junit.Test;
 
 
-public class ChangeDescriptionTest extends TestCase
+public class ChangeDescriptionTest
 {
-  public ChangeDescriptionTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("ChangeDescription Test");
-    ts.addTest(new ChangeDescriptionTest("testRemoveSuperType"));
-    ts.addTest(new ChangeDescriptionTest("testRemoveGenericException"));
-    ts.addTest(new ChangeDescriptionTest("testMultipleApplyAndReverse"));
-    ts.addTest(new ChangeDescriptionTest("testUnchangeableFeature"));
-    ts.addTest(new ChangeDescriptionTest("testApplyAndReverse2"));
-    ts.addTest(new ChangeDescriptionTest("testApplyAndReverse3"));
-    ts.addTest(new ChangeDescriptionTest("testXMLResourceID"));
-    ts.addTest(new ChangeDescriptionTest("testObjectsToDetach1"));
-    ts.addTest(new ChangeDescriptionTest("testObjectsToDetach2"));
-    ts.addTest(new ChangeDescriptionTest("testAddRemoveObject"));
-    ts.addTest(new ChangeDescriptionTest("testSwitchResources"));
-    ts.addTest(new ChangeDescriptionTest("testSwitchResources2"));
-    ts.addTest(new ChangeDescriptionTest("testSwitchContainers"));
-    return ts;
-  }
-
   /*
    * Bugzilla 181288
    */
+  @Test
   public void testRemoveSuperType() throws Exception
   {
     EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
@@ -110,12 +89,12 @@ public class ChangeDescriptionTest extends TestCase
     }
     Helper helper = new Helper();
     helper.state0();
-    
+
     ChangeRecorder changeRecorder = new ChangeRecorder(pack);
     subEClass.getEGenericSuperTypes().clear();
     ChangeDescription changeDescription = changeRecorder.endRecording();
     helper.state1();
-    
+
     changeDescription.applyAndReverse();
     helper.state0();
     changeDescription.applyAndReverse();
@@ -127,6 +106,7 @@ public class ChangeDescriptionTest extends TestCase
   /*
    * Bugzilla 181288
    */
+  @Test
   public void testRemoveGenericException() throws Exception
   {
     EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
@@ -155,23 +135,24 @@ public class ChangeDescriptionTest extends TestCase
     }
     Helper helper = new Helper();
     helper.state0();
-    
+
     ChangeRecorder changeRecorder = new ChangeRecorder(pack);
     operation.getEGenericExceptions().clear();
     ChangeDescription changeDescription = changeRecorder.endRecording();
     helper.state1();
-    
+
     changeDescription.applyAndReverse();
     helper.state0();
     changeDescription.applyAndReverse();
     helper.state1();
     changeDescription.apply();
     helper.state0();
-  }  
+  }
 
   /*
    * Bugzilla 120869
    */
+  @Test
   public void testAddRemoveObject() throws Exception
   {
     // add and remove
@@ -332,6 +313,7 @@ public class ChangeDescriptionTest extends TestCase
    * Bugzilla 83872
    * Bugzilla 120869
    */
+  @Test
   public void testObjectsToDetach1() throws Exception
   {
     Resource resource = new XMIResourceImpl(URI.createFileURI("pack"));
@@ -408,6 +390,7 @@ public class ChangeDescriptionTest extends TestCase
   /*
    * Bugzilla 83872
    */
+  @Test
   public void testObjectsToDetach2() throws Exception
   {
     EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
@@ -535,7 +518,7 @@ public class ChangeDescriptionTest extends TestCase
     assertEquals(obj2.eGet(name), ((EObject)loadedRoot1.eGet(ref2)).eGet(name));
     assertNull(loadedRoot1.eGet(ref3));
     assertNull(loadedRoot1.eGet(ref4));
-    //assertEquals(loadedChangeDescription, loadedRoot2.eContainer());    
+    //assertEquals(loadedChangeDescription, loadedRoot2.eContainer());
 
     loadedChangeDescription.apply();
 
@@ -550,6 +533,7 @@ public class ChangeDescriptionTest extends TestCase
   /*
    * Bugzilla 76971
    */
+  @Test
   public void testMultipleApplyAndReverse() throws Exception
   {
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
@@ -600,6 +584,7 @@ public class ChangeDescriptionTest extends TestCase
     }
   }
 
+  @Test
   public void testUnchangeableFeature()
   {
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
@@ -622,6 +607,7 @@ public class ChangeDescriptionTest extends TestCase
     assertEquals(eDataType, ePackage.getEClassifiers().get(0));
   }
 
+  @Test
   public void testApplyAndReverse2() throws Exception
   {
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
@@ -675,6 +661,7 @@ public class ChangeDescriptionTest extends TestCase
     }
   }
 
+  @Test
   public void testApplyAndReverse3() throws Exception
   {
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
@@ -708,6 +695,7 @@ public class ChangeDescriptionTest extends TestCase
     assertEquals(eAnnotation, eClass.getEAnnotations().get(0));
   }
 
+  @Test
   public void testXMLResourceID()
   {
     //Instantiating an object
@@ -739,7 +727,7 @@ public class ChangeDescriptionTest extends TestCase
     xmlResource.getContents().remove(eObject);
     ChangeDescription changeDescription = changeRecorder.endRecording();
 
-    //State2: resource has no objects and nothing is identified by the ID     
+    //State2: resource has no objects and nothing is identified by the ID
     assertTrue(xmlResource.getContents().isEmpty());
     assertNull(xmlResource.getID(eObject));
     assertNull(xmlResource.getEObject("CLASS:cls"));
@@ -759,6 +747,7 @@ public class ChangeDescriptionTest extends TestCase
   /*
    * Bugzilla 172036
    */
+  @Test
   public void testSwitchResources() throws Exception
   {
     final Resource resource1 = new ResourceImpl(URI.createFileURI("/home/res1"));
@@ -812,6 +801,7 @@ public class ChangeDescriptionTest extends TestCase
   /*
    * Bugzilla 172036
    */
+  @Test
   public void testSwitchResources2() throws Exception
   {
     final Resource resource1 = new ResourceImpl(URI.createFileURI("/home/res1"));
@@ -898,6 +888,7 @@ public class ChangeDescriptionTest extends TestCase
   /*
    * Bugzilla 172037
    */
+  @Test
   public void testSwitchContainers() throws Exception
   {
     final Node node1 = TreeFactory.eINSTANCE.createNode(); node1.setName("node1");

@@ -13,12 +13,12 @@ package org.eclipse.emf.test.models.dbprice.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.test.models.dbprice.*;
+import org.eclipse.emf.test.models.dbprice.DBPriceFactory;
+import org.eclipse.emf.test.models.dbprice.DBPricePackage;
+import org.eclipse.emf.test.models.dbprice.PenType;
+import org.eclipse.emf.test.models.dbprice.PencilType;
 
 /**
  * <!-- begin-user-doc -->

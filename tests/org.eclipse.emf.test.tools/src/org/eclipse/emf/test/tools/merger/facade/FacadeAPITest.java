@@ -4,12 +4,17 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 
 package org.eclipse.emf.test.tools.merger.facade;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -17,12 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.eclipse.jdt.core.Flags;
 
 import org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl;
 import org.eclipse.emf.codegen.merge.java.JMerger;
@@ -35,30 +34,19 @@ import org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.tools.AllSuites;
+import org.eclipse.jdt.core.Flags;
+import org.junit.Test;
+
 
 /**
  * @since 2.2.0
  */
-public class FacadeAPITest extends TestCase
+public class FacadeAPITest
 {
-  public FacadeAPITest(String name)
-  {
-    super(name);
-  }
-  
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("FacadeAPITest");
-    ts.addTest(new FacadeAPITest("testFacadeFlags"));
-    ts.addTest(new FacadeAPITest("testGenModelDefaultFacadeClass"));
-    ts.addTest(new FacadeAPITest("testASTFacadeHelperDebugFlag"));
-    ts.addTest(new FacadeAPITest("testFacadeHelperReset"));
-    return ts;
-  }
-  
   /*
-   * Ensures that the JDT and Facade flags have the same value 
+   * Ensures that the JDT and Facade flags have the same value
    */
+  @Test
   public void testFacadeFlags()
   {
     assertEquals(Flags.AccAbstract, FacadeFlags.ABSTRACT);
@@ -87,16 +75,16 @@ public class FacadeAPITest extends TestCase
   {
     public static final String PUBLIC_FACADE_HELPER = FACADE_HELPER_CLASS_EDEFAULT;
   }
- 
+
   /*
-   * Ensures that the GenModel's and JMerger facade helper are the same 
+   * Ensures that the GenModel's and JMerger facade helper are the same
    */
+  @Test
   public void testGenModelDefaultFacadeClass()
   {
     assertEquals(JMerger.DEFAULT_FACADE_HELPER_CLASS, MyGenModel.PUBLIC_FACADE_HELPER);
   }
-  
-  public void testASTFacadeHelperDebugFlag()
+
   {
     boolean debug = new ASTFacadeHelper()
     {
@@ -105,23 +93,24 @@ public class FacadeAPITest extends TestCase
         return DEBUG;
       }
     }.getDebugFlag();
-    
+
     assertFalse(debug);
   }
-  
+
   /*
    * Bugzilla 169251
    */
+  @Test
   public void testFacadeHelperReset()
   {
     File javaFile = new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/Example1.java").getAbsoluteFile();
     assertTrue(javaFile.isFile());
     String contents = TestUtil.readFile(javaFile, true);
-    
+
     facadeHelperResetTest(new JDOMFacadeHelper(), contents);
     facadeHelperResetTest(new ASTFacadeHelper(), contents);
   }
-  
+
   protected void facadeHelperResetTest(final FacadeHelper facadeHelper, String contents)
   {
     final List<Boolean> bool = new ArrayList<Boolean>();
@@ -133,25 +122,25 @@ public class FacadeAPITest extends TestCase
      protected boolean basicVisit(JNode node)
      {
        String message = "bool:" + bool.get(0)
-         + " node:" + node.getClass().getName() 
+         + " node:" + node.getClass().getName()
          + " disposed: " + facadeHelper.isDisposed(node);
        assertTrue(message, bool.get(0) == facadeHelper.isDisposed(node));
        return true;
      }
     };
 
-    JCompilationUnit compilationUnit = facadeHelper.createCompilationUnit("", contents);    
+    JCompilationUnit compilationUnit = facadeHelper.createCompilationUnit("", contents);
     assertFalse(compilationUnit.getChildren().isEmpty());
     facadeVisitor.start(compilationUnit);
-    
+
     Map<Object, JNode> objectToNodeMap = getObjectToNodeMap(facadeHelper);
     assertNotNull(objectToNodeMap);
-    assertFalse(objectToNodeMap.isEmpty());    
+    assertFalse(objectToNodeMap.isEmpty());
     for (JNode node : objectToNodeMap.values())
     {
       assertFalse(facadeHelper.isDisposed(node));
     }
-     
+
     Map<Object, JNode> copy = new HashMap<Object, JNode>(objectToNodeMap);
     facadeHelper.reset();
     assertTrue(objectToNodeMap.isEmpty());
@@ -164,7 +153,7 @@ public class FacadeAPITest extends TestCase
       assertTrue(facadeHelper.isDisposed(node));
     }
   }
-  
+
   protected Map<Object, JNode> getObjectToNodeMap(FacadeHelper facadeHelper)
   {
     try
@@ -178,7 +167,7 @@ public class FacadeAPITest extends TestCase
     catch (Exception e)
     {
       e.printStackTrace();
-    }    
+    }
     return null;
   }
 }

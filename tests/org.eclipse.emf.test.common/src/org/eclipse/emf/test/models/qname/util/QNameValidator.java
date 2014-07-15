@@ -15,20 +15,18 @@ import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
+
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
-
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.EObjectValidator;
-
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeValidator;
-
-import org.eclipse.emf.test.models.qname.*;
+import org.eclipse.emf.test.models.qname.DocumentRoot;
+import org.eclipse.emf.test.models.qname.QNamePackage;
+import org.eclipse.emf.test.models.qname.ResourceType;
 
 /**
  * <!-- begin-user-doc -->

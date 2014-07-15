@@ -1,10 +1,11 @@
 package org.eclipse.emf.test.core.ecore;
 
-import java.util.Iterator;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.util.Iterator;
 
 import org.eclipse.emf.common.util.AbstractTreeIterator;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -17,25 +18,15 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.test.common.TestUtil;
+import org.junit.Before;
+import org.junit.Test;
 
-public class BadEcoreDiagnosticTest extends TestCase
+public class BadEcoreDiagnosticTest
 {
   protected Diagnostic diagnostic;
-  
-  public BadEcoreDiagnosticTest(String name)
-  {
-    super(name);
-  }
-  
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("DiagnosticTest");
-    ts.addTest(new BadEcoreDiagnosticTest("testDiagnostic"));
-    return ts;
-  }
-  
-  @Override
-  protected void setUp() throws Exception
+
+  @Before
+  public void setUp() throws Exception
   {
     ResourceSet resourceSet = new ResourceSetImpl();
     URI logicalURI = URI.createPlatformPluginURI("platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore", false);
@@ -44,12 +35,13 @@ public class BadEcoreDiagnosticTest extends TestCase
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
     Resource ecoreResource = resourceSet.getResource(logicalURI, true);
     EPackage badPackage = (EPackage)ecoreResource.getContents().get(0);
-    
+
     diagnostic =  Diagnostician.INSTANCE.validate(badPackage);
-    
+
     assertNotNull(diagnostic);
   }
-  
+
+  @Test
   public void testDiagnostic() throws Exception
   {
     TreeIterator<Diagnostic> diagnosticIterator = new AbstractTreeIterator<Diagnostic>(diagnostic)
@@ -61,7 +53,8 @@ public class BadEcoreDiagnosticTest extends TestCase
         return ((Diagnostic)object).getChildren().iterator();
       }
     };
-  
+
+
     Diagnostic diagnostic1 = diagnosticIterator.next();
     assertEquals(Diagnostic.ERROR, diagnostic1.getSeverity());
     assertEquals("org.eclipse.emf.ecore", diagnostic1.getSource());
@@ -1213,10 +1206,10 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(0, diagnostic128.getChildren().size());
     assertEquals(3, diagnostic128.getData().size());
     assertNull(diagnostic128.getException());
-    
+
     assertFalse(diagnosticIterator.hasNext());
   }
-  
+
   protected String toString(Throwable throwable)
   {
     StringBuilder sb = new StringBuilder();
@@ -1230,7 +1223,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     }
     return sb.toString();
   }
-  
+
   protected String removeObjectHashCode(String string)
   {
     return string.replaceAll("@\\w+", "");

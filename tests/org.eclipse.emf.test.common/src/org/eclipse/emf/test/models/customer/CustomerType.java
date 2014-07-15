@@ -11,6 +11,7 @@
 package org.eclipse.emf.test.models.customer;
 
 import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**

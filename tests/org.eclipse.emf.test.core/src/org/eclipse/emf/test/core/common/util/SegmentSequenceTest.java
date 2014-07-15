@@ -7,6 +7,11 @@
  */
 package org.eclipse.emf.test.core.common.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
+
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Random;
@@ -14,26 +19,12 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.InterningSet;
 import org.eclipse.emf.common.util.SegmentSequence;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Test;
 
 
-public class SegmentSequenceTest extends TestCase
+public class SegmentSequenceTest
 {
-  public SegmentSequenceTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite suite = new TestSuite("SegmentSequenceTest");
-    suite.addTest(new SegmentSequenceTest("test"));
-    return suite;
-  }
-  
+  @Test
   public void test()
   {
     {
@@ -47,24 +38,24 @@ public class SegmentSequenceTest extends TestCase
 
       SegmentSequence s2 = SegmentSequence.create("/", "");
       assertSame(s1, s2);
-      
+
       SegmentSequence s3 = SegmentSequence.create("/", new String[] { "" });
       assertSame(s2, s3);
-      
+
       SegmentSequence s4 = SegmentSequence.create("/", new String[0]);
       assertNotSame(s3, s4);
       assertEquals(0, s4.segmentCount());
       assertEquals("", s4.toString());
-      
+
       SegmentSequence s5 = SegmentSequence.create("/", new String[0]);
       assertSame(s4, s5);
-      
+
       SegmentSequence s6 = SegmentSequence.create("/", new String[0]);
       assertSame(s5, s6);
-      
+
       SegmentSequence s7 = SegmentSequence.create("/");
       assertSame(s6, s7);
-      
+
       SegmentSequence s8 = SegmentSequence.create("/").append("");
       assertSame(s3, s8);
     }
@@ -78,19 +69,19 @@ public class SegmentSequenceTest extends TestCase
 
       SegmentSequence s2 = SegmentSequence.create("", "");
       assertSame(s1, s2);
-      
+
       SegmentSequence s3 = SegmentSequence.create("", new String[] { "" });
       assertSame(s2, s3);
-      
+
       SegmentSequence s4 = SegmentSequence.create("", new String[0]);
       assertSame(s3, s4);
-      
+
       SegmentSequence s5 = SegmentSequence.create("", new String[0]);
       assertSame(s4, s5);
-      
+
       SegmentSequence s6 = SegmentSequence.create("", new String[0]);
       assertSame(s5, s6);
-      
+
       SegmentSequence s7 = SegmentSequence.create("");
       assertSame(s6, s7);
 
@@ -124,13 +115,13 @@ public class SegmentSequenceTest extends TestCase
       SegmentSequence s1 = SegmentSequence.create("/", "a");
       assertEquals(1, s1.segmentCount());
       assertEquals("a", s1.toString());
-      
+
       SegmentSequence s2 = SegmentSequence.create("/", "a");
       assertSame(s1, s2);
-      
+
       SegmentSequence s3 = SegmentSequence.create("/").append("a");
       assertSame(s2, s3);
-      
+
       SegmentSequence s4 = SegmentSequence.create("/").append("a").append("a");
       assertEquals(2, s4.segmentCount());
       assertSame(s4.segment(0), s4.segment(1));
@@ -156,10 +147,10 @@ public class SegmentSequenceTest extends TestCase
       SegmentSequence s1 = SegmentSequence.create("", "a");
       assertEquals(1, s1.segmentCount());
       assertEquals("a", s1.toString());
-      
+
       SegmentSequence s2 = SegmentSequence.create("", "a");
       assertSame(s1, s2);
-      
+
       SegmentSequence s3 = SegmentSequence.create("").append("a");
       assertSame(s2, s3);
     }
@@ -200,7 +191,7 @@ public class SegmentSequenceTest extends TestCase
 
       SegmentSequence s2 = SegmentSequence.create("/", "a", "b", "c", "d");
       assertEquals("a/b/c/d", s2.toString());
-      
+
       assertSame(s1.delimiter(), s2.delimiter());
       assertSame(s1.segment(0), s2.segment(0));
       assertSame(s1.segment(1), s2.segment(1));
@@ -224,7 +215,7 @@ public class SegmentSequenceTest extends TestCase
       SegmentSequence s3 = SegmentSequence.create("", "a");
       SegmentSequence s4 = SegmentSequence.create("/").append("a");
       assertSame(getSegments(s3), getSegments(s4));
-      
+
       SegmentSequence s5 = SegmentSequence.create("", "b");
       SegmentSequence s6 = SegmentSequence.create("/", "b");
       assertSame(getSegments(s5), getSegments(s6));
@@ -232,7 +223,7 @@ public class SegmentSequenceTest extends TestCase
       SegmentSequence s7 = s5.append("c");
       SegmentSequence s8 = s6.append("c");
       assertSame(getSegments(s7), getSegments(s8));
-      
+
       SegmentSequence s9 = s7.append(SegmentSequence.create("", "d", "e"));
       SegmentSequence s10 = s8.append(SegmentSequence.create("/", "d/e"));
       assertEquals("bcde", s9.toString());
@@ -240,7 +231,7 @@ public class SegmentSequenceTest extends TestCase
       assertSame(getSegments(s9), getSegments(s10));
     }
   }
-  
+
   private static final Field SEGMENT_SEQUENCE_SEGMENTS;
   static
   {
@@ -269,7 +260,7 @@ public class SegmentSequenceTest extends TestCase
       return null;
     }
   }
-  
+
   public static void main(String[] args)
   {
     int count = 1000000;
@@ -352,7 +343,7 @@ public class SegmentSequenceTest extends TestCase
       }
     }
   }
-  
+
   private static  final InterningSet<SegmentSequence> POOL;
 
   static

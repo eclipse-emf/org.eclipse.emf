@@ -11,9 +11,8 @@
 package org.eclipse.emf.test.core.dynamic;
 
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -27,34 +26,18 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 
-public class ModelNotificationTest extends TestCase
+public class ModelNotificationTest
 {
   private EClass valueHolderClass;
 
-  public ModelNotificationTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("ModelNotificationTest");
-    ts.addTest(new ModelNotificationTest("testBoolean"));
-    ts.addTest(new ModelNotificationTest("testByte"));
-    ts.addTest(new ModelNotificationTest("testChar"));
-    ts.addTest(new ModelNotificationTest("testDouble"));
-    ts.addTest(new ModelNotificationTest("testFloat"));
-    ts.addTest(new ModelNotificationTest("testInt"));
-    ts.addTest(new ModelNotificationTest("testLong"));
-    ts.addTest(new ModelNotificationTest("testShort"));
-    return ts;
-  }
-
   public static final EDataType[] PRIMITIVE_TYPES =
-    new EDataType[] 
-    { 
+    new EDataType[]
+    {
       EcorePackage.eINSTANCE.getEBoolean(),
       EcorePackage.eINSTANCE.getEByte(),
       EcorePackage.eINSTANCE.getEChar(),
@@ -65,15 +48,16 @@ public class ModelNotificationTest extends TestCase
       EcorePackage.eINSTANCE.getEShort(),
     };
 
+  @Test
   public void testBoolean()
   {
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewBooleanValue() != msg.getOldBooleanValue());
            }
@@ -86,10 +70,10 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewBooleanValue() == msg.getOldBooleanValue());
              assertFalse(msg.wasSet());
@@ -103,10 +87,10 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewBooleanValue() == msg.getOldBooleanValue());
              assertFalse(msg.wasSet());
@@ -120,13 +104,13 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              if (msg.getEventType() != Notification.REMOVING_ADAPTER)
-             {  
+             {
                assertTrue(msg.getNewBooleanValue() == msg.getOldBooleanValue());
                assertFalse(msg.wasSet());
              }
@@ -136,10 +120,10 @@ public class ModelNotificationTest extends TestCase
       eObject.eSet(eStructuralFeature, false);
       eObject.eAdapters().clear();
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewBooleanValue() == msg.getOldBooleanValue());
              assertTrue(msg.wasSet());
@@ -147,17 +131,18 @@ public class ModelNotificationTest extends TestCase
          });
       eObject.eUnset(eStructuralFeature);
     }
-  }    
+  }
 
+  @Test
   public void testByte()
   {
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewByteValue() != msg.getOldByteValue());
            }
@@ -170,10 +155,10 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewByteValue() == msg.getOldByteValue());
              assertFalse(msg.wasSet());
@@ -187,10 +172,10 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewByteValue() == msg.getOldByteValue());
              assertFalse(msg.wasSet());
@@ -204,13 +189,13 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              if (msg.getEventType() != Notification.REMOVING_ADAPTER)
-             {  
+             {
                assertTrue(msg.getNewByteValue() == msg.getOldByteValue());
                assertFalse(msg.wasSet());
              }
@@ -220,10 +205,10 @@ public class ModelNotificationTest extends TestCase
       eObject.eSet(eStructuralFeature, (byte)0);
       eObject.eAdapters().clear();
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewByteValue() == msg.getOldByteValue());
              assertTrue(msg.wasSet());
@@ -231,17 +216,18 @@ public class ModelNotificationTest extends TestCase
          });
       eObject.eUnset(eStructuralFeature);
     }
-  }    
+  }
 
+  @Test
   public void testChar()
   {
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewCharValue() != msg.getOldCharValue());
            }
@@ -254,10 +240,10 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewCharValue() == msg.getOldCharValue());
              assertFalse(msg.wasSet());
@@ -271,10 +257,10 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewCharValue() == msg.getOldCharValue());
              assertFalse(msg.wasSet());
@@ -288,13 +274,13 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              if (msg.getEventType() != Notification.REMOVING_ADAPTER)
-             {  
+             {
                assertTrue(msg.getNewCharValue() == msg.getOldCharValue());
                assertFalse(msg.wasSet());
              }
@@ -304,10 +290,10 @@ public class ModelNotificationTest extends TestCase
       eObject.eSet(eStructuralFeature, (char)0);
       eObject.eAdapters().clear();
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewCharValue() == msg.getOldCharValue());
              assertTrue(msg.wasSet());
@@ -315,17 +301,18 @@ public class ModelNotificationTest extends TestCase
          });
       eObject.eUnset(eStructuralFeature);
     }
-  }    
+  }
 
+  @Test
   public void testDouble()
   {
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewDoubleValue() != msg.getOldDoubleValue());
            }
@@ -338,10 +325,10 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewDoubleValue() == msg.getOldDoubleValue());
              assertFalse(msg.wasSet());
@@ -355,10 +342,10 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewDoubleValue() == msg.getOldDoubleValue());
              assertFalse(msg.wasSet());
@@ -372,13 +359,13 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              if (msg.getEventType() != Notification.REMOVING_ADAPTER)
-             {  
+             {
                assertTrue(msg.getNewDoubleValue() == msg.getOldDoubleValue());
                assertFalse(msg.wasSet());
              }
@@ -388,10 +375,10 @@ public class ModelNotificationTest extends TestCase
       eObject.eSet(eStructuralFeature, 0.0);
       eObject.eAdapters().clear();
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewDoubleValue() == msg.getOldDoubleValue());
              assertTrue(msg.wasSet());
@@ -399,17 +386,18 @@ public class ModelNotificationTest extends TestCase
          });
       eObject.eUnset(eStructuralFeature);
     }
-  }    
+  }
 
+  @Test
   public void testFloat()
   {
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewFloatValue() != msg.getOldFloatValue());
            }
@@ -422,10 +410,10 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewFloatValue() == msg.getOldFloatValue());
              assertFalse(msg.wasSet());
@@ -439,10 +427,10 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewFloatValue() == msg.getOldFloatValue());
              assertFalse(msg.wasSet());
@@ -456,13 +444,13 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              if (msg.getEventType() != Notification.REMOVING_ADAPTER)
-             {  
+             {
                assertTrue(msg.getNewFloatValue() == msg.getOldFloatValue());
                assertFalse(msg.wasSet());
              }
@@ -472,10 +460,10 @@ public class ModelNotificationTest extends TestCase
       eObject.eSet(eStructuralFeature, 0.0F);
       eObject.eAdapters().clear();
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewFloatValue() == msg.getOldFloatValue());
              assertTrue(msg.wasSet());
@@ -483,17 +471,18 @@ public class ModelNotificationTest extends TestCase
          });
       eObject.eUnset(eStructuralFeature);
     }
-  }    
+  }
 
+  @Test
   public void testInt()
   {
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewIntValue() != msg.getOldIntValue());
            }
@@ -506,10 +495,10 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewIntValue() == msg.getOldIntValue());
              assertFalse(msg.wasSet());
@@ -523,10 +512,10 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewIntValue() == msg.getOldIntValue());
              assertFalse(msg.wasSet());
@@ -540,13 +529,13 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              if (msg.getEventType() != Notification.REMOVING_ADAPTER)
-             {  
+             {
                assertTrue(msg.getNewIntValue() == msg.getOldIntValue());
                assertFalse(msg.wasSet());
              }
@@ -556,10 +545,10 @@ public class ModelNotificationTest extends TestCase
       eObject.eSet(eStructuralFeature, 0);
       eObject.eAdapters().clear();
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewIntValue() == msg.getOldIntValue());
              assertTrue(msg.wasSet());
@@ -567,17 +556,18 @@ public class ModelNotificationTest extends TestCase
          });
       eObject.eUnset(eStructuralFeature);
     }
-  }    
+  }
 
+  @Test
   public void testLong()
   {
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewLongValue() != msg.getOldLongValue());
            }
@@ -590,10 +580,10 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewLongValue() == msg.getOldLongValue());
              assertFalse(msg.wasSet());
@@ -607,10 +597,10 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewLongValue() == msg.getOldLongValue());
              assertFalse(msg.wasSet());
@@ -624,13 +614,13 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              if (msg.getEventType() != Notification.REMOVING_ADAPTER)
-             {  
+             {
                assertTrue(msg.getNewLongValue() == msg.getOldLongValue());
                assertFalse(msg.wasSet());
              }
@@ -640,10 +630,10 @@ public class ModelNotificationTest extends TestCase
       eObject.eSet(eStructuralFeature, 0L);
       eObject.eAdapters().clear();
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewLongValue() == msg.getOldLongValue());
              assertTrue(msg.wasSet());
@@ -651,17 +641,18 @@ public class ModelNotificationTest extends TestCase
          });
       eObject.eUnset(eStructuralFeature);
     }
-  }    
+  }
 
+  @Test
   public void testShort()
   {
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewShortValue() != msg.getOldShortValue());
            }
@@ -674,10 +665,10 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewShortValue() == msg.getOldShortValue());
              assertFalse(msg.wasSet());
@@ -691,10 +682,10 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewShortValue() == msg.getOldShortValue());
              assertFalse(msg.wasSet());
@@ -708,13 +699,13 @@ public class ModelNotificationTest extends TestCase
     {
       EObject eObject = EcoreUtil.create(valueHolderClass);
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              if (msg.getEventType() != Notification.REMOVING_ADAPTER)
-             {  
+             {
                assertTrue(msg.getNewShortValue() == msg.getOldShortValue());
                assertFalse(msg.wasSet());
              }
@@ -724,10 +715,10 @@ public class ModelNotificationTest extends TestCase
       eObject.eSet(eStructuralFeature, (short)0);
       eObject.eAdapters().clear();
       eObject.eAdapters().add
-        (new AdapterImpl() 
+        (new AdapterImpl()
          {
            @Override
-           public void notifyChanged(Notification msg) 
+           public void notifyChanged(Notification msg)
            {
              assertTrue(msg.getNewShortValue() == msg.getOldShortValue());
              assertTrue(msg.wasSet());
@@ -735,13 +726,10 @@ public class ModelNotificationTest extends TestCase
          });
       eObject.eUnset(eStructuralFeature);
     }
-  }    
+  }
 
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     EcoreFactory ecoreFactory = EcoreFactory.eINSTANCE;
 
@@ -765,7 +753,7 @@ public class ModelNotificationTest extends TestCase
         valueHolderFeatures.add(eAttribute);
       }
     }
-    
+
     EPackage testPackage = ecoreFactory.createEPackage();
     testPackage.setName("notificationTest");
     testPackage.setNsPrefix("notificationTest");
@@ -774,11 +762,8 @@ public class ModelNotificationTest extends TestCase
     EPackage.Registry.INSTANCE.put(testPackage.getNsURI(), testPackage);
   }
 
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
-  @Override
-  protected void tearDown() throws Exception
+  @After
+  public void tearDown() throws Exception
   {
     valueHolderClass.getEStructuralFeatures().clear();
     valueHolderClass = null;

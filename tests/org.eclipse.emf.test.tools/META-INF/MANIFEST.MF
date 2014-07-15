@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.test.tools;singleton:=true
-Bundle-Version: 2.9.0.qualifier
+Bundle-Version: 2.9.1.qualifier
 Bundle-ClassPath: test.tools.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -19,7 +19,7 @@ Require-Bundle: org.apache.ant,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.emf.importer,
  org.eclipse.jdt.core,
- org.junit;bundle-version="[0.0.0,4.0.0)",
+ org.junit,
  org.eclipse.text,
  org.eclipse.emf.test.common
 Eclipse-LazyStart: true

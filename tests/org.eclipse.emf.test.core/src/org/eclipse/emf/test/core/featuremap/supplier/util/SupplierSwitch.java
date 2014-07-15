@@ -14,8 +14,9 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.core.featuremap.supplier.*;
+import org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder;
+import org.eclipse.emf.test.core.featuremap.supplier.Supplier;
+import org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage;
 
 /**
  * <!-- begin-user-doc -->

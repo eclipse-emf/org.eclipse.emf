@@ -4,8 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.core.change;
@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * Implementation of the {@link BasicChangeRecorder} that provides methods
- * to describe changes on objects.   
+ * to describe changes on objects.
  * @since 2.3
  */
 public class ChangeDescriptionBuilder extends BasicChangeRecorder
@@ -36,17 +36,17 @@ public class ChangeDescriptionBuilder extends BasicChangeRecorder
     setChangeDescription(createChangeDescription());
     setRecording(true);
   }
-  
+
   public void recordUnsetFeature(EObject eObject, EStructuralFeature feature)
   {
     recordFeature(eObject, feature, null, false);
   }
-  
+
   public void recordSetFeature(EObject eObject, EStructuralFeature feature, Object value)
   {
     recordFeature(eObject, feature, value, true);
   }
-  
+
   protected void recordFeature(EObject eObject, EStructuralFeature feature, Object value, boolean isSet)
   {
     if (shouldRecord(feature, eObject))
@@ -73,7 +73,7 @@ public class ChangeDescriptionBuilder extends BasicChangeRecorder
       }
     }
   }
-  
+
   public void recordResourceContents(Resource resource, List<? extends EObject> contents)
   {
     if (isRecording())
@@ -81,7 +81,7 @@ public class ChangeDescriptionBuilder extends BasicChangeRecorder
       ResourceChange change = getResourceChange(resource);
       if (change == null)
       {
-        
+
         @SuppressWarnings("unchecked") EList<Object> oldValue = contents == null ?
           new BasicEList<Object>(0) :
           contents instanceof EList<?> ?
@@ -91,5 +91,5 @@ public class ChangeDescriptionBuilder extends BasicChangeRecorder
         getResourceChanges().add(change);
       }
     }
-  }  
+  }
 }

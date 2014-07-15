@@ -14,8 +14,12 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.movie.db.*;
+import org.eclipse.emf.test.models.movie.db.CriticsReviewType;
+import org.eclipse.emf.test.models.movie.db.CustomerReviewType;
+import org.eclipse.emf.test.models.movie.db.DBPackage;
+import org.eclipse.emf.test.models.movie.db.DocumentRoot;
+import org.eclipse.emf.test.models.movie.db.MovieDBType;
+import org.eclipse.emf.test.models.movie.db.MovieType;
 
 /**
  * <!-- begin-user-doc -->

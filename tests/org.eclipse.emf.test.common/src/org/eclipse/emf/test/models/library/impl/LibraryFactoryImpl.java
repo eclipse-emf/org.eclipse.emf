@@ -14,12 +14,14 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.test.models.library.*;
+import org.eclipse.emf.test.models.library.Book;
+import org.eclipse.emf.test.models.library.BookCategory;
+import org.eclipse.emf.test.models.library.Library;
+import org.eclipse.emf.test.models.library.LibraryFactory;
+import org.eclipse.emf.test.models.library.LibraryPackage;
+import org.eclipse.emf.test.models.library.Writer;
 
 /**
  * <!-- begin-user-doc -->

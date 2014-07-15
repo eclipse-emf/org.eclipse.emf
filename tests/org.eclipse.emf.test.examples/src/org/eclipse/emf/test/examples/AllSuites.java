@@ -11,48 +11,17 @@
 package org.eclipse.emf.test.examples;
 
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
-
-public class AllSuites extends TestSuite
+@RunWith(Suite.class)
+@Suite.SuiteClasses
+  ({
+     HTMLExporterTest.class,
+     JavaTest.class
+  })
+public class AllSuites
 {
   public static final String PLUGIN_ID = "org.eclipse.emf.test.examples";
-  
-  private static Test[] suites = new Test []{ 
-    HTMLExporterTest.suite()
-    ,JavaTest.suite()
-  };
-
-  public static Test suite()
-  {
-    return new AllSuites("EMF Examples JUnit Test Suite");
-  }
-
-  public AllSuites()
-  {
-    super();
-    populateSuite();
-  }
-
-  public AllSuites(Class<?> theClass)
-  {
-    super(theClass);
-    populateSuite();
-  }
-
-  public AllSuites(String name)
-  {
-    super(name);
-    populateSuite();
-  }
-
-  protected void populateSuite()
-  {
-    for (int i = 0; i < suites.length; i++)
-    {
-      addTest(suites[i]);
-    }
-  }
 }

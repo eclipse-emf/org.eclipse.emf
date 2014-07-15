@@ -13,17 +13,11 @@ package org.eclipse.emf.test.models.switch3.impl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.test.models.switch1.Switch1Package;
-
 import org.eclipse.emf.test.models.switch1.impl.Switch1PackageImpl;
-
 import org.eclipse.emf.test.models.switch2.Switch2Package;
-
 import org.eclipse.emf.test.models.switch2.impl.Switch2PackageImpl;
-
 import org.eclipse.emf.test.models.switch3.EClass4;
 import org.eclipse.emf.test.models.switch3.EClass5;
 import org.eclipse.emf.test.models.switch3.Switch3Factory;

@@ -10,6 +10,12 @@
  */
 package org.eclipse.emf.test.edit.command;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
@@ -23,31 +29,15 @@ import org.eclipse.emf.test.models.ref.E;
 import org.eclipse.emf.test.models.ref.RefFactory;
 import org.eclipse.emf.test.models.ref.RefPackage;
 import org.eclipse.emf.test.models.ref.provider.RefItemProviderAdapterFactory;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for AddCommand.  In each case, the model is built, the command is created, executed, undone, and redone.
  * The state of the model and the executability/undoability/redoability of the command are tested between each step.
  */
-public class AddCommandTest extends TestCase
+public class AddCommandTest
 {
-  public AddCommandTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite suite = new TestSuite("AddCommandTest");
-    suite.addTest(new AddCommandTest("testAddDuplicatesToUnique"));
-    suite.addTest(new AddCommandTest("testAddSameDuplicate"));
-    suite.addTest(new AddCommandTest("testAddEqualDuplicate"));
-    return suite;
-  }
-
   /**
    * The Ref test package.
    */
@@ -63,17 +53,18 @@ public class AddCommandTest extends TestCase
    */
   protected EditingDomain editingDomain;
 
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     refPackage = RefPackage.eINSTANCE;
     refFactory = refPackage.getRefFactory();
-    
+
     AdapterFactory adapterFactory = new RefItemProviderAdapterFactory();
     CommandStack commandStack = new BasicCommandStack();
     editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack);
   }
 
+  @Test
   public void testAddDuplicatesToUnique()
   {
     E e = refFactory.createE();
@@ -94,12 +85,13 @@ public class AddCommandTest extends TestCase
     add = AddCommand.create(editingDomain, e, refPackage.getE_Ids(), s3);
     assertFalse(add.canExecute());
   }
-  
+
+  @Test
   public void testAddSameDuplicate()
   {
     E e = refFactory.createE();
     e.eAdapters().add(new AdapterImpl());
-    
+
     String s0 = "0";
     String s1 = "1";
     String s2 = "2";
@@ -145,11 +137,12 @@ public class AddCommandTest extends TestCase
     assertTrue(stack.canUndo());
   }
 
+  @Test
   public void testAddEqualDuplicate()
   {
     E e = refFactory.createE();
     e.eAdapters().add(new AdapterImpl());
-    
+
     String s0 = "0";
     String s1 = "1";
     String s2 = "2";

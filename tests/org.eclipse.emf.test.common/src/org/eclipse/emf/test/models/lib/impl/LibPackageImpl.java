@@ -14,9 +14,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.test.models.lib.Address;
 import org.eclipse.emf.test.models.lib.Book;
 import org.eclipse.emf.test.models.lib.Cafeteria;

@@ -4,22 +4,21 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *   CEA - Initial API and implementation
- * 
+ *
  */
 package org.eclipse.emf.test.core.xrefsmodel.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.test.core.xrefsmodel.*;
+import org.eclipse.emf.test.core.xrefsmodel.A;
+import org.eclipse.emf.test.core.xrefsmodel.XRefsModelFactory;
+import org.eclipse.emf.test.core.xrefsmodel.XRefsModelPackage;
 
 /**
  * <!-- begin-user-doc -->

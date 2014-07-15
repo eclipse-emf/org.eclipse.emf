@@ -14,18 +14,12 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.test.models.ext.ExtPackage;
-
 import org.eclipse.emf.test.models.ext.impl.ExtPackageImpl;
-
 import org.eclipse.emf.test.models.ref.RefFactory;
 import org.eclipse.emf.test.models.ref.RefPackage;
-
 import org.eclipse.emf.test.models.ref.unsettable.URefPackage;
-
 import org.eclipse.emf.test.models.ref.unsettable.impl.URefPackageImpl;
 
 /**

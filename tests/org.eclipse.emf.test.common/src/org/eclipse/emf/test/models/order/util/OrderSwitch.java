@@ -14,8 +14,10 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.order.*;
+import org.eclipse.emf.test.models.order.CustomerOrder;
+import org.eclipse.emf.test.models.order.DocumentRoot;
+import org.eclipse.emf.test.models.order.Order;
+import org.eclipse.emf.test.models.order.OrderPackage;
 
 /**
  * <!-- begin-user-doc -->

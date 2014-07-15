@@ -10,12 +10,13 @@
  */
 package org.eclipse.emf.test.xml;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 import java.io.StringReader;
 import java.util.HashMap;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -34,11 +35,14 @@ import org.eclipse.emf.ecore.xml.type.ProcessingInstruction;
 import org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.junit.Before;
+import org.junit.Test;
 import org.xml.sax.InputSource;
 
-public class ProcessingInstructionTest extends TestCase
+
+public class ProcessingInstructionTest
 {
-  
+
   static final String LF = System.getProperty("line.separator");
 
   static final String XML = "<?pi1 prologue?>" + LF +
@@ -48,27 +52,14 @@ public class ProcessingInstructionTest extends TestCase
         "<?pi3 epilogue?>";
 
   private XMLProcessor processor;
-  
+
   private HashMap<String, Object> options;
-  
+
   private InputSource input;
-  
-  public ProcessingInstructionTest(String name)
-  {
-    super(name);
-  }
 
-  public static Test suite()
+  @Before
+  public void setUp() throws Exception
   {
-    TestSuite ts = new TestSuite("ProcesingInstructionTest");
-    ts.addTestSuite(ProcessingInstructionTest.class);
-    return ts;
-  }
-
-  @Override
-  protected void setUp() throws Exception
-  {
-    super.setUp();
     processor = new XMLProcessor();
     options = new HashMap<String, Object>();
     XMLOptions xmlOptions = new XMLOptionsImpl();
@@ -79,6 +70,7 @@ public class ProcessingInstructionTest extends TestCase
     input = new InputSource(new StringReader(XML));
   }
 
+  @Test
   public void testLoadPI() throws Exception
   {
     Resource res = processor.load(input, options);
@@ -86,7 +78,7 @@ public class ProcessingInstructionTest extends TestCase
     assertTrue(res.getContents().get(0) instanceof XMLTypeDocumentRoot);
     XMLTypeDocumentRoot doc = (XMLTypeDocumentRoot) res.getContents().get(0);
     assertEquals(3, doc.getMixed().size());
-    
+
     assertSame(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION, doc.getMixed().getEStructuralFeature(0));
     assertTrue(doc.getMixed().getValue(0) instanceof ProcessingInstruction);
     ProcessingInstruction pi = (ProcessingInstruction) doc.getMixed().getValue(0);
@@ -98,7 +90,7 @@ public class ProcessingInstructionTest extends TestCase
     pi = (ProcessingInstruction) doc.getMixed().getValue(2);
     assertEquals("pi3", pi.getTarget());
     assertEquals("epilogue", pi.getData());
-    
+
     assertTrue(doc.getMixed().getValue(1) instanceof AnyType);
     AnyType root = (AnyType) doc.getMixed().getValue(1);
     assertEquals(3, root.getMixed().size());
@@ -108,7 +100,8 @@ public class ProcessingInstructionTest extends TestCase
     assertEquals("pi2", pi.getTarget());
     assertEquals("nested", pi.getData());
   }
-  
+
+  @Test
   public void testSavePI() throws Exception
   {
     EPackage pkg = processor.getExtendedMetaData().demandPackage(null);
@@ -120,7 +113,7 @@ public class ProcessingInstructionTest extends TestCase
     FeatureMapUtil.addProcessingInstruction(root.getMixed(), "pi2", "nested");
     FeatureMapUtil.addText(root.getMixed(), "\n");
     FeatureMapUtil.addProcessingInstruction(doc.getMixed(), "pi3", "epilogue");
-    
+
     ResourceSet resourceSet = new ResourceSetImpl();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMLResourceFactoryImpl());
     Resource res = resourceSet.createResource(URI.createURI("test.xml"));

@@ -13,7 +13,6 @@ package org.eclipse.emf.test.models.switch2;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.test.models.switch1.Switch1Package;
 
 /**

@@ -11,59 +11,38 @@
 package org.eclipse.emf.test.tools;
 
 
+import org.eclipse.emf.test.tools.ant.AntTest;
+import org.eclipse.emf.test.tools.codegen.CodeGenUtilTest;
+import org.eclipse.emf.test.tools.codegen.GenModelDefaultsTest;
+import org.eclipse.emf.test.tools.codegen.GenModelTest;
+import org.eclipse.emf.test.tools.codegen.LiteralsTest;
+import org.eclipse.emf.test.tools.codegen.RemappedXMLTypesTest;
+import org.eclipse.emf.test.tools.converter.ConverterUtilTest;
+import org.eclipse.emf.test.tools.importer.ModelImporterTest;
+import org.eclipse.emf.test.tools.merger.MergerAllSuites;
+import org.eclipse.emf.test.tools.merger.facade.FacadeAllSuites;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
-
-public class AllSuites extends TestSuite
+@RunWith(Suite.class)
+@Suite.SuiteClasses
+  ({
+    ImportManagerTest.class,
+    JETTest.class,
+    ToolsTest.class,
+    AntTest.class,
+    CodeGenUtilTest.class,
+    GenModelDefaultsTest.class,
+    GenModelTest.class,
+    LiteralsTest.class,
+    RemappedXMLTypesTest.class,
+    ConverterUtilTest.class,
+    ModelImporterTest.class,
+    MergerAllSuites.class,
+    FacadeAllSuites.class
+  })
+public class AllSuites
 {
   public static final String PLUGIN_ID = "org.eclipse.emf.test.tools";
-  
-  private static Test[] suites = new Test []{ 
-     org.eclipse.emf.test.tools.ImportManagerTest.suite()
-    ,org.eclipse.emf.test.tools.JETTest.suite()
-    ,org.eclipse.emf.test.tools.ToolsTest.suite()
-    ,org.eclipse.emf.test.tools.ant.AntTest.suite()
-    ,org.eclipse.emf.test.tools.codegen.CodeGenUtilTest.suite()
-    ,org.eclipse.emf.test.tools.codegen.GenModelDefaultsTest.suite()
-    ,org.eclipse.emf.test.tools.codegen.GenModelTest.suite()
-    ,org.eclipse.emf.test.tools.codegen.LiteralsTest.suite()
-    ,org.eclipse.emf.test.tools.codegen.RemappedXMLTypesTest.suite()
-    ,org.eclipse.emf.test.tools.converter.ConverterUtilTest.suite()
-    ,org.eclipse.emf.test.tools.importer.ModelImporterTest.suite()
-    ,org.eclipse.emf.test.tools.merger.MergerAllSuites.suite()
-    ,org.eclipse.emf.test.tools.merger.facade.FacadeAllSuites.suite()
-  };
-
-  public static Test suite()
-  {
-    return new AllSuites("EMF Tools JUnit Test Suite");
-  }
-
-  public AllSuites()
-  {
-    super();
-    populateSuite();
-  }
-
-  public AllSuites(Class<?> theClass)
-  {
-    super(theClass);
-    populateSuite();
-  }
-
-  public AllSuites(String name)
-  {
-    super(name);
-    populateSuite();
-  }
-
-  protected void populateSuite()
-  {
-    for (int i = 0; i < suites.length; i++)
-    {
-      addTest(suites[i]);
-    }
-  }
 }

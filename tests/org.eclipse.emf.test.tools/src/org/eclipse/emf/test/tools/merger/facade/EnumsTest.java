@@ -4,11 +4,14 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.tools.merger.facade;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
@@ -32,7 +35,7 @@ public class EnumsTest extends TypesTest
     type.setName("Operation");
     type.setName("OperationEnum" + modificationId);
   }
-  
+
   @Override
   protected void readOriginalType(JAbstractType abstractType)
   {
@@ -41,8 +44,8 @@ public class EnumsTest extends TypesTest
     assertEquals(FacadeFlags.DEFAULT, type.getFlags());
     assertTrue(Arrays.equals(new String [0], type.getSuperInterfaces()));
     assertEquals("OperationEnum", type.getName());
-  }  
-  
+  }
+
   @Override
   protected void readType(JAbstractType abstractType, String modificationId, int flags)
   {
@@ -66,7 +69,7 @@ public class EnumsTest extends TypesTest
     type.setSuperInterfaces(new String[0]);
     type.setName("ClearedOperationEnum");
 
-    // keep annotations    
+    // keep annotations
     removeAllChildren(type, 2, JMember.class);
   }
 }

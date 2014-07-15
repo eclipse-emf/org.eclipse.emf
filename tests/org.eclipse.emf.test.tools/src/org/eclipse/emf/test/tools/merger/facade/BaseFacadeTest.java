@@ -4,29 +4,32 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.tools.merger.facade;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.util.Hashtable;
-
-import junit.framework.TestCase;
-
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
 import org.eclipse.emf.codegen.merge.java.facade.JNode;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.tools.AllSuites;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
+import org.junit.Before;
 
-
-public class BaseFacadeTest extends TestCase
+public class BaseFacadeTest
 {
+  protected String name;
+
   protected String baseDataDirectory = "data" + File.separator + "facade.ast";
 
   protected String testDirectoryName = getClass().getSimpleName();
@@ -38,14 +41,15 @@ public class BaseFacadeTest extends TestCase
   protected File compilationUnitFile;
   protected JCompilationUnit compilationUnit;
 
-  protected static enum Operation {
+  protected static enum Operation
+  {
     ADD,
     REMOVE
   }
 
   /**
    * Initializes attributes from another test.
-   * 
+   *
    * @param anotherTest
    */
   public BaseFacadeTest(BaseFacadeTest anotherTest)
@@ -53,17 +57,25 @@ public class BaseFacadeTest extends TestCase
     this.facadeHelper = anotherTest.facadeHelper;
     this.compilationUnit = anotherTest.compilationUnit;
   }
-  
+
   public BaseFacadeTest()
   {
     super();
   }
-  
-  @Override
-  protected void setUp() throws Exception
+
+  public String getName()
   {
-    super.setUp();
-    
+    return name;
+  }
+
+  public void setName(String name)
+  {
+    this.name = name;
+  }
+
+  @Before
+  public void setUp() throws Exception
+  {
     adjustJavaCoreOptions();
 
     facadeHelper = instanciateFacadeHelper();
@@ -86,28 +98,22 @@ public class BaseFacadeTest extends TestCase
     return new org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper();
   }
 
-  protected void rewriteAndCompare()
-  {
-    // default name is the name of the test method with capitalized first letter
-    rewriteAndCompare(getName().substring(0, 1).toUpperCase() + getName().substring(1) + ".java");
-  }
-
   @SuppressWarnings({"unchecked", "rawtypes"})
   protected void adjustJavaCoreOptions()
   {
     Hashtable options = JavaCore.getDefaultOptions();
-    
+
     options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_5);
     options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
     options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE, "2");
     options.put(DefaultCodeFormatterConstants.FORMATTER_INDENTATION_SIZE, "2");
-    
+
     JavaCore.setOptions(options);
   }
 
   protected void rewriteAndCompare(String expectedOutputFileName)
   {
-    File outputFile = new File(compilationUnitFile.getParentFile(), expectedOutputFileName);
+    File outputFile = new File(compilationUnitFile.getParentFile(), expectedOutputFileName + ".java");
     assertTrue("Output file " + outputFile.getAbsolutePath() + " can not be read.", outputFile.isFile());
 
     String content = TestUtil.readFile(outputFile, false);
@@ -118,12 +124,12 @@ public class BaseFacadeTest extends TestCase
   {
     testNoChildren(parentNode, noChildren, JNode.class);
   }
-  
+
   protected void testNoChildren(JNode parentNode, int noChildren, Class<? extends JNode> childrenClass)
   {
     assertEquals("Number of children of " + parentNode.getClass().getSimpleName() + " does not match", noChildren, facadeHelper.getChildren(parentNode, childrenClass).size());
   }
-  
+
   protected int updateNoChildren(JNode parentNode, JNode node, Operation operation, int noChildrenBefore)
   {
     return updateNoChildren(parentNode, node, operation, noChildrenBefore, JNode.class);
@@ -149,7 +155,7 @@ public class BaseFacadeTest extends TestCase
           "Children must contain added " + node.getClass().getSimpleName(),
           facadeHelper.getChildren(parentNode, childrenClass).contains(node));
         break;
-        
+
       case REMOVE:
         noChildrenBefore--;
 
@@ -189,7 +195,7 @@ public class BaseFacadeTest extends TestCase
       0,
       facadeHelper.getChildren(node, childrenClass).size());
   }
-  
+
   protected int insertSibling(JNode node, JNode newSibling, boolean before, int noChildrenBefore)
   {
     JNode parent = node.getParent();
@@ -197,19 +203,19 @@ public class BaseFacadeTest extends TestCase
     assertFalse("Repeated insertSibling() on " + newSibling.getClass().getSimpleName() + " returned true", facadeHelper.insertSibling(node, newSibling, before));
     return updateNoChildren(parent, newSibling, Operation.ADD, noChildrenBefore);
   }
-  
+
   protected int addChild(JNode node, JNode child, int noChildrenBefore)
   {
     assertTrue("addChild() on " + child.getClass().getSimpleName() + " returned false", facadeHelper.addChild(node, child));
     assertFalse("Repeated addChild() on " + child.getClass().getSimpleName() + " returned true", facadeHelper.addChild(node, child));
     return updateNoChildren(node, child, Operation.ADD, noChildrenBefore);
-  }  
-  
+  }
+
   protected int remove(JNode node, int noChildrenBefore)
   {
     JNode parent = node.getParent();
     assertTrue("remove() on " + node.getClass().getSimpleName() + " returned false", facadeHelper.remove(node));
     assertFalse("Repeated remove() on " + node.getClass().getSimpleName() + " returned true", facadeHelper.remove(node));
     return updateNoChildren(parent, node, Operation.REMOVE, noChildrenBefore);
-  }   
+  }
 }

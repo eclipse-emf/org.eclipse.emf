@@ -10,6 +10,11 @@
  */
 package org.eclipse.emf.test.edit.command;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
@@ -28,10 +33,8 @@ import org.eclipse.emf.test.models.ref.E;
 import org.eclipse.emf.test.models.ref.RefFactory;
 import org.eclipse.emf.test.models.ref.RefPackage;
 import org.eclipse.emf.test.models.ref.provider.RefItemProviderAdapterFactory;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for SetCommand.
@@ -39,37 +42,11 @@ import junit.framework.TestSuite;
  * command may be returned.  In each case, the model is built, the command is created, executed, undone, and redone.
  * The state of the model and the executability/undoability/redoability of the command are tested between each step.
  */
-public class SetCommandTest extends TestCase
+public class SetCommandTest
 {
-  public SetCommandTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite suite = new TestSuite("SetCommandTest");
-    suite.addTest(new SetCommandTest("testDuplicate"));
-    suite.addTest(new SetCommandTest("testDuplicateInUniqueAttribute"));
-    suite.addTest(new SetCommandTest("testDuplicateInAttribute"));
-    suite.addTest(new SetCommandTest("testManyToManySimple"));
-    suite.addTest(new SetCommandTest("testManyToMany"));
-    suite.addTest(new SetCommandTest("testManyToManyNonUndoable"));
-    suite.addTest(new SetCommandTest("testOneToManyStayNull"));
-    suite.addTest(new SetCommandTest("testOneToManyNull"));
-    suite.addTest(new SetCommandTest("testOneToManySimple"));
-    suite.addTest(new SetCommandTest("testOneToMany"));
-    suite.addTest(new SetCommandTest("testManyToOneSimple"));
-    suite.addTest(new SetCommandTest("testManyToOne"));
-    suite.addTest(new SetCommandTest("testOneToOneSimple"));
-    suite.addTest(new SetCommandTest("testOneToOne"));
-    suite.addTest(new SetCommandTest("testManyStayEmpty"));
-    return suite;
-  }
-
   /**
    * The Ref test package, which includes all the various combinations of bidirectionality, multiplicity, and
-   * containment in references.   
+   * containment in references.
    */
   protected RefPackage refPackage;
 
@@ -83,17 +60,18 @@ public class SetCommandTest extends TestCase
    */
   protected EditingDomain editingDomain;
 
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     refPackage = RefPackage.eINSTANCE;
     refFactory = refPackage.getRefFactory();
-    
+
     AdapterFactory adapterFactory = new RefItemProviderAdapterFactory();
     CommandStack commandStack = new BasicCommandStack();
     editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack);
   }
 
+  @Test
   public void testDuplicate()
   {
     C c = refFactory.createC();
@@ -111,6 +89,7 @@ public class SetCommandTest extends TestCase
     assertFalse(set.canExecute());
   }
 
+  @Test
   public void testDuplicateInUniqueAttribute()
   {
     E e = refFactory.createE();
@@ -128,6 +107,7 @@ public class SetCommandTest extends TestCase
     assertFalse(set.canExecute());
   }
 
+  @Test
   public void testDuplicateInAttribute()
   {
     E e = refFactory.createE();
@@ -162,7 +142,8 @@ public class SetCommandTest extends TestCase
     assertEquals(s2, labels.get(0));
     assertTrue(stack.canUndo());
   }
-  
+
+  @Test
   public void testManyToManySimple()
   {
     D d0 = refFactory.createD();
@@ -210,6 +191,7 @@ public class SetCommandTest extends TestCase
     assertEquals(e1, d1.getE().get(0));
   }
 
+  @Test
   public void testManyToMany()
   {
     D d0 = refFactory.createD();
@@ -255,6 +237,7 @@ public class SetCommandTest extends TestCase
     assertEquals(e2, d1.getE().get(0));
   }
 
+  @Test
   public void testManyToManyNonUndoable()
   {
     D d0 = refFactory.createD();
@@ -284,7 +267,7 @@ public class SetCommandTest extends TestCase
     assertEquals(1, e1.getD().size());
     assertEquals(d1, e1.getD().get(0));
     assertEquals(e1, d1.getE().get(0));
-    
+
     assertTrue(stack.canUndo());
     stack.undo();
     assertEquals(e1, d0.getE().get(1));
@@ -292,6 +275,7 @@ public class SetCommandTest extends TestCase
     assertTrue(e3.getD().isEmpty());
   }
 
+  @Test
   public void testOneToManyStayNull()
   {
     D d0 = refFactory.createD();
@@ -316,6 +300,7 @@ public class SetCommandTest extends TestCase
     assertNull(d0.getC());
   }
 
+  @Test
   public void testOneToManyNull()
   {
     D d0 = refFactory.createD();
@@ -352,6 +337,7 @@ public class SetCommandTest extends TestCase
     assertEquals(d2, c0.getD().get(1));
   }
 
+  @Test
   public void testOneToManySimple()
   {
     D d0 = refFactory.createD();
@@ -380,11 +366,12 @@ public class SetCommandTest extends TestCase
     assertTrue(set.canExecute());
 
     stack.redo();
-    
+
     assertEquals(c0, d1.getC());
     assertEquals(d1, c0.getD().get(1));
   }
 
+  @Test
   public void testOneToMany()
   {
     D d0 = refFactory.createD();
@@ -424,6 +411,7 @@ public class SetCommandTest extends TestCase
     assertEquals(d1, c0.getD().get(0));
   }
 
+  @Test
   public void testManyToOneSimple()
   {
     C c0 = refFactory.createC();
@@ -465,6 +453,7 @@ public class SetCommandTest extends TestCase
     assertNull(d1.getC());
   }
 
+  @Test
   public void testManyToOne()
   {
     C c0 = refFactory.createC();
@@ -514,7 +503,8 @@ public class SetCommandTest extends TestCase
     assertNull(d1.getC());
     assertEquals(d4, c1.getD().get(0));
   }
-  
+
+  @Test
   public void testOneToOneSimple()
   {
     A a0 = refFactory.createA();
@@ -552,6 +542,7 @@ public class SetCommandTest extends TestCase
     assertNull(b0.getA());
   }
 
+  @Test
   public void testOneToOne()
   {
     A a0 = refFactory.createA();
@@ -595,6 +586,7 @@ public class SetCommandTest extends TestCase
     assertNull(b0.getA());
   }
 
+  @Test
   public void testManyStayEmpty()
   {
     B b = refFactory.createB();
@@ -635,14 +627,14 @@ public class SetCommandTest extends TestCase
     d2.getE().add(e1);
 
     Command remove = RemoveCommand.create(editingDomain, d1, refPackage.getD_E(), e1);
-    
+
     assertEquals(e1, d1.getE().get(0));
     assertEquals(d1, e1.getD().get(0));
     assertTrue(remove.canExecute());
 
     CommandStack stack = editingDomain.getCommandStack();
     stack.execute(remove);
-    
+
     assertEquals(e2, d1.getE().get(0));
     assertEquals(d2, e1.getD().get(0));
     assertTrue(stack.canUndo());

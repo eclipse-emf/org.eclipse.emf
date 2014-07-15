@@ -11,13 +11,13 @@
 package org.eclipse.emf.test.core.ecore;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
@@ -32,9 +32,12 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 
-public class ResourceAttachmentTest extends TestCase
+public class ResourceAttachmentTest
 {
   private EPackage compositePackage;
   private EClass compositeClass;
@@ -44,7 +47,7 @@ public class ResourceAttachmentTest extends TestCase
   static class AttachmentTrackingResourceImpl extends ResourceImpl
   {
     public Set<EObject> attachedEObjects = new HashSet<EObject>();
-    
+
     @Override
     protected boolean isAttachedDetachedHelperRequired()
     {
@@ -66,7 +69,7 @@ public class ResourceAttachmentTest extends TestCase
     public void detachedHelper(EObject eObject)
     {
       super.detachedHelper(eObject);
-      
+
       // Ensure that an object is only detached once.
       //
       boolean result = attachedEObjects.remove(eObject);
@@ -74,27 +77,8 @@ public class ResourceAttachmentTest extends TestCase
     }
   }
 
-  public ResourceAttachmentTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite(ResourceAttachmentTest.class.getSimpleName());
-    ts.addTest(new ResourceAttachmentTest("testPackage"));
-    ts.addTest(new ResourceAttachmentTest("testSimpleAttachAndDetach"));
-    ts.addTest(new ResourceAttachmentTest("testSimpleCrossResourceAttachAndDetach"));
-    ts.addTest(new ResourceAttachmentTest("testIndirectAttachAndDetach"));
-    ts.addTest(new ResourceAttachmentTest("testIndirectCrossResourceAttachAndDetach"));
-    return ts;
-  }
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     EcoreFactory ecoreFactory = EcoreFactory.eINSTANCE;
     EcorePackage ecorePackage = EcorePackage.eINSTANCE;
@@ -122,11 +106,8 @@ public class ResourceAttachmentTest extends TestCase
     EPackage.Registry.INSTANCE.put(compositePackage.getNsURI(), compositePackage);
   }
 
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
-  @Override
-  protected void tearDown() throws Exception
+  @After
+  public void tearDown() throws Exception
   {
     EPackage.Registry.INSTANCE.remove(compositePackage.getNsURI());
     compositeClass = null;
@@ -135,11 +116,13 @@ public class ResourceAttachmentTest extends TestCase
     compositePackage = null;
   }
 
+  @Test
   public void testPackage()
   {
     assertEquals(Diagnostician.INSTANCE.validate(compositePackage).getSeverity(), Diagnostic.OK);
   }
-  
+
+  @Test
   public void testSimpleAttachAndDetach()
   {
     AttachmentTrackingResourceImpl resource1 = new AttachmentTrackingResourceImpl();
@@ -156,6 +139,7 @@ public class ResourceAttachmentTest extends TestCase
     assertFalse(resource1.attachedEObjects.contains(composite1));
   }
 
+  @Test
   public void testIndirectAttachAndDetach()
   {
     AttachmentTrackingResourceImpl resource1 = new AttachmentTrackingResourceImpl();
@@ -163,35 +147,36 @@ public class ResourceAttachmentTest extends TestCase
     @SuppressWarnings("unchecked")
     List<EObject> children = (List<EObject>)composite1.eGet(compositeChildren);
     EObject composite2 = EcoreUtil.create(compositeClass);
-    
+
     // Adding an object to the resource and a contained child to that object will attach them both.
     //
     resource1.getContents().add(composite1);
     children.add(composite2);
     assertTrue(resource1.attachedEObjects.contains(composite1));
     assertTrue(resource1.attachedEObjects.contains(composite2));
-    
+
     // Removing a child from a parent and removing the parent from the resource will detach them both.
-    // 
+    //
     children.remove(composite2);
     assertFalse(resource1.attachedEObjects.contains(composite2));
     resource1.getContents().remove(composite1);
     assertFalse(resource1.attachedEObjects.contains(composite1));
-    
+
     // Adding an object with an existing contained child will attach them both.
-    // 
+    //
     children.add(composite2);
     resource1.getContents().add(composite1);
     assertTrue(resource1.attachedEObjects.contains(composite1));
     assertTrue(resource1.attachedEObjects.contains(composite2));
 
     // Removing an object with an existing contained child will detach them both.
-    // 
+    //
     resource1.getContents().remove(composite1);
     assertFalse(resource1.attachedEObjects.contains(composite1));
     assertFalse(resource1.attachedEObjects.contains(composite2));
   }
 
+  @Test
   public void testSimpleCrossResourceAttachAndDetach()
   {
     AttachmentTrackingResourceImpl resource1 = new AttachmentTrackingResourceImpl();
@@ -210,6 +195,7 @@ public class ResourceAttachmentTest extends TestCase
     assertTrue(resource2.attachedEObjects.contains(composite1));
   }
 
+  @Test
   public void testIndirectCrossResourceAttachAndDetach()
   {
     AttachmentTrackingResourceImpl resource1 = new AttachmentTrackingResourceImpl();
@@ -220,22 +206,22 @@ public class ResourceAttachmentTest extends TestCase
     @SuppressWarnings("unchecked")
     List<EObject> children = (List<EObject>)composite1.eGet(compositeChildren);
     EObject composite2 = EcoreUtil.create(compositeClass);
-    
+
     // Adding an object to the resource and a contained child to that object will attach them both.
     //
     resource1.getContents().add(composite1);
     children.add(composite2);
     assertTrue(resource1.attachedEObjects.contains(composite1));
     assertTrue(resource1.attachedEObjects.contains(composite2));
-    
+
     // Directly adding an object with a contained child to a different resource will detach both from the old one and attach both to the new one.
-    // 
+    //
     resource2.getContents().add(composite1);
     assertFalse(resource1.attachedEObjects.contains(composite1));
     assertFalse(resource1.attachedEObjects.contains(composite2));
     assertTrue(resource2.attachedEObjects.contains(composite1));
     assertTrue(resource2.attachedEObjects.contains(composite2));
-    
+
     // Moving it back does the expected thing too.
     //
     resource1.getContents().add(composite1);
@@ -245,23 +231,23 @@ public class ResourceAttachmentTest extends TestCase
     assertFalse(resource2.attachedEObjects.contains(composite2));
 
     // Adding a proxy resolving contained child to a different resource will detach it from the old one and attach it to the new one.
-    // 
+    //
     resource2.getContents().add(composite2);
     assertFalse(resource1.attachedEObjects.contains(composite2));
     assertTrue(resource2.attachedEObjects.contains(composite2));
 
     // Removing a proxy resolving contained child from a different resource will detach it from the old one and attach it to the one for the container.
-    // 
+    //
     resource2.getContents().remove(composite2);
     assertFalse(resource2.attachedEObjects.contains(composite2));
     assertTrue(resource1.attachedEObjects.contains(composite2));
-    
+
     // Add it back in again.
     //
     resource2.getContents().add(composite2);
     assertFalse(resource1.attachedEObjects.contains(composite2));
     assertTrue(resource2.attachedEObjects.contains(composite2));
-    
+
     // Remove it by unloading.
     //
     resource2.unload();

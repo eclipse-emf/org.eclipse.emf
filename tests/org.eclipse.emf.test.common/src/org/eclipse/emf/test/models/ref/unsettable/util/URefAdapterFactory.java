@@ -12,12 +12,18 @@ package org.eclipse.emf.test.models.ref.unsettable.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.ref.unsettable.*;
+import org.eclipse.emf.test.models.ref.unsettable.AU;
+import org.eclipse.emf.test.models.ref.unsettable.BU;
+import org.eclipse.emf.test.models.ref.unsettable.C1U;
+import org.eclipse.emf.test.models.ref.unsettable.C2U;
+import org.eclipse.emf.test.models.ref.unsettable.C3U;
+import org.eclipse.emf.test.models.ref.unsettable.C4U;
+import org.eclipse.emf.test.models.ref.unsettable.CU;
+import org.eclipse.emf.test.models.ref.unsettable.DU;
+import org.eclipse.emf.test.models.ref.unsettable.EU;
+import org.eclipse.emf.test.models.ref.unsettable.URefPackage;
 
 /**
  * <!-- begin-user-doc -->

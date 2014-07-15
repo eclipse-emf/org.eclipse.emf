@@ -18,16 +18,12 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EValidator;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
 import org.eclipse.emf.test.models.qname.DocumentRoot;
 import org.eclipse.emf.test.models.qname.QNameFactory;
 import org.eclipse.emf.test.models.qname.QNamePackage;
 import org.eclipse.emf.test.models.qname.ResourceType;
-
 import org.eclipse.emf.test.models.qname.util.QNameValidator;
 
 /**

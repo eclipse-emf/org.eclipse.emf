@@ -13,11 +13,8 @@ package org.eclipse.emf.test.models.movie.db;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.ecore.util.FeatureMap;
-
 import org.eclipse.emf.test.models.customer.CustomerType;
 
 /**

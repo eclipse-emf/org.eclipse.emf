@@ -4,25 +4,28 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.tools.merger;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
-
-import junit.framework.ComparisonFailure;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
@@ -35,6 +38,11 @@ import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.tools.AllSuites;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
+import org.junit.Before;
+import org.junit.ComparisonFailure;
+import org.junit.Test;
 
 
 /**
@@ -50,31 +58,18 @@ import org.eclipse.emf.test.tools.AllSuites;
  * <p>
  * Merge rules are used from <code>merge.xml</code> file in data directory if it exists, otherwise default EMF merge rules are used.
  */
-public abstract class JMergerTest extends TestCase
+public abstract class JMergerTest
 {
   /**
-   * @param name
+   * Default root data directory containing java versions subdirectories.
+   * <p>
+   * Default is /data/merge.input
+   * @see JMergerTest#DIRECTORY_NAMES_TO_JAVA_VERSIONS
    */
-  public JMergerTest(String name)
-  {
-    super(name);
-  }
+  protected static final File DEFAULT_ROOT_DIRECTORY = new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + File.separator + "data" + File.separator + "merge.input");
 
   /**
-   * Creates and adds the test to the given test suite if possible
-   * 
-   * @param ts
-   * @param dataDirectory
-   * @see #addItself(TestSuite)
-   */
-  public JMergerTest(TestSuite ts, File dataDirectory)
-  {
-    setDataDirectory(dataDirectory);
-    addItself(ts);
-  }
-
-  /**
-   * Default name of the expected output file. 
+   * Default name of the expected output file.
    */
   public static final String DEFAULT_EXPECTED_OUTPUT_FILENAME = "MergerExpected.java";
 
@@ -91,9 +86,14 @@ public abstract class JMergerTest extends TestCase
     DIRECTORY_NAMES_TO_JAVA_VERSIONS = Collections.unmodifiableMap(directoryNamesMap);
   }
 
+  public static Collection<Object[]> parameters(String prefix)
+  {
+    return populateSuite(prefix);
+  }
+
   /**
    * Verifies that target contents matches the contents of expected output file.
-   * 
+   *
    * @param expectedOutput
    * @param targetContents
    */
@@ -129,7 +129,6 @@ public abstract class JMergerTest extends TestCase
       else
       {
         throw exception;
-        
       }
     }
   }
@@ -152,6 +151,11 @@ public abstract class JMergerTest extends TestCase
 
   protected File target = null;
 
+  public JMergerTest(File dataDirectory)
+  {
+    this.dataDirectory = dataDirectory;
+  }
+
   /**
    * @param javaVersion (one of {@link JavaCore#VERSION_1_1} to {@link JavaCore#VERSION_1_6}
    */
@@ -165,7 +169,7 @@ public abstract class JMergerTest extends TestCase
 
   /**
    * Adjusts JavaCore source compatibility options based on {@link #computeJavaVersion()}.
-   * 
+   *
    * @see #adjustSourceCompatibility(String)
    */
   protected void adjustSourceCompatibility()
@@ -183,7 +187,12 @@ public abstract class JMergerTest extends TestCase
    */
   protected String computeJavaVersion()
   {
-    File parentDirectory = dataDirectory.getParentFile();
+    return computeJavaVersion(dataDirectory);
+  }
+
+  protected static String computeJavaVersion(File directory)
+  {
+    File parentDirectory = directory;
     String javaVersion = null;
     do
     {
@@ -207,7 +216,7 @@ public abstract class JMergerTest extends TestCase
     }
     else
     {
-      return new File(getDataDirectory(), DEFAULT_EXPECTED_OUTPUT_FILENAME).getAbsoluteFile();
+      return new File(dataDirectory, DEFAULT_EXPECTED_OUTPUT_FILENAME).getAbsoluteFile();
     }
   }
 
@@ -254,20 +263,6 @@ public abstract class JMergerTest extends TestCase
   }
 
   /**
-   * Default directory is in the form <code>data/merge.input/special.&lt;testname&gt;</code>
-   * 
-   * @return default data directory to use if data directory not set 
-   */
-  protected File getDefaultDataDirectory()
-  {
-    StringBuilder sb = new StringBuilder(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID));
-    sb.append(File.separator).append("data");
-    sb.append(File.separator).append("merge.input");
-    sb.append(File.separator).append("special.").append(getName());
-    return new File(sb.toString());
-  }
-
-  /**
    * @return URI of EMF merge rules resource
    */
   protected String getEMFMergeRulesURI()
@@ -282,18 +277,6 @@ public abstract class JMergerTest extends TestCase
 
     // get merge rules URI
     return adapterFactory.getGenerator().getOptions().mergeRulesURI;
-  }
-
-  /**
-   * @return the dataDirectory
-   */
-  public File getDataDirectory()
-  {
-    if (dataDirectory == null)
-    {
-      dataDirectory = getDefaultDataDirectory();
-    }
-    return dataDirectory;
   }
 
   /**
@@ -313,14 +296,6 @@ public abstract class JMergerTest extends TestCase
   }
 
   /**
-   * @param dataDirectory the dataDirectory to set
-   */
-  public void setDataDirectory(File dataDirectory)
-  {
-    this.dataDirectory = dataDirectory;
-  }
-
-  /**
    * @param expectedOutput the expectedOutput to set
    */
   public void setExpectedOutput(File expectedOutput)
@@ -337,7 +312,7 @@ public abstract class JMergerTest extends TestCase
   }
 
   /**
-   * Tests whether the facade helper is of correct type 
+   * Tests whether the facade helper is of correct type
    * @param facadeHelper
    */
   protected abstract void instanceTest(FacadeHelper facadeHelper);
@@ -348,29 +323,15 @@ public abstract class JMergerTest extends TestCase
   protected abstract FacadeHelper instanciateFacadeHelper();
 
   /**
-   * Adds itself to the test suite if expected output file returned by {@link #computeExpectedOutputFile()} exists.
-   * 
-   * @param ts
-   */
-  public void addItself(TestSuite ts)
-  {
-    File expectedOutput = computeExpectedOutputFile();
-    if (expectedOutput.exists())
-    {
-      setExpectedOutput(expectedOutput);
-      ts.addTest(this);
-    }
-  }
-
-  /**
-   * Perform and verify merge. To be used in merge tests by subclasses. 
+   * Perform and verify merge. To be used in merge tests by subclasses.
    * <b>
    * Before performing merge, java compiler source version is set based on data directory.
-   * 
-   * @throws Exception 
+   *
+   * @throws Exception
    * @see #adjustSourceCompatibility()
    */
-  protected void merge() throws Exception
+  @Test
+  public void merge() throws Exception
   {
     adjustSourceCompatibility();
     verifyMerge(expectedOutput, mergeFiles());
@@ -419,17 +380,14 @@ public abstract class JMergerTest extends TestCase
    * Sets up data directory, source, target, expected output, and merge rules attributes.
    * <p>
    * If <code>merge.xml</code> is not available in data directory, default EMF merge rules are used.
-   * 
+   *
    * @see #getDataDirectory()
    * @see #computeExpectedOutputFile()
    * @see #getEMFMergeRulesURI()
-   * 
-   * @see junit.framework.TestCase#setUp()
    */
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
-    File dataDirectory = getDataDirectory();
     assertTrue("Merge Data directory is not available - " + dataDirectory.getAbsolutePath(), dataDirectory.isDirectory());
 
     if (mergeRulesURI == null)
@@ -455,5 +413,103 @@ public abstract class JMergerTest extends TestCase
       expectedOutput = computeExpectedOutputFile();
     }
     assertTrue("Merge Result file is not available - " + expectedOutput.getAbsolutePath(), expectedOutput.isFile());
+  }
+
+  /**
+   * Filter for the directories that will be used as data directories for tests.
+   */
+  protected static class JMergerDataDirectoryFilter implements FilenameFilter
+  {
+    protected static final Pattern EXCLUDE_DATA_DIRECTORY_NAME_PATTERN = Pattern.compile("^(?:CVS)|(?:\\..*)$");
+    protected static final Pattern INCLUDE_DATA_DIRECTORY_NAME_PATTERN = Pattern.compile(".*");
+    // use something like this line to restrict the test
+    // protected static final Pattern INCLUDE_DATA_DIRECTORY_NAME_PATTERN = Pattern.compile("(bugzilla|178183)");
+
+    public boolean accept(File dir, String name)
+    {
+      // must be a directory and must match the pattern
+      File dataDirectoryCandidate = new File(dir, name);
+      return dataDirectoryCandidate.isDirectory() &&
+        !EXCLUDE_DATA_DIRECTORY_NAME_PATTERN.matcher(name).matches() &&
+        INCLUDE_DATA_DIRECTORY_NAME_PATTERN.matcher(name).matches();
+    }
+  }
+
+  private static final FilenameFilter FILTER = new JMergerDataDirectoryFilter();
+
+  /**
+   * Populates suite with test cases for each data directory.
+   * @param prefix
+   */
+  private static Collection<Object[]> populateSuite(String prefix)
+  {
+    assertTrue("Directory " + DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + " does not exist.", DEFAULT_ROOT_DIRECTORY.exists());
+    assertTrue("Directory " + DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + " is not a directory.", DEFAULT_ROOT_DIRECTORY.isDirectory());
+
+    Collection<Object[]> tests = new ArrayList<Object[]>();
+    // Loop for all directories of all java versions.
+    for (String javaVersionDirectoryName : JMergerTest.DIRECTORY_NAMES_TO_JAVA_VERSIONS.keySet())
+    {
+      File dataDirsDirectory = new File(DEFAULT_ROOT_DIRECTORY, javaVersionDirectoryName);
+      if (dataDirsDirectory.isDirectory())
+      {
+        createTestSuiteRecursively(prefix, tests, dataDirsDirectory, "");
+      }
+    }
+
+    assertFalse("Subdirectories " + JMergerTest.DIRECTORY_NAMES_TO_JAVA_VERSIONS.keySet().toString() + " under "
+      + DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + " must contain subdirectories with source, target and output files.", tests.isEmpty());
+
+    return tests;
+  }
+
+  /**
+   * Creates a test suite recursively for all directories in the directory tree.
+   * Directories used as input must be accepted by {@link JMergerDataDirectoryFilter}.
+   * @param prefix
+   * @param rootDirectory root directory to create test suite for
+   * @return resulting test suite
+   */
+  private static void createTestSuiteRecursively(String prefix, Collection<Object[]> result, File rootDirectory, String subDirectory)
+  {
+    // If there are no test cases for this directory, try to create test suites from subdirectories.
+    Object[] test = createSingleInputTestSuite(prefix, rootDirectory, subDirectory);
+    if (test == null)
+    {
+      String[] dataDirectoriesNames = new File(rootDirectory, subDirectory).list(FILTER);
+      if (dataDirectoriesNames.length > 0)
+      {
+        Arrays.sort(dataDirectoriesNames);
+        for (String dataDirectoryName : dataDirectoriesNames)
+        {
+          String subSubDirectory = subDirectory.length() == 0 ? dataDirectoryName : subDirectory + "/" + dataDirectoryName;
+          File dataDirectory = new File(rootDirectory, subSubDirectory);
+          if (!prefix.equals("JDOM") || !"1.5".equals(computeJavaVersion(dataDirectory)))
+          {
+            createTestSuiteRecursively(prefix, result, rootDirectory, subSubDirectory);
+          }
+        }
+      }
+    }
+    else
+    {
+      result.add(test);
+    }
+  }
+
+  /**
+   * Creates and returns test suite for a single input directory, or null if it's not appropriate for the prefix.
+   */
+  private static Object[] createSingleInputTestSuite(String prefix, File rootDirectory, String subDirectory)
+  {
+    File dataDirectory = new File(rootDirectory, subDirectory);
+    if (new File(dataDirectory, "MergerExpected.java").isFile() || new File(dataDirectory, prefix + "MergerExpected.java").isFile())
+    {
+      return new Object[] { subDirectory, dataDirectory };
+    }
+    else
+    {
+      return null;
+    }
   }
 }

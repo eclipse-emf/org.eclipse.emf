@@ -13,12 +13,12 @@ package org.eclipse.emf.test.models.switch2.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.test.models.switch2.*;
+import org.eclipse.emf.test.models.switch2.EClass2;
+import org.eclipse.emf.test.models.switch2.EClass3;
+import org.eclipse.emf.test.models.switch2.Switch2Factory;
+import org.eclipse.emf.test.models.switch2.Switch2Package;
 
 /**
  * <!-- begin-user-doc -->

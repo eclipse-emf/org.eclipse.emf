@@ -10,12 +10,13 @@
  */
 package org.eclipse.emf.test.edit.command;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Arrays;
 import java.util.List;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
@@ -47,54 +48,19 @@ import org.eclipse.emf.test.models.ref.unsettable.EU;
 import org.eclipse.emf.test.models.ref.unsettable.URefFactory;
 import org.eclipse.emf.test.models.ref.unsettable.URefPackage;
 import org.eclipse.emf.test.models.ref.unsettable.provider.URefItemProviderAdapterFactory;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for unsetting use of SetCommand.  In each case, the model is built, the command is created, executed, undone,
  * and redone. The state of the model and the executability/undoability/redoability of the command are tested between
  * each step.
  */
-public class UnsetCommandTest extends TestCase
+public class UnsetCommandTest
 {
-  public UnsetCommandTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite suite = new TestSuite("UnsetCommandTest");
-    suite.addTest(new UnsetCommandTest("testAttribute1"));
-    suite.addTest(new UnsetCommandTest("testNullAttribute1"));
-    suite.addTest(new UnsetCommandTest("testAttributeMany"));
-    suite.addTest(new UnsetCommandTest("testEmptyAttributeMany"));
-    suite.addTest(new UnsetCommandTest("testUnsettableAttribute1"));
-    suite.addTest(new UnsetCommandTest("testUnsetUnsettableAttribute1"));
-    suite.addTest(new UnsetCommandTest("testNullUnsettableAttribute1"));
-    suite.addTest(new UnsetCommandTest("testUnsettableAttributeMany"));
-    suite.addTest(new UnsetCommandTest("testUnsetUnsettableAttributeMany"));
-    suite.addTest(new UnsetCommandTest("testEmptyUnsettableAttributeMany"));
-    suite.addTest(new UnsetCommandTest("testContainment1"));
-    suite.addTest(new UnsetCommandTest("testNullContainment1"));
-    suite.addTest(new UnsetCommandTest("testContainmentMany"));
-    suite.addTest(new UnsetCommandTest("testEmptyContainmentMany"));
-    suite.addTest(new UnsetCommandTest("testUnsettableContainment1"));
-    suite.addTest(new UnsetCommandTest("testUnsetUnsettableContainment1"));
-    suite.addTest(new UnsetCommandTest("testNullUnsettableContainment1"));
-    suite.addTest(new UnsetCommandTest("testUnsettableContainmentMany"));
-    suite.addTest(new UnsetCommandTest("testEmptyUnsettableContainmentMany"));
-    suite.addTest(new UnsetCommandTest("testUnsetUnsettableContainmentMany"));
-    suite.addTest(new UnsetCommandTest("testReference1ToMany"));
-    suite.addTest(new UnsetCommandTest("testNullReference1ToMany"));
-    suite.addTest(new UnsetCommandTest("testUnsettableReference1ToMany"));
-    suite.addTest(new UnsetCommandTest("testUnsetUnsettableReference1ToMany"));
-    suite.addTest(new UnsetCommandTest("testNullUnsettableReference1ToMany"));
-    suite.addTest(new UnsetCommandTest("testInUnsettableMany"));
-    return suite;
-  }
-
   /**
    * The Ref test package, which includes all the various combinations of bidirectionality, multiplicity, and
-   * containment in references.   
+   * containment in references.
    */
   protected RefPackage refPackage;
 
@@ -118,8 +84,8 @@ public class UnsetCommandTest extends TestCase
    */
   protected EditingDomain editingDomain;
 
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     refPackage = RefPackage.eINSTANCE;
     refFactory = refPackage.getRefFactory();
@@ -133,6 +99,7 @@ public class UnsetCommandTest extends TestCase
     editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack);
   }
 
+  @Test
   public void testAttribute1()
   {
     E e = refFactory.createE();
@@ -163,7 +130,8 @@ public class UnsetCommandTest extends TestCase
     assertFalse(e.eIsSet(feature));
     assertEquals(null, e.getName());
   }
-  
+
+  @Test
   public void testNullAttribute1()
   {
     E e = refFactory.createE();
@@ -193,33 +161,35 @@ public class UnsetCommandTest extends TestCase
     assertNull(e.getName());
   }
 
+  @Test
   public void testAttributeMany()
   {
     E e = refFactory.createE();
     String[] ids =  { "x1", "aa", "cmd", "lh" };
     e.getIds().addAll(Arrays.asList(ids));
-  
+
     EStructuralFeature feature = refPackage.getE_Ids();
     Command set = SetCommand.create(editingDomain, e, feature, SetCommand.UNSET_VALUE);
     assertFeatureSet(e, feature, ids);
     assertTrue(set.canExecute());
-  
+
     CommandStack stack = editingDomain.getCommandStack();
     stack.execute(set);
-  
+
     assertFeatureUnset(e, feature);
     assertTrue(stack.canUndo());
-  
+
     stack.undo();
-  
+
     assertFeatureSet(e, feature, ids);
     assertTrue(stack.canRedo());
-  
+
     stack.redo();
-  
+
     assertFeatureUnset(e, feature);
   }
 
+  @Test
   public void testEmptyAttributeMany()
   {
     E e = refFactory.createE();
@@ -249,6 +219,7 @@ public class UnsetCommandTest extends TestCase
     assertTrue(e.getIds().isEmpty());
   }
 
+  @Test
   public void testUnsettableAttribute1()
   {
     EU eu = uRefFactory.createEU();
@@ -279,6 +250,7 @@ public class UnsetCommandTest extends TestCase
     assertEquals(null, eu.getName());
   }
 
+  @Test
   public void testUnsetUnsettableAttribute1()
   {
     EU eu = uRefFactory.createEU();
@@ -307,6 +279,7 @@ public class UnsetCommandTest extends TestCase
     assertNull(eu.getName());
   }
 
+  @Test
   public void testNullUnsettableAttribute1()
   {
     EU eu = uRefFactory.createEU();
@@ -336,6 +309,7 @@ public class UnsetCommandTest extends TestCase
     assertNull(eu.getName());
   }
 
+  @Test
   public void testUnsettableAttributeMany()
   {
     EU eu = uRefFactory.createEU();
@@ -363,6 +337,7 @@ public class UnsetCommandTest extends TestCase
     assertFeatureUnset(eu, feature);
   }
 
+  @Test
   public void testUnsetUnsettableAttributeMany()
   {
     EU eu = uRefFactory.createEU();
@@ -388,6 +363,7 @@ public class UnsetCommandTest extends TestCase
     assertFeatureUnset(eu, feature);
   }
 
+  @Test
   public void testEmptyUnsettableAttributeMany()
   {
     EU eu = uRefFactory.createEU();
@@ -415,6 +391,7 @@ public class UnsetCommandTest extends TestCase
     assertFeatureUnset(eu, feature);
   }
 
+  @Test
   public void testContainment1()
   {
     C2 c = refFactory.createC2();
@@ -425,7 +402,7 @@ public class UnsetCommandTest extends TestCase
     Command set = SetCommand.create(editingDomain, c, feature, SetCommand.UNSET_VALUE);
     assertFeatureSet(c, feature, a);
     assertTrue(set.canExecute());
-    
+
     CommandStack stack = editingDomain.getCommandStack();
     stack.execute(set);
 
@@ -442,6 +419,7 @@ public class UnsetCommandTest extends TestCase
     assertFeatureUnset(c, feature);
   }
 
+  @Test
   public void testNullContainment1()
   {
     C2 c = refFactory.createC2();
@@ -450,7 +428,7 @@ public class UnsetCommandTest extends TestCase
     Command set = SetCommand.create(editingDomain, c, feature, SetCommand.UNSET_VALUE);
     assertFeatureUnset(c, feature);
     assertTrue(set.canExecute());
-    
+
     CommandStack stack = editingDomain.getCommandStack();
     stack.execute(set);
 
@@ -467,6 +445,7 @@ public class UnsetCommandTest extends TestCase
     assertFeatureUnset(c, feature);
   }
 
+  @Test
   public void testContainmentMany()
   {
     C2 c = refFactory.createC2();
@@ -479,7 +458,7 @@ public class UnsetCommandTest extends TestCase
     c.getB().add(b2);
 
     Object[] values = { b0, b1, b2 };
-    
+
     EStructuralFeature feature = refPackage.getC2_B();
     Command set = SetCommand.create(editingDomain, c, feature, SetCommand.UNSET_VALUE);
     assertFeatureSet(c, feature, values);
@@ -501,6 +480,7 @@ public class UnsetCommandTest extends TestCase
     assertFeatureUnset(c, feature);
   }
 
+  @Test
   public void testEmptyContainmentMany()
   {
     C2 c = refFactory.createC2();
@@ -526,6 +506,7 @@ public class UnsetCommandTest extends TestCase
     assertFeatureUnset(c, feature);
   }
 
+  @Test
   public void testUnsettableContainment1()
   {
     C2U cu = uRefFactory.createC2U();
@@ -536,7 +517,7 @@ public class UnsetCommandTest extends TestCase
     Command set = SetCommand.create(editingDomain, cu, feature, SetCommand.UNSET_VALUE);
     assertFeatureSet(cu, feature, au);
     assertTrue(set.canExecute());
-    
+
     CommandStack stack = editingDomain.getCommandStack();
     stack.execute(set);
 
@@ -553,6 +534,7 @@ public class UnsetCommandTest extends TestCase
     assertFeatureUnset(cu, feature);
   }
 
+  @Test
   public void testUnsetUnsettableContainment1()
   {
     C2U cu = uRefFactory.createC2U();
@@ -561,7 +543,7 @@ public class UnsetCommandTest extends TestCase
     Command set = SetCommand.create(editingDomain, cu, feature, SetCommand.UNSET_VALUE);
     assertFeatureUnset(cu, feature);
     assertTrue(set.canExecute());
-    
+
     CommandStack stack = editingDomain.getCommandStack();
     stack.execute(set);
 
@@ -578,6 +560,7 @@ public class UnsetCommandTest extends TestCase
     assertFeatureUnset(cu, feature);
   }
 
+  @Test
   public void testNullUnsettableContainment1()
   {
     C2U cu = uRefFactory.createC2U();
@@ -588,7 +571,7 @@ public class UnsetCommandTest extends TestCase
     Command set = SetCommand.create(editingDomain, cu, feature, SetCommand.UNSET_VALUE);
     assertFeatureSet(cu, feature, value);
     assertTrue(set.canExecute());
-    
+
     CommandStack stack = editingDomain.getCommandStack();
     stack.execute(set);
 
@@ -605,6 +588,7 @@ public class UnsetCommandTest extends TestCase
     assertFeatureUnset(cu, feature);
   }
 
+  @Test
   public void testUnsettableContainmentMany()
   {
     C2U cu = uRefFactory.createC2U();
@@ -617,7 +601,7 @@ public class UnsetCommandTest extends TestCase
     cu.getBu().add(bu2);
 
     Object[] values = { bu0, bu1, bu2 };
-    
+
     EStructuralFeature feature = uRefPackage.getC2U_Bu();
     Command set = SetCommand.create(editingDomain, cu, feature, SetCommand.UNSET_VALUE);
     assertFeatureSet(cu, feature, values);
@@ -639,6 +623,7 @@ public class UnsetCommandTest extends TestCase
     assertFeatureUnset(cu, feature);
   }
 
+  @Test
   public void testEmptyUnsettableContainmentMany()
   {
     C2U cu = uRefFactory.createC2U();
@@ -666,10 +651,11 @@ public class UnsetCommandTest extends TestCase
     assertFeatureUnset(cu, feature);
   }
 
+  @Test
   public void testUnsetUnsettableContainmentMany()
   {
     C2U cu = uRefFactory.createC2U();
-    
+
     EStructuralFeature feature = uRefPackage.getC2U_Bu();
     Command set = SetCommand.create(editingDomain, cu, feature, SetCommand.UNSET_VALUE);
     assertFeatureUnset(cu, feature);
@@ -691,6 +677,7 @@ public class UnsetCommandTest extends TestCase
     assertFeatureUnset(cu, feature);
   }
 
+  @Test
   public void testReference1ToMany()
   {
     C c = refFactory.createC();
@@ -728,6 +715,7 @@ public class UnsetCommandTest extends TestCase
     assertFeatureSet(c, opposite, dAfter);
   }
 
+  @Test
   public void testNullReference1ToMany()
   {
     D d = refFactory.createD();
@@ -753,6 +741,7 @@ public class UnsetCommandTest extends TestCase
     assertFeatureUnset(d, feature);
   }
 
+  @Test
   public void testUnsettableReference1ToMany()
   {
     CU cu = uRefFactory.createCU();
@@ -787,9 +776,10 @@ public class UnsetCommandTest extends TestCase
     stack.redo();
 
     assertFeatureUnset(du0, feature);
-    assertFeatureSet(cu, opposite, duAfter);    
+    assertFeatureSet(cu, opposite, duAfter);
   }
 
+  @Test
   public void testUnsetUnsettableReference1ToMany()
   {
     DU du = uRefFactory.createDU();
@@ -815,6 +805,7 @@ public class UnsetCommandTest extends TestCase
     assertFeatureUnset(du, feature);
   }
 
+  @Test
   public void testNullUnsettableReference1ToMany()
   {
     DU du = uRefFactory.createDU();
@@ -842,6 +833,7 @@ public class UnsetCommandTest extends TestCase
     assertFeatureUnset(du, feature);
   }
 
+  @Test
   public void testInUnsettableMany()
   {
     CU cu = uRefFactory.createCU();

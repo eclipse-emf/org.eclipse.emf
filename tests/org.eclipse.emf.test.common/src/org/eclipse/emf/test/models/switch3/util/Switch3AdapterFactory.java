@@ -12,18 +12,15 @@ package org.eclipse.emf.test.models.switch3.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.test.models.switch1.EClass0;
 import org.eclipse.emf.test.models.switch1.EClass1;
-
 import org.eclipse.emf.test.models.switch2.EClass2;
 import org.eclipse.emf.test.models.switch2.EClass3;
-
-import org.eclipse.emf.test.models.switch3.*;
+import org.eclipse.emf.test.models.switch3.EClass4;
+import org.eclipse.emf.test.models.switch3.EClass5;
+import org.eclipse.emf.test.models.switch3.Switch3Package;
 
 /**
  * <!-- begin-user-doc -->

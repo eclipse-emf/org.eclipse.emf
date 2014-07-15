@@ -11,7 +11,6 @@
 package org.eclipse.emf.test.models.dbitem;
 
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.test.models.dbprice.PenType;
 import org.eclipse.emf.test.models.dbprice.PencilType;
 

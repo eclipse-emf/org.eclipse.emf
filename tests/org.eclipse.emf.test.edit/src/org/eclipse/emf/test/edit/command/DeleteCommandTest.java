@@ -10,6 +10,11 @@
  */
 package org.eclipse.emf.test.edit.command;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -41,33 +46,15 @@ import org.eclipse.emf.test.models.tree.Node;
 import org.eclipse.emf.test.models.tree.TreeFactory;
 import org.eclipse.emf.test.models.tree.TreePackage;
 import org.eclipse.emf.test.models.tree.provider.TreeItemProviderAdapterFactory;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for DeleteCommand.  In each case, the model is built, the command is created, executed, undone, and redone.
  * The state of the model and the executability/undoability/redoability of the command are tested between each step.
  */
-public class DeleteCommandTest extends TestCase
+public class DeleteCommandTest
 {
-  public DeleteCommandTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite suite = new TestSuite("DeleteCommandTest");
-    suite.addTest(new DeleteCommandTest("testDeleteSingleObject"));
-    suite.addTest(new DeleteCommandTest("testDeleteObjectFromList"));
-    suite.addTest(new DeleteCommandTest("testDeleteObjectFromBidirectionalLists"));
-    suite.addTest(new DeleteCommandTest("testDeleteObjectsWithManyReferences"));
-    suite.addTest(new DeleteCommandTest("testDeleteObjectWithContents"));    
-    return suite;
-  }
-
   /**
    * The Ref test package.
    */
@@ -83,7 +70,7 @@ public class DeleteCommandTest extends TestCase
    */
   protected TreePackage treePackage;
 
-  
+
   /**
    * The Tree factory.
    */
@@ -95,19 +82,19 @@ public class DeleteCommandTest extends TestCase
   protected EditingDomain editingDomain;
 
   /**
-   * The resource, from the editing domain's resource set, that will contain the objects.  
+   * The resource, from the editing domain's resource set, that will contain the objects.
    */
   protected Resource resource;
 
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     refPackage = RefPackage.eINSTANCE;
     refFactory = refPackage.getRefFactory();
 
     treePackage = TreePackage.eINSTANCE;
     treeFactory = treePackage.getTreeFactory();
-    
+
     AdapterFactory adapterFactory = new ComposedAdapterFactory(new AdapterFactory[] { new RefItemProviderAdapterFactory(), new TreeItemProviderAdapterFactory() });
     CommandStack commandStack = new BasicCommandStack();
     editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack);
@@ -117,6 +104,7 @@ public class DeleteCommandTest extends TestCase
     resource = resourceSet.createResource(URI.createURI(""));
   }
 
+  @Test
   public void testDeleteSingleObject()
   {
     C1 c1 = refFactory.createC1();
@@ -166,6 +154,7 @@ public class DeleteCommandTest extends TestCase
     assertTrue(stack.canUndo());
   }
 
+  @Test
   public void testDeleteObjectFromList()
   {
     C1 c1 = refFactory.createC1();
@@ -216,9 +205,10 @@ public class DeleteCommandTest extends TestCase
     assertSame(a, c1.getA());
     assertNull(b1.getA());
     assertNull(a.getB());
-    assertTrue(stack.canUndo()); 
+    assertTrue(stack.canUndo());
   }
 
+  @Test
   public void testDeleteObjectFromBidirectionalLists()
   {
     C4 c4 = refFactory.createC4();
@@ -322,9 +312,10 @@ public class DeleteCommandTest extends TestCase
     assertEquals(1, e1.getD().size());
     assertSame(d1, e1.getD().get(0));
 
-    assertTrue(stack.canUndo()); 
+    assertTrue(stack.canUndo());
   }
 
+  @Test
   public void testDeleteObjectsWithManyReferences()
   {
     // This test is pretty complicated. Here are all the references:
@@ -345,7 +336,7 @@ public class DeleteCommandTest extends TestCase
     // References involving e3 are not affected as e3 is not in the editing domain.
     // Note that the bidirectional reference between c and d0 is retained.
 
-    
+
     C4 c4 = refFactory.createC4();
     B b = refFactory.createB();
     C c = refFactory.createC();
@@ -411,14 +402,14 @@ public class DeleteCommandTest extends TestCase
 
     assertEquals(1, e0.getD().size());
     assertSame(d0, e0.getD().get(0));
-    
+
     assertEquals(1, e1.getD().size());
     assertSame(d1, e1.getD().get(0));
-    
+
     assertEquals(2, e2.getD().size());
     assertSame(d0, e2.getD().get(0));
     assertSame(d1, e2.getD().get(1));
-    
+
     assertEquals(2, e3.getD().size());
     assertSame(d0, e3.getD().get(0));
     assertSame(d1, e3.getD().get(1));
@@ -448,13 +439,13 @@ public class DeleteCommandTest extends TestCase
     assertSame(d1, b.getD().get(0));
 
     assertEquals(0, e0.getD().size());
-    
+
     assertEquals(1, e1.getD().size());
     assertSame(d1, e1.getD().get(0));
-    
+
     assertEquals(1, e2.getD().size());
     assertSame(d1, e2.getD().get(0));
-    
+
     assertEquals(2, e3.getD().size());
     assertSame(d0, e3.getD().get(0));
     assertSame(d1, e3.getD().get(1));
@@ -492,14 +483,14 @@ public class DeleteCommandTest extends TestCase
 
     assertEquals(1, e0.getD().size());
     assertSame(d0, e0.getD().get(0));
-    
+
     assertEquals(1, e1.getD().size());
     assertSame(d1, e1.getD().get(0));
-    
+
     assertEquals(2, e2.getD().size());
     assertSame(d0, e2.getD().get(0));
     assertSame(d1, e2.getD().get(1));
-    
+
     assertEquals(2, e3.getD().size());
     assertSame(d0, e3.getD().get(0));
     assertSame(d1, e3.getD().get(1));
@@ -528,13 +519,13 @@ public class DeleteCommandTest extends TestCase
     assertSame(d1, b.getD().get(0));
 
     assertEquals(0, e0.getD().size());
-    
+
     assertEquals(1, e1.getD().size());
     assertSame(d1, e1.getD().get(0));
-    
+
     assertEquals(1, e2.getD().size());
     assertSame(d1, e2.getD().get(0));
-    
+
     assertEquals(2, e3.getD().size());
     assertSame(d0, e3.getD().get(0));
     assertSame(d1, e3.getD().get(1));
@@ -542,6 +533,7 @@ public class DeleteCommandTest extends TestCase
     assertTrue(stack.canUndo());
   }
 
+  @Test
   public void testDeleteObjectWithContents()
   {
     // n.children: [c0], c1
@@ -630,7 +622,7 @@ public class DeleteCommandTest extends TestCase
     assertTrue(delete.canExecute());
     CommandStack stack = editingDomain.getCommandStack();
     stack.execute(delete);
-    
+
     assertEquals(1, n.getChildren().size());
     assertSame(c1, n.getChildren().get(0));
 

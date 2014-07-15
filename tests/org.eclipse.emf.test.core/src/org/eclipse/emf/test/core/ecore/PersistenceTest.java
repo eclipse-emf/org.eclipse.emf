@@ -4,11 +4,17 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.core.ecore;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,10 +26,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -64,68 +66,45 @@ import org.eclipse.emf.test.models.lib.Cafeteria;
 import org.eclipse.emf.test.models.lib.LibFactory;
 import org.eclipse.emf.test.models.lib.Library;
 import org.eclipse.emf.test.models.lib.Person;
+import org.junit.Before;
+import org.junit.Test;
 
-public class PersistenceTest extends TestCase
-{  
+public class PersistenceTest
+{
   private EObject john;
   private EObject mary;
   private EObject herbie;
-  
+
   private EAttribute name;
   private EAttribute brand;
   private EReference children;
   private EReference father;
   private EReference cars;
-  
-  public PersistenceTest(String name)
-  {
-    super(name);
-  }
 
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("PersistenceTest");
-    ts.addTest(new PersistenceTest("testOneZipFile"));
-    ts.addTest(new PersistenceTest("testOneTextFile"));
-    ts.addTest(new PersistenceTest("testOneTextAndOneZipFiles"));
-    ts.addTest(new PersistenceTest("testTwoZipFiles"));
-    ts.addTest(new PersistenceTest("testTwoTextFiles"));
-    ts.addTest(new PersistenceTest("testEDataType"));
-    ts.addTest(new PersistenceTest("testCrossResourceContainment_XMLResourceUUID"));
-    ts.addTest(new PersistenceTest("testCrossResourceContainment_Dynamic_ResourceSet"));
-    ts.addTest(new PersistenceTest("testCrossResourceContainment_Static_ResourceSet"));
-    ts.addTest(new PersistenceTest("testCrossResourceContainment_RemoveChild"));
-    ts.addTest(new PersistenceTest("testPluginURINotRelative"));
-    ts.addTest(new PersistenceTest("testReferenceEcoreUsingNSURI"));
-    ts.addTest(new PersistenceTest("testCipher0"));
-    ts.addTest(new PersistenceTest("testCipher1"));
-    return ts;
-  }
-  
-  @Override
-  protected void setUp()
+  @Before
+  public void setUp()
   {
     EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
     pack.setName("pack");
     pack.setNsPrefix("pack");
     pack.setNsURI("http://mypack");
     EPackage.Registry.INSTANCE.put(pack.getNsURI(), pack);
-    
+
     EClass person = EcoreFactory.eINSTANCE.createEClass();
     pack.getEClassifiers().add(person);
     person.setName("Person");
-    
+
     name = EcoreFactory.eINSTANCE.createEAttribute();
     person.getEStructuralFeatures().add(name);
     name.setName("name");
     name.setEType(EcorePackage.Literals.ESTRING);
-    
+
     children = EcoreFactory.eINSTANCE.createEReference();
     person.getEStructuralFeatures().add(children);
     children.setName("children");
     children.setEType(person);
     children.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
-    
+
     father = EcoreFactory.eINSTANCE.createEReference();
     person.getEStructuralFeatures().add(father);
     father.setName("father");
@@ -133,11 +112,11 @@ public class PersistenceTest extends TestCase
 
     children.setEOpposite(father);
     father.setEOpposite(children);
-    
+
     EClass car = EcoreFactory.eINSTANCE.createEClass();
     pack.getEClassifiers().add(car);
     car.setName("Car");
-    
+
     brand = EcoreFactory.eINSTANCE.createEAttribute();
     car.getEStructuralFeatures().add(brand);
     brand.setName("brand");
@@ -149,32 +128,34 @@ public class PersistenceTest extends TestCase
     cars.setEType(car);
     cars.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
     cars.setContainment(true);
-    
+
     john = pack.getEFactoryInstance().create(person);
     john.eSet(name, "John");
-    
+
     mary = pack.getEFactoryInstance().create(person);
     mary.eSet(name, "Mary");
-    
+
     herbie = pack.getEFactoryInstance().create(car);
     herbie.eSet(brand, "vw");
-    
+
     @SuppressWarnings("unchecked")
     List<EObject> johnChildren = ((List<EObject>)john.eGet(children));
     johnChildren.add(mary);
     assertEquals(john, mary.eGet(father));
-    
+
     @SuppressWarnings("unchecked")
     List<EObject> johnCars = ((List<EObject>)john.eGet(cars));
     johnCars.add(herbie);
     assertEquals(john, herbie.eContainer());
   }
 
+  @Test
   public void testOneTextFile() throws Exception
   {
     oneFileTest(new XMIResourceFactoryImpl());
   }
 
+  @Test
   public void testOneZipFile() throws Exception
   {
     oneFileTest(new XMIResourceFactoryImpl()
@@ -189,11 +170,13 @@ public class PersistenceTest extends TestCase
     });
   }
 
+  @Test
   public void testTwoTextFiles() throws Exception
   {
     twoFileTest(new XMIResourceFactoryImpl(), new XMIResourceFactoryImpl());
   }
 
+  @Test
   public void testOneTextAndOneZipFiles() throws Exception
   {
     twoFileTest(new XMIResourceFactoryImpl(), new XMIResourceFactoryImpl()
@@ -207,7 +190,8 @@ public class PersistenceTest extends TestCase
       }
     });
   }
-  
+
+  @Test
   public void testTwoZipFiles() throws Exception
   {
     Resource.Factory zipResourceFactory = new XMIResourceFactoryImpl()
@@ -220,35 +204,35 @@ public class PersistenceTest extends TestCase
         return xmiResource;
       }
     };
-    
+
     twoFileTest(zipResourceFactory, zipResourceFactory);
-  }  
-  
+  }
+
   public void oneFileTest(Resource.Factory resourceFactory) throws Exception
   {
     URI uri = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/people.pep");
     new File(uri.toFileString()).delete();
 
     Resource resource = resourceFactory.createResource(uri);
-    
+
     resource.getContents().add(john);
     resource.getContents().add(mary);
-    
+
     assertEquals(resource, john.eResource());
     assertEquals(resource, mary.eResource());
-    
+
     resource.save(null);
-    
+
     ResourceSet resourceSet = new ResourceSetImpl();
      resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("pep", resourceFactory);
-    
+
     Resource loadedResource = resourceSet.getResource(uri, true);
     assertNotNull(loadedResource);
     assertEquals(2, loadedResource.getContents().size());
-    
+
     checkIsJohn(loadedResource.getContents().get(0));
     checkIsMary(loadedResource.getContents().get(1));
-    
+
     new File(uri.toFileString()).delete();
     assertFalse(new File(uri.toFileString()).exists());
   }
@@ -262,46 +246,46 @@ public class PersistenceTest extends TestCase
 
     Resource johnResource = johnResourceFactory.createResource(johnURI);
     johnResource.getContents().add(john);
-    
+
     Resource maryResource = maryResourceFactory.createResource(maryURI);
     maryResource.getContents().add(mary);
-    
+
     assertEquals(johnResource, john.eResource());
     assertEquals(maryResource, mary.eResource());
-    
+
     johnResource.save(null);
     maryResource.save(null);
-    
+
     ResourceSet resourceSet = new ResourceSetImpl();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("john", johnResourceFactory);
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("mary", maryResourceFactory);
-    
+
     Resource loadedResource = resourceSet.getResource(johnURI, true);
     assertNotNull(loadedResource);
     assertEquals(1, loadedResource.getContents().size());
-    
-    EObject eObject = loadedResource.getContents().get(0); 
+
+    EObject eObject = loadedResource.getContents().get(0);
     checkIsJohn(eObject);
     checkIsMary((EObject)((List<?>)eObject.eGet(children)).get(0));
-    
+
     resourceSet = new ResourceSetImpl();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("john", johnResourceFactory);
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("mary", maryResourceFactory);
-    
+
     loadedResource = resourceSet.getResource(maryURI, true);
     assertNotNull(loadedResource);
     assertEquals(1, loadedResource.getContents().size());
-    
-    eObject = loadedResource.getContents().get(0); 
+
+    eObject = loadedResource.getContents().get(0);
     checkIsMary(eObject);
-    checkIsJohn((EObject)eObject.eGet(father));    
-    
+    checkIsJohn((EObject)eObject.eGet(father));
+
     new File(johnURI.toFileString()).delete();
     assertFalse(new File(johnURI.toFileString()).exists());
     new File(maryURI.toFileString()).delete();
     assertFalse(new File(maryURI.toFileString()).exists());
   }
-  
+
   private void checkIsJohn(EObject person)
   {
     assertEquals(john.eGet(name), person.eGet(name));
@@ -310,14 +294,15 @@ public class PersistenceTest extends TestCase
     assertEquals(1, ((List<?>)person.eGet(cars)).size());
     assertEquals(herbie.eGet(brand), ((EObject)((List<?>)person.eGet(cars)).get(0)).eGet(brand));
   }
-  
+
   private void checkIsMary(EObject person)
   {
     assertEquals(mary.eGet(name), person.eGet(name));
     assertEquals(john.eGet(name), ((EObject)person.eGet(father)).eGet(name));
     assertTrue(((List<?>)person.eGet(cars)).isEmpty());
   }
-  
+
+  @Test
   public void testEDataType() throws Exception
   {
     EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
@@ -325,7 +310,7 @@ public class PersistenceTest extends TestCase
     pack.setNsPrefix("localpack");
     pack.setNsURI("http://mylocalpack");
     EPackage.Registry.INSTANCE.put(pack.getNsURI(), pack);
-        
+
     EDataType date = EcoreFactory.eINSTANCE.createEDataType();
     pack.getEClassifiers().add(date);
     date.setName("Date");
@@ -337,11 +322,11 @@ public class PersistenceTest extends TestCase
     foo.setName("Foo");
     foo.setInstanceClassName("org.Foo");
     foo.setSerializable(true);
-    
+
     EClass person  = EcoreFactory.eINSTANCE.createEClass();
     pack.getEClassifiers().add(person);
     person.setName("Person");
-    
+
     EAttribute birthday = EcoreFactory.eINSTANCE.createEAttribute();
     person.getEStructuralFeatures().add(birthday);
     birthday.setName("birthday");
@@ -350,32 +335,33 @@ public class PersistenceTest extends TestCase
     long dateValue = System.currentTimeMillis();
     EObject john = pack.getEFactoryInstance().create(person);
     john.eSet(birthday, new Date(dateValue));
-    
+
     XMIResource xmiResource = new XMIResourceImpl();
     xmiResource.setURI(URI.createFileURI("foo.xmi"));
     xmiResource.getContents().add(john);
-    
+
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     xmiResource.save(baos, null);
-    
+
     XMIResource loadedXMIResource = new XMIResourceImpl();
     loadedXMIResource.load(new ByteArrayInputStream(baos.toByteArray()), null);
     assertEquals(1, loadedXMIResource.getContents().size());
-    
+
     EObject loadedJohn = loadedXMIResource.getContents().get(0);
     assertTrue(loadedJohn.eGet(birthday) instanceof Date);
     assertEquals(dateValue, ((Date)loadedJohn.eGet(birthday)).getTime());
   }
-  
+
   /*
    * Bugzilla 126647
    */
+  @Test
   public void testCrossResourceContainment_XMLResourceUUID() throws Exception
   {
     EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
     pack.setName("pack");
     pack.setNsURI("http://www.eclipse.org/emf/pack/person");
-    
+
     EClass person = EcoreFactory.eINSTANCE.createEClass();
     person.setName("Person");
     pack.getEClassifiers().add(person);
@@ -384,7 +370,7 @@ public class PersistenceTest extends TestCase
     name.setName("name");
     name.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(name);
-    
+
     EReference children = EcoreFactory.eINSTANCE.createEReference();
     children.setName("children");
     children.setEType(person);
@@ -392,7 +378,7 @@ public class PersistenceTest extends TestCase
     children.setContainment(true);
     children.setResolveProxies(true);
     person.getEStructuralFeatures().add(children);
-    
+
     EObject john = EcoreUtil.create(person);
     john.eSet(name, "john");
     EObject mary = EcoreUtil.create(person);
@@ -400,11 +386,11 @@ public class PersistenceTest extends TestCase
     @SuppressWarnings("unchecked")
     List<EObject> johnChildren = ((List<EObject>)john.eGet(children));
     johnChildren.add(mary);
-    
+
     assertNull(john.eResource());
     assertNull(mary.eResource());
     assertEquals(john, mary.eContainer());
-    
+
     XMLResource johnResource = new XMLResourceImpl(URI.createFileURI("john"))
     {
       @Override
@@ -416,14 +402,14 @@ public class PersistenceTest extends TestCase
     johnResource.setID(john, (String)john.eGet(name));
     johnResource.setID(mary, (String)mary.eGet(name));
     johnResource.getContents().add(john);
-    
+
     assertEquals(john, johnResource.getEObject((String)john.eGet(name)));
     assertEquals(mary, johnResource.getEObject((String)mary.eGet(name)));
     //
     assertEquals(johnResource, john.eResource());
     assertEquals(johnResource, mary.eResource());
     assertEquals(john, mary.eContainer());
-    
+
     XMLResource maryResource = new XMLResourceImpl(URI.createFileURI("mary"))
     {
       @Override
@@ -433,7 +419,7 @@ public class PersistenceTest extends TestCase
       }
     };
     maryResource.getContents().add(mary);
-    
+
     assertEquals(john, johnResource.getEObject((String)john.eGet(name)));
     assertNull(johnResource.getEObject((String)mary.eGet(name)));
     assertNull(maryResource.getEObject((String)john.eGet(name)));
@@ -442,9 +428,9 @@ public class PersistenceTest extends TestCase
     assertEquals(johnResource, john.eResource());
     assertEquals(maryResource, mary.eResource());
     assertEquals(john, mary.eContainer());
-    
+
     maryResource.getContents().remove(mary);
-    
+
     assertEquals(john, johnResource.getEObject((String)john.eGet(name)));
     assertEquals(mary, johnResource.getEObject((String)mary.eGet(name)));
     assertNull(maryResource.getEObject((String)john.eGet(name)));
@@ -454,16 +440,17 @@ public class PersistenceTest extends TestCase
     assertEquals(johnResource, mary.eResource());
     assertEquals(john, mary.eContainer());
   }
-  
+
   /*
    * Bugzilla 126650
    */
+  @Test
   public void testCrossResourceContainment_Dynamic_ResourceSet() throws Exception
   {
     EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
     pack.setName("pack");
     pack.setNsURI("http://www.eclipse.org/emf/pack/person");
-    
+
     EClass person = EcoreFactory.eINSTANCE.createEClass();
     person.setName("Person");
     pack.getEClassifiers().add(person);
@@ -472,7 +459,7 @@ public class PersistenceTest extends TestCase
     name.setName("name");
     name.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(name);
-    
+
     EReference children = EcoreFactory.eINSTANCE.createEReference();
     children.setName("children");
     children.setEType(person);
@@ -480,18 +467,18 @@ public class PersistenceTest extends TestCase
     children.setContainment(true);
     children.setResolveProxies(true);
     person.getEStructuralFeatures().add(children);
-    
+
     EReference spouse = EcoreFactory.eINSTANCE.createEReference();
     spouse.setName("spouse");
     spouse.setEType(person);
     spouse.setContainment(true);
     spouse.setResolveProxies(true);
     person.getEStructuralFeatures().add(spouse);
-    
+
     EClass house = EcoreFactory.eINSTANCE.createEClass();
     house.setName("House");
     pack.getEClassifiers().add(house);
-    
+
     EAttribute postalCode = EcoreFactory.eINSTANCE.createEAttribute();
     postalCode.setName("postalCode");
     postalCode.setEType(EcorePackage.Literals.ESTRING);
@@ -508,10 +495,10 @@ public class PersistenceTest extends TestCase
     owner.setName("owner");
     owner.setEType(person);
     house.getEStructuralFeatures().add(owner);
-    
+
     owner.setEOpposite(home);
     home.setEOpposite(owner);
-    
+
     EReference houses = EcoreFactory.eINSTANCE.createEReference();
     houses.setName("houses");
     houses.setEType(house);
@@ -519,7 +506,7 @@ public class PersistenceTest extends TestCase
     houses.setContainment(true);
     houses.setResolveProxies(true);
     person.getEStructuralFeatures().add(houses);
-    
+
     EReference landlord  = EcoreFactory.eINSTANCE.createEReference();
     landlord.setName("landlord");
     landlord.setEType(person);
@@ -527,8 +514,8 @@ public class PersistenceTest extends TestCase
 
     landlord.setEOpposite(houses);
     houses.setEOpposite(landlord);
-        
-       
+
+
     EObject john = EcoreUtil.create(person);
     john.eSet(name, "john");
     EObject jane = EcoreUtil.create(person);
@@ -547,7 +534,7 @@ public class PersistenceTest extends TestCase
     @SuppressWarnings("unchecked")
     List<EObject> johnHouses = ((List<EObject>)john.eGet(houses));
     johnHouses.add(house1);
-    
+
     assertNull(john.eResource());
     assertNull(jane.eResource());
     assertNull(mary.eResource());
@@ -562,10 +549,10 @@ public class PersistenceTest extends TestCase
 
     URI johnURI = URI.createFileURI("john.xmi");
     URI uri2 = URI.createFileURI("uri2.xmi");
-    
+
     Resource johnResource = new XMIResourceImpl(johnURI);
     johnResource.getContents().add(john);
-    
+
     assertEquals(johnResource, john.eResource());
     assertEquals(johnResource, jane.eResource());
     assertEquals(johnResource, mary.eResource());
@@ -577,7 +564,7 @@ public class PersistenceTest extends TestCase
     assertEquals(john, johnsHome.eGet(owner));
     assertEquals(john, house1.eContainer());
     assertEquals(john, house1.eGet(landlord));
-    
+
     Resource resource2 = new XMIResourceImpl(uri2);
     resource2.getContents().add(jane);
     resource2.getContents().add(mary);
@@ -595,21 +582,21 @@ public class PersistenceTest extends TestCase
     assertEquals(john, johnsHome.eGet(owner));
     assertEquals(john, house1.eContainer());
     assertEquals(john, house1.eGet(landlord));
-    
+
     ByteArrayOutputStream johnBAOS = new ByteArrayOutputStream();
     johnResource.save(johnBAOS, null);
     ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
     resource2.save(baos2, null);
-    
+
     ResourceSet resourceSet = new ResourceSetImpl();
     resourceSet.getPackageRegistry().put(pack.getNsURI(), pack);
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
-    
+
     johnResource = resourceSet.createResource(johnURI);
     johnResource.load(new ByteArrayInputStream(johnBAOS.toByteArray()), null);
     resource2 = resourceSet.createResource(uri2);
     resource2.load(new ByteArrayInputStream(baos2.toByteArray()), null);
-    
+
     john = johnResource.getContents().get(0);
     jane = resource2.getContents().get(0);
     mary = resource2.getContents().get(1);
@@ -622,7 +609,7 @@ public class PersistenceTest extends TestCase
     assertEquals("abcdefg", johnsHome.eGet(postalCode));
     assertEquals("house 1", house1.eGet(postalCode));
     EcoreUtil.resolveAll(johnResource);
-    
+
     assertEquals(johnResource, john.eResource());
     assertEquals(resource2, jane.eResource());
     assertEquals(resource2, mary.eResource());
@@ -633,12 +620,13 @@ public class PersistenceTest extends TestCase
     assertEquals(john, johnsHome.eContainer());
     assertEquals(john, johnsHome.eGet(owner));
     assertEquals(john, house1.eContainer());
-    assertEquals(john, house1.eGet(landlord));    
+    assertEquals(john, house1.eGet(landlord));
   }
-  
+
   /*
    * Bugzilla 126650
    */
+  @Test
   public void testCrossResourceContainment_Static_ResourceSet() throws Exception
   {
     Library library = LibFactory.eINSTANCE.createLibrary();
@@ -659,7 +647,7 @@ public class PersistenceTest extends TestCase
     Cafeteria cafeteria = LibFactory.eINSTANCE.createCafeteria();
     cafeteria.setName("cafe");
     library.setCafeteria(cafeteria);
-    
+
     assertNull(library.eResource());
     assertNull(book.eResource());
     assertNull(libraryAddress.eResource());
@@ -671,13 +659,13 @@ public class PersistenceTest extends TestCase
     assertEquals(library, john.getLibrary());
     assertEquals(library, cafeteria.eContainer());
     assertEquals(library, cafeteria.getLibrary());
-    
+
     URI libraryURI = URI.createFileURI("library.xmi");
     URI childrenURI = URI.createFileURI("children.xmi");
-    
+
     Resource libraryResource = new XMIResourceImpl(libraryURI);
     libraryResource.getContents().add(library);
-    
+
     assertEquals(libraryResource, library.eResource());
     assertEquals(libraryResource, book.eResource());
     assertEquals(libraryResource, libraryAddress.eResource());
@@ -689,7 +677,7 @@ public class PersistenceTest extends TestCase
     assertEquals(library, john.getLibrary());
     assertEquals(library, cafeteria.eContainer());
     assertEquals(library, cafeteria.getLibrary());
-    
+
     Resource childrenResource = new XMIResourceImpl(childrenURI);
     childrenResource.getContents().add(book);
     childrenResource.getContents().add(libraryAddress);
@@ -707,20 +695,20 @@ public class PersistenceTest extends TestCase
     assertEquals(library, john.getLibrary());
     assertEquals(library, cafeteria.eContainer());
     assertEquals(library, cafeteria.getLibrary());
-    
+
     ByteArrayOutputStream libraryBAOS = new ByteArrayOutputStream();
     libraryResource.save(libraryBAOS, null);
     ByteArrayOutputStream bookBAOS = new ByteArrayOutputStream();
     childrenResource.save(bookBAOS, null);
-    
+
     ResourceSet resourceSet = new ResourceSetImpl();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
-    
+
     libraryResource = resourceSet.createResource(libraryURI);
     libraryResource.load(new ByteArrayInputStream(libraryBAOS.toByteArray()), null);
     childrenResource = resourceSet.createResource(childrenURI);
     childrenResource.load(new ByteArrayInputStream(bookBAOS.toByteArray()), null);
-    
+
     library = (Library)libraryResource.getContents().get(0);
     book = (Book)childrenResource.getContents().get(0);
     libraryAddress = (Address)childrenResource.getContents().get(1);
@@ -733,23 +721,24 @@ public class PersistenceTest extends TestCase
     assertEquals("john", john.getName());
     assertEquals("cafe", cafeteria.getName());
     EcoreUtil.resolveAll(libraryResource);
-    
+
     assertEquals(libraryResource, library.eResource());
     assertEquals(childrenResource, book.eResource());
     assertEquals(childrenResource, libraryAddress.eResource());
     assertEquals(childrenResource, john.eResource());
     assertEquals(childrenResource, cafeteria.eResource());
-    assertEquals(library, book.eContainer());   
+    assertEquals(library, book.eContainer());
     assertEquals(library, libraryAddress.eContainer());
     assertEquals(library, john.eContainer());
     assertEquals(library, john.getLibrary());
     assertEquals(library, cafeteria.eContainer());
     assertEquals(library, cafeteria.getLibrary());
   }
-  
+
   /*
    * Bugzilla 132904
    */
+  @Test
   public void testCrossResourceContainment_RemoveChild() throws Exception
   {
     Library library = LibFactory.eINSTANCE.createLibrary();
@@ -758,10 +747,10 @@ public class PersistenceTest extends TestCase
     Book book = LibFactory.eINSTANCE.createBook();
     book.setTitle("EMF");
     library.getBooks().add(book);
-    
+
     Resource libResource = new ResourceImpl(URI.createURI("lib"));
     libResource.getContents().add(library);
-    
+
     assertEquals(library, book.eContainer());
     assertEquals(libResource, library.eResource());
     assertEquals(libResource, book.eResource());
@@ -772,121 +761,124 @@ public class PersistenceTest extends TestCase
     assertEquals(library, book.eContainer());
     assertEquals(libResource, library.eResource());
     assertEquals(bookResource, book.eResource());
-    
+
     library.getBooks().remove(book);
 
     assertNull(book.eContainer());
     assertEquals(libResource, library.eResource());
     assertEquals(bookResource, book.eResource());
-    
+
     library.getBooks().add(book);
 
     assertEquals(library, book.eContainer());
     assertEquals(libResource, library.eResource());
     assertEquals(bookResource, book.eResource());
   }
-  
+
   /*
    * Bugzilla 169308
    */
+  @Test
   public void testPluginURINotRelative() throws Exception
   {
     Resource.Factory ecoreResourceFactory = new EcoreResourceFactoryImpl();
     ResourceSet resourceSet = new ResourceSetImpl();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", ecoreResourceFactory);
-    
+
     URI localPluginURI = URI.createFileURI(new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID)).getAbsolutePath() + "/");
-    URI pluginURI = URI.createURI("platform:/plugin/org.eclipse.emf.test.core/", false);    
+    URI pluginURI = URI.createURI("platform:/plugin/org.eclipse.emf.test.core/", false);
     resourceSet.getURIConverter().getURIMap().put(pluginURI, localPluginURI);
-    
+
     URI changeURI = URI.createPlatformPluginURI("/org.eclipse.emf.test.core/data/Change.ecore", false);
     Resource changeResource = resourceSet.getResource(changeURI, true);
-    EPackage changePackage = (EPackage)changeResource.getContents().get(0); 
-    
+    EPackage changePackage = (EPackage)changeResource.getContents().get(0);
+
     EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
     pack.setName("example");
     pack.setNsPrefix("example");
     pack.setNsURI("http://org.eclipse.emf.example");
-    
+
     EClass eClass = EcoreFactory.eINSTANCE.createEClass();
     pack.getEClassifiers().add(eClass);
     eClass.setName("Monitor");
-    
+
     EReference eReference = EcoreFactory.eINSTANCE.createEReference();
     eClass.getEStructuralFeatures().add(eReference);
     eReference.setName("change");
     eReference.setEType(changePackage.getEClassifier("ChangeDescription"));
-    
+
     URI modelURI = URI.createPlatformResourceURI("/myProject/model/model.ecore", false);
     Resource modelResource = resourceSet.createResource(modelURI);
     modelResource.getContents().add(pack);
-    
+
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     modelResource.save(baos, null);
     String contents = new String(baos.toByteArray());
     assertFalse(contents, contents.contains("../plugin"));
     //System.out.println(contents);
-    
+
     modelResource = ecoreResourceFactory.createResource(URI.createPlatformResourceURI("/myNewProject/model.ecore", false));
     modelResource.load(new ByteArrayInputStream(baos.toByteArray()), null);
     EPackage loadedEPackage = (EPackage)modelResource.getContents().get(0);
     EClass loadedEClass = (EClass)loadedEPackage.eContents().get(0);
     EReference loadedEReference = (EReference)loadedEClass.eContents().get(0);
     EObject loadedEReferenceType = ((EReferenceImpl)loadedEReference).basicGetEType();
-    
+
     assertTrue(loadedEReferenceType.eIsProxy());
     URI proxyURI = ((InternalEObject)loadedEReferenceType).eProxyURI();
     assertTrue(proxyURI.toString(), proxyURI.isPlatformPlugin());
   }
 
+  @Test
   public void testReferenceEcoreUsingNSURI() throws Exception
   {
     Resource.Factory ecoreResourceFactory = new EcoreResourceFactoryImpl();
     ResourceSet resourceSet = new ResourceSetImpl();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", ecoreResourceFactory);
-    
+
     EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
     pack.setName("example");
     pack.setNsPrefix("example");
     pack.setNsURI("http://org.eclipse.emf.example");
-    
+
     EClass eClass = EcoreFactory.eINSTANCE.createEClass();
     pack.getEClassifiers().add(eClass);
     eClass.setName("Monitor");
-    
+
     EReference eReference = EcoreFactory.eINSTANCE.createEReference();
     eClass.getEStructuralFeatures().add(eReference);
     eReference.setName("change");
     eReference.setEType(ChangePackage.Literals.CHANGE_DESCRIPTION);
-    
+
     URI modelURI = URI.createPlatformResourceURI("/myProject/model/model.ecore", false);
     Resource modelResource = resourceSet.createResource(modelURI);
     modelResource.getContents().add(pack);
-    
+
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     modelResource.save(baos, null);
     String contents = new String(baos.toByteArray());
     assertFalse(contents, contents.contains("../plugin"));
-    
+
     modelResource = ecoreResourceFactory.createResource(URI.createPlatformResourceURI("/myNewProject/model.ecore", false));
     modelResource.load(new ByteArrayInputStream(baos.toByteArray()), null);
     EPackage loadedEPackage = (EPackage)modelResource.getContents().get(0);
     EClass loadedEClass = (EClass)loadedEPackage.eContents().get(0);
     EReference loadedEReference = (EReference)loadedEClass.eContents().get(0);
     EObject loadedEReferenceType = ((EReferenceImpl)loadedEReference).basicGetEType();
-    
+
     assertTrue(loadedEReferenceType.eIsProxy());
     URI proxyURI = ((InternalEObject)loadedEReferenceType).eProxyURI();
     assertFalse(proxyURI.toString(), proxyURI.isPlatformPlugin());
     assertFalse(proxyURI.toString(), proxyURI.isRelative());
   }
-  
+
+  @Test
   public void testCipher0() throws Exception
   {
     cipherTest(new DESCipherImpl("a very long key indeed"));
     cipherTest(new AESCipherImpl("a very long passowrd indeed"));
   }
-  
+
   protected void cipherTest(URIConverter.Cipher cipher) throws Exception
   {
     StringBuilder originalMessage = new StringBuilder("<>\n");
@@ -899,16 +891,16 @@ public class PersistenceTest extends TestCase
       .append('\n');
     }
     originalMessage.append("</>");
-    
+
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     OutputStream os = cipher.encrypt(baos);
     os.write(originalMessage.toString().getBytes("UTF-8"));
     cipher.finish(os);
     os.close();
-    
+
     assertEquals(originalMessage.toString(), readEncriptedBytes(cipher, baos.toByteArray()));
   }
-  
+
   protected String readEncriptedBytes(URIConverter.Cipher cipher, byte[] bytes) throws Exception
   {
     ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
@@ -919,12 +911,13 @@ public class PersistenceTest extends TestCase
     while ((i = is.read(buffer)) >= 0)
     {
       message.append(new String(buffer, 0, i, "UTF-8"));
-    }  
+    }
     return message.toString().trim();
   }
 
+  @Test
   public void testCipher1() throws Exception
-  {    
+  {
     class Tester
     {
       boolean TRACE = false;
@@ -933,23 +926,23 @@ public class PersistenceTest extends TestCase
       {
         URI uri = URI.createFileURI("/home/foo/f1.xmi");
         byte[] bytes = testSave(uri, options);
-        
+
         if (TRACE) System.out.println(getContents(options, bytes));
-        
+
         testSaveOnlyIfChanged(options);
 
         testLoad(uri, options, bytes);
         return bytes;
       }
-      
+
       protected String getContents(Map<String, Object> options, byte[] bytes) throws Exception
       {
-        URIConverter.Cipher cipher = options == null ? 
+        URIConverter.Cipher cipher = options == null ?
           null : (URIConverter.Cipher)options.get(Resource.OPTION_CIPHER);
         return cipher != null ?
           readEncriptedBytes(cipher, bytes) : new String(bytes, "UTF-8");
       }
-      
+
       protected EObject instantiateModel()
       {
         Root root = KeyFactory.eINSTANCE.createRoot();
@@ -958,23 +951,23 @@ public class PersistenceTest extends TestCase
         root.getItems().add(item);
         return root;
       }
-      
+
       public byte[] testSave(URI uri, Map<String, Object> options) throws Exception
       {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        XMLResource resource = new XMIResourceImpl(uri); 
+        XMLResource resource = new XMIResourceImpl(uri);
         resource.setEncoding("UTF-8");
         resource.getContents().add(instantiateModel());
         resource.save(baos, options);
-        
+
         byte[] bytes = baos.toByteArray();
-        
+
         String contents = new String(bytes, "UTF-8");
         boolean notEncripted = options == null || !options.containsKey(Resource.OPTION_CIPHER);
         assertEquals(contents, notEncripted, contents.contains("Root"));
         assertEquals(contents, notEncripted, contents.contains("items"));
         assertEquals(contents, notEncripted, contents.contains("Name-Item1"));
-        
+
         return bytes;
       }
 
@@ -982,7 +975,7 @@ public class PersistenceTest extends TestCase
       {
         File file = File.createTempFile("TestSaveOnlyIfChanged.xml", null);
         URI uri = URI.createFileURI(file.getPath());
-        XMLResource resource = new XMIResourceImpl(uri); 
+        XMLResource resource = new XMIResourceImpl(uri);
         resource.setEncoding("UTF-8");
         resource.getContents().add(instantiateModel());
         resource.save(options);
@@ -996,12 +989,12 @@ public class PersistenceTest extends TestCase
           localOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
           resource.save(localOptions);
           assertEquals(time, file.lastModified());
-  
+
           Thread.sleep(1000);
           localOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_FILE_BUFFER);
           resource.save(localOptions);
           assertEquals(time, file.lastModified());
-  
+
           Thread.sleep(1000);
           resource.save(options);
           assertTrue(time < file.lastModified());
@@ -1011,7 +1004,7 @@ public class PersistenceTest extends TestCase
           file.delete();
         }
       }
-      
+
       public void testLoad(URI uri, Map<String, Object> options, byte[] contents) throws Exception
       {
         ResourceSet resourceSet = new ResourceSetImpl();
@@ -1020,16 +1013,16 @@ public class PersistenceTest extends TestCase
         Resource loadedResource = resourceSet.createResource(uri);
         ByteArrayInputStream bais = new ByteArrayInputStream(contents);
         loadedResource.load(bais, options);
-        
+
         assertEquals(1, loadedResource.getContents().size());
         Root root = (Root)loadedResource.getContents().get(0);
         assertEquals(1, root.getItems().size());
         assertEquals("Name-Item1", root.getItems().get(0).getName());
-      }      
-    }    
-    
+      }
+    }
+
     Tester tester = new Tester();
-        
+
     byte[] noCypherBytes = tester.test(null);
 
     Map<String, Object> desCyperOptions = new HashMap<String, Object>(1);
@@ -1039,7 +1032,7 @@ public class PersistenceTest extends TestCase
     Map<String, Object> aesCyperOptions = new HashMap<String, Object>(1);
     aesCyperOptions.put(Resource.OPTION_CIPHER, new AESCipherImpl("a very long password indeed"));
     byte[] aesCypherBytes = tester.test(aesCyperOptions);
-    
+
     Map<String, Object> desCyperZipOptions = new HashMap<String, Object>(1);
     desCyperZipOptions.put(Resource.OPTION_CIPHER, new DESCipherImpl("a very long key indeed"));
     desCyperZipOptions.put(Resource.OPTION_ZIP, Boolean.TRUE);

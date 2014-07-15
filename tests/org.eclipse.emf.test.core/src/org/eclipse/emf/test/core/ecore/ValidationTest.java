@@ -4,18 +4,19 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.core.ecore;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.Date;
 import java.util.Iterator;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EAttribute;
@@ -33,31 +34,16 @@ import org.eclipse.emf.test.models.ppo.PPOFactory;
 import org.eclipse.emf.test.models.ppo.PPOPackage;
 import org.eclipse.emf.test.models.ppo.PurchaseOrder;
 import org.eclipse.emf.test.models.ppo.util.PPOValidator;
+import org.junit.Before;
+import org.junit.Test;
 
 
-public class ValidationTest extends TestCase
+public class ValidationTest
 {
   private PurchaseOrder purchaseOrder;
 
-  public ValidationTest(String name)
-  {
-    super(name);
-  }
-  
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("ValidationTest");
-    ts.addTest(new ValidationTest("testValidation1"));
-    ts.addTest(new ValidationTest("testValidation2"));
-    ts.addTest(new ValidationTest("testValidation3"));
-    ts.addTest(new ValidationTest("testValidation4"));
-    ts.addTest(new ValidationTest("testValidation5"));
-    ts.addTest(new ValidationTest("testRequiredField"));
-    return ts;
-  }
-  
-  @Override
-  protected void setUp()
+  @Before
+  public void setUp()
   {
     Item item = PPOFactory.eINSTANCE.createItem();
     item.setProductName("Tires");
@@ -72,10 +58,10 @@ public class ValidationTest extends TestCase
     purchaseOrder.setBillTo(PPOFactory.eINSTANCE.createUSAddress());
     //USAddress without state
     purchaseOrder.setShipTo(PPOFactory.eINSTANCE.createUSAddress());
-    
+
     //The model specifies 2 or more items
     purchaseOrder.getItems().add(item);
-    
+
     //Order earlier than ship
     try
     {
@@ -88,26 +74,31 @@ public class ValidationTest extends TestCase
     purchaseOrder.setOrderDate(new Date(System.currentTimeMillis()));
   }
 
+  @Test
   public void testValidation1()
   {
-    assertFalse(validateObject1(purchaseOrder));    
+    assertFalse(validateObject1(purchaseOrder));
   }
 
+  @Test
   public void testValidation2()
   {
-    assertFalse(validateObject2(purchaseOrder));    
+    assertFalse(validateObject2(purchaseOrder));
   }
-  
+
+  @Test
   public void testValidation3()
   {
-    assertFalse(validateObject3(purchaseOrder));    
+    assertFalse(validateObject3(purchaseOrder));
   }
 
+  @Test
   public void testValidation4()
   {
-    assertFalse(validateObject4(purchaseOrder));    
+    assertFalse(validateObject4(purchaseOrder));
   }
 
+  @Test
   public void testValidation5()
   {
     Diagnostic diagnostic = validateObject5(purchaseOrder);
@@ -116,7 +107,7 @@ public class ValidationTest extends TestCase
     assertEquals(0, diagnostic.getCode());
     assertEquals(1, diagnostic.getData().size());
     assertEquals(purchaseOrder, diagnostic.getData().get(0));
-    
+
     assertEquals(5, diagnostic.getChildren().size());
     for (Diagnostic childDiagnostic : diagnostic.getChildren())
     {
@@ -148,16 +139,16 @@ public class ValidationTest extends TestCase
         assertEquals(2, childDiagnostic.getData().size());
         assertTrue(childDiagnostic.getData().contains(purchaseOrder));
         assertTrue(childDiagnostic.getData().contains(PPOPackage.eINSTANCE.getPurchaseOrder_Items()));
-        
+
       }
       else
       {
         fail("Unexpected childDiagnostic.getData().get(0): " + childDiagnostic.getData().get(0));
       }
-    }    
+    }
   }
 
-  //validateObject5 is the recommended implementation to 
+  //validateObject5 is the recommended implementation to
   //invoke the contraints and invariants associated with an object
   public static boolean validateObject1(PurchaseOrder purchaseOrder)
   {
@@ -178,7 +169,7 @@ public class ValidationTest extends TestCase
     return true;
   }
 
-  //validateObject5 is the recommended implementation to 
+  //validateObject5 is the recommended implementation to
   //invoke the contraints and invariants associated with an object
   public static boolean validateObject2(PurchaseOrder purchaseOrder)
   {
@@ -208,7 +199,7 @@ public class ValidationTest extends TestCase
     return true;
   }
 
-  //validateObject5 is the recommended implementation to 
+  //validateObject5 is the recommended implementation to
   //invoke the contraints and invariants associated with an object
   public static boolean validateObject3(EObject eObject)
   {
@@ -232,7 +223,7 @@ public class ValidationTest extends TestCase
     return true;
   }
 
-  //validateObject5 is the recommended implementation to 
+  //validateObject5 is the recommended implementation to
   //invoke the contraints and invariants associated with an object
   public static boolean validateObject4(EObject eObject)
   {
@@ -241,39 +232,40 @@ public class ValidationTest extends TestCase
     return diagnostic.getSeverity() == Diagnostic.OK;
   }
 
-  //This is the recommended implementation to 
+  //This is the recommended implementation to
   //invoke the contraints and invariants associated with an object
   public static Diagnostic validateObject5(EObject eObject)
   {
     Diagnostician diagnostician = new Diagnostician();
     return diagnostician.validate(eObject);
   }
-  
+
   /*
    * Bugzilla 124670
    */
+  @Test
   public void testRequiredField() throws Exception
   {
     EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
     pack.setName("pack");
-    
+
     EClass person = EcoreFactory.eINSTANCE.createEClass();
     pack.getEClassifiers().add(person);
     person.setName("Person");
-    
+
     EAttribute age = EcoreFactory.eINSTANCE.createEAttribute();
     person.getEStructuralFeatures().add(age);
     age.setName("age");
     age.setEType(EcorePackage.Literals.EINT);
     age.setLowerBound(1);
-    
+
     EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
     person.getEStructuralFeatures().add(name);
     name.setName("name");
     name.setEType(EcorePackage.Literals.ESTRING);
     name.setLowerBound(1);
     name.setDefaultValue("Joe Doe");
-    
+
     EAttribute numberOfChildren = EcoreFactory.eINSTANCE.createEAttribute();
     person.getEStructuralFeatures().add(numberOfChildren);
     numberOfChildren.setName("numberOfChildren");
@@ -281,7 +273,7 @@ public class ValidationTest extends TestCase
     numberOfChildren.setLowerBound(1);
     numberOfChildren.setDefaultValue(0);
     numberOfChildren.setUnsettable(true);
-    
+
     EAttribute leftHanded = EcoreFactory.eINSTANCE.createEAttribute();
     person.getEStructuralFeatures().add(leftHanded);
     leftHanded.setName("leftHanded");
@@ -294,17 +286,17 @@ public class ValidationTest extends TestCase
     smart.setEType(EcorePackage.Literals.EBOOLEAN);
     smart.setLowerBound(1);
     smart.setDefaultValue(Boolean.TRUE);
-    
+
     EObject john = EcoreUtil.create(person);
     assertEquals(Diagnostic.ERROR, Diagnostician.INSTANCE.validate(john).getSeverity());
     john.eSet(numberOfChildren, 0); //<== default value
     assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
-    
+
     john.eUnset(age); //<== uses the int intrinsic default
     assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
     john.eSet(age, 30);
     assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
-    
+
     john.eSet(name, null);
     assertEquals(Diagnostic.ERROR, Diagnostician.INSTANCE.validate(john).getSeverity());
     john.eSet(name, "john");
@@ -313,7 +305,7 @@ public class ValidationTest extends TestCase
     assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
     john.eSet(name, "Joe Doe"); //<== default value
     assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
-    
+
     john.eUnset(numberOfChildren);
     assertEquals(Diagnostic.ERROR, Diagnostician.INSTANCE.validate(john).getSeverity());
     john.eSet(numberOfChildren, 4);

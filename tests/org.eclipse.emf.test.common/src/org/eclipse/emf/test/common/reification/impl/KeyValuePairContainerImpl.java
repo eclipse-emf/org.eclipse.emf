@@ -11,13 +11,9 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-
 import org.eclipse.emf.test.common.reification.KeyValuePair;
 import org.eclipse.emf.test.common.reification.KeyValuePairContainer;
 import org.eclipse.emf.test.common.reification.ReificationPackage;

@@ -14,9 +14,9 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.ext.*;
-
+import org.eclipse.emf.test.models.ext.ExtE;
+import org.eclipse.emf.test.models.ext.ExtPackage;
+import org.eclipse.emf.test.models.ext.F;
 import org.eclipse.emf.test.models.ref.E;
 
 /**

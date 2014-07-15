@@ -4,8 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.tools;
@@ -23,12 +23,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
-
-import org.eclipse.emf.codegen.util.CodeGenUtil;
-import org.eclipse.emf.common.EMFPlugin;
 
 /**
  * The ImportManager implementation from EMF 2.4.
@@ -55,7 +54,7 @@ class OldImportManager
   {
     String indices = "";
     int firstBracket = qualifiedName.indexOf("[");
-    if (firstBracket != -1) 
+    if (firstBracket != -1)
     {
       indices = qualifiedName.substring(firstBracket);
       qualifiedName = qualifiedName.substring(0, firstBracket);
@@ -65,7 +64,7 @@ class OldImportManager
 
     String shortName = baseName;
     int firstDollar = shortName.indexOf("$");
-    if (firstDollar != -1) 
+    if (firstDollar != -1)
     {
       shortName = shortName.substring(0, firstDollar);
     }
@@ -123,7 +122,7 @@ class OldImportManager
     int lastDot = qualifiedName.lastIndexOf(".");
     String shortName = qualifiedName.substring(lastDot + 1);
     int firstDollar = shortName.indexOf("$");
-    if (firstDollar != -1) 
+    if (firstDollar != -1)
     {
       shortName = shortName.substring(0, firstDollar);
     }
@@ -152,7 +151,7 @@ class OldImportManager
   }
 
   public void addCompilationUnitImports(String compilationUnitContents)
-  {   
+  {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
     {
       EclipseHelper.addCompilationUnitImports(importedPackages, shortNameToImportMap, compilationUnitContents);
@@ -178,12 +177,12 @@ class OldImportManager
       }
     }
   }
-  
+
   private static class EclipseHelper
   {
     public static void addCompilationUnitImports
       (Set<String> importedPackages, Map<String, String> shortNameToImportMap, String compilationUnitContents)
-    {   
+    {
       ASTParser parser = CodeGenUtil.EclipseUtil.newASTParser();
       parser.setSource(compilationUnitContents.toCharArray());
       CompilationUnit compilationUnit = (CompilationUnit)parser.createAST(new NullProgressMonitor());
@@ -299,11 +298,11 @@ public class ImportManager extends OldImportManager
         char character = qualifiedName.charAt(index);
         switch (character)
         {
-          case ' ': 
-          case ',': 
-          case '<': 
-          case '>': 
-          case '&': 
+          case ' ':
+          case ',':
+          case '<':
+          case '>':
+          case '&':
           {
             if (start != index)
             {
@@ -322,7 +321,7 @@ public class ImportManager extends OldImportManager
       }
       return result.toString();
     }
-   
+
     index = qualifiedName.indexOf("$");
     String baseName = index == -1 ? qualifiedName : qualifiedName.substring(0, index);
     if (baseName.contains("."))

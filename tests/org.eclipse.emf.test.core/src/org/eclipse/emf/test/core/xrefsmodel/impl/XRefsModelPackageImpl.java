@@ -4,10 +4,10 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *   CEA - Initial API and implementation
- * 
+ *
  */
 package org.eclipse.emf.test.core.xrefsmodel.impl;
 
@@ -15,9 +15,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.test.core.xrefsmodel.XRefsModelFactory;
 import org.eclipse.emf.test.core.xrefsmodel.XRefsModelPackage;
 
@@ -65,7 +63,7 @@ public class XRefsModelPackageImpl extends EPackageImpl implements XRefsModelPac
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link XRefsModelPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -93,7 +91,7 @@ public class XRefsModelPackageImpl extends EPackageImpl implements XRefsModelPac
     // Mark meta-data to indicate it can't be changed
     theXRefsModelPackage.freeze();
 
-  
+
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(XRefsModelPackage.eNS_URI, theXRefsModelPackage);
     return theXRefsModelPackage;

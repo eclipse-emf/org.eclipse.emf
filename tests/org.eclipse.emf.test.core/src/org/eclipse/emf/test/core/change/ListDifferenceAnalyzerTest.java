@@ -4,11 +4,14 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   Ed Merks - Initial API and implementation
  */
 package org.eclipse.emf.test.core.change;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Random;
 
@@ -20,62 +23,48 @@ import org.eclipse.emf.ecore.change.ChangeKind;
 import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.change.impl.ListChangeImpl;
 import org.eclipse.emf.ecore.change.util.ListDifferenceAnalyzer;
+import org.junit.Test;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-public class ListDifferenceAnalyzerTest extends TestCase
+public class ListDifferenceAnalyzerTest
 {
-  public ListDifferenceAnalyzerTest(String name)
-  {
-    super(name);
-  }
-  
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("ListDifferenceAnalyzer Test");
-    ts.addTest(new ListDifferenceAnalyzerTest("testRandom"));
-    return ts;
-  }
-  
+  @Test
   public void testRandom()
   {
-    ListDifferenceAnalyzer listDifferenceAnalyzer = 
+    ListDifferenceAnalyzer listDifferenceAnalyzer =
       new ListDifferenceAnalyzer()
     {
       @Override
       protected ListChange createListChange(EList<ListChange> listChanges, ChangeKind kind, int index)
       {
-        ListChange listChange =  
-          new ListChangeImpl() 
+        ListChange listChange =
+          new ListChangeImpl()
           {
             @Override
             public EStructuralFeature getFeature()
             {
               return EcorePackage.Literals.ETYPED_ELEMENT__LOWER_BOUND;
-            } 
+            }
           };
         listChange.setKind(kind);
         listChange.setIndex(index);
         listChanges.add(listChange);
         return listChange;
-      } 
+      }
     };
-    
-    Random random = 
+
+    Random random =
       new Random(0)
       {
         private static final long serialVersionUID = 1L;
 
         @Override
-        public int nextInt() 
+        public int nextInt()
         {
           int result = super.nextInt();
           return result < 0 ? -result : result;
         }
       };
-    
+
     int repetitions = 50000;
     for (int repeat = 0; repeat < repetitions; ++repeat)
     {
@@ -86,7 +75,7 @@ public class ListDifferenceAnalyzerTest extends TestCase
         oldList.add(random.nextInt() % size);
       }
       EList<Object> newList = new BasicEList<Object>(oldList);
-      
+
       int removeCount = 0;
       int addCount = 0;
       for (int i = 0; i < size; i += 2)
@@ -112,7 +101,7 @@ public class ListDifferenceAnalyzerTest extends TestCase
           }
         }
       }
-  
+
       int deltaRemoveCount = 0;
       int deltaAddCount = 0;
       EList<ListChange> changes = listDifferenceAnalyzer.analyzeLists(oldList, newList);
@@ -134,27 +123,27 @@ public class ListDifferenceAnalyzerTest extends TestCase
             ++deltaAddCount;
             break;
           }
-          
+
         }
         listChange.apply(oldList);
       }
-      
+
       assertTrue(deltaRemoveCount <= removeCount);
       assertTrue(deltaAddCount <= addCount);
-      
+
       /*
       try
       {
         // Create a resource set to hold the resources.
         //
         ResourceSet resourceSet = new ResourceSetImpl();
-        
+
         // Register the appropriate resource factory to handle all file extensions.
         //
         resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put
-          (Resource.Factory.Registry.DEFAULT_EXTENSION, 
+          (Resource.Factory.Registry.DEFAULT_EXTENSION,
            new XMIResourceFactoryImpl());
-  
+
         Resource changeResource = resourceSet.createResource(URI.createURI("http:///My.test"));
         changeResource.getContents().addAll(changes);
         changeResource.save(System.out, null);
@@ -163,9 +152,8 @@ public class ListDifferenceAnalyzerTest extends TestCase
       {
       }
       */
-      
+
       assertEquals(newList, oldList);
     }
   }
-  
 }

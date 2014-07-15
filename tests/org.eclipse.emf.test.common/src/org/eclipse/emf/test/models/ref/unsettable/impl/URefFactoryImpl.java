@@ -13,12 +13,19 @@ package org.eclipse.emf.test.models.ref.unsettable.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.test.models.ref.unsettable.*;
+import org.eclipse.emf.test.models.ref.unsettable.AU;
+import org.eclipse.emf.test.models.ref.unsettable.BU;
+import org.eclipse.emf.test.models.ref.unsettable.C1U;
+import org.eclipse.emf.test.models.ref.unsettable.C2U;
+import org.eclipse.emf.test.models.ref.unsettable.C3U;
+import org.eclipse.emf.test.models.ref.unsettable.C4U;
+import org.eclipse.emf.test.models.ref.unsettable.CU;
+import org.eclipse.emf.test.models.ref.unsettable.DU;
+import org.eclipse.emf.test.models.ref.unsettable.EU;
+import org.eclipse.emf.test.models.ref.unsettable.URefFactory;
+import org.eclipse.emf.test.models.ref.unsettable.URefPackage;
 
 /**
  * <!-- begin-user-doc -->

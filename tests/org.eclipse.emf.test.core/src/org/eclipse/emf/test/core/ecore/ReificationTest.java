@@ -9,6 +9,10 @@ package org.eclipse.emf.test.core.ecore;
 
 
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.List;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -43,49 +47,11 @@ import org.eclipse.emf.test.common.reification.Root;
 import org.eclipse.emf.test.common.reification.StringListKeyValuePair;
 import org.eclipse.emf.test.common.reification.StringListKeyValuePairContainer;
 import org.eclipse.emf.test.common.reification.UnboundedGenericContainer;
+import org.junit.Test;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-public class ReificationTest extends TestCase
+public class ReificationTest
 {
-  public ReificationTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("ReificationTest");
-
-    ts.addTest(new ReificationTest("testAttribute"));
-    ts.addTest(new ReificationTest("testReference"));
-
-    ts.addTest(new ReificationTest("testUnboundedGenericContainerWithRawType"));
-    ts.addTest(new ReificationTest("testUnboundedGenericContainerWithWildcard"));
-    ts.addTest(new ReificationTest("testUnboundedGenericContainerWithSuper"));
-    ts.addTest(new ReificationTest("testUnboundedGenericContainerWithExtends"));
-
-    ts.addTest(new ReificationTest("testBoundedGenericContainerWithRawType"));
-    ts.addTest(new ReificationTest("testBoundedGenericContainerWithWildcard"));
-    ts.addTest(new ReificationTest("testBoundedGenericContainerWithSuper"));
-    ts.addTest(new ReificationTest("testBoundedGenericContainerWithExtends"));
-
-    ts.addTest(new ReificationTest("testRawKeyValuePair"));
-    ts.addTest(new ReificationTest("testStringListKeyValuePair"));
-    ts.addTest(new ReificationTest("testIntegerListKeyValuePair"));
-
-    ts.addTest(new ReificationTest("testBidirectional"));
-    ts.addTest(new ReificationTest("testLink"));
-    ts.addTest(new ReificationTest("testMediumBidirectional"));
-
-    ts.addTest(new ReificationTest("testStatic"));
-    ts.addTest(new ReificationTest("testDynamic"));
-
-    return ts;
-  }
-
+  @Test
   public void testAttribute()
   {
     Root root = ReificationFactory.eINSTANCE.createRoot();
@@ -95,6 +61,7 @@ public class ReificationTest extends TestCase
     assertFalse(ReificationPackage.Literals.ROOT.getFeatureType(ReificationPackage.Literals.ROOT__NAME).isInstance(Boolean.TRUE));
   }
 
+  @Test
   public void testReference()
   {
     Root root = ReificationFactory.eINSTANCE.createRoot();
@@ -105,6 +72,7 @@ public class ReificationTest extends TestCase
     assertFalse(ReificationPackage.Literals.ROOT.getFeatureType(ReificationPackage.Literals.ROOT__CONTAINER).isInstance(root));
   }
 
+  @Test
   public void testUnboundedGenericContainerWithRawType()
   {
     Root root = ReificationFactory.eINSTANCE.createRoot();
@@ -120,6 +88,7 @@ public class ReificationTest extends TestCase
     assertTrue(ReificationPackage.Literals.UNBOUNDED_GENERIC_CONTAINER.getFeatureType(ReificationPackage.Literals.UNBOUNDED_GENERIC_CONTAINER__CONTENT).isInstance("name"));
   }
 
+  @Test
   public void testUnboundedGenericContainerWithWildcard()
   {
     Root root = ReificationFactory.eINSTANCE.createRoot();
@@ -136,6 +105,7 @@ public class ReificationTest extends TestCase
   }
 
   @SuppressWarnings("unchecked")
+  @Test
   public void testUnboundedGenericContainerWithSuper()
   {
     Root root = ReificationFactory.eINSTANCE.createRoot();
@@ -161,6 +131,7 @@ public class ReificationTest extends TestCase
   }
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
+  @Test
   public void testUnboundedGenericContainerWithExtends()
   {
     Root root = ReificationFactory.eINSTANCE.createRoot();
@@ -186,6 +157,7 @@ public class ReificationTest extends TestCase
   }
 
   //
+  @Test
   public void testBoundedGenericContainerWithRawType()
   {
     Root root = ReificationFactory.eINSTANCE.createRoot();
@@ -210,6 +182,7 @@ public class ReificationTest extends TestCase
     assertFalse(ReificationPackage.Literals.BOUNDED_GENERIC_CONTAINER.getFeatureType(ReificationPackage.Literals.BOUNDED_GENERIC_CONTAINER__CONTENT).isInstance("name"));
   }
 
+  @Test
   public void testBoundedGenericContainerWithWildcard()
   {
     Root root = ReificationFactory.eINSTANCE.createRoot();
@@ -226,6 +199,7 @@ public class ReificationTest extends TestCase
     assertFalse(ReificationPackage.Literals.BOUNDED_GENERIC_CONTAINER.getFeatureType(ReificationPackage.Literals.BOUNDED_GENERIC_CONTAINER__CONTENT).isInstance("name"));
   }
 
+  @Test
   public void testBoundedGenericContainerWithSuper()
   {
     Root root = ReificationFactory.eINSTANCE.createRoot();
@@ -249,6 +223,7 @@ public class ReificationTest extends TestCase
   }
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
+  @Test
   public void testBoundedGenericContainerWithExtends()
   {
     Root root = ReificationFactory.eINSTANCE.createRoot();
@@ -272,6 +247,7 @@ public class ReificationTest extends TestCase
   }
 
   @SuppressWarnings("unchecked")
+  @Test
   public void testRawKeyValuePair()
   {
     RawKeyValuePair keyValuePair1 = ReificationFactory.eINSTANCE.createRawKeyValuePair();
@@ -292,6 +268,7 @@ public class ReificationTest extends TestCase
   }
 
   @SuppressWarnings("unchecked")
+  @Test
   public void testStringListKeyValuePair()
   {
     StringListKeyValuePair keyValuePair1 = ReificationFactory.eINSTANCE.createStringListKeyValuePair();
@@ -319,6 +296,7 @@ public class ReificationTest extends TestCase
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
+  @Test
   public void testIntegerListKeyValuePair()
   {
     IntegerListKeyValuePair keyValuePair1 = ReificationFactory.eINSTANCE.createIntegerListKeyValuePair();
@@ -353,6 +331,7 @@ public class ReificationTest extends TestCase
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
+  @Test
   public void testBidirectional()
   {
     Bidirectional bidirectional = ReificationFactory.eINSTANCE.createBidirectional();
@@ -378,6 +357,7 @@ public class ReificationTest extends TestCase
   }
 
   @SuppressWarnings("rawtypes")
+  @Test
   public void testLink()
   {
     Link link = ReificationFactory.eINSTANCE.createLink();
@@ -395,6 +375,7 @@ public class ReificationTest extends TestCase
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
+  @Test
   public void testMediumBidirectional()
   {
     MediumBidirectional link = ReificationFactory.eINSTANCE.createMediumBidirectional();
@@ -413,16 +394,18 @@ public class ReificationTest extends TestCase
     assertTrue(ReificationPackage.Literals.MEDIUM_LINK.getFeatureType(ReificationPackage.Literals.MEDIUM_BIDIRECTIONAL__CONTENTS).isInstance(link2));
   }
 
+  @Test
   public void testDynamic()
   {
     testPackage(EcoreUtil.copy(ReificationPackage.eINSTANCE));
   }
 
+  @Test
   public void testStatic()
   {
     testPackage(ReificationPackage.eINSTANCE);
   }
-  
+
   public void testPackage(EPackage ePackage)
   {
     List<EObject> eObjects = new BasicEList<EObject>();
