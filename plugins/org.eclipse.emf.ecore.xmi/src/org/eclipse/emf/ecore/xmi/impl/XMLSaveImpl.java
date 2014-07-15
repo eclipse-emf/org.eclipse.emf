@@ -427,7 +427,10 @@ public class XMLSaveImpl implements XMLSave
       }
 
       String lineSeparator = (String)options.get(Resource.OPTION_LINE_DELIMITER);
-      escape.setLineFeed(lineSeparator);
+      if (escape != null)
+      {
+        escape.setLineFeed(lineSeparator);
+      }
       doc.setLineSeparator(lineSeparator);
 
       if (Boolean.FALSE.equals(options.get(XMLResource.OPTION_FORMATTED)))
