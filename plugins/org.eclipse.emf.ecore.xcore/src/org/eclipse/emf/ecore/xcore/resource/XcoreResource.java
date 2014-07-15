@@ -150,38 +150,41 @@ public class XcoreResource extends BatchLinkableResource
   protected FragmentCache fragmentCache;
 
   @Override
-  public synchronized EObject getEObject(String uriFragment)
+  public EObject getEObject(String uriFragment)
   {
-    if (fragmentCache == null)
+    synchronized (getLock())
     {
-      fragmentCache = new FragmentCache(this);
-    }
-
-    EObject result = fragmentCache.get(uriFragment);
-    if (result != null)
-    {
-      return result;
-    }
-    else
-    {
-      Pair<EClass, QualifiedName> fragmentInfo = proxyConverter.decodeFragment(uriFragment);
-      if (fragmentInfo != null)
+      if (fragmentCache == null)
       {
-        try
-        {
-          return
-            resolving.add(fragmentInfo) ?
-              findEObject(fragmentInfo.getFirst(), fragmentInfo.getSecond(), uriFragment) :
-              null;
-        }
-        finally
-        {
-          resolving.remove(fragmentInfo);
-        }
+        fragmentCache = new FragmentCache(this);
+      }
+
+      EObject result = fragmentCache.get(uriFragment);
+      if (result != null)
+      {
+        return result;
       }
       else
       {
-        return super.getEObject(uriFragment);
+        Pair<EClass, QualifiedName> fragmentInfo = proxyConverter.decodeFragment(uriFragment);
+        if (fragmentInfo != null)
+        {
+          try
+          {
+            return
+              resolving.add(fragmentInfo) ?
+                findEObject(fragmentInfo.getFirst(), fragmentInfo.getSecond(), uriFragment) :
+                null;
+          }
+          finally
+          {
+            resolving.remove(fragmentInfo);
+          }
+        }
+        else
+        {
+          return super.getEObject(uriFragment);
+        }
       }
     }
   }
