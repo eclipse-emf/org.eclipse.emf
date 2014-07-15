@@ -17,7 +17,7 @@
     </description>
 
 	<!-- Local Xtext git repository -->
-	<property name="checkout.location" value="${user.home}/git/org.eclipse.emf/" />
+	<property name="checkout.location" value="${user.home}/git/emf-master" />
 	<property name="releng.proj.loc" value="${checkout.location}/releng/org.eclipse.emf.releng.buckminster" />
 	<!-- Buckminster headless 3.7 to use. See http://www.eclipse.org/buckminster/downloads.html -->
 	<property name="buckminster.home" location="${user.home}/buckminster" />

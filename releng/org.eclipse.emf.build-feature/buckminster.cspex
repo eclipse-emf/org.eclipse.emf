@@ -13,7 +13,11 @@
 		<cs:dependency name="org.eclipse.ui.ide.application" componentType="osgi.bundle" />
 		<cs:dependency name="org.eclipse.pde.core" componentType="osgi.bundle" />
 		<cs:dependency name="org.eclipse.pde.junit.runtime" componentType="osgi.bundle" />
-		<cs:dependency name="org.eclipse.equinox.frameworkadmin.equinox" componentType="osgi.bundle" />
+        <cs:dependency name="org.eclipse.jdt.junit" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.jdt.junit4.runtime" componentType="osgi.bundle"/>
+ 		<cs:dependency name="org.eclipse.equinox.frameworkadmin.equinox" componentType="osgi.bundle" />
+		<cs:dependency name="org.junit4" componentType="osgi.bundle" versionDesignator="4.8"/>
+		<cs:dependency name="org.junit" componentType="osgi.bundle" versionDesignator="4.11"/>
 	</cs:dependencies>
 
 	<cs:actions>
