@@ -11,6 +11,9 @@
 
 	<locator pattern="^org\.eclipse\.datatools(?:\..+)?$" searchPathRef="datatools" />
 	<locator pattern="^com\.google\.(?:appengine|gdt|gwt)\.eclipse(?:\..+)?$" searchPathRef="google" />
+	<locator pattern="^org\.junit(?:\..+)?$" searchPathRef="orbit" />
+	<locator pattern="^org\.junit4(?:\..+)?$" searchPathRef="junit4" />
+	<locator pattern="^org\.hamcrest(?:\..+)?$" searchPathRef="orbit" />
 	<locator searchPathRef="platform" />
 
 	<searchPath name="emf">
@@ -154,6 +157,25 @@
 			</uri>
 		</provider>
 	</searchPath>
+	
+	<searchPath name="orbit">
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(resolve.target.platform=true)"
+		>
+			<uri format="{0}">
+				<bc:propertyRef key="orbit.repository" />
+			</uri>
+		</provider>
+	</searchPath>
+	<searchPath name="junit4">
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(resolve.target.platform=true)"
+		>
+			<uri format="{0}">
+				<bc:propertyRef key="junit4.repository" />
+			</uri>
+		</provider>
+	</searchPath>
 
 	<searchPath name="platform">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
@@ -194,6 +216,8 @@
 	<property key="xsd.clone.root" value="${git.clones.root}/xsd-repo" />
 
 	<property key="eclipse.download" value="http://download.eclipse.org" />
+	<property key="orbit.repository" value="http://download.eclipse.org/modeling/tmf/xtext/updates/orbit/" />
+	<property key="junit4.repository" value="${eclipse.download}/eclipse/updates/3.8" />
 	<property key="google.web.toolkit.repository" value="http://dl.google.com/eclipse/plugin/3.7" />
 
 	<property key="resolve.target.platform" value="true" />
