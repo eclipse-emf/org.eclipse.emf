@@ -10,6 +10,8 @@
  */
 package org.eclipse.emf.test.edit.command;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +28,8 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * More Tests for SetCommand.
@@ -37,32 +37,19 @@ import junit.framework.TestSuite;
  * in which a whole new list value is set. Changes are performed on an instance of the Ecore metamodel, and its state
  * are tested after execute, undo and redo.
  */
-public class SetCommandListTest extends TestCase
+public class SetCommandListTest
 {
-  public SetCommandListTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite suite = new TestSuite("SetCommandListTest");
-    suite.addTest(new SetCommandListTest("testInsert"));
-    suite.addTest(new SetCommandListTest("testAddAndRemove"));
-    return suite;
-  }
-
   /**
    * A stack on which the commands are executed.
    */
   protected CommandStack commandStack;
 
   /**
-   * An editing domain for the tests. 
+   * An editing domain for the tests.
    */
   protected EditingDomain domain;
 
-  @Override
+  @Before
   public void setUp()
   {
     AdapterFactory adapterFactory = new ReflectiveItemProviderAdapterFactory();
@@ -87,6 +74,7 @@ public class SetCommandListTest extends TestCase
     return attribute;
   }
 
+  @Test
   public void testInsert()
   {
     EClass eclass = EcoreFactory.eINSTANCE.createEClass();
@@ -116,6 +104,7 @@ public class SetCommandListTest extends TestCase
     assertEquals(after.toString(), eclass.getEAttributes().toString());
   }
 
+  @Test
   public void testAddAndRemove()
   {
     EClass eclass = EcoreFactory.eINSTANCE.createEClass();

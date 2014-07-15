@@ -10,6 +10,10 @@
  */
 package org.eclipse.emf.test.edit.provider;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,30 +35,14 @@ import org.eclipse.emf.test.models.ref.RefPackage;
 import org.eclipse.emf.test.models.ref.provider.AItemProvider;
 import org.eclipse.emf.test.models.ref.provider.EItemProvider;
 import org.eclipse.emf.test.models.ref.provider.RefItemProviderAdapterFactory;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for ComposedAdapterFactory.
  */
-public class ComposedAdapterFactoryTest extends TestCase
+public class ComposedAdapterFactoryTest
 {
-  public ComposedAdapterFactoryTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite suite = new TestSuite("ComposedAdapterFactoryTest");
-    suite.addTest(new ComposedAdapterFactoryTest("testAdapt"));
-    suite.addTest(new ComposedAdapterFactoryTest("testAdaptSubclass"));
-    suite.addTest(new ComposedAdapterFactoryTest("testAdaptBaseclass"));
-    return suite;
-  }
-
   /**
    * The Ref test package.
    */
@@ -90,18 +78,19 @@ public class ComposedAdapterFactoryTest extends TestCase
    */
   protected ComposedAdapterFactory adapterFactory;
 
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     refPackage = RefPackage.eINSTANCE;
     refFactory = refPackage.getRefFactory();
     refAdapterFactory = new RefItemProviderAdapterFactory();
-    
+
     extPackage = ExtPackage.eINSTANCE;
     extFactory = extPackage.getExtFactory();
     extAdapterFactory = new ExtItemProviderAdapterFactory();
   }
 
+  @Test
   public void testAdapt()
   {
     List<AdapterFactory> factories = new ArrayList<AdapterFactory>();
@@ -123,6 +112,7 @@ public class ComposedAdapterFactoryTest extends TestCase
     assertSame(extAdapterFactory.createFAdapter(), fAdapter);  // okay since singleton
   }
 
+  @Test
   public void testAdaptSubclass()
   {
     List<AdapterFactory> factories = new ArrayList<AdapterFactory>();
@@ -144,6 +134,7 @@ public class ComposedAdapterFactoryTest extends TestCase
     assertSame(extAdapterFactory.createExtEAdapter(), extEAdapter);  // okay since singleton
   }
 
+  @Test
   public void testAdaptBaseclass()
   {
     adapterFactory = new ComposedAdapterFactory(refAdapterFactory);

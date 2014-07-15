@@ -10,6 +10,9 @@
  */
 package org.eclipse.emf.test.xml.xmi;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -26,57 +29,38 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
-public class LineWidthTest extends TestCase
+public class LineWidthTest
 {
   protected ResourceSet resourceSet;
-  
-  public LineWidthTest(String name)
-  {
-    super(name);
-  }
-  
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite(LineWidthTest.class.getSimpleName());
-    ts.addTestSuite(LineWidthTest.class);
-    return ts;
-  }
-  
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Override
-  protected void setUp() throws Exception
+
+  @Before
+  public void setUp() throws Exception
   {
     resourceSet = new ResourceSetImpl();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new GenericXMLResourceFactoryImpl());
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new EcoreResourceFactoryImpl());
   }
 
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
-  @Override
-  protected void tearDown() throws Exception
+  @After
+  public void tearDown() throws Exception
   {
     resourceSet = null;
   }
 
-  
   public void process(String resourceName, int lineWidth, int attributeCount)
   {
     EPackage ecorePackage = EcoreUtil.copy(EcorePackage.eINSTANCE);
     Resource ecoreResource = resourceSet.createResource(URI.createURI(resourceName));
     ecoreResource.getContents().add(ecorePackage);
-    
+
     Map<Object, Object> options = new HashMap<Object, Object>();
     options.put(XMLResource.OPTION_LINE_WIDTH, lineWidth);
-    
+
     StringWriter writer1 = new StringWriter();
     StringWriter writer2 = new StringWriter();
     try
@@ -89,7 +73,7 @@ public class LineWidthTest extends TestCase
     {
       fail("Failure saving to XML");
     }
-    
+
     String string1 = writer1.toString();
     String string2 = writer2.toString();
     assertEquals(string1, string2);
@@ -105,42 +89,50 @@ public class LineWidthTest extends TestCase
     }
     assertEquals("First line doesn't contain " + attributeCount + "attribute(s): " + firstElement, attributeCount, count);
   }
-  
+
+  @Test
   public void testXMLShortLine()
   {
     process("Ecore.xml", 10, 0);
   }
 
+  @Test
   public void testXMLMediumLine()
   {
     process("Ecore.xml", 30, 1);
   }
 
+  @Test
   public void testXMLLongLine()
   {
     process("Ecore.xml", 70, 2);
   }
 
+  @Test
   public void testXMLVeryLongLine()
   {
     process("Ecore.xml", 1000, 5);
   }
 
+  @Test
   public void testXMIShortLine()
   {
     process("Ecore.xmi", 10, 0);
   }
 
+  @Test
   public void testXMIMediumLine()
   {
     process("Ecore.xmi", 30, 1);
   }
 
+  @Test
   public void testXMILongLine()
   {
     process("Ecore.xmi", 40, 2);
   }
 
+  @Test
   public void testXMIVeryLongLine()
   {
     process("Ecore.xmi", 1000, 7);

@@ -12,13 +12,12 @@
 package org.eclipse.emf.test.xml.xmi;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -38,37 +37,25 @@ import org.eclipse.emf.test.models.library.LibraryFactory;
 import org.eclipse.emf.test.models.library.LibraryPackage;
 import org.eclipse.emf.test.models.library.Writer;
 import org.eclipse.emf.test.xml.AllSuites;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 
-public class LaxFeatureNamespaceMatchingTest extends TestCase
+public class LaxFeatureNamespaceMatchingTest
 {
   final static String BASE_XML_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xml/";
   final static String LF = System.getProperty("line.separator");
 
-  ResourceSet resourceSet; 
+  ResourceSet resourceSet;
 
-  public LaxFeatureNamespaceMatchingTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("LaxFeatureNamespaceMatchingTest");
-    ts.addTest(new LaxFeatureNamespaceMatchingTest("test"));
-    return ts;
-  }
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     resourceSet = new ResourceSetImpl();
     LibraryPackage.eINSTANCE.eClass();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put
-      ("*", 
+      ("*",
         new XMLResourceFactoryImpl()
         {
           @Override
@@ -76,7 +63,7 @@ public class LaxFeatureNamespaceMatchingTest extends TestCase
           {
             XMLResource result = (XMLResource)super.createResource(uri);
 
-            ExtendedMetaData extendedMetaData = 
+            ExtendedMetaData extendedMetaData =
               new BasicExtendedMetaData(new EPackageRegistryImpl(EPackage.Registry.INSTANCE))
               {
                 @Override
@@ -93,21 +80,19 @@ public class LaxFeatureNamespaceMatchingTest extends TestCase
             result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
 
             result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
-            
+
             return result;
           }
         });
   }
 
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
-  @Override
-  protected void tearDown() throws Exception
+  @After
+  public void tearDown() throws Exception
   {
     resourceSet = null;
   }
 
+  @Test
   public void test() throws MalformedURLException, IOException
   {
     Resource firstLibraryResource = resourceSet.createResource(URI.createFileURI(BASE_XML_URI + "first.library"));
@@ -119,7 +104,7 @@ public class LaxFeatureNamespaceMatchingTest extends TestCase
     firstLibraryResource.getContents().add(firstLibrary);
     StringWriter firstWriter = new StringWriter();
     firstLibraryResource.save(new URIConverter.WriteableOutputStream(firstWriter, "UTF-8"), null);
-    
+
     Resource secondLibraryResource = resourceSet.createResource(URI.createFileURI(BASE_XML_URI + "second.library"));
     Library secondLibrary = LibraryFactory.eINSTANCE.createLibrary();
     secondLibrary.setName("second");
@@ -129,7 +114,7 @@ public class LaxFeatureNamespaceMatchingTest extends TestCase
     secondLibraryResource.getContents().add(secondLibrary);
     StringWriter secondWriter = new StringWriter();
     secondLibraryResource.save(new URIConverter.WriteableOutputStream(secondWriter, "UTF-8"), null);
-    
+
     XMLResource mainLibraryResource = (XMLResource)resourceSet.createResource(URI.createFileURI(BASE_XML_URI + "main.library"));
     Library mainLibrary = LibraryFactory.eINSTANCE.createLibrary();
     mainLibrary.setName("main");
@@ -142,18 +127,18 @@ public class LaxFeatureNamespaceMatchingTest extends TestCase
     secondAuthor.getBooks().add(secondBook);
     mainLibrary.getWriters().add(secondAuthor);
     mainLibraryResource.getContents().add(mainLibrary);
-    
+
     StringWriter mainWriter = new StringWriter();
     mainLibraryResource.save(new URIConverter.WriteableOutputStream(mainWriter, "UTF-8"), null);
     String expectedResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + LF +
        "<org.eclipse.emf.test.models.library:Library xmlns:org.eclipse.emf.test.models.library=\"http:///org.eclipse.emf.test.models/Library\" name=\"main\">" + LF +
-       
+
        "  <writers name=\"First Author\" books=\"first.library#//@books.0\"/>" + LF +
        "  <writers name=\"Second Author\" books=\"second.library#//@books.0\"/>" + LF +
        "</org.eclipse.emf.test.models.library:Library>" + LF;
     String result = mainWriter.toString();
     assertEquals(expectedResult, result);
-    
+
     Resource reloadedMainLibraryResource = resourceSet.createResource(URI.createFileURI(BASE_XML_URI + "/main2.library"));
     result = result.replaceAll(":?org\\.eclipse\\.emf\\.test\\.models\\.library:?", "");
     assertFalse(expectedResult.equals(result));
@@ -182,6 +167,5 @@ public class LaxFeatureNamespaceMatchingTest extends TestCase
     mainLibraryResource.save(new URIConverter.WriteableOutputStream(mainWriter, "UTF-8"), null);
     result = mainWriter.toString();
     assertEquals(expectedResult, result);
-
   }
 }

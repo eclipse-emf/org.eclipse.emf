@@ -11,12 +11,10 @@
 package org.eclipse.emf.test.core.common.util;
 
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Date;
 import java.util.List;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -37,9 +35,10 @@ import org.eclipse.emf.test.models.customer.AddressType;
 import org.eclipse.emf.test.models.customer.CreditInfo;
 import org.eclipse.emf.test.models.customer.CustomerFactory;
 import org.eclipse.emf.test.models.customer.CustomerType;
+import org.junit.Before;
+import org.junit.Test;
 
-
-public class EqualityTest extends TestCase
+public class EqualityTest
 {
   private static SupplierFactory supplierFactoryInstance;
 
@@ -64,7 +63,7 @@ public class EqualityTest extends TestCase
   private static CreditInfo credit1;
 
   private static CreditInfo credit2;
-  
+
   private static EPackage employeePackage;
 
   private static EClass employeeClass;
@@ -84,14 +83,14 @@ public class EqualityTest extends TestCase
   /*
    * @see TestCase#setUp()
    */
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     if (employeePackage == null)
     {
       employeePackage = getEmployeePackage();
     }
-    
+
     supplierFactoryInstance = SupplierFactory.eINSTANCE;
     po1 = supplierFactoryInstance.createPurchaseOrder();
     po2 = supplierFactoryInstance.createPurchaseOrder();
@@ -107,34 +106,7 @@ public class EqualityTest extends TestCase
     credit2 = customerFactoryInstance.createCreditInfo();
   }
 
-  /*
-   * @see TestCase#tearDown()
-   */
-  @Override
-  protected void tearDown() throws Exception
-  {
-    super.tearDown();
-  }
-
-  /**
-   * Constructor for CompareTest.
-   * @param name
-   */
-  public EqualityTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("EqualityTest");
-    ts.addTest(new EqualityTest("shallowTest"));
-    ts.addTest(new EqualityTest("featureMapTest"));
-    ts.addTest(new EqualityTest("deepTest"));
-    ts.addTest(new EqualityTest("crossReferenceTest"));
-    return ts;
-  }
-
+  @Test
   public void shallowTest()
   {
     // basic == and null comparisons
@@ -201,6 +173,7 @@ public class EqualityTest extends TestCase
     assertTrue(EcoreUtil.equals(employee1, employee2));
   }
 
+  @Test
   public void featureMapTest()
   {
     supplier1 = supplierFactoryInstance.createSupplier();
@@ -253,6 +226,7 @@ public class EqualityTest extends TestCase
 
   }
 
+  @Test
   public void deepTest()
   {
     customer1 = customerFactoryInstance.createCustomerType();
@@ -288,10 +262,11 @@ public class EqualityTest extends TestCase
     address1.setTown("Montreal");
     assertTrue(EcoreUtil.equals(credit1, credit2));
   }
-  
+
   //Test cases described in cases.gif, where all circles
   //  are shallow-areEqual DataObjects.
   // Note that no two objects in r1, r2, ..., r8 are areEqual.
+  @Test
   public void crossReferenceTest()
   {
     EObject employee1 = createEmployee("Mr. J. C.");
@@ -375,7 +350,7 @@ public class EqualityTest extends TestCase
     assertTrue(EcoreUtil.equals(employee1Prime, employee1));
   }
 
- private static EPackage getEmployeePackage()
+  private static EPackage getEmployeePackage()
   {
     EcoreFactory ecoreFactory = EcoreFactory.eINSTANCE;
     EcorePackage ecorePackage = EcorePackage.eINSTANCE;

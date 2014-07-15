@@ -10,21 +10,23 @@
  */
 package org.eclipse.emf.test.xml.xmi;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.io.ByteArrayInputStream;
 
 import javax.xml.parsers.DocumentBuilder;
-
-import junit.framework.TestCase;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
+
 /**
  * A helper class that provides methods that allow comparing two XML instances.
  */
-public class CompareXML extends TestCase
+public class CompareXML
 {
   public static void compareFiles(DocumentBuilder builder, String expectedOutput, ByteArrayInputStream currentOutput) throws Exception
   {
@@ -92,6 +94,4 @@ public class CompareXML extends TestCase
     assertEquals(uri+": NodeNamespaceURI: " + node1 + "!=" + node2, node1.getNamespaceURI(), node2.getNamespaceURI());
     assertEquals(uri+": NodeValue: " + node1 + "!=" + node2, node1.getNodeValue(), node2.getNodeValue());
   }
-
-
 }

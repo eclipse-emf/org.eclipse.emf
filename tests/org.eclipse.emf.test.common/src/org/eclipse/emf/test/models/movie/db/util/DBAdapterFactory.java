@@ -12,12 +12,14 @@ package org.eclipse.emf.test.models.movie.db.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.movie.db.*;
+import org.eclipse.emf.test.models.movie.db.CriticsReviewType;
+import org.eclipse.emf.test.models.movie.db.CustomerReviewType;
+import org.eclipse.emf.test.models.movie.db.DBPackage;
+import org.eclipse.emf.test.models.movie.db.DocumentRoot;
+import org.eclipse.emf.test.models.movie.db.MovieDBType;
+import org.eclipse.emf.test.models.movie.db.MovieType;
 
 /**
  * <!-- begin-user-doc -->

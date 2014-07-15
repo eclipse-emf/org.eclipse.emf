@@ -11,52 +11,22 @@
 package org.eclipse.emf.test.core.change;
 
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 
-public class ChangeAllSuites extends TestSuite
+@RunWith(Suite.class)
+@Suite.SuiteClasses
+  ({
+     ListDifferenceAnalyzerTest.class,
+     ChangeDescriptionReverseTest.class,
+     ChangeRecordTest.class,
+     ChangeDescriptionTest.class,
+     MultivalueAttributeTest.class,
+     SpecialCasesTest.class,
+     ChangeDescriptionBuilderTest.class
+   })
+public class ChangeAllSuites
 {
-  private static Test[] suites = new Test []
-  { 
-    ListDifferenceAnalyzerTest.suite(),
-    ChangeDescriptionReverseTest.suite(),
-    ChangeRecordTest.suite(false)
-    ,ChangeRecordTest.suite(true)
-    ,ChangeDescriptionTest.suite()
-    ,MultivalueAttributeTest.suite()
-    ,SpecialCasesTest.suite()
-    ,ChangeDescriptionBuilderTest.suite()
-  };
-
-  public static Test suite()
-  {
-    return new ChangeAllSuites("EMF ChangeModel JUnit Test Suite");
-  }
-
-  public ChangeAllSuites()
-  {
-    super();
-    populateSuite();
-  }
-
-  public ChangeAllSuites(Class<?> theClass)
-  {
-    super(theClass);
-    populateSuite();
-  }
-
-  public ChangeAllSuites(String name)
-  {
-    super(name);
-    populateSuite();
-  }
-
-  protected void populateSuite()
-  {
-    for (int i = 0; i < suites.length; i++)
-    {
-      addTest(suites[i]);
-    }
-  }
+  // Empty.
 }

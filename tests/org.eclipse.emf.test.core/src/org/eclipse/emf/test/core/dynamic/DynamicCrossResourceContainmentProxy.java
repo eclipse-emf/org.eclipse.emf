@@ -10,12 +10,11 @@
  */
 package org.eclipse.emf.test.core.dynamic;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -27,22 +26,12 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
+import org.junit.Test;
 
-public class DynamicCrossResourceContainmentProxy extends TestCase 
+public class DynamicCrossResourceContainmentProxy
 {
-  public DynamicCrossResourceContainmentProxy(String name)
-  {
-    super(name);
-  }
-  
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("DynamicCrossResourceContainment");
-    ts.addTest(new DynamicCrossResourceContainmentProxy("testDynamicGet"));
-    return ts;
-  }
-
-  public void testDynamicGet() throws Exception 
+  @Test
+  public void testDynamicGet() throws Exception
   {
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
     ePackage.setNsURI("nsuri");
@@ -55,7 +44,7 @@ public class DynamicCrossResourceContainmentProxy extends TestCase
     eReference.setEType(eClass);
     eReference.setContainment(true);
     eReference.setResolveProxies(true);
-    
+
     EObject parent = ePackage.getEFactoryInstance().create(eClass);
     EObject child = ePackage.getEFactoryInstance().create(eClass);
     parent.eSet(eReference, child);

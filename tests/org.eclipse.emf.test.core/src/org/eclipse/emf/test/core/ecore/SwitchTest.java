@@ -4,19 +4,20 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   Adrian Price
  */
 package org.eclipse.emf.test.core.ecore;
 
 
-import static org.eclipse.emf.test.models.switch1.Switch1Package.Literals.*;
-import static org.eclipse.emf.test.models.switch2.Switch2Package.Literals.*;
-import static org.eclipse.emf.test.models.switch3.Switch3Package.Literals.*;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.eclipse.emf.test.models.switch1.Switch1Package.Literals.ECLASS0;
+import static org.eclipse.emf.test.models.switch1.Switch1Package.Literals.ECLASS1;
+import static org.eclipse.emf.test.models.switch2.Switch2Package.Literals.ECLASS2;
+import static org.eclipse.emf.test.models.switch2.Switch2Package.Literals.ECLASS3;
+import static org.eclipse.emf.test.models.switch3.Switch3Package.Literals.ECLASS4;
+import static org.eclipse.emf.test.models.switch3.Switch3Package.Literals.ECLASS5;
+import static org.junit.Assert.assertEquals;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -31,9 +32,11 @@ import org.eclipse.emf.test.models.switch2.util.Switch2Switch;
 import org.eclipse.emf.test.models.switch3.EClass4;
 import org.eclipse.emf.test.models.switch3.EClass5;
 import org.eclipse.emf.test.models.switch3.util.Switch3Switch;
+import org.junit.Before;
+import org.junit.Test;
 
 
-public class SwitchTest extends TestCase
+public class SwitchTest
 {
   private static final class TestSwitch1 extends Switch1Switch<String>
   {
@@ -144,24 +147,6 @@ public class SwitchTest extends TestCase
     return prefix + ": " + eObject.eClass().getName() + '@' + Integer.toHexString(System.identityHashCode(eObject));
   }
 
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("SwitchTest");
-    ts.addTest(new SwitchTest("testSwitch1"));
-    ts.addTest(new SwitchTest("testSwitch2"));
-    ts.addTest(new SwitchTest("testSwitch3"));
-    ts.addTest(new SwitchTest("testSwitch12"));
-    ts.addTest(new SwitchTest("testSwitch13"));
-    ts.addTest(new SwitchTest("testSwitch23"));
-    ts.addTest(new SwitchTest("testSwitch123"));
-    return ts;
-  }
-
-  public SwitchTest(String name)
-  {
-    super(name);
-  }
-  
   private void doSwitches(Switch<String> switchObject, String switchIdentifier, String[] expectedPrefixes)
   {
     for (int i = 0; i < eObjects.length; i++)
@@ -171,7 +156,7 @@ public class SwitchTest extends TestCase
     }
   }
 
-  @Override
+  @Before
   public void setUp()
   {
     if (switch1 == null)
@@ -189,12 +174,7 @@ public class SwitchTest extends TestCase
     }
   }
 
-  @Override
-  public void tearDown() throws Exception
-  {
-    // Do nothing.
-  }
-
+  @Test
   public void testSwitch1()
   {
     String[] expectedPrefixes = {
@@ -207,6 +187,7 @@ public class SwitchTest extends TestCase
     doSwitches(switch1, "switch1", expectedPrefixes);
   }
 
+  @Test
   public void testSwitch12()
   {
     ComposedSwitch<String> switch12 = new ComposedSwitch<String>()
@@ -229,6 +210,7 @@ public class SwitchTest extends TestCase
     doSwitches(switch12, "switch12", expectedPrefixes);
   }
 
+  @Test
   public void testSwitch123()
   {
     ComposedSwitch<String> switch123 = new ComposedSwitch<String>()
@@ -252,6 +234,7 @@ public class SwitchTest extends TestCase
     doSwitches(switch123, "switch123", expectedPrefixes);
   }
 
+  @Test
   public void testSwitch13()
   {
     ComposedSwitch<String> switch13 = new ComposedSwitch<String>()
@@ -274,6 +257,7 @@ public class SwitchTest extends TestCase
     doSwitches(switch13, "switch13", expectedPrefixes);
   }
 
+  @Test
   public void testSwitch2()
   {
     String[] expectedPrefixes = {
@@ -286,6 +270,7 @@ public class SwitchTest extends TestCase
     doSwitches(switch2, "switch2", expectedPrefixes);
   }
 
+  @Test
   public void testSwitch23()
   {
     ComposedSwitch<String> switch23 = new ComposedSwitch<String>()
@@ -308,6 +293,7 @@ public class SwitchTest extends TestCase
     doSwitches(switch23, "switch23", expectedPrefixes);
   }
 
+  @Test
   public void testSwitch3()
   {
     String[] expectedPrefixes = {

@@ -19,11 +19,8 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EValidator;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
 import org.eclipse.emf.test.models.customer.AddressType;
 import org.eclipse.emf.test.models.customer.CanadaAddr;
 import org.eclipse.emf.test.models.customer.CreditInfo;
@@ -34,15 +31,10 @@ import org.eclipse.emf.test.models.customer.CustomersType;
 import org.eclipse.emf.test.models.customer.DocumentRoot;
 import org.eclipse.emf.test.models.customer.USAddr;
 import org.eclipse.emf.test.models.customer.USState;
-
 import org.eclipse.emf.test.models.customer.util.CustomerValidator;
-
 import org.eclipse.emf.test.models.movie.db.DBPackage;
-
 import org.eclipse.emf.test.models.movie.db.impl.DBPackageImpl;
-
 import org.eclipse.emf.test.models.order.OrderPackage;
-
 import org.eclipse.emf.test.models.order.impl.OrderPackageImpl;
 
 /**

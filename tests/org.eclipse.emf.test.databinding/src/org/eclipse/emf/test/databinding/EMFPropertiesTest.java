@@ -10,12 +10,18 @@
  */
 package org.eclipse.emf.test.databinding;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import junit.framework.TestCase;
 
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
@@ -33,9 +39,9 @@ import org.eclipse.core.databinding.observable.set.SetDiff;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.EMFProperties;
+import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFListProperty.ListElementAccess;
-import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFMapProperty;
 import org.eclipse.emf.databinding.IEMFSetProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
@@ -48,9 +54,11 @@ import org.eclipse.emf.test.databinding.emfdb.A;
 import org.eclipse.emf.test.databinding.emfdb.B;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbFactory;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
+import org.junit.Before;
+import org.junit.Test;
 
 
-public class EMFPropertiesTest extends TestCase
+public class EMFPropertiesTest
 {
   private Resource resource;
   private Realm testRealm;
@@ -58,11 +66,9 @@ public class EMFPropertiesTest extends TestCase
   private ListDiff listDiff;
   private MapDiff mapDiff;
 
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
-    super.setUp();
-
     ResourceSet resourceSet = new ResourceSetImpl();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
       Resource.Factory.Registry.DEFAULT_EXTENSION,
@@ -81,6 +87,7 @@ public class EMFPropertiesTest extends TestCase
       };
   }
 
+  @Test
   public void testFeaturePath()
   {
     assertNotNull(FeaturePath.fromList(EmfdbPackage.Literals.A__BLIST));
@@ -95,6 +102,7 @@ public class EMFPropertiesTest extends TestCase
     }
   }
 
+  @Test
   public void testResourceProperty()
   {
     Realm.runWithDefault(testRealm, new Runnable()
@@ -188,6 +196,7 @@ public class EMFPropertiesTest extends TestCase
     assertEquals(2, listDiff.getDifferences().length);
   }
 
+  @Test
   public void testSetProperty()
   {
     Realm.runWithDefault(testRealm, new Runnable()
@@ -222,6 +231,7 @@ public class EMFPropertiesTest extends TestCase
     assertSame(b, setDiff.getAdditions().iterator().next());
   }
 
+  @Test
   public void testListPropertyOnSingleFeature()
   {
     Realm.runWithDefault(testRealm, new Runnable()
@@ -262,6 +272,7 @@ public class EMFPropertiesTest extends TestCase
     a.setString("Instance 1");
   }
 
+  @Test
   public void testListElementProperty()
   {
     Realm.runWithDefault(testRealm, new Runnable()
@@ -322,6 +333,7 @@ public class EMFPropertiesTest extends TestCase
     assertEquals("New Element 2", value.getValue());
   }
 
+  @Test
   public void testMapProperty()
   {
     Realm.runWithDefault(testRealm, new Runnable()
@@ -439,6 +451,7 @@ public class EMFPropertiesTest extends TestCase
     map.clear();
   }
 
+  @Test
   public void test_sublistElement()
   {
     Realm.runWithDefault(testRealm, new Runnable()
@@ -472,7 +485,7 @@ public class EMFPropertiesTest extends TestCase
 
     IEMFValueProperty vProp2 = vProp1.value(EmfdbPackage.Literals.B__D);
     IEMFListProperty lProp2 = vProp2.list(EmfdbPackage.Literals.D__ELIST);
-        
+
     IEMFValueProperty vProp3 = lProp2.value(new ListElementAccess<Object>()
       {
         @Override
@@ -487,7 +500,7 @@ public class EMFPropertiesTest extends TestCase
           return WriteData.NO_INDEX;
         }
       });
-    
+
 
     IEMFValueProperty detailValue = vProp3.value(EmfdbPackage.Literals.E__NAME);
     IObservableValue v = detailValue.observe(a);

@@ -12,12 +12,11 @@ package org.eclipse.emf.test.core.featuremap.supplier.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.core.featuremap.supplier.*;
+import org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder;
+import org.eclipse.emf.test.core.featuremap.supplier.Supplier;
+import org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage;
 
 /**
  * <!-- begin-user-doc -->

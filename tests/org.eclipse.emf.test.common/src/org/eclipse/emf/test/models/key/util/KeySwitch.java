@@ -14,8 +14,9 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.key.*;
+import org.eclipse.emf.test.models.key.Item;
+import org.eclipse.emf.test.models.key.KeyPackage;
+import org.eclipse.emf.test.models.key.Root;
 
 /**
  * <!-- begin-user-doc -->

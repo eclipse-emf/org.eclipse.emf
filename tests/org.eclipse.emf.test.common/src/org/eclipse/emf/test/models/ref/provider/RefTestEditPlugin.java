@@ -11,7 +11,6 @@
 package org.eclipse.emf.test.models.ref.provider;
 
 import org.eclipse.emf.common.EMFPlugin;
-
 import org.eclipse.emf.common.util.ResourceLocator;
 
 /**

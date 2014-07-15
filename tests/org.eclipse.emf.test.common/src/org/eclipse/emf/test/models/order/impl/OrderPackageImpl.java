@@ -14,19 +14,12 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
 import org.eclipse.emf.test.models.customer.CustomerPackage;
-
 import org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl;
-
 import org.eclipse.emf.test.models.movie.db.DBPackage;
-
 import org.eclipse.emf.test.models.movie.db.impl.DBPackageImpl;
-
 import org.eclipse.emf.test.models.order.CustomerOrder;
 import org.eclipse.emf.test.models.order.DocumentRoot;
 import org.eclipse.emf.test.models.order.Order;

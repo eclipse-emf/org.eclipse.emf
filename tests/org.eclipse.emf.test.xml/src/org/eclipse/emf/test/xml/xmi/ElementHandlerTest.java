@@ -20,10 +20,6 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -34,33 +30,19 @@ import org.eclipse.emf.ecore.xmi.impl.ElementHandlerImpl;
 import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.xml.AllSuites;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-/**
- *
- */
-public class ElementHandlerTest extends TestCase
+
+public class ElementHandlerTest
 {
   final static String BASE_XML_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xml/";
 
-  DocumentBuilder builder;
+  protected DocumentBuilder builder;
 
-  public ElementHandlerTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite(ElementHandlerTest.class.getSimpleName());
-    ts.addTestSuite(ElementHandlerTest.class);
-    return ts;
-  }
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml", new GenericXMLResourceFactoryImpl());
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -68,15 +50,13 @@ public class ElementHandlerTest extends TestCase
     builder = factory.newDocumentBuilder();
   }
 
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
-  @Override
-  protected void tearDown() throws Exception
+  @After
+  public void tearDown() throws Exception
   {
     builder = null;
   }
 
+  @Test
   public void testSubsitutionGroup() throws Exception
   {
     String inputXML = BASE_XML_URI + "elementHandler.xml";
@@ -95,6 +75,7 @@ public class ElementHandlerTest extends TestCase
     CompareXML.compareFiles(builder, expectedXML, new ByteArrayInputStream(outputstream.toByteArray()));
   }
 
+  @Test
   public void testComplexDeducedRoot() throws Exception
   {
     String inputXML = BASE_XML_URI + "elementHandlerComplexRoot.xml";
@@ -113,6 +94,7 @@ public class ElementHandlerTest extends TestCase
     CompareXML.compareFiles(builder, expectedXML, new ByteArrayInputStream(outputstream.toByteArray()));
   }
 
+  @Test
   public void testSimpleDeducedRoot() throws Exception
   {
     String inputXML = BASE_XML_URI + "elementHandlerSimpleRoot.xml";

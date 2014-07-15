@@ -16,17 +16,20 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
 import org.eclipse.emf.ecore.util.Diagnostician;
-
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
-import org.eclipse.emf.test.models.customer.*;
+import org.eclipse.emf.test.models.customer.CanadaAddr;
+import org.eclipse.emf.test.models.customer.CreditInfo;
+import org.eclipse.emf.test.models.customer.CustomerFactory;
+import org.eclipse.emf.test.models.customer.CustomerPackage;
+import org.eclipse.emf.test.models.customer.CustomerType;
+import org.eclipse.emf.test.models.customer.CustomersType;
+import org.eclipse.emf.test.models.customer.DocumentRoot;
+import org.eclipse.emf.test.models.customer.USAddr;
+import org.eclipse.emf.test.models.customer.USState;
 
 /**
  * <!-- begin-user-doc -->

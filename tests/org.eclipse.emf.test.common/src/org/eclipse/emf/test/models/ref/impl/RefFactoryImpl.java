@@ -13,12 +13,19 @@ package org.eclipse.emf.test.models.ref.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.test.models.ref.*;
+import org.eclipse.emf.test.models.ref.A;
+import org.eclipse.emf.test.models.ref.B;
+import org.eclipse.emf.test.models.ref.C;
+import org.eclipse.emf.test.models.ref.C1;
+import org.eclipse.emf.test.models.ref.C2;
+import org.eclipse.emf.test.models.ref.C3;
+import org.eclipse.emf.test.models.ref.C4;
+import org.eclipse.emf.test.models.ref.D;
+import org.eclipse.emf.test.models.ref.E;
+import org.eclipse.emf.test.models.ref.RefFactory;
+import org.eclipse.emf.test.models.ref.RefPackage;
 
 /**
  * <!-- begin-user-doc -->

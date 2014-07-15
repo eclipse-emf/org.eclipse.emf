@@ -8,7 +8,6 @@
 package org.eclipse.emf.test.common.reification.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.test.common.reification.RawKeyValuePair;
 import org.eclipse.emf.test.common.reification.ReificationPackage;
 

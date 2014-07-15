@@ -14,8 +14,10 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.ppo.*;
+import org.eclipse.emf.test.models.ppo.Item;
+import org.eclipse.emf.test.models.ppo.PPOPackage;
+import org.eclipse.emf.test.models.ppo.PurchaseOrder;
+import org.eclipse.emf.test.models.ppo.USAddress;
 
 /**
  * <!-- begin-user-doc -->

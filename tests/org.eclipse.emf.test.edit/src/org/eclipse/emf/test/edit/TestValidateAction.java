@@ -4,27 +4,21 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.edit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
-
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EAttribute;
@@ -37,26 +31,20 @@ import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
 import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.junit.Test;
+
 
 /**
  * @since 2.5.0
  */
-public class TestValidateAction extends TestCase
+public class TestValidateAction
 {
-  public TestValidateAction(String name)
-  {
-    super(name);
-  }
-  
-  public static Test suite()
-  {
-    TestSuite suite = new TestSuite("TestValidateAction");
-    suite.addTest(new TestValidateAction("testUpdateSelection"));
-    suite.addTest(new TestValidateAction("testValidateMultipleSelections"));
-    return suite;
-  }
-  
-  protected static class MyValidateAction extends ValidateAction
+  public static class MyValidateAction extends ValidateAction
   {
     public MyValidateAction()
     {
@@ -76,6 +64,7 @@ public class TestValidateAction extends TestCase
     }
   }
 
+  @Test
   public void testUpdateSelection() throws Exception
   {
     MyValidateAction myValidateAction = new MyValidateAction();
@@ -174,6 +163,7 @@ public class TestValidateAction extends TestCase
     }
   }
 
+  @Test
   public void testValidateMultipleSelections() throws Exception
   {
     // # of problems in ePackage: 3 (name, nsURI, prefix)

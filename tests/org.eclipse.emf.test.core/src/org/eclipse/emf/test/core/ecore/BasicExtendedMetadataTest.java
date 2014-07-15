@@ -4,18 +4,18 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   CEA - Initial API and implementation
  */
 package org.eclipse.emf.test.core.ecore;
 
 
-import java.lang.reflect.Field;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.lang.reflect.Field;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.core.AllSuites;
 import org.eclipse.emf.test.core.extmetadata.ExtmetadataPackage;
+import org.junit.Test;
 
 
 /**
@@ -36,30 +37,18 @@ import org.eclipse.emf.test.core.extmetadata.ExtmetadataPackage;
  * the {@link ExtmetadataPackage} to have been loaded prior to its execution. So, if any
  * other tests use that package, this test must be the first to run.
  */
-public class BasicExtendedMetadataTest extends TestCase
+public class BasicExtendedMetadataTest
 {
-
   private static final String THING_NAMESPACE = "http://www.eclipse.org/emf/2014/test/thing";
-
-  public BasicExtendedMetadataTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("BasicExtendedMetadataTest");
-    ts.addTest(new BasicExtendedMetadataTest("testDynamicEPackageLeak"));
-    return ts;
-  }
 
   /**
    * Test that dynamic EPackages embedded in a user-model resource, added to a
    * resource set's local package registry, are not leaked in the extended
    * metadata of statically registered (generated) EPackages.
-   * 
+   *
    * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=433108
    */
+  @Test
   public void testDynamicEPackageLeak()
   {
     // Initialize the static EPackage

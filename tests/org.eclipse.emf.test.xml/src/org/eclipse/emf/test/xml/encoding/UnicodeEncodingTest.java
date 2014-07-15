@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2006 Jesper Steen Møller 
- * 
+ * Copyright (c) 2006 Jesper Steen Møller
+ *
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,98 +13,33 @@
 package org.eclipse.emf.test.xml.encoding;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 
 /**
  * @author jsm
  */
-public class UnicodeEncodingTest extends TestCase
+@RunWith(Parameterized.class)
+public class UnicodeEncodingTest
 {
-  public String encodingName = "ASCII";
-  public String xmlVersion = "1.0";
-
-  public UnicodeEncodingTest(String name, String encoding, String xmlVersion)
-  {
-    super(name);
-    encodingName = encoding;
-    this.xmlVersion = xmlVersion;
-  }
-  
-  public UnicodeEncodingTest(String name, String encoding)
-  {
-    this(name, encoding, "1.0");
-  }
-
-  @Override
-  public String getName()
-  {
-    return super.getName() + "(" + encodingName + ")";
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("UnicodeEncodingTests");
-    ts.addTestSuite(ASCIIEncodingTest.class);
-    ts.addTestSuite(ISO_8859_1EncodingTest.class);
-    //ts.addTestSuite(ISO_8859_5EncodingTest.class);
-    ts.addTestSuite(UTF16BEEncodingTest.class);
-    ts.addTestSuite(UTF16LEEncodingTest.class);
-    ts.addTestSuite(UTF8EncodingTest.class);
-    ts.addTestSuite(ASCIIControlCharacterEncodingTest.class);
-    return ts;
-  }
-
-  File tempFile;
-
-  @Override
-  protected void setUp() throws Exception
-  {
-    tempFile = File.createTempFile("EMF-encoding-test-" + encodingName, ".tmp.xml");
-  }
-
-  @Override
-  protected void tearDown() throws Exception
-  {
-      tempFile.delete();
-  }
-
-  public void doEMFSaveAndLoad(String testString) throws IOException
-  {
-    URI fileURI = URI.createFileURI(tempFile.toString());
-    String sourceValue = testString + " represented as XML in " + encodingName;
-    EAnnotation eObject = EcoreFactory.eINSTANCE.createEAnnotation();
-
-    eObject.setSource(sourceValue); // Including international characters 
-
-    XMIResource resource = new XMIResourceImpl();
-    resource.getContents().add(eObject);
-    resource.setEncoding(encodingName);
-    resource.setXMLVersion(xmlVersion);
-    resource.setURI(fileURI);
-    resource.save(new HashMap<String, Object>());
-
-    XMIResource loadedResource = new XMIResourceImpl();
-    loadedResource.setURI(fileURI);
-    loadedResource.load(new HashMap<String, Object>());
-    assertTrue("No errors should occur while loading", loadedResource.getErrors().isEmpty());
-
-    EAnnotation loadedAnnotation = (EAnnotation)loadedResource.getContents().get(0);
-    assertEquals("String read back by EMF was different from the one being saved", sourceValue, loadedAnnotation.getSource());
-  }
-
   // From the Unicode spec
   public static final int MIN_SUPPLEMENTARY_CODE_POINT = 0x010000;
 
@@ -139,13 +74,78 @@ public class UnicodeEncodingTest extends TestCase
     return result;
   }
 
+  protected File tempFile;
+  protected final String encodingName;
+  protected final String xmlVersion;
+
+  public UnicodeEncodingTest(String encoding, String xmlVersion)
+  {
+    encodingName = encoding;
+    this.xmlVersion = xmlVersion;
+  }
+
+  @Parameterized.Parameters(name="Encoding {0} for XML {1}")
+  public static Collection<Object[]> parameters()
+  {
+    return
+      Arrays.asList
+        (new Object[][]
+         {
+           { "UTF-8", "1.0" },
+           { "UTF-16BE", "1.0" },
+           { "UTF-16LE", "1.0" },
+           { "ASCII", "1.0" },
+           { "ISO-8859-1", "1.0" },
+       //  { "ISO-8859-5", "1.0" },
+           { "ASCII", "1.1" },
+         });
+  }
+
+  @Before
+  public void setUp() throws Exception
+  {
+    tempFile = File.createTempFile("EMF-encoding-test-" + encodingName, ".tmp.xml");
+  }
+
+  @After
+  public void tearDown() throws Exception
+  {
+    tempFile.delete();
+  }
+
+  public void doEMFSaveAndLoad(String testString) throws IOException
+  {
+    URI fileURI = URI.createFileURI(tempFile.toString());
+    String sourceValue = testString + " represented as XML in " + encodingName;
+    EAnnotation eObject = EcoreFactory.eINSTANCE.createEAnnotation();
+
+    eObject.setSource(sourceValue); // Including international characters
+
+    XMIResource resource = new XMIResourceImpl();
+    resource.getContents().add(eObject);
+    resource.setEncoding(encodingName);
+    resource.setXMLVersion(xmlVersion);
+    resource.setURI(fileURI);
+    resource.save(new HashMap<String, Object>());
+
+    XMIResource loadedResource = new XMIResourceImpl();
+    loadedResource.setURI(fileURI);
+    loadedResource.load(new HashMap<String, Object>());
+    assertTrue("No errors should occur while loading", loadedResource.getErrors().isEmpty());
+
+    EAnnotation loadedAnnotation = (EAnnotation)loadedResource.getContents().get(0);
+    assertEquals("String read back by EMF was different from the one being saved", sourceValue, loadedAnnotation.getSource());
+  }
+
+
+  @Test
   public void testStraightASCII() throws Exception
   {
-
     // Test in the ASCII range
     doEMFSaveAndLoad("Just straight ASCII small < and (&) big >");
   }
 
+  @Test
   public void testCharactersIn8bit() throws Exception
   {
     // Test in the 8 bit range of Unicode
@@ -153,13 +153,15 @@ public class UnicodeEncodingTest extends TestCase
   }
 
   // Test outside the 8 bit range of Unicode
+  @Test
   public void testArabicLetter() throws Exception
   {
     // Test in the 16 bit range of Unicode
     doEMFSaveAndLoad("This is an arabic glyph: \uFECE. ");
   }
 
-  // Test beyong the 16 bit range of Unicode
+  // Test beyond the 16 bit range of Unicode
+  @Test
   public void testSupplementaryContent() throws Exception
   {
     /**
@@ -171,7 +173,8 @@ public class UnicodeEncodingTest extends TestCase
 
     // XML saving and loading has errors, too!
   }
-  
+
+  @Test
   public void testControlCharacters() throws Exception
   {
     if ("1.1".equals(xmlVersion))
@@ -184,60 +187,4 @@ public class UnicodeEncodingTest extends TestCase
       doEMFSaveAndLoad("These are control characters: " + text + ". ");
     }
   }
-
-  static public class UTF8EncodingTest extends UnicodeEncodingTest
-  {
-    public UTF8EncodingTest(String n)
-    {
-      super(n, "UTF-8");
-    }
-  }
-
-  static public class UTF16BEEncodingTest extends UnicodeEncodingTest
-  {
-    public UTF16BEEncodingTest(String n)
-    {
-      super(n, "UTF-16BE");
-    }
-  }
-
-  static public class UTF16LEEncodingTest extends UnicodeEncodingTest
-  {
-    public UTF16LEEncodingTest(String n)
-    {
-      super(n, "UTF-16LE");
-    }
-  }
-
-  static public class ASCIIEncodingTest extends UnicodeEncodingTest
-  {
-    public ASCIIEncodingTest(String n)
-    {
-      super(n, "ASCII");
-    }
-  }
-  static public class ISO_8859_1EncodingTest extends UnicodeEncodingTest
-  {
-    public ISO_8859_1EncodingTest(String n)
-    {
-      super(n, "ISO-8859-1");
-    }
-  }
-
-  static public class ISO_8859_5EncodingTest extends UnicodeEncodingTest
-  {
-    public ISO_8859_5EncodingTest(String n)
-    {
-      super(n, "ISO-8859-5");
-    }
-  }
-
-  static public class ASCIIControlCharacterEncodingTest extends UnicodeEncodingTest
-  {
-    public ASCIIControlCharacterEncodingTest(String n)
-    {
-      super(n, "ASCII", "1.1");
-    }
-  }
-
 }

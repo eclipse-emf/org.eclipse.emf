@@ -12,16 +12,12 @@ package org.eclipse.emf.test.models.dbitem.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.test.models.dbitem.DBItemPackage;
 import org.eclipse.emf.test.models.dbitem.DbType;
-
 import org.eclipse.emf.test.models.dbprice.PenType;
 import org.eclipse.emf.test.models.dbprice.PencilType;
 

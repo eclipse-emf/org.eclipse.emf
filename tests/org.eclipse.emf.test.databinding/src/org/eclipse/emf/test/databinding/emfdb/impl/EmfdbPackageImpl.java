@@ -4,20 +4,19 @@
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/cpl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   Tom Schindl - Initial API and implementation
  */
 package org.eclipse.emf.test.databinding.emfdb.impl;
 
 import java.util.Map;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.test.databinding.emfdb.EmfdbFactory;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
 
@@ -93,7 +92,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link EmfdbPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -121,7 +120,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
     // Mark meta-data to indicate it can't be changed
     theEmfdbPackage.freeze();
 
-  
+
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(EmfdbPackage.eNS_URI, theEmfdbPackage);
     return theEmfdbPackage;

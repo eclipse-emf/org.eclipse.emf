@@ -15,10 +15,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
@@ -33,62 +29,46 @@ import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.xml.AllSuites;
-
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
+import org.junit.Before;
+import org.junit.Test;
 
 
 /**
  * General tests for XSDBuilder
  */
-public class XSDTests extends TestCase
+public class XSDTests
 {
-
-  XSDEcoreBuilder xsdEcoreBuilder;
-
   final static String BASE_XSD_URI = "file:///" + TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xsd/";
 
-  public XSDTests(String name)
-  {
-    super(name);
-  }
+  protected XSDEcoreBuilder xsdEcoreBuilder;
 
-  public static Test suite()
+  @Before
+  public void setUp() throws Exception
   {
-    TestSuite ts = new TestSuite("XSDTests");
-    ts.addTest(new XSDTests("testEnumLoad"));
-    ts.addTest(new XSDTests("testEnumUnion"));
-    ts.addTest(new XSDTests("testEnumSave"));
-    return ts;
-  }
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Override
-  protected void setUp() throws Exception
-  {
-
     xsdEcoreBuilder = new XSDEcoreBuilder();
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xsd", new XSDResourceFactoryImpl());
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMLResourceFactoryImpl());
-
   }
 
   /*
    * Bug #83463
    */
+  @Test
   public void testEnumUnion() throws Exception
   {
     testHelper(BASE_XSD_URI + "unionEnum.xsd", BASE_XSD_URI + "unionEnum.xml");
   }
 
+  @Test
   public void testEnumLoad() throws Exception
   {
     testHelper(BASE_XSD_URI + "enum.xsd", BASE_XSD_URI + "enum.xml");
   }
 
+  @Test
   public void testEnumSave() throws Exception
   {
     testHelper(BASE_XSD_URI + "enum.xsd", BASE_XSD_URI + "enum-single.xml");
@@ -123,5 +103,4 @@ public class XSDTests extends TestCase
     // SERIALIZE
     resource.save(new ByteArrayOutputStream(2064), options);
   }
-
 }

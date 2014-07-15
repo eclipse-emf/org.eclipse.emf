@@ -13,15 +13,10 @@ package org.eclipse.emf.test.models.dbprice.impl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
 import org.eclipse.emf.test.models.dbitem.DBItemPackage;
-
 import org.eclipse.emf.test.models.dbitem.impl.DBItemPackageImpl;
-
 import org.eclipse.emf.test.models.dbprice.DBPriceFactory;
 import org.eclipse.emf.test.models.dbprice.DBPricePackage;
 import org.eclipse.emf.test.models.dbprice.PenType;

@@ -12,12 +12,11 @@ package org.eclipse.emf.test.models.qname.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.qname.*;
+import org.eclipse.emf.test.models.qname.DocumentRoot;
+import org.eclipse.emf.test.models.qname.QNamePackage;
+import org.eclipse.emf.test.models.qname.ResourceType;
 
 /**
  * <!-- begin-user-doc -->

@@ -13,12 +13,12 @@ package org.eclipse.emf.test.models.dbitem.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.test.models.dbitem.*;
+import org.eclipse.emf.test.models.dbitem.DBItemFactory;
+import org.eclipse.emf.test.models.dbitem.DBItemPackage;
+import org.eclipse.emf.test.models.dbitem.DbType;
+import org.eclipse.emf.test.models.dbitem.DocumentRoot;
 
 /**
  * <!-- begin-user-doc -->

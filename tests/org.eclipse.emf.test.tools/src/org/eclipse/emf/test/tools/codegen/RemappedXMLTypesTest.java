@@ -1,13 +1,14 @@
 package org.eclipse.emf.test.tools.codegen;
 
+import static org.junit.Assert.assertEquals;
+
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion;
+import org.junit.Test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * Copyright (c) 2009 IBM Corporation and others.
@@ -15,25 +16,12 @@ import junit.framework.TestSuite;
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 public class RemappedXMLTypesTest extends BaseGenModelTest
 {
-  public RemappedXMLTypesTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("RemappedXMLTypesTest");
-    ts.addTest(new RemappedXMLTypesTest("testNewXMLTypes"));
-    ts.addTest(new RemappedXMLTypesTest("testOldXMLTypes"));
-    return ts;
-  }
-
   protected void assertCorrectTypes(GenPackage genPackage, String className, boolean old)
   {
     GenModel genModel = genPackage.getGenModel();
@@ -52,6 +40,7 @@ public class RemappedXMLTypesTest extends BaseGenModelTest
     }
   }
 
+  @Test
   public void testNewXMLTypes()
   {
     GenModel genModel = loadModel("XMLTypes.ecore");
@@ -59,6 +48,7 @@ public class RemappedXMLTypesTest extends BaseGenModelTest
     assertCorrectTypes(genModel.getGenPackages().get(0), "Item", false);
   }
 
+  @Test
   public void testOldXMLTypes()
   {
     GenModel genModel = loadModel("XMLTypes.ecore");

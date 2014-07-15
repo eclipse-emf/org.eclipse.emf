@@ -18,15 +18,18 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
-import org.eclipse.emf.test.models.movie.db.*;
+import org.eclipse.emf.test.models.movie.db.CriticsReviewType;
+import org.eclipse.emf.test.models.movie.db.CustomerReviewType;
+import org.eclipse.emf.test.models.movie.db.DBFactory;
+import org.eclipse.emf.test.models.movie.db.DBPackage;
+import org.eclipse.emf.test.models.movie.db.DocumentRoot;
+import org.eclipse.emf.test.models.movie.db.GenreTypes;
+import org.eclipse.emf.test.models.movie.db.MovieDBType;
+import org.eclipse.emf.test.models.movie.db.MovieType;
 
 /**
  * <!-- begin-user-doc -->

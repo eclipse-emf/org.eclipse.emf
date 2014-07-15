@@ -11,12 +11,9 @@
 package org.eclipse.emf.test.models.switch1.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.test.models.switch1.EClass0;
 import org.eclipse.emf.test.models.switch1.Switch1Package;
 

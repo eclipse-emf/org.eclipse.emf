@@ -8,27 +8,16 @@
 package org.eclipse.emf.test.core.common.util;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.eclipse.emf.common.util.Pool;
+import org.junit.Test;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-
-public class PoolTest extends TestCase
+public class PoolTest
 {
-  public PoolTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite suite = new TestSuite("PoolTest");
-    suite.addTest(new PoolTest("testWeakness"));
-    return suite;
-  }
-
+  @Test
   public void testWeakness()
   {
     Pool<String> set = new Pool<String>();
@@ -53,4 +42,3 @@ public class PoolTest extends TestCase
     assertEquals(0, set.size());
   }
 }
-  

@@ -4,21 +4,23 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   CEA - Initial API and implementation
  */
 package org.eclipse.emf.test.core.ecore;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -44,9 +46,12 @@ import org.eclipse.emf.test.core.AllSuites;
 import org.eclipse.emf.test.core.xrefsmodel.A;
 import org.eclipse.emf.test.core.xrefsmodel.XRefsModelPackage;
 import org.eclipse.emf.test.core.xrefsmodel.util.XRefsModelUtil;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 
-public class ECrossReferenceAdapterTest extends TestCase
+public class ECrossReferenceAdapterTest
 {
   private EPackage testPackage;
 
@@ -54,26 +59,10 @@ public class ECrossReferenceAdapterTest extends TestCase
 
   private ECrossReferenceAdapterFixture fixture;
 
-  public ECrossReferenceAdapterTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("ECrossReferenceAdapterTest");
-    ts.addTest(new ECrossReferenceAdapterTest("testCrossReferenceIterator_resolving"));
-    ts.addTest(new ECrossReferenceAdapterTest("testCrossReferenceIterator_nonResolving"));
-    ts.addTest(new ECrossReferenceAdapterTest("testCrossReferenceIterator_resolving_wrapper"));
-    ts.addTest(new ECrossReferenceAdapterTest("testCrossReferenceIterator_nonResolving_wrapper"));
-    ts.addTest(new ECrossReferenceAdapterTest("testSimpleTypeTypeReferencesDoNotLeak"));
-    ts.addTest(new ECrossReferenceAdapterTest("testGenericTypeTypeReferencesDoNotLeak"));
-    return ts;
-  }
-
   /**
    * Tests the filtered intrinsic cross-reference iterator for a resolving cross-referencer.
    */
+  @Test
   public void testCrossReferenceIterator_resolving()
   {
     A a0 = loadXRefsInstance();
@@ -103,6 +92,7 @@ public class ECrossReferenceAdapterTest extends TestCase
   /**
    * Tests the filtered intrinsic cross-reference iterator for a non-resolving cross-referencer.
    */
+  @Test
   public void testCrossReferenceIterator_nonResolving()
   {
     // Don't resolve cross-references
@@ -136,6 +126,7 @@ public class ECrossReferenceAdapterTest extends TestCase
    * Tests the wrapped intrinsic cross-reference iterator for a resolving cross-referencer. This also tests that
    * its implementation of {@link EContentsEList.FeatureIterator#feature()} is consistent.
    */
+  @Test
   public void testCrossReferenceIterator_resolving_wrapper()
   {
     XRefsModelUtil.setWrapCrossReferenceIterators(true);
@@ -172,6 +163,7 @@ public class ECrossReferenceAdapterTest extends TestCase
    * Tests the wrapped intrinsic cross-reference iterator for a non-resolving cross-referencer. This also tests that
    * its implementation of {@link EContentsEList.FeatureIterator#feature()} is consistent.
    */
+  @Test
   public void testCrossReferenceIterator_nonResolving_wrapper()
   {
     XRefsModelUtil.setWrapCrossReferenceIterators(true);
@@ -210,6 +202,7 @@ public class ECrossReferenceAdapterTest extends TestCase
   /**
    * Control test case: ETypedElements referencing types simply by eType.
    */
+  @Test
   public void testSimpleTypeTypeReferencesDoNotLeak()
   {
     Resource resource = new ResourceImpl(URI.createURI("http:///bogus/testpackage.ecore"));
@@ -230,9 +223,10 @@ public class ECrossReferenceAdapterTest extends TestCase
 
   /**
    * Memory leak scenario:  ETypedElements referencing types via eGenericType
-   * 
+   *
    * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=433027
    */
+  @Test
   public void testGenericTypeTypeReferencesDoNotLeak()
   {
     // change the map attribute to a generic type
@@ -267,8 +261,8 @@ public class ECrossReferenceAdapterTest extends TestCase
   // Test framework
   //
 
-  @Override
-  protected void setUp()
+  @Before
+  public void setUp()
   {
     // We must never call the A::getAllOthers() derived reference accessor when cross-referencing
     XRefsModelUtil.assertNoAllOthersCalls(true);
@@ -290,8 +284,8 @@ public class ECrossReferenceAdapterTest extends TestCase
     mapAttribute.setEType(EcorePackage.Literals.ESTRING);
   }
 
-  @Override
-  protected void tearDown()
+  @After
+  public void tearDown()
   {
     XRefsModelUtil.assertNoAllOthersCalls(false);
 

@@ -19,15 +19,10 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EValidator;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
 import org.eclipse.emf.test.models.customer.CustomerPackage;
-
 import org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl;
-
 import org.eclipse.emf.test.models.movie.db.CriticsReviewType;
 import org.eclipse.emf.test.models.movie.db.CustomerReviewType;
 import org.eclipse.emf.test.models.movie.db.DBFactory;
@@ -36,11 +31,8 @@ import org.eclipse.emf.test.models.movie.db.DocumentRoot;
 import org.eclipse.emf.test.models.movie.db.GenreTypes;
 import org.eclipse.emf.test.models.movie.db.MovieDBType;
 import org.eclipse.emf.test.models.movie.db.MovieType;
-
 import org.eclipse.emf.test.models.movie.db.util.DBValidator;
-
 import org.eclipse.emf.test.models.order.OrderPackage;
-
 import org.eclipse.emf.test.models.order.impl.OrderPackageImpl;
 
 /**

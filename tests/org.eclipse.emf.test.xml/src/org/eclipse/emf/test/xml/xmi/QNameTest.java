@@ -11,6 +11,9 @@
 package org.eclipse.emf.test.xml.xmi;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
@@ -19,10 +22,6 @@ import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -39,41 +38,30 @@ import org.eclipse.emf.test.models.qname.DocumentRoot;
 import org.eclipse.emf.test.models.qname.QNameFactory;
 import org.eclipse.emf.test.models.qname.QNamePackage;
 import org.eclipse.emf.test.xml.AllSuites;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 
 /**
- * XMI tests: loading qname.xml 
+ * XMI tests: loading qname.xml
  */
-public class QNameTest extends TestCase
+public class QNameTest
 {
   final static String BASE_XML_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xml/";
 
   final static String BASE_XMI_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xmi/";
 
-  DocumentBuilder builder;
+  protected DocumentBuilder builder;
 
-  String inputXML;
+  protected String inputXML;
 
-  String expectedXML;
+  protected String expectedXML;
 
-  HashMap<String, Object> options;
+  protected HashMap<String, Object> options;
 
-  public QNameTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("QNameTest");
-    ts.addTestSuite(QNameTest.class);
-    return ts;
-  }
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     QNamePackage.eINSTANCE.getName();
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml", new XMLResourceFactoryImpl());
@@ -85,16 +73,14 @@ public class QNameTest extends TestCase
     options = new HashMap<String, Object>();
   }
 
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
-  @Override
-  protected void tearDown() throws Exception
+  @After
+  public void tearDown() throws Exception
   {
     builder = null;
     options = null;
   }
 
+  @Test
   public void testQname() throws Exception
   {
     URI uri = URI.createFileURI(inputXML);
@@ -109,6 +95,7 @@ public class QNameTest extends TestCase
     CompareXML.compareFiles(builder, expectedXML, new ByteArrayInputStream(outputstream.toByteArray()));
   }
 
+  @Test
   public void testNullPrefixQname() throws Exception
   {
     ResourceSet resourceSet = new ResourceSetImpl();
@@ -128,6 +115,7 @@ public class QNameTest extends TestCase
     assertEquals(qname.getPrefix(), "");
   }
 
+  @Test
   public void testValidQNames()
   {
     QName qname = (QName)XMLTypeUtil.createQName("http://www.example.org/test", "name", "test");

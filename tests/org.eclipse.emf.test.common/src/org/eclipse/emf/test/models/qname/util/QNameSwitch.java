@@ -14,8 +14,9 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.qname.*;
+import org.eclipse.emf.test.models.qname.DocumentRoot;
+import org.eclipse.emf.test.models.qname.QNamePackage;
+import org.eclipse.emf.test.models.qname.ResourceType;
 
 /**
  * <!-- begin-user-doc -->

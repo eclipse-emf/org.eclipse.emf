@@ -10,9 +10,9 @@
  */
 package org.eclipse.emf.test.edit.command;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.CommandStack;
@@ -30,27 +30,15 @@ import org.eclipse.emf.test.models.ref.E;
 import org.eclipse.emf.test.models.ref.RefFactory;
 import org.eclipse.emf.test.models.ref.RefPackage;
 import org.eclipse.emf.test.models.ref.provider.RefItemProviderAdapterFactory;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for ChangeCommand.  In each case, the model is built, the command is created, executed, undone, and redone.
  * The state of the model and the executability/undoability/redoability of the command are tested between each step.
  */
-public class ChangeCommandTest extends TestCase
+public class ChangeCommandTest
 {
-  public ChangeCommandTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite suite = new TestSuite("ChangeCommandTest");
-    suite.addTest(new ChangeCommandTest("testEObject"));
-    suite.addTest(new ChangeCommandTest("testResource"));
-    suite.addTest(new ChangeCommandTest("testResourceSet"));
-    return suite;
-  }
-
   /**
    * The Ref test package.
    */
@@ -66,23 +54,24 @@ public class ChangeCommandTest extends TestCase
    */
   protected EditingDomain editingDomain;
 
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     refPackage = RefPackage.eINSTANCE;
     refFactory = refPackage.getRefFactory();
-    
+
     AdapterFactory adapterFactory = new RefItemProviderAdapterFactory();
     CommandStack commandStack = new BasicCommandStack();
     editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack);
   }
 
+  @Test
   public void testEObject()
   {
-    final E e = refFactory.createE();    
+    final E e = refFactory.createE();
     // State 0
     assertTrue(e.getIds().isEmpty());
-    
+
     ChangeCommand changeCommand = new ChangeCommand(e)
     {
       @Override
@@ -91,24 +80,24 @@ public class ChangeCommandTest extends TestCase
         EList<String> ids = e.getIds();
         ids.add("0");
         ids.add("1");
-        ids.add("2");        
+        ids.add("2");
       }
     };
-    
+
     editingDomain.getCommandStack().execute(changeCommand);
     assertTrue(changeCommand.canExecute());
     assertTrue(changeCommand.canUndo());
-    
+
     // State 1
     assertEquals(3, e.getIds().size());
     assertEquals("0", e.getIds().get(0));
     assertEquals("1", e.getIds().get(1));
     assertEquals("2", e.getIds().get(2));
-    
+
     editingDomain.getCommandStack().undo();
     assertTrue(changeCommand.canExecute());
     assertTrue(changeCommand.canUndo());
-    
+
     // State 0
     assertTrue(e.getIds().isEmpty());
 
@@ -122,7 +111,8 @@ public class ChangeCommandTest extends TestCase
     assertEquals("1", e.getIds().get(1));
     assertEquals("2", e.getIds().get(2));
   }
-  
+
+  @Test
   public void testResource()
   {
     final Resource r = new ResourceImpl(URI.createURI("r"));
@@ -130,12 +120,12 @@ public class ChangeCommandTest extends TestCase
     final E finalE = refFactory.createE();
     r.getContents().add(initialE);
     final E e = refFactory.createE();
-    
+
     // State 0
     assertEquals(1, r.getContents().size());
     assertEquals(initialE, r.getContents().get(0));
     assertTrue(e.getIds().isEmpty());
-    
+
     ChangeCommand changeCommand = new ChangeCommand(r)
     {
       @Override
@@ -143,18 +133,18 @@ public class ChangeCommandTest extends TestCase
       {
         r.getContents().set(0, finalE);
         r.getContents().add(e);
-        
+
         EList<String> ids = e.getIds();
         ids.add("0");
         ids.add("1");
         ids.add("2");
       }
     };
-    
+
     editingDomain.getCommandStack().execute(changeCommand);
     assertTrue(changeCommand.canExecute());
     assertTrue(changeCommand.canUndo());
-    
+
     // State 1
     assertEquals(2, r.getContents().size());
     assertEquals(finalE, r.getContents().get(0));
@@ -163,11 +153,11 @@ public class ChangeCommandTest extends TestCase
     assertEquals("0", e.getIds().get(0));
     assertEquals("1", e.getIds().get(1));
     assertEquals("2", e.getIds().get(2));
-    
+
     editingDomain.getCommandStack().undo();
     assertTrue(changeCommand.canExecute());
     assertTrue(changeCommand.canUndo());
-    
+
     // State 0
     assertEquals(1, r.getContents().size());
     assertEquals(initialE, r.getContents().get(0));
@@ -186,7 +176,8 @@ public class ChangeCommandTest extends TestCase
     assertEquals("1", e.getIds().get(1));
     assertEquals("2", e.getIds().get(2));
   }
-  
+
+  @Test
   public void testResourceSet()
   {
     final ResourceSet rs = new ResourceSetImpl();
@@ -195,34 +186,34 @@ public class ChangeCommandTest extends TestCase
     final E finalE = refFactory.createE();
     r.getContents().add(initialE);
     final E e = refFactory.createE();
-    
+
     // State 0
     assertTrue(rs.getResources().isEmpty());
     assertEquals(1, r.getContents().size());
     assertEquals(initialE, r.getContents().get(0));
     assertTrue(e.getIds().isEmpty());
-    
+
     ChangeCommand changeCommand = new ChangeCommand(rs)
     {
       @Override
       protected void doExecute()
       {
         rs.getResources().add(r);
-        
+
         r.getContents().set(0, finalE);
         r.getContents().add(e);
-        
+
         EList<String> ids = e.getIds();
         ids.add("0");
         ids.add("1");
-        ids.add("2");        
+        ids.add("2");
       }
     };
-    
+
     editingDomain.getCommandStack().execute(changeCommand);
     assertTrue(changeCommand.canExecute());
     assertTrue(changeCommand.canUndo());
-    
+
     // State 1
     assertEquals(1, rs.getResources().size());
     assertEquals(r, rs.getResources().get(0));
@@ -233,11 +224,11 @@ public class ChangeCommandTest extends TestCase
     assertEquals("0", e.getIds().get(0));
     assertEquals("1", e.getIds().get(1));
     assertEquals("2", e.getIds().get(2));
-    
+
     editingDomain.getCommandStack().undo();
     assertTrue(changeCommand.canExecute());
     assertTrue(changeCommand.canUndo());
-    
+
     // State 0
     assertEquals(1, r.getContents().size());
     assertEquals(initialE, r.getContents().get(0));
@@ -257,5 +248,5 @@ public class ChangeCommandTest extends TestCase
     assertEquals("0", e.getIds().get(0));
     assertEquals("1", e.getIds().get(1));
     assertEquals("2", e.getIds().get(2));
-  }  
+  }
 }

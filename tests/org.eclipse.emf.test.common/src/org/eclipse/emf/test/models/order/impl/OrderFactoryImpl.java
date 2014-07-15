@@ -13,12 +13,13 @@ package org.eclipse.emf.test.models.order.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.test.models.order.*;
+import org.eclipse.emf.test.models.order.CustomerOrder;
+import org.eclipse.emf.test.models.order.DocumentRoot;
+import org.eclipse.emf.test.models.order.Order;
+import org.eclipse.emf.test.models.order.OrderFactory;
+import org.eclipse.emf.test.models.order.OrderPackage;
 
 /**
  * <!-- begin-user-doc -->

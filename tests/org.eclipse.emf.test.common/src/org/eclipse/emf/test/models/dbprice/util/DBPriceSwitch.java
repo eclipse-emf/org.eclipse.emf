@@ -14,8 +14,9 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.dbprice.*;
+import org.eclipse.emf.test.models.dbprice.DBPricePackage;
+import org.eclipse.emf.test.models.dbprice.PenType;
+import org.eclipse.emf.test.models.dbprice.PencilType;
 
 /**
  * <!-- begin-user-doc -->

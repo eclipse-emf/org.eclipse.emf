@@ -4,14 +4,17 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.tools.merger.facade;
 
 import static org.eclipse.emf.test.tools.merger.facade.BaseFacadeTest.Operation.ADD;
 import static org.eclipse.emf.test.tools.merger.facade.BaseFacadeTest.Operation.REMOVE;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
@@ -19,34 +22,37 @@ import org.eclipse.emf.codegen.merge.java.facade.FacadeFlags;
 import org.eclipse.emf.codegen.merge.java.facade.JAbstractType;
 import org.eclipse.emf.codegen.merge.java.facade.JMember;
 import org.eclipse.emf.codegen.merge.java.facade.JType;
-import org.eclipse.emf.test.tools.merger.facade.BaseFacadeTest;
+import org.junit.Test;
 
 
 public class TypesTest extends BaseFacadeTest
 {
   protected int numberOfChildren = 9;
 
+  @Test
   public void testCompilationUnitName()
   {
     assertEquals("Name does not match", "Example1.java", compilationUnit.getName());
   }
 
-  public void testMoveAndModify1() 
+  @Test
+  public void testMoveAndModify1()
   {
     testNoChildren(compilationUnit, numberOfChildren);
 
     moveAndModifyTypes();
 
-    rewriteAndCompare();
+    rewriteAndCompare("TestMoveAndModify1");
   }
 
+  @Test
   public void testMoveAndModify2()
   {
     testNoChildren(compilationUnit, numberOfChildren);
 
     clearAllPropertiesOfType(moveAndModifyTypes());
 
-    rewriteAndCompare();
+    rewriteAndCompare("TestMoveAndModify2");
   }
 
   /**
@@ -56,7 +62,7 @@ public class TypesTest extends BaseFacadeTest
   protected JAbstractType moveAndModifyTypes()
   {
     JAbstractType type = (JAbstractType)compilationUnit.getChildren().get(7);
-    
+
     moveAndModifyExistingType(type);
 
     // clone AnotherClass
@@ -85,13 +91,13 @@ public class TypesTest extends BaseFacadeTest
   protected JAbstractType moveAndModifyExistingType(JAbstractType type)
   {
     AnnotationsTest annotationsTest = new AnnotationsTest(this);
-    
+
     //
     // modify and remove type
     readOriginalType(type);
     annotationsTest.testVersionAndDeprecated(type);
     modifyType(type, "1", FacadeFlags.PRIVATE | FacadeFlags.STATIC);
-    
+
     readType(type, "1", FacadeFlags.PRIVATE | FacadeFlags.STATIC);
 
     assertTrue(facadeHelper.remove(type));
@@ -119,7 +125,7 @@ public class TypesTest extends BaseFacadeTest
     modifyType(type, "3", FacadeFlags.FINAL | FacadeFlags.PROTECTED);
 
     readType(type, "3", FacadeFlags.FINAL | FacadeFlags.PROTECTED);
-    
+
     assertTrue(facadeHelper.remove(type));
     assertFalse(facadeHelper.remove(type));
     numberOfChildren = updateNoChildren(compilationUnit, type, REMOVE, numberOfChildren);
@@ -149,8 +155,8 @@ public class TypesTest extends BaseFacadeTest
     assertTrue(Arrays.equals(new String [0], type.getSuperInterfaces()));
     assertTrue(Arrays.equals(new String [0], type.getTypeParameters()));
     assertEquals("AnotherClass", type.getName());
-  }  
-  
+  }
+
   protected void modifyType(JAbstractType abstractType, String modificationId, int flags)
   {
     JType type = (JType)abstractType;
@@ -163,9 +169,9 @@ public class TypesTest extends BaseFacadeTest
     type.addSuperInterface("Interface" + modificationId + "_2");
     type.addSuperInterface("Interface" + modificationId + "_3");
     type.setTypeParameters(new String []{ "Type" + modificationId, "Type" + modificationId + "_1" });
-    type.setName("TypeName" + modificationId);    
+    type.setName("TypeName" + modificationId);
   }
-  
+
   protected void readType(JAbstractType abstractType, String modificationId, int flags)
   {
     JType type = (JType)abstractType;
@@ -179,8 +185,8 @@ public class TypesTest extends BaseFacadeTest
       "Interface" + modificationId + "_3" }, type.getSuperInterfaces()));
     assertTrue(Arrays.equals(new String []{ "Type" + modificationId, "Type" + modificationId + "_1" }, type.getTypeParameters()));
     assertEquals("TypeName" + modificationId, type.getName());
-  }   
-  
+  }
+
   protected void clearAllPropertiesOfType(JAbstractType abstractType)
   {
     JType type = (JType)abstractType;

@@ -4,24 +4,23 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.examples;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-
-import junit.framework.Assert;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.eclipse.jdt.core.JavaCore;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.URI;
@@ -43,40 +42,28 @@ import org.eclipse.emf.java.util.JavaPackageResourceImpl;
 import org.eclipse.emf.java.util.JavaResourceFactoryImpl;
 import org.eclipse.emf.java.util.JavaUtil;
 import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.jdt.core.JavaCore;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author marcelop
  */
-public class JavaTest extends TestCase
+public class JavaTest
 {
   protected JCompilationUnit compilationUnit;
   protected JClass mainType;
-  
+
   private boolean testHeader = true;
   private boolean testComment = true;
   private boolean testBody = true;
   private boolean testContentWithComments = false;
-  
-  private boolean trimContents = true;
-  
-  /**
-   * @param name
-   */
-  public JavaTest(String name)
-  {
-    super(name);
-  }
 
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("JavaTest");
-    ts.addTest(new JavaTest("testRead"));
-    return ts;
-  }
-  
+  private boolean trimContents = true;
+
   @SuppressWarnings("unchecked")
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
     {
@@ -91,7 +78,8 @@ public class JavaTest extends TestCase
       JavaCore.getOptions().putAll(options);
     }
   }
-  
+
+  @Test
   public void testRead() throws Exception
   {
     loadCompilationUnitAndMainType();
@@ -99,19 +87,19 @@ public class JavaTest extends TestCase
 
     readTest(compilationUnit);
     readTest(compilationUnit.getPackage());
-    
+
     readTestImports(compilationUnit.getImports());
     readTestTypes(compilationUnit.getTypes());
-    
+
     readTestMainType();
     readTestNestedTypes(mainType.getTypes());
     readTestFields(mainType.getFields());
     readTestMethods(mainType.getMethods());
-    
+
     List<JInitializer> initializers = (List<JInitializer>)EcoreUtil.<JInitializer>getObjectsByType(mainType.getMembers(), JavaPackage.Literals.JINITIALIZER);
     readTestInitializers(initializers);
   }
-  
+
   protected void loadCompilationUnitAndMainType() throws Exception
   {
     ResourceSet resourceSet = new ResourceSetImpl();
@@ -119,7 +107,7 @@ public class JavaTest extends TestCase
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("java", new JavaResourceFactoryImpl());
 
     JavaPackageResourceImpl javaPackageResource = (JavaPackageResourceImpl)resourceSet.getResource(JavaUtil.JAVA_PACKAGE_RESOURCE_URI, true);
-    javaPackageResource.setClassLoader(getClass().getClassLoader());    
+    javaPackageResource.setClassLoader(getClass().getClassLoader());
     assertFalse(javaPackageResource.getContents().isEmpty());
 
     File javaFile = new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/Example1.java");
@@ -140,20 +128,20 @@ public class JavaTest extends TestCase
     }
     assertNotNull(mainType);
   }
-  
+
   protected void readTest(JCompilationUnit compilationUnit) throws Exception
   {
     assertNotNull(compilationUnit);
     assertNull(compilationUnit.eContainer());
     assertContentEquals("Example1.java", compilationUnit.getName());
     assertContentEquals("Example1.java", compilationUnit.getQualifiedName());
-    
+
     assertFalse(compilationUnit.eContents().isEmpty());
     assertEquals(2, compilationUnit.eContents().size());
     int index = 0;
     testInstanceOf(compilationUnit.eContents().get(index++), JavaPackage.Literals.JCLASS);
     testInstanceOf(compilationUnit.eContents().get(index++), JavaPackage.Literals.JCLASS);
-    
+
     StringBuffer expectedHeader = new StringBuffer();
     expectedHeader.append("/**");
     expectedHeader.append("\n").append(" * Copyright (c) 2004-2006 IBM Corporation and others.");
@@ -162,7 +150,7 @@ public class JavaTest extends TestCase
     expectedHeader.append("\n").append(" * which accompanies this distribution, and is available at");
     expectedHeader.append("\n").append(" * http://www.eclipse.org/legal/epl-v10.html");
     expectedHeader.append("\n").append(" * ");
-    expectedHeader.append("\n").append(" * Contributors: "); 
+    expectedHeader.append("\n").append(" * Contributors: ");
     expectedHeader.append("\n").append(" *   IBM - Initial API and implementation");
     expectedHeader.append("\n").append(" */");
     expectedHeader.append("\n").append("\n  // line comment1 ");
@@ -173,18 +161,18 @@ public class JavaTest extends TestCase
     expectedHeader.append("\n");
     if (testHeader) assertContentEquals(expectedHeader.toString(), compilationUnit.getComment());
   }
-  
+
   protected void readTest(JPackage jPackage) throws Exception
   {
     assertNotNull(jPackage);
     assertContentEquals("org.eclipse.emf.test.examples", jPackage.getName());
     assertContentEquals("org.eclipse.emf.test.examples", jPackage.getQualifiedName());
-  }  
-  
+  }
+
   protected void readTestImports(List<?> imports) throws Exception
   {
     assertNotNull(imports);
-    assertEquals(6, imports.size());    
+    assertEquals(6, imports.size());
     {
       String jImport = (String)imports.get(0);
       assertContentEquals("java.util.Collections", jImport);
@@ -232,7 +220,7 @@ public class JavaTest extends TestCase
       assertContentEquals("Example1", type.getName());
       assertContentEquals("org.eclipse.emf.test.examples.Example1", type.getQualifiedName());
       assertEquals(JVisibility.PUBLIC_LITERAL, type.getVisibility());
-      
+
       assertEquals(1, type.getSuperTypes().size());
       assertEquals("EObjectImpl", type.getSuperTypes().get(0).getName());
 
@@ -246,7 +234,7 @@ public class JavaTest extends TestCase
       expectedComment.append("\n").append(" * @generated NOT");
       expectedComment.append("\n").append(" */");
       if (testComment) assertContentEquals(expectedComment.toString(), type.getComment());
-            
+
       assertEquals(21, type.eContents().size());
       int index = 0;
       testInstanceOf(type.eContents().get(index++), JavaPackage.Literals.JCLASS);
@@ -268,18 +256,18 @@ public class JavaTest extends TestCase
       testInstanceOf(type.eContents().get(index++), JavaPackage.Literals.JINITIALIZER);
       testInstanceOf(type.eContents().get(index++), JavaPackage.Literals.JFIELD);
       testInstanceOf(type.eContents().get(index++), JavaPackage.Literals.JFIELD);
-      testInstanceOf(type.eContents().get(index++), JavaPackage.Literals.JFIELD);  
-      testInstanceOf(type.eContents().get(index++), JavaPackage.Literals.JFIELD);    
+      testInstanceOf(type.eContents().get(index++), JavaPackage.Literals.JFIELD);
+      testInstanceOf(type.eContents().get(index++), JavaPackage.Literals.JFIELD);
     }
   }
-  
+
   protected void readTestMainType() throws Exception
   {
     assertNotNull(mainType);
     assertEquals(compilationUnit, mainType.eContainer());
     assertEquals(compilationUnit.eContents().get(1), mainType);
   }
-  
+
   protected void readTestNestedTypes(List<?> types) throws Exception
   {
     assertNotNull(types);
@@ -314,7 +302,7 @@ public class JavaTest extends TestCase
       assertNull(type.getComment());
     }
   }
-      
+
   protected void readTestFields(List<?> fields) throws Exception
   {
     assertNotNull(fields);
@@ -330,7 +318,7 @@ public class JavaTest extends TestCase
 
       assertContentEquals("String", field.getType().getName());
       assertContentEquals(" \"something is ; different \\\"//; /*;*/\" /*inte;res;ting*/ + \" !!;;\"", field.getInitializer());
-      
+
       StringBuffer expectedComment = new StringBuffer();
       expectedComment.append("  /**");
       expectedComment.append("\n").append("   * public String constant.");
@@ -347,7 +335,7 @@ public class JavaTest extends TestCase
 
       assertContentEquals("long", field.getType().getName());
       assertContentEquals("1l", field.getInitializer());
-      
+
       StringBuffer expectedComment = new StringBuffer();
       expectedComment.append("  /**");
       expectedComment.append("\n").append("   * protected static long field.");
@@ -376,7 +364,7 @@ public class JavaTest extends TestCase
 
       assertContentEquals("java.util.Map.Entry", field.getType().getQualifiedName());
       assertNull(field.getInitializer());
-      
+
       assertNull(field.getComment());
     }
     {
@@ -385,10 +373,10 @@ public class JavaTest extends TestCase
       assertContentEquals("myMatrix", field.getName());
       assertContentEquals("org.eclipse.emf.test.examples.Example1.myMatrix", field.getQualifiedName());
       assertEquals(JVisibility.PRIVATE_LITERAL, field.getVisibility());
-      
+
       assertContentEquals("int[][]", field.getType().getName());
       assertContentEquals("new int[4][5]", field.getInitializer());
-      
+
       assertNull(field.getComment());
     }
     {
@@ -397,48 +385,48 @@ public class JavaTest extends TestCase
       assertContentEquals("a", field.getName());
       assertContentEquals("org.eclipse.emf.test.examples.Example1.a", field.getQualifiedName());
       assertEquals(JVisibility.PUBLIC_LITERAL, field.getVisibility());
-      
+
       assertContentEquals("int", field.getType().getName());
       assertContentEquals(" 1", field.getInitializer());
-      
+
       assertNull(field.getComment());
-    }     
+    }
     {
       JField field = (JField)fields.get(6);
       assertEquals(mainType, field.eContainer());
       assertContentEquals("b", field.getName());
       assertContentEquals("org.eclipse.emf.test.examples.Example1.b", field.getQualifiedName());
       assertEquals(JVisibility.PUBLIC_LITERAL, field.getVisibility());
-      
+
       assertContentEquals("int", field.getType().getName());
       assertContentEquals(" 2", field.getInitializer());
-      
+
       assertNull(field.getComment());
-    }     
+    }
     {
       JField field = (JField)fields.get(7);
       assertEquals(mainType, field.eContainer());
       assertContentEquals("c", field.getName());
       assertContentEquals("org.eclipse.emf.test.examples.Example1.c", field.getQualifiedName());
       assertEquals(JVisibility.PUBLIC_LITERAL, field.getVisibility());
-      
+
       assertContentEquals("int", field.getType().getName());
       assertContentEquals(" 3", field.getInitializer());
-      
+
       assertNull(field.getComment());
-    }    
+    }
     {
       JField field = (JField)fields.get(8);
       assertEquals(mainType, field.eContainer());
       assertContentEquals("floatArray", field.getName());
       assertContentEquals("org.eclipse.emf.test.examples.Example1.floatArray", field.getQualifiedName());
       assertEquals(JVisibility.PACKAGE_LITERAL, field.getVisibility());
-      
+
       assertContentEquals("float[][][][]", field.getType().getName());
       assertNull(field.getInitializer());
-      
+
       assertNull(field.getComment());
-    }    
+    }
   }
 
   protected void readTestMethods(List<?> methods) throws Exception
@@ -456,13 +444,13 @@ public class JavaTest extends TestCase
       assertNull(method.getReturnType());
       assertEquals(0, method.getParameters().size());
       assertEquals(0, method.getExceptions().size());
-      
+
       StringBuffer expectedComment = new StringBuffer();
       expectedComment.append("  /**");
       expectedComment.append("\n").append("   * This is a contructor");
       expectedComment.append("\n").append("   */");
       if (testComment) assertContentEquals(expectedComment.toString(), method.getComment());
-      
+
       StringBuffer expectedBody = new StringBuffer();
       expectedBody.append("\n").append("  {");
       expectedBody.append("\n").append("    super();");
@@ -485,7 +473,7 @@ public class JavaTest extends TestCase
       assertEquals("bol", method.getParameters().get(1).getName());
       assertEquals("boolean", method.getParameters().get(1).getType().getName());
       assertEquals(0, method.getExceptions().size());
-      
+
       assertNull(method.getComment());
 
       StringBuffer expectedBody = new StringBuffer();
@@ -508,7 +496,7 @@ public class JavaTest extends TestCase
       assertEquals("b", method.getParameters().get(0).getName());
       assertEquals("Boolean", method.getParameters().get(0).getType().getName());
       assertEquals(0, method.getExceptions().size());
-      
+
       StringBuffer expectedComment = new StringBuffer();
       expectedComment.append("  /**");
       expectedComment.append("\n").append("   * Sets the boolean instance.");
@@ -516,7 +504,7 @@ public class JavaTest extends TestCase
       expectedComment.append("\n").append("   * @generated");
       expectedComment.append("\n").append("   */");
       if (testComment) assertContentEquals(expectedComment.toString(), method.getComment());
-      
+
       StringBuffer expectedBody = new StringBuffer();
       expectedBody.append("\n").append("  {");
       expectedBody.append("\n").append("    if (b != null)");
@@ -576,7 +564,7 @@ public class JavaTest extends TestCase
       expectedComment.append("\n").append("   * @param b");
       expectedComment.append("\n").append("   * @generated NOT");
       expectedComment.append("\n").append("   */");
-      if (testComment) assertContentEquals(expectedComment.toString(), method.getComment());      
+      if (testComment) assertContentEquals(expectedComment.toString(), method.getComment());
 
       StringBuffer expectedBody = new StringBuffer();
       expectedBody.append("\n").append("  {");
@@ -633,9 +621,9 @@ public class JavaTest extends TestCase
       expectedBody.append("\n").append("  }");
       expectedBody.append("\n").append("  \n");
       if (testBody) assertContentEquals(expectedBody.toString(), method.getBody());
-    }    
+    }
   }
-  
+
   protected void readTestInitializers(List<?> initializers) throws Exception
   {
     assertNotNull(initializers);
@@ -646,15 +634,15 @@ public class JavaTest extends TestCase
       assertContentEquals(mainType.getName() + ".0", initializer.getName());
       assertContentEquals("org.eclipse.emf.test.examples.Example1.0", initializer.getQualifiedName());
       assertEquals(JVisibility.PACKAGE_LITERAL, initializer.getVisibility());
-      
+
       assertNull(initializer.getComment());
-      
+
       StringBuffer expectedBody = new StringBuffer();
       expectedBody.append("{");
       expectedBody.append("\n").append((char)9).append("System.out.println(\"A initializer with Comments\");");
       expectedBody.append("\n").append((char)9).append("}");
       if (testBody) assertContentEquals(expectedBody.toString(), initializer.getBody());
-      
+
       StringBuffer expectedContent = new StringBuffer();
       expectedContent.append((char)9).append("// An initializer.  It is indented with TABs");
       expectedContent.append("\n").append((char)9).append(expectedBody);
@@ -666,7 +654,7 @@ public class JavaTest extends TestCase
       assertContentEquals(mainType.getName() + ".1", initializer.getName());
       assertContentEquals("org.eclipse.emf.test.examples.Example1.1", initializer.getQualifiedName());
       assertTrue(initializer.isStatic());
-      
+
       StringBuffer expectedComment = new StringBuffer();
       expectedComment.append("  /**");
       expectedComment.append("\n").append("   * An static initializer");
@@ -693,7 +681,7 @@ public class JavaTest extends TestCase
       expectedComment.append("\n").append("   * of javadoc.");
       expectedComment.append("\n").append("   */\n");
       if (testComment) assertContentEquals(expectedComment.toString(), initializer.getComment());
-      
+
       StringBuffer expectedBody = new StringBuffer();
       expectedBody.append("{");
       expectedBody.append("\n").append("    System.out.println(\"Another initializer with JavaDoc\");");
@@ -701,7 +689,7 @@ public class JavaTest extends TestCase
       if (testBody) assertContentEquals(expectedBody.toString(), initializer.getBody());
     }
   }
-  
+
   protected void testInstanceOf(Object object, EClass cls)
   {
     assertTrue(object.toString(), cls.isInstance(object));
@@ -711,23 +699,23 @@ public class JavaTest extends TestCase
   {
     assertTrue(object.toString(), cls.isInstance(object));
   }
-  
+
   public void assertContentEquals(String string1, String string2)
   {
     if (string2 != null)
     {
       string2 = string2.replaceAll("\r\n", "\n");
       string2 = string2.replace('\r', '\n');
-      
+
       if (trimContents)
       {
-        Assert.assertEquals(string1.trim(), string2.trim());
+        assertEquals(string1.trim(), string2.trim());
         return;
       }
     }
-    Assert.assertEquals(string1, string2);
+    assertEquals(string1, string2);
   }
-  
+
   public static void main(String arguments[])
   {
     ResourceSet resourceSet = new ResourceSetImpl();
@@ -736,7 +724,7 @@ public class JavaTest extends TestCase
     JavaPackageResourceImpl javaPackageResource = (JavaPackageResourceImpl)resourceSet.getResource(JavaUtil.JAVA_PACKAGE_RESOURCE_URI, true);
     javaPackageResource.setClassLoader(JavaTest.class.getClassLoader());
 
-    JClass thisClass = 
+    JClass thisClass =
       (JClass)resourceSet.getEObject
         (JavaUtil.JAVA_PACKAGE_RESOURCE_URI.appendFragment("/org.eclipse.emf.test.examples/JavaTest"), true);
 
@@ -747,5 +735,5 @@ public class JavaTest extends TestCase
     }
 
     System.exit(1);
-  }  
+  }
 }

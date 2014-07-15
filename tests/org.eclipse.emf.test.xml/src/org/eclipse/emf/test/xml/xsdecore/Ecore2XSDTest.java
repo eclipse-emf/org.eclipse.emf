@@ -11,6 +11,9 @@
 package org.eclipse.emf.test.xml.xsdecore;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -18,17 +21,6 @@ import java.util.Collection;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-import junit.framework.Assert;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXNotRecognizedException;
-import org.xml.sax.SAXNotSupportedException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -39,59 +31,49 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.xml.AllSuites;
-
 import org.eclipse.xsd.ecore.EcoreXMLSchemaBuilder;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
+import org.junit.Before;
+import org.junit.Test;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
 
 
 /**
  * Test for conversion from XSD to ECore - compare against expected output
  */
-public class Ecore2XSDTest extends TestCase
+public class Ecore2XSDTest
 {
 
   /** Schema full checking feature id (http://apache.org/xml/features/validation/schema-full-checking). */
   protected static final String SCHEMA_FULL_CHECKING_FEATURE_ID = "http://apache.org/xml/features/validation/schema-full-checking";
 
-  /** ecore files */
-  String multipleInheritanceA = null;
-
-  String multipleInheritanceB = null;
-  
-  String multipleInheritanceB1 = null;
-
-  SAXParser parser;
-
-  EcoreXMLSchemaBuilder ecoreXSDBuilder;
-
-  Resource resource;
-
-  ByteArrayInputStream dummyXML;
-
-  MyHandler handler = new MyHandler();
-
   // base uri of the xsd and ecore files
   final static String BASE_ECORE_URI = "file:///" + TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/ecore/";
 
-  public Ecore2XSDTest(String name)
-  {
-    super(name);
-  }
 
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("Ecore2XSDTest");
-    ts.addTest(new Ecore2XSDTest("testMultipleInheritanceA"));
-    ts.addTest(new Ecore2XSDTest("testMultipleInheritanceB"));
-    ts.addTest(new Ecore2XSDTest("testMultipleInheritanceB1"));
-    return ts;
-  }
+  /** ecore files */
+  protected String multipleInheritanceA = null;
 
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Override
-  protected void setUp() throws Exception
+  protected String multipleInheritanceB = null;
+
+  protected String multipleInheritanceB1 = null;
+
+  protected SAXParser parser;
+
+  protected EcoreXMLSchemaBuilder ecoreXSDBuilder;
+
+  protected Resource resource;
+
+  protected ByteArrayInputStream dummyXML;
+
+  protected MyHandler handler = new MyHandler();
+
+  @Before
+  public void setUp() throws Exception
   {
     ecoreXSDBuilder = new EcoreXMLSchemaBuilder();
 
@@ -110,30 +92,32 @@ public class Ecore2XSDTest extends TestCase
     }
     catch (SAXNotRecognizedException e)
     {
-      Assert.assertNull("WARNING! Test was not run: "+e.getMessage()+" is not supported", e);
+      assertNull("WARNING! Test was not run: "+e.getMessage()+" is not supported", e);
     }
     catch (SAXNotSupportedException e)
     {
-      Assert.assertNull("WARNING! Test was not run: "+e.getMessage()+" is not supported", e);
+      assertNull("WARNING! Test was not run: "+e.getMessage()+" is not supported", e);
     }
 
     // Add in the right order the files to compare with the output
     multipleInheritanceA = BASE_ECORE_URI + "multipleInheritanceA.ecore";
     multipleInheritanceB = BASE_ECORE_URI + "multipleInheritanceB.ecore";
     multipleInheritanceB1 = BASE_ECORE_URI + "multipleInheritanceB1.ecore";
-
   }
 
+  @Test
   public void testMultipleInheritanceA() throws Exception
   {
     ecore2xsd(multipleInheritanceA);
   }
-  
+
+  @Test
   public void testMultipleInheritanceB() throws Exception
   {
     ecore2xsd(multipleInheritanceB);
   }
-  
+
+  @Test
   public void testMultipleInheritanceB1() throws Exception
   {
     ecore2xsd(multipleInheritanceB1);
@@ -156,8 +140,7 @@ public class Ecore2XSDTest extends TestCase
 
     parser.setProperty("http://java.sun.com/xml/jaxp/properties/schemaSource", new ByteArrayInputStream(outputstream.toByteArray()));
     parser.parse(dummyXML, handler);
-    Assert.assertEquals(handler.getErrorMessage(), 0, handler.getErrors());
-
+    assertEquals(handler.getErrorMessage(), 0, handler.getErrors());
   }
 
   class MyHandler extends DefaultHandler
@@ -183,12 +166,12 @@ public class Ecore2XSDTest extends TestCase
     @Override
     public void fatalError(SAXParseException arg0) throws SAXException
     {
-      Assert.assertEquals(arg0.toString(), 1, 0);
+      assertEquals(arg0.toString(), 1, 0);
     }
 
     public int getErrors()
     {
-      // one error message does not count since we are reporting dummy 
+      // one error message does not count since we are reporting dummy
       // error for root declaration not found
       return errors - 1;
     }

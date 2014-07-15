@@ -12,12 +12,11 @@ package org.eclipse.emf.test.models.dbprice.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.dbprice.*;
+import org.eclipse.emf.test.models.dbprice.DBPricePackage;
+import org.eclipse.emf.test.models.dbprice.PenType;
+import org.eclipse.emf.test.models.dbprice.PencilType;
 
 /**
  * <!-- begin-user-doc -->

@@ -13,6 +13,7 @@ package org.eclipse.emf.test.models.order;
 import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**

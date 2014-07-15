@@ -4,20 +4,21 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.tools.codegen;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -34,39 +35,20 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.junit.Before;
+import org.junit.Test;
 
-public class GenModelTest extends TestCase
+
+public class GenModelTest
 {
   protected  GenModel genModel;
-  
-  /**
-   * @param name
-   */
-  public GenModelTest(String name)
-  {
-    super(name);
-  }
 
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("GenModelTest");
-    ts.addTest(new GenModelTest("testGetModelQualifiedPackageNames"));
-    ts.addTest(new GenModelTest("testGetEditQualifiedPackageNames"));
-    ts.addTest(new GenModelTest("testGetEditorQualifiedPackageNames"));
-    ts.addTest(new GenModelTest("testReloadGenAnnotations"));
-    ts.addTest(new GenModelTest("testGenPackageSubstitutions"));
-    ts.addTest(new GenModelTest("testNestedGenPackageSubstitutions"));
-    ts.addTest(new GenModelTest("testGenModelClasses"));
-    ts.addTest(new GenModelTest("testURIFragments"));
-    return ts;
-  }
-  
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     genModel = createGenModel();
   }
-  
+
   protected GenModel createGenModel()
   {
     List<EPackage> ePackages = new ArrayList<EPackage>();
@@ -74,7 +56,7 @@ public class GenModelTest extends TestCase
     ePackages.add(createEPackage(1, false, false));
     ePackages.add(createEPackage(2, true, true));
     ePackages.add(createEPackage(3, false, true));
-    
+
     GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
     genModel.setModelDirectory("project1/f1");
     genModel.initialize(ePackages);
@@ -82,7 +64,7 @@ public class GenModelTest extends TestCase
     genModel.setEditPluginClass("editPluginClass.PC");
     genModel.setEditorPluginClass("editorPluginClass.PC");
     genModel.setTestSuiteClass("testSuiteClass.TC");
-    
+
     {
       GenPackage genPackage = genModel.getGenPackages().get(0);
       assertEquals("ePackage0", genPackage.getEcorePackage().getName());
@@ -128,14 +110,14 @@ public class GenModelTest extends TestCase
     }
     return genModel;
   }
-  
+
   protected EPackage createEPackage(int id, boolean hasClass, boolean subPackage)
   {
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
     ePackage.setName("ePackage" + id);
     ePackage.setNsPrefix("NSPrefix_" + ePackage.getName());
     ePackage.setNsURI("NSURI_" + ePackage.getName());
-    
+
     if (hasClass)
     {
       EClass eClass = EcoreFactory.eINSTANCE.createEClass();
@@ -155,44 +137,46 @@ public class GenModelTest extends TestCase
       eClass.setName("Class2");
       subEPackage.getEClassifiers().add(eClass);
     }
-    
+
     return ePackage;
   }
-  
+
   /*
    * Bugzilla 98140
    */
+  @Test
   public void testGetModelQualifiedPackageNames() throws Exception
   {
     List<String> packageNames = genModel.getModelQualifiedPackageNames();
     modelQualifiedPackageNamesTest(packageNames);
     assertTrue(packageNames.isEmpty());
-    
+
     genModel.setTestsDirectory(genModel.getModelDirectory());
     packageNames = genModel.getModelQualifiedPackageNames();
     modelQualifiedPackageNamesTest(packageNames);
     testsQualifiedPackageNamesTest(packageNames);
-    assertTrue(packageNames.isEmpty());    
+    assertTrue(packageNames.isEmpty());
   }
 
   /*
    * Bugzilla 98140
    */
+  @Test
   public void testGetEditQualifiedPackageNames() throws Exception
   {
     List<String> packageNames = genModel.getEditQualifiedPackageNames();
     editQualifiedPackageNamesTest(packageNames);
     assertTrue(packageNames.isEmpty());
-    
+
     genModel.setEditDirectory(genModel.getModelDirectory());
     packageNames = genModel.getEditQualifiedPackageNames();
     modelQualifiedPackageNamesTest(packageNames);
     editQualifiedPackageNamesTest(packageNames);
-    assertTrue(packageNames.isEmpty()); 
+    assertTrue(packageNames.isEmpty());
     //
     packageNames = genModel.getModelQualifiedPackageNames();
     modelQualifiedPackageNamesTest(packageNames);
-    assertTrue(packageNames.isEmpty());    
+    assertTrue(packageNames.isEmpty());
 
     genModel.setTestsDirectory(genModel.getModelDirectory());
     packageNames = genModel.getEditQualifiedPackageNames();
@@ -204,23 +188,24 @@ public class GenModelTest extends TestCase
     packageNames = genModel.getModelQualifiedPackageNames();
     modelQualifiedPackageNamesTest(packageNames);
     testsQualifiedPackageNamesTest(packageNames);
-    assertTrue(packageNames.isEmpty());    
+    assertTrue(packageNames.isEmpty());
   }
-  
+
   /*
    * Bugzilla 98140
    */
+  @Test
   public void testGetEditorQualifiedPackageNames() throws Exception
   {
     List<String> packageNames = genModel.getEditorQualifiedPackageNames();
     editorQualifiedPackageNamesTest(packageNames);
     assertTrue(packageNames.isEmpty());
-    
+
     genModel.setEditorDirectory(genModel.getEditDirectory());
     packageNames = genModel.getEditorQualifiedPackageNames();
     editorQualifiedPackageNamesTest(packageNames);
     editQualifiedPackageNamesTest(packageNames);
-    assertTrue(packageNames.isEmpty()); 
+    assertTrue(packageNames.isEmpty());
     //
     packageNames = genModel.getModelQualifiedPackageNames();
     modelQualifiedPackageNamesTest(packageNames);
@@ -228,15 +213,15 @@ public class GenModelTest extends TestCase
     //
     packageNames = genModel.getEditQualifiedPackageNames();
     editQualifiedPackageNamesTest(packageNames);
-    assertTrue(packageNames.isEmpty());    
-    
+    assertTrue(packageNames.isEmpty());
+
     genModel.setEditDirectory(genModel.getModelDirectory());
     genModel.setEditorDirectory(genModel.getModelDirectory());
     packageNames = genModel.getEditorQualifiedPackageNames();
     editorQualifiedPackageNamesTest(packageNames);
     modelQualifiedPackageNamesTest(packageNames);
     editQualifiedPackageNamesTest(packageNames);
-    assertTrue(packageNames.isEmpty()); 
+    assertTrue(packageNames.isEmpty());
     //
     packageNames = genModel.getModelQualifiedPackageNames();
     modelQualifiedPackageNamesTest(packageNames);
@@ -245,7 +230,7 @@ public class GenModelTest extends TestCase
     packageNames = genModel.getEditQualifiedPackageNames();
     modelQualifiedPackageNamesTest(packageNames);
     editQualifiedPackageNamesTest(packageNames);
-    assertTrue(packageNames.isEmpty());    
+    assertTrue(packageNames.isEmpty());
 
     genModel.setTestsDirectory(genModel.getModelDirectory());
     packageNames = genModel.getEditorQualifiedPackageNames();
@@ -258,7 +243,7 @@ public class GenModelTest extends TestCase
     packageNames = genModel.getModelQualifiedPackageNames();
     modelQualifiedPackageNamesTest(packageNames);
     testsQualifiedPackageNamesTest(packageNames);
-    assertTrue(packageNames.isEmpty());    
+    assertTrue(packageNames.isEmpty());
   }
 
   protected void modelQualifiedPackageNamesTest(List<String> packageNames)
@@ -274,8 +259,8 @@ public class GenModelTest extends TestCase
     assertTrue(packageNames.remove("org.exampleS2.subEPackage2.util"));
     assertTrue(packageNames.remove("ePackage3.subEPackage3"));
     assertTrue(packageNames.remove("ePackage3.subEPackage3.impl"));
-    assertTrue(packageNames.remove("ePackage3.subEPackage3.util"));    
-    
+    assertTrue(packageNames.remove("ePackage3.subEPackage3.util"));
+
     assertTrue(packageNames.remove("modelPluginClass"));
   }
 
@@ -285,7 +270,7 @@ public class GenModelTest extends TestCase
     assertTrue(packageNames.remove("org.example2.ePackage2.provider"));
     assertTrue(packageNames.remove("org.exampleS2.subEPackage2.provider"));
     assertTrue(packageNames.remove("ePackage3.subEPackage3.provider"));
-    
+
     if (!genModel.getModelDirectory().equals(genModel.getEditDirectory()))
     {
       assertTrue(packageNames.remove("editPluginClass"));
@@ -313,16 +298,17 @@ public class GenModelTest extends TestCase
     assertTrue(packageNames.remove("org.exampleS2.subEPackage2.tests"));
     assertTrue(packageNames.remove("ePackage3.subEPackage3.tests"));
 
-    assertTrue(packageNames.remove("testSuiteClass"));    
+    assertTrue(packageNames.remove("testSuiteClass"));
   }
-  
+
   /*
    * Bugzilla 120964
    */
+  @Test
   public void testReloadGenAnnotations() throws Exception
   {
     new ResourceImpl(URI.createURI("foo.bar")).getContents().add(genModel);
-    
+
     GenAnnotation nestedGenAnnotation = genModel.createGenAnnotation();
     nestedGenAnnotation.setSource("1.1s");
     nestedGenAnnotation.getDetails().put("1.1", "one.one");
@@ -330,7 +316,7 @@ public class GenModelTest extends TestCase
     nestedGenAnnotation.getReferences().add(genModel);
     nestedGenAnnotation.getReferences().add(genModel.getGenPackages().get(1));
     nestedGenAnnotation.getReferences().add(EcorePackage.Literals.EATTRIBUTE);
-    
+
     GenAnnotation genAnnotation = genModel.createGenAnnotation();
     genAnnotation.setSource("1s");
     genAnnotation.getDetails().put("1", "one");
@@ -343,23 +329,23 @@ public class GenModelTest extends TestCase
     nestedGenAnnotation.getReferences().add(genAnnotation);
     genAnnotation.getGenAnnotations().add(nestedGenAnnotation);
     genModel.getGenAnnotations().add(genAnnotation);
-    
+
     assertGenModelAnnotations(genModel);
-    
+
     GenModel newGenModel = createGenModel();
     ResourceSet resourceSet = new ResourceSetImpl();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("bar", new ResourceFactoryImpl());
     resourceSet.createResource(URI.createURI("foo.bar")).getContents().add(newGenModel);
     newGenModel.reconcile(genModel);
-    
+
     assertGenModelAnnotations(genModel);
     assertGenModelAnnotations(newGenModel);
   }
-  
+
   protected void assertGenModelAnnotations(GenModel genModel) throws Exception
   {
     assertEquals(1, genModel.getGenAnnotations().size());
-    
+
     GenAnnotation genAnnotation = genModel.getGenAnnotations().get(0);
     assertEquals("1s", genAnnotation.getSource());
     assertEquals(2, genAnnotation.getDetails().size());
@@ -369,9 +355,9 @@ public class GenModelTest extends TestCase
     assertEquals(genModel, genAnnotation.getReferences().get(0));
     assertEquals(genModel.getGenPackages().get(1), genAnnotation.getReferences().get(1));
     assertEquals(EcorePackage.Literals.EATTRIBUTE, genAnnotation.getReferences().get(2));
-    
+
     assertEquals(1, genAnnotation.getGenAnnotations().size());
-    
+
     GenAnnotation nestedGenAnnotation = genAnnotation.getGenAnnotations().get(0);
     assertEquals("1.1s", nestedGenAnnotation.getSource());
     assertEquals(2, nestedGenAnnotation.getDetails().size());
@@ -381,14 +367,15 @@ public class GenModelTest extends TestCase
     assertEquals(genModel, nestedGenAnnotation.getReferences().get(0));
     assertEquals(genModel.getGenPackages().get(1), nestedGenAnnotation.getReferences().get(1));
     assertEquals(EcorePackage.Literals.EATTRIBUTE, nestedGenAnnotation.getReferences().get(2));
-    
+
     assertEquals(genAnnotation, nestedGenAnnotation.getReferences().get(3));
     assertEquals(nestedGenAnnotation, genAnnotation.getReferences().get(3));
   }
-  
+
   /*
    * Bugzilla 234105
    */
+  @Test
   public void testGenPackageSubstitutions()
   {
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
@@ -436,6 +423,7 @@ public class GenModelTest extends TestCase
   /*
    * Bugzilla 234105
    */
+  @Test
   public void testNestedGenPackageSubstitutions()
   {
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
@@ -500,6 +488,7 @@ public class GenModelTest extends TestCase
   /*
    * Bugzilla 234105
    */
+  @Test
   public void testGenModelClasses()
   {
     GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
@@ -524,7 +513,7 @@ public class GenModelTest extends TestCase
     genPackage.setProviderPackageSuffix("edit");
     genPackage.setPresentationPackageSuffix("edit.ui");
     genPackage.setTestsPackageSuffix("test");
-    
+
     assertNull(genModel.getModelPluginClass());
     assertEquals("domain.edit.DomainEditPlugin", genModel.getEditPluginClass());
     assertEquals("domain.edit.ui.DomainEditorPlugin", genModel.getEditorPluginClass());
@@ -558,10 +547,11 @@ public class GenModelTest extends TestCase
   /*
    * Bugzilla 403547
    */
+  @Test
   public void testURIFragments() throws Exception
   {
     new ResourceImpl(URI.createURI("foo.bar")).getContents().add(genModel);
-    
+
     GenAnnotation nestedGenAnnotation = genModel.createGenAnnotation();
     nestedGenAnnotation.setSource("%");
     nestedGenAnnotation.getDetails().put("1.1", "one.one");
@@ -569,7 +559,7 @@ public class GenModelTest extends TestCase
     nestedGenAnnotation.getReferences().add(genModel);
     nestedGenAnnotation.getReferences().add(genModel.getGenPackages().get(1));
     nestedGenAnnotation.getReferences().add(EcorePackage.Literals.EATTRIBUTE);
-    
+
     GenAnnotation genAnnotation = genModel.createGenAnnotation();
     genAnnotation.setSource("http://foo.bar");
     genAnnotation.getDetails().put("1", "one");
@@ -582,7 +572,7 @@ public class GenModelTest extends TestCase
     nestedGenAnnotation.getReferences().add(genAnnotation);
     genAnnotation.getGenAnnotations().add(nestedGenAnnotation);
     genModel.getGenAnnotations().add(genAnnotation);
-    
+
     assertURIFragments(genModel);
 
     GenModel newGenModel = createGenModel();
@@ -590,17 +580,17 @@ public class GenModelTest extends TestCase
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("bar", new ResourceFactoryImpl());
     resourceSet.createResource(URI.createURI("foo.bar")).getContents().add(newGenModel);
     newGenModel.reconcile(genModel);
-    
+
     assertURIFragments(genModel);
     assertURIFragments(newGenModel);
-    
+
     assertURIFragments(genModel.eResource(), newGenModel.eResource());
   }
 
   protected void assertURIFragments(GenModel genModel) throws Exception
   {
     assertEquals(1, genModel.getGenAnnotations().size());
-    
+
     GenAnnotation genAnnotation = genModel.getGenAnnotations().get(0);
     assertEquals("http://foo.bar", genAnnotation.getSource());
     assertEquals(2, genAnnotation.getDetails().size());
@@ -610,9 +600,9 @@ public class GenModelTest extends TestCase
     assertEquals(genModel, genAnnotation.getReferences().get(0));
     assertEquals(genModel.getGenPackages().get(1), genAnnotation.getReferences().get(1));
     assertEquals(EcorePackage.Literals.EATTRIBUTE, genAnnotation.getReferences().get(2));
-    
+
     assertEquals(1, genAnnotation.getGenAnnotations().size());
-    
+
     GenAnnotation nestedGenAnnotation = genAnnotation.getGenAnnotations().get(0);
     assertEquals("%", nestedGenAnnotation.getSource());
     assertEquals(2, nestedGenAnnotation.getDetails().size());
@@ -622,7 +612,7 @@ public class GenModelTest extends TestCase
     assertEquals(genModel, nestedGenAnnotation.getReferences().get(0));
     assertEquals(genModel.getGenPackages().get(1), nestedGenAnnotation.getReferences().get(1));
     assertEquals(EcorePackage.Literals.EATTRIBUTE, nestedGenAnnotation.getReferences().get(2));
-    
+
     assertEquals(genAnnotation, nestedGenAnnotation.getReferences().get(3));
     assertEquals(nestedGenAnnotation, genAnnotation.getReferences().get(3));
   }

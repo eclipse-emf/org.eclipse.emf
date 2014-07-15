@@ -75,10 +75,6 @@
 
 import java.util.Iterator;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import org.eclipse.emf.common.util.AbstractTreeIterator;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -89,30 +85,23 @@ import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.test.common.TestUtil;
 
-public class <%=name%>DiagnosticTest extends TestCase
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+
+public class <%=name%>DiagnosticTest
 {
 	protected Diagnostic diagnostic;
 	
-	public <%=name%>DiagnosticTest(String name)
-	{
-		super(name);
-	}
-	
-	public static Test suite()
-	{
-		TestSuite ts = new TestSuite("DianosticTest");
-		ts.addTest(new <%=name%>DiagnosticTest("testDiagnostic"));
-		return ts;
-	}
-	
-	@Override
-	protected void setUp() throws Exception
+	@Before
+	public void setUp() throws Exception
 	{
 		//TODO:Instantiates the diagnostic here
 		
 		assertNotNull(diagnostic);
 	}
-	
+
+	@Test
 	public void testDiagnostic() throws Exception
 	{
 		TreeIterator<Diagnostic> diagnosticIterator = new AbstractTreeIterator<Diagnostic>(diagnostic)

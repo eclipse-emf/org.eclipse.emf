@@ -10,6 +10,9 @@
  */
 package org.eclipse.emf.test.core.ecore;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.CharArrayWriter;
@@ -45,40 +48,26 @@ import org.eclipse.emf.ecore.xmi.impl.XMLContentHandlerImpl;
 import org.eclipse.emf.test.models.tree.Data;
 import org.eclipse.emf.test.models.tree.Node;
 import org.eclipse.emf.test.models.tree.TreeFactory;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test that {@link URIConverter#contentDescription(URI, Map) content descriptions} function properly
  * and that {@link Resource#OPTION_LINE_DELIMITER} is properly supported based on that.
  */
-public class ContentTypeTest extends TestCase
+public class ContentTypeTest
 {
   protected IProject project;
   protected URI projectURI = URI.createURI("platform:/resource/testProject");
   protected ResourceSet resourceSet;
   protected IWorkspaceRoot root;
 
-  public ContentTypeTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("ContentTypeTest");
-    ts.addTest(new ContentTypeTest("testAllCombinations"));
-    return ts;
-  }
-
   /**
    * Sets up a resource set and an empty project.
    */
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     root = ResourcesPlugin.getWorkspace().getRoot();
     project = root.getProject(projectURI.segment(1));
@@ -90,8 +79,8 @@ public class ContentTypeTest extends TestCase
   /**
    * Deleted the test project.
    */
-  @Override
-  protected void tearDown() throws Exception
+  @After
+  public void tearDown() throws Exception
   {
     project.delete(IProject.FORCE, null);
   }
@@ -100,7 +89,7 @@ public class ContentTypeTest extends TestCase
    * XML encodings to test.
    */
   protected static final String [] ENCODINGS = new String[] { "ASCII", "UTF-8", "UTF-16" };
-  
+
   /**
    * Line separator preferences to test.
    */
@@ -122,6 +111,7 @@ public class ContentTypeTest extends TestCase
   /**
    * Test all the combinations of encodings and line separators preferences across EMF's platform integrated content handler as well as EMF's standalone content handler.
    */
+  @Test
   public void testAllCombinations() throws Exception
   {
     // Create a new resource in the resource set.
@@ -168,7 +158,7 @@ public class ContentTypeTest extends TestCase
       {
         contentHandlers.clear();
         contentHandlers.add(contentHandler);
-        
+
         // Try everything for the various character encodings.
         //
         for (String encoding : ENCODINGS)
@@ -203,7 +193,7 @@ public class ContentTypeTest extends TestCase
             //
             replace(file, updatedLineSeparator);
             validateContentDescription(message, file, encoding, updatedLineSeparator);
-            
+
             // Save the resource and check that it's update the separator in the existing contents.
             //
             resource.save(options);

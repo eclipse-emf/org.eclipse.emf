@@ -11,12 +11,13 @@
 package org.eclipse.emf.test.xml.xsdecore;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.IOException;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -26,21 +27,21 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.xml.AllSuites;
-
 import org.eclipse.xsd.XSDDiagnostic;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import org.eclipse.xsd.util.XSDResourceImpl;
+import org.junit.Before;
+import org.junit.Test;
 
 
 /**
  * This test is designed to validate XML Schema files and compare those against expected output.
  */
-public class XSDValidateTest extends TestCase
+public class XSDValidateTest
 {
-
   final static String BASE_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xsd/invalid/";
-  
+
   // Print detailed messages to standard error.
   // 0: no debugging
   // 1: print failed comparisons only
@@ -620,38 +621,21 @@ public class XSDValidateTest extends TestCase
       "XSD: The value 'a1b2c3d4' of attribute 'value' must have length at most 3 as constrained by 'http://www.example.com/Bad#badMaxLengthFacetAppliedToHexBinary_._base'"
     };
 
-  public XSDValidateTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("XSDValidateTest");
-    ts.addTestSuite(XSDValidateTest.class);
-    // add this test to print error messages for 'xsdFile'
-    //ts.addTest(new XSDValidateTest("printValidationErrors"));
-    return ts;
-  }
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xsd", new XSDResourceFactoryImpl());
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml", new XMLResourceFactoryImpl());
   }
 
   /** Use this method to print all validation error messages for a given 'xsdFile'
-   * 
+   *
    * @throws Exception
    */
   public void printValidationErrors() throws Exception
   {
     ResourceSet resourceSet = loadXSDResource(xsdFile);
-    
+
     // Iterate over all the resources, i.e., the main resource and those that have been included or imported.
     //
     for (Object resource : resourceSet.getResources())
@@ -670,6 +654,7 @@ public class XSDValidateTest extends TestCase
     }
   }
 
+  @Test
   public void testValidateXSD() throws Exception
   {
     // If printing debug output, we don't want to fail until we've finished, so we'll count the problems.
@@ -694,9 +679,9 @@ public class XSDValidateTest extends TestCase
           XSDSchema xsdSchema = xsdResource.getSchema();
           xsdSchema.validate();
           EList<XSDDiagnostic> diagnostics = xsdSchema.getAllDiagnostics();
-          
+
           assertFalse(diagnostics.isEmpty());
-          
+
           for (XSDDiagnostic xsdDiagnostic : diagnostics)
           {
             String expected = expectedMsg[msgIndex++];
@@ -734,7 +719,7 @@ public class XSDValidateTest extends TestCase
                 assertTrue("'" + expected + "' does not start with '" + substring, result);
               }
             }
-            else 
+            else
             {
               boolean result = expected.equals(actual);
               if (TRACE_FAILED_COMPARISON)
@@ -781,6 +766,6 @@ public class XSDValidateTest extends TestCase
       System.err.println("Result (" + test +"): " + result);
       System.err.println("Position: " + position);
     }
-    return result ? 0 : 1;    
+    return result ? 0 : 1;
   }
 }

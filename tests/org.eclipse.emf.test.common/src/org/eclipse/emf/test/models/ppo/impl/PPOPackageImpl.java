@@ -20,15 +20,12 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EValidator;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.test.models.ppo.Item;
 import org.eclipse.emf.test.models.ppo.PPOFactory;
 import org.eclipse.emf.test.models.ppo.PPOPackage;
 import org.eclipse.emf.test.models.ppo.PurchaseOrder;
 import org.eclipse.emf.test.models.ppo.USAddress;
-
 import org.eclipse.emf.test.models.ppo.util.PPOValidator;
 
 /**

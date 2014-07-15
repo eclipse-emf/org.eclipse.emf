@@ -11,7 +11,6 @@
 package org.eclipse.emf.test.models.order;
 
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.ecore.util.FeatureMap;
 
 /**

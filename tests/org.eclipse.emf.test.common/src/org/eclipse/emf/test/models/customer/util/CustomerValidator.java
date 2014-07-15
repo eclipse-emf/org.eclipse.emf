@@ -11,21 +11,24 @@
 package org.eclipse.emf.test.models.customer.util;
 
 import java.math.BigInteger;
-
 import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
-
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.EObjectValidator;
-
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeValidator;
-
-import org.eclipse.emf.test.models.customer.*;
+import org.eclipse.emf.test.models.customer.AddressType;
+import org.eclipse.emf.test.models.customer.CanadaAddr;
+import org.eclipse.emf.test.models.customer.CreditInfo;
+import org.eclipse.emf.test.models.customer.CustomerPackage;
+import org.eclipse.emf.test.models.customer.CustomerType;
+import org.eclipse.emf.test.models.customer.CustomersType;
+import org.eclipse.emf.test.models.customer.DocumentRoot;
+import org.eclipse.emf.test.models.customer.USAddr;
+import org.eclipse.emf.test.models.customer.USState;
 
 /**
  * <!-- begin-user-doc -->

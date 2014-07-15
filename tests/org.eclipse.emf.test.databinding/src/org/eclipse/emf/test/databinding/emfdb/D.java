@@ -7,7 +7,6 @@
 package org.eclipse.emf.test.databinding.emfdb;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**

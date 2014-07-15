@@ -15,17 +15,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
-
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.EObjectValidator;
-
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeValidator;
-
-import org.eclipse.emf.test.models.movie.db.*;
+import org.eclipse.emf.test.models.movie.db.CriticsReviewType;
+import org.eclipse.emf.test.models.movie.db.CustomerReviewType;
+import org.eclipse.emf.test.models.movie.db.DBPackage;
+import org.eclipse.emf.test.models.movie.db.DocumentRoot;
+import org.eclipse.emf.test.models.movie.db.GenreTypes;
+import org.eclipse.emf.test.models.movie.db.MovieDBType;
+import org.eclipse.emf.test.models.movie.db.MovieType;
 
 /**
  * <!-- begin-user-doc -->

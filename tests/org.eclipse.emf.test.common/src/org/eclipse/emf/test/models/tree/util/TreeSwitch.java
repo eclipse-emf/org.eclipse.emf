@@ -14,8 +14,9 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.tree.*;
+import org.eclipse.emf.test.models.tree.Data;
+import org.eclipse.emf.test.models.tree.Node;
+import org.eclipse.emf.test.models.tree.TreePackage;
 
 /**
  * <!-- begin-user-doc -->

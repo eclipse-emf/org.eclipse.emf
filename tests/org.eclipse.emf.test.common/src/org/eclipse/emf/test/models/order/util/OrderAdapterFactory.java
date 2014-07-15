@@ -12,12 +12,12 @@ package org.eclipse.emf.test.models.order.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.order.*;
+import org.eclipse.emf.test.models.order.CustomerOrder;
+import org.eclipse.emf.test.models.order.DocumentRoot;
+import org.eclipse.emf.test.models.order.Order;
+import org.eclipse.emf.test.models.order.OrderPackage;
 
 /**
  * <!-- begin-user-doc -->

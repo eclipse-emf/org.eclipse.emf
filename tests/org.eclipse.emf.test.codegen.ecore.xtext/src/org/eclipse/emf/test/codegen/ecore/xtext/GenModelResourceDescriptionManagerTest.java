@@ -8,10 +8,13 @@
 package org.eclipse.emf.test.codegen.ecore.xtext;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+
 import java.util.Collections;
 import java.util.Map;
-
-import junit.framework.TestCase;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -33,6 +36,9 @@ import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.generic.GenericResourceDescriptionManager;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Guice;
@@ -43,19 +49,17 @@ import com.google.inject.Injector;
  * @author Sven Efftinge - Initial contribution and API
  * @author Jan Koehnlein
  */
-public class GenModelResourceDescriptionManagerTest extends TestCase
+public class GenModelResourceDescriptionManagerTest
 {
-
   private GenericResourceDescriptionManager testMe;
 
   private IQualifiedNameConverter converter;
 
   private Resource ecoreGenModel;
 
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
-    super.setUp();
     Injector injector = Guice.createInjector(new GenModelRuntimeModule());
     testMe = injector.getInstance(GenericResourceDescriptionManager.class);
     converter = injector.getInstance(IQualifiedNameConverter.class);
@@ -69,15 +73,15 @@ public class GenModelResourceDescriptionManagerTest extends TestCase
     assertNotNull(ecoreGenModel);
   }
 
-  @Override
-  protected void tearDown() throws Exception
+  @After
+  public void tearDown() throws Exception
   {
     testMe = null;
     converter = null;
     ecoreGenModel = null;
-    super.tearDown();
   }
 
+  @Test
   public void testEcoreGenModel() throws Exception
   {
     Map<QualifiedName, IEObjectDescription> index = createIndex(ecoreGenModel);
@@ -94,6 +98,7 @@ public class GenModelResourceDescriptionManagerTest extends TestCase
     assertNoEntry(index, "org.eclipse.emf.ecore.EClassifier.DefaultValue");
   }
 
+  @Test
   public void testNestedPackage() throws Exception
   {
     Resource ecoreResource = new XMIResourceImpl();
@@ -146,5 +151,4 @@ public class GenModelResourceDescriptionManagerTest extends TestCase
     }
     return index;
   }
-
 }

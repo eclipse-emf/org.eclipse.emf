@@ -4,20 +4,25 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.tools.merger;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
+import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.tools.AllSuites;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ArrayCreation;
@@ -49,51 +54,34 @@ import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.TextEdit;
-
-import org.eclipse.emf.codegen.util.CodeGenUtil;
-import org.eclipse.emf.test.common.TestUtil;
-import org.eclipse.emf.test.tools.AllSuites;
+import org.junit.Before;
+import org.junit.Test;
 
 /*
  * MP:
  * I know we are not responsible for the AST code, but since we had to study it, why not
  * add here a test with the APIs we will be using ;-)
  */
-public class ASTTest extends TestCase
+public class ASTTest
 {
-  private static final File CLASS_FILE = 
+  private static final File CLASS_FILE =
     new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/Example1.java").getAbsoluteFile();
- 
- /**
-  * @param name
-  */
- public ASTTest(String name)
- {
-   super(name);
- }
 
- public static Test suite()
- {
-   TestSuite ts = new TestSuite("ASTTest");
-   ts.addTest(new ASTTest("testRead"));
-   ts.addTest(new ASTTest("testWrite"));   
-   return ts;
- }
- 
- @Override
-protected void setUp() throws Exception
+ @Before
+ public void setUp() throws Exception
  {
    assertTrue("Source code is not available - " + CLASS_FILE.getAbsolutePath(), CLASS_FILE.isFile());
  }
- 
+
+ @Test
  public void testRead()
  {
    String content = TestUtil.readFile(CLASS_FILE, false);
-   
+
    ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser();
    astParser.setSource(content.toCharArray());
    CompilationUnit compilationUnit = (CompilationUnit)astParser.createAST(null);
-   
+
    {
      Javadoc javadoc = (Javadoc)compilationUnit.getCommentList().get(0);
      assertEquals(1, javadoc.tags().size());
@@ -105,14 +93,14 @@ protected void setUp() throws Exception
 //      System.out.println(element.getText());
 //    }
    }
-   
-   
+
+
    //** Package
    PackageDeclaration packageDeclaration = compilationUnit.getPackage();
    assertNotNull(packageDeclaration);
    assertTrue(packageDeclaration.getName().isQualifiedName());
    assertEquals("org.eclipse.emf.test.tools.merger", packageDeclaration.getName().getFullyQualifiedName());
-   
+
    //** Imports
    List<?> importDeclarations = compilationUnit.imports();
    assertEquals(6, importDeclarations.size());
@@ -128,11 +116,11 @@ protected void setUp() throws Exception
    assertFalse(((ImportDeclaration)importDeclarations.get(4)).isOnDemand());
    assertEquals("org.eclipse.emf.ecore.impl.EObjectImpl", ((ImportDeclaration)importDeclarations.get(5)).getName().getFullyQualifiedName());
    assertFalse(((ImportDeclaration)importDeclarations.get(5)).isOnDemand());
-   
+
    //** Types
    List<?> typeDeclarations = compilationUnit.types();
    assertEquals(2, typeDeclarations.size());
-   
+
    //** Class Example1
    TypeDeclaration exampleClass = (TypeDeclaration)typeDeclarations.get(1);
    assertEquals("Example1", exampleClass.getName().getFullyQualifiedName());
@@ -167,13 +155,13 @@ protected void setUp() throws Exception
    assertTrue(exampleClass.superInterfaceTypes().isEmpty());
    //Modifiers
    assertEquals(Modifier.PUBLIC, exampleClass.getModifiers());
-   
+
    //** Content of the Example1 class
    assertEquals(19, exampleClass.bodyDeclarations().size());
    assertEquals(2, exampleClass.getTypes().length);
    assertEquals(7, exampleClass.getFields().length);
    assertEquals(7, exampleClass.getMethods().length);
-   
+
    // Tests the order of the contents
    List<?> bodyDeclarations = exampleClass.bodyDeclarations();
    assertTrue(bodyDeclarations.get(0).toString(), bodyDeclarations.get(0) instanceof TypeDeclaration);
@@ -208,7 +196,7 @@ protected void setUp() throws Exception
      Javadoc javadoc = initializer.getJavadoc();
      assertEquals(1, javadoc.tags().size());
      assertEquals(1, ((TagElement)javadoc.tags().get(0)).fragments().size());
-     assertEquals("An static initializer", ((TextElement)((TagElement)javadoc.tags().get(0)).fragments().get(0)).getText());     
+     assertEquals("An static initializer", ((TextElement)((TagElement)javadoc.tags().get(0)).fragments().get(0)).getText());
    }
    //
    {
@@ -221,7 +209,7 @@ protected void setUp() throws Exception
      assertEquals("Another initializer with 2 lines", ((TextElement)((TagElement)javadoc.tags().get(0)).fragments().get(0)).getText());
      assertEquals("of javadoc.", ((TextElement)((TagElement)javadoc.tags().get(0)).fragments().get(1)).getText());
    }
-   
+
    //** Inner Class
    TypeDeclaration innerClass = exampleClass.getTypes()[0];
    assertFalse(innerClass.isInterface());
@@ -245,7 +233,7 @@ protected void setUp() throws Exception
    assertTrue(((Type)innerInterface.superInterfaceTypes().get(0)).isSimpleType());
    assertEquals("Notification", ((SimpleType)innerInterface.superInterfaceTypes().get(0)).getName().getFullyQualifiedName());
    assertNull(innerClass.getJavadoc());
-   
+
    //** Fields
    FieldDeclaration[] fieldDeclarations = exampleClass.getFields();
    //fieldDeclarations[0]: public static final String STR_CONST = "something"
@@ -356,7 +344,7 @@ protected void setUp() throws Exception
      assertEquals("4", ((NumberLiteral)arrayCreation.dimensions().get(0)).getToken());
      assertEquals("5", ((NumberLiteral)arrayCreation.dimensions().get(1)).getToken());
    }
-   
+
    //** Methods
    MethodDeclaration[] methodDeclarations = exampleClass.getMethods();
    //methodDeclarations[0]: public Example1()
@@ -408,76 +396,82 @@ protected void setUp() throws Exception
      assertEquals(1, methodDeclarations[2].parameters().size());
      assertTrue(((SingleVariableDeclaration)methodDeclarations[2].parameters().get(0)).getType().isSimpleType());
      assertEquals("Boolean", ((SimpleType)((SingleVariableDeclaration)methodDeclarations[2].parameters().get(0)).getType()).getName().getFullyQualifiedName());
-     assertEquals("b", ((SingleVariableDeclaration)methodDeclarations[2].parameters().get(0)).getName().getFullyQualifiedName());  
+     assertEquals("b", ((SingleVariableDeclaration)methodDeclarations[2].parameters().get(0)).getName().getFullyQualifiedName());
      //
      assertNotNull(methodDeclarations[2].getBody());
      assertEquals(1, methodDeclarations[2].getBody().statements().size());
    }
- }  
- 
-	/**
-	 * Some test examples on using ASTRewrite to rewrite the code
-	 */
-	public void testWrite() throws Exception {
-		 // read
-     String source = TestUtil.readFile(CLASS_FILE, false);    
-	   ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser();
-	   astParser.setSource(source.toCharArray());
-	   CompilationUnit sourceCu = (CompilationUnit)astParser.createAST(null);
-	   astParser.setSource(source.toCharArray());
-	   CompilationUnit targetCu = (CompilationUnit)astParser.createAST(null);
-	   
-	   // make modifications
-	   TypeDeclaration sourceClass = (TypeDeclaration)sourceCu.types().get(1);
-	   TypeDeclaration targetClass = (TypeDeclaration)targetCu.types().get(1);
-	   
-		 ASTRewrite rewriter = ASTRewrite.create(targetCu.getAST());	
-     
-		 IDocument targetDoc = new Document(new String(source.toCharArray())); 	   
+ }
 
-		 // copy whole method using strings and placeholder rewrite
-		 ASTNode sourceMethodToCopy = sourceClass.getMethods()[4];
-		 ASTNode targetMethodToCopy = rewriter.createStringPlaceholder(
+ /**
+  * Some test examples on using ASTRewrite to rewrite the code
+  */
+ @Test
+ public void testWrite() throws Exception
+ {
+   // read
+     String source = TestUtil.readFile(CLASS_FILE, false);
+    ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser();
+    astParser.setSource(source.toCharArray());
+    CompilationUnit sourceCu = (CompilationUnit)astParser.createAST(null);
+    astParser.setSource(source.toCharArray());
+    CompilationUnit targetCu = (CompilationUnit)astParser.createAST(null);
+
+    // make modifications
+    TypeDeclaration sourceClass = (TypeDeclaration)sourceCu.types().get(1);
+    TypeDeclaration targetClass = (TypeDeclaration)targetCu.types().get(1);
+
+   ASTRewrite rewriter = ASTRewrite.create(targetCu.getAST());
+
+   IDocument targetDoc = new Document(new String(source.toCharArray()));
+
+   // copy whole method using strings and placeholder rewrite
+   ASTNode sourceMethodToCopy = sourceClass.getMethods()[4];
+   ASTNode targetMethodToCopy = rewriter.createStringPlaceholder(
        source.substring(
-         sourceMethodToCopy.getStartPosition(), 
+         sourceMethodToCopy.getStartPosition(),
          sourceMethodToCopy.getStartPosition() + sourceMethodToCopy.getLength()),
-       ASTNode.METHOD_DECLARATION);		 
-		 ListRewrite lrw = rewriter.getListRewrite(targetClass, TypeDeclaration.BODY_DECLARATIONS_PROPERTY);
-		 lrw.insertFirst(targetMethodToCopy, null);	   
-	   
-		 // setBody() - replace body of the method
-		 ASTNode sourceMethodBodyToCopy = sourceClass.getMethods()[5].getBody();
-		 ASTNode targetMethodBodyToCopy = rewriter.createStringPlaceholder(
+       ASTNode.METHOD_DECLARATION);
+   ListRewrite lrw = rewriter.getListRewrite(targetClass, TypeDeclaration.BODY_DECLARATIONS_PROPERTY);
+   lrw.insertFirst(targetMethodToCopy, null);
+
+   // setBody() - replace body of the method
+   ASTNode sourceMethodBodyToCopy = sourceClass.getMethods()[5].getBody();
+   ASTNode targetMethodBodyToCopy = rewriter.createStringPlaceholder(
        source.substring(
-         sourceMethodBodyToCopy.getStartPosition(), 
+         sourceMethodBodyToCopy.getStartPosition(),
          sourceMethodBodyToCopy.getStartPosition() + sourceMethodBodyToCopy.getLength()),
        ASTNode.BLOCK);
-		 rewriter.replace(targetClass.getMethods()[6].getBody(), targetMethodBodyToCopy, null);
-		 
-		 // setExceptions() replace all exceptions
-		 List<?> exceptionsToSet = sourceClass.getMethods()[5].thrownExceptions();
-		 List<?> targetExceptins = targetClass.getMethods()[6].thrownExceptions();
-		 lrw = rewriter.getListRewrite(targetClass.getMethods()[6], MethodDeclaration.THROWN_EXCEPTIONS_PROPERTY);
-		 // remove all exceptions
-		 for(Iterator<?> it = targetExceptins.iterator(); it.hasNext();)
-			 lrw.remove((ASTNode) it.next(), null);
-		 // add all exceptions
-		 for(Iterator<?> it = exceptionsToSet.iterator(); it.hasNext();)
-			 lrw.insertLast((ASTNode) it.next(), null);
+   rewriter.replace(targetClass.getMethods()[6].getBody(), targetMethodBodyToCopy, null);
 
-		 // copy comment
-		 ASTNode comment = sourceClass.getMethods()[3].getJavadoc();
-		 rewriter.set(targetClass.getMethods()[6], MethodDeclaration.JAVADOC_PROPERTY, comment, null);
-		 
-		 // apply changes
-	   TextEdit editsInWriter = rewriter.rewriteAST(targetDoc, null);
-	   editsInWriter.apply(targetDoc);
-	   String result = targetDoc.get();		 
+   // setExceptions() replace all exceptions
+   @SuppressWarnings("deprecation")
+  List<?> exceptionsToSet = sourceClass.getMethods()[5].thrownExceptions();
+   @SuppressWarnings("deprecation")
+  List<?> targetExceptins = targetClass.getMethods()[6].thrownExceptions();
+   @SuppressWarnings("deprecation")
+  ListRewrite listRewrite = rewriter.getListRewrite(targetClass.getMethods()[6], MethodDeclaration.THROWN_EXCEPTIONS_PROPERTY);
+  lrw = listRewrite;
+   // remove all exceptions
+   for(Iterator<?> it = targetExceptins.iterator(); it.hasNext();)
+    lrw.remove((ASTNode) it.next(), null);
+   // add all exceptions
+   for(Iterator<?> it = exceptionsToSet.iterator(); it.hasNext();)
+    lrw.insertLast((ASTNode) it.next(), null);
+
+   // copy comment
+   ASTNode comment = sourceClass.getMethods()[3].getJavadoc();
+   rewriter.set(targetClass.getMethods()[6], MethodDeclaration.JAVADOC_PROPERTY, comment, null);
+
+   // apply changes
+    TextEdit editsInWriter = rewriter.rewriteAST(targetDoc, null);
+    editsInWriter.apply(targetDoc);
+    String result = targetDoc.get();
 
      File expectedOutputFile = new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/Example1Changed.java").getAbsoluteFile();
-     
+
      String expectedResult = TestUtil.readFile(expectedOutputFile, false);
-     
+
      assertEquals(expectedResult, result);
-	 }
+  }
 }

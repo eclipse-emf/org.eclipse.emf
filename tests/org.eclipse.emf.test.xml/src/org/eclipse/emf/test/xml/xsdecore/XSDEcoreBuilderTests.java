@@ -11,13 +11,11 @@
 package org.eclipse.emf.test.xml.xsdecore;
 
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -33,47 +31,31 @@ import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.xml.AllSuites;
-
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
+import org.junit.Before;
+import org.junit.Test;
 
 
 /**
  * Test for conversion from XSD to ECore - compare against expected output
  */
-public class XSDEcoreBuilderTests extends TestCase
+public class XSDEcoreBuilderTests
 {
-
-  XSDEcoreBuilder xsdEcoreBuilder;
-
   final static String BASE_XSD_URI = "file:///" + TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xsd/";
 
-  public XSDEcoreBuilderTests(String name)
-  {
-    super(name);
-  }
+  protected XSDEcoreBuilder xsdEcoreBuilder;
 
-  public static Test suite()
+  @Before
+  public void setUp() throws Exception
   {
-    TestSuite ts = new TestSuite("XSDEcoreBuilderTests");
-    ts.addTest(new XSDEcoreBuilderTests("testMyIPO"));
-    return ts;
-  }
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Override
-  protected void setUp() throws Exception
-  {
-
     xsdEcoreBuilder = new XSDEcoreBuilder();
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xsd", new XSDResourceFactoryImpl());
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMLResourceFactoryImpl());
-
   }
 
+  @Test
   public void testMyIPO() throws Exception
   {
     // SET SCHEMA URI
@@ -104,8 +86,7 @@ public class XSDEcoreBuilderTests extends TestCase
     ByteArrayOutputStream out = new ByteArrayOutputStream(2064);
     resource.save(out, options);
     String value = new String(out.toByteArray(), "UTF8");
-    
+
     assertTrue(value.contains("]]&gt;") );
   }
-
 }

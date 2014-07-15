@@ -10,11 +10,12 @@
  */
 package org.eclipse.emf.test.xml.xsd;
 
-import java.io.IOException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.io.IOException;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -27,38 +28,26 @@ import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.util.XSDConstants;
 import org.eclipse.xsd.util.XSDResourceImpl;
+import org.junit.Before;
+import org.junit.Test;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
-public class XSDFeatureTypeTest extends TestCase
+
+public class XSDFeatureTypeTest
 {
   private static final String ANY_TYPE = "anyType";
   private static final String ANY_SIMPLE_TYPE = "anySimpleType";
   private static final String STRING = "string";
-  
-  public XSDFeatureTypeTest(String name)
+
+  protected XSDSchema schema;
+  protected XSDSimpleTypeDefinition stringType;
+  protected XSDSimpleTypeDefinition anySimpleType;
+  protected XSDTypeDefinition anyType;
+
+  @Before
+  public void setUp() throws Exception
   {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("XSDFeatureTypeTest");
-    ts.addTest(new XSDFeatureTypeTest("testAttributeWithAnyType"));
-    ts.addTest(new XSDFeatureTypeTest("testElementWithAnyType"));
-    return ts;
-  }
-
-  XSDSchema schema;
-  XSDSimpleTypeDefinition stringType;
-  XSDSimpleTypeDefinition anySimpleType;
-  XSDTypeDefinition anyType;
-
-  @Override
-  protected void setUp() throws Exception
-  {
-    super.setUp();
-
     ResourceSet resourceSet = new ResourceSetImpl();
     XSDResourceImpl resource = new XSDResourceImpl();
     resourceSet.getResources().add(resource);
@@ -83,6 +72,7 @@ public class XSDFeatureTypeTest extends TestCase
    * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=174092 <br />
    * Testing attribute declarations.
    */
+  @Test
   public void testAttributeWithAnyType()
   {
     XSDAttributeDeclaration attributeDeclaration = schema.resolveAttributeDeclaration("testAttribute");
@@ -129,6 +119,7 @@ public class XSDFeatureTypeTest extends TestCase
    * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=174092 <br />
    * Testing element declarations
    */
+  @Test
   public void testElementWithAnyType()
   {
     XSDElementDeclaration elementDeclaration = schema.resolveElementDeclaration("testElement");

@@ -4,23 +4,24 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.tools;
 
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
 
 // Comment this out to test old ImportManager.
 //
 import org.eclipse.emf.codegen.util.ImportManager;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for {@link org.eclipse.emf.codegen.util.ImportManager ImportManager}.
@@ -29,62 +30,19 @@ import junit.framework.TestSuite;
  * The old implementation is replicated, and extended with new APIs, in {@link org.eclipse.emf.test.tools.ImportManager}.
  * <p>To run the appropriate tests on the old implementation, simply comment out the <code>ImportManager</code> import.
  */
-public class ImportManagerTest extends TestCase
+public class ImportManagerTest
 {
-  private static final boolean NEW = "org.eclipse.emf.codegen.util.ImportManager".equals(ImportManager.class.getName());
   private static final String NL = System.getProperty("line.separator");
 
   private ImportManager importManager;
 
-  public ImportManagerTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("ImportManagerTest");
-    ts.addTest(new ImportManagerTest("testSimpleImport"));
-    ts.addTest(new ImportManagerTest("testSimpleImport2"));
-    if (NEW)
-    {
-      ts.addTest(new ImportManagerTest("testWhitespaceImport"));
-      ts.addTest(new ImportManagerTest("testWhitespaceImport2"));
-      ts.addTest(new ImportManagerTest("testNestedImport"));
-    }
-    ts.addTest(new ImportManagerTest("testNestedImport2"));
-    if (NEW)
-    {
-      ts.addTest(new ImportManagerTest("testFullNestedImport"));
-      ts.addTest(new ImportManagerTest("testNestedWildcardImport"));
-    }
-    ts.addTest(new ImportManagerTest("testConflictingImport"));
-    ts.addTest(new ImportManagerTest("testPseudoImport"));
-    ts.addTest(new ImportManagerTest("testMasterImport"));
-    ts.addTest(new ImportManagerTest("testImplicitJavaImport"));
-    ts.addTest(new ImportManagerTest("testUnqualifiedTypeImport"));
-    ts.addTest(new ImportManagerTest("testConflictingImplicitJavaImport"));
-    ts.addTest(new ImportManagerTest("testExplicitJavaImport"));
-    if (NEW)
-    {
-      ts.addTest(new ImportManagerTest("testWildcardImport"));
-      ts.addTest(new ImportManagerTest("testGenericTypeImport"));
-    }
-    ts.addTest(new ImportManagerTest("testAutoImport"));
-    ts.addTest(new ImportManagerTest("testAutoGenericTypeImport"));
-    if (NEW)
-    {
-      ts.addTest(new ImportManagerTest("testAutoGenericTypeWhitespaceImport"));
-    }
-    return ts;
-  }
-
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     importManager = new ImportManager("org.eclipse.example.test", "GeneratingClass");
   }
 
+  @Test
   public void testSimpleImport()
   {
     importManager.addImport("a.MyClass");
@@ -93,6 +51,7 @@ public class ImportManagerTest extends TestCase
     assertSimpleImport();
   }
 
+  @Test
   public void testSimpleImport2()
   {
     importManager.addImport("a", "MyClass");
@@ -118,12 +77,14 @@ public class ImportManagerTest extends TestCase
     assertEquals(NL + "import a.MyClass;" + NL + NL + "import a.b.c.ItemClass;" + NL + "import a.b.c.MyOtherClass;", importManager.computeSortedImports());
   }
 
+  @Test
   public void testWhitespaceImport()
   {
     importManager.addImport("a. b. c. MyThirdClass");
     assertWhitespaceImport();
   }
 
+  @Test
   public void testWhitespaceImport2()
   {
     importManager.addImport("a. b. c", " MyThirdClass");
@@ -142,6 +103,7 @@ public class ImportManagerTest extends TestCase
     assertEquals(NL + "import a.b.c.MyThirdClass;", importManager.computeSortedImports());
   }
 
+  @Test
   public void testNestedImport()
   {
     importManager.addImport("a.b.c.OuterClass$InnerClass");
@@ -149,6 +111,7 @@ public class ImportManagerTest extends TestCase
     assertNestedImport();
   }
 
+  @Test
   public void testNestedImport2()
   {
     importManager.addImport("a.b.c", "OuterClass");
@@ -170,10 +133,11 @@ public class ImportManagerTest extends TestCase
     assertEquals("C1", importManager.getImportedName("a.b.c.C1"));
     assertEquals("C1.C2", importManager.getImportedName("a.b.c.C1$C2"));
     assertEquals("C1.C2.C3", importManager.getImportedName("a.b.c.C1$C2$C3"));
-    
+
     assertEquals(NL + "import a.b.c.C1;" + NL + "import a.b.c.OuterClass;", importManager.computeSortedImports());
   }
 
+  @Test
   public void testFullNestedImport()
   {
     importManager.addImport("a.b.c.Foo.Bar.Baz");
@@ -207,17 +171,20 @@ public class ImportManagerTest extends TestCase
     assertEquals("Foo", importManager.getImportedName("a.b.c.Foo"));
   }
 
+  @Test
   public void testNestedWildcardImport()
   {
     importManager.addImport("a.b.c.Foo.Bar.*");
     assertEquals("Baz", importManager.getImportedName("a.b.c.Foo$Bar$Baz"));
   }
 
+  @Test
   public void testUnqualifiedTypeImport()
   {
     assertEquals("Foo", importManager.getImportedName("Foo"));
   }
 
+  @Test
   public void testConflictingImport()
   {
     importManager.addImport("a.b.c.Foo");
@@ -231,6 +198,7 @@ public class ImportManagerTest extends TestCase
     assertEquals("a.Foo", importManager.getImportedName("a.Foo"));
   }
 
+  @Test
   public void testPseudoImport()
   {
     importManager.addPseudoImport("a.b.c.Foo");
@@ -244,6 +212,7 @@ public class ImportManagerTest extends TestCase
     assertEquals("a.Foo", importManager.getImportedName("a.Foo"));
   }
 
+  @Test
   public void testMasterImport()
   {
     importManager.addImport("a.b.c.GeneratingClass");
@@ -254,11 +223,13 @@ public class ImportManagerTest extends TestCase
     assertEquals("a.b.c.GeneratingClass", importManager.getImportedName("a.b.c.GeneratingClass"));
   }
 
+  @Test
   public void testImplicitJavaImport()
   {
     assertEquals("String", importManager.getImportedName("java.lang.String"));
   }
 
+  @Test
   public void testConflictingImplicitJavaImport()
   {
     importManager.addImport("a.b.c.String");
@@ -269,6 +240,7 @@ public class ImportManagerTest extends TestCase
     assertFalse(importManager.hasImport("String"));
   }
 
+  @Test
   public void testExplicitJavaImport()
   {
     importManager.addJavaLangImports(Collections.singletonList("String"));
@@ -280,6 +252,7 @@ public class ImportManagerTest extends TestCase
     assertFalse(importManager.hasImport("String"));
   }
 
+  @Test
   public void testWildcardImport()
   {
     importManager.addImport("a.b.c.Foo");
@@ -299,6 +272,7 @@ public class ImportManagerTest extends TestCase
     assertEquals("Baz", importManager.getImportedName("a.b.Baz"));
   }
 
+  @Test
   public void testGenericTypeImport()
   {
     importManager.addImport("a.b.c.MyClass");
@@ -314,6 +288,7 @@ public class ImportManagerTest extends TestCase
     assertEquals("Map<String, ? super MyClass & a.Baz>", importManager.getImportedName("java.util.Map<java.lang.String, ? super a.b.c.MyClass & a.Baz>"));
   }
 
+  @Test
   public void testAutoImport()
   {
     assertEquals("Foo", importManager.getImportedName("a.b.c.Foo", true));
@@ -321,6 +296,7 @@ public class ImportManagerTest extends TestCase
     assertEquals("Bar", importManager.getImportedName("d.e.f.Bar", true));
   }
 
+  @Test
   public void testAutoGenericTypeImport()
   {
     assertEquals("MyClass<Map<String,Baz>>", importManager.getImportedName("a.b.c.MyClass<java.util.Map<java.lang.String,a.b.Baz>>", true));
@@ -328,6 +304,7 @@ public class ImportManagerTest extends TestCase
     assertEquals("Map  < MyClass < a.Baz > , String >", importManager.getImportedName("java.util.Map  < a.b.c.MyClass < a.Baz > , java.lang.String >", true));
   }
 
+  @Test
   public void testAutoGenericTypeWhitespaceImport()
   {
     assertEquals("  Map  <   MyClass <   Baz > ,   String >", importManager.getImportedName("java . util .  Map  < a . b . c .  MyClass < a .  Baz > , java . lang .  String >", true));

@@ -23,10 +23,6 @@ import java.util.Vector;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -37,14 +33,17 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.xml.AllSuites;
 import org.eclipse.emf.test.xml.xmi.CompareXML;
-
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 
 /**
  * Test for conversion from XSD to ECore - compare against expected output
  */
-public class XSD2EcoreTest extends TestCase
+public class XSD2EcoreTest
 {
   DocumentBuilder builder = null;
 
@@ -64,23 +63,8 @@ public class XSD2EcoreTest extends TestCase
   // to serialize .ecore files turn this on
   final static boolean SERIALISE_ECORE = false;
 
-  public XSD2EcoreTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("XSD2EcoreTest");
-    ts.addTest(new XSD2EcoreTest("xsd2ecore"));
-    return ts;
-  }
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     xsdEcoreBuilder = new XSDEcoreBuilder();
     ecorefiles = new Vector<String>();
@@ -95,17 +79,14 @@ public class XSD2EcoreTest extends TestCase
     xsdfiles.add(BASE_XSD_URI + "order.xsd");
 
     // Add in the right order the files to compare with the output
-    
+
     ecorefiles.add(BASE_ECORE_URI + "db.ecore");
     ecorefiles.add(BASE_ECORE_URI + "customer.ecore");
     ecorefiles.add(BASE_ECORE_URI + "order.ecore");
   }
 
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
-  @Override
-  protected void tearDown() throws Exception
+  @After
+  public void tearDown() throws Exception
   {
     builder = null;
     xsdEcoreBuilder = null;
@@ -113,20 +94,20 @@ public class XSD2EcoreTest extends TestCase
     ecorefiles = null;
   }
 
+  @Test
   public void xsd2ecore() throws Exception
   {
-
     URI uri = null;
 
     for (int k = 0; k < xsdfiles.size(); k++)
     {
-      
+
       File file = new File(xsdfiles.get(k));
       uri = URI.createFileURI(file.getCanonicalFile().toString());
 
       // generate resources
       Collection<Resource> resources = xsdEcoreBuilder.generateResources(uri);
-      
+
       // fix ecore generated resources
       resources = fixEcoreResorces(resources);
       int counter = 0;
@@ -148,10 +129,9 @@ public class XSD2EcoreTest extends TestCase
         CompareXML.compareFiles(builder, expectedOutput ,new ByteArrayInputStream(outputstream.toByteArray()) );
       }
     }
-
   }
-  
-  Collection<Resource> fixEcoreResorces(Collection<Resource> generatedResources)
+
+  private Collection<Resource> fixEcoreResorces(Collection<Resource> generatedResources)
   {
     ResourceSet resourceSet = new ResourceSetImpl();
     for (Resource resource : generatedResources)
@@ -171,7 +151,7 @@ public class XSD2EcoreTest extends TestCase
         Resource newResource = resourceSet.createResource(URI.createURI("*.ecore"));
         newResource.setURI(ecoreURI);
 
-        // fix Name of resource       
+        // fix Name of resource
         String name = ePackage.getName();
         int dot = name.lastIndexOf(".");
         if (dot != -1)
@@ -185,5 +165,4 @@ public class XSD2EcoreTest extends TestCase
     }
     return resourceSet.getResources();
   }
-
 }

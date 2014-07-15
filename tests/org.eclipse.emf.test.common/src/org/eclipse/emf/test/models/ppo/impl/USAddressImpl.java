@@ -13,23 +13,16 @@ package org.eclipse.emf.test.models.ppo.impl;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
 import org.eclipse.emf.ecore.util.EObjectValidator;
-
 import org.eclipse.emf.test.models.ppo.PPOPackage;
 import org.eclipse.emf.test.models.ppo.USAddress;
-
 import org.eclipse.emf.test.models.ppo.util.PPOValidator;
 
 /**

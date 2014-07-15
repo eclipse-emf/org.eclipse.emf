@@ -4,21 +4,23 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.tools.merger;
 
-import java.io.File;
+import static org.junit.Assert.assertTrue;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import java.io.File;
+import java.util.Collection;
 
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
-import org.eclipse.jdt.core.JavaCore;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 
 /**
@@ -28,69 +30,27 @@ import org.eclipse.jdt.core.JavaCore;
  * Special cases will use directory returned by {@link #getDefaultDataDirectory()}.
  * <p>
  * In addition, this test is ran automatically by {@link JMergerTestSuite} for all input directories.
- *  
+ *
  * @see #JMergerJDOMTest(TestSuite, File)
  */
+@RunWith(Parameterized.class)
 public class JMergerJDOMTest extends JMergerTest
 {
   /**
-   * @param name
-   */
-  public JMergerJDOMTest(String name)
-  {
-    super(name);
-  }
-
-  /**
-   * Adds itself to test suite if possible by {@link #addItself(TestSuite)}.
-   * <p>
-   * Sets test name to be <code>mergeJDOM</code>.
-   * 
-   * @param ts
-   * @param dataDirectory
-   * @see #mergeJDOM()
-   */
-  public JMergerJDOMTest(TestSuite ts, File dataDirectory)
-  {
-    super(ts, dataDirectory);
-    setName("mergeJDOM");
-  }
-
-  /**
    * Name of the expected output file when JDOM facade implementation is used.
-   * @see #getTestSpecificExpectedOutput() 
+   * @see #getTestSpecificExpectedOutput()
    */
   public static final String JDOM_EXPECTED_OUTPUT_FILENAME = "JDOMMergerExpected.java";
 
-  /**
-   * Special test cases that are not in {@link JMergerTestSuite}
-   */
-  public static Test suite()
+  public JMergerJDOMTest(String label, File dataDirectory)
   {
-    TestSuite ts = new TestSuite("JMerger JDOM Test");
-    ts.addTest(new JMergerJDOMTest("merge4"));
-    return ts;
+    super(dataDirectory);
   }
 
-  /*
-   * Bugzilla 163856
-   */
-  public void merge4() throws Exception
+  @Parameters(name="Merging {0}")
+  public static Collection<Object[]> parameters()
   {
-    adjustSourceCompatibility(JavaCore.VERSION_1_5);
-    applyGenModelEditorFormatting = true;
-    verifyMerge(expectedOutput, mergeFiles());
-  }
-
-  /**
-   * Method to be used in tests created based on data directories.
-   * @throws Exception
-   * @see #addItself(TestSuite)
-   * @see JMergerTestSuite
-   */
-  public void mergeJDOM() throws Exception
-  {
-    merge();
+    return JMergerTest.parameters("JDOM");
   }
 
   @Override
@@ -109,22 +69,6 @@ public class JMergerJDOMTest extends JMergerTest
   @Override
   protected File getTestSpecificExpectedOutput()
   {
-    return new File(getDataDirectory(), JDOM_EXPECTED_OUTPUT_FILENAME);
-  }
-
-  /**
-   * Adds itself only if java version is 1.4 based on directory ({@link #computeExpectedOutputFile()}
-   * and if possible by {@link JMergerTest#addItself(TestSuite)}.
-   * 
-   * @see org.eclipse.emf.test.tools.merger.JMergerTest#addItself(junit.framework.TestSuite)
-   */
-  @Override
-  public void addItself(TestSuite ts)
-  {
-    String javaVersion = computeJavaVersion();
-    if (JavaCore.VERSION_1_4.equals(javaVersion))
-    {
-      super.addItself(ts);
-    }
+    return new File(dataDirectory, JDOM_EXPECTED_OUTPUT_FILENAME);
   }
 }

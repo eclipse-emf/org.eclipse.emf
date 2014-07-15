@@ -11,6 +11,12 @@
 package org.eclipse.emf.test.core.dynamic;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -19,10 +25,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.BasicEList;
@@ -46,9 +48,12 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.core.AllSuites;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 
-public class SimpleModelTest extends TestCase
+public class SimpleModelTest
 {
   private EPackage companyPackage;
 
@@ -66,33 +71,8 @@ public class SimpleModelTest extends TestCase
 
   private EReference departmentEmployees;
 
-  public SimpleModelTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("SimpleModelTest");
-    ts.addTest(new SimpleModelTest("testPackageAndFactory"));
-    ts.addTest(new SimpleModelTest("testAttributes"));
-    ts.addTest(new SimpleModelTest("testReference"));
-    ts.addTest(new SimpleModelTest("testMetaData"));
-    ts.addTest(new SimpleModelTest("testSaveAndLoad"));
-    ts.addTest(new SimpleModelTest("testSaveAndLoadZip"));
-    ts.addTest(new SimpleModelTest("testProxy"));
-    ts.addTest(new SimpleModelTest("testTrackingModificaiton"));
-    ts.addTest(new SimpleModelTest("testAddingDuplicates"));
-    ts.addTest(new SimpleModelTest("testRenamingStructuralFeature"));
-    ts.addTest(new SimpleModelTest("testRenamingClassifier"));
-    return ts;
-  }
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     EcoreFactory ecoreFactory = EcoreFactory.eINSTANCE;
     EcorePackage ecorePackage = EcorePackage.eINSTANCE;
@@ -139,11 +119,8 @@ public class SimpleModelTest extends TestCase
     EPackage.Registry.INSTANCE.put(companyPackage.getNsURI(), companyPackage);
   }
 
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
-  @Override
-  protected void tearDown() throws Exception
+  @After
+  public void tearDown() throws Exception
   {
     employeeName = null;
     employeeManager = null;
@@ -160,6 +137,7 @@ public class SimpleModelTest extends TestCase
     companyPackage = null;
   }
 
+  @Test
   public void testPackageAndFactory()
   {
     assertNotNull(companyPackage);
@@ -176,6 +154,7 @@ public class SimpleModelTest extends TestCase
     assertEquals(companyPackage, employee.eClass().getEPackage());
   }
 
+  @Test
   public void testAttributes()
   {
     EFactory companyFactory = companyPackage.getEFactoryInstance();
@@ -198,6 +177,7 @@ public class SimpleModelTest extends TestCase
     assertEquals(123, department.eGet(departmentNumber));
   }
 
+  @Test
   public void testReference()
   {
     EFactory companyFactory = companyPackage.getEFactoryInstance();
@@ -245,6 +225,7 @@ public class SimpleModelTest extends TestCase
     assertEquals(department1Employees, department1.eGet(departmentEmployees));
   }
 
+  @Test
   public void testMetaData()
   {
     EFactory companyFactory = companyPackage.getEFactoryInstance();
@@ -272,7 +253,8 @@ public class SimpleModelTest extends TestCase
     assertEquals(department1Employees.size(), department1.eContents().size());
     assertEquals(department2Employees.size(), department2.eContents().size());
   }
-  
+
+  @Test
   public void testSaveAndLoadZip() throws Exception
   {
     //Instanciating the model
@@ -339,6 +321,7 @@ public class SimpleModelTest extends TestCase
     assertFalse(new File(departmentsURI.toFileString()).exists());
   }
 
+  @Test
   public void testSaveAndLoad() throws Exception
   {
     //Instanciating the model
@@ -396,11 +379,12 @@ public class SimpleModelTest extends TestCase
     new File(departmentsURI.toFileString()).delete();
     assertFalse(new File(departmentsURI.toFileString()).exists());
   }
-  
+
+  @Test
   public void testProxy() throws Exception
   {
     EFactory companyFactory = companyPackage.getEFactoryInstance();
-    
+
     //Adding a not-contained association
     EReference associateDepartments = EcoreFactory.eINSTANCE.createEReference();
     associateDepartments.setName("associateDepartments");
@@ -408,7 +392,7 @@ public class SimpleModelTest extends TestCase
     associateDepartments.setEType(departmentClass);
     associateDepartments.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
     departmentClass.getEStructuralFeatures().add(associateDepartments);
-    
+
     //Instanciating the model
     EObject department = companyFactory.create(departmentClass);
     department.eSet(departmentName, "ACME1");
@@ -417,29 +401,29 @@ public class SimpleModelTest extends TestCase
     URI departmentURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/department.xmi");
     Resource departmentResource = new XMIResourceFactoryImpl().createResource(departmentURI);
     departmentResource.getContents().add(department);
-    
+
     EObject department1 = companyFactory.create(departmentClass);
     department1.eSet(departmentName, "ACME1");
     associateDepartmentsList.add(department1);
     URI department1URI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/department1.xmi");
     Resource department1Resource = new XMIResourceFactoryImpl().createResource(department1URI);
     department1Resource.getContents().add(department1);
-    
+
     EObject department2 = companyFactory.create(departmentClass);
     department2.eSet(departmentName, "ACME2");
     associateDepartmentsList.add(department2);
     URI department2URI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/department2.xmi");
     Resource department2Resource = new XMIResourceFactoryImpl().createResource(department2URI);
     department2Resource.getContents().add(department2);
-    
+
     //Saving
     departmentResource.save(Collections.EMPTY_MAP);
-    assertTrue(new File(departmentURI.toFileString()).exists());    
+    assertTrue(new File(departmentURI.toFileString()).exists());
     department1Resource.save(Collections.EMPTY_MAP);
-    assertTrue(new File(department1URI.toFileString()).exists());    
+    assertTrue(new File(department1URI.toFileString()).exists());
     department2Resource.save(Collections.EMPTY_MAP);
     assertTrue(new File(department2URI.toFileString()).exists());
-    
+
     //Loading department into a resource set
     ResourceSet resourceSet = new ResourceSetImpl();
     if (!EMFPlugin.IS_ECLIPSE_RUNNING)
@@ -449,22 +433,22 @@ public class SimpleModelTest extends TestCase
 
     Resource loadedResource = resourceSet.getResource(departmentURI, true);
     assertEquals(1, loadedResource.getContents().size());
-    
+
     EObject loadedDepartment = loadedResource.getContents().get(0);
     @SuppressWarnings("unchecked")
     BasicEList<EObject> loadedAssociateDepartmentsList = (BasicEList<EObject>)loadedDepartment.eGet(associateDepartments, false);
     assertEquals(2, loadedAssociateDepartmentsList.size());
-    
+
     EObject loadedDepartment1 = loadedAssociateDepartmentsList.basicGet(0);
     EObject loadedDepartment2 = loadedAssociateDepartmentsList.basicGet(1);
-    
+
     assertTrue(loadedDepartment1.eIsProxy());
     assertEquals(department1URI.toFileString(), ((InternalEObject)loadedDepartment1).eProxyURI().toFileString());
     assertNull(loadedDepartment1.eGet(departmentName));
     assertTrue(loadedDepartment2.eIsProxy());
     assertEquals(department2URI.toFileString(), ((InternalEObject)loadedDepartment2).eProxyURI().toFileString());
     assertNull(loadedDepartment2.eGet(departmentName));
-    
+
     //Resolving Proxy
     loadedDepartment1 = EcoreUtil.resolve(loadedDepartment1, resourceSet);
     assertFalse(loadedDepartment1.eIsProxy());
@@ -472,7 +456,7 @@ public class SimpleModelTest extends TestCase
     loadedDepartment2 = EcoreUtil.resolve(loadedDepartment2, resourceSet);
     assertFalse(loadedDepartment2.eIsProxy());
     assertEquals(department2.eGet(departmentName), loadedDepartment2.eGet(departmentName));
-    
+
     //Deleting created files
     new File(departmentURI.toFileString()).delete();
     assertFalse(new File(departmentURI.toFileString()).exists());
@@ -481,10 +465,11 @@ public class SimpleModelTest extends TestCase
     new File(department2URI.toFileString()).delete();
     assertFalse(new File(department2URI.toFileString()).exists());
   }
-  
+
   /*
    * Bugzilla 80110
    */
+  @Test
   public void testTrackingModificaiton() throws Exception
   {
     Resource resource = new ResourceImpl()
@@ -497,14 +482,14 @@ public class SimpleModelTest extends TestCase
     };
     assertFalse(resource.isTrackingModification());
     assertFalse(resource.isModified());
-    
+
     EFactory companyFactory = companyPackage.getEFactoryInstance();
     EObject employee = companyFactory.create(employeeClass);
     EObject department = companyFactory.create(departmentClass);
     @SuppressWarnings("unchecked")
     List<EObject> employess = ((List<EObject>)department.eGet(departmentEmployees));
     employess.add(employee);
-    
+
     resource.getContents().add(department);
     assertFalse(resource.isTrackingModification());
     assertFalse(resource.isModified());
@@ -512,28 +497,28 @@ public class SimpleModelTest extends TestCase
     resource.setTrackingModification(true);
     assertTrue(resource.isTrackingModification());
     assertFalse(resource.isModified());
-    
+
     employee.eSet(employeeName, "John");
     assertTrue(resource.isTrackingModification());
     assertTrue(resource.isModified());
-    
+
     resource.save(new ByteArrayOutputStream(), null);
     assertTrue(resource.isTrackingModification());
     assertFalse(resource.isModified());
-    
+
     resource.setTrackingModification(false);
     assertFalse(resource.isTrackingModification());
-    assertFalse(resource.isModified());    
+    assertFalse(resource.isModified());
 
     employee.eSet(employeeName, "Joe");
     assertEquals(resource, employee.eResource());
     assertFalse(resource.isTrackingModification());
     assertFalse(resource.isModified());
-    
+
     resource.setTrackingModification(true);
     assertTrue(resource.isTrackingModification());
     assertFalse(resource.isModified());
-   
+
     EObject employee1 = companyFactory.create(employeeClass);
     EObject department1 = companyFactory.create(departmentClass);
     @SuppressWarnings("unchecked")
@@ -546,7 +531,7 @@ public class SimpleModelTest extends TestCase
     resource.save(new ByteArrayOutputStream(), null);
     assertTrue(resource.isTrackingModification());
     assertFalse(resource.isModified());
-    
+
     employee1.eSet(employeeName, "Mike");
     assertTrue(resource.isTrackingModification());
     assertTrue(resource.isModified());
@@ -557,17 +542,18 @@ public class SimpleModelTest extends TestCase
 
     resource.setTrackingModification(false);
     assertFalse(resource.isTrackingModification());
-    assertFalse(resource.isModified());    
+    assertFalse(resource.isModified());
 
     employee1.eSet(employeeName, "Mark");
     assertEquals(resource, employee1.eResource());
     assertFalse(resource.isTrackingModification());
-    assertFalse(resource.isModified());    
+    assertFalse(resource.isModified());
   }
-  
+
   /*
    * Bugzilla 106702
    */
+  @Test
   public void testAddingDuplicates() throws Exception
   {
     EFactory companyFactory = companyPackage.getEFactoryInstance();
@@ -579,10 +565,10 @@ public class SimpleModelTest extends TestCase
 
     EObject employee1 = companyFactory.create(employeeClass);
     department1Employees.add(employee1);
-    
+
     Exception exception = null;
     try
-    {    
+    {
       department1Employees.add(0, null);
     }
     catch(IllegalArgumentException iae)
@@ -590,34 +576,36 @@ public class SimpleModelTest extends TestCase
       exception = iae;
     }
     assertNotNull(exception);
-      
+
     assertEquals(1, department1Employees.size());
     assertEquals(0, department1Employees.indexOf(employee1));
-    
+
     Object[] data = ((BasicEList<?>)department1Employees).data();
     assertEquals(employee1, data[0]);
     assertNull(data[1]);
   }
-  
-  public void testRenamingStructuralFeature() 
+
+  @Test
+  public void testRenamingStructuralFeature()
   {
     String COST_CENTER_NAME = "costCenter";
     String CHANGED_COST_CENTER_NAME = "changedCostCenter";
-     
+
     EAttribute costCenterAttribute = EcoreFactory.eINSTANCE.createEAttribute();
     costCenterAttribute.setName( COST_CENTER_NAME );
-     
+
     departmentClass.getEStructuralFeatures().add( costCenterAttribute );
-     
+
     assertNotNull( departmentClass.getEStructuralFeature( COST_CENTER_NAME ) );
-     
+
     costCenterAttribute.setName( CHANGED_COST_CENTER_NAME );
-   
+
     assertEquals( CHANGED_COST_CENTER_NAME, costCenterAttribute.getName() );
     assertNotNull( departmentClass.getEStructuralFeature( CHANGED_COST_CENTER_NAME ) );
   }
 
-  public void testRenamingClassifier() 
+  @Test
+  public void testRenamingClassifier()
   {
     assertNotNull(companyPackage.getEClassifier("Employee"));
     employeeClass.setName("Employee1");

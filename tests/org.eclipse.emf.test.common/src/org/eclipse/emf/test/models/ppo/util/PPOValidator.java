@@ -16,15 +16,14 @@ import java.util.Map;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
-
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
 import org.eclipse.emf.ecore.util.EObjectValidator;
-
-import org.eclipse.emf.test.models.ppo.*;
+import org.eclipse.emf.test.models.ppo.Item;
+import org.eclipse.emf.test.models.ppo.PPOPackage;
+import org.eclipse.emf.test.models.ppo.PurchaseOrder;
+import org.eclipse.emf.test.models.ppo.USAddress;
 
 /**
  * <!-- begin-user-doc -->

@@ -12,12 +12,14 @@ package org.eclipse.emf.test.models.lib.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.lib.*;
+import org.eclipse.emf.test.models.lib.Address;
+import org.eclipse.emf.test.models.lib.Book;
+import org.eclipse.emf.test.models.lib.Cafeteria;
+import org.eclipse.emf.test.models.lib.LibPackage;
+import org.eclipse.emf.test.models.lib.Library;
+import org.eclipse.emf.test.models.lib.Person;
 
 /**
  * <!-- begin-user-doc -->

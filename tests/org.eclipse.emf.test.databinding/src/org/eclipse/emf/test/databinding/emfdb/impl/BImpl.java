@@ -4,21 +4,18 @@
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/cpl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   Tom Schindl - Initial API and implementation
  */
 package org.eclipse.emf.test.databinding.emfdb.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.test.databinding.emfdb.B;
 import org.eclipse.emf.test.databinding.emfdb.D;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;

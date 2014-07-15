@@ -13,8 +13,8 @@ package org.eclipse.emf.test.models.qname;
 import java.util.List;
 
 import javax.xml.namespace.QName;
-import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.FeatureMap;
 
 /**

@@ -12,12 +12,11 @@ package org.eclipse.emf.test.models.key.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.key.*;
+import org.eclipse.emf.test.models.key.Item;
+import org.eclipse.emf.test.models.key.KeyPackage;
+import org.eclipse.emf.test.models.key.Root;
 
 /**
  * <!-- begin-user-doc -->

@@ -11,6 +11,8 @@
 package org.eclipse.emf.test.xml.rss;
 
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Collection;
@@ -20,10 +22,6 @@ import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -39,44 +37,29 @@ import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.xml.AllSuites;
 import org.eclipse.emf.test.xml.xmi.CompareXML;
-
 import org.eclipse.xsd.XSDDiagnostic;
 import org.eclipse.xsd.XSDDiagnosticSeverity;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.eclipse.xsd.impl.XSDDiagnosticImpl;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
+import org.junit.Before;
+import org.junit.Test;
+
 
 
 /**
  * General tests for RSS reading/writing
  */
-public class RSSTests extends TestCase
+public class RSSTests
 {
-
-  XSDEcoreBuilder xsdEcoreBuilder;
-  URI schemaURI;
-  DocumentBuilder builder;
-
   final static String BASE_RSS_URI = "file:///" + TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/rss/";
 
-  public RSSTests(String name)
-  {
-    super(name);
-  }
+  protected XSDEcoreBuilder xsdEcoreBuilder;
+  protected URI schemaURI;
+  protected DocumentBuilder builder;
 
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("RSSTests");
-    ts.addTest(new RSSTests("testLoadEMF21_AtomRSS10v11"));
-    ts.addTest(new RSSTests("testLoadEMF22_XMLProcessor_AtomRSS10v11"));
-    return ts;
-  }
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     xsdEcoreBuilder = new XSDEcoreBuilder();
     xsdEcoreBuilder.setValidate(true);
@@ -91,6 +74,7 @@ public class RSSTests extends TestCase
   /*
    * Bug #81512
    */
+  @Test
   public void testLoadEMF21_AtomRSS10v11() throws Exception
   {
     String schema = "atom10v11_simple.xsd";
@@ -100,6 +84,7 @@ public class RSSTests extends TestCase
   /*
    * Bug #81512
    */
+  @Test
   public void testLoadEMF22_XMLProcessor_AtomRSS10v11() throws Exception
   {
     String schema = "atom10v11_simple.xsd";
@@ -184,6 +169,4 @@ public class RSSTests extends TestCase
     message.append(diagnostic.getMessage());
     return message;
   }
-
-
 }

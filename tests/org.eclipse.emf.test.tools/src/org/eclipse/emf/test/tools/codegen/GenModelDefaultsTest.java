@@ -1,28 +1,15 @@
 package org.eclipse.emf.test.tools.codegen;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import static org.junit.Assert.assertEquals;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.junit.Test;
 
 public class GenModelDefaultsTest extends BaseGenModelTest
 {
-  public GenModelDefaultsTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("GenModelDefaultsTest");
-    ts.addTest(new GenModelDefaultsTest("testGetStaticDefaultValue"));
-    ts.addTest(new GenModelDefaultsTest("testGetStaticDefaultValueForXSDTypes"));
-    return ts;
-  }
-
   protected void assertCorrectStaticDefaultValues(GenPackage genPackage, String className)
   {
     GenModel genModel = genPackage.getGenModel();
@@ -37,6 +24,7 @@ public class GenModelDefaultsTest extends BaseGenModelTest
     }
   }
 
+  @Test
   public void testGetStaticDefaultValue()
   {
     GenModel genModel = loadModel("Defaults.ecore");
@@ -44,6 +32,7 @@ public class GenModelDefaultsTest extends BaseGenModelTest
     assertCorrectStaticDefaultValues(genModel.getGenPackages().get(0), "BigClass");
   }
 
+  @Test
   public void testGetStaticDefaultValueForXSDTypes()
   {
     GenModel genModel = loadModel("XSDDefaults.ecore");

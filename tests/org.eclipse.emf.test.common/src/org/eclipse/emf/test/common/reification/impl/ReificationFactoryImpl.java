@@ -8,16 +8,39 @@
 package org.eclipse.emf.test.common.reification.impl;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.test.common.reification.*;
+import org.eclipse.emf.test.common.reification.Bidirectional;
+import org.eclipse.emf.test.common.reification.BoundedGenericContainer;
+import org.eclipse.emf.test.common.reification.BoundedTListKeyValuePair;
+import org.eclipse.emf.test.common.reification.High;
+import org.eclipse.emf.test.common.reification.HighBoundedContainer;
+import org.eclipse.emf.test.common.reification.HighListKeyValuePair;
+import org.eclipse.emf.test.common.reification.IntegerListKeyValuePair;
+import org.eclipse.emf.test.common.reification.KeyValuePair;
+import org.eclipse.emf.test.common.reification.KeyValuePairContainer;
+import org.eclipse.emf.test.common.reification.Link;
+import org.eclipse.emf.test.common.reification.LinkItem;
+import org.eclipse.emf.test.common.reification.Low;
+import org.eclipse.emf.test.common.reification.Medium;
+import org.eclipse.emf.test.common.reification.MediumBidirectional;
+import org.eclipse.emf.test.common.reification.MediumLink;
+import org.eclipse.emf.test.common.reification.MediumUnboundedContainer;
+import org.eclipse.emf.test.common.reification.RawKeyValuePair;
+import org.eclipse.emf.test.common.reification.RawLink;
+import org.eclipse.emf.test.common.reification.RawUnboundedContainer;
+import org.eclipse.emf.test.common.reification.ReificationFactory;
+import org.eclipse.emf.test.common.reification.ReificationPackage;
+import org.eclipse.emf.test.common.reification.Root;
+import org.eclipse.emf.test.common.reification.StringListKeyValuePair;
+import org.eclipse.emf.test.common.reification.StringListKeyValuePairContainer;
+import org.eclipse.emf.test.common.reification.TListKeyValuePair;
+import org.eclipse.emf.test.common.reification.UnboundedGenericContainer;
+import org.eclipse.emf.test.common.reification.VeryHigh;
+import org.eclipse.emf.test.common.reification.VeryLow;
 
 /**
  * <!-- begin-user-doc -->

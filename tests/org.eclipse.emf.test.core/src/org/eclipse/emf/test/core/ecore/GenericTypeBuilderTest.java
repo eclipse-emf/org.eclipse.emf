@@ -4,60 +4,51 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.core.ecore;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreValidator;
+import org.junit.Before;
+import org.junit.Test;
+
 
 /**
  * @since 2.3
  */
-public class GenericTypeBuilderTest extends TestCase
+public class GenericTypeBuilderTest
 {
   private EcoreValidator.EGenericTypeBuilder genericTypeBuilder;
-  
-  public GenericTypeBuilderTest(String name)
-  {
-    super(name);
-  }
-  
-  public static Test suite()
-  {
-    TestSuite testSuite = new TestSuite("GenericTypeBuilderTest");
-    testSuite.addTest(new GenericTypeBuilderTest("testErasedTypes"));
-    testSuite.addTest(new GenericTypeBuilderTest("testGenericTypes"));
-    testSuite.addTest(new GenericTypeBuilderTest("knownProblems"));
-    return testSuite;
-  }
-  
-  @Override
-  protected void setUp() throws Exception
+
+  @Before
+  public void setUp() throws Exception
   {
     genericTypeBuilder = new EcoreValidator.EGenericTypeBuilder();
   }
-  
+
+  @Test
   public void knownProblems()
   {
     {
       String instanceTypeName = "A<B";
       Diagnostic diagnostic = genericTypeBuilder.parseInstanceTypeName(instanceTypeName);
       assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
-    }    
+    }
 
     {
       String instanceTypeName = "AB>";
@@ -65,7 +56,8 @@ public class GenericTypeBuilderTest extends TestCase
       assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
     }
   }
-  
+
+  @Test
   public void testErasedTypes()
   {
     {
@@ -75,15 +67,15 @@ public class GenericTypeBuilderTest extends TestCase
       assertEquals(2, diagnostic.getData().size());
       assertEquals(instanceTypeName, diagnostic.getData().get(1));
       assertTrue(diagnostic.getData().get(0).toString(), diagnostic.getData().get(0) instanceof EGenericType);
-      
+
       EGenericType genericType = (EGenericType)diagnostic.getData().get(0);
       assertEquals("java.lang.Object", genericType.getEClassifier().getInstanceClassName());
       assertEquals("A", genericType.getEClassifier().getInstanceTypeName());
       assertEquals(0, genericType.getETypeArguments().size());
-      
+
       assertEquals(0, diagnostic.getChildren().size());
     }
-    
+
     {
       String instanceTypeName = "a.b.c.A";
       Diagnostic diagnostic = genericTypeBuilder.parseInstanceTypeName(instanceTypeName);
@@ -91,15 +83,15 @@ public class GenericTypeBuilderTest extends TestCase
       assertEquals(2, diagnostic.getData().size());
       assertEquals(instanceTypeName, diagnostic.getData().get(1));
       assertTrue(diagnostic.getData().get(0).toString(), diagnostic.getData().get(0) instanceof EGenericType);
-      
+
       EGenericType genericType = (EGenericType)diagnostic.getData().get(0);
       assertEquals("a.b.c.A", genericType.getEClassifier().getInstanceClassName());
       assertEquals("a.b.c.A", genericType.getEClassifier().getInstanceTypeName());
       assertEquals(0, genericType.getETypeArguments().size());
-      
+
       assertEquals(0, diagnostic.getChildren().size());
     }
-    
+
     {
       String instanceTypeName = "Integer";
       Diagnostic diagnostic = genericTypeBuilder.parseInstanceTypeName(instanceTypeName);
@@ -107,15 +99,15 @@ public class GenericTypeBuilderTest extends TestCase
       assertEquals(2, diagnostic.getData().size());
       assertEquals(instanceTypeName, diagnostic.getData().get(1));
       assertTrue(diagnostic.getData().get(0).toString(), diagnostic.getData().get(0) instanceof EGenericType);
-      
+
       EGenericType genericType = (EGenericType)diagnostic.getData().get(0);
       assertEquals("java.lang.Object", genericType.getEClassifier().getInstanceClassName());
       assertEquals("Integer", genericType.getEClassifier().getInstanceTypeName());
       assertEquals(0, genericType.getETypeArguments().size());
-      
+
       assertEquals(0, diagnostic.getChildren().size());
-    }    
-    
+    }
+
     {
       String instanceTypeName = "A[]";
       Diagnostic diagnostic = genericTypeBuilder.parseInstanceTypeName(instanceTypeName);
@@ -123,16 +115,17 @@ public class GenericTypeBuilderTest extends TestCase
       assertEquals(2, diagnostic.getData().size());
       assertEquals(instanceTypeName, diagnostic.getData().get(1));
       assertTrue(diagnostic.getData().get(0).toString(), diagnostic.getData().get(0) instanceof EGenericType);
-      
+
       EGenericType genericType = (EGenericType)diagnostic.getData().get(0);
       assertEquals("java.lang.Object[]", genericType.getEClassifier().getInstanceClassName());
       assertEquals("A[]", genericType.getEClassifier().getInstanceTypeName());
       assertEquals(0, genericType.getETypeArguments().size());
-      
+
       assertEquals(0, diagnostic.getChildren().size());
-    }    
+    }
   }
-  
+
+  @Test
   public void testGenericTypes()
   {
     {
@@ -142,23 +135,23 @@ public class GenericTypeBuilderTest extends TestCase
       assertEquals(2, diagnostic.getData().size());
       assertEquals(instanceTypeName, diagnostic.getData().get(1));
       assertTrue(diagnostic.getData().get(0).toString(), diagnostic.getData().get(0) instanceof EGenericType);
-      
+
       EGenericType genericType = (EGenericType)diagnostic.getData().get(0);
       assertEquals("java.lang.Object", genericType.getEClassifier().getInstanceClassName());
       assertEquals("A", genericType.getEClassifier().getInstanceTypeName());
-      
+
       assertEquals(1, genericType.getETypeArguments().size());
       assertNull(genericType.getEUpperBound());
-      assertNull(genericType.getELowerBound());        
+      assertNull(genericType.getELowerBound());
       {
         EGenericType typeArgument = genericType.getETypeArguments().get(0);
         assertEquals("java.lang.Object", typeArgument.getEClassifier().getInstanceClassName());
         assertEquals("E", typeArgument.getEClassifier().getInstanceTypeName());
         assertEquals(0, typeArgument.getETypeArguments().size());
         assertNull(typeArgument.getEUpperBound());
-        assertNull(typeArgument.getELowerBound());        
+        assertNull(typeArgument.getELowerBound());
       }
-      
+
       assertEquals(0, diagnostic.getChildren().size());
     }
 
@@ -169,11 +162,11 @@ public class GenericTypeBuilderTest extends TestCase
       assertEquals(2, diagnostic.getData().size());
       assertEquals(instanceTypeName, diagnostic.getData().get(1));
       assertTrue(diagnostic.getData().get(0).toString(), diagnostic.getData().get(0) instanceof EGenericType);
-      
+
       EGenericType genericType = (EGenericType)diagnostic.getData().get(0);
       assertEquals("java.lang.Object", genericType.getEClassifier().getInstanceClassName());
       assertEquals("A", genericType.getEClassifier().getInstanceTypeName());
-      
+
       assertEquals(4, genericType.getETypeArguments().size());
       assertNull(genericType.getELowerBound());
       assertNull(genericType.getEUpperBound());
@@ -230,7 +223,7 @@ public class GenericTypeBuilderTest extends TestCase
             assertEquals(0, grandChildTypeArgument.getETypeArguments().size());
             assertNull(grandChildTypeArgument.getELowerBound());
             assertNotNull(grandChildTypeArgument.getEUpperBound());
-            
+
             EGenericType upperBound = grandChildTypeArgument.getEUpperBound();
             assertEquals("java.lang.Object", upperBound.getEClassifier().getInstanceClassName());
             assertEquals("Number", upperBound.getEClassifier().getInstanceTypeName());
@@ -240,10 +233,10 @@ public class GenericTypeBuilderTest extends TestCase
           }
         }
       }
-      
+
       assertEquals(0, diagnostic.getChildren().size());
     }
-    
+
     {
       String instanceTypeName = "List<int[]>";
       Diagnostic diagnostic = genericTypeBuilder.parseInstanceTypeName(instanceTypeName);
@@ -251,11 +244,11 @@ public class GenericTypeBuilderTest extends TestCase
       assertEquals(2, diagnostic.getData().size());
       assertEquals(instanceTypeName, diagnostic.getData().get(1));
       assertTrue(diagnostic.getData().get(0).toString(), diagnostic.getData().get(0) instanceof EGenericType);
-      
+
       EGenericType genericType = (EGenericType)diagnostic.getData().get(0);
       assertEquals("java.lang.Object", genericType.getEClassifier().getInstanceClassName());
       assertEquals("List", genericType.getEClassifier().getInstanceTypeName());
-      
+
       assertEquals(1, genericType.getETypeArguments().size());
       {
         EGenericType typeArgument = genericType.getETypeArguments().get(0);
@@ -265,9 +258,9 @@ public class GenericTypeBuilderTest extends TestCase
         assertNull(typeArgument.getEUpperBound());
         assertNull(typeArgument.getELowerBound());
       }
-      
+
       assertEquals(0, diagnostic.getChildren().size());
-    }    
+    }
 
     {
       String instanceTypeName = "List<? super Integer>[]";
@@ -276,41 +269,41 @@ public class GenericTypeBuilderTest extends TestCase
       assertEquals(2, diagnostic.getData().size());
       assertEquals(instanceTypeName, diagnostic.getData().get(1));
       assertTrue(diagnostic.getData().get(0).toString(), diagnostic.getData().get(0) instanceof EGenericType);
-      
+
       EGenericType genericType = (EGenericType)diagnostic.getData().get(0);
       assertEquals("java.lang.Object[]", genericType.getEClassifier().getInstanceClassName());
       assertEquals("List[]", genericType.getEClassifier().getInstanceTypeName());
-      
+
       assertEquals(1, genericType.getETypeArguments().size());
       assertNull(genericType.getEUpperBound());
-      assertNull(genericType.getELowerBound());        
+      assertNull(genericType.getELowerBound());
       {
         EGenericType typeArgument = genericType.getETypeArguments().get(0);
         assertNull(typeArgument.getEClassifier());
         assertEquals(0, typeArgument.getETypeArguments().size());
         assertNull(typeArgument.getEUpperBound());
         assertNotNull(typeArgument.getELowerBound());
-        
+
         EGenericType lowerBound = typeArgument.getELowerBound();
         assertEquals("java.lang.Object", lowerBound.getEClassifier().getInstanceClassName());
-        assertEquals("Integer", lowerBound.getEClassifier().getInstanceTypeName());        
+        assertEquals("Integer", lowerBound.getEClassifier().getInstanceTypeName());
       }
-      
+
       assertEquals(0, diagnostic.getChildren().size());
-    }    
+    }
   }
-  
+
   public static void main(String[] args)
-  {    
+  {
     List<int[]> li = new ArrayList<int[]>();
     li.add(new int[] {1});
     System.out.println(li.get(0)[0]);
-    
+
     @SuppressWarnings("unchecked") List<? super Integer>[] lis = new List[2];
     lis[0] = new ArrayList<Integer>();
     lis[1] = new ArrayList<Object>();
-    
-    String [] instanceTypeNames = 
+
+    String [] instanceTypeNames =
       {
         "A<B<C[], d.D<e.E>>[][]>[]",
         "A[]<A>",
@@ -380,7 +373,7 @@ public class GenericTypeBuilderTest extends TestCase
       }
     }
 
-    String [] typeParameters = 
+    String [] typeParameters =
       {
         "<T, U, V>",
         "<T, U extends T, V extends U>",
@@ -436,5 +429,5 @@ public class GenericTypeBuilderTest extends TestCase
         System.out.flush();
       }
     }
-  }  
+  }
 }

@@ -14,6 +14,10 @@
 			<name>org.eclipse.oomph.version.VersionBuilder</name>
 			<arguments>
 				<dictionary>
+					<key>ignore.feature.content.changes</key>
+					<value>true</value>
+				</dictionary>
+				<dictionary>
 					<key>ignore.missing.dependency.ranges</key>
 					<value>true</value>
 				</dictionary>

@@ -7,29 +7,18 @@
  */
 package org.eclipse.emf.test.core.ecore;
 
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.junit.Test;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
-public class ResourceSetMappedResourceLocatorTest extends TestCase
+public class ResourceSetMappedResourceLocatorTest
 {
-  public ResourceSetMappedResourceLocatorTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite testSuite = new TestSuite("ResourceLocatorTests");
-    testSuite.addTest(new ResourceSetMappedResourceLocatorTest("test"));
-    return testSuite;
-  }
-
   protected ResourceSet createResourceSet(boolean tracked)
   {
     ResourceSetImpl resourceSet = new ResourceSetImpl();
@@ -40,6 +29,7 @@ public class ResourceSetMappedResourceLocatorTest extends TestCase
     return resourceSet;
   }
 
+  @Test
   public void test() throws Exception
   {
     test1(createResourceSet(false));

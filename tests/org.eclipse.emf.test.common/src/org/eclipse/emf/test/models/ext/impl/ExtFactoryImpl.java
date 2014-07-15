@@ -13,12 +13,12 @@ package org.eclipse.emf.test.models.ext.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.test.models.ext.*;
+import org.eclipse.emf.test.models.ext.ExtE;
+import org.eclipse.emf.test.models.ext.ExtFactory;
+import org.eclipse.emf.test.models.ext.ExtPackage;
+import org.eclipse.emf.test.models.ext.F;
 
 /**
  * <!-- begin-user-doc -->

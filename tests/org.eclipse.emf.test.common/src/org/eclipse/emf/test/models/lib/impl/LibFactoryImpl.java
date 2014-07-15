@@ -13,12 +13,15 @@ package org.eclipse.emf.test.models.lib.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.test.models.lib.*;
+import org.eclipse.emf.test.models.lib.Address;
+import org.eclipse.emf.test.models.lib.Book;
+import org.eclipse.emf.test.models.lib.Cafeteria;
+import org.eclipse.emf.test.models.lib.LibFactory;
+import org.eclipse.emf.test.models.lib.LibPackage;
+import org.eclipse.emf.test.models.lib.Library;
+import org.eclipse.emf.test.models.lib.Person;
 
 /**
  * <!-- begin-user-doc -->

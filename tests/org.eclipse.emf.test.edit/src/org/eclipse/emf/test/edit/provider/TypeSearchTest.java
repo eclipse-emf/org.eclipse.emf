@@ -11,12 +11,10 @@
 package org.eclipse.emf.test.edit.provider;
 
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Collection;
 import java.util.List;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -25,6 +23,8 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+import org.junit.Before;
+import org.junit.Test;
 
 
 /**
@@ -34,26 +34,8 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
  * dataset and demonstrates BUG #161744;
  * @author Ian Bull
  */
-public class TypeSearchTest extends TestCase
+public class TypeSearchTest
 {
-  public TypeSearchTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite suite = new TestSuite("TypeSearchTest");
-    suite.addTest(new TypeSearchTest("testFindFirstObject"));
-    suite.addTest(new TypeSearchTest("testFindLastObject"));
-    suite.addTest(new TypeSearchTest("testFindMultiType"));
-    suite.addTest(new TypeSearchTest("testFindMultiType2"));
-    suite.addTest(new TypeSearchTest("testFindNoType"));
-    suite.addTest(new TypeSearchTest("testFindSingleType"));
-    suite.addTest(new TypeSearchTest("testFindWithSuperTypes"));
-    return suite;
-  }
-
   public static final int DATASETSIZE = 10000;
 
   EClass poClass = null;
@@ -177,8 +159,8 @@ public class TypeSearchTest extends TestCase
   /**
    * Setup the test case
    */
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     createEClasses();
     createEReferences();
@@ -189,6 +171,7 @@ public class TypeSearchTest extends TestCase
    * See if we can find the 3501 po Objects
    * @throws Exception
    */
+  @Test
   public void testFindMultiType() throws Exception
   {
     Collection<EObject> orders = ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, poClass);
@@ -199,6 +182,7 @@ public class TypeSearchTest extends TestCase
    * See if we can find the 350 item Objects
    * @throws Exception
    */
+  @Test
   public void testFindMultiType2() throws Exception
   {
     Collection<EObject> items = ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, itemClass);
@@ -210,6 +194,7 @@ public class TypeSearchTest extends TestCase
    * items were of type "superClass".
    * @throws Exception
    */
+  @Test
   public void testFindWithSuperTypes() throws Exception
   {
     Collection<EObject> c = ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, superClass);
@@ -220,6 +205,7 @@ public class TypeSearchTest extends TestCase
    * See if we can find the 1 otherObject
    * @throws Exception
    */
+  @Test
   public void testFindSingleType() throws Exception
   {
     List<EObject> others = (List<EObject>)ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, otherClass);
@@ -232,6 +218,7 @@ public class TypeSearchTest extends TestCase
    * i.e. we should get no po objects from here!
    * @throws Exception
    */
+  @Test
   public void testFindNoType() throws Exception
   {
     Collection<EObject> others = ItemPropertyDescriptor.getReachableObjectsOfType(otherItemObject, poClass);
@@ -243,6 +230,7 @@ public class TypeSearchTest extends TestCase
    * was a different type, so it should be found if we search by type.
    * @throws Exception
    */
+  @Test
   public void testFindFirstObject() throws Exception
   {
     List<EObject> c = (List<EObject>)ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, firstClass);
@@ -255,6 +243,7 @@ public class TypeSearchTest extends TestCase
    * was a different type, so it should be found if we search by type.
    * @throws Exception
    */
+  @Test
   public void testFindLastObject() throws Exception
   {
     List<EObject> c = (List<EObject>)ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, lastClass);

@@ -11,6 +11,8 @@
 package org.eclipse.emf.test.xml.xmi;
 
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
@@ -18,10 +20,6 @@ import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -37,36 +35,25 @@ import org.eclipse.emf.test.models.customer.CustomerPackage;
 import org.eclipse.emf.test.models.movie.db.DBPackage;
 import org.eclipse.emf.test.models.order.OrderPackage;
 import org.eclipse.emf.test.xml.AllSuites;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.w3c.dom.Document;
 
+
 /**
- * Test for XMI package: loading data/order.xml 
+ * Test for XMI package: loading data/order.xml
  */
-public class OrderTest extends TestCase
+public class OrderTest
 {
   final static String BASE_XML_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xml/";
 
-  String inputXML;
+  protected String inputXML;
 
-  HashMap<String, Object> options;
+  protected HashMap<String, Object> options;
 
-  public OrderTest(String name)
-  {
-    super(name);
-  }
-
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("OrderTest");
-    ts.addTestSuite(OrderTest.class);
-    return ts;
-  }
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Override
-  protected void setUp() throws Exception
+  @Before
+  public void setUp() throws Exception
   {
     OrderPackage.eINSTANCE.getName();
     CustomerPackage.eINSTANCE.getName();
@@ -76,15 +63,13 @@ public class OrderTest extends TestCase
     options = new HashMap<String, Object>();
   }
 
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
-  @Override
-  protected void tearDown() throws Exception
+  @After
+  public void tearDown() throws Exception
   {
     options = null;
   }
 
+  @Test
   public void testQname() throws Exception
   {
     URI uri = URI.createFileURI(inputXML);
@@ -100,7 +85,7 @@ public class OrderTest extends TestCase
     String result1 = stringWriter.toString();
     stringWriter.getBuffer().setLength(0);
     resource.unload();
-    
+
     InputStream input = resourceSet.getURIConverter().createInputStream(uri);
     try
     {
@@ -123,7 +108,7 @@ public class OrderTest extends TestCase
       String result3 = stringWriter.toString();
       stringWriter.getBuffer().setLength(0);
       resource.unload();
-      
+
       assertEquals(result1, result2);
       assertEquals(result1, result3);
     }

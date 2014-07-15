@@ -10,14 +10,12 @@
  */
 package org.eclipse.emf.test.core.ecore;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -38,32 +36,21 @@ import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.junit.Before;
+import org.junit.Test;
 
 
-public class EcoreValidationTest extends TestCase
+public class EcoreValidationTest
 {
   protected static final boolean SYSOUT = false;
-  
-  public EcoreValidationTest(String name)
-  {
-    super(name);
-  }
 
-  public static Test suite()
-  {
-    TestSuite ts = new TestSuite("EcoreValidationTest");
-    ts.addTest(new EcoreValidationTest("testEcoreValidator"));
-    ts.addTest(new EcoreValidationTest("testMatching"));
-    ts.addTest(new EcoreValidationTest("validateAllRegisteredModels"));
-    return ts;
-  }
-
-  @Override
-  protected void setUp()
+  @Before
+  public void setUp()
   {
     EcorePackage.eINSTANCE.eClass();
   }
 
+  @Test
   public void testEcoreValidator()
   {
     // Validate that the Ecore package instance itself is okay.
@@ -486,7 +473,7 @@ public class EcoreValidationTest extends TestCase
         eTypeParameter.setName("A");
         eOperation.getETypeParameters().add(eTypeParameter);
       }
-      
+
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eOperation);
       assertEquals(1, diagnostic.getChildren().size());
       assertDiagnostic
@@ -516,7 +503,7 @@ public class EcoreValidationTest extends TestCase
         eTypeParameter.setName("A");
         eClass.getETypeParameters().add(eTypeParameter);
       }
-      
+
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eClass);
       assertEquals(1, diagnostic.getChildren().size());
       assertDiagnostic
@@ -732,7 +719,7 @@ public class EcoreValidationTest extends TestCase
          new Object [] { ePackage.getESubpackages().get(0), ePackage, EcorePackage.Literals.EPACKAGE__ESUBPACKAGES },
          diagnostic.getChildren().get(1));
     }
-    
+
     {
       EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
       eAttribute.setName("_");
@@ -1483,15 +1470,15 @@ public class EcoreValidationTest extends TestCase
     // Generic type's classifier cannot specify a primitive type except as the generic type of a typed element.
     {
       EClass aClass = EcoreFactory.eINSTANCE.createEClass();
-      aClass.setName("AClass"); 
+      aClass.setName("AClass");
       ETypeParameter e = EcoreFactory.eINSTANCE.createETypeParameter();
       e.setName("E");
       aClass.getETypeParameters().add(e);
-      
+
       EClass bClass = EcoreFactory.eINSTANCE.createEClass();
       bClass.setName("BClass");
       EGenericType superType = EcoreFactory.eINSTANCE.createEGenericType();
-      superType.setEClassifier(aClass);      
+      superType.setEClassifier(aClass);
       EGenericType typeArgument = EcoreFactory.eINSTANCE.createEGenericType();
       typeArgument.setEClassifier(EcorePackage.Literals.EINT);
       superType.getETypeArguments().add(typeArgument);
@@ -1506,7 +1493,7 @@ public class EcoreValidationTest extends TestCase
          new Object [] { typeArgument, EcorePackage.Literals.EGENERIC_TYPE__ECLASSIFIER },
          diagnostic.getChildren().get(0));
     }
-    
+
     // A generic type with classifier that specifies type parameters and that has arguments must have a matching number of them.
     {
       EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
@@ -1607,7 +1594,7 @@ public class EcoreValidationTest extends TestCase
           EGenericType eBound = EcoreFactory.eINSTANCE.createEGenericType();
           eBound.setEClassifier(eClass);
           eTypeParameter.getEBounds().add(eBound);
-          
+
           EGenericType typeArgument = EcoreFactory.eINSTANCE.createEGenericType();
           typeArgument.setETypeParameter(eTypeParameter);
           eBound.getETypeArguments().add(typeArgument);
@@ -1617,7 +1604,7 @@ public class EcoreValidationTest extends TestCase
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eClass);
       assertEquals(Diagnostic.OK, diagnostic.getSeverity());
     }
-    
+
     // A generic super type can validly use type arguments.
     {
       EClass A;
@@ -1928,7 +1915,7 @@ public class EcoreValidationTest extends TestCase
          new Object [] { C, C.getEAllGenericSuperTypes().get(1), C.getEAllGenericSuperTypes().get(0), EcorePackage.Literals.ECLASS__EALL_GENERIC_SUPER_TYPES },
          diagnostic.getChildren().get(0));
     }
-    
+
     LOOP:
     for (int i = 0; i < 100; ++i)
     {
@@ -1943,7 +1930,7 @@ public class EcoreValidationTest extends TestCase
       {
         EClass eClass = EcoreFactory.eINSTANCE.createEClass();
         eClass.setName("X");
-        
+
         ePackage.getEClassifiers().add(eClass);
         X = eClass;
       }
@@ -1955,7 +1942,7 @@ public class EcoreValidationTest extends TestCase
         EClass eClass = EcoreFactory.eINSTANCE.createEClass();
         eClass.setName("Y");
         eClass.getESuperTypes().add(X);
-        
+
         ePackage.getEClassifiers().add(eClass);
         Y = eClass;
       }
@@ -1992,7 +1979,7 @@ public class EcoreValidationTest extends TestCase
               EGenericType eTypeArgument = EcoreFactory.eINSTANCE.createEGenericType();
               if (i == 2 || i == 3)
               {
-                eTypeArgument.setEClassifier(X);  // <-- Container<?> or Container<X> 
+                eTypeArgument.setEClassifier(X);  // <-- Container<?> or Container<X>
               }
               eBound.getETypeArguments().add(eTypeArgument);
             }
@@ -2014,10 +2001,10 @@ public class EcoreValidationTest extends TestCase
           ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
           eTypeParameter.setName("T");
 
-          // <-- If we don't set a bound, that satisfies A's bound, which requires a Container, 
+          // <-- If we don't set a bound, that satisfies A's bound, which requires a Container,
           // then it won't be valid to pass T as the argument to A<T>.
           //
-          if (i != 1) 
+          if (i != 1)
           {
             EGenericType eBound = EcoreFactory.eINSTANCE.createEGenericType();
             eBound.setEClassifier(Container);
@@ -2072,9 +2059,9 @@ public class EcoreValidationTest extends TestCase
             (Diagnostic.ERROR,
              EcoreValidator.CONSISTENT_ARGUMENTS_INVALID_SUBSTITUTION,
              EcoreValidator.DIAGNOSTIC_SOURCE,
-             new Object [] 
-             { 
-               B.getEGenericSuperTypes().get(0), 
+             new Object []
+             {
+               B.getEGenericSuperTypes().get(0),
                B.getEGenericSuperTypes().get(0).getETypeArguments().get(0),
                A.getETypeParameters().get(0),
                EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS
@@ -2096,9 +2083,9 @@ public class EcoreValidationTest extends TestCase
             (Diagnostic.ERROR,
              EcoreValidator.CONSISTENT_ARGUMENTS_INVALID_SUBSTITUTION,
              EcoreValidator.DIAGNOSTIC_SOURCE,
-             new Object [] 
-             { 
-               B.getEGenericSuperTypes().get(0), 
+             new Object []
+             {
+               B.getEGenericSuperTypes().get(0),
                B.getEGenericSuperTypes().get(0).getETypeArguments().get(0),
                A.getETypeParameters().get(0),
                EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS
@@ -2113,7 +2100,7 @@ public class EcoreValidationTest extends TestCase
       }
     }
   }
-  
+
   interface X
   {
     //
@@ -2123,22 +2110,23 @@ public class EcoreValidationTest extends TestCase
   {
     //
   }
-  
+
   interface Container<E>
   {
     //
   }
-  
+
   interface DerivedContainer<E> extends Container<E>
   {
     //
   }
-  
+
   interface Holder<E, F extends E, H extends Container<E>>
   {
     <E1, F1 extends E1, G1 extends Container<E1>> void foo();
   }
-      
+
+  @Test
   public void testMatching()
   {
     LOOP:
@@ -2155,7 +2143,7 @@ public class EcoreValidationTest extends TestCase
       {
         EClass eClass = EcoreFactory.eINSTANCE.createEClass();
         eClass.setName("X");
-        
+
         ePackage.getEClassifiers().add(eClass);
         eClassX = eClass;
       }
@@ -2167,7 +2155,7 @@ public class EcoreValidationTest extends TestCase
         EClass eClass = EcoreFactory.eINSTANCE.createEClass();
         eClass.setName("Y");
         eClass.getESuperTypes().add(eClassX);
-        
+
         ePackage.getEClassifiers().add(eClass);
         // eClassY = eClass;
       }
@@ -2212,7 +2200,7 @@ public class EcoreValidationTest extends TestCase
         // eClassDerivedContainer = eClass;
       }
 
-      // interface Holder<E, F extends E, G extends Container<E>> 
+      // interface Holder<E, F extends E, G extends Container<E>>
       // {
       //    <E1, F1 extends E1, G1 extends Container<E1>> void foo();
       // }
@@ -2272,7 +2260,7 @@ public class EcoreValidationTest extends TestCase
         }
         ePackage.getEClassifiers().add(eClass);
         eClassHolder = eClass;
-        
+
         {
           EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
           eOperation.setName("foo");
@@ -2437,8 +2425,8 @@ public class EcoreValidationTest extends TestCase
             (Diagnostic.ERROR,
              EcoreValidator.CONSISTENT_ARGUMENTS_INVALID_SUBSTITUTION,
              EcoreValidator.DIAGNOSTIC_SOURCE,
-             new Object [] 
-             { 
+             new Object []
+             {
                eOperationFoo.getEParameters().get(0).getEGenericType(),
                eOperationFoo.getEParameters().get(0).getEGenericType().getETypeArguments().get(1),
                eClassHolder.getETypeParameters().get(1),
@@ -2457,12 +2445,12 @@ public class EcoreValidationTest extends TestCase
             eGenericType.setEClassifier(eClassHolder);
             {
               EGenericType eTypeParameter = EcoreFactory.eINSTANCE.createEGenericType();
-              eTypeParameter.setETypeParameter(eOperationFoo.getETypeParameters().get(0)); 
+              eTypeParameter.setETypeParameter(eOperationFoo.getETypeParameters().get(0));
               eGenericType.getETypeArguments().add(eTypeParameter);
             }
             {
               EGenericType eTypeParameter = EcoreFactory.eINSTANCE.createEGenericType();
-              eTypeParameter.setETypeParameter(eOperationFoo.getETypeParameters().get(1)); 
+              eTypeParameter.setETypeParameter(eOperationFoo.getETypeParameters().get(1));
               eGenericType.getETypeArguments().add(eTypeParameter);
             }
             {
@@ -2488,8 +2476,8 @@ public class EcoreValidationTest extends TestCase
             (Diagnostic.ERROR,
              EcoreValidator.CONSISTENT_ARGUMENTS_INVALID_SUBSTITUTION,
              EcoreValidator.DIAGNOSTIC_SOURCE,
-             new Object [] 
-             { 
+             new Object []
+             {
                eOperationFoo.getEParameters().get(0).getEGenericType(),
                eOperationFoo.getEParameters().get(0).getEGenericType().getETypeArguments().get(2),
                eClassHolder.getETypeParameters().get(2),
@@ -2500,8 +2488,8 @@ public class EcoreValidationTest extends TestCase
             (Diagnostic.WARNING,
              EcoreValidator.CONSISTENT_ARGUMENTS_NONE,
              EcoreValidator.DIAGNOSTIC_SOURCE,
-             new Object [] 
-             { 
+             new Object []
+             {
                eOperationFoo.getEParameters().get(0).getEGenericType().getETypeArguments().get(2), EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS
              },
              diagnostic.getChildren().get(1));
@@ -2517,12 +2505,12 @@ public class EcoreValidationTest extends TestCase
             eGenericType.setEClassifier(eClassHolder);
             {
               EGenericType eTypeParameter = EcoreFactory.eINSTANCE.createEGenericType();
-              eTypeParameter.setETypeParameter(eOperationFoo.getETypeParameters().get(0)); 
+              eTypeParameter.setETypeParameter(eOperationFoo.getETypeParameters().get(0));
               eGenericType.getETypeArguments().add(eTypeParameter);
             }
             {
               EGenericType eTypeParameter = EcoreFactory.eINSTANCE.createEGenericType();
-              eTypeParameter.setETypeParameter(eOperationFoo.getETypeParameters().get(1)); 
+              eTypeParameter.setETypeParameter(eOperationFoo.getETypeParameters().get(1));
               eGenericType.getETypeArguments().add(eTypeParameter);
             }
             {
@@ -2553,8 +2541,8 @@ public class EcoreValidationTest extends TestCase
             (Diagnostic.ERROR,
              EcoreValidator.CONSISTENT_ARGUMENTS_INVALID_SUBSTITUTION,
              EcoreValidator.DIAGNOSTIC_SOURCE,
-             new Object [] 
-             { 
+             new Object []
+             {
                eOperationFoo.getEParameters().get(0).getEGenericType(),
                eOperationFoo.getEParameters().get(0).getEGenericType().getETypeArguments().get(2),
                eClassHolder.getETypeParameters().get(2),
@@ -2579,12 +2567,12 @@ public class EcoreValidationTest extends TestCase
             eGenericType.setEClassifier(eClassHolder);
             {
               EGenericType eTypeParameter = EcoreFactory.eINSTANCE.createEGenericType();
-              eTypeParameter.setETypeParameter(eOperationFoo.getETypeParameters().get(0)); 
+              eTypeParameter.setETypeParameter(eOperationFoo.getETypeParameters().get(0));
               eGenericType.getETypeArguments().add(eTypeParameter);
             }
             {
               EGenericType eTypeParameter = EcoreFactory.eINSTANCE.createEGenericType();
-              eTypeParameter.setETypeParameter(eOperationFoo.getETypeParameters().get(1)); 
+              eTypeParameter.setETypeParameter(eOperationFoo.getETypeParameters().get(1));
               eGenericType.getETypeArguments().add(eTypeParameter);
             }
             {
@@ -2618,8 +2606,8 @@ public class EcoreValidationTest extends TestCase
             (Diagnostic.ERROR,
              EcoreValidator.CONSISTENT_ARGUMENTS_INVALID_SUBSTITUTION,
              EcoreValidator.DIAGNOSTIC_SOURCE,
-             new Object [] 
-             { 
+             new Object []
+             {
                eOperationFoo.getEParameters().get(0).getEGenericType(),
                eOperationFoo.getEParameters().get(0).getEGenericType().getETypeArguments().get(2),
                eClassHolder.getETypeParameters().get(2)
@@ -2638,12 +2626,12 @@ public class EcoreValidationTest extends TestCase
             eGenericType.setEClassifier(eClassHolder);
             {
               EGenericType eTypeParameter = EcoreFactory.eINSTANCE.createEGenericType();
-              eTypeParameter.setETypeParameter(eOperationFoo.getETypeParameters().get(0)); 
+              eTypeParameter.setETypeParameter(eOperationFoo.getETypeParameters().get(0));
               eGenericType.getETypeArguments().add(eTypeParameter);
             }
             {
               EGenericType eTypeParameter = EcoreFactory.eINSTANCE.createEGenericType();
-              eTypeParameter.setETypeParameter(eOperationFoo.getETypeParameters().get(1)); 
+              eTypeParameter.setETypeParameter(eOperationFoo.getETypeParameters().get(1));
               eGenericType.getETypeArguments().add(eTypeParameter);
             }
             {
@@ -2674,8 +2662,8 @@ public class EcoreValidationTest extends TestCase
             (Diagnostic.ERROR,
              EcoreValidator.CONSISTENT_ARGUMENTS_INVALID_SUBSTITUTION,
              EcoreValidator.DIAGNOSTIC_SOURCE,
-             new Object [] 
-             { 
+             new Object []
+             {
                eOperationFoo.getEParameters().get(0).getEGenericType(),
                eOperationFoo.getEParameters().get(0).getEGenericType().getETypeArguments().get(2),
                eClassHolder.getETypeParameters().get(2),
@@ -2748,4 +2736,4 @@ public class EcoreValidationTest extends TestCase
     assertEquals(source, diagnostic.getSource());
     assertEquals(Arrays.asList(data), diagnostic.getData());
   }
-} 
+}

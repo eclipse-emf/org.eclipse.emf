@@ -12,12 +12,13 @@ package org.eclipse.emf.test.core.featuremap.supplier.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.emf.test.core.featuremap.supplier.*;
+import org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder;
+import org.eclipse.emf.test.core.featuremap.supplier.Supplier;
+import org.eclipse.emf.test.core.featuremap.supplier.SupplierFactory;
+import org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,7 +38,7 @@ public class SupplierFactoryImpl extends EFactoryImpl implements SupplierFactory
   {
     try
     {
-      SupplierFactory theSupplierFactory = (SupplierFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.com/supplier"); 
+      SupplierFactory theSupplierFactory = (SupplierFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.com/supplier");
       if (theSupplierFactory != null)
       {
         return theSupplierFactory;
