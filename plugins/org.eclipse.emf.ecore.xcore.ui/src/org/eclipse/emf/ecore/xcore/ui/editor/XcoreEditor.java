@@ -65,7 +65,10 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
@@ -583,10 +586,94 @@ public class XcoreEditor extends XtextEditor
     final PropertySheetPage propertySheetPage =
       new ExtendedPropertySheetPage(editingDomain)
       {
+        protected DelayedProcessor<Control, ITextSelection> delayedProcessor;
+
+        @Override
+        public void createControl(Composite parent)
+        {
+          super.createControl(parent);
+
+          delayedProcessor =
+            new DelayedProcessor<Control, ITextSelection>(getControl(), 1000)
+            {
+              protected long lastModification;
+              
+              {
+                getSourceViewer().getTextWidget().addModifyListener
+                  (new ModifyListener()
+                   {
+                     public void modifyText(ModifyEvent modifyEvent)
+                     {
+                       // Keep track of the last time the text was modified.
+                       // This way we can make the delayed response of the properties view kick in only if there is a recent modification.
+                       //
+                       lastModification = System.currentTimeMillis();
+                     }
+                   });
+              }
+
+              @Override
+              protected boolean isStale(ITextSelection newValue)
+              {
+                return newValue.getOffset() != getSourceViewer().getTextWidget().getSelection().x;
+              }
+              
+              @Override
+              public void delayedProcess(ITextSelection value)
+              {
+                // Don't delay processing if the text has not recently been modified.
+                //
+                if (runnable == null && (System.currentTimeMillis() - lastModification) > 2000)
+                {
+                  process(value);
+                }
+                else
+                {
+                  super.delayedProcess(value);
+                }
+              }
+
+              @Override
+              protected void process(final ITextSelection textSelection)
+              {
+                IXtextDocument document = getDocument();
+                document.readOnly
+                  (new IUnitOfWork.Void<XtextResource>()
+                   {
+                     @Override
+                     public void process(XtextResource xtextResource) throws Exception
+                     {
+                       IParseResult parseResult = xtextResource.getParseResult();
+                       if (parseResult != null)
+                       {
+                         ICompositeNode rootNode = parseResult.getRootNode();
+                         if (rootNode != null)
+                         {
+                           ILeafNode node = NodeModelUtils.findLeafNodeAtOffset(rootNode, textSelection.getOffset());
+                           if (node != null)
+                           {
+                             // Determine the EObject and process that instead.
+                             //
+                             EObject eObject = NodeModelUtils.findActualSemanticObjectFor(node);
+                             if (!selectionChanged(XcoreEditor.this, eObject))
+                             {
+                               if (AdapterFactoryEditingDomain.isStale(getInput()))
+                               {
+                                 selectionChanged(XcoreEditor.this, StructuredSelection.EMPTY);
+                               }
+                             }
+                           }
+                         }
+                       }
+                     }
+                   });
+              }
+            };
+        }
+
         @Override
         public void setSelectionToViewer(List<?> selection)
         {
-          // TODO
           XcoreEditor.this.setFocus();
         }
 
@@ -600,6 +687,54 @@ public class XcoreEditor extends XtextEditor
           IActionBars editorActionBars = actionBarContributor.getActionBars();
           actionBars.setGlobalActionHandler(ActionFactory.UNDO.getId(), editorActionBars.getGlobalActionHandler((ActionFactory.UNDO.getId())));
           actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), editorActionBars.getGlobalActionHandler((ActionFactory.REDO.getId())));
+        }
+
+        @Override
+        public void selectionChanged(final IWorkbenchPart part, ISelection selection)
+        {
+          if (selection instanceof IStructuredSelection)
+          {
+            // If the first element is an EObjectNode from the outline view...
+            //
+            Object element = ((IStructuredSelection)selection).getFirstElement();
+            if (element instanceof EObjectNode)
+            {
+              final EObjectNode eObjectNode = (EObjectNode)element;
+              IXtextDocument document = getDocument();
+              if (!document.readOnly
+                    (new IUnitOfWork<Boolean, XtextResource>()
+                     {
+                       public Boolean exec(XtextResource xtextResource) throws Exception
+                       {
+                         // Determine the EObject and process that instead.
+                         //
+                         EObject eObject = eObjectNode.getEObject(xtextResource);
+                         return selectionChanged(part, eObject);
+                       }
+                     }))
+              {
+                if (AdapterFactoryEditingDomain.isStale(getInput()))
+                {
+                  super.selectionChanged(part, StructuredSelection.EMPTY);
+                }
+              }
+            }
+            else
+            {
+              super.selectionChanged(part, selection);
+            }
+          }
+          else if (selection instanceof ITextSelection)
+          {
+            // Map the selection to a model object...
+            //
+            final ITextSelection textSelection = (ITextSelection)selection;
+            delayedProcessor.delayedProcess(textSelection);
+          }
+          else
+          {
+            super.selectionChanged(part, selection);
+          }
         }
 
         /**
@@ -621,88 +756,17 @@ public class XcoreEditor extends XtextEditor
               return true;
             }
           }
+          else if (eObject instanceof GenBase)
+          {
+            selectionChanged(part, new StructuredSelection(eObject));
+            return true;
+          }
           else if (eObject != null)
           {
             return selectionChanged(part, eObject.eContainer());
           }
+
           return false;
-        }
-
-        @Override
-        public void selectionChanged(final IWorkbenchPart part, ISelection selection)
-        {
-          if (selection instanceof IStructuredSelection)
-          {
-            // If the first element is an EObjectNode from the outline view...
-            //
-            Object element = ((IStructuredSelection)selection).getFirstElement();
-            if (element instanceof EObjectNode)
-            {
-              final EObjectNode eObjectNode = (EObjectNode)element;
-              IXtextDocument document = getDocument();
-              Boolean handled =
-                document.readOnly
-                  (new IUnitOfWork<Boolean, XtextResource>()
-                   {
-                     public Boolean exec(XtextResource xtextResource) throws Exception
-                     {
-                       // Determine the EObject and process that instead.
-                       //
-                       EObject eObject = eObjectNode.getEObject(xtextResource);
-                       return selectionChanged(part, eObject);
-                     }
-                   });
-
-              // Don't continue with default processing if we've already successfully processed the selection.
-              //
-              if (handled)
-              {
-                return;
-              }
-            }
-          }
-          else if (selection instanceof ITextSelection)
-          {
-            // Map the selection to a model object...
-            //
-            final ITextSelection textSelection = (ITextSelection)selection;
-            IXtextDocument document = getDocument();
-            Boolean handled =
-              document.readOnly
-                (new IUnitOfWork<Boolean, XtextResource>()
-                 {
-                   public Boolean exec(XtextResource xtextResource) throws Exception
-                   {
-                     IParseResult parseResult = xtextResource.getParseResult();
-                     if (parseResult != null)
-                     {
-                       ICompositeNode rootNode = parseResult.getRootNode();
-                       if (rootNode != null)
-                       {
-                         ILeafNode node = NodeModelUtils.findLeafNodeAtOffset(rootNode, textSelection.getOffset());
-                         if (node != null)
-                         {
-                           // Determine the EObject and process that instead.
-                           //
-                           EObject eObject = NodeModelUtils.findActualSemanticObjectFor(node);
-                           return selectionChanged(part, eObject);
-                         }
-                       }
-                     }
-                     return Boolean.FALSE;
-                   }
-                 });
-
-            // Don't continue with default processing if we've already successfully processed the selection.
-            //
-            if (handled)
-            {
-              return;
-            }
-
-            selection = new StructuredSelection();
-          }
-          super.selectionChanged(part, selection);
         }
       };
 
@@ -775,5 +839,53 @@ public class XcoreEditor extends XtextEditor
     {
       propertySheetPage.dispose();
     }
+  }
+
+  public static abstract class DelayedProcessor<C extends Control, V>
+  {
+    protected Runnable runnable;
+    protected int delay;
+    protected C control;
+    protected V value;
+
+    public DelayedProcessor(C control, int delay)
+    {
+      this.control = control;
+      this.delay = delay;
+    }
+
+    public void delayedProcess(V value)
+    {
+      if (isChanged(this.value, value) && !isStale(value))
+      {
+        this.value = value;
+        runnable =
+          new Runnable()
+          {
+            public void run()
+            {
+              if (runnable == this && !control.isDisposed() && !isStale(DelayedProcessor.this.value))
+              {
+                runnable = null;
+                process(DelayedProcessor.this.value);
+              }
+            }
+          };
+
+        control.getDisplay().timerExec(delay, runnable);
+      }
+    }
+    
+    protected boolean isChanged(V oldValue, V newValue)
+    {
+      return oldValue == null ? newValue != null : !oldValue.equals(newValue);
+    }
+    
+    protected boolean isStale(V newValue)
+    {
+      return false;
+    }
+    
+    protected abstract void process(V value);
   }
 }
