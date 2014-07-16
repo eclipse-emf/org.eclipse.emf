@@ -305,6 +305,10 @@ public class XcoreJvmInferrer
           {
             final JvmTypeParameter typeParameter = TypesFactory.eINSTANCE.createJvmTypeParameter();
             typeParameter.setName("T");
+            final JvmUpperBound upperBound = TypesFactory.eINSTANCE.createJvmUpperBound();
+            JvmTypeReference objectReference = getJvmTypeReference("java.lang.Object", genPackage);
+            upperBound.setTypeReference(objectReference);
+            typeParameter.getConstraints().add(upperBound);
             inferredElement.getTypeParameters().add(typeParameter);
 
             JvmParameterizedTypeReference typeParameterReference = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
@@ -316,6 +320,49 @@ public class XcoreJvmInferrer
             inferredElement.getSuperTypes().add(switchTypeReference);
 
             EList<JvmMember> members = inferredElement.getMembers();
+
+            members.add(createJvmField(genPackage, JvmVisibility.PROTECTED, true, false, "modelPackage", getJvmTypeReference(genPackage.getReflectionPackageName() + "." + genPackage.getPackageInterfaceName(), genPackage)));
+
+            {
+              JvmElementInferrer<JvmConstructor> constructorInferrer =
+                new JvmElementInferrer<JvmConstructor>(X_LOW)
+                {
+                  @Override
+                  protected JvmConstructor inferStructure()
+                  {
+                    JvmConstructor jvmConstructor = TypesFactory.eINSTANCE.createJvmConstructor();
+                    jvmConstructor.setVisibility(JvmVisibility.PUBLIC); 
+                    return jvmConstructor;
+                  }
+     
+                  @Override
+                  public void inferName()
+                  {
+                    inferredElement.setSimpleName(genPackage.getSwitchClassName());
+                  }
+                };
+              associate(genPackage, constructorInferrer);
+              members.add(constructorInferrer.getInferredElement());
+            }
+
+            {
+              JvmOperation isSwitchFor = createJvmOperation(genPackage, JvmVisibility.PROTECTED, false, "isSwitchFor", getJvmTypeReference("boolean", genPackage));
+              JvmFormalParameter ePackage = createJvmFormalParameter(genPackage, "ePackage", getJvmTypeReference("org.eclipse.emf.ecore.EPackage", genPackage));
+              isSwitchFor.getParameters().add(ePackage);
+              members.add(isSwitchFor);
+            }
+
+            {
+              JvmParameterizedTypeReference doSwitchResult = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+              doSwitchResult.setType(typeParameter);
+              JvmOperation doSwitch = createJvmOperation(genPackage, JvmVisibility.PROTECTED, false, "doSwitch", doSwitchResult);
+              JvmFormalParameter classifierID = createJvmFormalParameter(genPackage, "ePackage", getJvmTypeReference("org.eclipse.emf.ecore.EPackage", genPackage));
+              doSwitch.getParameters().add(classifierID);
+              JvmFormalParameter theEObject = createJvmFormalParameter(genPackage, "theEObject", getJvmTypeReference("org.eclipse.emf.ecore.EObject", genPackage));
+              doSwitch.getParameters().add(theEObject);
+              members.add(doSwitch);
+            }
+
             for (final GenClass genClass : genPackage.getAllSwitchGenClasses())
             {
               if (!genClass.isAbstract())
@@ -1620,7 +1667,25 @@ public class XcoreJvmInferrer
             jvmEnumerationType.setFinal(true);
             jvmEnumerationType.setVisibility(JvmVisibility.PUBLIC);
             final EList<JvmMember> members = jvmEnumerationType.getMembers();
- 
+
+            {
+              JvmParameterizedTypeReference componentType = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+              componentType.setType(jvmEnumerationType);
+              JvmGenericArrayTypeReference arrayTypeReference = TypesFactory.eINSTANCE.createJvmGenericArrayTypeReference();
+              arrayTypeReference.setComponentType(componentType);
+              JvmOperation values = createJvmOperation(genEnum, JvmVisibility.PUBLIC, true, "values", arrayTypeReference);
+              members.add(values);
+            }
+
+            {
+              JvmParameterizedTypeReference returnType = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+              returnType.setType(jvmEnumerationType);
+              JvmOperation valueOf = createJvmOperation(genEnum, JvmVisibility.PUBLIC, true, "valueOf", returnType);
+              JvmFormalParameter param = createJvmFormalParameter(genEnum, "name", getJvmTypeReference("java.lang.String", genEnum));
+              valueOf.getParameters().add(param);
+              members.add(valueOf);
+            }
+
             for (final GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals())
             {
               JvmElementInferrer<JvmEnumerationLiteral> enumLiteralInferrer =
