@@ -228,7 +228,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           
           protected EClass unwrap(EGenericType eGenericType)
           {
-            EClassifier result = eGenericType.getERawType();
+            EClassifier result = ((EGenericTypeImpl)eGenericType).basicGetERawType();
             if (result instanceof EClass)
             {
               return (EClass)result;

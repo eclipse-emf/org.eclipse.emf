@@ -182,80 +182,96 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   @Override
   public void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException
   {
-    if (inputStream instanceof URIConverter.Loadable)
+    URIHandler uriHandler = options != null ? (URIHandler)options.get(OPTION_URI_HANDLER) : null;
+    URI handlerURI = null;
+    if (uriHandler instanceof URIHandlerImpl)
     {
-      ((URIConverter.Loadable)inputStream).loadResource(this);
+      handlerURI = ((URIHandlerImpl)uriHandler).getBaseURI();
     }
-    else if (options != null && Boolean.TRUE.equals(options.get(OPTION_BINARY)))
+
+    try
     {
-      if (!(inputStream instanceof BufferedInputStream))
+      if (inputStream instanceof URIConverter.Loadable)
       {
-        int bufferCapacity = BinaryResourceImpl.getBufferCapacity(options);
-        if (bufferCapacity > 0)
+        ((URIConverter.Loadable)inputStream).loadResource(this);
+      }
+      else if (options != null && Boolean.TRUE.equals(options.get(OPTION_BINARY)))
+      {
+        if (!(inputStream instanceof BufferedInputStream))
         {
-          inputStream = new BufferedInputStream(inputStream, bufferCapacity);
+          int bufferCapacity = BinaryResourceImpl.getBufferCapacity(options);
+          if (bufferCapacity > 0)
+          {
+            inputStream = new BufferedInputStream(inputStream, bufferCapacity);
+          }
+        }
+
+        if (uriHandler != null)
+        {
+          uriHandler.setBaseURI(getURI());
+        }
+        EObjectInputStream eObjectInputStream = createEObjectInputStream(inputStream, options, uriHandler);
+        ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
+        if (handler != null)
+        {
+          handler.preLoad(this, inputStream, options);
+        }
+        eObjectInputStream.loadResource(this);
+
+        // Load the extrinsic ID map.
+        int size = 0;
+        try
+        {
+          // If this stream wasn't produced by XMLResourceImpl, there won't be a map.
+          //
+          size = eObjectInputStream.readCompressedInt();
+        }
+        catch (IOException exception)
+        {
+          // Ignore
+        }
+        for (int i = 0; i < size; ++i)
+        {
+          setID(eObjectInputStream.loadEObject(), eObjectInputStream.readString());
+        }
+
+        eObjectInputStream.flush();
+
+        if (handler != null)
+        {
+          handler.postLoad(this, inputStream, options);
         }
       }
+      else
+      {
+        XMLLoad xmlLoad = createXMLLoad(options);
 
-      final URIHandler uriHandler = options != null ? (URIHandler)options.get(OPTION_URI_HANDLER) : null;
-      if (uriHandler != null)
-      {
-        uriHandler.setBaseURI(getURI());
-      }
-      EObjectInputStream eObjectInputStream = createEObjectInputStream(inputStream, options, uriHandler);
-      ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
-      if (handler != null)
-      {
-        handler.preLoad(this, inputStream, options);
-      }
-      eObjectInputStream.loadResource(this);
+        if (options == null)
+        {
+          options = Collections.EMPTY_MAP;
+        }
 
-      // Load the extrinsic ID map.
-      int size = 0;
-      try
-      {
-        // If this stream wasn't produced by XMLResourceImpl, there won't be a map.
-        //
-        size = eObjectInputStream.readCompressedInt();
-      }
-      catch (IOException exception)
-      {
-        // Ignore
-      }
-      for (int i = 0; i < size; ++i)
-      {
-        setID(eObjectInputStream.loadEObject(), eObjectInputStream.readString());
-      }
+        ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
 
-      eObjectInputStream.flush();
+        if (handler != null)
+        {
+          handler.preLoad(this, inputStream, options);
+        }
 
-      if (handler != null)
-      {
-        handler.postLoad(this, inputStream, options);
+        xmlLoad.load(this, inputStream, options);
+        xmlLoad = null;
+
+        if (handler != null)
+        {
+          handler.postLoad(this, inputStream, options);
+        }
       }
     }
-    else
+    finally
     {
-      XMLLoad xmlLoad = createXMLLoad(options);
-
-      if (options == null)
+      if (uriHandler != null)
       {
-        options = Collections.EMPTY_MAP;
-      }
-
-      ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
-
-      if (handler != null)
-      {
-        handler.preLoad(this, inputStream, options);
-      }
-
-      xmlLoad.load(this, inputStream, options);
-      xmlLoad = null;
-
-      if (handler != null)
-      {
-        handler.postLoad(this, inputStream, options);
+        uriHandler.setBaseURI(handlerURI);
       }
     }
   }
@@ -279,94 +295,110 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   @Override
   public void doSave(OutputStream outputStream, Map<?, ?> options) throws IOException
   {
-    if (outputStream instanceof URIConverter.Saveable)
+    URIHandler uriHandler = options != null ? (URIHandler)options.get(OPTION_URI_HANDLER) : null;
+    URI handlerURI = null;
+    if (uriHandler instanceof URIHandlerImpl)
     {
-      ((URIConverter.Saveable)outputStream).saveResource(this);
+      handlerURI = ((URIHandlerImpl)uriHandler).getBaseURI();
     }
-    else if (options != null && Boolean.TRUE.equals(options.get(OPTION_BINARY)))
+
+    try
     {
-      boolean buffer = !(outputStream instanceof BufferedOutputStream);
-      if (buffer)
+      if (outputStream instanceof URIConverter.Saveable)
       {
-        int bufferCapacity = BinaryResourceImpl.getBufferCapacity(options);
-        if (bufferCapacity > 0)
-        {
-          outputStream = new BufferedOutputStream(outputStream, bufferCapacity);
-        }
-        else
-        {
-          buffer = false;
-        }
+        ((URIConverter.Saveable)outputStream).saveResource(this);
       }
-
-      ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
-      if (handler != null)
+      else if (options != null && Boolean.TRUE.equals(options.get(OPTION_BINARY)))
       {
-        handler.preSave(this, outputStream, options);
-      }
-      try
-      {
-        final URIHandler uriHandler = options != null ? (URIHandler)options.get(OPTION_URI_HANDLER) : null;
-        if (uriHandler != null)
-        {
-          uriHandler.setBaseURI(getURI());
-        }
-        BinaryResourceImpl.BinaryIO.Version version = 
-          options != null && options.containsKey(BinaryResourceImpl.OPTION_VERSION)? (Version)options.get(BinaryResourceImpl.OPTION_VERSION) : BinaryResourceImpl.BinaryIO.Version.VERSION_1_0;
-        EObjectOutputStream eObjectOutputStream = createEObjectOutputStream(outputStream, options, version, uriHandler);
-        eObjectOutputStream.saveResource(this);
-
-        // Save the extrinsic ID map.
-        //
-        if (eObjectToIDMap != null)
-        {
-          eObjectOutputStream.writeCompressedInt(eObjectToIDMap.size());
-          for (Map.Entry<EObject, String> entry : eObjectToIDMap.entrySet())
-          {
-            eObjectOutputStream.saveEObject((InternalEObject)entry.getKey(), Check.NOTHING);
-            eObjectOutputStream.writeString(entry.getValue());
-          }
-        }
-        else
-        {
-          eObjectOutputStream.writeCompressedInt(0);
-        }
-
-        eObjectOutputStream.flush();
-      }
-      finally
-      {
+        boolean buffer = !(outputStream instanceof BufferedOutputStream);
         if (buffer)
         {
-          outputStream.flush();
+          int bufferCapacity = BinaryResourceImpl.getBufferCapacity(options);
+          if (bufferCapacity > 0)
+          {
+            outputStream = new BufferedOutputStream(outputStream, bufferCapacity);
+          }
+          else
+          {
+            buffer = false;
+          }
+        }
+
+        ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
+        if (handler != null)
+        {
+          handler.preSave(this, outputStream, options);
+        }
+        try
+        {
+          if (uriHandler != null)
+          {
+            uriHandler.setBaseURI(getURI());
+          }
+          BinaryResourceImpl.BinaryIO.Version version = 
+            options != null && options.containsKey(BinaryResourceImpl.OPTION_VERSION)? (Version)options.get(BinaryResourceImpl.OPTION_VERSION) : BinaryResourceImpl.BinaryIO.Version.VERSION_1_0;
+          EObjectOutputStream eObjectOutputStream = createEObjectOutputStream(outputStream, options, version, uriHandler);
+          eObjectOutputStream.saveResource(this);
+
+          // Save the extrinsic ID map.
+          //
+          if (eObjectToIDMap != null)
+          {
+            eObjectOutputStream.writeCompressedInt(eObjectToIDMap.size());
+            for (Map.Entry<EObject, String> entry : eObjectToIDMap.entrySet())
+            {
+              eObjectOutputStream.saveEObject((InternalEObject)entry.getKey(), Check.NOTHING);
+              eObjectOutputStream.writeString(entry.getValue());
+            }
+          }
+          else
+          {
+            eObjectOutputStream.writeCompressedInt(0);
+          }
+
+          eObjectOutputStream.flush();
+        }
+        finally
+        {
+          if (buffer)
+          {
+            outputStream.flush();
+          }
+        }
+        if (handler != null)
+        {
+          handler.postSave(this, outputStream, options);
         }
       }
-      if (handler != null)
+      else
       {
-        handler.postSave(this, outputStream, options);
+        XMLSave xmlSave = createXMLSave(options);
+
+        if (options == null)
+        {
+          options = Collections.EMPTY_MAP;
+        }
+
+        ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
+
+        if (handler != null)
+        {
+          handler.preSave(this, outputStream, options);
+        }
+
+        xmlSave.save(this, outputStream, options);
+
+        if (handler != null)
+        {
+          handler.postSave(this, outputStream, options);
+        }
       }
     }
-    else
+    finally
     {
-      XMLSave xmlSave = createXMLSave(options);
-
-      if (options == null)
+      if (uriHandler != null)
       {
-        options = Collections.EMPTY_MAP;
-      }
-
-      ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
-
-      if (handler != null)
-      {
-        handler.preSave(this, outputStream, options);
-      }
-
-      xmlSave.save(this, outputStream, options);
-
-      if (handler != null)
-      {
-        handler.postSave(this, outputStream, options);
+        uriHandler.setBaseURI(handlerURI);
       }
     }
   }
