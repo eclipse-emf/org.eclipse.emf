@@ -588,7 +588,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation, EOp
           
           protected EClassifier unwrap(EGenericType eGenericType)
           {
-            EClassifier result = eGenericType.getERawType();
+            EClassifier result = ((EGenericTypeImpl)eGenericType).basicGetERawType();
             if (result != null)
             {
               return result;

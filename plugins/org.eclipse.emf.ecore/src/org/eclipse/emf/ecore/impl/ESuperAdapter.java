@@ -101,6 +101,7 @@ public class ESuperAdapter extends AdapterImpl
         switch (eventType)
         {
           case Notification.SET:
+          case Notification.RESOLVE:
           {
             Object oldValue = notification.getOldValue();
             if (oldValue != null)
@@ -120,7 +121,6 @@ public class ESuperAdapter extends AdapterImpl
             }
             break;
           }
-          case Notification.RESOLVE:
           case Notification.ADD:
           {
             Object newValue = notification.getNewValue();

@@ -53,6 +53,14 @@ public class URIHandlerImpl implements XMLResource.URIHandler
   protected URI baseURI;
   protected boolean resolve;
 
+  /**
+   * @since 2.10.1
+   */
+  public URI getBaseURI()
+  {
+    return baseURI;
+  }
+
   public void setBaseURI(URI uri)
   {
     baseURI = uri;
