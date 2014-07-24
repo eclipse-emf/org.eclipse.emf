@@ -82,7 +82,7 @@ import com.google.inject.Provider;
 
 public class XcoreEcoreBuilder
 {
-  private static final Pattern COMMENT_LINE_BREAK_PATTERN = Pattern.compile("([ \t]*((\n\r?)|(\r\n?))(\\s*\\*\\s?)?)|\\s*$", Pattern.MULTILINE);
+  private static final Pattern COMMENT_LINE_BREAK_PATTERN = Pattern.compile("([ \t]*(\\r?\\n)(\\s*\\*\\s?)?)|\\s*$", Pattern.MULTILINE);
 
   @Inject
   private XcoreMapper mapper;

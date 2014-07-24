@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -48,7 +49,6 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.TextEdit;
-
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
@@ -124,6 +124,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  */
 public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 {
+  private static final Pattern SUBSTITUTION_PATTERN = Pattern.compile("\\{\\d+\\}");
+  
   /**
    * The cached value of the '{@link #getGenAnnotations() <em>Gen Annotations</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -3602,7 +3604,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    */
   protected static boolean hasSubstitution(String string)
   {
-    return string != null && string.matches(".*\\{\\d+\\}.*");
+    return string != null && SUBSTITUTION_PATTERN.matcher(string).find();
   }
 
   /**

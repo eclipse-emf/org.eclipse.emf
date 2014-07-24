@@ -8,6 +8,7 @@
 package org.eclipse.emf.ecore.xcore.scoping;
 
 
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -19,6 +20,7 @@ import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.util.Pair;
+import org.eclipse.xtext.util.Strings;
 import org.eclipse.xtext.util.Tuples;
 
 import com.google.inject.Inject;
@@ -103,11 +105,11 @@ public class LazyCreationProxyURIConverter
 
   public Pair<EClass, QualifiedName> decodeFragment(String fragment)
   {
-    String[] segments = fragment.split(DELIM);
-    if (segments.length == 2)
+    List<String> segments = Strings.split(fragment, DELIM);
+    if (segments.size() == 2)
     {
-      String eClassName = segments[0];
-      QualifiedName name = nameConverter.toQualifiedName(segments[1]);
+      String eClassName = segments.get(0);
+      QualifiedName name = nameConverter.toQualifiedName(segments.get(1));
       if (types.containsKey(eClassName))
       {
         EClass eClass = types.get(eClassName);
