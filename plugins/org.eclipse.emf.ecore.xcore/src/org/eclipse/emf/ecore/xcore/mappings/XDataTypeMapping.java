@@ -10,7 +10,6 @@ package org.eclipse.emf.ecore.xcore.mappings;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.xcore.util.XcoreJvmInferrer;
 import org.eclipse.xtext.common.types.JvmOperation;
 
 
@@ -19,6 +18,10 @@ public class XDataTypeMapping extends AbstractMapping
   private EDataType eDataType;
 
   private GenDataType genDataType;
+
+  private JvmOperation creator;
+
+  private JvmOperation converter;
 
   public EDataType getEDataType()
   {
@@ -42,11 +45,21 @@ public class XDataTypeMapping extends AbstractMapping
 
   public JvmOperation getCreator()
   {
-    return XcoreJvmInferrer.getInferredElement(genDataType, genDataType.getGenPackage().getQualifiedFactoryClassName() + ".create" + genDataType.getName());
+    return creator;
+  }
+
+  public void setCreator(JvmOperation creator)
+  {
+    this.creator = creator;
   }
 
   public JvmOperation getConverter()
   {
-    return XcoreJvmInferrer.getInferredElement(genDataType, genDataType.getGenPackage().getQualifiedFactoryClassName() + ".convert" + genDataType.getName());
+    return converter;
+  }
+
+  public void setConverter(JvmOperation converter)
+  {
+    this.converter = converter;
   }
 }

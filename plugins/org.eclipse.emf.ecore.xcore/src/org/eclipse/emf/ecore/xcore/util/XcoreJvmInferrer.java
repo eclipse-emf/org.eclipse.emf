@@ -44,8 +44,14 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xcore.XDataType;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
+import org.eclipse.emf.ecore.xcore.XOperation;
+import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XcorePlugin;
 import org.eclipse.emf.ecore.xcore.mappings.ToXcoreMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XDataTypeMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.LazyCreationProxyURIConverter;
 import org.eclipse.xtext.common.types.JvmConstructor;
@@ -94,25 +100,6 @@ public class XcoreJvmInferrer
       }
     }
     return result;
-  }
-
-  public static <T extends JvmIdentifiableElement> T getInferredElement(GenBase genBase, String qualifiedName)
-  {
-    Adapter adapter = EcoreUtil.getAdapter(genBase.eAdapters(), InferenceAdapter.class);
-    if (adapter != null)
-    {
-      for (JvmElementInferrer<?> jvmElementInferrer : ((InferenceAdapter)adapter).jvmElementInferrers)
-      {
-        JvmIdentifiableElement jvmIdentifiableElement = jvmElementInferrer.getInferredElement();
-        if (qualifiedName.equals(jvmIdentifiableElement.getQualifiedName()))
-        {
-          @SuppressWarnings("unchecked")
-          T result = (T)jvmIdentifiableElement;
-          return result;
-        }
-      }
-    }
-    return null;
   }
 
   public static void inferName(GenBase genBase)
@@ -1094,8 +1081,9 @@ public class XcoreJvmInferrer
               {
                if (isDataTypeConverters || isImplementation)
                 {
-                  XDataType xDataType = mapper.getXDataType(genClassifier);
+                  final XDataType xDataType = mapper.getXDataType(genClassifier);
                   final XBlockExpression createBody = xDataType.getCreateBody();
+                  final XDataTypeMapping mapping = mapper.getMapping(xDataType);
                   if (createBody != null || isDataTypeConverters)
                   {
                     JvmElementInferrer<JvmOperation> createMethodInferrer =
@@ -1107,6 +1095,7 @@ public class XcoreJvmInferrer
                           JvmOperation jvmOperation = createJvmOperation(genPackage,JvmVisibility.PUBLIC, false, getJvmTypeReference(genDataType.getImportedParameterizedInstanceClassName(), genDataType));
                           JvmFormalParameter jvmFormalParameter = createJvmFormalParameter(genPackage, createBody == null ? "literal" : "it", getJvmTypeReference("java.lang.String", genPackage));
                           jvmOperation.getParameters().add(jvmFormalParameter);
+                          mapping.setCreator(jvmOperation);
                           return jvmOperation;
                         }
 
@@ -1155,6 +1144,8 @@ public class XcoreJvmInferrer
                           JvmOperation jvmOperation = createJvmOperation(genPackage,JvmVisibility.PUBLIC, false, getJvmTypeReference("java.lang.String", genPackage));
                           JvmFormalParameter jvmFormalParameter = createJvmFormalParameter(genPackage, convertBody == null ? "instanceValue" : "it", getJvmTypeReference(genDataType.getImportedBoundedWildcardInstanceClassName(), genDataType));
                           jvmOperation.getParameters().add(jvmFormalParameter);
+                          XDataTypeMapping mapping = mapper.getMapping(xDataType);
+                          mapping.setConverter(jvmOperation);
                           return jvmOperation;
                         }
 
@@ -1846,6 +1837,17 @@ public class XcoreJvmInferrer
           JvmGenericType modelClass = TypesFactory.eINSTANCE.createJvmGenericType();
           modelClass.setInterface(!isImplementation);
           modelClass.setVisibility(JvmVisibility.PUBLIC);
+
+          XClassMapping mapping = mapper.getMapping(mapper.getXClass(genClass));
+          if (isInterface)
+          {
+            mapping.setInterfaceType(modelClass);
+          }
+          if (isImplementation)
+          {
+            mapping.setInterfaceType(modelClass);
+          }
+
           return modelClass;
         }
 
@@ -2342,6 +2344,8 @@ public class XcoreJvmInferrer
       // public void set<%=genFeature.getAccessorName()%>(int index, <%=genFeature.getListItemType(genClass)%> element)
     }
 
+    XStructuralFeature xStructuralFeature = mapper.getXFeature(genFeature);
+    final XFeatureMapping mapping = mapper.getMapping(xStructuralFeature);
     if (genFeature.isGet() && (isImplementation || !genFeature.isSuppressedGetVisibility()))
     {
       JvmElementInferrer<JvmOperation> getAccessorInferrer =
@@ -2351,6 +2355,10 @@ public class XcoreJvmInferrer
           protected JvmOperation inferStructure()
           {
             JvmOperation jvmOperation = createJvmOperation(genFeature, JvmVisibility.PUBLIC, false,  getJvmTypeReference(genFeature.getType(genFeature.getGenClass()), genFeature));
+            if (isInterface)
+            {
+              mapping.setGetter(jvmOperation);
+            }
             return jvmOperation;
           }
 
@@ -2456,6 +2464,10 @@ public class XcoreJvmInferrer
               associate(genFeature, valueParameterInferrefer);
             }
             jvmOperation.getParameters().add(valueParameterInferrefer.getInferredElement());
+            if (isInterface)
+            {
+              mapping.setSetter(jvmOperation);
+            }
             return jvmOperation;
           }
 
@@ -2502,6 +2514,10 @@ public class XcoreJvmInferrer
           protected JvmOperation inferStructure()
           {
             JvmOperation jvmOperation = createJvmOperation(genFeature, JvmVisibility.PUBLIC, false,  getJvmTypeReference("void", genFeature));
+            if (isInterface)
+            {
+              mapping.setUnsetter(jvmOperation);
+            }
             return jvmOperation;
           }
 
@@ -2524,6 +2540,10 @@ public class XcoreJvmInferrer
           protected JvmOperation inferStructure()
           {
             JvmOperation jvmOperation = createJvmOperation(genFeature, JvmVisibility.PUBLIC, false, getJvmTypeReference("boolean", genFeature));
+            if (isInterface)
+            {
+              mapping.setIsSetter(jvmOperation);
+            }
             return jvmOperation;
           }
 
@@ -2540,9 +2560,10 @@ public class XcoreJvmInferrer
     return result;
   }
 
-  protected JvmOperation getJvmOperation(final GenClass genClass, final GenOperation genOperation, boolean isInterface, boolean isImplementation)
+  protected JvmOperation getJvmOperation(final GenClass genClass, final GenOperation genOperation, final boolean isInterface, boolean isImplementation)
   {
-    if (isImplementation) {
+    if (isImplementation) 
+    {
       if (genOperation.isInvariant() && genOperation.hasInvariantExpression())
       {
         // protected static final <%=genModel.getImportedName("java.lang.String")%> <%=CodeGenUtil.upperName(genClass.getUniqueName(genOperation), genModel.getLocale())%>__EEXPRESSION
@@ -2569,6 +2590,12 @@ public class XcoreJvmInferrer
           for (EGenericType eGenericException : genOperation.getEcoreOperation().getEGenericExceptions())
           {
             exceptions.add(getJvmTypeReference(eGenericException, genOperation));
+          }
+          if (isInterface)
+          {
+            XOperation xOperation = mapper.getXOperation(genOperation);
+            XOperationMapping mapping = mapper.getMapping(xOperation);
+            mapping.setJvmOperation(jvmOperation);
           }
           return jvmOperation;
         }

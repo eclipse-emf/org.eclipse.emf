@@ -97,6 +97,7 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
       {
         cache.execWithoutCacheClear(resource, new IUnitOfWork.Void<Resource>()
         {
+          @Override
           public void process(Resource state) throws Exception
           {
             xcoreEcoreBuilder.link();
@@ -170,6 +171,7 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
       {
         cache.execWithoutCacheClear(resource, new IUnitOfWork.Void<Resource>()
         {
+          @Override
           public void process(Resource state) throws Exception
           {
             xcoreEcoreBuilder.linkInstanceTypes();
