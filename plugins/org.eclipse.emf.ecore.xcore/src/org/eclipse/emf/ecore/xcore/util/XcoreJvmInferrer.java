@@ -77,8 +77,9 @@ import org.eclipse.xtext.xbase.XBlockExpression;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-
+@Singleton
 public class XcoreJvmInferrer
 {
   public static List<JvmIdentifiableElement> getInferredElements(GenBase genBase)

@@ -23,8 +23,9 @@ import org.eclipse.xtext.util.IAcceptor;
 import org.eclipse.xtext.xbase.resource.XbaseResourceDescriptionStrategy;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-
+@Singleton
 public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionStrategy
 {
   @Inject
