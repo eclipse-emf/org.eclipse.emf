@@ -17,6 +17,8 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.xtext.common.types.JvmType;
+import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.ecore.EcoreResourceDescriptionStrategy;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.util.IAcceptor;
@@ -59,6 +61,15 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
         {
           super.createEObjectDescriptions(xAnnotationDirective, acceptor);
         }
+      }
+      return false;
+    }
+    else if (ePackage == TypesPackage.eINSTANCE)
+    {
+      if (eObject instanceof JvmType)
+      {
+        super.createEObjectDescriptions(eObject, acceptor);
+        return true;
       }
       return false;
     }
