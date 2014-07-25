@@ -39,6 +39,7 @@ import org.eclipse.xtext.scoping.impl.AbstractScope;
 import org.eclipse.xtext.xbase.annotations.typesystem.XbaseWithAnnotationsBatchScopeProvider;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 
 /**
@@ -48,6 +49,7 @@ import com.google.inject.Inject;
  * how and when to use it
  *
  */
+@Singleton
 public class XcoreScopeProvider extends XbaseWithAnnotationsBatchScopeProvider
 {
   @Inject

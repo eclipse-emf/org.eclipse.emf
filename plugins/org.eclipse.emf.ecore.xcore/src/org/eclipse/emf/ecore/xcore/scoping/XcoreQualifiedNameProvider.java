@@ -24,8 +24,9 @@ import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-
+@Singleton
 public class XcoreQualifiedNameProvider extends DefaultDeclarativeQualifiedNameProvider
 {
   @Inject

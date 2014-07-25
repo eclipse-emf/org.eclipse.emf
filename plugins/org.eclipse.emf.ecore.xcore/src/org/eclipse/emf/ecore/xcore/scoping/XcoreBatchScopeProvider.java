@@ -18,8 +18,9 @@ import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.xbase.annotations.typesystem.XbaseWithAnnotationsBatchScopeProvider;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-
+@Singleton
 public class XcoreBatchScopeProvider extends XbaseWithAnnotationsBatchScopeProvider
 {
   @Inject
