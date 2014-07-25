@@ -11,18 +11,58 @@ package org.eclipse.emf.ecore.xcore.scoping;
 import java.util.List;
 
 import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.lib.XcoreCollectionLiterals;
 import org.eclipse.emf.ecore.xcore.lib.XcoreEListExtensions;
 import org.eclipse.emf.ecore.xcore.lib.XcoreIterableExtensions;
-import org.eclipse.xtext.xbase.scoping.batch.ImplicitlyImportedTypes;
+import org.eclipse.xtext.common.types.JvmType;
+import org.eclipse.xtext.util.IResourceScopeCache;
+import org.eclipse.xtext.xbase.scoping.batch.ImplicitlyImportedFeatures;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 
 @Singleton
-public class XcoreImplicitlyImportedTypes extends ImplicitlyImportedTypes
+public class XcoreImplicitlyImportedTypes extends ImplicitlyImportedFeatures
 {
+  @Inject
+  private IResourceScopeCache cache;
+
+  @Override
+  public List<JvmType> getExtensionClasses(final Resource context)
+  {
+    return
+      cache.get
+        ("extension.classes",
+         context,
+         new Provider<List<JvmType>>()
+         {
+           public List<JvmType> get()
+           {
+             return XcoreImplicitlyImportedTypes.super.getExtensionClasses(context);
+           }
+         });
+  }
+
+  @Override
+  public List<JvmType> getStaticImportClasses(final Resource context)
+  {
+    return
+      cache.get
+        ("static.import.classes",
+         context,
+         new Provider<List<JvmType>>()
+         {
+           public List<JvmType> get()
+           {
+             return XcoreImplicitlyImportedTypes.super.getStaticImportClasses(context);
+           }
+         });
+  }
+
   @Override
   protected List<Class<?>> getExtensionClasses()
   {

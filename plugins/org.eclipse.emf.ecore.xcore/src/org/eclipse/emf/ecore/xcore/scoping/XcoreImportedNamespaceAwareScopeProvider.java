@@ -13,6 +13,7 @@ import static java.util.Collections.singletonList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -43,12 +44,15 @@ import org.eclipse.xtext.scoping.impl.ImportNormalizer;
 import org.eclipse.xtext.scoping.impl.ImportScope;
 import org.eclipse.xtext.scoping.impl.ImportedNamespaceAwareLocalScopeProvider;
 import org.eclipse.xtext.scoping.impl.ScopeBasedSelectable;
+import org.eclipse.xtext.util.IResourceScopeCache;
 import org.eclipse.xtext.util.Strings;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 
 public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceAwareLocalScopeProvider
@@ -59,54 +63,17 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
   @Inject
   private IResourceDescription.Manager manager;
 
-  @Override
-  protected IScope getResourceScope(IScope parent, EObject context, EReference reference)
-  {
-    IScope resourceScope = super.getResourceScope(parent, context, reference);
-    if (reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE)
-    {
-      return
-        new FilteringScope
-          (new ImportScope
-            (getImplicitImports(false),
-             new EClassifierScope(resourceScope, nameConverter),
-             null,
-             GenModelPackage.Literals.GEN_BASE,
-             false),
-           new Predicate<IEObjectDescription>()
-           {
-             public boolean apply(IEObjectDescription input)
-             {
-               EObject eObjectOrProxy = input.getEObjectOrProxy();
-               return !(eObjectOrProxy instanceof GenPackage);
-             }
-           });
-    }
-    else if (reference == XcorePackage.Literals.XANNOTATION__SOURCE)
-    {
-      return
-        new ImportScope
-          (Collections.singletonList(new ImportNormalizer(nameConverter.toQualifiedName("xcore.lang"), true, false)),
-           // new XAnnotationDirectiveScope(resourceScope, context.eResource().getResourceSet()),
-           resourceScope,
-           null,
-           GenModelPackage.Literals.GEN_BASE,
-           false);
-    }
-    else
-    {
-      return resourceScope;
-    }
-  }
+  @Inject
+  private IResourceScopeCache cache;
 
   @Override
-  public IScope getScope(EObject context, EReference reference)
+  public IScope getScope(final EObject context, EReference reference)
   {
     if (reference == XcorePackage.Literals.XIMPORT_DIRECTIVE__IMPORTED_OBJECT)
     {
-      final IScope classifierScope = getResourceScope(context.eResource(), XcorePackage.Literals.XGENERIC_TYPE__TYPE);
-      final IScope annotationScope = getResourceScope(context.eResource(), XcorePackage.Literals.XANNOTATION__SOURCE);
-      final IScope jvmTypeScope = getResourceScope(context.eResource(), TypesPackage.Literals.JVM_PARAMETERIZED_TYPE_REFERENCE__TYPE);
+      final IScope classifierScope = getClassifierScope(context);
+      final IScope annotationScope = getAnnotationScope(context);
+      final IScope jvmTypeScope = getTypeScope(context);
       return
         new IScope()
         {
@@ -159,8 +126,107 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
     }
     else
     {
-      return super.getScope(context, reference);
+      if (context.eContainer() != null)
+      {
+        return getScope(context.eContainer(), reference);
+      }
+      else
+      {
+        if (reference == TypesPackage.Literals.JVM_PARAMETERIZED_TYPE_REFERENCE__TYPE)
+        {
+          return getTypeScope(context);
+        }
+        else if (reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE)
+        {
+          return getClassifierScope(context);
+        }
+        else if (reference == XcorePackage.Literals.XANNOTATION__SOURCE)
+        {
+          return getAnnotationScope(context);
+        }
+        else
+        {
+          return getLocalElementsScope(getResourceScope(context.eResource(), reference), context, reference);
+        }
+      }
     }
+  }
+
+  private IScope getAnnotationScope(final EObject context)
+  {
+    final Resource resource = context.eResource();
+	return
+      cache.get
+        ("annotation.scope",
+         resource,
+         new Provider<IScope>()
+         {
+           public IScope get()
+           {
+             ImportScope scope =
+               new ImportScope
+                 (Collections.singletonList(new ImportNormalizer(nameConverter.toQualifiedName("xcore.lang"), true, false)),
+                  getResourceScope(resource, XcorePackage.Literals.XANNOTATION__SOURCE),
+                  null,
+                  GenModelPackage.Literals.GEN_BASE,
+                  false);
+             return new CachingTypeScope(getLocalElementsScope(scope, context, XcorePackage.Literals.XANNOTATION__SOURCE));
+           }
+         });
+  }
+
+  private IScope getClassifierScope(final EObject context)
+  {
+    final Resource resource = context.eResource();
+    return
+      cache.get
+        ("classifier.scope",
+          resource,
+          new Provider<IScope>()
+          {
+            public IScope get()
+            {
+              FilteringScope scope =
+                new FilteringScope
+                  (new ImportScope
+                     (getImplicitImports(false),
+                      new EClassifierScope(getResourceScope(resource, XcorePackage.Literals.XGENERIC_TYPE__TYPE), nameConverter),
+                      null,
+                      GenModelPackage.Literals.GEN_BASE,
+                      false),
+                   new Predicate<IEObjectDescription>()
+                   {
+                     public boolean apply(IEObjectDescription input)
+                     {
+                       EObject eObjectOrProxy = input.getEObjectOrProxy();
+                       return !(eObjectOrProxy instanceof GenPackage);
+                     }
+                   });
+
+               return new CachingTypeScope(getLocalElementsScope(scope, context, XcorePackage.Literals.XGENERIC_TYPE__TYPE));
+            }
+          });
+  }
+
+  private IScope getTypeScope(final EObject context)
+  {
+    final Resource resource = context.eResource();
+	return
+      cache.get
+        ("type.scope",
+          resource,
+          new Provider<IScope>()
+          {
+            public IScope get()
+            {
+              return
+                new CachingTypeScope
+                  (getLocalElementsScope
+                     (getResourceScope(resource, TypesPackage.Literals.JVM_PARAMETERIZED_TYPE_REFERENCE__TYPE),
+                      context,
+                      TypesPackage.Literals.JVM_PARAMETERIZED_TYPE_REFERENCE__TYPE));
+            }
+          });
   }
 
   @Override
@@ -514,5 +580,45 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
       xcoreLangResource.setURI(LOGICAL_XCORE_LANG_URI);
     }
     return xcoreLangResource;
+  }
+
+  private static class CachingTypeScope extends AbstractScope
+  {
+    private final Map<QualifiedName, IEObjectDescription> cache;
+
+    public CachingTypeScope(IScope parent)
+    {
+      super(parent, true);
+      this.cache = Maps.newHashMapWithExpectedSize(50);
+    }
+
+    @Override
+    public IEObjectDescription getSingleElement(QualifiedName name)
+    {
+      IEObjectDescription cached = cache.get(name);
+      if (cached == null)
+      {
+        if (cache.containsKey(name))
+        {
+          return null;
+        }
+        cached = getParent().getSingleElement(name);
+        cache.put(name, cached);
+      }
+      return cached;
+    }
+
+    @Override
+    public Iterable<IEObjectDescription> getElements(QualifiedName name)
+    {
+      IEObjectDescription element = getSingleElement(name);
+      return element == null ? Collections.<IEObjectDescription>emptyList() : Collections.singletonList(element);
+    }
+
+    @Override
+    protected Iterable<IEObjectDescription> getAllLocalElements()
+    {
+      return Collections.emptyList();
+    }
   }
 }

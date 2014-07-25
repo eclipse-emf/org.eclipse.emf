@@ -59,7 +59,7 @@ import org.eclipse.xtext.xbase.formatting.IBasicFormatter;
 import org.eclipse.xtext.xbase.imports.IImportsConfiguration;
 import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations;
 import org.eclipse.xtext.xbase.jvmmodel.ILogicalContainerProvider;
-import org.eclipse.xtext.xbase.scoping.batch.ImplicitlyImportedTypes;
+import org.eclipse.xtext.xbase.scoping.batch.ImplicitlyImportedFeatures;
 import org.eclipse.xtext.xbase.scoping.batch.ImplicitlyImportedTypesAdapter;
 import org.eclipse.xtext.xbase.scoping.batch.XbaseBatchScopeProvider;
 import org.eclipse.xtext.xbase.typesystem.internal.DefaultReentrantTypeResolver;
@@ -187,7 +187,7 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
     return XcoreModelAssociator.class;
   }
 
-  public Class<? extends ImplicitlyImportedTypes> bindImplicitlyImportedTypes()
+  public Class<? extends ImplicitlyImportedFeatures> bindImplicitlyImportedFeatures()
   {
     return XcoreImplicitlyImportedTypes.class;
   }
