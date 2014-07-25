@@ -11,6 +11,7 @@ package org.eclipse.emf.ecore.xcore;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xcore.conversion.XcoreQualifiedNameValueConverter;
 import org.eclipse.emf.ecore.xcore.conversion.XcoreValueConverterService;
+import org.eclipse.emf.ecore.xcore.findrefs.XcoreReferenceFinder;
 import org.eclipse.emf.ecore.xcore.formatting.XcoreFormatter;
 import org.eclipse.emf.ecore.xcore.generator.XcoreCompiler;
 import org.eclipse.emf.ecore.xcore.generator.XcoreGenerator;
@@ -35,6 +36,7 @@ import org.eclipse.emf.ecore.xcore.validation.XcoreJvmTypeReferencesValidator;
 import org.eclipse.emf.ecore.xcore.validation.XcoreResourceValidator;
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.conversion.impl.QualifiedNameValueConverter;
+import org.eclipse.xtext.findReferences.IReferenceFinder;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.parser.antlr.IReferableElementsUnloader;
@@ -237,5 +239,10 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   public Class<? extends IImportsConfiguration> bindIImportsConfiguration() 
   {
     return XcoreImportsConfiguration.class;
+  }
+
+  public Class<? extends IReferenceFinder> bindReferenceFinder()
+  {
+    return XcoreReferenceFinder.class;
   }
 }
