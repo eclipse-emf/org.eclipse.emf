@@ -52,6 +52,7 @@ import org.eclipse.xtext.xbase.XExpression;
 import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations;
 import org.eclipse.xtext.xbase.jvmmodel.ILogicalContainerProvider;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
@@ -130,7 +131,7 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
                 if (eClassifier instanceof EClass)
                 {
                   EClass eClass = (EClass)eClassifier;
-                  
+
                   // If one of the super types is from the Ecore package and isn't EObject, we need Ecore edit support.
                   //
                   for (EClass eSuperType : eClass.getEAllSuperTypes())
@@ -346,8 +347,8 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
 
   public EObject getPrimaryJvmElement(EObject sourceElement)
   {
-    return getJvmElements(sourceElement).iterator().next();
-  }
+    return Iterables.getFirst(getJvmElements(sourceElement), null);
+  }	
 
   public boolean isPrimaryJvmElement(EObject jvmElement)
   {
