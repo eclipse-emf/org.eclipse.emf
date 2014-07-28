@@ -20,3 +20,8 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: org.eclipse.emf.examples.databinding.project.core.model.project
+Export-Package: org.eclipse.emf.example.databinding.project.ui.rcp,
+ org.eclipse.emf.example.databinding.project.ui.rcp.databinding,
+ org.eclipse.emf.example.databinding.project.ui.rcp.dialogs,
+ org.eclipse.emf.example.databinding.project.ui.rcp.handlers,
+ org.eclipse.emf.example.databinding.project.ui.rcp.views
