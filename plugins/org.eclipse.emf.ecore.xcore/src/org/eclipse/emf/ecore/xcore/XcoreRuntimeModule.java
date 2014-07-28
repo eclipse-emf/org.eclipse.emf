@@ -59,7 +59,6 @@ import org.eclipse.xtext.xbase.imports.IImportsConfiguration;
 import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations;
 import org.eclipse.xtext.xbase.jvmmodel.ILogicalContainerProvider;
 import org.eclipse.xtext.xbase.scoping.batch.ImplicitlyImportedFeatures;
-import org.eclipse.xtext.xbase.scoping.batch.ImplicitlyImportedTypesAdapter;
 import org.eclipse.xtext.xbase.scoping.batch.XbaseBatchScopeProvider;
 import org.eclipse.xtext.xbase.typesystem.internal.DefaultReentrantTypeResolver;
 import org.eclipse.xtext.xbase.validation.JvmTypeReferencesValidator;
@@ -207,15 +206,6 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   public Class<? extends JvmTypeReferencesValidator> bindJvmTypeReferencesValidator()
   {
     return XcoreJvmTypeReferencesValidator.class;
-  }
-
-  @SuppressWarnings("deprecation")
-  @SingletonBinding(eager=true)
-  @Override
-  public Class<? extends org.eclipse.xtext.xbase.scoping.featurecalls.StaticImplicitMethodsFeatureForTypeProvider.ExtensionClassNameProvider> 
-    bindStaticImplicitMethodsFeatureForTypeProvider$ExtensionClassNameProvider()
-  {
-    return ImplicitlyImportedTypesAdapter.class;
   }
 
   public Class<? extends XbaseCompiler> bindXbaseCompiler()
