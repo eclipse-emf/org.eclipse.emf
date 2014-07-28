@@ -27,7 +27,6 @@ import org.eclipse.emf.ecore.xcore.scoping.XcoreLogicalContainerAwareReentrantTy
 import org.eclipse.emf.ecore.xcore.scoping.XcoreQualifiedNameProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionManager;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionStrategy;
-import org.eclipse.emf.ecore.xcore.scoping.XcoreBatchScopeProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreScopeProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreSerializerScopeProvider;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnosticConverter;
@@ -116,7 +115,7 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   @Override
   public Class<? extends XbaseBatchScopeProvider> bindXbaseBatchScopeProvider()
   {
-    return XcoreBatchScopeProvider.class;
+    return XcoreScopeProvider.class;
   }
 
   @Override
@@ -196,12 +195,6 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   public Class<? extends IResourceValidator> bindIResourceValidator()
   {
     return XcoreResourceValidator.class;
-  }
-
-  @Override
-  public Class<? extends IScopeProvider> bindIScopeProvider()
-  {
-    return XcoreScopeProvider.class;
   }
 
   public Class<? extends IBasicFormatter> bindIBasicFormatter()
