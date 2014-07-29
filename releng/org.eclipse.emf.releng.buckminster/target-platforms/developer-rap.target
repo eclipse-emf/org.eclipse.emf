@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?>
-<target name="emf-developer-galileo-withrap" sequenceNumber="3">
+<?pde version="3.8"?><target name="emf-developer-withrap" sequenceNumber="3">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.rap.feature.feature.group" version="0.0.0"/>
 <repository location="http://download.eclipse.org/rt/rap/2.2"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.jdt.source.feature.group" version="3.5.2.r352_v20100108-7r88FEwFI0WTuoBl0iaG0tyhfZH6"/>
-<unit id="org.eclipse.platform.ide" version="3.5.2.M20100211-1343"/>
-<unit id="org.eclipse.jdt.feature.group" version="3.5.2.r352_v20100108-7r88FEwFI0WTuoBl0iaG0tyhfZH6"/>
-<repository location="http://download.eclipse.org/eclipse/updates/3.5"/>
+<unit id="org.eclipse.jdt.source.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.platform.ide" version="0.0.0"/>
+<unit id="org.eclipse.jdt.feature.group" version="0.0.0"/>
+<repository location="http://download.eclipse.org/eclipse/updates/3.6/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.draw2d.feature.group" version="0.0.0"/>
@@ -50,7 +49,6 @@
 <plugin id="org.apache.commons.httpclient"/>
 <plugin id="org.apache.commons.logging"/>
 <plugin id="org.apache.jasper"/>
-<plugin id="org.apache.lucene" version="1.9.1.v20080530-1600"/>
 <plugin id="org.apache.lucene" version="1.9.1.v201101211617"/>
 <plugin id="org.apache.lucene.analysis"/>
 <plugin id="org.apache.xerces"/>
@@ -74,7 +72,6 @@
 <plugin id="org.eclipse.core.jobs"/>
 <plugin id="org.eclipse.core.net"/>
 <plugin id="org.eclipse.core.resources"/>
-<plugin id="org.eclipse.core.resources.compatibility"/>
 <plugin id="org.eclipse.core.runtime"/>
 <plugin id="org.eclipse.core.runtime.compatibility"/>
 <plugin id="org.eclipse.core.runtime.compatibility.auth"/>
@@ -408,7 +405,6 @@
 <plugin id="org.eclipse.equinox.p2.director.app"/>
 <plugin id="org.eclipse.equinox.p2.directorywatcher"/>
 <plugin id="org.eclipse.equinox.p2.engine"/>
-<plugin id="org.eclipse.equinox.p2.exemplarysetup"/>
 <plugin id="org.eclipse.equinox.p2.extensionlocation"/>
 <plugin id="org.eclipse.equinox.p2.garbagecollector"/>
 <plugin id="org.eclipse.equinox.p2.jarprocessor"/>
@@ -498,11 +494,10 @@
 <plugin id="org.eclipse.update.scheduler"/>
 <plugin id="org.eclipse.update.ui"/>
 <plugin id="org.eclipse.xsd"/>
-<plugin id="org.hamcrest.core"/>
+<plugin id="org.hamcrest.core" version="1.3.0.v201303031735"/>
 <plugin id="org.hamcrest.core.source"/>
 <plugin id="org.junit" version="4.11.0.v201303080030"/>
 <plugin id="org.junit4"/>
-<plugin id="org.junit4.source"/>
 <plugin id="org.mortbay.jetty.server"/>
 <plugin id="org.mortbay.jetty.util"/>
 <plugin id="org.sat4j.core"/>
