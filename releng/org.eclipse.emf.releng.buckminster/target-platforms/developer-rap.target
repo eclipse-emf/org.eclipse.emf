@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="emf-developer-withrap" sequenceNumber="3">
+<?pde version="3.8"?><target name="emf-developer-withrap" sequenceNumber="1">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.rap.feature.feature.group" version="0.0.0"/>
-<repository location="http://download.eclipse.org/rt/rap/2.2"/>
+<repository location="http://download.eclipse.org/rt/rap/nightly/runtime/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.jdt.source.feature.group" version="0.0.0"/>
