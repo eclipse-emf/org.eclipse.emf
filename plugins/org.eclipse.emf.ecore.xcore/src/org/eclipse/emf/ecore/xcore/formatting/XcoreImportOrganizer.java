@@ -172,7 +172,7 @@ public class XcoreImportOrganizer
       EObject container = grammarElement.eContainer();
       if (container instanceof Assignment)
       {
-        String name = node.getText().trim();
+        String name = NodeModelUtils.getTokenText(node);
         if (name.endsWith("::"))
         {
           name = name.substring(0, name.length() - 2);
