@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.xcore.scoping.XcoreImportedNamespaceAwareScopeProvi
 import org.eclipse.emf.ecore.xcore.util.XcoreUtil;
 import org.eclipse.xtext.Assignment;
 import org.eclipse.xtext.CrossReference;
+import org.eclipse.xtext.common.types.JvmConstructor;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
 import org.eclipse.xtext.conversion.IValueConverter;
 import org.eclipse.xtext.formatting.IWhitespaceInformationProvider;
@@ -189,7 +190,8 @@ public class XcoreImportOrganizer
           if (eContainer != xPackage &&
               !(eContainer instanceof XPackage && "xcore.lang".equals(((XPackage)eContainer).getName())) &&
               !(eContainer instanceof GenPackage && packageName.equals(((GenPackage)eContainer).getQualifiedPackageName())) &&
-              !(eCrossReference instanceof JvmDeclaredType && implicitPackageImports.contains(((JvmDeclaredType)eCrossReference).getPackageName())))
+              !(eCrossReference instanceof JvmDeclaredType && implicitPackageImports.contains(((JvmDeclaredType)eCrossReference).getPackageName())) &&
+              !(eCrossReference instanceof JvmConstructor && implicitPackageImports.contains(((JvmConstructor)eCrossReference).getDeclaringType().getPackageName())))
           {
             QualifiedName fullyQualifiedName = nameProvider.getFullyQualifiedName(eCrossReference);
             if (fullyQualifiedName != null && !actualQualifiedName.equals(fullyQualifiedName) && !fullyQualifiedName.equals(implicitAliases.get(name)))
