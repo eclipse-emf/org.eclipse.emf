@@ -11,6 +11,7 @@ package org.eclipse.emf.ecore.xcore.scoping;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -40,7 +41,8 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
     EPackage ePackage = eClass.getEPackage();
     if (ePackage == EcorePackage.eINSTANCE)
     {
-      return ecoreResourceDescriptionStrategy.createEObjectDescriptions(eObject, acceptor);
+      ecoreResourceDescriptionStrategy.createEObjectDescriptions(eObject, acceptor);
+      return eObject instanceof EPackage || eObject instanceof EClassifier;
     }
     else if (ePackage == GenModelPackage.eINSTANCE)
     {
@@ -50,8 +52,7 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
       }
 
       super.createEObjectDescriptions(eObject, acceptor);
-
-      return !(eObject instanceof GenClassifier);
+      return eObject instanceof GenClassifier;
     }
     else if (ePackage == XcorePackage.eINSTANCE)
     {
