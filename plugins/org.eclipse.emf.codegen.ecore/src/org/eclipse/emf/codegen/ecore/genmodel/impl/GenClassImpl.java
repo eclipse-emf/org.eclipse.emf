@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -1064,6 +1065,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   
   public void clearCache()
   {
+    getAccessorOperations = null;
+    setAccessorOperations = null;
+    isSetAccessorOperations = null;
+    unsetAccessorOperations = null;
+
     operationHelper = new OperationHelper();
     
     // Need to ensure that the cached names are computed in the same order and manner as they are in the generated package interface.
@@ -3754,29 +3760,91 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return getAccesorOperation(genFeature, "unset" + genFeature.getAccessorName());
   }
 
+  protected Set<String> getAccessorOperations;
+  protected Map<String, Set<String>> setAccessorOperations;
+  protected Set<String> isSetAccessorOperations;
+  protected Set<String > unsetAccessorOperations;
+
   protected boolean hasCollidingAccessorOperation(final GenFeature genFeature, final String accessor)
   {
     if (genFeature.isVolatile() &&
-          (!accessor.startsWith("get") || !genFeature.isResolveProxies() || genFeature.isListType()) && 
+          (!accessor.startsWith("get") || !genFeature.isResolveProxies() || genFeature.isListType()) &&
           !genFeature.hasDelegateFeature())
     {
       return false;
     }
     else
     {
-      for (GenOperation genOperation : getImplementedGenOperations())
+      if (getAccessorOperations == null)
       {
-        if (accessor.equals(genOperation.getName()) && genOperation.hasBody())
+        getAccessorOperations = new HashSet<String>();
+        setAccessorOperations = new HashMap<String, Set<String>>();
+        isSetAccessorOperations = new HashSet<String>();
+        unsetAccessorOperations = new HashSet<String>();
+
+        for (GenOperation genOperation : getImplementedGenOperations())
         {
-          EList<GenParameter> genParameters = genOperation.getGenParameters();
-          if (accessor.startsWith("set") ? 
-                genParameters.size() == 1 && genParameters.get(0).getType(this).equals(genFeature.getType(this)) : 
-                genParameters.isEmpty())
+          if (genOperation.hasBody())
           {
-            return true;
+            String name = genOperation.getName();
+            if (name.startsWith("get"))
+            {
+              if (genOperation.getGenParameters().isEmpty())
+              {
+                getAccessorOperations.add(name);
+              }
+            }
+            else if (name.startsWith("set"))
+            {
+              EList<GenParameter> genParameters = genOperation.getGenParameters();
+              if (genParameters.size() == 1)
+              {
+                Set<String> set = setAccessorOperations.get(name);
+                if (set == null)
+                {
+                  set = new HashSet<String>();
+                  setAccessorOperations.put(name, set);
+                }
+                set.add(genParameters.get(0).getType(this));
+              }
+            }
+            else if (name.startsWith("isSet"))
+            {
+              if (genOperation.getGenParameters().isEmpty())
+              {
+                isSetAccessorOperations.add(name);
+              }
+            }
+            else if (name.startsWith("unset"))
+            {
+              if (genOperation.getGenParameters().isEmpty())
+              {
+                unsetAccessorOperations.add(name);
+              }
+            }
           }
         }
       }
+
+      if (accessor.startsWith("get"))
+      {
+        return getAccessorOperations.contains(accessor);
+      }
+      else if (accessor.startsWith("set"))
+      {
+        Set<String> types = setAccessorOperations.get(accessor);
+        return types != null && types.contains(genFeature.getType(this));
+      }
+      else if (accessor.startsWith("isSet"))
+      {
+        return isSetAccessorOperations.contains(accessor);
+        
+      }
+      else if (accessor.startsWith("unset"))
+      {
+        return unsetAccessorOperations.contains(accessor);
+      }
+      
       return false;
     }
   }
