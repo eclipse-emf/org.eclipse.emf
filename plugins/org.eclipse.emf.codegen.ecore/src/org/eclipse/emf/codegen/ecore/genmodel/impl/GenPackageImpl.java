@@ -84,6 +84,8 @@ import org.eclipse.emf.ecore.util.EcoreSwitch;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.osgi.framework.Bundle;
 
 
@@ -4451,31 +4453,47 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   protected static boolean hasExtendedMetaData(EPackage ePackage)
   {
-    List<EPackage> ePackages = new UniqueEList<EPackage>();
+    List<EPackage> ePackages = new UniqueEList.FastCompare<EPackage>();
     ePackages.add(ePackage);
     for (int i = 0; i < ePackages.size(); ++i)
     {
-      for (TreeIterator<EObject> j = ePackages.get(i).eAllContents(); j.hasNext(); )
+      String nsURI = ePackage.getNsURI();
+      if (!EcorePackage.eNS_URI.equals(nsURI) && !XMLNamespacePackage.eNS_URI.equals(nsURI))
       {
-        EObject eObject = j.next();
-        if (eObject instanceof EPackage || eObject instanceof EDataType)
+        if (XMLTypePackage.eNS_URI.equals(nsURI))
         {
-          j.prune();
+          return true;
         }
-        else if (eObject instanceof EAnnotation)
+
+        if (ePackage.getEAnnotation(ExtendedMetaData.ANNOTATION_URI) != null)
         {
-          EAnnotation eAnnotation = (EAnnotation)eObject;
-          String source = eAnnotation.getSource();
-          if (ExtendedMetaData.ANNOTATION_URI.equals(source))
-          {
-            return true;
-          }
+          return true;
         }
-        for (EObject eCrossReference : eObject.eCrossReferences())
+
+        for (EClassifier eClassifier : ePackage.getEClassifiers())
         {
-          if (eCrossReference instanceof EClass)
+          if (eClassifier instanceof EClass)
           {
-            ePackages.add(((EClassifier)eCrossReference).getEPackage());
+            EClass eClass = (EClass)eClassifier;
+
+            for (EStructuralFeature eStructuralFeature : eClass.getEStructuralFeatures())
+            {
+              if (eStructuralFeature.getEAnnotation(ExtendedMetaData.ANNOTATION_URI) != null)
+              {
+                return true;
+              }
+
+              EClassifier eType = eStructuralFeature.getEType();
+              if (eType instanceof EClass)
+              {
+                ePackages.add(((EClass)eType).getEPackage());
+              }
+            }
+
+            for (EClass eSuperType : eClass.getESuperTypes())
+            {
+              ePackages.add(eSuperType.getEPackage());
+            }
           }
         }
       }
