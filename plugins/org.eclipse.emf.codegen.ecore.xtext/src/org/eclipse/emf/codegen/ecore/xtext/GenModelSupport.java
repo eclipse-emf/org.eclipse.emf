@@ -8,6 +8,8 @@
 package org.eclipse.emf.codegen.ecore.xtext;
 
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.xtext.ISetup;
 import org.eclipse.xtext.resource.generic.AbstractGenericResourceSupport;
 
@@ -48,11 +50,12 @@ public class GenModelSupport extends AbstractGenericResourceSupport implements I
     return new GenModelRuntimeModule();
   }
 
-  public Injector createInjectorAndDoEMFRegistration() {
+  public Injector createInjectorAndDoEMFRegistration()
+  {
     Injector injector = Guice.createInjector(getGuiceModule());
     injector.injectMembers(this);
     registerInRegistry(false);
+    EPackage.Registry.INSTANCE.put(GenModelPackage.eNS_URI, GenModelPackage.eINSTANCE);
     return injector;
   }
-  
 }
