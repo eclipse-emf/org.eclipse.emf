@@ -11,6 +11,7 @@ package org.eclipse.emf.ecore.xcore.ui.quickfix;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xcore.XAttribute;
@@ -28,18 +29,18 @@ import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.model.edit.IModification;
 import org.eclipse.xtext.ui.editor.model.edit.IModificationContext;
 import org.eclipse.xtext.ui.editor.model.edit.ISemanticModification;
-import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider;
 import org.eclipse.xtext.ui.editor.quickfix.Fix;
 import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor;
 import org.eclipse.xtext.util.TextRegion;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 import org.eclipse.xtext.validation.Issue;
+import org.eclipse.xtext.xbase.ui.quickfix.XbaseQuickfixProvider;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 
-public class XcoreQuickfixProvider extends DefaultQuickfixProvider
+public class XcoreQuickfixProvider extends XbaseQuickfixProvider
 {
   @Inject
   protected Provider<XcoreImportOrganizer> xcoreImportOrganizerProvider;
@@ -48,7 +49,20 @@ public class XcoreQuickfixProvider extends DefaultQuickfixProvider
   private IJavaProjectProvider projectProvider;
 
   @Inject
-  XcoreClasspathUpdater classpathUpdater;
+  private XcoreClasspathUpdater classpathUpdater;
+
+  @Override
+  protected void createLinkingIssueQuickfixes
+    (Issue issue,
+     IssueResolutionAcceptor
+     issueResolutionAcceptor,
+     IXtextDocument xtextDocument,
+     XtextResource resource,
+     EObject referenceOwner,
+     EReference unresolvedReference) throws Exception
+  {
+    javaTypeQuickfixes.addQuickfixes(issue, issueResolutionAcceptor, xtextDocument, resource, referenceOwner, unresolvedReference);
+  }
 
   @Fix(EcoreValidator.DIAGNOSTIC_SOURCE + '.' + EcoreValidator.CONSISTENT_TYPE_CLASS_NOT_PERMITTED)
   public void convertToReference(final Issue issue, final IssueResolutionAcceptor acceptor)
