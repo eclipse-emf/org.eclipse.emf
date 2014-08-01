@@ -15,15 +15,17 @@ import org.eclipse.xtext.common.types.xtext.AbstractTypeScope;
 import org.eclipse.xtext.common.types.xtext.AbstractTypeScopeProvider;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
+import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.ImportNormalizer;
 import org.eclipse.xtext.util.IResourceScopeCache;
 import org.eclipse.xtext.util.Strings;
-import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations;
+import org.eclipse.xtext.xbase.imports.IImportsConfiguration;
 import org.eclipse.xtext.xbase.scoping.AbstractNestedTypeAwareImportNormalizer;
 import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider;
+import org.eclipse.xtext.xtype.XImportDeclaration;
+import org.eclipse.xtext.xtype.XImportSection;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -48,7 +50,7 @@ public class XcoreJvmTypeScopeProvider extends XImportSectionNamespaceScopeProvi
   private IQualifiedNameConverter qualifiedNameConverter;
 
   @Inject
-  private IJvmModelAssociations associations;
+  private IImportsConfiguration importsConfiguration;
 
   @Override
   public IScope getScope(final EObject context, EReference reference)
@@ -87,7 +89,7 @@ public class XcoreJvmTypeScopeProvider extends XImportSectionNamespaceScopeProvi
   protected AbstractXcoreScope getRootTypeScope(XPackage rootContainer, AbstractTypeScope typeScope)
   {
     String packageName = rootContainer.getName();
-    ImportNormalizer[] alwaysImported = 
+    ImportNormalizer[] alwaysImported =
       {
         JAVA_LANG_IMPORT_NORMALIZER,
         BIG_INTEGER_IMPORT_NORMALIZER,
@@ -118,14 +120,15 @@ public class XcoreJvmTypeScopeProvider extends XImportSectionNamespaceScopeProvi
 
   private AbstractXcoreScope getImportScope(XPackage xPackage, AbstractXcoreScope parent, AbstractTypeScope typeScope)
   {
-    EList<XImportDirective> importDeclarations = xPackage.getImportDirectives();
+    XImportSection importSection = importsConfiguration.getImportSection((XtextResource) xPackage.eResource());
+    EList<XImportDeclaration> importDeclarations = importSection.getImportDeclarations();
     if (importDeclarations.isEmpty())
     {
       return parent;
     }
     List<ImportNormalizer> wildcardImports = Lists.newArrayList();
     List<JvmType> concreteImports = Lists.newArrayList();
-    for (XImportDirective importDeclaration : importDeclarations)
+    for (XImportDeclaration importDeclaration : importDeclarations)
     {
       if (importDeclaration.getImportedNamespace().endsWith(getWildcard()))
       {
@@ -136,16 +139,7 @@ public class XcoreJvmTypeScopeProvider extends XImportSectionNamespaceScopeProvi
       }
       else
       {
-        JvmDeclaredType importedType = null;
-        EObject eObject = importDeclaration.getImportedObject();
-        if (eObject instanceof JvmDeclaredType)
-        {
-          importedType = (JvmDeclaredType) eObject;
-        }
-        else
-        {
-          importedType = (JvmDeclaredType) associations.getPrimaryJvmElement(eObject);
-        }
+        JvmDeclaredType importedType = importDeclaration.getImportedType();
         if (importedType != null && !importedType.eIsProxy())
         {
           concreteImports.add(importedType);
@@ -171,15 +165,7 @@ public class XcoreJvmTypeScopeProvider extends XImportSectionNamespaceScopeProvi
 
   private AbstractXcoreScope getResourceTypeScope(Resource resource, String packageName, AbstractXcoreScope parent)
   {
-    List<EObject> contents = resource.getContents();
-    List<JvmType> knownTypes = Lists.newArrayListWithExpectedSize(contents.size() / 2);
-    for (JvmDeclaredType content : Iterables.filter(contents, JvmDeclaredType.class))
-    {
-      if (Strings.equal(packageName, content.getPackageName()))
-      {
-        knownTypes.add(content);
-      }
-    }
+    List<JvmDeclaredType> knownTypes = Lists.newArrayList(importsConfiguration.getLocallyDefinedTypes((XtextResource) resource));
     return knownTypes.isEmpty() ? parent : new KnownTypesScope(knownTypes, parent);
   }
 }
