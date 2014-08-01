@@ -15,6 +15,8 @@ import org.eclipse.emf.ecore.xcore.ui.builder.XcoreFileSystemAccess;
 import org.eclipse.emf.ecore.xcore.ui.builder.XcoreWorkingCopyOwnerProvider;
 import org.eclipse.emf.ecore.xcore.ui.container.XcoreJavaProjectsState;
 import org.eclipse.emf.ecore.xcore.ui.contentassist.ImportingTypesProposalProvider;
+import org.eclipse.emf.ecore.xcore.ui.contentassist.PartialParsingContentAssistParser;
+import org.eclipse.emf.ecore.xcore.ui.contentassist.XcoreContentAssistFactory;
 import org.eclipse.emf.ecore.xcore.ui.contentassist.XcoreVariableCompletions;
 import org.eclipse.emf.ecore.xcore.ui.formatting.XcoreFormatterFactory;
 import org.eclipse.emf.ecore.xcore.ui.hover.XcoreHoverDocumentationProvider;
@@ -37,6 +39,8 @@ import org.eclipse.xtext.common.types.util.jdt.IJavaElementFinder;
 import org.eclipse.xtext.common.types.xtext.ui.ITypesProposalProvider;
 import org.eclipse.xtext.common.types.xtext.ui.JdtVariableCompletions;
 import org.eclipse.xtext.resource.containers.IAllContainersState;
+import org.eclipse.xtext.ui.editor.contentassist.antlr.IContentAssistParser;
+import org.eclipse.xtext.ui.editor.contentassist.antlr.ParserBasedContentAssistContextFactory;
 import org.eclipse.xtext.ui.editor.formatting.IContentFormatterFactory;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHover;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHoverProvider;
@@ -194,5 +198,16 @@ public class XcoreUiModule extends AbstractXcoreUiModule
   public Class<? extends ContextFactory> bindJdtRenameParticipant$ContextFactory()
   {
     return ContextFactory.class;
+  }
+
+  public Class<? extends ParserBasedContentAssistContextFactory.StatefulFactory> bindStatefulCAContextFactory()
+  {
+    return XcoreContentAssistFactory.class;
+  }
+
+  @Override
+  public Class<? extends IContentAssistParser> bindIContentAssistParser()
+  {
+    return PartialParsingContentAssistParser.class;
   }
 }
