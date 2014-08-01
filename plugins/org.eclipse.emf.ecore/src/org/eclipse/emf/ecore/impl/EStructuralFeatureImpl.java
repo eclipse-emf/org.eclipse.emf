@@ -2647,6 +2647,15 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
     public void dynamicSet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, Object newValue)
     {
+      if (newValue != null && !eClass.isInstance(newValue))
+      {
+        throw 
+          new ClassCastException
+            ("The value of type '" + 
+               (newValue instanceof EObject ? ((EObject)newValue).eClass().toString() : newValue.getClass().toString()) + 
+               "' must be of type '" + eClass + "'");
+      }
+
       Object oldValue = settings.dynamicGet(index);
       boolean oldIsSet = oldValue != null;
       if (isUnsettable() && oldValue == NIL)
