@@ -87,28 +87,27 @@ public class KnownTypesScope extends AbstractKnownTypesScope
   /*
    * If we know java.util.Map$Entry exists and we query for the FQN, we assume things are valid.
    */
-  protected JvmType getExactMatch(JvmType type, int index, QualifiedName name)
+  protected JvmType getExactMatch(JvmType type, int index, QualifiedName qualifiedName)
   {
-    QualifiedName typeName = QualifiedName.create(Strings.split(type.getQualifiedName(), '.'));
-    if (name.equals(typeName))
+    String typeIdentifier = type.getIdentifier();
+    String name = qualifiedName.toString();
+    if (name.startsWith(typeIdentifier))
     {
-      return type;
-    }
-    int typeNameSegmentCount = typeName.getSegmentCount();
-    if (name.startsWith(typeName))
-    {
-      JvmType result = findNestedType(type, index, name.skipFirst(typeNameSegmentCount-1));
-      return result;
-    }
-    if (name.getSegmentCount() > typeNameSegmentCount)
-    {
-      if (typeName.skipLast(1).equals(name.skipLast(1)))
+      int typeIdentifierLength = typeIdentifier.length();
+      if (typeIdentifierLength == name.length())
       {
-        if (typeName.getLastSegment().equals(name.skipFirst(typeNameSegmentCount - 1).toString("$")))
-        {
-          return type;
-        }
+        return type;
       }
+
+      char delimiter = name.charAt(typeIdentifierLength);
+      if (delimiter != '$' && delimiter != '.')
+      {
+        return null;
+      }
+
+      String nestedType = name.substring(typeIdentifierLength - type.getSimpleName().length() + 1);
+      JvmType result = findNestedType(type, index, QualifiedName.create(Strings.split(nestedType, '.')));
+      return result;
     }
     return null;
   }
