@@ -4126,12 +4126,40 @@ public abstract class URI
       {
         throw new IllegalArgumentException("invalid segment: null");
       }
+      
+      boolean isEmptySegment = segment.length() == 0;
+      if (isEmptySegment && scheme != null && authority == null && device == null && segments.length == 0)
+      {
+        // Ignore appending an empty segment that would turn scheme:/ into schema:// because that would look like an empty authority without segments.
+        return this;
+      }
 
       // absolute path or no path -> absolute path
       boolean newAbsolutePath = !hasRelativePath();
+      
+      String[] newSegments;
+      String newDevice = device;
+      
+      if (isEmptySegment && segments.length == 0)
+      {
+        // Turn it into trailing separator.
+        newAbsolutePath = true;
+        newSegments = NO_SEGMENTS;
+      }
+      else if (device == null && segments.length == 0 && !isEmptySegment && segment.charAt(segment.length() - 1)== DEVICE_IDENTIFIER)
+      {
+        // Capture the first segment as the device.
+        newDevice = CommonUtil.intern(segment);
+        newSegments = NO_SEGMENTS;
+        newAbsolutePath = false;
+      }
+      else
+      {
+        // Really append the segment.
+        newSegments = SegmentSequence.STRING_ARRAY_POOL.intern(segments, segments.length, segment, true);
+      }
 
-      String[] newSegments = SegmentSequence.STRING_ARRAY_POOL.intern(segments, segments.length, segment, true);
-      return POOL.intern(false, segments.length, true, scheme, authority, device, newAbsolutePath, newSegments, query);
+      return POOL.intern(false, segments.length, true, scheme, authority, newDevice, newAbsolutePath, newSegments, query);
     }
 
     @Override
@@ -4143,8 +4171,18 @@ public abstract class URI
       {
         throw new IllegalArgumentException("invalid segments: null");
       }
+      else if (segments.length == 1)
+      {
+        return appendSegment(segments[0]);
+      }
       else
       {
+        if (device == null && authority == null && this.segments.length == 0)
+        {
+          String[] newSegments = SegmentSequence.STRING_ARRAY_POOL.intern(segments, 1, segments.length - 1);
+          return appendSegment(segments[0]).appendSegments(newSegments);
+        }
+        
         for (String segment : segments)
         {
           if (segment == null)

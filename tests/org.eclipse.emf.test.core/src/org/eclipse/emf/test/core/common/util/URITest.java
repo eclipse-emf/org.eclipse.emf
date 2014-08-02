@@ -441,6 +441,246 @@ public class URITest
     return result;
   }
 
+  @Test
+  public void testAppendLeadingEmptyOrDeviceSegment()
+  {
+    URI empty = URI.createURI("");
+    URI slash = URI.createURI("/");
+    URI slashSlash = URI.createURI("//");
+    URI slashSlashSlash = URI.createURI("///");
+    URI slashSlashSlashDriveRelative = URI.createURI("///C:");
+    URI slashSlashSlashDriveAbsolute = URI.createURI("///C:/");
+    URI deviceRelative = URI.createURI("/C:");
+    URI deviceAbsolute = URI.createURI("/C:/");
+    URI fileRoot = URI.createURI("file:/");
+    URI fileRootWithDeviceRelative = URI.createURI("file:/C:");
+    URI fileRootWithDeviceAbsolute = URI.createURI("file:/C:/");
+    
+    {
+      URI uri = empty.appendSegment("");
+      assertSame(uri, slash);
+    }
+    
+    {
+      URI uri = empty.appendSegment("C:");
+      assertSame(uri, deviceRelative);
+    }
+    
+    {
+      // Appending an empty segment won't turn it into an authority, it's ignored.
+      URI uri = slash.appendSegment("");
+      assertSame(uri, slash);
+    }
+    
+    {
+      // If it's the first segment, it will be recognized as the device.
+      URI uri = slash.appendSegment("C:");
+      assertSame(uri, deviceRelative);
+    }
+    
+    {
+      // If it's the first segment, it will be recognized as the device.
+      URI uri = slash.appendSegment("C:");
+      assertSame(uri, deviceRelative);
+    }
+    
+    {
+      URI uri = slashSlash.appendSegment("");
+      assertSame(uri, slashSlashSlash);
+    }
+    
+    {
+      URI uri = slashSlash.appendSegment("C:");
+      assertSame(uri, slashSlashSlashDriveRelative);
+    }
+    
+    {
+      URI uri = slashSlashSlashDriveRelative.appendSegment("");
+      assertSame(uri, slashSlashSlashDriveAbsolute);
+    }
+    
+    {
+      URI uri = deviceRelative.appendSegment("");
+      assertSame(uri, deviceAbsolute);
+    }
+    
+    {
+      // Ignored.
+      URI uri = fileRoot.appendSegment("");
+      assertSame(uri, fileRoot);
+    }
+    
+    {
+      URI uri = fileRoot.appendSegment("C:");
+      assertSame(uri, fileRootWithDeviceRelative);
+    }
+    
+    {
+      URI uri = fileRootWithDeviceRelative.appendSegment("");
+      assertSame(uri, fileRootWithDeviceAbsolute);
+    }
+  }
+  
+  @Test
+  public void testAppendLeadingEmptyAndDeviceSegments()
+  {
+    URI empty = URI.createURI("");
+    URI slash = URI.createURI("/");
+    URI slashSlash = URI.createURI("//");
+    URI slashSlashSlash = URI.createURI("///");
+    URI slashSlashSlashDriveRelative = URI.createURI("///C:");
+    URI slashSlashSlashDriveAbsolute = URI.createURI("///C:/");
+    URI deviceRelative = URI.createURI("/C:");
+    URI deviceAbsolute = URI.createURI("/C:/");
+    URI fileRoot = URI.createURI("file:/");
+    URI fileRootWithDeviceRelative = URI.createURI("file:/C:");
+    URI fileRootWithDeviceAbsolute = URI.createURI("file:/C:/");
+    
+    {
+      URI uri = empty.appendSegments(new String[] {""});
+      assertSame(uri, slash);
+    }
+    
+    {
+      URI uri = empty.appendSegments(new String[] {"C:"});
+      assertSame(uri, deviceRelative);
+    }
+    
+    {
+      // Appending an empty segment won't turn it into an authority, it's ignored.
+      URI uri = slash.appendSegments(new String[] {""});
+      assertSame(uri, slash);
+    }
+    
+    {
+      // If it's the first segment, it will be recognized as the device.
+      URI uri = slash.appendSegments(new String[] {"C:"});
+      assertSame(uri, deviceRelative);
+    }
+    
+    {
+      // If it's the first segment, it will be recognized as the device.
+      URI uri = slash.appendSegments(new String[] {"C:"});
+      assertSame(uri, deviceRelative);
+    }
+    
+    {
+      URI uri = slashSlash.appendSegments(new String[] {""});
+      assertSame(uri, slashSlashSlash);
+    }
+    
+    {
+      URI uri = slashSlash.appendSegments(new String[] {"C:"});
+      assertSame(uri, slashSlashSlashDriveRelative);
+    }
+    
+    {
+      URI uri = slashSlashSlashDriveRelative.appendSegments(new String[] {""});
+      assertSame(uri, slashSlashSlashDriveAbsolute);
+    }
+    
+    {
+      URI uri = deviceRelative.appendSegments(new String[] {""});
+      assertSame(uri, deviceAbsolute);
+    }
+    
+    {
+      // Ignored.
+      URI uri = fileRoot.appendSegments(new String[] {""});
+      assertSame(uri, fileRoot);
+    }
+    
+    {
+      URI uri = fileRoot.appendSegments(new String[] {"C:"});
+      assertSame(uri, fileRootWithDeviceRelative);
+    }
+    
+    {
+      URI uri = fileRootWithDeviceRelative.appendSegments(new String[] {""});
+      assertSame(uri, fileRootWithDeviceAbsolute);
+    }
+  }
+  
+  @Test
+  public void testAppendMultipleLeadingEmptyAndDeviceSegments()
+  {
+    URI empty = URI.createURI("");
+    URI slash = URI.createURI("/");
+    URI slashSlash = URI.createURI("//");
+    URI slashSlashSlash = URI.createURI("///");
+    URI slashSlashSlashDriveRelative = URI.createURI("///C:");
+    URI slashSlashSlashDriveAbsolute = URI.createURI("///C:/");
+    URI deviceRelative = URI.createURI("/C:");
+    URI deviceAbsolute = URI.createURI("/C:/");
+    URI fileRoot = URI.createURI("file:/");
+    URI fileRootWithDeviceRelative = URI.createURI("file:/C:");
+    URI fileRootWithDeviceAbsolute = URI.createURI("file:/C:/");
+    
+    {
+      URI uri = empty.appendSegments(new String[] {"", "", ""});
+      assertSame(uri, slash);
+    }
+    
+    {
+      URI uri = empty.appendSegments(new String[] {"", "C:"});
+      assertSame(uri, deviceRelative);
+    }
+    
+    {
+      // Appending an empty segment won't turn it into an authority, it's ignored.
+      URI uri = slash.appendSegments(new String[] {"", "", ""});
+      assertSame(uri, slash);
+    }
+    
+    {
+      // If it's the first segment, it will be recognized as the device.
+      URI uri = slash.appendSegments(new String[] {"", "C:"});
+      assertSame(uri, deviceRelative);
+    }
+    
+    {
+      // If it's the first segment, it will be recognized as the device.
+      URI uri = slash.appendSegments(new String[] {"", "", "", "C:"});
+      assertSame(uri, deviceRelative);
+    }
+    
+    {
+      URI uri = slashSlash.appendSegments(new String[] {""});
+      assertSame(uri, slashSlashSlash);
+    }
+    
+    {
+      URI uri = slashSlash.appendSegments(new String[] {"C:"});
+      assertSame(uri, slashSlashSlashDriveRelative);
+    }
+    
+    {
+      URI uri = slashSlashSlashDriveRelative.appendSegments(new String[] {""});
+      assertSame(uri, slashSlashSlashDriveAbsolute);
+    }
+    
+    {
+      URI uri = deviceRelative.appendSegments(new String[] {""});
+      assertSame(uri, deviceAbsolute);
+    }
+    
+    {
+      // Ignored.
+      URI uri = fileRoot.appendSegments(new String[] {""});
+      assertSame(uri, fileRoot);
+    }
+    
+    {
+      URI uri = fileRoot.appendSegments(new String[] {"", "", "C:"});
+      assertSame(uri, fileRootWithDeviceRelative);
+    }
+    
+    {
+      URI uri = fileRootWithDeviceRelative.appendSegments(new String[] {""});
+      assertSame(uri, fileRootWithDeviceAbsolute);
+    }
+  }
+  
   /**
    * Parses URIs and converts them back to strings, comparing with the originals.
    *
