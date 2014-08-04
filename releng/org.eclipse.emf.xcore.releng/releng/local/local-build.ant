@@ -26,7 +26,7 @@
 	<property name="buckminster.home" location="${user.home}/buckminster" />
 
 	<!-- Against which platform to build (Galileo,Juno)-->
-	<property name="ECLIPSE.TARGET.ALIAS" value="Galileo" />
+	<property name="ECLIPSE.TARGET.ALIAS" value="Helios" />
 
 	<!-- ================================= 
           target: Runs 
