@@ -185,23 +185,30 @@
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
+		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
+			resolutionFilter="(&amp;(resolve.target.platform=true)(eclipse.target.platform=Helios))"
+		>
+			<uri format="{0}/eclipse/updates/3.6">
+				<bc:propertyRef key="eclipse.download" />
+			</uri>
+		</provider>
 
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(resolve.target.platform=true)(!(eclipse.target.platform=Galileo))(!(|(build.type=S)(build.type=R))))"
+			resolutionFilter="(&amp;(resolve.target.platform=true)(eclipse.target.platform=Latest)(!(|(build.type=S)(build.type=R))))"
 		>
 			<uri format="{0}/eclipse/updates/4.4-I-builds">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(resolve.target.platform=true)(!(eclipse.target.platform=Galileo))(build.type=S))"
+			resolutionFilter="(&amp;(resolve.target.platform=true)(eclipse.target.platform=Latest)(build.type=S))"
 		>
 			<uri format="{0}/eclipse/updates/4.4milestones">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(resolve.target.platform=true)(!(eclipse.target.platform=Galileo))(build.type=R))"
+			resolutionFilter="(&amp;(resolve.target.platform=true)(eclipse.target.platform=Latest)(build.type=R))"
 		>
 			<uri format="{0}/eclipse/updates/4.4">
 				<bc:propertyRef key="eclipse.download" />
