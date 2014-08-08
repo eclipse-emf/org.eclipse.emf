@@ -4,6 +4,7 @@
 	<groupId>org.eclipse.emf</groupId>
 	<artifactId>org.eclipse.emf.ecore.xcore</artifactId>
 	<packaging>eclipse-plugin</packaging>
+	<version>1.3.0-SNAPSHOT</version>
 	<parent>
 		<groupId>org.eclipse.emf</groupId>
 		<artifactId>org.eclipse.emf.ecore.xcore.parent</artifactId>
