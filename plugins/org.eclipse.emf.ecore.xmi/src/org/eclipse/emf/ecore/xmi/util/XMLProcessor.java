@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2014 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
+ *   Aurelien pupier (Bonitasoft S.A.) - Bug 441484: respect encoding provided in saveToString Method
  */
 package org.eclipse.emf.ecore.xmi.util;
 
@@ -307,19 +308,22 @@ public class XMLProcessor
   
   public String saveToString(Resource resource, Map<?, ?> options) throws IOException
   {
-    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    Map<Object, Object> mergedOptions = new HashMap<Object, Object>(saveOptions);
     if (options != null)
     {
-      Map<Object, Object> mergedOptions = new HashMap<Object, Object>(saveOptions);
       mergedOptions.putAll(options);
-      
-      ((XMLResource)resource).save(os, mergedOptions);
+    }
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    ((XMLResource)resource).save(os, mergedOptions);
+    final Object encoding = mergedOptions.get(XMLResource.OPTION_ENCODING);
+    if (encoding != null && encoding instanceof String)
+    {
+        return os.toString((String) encoding);
     }
     else
     {
-      ((XMLResource)resource).save(os, saveOptions);
+        return os.toString();
     }
-    return os.toString();
   }
 
   protected ResourceSet createResourceSet()
