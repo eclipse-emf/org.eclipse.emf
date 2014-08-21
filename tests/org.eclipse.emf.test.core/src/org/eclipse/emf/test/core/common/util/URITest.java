@@ -600,7 +600,39 @@ public class URITest
       assertSame(uri, fileRootWithDeviceAbsolute);
     }
   }
-  
+
+  @Test
+  public void testUserInfo()
+  {
+    {
+      URI uri = URI.createURI("http://user:password@www.example.org:8080");
+      assertEquals("www.example.org", uri.host());
+      assertEquals("user:password", uri.userInfo());
+      assertEquals("8080", uri.port());
+    }
+    
+    {
+      URI uri = URI.createURI("http://user@www.example.org:8080");
+      assertEquals("www.example.org", uri.host());
+      assertEquals("user", uri.userInfo());
+      assertEquals("8080", uri.port());
+    }
+
+    {
+      URI uri = URI.createURI("http://www.example.org:8080");
+      assertEquals("www.example.org", uri.host());
+      assertEquals(null, uri.userInfo());
+      assertEquals("8080", uri.port());
+    }
+
+    {
+      URI uri = URI.createURI("http://www.example.org");
+      assertEquals("www.example.org", uri.host());
+      assertEquals(null, uri.userInfo());
+      assertEquals(null, uri.port());
+    }
+  }
+
   @Test
   public void testAppendMultipleLeadingEmptyAndDeviceSegments()
   {
