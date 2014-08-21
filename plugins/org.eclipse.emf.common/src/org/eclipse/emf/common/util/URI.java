@@ -3381,7 +3381,7 @@ public abstract class URI
       if (!hasAuthority()) return null;
 
       int i = authority.indexOf(USER_INFO_SEPARATOR);
-      int j = authority.indexOf(PORT_SEPARATOR);
+      int j = authority.indexOf(PORT_SEPARATOR, i);
       return j < 0 ? authority.substring(i + 1) : authority.substring(i + 1, j);
     }
 
@@ -3390,8 +3390,9 @@ public abstract class URI
     {
       if (!hasAuthority()) return null;
 
-      int i = authority.indexOf(PORT_SEPARATOR);
-      return i < 0 ? null : authority.substring(i + 1);
+      int i = authority.indexOf(USER_INFO_SEPARATOR);
+      int j = authority.indexOf(PORT_SEPARATOR, i);
+      return j < 0 ? null : authority.substring(j + 1);
     }
 
     @Override
