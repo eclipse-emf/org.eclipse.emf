@@ -213,15 +213,35 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
       Object notifier = notification.getNotifier();
       if (notifier instanceof Resource)
       {
-        switch (notification.getFeatureID(Resource.class))
+        if (!notification.isTouch())
         {
-          case Resource.RESOURCE__IS_LOADED:
-          case Resource.RESOURCE__ERRORS:
-          case Resource.RESOURCE__WARNINGS:
+          switch (notification.getFeatureID(Resource.class))
           {
-            Resource resource = (Resource)notifier;
-            handleResourceDiagnostics(Collections.singletonList(resource));
-            break;
+            case Resource.RESOURCE__IS_LOADED:
+            {
+              Resource resource = (Resource)notifier;
+              handleResourceDiagnostics(Collections.singletonList(resource));
+              break;
+            }
+            case Resource.RESOURCE__ERRORS:
+            case Resource.RESOURCE__WARNINGS:
+            {
+              // Avoid processing the resource diagnostics during loading and unloading.
+              // I.e., during unloading, isLoaded will become false, though that notification is sent later during the processing,
+              // then the contents, errors, and warnings are cleared, in that order, each producing a visible notification immediately.
+              // Similarly, during loading, isLoaded will become true, though that notification will be sent later during the processing,
+              // then contents, errors, and warnings can be populated in any order, each producing a visible notification immediately.
+              // So ignoring these notifications when the resource isn't loaded or is in the process of loading,
+              // ensures that we won't try to resolve marker proxies into the resource until it's fully unloaded,
+              // i.e., when the final isLoaded notification is dispatched, 
+              // at which time the resource diagnostics will be handled by the switch case above.
+              Resource.Internal resource = (Resource.Internal)notifier;
+              if (resource.isLoaded() && !resource.isLoading())
+              {
+                handleResourceDiagnostics(Collections.<Resource>singletonList(resource));
+              }
+              break;
+            }
           }
         }
       }
