@@ -4470,10 +4470,12 @@ public class EcoreUtil
    */
   public static boolean isInvariant(EOperation eOperation)
   {
-    return eOperation.getEType() == EcorePackage.Literals.EBOOLEAN &&
+    // Base this on the instance class names so it returns true for models using the development time version of Ecore.
+    //
+    return eOperation.getEType().getInstanceClassName() == "boolean" &&
       eOperation.getEParameters().size() == 2 &&
-      eOperation.getEParameters().get(0).getEType() == EcorePackage.Literals.EDIAGNOSTIC_CHAIN &&
-      eOperation.getEParameters().get(1).getEType() == EcorePackage.Literals.EMAP;
+      eOperation.getEParameters().get(0).getEType().getInstanceClassName() == "org.eclipse.emf.common.util.DiagnosticChain" &&
+      eOperation.getEParameters().get(1).getEType().getInstanceClassName() == "java.util.Map";
   }
 
   /**
