@@ -48,11 +48,12 @@ public class XcoreImportsConfiguration extends DefaultImportsConfiguration
            public XImportSection get()
            {
              XImportSection importSection = XtypeFactory.eINSTANCE.createXImportSection();
+             EList<XImportDeclaration> importDeclarations = importSection.getImportDeclarations();
+
              XPackage xPackage = (XPackage) resource.getContents().get(0);
              EList<XImportDirective> importDirectives = xPackage.getImportDirectives();
              for (XImportDirective importDirective : importDirectives)
              {
-               XImportDeclaration importDeclaration = XtypeFactory.eINSTANCE.createXImportDeclaration();
                JvmDeclaredType importedType = null;
                EObject importedObject = importDirective.getImportedObject();
                if (importedObject instanceof JvmDeclaredType)
@@ -61,14 +62,24 @@ public class XcoreImportsConfiguration extends DefaultImportsConfiguration
                }
                else
                {
-                 importedType = (JvmDeclaredType) associations.getPrimaryJvmElement(importedObject);
+                 EObject primaryJvmElement = associations.getPrimaryJvmElement(importedObject);
+                 if (primaryJvmElement instanceof JvmDeclaredType)
+                 {
+                   importedType = (JvmDeclaredType) primaryJvmElement;
+                 }
                }
-               importDeclaration.setImportedType(importedType);
-               importDeclaration.setImportedNamespace(importDirective.getImportedNamespace());
-               importDeclaration.setExtension(false);
-               importDeclaration.setStatic(false);
-               importSection.getImportDeclarations().add(importDeclaration);
+
+               if (importedType != null)
+               {
+                 XImportDeclaration importDeclaration = XtypeFactory.eINSTANCE.createXImportDeclaration();
+                 importDeclaration.setImportedType(importedType);
+                 importDeclaration.setImportedNamespace(importDirective.getImportedNamespace());
+                 importDeclaration.setExtension(false);
+                 importDeclaration.setStatic(false);
+                importDeclarations.add(importDeclaration);
+               }
              }
+
              return importSection;
            }
          });
