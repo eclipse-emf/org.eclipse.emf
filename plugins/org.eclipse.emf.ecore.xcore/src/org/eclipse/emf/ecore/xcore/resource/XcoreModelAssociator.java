@@ -291,12 +291,12 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
     return xcoreElement;
   }
 
-  public JvmIdentifiableElement getLogicalContainer(EObject eObject)
+  public JvmIdentifiableElement getLogicalContainer(XExpression xExpression)
   {
-    if (eObject instanceof XBlockExpression)
+    if (xExpression instanceof XBlockExpression)
     {
-      EObject eContainer = eObject.eContainer();
-      EReference eContainmentFeature = eObject.eContainmentFeature();
+      EObject eContainer = xExpression.eContainer();
+      EReference eContainmentFeature = xExpression.eContainmentFeature();
       if (eContainmentFeature == XcorePackage.Literals.XOPERATION__BODY)
       {
         return mapper.getMapping((XOperation)eContainer).getJvmOperation();
@@ -339,7 +339,7 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
     {
       if (eContainer instanceof XExpression && eContainer.eContainer() instanceof XModelElement)
       {
-        return getLogicalContainer(eContainer);
+        return getLogicalContainer((XExpression)eContainer);
       }
     }
     return null;
