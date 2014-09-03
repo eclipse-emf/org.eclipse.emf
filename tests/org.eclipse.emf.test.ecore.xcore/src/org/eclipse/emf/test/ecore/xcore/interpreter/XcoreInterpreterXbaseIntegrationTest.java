@@ -47,6 +47,18 @@ public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluatio
   }
 
   @Override
+  @Test public void testSwitchExpressionOverEnum_6() throws Exception {
+		assertEvaluatesTo(null, 
+				"{\n" + 
+				"  val Enum<?> e = null\n" + 
+				"  switch(e) {\n" + 
+				"    java.lang.^annotation.RetentionPolicy: e.toString\n" + 
+				"    java.lang.^annotation.ElementType: e.toString\n" + 
+				"  }\n" + 
+				"}");
+	}
+
+  @Override
   @Test 
   public void testReservedWordEnum() throws Exception 
   {
