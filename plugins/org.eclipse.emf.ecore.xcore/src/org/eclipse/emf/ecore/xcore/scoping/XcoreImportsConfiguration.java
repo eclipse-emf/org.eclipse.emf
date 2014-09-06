@@ -55,28 +55,34 @@ public class XcoreImportsConfiguration extends DefaultImportsConfiguration
              for (XImportDirective importDirective : importDirectives)
              {
                JvmDeclaredType importedType = null;
-               EObject importedObject = importDirective.getImportedObject();
-               if (importedObject instanceof JvmDeclaredType)
+               String importedNamespace = importDirective.getImportedNamespace();
+               boolean isWildcard = importedNamespace.endsWith(".*");
+                 
+               if (!isWildcard)
                {
-                 importedType = (JvmDeclaredType) importedObject;
-               }
-               else
-               {
-                 EObject primaryJvmElement = associations.getPrimaryJvmElement(importedObject);
-                 if (primaryJvmElement instanceof JvmDeclaredType)
+                 EObject importedObject = importDirective.getImportedObject();
+                 if (importedObject instanceof JvmDeclaredType)
                  {
-                   importedType = (JvmDeclaredType) primaryJvmElement;
+                   importedType = (JvmDeclaredType) importedObject;
+                 }
+                 else if (importedObject != null)
+                 {
+                   EObject primaryJvmElement = associations.getPrimaryJvmElement(importedObject);
+                   if (primaryJvmElement instanceof JvmDeclaredType)
+                   {
+                     importedType = (JvmDeclaredType) primaryJvmElement;
+                   }
                  }
                }
 
-               if (importedType != null)
+               if (isWildcard || importedType != null)
                {
                  XImportDeclaration importDeclaration = XtypeFactory.eINSTANCE.createXImportDeclaration();
                  importDeclaration.setImportedType(importedType);
-                 importDeclaration.setImportedNamespace(importDirective.getImportedNamespace());
+                 importDeclaration.setImportedNamespace(importedNamespace);
                  importDeclaration.setExtension(false);
                  importDeclaration.setStatic(false);
-                importDeclarations.add(importDeclaration);
+                 importDeclarations.add(importDeclaration);
                }
              }
 

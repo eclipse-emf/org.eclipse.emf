@@ -568,7 +568,11 @@ public class EcoreXcoreBuilder
   {
     handleAnnotations(eTypedElement, xTypedElement);
     xTypedElement.setName(eTypedElement.getName());
-    xTypedElement.setType(getXGenericType(eTypedElement.getEGenericType()));
+    XGenericType xGenericType = getXGenericType(eTypedElement.getEGenericType());
+    if (xGenericType != null)
+    {
+      xTypedElement.setType(xGenericType);
+    }
     if (eTypedElement.isUnique() && !(eTypedElement instanceof EReference) && eTypedElement.isMany())
     {
       xTypedElement.setUnique(true);

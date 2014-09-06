@@ -38,6 +38,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.util.ImportManager;
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
@@ -93,6 +94,8 @@ import com.google.inject.Provider;
 
 public class XcoreExporter extends ModelExporter
 {
+  public static Diagnostic RETRY = new BasicDiagnostic();
+
   @Inject
   Provider<EcoreXcoreBuilder> ecoreXcoreBuilderProvider;
 
@@ -163,11 +166,13 @@ public class XcoreExporter extends ModelExporter
   @Override
   protected Diagnostic doExport(Monitor monitor, ModelExporter.ExportData exportData) throws Exception
   {
-    for (Map.Entry<GenPackage, URI> entry : exportData.genPackageToArtifactURI.entrySet())
+    // Add natures and libraries if necessary.
+    // Because the builder needs to run to update the index, if we do add a library, we need to return early to allow the workspace modify operation to complete.
+    // After that's done, we want to retry, at which point there should be no libraries added the second time.
+    //
+    boolean retry = false;
+    for (URI xcoreLocationURI : exportData.genPackageToArtifactURI.values())
     {
-      GenPackage genPackage = entry.getKey();
-      URI xcoreLocationURI = entry.getValue();
-
       // Add the Xtext nature if it's absent.
       //
       IFile xcoreFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(xcoreLocationURI.toPlatformString(true)));
@@ -186,9 +191,19 @@ public class XcoreExporter extends ModelExporter
         }
         XcoreClasspathUpdater xcoreClasspathUpdater = new XcoreClasspathUpdater();
         IJavaProject xcoreJavaProject = JavaCore.create(xcoreProject);
-        xcoreClasspathUpdater.addBundle(xcoreJavaProject, "org.eclipse.emf.ecore.xcore.lib", null);
-        xcoreClasspathUpdater.addBundle(xcoreJavaProject, "org.eclipse.xtext.xbase.lib", null);
+        retry = xcoreClasspathUpdater.addBundle(xcoreJavaProject, "org.eclipse.emf.ecore.xcore.lib", null) || retry;
+        retry = xcoreClasspathUpdater.addBundle(xcoreJavaProject, "org.eclipse.xtext.xbase.lib", null) || retry;
       }
+    }
+    if (retry)
+    {
+      return RETRY;
+    }
+
+    for (Map.Entry<GenPackage, URI> entry : exportData.genPackageToArtifactURI.entrySet())
+    {
+      GenPackage genPackage = entry.getKey();
+      URI xcoreLocationURI = entry.getValue();
 
       // Create an appropriate resource set for Xcore models.
       //
@@ -336,17 +351,20 @@ public class XcoreExporter extends ModelExporter
               importManager.addImport(qualifiedNameValue);
             }
 
-            // We need to ensure that if we resolve to a different instance, we switch to use that so that serialization will find the right instance.
-            //
-            XGenericType xGenericType = genericTypeMap.get(eGenericType);
-            IScope scope = scopeProvider.getScope(xGenericType, XcorePackage.Literals.XGENERIC_TYPE__TYPE);
-            IEObjectDescription genClassifierDescription = scope.getSingleElement(qualifiedName);
-            if (genClassifierDescription != null)
+            if (genClassifier.eResource() != outputResource)
             {
-              EObject resolvedGenClassifier = resourceSet.getEObject(genClassifierDescription.getEObjectURI(), true);
-              if (resolvedGenClassifier != null && resolvedGenClassifier != genClassifier)
+              // We need to ensure that if we resolve to a different instance, we switch to use that so that serialization will find the right instance.
+              //
+              XGenericType xGenericType = genericTypeMap.get(eGenericType);
+              IScope scope = scopeProvider.getScope(xGenericType, XcorePackage.Literals.XGENERIC_TYPE__TYPE);
+              IEObjectDescription genClassifierDescription = scope.getSingleElement(qualifiedName);
+              if (genClassifierDescription != null)
               {
-                xGenericType.setType((GenClassifier)resolvedGenClassifier);
+                EObject resolvedGenClassifier = resourceSet.getEObject(genClassifierDescription.getEObjectURI(), true);
+                if (resolvedGenClassifier != null && resolvedGenClassifier != genClassifier)
+                {
+                  xGenericType.setType((GenClassifier)resolvedGenClassifier);
+                }
               }
             }
           }
@@ -357,7 +375,7 @@ public class XcoreExporter extends ModelExporter
           XReference xReference = (XReference)mapper.getToXcoreMapping(eReference).getXcoreElement();
           EList<GenFeature> keys = xReference.getKeys();
           GenFeature opposite = xReference.getOpposite();
-          if (opposite != null)
+          if (opposite != null && opposite.eResource() != outputResource)
           {
             IScope scope = scopeProvider.getScope(xReference, XcorePackage.Literals.XREFERENCE__OPPOSITE);
             IEObjectDescription genFeatureDescription = scope.getSingleElement(QualifiedName.create(opposite.getName()));
@@ -376,13 +394,16 @@ public class XcoreExporter extends ModelExporter
             for (ListIterator<GenFeature> k = keys.listIterator(); k.hasNext(); )
             {
               GenFeature key = k.next();
-              IEObjectDescription genFeatureDescription = scope.getSingleElement(QualifiedName.create(key.getName()));
-              if (genFeatureDescription != null)
+              if (key.eResource() != outputResource)
               {
-                EObject resolvedGenFeature = resourceSet.getEObject(genFeatureDescription.getEObjectURI(), true);
-                if (resolvedGenFeature != null)
+                IEObjectDescription genFeatureDescription = scope.getSingleElement(QualifiedName.create(key.getName()));
+                if (genFeatureDescription != null)
                 {
-                  k.set((GenFeature)resolvedGenFeature);
+                  EObject resolvedGenFeature = resourceSet.getEObject(genFeatureDescription.getEObjectURI(), true);
+                  if (resolvedGenFeature != null)
+                  {
+                    k.set((GenFeature)resolvedGenFeature);
+                  }
                 }
               }
             }

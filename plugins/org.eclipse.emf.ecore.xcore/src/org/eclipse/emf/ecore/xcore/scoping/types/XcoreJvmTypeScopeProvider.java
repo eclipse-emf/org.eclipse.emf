@@ -32,12 +32,6 @@ import com.google.inject.Provider;
 
 public class XcoreJvmTypeScopeProvider extends XImportSectionNamespaceScopeProvider
 {
-  private static final ImportNormalizer DATE_IMPORT_NORMALIZER = AbstractNestedTypeAwareImportNormalizer.createNestedTypeAwareImportNormalizer(QualifiedName.create("java", "util", "Date"), false, false);
-
-  private static final ImportNormalizer BIG_DECIMAL_IMPORT_NORMALIZER = AbstractNestedTypeAwareImportNormalizer.createNestedTypeAwareImportNormalizer(QualifiedName.create("java", "math", "BigDecimal"), false, false);
-
-  private static final ImportNormalizer BIG_INTEGER_IMPORT_NORMALIZER = AbstractNestedTypeAwareImportNormalizer.createNestedTypeAwareImportNormalizer(QualifiedName.create("java", "math", "BigInteger"), false, false);
-
   private static final ImportNormalizer JAVA_LANG_IMPORT_NORMALIZER = AbstractNestedTypeAwareImportNormalizer.createNestedTypeAwareImportNormalizer(JAVA_LANG, true, false);
 
   @Inject
@@ -91,10 +85,7 @@ public class XcoreJvmTypeScopeProvider extends XImportSectionNamespaceScopeProvi
     String packageName = rootContainer.getName();
     ImportNormalizer[] alwaysImported =
       {
-        JAVA_LANG_IMPORT_NORMALIZER,
-        BIG_INTEGER_IMPORT_NORMALIZER,
-        BIG_DECIMAL_IMPORT_NORMALIZER,
-        DATE_IMPORT_NORMALIZER,
+        JAVA_LANG_IMPORT_NORMALIZER
      };
     final ImportNormalizer[][] implicitImports;
     if (Strings.isEmpty(packageName))
