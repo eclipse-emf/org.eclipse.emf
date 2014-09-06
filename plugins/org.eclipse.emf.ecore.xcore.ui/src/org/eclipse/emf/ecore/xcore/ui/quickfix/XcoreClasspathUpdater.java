@@ -45,13 +45,18 @@ public class XcoreClasspathUpdater
 
   private static final String PLUGIN_NATURE = "org.eclipse.pde.PluginNature";
 
-  public void addBundle(IJavaProject javaProject, String bundleID, IProgressMonitor monitor)
+  public boolean addBundle(IJavaProject javaProject, String bundleID, IProgressMonitor monitor)
   {
+    boolean result = false;
     try
     {
       SubMonitor progress = SubMonitor.convert(monitor, 2);
       IProject project = javaProject.getProject();
-      if (!project.hasNature(PLUGIN_NATURE) || !addBundleToManifest(project, bundleID, progress.newChild(1)))
+      if (project.hasNature(PLUGIN_NATURE))
+      {
+        result = addBundleToManifest(project, bundleID, progress.newChild(1));
+      }
+      else
       {
         Bundle bundle = Platform.getBundle(bundleID);
         if (bundle != null)
@@ -73,7 +78,11 @@ public class XcoreClasspathUpdater
               {
                 location = binFolder.toString();
               }
-              addJarToClasspath(javaProject, new Path(location), progress.newChild(1));
+
+              if (addJarToClasspath(javaProject, new Path(location), progress.newChild(1)))
+              {
+                result = true;
+              }
             }
           }
         }
@@ -83,6 +92,8 @@ public class XcoreClasspathUpdater
     {
       LOG.error("Error adding '" + bundleID + "' to the classpath", exception);
     }
+
+    return result;
   }
 
   protected boolean addJarToClasspath(IJavaProject javaProject, IPath location, IProgressMonitor monitor) throws JavaModelException
@@ -124,8 +135,9 @@ public class XcoreClasspathUpdater
           ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
           input = new BufferedInputStream(in);
           manifestFile.setContents(input, true, true, monitor);
+          return true;
         }
-        return true;
+        return false;
       }
       finally
       {

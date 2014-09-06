@@ -10,6 +10,7 @@
  */
 package org.eclipse.emf.ecore.xcore.exporter.ui;
 
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.converter.ModelConverter;
 import org.eclipse.emf.ecore.xcore.exporter.XcoreExporter;
 import org.eclipse.emf.ecore.xcore.exporter.XcoreExporterPlugin;
@@ -25,8 +26,10 @@ import com.google.inject.Provider;
 public class XcoreExporterWizard extends ModelExporterWizard
 {
   @Inject
-  Provider<XcoreExporter> xcoreExporterProvider;
+  protected Provider<XcoreExporter> xcoreExporterProvider;
 
+  protected boolean retry;
+  
   public XcoreExporterWizard()
   {
     super();
@@ -52,5 +55,29 @@ public class XcoreExporterWizard extends ModelExporterWizard
     ModelExporterOptionsPage optionsPage = new ModelExporterOptionsPage(getModelExporter(), "XcoreExporterOptionsPage");
     optionsPage.setTitle(XcoreExporterPlugin.INSTANCE.getString("_UI_XcoreImport_title"));
     addPage(optionsPage);
+  }
+  
+  @Override
+  public boolean performFinish()
+  {
+    boolean result = super.performFinish();
+    if (retry)
+    {
+      result = super.performFinish();
+    }
+    return result;
+  }
+  
+  @Override
+  protected void handleConvertDiagnostic(Diagnostic diagnostic)
+  {
+    if (diagnostic == XcoreExporter.RETRY)
+    {
+      retry = true;
+    }
+    else
+    {
+      super.handleConvertDiagnostic(diagnostic);
+    }
   }
 }

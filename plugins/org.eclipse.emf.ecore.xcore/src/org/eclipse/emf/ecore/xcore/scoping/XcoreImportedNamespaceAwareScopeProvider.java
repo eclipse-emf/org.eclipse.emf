@@ -12,8 +12,10 @@ import static java.util.Collections.singletonList;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -145,7 +147,27 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
           }
         });
         EcoreDataTypeAliasingScope aliasingScope = new EcoreDataTypeAliasingScope(globalScope, nameConverter);
-        ImportScope importScope = createImportScope(aliasingScope, getImportedNamespaceResolvers(context, false), null, GenModelPackage.Literals.GEN_BASE, false);
+        List<ImportNormalizer> importedNamespaceResolvers = Lists.newArrayList(getImportedNamespaceResolvers(context, false));
+        Set<String> names = new HashSet<String>();
+        for (ImportNormalizer importNormalizer : importedNamespaceResolvers)
+        {
+          if (!importNormalizer.hasWildCard())
+          {
+            names.add(importNormalizer.getImportedNamespacePrefix().getLastSegment());
+          }
+        }
+
+        for (String implicitImport : IMPLICIT_IMPORTS)
+        {
+          ImportNormalizer importedNamespaceResolver = createImportedNamespaceResolver(implicitImport, false);
+          if (!names.contains(importedNamespaceResolver.getImportedNamespacePrefix().getLastSegment()))
+          {
+            importedNamespaceResolvers.add(importedNamespaceResolver);
+          }
+        }
+
+        ImportScope importScope = createImportScope(aliasingScope, importedNamespaceResolvers, null, GenModelPackage.Literals.GEN_BASE, false);
+
         IScope resourceScope = getLocalClassifiersScope(resource, importScope);
         return new CachingScope(resourceScope);
       }
@@ -236,6 +258,25 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
       EcorePackage.Literals.ESHORT_OBJECT,
       EcorePackage.Literals.ESTRING
     };
+
+  private static final String[] IMPLICIT_IMPORTS;
+
+  static
+  {
+    List<String> implicitImports = Lists.newArrayList();
+    for (EDataType eDataType : IMPLICIT_ALIASES)
+    {
+      String instanceClassName = eDataType.getInstanceClassName();
+      if (instanceClassName.indexOf('.') != -1 && !instanceClassName.startsWith("java.lang."))
+      {
+        implicitImports.add(instanceClassName);
+      }
+    }
+
+    implicitImports.add("java.lang.*");
+
+    IMPLICIT_IMPORTS = implicitImports.toArray(new String[implicitImports.size()]);
+  }
 
   private static final class ImportableObjectsScope implements IScope
   {
@@ -383,9 +424,6 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
         final QualifiedName qualifiedName = nameConverter.toQualifiedName(instanceClassName);
         AbstractEObjectDescription qualifiedObjectDescription = new EcoreDataTypeAliasEObjectDescription(qualifiedName, actualQualifiedName, eDataType);
         result.add(qualifiedObjectDescription);
-        final QualifiedName simpleName = QualifiedName.create(qualifiedName.getLastSegment());
-        AbstractEObjectDescription simpleObjectDescription = new EcoreDataTypeAliasEObjectDescription(simpleName, actualQualifiedName, eDataType);
-        result.add(simpleObjectDescription);
       }
       return result;
     }

@@ -15,6 +15,7 @@ import org.eclipse.xtext.xbase.XBlockExpression;
 
 public class PartialParsingContentAssistParser extends XcoreParser
 {
+  @Override
   protected String getReplacement(ICompositeNode node)
   {
     if (node.hasDirectSemanticElement())
