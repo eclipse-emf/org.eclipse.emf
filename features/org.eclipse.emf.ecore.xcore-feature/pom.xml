@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.emf</groupId>
 	<artifactId>org.eclipse.emf.ecore.xcore.parent</artifactId>
-	<version>1.2.0-SNAPSHOT</version>
+	<version>1.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -21,7 +21,7 @@
 	<repositories>
 		<repository>
 			<id>eclipse</id>
-			<url>http://download.eclipse.org/releases/luna/</url>
+			<url>http://download.eclipse.org/releases/mars/</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>
@@ -39,6 +39,14 @@
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.1</version>
+				<configuration>
+					<deployAtEnd>true</deployAtEnd>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
@@ -135,7 +143,7 @@
 	<scm>
 		<connection>scm:git:git://git.eclipse.org/gitroot/emf/org.eclipse.emf.git</connection>
 		<developerConnection>scm:git:ssh://git.eclipse.org:29418/emf/org.eclipse.emf.git</developerConnection>
-		<url>http://git.eclipse.org/c/emf/org.eclipse.emf.git?h=R2_9_maintenance</url>
+		<url>http://git.eclipse.org/c/emf/org.eclipse.emf.git?h=master</url>
 	</scm>
 	<url>http://www.eclipse.org/xtend/</url>
 	<description>Eclipse Modeling Framework</description>
