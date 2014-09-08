@@ -9,7 +9,6 @@ package org.eclipse.emf.ecore.xcore.util
 
 import com.google.inject.Inject
 import java.util.Collections
-import java.util.HashSet
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature
@@ -32,6 +31,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral
 import org.eclipse.emf.ecore.xcore.XEnumLiteral
 import org.eclipse.emf.common.util.UniqueEList
 import java.util.List
+import java.util.LinkedHashSet
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter
 import org.eclipse.emf.ecore.xcore.XParameter
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter
@@ -135,7 +135,7 @@ class XcoreGenModelBuilder
 
   def initializeUsedGenPackages(GenModel genModel)
   {
-    val referencedEPackages = new HashSet<EPackage>()
+    val referencedEPackages = new LinkedHashSet<EPackage>()
     val List<EPackage> ePackages = new UniqueEList<EPackage>()
     for (genPackage : genModel.genPackages)
     {

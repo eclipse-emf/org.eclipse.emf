@@ -10,7 +10,7 @@ package org.eclipse.emf.ecore.xcore.util;
 import com.google.common.base.Objects;
 import com.google.inject.Inject;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
@@ -217,7 +217,7 @@ public class XcoreGenModelBuilder {
   }
   
   public void initializeUsedGenPackages(final GenModel genModel) {
-    final HashSet<EPackage> referencedEPackages = new HashSet<EPackage>();
+    final LinkedHashSet<EPackage> referencedEPackages = new LinkedHashSet<EPackage>();
     final List<EPackage> ePackages = new UniqueEList<EPackage>();
     EList<GenPackage> _genPackages = genModel.getGenPackages();
     for (final GenPackage genPackage : _genPackages) {
