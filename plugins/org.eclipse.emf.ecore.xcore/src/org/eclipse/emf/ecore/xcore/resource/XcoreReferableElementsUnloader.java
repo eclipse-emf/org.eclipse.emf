@@ -11,6 +11,7 @@ package org.eclipse.emf.ecore.xcore.resource;
 import static com.google.common.collect.Lists.newArrayList;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
@@ -39,6 +40,10 @@ public class XcoreReferableElementsUnloader implements IReferableElementsUnloade
     for (TreeIterator<EObject> i = EcoreUtil.getAllProperContents(Collections.singleton(root), false); i.hasNext();)
     {
       EObject element = i.next();
+      URI proxyURI = uri.appendFragment(resource.getURIFragment(element));
+      elementsToUnload.add(Tuples.create(element, proxyURI));
+      element.eAdapters().clear();
+
       if (element instanceof GenClassifier
           || element instanceof GenAnnotation
           || element instanceof XClassifier
@@ -47,16 +52,21 @@ public class XcoreReferableElementsUnloader implements IReferableElementsUnloade
           || element instanceof JvmTypeReference)
       {
         i.prune();
+        clearChildAdapters(element);
       }
-
-      URI proxyURI = uri.appendFragment(resource.getURIFragment(element));
-      elementsToUnload.add(Tuples.create(element, proxyURI));
-      element.eAdapters().clear();
     }
 
     for (Pair<EObject, URI> elementToUnload : elementsToUnload)
     {
       ((InternalEObject) elementToUnload.getFirst()).eSetProxyURI(elementToUnload.getSecond());
+    }
+  }
+
+  private void clearChildAdapters(EObject eObject)
+  {
+    for (Iterator<EObject> i = eObject.eAllContents(); i.hasNext(); )
+    {
+      i.next().eAdapters().clear();
     }
   }
 }
