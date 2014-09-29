@@ -22,23 +22,16 @@
 			</uri>
 		</provider>
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=I))"
-		>
-			<uri format="{0}/modeling/emf/emf/updates/2.10-I-builds/base">
-				<bc:propertyRef key="eclipse.download" />
-			</uri>
-		</provider>
-		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=S))"
 		>
-			<uri format="{0}/modeling/emf/emf/updates/2.10milestones/base">
+			<uri format="{0}/modeling/emf/emf/updates/2.11milestones/base">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=R))"
 		>
-			<uri format="{0}/modeling/emf/emf/updates/2.10/base">
+			<uri format="{0}/modeling/emf/emf/updates/2.11/base">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider> 
@@ -67,7 +60,7 @@
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=R))"
 		>
-			<uri format="{0}/eclipse/updates/4.4">
+			<uri format="{0}/eclipse/updates/4.4milestones">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
