@@ -480,7 +480,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
             private URI redirect(URI uri)
             {
-              if (!uri.isCurrentDocumentReference() && uri.hasFragment())
+              if (uri != null && !uri.isCurrentDocumentReference() && uri.hasFragment())
               {
                 URI base = uri.trimFragment();
                 String fragment = uri.fragment();
