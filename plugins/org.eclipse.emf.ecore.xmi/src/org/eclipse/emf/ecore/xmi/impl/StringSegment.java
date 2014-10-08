@@ -20,7 +20,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-
 import java.util.Iterator;
 import java.util.ListIterator;
 
@@ -319,10 +318,14 @@ public class StringSegment extends BasicEList<StringSegment.Element>
 
   public void writeAscii(OutputStream os, int flushThreshold) throws IOException
   {
-    if (outputbytes == null)
+    // Ensure the outputbytes are allocated and that it and outputchars have the same length
+    //
+    int requiredLength = Math.max( BUFFER_SIZE, outputchars.length );
+    if( outputbytes == null || outputbytes.length < requiredLength )
     {
-      outputbytes = new byte [BUFFER_SIZE];
+      outputbytes = new byte [requiredLength];
     }
+
     Element[] elements = (Element[])data;
     int position = 0;
     int count = 0;
