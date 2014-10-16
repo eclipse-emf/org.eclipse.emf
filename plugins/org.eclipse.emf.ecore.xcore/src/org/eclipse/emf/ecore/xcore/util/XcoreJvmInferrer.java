@@ -1683,7 +1683,58 @@ public class XcoreJvmInferrer
               valueOf.getParameters().add(param);
               members.add(valueOf);
             }
+            
+            {
+              JvmParameterizedTypeReference returnType = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+              returnType.setType(jvmEnumerationType);
+              JvmOperation get = createJvmOperation(genEnum, JvmVisibility.PUBLIC, true, "get", returnType);
+              JvmFormalParameter param = createJvmFormalParameter(genEnum, "literal", getJvmTypeReference("java.lang.String", genEnum));
+              get.getParameters().add(param);
+              members.add(get);
+            }
 
+            {
+              JvmParameterizedTypeReference returnType = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+              returnType.setType(jvmEnumerationType);
+              JvmOperation get = createJvmOperation(genEnum, JvmVisibility.PUBLIC, true, "get", returnType);
+              JvmFormalParameter param = createJvmFormalParameter(genEnum, "literal", getJvmTypeReference("int", genEnum));
+              get.getParameters().add(param);
+              members.add(get);
+            }
+
+            {
+              JvmParameterizedTypeReference returnType = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+              returnType.setType(jvmEnumerationType);
+              JvmOperation getByName = createJvmOperation(genEnum, JvmVisibility.PUBLIC, true, "getByName", returnType);
+              JvmFormalParameter param = createJvmFormalParameter(genEnum, "name", getJvmTypeReference("java.lang.String", genEnum));
+              getByName.getParameters().add(param);
+              members.add(getByName);
+            }
+
+            {
+              JvmGenericArrayTypeReference fieldType = TypesFactory.eINSTANCE.createJvmGenericArrayTypeReference();
+              JvmParameterizedTypeReference componentType = TypesFactory.eINSTANCE.createJvmParameterizedTypeReference();
+              componentType.setType(jvmEnumerationType);
+              fieldType.setComponentType(componentType);
+              JvmField VALUES = createJvmField(genEnum, JvmVisibility.PUBLIC, true, true, "VALUES", fieldType);
+              members.add(VALUES);
+            }
+            
+            {
+              JvmOperation getName = createJvmOperation(genEnum, JvmVisibility.PUBLIC, true, "getName", getJvmTypeReference("java.lang.String", genEnum));
+              members.add(getName);
+            }
+
+            {
+              JvmOperation getLiteral = createJvmOperation(genEnum, JvmVisibility.PUBLIC, true, "getLiteral", getJvmTypeReference("java.lang.String", genEnum));
+              members.add(getLiteral);
+            }
+
+            {
+              JvmOperation getValue = createJvmOperation(genEnum, JvmVisibility.PUBLIC, true, "getValue", getJvmTypeReference("int", genEnum));
+              members.add(getValue);
+            }
+            
             for (final GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals())
             {
               JvmElementInferrer<JvmEnumerationLiteral> enumLiteralInferrer =

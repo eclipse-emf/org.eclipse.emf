@@ -211,5 +211,37 @@ class ParsingTest extends Object {
 		EcoreUtil::resolveAll(pack.eResource)
 		vth.assertNoErrors(pack);
 	}
+	
+	// see https://bugs.eclipse.org/bugs/show_bug.cgi?id=447412
+	@Test
+	def void testEnumMembersAvailable() {
+		val pack = parser.parse('''
+			@GenModel(complianceLevel="6.0")
+			package p 
+			class A 
+			{ 
+				op void m() {
+					if (E.ONE != E.TWO && E.ONE_VALUE != E.TWO_VALUE) {
+						var E e = E.valueOf('')
+						var E[] all = E.values()
+						all = E.VALUES
+						e = E.get(1)
+						e = E.get('')
+						e = E.getByName('')
+						var String s = E.ONE.name()
+						s = E.ONE.getName()
+						var int i = E.ONE.value
+						s = E.ONE.literal
+					}
+				}
+			}
+			enum E {
+				one = 1
+				two = 2
+			}
+		''')
+		EcoreUtil::resolveAll(pack.eResource)
+		vth.assertNoErrors(pack);
+	}
 
 }
