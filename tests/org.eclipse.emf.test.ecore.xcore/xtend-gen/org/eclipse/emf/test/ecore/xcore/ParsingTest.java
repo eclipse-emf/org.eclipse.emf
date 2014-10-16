@@ -449,4 +449,79 @@ public class ParsingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
+  
+  @Test
+  public void testEnumMembersAvailable() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("@GenModel(complianceLevel=\"6.0\")");
+      _builder.newLine();
+      _builder.append("package p ");
+      _builder.newLine();
+      _builder.append("class A ");
+      _builder.newLine();
+      _builder.append("{ ");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("op void m() {");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("if (E.ONE != E.TWO && E.ONE_VALUE != E.TWO_VALUE) {");
+      _builder.newLine();
+      _builder.append("\t\t\t");
+      _builder.append("var E e = E.valueOf(\'\')");
+      _builder.newLine();
+      _builder.append("\t\t\t");
+      _builder.append("var E[] all = E.values()");
+      _builder.newLine();
+      _builder.append("\t\t\t");
+      _builder.append("all = E.VALUES");
+      _builder.newLine();
+      _builder.append("\t\t\t");
+      _builder.append("e = E.get(1)");
+      _builder.newLine();
+      _builder.append("\t\t\t");
+      _builder.append("e = E.get(\'\')");
+      _builder.newLine();
+      _builder.append("\t\t\t");
+      _builder.append("e = E.getByName(\'\')");
+      _builder.newLine();
+      _builder.append("\t\t\t");
+      _builder.append("var String s = E.ONE.name()");
+      _builder.newLine();
+      _builder.append("\t\t\t");
+      _builder.append("s = E.ONE.getName()");
+      _builder.newLine();
+      _builder.append("\t\t\t");
+      _builder.append("var int i = E.ONE.value");
+      _builder.newLine();
+      _builder.append("\t\t\t");
+      _builder.append("s = E.ONE.literal");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("enum E {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("one = 1");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("two = 2");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      final XPackage pack = this.parser.parse(_builder);
+      Resource _eResource = pack.eResource();
+      EcoreUtil.resolveAll(_eResource);
+      this.vth.assertNoErrors(pack);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
 }
