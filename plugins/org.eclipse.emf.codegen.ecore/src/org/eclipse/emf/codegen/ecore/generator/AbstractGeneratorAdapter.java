@@ -1137,7 +1137,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
         public String toString(String lineDelimiter)
         {
-          if ("x-friends".equals(key))
+          if ("x-friends".equals(key) || "uses".equals(key))
           {
             boolean hasLineDelimiter = lineDelimiter.length() != 0;
             
