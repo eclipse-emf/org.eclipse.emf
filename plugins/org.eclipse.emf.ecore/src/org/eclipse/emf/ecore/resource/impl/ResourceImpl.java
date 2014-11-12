@@ -1626,6 +1626,19 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   }
 
   /**
+   * This implementation returns a copy of the {@link #getContents() contents}.
+   * It is called by {@link #unload()} to initialize the value of {@link #unloadingContents}.
+   * Clients populating the resource's contents on-demand
+   * can override this implementation to return an empty list
+   * when the resource's contents have not been accessed before the request to unload.
+   * @since 2.11
+   */
+  protected List<EObject> getUnloadingContents()
+  {
+    return new BasicEList.FastCompare<EObject>(getContents());
+  }
+
+  /**
    * Does all the work of unloading the resource.
    * It calls {@link #unloaded unloaded} for each object it the content {@link #getAllContents tree},
    * and clears the {@link #getContents contents}, {@link #getErrors errors}, and {@link #getWarnings warnings}.
@@ -1656,7 +1669,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   {
     if (isLoaded)
     {
-      unloadingContents = new BasicEList.FastCompare<EObject>(getContents());
+      unloadingContents = getUnloadingContents();
       Notification notification = setLoaded(false);
       try
       {
