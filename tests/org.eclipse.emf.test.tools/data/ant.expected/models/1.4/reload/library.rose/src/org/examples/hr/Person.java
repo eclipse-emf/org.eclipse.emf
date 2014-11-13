@@ -14,11 +14,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.examples.hr.Person#getName <em>Name</em>}</li>
  *   <li>{@link org.examples.hr.Person#getLibrary <em>Library</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.examples.hr.HRPackage#getPerson()
  * @model

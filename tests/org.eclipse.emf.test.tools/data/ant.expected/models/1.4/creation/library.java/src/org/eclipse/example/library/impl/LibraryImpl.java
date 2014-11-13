@@ -34,7 +34,9 @@ import org.eclipse.example.library.Writer;
  * An implementation of the model object '<em><b>Library</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.example.library.impl.LibraryImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.example.library.impl.LibraryImpl#getWriters <em>Writers</em>}</li>
@@ -45,7 +47,6 @@ import org.eclipse.example.library.Writer;
  *   <li>{@link org.eclipse.example.library.impl.LibraryImpl#getOptions <em>Options</em>}</li>
  *   <li>{@link org.eclipse.example.library.impl.LibraryImpl#getWriterByIDMap <em>Writer By ID Map</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

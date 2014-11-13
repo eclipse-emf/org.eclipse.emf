@@ -15,10 +15,10 @@ import org.examples.hr.Person;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.examples.library.Writer#getBooks <em>Books</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.examples.library.LibraryPackage#getWriter()
  * @model

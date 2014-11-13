@@ -81,6 +81,8 @@ public class BookCategory extends AbstractEnumerator
    * Returns the '<em><b>Book Category</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param literal the literal.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static BookCategory get(String literal)
@@ -100,6 +102,8 @@ public class BookCategory extends AbstractEnumerator
    * Returns the '<em><b>Book Category</b></em>' literal with the specified name.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param name the name.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static BookCategory getByName(String name)
@@ -119,6 +123,8 @@ public class BookCategory extends AbstractEnumerator
    * Returns the '<em><b>Book Category</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param value the integer value.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static BookCategory get(int value)

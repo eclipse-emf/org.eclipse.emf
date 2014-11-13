@@ -14,11 +14,11 @@ import org.examples.library.Library;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.examples.library.hr.Person#getName <em>Name</em>}</li>
  *   <li>{@link org.examples.library.hr.Person#getLibrary <em>Library</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.examples.library.hr.HrPackage#getPerson()
  * @model extendedMetaData="name='Person' kind='elementOnly'"

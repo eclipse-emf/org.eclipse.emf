@@ -4,14 +4,11 @@
 package org.examples.library.elements.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.examples.library.elements.Book;
 import org.examples.library.elements.BookCategory;
 import org.examples.library.elements.ElementsPackage;
@@ -21,7 +18,9 @@ import org.examples.library.elements.ElementsPackage;
  * An implementation of the model object '<em><b>Book</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.examples.library.elements.impl.BookImpl#getTitle <em>Title</em>}</li>
  *   <li>{@link org.examples.library.elements.impl.BookImpl#getPages <em>Pages</em>}</li>
@@ -29,7 +28,6 @@ import org.examples.library.elements.ElementsPackage;
  *   <li>{@link org.examples.library.elements.impl.BookImpl#getAuthor <em>Author</em>}</li>
  *   <li>{@link org.examples.library.elements.impl.BookImpl#getUuid <em>Uuid</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

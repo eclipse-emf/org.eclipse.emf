@@ -23,12 +23,13 @@ import org.eclipse.example.library.Writer;
  * An implementation of the model object '<em><b>EString To Writer Map Entry</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.example.library.impl.EStringToWriterMapEntryImpl#getTypedKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.example.library.impl.EStringToWriterMapEntryImpl#getTypedValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.examples.library.elements.Book#getTitle <em>Title</em>}</li>
  *   <li>{@link org.examples.library.elements.Book#getPages <em>Pages</em>}</li>
@@ -19,7 +20,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.examples.library.elements.Book#getAuthor <em>Author</em>}</li>
  *   <li>{@link org.examples.library.elements.Book#getUuid <em>Uuid</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.examples.library.elements.ElementsPackage#getBook()
  * @model extendedMetaData="name='Book' kind='elementOnly'"

@@ -139,6 +139,8 @@ public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> 
 	 * Returns the '<em><b><%=genEnum.getFormattedName()%></b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static <%=genEnum.getName()%> get(<%=genModel.getImportedName("java.lang.String")%> literal)
@@ -158,6 +160,8 @@ public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> 
 	 * Returns the '<em><b><%=genEnum.getFormattedName()%></b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static <%=genEnum.getName()%> getByName(<%=genModel.getImportedName("java.lang.String")%> name)
@@ -177,6 +181,8 @@ public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> 
 	 * Returns the '<em><b><%=genEnum.getFormattedName()%></b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static <%=genEnum.getName()%> get(int value)

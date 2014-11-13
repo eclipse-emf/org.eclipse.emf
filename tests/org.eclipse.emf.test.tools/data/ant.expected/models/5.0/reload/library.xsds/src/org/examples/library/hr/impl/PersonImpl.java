@@ -23,12 +23,13 @@ import org.examples.library.hr.Person;
  * An implementation of the model object '<em><b>Person</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.examples.library.hr.impl.PersonImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.examples.library.hr.impl.PersonImpl#getLibrary <em>Library</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

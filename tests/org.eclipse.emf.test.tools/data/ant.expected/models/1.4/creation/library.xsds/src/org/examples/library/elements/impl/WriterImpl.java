@@ -28,12 +28,13 @@ import org.examples.library.elements.Writer;
  * An implementation of the model object '<em><b>Writer</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.examples.library.elements.impl.WriterImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.examples.library.elements.impl.WriterImpl#getBooks <em>Books</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

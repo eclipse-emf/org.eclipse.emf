@@ -23,12 +23,13 @@ import org.eclipse.example.library.LibraryPackage;
  * An implementation of the model object '<em><b>EString To Book Map Entry</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.example.library.impl.EStringToBookMapEntryImpl#getTypedKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.example.library.impl.EStringToBookMapEntryImpl#getTypedValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

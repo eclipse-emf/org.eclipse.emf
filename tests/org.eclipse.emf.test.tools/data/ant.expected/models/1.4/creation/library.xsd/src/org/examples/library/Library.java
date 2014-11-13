@@ -14,12 +14,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.examples.library.Library#getName <em>Name</em>}</li>
  *   <li>{@link org.examples.library.Library#getWriters <em>Writers</em>}</li>
  *   <li>{@link org.examples.library.Library#getBooks <em>Books</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.examples.library.LibraryPackage#getLibrary()
  * @model extendedMetaData="name='Library' kind='elementOnly'"

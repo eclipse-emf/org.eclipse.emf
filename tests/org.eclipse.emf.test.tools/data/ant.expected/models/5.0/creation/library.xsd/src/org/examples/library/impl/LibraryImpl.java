@@ -29,13 +29,14 @@ import org.examples.library.Writer;
  * An implementation of the model object '<em><b>Library</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.examples.library.impl.LibraryImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.examples.library.impl.LibraryImpl#getWriters <em>Writers</em>}</li>
  *   <li>{@link org.examples.library.impl.LibraryImpl#getBooks <em>Books</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

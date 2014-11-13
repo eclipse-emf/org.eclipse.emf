@@ -28,12 +28,13 @@ import org.eclipse.example.library.Writer;
  * An implementation of the model object '<em><b>Writer</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.example.library.impl.WriterImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.example.library.impl.WriterImpl#getBooks <em>Books</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

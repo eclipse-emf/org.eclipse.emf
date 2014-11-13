@@ -14,11 +14,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.examples.library.elements.Writer#getName <em>Name</em>}</li>
  *   <li>{@link org.examples.library.elements.Writer#getBooks <em>Books</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.examples.library.elements.ElementsPackage#getWriter()
  * @model extendedMetaData="name='Writer' kind='elementOnly'"
