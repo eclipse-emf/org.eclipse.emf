@@ -911,7 +911,7 @@ public class EcoreUtil
   }
 
   /**
-   * Returns whether the second object is directly or indirectly contained by the first object,
+   * Returns whether the second object is the same as the first object, or is directly or indirectly contained by the first object,
    * i.e., whether the second object is in the {@link EObject#eContents content tree} of the first.
    * Container proxies are not resolved.
    * @param ancestorEObject the ancestor object in question.
