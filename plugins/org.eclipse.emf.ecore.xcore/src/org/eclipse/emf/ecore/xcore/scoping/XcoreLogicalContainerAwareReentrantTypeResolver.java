@@ -18,8 +18,9 @@ public class XcoreLogicalContainerAwareReentrantTypeResolver extends LogicalCont
   @Override
   public JvmTypeReference getExtendedClass(JvmDeclaredType type)
   {
-    boolean ignoreSupperInterfaces = type.getIdentifier().startsWith("$");
     JvmTypeReference result = null;
+    String identifier = type.getIdentifier();
+    boolean ignoreSupperInterfaces = identifier != null && identifier.startsWith("$");
     for (JvmTypeReference candidate: type.getSuperTypes())
     {
       JvmType jvmType = candidate.getType();
@@ -37,5 +38,4 @@ public class XcoreLogicalContainerAwareReentrantTypeResolver extends LogicalCont
     }
     return result;
   }
-
 }
