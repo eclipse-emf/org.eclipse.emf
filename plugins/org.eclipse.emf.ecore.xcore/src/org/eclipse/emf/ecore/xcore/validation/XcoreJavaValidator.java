@@ -193,6 +193,16 @@ public class XcoreJavaValidator extends AbstractXcoreJavaValidator
             break;
           }
         }
+
+        while (simpleName.contains("."))
+        {
+          simpleName = simpleName.substring(0, simpleName.lastIndexOf('.'));
+          if (importedNames.containsKey(simpleName))
+          {
+            imports.remove(importedNames.remove(simpleName));
+            break;
+          }
+        }
       }
     }
 
