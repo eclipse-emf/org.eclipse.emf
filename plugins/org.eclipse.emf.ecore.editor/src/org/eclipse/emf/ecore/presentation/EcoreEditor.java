@@ -1887,13 +1887,13 @@ public class EcoreEditor
    * Calling this result will notify the listeners.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public void setSelection(ISelection selection)
   {
     editorSelection = selection;
 
-    for (ISelectionChangedListener listener : selectionChangedListeners)
+    for (ISelectionChangedListener listener : new ArrayList<ISelectionChangedListener>(selectionChangedListeners))
     {
       listener.selectionChanged(new SelectionChangedEvent(this, selection));
     }
