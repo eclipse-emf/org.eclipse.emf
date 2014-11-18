@@ -868,6 +868,8 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
 
       protected int expectedSize;
 
+      private boolean isDispatching;
+
       public void dispatch(Diagnostic diagnostic)
       {
         List<Diagnostic> currentDiagnostics = null;
@@ -942,7 +944,19 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
         {
           resourceSetDiagnostic.add(diagnostic);
         }
-        handleDiagnostic(resourceSetDiagnostic);
+
+        if (!isDispatching)
+        {
+          try
+          {
+            isDispatching = true;
+            handleDiagnostic(resourceSetDiagnostic);
+          }
+          finally
+          {
+            isDispatching = false;
+          }
+        }
       }
 
       public void run()
