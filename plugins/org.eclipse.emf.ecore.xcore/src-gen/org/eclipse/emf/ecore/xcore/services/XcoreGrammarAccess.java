@@ -182,41 +182,45 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public class XImportDirectiveElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "XImportDirective");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cImportKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Alternatives cAlternatives_1 = (Alternatives)cGroup.eContents().get(1);
-		private final Assignment cImportedNamespaceAssignment_1_0 = (Assignment)cAlternatives_1.eContents().get(0);
-		private final RuleCall cImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0_0 = (RuleCall)cImportedNamespaceAssignment_1_0.eContents().get(0);
-		private final Assignment cImportedObjectAssignment_1_1 = (Assignment)cAlternatives_1.eContents().get(1);
-		private final CrossReference cImportedObjectEObjectCrossReference_1_1_0 = (CrossReference)cImportedObjectAssignment_1_1.eContents().get(0);
-		private final RuleCall cImportedObjectEObjectQualifiedNameParserRuleCall_1_1_0_1 = (RuleCall)cImportedObjectEObjectCrossReference_1_1_0.eContents().get(1);
+		private final Action cXImportDirectiveAction_0 = (Action)cGroup.eContents().get(0);
+		private final Keyword cImportKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
+		private final Assignment cImportedNamespaceAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
+		private final RuleCall cImportedNamespaceQualifiedNameWithWildcardParserRuleCall_2_0_0 = (RuleCall)cImportedNamespaceAssignment_2_0.eContents().get(0);
+		private final Assignment cImportedObjectAssignment_2_1 = (Assignment)cAlternatives_2.eContents().get(1);
+		private final CrossReference cImportedObjectEObjectCrossReference_2_1_0 = (CrossReference)cImportedObjectAssignment_2_1.eContents().get(0);
+		private final RuleCall cImportedObjectEObjectQualifiedNameParserRuleCall_2_1_0_1 = (RuleCall)cImportedObjectEObjectCrossReference_2_1_0.eContents().get(1);
 		
 		//XImportDirective:
-		//	"import" (importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName]);
+		//	{XImportDirective} "import" (importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName]);
 		public ParserRule getRule() { return rule; }
 
-		//"import" (importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName])
+		//{XImportDirective} "import" (importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName])
 		public Group getGroup() { return cGroup; }
 
+		//{XImportDirective}
+		public Action getXImportDirectiveAction_0() { return cXImportDirectiveAction_0; }
+
 		//"import"
-		public Keyword getImportKeyword_0() { return cImportKeyword_0; }
+		public Keyword getImportKeyword_1() { return cImportKeyword_1; }
 
 		//importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName]
-		public Alternatives getAlternatives_1() { return cAlternatives_1; }
+		public Alternatives getAlternatives_2() { return cAlternatives_2; }
 
 		//importedNamespace=QualifiedNameWithWildcard
-		public Assignment getImportedNamespaceAssignment_1_0() { return cImportedNamespaceAssignment_1_0; }
+		public Assignment getImportedNamespaceAssignment_2_0() { return cImportedNamespaceAssignment_2_0; }
 
 		//QualifiedNameWithWildcard
-		public RuleCall getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0_0() { return cImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0_0; }
+		public RuleCall getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_2_0_0() { return cImportedNamespaceQualifiedNameWithWildcardParserRuleCall_2_0_0; }
 
 		//importedObject=[EObject|QualifiedName]
-		public Assignment getImportedObjectAssignment_1_1() { return cImportedObjectAssignment_1_1; }
+		public Assignment getImportedObjectAssignment_2_1() { return cImportedObjectAssignment_2_1; }
 
 		//[EObject|QualifiedName]
-		public CrossReference getImportedObjectEObjectCrossReference_1_1_0() { return cImportedObjectEObjectCrossReference_1_1_0; }
+		public CrossReference getImportedObjectEObjectCrossReference_2_1_0() { return cImportedObjectEObjectCrossReference_2_1_0; }
 
 		//QualifiedName
-		public RuleCall getImportedObjectEObjectQualifiedNameParserRuleCall_1_1_0_1() { return cImportedObjectEObjectQualifiedNameParserRuleCall_1_1_0_1; }
+		public RuleCall getImportedObjectEObjectQualifiedNameParserRuleCall_2_1_0_1() { return cImportedObjectEObjectQualifiedNameParserRuleCall_2_1_0_1; }
 	}
 
 	public class XAnnotationDirectiveElements extends AbstractParserRuleElementFinder {
@@ -1075,10 +1079,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	{XReference} annotations+=XAnnotation* (containment?="contains" resolveProxies?="resolving"? |
 		//	resolveProxies?="resolving" containment?="contains" | container?="container" resolveProxies?="resolving"? |
 		//	resolveProxies?="resolving" container?="container" | "refers" local?="local"? | local?="local" "refers")
-		//	(unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? & transient?="transient"? &
-		//	volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) type=XGenericType
-		//	multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
-		//	keys+=[genmodel::GenFeature|ValidID] ("," keys+=[genmodel::GenFeature|ValidID])*)? / *
+		//	(unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? & transient?="transient"? & volatile?="volatile"?
+		//	& unsettable?="unsettable"? & derived?="derived"?) type=XGenericType multiplicity=XMultiplicity? name=ID ("opposite"
+		//	opposite=[genmodel::GenFeature|ValidID])? ("keys" keys+=[genmodel::GenFeature|ValidID] (","
+		//	keys+=[genmodel::GenFeature|ValidID])*)? / *
 		//	 * In scope for getBody should be what's visible in AbcImpl
 		//	 * and 'this' will denote an instance of the feature's type.
 		//	 * The block expression must yield a value of the feature's type.
@@ -2337,7 +2341,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//XImportDirective:
-	//	"import" (importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName]);
+	//	{XImportDirective} "import" (importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName]);
 	public XImportDirectiveElements getXImportDirectiveAccess() {
 		return pXImportDirective;
 	}
@@ -2457,10 +2461,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	//	{XReference} annotations+=XAnnotation* (containment?="contains" resolveProxies?="resolving"? |
 	//	resolveProxies?="resolving" containment?="contains" | container?="container" resolveProxies?="resolving"? |
 	//	resolveProxies?="resolving" container?="container" | "refers" local?="local"? | local?="local" "refers")
-	//	(unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? & transient?="transient"? &
-	//	volatile?="volatile"? & unsettable?="unsettable"? & derived?="derived"?) type=XGenericType
-	//	multiplicity=XMultiplicity? name=ID ("opposite" opposite=[genmodel::GenFeature|ValidID])? ("keys"
-	//	keys+=[genmodel::GenFeature|ValidID] ("," keys+=[genmodel::GenFeature|ValidID])*)? / *
+	//	(unordered?="unordered"? & unique?="unique"? & readonly?="readonly"? & transient?="transient"? & volatile?="volatile"?
+	//	& unsettable?="unsettable"? & derived?="derived"?) type=XGenericType multiplicity=XMultiplicity? name=ID ("opposite"
+	//	opposite=[genmodel::GenFeature|ValidID])? ("keys" keys+=[genmodel::GenFeature|ValidID] (","
+	//	keys+=[genmodel::GenFeature|ValidID])*)? / *
 	//	 * In scope for getBody should be what's visible in AbcImpl
 	//	 * and 'this' will denote an instance of the feature's type.
 	//	 * The block expression must yield a value of the feature's type.
@@ -2851,8 +2855,8 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	//	feature=[types::JvmIdentifiableElement|FeatureCallID] OpSingleAssign) value=XAssignment | =>
 	//	({XMemberFeatureCall.memberCallTarget=current} ("." | nullSafe?="?." | explicitStatic?="::")) ("<"
 	//	typeArguments+=JvmArgumentTypeReference ("," typeArguments+=JvmArgumentTypeReference)* ">")?
-	//	feature=[types::JvmIdentifiableElement|IdOrSuper] (=> explicitOperationCall?="(" (memberCallArguments+=XShortClosure
-	//	| memberCallArguments+=XExpression ("," memberCallArguments+=XExpression)*)? ")")? memberCallArguments+=XClosure?)*;
+	//	feature=[types::JvmIdentifiableElement|IdOrSuper] (=> explicitOperationCall?="(" (memberCallArguments+=XShortClosure |
+	//	memberCallArguments+=XExpression ("," memberCallArguments+=XExpression)*)? ")")? memberCallArguments+=XClosure?)*;
 	public XbaseGrammarAccess.XMemberFeatureCallElements getXMemberFeatureCallAccess() {
 		return gaXbase.getXMemberFeatureCallAccess();
 	}
@@ -2967,8 +2971,8 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 
 	//XSwitchExpression returns XExpression:
 	//	{XSwitchExpression} "switch" (=> ("(" declaredParam=JvmFormalParameter ":") switch=XExpression ")" | =>
-	//	(declaredParam=JvmFormalParameter ":")? switch=XExpression) "{" cases+=XCasePart* ("default" ":"
-	//	default=XExpression)? "}";
+	//	(declaredParam=JvmFormalParameter ":")? switch=XExpression) "{" cases+=XCasePart* ("default" ":" default=XExpression)?
+	//	"}";
 	public XbaseGrammarAccess.XSwitchExpressionElements getXSwitchExpressionAccess() {
 		return gaXbase.getXSwitchExpressionAccess();
 	}
@@ -3230,8 +3234,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	/// **
 	// * Dummy rule, for "better" downwards compatibility, since GrammarAccess generates non-static inner classes, 
 	// * which makes downstream grammars break on classloading, when a rule is removed.
-	// * /
-	//StaticQualifier:
+	// * / StaticQualifier:
 	//	(ValidID "::")+;
 	public XbaseGrammarAccess.StaticQualifierElements getStaticQualifierAccess() {
 		return gaXbase.getStaticQualifierAccess();

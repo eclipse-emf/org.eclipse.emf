@@ -226,7 +226,11 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
       XPackage xPackage = (XPackage)context;
       for (XImportDirective xImportDirective : xPackage.getImportDirectives())
       {
-        importedNamespaceResolvers.add(createImportedNamespaceResolver(xImportDirective.getImportedNamespace(), ignoreCase));
+        ImportNormalizer normalizer = createImportedNamespaceResolver(xImportDirective.getImportedNamespace(), ignoreCase);
+        if (normalizer != null)
+        {
+          importedNamespaceResolvers.add(normalizer);
+        }
       }
       return importedNamespaceResolvers;
     }

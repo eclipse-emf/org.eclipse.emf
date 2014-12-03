@@ -14,7 +14,7 @@ package org.eclipse.emf.ecore.xcore.ui.contentassist.antlr.internal;
 
 // Hack: Use our own Lexer superclass by means of import. 
 // Currently there is no other way to specify the superclass for the lexer.
-import org.eclipse.xtext.ui.editor.contentassist.antlr.internal.Lexer;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.Lexer;
 }
 
 @parser::header {
@@ -28,8 +28,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;
-import org.eclipse.xtext.ui.editor.contentassist.antlr.internal.AbstractInternalContentAssistParser;
-import org.eclipse.xtext.ui.editor.contentassist.antlr.internal.DFA;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.AbstractInternalContentAssistParser;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.DFA;
 import org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess;
 
 }
@@ -2829,21 +2829,21 @@ finally {
 
 
 
-rule__XImportDirective__Alternatives_1
+rule__XImportDirective__Alternatives_2
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getXImportDirectiveAccess().getImportedNamespaceAssignment_1_0()); }
-(rule__XImportDirective__ImportedNamespaceAssignment_1_0)
-{ after(grammarAccess.getXImportDirectiveAccess().getImportedNamespaceAssignment_1_0()); }
+{ before(grammarAccess.getXImportDirectiveAccess().getImportedNamespaceAssignment_2_0()); }
+(rule__XImportDirective__ImportedNamespaceAssignment_2_0)
+{ after(grammarAccess.getXImportDirectiveAccess().getImportedNamespaceAssignment_2_0()); }
 )
 
     |(
-{ before(grammarAccess.getXImportDirectiveAccess().getImportedObjectAssignment_1_1()); }
-(rule__XImportDirective__ImportedObjectAssignment_1_1)
-{ after(grammarAccess.getXImportDirectiveAccess().getImportedObjectAssignment_1_1()); }
+{ before(grammarAccess.getXImportDirectiveAccess().getImportedObjectAssignment_2_1()); }
+(rule__XImportDirective__ImportedObjectAssignment_2_1)
+{ after(grammarAccess.getXImportDirectiveAccess().getImportedObjectAssignment_2_1()); }
 )
 
 ;
@@ -5263,11 +5263,11 @@ rule__XImportDirective__Group__0__Impl
     }
 :
 (
-{ before(grammarAccess.getXImportDirectiveAccess().getImportKeyword_0()); }
+{ before(grammarAccess.getXImportDirectiveAccess().getXImportDirectiveAction_0()); }
+(
 
-	'import' 
-
-{ after(grammarAccess.getXImportDirectiveAccess().getImportKeyword_0()); }
+)
+{ after(grammarAccess.getXImportDirectiveAccess().getXImportDirectiveAction_0()); }
 )
 
 ;
@@ -5282,6 +5282,7 @@ rule__XImportDirective__Group__1
     }
 :
 	rule__XImportDirective__Group__1__Impl
+	rule__XImportDirective__Group__2
 ;
 finally {
 	restoreStackSize(stackSize);
@@ -5293,15 +5294,47 @@ rule__XImportDirective__Group__1__Impl
     }
 :
 (
-{ before(grammarAccess.getXImportDirectiveAccess().getAlternatives_1()); }
-(rule__XImportDirective__Alternatives_1)
-{ after(grammarAccess.getXImportDirectiveAccess().getAlternatives_1()); }
+{ before(grammarAccess.getXImportDirectiveAccess().getImportKeyword_1()); }
+
+	'import' 
+
+{ after(grammarAccess.getXImportDirectiveAccess().getImportKeyword_1()); }
 )
 
 ;
 finally {
 	restoreStackSize(stackSize);
 }
+
+
+rule__XImportDirective__Group__2
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+	rule__XImportDirective__Group__2__Impl
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__XImportDirective__Group__2__Impl
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+(
+{ before(grammarAccess.getXImportDirectiveAccess().getAlternatives_2()); }
+(rule__XImportDirective__Alternatives_2)
+{ after(grammarAccess.getXImportDirectiveAccess().getAlternatives_2()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
 
 
 
@@ -26154,14 +26187,14 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__XImportDirective__ImportedNamespaceAssignment_1_0
+rule__XImportDirective__ImportedNamespaceAssignment_2_0
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getXImportDirectiveAccess().getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0_0()); }
-	ruleQualifiedNameWithWildcard{ after(grammarAccess.getXImportDirectiveAccess().getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0_0()); }
+{ before(grammarAccess.getXImportDirectiveAccess().getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_2_0_0()); }
+	ruleQualifiedNameWithWildcard{ after(grammarAccess.getXImportDirectiveAccess().getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_2_0_0()); }
 )
 
 ;
@@ -26169,18 +26202,18 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__XImportDirective__ImportedObjectAssignment_1_1
+rule__XImportDirective__ImportedObjectAssignment_2_1
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getXImportDirectiveAccess().getImportedObjectEObjectCrossReference_1_1_0()); }
+{ before(grammarAccess.getXImportDirectiveAccess().getImportedObjectEObjectCrossReference_2_1_0()); }
 (
-{ before(grammarAccess.getXImportDirectiveAccess().getImportedObjectEObjectQualifiedNameParserRuleCall_1_1_0_1()); }
-	ruleQualifiedName{ after(grammarAccess.getXImportDirectiveAccess().getImportedObjectEObjectQualifiedNameParserRuleCall_1_1_0_1()); }
+{ before(grammarAccess.getXImportDirectiveAccess().getImportedObjectEObjectQualifiedNameParserRuleCall_2_1_0_1()); }
+	ruleQualifiedName{ after(grammarAccess.getXImportDirectiveAccess().getImportedObjectEObjectQualifiedNameParserRuleCall_2_1_0_1()); }
 )
-{ after(grammarAccess.getXImportDirectiveAccess().getImportedObjectEObjectCrossReference_1_1_0()); }
+{ after(grammarAccess.getXImportDirectiveAccess().getImportedObjectEObjectCrossReference_2_1_0()); }
 )
 
 ;

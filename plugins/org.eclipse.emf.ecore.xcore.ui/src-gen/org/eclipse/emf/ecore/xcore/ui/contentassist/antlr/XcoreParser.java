@@ -9,9 +9,9 @@ import java.util.HashMap;
 
 import org.antlr.runtime.RecognitionException;
 import org.eclipse.xtext.AbstractElement;
-import org.eclipse.xtext.ui.editor.contentassist.antlr.AbstractPartialContentAssistParser;
-import org.eclipse.xtext.ui.editor.contentassist.antlr.FollowElement;
-import org.eclipse.xtext.ui.editor.contentassist.antlr.internal.AbstractInternalContentAssistParser;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.AbstractPartialContentAssistParser;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.FollowElement;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.AbstractInternalContentAssistParser;
 
 import com.google.inject.Inject;
 
@@ -37,7 +37,7 @@ public class XcoreParser extends AbstractPartialContentAssistParser {
 			nameMappings = new HashMap<AbstractElement, String>() {
 				private static final long serialVersionUID = 1L;
 				{
-					put(grammarAccess.getXImportDirectiveAccess().getAlternatives_1(), "rule__XImportDirective__Alternatives_1");
+					put(grammarAccess.getXImportDirectiveAccess().getAlternatives_2(), "rule__XImportDirective__Alternatives_2");
 					put(grammarAccess.getXClassifierAccess().getAlternatives(), "rule__XClassifier__Alternatives");
 					put(grammarAccess.getXClassAccess().getAlternatives_2(), "rule__XClass__Alternatives_2");
 					put(grammarAccess.getXMemberAccess().getAlternatives(), "rule__XMember__Alternatives");
@@ -353,8 +353,8 @@ public class XcoreParser extends AbstractPartialContentAssistParser {
 					put(grammarAccess.getXAnnotationAccess().getDetailsAssignment_2_2_1(), "rule__XAnnotation__DetailsAssignment_2_2_1");
 					put(grammarAccess.getXStringToStringMapEntryAccess().getKeyAssignment_0(), "rule__XStringToStringMapEntry__KeyAssignment_0");
 					put(grammarAccess.getXStringToStringMapEntryAccess().getValueAssignment_2(), "rule__XStringToStringMapEntry__ValueAssignment_2");
-					put(grammarAccess.getXImportDirectiveAccess().getImportedNamespaceAssignment_1_0(), "rule__XImportDirective__ImportedNamespaceAssignment_1_0");
-					put(grammarAccess.getXImportDirectiveAccess().getImportedObjectAssignment_1_1(), "rule__XImportDirective__ImportedObjectAssignment_1_1");
+					put(grammarAccess.getXImportDirectiveAccess().getImportedNamespaceAssignment_2_0(), "rule__XImportDirective__ImportedNamespaceAssignment_2_0");
+					put(grammarAccess.getXImportDirectiveAccess().getImportedObjectAssignment_2_1(), "rule__XImportDirective__ImportedObjectAssignment_2_1");
 					put(grammarAccess.getXAnnotationDirectiveAccess().getSourceURIAssignment_0_0_1(), "rule__XAnnotationDirective__SourceURIAssignment_0_0_1");
 					put(grammarAccess.getXAnnotationDirectiveAccess().getNameAssignment_2(), "rule__XAnnotationDirective__NameAssignment_2");
 					put(grammarAccess.getXDataTypeAccess().getAnnotationsAssignment_0(), "rule__XDataType__AnnotationsAssignment_0");

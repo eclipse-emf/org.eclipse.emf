@@ -353,23 +353,29 @@ ruleXImportDirective returns [EObject current=null]
     @init { enterRule(); 
     }
     @after { leaveRule(); }:
-(	otherlv_0='import' 
+((
     {
-    	newLeafNode(otherlv_0, grammarAccess.getXImportDirectiveAccess().getImportKeyword_0());
+        $current = forceCreateModelElement(
+            grammarAccess.getXImportDirectiveAccess().getXImportDirectiveAction_0(),
+            $current);
+    }
+)	otherlv_1='import' 
+    {
+    	newLeafNode(otherlv_1, grammarAccess.getXImportDirectiveAccess().getImportKeyword_1());
     }
 ((
 (
 		{ 
-	        newCompositeNode(grammarAccess.getXImportDirectiveAccess().getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0_0()); 
+	        newCompositeNode(grammarAccess.getXImportDirectiveAccess().getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_2_0_0()); 
 	    }
-		lv_importedNamespace_1_0=ruleQualifiedNameWithWildcard		{
+		lv_importedNamespace_2_0=ruleQualifiedNameWithWildcard		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getXImportDirectiveRule());
 	        }
        		set(
        			$current, 
        			"importedNamespace",
-        		lv_importedNamespace_1_0, 
+        		lv_importedNamespace_2_0, 
         		"QualifiedNameWithWildcard");
 	        afterParserOrEnumRuleCall();
 	    }
@@ -384,7 +390,7 @@ ruleXImportDirective returns [EObject current=null]
 	        }
         }
 		{ 
-	        newCompositeNode(grammarAccess.getXImportDirectiveAccess().getImportedObjectEObjectCrossReference_1_1_0()); 
+	        newCompositeNode(grammarAccess.getXImportDirectiveAccess().getImportedObjectEObjectCrossReference_2_1_0()); 
 	    }
 		ruleQualifiedName		{ 
 	        afterParserOrEnumRuleCall();

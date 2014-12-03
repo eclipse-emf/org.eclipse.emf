@@ -46,14 +46,18 @@ public class ImportingTypesProposalProvider extends JdtTypesProposalProvider
   @Override
   protected IReplacementTextApplier createTextApplier(ContentAssistContext context, IScope typeScope, IQualifiedNameConverter qualifiedNameConverter, IValueConverter<String> valueConverter)
   {
+    if (context.getCurrentModel() instanceof XImportDirective)
+    {
+      return super.createTextApplier(context, typeScope, qualifiedNameConverter, valueConverter);
+    }
     return 
-     new FQNImporter
-       (context.getResource(),
-        context.getViewer(),
-        typeScope,
-        qualifiedNameConverter,
-        valueConverter,
-        qualifiedNameValueConverter);
+      new FQNImporter
+        (context.getResource(),
+         context.getViewer(),
+         typeScope,
+         qualifiedNameConverter,
+         valueConverter,
+         qualifiedNameValueConverter);
   }
 
   public static class FQNImporter extends FQNShortener

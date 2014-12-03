@@ -6,8 +6,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xcore.XImportDirective;
 import org.eclipse.emf.ecore.xcore.XPackage;
+import org.eclipse.emf.ecore.xcore.XcorePackage;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
 import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.common.types.access.IJvmTypeProvider;
@@ -49,7 +49,7 @@ public class XcoreJvmTypeScopeProvider extends XImportSectionNamespaceScopeProvi
   @Override
   public IScope getScope(final EObject context, EReference reference)
   {
-    if (context instanceof XImportDirective)
+    if (reference == XcorePackage.Literals.XIMPORT_DIRECTIVE__IMPORTED_OBJECT)
     {
       return cache.get("import.type.scope", context.eResource(), new Provider<IScope>()
       {
