@@ -249,8 +249,11 @@ public class XcoreGenModelBuilder {
                   if (eCrossReference instanceof EClassifier) {
                     _matched=true;
                     final EPackage referencedEPackage = ((EClassifier)eCrossReference).getEPackage();
-                    ePackages.add(referencedEPackage);
-                    referencedEPackages.add(referencedEPackage);
+                    boolean _notEquals = (!Objects.equal(referencedEPackage, null));
+                    if (_notEquals) {
+                      ePackages.add(referencedEPackage);
+                      referencedEPackages.add(referencedEPackage);
+                    }
                   }
                 }
                 if (!_matched) {
@@ -260,8 +263,11 @@ public class XcoreGenModelBuilder {
                     boolean _notEquals = (!Objects.equal(eContainingClass, null));
                     if (_notEquals) {
                       final EPackage referencedEPackage = eContainingClass.getEPackage();
-                      ePackages.add(referencedEPackage);
-                      referencedEPackages.add(referencedEPackage);
+                      boolean _notEquals_1 = (!Objects.equal(referencedEPackage, null));
+                      if (_notEquals_1) {
+                        ePackages.add(referencedEPackage);
+                        referencedEPackages.add(referencedEPackage);
+                      }
                     }
                   }
                 }

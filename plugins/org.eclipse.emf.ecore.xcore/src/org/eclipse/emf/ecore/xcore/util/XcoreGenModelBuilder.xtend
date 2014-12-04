@@ -168,8 +168,11 @@ class XcoreGenModelBuilder
              EClassifier:
              {
                val EPackage referencedEPackage = eCrossReference.getEPackage
-               ePackages.add(referencedEPackage)
-               referencedEPackages.add(referencedEPackage)
+               if (referencedEPackage != null)
+               {
+                 ePackages.add(referencedEPackage)
+                 referencedEPackages.add(referencedEPackage)
+               }
              }
              EStructuralFeature:
              {
@@ -177,8 +180,11 @@ class XcoreGenModelBuilder
                if (eContainingClass != null)
                {
                  val EPackage referencedEPackage = eContainingClass.getEPackage
-                 ePackages.add(referencedEPackage)
-                 referencedEPackages.add(referencedEPackage)
+                 if (referencedEPackage != null)
+                 {
+                   ePackages.add(referencedEPackage) 
+                   referencedEPackages.add(referencedEPackage)
+                 }
                }
              }
            }
