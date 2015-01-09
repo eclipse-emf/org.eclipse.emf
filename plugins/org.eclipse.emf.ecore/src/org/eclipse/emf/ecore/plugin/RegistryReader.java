@@ -221,7 +221,7 @@ public abstract class RegistryReader
       }
 
       @Override
-      public EPackage getEPackage()
+      public synchronized EPackage getEPackage()
       {
         try
         {
