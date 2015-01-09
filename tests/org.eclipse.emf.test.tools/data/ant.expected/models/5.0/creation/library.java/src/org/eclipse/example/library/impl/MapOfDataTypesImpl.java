@@ -21,7 +21,6 @@ import org.eclipse.example.library.LibraryPackage;
  * An implementation of the model object '<em><b>Map Of Data Types</b></em>'.
  * <!-- end-user-doc -->
  * <p>
- * <p>
  * The following features are implemented:
  * </p>
  * <ul>

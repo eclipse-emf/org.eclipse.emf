@@ -18,7 +18,6 @@ import org.examples.library.elements.ElementsPackage;
  * An implementation of the model object '<em><b>Book</b></em>'.
  * <!-- end-user-doc -->
  * <p>
- * <p>
  * The following features are implemented:
  * </p>
  * <ul>

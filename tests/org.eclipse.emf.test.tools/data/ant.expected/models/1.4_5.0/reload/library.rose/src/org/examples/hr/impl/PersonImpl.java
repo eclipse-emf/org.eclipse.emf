@@ -30,7 +30,6 @@ import org.examples.library.LibraryPackage;
  * An implementation of the model object '<em><b>Person</b></em>'.
  * <!-- end-user-doc -->
  * <p>
- * <p>
  * The following features are implemented:
  * </p>
  * <ul>

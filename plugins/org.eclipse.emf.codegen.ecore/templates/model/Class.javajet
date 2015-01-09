@@ -79,7 +79,6 @@ package <%=genPackage.getClassPackageName()%>;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b><%=genClass.getFormattedName()%></b></em>'.
  * <!-- end-user-doc -->
- * <p>
 <%if (!genClass.getImplementedGenFeatures().isEmpty()) {%>
  * <p>
  * The following features are implemented:

@@ -47,7 +47,7 @@ public class Class
   protected final String TEXT_29 = NL + " * @extends ";
   protected final String TEXT_30 = NL + " * @generated" + NL + " */";
   protected final String TEXT_31 = NL + "/**" + NL + " * <!-- begin-user-doc -->" + NL + " * An implementation of the model object '<em><b>";
-  protected final String TEXT_32 = "</b></em>'." + NL + " * <!-- end-user-doc -->" + NL + " * <p>";
+  protected final String TEXT_32 = "</b></em>'." + NL + " * <!-- end-user-doc -->";
   protected final String TEXT_33 = NL + " * <p>" + NL + " * The following features are implemented:" + NL + " * </p>" + NL + " * <ul>";
   protected final String TEXT_34 = NL + " *   <li>{@link ";
   protected final String TEXT_35 = "#";

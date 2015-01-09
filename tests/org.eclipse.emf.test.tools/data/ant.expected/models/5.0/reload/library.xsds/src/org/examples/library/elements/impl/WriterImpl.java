@@ -31,7 +31,6 @@ import org.examples.library.hr.impl.PersonImpl;
  * An implementation of the model object '<em><b>Writer</b></em>'.
  * <!-- end-user-doc -->
  * <p>
- * <p>
  * The following features are implemented:
  * </p>
  * <ul>
