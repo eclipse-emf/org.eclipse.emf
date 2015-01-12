@@ -225,7 +225,7 @@
 	<property key="eclipse.download" value="http://download.eclipse.org" />
 	<property key="orbit.repository" value="http://download.eclipse.org/modeling/tmf/xtext/updates/orbit/" />
 	<property key="junit4.repository" value="${eclipse.download}/eclipse/updates/3.8" />
-	<property key="google.web.toolkit.repository" value="http://dl.google.com/eclipse/plugin/3.7" />
+	<property key="google.web.toolkit.repository" value="https://dl.google.com/eclipse/plugin/4.3" />
 
 	<property key="resolve.target.platform" value="true" />
 	<property key="build.type" value="I" />
