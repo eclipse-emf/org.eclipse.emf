@@ -170,8 +170,10 @@ class XcoreGenModelBuilder
                val EPackage referencedEPackage = eCrossReference.getEPackage
                if (referencedEPackage != null)
                {
-                 ePackages.add(referencedEPackage)
-                 referencedEPackages.add(referencedEPackage)
+                 if (ePackages.add(referencedEPackage))
+                 {
+                   referencedEPackages.add(referencedEPackage)
+                 }
                }
              }
              EStructuralFeature:
@@ -182,8 +184,10 @@ class XcoreGenModelBuilder
                  val EPackage referencedEPackage = eContainingClass.getEPackage
                  if (referencedEPackage != null)
                  {
-                   ePackages.add(referencedEPackage) 
-                   referencedEPackages.add(referencedEPackage)
+                   if (ePackages.add(referencedEPackage))
+                   {
+                     referencedEPackages.add(referencedEPackage)
+                   }
                  }
                }
              }
@@ -195,65 +199,70 @@ class XcoreGenModelBuilder
 
     for (referencedEPackage : referencedEPackages)
     {
-      if (genModel.findGenPackage(referencedEPackage) == null)
+      var usedGenPackage = genModel.findGenPackage(referencedEPackage);
+      if (usedGenPackage == null)
       {
-        var usedGenPackage = mapper.getGen(mapper.getToXcoreMapping(referencedEPackage).xcoreElement) as GenPackage
+        usedGenPackage = mapper.getGen(mapper.getToXcoreMapping(referencedEPackage).xcoreElement) as GenPackage
         if (usedGenPackage == null)
         {
           usedGenPackage = findLocalGenPackage(referencedEPackage)
         }
-        if (usedGenPackage != null)
+      }
+
+      if (usedGenPackage != null)
+      {
+        if (usedGenPackage.eResource() != null)
         {
           genModel.usedGenPackages.add(usedGenPackage)
         }
-        else
+      }
+      else
+      {
+        val genModelResource = genModel.eResource
+        val resources = genModelResource.resourceSet.resources
+        i = 0
+        var boolean found = false
+        while (i < resources.size && !found)
         {
-          val genModelResource = genModel.eResource
-          val resources = genModelResource.resourceSet.resources
-          i = 0
-          var boolean found = false
-          while (i < resources.size && !found)
+          val resource = resources.get(i)
+          if (resource != genModelResource)
           {
-            val resource = resources.get(i)
-            if (resource != genModelResource)
+            val fileExtension = resource.URI.fileExtension
+            if ("xcore".equals(fileExtension))
             {
-              val fileExtension = resource.URI.fileExtension
-              if ("xcore".equals(fileExtension))
+              val contents = resource.contents;
+              if (!contents.empty)
               {
-                val contents = resource.contents;
-                if (!contents.empty)
+                val GenModel usedGenModel = resource.contents.get(1) as GenModel
+                usedGenPackage = usedGenModel.findGenPackage(referencedEPackage)
+                if (usedGenPackage != null)
                 {
-                  val GenModel usedGenModel = resource.contents.get(1) as GenModel
-                  usedGenPackage = usedGenModel.findGenPackage(referencedEPackage)
-                  if (usedGenPackage != null)
-                  {
-                    genModel.usedGenPackages.add(usedGenPackage)
-                    found = true
-                  }
-                }
-              }
-              else if ("genmodel".equals(fileExtension))
-              {
-                val contents = resource.contents;
-                if (!contents.empty)
-                {
-                  val GenModel usedGenModel = resource.contents.get(0) as GenModel
-                  usedGenModel.reconcile
-                  usedGenPackage = usedGenModel.findGenPackage(referencedEPackage)
-                  if (usedGenPackage != null)
-                  {
-                    genModel.usedGenPackages.add(usedGenPackage)
-                    found = true
-                  }
+                  genModel.usedGenPackages.add(usedGenPackage)
+                  found = true
                 }
               }
             }
-            i = i + 1
+            else if ("genmodel".equals(fileExtension))
+            {
+              val contents = resource.contents;
+              if (!contents.empty)
+              {
+                val GenModel usedGenModel = resource.contents.get(0) as GenModel
+                usedGenModel.reconcile
+                usedGenPackage = usedGenModel.findGenPackage(referencedEPackage)
+                if (usedGenPackage != null)
+                {
+                  genModel.usedGenPackages.add(usedGenPackage)
+                  found = true
+                }
+              }
+            }
           }
-          if (!found)
-          {
-            throw new RuntimeException("No GenPackage found for " + referencedEPackage)
-          }
+          i = i + 1
+        }
+        if (!found)
+        {
+          throw new RuntimeException("No GenPackage found for " + referencedEPackage)
         }
       }
     }
