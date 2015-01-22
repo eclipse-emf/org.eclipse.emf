@@ -4,8 +4,8 @@
 
 
 		<!-- workspace default properties -->
-		<property name="checkoutRoot" value="../../../.." />
-		<property name="targetPlatform" value="${eclipse.home}" />
+		<property name="checkoutRoot" location="../../../.." />
+		<property name="targetPlatform" location="${eclipse.home}" />
 
 
 		<echo message="Target platform path ${targetPlatform}" />
@@ -42,8 +42,8 @@
 	</target>
 
 	<target name="-generate.javadoc" if="generate.javadoc" unless="skip.javadoc">
-		<property name="sourcesLocation" value="${checkoutRoot}/org.eclipse.${subproject}/" />
-		<property name="output" value="./javadoc-${subproject}" />
+		<property name="sourcesLocation" location="${checkoutRoot}/org.eclipse.${subproject}-master/" />
+		<property name="output" location="./javadoc-${subproject}" />
 
 		<echo message="Generate ${subproject}" />
 		<echo message="Source code location ${sourcesLocation}" />
@@ -70,6 +70,7 @@
 				<exclude name="**/packrat/**" />
 				<exclude name="**/antlr/internal/**" />
 				-->
+				<exclude name="**/org.eclipse.emf.gwt*/**/*" />
 				<exclude name="**/java/io/**" />
 			</fileset>
 
