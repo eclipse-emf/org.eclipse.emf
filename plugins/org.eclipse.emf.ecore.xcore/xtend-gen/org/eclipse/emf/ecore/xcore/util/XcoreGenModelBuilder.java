@@ -251,8 +251,10 @@ public class XcoreGenModelBuilder {
                     final EPackage referencedEPackage = ((EClassifier)eCrossReference).getEPackage();
                     boolean _notEquals = (!Objects.equal(referencedEPackage, null));
                     if (_notEquals) {
-                      ePackages.add(referencedEPackage);
-                      referencedEPackages.add(referencedEPackage);
+                      boolean _add = ePackages.add(referencedEPackage);
+                      if (_add) {
+                        referencedEPackages.add(referencedEPackage);
+                      }
                     }
                   }
                 }
@@ -265,8 +267,10 @@ public class XcoreGenModelBuilder {
                       final EPackage referencedEPackage = eContainingClass.getEPackage();
                       boolean _notEquals_1 = (!Objects.equal(referencedEPackage, null));
                       if (_notEquals_1) {
-                        ePackages.add(referencedEPackage);
-                        referencedEPackages.add(referencedEPackage);
+                        boolean _add = ePackages.add(referencedEPackage);
+                        if (_add) {
+                          referencedEPackages.add(referencedEPackage);
+                        }
                       }
                     }
                   }
@@ -278,22 +282,28 @@ public class XcoreGenModelBuilder {
       }
     }
     for (final EPackage referencedEPackage : referencedEPackages) {
-      GenPackage _findGenPackage = genModel.findGenPackage(referencedEPackage);
-      boolean _equals = Objects.equal(_findGenPackage, null);
-      if (_equals) {
-        ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(referencedEPackage);
-        XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
-        GenBase _gen = this.mapper.getGen(_xcoreElement);
-        GenPackage usedGenPackage = ((GenPackage) _gen);
-        boolean _equals_1 = Objects.equal(usedGenPackage, null);
-        if (_equals_1) {
-          GenPackage _findLocalGenPackage = this.findLocalGenPackage(referencedEPackage);
-          usedGenPackage = _findLocalGenPackage;
+      {
+        GenPackage usedGenPackage = genModel.findGenPackage(referencedEPackage);
+        boolean _equals = Objects.equal(usedGenPackage, null);
+        if (_equals) {
+          ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(referencedEPackage);
+          XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
+          GenBase _gen = this.mapper.getGen(_xcoreElement);
+          usedGenPackage = ((GenPackage) _gen);
+          boolean _equals_1 = Objects.equal(usedGenPackage, null);
+          if (_equals_1) {
+            GenPackage _findLocalGenPackage = this.findLocalGenPackage(referencedEPackage);
+            usedGenPackage = _findLocalGenPackage;
+          }
         }
         boolean _notEquals = (!Objects.equal(usedGenPackage, null));
         if (_notEquals) {
-          EList<GenPackage> _usedGenPackages = genModel.getUsedGenPackages();
-          _usedGenPackages.add(usedGenPackage);
+          Resource _eResource = usedGenPackage.eResource();
+          boolean _notEquals_1 = (!Objects.equal(_eResource, null));
+          if (_notEquals_1) {
+            EList<GenPackage> _usedGenPackages = genModel.getUsedGenPackages();
+            _usedGenPackages.add(usedGenPackage);
+          }
         } else {
           final Resource genModelResource = genModel.eResource();
           ResourceSet _resourceSet = genModelResource.getResourceSet();
@@ -303,8 +313,8 @@ public class XcoreGenModelBuilder {
           while (((i < resources.size()) && (!found))) {
             {
               final Resource resource = resources.get(i);
-              boolean _notEquals_1 = (!Objects.equal(resource, genModelResource));
-              if (_notEquals_1) {
+              boolean _notEquals_2 = (!Objects.equal(resource, genModelResource));
+              if (_notEquals_2) {
                 URI _uRI = resource.getURI();
                 final String fileExtension = _uRI.fileExtension();
                 boolean _equals_2 = "xcore".equals(fileExtension);
@@ -316,10 +326,10 @@ public class XcoreGenModelBuilder {
                     EList<EObject> _contents = resource.getContents();
                     EObject _get = _contents.get(1);
                     final GenModel usedGenModel = ((GenModel) _get);
-                    GenPackage _findGenPackage_1 = usedGenModel.findGenPackage(referencedEPackage);
-                    usedGenPackage = _findGenPackage_1;
-                    boolean _notEquals_2 = (!Objects.equal(usedGenPackage, null));
-                    if (_notEquals_2) {
+                    GenPackage _findGenPackage = usedGenModel.findGenPackage(referencedEPackage);
+                    usedGenPackage = _findGenPackage;
+                    boolean _notEquals_3 = (!Objects.equal(usedGenPackage, null));
+                    if (_notEquals_3) {
                       EList<GenPackage> _usedGenPackages_1 = genModel.getUsedGenPackages();
                       _usedGenPackages_1.add(usedGenPackage);
                       found = true;
@@ -336,10 +346,10 @@ public class XcoreGenModelBuilder {
                       EObject _get_1 = _contents_1.get(0);
                       final GenModel usedGenModel_1 = ((GenModel) _get_1);
                       usedGenModel_1.reconcile();
-                      GenPackage _findGenPackage_2 = usedGenModel_1.findGenPackage(referencedEPackage);
-                      usedGenPackage = _findGenPackage_2;
-                      boolean _notEquals_3 = (!Objects.equal(usedGenPackage, null));
-                      if (_notEquals_3) {
+                      GenPackage _findGenPackage_1 = usedGenModel_1.findGenPackage(referencedEPackage);
+                      usedGenPackage = _findGenPackage_1;
+                      boolean _notEquals_4 = (!Objects.equal(usedGenPackage, null));
+                      if (_notEquals_4) {
                         EList<GenPackage> _usedGenPackages_2 = genModel.getUsedGenPackages();
                         _usedGenPackages_2.add(usedGenPackage);
                         found = true;
