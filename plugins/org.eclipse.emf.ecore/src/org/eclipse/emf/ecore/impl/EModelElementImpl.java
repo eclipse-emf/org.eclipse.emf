@@ -13,6 +13,7 @@ package org.eclipse.emf.ecore.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
@@ -329,8 +330,9 @@ public abstract class EModelElementImpl extends MinimalEObjectImpl.Container imp
       ENamedElement eNamedElement = (ENamedElement)eObject;
       String name = eNamedElement.getName();
       int count = 0;
-      for (Object otherEObject : eContents())
+      for (Iterator<? extends Object> i = ((InternalEList<EObject>)eContents()).basicIterator(); i.hasNext(); )
       {
+        Object otherEObject = i.next();
         if (otherEObject == eObject)
         {
           break;
@@ -356,8 +358,9 @@ public abstract class EModelElementImpl extends MinimalEObjectImpl.Container imp
       EAnnotation eAnnotation = (EAnnotation)eObject;
       String source = eAnnotation.getSource();
       int count = 0;
-      for (Object otherEObject : eContents())
+      for (Iterator<? extends Object> i = ((InternalEList<EObject>)eContents()).basicIterator(); i.hasNext(); )
       {
+        Object otherEObject = i.next();
         if (otherEObject == eObject)
         {
           break;
