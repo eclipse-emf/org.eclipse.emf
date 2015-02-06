@@ -265,7 +265,7 @@ public abstract class AbstractXcoreRuntimeModule extends DefaultRuntimeModule {
 	}
 
 	// contributed by org.eclipse.xtext.generator.xbase.XbaseGeneratorFragment
-	public Class<? extends com.google.inject.Provider<org.eclipse.xtext.xbase.file.WorkspaceConfig>> provideWorkspaceConfig() {
+	public Class<? extends com.google.inject.Provider<org.eclipse.xtext.xbase.file.IWorkspaceConfig>> provideWorkspaceConfig() {
 		return org.eclipse.xtext.xbase.file.RuntimeWorkspaceConfigProvider.class;
 	}
 

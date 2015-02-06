@@ -248,7 +248,7 @@ public class XcoreStandaloneSetup extends XcoreStandaloneSetupGenerated
             Multimap<String, URI> pathToUriMap = getPathToUriMap();
             for (URI uri : pathToUriMap.values())
             {
-              resourceSet.createResource(uri);
+              resourceSet.getResource(uri, true);
             }
             result.putAll(pathToUriMap);
 

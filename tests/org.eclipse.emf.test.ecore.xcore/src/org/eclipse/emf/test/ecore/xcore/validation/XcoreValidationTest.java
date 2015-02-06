@@ -55,7 +55,7 @@ import com.google.inject.Inject;
  */
 @InjectWith(XcoreInjectorProvider.class)
 @RunWith(XcoreParameterizedTestRunner.class)
-@ResourceURIs(baseDir = "src/org/eclipse/emf/test/ecore/xcore/validation", fileExtensions = "xcore_test")
+@ResourceURIs(baseDir = "test-models/org/eclipse/emf/test/ecore/xcore/validation", fileExtensions = "xcore_test")
 public class XcoreValidationTest
 {
   @InjectParameter

@@ -1,0 +1,18 @@
+/* XPECT eNamedElement ---
+	EPackage {
+		name = 'ePackage2'
+		nsURI = 'ePackage2'
+		nsPrefix = 'ePackage2'
+		eFactoryInstance -> EFactory #//
+		eClassifiers = [ 
+			EClass {
+				name = 'Bar'
+			}
+		]
+	}
+---
+*/
+
+package ePackage2
+
+class Bar {}

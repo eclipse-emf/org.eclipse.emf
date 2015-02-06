@@ -31,7 +31,7 @@ import com.google.inject.Inject;
 
 @InjectWith(XcoreInjectorProvider.class)
 @RunWith(ParameterizedXtextRunner.class)
-@ResourceURIs(baseDir = "src/org/eclipse/emf/test/ecore/xcore/genmodel", fileExtensions = "xcore")
+@ResourceURIs(baseDir = "test-models/org/eclipse/emf/test/ecore/xcore/genmodel", fileExtensions = "xcore")
 public class XcoreGenModelTest
 {
 

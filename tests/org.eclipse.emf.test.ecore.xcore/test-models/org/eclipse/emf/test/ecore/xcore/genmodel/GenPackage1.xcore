@@ -1,0 +1,21 @@
+/* XPECT genBase ---
+	GenPackage {
+		prefix = 'GenPackage1'
+		disposableProviderFactory = 'true'
+		ecorePackage -> EPackage genPackage1
+		genClasses = [
+			GenClass {
+				genPackage -> GenPackage genPackage1.GenPackage1Package
+				ecoreClass -> EClass genPackage1::Bar
+			}
+		]
+		genClassifiers -> [
+			GenClass genPackage1.Bar
+		]
+	}
+---
+*/
+
+package genPackage1
+
+class Bar {}

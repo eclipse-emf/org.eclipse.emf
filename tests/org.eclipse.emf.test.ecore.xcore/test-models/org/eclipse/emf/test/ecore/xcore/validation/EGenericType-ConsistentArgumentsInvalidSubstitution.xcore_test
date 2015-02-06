@@ -1,0 +1,19 @@
+
+package consistentArgsInvalidSubstitution
+
+/* XPECT validationIssues ---
+error at 'A<C>' message 'The generic type 'consistentArgsInvalidSubstitution.C' is not a valid substitution for type parameter 'consistentArgsInvalidSubstitution.A.T''
+--- */
+
+class A<T extends B>
+{
+	refers A<C>  a 
+}
+
+class B
+{
+}
+
+class C
+{
+}

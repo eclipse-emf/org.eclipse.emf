@@ -1,4 +1,4 @@
 bin
 *.java._trace
 *.java_trace
-
+*.xtendbin
