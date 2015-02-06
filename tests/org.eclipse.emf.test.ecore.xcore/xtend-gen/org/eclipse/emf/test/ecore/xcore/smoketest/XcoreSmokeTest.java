@@ -37,6 +37,7 @@ public class XcoreSmokeTest extends AbstractSmokeTest {
   /**
    * The models don't neccessarily need to be proper Xcore models.
    */
+  @Override
   public Iterable<String> getSmokeTestModels() {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("package foo ");
@@ -83,6 +84,7 @@ public class XcoreSmokeTest extends AbstractSmokeTest {
     return CollectionLiterals.<String>newArrayList(_string);
   }
   
+  @Override
   public void processModel(final String model) {
     try {
       EObject _parse = this.parser.parse(model);
@@ -92,9 +94,11 @@ public class XcoreSmokeTest extends AbstractSmokeTest {
     }
   }
   
+  @Override
   public void processModelWithoutResourceSet(final String model) {
   }
   
+  @Override
   public LazyLinkingResource createResource(final String string) {
     return null;
   }

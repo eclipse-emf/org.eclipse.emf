@@ -34,6 +34,7 @@ public class XcoreLabelProvider extends XbaseLabelProvider {
     super(delegate);
   }
   
+  @Override
   public String getText(final Object element) {
     final String result = super.getText(element);
     boolean _and = false;

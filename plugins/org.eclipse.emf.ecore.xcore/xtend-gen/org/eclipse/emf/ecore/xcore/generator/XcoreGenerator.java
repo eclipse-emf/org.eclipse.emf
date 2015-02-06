@@ -217,6 +217,7 @@ public class XcoreGenerator implements IGenerator {
     }
   }
   
+  @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
     EList<EObject> _contents = resource.getContents();
     EObject _head = IterableExtensions.<EObject>head(_contents);

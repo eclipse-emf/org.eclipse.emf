@@ -111,7 +111,6 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
     binder.bind(IScopeProvider.class).annotatedWith(SerializerScopeProviderBinding.class).to(XcoreSerializerScopeProvider.class);
   }
 
-  @Override
   public Class<? extends XbaseBatchScopeProvider> bindXbaseBatchScopeProvider()
   {
     return XcoreScopeProvider.class;

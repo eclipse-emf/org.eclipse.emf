@@ -300,6 +300,12 @@
             extensions="xcore">
     </provider>
   </extension>
+  <extension point="org.eclipse.team.core.fileTypes">
+    <fileTypes
+            extension="xcore"
+            type="text">
+    </fileTypes>
+  </extension>
     <!-- quickfix marker resolution generator for org.eclipse.emf.ecore.xcore.Xcore -->
     <extension
             point="org.eclipse.ui.ide.markerResolution">

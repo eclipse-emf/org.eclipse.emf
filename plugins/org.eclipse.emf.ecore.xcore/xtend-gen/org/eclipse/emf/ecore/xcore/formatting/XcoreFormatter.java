@@ -88,6 +88,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
   protected void _format(final XAnnotation xAnnotation, final FormattableDocument format) {
     ILeafNode _nodeForKeyword = this._nodeModelAccess.nodeForKeyword(xAnnotation, "@");
     final Procedure1<FormattingDataInit> _function = new Procedure1<FormattingDataInit>() {
+      @Override
       public void apply(final FormattingDataInit it) {
         it.noSpace();
       }
@@ -96,6 +97,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     format.operator_add(_append);
     final ILeafNode leftParenthesis = this._nodeModelAccess.nodeForKeyword(xAnnotation, "(");
     final Procedure1<FormattingDataInit> _function_1 = new Procedure1<FormattingDataInit>() {
+      @Override
       public void apply(final FormattingDataInit it) {
         it.noSpace();
       }
@@ -103,6 +105,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     Function1<? super FormattableDocument, ? extends Iterable<FormattingData>> _prepend = this._formattingDataFactory.prepend(leftParenthesis, _function_1);
     format.operator_add(_prepend);
     final Procedure1<FormattingDataInit> _function_2 = new Procedure1<FormattingDataInit>() {
+      @Override
       public void apply(final FormattingDataInit it) {
         it.noSpace();
       }
@@ -111,6 +114,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     format.operator_add(_append_1);
     final ILeafNode rightParenthesis = this._nodeModelAccess.nodeForKeyword(xAnnotation, ")");
     final Procedure1<FormattingDataInit> _function_3 = new Procedure1<FormattingDataInit>() {
+      @Override
       public void apply(final FormattingDataInit it) {
         it.noSpace();
       }
@@ -118,6 +122,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     Function1<? super FormattableDocument, ? extends Iterable<FormattingData>> _prepend_1 = this._formattingDataFactory.prepend(rightParenthesis, _function_3);
     format.operator_add(_prepend_1);
     final Procedure1<FormattingDataInit> _function_4 = new Procedure1<FormattingDataInit>() {
+      @Override
       public void apply(final FormattingDataInit it) {
         it.newLine();
       }
@@ -130,6 +135,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
         final EObject detail = ((EObject) entry);
         final ILeafNode equals = this._nodeModelAccess.nodeForKeyword(detail, "=");
         final Procedure1<FormattingDataInit> _function_5 = new Procedure1<FormattingDataInit>() {
+          @Override
           public void apply(final FormattingDataInit it) {
             it.noSpace();
           }
@@ -137,6 +143,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
         Function1<? super FormattableDocument, ? extends Iterable<FormattingData>> _prepend_2 = this._formattingDataFactory.prepend(equals, _function_5);
         format.operator_add(_prepend_2);
         final Procedure1<FormattingDataInit> _function_6 = new Procedure1<FormattingDataInit>() {
+          @Override
           public void apply(final FormattingDataInit it) {
             it.noSpace();
           }
@@ -148,6 +155,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
         boolean _notEquals = (!Objects.equal(comma, null));
         if (_notEquals) {
           final Procedure1<FormattingDataInit> _function_7 = new Procedure1<FormattingDataInit>() {
+            @Override
             public void apply(final FormattingDataInit it) {
               it.noSpace();
             }
@@ -164,6 +172,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     this.formatAnnotations(_annotations, format);
     INode _nodeForEObject = this._nodeModelAccess.nodeForEObject(xPackage);
     final Procedure1<FormattingDataInit> _function = new Procedure1<FormattingDataInit>() {
+      @Override
       public void apply(final FormattingDataInit it) {
         it.noSpace();
       }
@@ -172,6 +181,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     format.operator_add(_prepend);
     INode _nodeForFeature = this._nodeModelAccess.nodeForFeature(xPackage, XcorePackage.Literals.XNAMED_ELEMENT__NAME);
     final Procedure1<FormattingDataInit> _function_1 = new Procedure1<FormattingDataInit>() {
+      @Override
       public void apply(final FormattingDataInit it) {
         it.oneSpace();
       }
@@ -190,6 +200,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
           boolean _equals = Objects.equal(xImportDirective, first);
           if (_equals) {
             final Procedure1<FormattingDataInit> _function_2 = new Procedure1<FormattingDataInit>() {
+              @Override
               public void apply(final FormattingDataInit it) {
                 it.cfg(XcoreFormatter.this.blankLines);
               }
@@ -201,6 +212,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
           boolean _equals_1 = Objects.equal(xImportDirective, last);
           if (_equals_1) {
             final Procedure1<FormattingDataInit> _function_3 = new Procedure1<FormattingDataInit>() {
+              @Override
               public void apply(final FormattingDataInit it) {
                 it.cfg(XcoreFormatter.this.blankLines);
               }
@@ -209,6 +221,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
             format.operator_add(_append);
           } else {
             final Procedure1<FormattingDataInit> _function_4 = new Procedure1<FormattingDataInit>() {
+              @Override
               public void apply(final FormattingDataInit it) {
                 it.newLine();
               }
@@ -221,6 +234,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     } else {
       INode _nodeForFeature_1 = this._nodeModelAccess.nodeForFeature(xPackage, XcorePackage.Literals.XNAMED_ELEMENT__NAME);
       final Procedure1<FormattingDataInit> _function_2 = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.cfg(XcoreFormatter.this.blankLines);
         }
@@ -237,6 +251,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
         if (_notEquals) {
           INode _nodeForEObject_1 = this._nodeModelAccess.nodeForEObject(xClassifier);
           final Procedure1<FormattingDataInit> _function_3 = new Procedure1<FormattingDataInit>() {
+            @Override
             public void apply(final FormattingDataInit it) {
               it.cfg(XcoreFormatter.this.blankLines);
             }
@@ -253,6 +268,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     this.formatAnnotations(_annotations, format);
     final ILeafNode leftBrace = this._nodeModelAccess.nodeForKeyword(xEnum, "{");
     final Procedure1<FormattingDataInit> _function = new Procedure1<FormattingDataInit>() {
+      @Override
       public void apply(final FormattingDataInit it) {
         it.increaseIndentation();
       }
@@ -260,6 +276,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     Function1<? super FormattableDocument, ? extends Iterable<FormattingData>> _append = this._formattingDataFactory.append(leftBrace, _function);
     format.operator_add(_append);
     final Procedure1<FormattingDataInit> _function_1 = new Procedure1<FormattingDataInit>() {
+      @Override
       public void apply(final FormattingDataInit it) {
         it.newLine();
       }
@@ -272,6 +289,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
         this.format(xEnumLiteral, format);
         INode _nodeForEObject = this._nodeModelAccess.nodeForEObject(xEnumLiteral);
         final Procedure1<FormattingDataInit> _function_2 = new Procedure1<FormattingDataInit>() {
+          @Override
           public void apply(final FormattingDataInit it) {
             it.newLine();
           }
@@ -282,6 +300,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     }
     final ILeafNode rightBrace = this._nodeModelAccess.nodeForKeyword(xEnum, "}");
     final Procedure1<FormattingDataInit> _function_2 = new Procedure1<FormattingDataInit>() {
+      @Override
       public void apply(final FormattingDataInit it) {
         it.decreaseIndentation();
       }
@@ -300,6 +319,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     boolean _notEquals = (!Objects.equal(leftAngleBracket, null));
     if (_notEquals) {
       final Procedure1<FormattingDataInit> _function = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.noSpace();
         }
@@ -307,6 +327,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
       Function1<? super FormattableDocument, ? extends Iterable<FormattingData>> _prepend = this._formattingDataFactory.prepend(leftAngleBracket, _function);
       format.operator_add(_prepend);
       final Procedure1<FormattingDataInit> _function_1 = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.noSpace();
         }
@@ -317,6 +338,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
       this.formatTypeParameters(_typeParameters, format);
       ILeafNode _nodeForKeyword = this._nodeModelAccess.nodeForKeyword(xDataType, ">");
       final Procedure1<FormattingDataInit> _function_2 = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.noSpace();
         }
@@ -333,6 +355,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     boolean _notEquals = (!Objects.equal(leftAngleBracket, null));
     if (_notEquals) {
       final Procedure1<FormattingDataInit> _function = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.noSpace();
         }
@@ -340,6 +363,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
       Function1<? super FormattableDocument, ? extends Iterable<FormattingData>> _prepend = this._formattingDataFactory.prepend(leftAngleBracket, _function);
       format.operator_add(_prepend);
       final Procedure1<FormattingDataInit> _function_1 = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.noSpace();
         }
@@ -350,6 +374,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
       this.formatTypeParameters(_typeParameters, format);
       ILeafNode _nodeForKeyword = this._nodeModelAccess.nodeForKeyword(xClass, ">");
       final Procedure1<FormattingDataInit> _function_2 = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.noSpace();
         }
@@ -359,6 +384,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     }
     final ILeafNode leftBrace = this._nodeModelAccess.nodeForKeyword(xClass, "{");
     final Procedure1<FormattingDataInit> _function_3 = new Procedure1<FormattingDataInit>() {
+      @Override
       public void apply(final FormattingDataInit it) {
         it.increaseIndentation();
       }
@@ -366,6 +392,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     Function1<? super FormattableDocument, ? extends Iterable<FormattingData>> _append_1 = this._formattingDataFactory.append(leftBrace, _function_3);
     format.operator_add(_append_1);
     final Procedure1<FormattingDataInit> _function_4 = new Procedure1<FormattingDataInit>() {
+      @Override
       public void apply(final FormattingDataInit it) {
         it.newLine();
       }
@@ -378,6 +405,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
         this.format(xMember, format);
         INode _nodeForEObject = this._nodeModelAccess.nodeForEObject(xMember);
         final Procedure1<FormattingDataInit> _function_5 = new Procedure1<FormattingDataInit>() {
+          @Override
           public void apply(final FormattingDataInit it) {
             it.newLine();
           }
@@ -388,6 +416,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     }
     final ILeafNode rightBrace = this._nodeModelAccess.nodeForKeyword(xClass, "}");
     final Procedure1<FormattingDataInit> _function_5 = new Procedure1<FormattingDataInit>() {
+      @Override
       public void apply(final FormattingDataInit it) {
         it.decreaseIndentation();
       }
@@ -403,6 +432,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     boolean _notEquals = (!Objects.equal(multiplicity, null));
     if (_notEquals) {
       final Procedure1<FormattingDataInit> _function = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.noSpace();
         }
@@ -415,6 +445,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     if (_notEquals_1) {
       final ILeafNode leftBrace = this._nodeModelAccess.nodeForKeyword(get, "{");
       final Procedure1<FormattingDataInit> _function_1 = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.oneSpace();
         }
@@ -432,6 +463,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     boolean _notEquals = (!Objects.equal(multiplicity, null));
     if (_notEquals) {
       final Procedure1<FormattingDataInit> _function = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.noSpace();
         }
@@ -444,6 +476,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     if (_notEquals_1) {
       final ILeafNode leftBrace = this._nodeModelAccess.nodeForKeyword(get, "{");
       final Procedure1<FormattingDataInit> _function_1 = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.oneSpace();
         }
@@ -461,6 +494,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     boolean _notEquals = (!Objects.equal(multiplicity, null));
     if (_notEquals) {
       final Procedure1<FormattingDataInit> _function = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.noSpace();
         }
@@ -472,6 +506,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     boolean _notEquals_1 = (!Objects.equal(leftAngleBracket, null));
     if (_notEquals_1) {
       final Procedure1<FormattingDataInit> _function_1 = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.noSpace();
         }
@@ -479,6 +514,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
       Function1<? super FormattableDocument, ? extends Iterable<FormattingData>> _prepend_1 = this._formattingDataFactory.prepend(leftAngleBracket, _function_1);
       format.operator_add(_prepend_1);
       final Procedure1<FormattingDataInit> _function_2 = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.noSpace();
         }
@@ -489,6 +525,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
       this.formatTypeParameters(_typeParameters, format);
       ILeafNode _nodeForKeyword = this._nodeModelAccess.nodeForKeyword(xOperation, ">");
       final Procedure1<FormattingDataInit> _function_3 = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.noSpace();
         }
@@ -498,6 +535,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     }
     final ILeafNode leftParenthesis = this._nodeModelAccess.nodeForKeyword(xOperation, "(");
     final Procedure1<FormattingDataInit> _function_4 = new Procedure1<FormattingDataInit>() {
+      @Override
       public void apply(final FormattingDataInit it) {
         it.noSpace();
       }
@@ -505,6 +543,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     Function1<? super FormattableDocument, ? extends Iterable<FormattingData>> _prepend_3 = this._formattingDataFactory.prepend(leftParenthesis, _function_4);
     format.operator_add(_prepend_3);
     final Procedure1<FormattingDataInit> _function_5 = new Procedure1<FormattingDataInit>() {
+      @Override
       public void apply(final FormattingDataInit it) {
         it.noSpace();
       }
@@ -517,6 +556,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     if (_not) {
       final ILeafNode rightParenthesis = this._nodeModelAccess.nodeForKeyword(xOperation, ")");
       final Procedure1<FormattingDataInit> _function_6 = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.noSpace();
         }
@@ -532,6 +572,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     if (_notEquals_2) {
       final ILeafNode leftBrace = this._nodeModelAccess.nodeForKeyword(body, "{");
       final Procedure1<FormattingDataInit> _function_7 = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.oneSpace();
         }
@@ -549,6 +590,7 @@ public class XcoreFormatter extends XbaseFormatter2 {
     boolean _notEquals = (!Objects.equal(multiplicity, null));
     if (_notEquals) {
       final Procedure1<FormattingDataInit> _function = new Procedure1<FormattingDataInit>() {
+        @Override
         public void apply(final FormattingDataInit it) {
           it.noSpace();
         }

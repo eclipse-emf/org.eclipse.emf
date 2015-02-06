@@ -36,6 +36,7 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
   @Inject
   private EcoreResourceDescriptionStrategy ecoreResourceDescriptionStrategy;
   
+  @Override
   public boolean createEObjectDescriptions(final EObject it, final IAcceptor<IEObjectDescription> acceptor) {
     boolean _xblockexpression = false;
     {
@@ -52,6 +53,7 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
               _matched_1=true;
               EList<EClassifier> _eClassifiers = ((EPackage)it).getEClassifiers();
               final Procedure1<EClassifier> _function = new Procedure1<EClassifier>() {
+                @Override
                 public void apply(final EClassifier it) {
                   XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
                 }
@@ -66,6 +68,7 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
               EList<EStructuralFeature> _eStructuralFeatures = ((EClass)it).getEStructuralFeatures();
               Iterable<ETypedElement> _plus = Iterables.<ETypedElement>concat(_eOperations, _eStructuralFeatures);
               final Procedure1<ETypedElement> _function = new Procedure1<ETypedElement>() {
+                @Override
                 public void apply(final ETypedElement it) {
                   XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
                 }
@@ -84,6 +87,7 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
               _matched_2=true;
               EList<GenPackage> _genPackages = ((GenModel)it).getGenPackages();
               final Procedure1<GenPackage> _function = new Procedure1<GenPackage>() {
+                @Override
                 public void apply(final GenPackage it) {
                   XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
                 }
@@ -96,6 +100,7 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
               _matched_2=true;
               EList<GenClassifier> _genClassifiers = ((GenPackage)it).getGenClassifiers();
               final Procedure1<GenClassifier> _function = new Procedure1<GenClassifier>() {
+                @Override
                 public void apply(final GenClassifier it) {
                   XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
                 }
@@ -120,6 +125,7 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
               _matched_3=true;
               EList<XAnnotationDirective> _annotationDirectives = ((XPackage)it).getAnnotationDirectives();
               final Procedure1<XAnnotationDirective> _function = new Procedure1<XAnnotationDirective>() {
+                @Override
                 public void apply(final XAnnotationDirective it) {
                   XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
                 }
@@ -143,6 +149,7 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
             EList<JvmMember> _members = ((JvmDeclaredType)it).getMembers();
             Iterable<JvmDeclaredType> _filter = Iterables.<JvmDeclaredType>filter(_members, JvmDeclaredType.class);
             final Procedure1<JvmDeclaredType> _function = new Procedure1<JvmDeclaredType>() {
+              @Override
               public void apply(final JvmDeclaredType it) {
                 XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
               }

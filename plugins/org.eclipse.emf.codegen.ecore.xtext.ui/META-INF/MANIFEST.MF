@@ -4,7 +4,7 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.codegen.ecore.xtext.ui;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.100.qualifier
 Require-Bundle: org.eclipse.emf.codegen.ecore.xtext,
  org.eclipse.emf.codegen.ecore.ui,
  org.eclipse.xtext.ui,
@@ -12,7 +12,7 @@ Require-Bundle: org.eclipse.emf.codegen.ecore.xtext,
  org.eclipse.jdt.core,
  org.eclipse.jdt.ui
 Import-Package: org.apache.log4j;version="1.2.15"
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.emf.codegen.ecore.xtext.ui.Activator
 Export-Package: org.eclipse.emf.codegen.ecore.xtext.ui
