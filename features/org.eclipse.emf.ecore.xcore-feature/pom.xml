@@ -26,7 +26,8 @@
 		</repository>
 		<repository>
 			<id>xtext</id>
-			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/nightly/</url>
+			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/nightly/
+			</url>
 			<layout>p2</layout>
 		</repository>
 	</repositories>
@@ -41,15 +42,8 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<version>2.8.1</version>
-				<configuration>
-					<deployAtEnd>true</deployAtEnd>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
 				<configuration>
 					<executable>/usr/local/bin/gpg</executable>
 					<skip>true</skip>
@@ -83,11 +77,15 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
-				<version>2.6</version>
+				<version>2.8.1</version>
+				<configuration>
+					<deployAtEnd>true</deployAtEnd>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -100,6 +98,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.1</version>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
@@ -141,8 +140,10 @@
 		</plugins>
 	</build>
 	<scm>
-		<connection>scm:git:git://git.eclipse.org/gitroot/emf/org.eclipse.emf.git</connection>
-		<developerConnection>scm:git:ssh://git.eclipse.org:29418/emf/org.eclipse.emf.git</developerConnection>
+		<connection>scm:git:git://git.eclipse.org/gitroot/emf/org.eclipse.emf.git
+		</connection>
+		<developerConnection>scm:git:ssh://git.eclipse.org:29418/emf/org.eclipse.emf.git
+		</developerConnection>
 		<url>http://git.eclipse.org/c/emf/org.eclipse.emf.git?h=master</url>
 	</scm>
 	<url>http://www.eclipse.org/xtend/</url>
