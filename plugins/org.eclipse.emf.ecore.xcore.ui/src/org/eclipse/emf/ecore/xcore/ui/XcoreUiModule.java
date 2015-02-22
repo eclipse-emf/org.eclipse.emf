@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreJavaElementFinder;
 import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameElementProcessor;
 import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameRefactoringParticipantProcessor;
 import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameStrategy;
+import org.eclipse.emf.ecore.xcore.ui.validation.XcoreUniqueClassNameValidator;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.builder.EclipseResourceFileSystemAccess2;
 import org.eclipse.xtext.builder.IXtextBuilderParticipant;
@@ -39,6 +40,7 @@ import org.eclipse.xtext.common.types.xtext.ui.ITypesProposalProvider;
 import org.eclipse.xtext.common.types.xtext.ui.JdtVariableCompletions;
 import org.eclipse.xtext.ide.editor.contentassist.antlr.IContentAssistParser;
 import org.eclipse.xtext.resource.containers.IAllContainersState;
+import org.eclipse.xtext.service.SingletonBinding;
 import org.eclipse.xtext.ui.editor.formatting.IContentFormatterFactory;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHover;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHoverProvider;
@@ -51,6 +53,7 @@ import org.eclipse.xtext.xbase.formatting.IFormattingPreferenceValuesProvider;
 import org.eclipse.xtext.xbase.ui.hover.XbaseDeclarativeHoverSignatureProvider;
 import org.eclipse.xtext.xbase.ui.hover.XbaseDispatchingEObjectTextHover;
 import org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.jdt.JdtRenameRefactoringParticipantProcessor;
+import org.eclipse.xtext.xbase.validation.UniqueClassNameValidator;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -202,5 +205,12 @@ public class XcoreUiModule extends AbstractXcoreUiModule
   public Class<? extends IContentAssistParser> bindIContentAssistParser()
   {
     return PartialParsingContentAssistParser.class;
+  }
+
+  @SingletonBinding(eager = true)
+  @Override
+  public Class<? extends UniqueClassNameValidator> bindUniqueClassNameValidator()
+  {
+    return XcoreUniqueClassNameValidator.class;
   }
 }
