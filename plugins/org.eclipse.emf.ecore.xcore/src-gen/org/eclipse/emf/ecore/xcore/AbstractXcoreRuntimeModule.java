@@ -154,4 +154,3 @@ public abstract class AbstractXcoreRuntimeModule extends org.eclipse.xtext.xbase
 	}
 
 }
-

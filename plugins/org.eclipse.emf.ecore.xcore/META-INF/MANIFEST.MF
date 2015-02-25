@@ -10,11 +10,6 @@ Bundle-Activator: org.eclipse.emf.ecore.xcore.XcorePlugin$Implementation
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.apache.log4j;visibility:=reexport,
- org.apache.commons.logging;resolution:=optional;visibility:=reexport,
- org.eclipse.xtext.generator;resolution:=optional,
- org.eclipse.emf.codegen.ecore;resolution:=optional,
- org.eclipse.emf.mwe.utils;resolution:=optional,
- org.eclipse.emf.mwe2.launch;resolution:=optional,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.xtext.util,
  org.antlr.runtime,
@@ -25,10 +20,10 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.eclipse.xtext.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xcore.lib;visibility:=reexport,
  org.eclipse.emf.codegen.ecore.xtext;visibility:=reexport,
+ org.eclipse.emf.codegen.ecore,
  org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional
-Import-Package: org.apache.log4j,
- org.apache.commons.logging,
- org.eclipse.xtext.xbase.lib
+Import-Package: org.apache.commons.logging,
+ org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.emf.ecore.xcore,
  org.eclipse.emf.ecore.xcore.formatting,
