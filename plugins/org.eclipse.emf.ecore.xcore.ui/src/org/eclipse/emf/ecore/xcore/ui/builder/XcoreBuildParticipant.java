@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator;
@@ -110,29 +111,36 @@ public class XcoreBuildParticipant extends BuilderParticipant
    @Override
   protected void handleChangedContents(Delta delta, IBuildContext context, EclipseResourceFileSystemAccess2 fileSystemAccess) throws CoreException
   {
-    // Determine which projects existed before we run the generator.
+    // Determine if this resource is logically nested in the project being built.
     //
-    Resource resource = context.getResourceSet().getResource(delta.getUri(), true);
-    GenModel genModel = (GenModel)EcoreUtil.getObjectByType(resource.getContents(), GenModelPackage.Literals.GEN_MODEL);
-    IWorkspaceRoot root = context.getBuiltProject().getWorkspace().getRoot();
-    if (genModel != null)
+    URI uri = delta.getUri();
+    IProject builtProject = context.getBuiltProject();
+    if (uri.isPlatformResource() && builtProject.getName().equals(uri.segment(1)))
     {
-      for (String projectName : new String [] { genModel.getEditProjectDirectory(), genModel.getEditorProjectDirectory(), genModel.getTestsProjectDirectory() })
+      // Determine which projects existed before we run the generator.
+      //
+      Resource resource = context.getResourceSet().getResource(uri, true);
+      GenModel genModel = (GenModel)EcoreUtil.getObjectByType(resource.getContents(), GenModelPackage.Literals.GEN_MODEL);
+      if (genModel != null)
       {
-        if (!Strings.isNullOrEmpty(projectName))
+        IWorkspaceRoot root = builtProject.getWorkspace().getRoot();
+        for (String projectName : new String [] { genModel.getEditProjectDirectory(), genModel.getEditorProjectDirectory(), genModel.getTestsProjectDirectory() })
         {
-          IProject project = root.getProject(projectName);
-          if (!project.exists())
+          if (!Strings.isNullOrEmpty(projectName))
           {
-            newProjects.add(project);
+            IProject project = root.getProject(projectName);
+            if (!project.exists())
+            {
+              newProjects.add(project);
+            }
           }
         }
       }
-    }
 
-    // Do the normal generation.
-    //
-    super.handleChangedContents(delta, context, fileSystemAccess);
+      // Do the normal generation.
+      //
+      super.handleChangedContents(delta, context, fileSystemAccess);
+    }
   }
 
 }
