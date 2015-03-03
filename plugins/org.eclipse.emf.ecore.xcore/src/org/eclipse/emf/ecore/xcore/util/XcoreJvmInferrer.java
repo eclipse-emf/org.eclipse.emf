@@ -1915,7 +1915,7 @@ public class XcoreJvmInferrer
           //
           if (isInterface && genClass.isExternalInterface())
           {
-            String externalInterfaceName = "$" + genClass.getEcoreClass().getInstanceClassName();
+            String externalInterfaceName = "$" + genClass.getGenPackage().getQualifiedPackageName() + "." + genClass.getName() + "$" + genClass.getEcoreClass().getInstanceClassName();
             int index = externalInterfaceName.lastIndexOf('.');
             if (index == -1)
             {
