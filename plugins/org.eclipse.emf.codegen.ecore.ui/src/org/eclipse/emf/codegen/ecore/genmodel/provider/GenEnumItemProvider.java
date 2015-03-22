@@ -18,6 +18,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -159,7 +160,8 @@ public class GenEnumItemProvider
   public String getText(Object object)
   {
     GenEnum genEnum = (GenEnum)object;
-    return genEnum.getEcoreEnum().getName();
+    EEnum ecoreEnum = genEnum.getEcoreEnum();
+    return ecoreEnum == null || ecoreEnum.getName() == null ? "" : ecoreEnum.getName();
   }
 
   /**

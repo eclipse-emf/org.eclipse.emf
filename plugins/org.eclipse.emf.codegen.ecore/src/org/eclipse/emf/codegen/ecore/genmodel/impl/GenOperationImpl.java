@@ -403,7 +403,8 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   @Override
   public String getName()
   {
-    return safeName(getEcoreOperation().getName());
+    EOperation ecoreOperation = getEcoreOperation();
+    return ecoreOperation == null || ecoreOperation.getName() == null ? "" : safeName(ecoreOperation.getName());
   }
 
   public String getCapName()

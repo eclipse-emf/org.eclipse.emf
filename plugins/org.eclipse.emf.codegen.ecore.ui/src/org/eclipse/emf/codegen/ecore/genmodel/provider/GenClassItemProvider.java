@@ -238,6 +238,12 @@ public class GenClassItemProvider
   {
     GenClass genClass = (GenClass)object;
     EClass eClass = genClass.getEcoreClass();
+
+    if (eClass == null)
+    {
+      return "";
+    }
+
     StringBuffer result = new StringBuffer();
     if (eClass.getName() != null)
     {

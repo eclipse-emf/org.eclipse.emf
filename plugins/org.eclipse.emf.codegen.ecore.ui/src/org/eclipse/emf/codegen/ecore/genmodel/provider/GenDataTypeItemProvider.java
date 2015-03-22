@@ -18,6 +18,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
@@ -101,9 +102,12 @@ public class GenDataTypeItemProvider
   public String getText(Object object)
   {
     GenDataType genDataType = (GenDataType)object;
+    EDataType ecoreDataType = genDataType.getEcoreDataType();
     return 
-      genDataType.getName() + 
-        (genDataType.getQualifiedInstanceClassName() == null ? "" : " [" + genDataType.getQualifiedInstanceClassName() + "]");
+      ecoreDataType == null || ecoreDataType.getName() == null ?
+        "" :
+        genDataType.getName() + 
+          (genDataType.getQualifiedInstanceClassName() == null ? "" : " [" + genDataType.getQualifiedInstanceClassName() + "]");
   }
 
   /**

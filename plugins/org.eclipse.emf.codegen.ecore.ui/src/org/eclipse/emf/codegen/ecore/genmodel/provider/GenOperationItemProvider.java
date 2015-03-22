@@ -105,6 +105,11 @@ public class GenOperationItemProvider
   {
     GenOperation genOperation = (GenOperation)object;
     EOperation eOperation = genOperation.getEcoreOperation();
+    if(eOperation == null) 
+    {
+      return "";
+    }
+    
     StringBuffer result = new StringBuffer();
     result.append(eOperation.getName());
     result.append("("); //)
@@ -122,10 +127,11 @@ public class GenOperationItemProvider
     }
     // (
     result.append(")");
-    if (eOperation.getEType() != null)
+    EClassifier eType = eOperation.getEType();
+    if (eType != null && eType.getName() != null)
     {
       result.append(" : ");
-      result.append(eOperation.getEType().getName());
+      result.append(eType.getName());
     }
 
     if (!eOperation.getEExceptions().isEmpty())

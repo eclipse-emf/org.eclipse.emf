@@ -421,6 +421,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
   @Override
   public String getName()
   {
-    return getSource();
+    String source = getSource();
+    return source == null ? "" : source;
   }  
 } //GenAnnotationImpl

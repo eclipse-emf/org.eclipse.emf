@@ -304,7 +304,8 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
   @Override
   public String getName()
   {
-    return getEcoreEnumLiteral().getName();
+    EEnumLiteral ecoreEnumLiteral = getEcoreEnumLiteral();
+    return ecoreEnumLiteral == null || ecoreEnumLiteral.getName() == null ? "" : ecoreEnumLiteral.getName();
   }
 
   public String getCapName()

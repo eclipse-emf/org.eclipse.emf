@@ -18,6 +18,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -388,12 +389,18 @@ public class GenFeatureItemProvider
   {
     GenFeature genFeature = (GenFeature)object;
     EStructuralFeature eStructuralFeature = genFeature.getEcoreFeature();
+    if (eStructuralFeature == null)
+    {
+      return "";
+    }
+
     StringBuffer result = new StringBuffer();
     result.append(genFeature.getName());
-    if (eStructuralFeature.getEType() != null)
+    EClassifier eType = eStructuralFeature.getEType();
+    if (eType != null && eType.getName() != null)
     {
       result.append(" : ");
-      result.append(eStructuralFeature.getEType().getName());
+      result.append(eType.getName());
     }
     return result.toString();
   }

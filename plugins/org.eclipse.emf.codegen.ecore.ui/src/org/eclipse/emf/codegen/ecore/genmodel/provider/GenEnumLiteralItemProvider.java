@@ -17,6 +17,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
@@ -100,7 +101,8 @@ public class GenEnumLiteralItemProvider
   public String getText(Object object)
   {
     GenEnumLiteral genEnumLiteral = (GenEnumLiteral)object;
-    return genEnumLiteral.getEcoreEnumLiteral().getName() + " = " + genEnumLiteral.getEcoreEnumLiteral().getValue();
+    EEnumLiteral ecoreEnumLiteral = genEnumLiteral.getEcoreEnumLiteral();
+    return ecoreEnumLiteral == null || ecoreEnumLiteral.getName() == null ? "" : ecoreEnumLiteral.getName() + " = " + ecoreEnumLiteral.getValue();
   }
 
   /**

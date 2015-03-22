@@ -209,7 +209,8 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
   @Override
   public String getName()
   {
-    return getEcoreClassifier().getName();
+    EClassifier ecoreClassifier = getEcoreClassifier();
+    return ecoreClassifier == null || ecoreClassifier.getName() == null ? "" : ecoreClassifier.getName();
   }
 
   public String getUncapName()

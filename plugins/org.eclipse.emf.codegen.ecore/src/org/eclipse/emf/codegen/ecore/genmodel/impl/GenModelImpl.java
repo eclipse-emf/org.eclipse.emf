@@ -2079,7 +2079,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       for (GenEnum genEnum : genPackage.getGenEnums())
       {
-        if (eEnum.getName().equals(genEnum.getEcoreEnum().getName())) //FB TBD different objects for ecore model!
+        String name = eEnum.getName();
+        if (name != null && name.equals(genEnum.getEcoreEnum().getName())) //FB TBD different objects for ecore model!
         {
           eClassifierToGenClassifierMap.put(eEnum, genEnum);
           return genEnum;

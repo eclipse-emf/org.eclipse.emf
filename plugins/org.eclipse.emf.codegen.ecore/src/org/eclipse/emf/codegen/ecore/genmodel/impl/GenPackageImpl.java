@@ -1917,7 +1917,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getPackageName()
   {
-    return getEcorePackage().getName();
+    EPackage ecorePackage = getEcorePackage();
+    return ecorePackage == null || ecorePackage.getName() == null ? "" : ecorePackage.getName();
   }
 
   public String getInterfacePackageName()

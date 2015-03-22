@@ -181,7 +181,8 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
   @Override
   public String getName()
   {
-    return getEcoreTypeParameter().getName();
+    ETypeParameter ecoreTypeParameter = getEcoreTypeParameter();
+	return ecoreTypeParameter == null || ecoreTypeParameter.getName() == null ? "" : ecoreTypeParameter.getName();
   }
 
   public void initialize(ETypeParameter eTypeParameter)

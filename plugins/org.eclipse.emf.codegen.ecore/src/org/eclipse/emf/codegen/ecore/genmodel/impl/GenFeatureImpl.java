@@ -896,7 +896,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   @Override
   public String getName()
   {
-    return getEcoreFeature().getName();
+    EStructuralFeature ecoreFeature = getEcoreFeature();
+    return ecoreFeature == null || ecoreFeature.getName() == null ? "" : ecoreFeature.getName();
   }
 
   public String getCapName()

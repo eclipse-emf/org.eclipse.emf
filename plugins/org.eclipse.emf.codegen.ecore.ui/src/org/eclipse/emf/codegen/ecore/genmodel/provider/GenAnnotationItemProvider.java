@@ -166,16 +166,17 @@ public class GenAnnotationItemProvider
   {
     GenAnnotation genAnnotation = (GenAnnotation)object;
     StringBuffer result = new StringBuffer();
-    if (genAnnotation.getSource() != null)
+    String source = genAnnotation.getSource();
+    if (source != null)
     {
-      int index = genAnnotation.getSource().lastIndexOf("/");
+      int index = source.lastIndexOf("/");
       if (index == -1)
       {
-        result.append(genAnnotation.getSource());
+        result.append(source);
       }
       else
       {
-        result.append(genAnnotation.getSource().substring(index + 1));
+        result.append(source.substring(index + 1));
       }
     }
     return result.toString();

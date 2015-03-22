@@ -707,7 +707,7 @@ public class GenPackageItemProvider
     if (text == null || text.length() == 0)
     {
       EPackage ecorePackage = genPackage.getEcorePackage();
-      if (ecorePackage != null)
+      if (ecorePackage != null && ecorePackage.getName() != null)
       {
         text = "[" + ecorePackage.getName() + "]";
       }

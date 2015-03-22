@@ -310,7 +310,8 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
   @Override
   public String getName()
   {
-    return safeName(getEcoreParameter().getName());
+    EParameter ecoreParameter = getEcoreParameter();
+    return ecoreParameter == null || ecoreParameter.getName() == null ? "" : safeName(ecoreParameter.getName());
   }
 
   public GenPackage getGenPackage()
