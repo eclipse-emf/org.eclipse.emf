@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.ArrayDelegatingEList;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
@@ -443,5 +444,82 @@ public class ECollectionsTest
       List<Map.Entry<String, String>> eSublist = eMap.subList(1,  size - 1);
       assertEquals(sublist, eSublist);
     }
+  }
+
+  @Test
+  public void testIterator()
+  {
+    assertIteratorRemove(new ArrayList<Object>());
+    assertIteratorRemove(new BasicEList<Object>());
+    assertIteratorRemove(createDelegatingEList());
+
+    assertListIteratorRemove(new ArrayList<Object>());
+    assertListIteratorRemove(new BasicEList<Object>());
+    assertListIteratorRemove(createDelegatingEList());
+
+    assertListIteratorSet(new ArrayList<Object>());
+    assertListIteratorSet(new BasicEList<Object>());
+    assertListIteratorSet(createDelegatingEList());
+  }
+
+  protected List<Object> createDelegatingEList()
+  {
+    return
+      new ArrayDelegatingEList<Object>()
+       {
+         private static final long serialVersionUID = 1L;
+
+         private Object[] data;
+
+         @Override
+         public Object[] data()
+         {
+           return data;
+         }
+
+         @Override
+        public void setData(Object[] data)
+        {
+          super.setData(data);
+          this.data = data;
+        }
+       };
+  }
+
+  protected void assertIteratorRemove(List<Object> list)
+  {
+    list.add("a");
+    list.add("b");
+    Iterator<Object> i = list.iterator();
+    i.next();
+    i.remove();
+    i.next();
+    i.remove();
+    assertTrue(list.isEmpty());
+  }
+ 
+  protected void assertListIteratorRemove(List<Object> list)
+  {
+    list.add("a");
+    list.add("b");
+    Iterator<Object> i = list.listIterator();
+    i.next();
+    i.remove();
+    i.next();
+    i.remove();
+    assertTrue(list.isEmpty());
+  }
+
+  protected void assertListIteratorSet(List<Object> list)
+  {
+    list.add("a");
+    list.add("b");
+    ListIterator<Object> i = list.listIterator();
+    i.next();
+    i.set("x");
+    i.next();
+    i.set("y");
+    assertTrue(list.indexOf("x") == 0);
+    assertTrue(list.indexOf("y") == 1);
   }
 }

@@ -957,6 +957,7 @@ public abstract class AbstractEList<E> extends AbstractList<E> implements EList<
       try
       {
         AbstractEList.this.set(lastCursor, object);
+        expectedModCount = modCount;
       }
       catch (IndexOutOfBoundsException exception)
       {

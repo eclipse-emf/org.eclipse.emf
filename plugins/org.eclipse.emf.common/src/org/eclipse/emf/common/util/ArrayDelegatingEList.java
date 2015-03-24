@@ -887,6 +887,13 @@ public abstract class ArrayDelegatingEList<E> extends AbstractEList<E> implement
         throw new ConcurrentModificationException();
       }
     }
+
+    @Override
+    public void remove()
+    {
+      super.remove();
+      expectedData = data();
+    }
   }
 
   /**
@@ -992,6 +999,20 @@ public abstract class ArrayDelegatingEList<E> extends AbstractEList<E> implement
       {
         throw new ConcurrentModificationException();
       }
+    }
+
+    @Override
+    public void remove()
+    {
+      super.remove();
+      expectedData = data();
+    }
+
+    @Override
+    protected void doSet(E object)
+    {
+      super.doSet(object);
+      expectedData = data();
     }
   }
 
