@@ -411,7 +411,7 @@
     <setupTask
         xsi:type="setup:EclipseIniTask"
         option="-Doomph.redirection.setups"
-        value="=http://git.eclipse.org/c/emf/org.eclipse.emf.git/plain/releng/org.eclipse.emf.releng/EMF.setup->${emf.git.clone.location|uri}//org.eclipse.emf.releng/EMF.setup"
+        value="=http://git.eclipse.org/c/emf/org.eclipse.emf.git/plain/releng/org.eclipse.emf.releng/EMF.setup->${emf.git.clone.location|uri}/org.eclipse.emf.releng/EMF.setup"
         vm="true"/>
     <stream
         name="master">
