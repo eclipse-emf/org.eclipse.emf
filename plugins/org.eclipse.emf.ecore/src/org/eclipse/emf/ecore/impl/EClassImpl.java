@@ -806,8 +806,8 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       {
         private static final long serialVersionUID = 1L;
 
-        protected EStructuralFeature [] containments;
-        protected EStructuralFeature [] crossReferences;
+        protected EStructuralFeature [] containments = NO_EALL_STRUCTURE_FEATURES_DATA;
+        protected EStructuralFeature [] crossReferences = NO_EALL_STRUCTURE_FEATURES_DATA;
 
         public EAllStructuralFeaturesList(BasicEList<EStructuralFeature> eAllStructuralFeatures)
         {
@@ -869,7 +869,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
         public EStructuralFeature [] containments()
         {
-          if (containments == null)
+          if (containments == NO_EALL_STRUCTURE_FEATURES_DATA)
           {
             init();
           }
@@ -878,7 +878,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
         public EStructuralFeature [] crossReferences()
         {
-          if (crossReferences == null)
+          if (crossReferences == NO_EALL_STRUCTURE_FEATURES_DATA)
           {
             init();
           }
