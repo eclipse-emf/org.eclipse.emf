@@ -65,7 +65,7 @@ public interface URIHandler
   /**
    * Creates an input stream for the URI and returns it.
    * @param uri the URI for which to create the input stream.
-   * @param options a map of options to influence the kind of stream that is returned; unrecognized options are ignored and <code>null</code> is permitted.
+   * @param options a map of options to influence the kind of stream that is returned; unrecognized options are ignored and <code>null</code> is not permitted.
    * @return an open input stream.
    * @exception IOException if there is a problem obtaining an open input stream.
    * @see URIConverter#createInputStream(URI, Map)
@@ -75,7 +75,7 @@ public interface URIHandler
   /**
    * Creates an output stream for the URI and returns it.
    * @param uri the URI for which to create the output stream.
-   * @param options a map of options to influence the kind of stream that is returned; unrecognized options are ignored and <code>null</code> is permitted.
+   * @param options a map of options to influence the kind of stream that is returned; unrecognized options are ignored and <code>null</code> is not permitted.
    * @return an open output stream.
    * @exception IOException if there is a problem obtaining an open output stream.
    * @see URIConverter#createOutputStream(URI, Map)
@@ -85,7 +85,7 @@ public interface URIHandler
   /**
    * Deletes the contents of the given URI. 
    * @param uri the URI to consider.
-   * @param options options to influence how the contents are deleted.
+   * @param options options to influence how the contents are deleted; unrecognized options are ignored and <code>null</code> is not permitted.
    * @throws IOException if there is a problem deleting the contents.
    * @see URIConverter#delete(URI, Map) 
    */
@@ -95,7 +95,7 @@ public interface URIHandler
    * Returns a map from String properties to their corresponding values representing a description the given URI's contents.
    * See the {@link ContentHandler#contentDescription(URI, InputStream, Map, Map) content handler} for more details.
    * @param uri the URI to consider.
-   * @param options options to influence how the content description is determined.
+   * @param options options to influence how the content description is determined; unrecognized options are ignored and <code>null</code> is not permitted.
    * @return a map from String properties to their corresponding values representing a description the given URI's contents.
    * @throws IOException if there is a problem accessing the contents.
    * @see URIConverter#contentDescription(URI, Map)
@@ -108,7 +108,7 @@ public interface URIHandler
    * If the URI {@link #exists(URI, Map) exists}
    * it will be possible to {@link #createOutputStream(URI, Map) create} an input stream.
    * @param uri the URI to consider.
-   * @param options options to influence how the existence determined.
+   * @param options options to influence how the existence determined; unrecognized options are ignored and <code>null</code> is not permitted.
    * @return whether the given URI has contents.
    * @see URIConverter#exists(URI, Map)
    */
@@ -120,7 +120,7 @@ public interface URIHandler
    * without that option, all supported attributes will be fetched.
    * If the URI doesn't not support any particular attribute, an entry for that attribute will not be appear in the result.
    * @param uri the URI to consider.
-   * @param options options to influence how the attributes are determined.
+   * @param options options to influence how the attributes are determined; unrecognized options are ignored and <code>null</code> is not permitted.
    * @return a map from String attributes to their corresponding values representing information about various aspects of the URI's state.
    */
   Map<String, ?> getAttributes(URI uri, Map<?, ?> options);
@@ -130,7 +130,7 @@ public interface URIHandler
    * Unsupported or unchangeable attributes are ignored.
    * @param uri the URI to consider.
    * @param attributes the new values for the attributes.
-   * @param options options to influence how the attributes are updated.
+   * @param options options to influence how the attributes are updated; unrecognized options are ignored and <code>null</code> is not permitted.
    * @throws IOException if there is a problem updating the attributes.
    */
   void setAttributes(URI uri, Map<String, ?> attributes, Map<?, ?> options) throws IOException;
