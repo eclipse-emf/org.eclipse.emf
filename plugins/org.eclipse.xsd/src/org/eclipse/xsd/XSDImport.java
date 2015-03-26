@@ -21,11 +21,11 @@ package org.eclipse.xsd;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDImport#getNamespace <em>Namespace</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDImport#getAnnotation <em>Annotation</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDImport()
  * @model

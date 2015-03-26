@@ -34,12 +34,12 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDNotationDeclarationImpl#getSystemIdentifier <em>System Identifier</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDNotationDeclarationImpl#getPublicIdentifier <em>Public Identifier</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDNotationDeclarationImpl#getAnnotation <em>Annotation</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

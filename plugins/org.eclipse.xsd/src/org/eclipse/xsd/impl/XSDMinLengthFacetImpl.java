@@ -42,10 +42,10 @@ import org.eclipse.xsd.util.XSDUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDMinLengthFacetImpl#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDIdentityConstraintDefinition#getIdentityConstraintCategory <em>Identity Constraint Category</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDIdentityConstraintDefinition#getAnnotation <em>Annotation</em>}</li>
@@ -29,7 +30,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.xsd.XSDIdentityConstraintDefinition#getSelector <em>Selector</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDIdentityConstraintDefinition#getFields <em>Fields</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDIdentityConstraintDefinition()
  * @model

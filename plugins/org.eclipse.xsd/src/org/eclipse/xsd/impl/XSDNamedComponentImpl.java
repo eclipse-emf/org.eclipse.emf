@@ -46,6 +46,7 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDNamedComponentImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDNamedComponentImpl#getTargetNamespace <em>Target Namespace</em>}</li>
@@ -54,7 +55,6 @@ import org.eclipse.xsd.util.XSDConstants;
  *   <li>{@link org.eclipse.xsd.impl.XSDNamedComponentImpl#getAliasURI <em>Alias URI</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDNamedComponentImpl#getQName <em>QName</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

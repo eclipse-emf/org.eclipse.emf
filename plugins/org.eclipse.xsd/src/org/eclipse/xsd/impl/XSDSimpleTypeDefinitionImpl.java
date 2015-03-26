@@ -93,6 +93,7 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDSimpleTypeDefinitionImpl#getVariety <em>Variety</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDSimpleTypeDefinitionImpl#getFinal <em>Final</em>}</li>
@@ -137,7 +138,6 @@ import org.eclipse.xsd.util.XSDConstants;
  *   <li>{@link org.eclipse.xsd.impl.XSDSimpleTypeDefinitionImpl#getEffectiveMinFacet <em>Effective Min Facet</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDSimpleTypeDefinitionImpl#getSyntheticFacets <em>Synthetic Facets</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -48,6 +48,7 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDIdentityConstraintDefinitionImpl#getIdentityConstraintCategory <em>Identity Constraint Category</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDIdentityConstraintDefinitionImpl#getAnnotation <em>Annotation</em>}</li>
@@ -55,7 +56,6 @@ import org.eclipse.xsd.util.XSDConstants;
  *   <li>{@link org.eclipse.xsd.impl.XSDIdentityConstraintDefinitionImpl#getSelector <em>Selector</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDIdentityConstraintDefinitionImpl#getFields <em>Fields</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

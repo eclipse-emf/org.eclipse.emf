@@ -28,12 +28,12 @@ import org.w3c.dom.Attr;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDAnnotation#getApplicationInformation <em>Application Information</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDAnnotation#getUserInformation <em>User Information</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDAnnotation#getAttributes <em>Attributes</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDAnnotation()
  * @model

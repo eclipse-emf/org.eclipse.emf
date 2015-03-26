@@ -39,11 +39,11 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDImportImpl#getNamespace <em>Namespace</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDImportImpl#getAnnotation <em>Annotation</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

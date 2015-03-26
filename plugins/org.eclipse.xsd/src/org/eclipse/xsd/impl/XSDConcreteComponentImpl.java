@@ -79,6 +79,7 @@ import org.eclipse.xsd.util.XSDUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDConcreteComponentImpl#getElement <em>Element</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDConcreteComponentImpl#getContainer <em>Container</em>}</li>
@@ -86,7 +87,6 @@ import org.eclipse.xsd.util.XSDUtil;
  *   <li>{@link org.eclipse.xsd.impl.XSDConcreteComponentImpl#getSchema <em>Schema</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDConcreteComponentImpl#getDiagnostics <em>Diagnostics</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

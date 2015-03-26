@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.resource.Resource;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDDiagnostic#getSeverity <em>Severity</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDDiagnostic#getMessage <em>Message</em>}</li>
@@ -38,7 +39,6 @@ import org.eclipse.emf.ecore.resource.Resource;
  *   <li>{@link org.eclipse.xsd.XSDDiagnostic#getComponents <em>Components</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDDiagnostic#getPrimaryComponent <em>Primary Component</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDDiagnostic()
  * @model

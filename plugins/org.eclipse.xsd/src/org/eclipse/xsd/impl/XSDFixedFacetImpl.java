@@ -34,10 +34,10 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDFixedFacetImpl#isFixed <em>Fixed</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

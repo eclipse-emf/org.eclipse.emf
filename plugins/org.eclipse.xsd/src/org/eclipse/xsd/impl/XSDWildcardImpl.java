@@ -49,6 +49,7 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDWildcardImpl#getNamespaceConstraintCategory <em>Namespace Constraint Category</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDWildcardImpl#getNamespaceConstraint <em>Namespace Constraint</em>}</li>
@@ -57,7 +58,6 @@ import org.eclipse.xsd.util.XSDConstants;
  *   <li>{@link org.eclipse.xsd.impl.XSDWildcardImpl#getAnnotation <em>Annotation</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDWildcardImpl#getAnnotations <em>Annotations</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

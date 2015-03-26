@@ -32,6 +32,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDSimpleTypeDefinition#getVariety <em>Variety</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDSimpleTypeDefinition#getFinal <em>Final</em>}</li>
@@ -76,7 +77,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.xsd.XSDSimpleTypeDefinition#getEffectiveMinFacet <em>Effective Min Facet</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDSimpleTypeDefinition#getSyntheticFacets <em>Synthetic Facets</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDSimpleTypeDefinition()
  * @model

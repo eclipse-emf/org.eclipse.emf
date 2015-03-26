@@ -22,13 +22,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDModelGroup#getCompositor <em>Compositor</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDModelGroup#getAnnotation <em>Annotation</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDModelGroup#getContents <em>Contents</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDModelGroup#getParticles <em>Particles</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDModelGroup()
  * @model

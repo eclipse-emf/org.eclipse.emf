@@ -21,8 +21,6 @@ import org.eclipse.emf.mapping.xsd2ecore.XSD2EcorePackage;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Mapping Root</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

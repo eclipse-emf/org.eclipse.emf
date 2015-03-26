@@ -29,6 +29,7 @@ package org.eclipse.xsd;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDNamedComponent#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDNamedComponent#getTargetNamespace <em>Target Namespace</em>}</li>
@@ -37,7 +38,6 @@ package org.eclipse.xsd;
  *   <li>{@link org.eclipse.xsd.XSDNamedComponent#getAliasURI <em>Alias URI</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDNamedComponent#getQName <em>QName</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDNamedComponent()
  * @model abstract="true"

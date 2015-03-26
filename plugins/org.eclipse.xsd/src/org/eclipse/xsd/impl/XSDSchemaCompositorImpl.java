@@ -27,10 +27,10 @@ import org.eclipse.xsd.XSDSchemaCompositor;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDSchemaCompositorImpl#getIncorporatedSchema <em>Incorporated Schema</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

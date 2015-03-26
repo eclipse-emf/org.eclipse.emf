@@ -61,6 +61,7 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDAttributeGroupDefinitionImpl#isAttributeGroupDefinitionReference <em>Attribute Group Definition Reference</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDAttributeGroupDefinitionImpl#getAnnotation <em>Annotation</em>}</li>
@@ -71,7 +72,6 @@ import org.eclipse.xsd.util.XSDConstants;
  *   <li>{@link org.eclipse.xsd.impl.XSDAttributeGroupDefinitionImpl#getResolvedAttributeGroupDefinition <em>Resolved Attribute Group Definition</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDAttributeGroupDefinitionImpl#getSyntheticWildcard <em>Synthetic Wildcard</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

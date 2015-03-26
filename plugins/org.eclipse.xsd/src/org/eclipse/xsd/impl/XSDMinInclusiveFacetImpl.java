@@ -30,8 +30,6 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Min Inclusive Facet</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

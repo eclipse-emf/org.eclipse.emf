@@ -45,13 +45,13 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDModelGroupDefinitionImpl#isModelGroupDefinitionReference <em>Model Group Definition Reference</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDModelGroupDefinitionImpl#getAnnotation <em>Annotation</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDModelGroupDefinitionImpl#getModelGroup <em>Model Group</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDModelGroupDefinitionImpl#getResolvedModelGroupDefinition <em>Resolved Model Group Definition</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

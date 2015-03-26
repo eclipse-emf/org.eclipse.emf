@@ -21,6 +21,7 @@ package org.eclipse.xsd;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDAttributeDeclaration#isAttributeDeclarationReference <em>Attribute Declaration Reference</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDAttributeDeclaration#getAnnotation <em>Annotation</em>}</li>
@@ -28,7 +29,6 @@ package org.eclipse.xsd;
  *   <li>{@link org.eclipse.xsd.XSDAttributeDeclaration#getTypeDefinition <em>Type Definition</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDAttributeDeclaration#getResolvedAttributeDeclaration <em>Resolved Attribute Declaration</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDAttributeDeclaration()
  * @model

@@ -159,6 +159,8 @@ public enum XSDContentTypeCategory implements Enumerator
    * Returns the '<em><b>Content Type Category</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
+   * @param literal the literal.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static XSDContentTypeCategory get(String literal)
@@ -178,6 +180,8 @@ public enum XSDContentTypeCategory implements Enumerator
    * Returns the '<em><b>Content Type Category</b></em>' literal with the specified name.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param name the name.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static XSDContentTypeCategory getByName(String name)
@@ -197,6 +201,8 @@ public enum XSDContentTypeCategory implements Enumerator
    * Returns the '<em><b>Content Type Category</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
+   * @param value the integer value.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static XSDContentTypeCategory get(int value)

@@ -21,6 +21,7 @@ package org.eclipse.xsd;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDAttributeUse#isRequired <em>Required</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDAttributeUse#getValue <em>Value</em>}</li>
@@ -30,7 +31,6 @@ package org.eclipse.xsd;
  *   <li>{@link org.eclipse.xsd.XSDAttributeUse#getAttributeDeclaration <em>Attribute Declaration</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDAttributeUse#getContent <em>Content</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDAttributeUse()
  * @model

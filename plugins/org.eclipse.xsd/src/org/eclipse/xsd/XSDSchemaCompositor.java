@@ -23,10 +23,10 @@ package org.eclipse.xsd;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDSchemaCompositor#getIncorporatedSchema <em>Incorporated Schema</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDSchemaCompositor()
  * @model abstract="true"

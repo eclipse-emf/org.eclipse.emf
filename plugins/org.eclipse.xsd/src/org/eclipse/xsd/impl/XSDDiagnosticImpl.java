@@ -38,6 +38,7 @@ import org.eclipse.xsd.util.XSDParser;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDDiagnosticImpl#getSeverity <em>Severity</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDDiagnosticImpl#getMessage <em>Message</em>}</li>
@@ -51,7 +52,6 @@ import org.eclipse.xsd.util.XSDParser;
  *   <li>{@link org.eclipse.xsd.impl.XSDDiagnosticImpl#getComponents <em>Components</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDDiagnosticImpl#getPrimaryComponent <em>Primary Component</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

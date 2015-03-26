@@ -50,13 +50,13 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDModelGroupImpl#getCompositor <em>Compositor</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDModelGroupImpl#getAnnotation <em>Annotation</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDModelGroupImpl#getContents <em>Contents</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDModelGroupImpl#getParticles <em>Particles</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -76,6 +76,7 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDComplexTypeDefinitionImpl#getDerivationMethod <em>Derivation Method</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDComplexTypeDefinitionImpl#getFinal <em>Final</em>}</li>
@@ -97,7 +98,6 @@ import org.eclipse.xsd.util.XSDConstants;
  *   <li>{@link org.eclipse.xsd.impl.XSDComplexTypeDefinitionImpl#getSyntheticParticle <em>Synthetic Particle</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDComplexTypeDefinitionImpl#getSyntheticWildcard <em>Synthetic Wildcard</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

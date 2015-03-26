@@ -21,13 +21,13 @@ package org.eclipse.xsd;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDModelGroupDefinition#isModelGroupDefinitionReference <em>Model Group Definition Reference</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDModelGroupDefinition#getAnnotation <em>Annotation</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDModelGroupDefinition#getModelGroup <em>Model Group</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDModelGroupDefinition#getResolvedModelGroupDefinition <em>Resolved Model Group Definition</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDModelGroupDefinition()
  * @model

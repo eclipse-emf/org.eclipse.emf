@@ -106,6 +106,8 @@ public enum XSDCardinality implements Enumerator
    * Returns the '<em><b>Cardinality</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
+   * @param literal the literal.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static XSDCardinality get(String literal)
@@ -125,6 +127,8 @@ public enum XSDCardinality implements Enumerator
    * Returns the '<em><b>Cardinality</b></em>' literal with the specified name.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param name the name.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static XSDCardinality getByName(String name)
@@ -144,6 +148,8 @@ public enum XSDCardinality implements Enumerator
    * Returns the '<em><b>Cardinality</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
+   * @param value the integer value.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static XSDCardinality get(int value)

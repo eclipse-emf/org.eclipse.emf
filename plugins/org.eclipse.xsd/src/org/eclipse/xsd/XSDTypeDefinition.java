@@ -24,6 +24,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDTypeDefinition#getAnnotation <em>Annotation</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDTypeDefinition#getDerivationAnnotation <em>Derivation Annotation</em>}</li>
@@ -33,7 +34,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.xsd.XSDTypeDefinition#getSimpleType <em>Simple Type</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDTypeDefinition#getComplexType <em>Complex Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDTypeDefinition()
  * @model abstract="true"

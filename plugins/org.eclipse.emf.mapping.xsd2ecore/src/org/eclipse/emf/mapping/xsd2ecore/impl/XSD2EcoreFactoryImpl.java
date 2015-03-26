@@ -39,7 +39,7 @@ public class XSD2EcoreFactoryImpl extends EFactoryImpl implements XSD2EcoreFacto
   {
     try
     {
-      XSD2EcoreFactory theXSD2EcoreFactory = (XSD2EcoreFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2002/XSD2Ecore"); 
+      XSD2EcoreFactory theXSD2EcoreFactory = (XSD2EcoreFactory)EPackage.Registry.INSTANCE.getEFactory(XSD2EcorePackage.eNS_URI);
       if (theXSD2EcoreFactory != null)
       {
         return theXSD2EcoreFactory;

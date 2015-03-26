@@ -46,6 +46,7 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDAttributeUseImpl#isRequired <em>Required</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDAttributeUseImpl#getValue <em>Value</em>}</li>
@@ -55,7 +56,6 @@ import org.eclipse.xsd.util.XSDConstants;
  *   <li>{@link org.eclipse.xsd.impl.XSDAttributeUseImpl#getAttributeDeclaration <em>Attribute Declaration</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDAttributeUseImpl#getContent <em>Content</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

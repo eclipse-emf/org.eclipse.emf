@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDConcreteComponent#getElement <em>Element</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDConcreteComponent#getContainer <em>Container</em>}</li>
@@ -34,7 +35,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.xsd.XSDConcreteComponent#getSchema <em>Schema</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDConcreteComponent#getDiagnostics <em>Diagnostics</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDConcreteComponent()
  * @model abstract="true"

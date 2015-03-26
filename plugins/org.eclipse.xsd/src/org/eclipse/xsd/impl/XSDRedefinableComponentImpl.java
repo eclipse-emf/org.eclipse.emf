@@ -22,10 +22,10 @@ import org.eclipse.xsd.XSDRedefinableComponent;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDRedefinableComponentImpl#isCircular <em>Circular</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

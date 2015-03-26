@@ -27,6 +27,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDSchema#getDocument <em>Document</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDSchema#getSchemaLocation <em>Schema Location</em>}</li>
@@ -52,7 +53,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.xsd.XSDSchema#getIncorporatedVersions <em>Incorporated Versions</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDSchema#getSchemaForSchema <em>Schema For Schema</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDSchema()
  * @model

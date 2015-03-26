@@ -23,12 +23,12 @@ package org.eclipse.xsd;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDMinFacet#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDMinFacet#isInclusive <em>Inclusive</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDMinFacet#isExclusive <em>Exclusive</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDMinFacet()
  * @model abstract="true"

@@ -22,13 +22,13 @@ import java.util.List;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDParticle#getMinOccurs <em>Min Occurs</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDParticle#getMaxOccurs <em>Max Occurs</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDParticle#getContent <em>Content</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDParticle#getTerm <em>Term</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDParticle()
  * @model

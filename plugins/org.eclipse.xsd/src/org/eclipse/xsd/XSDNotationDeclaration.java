@@ -21,12 +21,12 @@ package org.eclipse.xsd;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDNotationDeclaration#getSystemIdentifier <em>System Identifier</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDNotationDeclaration#getPublicIdentifier <em>Public Identifier</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDNotationDeclaration#getAnnotation <em>Annotation</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDNotationDeclaration()
  * @model

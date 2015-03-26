@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDComplexTypeDefinition#getDerivationMethod <em>Derivation Method</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDComplexTypeDefinition#getFinal <em>Final</em>}</li>
@@ -43,7 +44,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.xsd.XSDComplexTypeDefinition#getSyntheticParticle <em>Synthetic Particle</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDComplexTypeDefinition#getSyntheticWildcard <em>Synthetic Wildcard</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDComplexTypeDefinition()
  * @model

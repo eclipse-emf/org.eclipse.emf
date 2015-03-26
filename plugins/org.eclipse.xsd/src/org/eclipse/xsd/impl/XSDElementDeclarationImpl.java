@@ -64,6 +64,7 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDElementDeclarationImpl#isNillable <em>Nillable</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDElementDeclarationImpl#getDisallowedSubstitutions <em>Disallowed Substitutions</em>}</li>
@@ -81,7 +82,6 @@ import org.eclipse.xsd.util.XSDConstants;
  *   <li>{@link org.eclipse.xsd.impl.XSDElementDeclarationImpl#getSubstitutionGroupAffiliation <em>Substitution Group Affiliation</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDElementDeclarationImpl#getSubstitutionGroup <em>Substitution Group</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

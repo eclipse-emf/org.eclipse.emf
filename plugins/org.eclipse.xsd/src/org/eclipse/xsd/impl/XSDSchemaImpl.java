@@ -93,6 +93,7 @@ import org.eclipse.xsd.util.XSDSwitch;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDSchemaImpl#getDocument <em>Document</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDSchemaImpl#getSchemaLocation <em>Schema Location</em>}</li>
@@ -118,7 +119,6 @@ import org.eclipse.xsd.util.XSDSwitch;
  *   <li>{@link org.eclipse.xsd.impl.XSDSchemaImpl#getIncorporatedVersions <em>Incorporated Versions</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDSchemaImpl#getSchemaForSchema <em>Schema For Schema</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

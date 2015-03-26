@@ -35,6 +35,7 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDFacetImpl#getLexicalValue <em>Lexical Value</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDFacetImpl#getFacetName <em>Facet Name</em>}</li>
@@ -42,7 +43,6 @@ import org.eclipse.xsd.util.XSDConstants;
  *   <li>{@link org.eclipse.xsd.impl.XSDFacetImpl#getAnnotation <em>Annotation</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDFacetImpl#getSimpleTypeDefinition <em>Simple Type Definition</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

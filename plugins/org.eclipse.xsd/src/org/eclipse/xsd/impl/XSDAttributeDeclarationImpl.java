@@ -46,6 +46,7 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDAttributeDeclarationImpl#isAttributeDeclarationReference <em>Attribute Declaration Reference</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDAttributeDeclarationImpl#getAnnotation <em>Annotation</em>}</li>
@@ -53,7 +54,6 @@ import org.eclipse.xsd.util.XSDConstants;
  *   <li>{@link org.eclipse.xsd.impl.XSDAttributeDeclarationImpl#getTypeDefinition <em>Type Definition</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDAttributeDeclarationImpl#getResolvedAttributeDeclaration <em>Resolved Attribute Declaration</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

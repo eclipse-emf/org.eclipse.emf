@@ -39,6 +39,7 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDFeatureImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDFeatureImpl#getConstraint <em>Constraint</em>}</li>
@@ -50,7 +51,6 @@ import org.eclipse.xsd.util.XSDConstants;
  *   <li>{@link org.eclipse.xsd.impl.XSDFeatureImpl#getResolvedFeature <em>Resolved Feature</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDFeatureImpl#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

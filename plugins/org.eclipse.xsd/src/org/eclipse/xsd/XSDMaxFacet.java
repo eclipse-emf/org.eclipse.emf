@@ -23,12 +23,12 @@ package org.eclipse.xsd;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDMaxFacet#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDMaxFacet#isInclusive <em>Inclusive</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDMaxFacet#isExclusive <em>Exclusive</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDMaxFacet()
  * @model abstract="true"

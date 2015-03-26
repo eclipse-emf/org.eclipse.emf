@@ -21,8 +21,6 @@ import org.eclipse.xsd.XSDScope;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Scope</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

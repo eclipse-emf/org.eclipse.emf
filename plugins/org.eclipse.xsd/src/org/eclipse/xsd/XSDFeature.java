@@ -23,6 +23,7 @@ package org.eclipse.xsd;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDFeature#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDFeature#getConstraint <em>Constraint</em>}</li>
@@ -34,7 +35,6 @@ package org.eclipse.xsd;
  *   <li>{@link org.eclipse.xsd.XSDFeature#getResolvedFeature <em>Resolved Feature</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDFeature#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDFeature()
  * @model abstract="true"

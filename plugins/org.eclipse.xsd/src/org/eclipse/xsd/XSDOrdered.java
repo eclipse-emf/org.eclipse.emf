@@ -130,6 +130,8 @@ public enum XSDOrdered implements Enumerator
    * Returns the '<em><b>Ordered</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
+   * @param literal the literal.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static XSDOrdered get(String literal)
@@ -149,6 +151,8 @@ public enum XSDOrdered implements Enumerator
    * Returns the '<em><b>Ordered</b></em>' literal with the specified name.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param name the name.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static XSDOrdered getByName(String name)
@@ -168,6 +172,8 @@ public enum XSDOrdered implements Enumerator
    * Returns the '<em><b>Ordered</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
+   * @param value the integer value.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static XSDOrdered get(int value)

@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDElementDeclaration#isNillable <em>Nillable</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDElementDeclaration#getDisallowedSubstitutions <em>Disallowed Substitutions</em>}</li>
@@ -39,7 +40,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.xsd.XSDElementDeclaration#getSubstitutionGroupAffiliation <em>Substitution Group Affiliation</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDElementDeclaration#getSubstitutionGroup <em>Substitution Group</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDElementDeclaration()
  * @model

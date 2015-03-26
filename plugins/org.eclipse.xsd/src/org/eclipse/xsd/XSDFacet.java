@@ -20,6 +20,7 @@ package org.eclipse.xsd;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDFacet#getLexicalValue <em>Lexical Value</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDFacet#getFacetName <em>Facet Name</em>}</li>
@@ -27,7 +28,6 @@ package org.eclipse.xsd;
  *   <li>{@link org.eclipse.xsd.XSDFacet#getAnnotation <em>Annotation</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDFacet#getSimpleTypeDefinition <em>Simple Type Definition</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDFacet()
  * @model abstract="true"

@@ -46,7 +46,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
   {
     try
     {
-      XSDFactory theXSDFactory = (XSDFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/xsd/2002/XSD"); 
+      XSDFactory theXSDFactory = (XSDFactory)EPackage.Registry.INSTANCE.getEFactory(XSDPackage.eNS_URI);
       if (theXSDFactory != null)
       {
         return theXSDFactory;

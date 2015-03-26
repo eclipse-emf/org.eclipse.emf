@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDWildcard#getNamespaceConstraintCategory <em>Namespace Constraint Category</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDWildcard#getNamespaceConstraint <em>Namespace Constraint</em>}</li>
@@ -30,7 +31,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.xsd.XSDWildcard#getAnnotation <em>Annotation</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDWildcard#getAnnotations <em>Annotations</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDWildcard()
  * @model

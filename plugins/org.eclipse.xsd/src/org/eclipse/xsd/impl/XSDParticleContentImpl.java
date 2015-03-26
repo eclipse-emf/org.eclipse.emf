@@ -24,8 +24,6 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Particle Content</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

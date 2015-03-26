@@ -42,11 +42,11 @@ import org.eclipse.xsd.util.XSDSchemaLocator;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDSchemaDirectiveImpl#getSchemaLocation <em>Schema Location</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDSchemaDirectiveImpl#getResolvedSchema <em>Resolved Schema</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

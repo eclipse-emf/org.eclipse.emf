@@ -61,13 +61,13 @@ import org.w3c.dom.Node;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDParticleImpl#getMinOccurs <em>Min Occurs</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDParticleImpl#getMaxOccurs <em>Max Occurs</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDParticleImpl#getContent <em>Content</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDParticleImpl#getTerm <em>Term</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

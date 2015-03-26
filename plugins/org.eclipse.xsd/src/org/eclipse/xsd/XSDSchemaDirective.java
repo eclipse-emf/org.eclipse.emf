@@ -24,11 +24,11 @@ package org.eclipse.xsd;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDSchemaDirective#getSchemaLocation <em>Schema Location</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDSchemaDirective#getResolvedSchema <em>Resolved Schema</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDSchemaDirective()
  * @model abstract="true"

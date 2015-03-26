@@ -39,6 +39,7 @@ import org.eclipse.xsd.XSDTypeDefinition;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDTypeDefinitionImpl#getAnnotation <em>Annotation</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDTypeDefinitionImpl#getDerivationAnnotation <em>Derivation Annotation</em>}</li>
@@ -48,7 +49,6 @@ import org.eclipse.xsd.XSDTypeDefinition;
  *   <li>{@link org.eclipse.xsd.impl.XSDTypeDefinitionImpl#getSimpleType <em>Simple Type</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDTypeDefinitionImpl#getComplexType <em>Complex Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

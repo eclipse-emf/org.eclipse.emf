@@ -21,8 +21,6 @@ import org.eclipse.xsd.XSDPackage;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Complex Type Content</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

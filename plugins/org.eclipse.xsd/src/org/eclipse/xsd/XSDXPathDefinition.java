@@ -30,12 +30,12 @@ package org.eclipse.xsd;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.XSDXPathDefinition#getVariety <em>Variety</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDXPathDefinition#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDXPathDefinition#getAnnotation <em>Annotation</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDXPathDefinition()
  * @model

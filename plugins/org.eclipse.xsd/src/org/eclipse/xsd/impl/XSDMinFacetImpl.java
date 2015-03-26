@@ -38,12 +38,12 @@ import org.w3c.dom.Element;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDMinFacetImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDMinFacetImpl#isInclusive <em>Inclusive</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDMinFacetImpl#isExclusive <em>Exclusive</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

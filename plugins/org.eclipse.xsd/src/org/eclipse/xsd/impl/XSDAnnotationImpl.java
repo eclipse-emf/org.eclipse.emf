@@ -40,12 +40,12 @@ import org.eclipse.xsd.util.XSDConstants;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.xsd.impl.XSDAnnotationImpl#getApplicationInformation <em>Application Information</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDAnnotationImpl#getUserInformation <em>User Information</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDAnnotationImpl#getAttributes <em>Attributes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
