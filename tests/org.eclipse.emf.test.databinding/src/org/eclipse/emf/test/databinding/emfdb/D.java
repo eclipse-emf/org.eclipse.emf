@@ -16,11 +16,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.D#getElist <em>Elist</em>}</li>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.D#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.databinding.emfdb.EmfdbPackage#getD()
  * @model

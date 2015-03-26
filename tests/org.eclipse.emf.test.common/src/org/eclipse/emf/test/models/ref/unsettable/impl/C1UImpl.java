@@ -32,11 +32,11 @@ import org.eclipse.emf.test.models.ref.unsettable.URefPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.impl.C1UImpl#getAu <em>Au</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.impl.C1UImpl#getBu <em>Bu</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

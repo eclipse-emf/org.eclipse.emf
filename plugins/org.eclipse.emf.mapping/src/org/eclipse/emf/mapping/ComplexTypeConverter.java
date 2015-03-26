@@ -19,11 +19,11 @@ package org.eclipse.emf.mapping;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.mapping.ComplexTypeConverter#getIn2out <em>In2out</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.ComplexTypeConverter#getOut2in <em>Out2in</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.mapping.MappingPackage#getComplexTypeConverter()
  * @model

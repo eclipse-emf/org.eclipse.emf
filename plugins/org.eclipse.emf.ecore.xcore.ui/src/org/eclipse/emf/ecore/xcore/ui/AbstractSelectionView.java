@@ -98,7 +98,7 @@ public abstract class AbstractSelectionView extends ViewPart
     // Ignore
   }
 
-  @SuppressWarnings("rawtypes")
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
   public Object getAdapter(Class type)
   {
@@ -116,7 +116,6 @@ public abstract class AbstractSelectionView extends ViewPart
     setEditingDomainProvider(getAdapter(part, IEditingDomainProvider.class));
   }
 
-  @SuppressWarnings("unchecked")
   protected <T> T getAdapter(IWorkbenchPart part, Class<T> c)
   {
     IWorkbenchPage workbenchPage = getViewSite().getWorkbenchWindow().getActivePage();

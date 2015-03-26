@@ -90,7 +90,7 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
         @Override
         public void accept(ICompletionProposal proposal)
         {
-          if (proposal instanceof ConfigurableCompletionProposal && textApplier != null)
+          if (proposal instanceof ConfigurableCompletionProposal)
           {
             ((ConfigurableCompletionProposal)proposal).setTextApplier(textApplier);
           }
@@ -118,7 +118,7 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
         @Override
         public void accept(ICompletionProposal proposal)
         {
-          if (proposal instanceof ConfigurableCompletionProposal && textApplier != null)
+          if (proposal instanceof ConfigurableCompletionProposal)
           {
             ((ConfigurableCompletionProposal)proposal).setTextApplier(textApplier);
           }

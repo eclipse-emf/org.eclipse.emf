@@ -23,12 +23,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.customer.CreditInfo#getHolder <em>Holder</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.CreditInfo#getCcNumber <em>Cc Number</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.CreditInfo#getExpireDate <em>Expire Date</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCreditInfo()
  * @model extendedMetaData="name='creditInfo' kind='elementOnly'"

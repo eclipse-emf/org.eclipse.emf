@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.EParameter;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenParameter#getGenOperation <em>Gen Operation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenParameter#getEcoreParameter <em>Ecore Parameter</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenParameter()
  * @model

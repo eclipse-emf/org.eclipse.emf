@@ -35,6 +35,7 @@ import org.eclipse.emf.test.models.lib.Person;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.lib.impl.LibraryImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.lib.impl.LibraryImpl#getBooks <em>Books</em>}</li>
@@ -42,7 +43,6 @@ import org.eclipse.emf.test.models.lib.Person;
  *   <li>{@link org.eclipse.emf.test.models.lib.impl.LibraryImpl#getWriters <em>Writers</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.lib.impl.LibraryImpl#getCafeteria <em>Cafeteria</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

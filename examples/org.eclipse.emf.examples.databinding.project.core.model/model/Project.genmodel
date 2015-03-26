@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.examples.databinding.project.core.model/src"
-    modelPluginID="org.eclipse.emf.examples.databinding.project.core.model" modelName="Project"
-    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false">
+    editDirectory="" editorDirectory="" modelPluginID="org.eclipse.emf.examples.databinding.project.core.model"
+    modelName="Project" testsDirectory="" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false">
   <foreignModel>Project.ecore</foreignModel>
   <genPackages prefix="Project" basePackage="org.eclipse.emf.examples.databinding.project.core.model"
       disposableProviderFactory="true" ecorePackage="Project.ecore#/">
@@ -20,6 +20,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//Project/start"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//Project/end"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//Project/longname"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//Project/devmail"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//Project/homepage"/>
     </genClasses>
     <genClasses ecoreClass="Project.ecore#//CommitterShip">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//CommitterShip/start"/>
@@ -32,6 +34,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//Person/firstname"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//Person/email"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Project.ecore#//Person/committerships"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//Person/image"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

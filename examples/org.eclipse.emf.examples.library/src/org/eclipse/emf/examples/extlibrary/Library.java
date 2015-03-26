@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.Library#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.Library#getWriters <em>Writers</em>}</li>
@@ -34,7 +35,6 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link org.eclipse.emf.examples.extlibrary.Library#getParentBranch <em>Parent Branch</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.Library#getPeople <em>People</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary()
  * @model

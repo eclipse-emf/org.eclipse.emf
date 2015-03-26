@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.mapping.Mapping#getHelper <em>Helper</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.Mapping#getNested <em>Nested</em>}</li>
@@ -33,7 +34,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.emf.mapping.Mapping#getOutputs <em>Outputs</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.Mapping#getTypeMapping <em>Type Mapping</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.mapping.MappingPackage#getMapping()
  * @model

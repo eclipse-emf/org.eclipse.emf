@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EClass;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#getProvider <em>Provider</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#isImage <em>Image</em>}</li>
@@ -34,7 +35,6 @@ import org.eclipse.emf.ecore.EClass;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#getGenOperations <em>Gen Operations</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#getLabelFeature <em>Label Feature</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenClass()
  * @model

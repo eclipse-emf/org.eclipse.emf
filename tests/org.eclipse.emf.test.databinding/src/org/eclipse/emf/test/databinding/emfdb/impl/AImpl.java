@@ -34,12 +34,12 @@ import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.AImpl#getString <em>String</em>}</li>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.AImpl#getBlist <em>Blist</em>}</li>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.AImpl#getCmap <em>Cmap</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

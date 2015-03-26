@@ -317,7 +317,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
     addAnnotation
       (dbTypeEClass, 
        source, 
@@ -325,7 +325,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
        {
        "name", "dbType",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getDbType_RedPen(), 
        source, 
@@ -334,7 +334,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
        "kind", "element",
        "name", "red_pen",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDbType_BluePen(), 
        source, 
@@ -342,7 +342,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
        {
        "kind", "element",
        "name", "blue_pen"
-       });		
+       });	
     addAnnotation
       (getDbType_RedPencil(), 
        source, 
@@ -351,7 +351,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
        "kind", "element",
        "name", "red_pencil",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDbType_BluePencil(), 
        source, 
@@ -359,7 +359,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
        {
        "kind", "element",
        "name", "blue_pencil"
-       });		
+       });	
     addAnnotation
       (documentRootEClass, 
        source, 
@@ -367,7 +367,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
        {
        "name", "",
        "kind", "mixed"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_Mixed(), 
        source, 
@@ -375,7 +375,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
        {
        "kind", "elementWildcard",
        "name", ":mixed"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_XMLNSPrefixMap(), 
        source, 
@@ -383,7 +383,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
        {
        "kind", "attribute",
        "name", "xmlns:prefix"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_XSISchemaLocation(), 
        source, 
@@ -391,7 +391,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
        {
        "kind", "attribute",
        "name", "xsi:schemaLocation"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_Dbitem(), 
        source, 

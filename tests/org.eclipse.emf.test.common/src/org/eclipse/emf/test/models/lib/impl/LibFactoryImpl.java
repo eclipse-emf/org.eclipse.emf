@@ -41,7 +41,7 @@ public class LibFactoryImpl extends EFactoryImpl implements LibFactory
   {
     try
     {
-      LibFactory theLibFactory = (LibFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org.eclipse.emf.test.models/SimpleLib"); 
+      LibFactory theLibFactory = (LibFactory)EPackage.Registry.INSTANCE.getEFactory(LibPackage.eNS_URI);
       if (theLibFactory != null)
       {
         return theLibFactory;

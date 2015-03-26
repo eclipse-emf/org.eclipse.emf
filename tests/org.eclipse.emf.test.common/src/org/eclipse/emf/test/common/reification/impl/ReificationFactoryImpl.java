@@ -60,7 +60,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
   {
     try
     {
-      ReificationFactory theReificationFactory = (ReificationFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/test/common/Reification"); 
+      ReificationFactory theReificationFactory = (ReificationFactory)EPackage.Registry.INSTANCE.getEFactory(ReificationPackage.eNS_URI);
       if (theReificationFactory != null)
       {
         return theReificationFactory;

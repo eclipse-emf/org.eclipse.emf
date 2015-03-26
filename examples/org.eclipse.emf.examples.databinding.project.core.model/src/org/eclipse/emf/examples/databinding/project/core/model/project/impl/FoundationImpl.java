@@ -35,11 +35,11 @@ import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPa
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.FoundationImpl#getProjects <em>Projects</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.FoundationImpl#getPersons <em>Persons</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

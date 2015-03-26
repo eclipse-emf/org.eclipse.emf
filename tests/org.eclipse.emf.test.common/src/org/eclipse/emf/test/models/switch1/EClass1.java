@@ -18,11 +18,11 @@ package org.eclipse.emf.test.models.switch1;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.switch1.EClass1#getEAttribute2 <em>EAttribute2</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.switch1.EClass1#getEAttribute3 <em>EAttribute3</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.switch1.Switch1Package#getEClass1()
  * @model

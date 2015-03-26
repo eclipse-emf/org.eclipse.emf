@@ -50,6 +50,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.impl.EOperationImpl#getEContainingClass <em>EContaining Class</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EOperationImpl#getETypeParameters <em>EType Parameters</em>}</li>
@@ -57,7 +58,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.ecore.impl.EOperationImpl#getEExceptions <em>EExceptions</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EOperationImpl#getEGenericExceptions <em>EGeneric Exceptions</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

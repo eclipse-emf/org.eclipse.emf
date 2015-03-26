@@ -26,11 +26,11 @@ import org.eclipse.emf.mapping.MappingPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.mapping.impl.ComplexTypeConverterImpl#getIn2out <em>In2out</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.impl.ComplexTypeConverterImpl#getOut2in <em>Out2in</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

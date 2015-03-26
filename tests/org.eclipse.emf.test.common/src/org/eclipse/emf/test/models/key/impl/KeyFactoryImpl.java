@@ -38,7 +38,7 @@ public class KeyFactoryImpl extends EFactoryImpl implements KeyFactory
   {
     try
     {
-      KeyFactory theKeyFactory = (KeyFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org.eclipse.emf.test.models/Key"); 
+      KeyFactory theKeyFactory = (KeyFactory)EPackage.Registry.INSTANCE.getEFactory(KeyPackage.eNS_URI);
       if (theKeyFactory != null)
       {
         return theKeyFactory;

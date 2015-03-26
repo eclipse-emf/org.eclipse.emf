@@ -33,11 +33,11 @@ import org.eclipse.emf.test.models.ref.RefPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.CImpl#getD <em>D</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.CImpl#getC4 <em>C4</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -96,7 +96,7 @@ public class CImpl extends EObjectImpl implements C
   public C4 getC4()
   {
     if (eContainerFeatureID() != RefPackage.C__C4) return null;
-    return (C4)eContainer();
+    return (C4)eInternalContainer();
   }
 
   /**

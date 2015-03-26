@@ -17,8 +17,6 @@ import org.eclipse.emf.test.common.reification.TListKeyValuePair;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>TList Key Value Pair</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

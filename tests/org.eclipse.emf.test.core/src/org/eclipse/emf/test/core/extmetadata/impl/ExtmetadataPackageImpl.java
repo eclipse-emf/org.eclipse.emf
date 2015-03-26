@@ -78,7 +78,7 @@ public class ExtmetadataPackageImpl extends EPackageImpl implements ExtmetadataP
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   *
+   * 
    * <p>This method is used to initialize {@link ExtmetadataPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -105,7 +105,7 @@ public class ExtmetadataPackageImpl extends EPackageImpl implements ExtmetadataP
     // Mark meta-data to indicate it can't be changed
     theExtmetadataPackage.freeze();
 
-
+  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(ExtmetadataPackage.eNS_URI, theExtmetadataPackage);
     return theExtmetadataPackage;

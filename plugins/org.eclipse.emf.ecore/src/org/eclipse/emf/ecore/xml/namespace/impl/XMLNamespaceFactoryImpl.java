@@ -43,7 +43,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
   {
     try
     {
-      XMLNamespaceFactory theXMLNamespaceFactory = (XMLNamespaceFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.w3.org/XML/1998/namespace"); 
+      XMLNamespaceFactory theXMLNamespaceFactory = (XMLNamespaceFactory)EPackage.Registry.INSTANCE.getEFactory(XMLNamespacePackage.eNS_URI);
       if (theXMLNamespaceFactory != null)
       {
         return theXMLNamespaceFactory;

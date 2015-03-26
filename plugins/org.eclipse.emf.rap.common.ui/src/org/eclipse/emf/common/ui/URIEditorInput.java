@@ -117,7 +117,7 @@ public class URIEditorInput implements IEditorInput, IPersistableElement
     return this;
   }
 
-  @SuppressWarnings("rawtypes")
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   public Object getAdapter(Class adapter)
   {
     return null;

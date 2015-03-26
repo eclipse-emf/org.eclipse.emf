@@ -22,6 +22,7 @@ import org.eclipse.emf.test.models.customer.CustomerType;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.DocumentRoot#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.DocumentRoot#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
@@ -33,7 +34,6 @@ import org.eclipse.emf.test.models.customer.CustomerType;
  *   <li>{@link org.eclipse.emf.test.models.movie.db.DocumentRoot#getMovieDB <em>Movie DB</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.DocumentRoot#getSpecialFeatures <em>Special Features</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.movie.db.DBPackage#getDocumentRoot()
  * @model extendedMetaData="name='' kind='mixed'"

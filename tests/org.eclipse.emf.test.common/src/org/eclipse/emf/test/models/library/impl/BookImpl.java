@@ -27,13 +27,13 @@ import org.eclipse.emf.test.models.library.Writer;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.library.impl.BookImpl#getTitle <em>Title</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.library.impl.BookImpl#getPages <em>Pages</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.library.impl.BookImpl#getCategory <em>Category</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.library.impl.BookImpl#getAuthor <em>Author</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

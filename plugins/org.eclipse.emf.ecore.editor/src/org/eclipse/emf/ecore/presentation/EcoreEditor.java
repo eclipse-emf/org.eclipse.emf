@@ -1284,11 +1284,12 @@ public class EcoreEditor
    */
   public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) 
   {
-    if (!resource.getErrors().isEmpty() || !resource.getWarnings().isEmpty())
+    boolean hasErrors = !resource.getErrors().isEmpty();
+    if (hasErrors || !resource.getWarnings().isEmpty())
     {
       BasicDiagnostic basicDiagnostic =
         new BasicDiagnostic
-          (Diagnostic.ERROR,
+          (hasErrors ? Diagnostic.ERROR : Diagnostic.WARNING,
            "org.eclipse.emf.ecore.editor",
            0,
            getString("_UI_CreateModelError_message", resource.getURI()),
@@ -1451,7 +1452,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  @SuppressWarnings("rawtypes")
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
   public Object getAdapter(Class key)
   {

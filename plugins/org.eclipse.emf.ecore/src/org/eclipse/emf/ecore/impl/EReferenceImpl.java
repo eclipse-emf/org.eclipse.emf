@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.impl.EReferenceImpl#isContainment <em>Containment</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EReferenceImpl#isContainer <em>Container</em>}</li>
@@ -41,7 +42,6 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *   <li>{@link org.eclipse.emf.ecore.impl.EReferenceImpl#getEReferenceType <em>EReference Type</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EReferenceImpl#getEKeys <em>EKeys</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

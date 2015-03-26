@@ -34,12 +34,12 @@ import org.eclipse.emf.test.models.ref.RefPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.DImpl#getC <em>C</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.DImpl#getE <em>E</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.DImpl#getC4 <em>C4</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -176,7 +176,7 @@ public class DImpl extends EObjectImpl implements D
   public C4 getC4()
   {
     if (eContainerFeatureID() != RefPackage.D__C4) return null;
-    return (C4)eContainer();
+    return (C4)eInternalContainer();
   }
 
   /**

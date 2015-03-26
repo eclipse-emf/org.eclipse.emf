@@ -26,12 +26,12 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.mapping.ecore2xml.XMLMap#getIDAttributeName <em>ID Attribute Name</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.ecore2xml.XMLMap#getEcoreToXMLInfo <em>Ecore To XML Info</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.ecore2xml.XMLMap#getNoNamespacePackage <em>No Namespace Package</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage#getXMLMap()
  * @model

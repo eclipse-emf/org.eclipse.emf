@@ -27,11 +27,11 @@ import org.eclipse.emf.test.models.ext.F;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ext.impl.FImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ext.impl.FImpl#getE <em>E</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -109,7 +109,7 @@ public class FImpl extends EObjectImpl implements F
   public ExtE getE()
   {
     if (eContainerFeatureID() != ExtPackage.F__E) return null;
-    return (ExtE)eContainer();
+    return (ExtE)eInternalContainer();
   }
 
   /**

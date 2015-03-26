@@ -62,6 +62,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.impl.EPackageImpl#getNsURI <em>Ns URI</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EPackageImpl#getNsPrefix <em>Ns Prefix</em>}</li>
@@ -70,7 +71,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.ecore.impl.EPackageImpl#getESubpackages <em>ESubpackages</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EPackageImpl#getESuperPackage <em>ESuper Package</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

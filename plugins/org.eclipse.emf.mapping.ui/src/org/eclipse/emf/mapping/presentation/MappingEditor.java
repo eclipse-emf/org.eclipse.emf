@@ -1662,7 +1662,7 @@ public abstract class MappingEditor
   /**
    * This is how the framework determines which interfaces we implement.
    */
-  @SuppressWarnings("rawtypes")
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
   public Object getAdapter(Class key)
   {

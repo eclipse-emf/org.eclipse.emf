@@ -41,6 +41,7 @@ import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPa
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.ProjectImpl#getShortname <em>Shortname</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.ProjectImpl#getSubprojects <em>Subprojects</em>}</li>
@@ -53,7 +54,6 @@ import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPa
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.ProjectImpl#getDevmail <em>Devmail</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.ProjectImpl#getHomepage <em>Homepage</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -289,7 +289,7 @@ public class ProjectImpl extends EObjectImpl implements Project
   public Project getParent()
   {
     if (eContainerFeatureID() != ProjectPackage.PROJECT__PARENT) return null;
-    return (Project)eContainer();
+    return (Project)eInternalContainer();
   }
 
   /**

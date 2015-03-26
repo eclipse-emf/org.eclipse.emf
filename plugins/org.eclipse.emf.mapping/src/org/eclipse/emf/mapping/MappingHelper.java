@@ -22,13 +22,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.mapping.MappingHelper#getMapper <em>Mapper</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.MappingHelper#getHelpedObject <em>Helped Object</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.MappingHelper#getNestedIn <em>Nested In</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.MappingHelper#getNested <em>Nested</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.mapping.MappingPackage#getMappingHelper()
  * @model

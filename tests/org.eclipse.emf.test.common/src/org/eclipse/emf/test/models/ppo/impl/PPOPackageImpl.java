@@ -506,7 +506,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    */
   protected void createEcoreAnnotations()
   {
-    String source = "http://www.eclipse.org/emf/2002/Ecore";		
+    String source = "http://www.eclipse.org/emf/2002/Ecore";	
     addAnnotation
       (itemEClass, 
        source, 

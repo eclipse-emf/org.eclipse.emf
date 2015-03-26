@@ -43,7 +43,8 @@ public class ExtmetadataAdapterFactory extends AdapterFactoryImpl {
    * @generated
    */
   public ExtmetadataAdapterFactory() {
-    if (modelPackage == null) {
+    if (modelPackage == null)
+    {
       modelPackage = ExtmetadataPackage.eINSTANCE;
     }
   }
@@ -58,10 +59,12 @@ public class ExtmetadataAdapterFactory extends AdapterFactoryImpl {
    */
   @Override
   public boolean isFactoryForType(Object object) {
-    if (object == modelPackage) {
+    if (object == modelPackage)
+    {
       return true;
     }
-    if (object instanceof EObject) {
+    if (object instanceof EObject)
+    {
       return ((EObject)object).eClass().getEPackage() == modelPackage;
     }
     return false;
@@ -74,21 +77,26 @@ public class ExtmetadataAdapterFactory extends AdapterFactoryImpl {
    * @generated
    */
   protected ExtmetadataSwitch<Adapter> modelSwitch =
-    new ExtmetadataSwitch<Adapter>() {
+    new ExtmetadataSwitch<Adapter>()
+    {
       @Override
-      public Adapter caseNamedElement(NamedElement object) {
+      public Adapter caseNamedElement(NamedElement object)
+      {
         return createNamedElementAdapter();
       }
       @Override
-      public Adapter caseClass(org.eclipse.emf.test.core.extmetadata.Class object) {
+      public Adapter caseClass(org.eclipse.emf.test.core.extmetadata.Class object)
+      {
         return createClassAdapter();
       }
       @Override
-      public Adapter caseAttribute(Attribute object) {
+      public Adapter caseAttribute(Attribute object)
+      {
         return createAttributeAdapter();
       }
       @Override
-      public Adapter defaultCase(EObject object) {
+      public Adapter defaultCase(EObject object)
+      {
         return createEObjectAdapter();
       }
     };

@@ -21,12 +21,12 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.MovieDBType#getMovieDBFeatureMap <em>Movie DB Feature Map</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.MovieDBType#getMovie <em>Movie</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.MovieDBType#getComment <em>Comment</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.movie.db.DBPackage#getMovieDBType()
  * @model extendedMetaData="name='movieDBType' kind='elementOnly'"

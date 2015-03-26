@@ -32,13 +32,13 @@ import org.eclipse.emf.test.models.order.OrderPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.order.impl.DocumentRootImpl#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.order.impl.DocumentRootImpl#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.order.impl.DocumentRootImpl#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.order.impl.DocumentRootImpl#getOrder <em>Order</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

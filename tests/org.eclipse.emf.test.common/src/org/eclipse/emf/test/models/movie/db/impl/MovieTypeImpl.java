@@ -35,6 +35,7 @@ import org.eclipse.emf.test.models.movie.db.MovieType;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.impl.MovieTypeImpl#getTitle <em>Title</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.impl.MovieTypeImpl#getActors <em>Actors</em>}</li>
@@ -47,7 +48,6 @@ import org.eclipse.emf.test.models.movie.db.MovieType;
  *   <li>{@link org.eclipse.emf.test.models.movie.db.impl.MovieTypeImpl#getAny <em>Any</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.impl.MovieTypeImpl#getID <em>ID</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

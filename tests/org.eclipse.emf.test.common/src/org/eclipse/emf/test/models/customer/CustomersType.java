@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.customer.CustomersType#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.CustomersType#getCustomer <em>Customer</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomersType()
  * @model extendedMetaData="name='customersType' kind='mixed'"

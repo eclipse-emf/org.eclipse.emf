@@ -769,7 +769,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
     addAnnotation
       (actorsListEDataType, 
        source, 
@@ -777,7 +777,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "name", "actorsList",
        "itemType", "http://www.eclipse.org/emf/2003/XMLType#NCName"
-       });		
+       });	
     addAnnotation
       (criticsReviewTypeEClass, 
        source, 
@@ -785,7 +785,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "name", "criticsReviewType",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getCriticsReviewType_Rating(), 
        source, 
@@ -793,7 +793,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "kind", "element",
        "name", "rating"
-       });		
+       });	
     addAnnotation
       (getCriticsReviewType_ReviewedBy(), 
        source, 
@@ -801,7 +801,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "kind", "attribute",
        "name", "ReviewedBy"
-       });		
+       });	
     addAnnotation
       (customerReviewTypeEClass, 
        source, 
@@ -809,7 +809,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "name", "customerReviewType",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getCustomerReviewType_Comment(), 
        source, 
@@ -817,7 +817,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "kind", "element",
        "name", "comment"
-       });		
+       });	
     addAnnotation
       (documentRootEClass, 
        source, 
@@ -825,7 +825,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "name", "",
        "kind", "mixed"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_Mixed(), 
        source, 
@@ -833,7 +833,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "kind", "elementWildcard",
        "name", ":mixed"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_XMLNSPrefixMap(), 
        source, 
@@ -841,7 +841,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "kind", "attribute",
        "name", "xmlns:prefix"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_XSISchemaLocation(), 
        source, 
@@ -849,7 +849,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "kind", "attribute",
        "name", "xsi:schemaLocation"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_CheckedOutBy(), 
        source, 
@@ -858,7 +858,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        "kind", "element",
        "name", "checkedOutBy",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_CriticsReview(), 
        source, 
@@ -867,7 +867,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        "kind", "element",
        "name", "criticsReview",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_CustomerReview(), 
        source, 
@@ -877,7 +877,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        "name", "customerReview",
        "namespace", "##targetNamespace",
        "affiliation", "criticsReview"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_Language(), 
        source, 
@@ -886,7 +886,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        "kind", "element",
        "name", "language",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_MovieDB(), 
        source, 
@@ -895,7 +895,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        "kind", "element",
        "name", "movieDB",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_SpecialFeatures(), 
        source, 
@@ -904,14 +904,14 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        "kind", "element",
        "name", "specialFeatures",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (genreTypesEEnum, 
        source, 
        new String[] 
        {
        "name", "genreTypes"
-       });		
+       });	
     addAnnotation
       (genreTypesObjectEDataType, 
        source, 
@@ -919,7 +919,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "name", "genreTypes:Object",
        "baseType", "genreTypes"
-       });		
+       });	
     addAnnotation
       (movieDBTypeEClass, 
        source, 
@@ -927,7 +927,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "name", "movieDBType",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getMovieDBType_MovieDBFeatureMap(), 
        source, 
@@ -935,7 +935,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "name", ":group",
        "kind", "group"
-       });		
+       });	
     addAnnotation
       (getMovieDBType_Movie(), 
        source, 
@@ -945,7 +945,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        "name", "movie",
        "namespace", "##targetNamespace",
        "group", "#:group"
-       });		
+       });	
     addAnnotation
       (getMovieDBType_Comment(), 
        source, 
@@ -954,7 +954,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        "kind", "element",
        "name", "comment",
        "group", "#:group"
-       });		
+       });	
     addAnnotation
       (movieTypeEClass, 
        source, 
@@ -962,7 +962,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "name", "movie",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getMovieType_Title(), 
        source, 
@@ -970,7 +970,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "kind", "element",
        "name", "title"
-       });		
+       });	
     addAnnotation
       (getMovieType_Actors(), 
        source, 
@@ -978,7 +978,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "kind", "element",
        "name", "actors"
-       });		
+       });	
     addAnnotation
       (getMovieType_Director(), 
        source, 
@@ -986,7 +986,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "kind", "element",
        "name", "director"
-       });		
+       });	
     addAnnotation
       (getMovieType_Genre(), 
        source, 
@@ -994,7 +994,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "kind", "element",
        "name", "genre"
-       });		
+       });	
     addAnnotation
       (getMovieType_Summary(), 
        source, 
@@ -1002,7 +1002,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "kind", "element",
        "name", "summary"
-       });		
+       });	
     addAnnotation
       (getMovieType_CriticsReviewGroup(), 
        source, 
@@ -1011,7 +1011,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        "kind", "group",
        "name", "criticsReview:group",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getMovieType_CriticsReview(), 
        source, 
@@ -1021,7 +1021,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        "name", "criticsReview",
        "namespace", "##targetNamespace",
        "group", "criticsReview:group"
-       });		
+       });	
     addAnnotation
       (getMovieType_CheckedOutBy(), 
        source, 
@@ -1030,7 +1030,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        "kind", "element",
        "name", "checkedOutBy",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getMovieType_Any(), 
        source, 
@@ -1040,7 +1040,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        "wildcards", "##any",
        "name", ":8",
        "processing", "strict"
-       });		
+       });	
     addAnnotation
       (getMovieType_ID(), 
        source, 
@@ -1049,7 +1049,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        "kind", "attribute",
        "name", "ID",
        "namespace", "http:///org.eclipse.emf.test.models/Customer"
-       });		
+       });	
     addAnnotation
       (ratingTypeEDataType, 
        source, 
@@ -1059,7 +1059,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        "baseType", "http://www.eclipse.org/emf/2003/XMLType#int",
        "minInclusive", "0",
        "maxInclusive", "10"
-       });		
+       });	
     addAnnotation
       (ratingTypeObjectEDataType, 
        source, 
@@ -1067,7 +1067,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        {
        "name", "rating_._type:Object",
        "baseType", "rating_._type"
-       });		
+       });	
     addAnnotation
       (ratingValuesEDataType, 
        source, 
@@ -1077,7 +1077,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
        "baseType", "http://www.eclipse.org/emf/2003/XMLType#int",
        "minInclusive", "0",
        "maxInclusive", "10"
-       });		
+       });	
     addAnnotation
       (ratingValuesObjectEDataType, 
        source, 

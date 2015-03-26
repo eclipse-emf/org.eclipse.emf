@@ -25,12 +25,12 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.SimpleAnyTypeImpl#getRawValue <em>Raw Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.SimpleAnyTypeImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.SimpleAnyTypeImpl#getInstanceType <em>Instance Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

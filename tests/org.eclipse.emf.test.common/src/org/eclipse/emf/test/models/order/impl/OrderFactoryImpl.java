@@ -39,7 +39,7 @@ public class OrderFactoryImpl extends EFactoryImpl implements OrderFactory
   {
     try
     {
-      OrderFactory theOrderFactory = (OrderFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org.eclipse.emf.test.models/Order"); 
+      OrderFactory theOrderFactory = (OrderFactory)EPackage.Registry.INSTANCE.getEFactory(OrderPackage.eNS_URI);
       if (theOrderFactory != null)
       {
         return theOrderFactory;

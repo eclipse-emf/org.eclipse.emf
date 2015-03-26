@@ -336,7 +336,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
             uriHandler.setBaseURI(getURI());
           }
           BinaryResourceImpl.BinaryIO.Version version = 
-            options != null && options.containsKey(BinaryResourceImpl.OPTION_VERSION)? (Version)options.get(BinaryResourceImpl.OPTION_VERSION) : BinaryResourceImpl.BinaryIO.Version.VERSION_1_0;
+            options.containsKey(BinaryResourceImpl.OPTION_VERSION)? (Version)options.get(BinaryResourceImpl.OPTION_VERSION) : BinaryResourceImpl.BinaryIO.Version.VERSION_1_0;
           EObjectOutputStream eObjectOutputStream = createEObjectOutputStream(outputStream, options, version, uriHandler);
           eObjectOutputStream.saveResource(this);
 

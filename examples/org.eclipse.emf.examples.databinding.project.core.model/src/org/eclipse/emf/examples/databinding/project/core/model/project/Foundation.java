@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Foundation#getProjects <em>Projects</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Foundation#getPersons <em>Persons</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage#getFoundation()
  * @model

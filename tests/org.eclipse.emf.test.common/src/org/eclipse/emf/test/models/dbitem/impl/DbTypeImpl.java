@@ -27,13 +27,13 @@ import org.eclipse.emf.test.models.dbprice.PencilType;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.dbitem.impl.DbTypeImpl#getRedPen <em>Red Pen</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.dbitem.impl.DbTypeImpl#getBluePen <em>Blue Pen</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.dbitem.impl.DbTypeImpl#getRedPencil <em>Red Pencil</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.dbitem.impl.DbTypeImpl#getBluePencil <em>Blue Pencil</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

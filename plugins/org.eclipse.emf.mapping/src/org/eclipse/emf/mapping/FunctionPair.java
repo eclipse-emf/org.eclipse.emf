@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.EOperation;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.mapping.FunctionPair#getIn2out <em>In2out</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.FunctionPair#getOut2in <em>Out2in</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.mapping.MappingPackage#getFunctionPair()
  * @model

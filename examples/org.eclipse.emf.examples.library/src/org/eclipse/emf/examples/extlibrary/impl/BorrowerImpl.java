@@ -34,10 +34,10 @@ import org.eclipse.emf.examples.extlibrary.Lendable;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.BorrowerImpl#getBorrowed <em>Borrowed</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

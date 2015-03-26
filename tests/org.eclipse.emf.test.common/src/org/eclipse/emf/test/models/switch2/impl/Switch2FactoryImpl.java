@@ -38,7 +38,7 @@ public class Switch2FactoryImpl extends EFactoryImpl implements Switch2Factory
   {
     try
     {
-      Switch2Factory theSwitch2Factory = (Switch2Factory)EPackage.Registry.INSTANCE.getEFactory("http:///org.eclipse.emf.test.models/switch2"); 
+      Switch2Factory theSwitch2Factory = (Switch2Factory)EPackage.Registry.INSTANCE.getEFactory(Switch2Package.eNS_URI);
       if (theSwitch2Factory != null)
       {
         return theSwitch2Factory;

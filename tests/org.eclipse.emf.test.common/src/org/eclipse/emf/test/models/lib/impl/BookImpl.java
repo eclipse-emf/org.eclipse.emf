@@ -23,10 +23,10 @@ import org.eclipse.emf.test.models.lib.LibPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.lib.impl.BookImpl#getTitle <em>Title</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

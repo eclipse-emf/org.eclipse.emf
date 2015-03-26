@@ -41,6 +41,7 @@ import org.eclipse.emf.mapping.MappingRoot;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.mapping.impl.MappingImpl#getHelper <em>Helper</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.impl.MappingImpl#getNested <em>Nested</em>}</li>
@@ -49,7 +50,6 @@ import org.eclipse.emf.mapping.MappingRoot;
  *   <li>{@link org.eclipse.emf.mapping.impl.MappingImpl#getOutputs <em>Outputs</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.impl.MappingImpl#getTypeMapping <em>Type Mapping</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

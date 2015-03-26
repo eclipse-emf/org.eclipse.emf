@@ -62,6 +62,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.impl.EClassImpl#isAbstract <em>Abstract</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EClassImpl#isInterface <em>Interface</em>}</li>
@@ -80,7 +81,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.ecore.impl.EClassImpl#getEGenericSuperTypes <em>EGeneric Super Types</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EClassImpl#getEAllGenericSuperTypes <em>EAll Generic Super Types</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

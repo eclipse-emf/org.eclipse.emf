@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.impl.ETypedElementImpl#isOrdered <em>Ordered</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.ETypedElementImpl#isUnique <em>Unique</em>}</li>
@@ -42,7 +43,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.ecore.impl.ETypedElementImpl#getEType <em>EType</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.ETypedElementImpl#getEGenericType <em>EGeneric Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

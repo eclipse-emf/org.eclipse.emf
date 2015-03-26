@@ -34,12 +34,12 @@ import org.eclipse.emf.edit.tree.TreePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.edit.tree.impl.TreeNodeImpl#getParent <em>Parent</em>}</li>
  *   <li>{@link org.eclipse.emf.edit.tree.impl.TreeNodeImpl#getChildren <em>Children</em>}</li>
  *   <li>{@link org.eclipse.emf.edit.tree.impl.TreeNodeImpl#getData <em>Data</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

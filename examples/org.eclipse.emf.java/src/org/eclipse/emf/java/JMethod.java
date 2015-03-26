@@ -24,6 +24,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.java.JMethod#isAbstract <em>Abstract</em>}</li>
  *   <li>{@link org.eclipse.emf.java.JMethod#isFinal <em>Final</em>}</li>
@@ -37,7 +38,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.emf.java.JMethod#getExceptions <em>Exceptions</em>}</li>
  *   <li>{@link org.eclipse.emf.java.JMethod#getReturnType <em>Return Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.java.JavaPackage#getJMethod()
  * @model

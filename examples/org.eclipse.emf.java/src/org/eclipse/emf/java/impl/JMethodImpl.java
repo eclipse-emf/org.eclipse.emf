@@ -42,6 +42,7 @@ import org.eclipse.emf.java.util.JavaUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.java.impl.JMethodImpl#isAbstract <em>Abstract</em>}</li>
  *   <li>{@link org.eclipse.emf.java.impl.JMethodImpl#isFinal <em>Final</em>}</li>
@@ -55,7 +56,6 @@ import org.eclipse.emf.java.util.JavaUtil;
  *   <li>{@link org.eclipse.emf.java.impl.JMethodImpl#getExceptions <em>Exceptions</em>}</li>
  *   <li>{@link org.eclipse.emf.java.impl.JMethodImpl#getReturnType <em>Return Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

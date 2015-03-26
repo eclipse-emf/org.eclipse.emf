@@ -38,7 +38,7 @@ public class Switch3FactoryImpl extends EFactoryImpl implements Switch3Factory
   {
     try
     {
-      Switch3Factory theSwitch3Factory = (Switch3Factory)EPackage.Registry.INSTANCE.getEFactory("http:///org.eclipse.emf.test.models/switch3"); 
+      Switch3Factory theSwitch3Factory = (Switch3Factory)EPackage.Registry.INSTANCE.getEFactory(Switch3Package.eNS_URI);
       if (theSwitch3Factory != null)
       {
         return theSwitch3Factory;

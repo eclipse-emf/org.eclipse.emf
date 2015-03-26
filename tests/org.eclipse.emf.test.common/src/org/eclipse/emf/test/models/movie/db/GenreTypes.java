@@ -362,6 +362,8 @@ public enum GenreTypes implements Enumerator
    * Returns the '<em><b>Genre Types</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param literal the literal.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static GenreTypes get(String literal)
@@ -381,6 +383,8 @@ public enum GenreTypes implements Enumerator
    * Returns the '<em><b>Genre Types</b></em>' literal with the specified name.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param name the name.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static GenreTypes getByName(String name)
@@ -400,6 +404,8 @@ public enum GenreTypes implements Enumerator
    * Returns the '<em><b>Genre Types</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param value the integer value.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static GenreTypes get(int value)

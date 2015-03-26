@@ -31,13 +31,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.impl.EEnumLiteralImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EEnumLiteralImpl#getInstance <em>Instance</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EEnumLiteralImpl#getLiteral <em>Literal</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EEnumLiteralImpl#getEEnum <em>EEnum</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -386,14 +386,14 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    */
   protected void createNamespaceAnnotations()
   {
-    String source = "http://www.w3.org/XML/1998/namespace";		
+    String source = "http://www.w3.org/XML/1998/namespace";	
     addAnnotation
       (this, 
        source, 
        new String[] 
        {
        "lang", "en"
-       });												
+       });
   }
 
   /**
@@ -404,7 +404,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";			
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
     addAnnotation
       (langTypeEDataType, 
        source, 
@@ -412,7 +412,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
        {
        "name", "lang_._type",
        "memberTypes", "http://www.eclipse.org/emf/2003/XMLType#language lang_._type_._member_._1"
-       });		
+       });	
     addAnnotation
       (langTypeNullEDataType, 
        source, 
@@ -421,14 +421,14 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
        "name", "lang_._type_._member_._1",
        "baseType", "http://www.eclipse.org/emf/2003/XMLType#string",
        "enumeration", ""
-       });		
+       });	
     addAnnotation
       (spaceTypeEEnum, 
        source, 
        new String[] 
        {
        "name", "space_._type"
-       });		
+       });	
     addAnnotation
       (spaceTypeObjectEDataType, 
        source, 
@@ -436,7 +436,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
        {
        "name", "space_._type:Object",
        "baseType", "space_._type"
-       });		
+       });	
     addAnnotation
       (xmlNamespaceDocumentRootEClass, 
        source, 
@@ -444,7 +444,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
        {
        "name", "",
        "kind", "mixed"
-       });		
+       });	
     addAnnotation
       (getXMLNamespaceDocumentRoot_Mixed(), 
        source, 
@@ -452,7 +452,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
        {
        "kind", "elementWildcard",
        "name", ":mixed"
-       });		
+       });	
     addAnnotation
       (getXMLNamespaceDocumentRoot_XMLNSPrefixMap(), 
        source, 
@@ -460,7 +460,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
        {
        "kind", "attribute",
        "name", "xmlns:prefix"
-       });		
+       });	
     addAnnotation
       (getXMLNamespaceDocumentRoot_XSISchemaLocation(), 
        source, 
@@ -468,7 +468,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
        {
        "kind", "attribute",
        "name", "xsi:schemaLocation"
-       });		
+       });	
     addAnnotation
       (getXMLNamespaceDocumentRoot_Base(), 
        source, 
@@ -477,7 +477,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
        "kind", "attribute",
        "name", "base",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getXMLNamespaceDocumentRoot_Id(), 
        source, 
@@ -486,7 +486,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
        "kind", "attribute",
        "name", "id",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getXMLNamespaceDocumentRoot_Lang(), 
        source, 
@@ -495,7 +495,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
        "kind", "attribute",
        "name", "lang",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getXMLNamespaceDocumentRoot_Space(), 
        source, 

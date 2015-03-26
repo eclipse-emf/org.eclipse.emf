@@ -1274,10 +1274,7 @@ public class URITest
     allStrings.clear();
     for (int i = 0; i < count; ++i)
     {
-      if (dataCopy != null)
-      {
-        dataCopy[i] = null;
-      }
+      dataCopy[i] = null;
     }
 
     // Do a garbage collection and wait for the cleaner thread to complete.

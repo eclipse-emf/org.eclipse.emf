@@ -19,11 +19,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.customer.AddressType#getStreet <em>Street</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.AddressType#getTown <em>Town</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.customer.CustomerPackage#getAddressType()
  * @model abstract="true"

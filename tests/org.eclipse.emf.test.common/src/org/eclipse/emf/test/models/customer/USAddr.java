@@ -18,11 +18,11 @@ package org.eclipse.emf.test.models.customer;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.customer.USAddr#getZip <em>Zip</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.USAddr#getState <em>State</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.customer.CustomerPackage#getUSAddr()
  * @model extendedMetaData="name='USAddr' kind='elementOnly'"

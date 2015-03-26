@@ -494,7 +494,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
     addAnnotation
       (documentRootEClass, 
        source, 
@@ -502,7 +502,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        {
        "name", "",
        "kind", "mixed"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_Mixed(), 
        source, 
@@ -510,7 +510,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        {
        "kind", "elementWildcard",
        "name", ":mixed"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_XMLNSPrefixMap(), 
        source, 
@@ -518,7 +518,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        {
        "kind", "attribute",
        "name", "xmlns:prefix"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_XSISchemaLocation(), 
        source, 
@@ -526,7 +526,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        {
        "kind", "attribute",
        "name", "xsi:schemaLocation"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_AnyE(), 
        source, 
@@ -535,7 +535,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        "kind", "element",
        "name", "anyE",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_AnyEU(), 
        source, 
@@ -544,7 +544,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        "kind", "element",
        "name", "anyEU",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_Resource(), 
        source, 
@@ -553,7 +553,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        "kind", "element",
        "name", "resource",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_AInt(), 
        source, 
@@ -562,7 +562,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        "kind", "attribute",
        "name", "aInt",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_AQname(), 
        source, 
@@ -571,7 +571,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        "kind", "attribute",
        "name", "aQname",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_AUnion(), 
        source, 
@@ -580,7 +580,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        "kind", "attribute",
        "name", "aUnion",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (intQNameUnionEDataType, 
        source, 
@@ -588,7 +588,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        {
        "name", "intQNameUnion",
        "memberTypes", "http://www.eclipse.org/emf/2003/XMLType#int http://www.eclipse.org/emf/2003/XMLType#QName"
-       });		
+       });	
     addAnnotation
       (listUnionEDataType, 
        source, 
@@ -596,7 +596,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        {
        "name", "listUnion",
        "itemType", "Union"
-       });		
+       });	
     addAnnotation
       (qnameListEDataType, 
        source, 
@@ -604,7 +604,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        {
        "name", "qnameList",
        "itemType", "http://www.eclipse.org/emf/2003/XMLType#QName"
-       });		
+       });	
     addAnnotation
       (resourceTypeEClass, 
        source, 
@@ -612,7 +612,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        {
        "name", "resourceType",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getResourceType_Unionvalue(), 
        source, 
@@ -621,7 +621,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        "kind", "element",
        "name", "unionvalue",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getResourceType_Qnamelist(), 
        source, 
@@ -630,7 +630,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        "kind", "element",
        "name", "qnamelist",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getResourceType_Intvalue(), 
        source, 
@@ -639,7 +639,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        "kind", "element",
        "name", "intvalue",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getResourceType_Any(), 
        source, 
@@ -649,7 +649,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        "wildcards", "##any",
        "name", ":3",
        "processing", "strict"
-       });		
+       });	
     addAnnotation
       (getResourceType_MyQname(), 
        source, 
@@ -657,7 +657,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        {
        "kind", "attribute",
        "name", "myQname"
-       });		
+       });	
     addAnnotation
       (getResourceType_AnyAttribute(), 
        source, 
@@ -667,7 +667,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
        "wildcards", "##any",
        "name", ":5",
        "processing", "strict"
-       });		
+       });	
     addAnnotation
       (unionEDataType, 
        source, 

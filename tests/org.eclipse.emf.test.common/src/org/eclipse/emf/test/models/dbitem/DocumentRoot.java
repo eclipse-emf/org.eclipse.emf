@@ -21,13 +21,13 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.dbitem.DocumentRoot#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.dbitem.DocumentRoot#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.dbitem.DocumentRoot#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.dbitem.DocumentRoot#getDbitem <em>Dbitem</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.dbitem.DBItemPackage#getDocumentRoot()
  * @model extendedMetaData="name='' kind='mixed'"

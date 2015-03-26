@@ -42,7 +42,7 @@ public class EXTLibraryFactoryImpl extends EFactoryImpl implements EXTLibraryFac
   {
     try
     {
-      EXTLibraryFactory theEXTLibraryFactory = (EXTLibraryFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org/eclipse/emf/examples/library/extlibrary.ecore/1.0.0"); //$NON-NLS-1$ 
+      EXTLibraryFactory theEXTLibraryFactory = (EXTLibraryFactory)EPackage.Registry.INSTANCE.getEFactory(EXTLibraryPackage.eNS_URI);
       if (theEXTLibraryFactory != null)
       {
         return theEXTLibraryFactory;

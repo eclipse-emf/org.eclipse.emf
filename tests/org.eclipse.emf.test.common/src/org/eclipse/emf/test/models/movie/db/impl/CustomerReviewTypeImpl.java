@@ -22,10 +22,10 @@ import org.eclipse.emf.test.models.movie.db.DBPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.impl.CustomerReviewTypeImpl#getComment <em>Comment</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

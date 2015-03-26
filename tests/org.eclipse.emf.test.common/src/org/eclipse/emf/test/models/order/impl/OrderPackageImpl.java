@@ -386,7 +386,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
     addAnnotation
       (customerOrderEClass, 
        source, 
@@ -394,7 +394,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
        {
        "name", "customerOrder",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getCustomerOrder_MoviesToSee(), 
        source, 
@@ -402,7 +402,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
        {
        "kind", "element",
        "name", "moviesToSee"
-       });		
+       });	
     addAnnotation
       (getCustomerOrder_MoviesSeen(), 
        source, 
@@ -410,7 +410,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
        {
        "kind", "element",
        "name", "moviesSeen"
-       });		
+       });	
     addAnnotation
       (getCustomerOrder_Any(), 
        source, 
@@ -420,7 +420,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
        "wildcards", "http:///org.eclipse.emf.test.models/Customer http:///org.eclipse.emf.test.models/MovieDB",
        "name", ":2",
        "processing", "strict"
-       });		
+       });	
     addAnnotation
       (getCustomerOrder_CustomerID(), 
        source, 
@@ -428,7 +428,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
        {
        "kind", "attribute",
        "name", "customerID"
-       });		
+       });	
     addAnnotation
       (documentRootEClass, 
        source, 
@@ -436,7 +436,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
        {
        "name", "",
        "kind", "mixed"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_Mixed(), 
        source, 
@@ -444,7 +444,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
        {
        "kind", "elementWildcard",
        "name", ":mixed"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_XMLNSPrefixMap(), 
        source, 
@@ -452,7 +452,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
        {
        "kind", "attribute",
        "name", "xmlns:prefix"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_XSISchemaLocation(), 
        source, 
@@ -460,7 +460,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
        {
        "kind", "attribute",
        "name", "xsi:schemaLocation"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_Order(), 
        source, 
@@ -469,7 +469,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
        "kind", "element",
        "name", "order",
        "namespace", "##targetNamespace"
-       });				
+       });	
     addAnnotation
       (orderEClass, 
        source, 
@@ -477,7 +477,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
        {
        "name", "order",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getOrder_DateRequested(), 
        source, 
@@ -485,7 +485,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
        {
        "kind", "element",
        "name", "dateRequested"
-       });		
+       });	
     addAnnotation
       (getOrder_LastUpdated(), 
        source, 
@@ -493,7 +493,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
        {
        "kind", "element",
        "name", "lastUpdated"
-       });		
+       });	
     addAnnotation
       (getOrder_Movies(), 
        source, 
@@ -512,14 +512,14 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    */
   protected void createNullAnnotations()
   {
-    String source = null;													
+    String source = null;	
     addAnnotation
       (orderEClass, 
        source, 
        new String[] 
        {
        "appinfo", "Information:<hasElement>date</hasElement>."
-       });				
+       });
   }
 
 } //OrderPackageImpl

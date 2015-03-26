@@ -27,12 +27,12 @@ import org.eclipse.emf.test.models.order.OrderPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.order.impl.OrderImpl#getDateRequested <em>Date Requested</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.order.impl.OrderImpl#getLastUpdated <em>Last Updated</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.order.impl.OrderImpl#getMovies <em>Movies</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

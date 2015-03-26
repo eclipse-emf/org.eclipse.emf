@@ -25,11 +25,11 @@ import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.CImpl#getTypedKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.CImpl#getTypedValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

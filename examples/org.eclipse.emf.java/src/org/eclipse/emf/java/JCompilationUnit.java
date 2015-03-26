@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.java.JCompilationUnit#getImports <em>Imports</em>}</li>
  *   <li>{@link org.eclipse.emf.java.JCompilationUnit#getComment <em>Comment</em>}</li>
@@ -29,7 +30,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.emf.java.JCompilationUnit#getImportedTypes <em>Imported Types</em>}</li>
  *   <li>{@link org.eclipse.emf.java.JCompilationUnit#getPackage <em>Package</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.java.JavaPackage#getJCompilationUnit()
  * @model

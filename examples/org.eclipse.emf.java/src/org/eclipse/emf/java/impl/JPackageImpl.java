@@ -34,11 +34,11 @@ import org.eclipse.emf.java.JavaPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.java.impl.JPackageImpl#getJavaPackage <em>Java Package</em>}</li>
  *   <li>{@link org.eclipse.emf.java.impl.JPackageImpl#getTypes <em>Types</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -18,11 +18,11 @@ package org.eclipse.emf.test.models.customer;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.customer.CanadaAddr#getZip <em>Zip</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.CanadaAddr#getProvince <em>Province</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCanadaAddr()
  * @model extendedMetaData="name='canadaAddr' kind='elementOnly'"

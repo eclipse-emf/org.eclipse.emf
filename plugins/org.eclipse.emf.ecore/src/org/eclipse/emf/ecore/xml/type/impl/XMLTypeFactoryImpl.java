@@ -1749,7 +1749,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   {
     try
     {
-      XMLTypeFactory theXMLTypeFactory = (XMLTypeFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2003/XMLType"); 
+      XMLTypeFactory theXMLTypeFactory = (XMLTypeFactory)EPackage.Registry.INSTANCE.getEFactory(XMLTypePackage.eNS_URI);
       if (theXMLTypeFactory != null)
       {
         return theXMLTypeFactory;

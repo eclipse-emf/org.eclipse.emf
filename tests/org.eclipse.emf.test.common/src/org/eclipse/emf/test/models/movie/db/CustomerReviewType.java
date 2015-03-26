@@ -18,10 +18,10 @@ package org.eclipse.emf.test.models.movie.db;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.CustomerReviewType#getComment <em>Comment</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.movie.db.DBPackage#getCustomerReviewType()
  * @model extendedMetaData="name='customerReviewType' kind='elementOnly'"

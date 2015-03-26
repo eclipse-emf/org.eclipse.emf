@@ -41,12 +41,12 @@ import org.eclipse.emf.mapping.ecore2xml.XMLMap;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.mapping.ecore2xml.impl.XMLMapImpl#getIDAttributeName <em>ID Attribute Name</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.ecore2xml.impl.XMLMapImpl#getEcoreToXMLInfo <em>Ecore To XML Info</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.ecore2xml.impl.XMLMapImpl#getNoNamespacePackage <em>No Namespace Package</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

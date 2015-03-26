@@ -38,7 +38,7 @@ public class DBPriceFactoryImpl extends EFactoryImpl implements DBPriceFactory
   {
     try
     {
-      DBPriceFactory theDBPriceFactory = (DBPriceFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org.eclipse.emf.test.models/dbprice"); 
+      DBPriceFactory theDBPriceFactory = (DBPriceFactory)EPackage.Registry.INSTANCE.getEFactory(DBPricePackage.eNS_URI);
       if (theDBPriceFactory != null)
       {
         return theDBPriceFactory;

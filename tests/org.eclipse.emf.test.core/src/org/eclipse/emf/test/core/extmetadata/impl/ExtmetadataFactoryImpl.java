@@ -35,13 +35,16 @@ public class ExtmetadataFactoryImpl extends EFactoryImpl implements ExtmetadataF
    * @generated
    */
   public static ExtmetadataFactory init() {
-    try {
+    try
+    {
       ExtmetadataFactory theExtmetadataFactory = (ExtmetadataFactory)EPackage.Registry.INSTANCE.getEFactory(ExtmetadataPackage.eNS_URI);
-      if (theExtmetadataFactory != null) {
+      if (theExtmetadataFactory != null)
+      {
         return theExtmetadataFactory;
       }
     }
-    catch (Exception exception) {
+    catch (Exception exception)
+    {
       EcorePlugin.INSTANCE.log(exception);
     }
     return new ExtmetadataFactoryImpl();
@@ -64,7 +67,8 @@ public class ExtmetadataFactoryImpl extends EFactoryImpl implements ExtmetadataF
    */
   @Override
   public EObject create(EClass eClass) {
-    switch (eClass.getClassifierID()) {
+    switch (eClass.getClassifierID())
+    {
       case ExtmetadataPackage.NAMED_ELEMENT: return createNamedElement();
       case ExtmetadataPackage.CLASS: return createClass();
       case ExtmetadataPackage.ATTRIBUTE: return createAttribute();

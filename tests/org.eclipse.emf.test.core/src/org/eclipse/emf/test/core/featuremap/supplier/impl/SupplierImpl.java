@@ -32,13 +32,13 @@ import org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.core.featuremap.supplier.impl.SupplierImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.featuremap.supplier.impl.SupplierImpl#getOrders <em>Orders</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.featuremap.supplier.impl.SupplierImpl#getPreferredOrders <em>Preferred Orders</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.featuremap.supplier.impl.SupplierImpl#getStandardOrders <em>Standard Orders</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

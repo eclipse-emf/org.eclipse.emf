@@ -42,7 +42,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
   {
     try
     {
-      PPOFactory thePPOFactory = (PPOFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org.eclipse.emf.test.models/ppo"); 
+      PPOFactory thePPOFactory = (PPOFactory)EPackage.Registry.INSTANCE.getEFactory(PPOPackage.eNS_URI);
       if (thePPOFactory != null)
       {
         return thePPOFactory;

@@ -36,6 +36,7 @@ import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPa
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.PersonImpl#getLastname <em>Lastname</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.PersonImpl#getFirstname <em>Firstname</em>}</li>
@@ -43,7 +44,6 @@ import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPa
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.PersonImpl#getCommitterships <em>Committerships</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.PersonImpl#getImage <em>Image</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

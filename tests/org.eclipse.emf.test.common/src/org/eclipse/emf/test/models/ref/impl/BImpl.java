@@ -33,12 +33,12 @@ import org.eclipse.emf.test.models.ref.RefPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.BImpl#getA <em>A</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.BImpl#getC2 <em>C2</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.BImpl#getD <em>D</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -161,7 +161,7 @@ public class BImpl extends EObjectImpl implements B
   public C2 getC2()
   {
     if (eContainerFeatureID() != RefPackage.B__C2) return null;
-    return (C2)eContainer();
+    return (C2)eInternalContainer();
   }
 
   /**

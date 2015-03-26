@@ -21,11 +21,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.java.JPackage#getJavaPackage <em>Java Package</em>}</li>
  *   <li>{@link org.eclipse.emf.java.JPackage#getTypes <em>Types</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.java.JavaPackage#getJPackage()
  * @model

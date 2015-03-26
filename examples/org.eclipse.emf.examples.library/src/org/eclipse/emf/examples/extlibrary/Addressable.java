@@ -21,10 +21,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.Addressable#getAddress <em>Address</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getAddressable()
  * @model interface="true" abstract="true"

@@ -15,8 +15,6 @@ import org.eclipse.emf.test.common.reification.VeryHigh;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Very High</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

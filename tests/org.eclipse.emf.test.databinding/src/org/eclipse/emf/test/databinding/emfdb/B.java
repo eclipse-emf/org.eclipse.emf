@@ -19,11 +19,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.B#getString <em>String</em>}</li>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.B#getD <em>D</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.databinding.emfdb.EmfdbPackage#getB()
  * @model

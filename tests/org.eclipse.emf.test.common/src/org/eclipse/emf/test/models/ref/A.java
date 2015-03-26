@@ -19,12 +19,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.A#getB <em>B</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.A#getC2 <em>C2</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.A#getC <em>C</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.ref.RefPackage#getA()
  * @model
@@ -73,7 +73,7 @@ public interface A extends EObject
    * @see #setC2(C2)
    * @see org.eclipse.emf.test.models.ref.RefPackage#getA_C2()
    * @see org.eclipse.emf.test.models.ref.C2#getA
-   * @model opposite="a" required="true"
+   * @model opposite="a"
    * @generated
    */
   C2 getC2();

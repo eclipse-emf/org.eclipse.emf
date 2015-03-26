@@ -19,13 +19,13 @@ package org.eclipse.emf.java;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.java.JMember#isStatic <em>Static</em>}</li>
  *   <li>{@link org.eclipse.emf.java.JMember#getVisibility <em>Visibility</em>}</li>
  *   <li>{@link org.eclipse.emf.java.JMember#getComment <em>Comment</em>}</li>
  *   <li>{@link org.eclipse.emf.java.JMember#getContainingType <em>Containing Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.java.JavaPackage#getJMember()
  * @model abstract="true"

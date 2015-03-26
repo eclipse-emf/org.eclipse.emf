@@ -26,11 +26,11 @@ import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.BImpl#getString <em>String</em>}</li>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.BImpl#getD <em>D</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -21,12 +21,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.A#getString <em>String</em>}</li>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.A#getBlist <em>Blist</em>}</li>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.A#getCmap <em>Cmap</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.databinding.emfdb.EmfdbPackage#getA()
  * @model

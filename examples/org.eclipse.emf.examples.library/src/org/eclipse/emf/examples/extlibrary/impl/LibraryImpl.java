@@ -44,6 +44,7 @@ import org.eclipse.emf.examples.extlibrary.Writer;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.LibraryImpl#getAddress <em>Address</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.LibraryImpl#getName <em>Name</em>}</li>
@@ -56,7 +57,6 @@ import org.eclipse.emf.examples.extlibrary.Writer;
  *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.LibraryImpl#getParentBranch <em>Parent Branch</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.LibraryImpl#getPeople <em>People</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

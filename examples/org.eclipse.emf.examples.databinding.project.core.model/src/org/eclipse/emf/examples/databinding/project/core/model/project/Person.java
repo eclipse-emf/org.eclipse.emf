@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Person#getLastname <em>Lastname</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Person#getFirstname <em>Firstname</em>}</li>
@@ -28,7 +29,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Person#getCommitterships <em>Committerships</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Person#getImage <em>Image</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage#getPerson()
  * @model

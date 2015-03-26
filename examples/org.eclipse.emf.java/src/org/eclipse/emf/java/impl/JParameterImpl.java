@@ -29,12 +29,12 @@ import org.eclipse.emf.java.JavaPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.java.impl.JParameterImpl#isFinal <em>Final</em>}</li>
  *   <li>{@link org.eclipse.emf.java.impl.JParameterImpl#getMethod <em>Method</em>}</li>
  *   <li>{@link org.eclipse.emf.java.impl.JParameterImpl#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -122,7 +122,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
   public JMethod getMethod()
   {
     if (eContainerFeatureID() != JavaPackage.JPARAMETER__METHOD) return null;
-    return (JMethod)eContainer();
+    return (JMethod)eInternalContainer();
   }
 
   /**

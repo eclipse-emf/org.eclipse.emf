@@ -41,7 +41,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
   {
     try
     {
-      JavaFactory theJavaFactory = (JavaFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2002/Java"); 
+      JavaFactory theJavaFactory = (JavaFactory)EPackage.Registry.INSTANCE.getEFactory(JavaPackage.eNS_URI);
       if (theJavaFactory != null)
       {
         return theJavaFactory;

@@ -27,12 +27,12 @@ import org.eclipse.emf.test.models.customer.CustomerPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.customer.impl.CreditInfoImpl#getHolder <em>Holder</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.impl.CreditInfoImpl#getCcNumber <em>Cc Number</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.impl.CreditInfoImpl#getExpireDate <em>Expire Date</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -37,13 +37,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ResourceChangeImpl#getResourceURI <em>Resource URI</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ResourceChangeImpl#getResource <em>Resource</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ResourceChangeImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ResourceChangeImpl#getListChanges <em>List Changes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

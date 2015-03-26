@@ -24,10 +24,10 @@ import org.eclipse.emf.test.core.extmetadata.NamedElement;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.core.extmetadata.impl.NamedElementImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -99,7 +99,8 @@ public class NamedElementImpl extends MinimalEObjectImpl.Container implements Na
    */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType) {
-    switch (featureID) {
+    switch (featureID)
+    {
       case ExtmetadataPackage.NAMED_ELEMENT__NAME:
         return getName();
     }
@@ -113,7 +114,8 @@ public class NamedElementImpl extends MinimalEObjectImpl.Container implements Na
    */
   @Override
   public void eSet(int featureID, Object newValue) {
-    switch (featureID) {
+    switch (featureID)
+    {
       case ExtmetadataPackage.NAMED_ELEMENT__NAME:
         setName((String)newValue);
         return;
@@ -128,7 +130,8 @@ public class NamedElementImpl extends MinimalEObjectImpl.Container implements Na
    */
   @Override
   public void eUnset(int featureID) {
-    switch (featureID) {
+    switch (featureID)
+    {
       case ExtmetadataPackage.NAMED_ELEMENT__NAME:
         setName(NAME_EDEFAULT);
         return;
@@ -143,7 +146,8 @@ public class NamedElementImpl extends MinimalEObjectImpl.Container implements Na
    */
   @Override
   public boolean eIsSet(int featureID) {
-    switch (featureID) {
+    switch (featureID)
+    {
       case ExtmetadataPackage.NAMED_ELEMENT__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
     }

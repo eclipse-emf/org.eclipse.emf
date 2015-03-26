@@ -54,6 +54,7 @@ import org.eclipse.emf.java.util.JavaUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.java.impl.JClassImpl#isAbstract <em>Abstract</em>}</li>
  *   <li>{@link org.eclipse.emf.java.impl.JClassImpl#isFinal <em>Final</em>}</li>
@@ -74,7 +75,6 @@ import org.eclipse.emf.java.util.JavaUtil;
  *   <li>{@link org.eclipse.emf.java.impl.JClassImpl#getTypes <em>Types</em>}</li>
  *   <li>{@link org.eclipse.emf.java.impl.JClassImpl#getAllTypes <em>All Types</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -449,7 +449,7 @@ public class JClassImpl extends JMemberImpl implements JClass
   public JClass getComponentType()
   {
     if (eContainerFeatureID() != JavaPackage.JCLASS__COMPONENT_TYPE) return null;
-    return (JClass)eContainer();
+    return (JClass)eInternalContainer();
   }
 
   /**
@@ -542,7 +542,7 @@ public class JClassImpl extends JMemberImpl implements JClass
   public JCompilationUnit getUnit()
   {
     if (eContainerFeatureID() != JavaPackage.JCLASS__UNIT) return null;
-    return (JCompilationUnit)eContainer();
+    return (JCompilationUnit)eInternalContainer();
   }
 
   /**

@@ -20,13 +20,13 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.order.CustomerOrder#getMoviesToSee <em>Movies To See</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.order.CustomerOrder#getMoviesSeen <em>Movies Seen</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.order.CustomerOrder#getAny <em>Any</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.order.CustomerOrder#getCustomerID <em>Customer ID</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.order.OrderPackage#getCustomerOrder()
  * @model extendedMetaData="name='customerOrder' kind='elementOnly'"

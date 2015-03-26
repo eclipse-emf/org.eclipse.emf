@@ -22,11 +22,11 @@ import org.eclipse.emf.test.models.customer.USAddr;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.customer.impl.USAddrImpl#getZip <em>Zip</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.impl.USAddrImpl#getState <em>State</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

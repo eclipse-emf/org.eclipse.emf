@@ -28,10 +28,10 @@ import org.eclipse.emf.examples.extlibrary.Employee;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.EmployeeImpl#getManager <em>Manager</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

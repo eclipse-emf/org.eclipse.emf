@@ -27,12 +27,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.order.Order#getDateRequested <em>Date Requested</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.order.Order#getLastUpdated <em>Last Updated</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.order.Order#getMovies <em>Movies</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.order.OrderPackage#getOrder()
  * @model extendedMetaData="name='order' kind='elementOnly'"

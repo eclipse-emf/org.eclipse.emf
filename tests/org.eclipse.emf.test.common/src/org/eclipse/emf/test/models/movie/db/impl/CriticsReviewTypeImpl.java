@@ -23,11 +23,11 @@ import org.eclipse.emf.test.models.movie.db.DBPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.impl.CriticsReviewTypeImpl#getRating <em>Rating</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.impl.CriticsReviewTypeImpl#getReviewedBy <em>Reviewed By</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

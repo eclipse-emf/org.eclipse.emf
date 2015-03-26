@@ -247,6 +247,8 @@ public enum GenRuntimeVersion implements Enumerator
    * Returns the '<em><b>Gen Runtime Version</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param literal the literal.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static GenRuntimeVersion get(String literal)
@@ -266,6 +268,8 @@ public enum GenRuntimeVersion implements Enumerator
    * Returns the '<em><b>Gen Runtime Version</b></em>' literal with the specified name.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param name the name.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static GenRuntimeVersion getByName(String name)
@@ -285,6 +289,8 @@ public enum GenRuntimeVersion implements Enumerator
    * Returns the '<em><b>Gen Runtime Version</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param value the integer value.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static GenRuntimeVersion get(int value)

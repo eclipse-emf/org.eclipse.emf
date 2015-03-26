@@ -38,7 +38,7 @@ public class SupplierFactoryImpl extends EFactoryImpl implements SupplierFactory
   {
     try
     {
-      SupplierFactory theSupplierFactory = (SupplierFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.com/supplier");
+      SupplierFactory theSupplierFactory = (SupplierFactory)EPackage.Registry.INSTANCE.getEFactory(SupplierPackage.eNS_URI);
       if (theSupplierFactory != null)
       {
         return theSupplierFactory;

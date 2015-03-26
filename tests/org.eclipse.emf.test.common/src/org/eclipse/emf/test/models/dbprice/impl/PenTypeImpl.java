@@ -23,10 +23,10 @@ import org.eclipse.emf.test.models.dbprice.PenType;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.dbprice.impl.PenTypeImpl#getPrice <em>Price</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

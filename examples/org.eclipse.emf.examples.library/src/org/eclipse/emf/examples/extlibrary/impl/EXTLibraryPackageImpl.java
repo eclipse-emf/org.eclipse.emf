@@ -891,28 +891,28 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$	
     addAnnotation
       (getLibrary_Writers(), 
        source, 
        new String[] 
        {
        "group", "#people" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getLibrary_Employees(), 
        source, 
        new String[] 
        {
        "group", "#people" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getLibrary_Borrowers(), 
        source, 
        new String[] 
        {
        "group", "#people" //$NON-NLS-1$ //$NON-NLS-2$
-       });		
+       });	
     addAnnotation
       (getLibrary_People(), 
        source, 

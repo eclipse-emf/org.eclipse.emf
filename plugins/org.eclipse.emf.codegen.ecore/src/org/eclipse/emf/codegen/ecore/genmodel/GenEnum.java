@@ -24,12 +24,12 @@ import org.eclipse.emf.ecore.EEnum;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnum#isTypeSafeEnumCompatible <em>Type Safe Enum Compatible</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnum#getEcoreEnum <em>Ecore Enum</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnum#getGenEnumLiterals <em>Gen Enum Literals</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenEnum()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='NoEcoreDataType'"

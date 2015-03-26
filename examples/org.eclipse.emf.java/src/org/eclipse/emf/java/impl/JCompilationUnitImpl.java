@@ -47,6 +47,7 @@ import org.eclipse.emf.java.util.JavaUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.java.impl.JCompilationUnitImpl#getImports <em>Imports</em>}</li>
  *   <li>{@link org.eclipse.emf.java.impl.JCompilationUnitImpl#getComment <em>Comment</em>}</li>
@@ -55,7 +56,6 @@ import org.eclipse.emf.java.util.JavaUtil;
  *   <li>{@link org.eclipse.emf.java.impl.JCompilationUnitImpl#getImportedTypes <em>Imported Types</em>}</li>
  *   <li>{@link org.eclipse.emf.java.impl.JCompilationUnitImpl#getPackage <em>Package</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

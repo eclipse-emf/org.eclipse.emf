@@ -20,12 +20,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.key.Item#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.key.Item#getSignature <em>Signature</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.key.Item#getRelatedItems <em>Related Items</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.key.KeyPackage#getItem()
  * @model

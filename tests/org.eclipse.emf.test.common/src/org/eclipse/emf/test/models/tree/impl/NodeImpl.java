@@ -33,6 +33,7 @@ import org.eclipse.emf.test.models.tree.TreePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.tree.impl.NodeImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.tree.impl.NodeImpl#getParent <em>Parent</em>}</li>
@@ -40,7 +41,6 @@ import org.eclipse.emf.test.models.tree.TreePackage;
  *   <li>{@link org.eclipse.emf.test.models.tree.impl.NodeImpl#getData <em>Data</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.tree.impl.NodeImpl#getRelatedNodes <em>Related Nodes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -148,7 +148,7 @@ public class NodeImpl extends EObjectImpl implements Node
   public Node getParent()
   {
     if (eContainerFeatureID() != TreePackage.NODE__PARENT) return null;
-    return (Node)eContainer();
+    return (Node)eInternalContainer();
   }
 
   /**

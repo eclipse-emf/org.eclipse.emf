@@ -24,10 +24,10 @@ import org.eclipse.emf.test.common.reification.ReificationPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.common.reification.impl.KeyValuePairContainerImpl#getKeyValuePairsList <em>Key Value Pairs</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

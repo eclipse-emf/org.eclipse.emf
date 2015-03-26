@@ -38,7 +38,7 @@ public class DBItemFactoryImpl extends EFactoryImpl implements DBItemFactory
   {
     try
     {
-      DBItemFactory theDBItemFactory = (DBItemFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org.eclipse.emf.test.models/dbitem"); 
+      DBItemFactory theDBItemFactory = (DBItemFactory)EPackage.Registry.INSTANCE.getEFactory(DBItemPackage.eNS_URI);
       if (theDBItemFactory != null)
       {
         return theDBItemFactory;

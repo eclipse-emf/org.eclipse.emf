@@ -32,13 +32,13 @@ import org.eclipse.emf.test.models.dbitem.DocumentRoot;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.dbitem.impl.DocumentRootImpl#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.dbitem.impl.DocumentRootImpl#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.dbitem.impl.DocumentRootImpl#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.dbitem.impl.DocumentRootImpl#getDbitem <em>Dbitem</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -18,11 +18,11 @@ package org.eclipse.emf.test.models.switch3;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.switch3.EClass5#getEAttribute10 <em>EAttribute10</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.switch3.EClass5#getEAttribute11 <em>EAttribute11</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.switch3.Switch3Package#getEClass5()
  * @model

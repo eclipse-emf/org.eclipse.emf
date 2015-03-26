@@ -31,6 +31,7 @@ import org.eclipse.emf.test.models.ppo.util.PPOValidator;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ppo.impl.USAddressImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ppo.impl.USAddressImpl#getStreet <em>Street</em>}</li>
@@ -39,7 +40,6 @@ import org.eclipse.emf.test.models.ppo.util.PPOValidator;
  *   <li>{@link org.eclipse.emf.test.models.ppo.impl.USAddressImpl#getZip <em>Zip</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ppo.impl.USAddressImpl#getCountry <em>Country</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

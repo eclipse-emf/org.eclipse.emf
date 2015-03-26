@@ -23,11 +23,11 @@ import org.eclipse.emf.test.models.customer.CustomerPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.customer.impl.AddressTypeImpl#getStreet <em>Street</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.impl.AddressTypeImpl#getTown <em>Town</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

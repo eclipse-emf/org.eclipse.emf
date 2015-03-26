@@ -27,12 +27,12 @@ import org.eclipse.emf.examples.extlibrary.Person;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.PersonImpl#getAddress <em>Address</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.PersonImpl#getFirstName <em>First Name</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.PersonImpl#getLastName <em>Last Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

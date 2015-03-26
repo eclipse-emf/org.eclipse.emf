@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.change.FeatureChange#getFeatureName <em>Feature Name</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.FeatureChange#getDataValue <em>Data Value</em>}</li>
@@ -32,7 +33,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *   <li>{@link org.eclipse.emf.ecore.change.FeatureChange#getReferenceValue <em>Reference Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.FeatureChange#getListChanges <em>List Changes</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.change.ChangePackage#getFeatureChange()
  * @model

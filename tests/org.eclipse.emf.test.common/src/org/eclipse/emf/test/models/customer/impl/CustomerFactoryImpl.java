@@ -49,7 +49,7 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
   {
     try
     {
-      CustomerFactory theCustomerFactory = (CustomerFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org.eclipse.emf.test.models/Customer"); 
+      CustomerFactory theCustomerFactory = (CustomerFactory)EPackage.Registry.INSTANCE.getEFactory(CustomerPackage.eNS_URI);
       if (theCustomerFactory != null)
       {
         return theCustomerFactory;

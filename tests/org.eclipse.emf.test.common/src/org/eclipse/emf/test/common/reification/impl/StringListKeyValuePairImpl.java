@@ -17,8 +17,6 @@ import org.eclipse.emf.test.common.reification.StringListKeyValuePair;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>String List Key Value Pair</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

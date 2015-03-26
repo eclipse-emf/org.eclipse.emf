@@ -31,11 +31,11 @@ import org.eclipse.emf.test.models.ref.impl.EImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ext.impl.ExtEImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ext.impl.ExtEImpl#getF <em>F</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

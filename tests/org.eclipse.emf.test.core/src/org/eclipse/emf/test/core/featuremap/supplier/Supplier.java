@@ -21,13 +21,13 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.core.featuremap.supplier.Supplier#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.featuremap.supplier.Supplier#getOrders <em>Orders</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.featuremap.supplier.Supplier#getPreferredOrders <em>Preferred Orders</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.featuremap.supplier.Supplier#getStandardOrders <em>Standard Orders</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage#getSupplier()
  * @model extendedMetaData="name='Supplier' kind='elementOnly'"

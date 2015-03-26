@@ -18,11 +18,11 @@ package org.eclipse.emf.examples.extlibrary;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.Periodical#getTitle <em>Title</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.Periodical#getIssuesPerYear <em>Issues Per Year</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getPeriodical()
  * @model abstract="true"

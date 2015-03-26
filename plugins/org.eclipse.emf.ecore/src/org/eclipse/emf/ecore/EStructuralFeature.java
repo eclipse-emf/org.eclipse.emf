@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.EStructuralFeature#isChangeable <em>Changeable</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EStructuralFeature#isVolatile <em>Volatile</em>}</li>
@@ -35,7 +36,6 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link org.eclipse.emf.ecore.EStructuralFeature#isDerived <em>Derived</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EStructuralFeature#getEContainingClass <em>EContaining Class</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEStructuralFeature()
  * @model abstract="true"

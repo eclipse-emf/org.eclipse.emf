@@ -35,13 +35,13 @@ import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPa
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.CommitterShipImpl#getStart <em>Start</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.CommitterShipImpl#getEnd <em>End</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.CommitterShipImpl#getProject <em>Project</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.CommitterShipImpl#getPerson <em>Person</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -172,7 +172,7 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
   public Project getProject()
   {
     if (eContainerFeatureID() != ProjectPackage.COMMITTER_SHIP__PROJECT) return null;
-    return (Project)eContainer();
+    return (Project)eInternalContainer();
   }
 
   /**

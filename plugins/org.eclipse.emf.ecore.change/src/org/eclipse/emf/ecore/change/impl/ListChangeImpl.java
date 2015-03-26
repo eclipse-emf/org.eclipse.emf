@@ -49,6 +49,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ListChangeImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ListChangeImpl#getDataValues <em>Data Values</em>}</li>
@@ -59,7 +60,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ListChangeImpl#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ListChangeImpl#getFeatureMapEntryValues <em>Feature Map Entry Values</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

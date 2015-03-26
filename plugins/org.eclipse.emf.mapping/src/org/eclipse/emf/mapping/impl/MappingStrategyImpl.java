@@ -20,8 +20,6 @@ import org.eclipse.emf.mapping.MappingStrategy;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Strategy</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

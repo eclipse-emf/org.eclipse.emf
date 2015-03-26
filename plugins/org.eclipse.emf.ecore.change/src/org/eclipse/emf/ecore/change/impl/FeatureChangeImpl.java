@@ -49,6 +49,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.FeatureChangeImpl#getFeatureName <em>Feature Name</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.FeatureChangeImpl#getDataValue <em>Data Value</em>}</li>
@@ -58,7 +59,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.ecore.change.impl.FeatureChangeImpl#getReferenceValue <em>Reference Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.FeatureChangeImpl#getListChanges <em>List Changes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

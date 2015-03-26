@@ -19,10 +19,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder#getId <em>Id</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage#getPurchaseOrder()
  * @model extendedMetaData="name='PurchaseOrder' kind='elementOnly'"

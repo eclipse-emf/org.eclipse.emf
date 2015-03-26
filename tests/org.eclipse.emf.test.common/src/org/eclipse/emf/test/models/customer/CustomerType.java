@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.customer.CustomerType#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.CustomerType#getAddress <em>Address</em>}</li>
@@ -28,7 +29,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.emf.test.models.customer.CustomerType#getPaymentDay <em>Payment Day</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.CustomerType#getID <em>ID</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomerType()
  * @model extendedMetaData="name='dbcustomer' kind='elementOnly'"

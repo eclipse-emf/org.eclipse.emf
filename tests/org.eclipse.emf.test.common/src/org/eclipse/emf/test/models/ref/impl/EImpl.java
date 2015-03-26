@@ -33,13 +33,13 @@ import org.eclipse.emf.test.models.ref.RefPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.EImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.EImpl#getIds <em>Ids</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.EImpl#getLabels <em>Labels</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.EImpl#getD <em>D</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

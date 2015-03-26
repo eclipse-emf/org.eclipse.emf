@@ -21,12 +21,12 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.mapping.ecore2xml.XMLInfo#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.ecore2xml.XMLInfo#getTargetNamespace <em>Target Namespace</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.ecore2xml.XMLInfo#getXMLRepresentation <em>XML Representation</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage#getXMLInfo()
  * @model

@@ -39,7 +39,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
-
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -63,7 +62,6 @@ import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
-
 import org.eclipse.emf.codegen.CodeGenPlugin;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.CommonPlugin;
@@ -824,6 +822,7 @@ public class JETEmitter
           // Define a class loader that looks up classes using the URLs or the parent class loader,
           // and failing those, tries to look up the class in each bundle in the running JVM.
           //
+          @SuppressWarnings("resource")
           URLClassLoader theClassLoader = 
             new URLClassLoader(urls.toArray(new URL [0]), jetEmitter.classLoader)
             {

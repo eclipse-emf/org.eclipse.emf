@@ -597,21 +597,21 @@ public class URefPackageImpl extends EPackageImpl implements URefPackage
 
     initEClass(auEClass, org.eclipse.emf.test.models.ref.unsettable.AU.class, "AU", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getAU_Bu(), this.getBU(), this.getBU_Au(), "bu", null, 1, 1, org.eclipse.emf.test.models.ref.unsettable.AU.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getAU_C2u(), this.getC2U(), this.getC2U_Au(), "c2u", null, 1, 1, org.eclipse.emf.test.models.ref.unsettable.AU.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getAU_Cu(), this.getCU(), null, "cu", null, 1, 1, org.eclipse.emf.test.models.ref.unsettable.AU.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getAU_C2u(), this.getC2U(), this.getC2U_Au(), "c2u", null, 0, 1, org.eclipse.emf.test.models.ref.unsettable.AU.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getAU_Cu(), this.getCU(), null, "cu", null, 0, 1, org.eclipse.emf.test.models.ref.unsettable.AU.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(buEClass, org.eclipse.emf.test.models.ref.unsettable.BU.class, "BU", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getBU_Au(), this.getAU(), this.getAU_Bu(), "au", null, 1, 1, org.eclipse.emf.test.models.ref.unsettable.BU.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getBU_C2u(), this.getC2U(), this.getC2U_Bu(), "c2u", null, 1, 1, org.eclipse.emf.test.models.ref.unsettable.BU.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getBU_C2u(), this.getC2U(), this.getC2U_Bu(), "c2u", null, 0, 1, org.eclipse.emf.test.models.ref.unsettable.BU.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getBU_Du(), this.getDU(), null, "du", null, 0, -1, org.eclipse.emf.test.models.ref.unsettable.BU.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(cuEClass, org.eclipse.emf.test.models.ref.unsettable.CU.class, "CU", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getCU_Du(), this.getDU(), this.getDU_Cu(), "du", null, 0, -1, org.eclipse.emf.test.models.ref.unsettable.CU.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getCU_C4u(), this.getC4U(), this.getC4U_Cu(), "c4u", null, 1, 1, org.eclipse.emf.test.models.ref.unsettable.CU.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getCU_C4u(), this.getC4U(), this.getC4U_Cu(), "c4u", null, 0, 1, org.eclipse.emf.test.models.ref.unsettable.CU.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(duEClass, org.eclipse.emf.test.models.ref.unsettable.DU.class, "DU", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getDU_Cu(), this.getCU(), this.getCU_Du(), "cu", null, 1, 1, org.eclipse.emf.test.models.ref.unsettable.DU.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getDU_C4u(), this.getC4U(), this.getC4U_Du(), "c4u", null, 1, 1, org.eclipse.emf.test.models.ref.unsettable.DU.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDU_C4u(), this.getC4U(), this.getC4U_Du(), "c4u", null, 0, 1, org.eclipse.emf.test.models.ref.unsettable.DU.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getDU_Eu(), this.getEU(), this.getEU_Du(), "eu", null, 0, -1, org.eclipse.emf.test.models.ref.unsettable.DU.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(c4UEClass, org.eclipse.emf.test.models.ref.unsettable.C4U.class, "C4U", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

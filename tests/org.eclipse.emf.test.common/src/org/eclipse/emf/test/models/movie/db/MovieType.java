@@ -24,6 +24,7 @@ import org.eclipse.emf.test.models.customer.CustomerType;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.MovieType#getTitle <em>Title</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.MovieType#getActors <em>Actors</em>}</li>
@@ -36,7 +37,6 @@ import org.eclipse.emf.test.models.customer.CustomerType;
  *   <li>{@link org.eclipse.emf.test.models.movie.db.MovieType#getAny <em>Any</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.MovieType#getID <em>ID</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.movie.db.DBPackage#getMovieType()
  * @model extendedMetaData="name='movie' kind='elementOnly'"

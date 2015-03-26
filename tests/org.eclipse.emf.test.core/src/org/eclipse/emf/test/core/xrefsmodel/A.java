@@ -21,13 +21,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.core.xrefsmodel.A#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.xrefsmodel.A#getOthers <em>Others</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.xrefsmodel.A#getAllOthers <em>All Others</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.xrefsmodel.A#getNonOthers <em>Non Others</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.core.xrefsmodel.XRefsModelPackage#getA()
  * @model

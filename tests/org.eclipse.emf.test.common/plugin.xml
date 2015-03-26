@@ -107,6 +107,14 @@
 
   </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated moviedb -->
+      <package
+            uri="http:///org.eclipse.emf.test.models/Customer"
+            class="org.eclipse.emf.test.models.customer.CustomerPackage"
+            genModel="models/MovieDB/moviedb.genmodel"/>
+   </extension>
+
   <extension point="org.eclipse.emf.ecore.extension_parser">
   
     <!-- MovieDB -->
@@ -125,6 +133,36 @@
   </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated moviedb -->
+      <package
+            uri="http:///org.eclipse.emf.test.models/MovieDB"
+            class="org.eclipse.emf.test.models.movie.db.DBPackage"
+            genModel="models/MovieDB/moviedb.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated moviedb -->
+      <parser
+            type="db"
+            class="org.eclipse.emf.test.models.movie.db.util.DBResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated moviedb -->
+      <package
+            uri="http:///org.eclipse.emf.test.models/Order"
+            class="org.eclipse.emf.test.models.order.OrderPackage"
+            genModel="models/MovieDB/moviedb.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated moviedb -->
+      <parser
+            type="order"
+            class="org.eclipse.emf.test.models.order.util.OrderResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated Reification -->
       <package
             uri="http://www.eclipse.org/emf/test/common/Reification"
@@ -132,4 +170,176 @@
             genModel="models/Reification/Reification.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated dbitem -->
+      <package
+            uri="http:///org.eclipse.emf.test.models/dbitem"
+            class="org.eclipse.emf.test.models.dbitem.DBItemPackage"
+            genModel="models/ItemDB/dbitem.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated dbitem -->
+      <parser
+            type="dbitem"
+            class="org.eclipse.emf.test.models.dbitem.util.DBItemResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated dbitem -->
+      <package
+            uri="http:///org.eclipse.emf.test.models/dbprice"
+            class="org.eclipse.emf.test.models.dbprice.DBPricePackage"
+            genModel="models/ItemDB/dbitem.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated dbitem -->
+      <parser
+            type="dbprice"
+            class="org.eclipse.emf.test.models.dbprice.util.DBPriceResourceFactoryImpl"/>
+   </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated Key -->
+      <package
+            uri="http:///org.eclipse.emf.test.models/Key"
+            class="org.eclipse.emf.test.models.key.KeyPackage"
+            genModel="models/Key/Key.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated library -->
+      <package
+            uri="http:///org.eclipse.emf.test.models/Library"
+            class="org.eclipse.emf.test.models.library.LibraryPackage"
+            genModel="models/Library/library.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated PrimerPO -->
+      <package
+            uri="http:///org.eclipse.emf.test.models/ppo"
+            class="org.eclipse.emf.test.models.ppo.PPOPackage"
+            genModel="models/PrimerPO/PrimerPO.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated qname -->
+      <package
+            uri="http:///org.eclipse.emf.test.models/qname"
+            class="org.eclipse.emf.test.models.qname.QNamePackage"
+            genModel="models/QName/qname.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated qname -->
+      <parser
+            type="qname"
+            class="org.eclipse.emf.test.models.qname.util.QNameResourceFactoryImpl"/>
+   </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated RefTest -->
+      <package
+            uri="http:///org.eclipse.emf.test.models/ref"
+            class="org.eclipse.emf.test.models.ref.RefPackage"
+            genModel="models/edit.RefTest/RefTest.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated RefTest -->
+      <package
+            uri="http:///org/eclipse/emf/test/models/ref/unsettable.ecore"
+            class="org.eclipse.emf.test.models.ref.unsettable.URefPackage"
+            genModel="models/edit.RefTest/RefTest.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated RefTest -->
+      <package
+            uri="http:///org.eclipse.emf.test.models/ext"
+            class="org.eclipse.emf.test.models.ext.ExtPackage"
+            genModel="models/edit.RefTest/RefTest.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <!-- @generated RefTest -->
+      <factory
+            uri="http:///org.eclipse.emf.test.models/ref"
+            class="org.eclipse.emf.test.models.ref.provider.RefItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <!-- @generated RefTest -->
+      <factory
+            uri="http:///org/eclipse/emf/test/models/ref/unsettable.ecore"
+            class="org.eclipse.emf.test.models.ref.unsettable.provider.URefItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <!-- @generated RefTest -->
+      <factory
+            uri="http:///org.eclipse.emf.test.models/ext"
+            class="org.eclipse.emf.test.models.ext.provider.ExtItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated switch -->
+      <package
+            uri="http:///org.eclipse.emf.test.models/switch1"
+            class="org.eclipse.emf.test.models.switch1.Switch1Package"
+            genModel="models/Switch/switch.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated switch -->
+      <package
+            uri="http:///org.eclipse.emf.test.models/switch2"
+            class="org.eclipse.emf.test.models.switch2.Switch2Package"
+            genModel="models/Switch/switch.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated switch -->
+      <package
+            uri="http:///org.eclipse.emf.test.models/switch3"
+            class="org.eclipse.emf.test.models.switch3.Switch3Package"
+            genModel="models/Switch/switch.genmodel"/>
+   </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated tree -->
+      <package
+            uri="http:///org.eclipse.emf.test.models/Tree"
+            class="org.eclipse.emf.test.models.tree.TreePackage"
+            genModel="models/edit.Tree/tree.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <!-- @generated tree -->
+      <factory
+            uri="http:///org.eclipse.emf.test.models/Tree"
+            class="org.eclipse.emf.test.models.tree.provider.TreeItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
 </plugin>

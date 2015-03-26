@@ -34,11 +34,11 @@ import org.eclipse.emf.examples.extlibrary.Writer;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.WriterImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.WriterImpl#getBooks <em>Books</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

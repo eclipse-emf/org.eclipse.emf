@@ -12,8 +12,6 @@ package org.eclipse.emf.test.models.qname.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
-
 import javax.xml.namespace.QName;
 
 import org.eclipse.emf.ecore.EClass;
@@ -48,7 +46,7 @@ public class QNameFactoryImpl extends EFactoryImpl implements QNameFactory
   {
     try
     {
-      QNameFactory theQNameFactory = (QNameFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org.eclipse.emf.test.models/qname"); 
+      QNameFactory theQNameFactory = (QNameFactory)EPackage.Registry.INSTANCE.getEFactory(QNamePackage.eNS_URI);
       if (theQNameFactory != null)
       {
         return theQNameFactory;
@@ -240,9 +238,8 @@ public class QNameFactoryImpl extends EFactoryImpl implements QNameFactory
   {
     if (initialValue == null) return null;
     List<Object> result = new ArrayList<Object>();
-    for (StringTokenizer stringTokenizer = new StringTokenizer(initialValue); stringTokenizer.hasMoreTokens(); )
+    for (String item : split(initialValue))
     {
-      String item = stringTokenizer.nextToken();
       result.add(createUnionFromString(QNamePackage.Literals.UNION, item));
     }
     return result;
@@ -276,9 +273,8 @@ public class QNameFactoryImpl extends EFactoryImpl implements QNameFactory
   {
     if (initialValue == null) return null;
     List<QName> result = new ArrayList<QName>();
-    for (StringTokenizer stringTokenizer = new StringTokenizer(initialValue); stringTokenizer.hasMoreTokens(); )
+    for (String item : split(initialValue))
     {
-      String item = stringTokenizer.nextToken();
       result.add((QName)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.QNAME, item));
     }
     return result;

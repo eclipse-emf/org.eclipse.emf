@@ -29,13 +29,13 @@ import org.eclipse.emf.test.models.order.OrderPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.order.impl.CustomerOrderImpl#getMoviesToSee <em>Movies To See</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.order.impl.CustomerOrderImpl#getMoviesSeen <em>Movies Seen</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.order.impl.CustomerOrderImpl#getAny <em>Any</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.order.impl.CustomerOrderImpl#getCustomerID <em>Customer ID</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

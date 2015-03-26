@@ -30,13 +30,13 @@ import org.eclipse.emf.test.core.xrefsmodel.util.XRefsModelUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.core.xrefsmodel.impl.AImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.xrefsmodel.impl.AImpl#getOthers <em>Others</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.xrefsmodel.impl.AImpl#getAllOthers <em>All Others</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.xrefsmodel.impl.AImpl#getNonOthers <em>Non Others</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

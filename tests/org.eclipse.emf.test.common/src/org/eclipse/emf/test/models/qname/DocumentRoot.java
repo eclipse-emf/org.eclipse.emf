@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.qname.DocumentRoot#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.qname.DocumentRoot#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
@@ -36,7 +37,6 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link org.eclipse.emf.test.models.qname.DocumentRoot#getAQname <em>AQname</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.qname.DocumentRoot#getAUnion <em>AUnion</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.qname.QNamePackage#getDocumentRoot()
  * @model extendedMetaData="name='' kind='mixed'"

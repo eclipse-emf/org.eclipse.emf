@@ -26,11 +26,11 @@ import org.eclipse.emf.test.models.tree.TreePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.tree.impl.DataImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.tree.impl.DataImpl#getNode <em>Node</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

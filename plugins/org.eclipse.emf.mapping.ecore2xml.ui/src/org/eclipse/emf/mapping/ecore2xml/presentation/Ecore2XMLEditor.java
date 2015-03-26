@@ -1102,11 +1102,12 @@ public class Ecore2XMLEditor
    */
   public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) 
   {
-    if (!resource.getErrors().isEmpty() || !resource.getWarnings().isEmpty())
+    boolean hasErrors = !resource.getErrors().isEmpty();
+    if (hasErrors || !resource.getWarnings().isEmpty())
     {
       BasicDiagnostic basicDiagnostic =
         new BasicDiagnostic
-          (Diagnostic.ERROR,
+          (hasErrors ? Diagnostic.ERROR : Diagnostic.WARNING,
            "org.eclipse.emf.mapping.ecore2xml.ui", //$NON-NLS-1$
            0,
            getString("_UI_CreateModelError_message", resource.getURI()), //$NON-NLS-1$
@@ -1470,7 +1471,7 @@ public class Ecore2XMLEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("rawtypes")
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
   public Object getAdapter(Class key)
   {

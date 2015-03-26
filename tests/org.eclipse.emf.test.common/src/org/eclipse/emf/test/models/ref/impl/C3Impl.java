@@ -32,11 +32,11 @@ import org.eclipse.emf.test.models.ref.RefPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.C3Impl#getD <em>D</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.C3Impl#getC <em>C</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

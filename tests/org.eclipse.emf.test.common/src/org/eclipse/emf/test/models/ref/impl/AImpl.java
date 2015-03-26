@@ -29,12 +29,12 @@ import org.eclipse.emf.test.models.ref.RefPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.AImpl#getB <em>B</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.AImpl#getC2 <em>C2</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.AImpl#getC <em>C</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -157,7 +157,7 @@ public class AImpl extends EObjectImpl implements A
   public C2 getC2()
   {
     if (eContainerFeatureID() != RefPackage.A__C2) return null;
-    return (C2)eContainer();
+    return (C2)eInternalContainer();
   }
 
   /**

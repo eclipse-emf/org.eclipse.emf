@@ -28,10 +28,10 @@ import org.eclipse.emf.test.core.extmetadata.ExtmetadataPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.core.extmetadata.impl.ClassImpl#getAttribute <em>Attribute</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -71,7 +71,8 @@ public class ClassImpl extends NamedElementImpl implements org.eclipse.emf.test.
    * @generated
    */
   public EList<Attribute> getAttribute() {
-    if (attribute == null) {
+    if (attribute == null)
+    {
       attribute = new EObjectContainmentEList<Attribute>(Attribute.class, this, ExtmetadataPackage.CLASS__ATTRIBUTE);
     }
     return attribute;
@@ -84,7 +85,8 @@ public class ClassImpl extends NamedElementImpl implements org.eclipse.emf.test.
    */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-    switch (featureID) {
+    switch (featureID)
+    {
       case ExtmetadataPackage.CLASS__ATTRIBUTE:
         return ((InternalEList<?>)getAttribute()).basicRemove(otherEnd, msgs);
     }
@@ -98,7 +100,8 @@ public class ClassImpl extends NamedElementImpl implements org.eclipse.emf.test.
    */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType) {
-    switch (featureID) {
+    switch (featureID)
+    {
       case ExtmetadataPackage.CLASS__ATTRIBUTE:
         return getAttribute();
     }
@@ -113,7 +116,8 @@ public class ClassImpl extends NamedElementImpl implements org.eclipse.emf.test.
   @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue) {
-    switch (featureID) {
+    switch (featureID)
+    {
       case ExtmetadataPackage.CLASS__ATTRIBUTE:
         getAttribute().clear();
         getAttribute().addAll((Collection<? extends Attribute>)newValue);
@@ -129,7 +133,8 @@ public class ClassImpl extends NamedElementImpl implements org.eclipse.emf.test.
    */
   @Override
   public void eUnset(int featureID) {
-    switch (featureID) {
+    switch (featureID)
+    {
       case ExtmetadataPackage.CLASS__ATTRIBUTE:
         getAttribute().clear();
         return;
@@ -144,7 +149,8 @@ public class ClassImpl extends NamedElementImpl implements org.eclipse.emf.test.
    */
   @Override
   public boolean eIsSet(int featureID) {
-    switch (featureID) {
+    switch (featureID)
+    {
       case ExtmetadataPackage.CLASS__ATTRIBUTE:
         return attribute != null && !attribute.isEmpty();
     }

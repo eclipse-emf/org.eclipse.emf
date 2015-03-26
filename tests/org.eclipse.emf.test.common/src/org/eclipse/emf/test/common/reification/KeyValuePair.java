@@ -17,11 +17,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.common.reification.KeyValuePair#getKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.emf.test.common.reification.KeyValuePair#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.common.reification.ReificationPackage#getKeyValuePair()
  * @model KBounds="org.eclipse.emf.ecore.EEList<?>"

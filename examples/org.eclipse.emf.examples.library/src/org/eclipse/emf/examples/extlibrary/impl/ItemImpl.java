@@ -29,10 +29,10 @@ import org.eclipse.emf.examples.extlibrary.Item;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.ItemImpl#getPublicationDate <em>Publication Date</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

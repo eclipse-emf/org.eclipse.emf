@@ -33,11 +33,11 @@ import org.eclipse.emf.ecore.util.FeatureMapUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.impl.EAttributeImpl#isID <em>ID</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EAttributeImpl#getEAttributeType <em>EAttribute Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

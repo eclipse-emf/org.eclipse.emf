@@ -38,6 +38,7 @@ import org.eclipse.emf.test.models.qname.ResourceType;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.qname.impl.DocumentRootImpl#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.qname.impl.DocumentRootImpl#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
@@ -49,7 +50,6 @@ import org.eclipse.emf.test.models.qname.ResourceType;
  *   <li>{@link org.eclipse.emf.test.models.qname.impl.DocumentRootImpl#getAQname <em>AQname</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.qname.impl.DocumentRootImpl#getAUnion <em>AUnion</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

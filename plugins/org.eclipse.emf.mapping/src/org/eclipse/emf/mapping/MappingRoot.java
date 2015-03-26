@@ -23,12 +23,12 @@ import org.eclipse.emf.mapping.domain.MappingDomain;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.mapping.MappingRoot#isOutputReadOnly <em>Output Read Only</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.MappingRoot#isTopToBottom <em>Top To Bottom</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.MappingRoot#getCommandStack <em>Command Stack</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.mapping.MappingPackage#getMappingRoot()
  * @model

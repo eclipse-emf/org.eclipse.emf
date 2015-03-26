@@ -32,13 +32,13 @@ import org.eclipse.emf.test.models.ref.unsettable.URefPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.impl.EUImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.impl.EUImpl#getIds <em>Ids</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.impl.EUImpl#getLabels <em>Labels</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.impl.EUImpl#getDu <em>Du</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

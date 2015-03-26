@@ -168,7 +168,6 @@ public class XcoreEcoreBuilder
       int index = name.lastIndexOf(".");
       if (index == -1)
       {
-        basePackage = null;
         ePackage.setName(name);
       }
       else

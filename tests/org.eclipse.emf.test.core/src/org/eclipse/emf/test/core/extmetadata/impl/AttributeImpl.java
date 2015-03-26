@@ -24,10 +24,10 @@ import org.eclipse.emf.test.core.extmetadata.ExtmetadataPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.core.extmetadata.impl.AttributeImpl#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -67,10 +67,12 @@ public class AttributeImpl extends NamedElementImpl implements Attribute {
    * @generated
    */
   public org.eclipse.emf.test.core.extmetadata.Class getType() {
-    if (type != null && type.eIsProxy()) {
+    if (type != null && type.eIsProxy())
+    {
       InternalEObject oldType = (InternalEObject)type;
       type = (org.eclipse.emf.test.core.extmetadata.Class)eResolveProxy(oldType);
-      if (type != oldType) {
+      if (type != oldType)
+      {
         if (eNotificationRequired())
           eNotify(new ENotificationImpl(this, Notification.RESOLVE, ExtmetadataPackage.ATTRIBUTE__TYPE, oldType, type));
       }
@@ -106,7 +108,8 @@ public class AttributeImpl extends NamedElementImpl implements Attribute {
    */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType) {
-    switch (featureID) {
+    switch (featureID)
+    {
       case ExtmetadataPackage.ATTRIBUTE__TYPE:
         if (resolve) return getType();
         return basicGetType();
@@ -121,7 +124,8 @@ public class AttributeImpl extends NamedElementImpl implements Attribute {
    */
   @Override
   public void eSet(int featureID, Object newValue) {
-    switch (featureID) {
+    switch (featureID)
+    {
       case ExtmetadataPackage.ATTRIBUTE__TYPE:
         setType((org.eclipse.emf.test.core.extmetadata.Class)newValue);
         return;
@@ -136,7 +140,8 @@ public class AttributeImpl extends NamedElementImpl implements Attribute {
    */
   @Override
   public void eUnset(int featureID) {
-    switch (featureID) {
+    switch (featureID)
+    {
       case ExtmetadataPackage.ATTRIBUTE__TYPE:
         setType((org.eclipse.emf.test.core.extmetadata.Class)null);
         return;
@@ -151,7 +156,8 @@ public class AttributeImpl extends NamedElementImpl implements Attribute {
    */
   @Override
   public boolean eIsSet(int featureID) {
-    switch (featureID) {
+    switch (featureID)
+    {
       case ExtmetadataPackage.ATTRIBUTE__TYPE:
         return type != null;
     }

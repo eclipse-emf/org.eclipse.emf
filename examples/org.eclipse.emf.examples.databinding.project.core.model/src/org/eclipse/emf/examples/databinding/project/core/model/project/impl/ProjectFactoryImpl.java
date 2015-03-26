@@ -39,7 +39,7 @@ public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory
   {
     try
     {
-      ProjectFactory theProjectFactory = (ProjectFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/project/1.0.0"); 
+      ProjectFactory theProjectFactory = (ProjectFactory)EPackage.Registry.INSTANCE.getEFactory(ProjectPackage.eNS_URI);
       if (theProjectFactory != null)
       {
         return theProjectFactory;

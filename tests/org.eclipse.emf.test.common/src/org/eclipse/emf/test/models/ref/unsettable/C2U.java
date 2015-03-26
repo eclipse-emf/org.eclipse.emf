@@ -20,11 +20,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.C2U#getAu <em>Au</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.C2U#getBu <em>Bu</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.ref.unsettable.URefPackage#getC2U()
  * @model

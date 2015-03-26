@@ -35,11 +35,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.EObjectToChangesMapEntryImpl#getTypedKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.EObjectToChangesMapEntryImpl#getTypedValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

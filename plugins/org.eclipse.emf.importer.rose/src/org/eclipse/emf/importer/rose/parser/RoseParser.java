@@ -379,8 +379,7 @@ public class RoseParser
     }
     else if (tok.getType() == RoseToken.VERTICAL_BAR)
     {
-      RoseNode root = null;
-      root = new RoseNode(key, "", RoseNode.STRING_SEQ);
+      RoseNode root = new RoseNode(key, "", RoseNode.STRING_SEQ);
       while (true)
       {
         tok = lexer.peekNext();
@@ -401,10 +400,7 @@ public class RoseParser
 
         RoseNode node = null;
         node = new RoseNode("", tok.getValue(), RoseNode.STRING);
-        if (root != null)
-        {
           root.addNode(node);
-        }
       }
       return root;
     }

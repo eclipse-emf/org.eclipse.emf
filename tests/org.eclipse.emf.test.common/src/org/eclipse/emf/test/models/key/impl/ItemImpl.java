@@ -28,12 +28,12 @@ import org.eclipse.emf.test.models.key.KeyPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.key.impl.ItemImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.key.impl.ItemImpl#getSignature <em>Signature</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.key.impl.ItemImpl#getRelatedItems <em>Related Items</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

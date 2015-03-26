@@ -19,10 +19,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.lib.Book#getTitle <em>Title</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.lib.LibPackage#getBook()
  * @model

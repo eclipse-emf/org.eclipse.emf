@@ -20,12 +20,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.library.Library#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.library.Library#getWriters <em>Writers</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.library.Library#getBooks <em>Books</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.library.LibraryPackage#getLibrary()
  * @model

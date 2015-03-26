@@ -699,7 +699,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
     addAnnotation
       (addressTypeEClass, 
        source, 
@@ -707,7 +707,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "name", "addressType",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getAddressType_Street(), 
        source, 
@@ -715,7 +715,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "element",
        "name", "street"
-       });		
+       });	
     addAnnotation
       (getAddressType_Town(), 
        source, 
@@ -723,7 +723,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "element",
        "name", "town"
-       });		
+       });	
     addAnnotation
       (canadaAddrEClass, 
        source, 
@@ -731,7 +731,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "name", "canadaAddr",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getCanadaAddr_Zip(), 
        source, 
@@ -739,7 +739,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "element",
        "name", "zip"
-       });		
+       });	
     addAnnotation
       (getCanadaAddr_Province(), 
        source, 
@@ -747,7 +747,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "element",
        "name", "province"
-       });		
+       });	
     addAnnotation
       (creditInfoEClass, 
        source, 
@@ -755,7 +755,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "name", "creditInfo",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getCreditInfo_Holder(), 
        source, 
@@ -763,7 +763,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "element",
        "name", "holder"
-       });		
+       });	
     addAnnotation
       (getCreditInfo_CcNumber(), 
        source, 
@@ -771,7 +771,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "element",
        "name", "cc_number"
-       });		
+       });	
     addAnnotation
       (getCreditInfo_ExpireDate(), 
        source, 
@@ -779,7 +779,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "element",
        "name", "expireDate"
-       });		
+       });	
     addAnnotation
       (customersTypeEClass, 
        source, 
@@ -787,7 +787,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "name", "customersType",
        "kind", "mixed"
-       });		
+       });	
     addAnnotation
       (getCustomersType_Mixed(), 
        source, 
@@ -795,7 +795,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "elementWildcard",
        "name", ":mixed"
-       });		
+       });	
     addAnnotation
       (getCustomersType_Customer(), 
        source, 
@@ -804,7 +804,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        "kind", "element",
        "name", "customer",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (customerTypeEClass, 
        source, 
@@ -812,7 +812,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "name", "dbcustomer",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getCustomerType_Name(), 
        source, 
@@ -820,7 +820,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "element",
        "name", "name"
-       });		
+       });	
     addAnnotation
       (getCustomerType_Address(), 
        source, 
@@ -828,7 +828,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "element",
        "name", "address"
-       });		
+       });	
     addAnnotation
       (getCustomerType_CreditCard(), 
        source, 
@@ -836,7 +836,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "element",
        "name", "creditCard"
-       });		
+       });	
     addAnnotation
       (getCustomerType_PaymentDay(), 
        source, 
@@ -844,7 +844,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "element",
        "name", "paymentDay"
-       });		
+       });	
     addAnnotation
       (getCustomerType_ID(), 
        source, 
@@ -853,7 +853,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        "kind", "attribute",
        "name", "ID",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (documentRootEClass, 
        source, 
@@ -861,7 +861,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "name", "",
        "kind", "mixed"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_Mixed(), 
        source, 
@@ -869,7 +869,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "elementWildcard",
        "name", ":mixed"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_XMLNSPrefixMap(), 
        source, 
@@ -877,7 +877,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "attribute",
        "name", "xmlns:prefix"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_XSISchemaLocation(), 
        source, 
@@ -885,7 +885,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "attribute",
        "name", "xsi:schemaLocation"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_Customers(), 
        source, 
@@ -894,7 +894,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        "kind", "element",
        "name", "customers",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_ID(), 
        source, 
@@ -903,7 +903,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        "kind", "attribute",
        "name", "ID",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (usAddrEClass, 
        source, 
@@ -911,7 +911,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "name", "USAddr",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getUSAddr_Zip(), 
        source, 
@@ -919,7 +919,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "element",
        "name", "zip"
-       });		
+       });	
     addAnnotation
       (getUSAddr_State(), 
        source, 
@@ -927,14 +927,14 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "kind", "element",
        "name", "state"
-       });		
+       });	
     addAnnotation
       (usStateEEnum, 
        source, 
        new String[] 
        {
        "name", "USState"
-       });		
+       });	
     addAnnotation
       (usStateObjectEDataType, 
        source, 
@@ -942,7 +942,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        {
        "name", "USState:Object",
        "baseType", "USState"
-       });		
+       });	
     addAnnotation
       (zipCodesEDataType, 
        source, 
@@ -952,7 +952,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        "baseType", "http://www.eclipse.org/emf/2003/XMLType#integer",
        "minInclusive", "10000",
        "maxInclusive", "99999"
-       });		
+       });	
     addAnnotation
       (zipUnionEDataType, 
        source, 

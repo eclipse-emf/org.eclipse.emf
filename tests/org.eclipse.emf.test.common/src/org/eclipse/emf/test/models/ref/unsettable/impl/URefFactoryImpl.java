@@ -45,7 +45,7 @@ public class URefFactoryImpl extends EFactoryImpl implements URefFactory
   {
     try
     {
-      URefFactory theURefFactory = (URefFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org/eclipse/emf/test/models/ref/unsettable.ecore"); 
+      URefFactory theURefFactory = (URefFactory)EPackage.Registry.INSTANCE.getEFactory(URefPackage.eNS_URI);
       if (theURefFactory != null)
       {
         return theURefFactory;

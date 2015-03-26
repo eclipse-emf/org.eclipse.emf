@@ -29,12 +29,12 @@ import org.eclipse.emf.test.models.ref.unsettable.URefPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.impl.AUImpl#getBu <em>Bu</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.impl.AUImpl#getC2u <em>C2u</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.impl.AUImpl#getCu <em>Cu</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -234,7 +234,7 @@ public class AUImpl extends EObjectImpl implements AU
   public C2U getC2u()
   {
     if (eContainerFeatureID() != URefPackage.AU__C2U) return null;
-    return (C2U)eContainer();
+    return (C2U)eInternalContainer();
   }
 
   /**

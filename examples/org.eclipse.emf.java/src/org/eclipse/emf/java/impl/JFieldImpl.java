@@ -32,6 +32,7 @@ import org.eclipse.emf.java.util.JavaUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.java.impl.JFieldImpl#isFinal <em>Final</em>}</li>
  *   <li>{@link org.eclipse.emf.java.impl.JFieldImpl#isTransient <em>Transient</em>}</li>
@@ -40,7 +41,6 @@ import org.eclipse.emf.java.util.JavaUtil;
  *   <li>{@link org.eclipse.emf.java.impl.JFieldImpl#getInitializer <em>Initializer</em>}</li>
  *   <li>{@link org.eclipse.emf.java.impl.JFieldImpl#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

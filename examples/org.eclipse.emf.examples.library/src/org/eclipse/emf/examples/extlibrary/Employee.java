@@ -18,10 +18,10 @@ package org.eclipse.emf.examples.extlibrary;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.Employee#getManager <em>Manager</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getEmployee()
  * @model

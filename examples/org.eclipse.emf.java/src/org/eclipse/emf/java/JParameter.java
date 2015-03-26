@@ -19,12 +19,12 @@ package org.eclipse.emf.java;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.java.JParameter#isFinal <em>Final</em>}</li>
  *   <li>{@link org.eclipse.emf.java.JParameter#getMethod <em>Method</em>}</li>
  *   <li>{@link org.eclipse.emf.java.JParameter#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.java.JavaPackage#getJParameter()
  * @model

@@ -32,6 +32,7 @@ import org.eclipse.emf.test.models.qname.ResourceType;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.qname.impl.ResourceTypeImpl#getUnionvalue <em>Unionvalue</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.qname.impl.ResourceTypeImpl#getQnamelist <em>Qnamelist</em>}</li>
@@ -40,7 +41,6 @@ import org.eclipse.emf.test.models.qname.ResourceType;
  *   <li>{@link org.eclipse.emf.test.models.qname.impl.ResourceTypeImpl#getMyQname <em>My Qname</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.qname.impl.ResourceTypeImpl#getAnyAttribute <em>Any Attribute</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

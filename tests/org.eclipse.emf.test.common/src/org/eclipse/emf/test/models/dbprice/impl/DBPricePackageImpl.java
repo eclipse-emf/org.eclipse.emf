@@ -248,7 +248,7 @@ public class DBPricePackageImpl extends EPackageImpl implements DBPricePackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
     addAnnotation
       (pencilTypeEClass, 
        source, 
@@ -256,7 +256,7 @@ public class DBPricePackageImpl extends EPackageImpl implements DBPricePackage
        {
        "name", "pencilType",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getPencilType_Price(), 
        source, 
@@ -264,7 +264,7 @@ public class DBPricePackageImpl extends EPackageImpl implements DBPricePackage
        {
        "kind", "element",
        "name", "price"
-       });		
+       });	
     addAnnotation
       (penTypeEClass, 
        source, 
@@ -272,7 +272,7 @@ public class DBPricePackageImpl extends EPackageImpl implements DBPricePackage
        {
        "name", "penType",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getPenType_Price(), 
        source, 

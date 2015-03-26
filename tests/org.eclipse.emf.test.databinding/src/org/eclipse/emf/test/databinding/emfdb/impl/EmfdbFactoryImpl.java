@@ -42,7 +42,7 @@ public class EmfdbFactoryImpl extends EFactoryImpl implements EmfdbFactory
   {
     try
     {
-      EmfdbFactory theEmfdbFactory = (EmfdbFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/emfdb/1.0.0");
+      EmfdbFactory theEmfdbFactory = (EmfdbFactory)EPackage.Registry.INSTANCE.getEFactory(EmfdbPackage.eNS_URI);
       if (theEmfdbFactory != null)
       {
         return theEmfdbFactory;

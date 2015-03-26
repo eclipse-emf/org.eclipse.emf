@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.EClassifier#getInstanceClassName <em>Instance Class Name</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EClassifier#getInstanceClass <em>Instance Class</em>}</li>
@@ -28,7 +29,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.emf.ecore.EClassifier#getEPackage <em>EPackage</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EClassifier#getETypeParameters <em>EType Parameters</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEClassifier()
  * @model abstract="true"

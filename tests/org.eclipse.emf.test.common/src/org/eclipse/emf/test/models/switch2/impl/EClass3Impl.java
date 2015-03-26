@@ -22,11 +22,11 @@ import org.eclipse.emf.test.models.switch2.Switch2Package;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.switch2.impl.EClass3Impl#getEAttribute6 <em>EAttribute6</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.switch2.impl.EClass3Impl#getEAttribute7 <em>EAttribute7</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

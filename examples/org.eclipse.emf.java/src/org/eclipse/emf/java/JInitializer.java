@@ -19,10 +19,10 @@ package org.eclipse.emf.java;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.java.JInitializer#getBody <em>Body</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.java.JavaPackage#getJInitializer()
  * @model

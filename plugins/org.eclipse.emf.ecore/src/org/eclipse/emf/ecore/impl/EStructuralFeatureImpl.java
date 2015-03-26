@@ -60,6 +60,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.impl.EStructuralFeatureImpl#isChangeable <em>Changeable</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EStructuralFeatureImpl#isVolatile <em>Volatile</em>}</li>
@@ -70,7 +71,6 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.ecore.impl.EStructuralFeatureImpl#isDerived <em>Derived</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EStructuralFeatureImpl#getEContainingClass <em>EContaining Class</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -24,12 +24,12 @@ import org.eclipse.emf.mapping.ecore2xml.XMLInfo;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.mapping.ecore2xml.impl.XMLInfoImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.ecore2xml.impl.XMLInfoImpl#getTargetNamespace <em>Target Namespace</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.ecore2xml.impl.XMLInfoImpl#getXMLRepresentation <em>XML Representation</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

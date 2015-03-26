@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.qname.ResourceType#getUnionvalue <em>Unionvalue</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.qname.ResourceType#getQnamelist <em>Qnamelist</em>}</li>
@@ -32,7 +33,6 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link org.eclipse.emf.test.models.qname.ResourceType#getMyQname <em>My Qname</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.qname.ResourceType#getAnyAttribute <em>Any Attribute</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.qname.QNamePackage#getResourceType()
  * @model extendedMetaData="name='resourceType' kind='elementOnly'"

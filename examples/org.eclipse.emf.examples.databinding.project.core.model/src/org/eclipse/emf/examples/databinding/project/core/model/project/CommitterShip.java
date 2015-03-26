@@ -21,13 +21,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.CommitterShip#getStart <em>Start</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.CommitterShip#getEnd <em>End</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.CommitterShip#getProject <em>Project</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.CommitterShip#getPerson <em>Person</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage#getCommitterShip()
  * @model

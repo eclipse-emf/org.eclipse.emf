@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Project#getShortname <em>Shortname</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Project#getSubprojects <em>Subprojects</em>}</li>
@@ -35,7 +36,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Project#getDevmail <em>Devmail</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Project#getHomepage <em>Homepage</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage#getProject()
  * @model

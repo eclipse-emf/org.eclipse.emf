@@ -39,11 +39,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenParameterImpl#getGenOperation <em>Gen Operation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenParameterImpl#getEcoreParameter <em>Ecore Parameter</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

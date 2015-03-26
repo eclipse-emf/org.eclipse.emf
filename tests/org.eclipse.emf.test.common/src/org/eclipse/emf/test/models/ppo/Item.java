@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ppo.Item#getProductName <em>Product Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ppo.Item#getQuantity <em>Quantity</em>}</li>
@@ -29,7 +30,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.emf.test.models.ppo.Item#getShipDate <em>Ship Date</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ppo.Item#getPartNum <em>Part Num</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.ppo.PPOPackage#getItem()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='NonNegativeQuantity ValidShipDate'"

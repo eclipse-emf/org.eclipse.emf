@@ -129,7 +129,7 @@ public class URIEditorInput implements IEditorInput, IPersistableElement
     return this;
   }
 
-  @SuppressWarnings("rawtypes")
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   public Object getAdapter(Class adapter)
   {
     if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)

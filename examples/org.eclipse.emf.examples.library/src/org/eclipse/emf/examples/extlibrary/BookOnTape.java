@@ -18,11 +18,11 @@ package org.eclipse.emf.examples.extlibrary;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.BookOnTape#getReader <em>Reader</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.BookOnTape#getAuthor <em>Author</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getBookOnTape()
  * @model

@@ -28,10 +28,10 @@ import org.eclipse.emf.examples.extlibrary.VideoCassette;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.VideoCassetteImpl#getCast <em>Cast</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

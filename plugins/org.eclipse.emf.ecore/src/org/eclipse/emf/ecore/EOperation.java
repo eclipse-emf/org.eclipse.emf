@@ -26,6 +26,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.EOperation#getEContainingClass <em>EContaining Class</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EOperation#getETypeParameters <em>EType Parameters</em>}</li>
@@ -33,7 +34,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.emf.ecore.EOperation#getEExceptions <em>EExceptions</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EOperation#getEGenericExceptions <em>EGeneric Exceptions</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEOperation()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='UniqueParameterNames UniqueTypeParameterNames NoRepeatingVoid'"

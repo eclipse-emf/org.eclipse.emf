@@ -19,12 +19,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.AU#getBu <em>Bu</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.AU#getC2u <em>C2u</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.AU#getCu <em>Cu</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.ref.unsettable.URefPackage#getAU()
  * @model
@@ -100,7 +100,7 @@ public interface AU extends EObject
    * @see #setC2u(C2U)
    * @see org.eclipse.emf.test.models.ref.unsettable.URefPackage#getAU_C2u()
    * @see org.eclipse.emf.test.models.ref.unsettable.C2U#getAu
-   * @model opposite="au" unsettable="true" required="true"
+   * @model opposite="au" unsettable="true"
    * @generated
    */
   C2U getC2u();
@@ -128,7 +128,7 @@ public interface AU extends EObject
    * @see #unsetCu()
    * @see #setCu(CU)
    * @see org.eclipse.emf.test.models.ref.unsettable.URefPackage#getAU_Cu()
-   * @model unsettable="true" required="true"
+   * @model unsettable="true"
    * @generated
    */
   CU getCu();

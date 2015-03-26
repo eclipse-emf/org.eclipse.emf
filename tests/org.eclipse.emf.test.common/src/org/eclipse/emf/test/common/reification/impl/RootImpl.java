@@ -26,6 +26,7 @@ import org.eclipse.emf.test.common.reification.UnboundedGenericContainer;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.common.reification.impl.RootImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.common.reification.impl.RootImpl#getContainer <em>Container</em>}</li>
@@ -38,7 +39,6 @@ import org.eclipse.emf.test.common.reification.UnboundedGenericContainer;
  *   <li>{@link org.eclipse.emf.test.common.reification.impl.RootImpl#getBoundedGenericContainerWithSuper <em>Bounded Generic Container With Super</em>}</li>
  *   <li>{@link org.eclipse.emf.test.common.reification.impl.RootImpl#getBoundedGenericContainerWithExtends <em>Bounded Generic Container With Extends</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

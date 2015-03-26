@@ -12,8 +12,6 @@ package org.eclipse.emf.test.models.movie.db.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -49,7 +47,7 @@ public class DBFactoryImpl extends EFactoryImpl implements DBFactory
   {
     try
     {
-      DBFactory theDBFactory = (DBFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org.eclipse.emf.test.models/MovieDB"); 
+      DBFactory theDBFactory = (DBFactory)EPackage.Registry.INSTANCE.getEFactory(DBPackage.eNS_URI);
       if (theDBFactory != null)
       {
         return theDBFactory;
@@ -237,9 +235,8 @@ public class DBFactoryImpl extends EFactoryImpl implements DBFactory
   {
     if (initialValue == null) return null;
     List<String> result = new ArrayList<String>();
-    for (StringTokenizer stringTokenizer = new StringTokenizer(initialValue); stringTokenizer.hasMoreTokens(); )
+    for (String item : split(initialValue))
     {
-      String item = stringTokenizer.nextToken();
       result.add((String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.NC_NAME, item));
     }
     return result;

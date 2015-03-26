@@ -30,12 +30,12 @@ import org.eclipse.emf.test.models.movie.db.MovieType;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.impl.MovieDBTypeImpl#getMovieDBFeatureMap <em>Movie DB Feature Map</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.impl.MovieDBTypeImpl#getMovie <em>Movie</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.impl.MovieDBTypeImpl#getComment <em>Comment</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

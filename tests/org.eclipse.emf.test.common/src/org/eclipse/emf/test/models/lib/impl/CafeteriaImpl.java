@@ -27,11 +27,11 @@ import org.eclipse.emf.test.models.lib.Library;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.lib.impl.CafeteriaImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.lib.impl.CafeteriaImpl#getLibrary <em>Library</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

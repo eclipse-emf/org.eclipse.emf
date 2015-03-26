@@ -21,12 +21,12 @@ import org.eclipse.emf.ecore.EDataType;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.SimpleAnyType#getRawValue <em>Raw Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.SimpleAnyType#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.SimpleAnyType#getInstanceType <em>Instance Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getSimpleAnyType()
  * @model extendedMetaData="name='simpleAnyType' kind='simple'"

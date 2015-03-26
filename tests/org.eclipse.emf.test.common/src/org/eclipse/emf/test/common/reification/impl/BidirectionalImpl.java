@@ -27,13 +27,13 @@ import org.eclipse.emf.test.common.reification.ReificationPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.common.reification.impl.BidirectionalImpl#getIn <em>In</em>}</li>
  *   <li>{@link org.eclipse.emf.test.common.reification.impl.BidirectionalImpl#getOut <em>Out</em>}</li>
  *   <li>{@link org.eclipse.emf.test.common.reification.impl.BidirectionalImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.test.common.reification.impl.BidirectionalImpl#getValuesList <em>Values</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

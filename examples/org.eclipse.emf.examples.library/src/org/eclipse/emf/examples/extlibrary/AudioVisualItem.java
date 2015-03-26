@@ -18,12 +18,12 @@ package org.eclipse.emf.examples.extlibrary;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.AudioVisualItem#getTitle <em>Title</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.AudioVisualItem#getMinutesLength <em>Minutes Length</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.AudioVisualItem#isDamaged <em>Damaged</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getAudioVisualItem()
  * @model abstract="true"

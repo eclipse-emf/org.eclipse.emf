@@ -47,7 +47,8 @@ public class ExtmetadataSwitch<T> extends Switch<T> {
    * @generated
    */
   public ExtmetadataSwitch() {
-    if (modelPackage == null) {
+    if (modelPackage == null)
+    {
       modelPackage = ExtmetadataPackage.eINSTANCE;
     }
   }
@@ -56,7 +57,7 @@ public class ExtmetadataSwitch<T> extends Switch<T> {
    * Checks whether this is a switch for the given package.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @parameter ePackage the package in question.
+   * @param ePackage the package in question.
    * @return whether this is a switch for the given package.
    * @generated
    */
@@ -74,21 +75,25 @@ public class ExtmetadataSwitch<T> extends Switch<T> {
    */
   @Override
   protected T doSwitch(int classifierID, EObject theEObject) {
-    switch (classifierID) {
-      case ExtmetadataPackage.NAMED_ELEMENT: {
+    switch (classifierID)
+    {
+      case ExtmetadataPackage.NAMED_ELEMENT:
+      {
         NamedElement namedElement = (NamedElement)theEObject;
         T result = caseNamedElement(namedElement);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case ExtmetadataPackage.CLASS: {
+      case ExtmetadataPackage.CLASS:
+      {
         org.eclipse.emf.test.core.extmetadata.Class class_ = (org.eclipse.emf.test.core.extmetadata.Class)theEObject;
         T result = caseClass(class_);
         if (result == null) result = caseNamedElement(class_);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case ExtmetadataPackage.ATTRIBUTE: {
+      case ExtmetadataPackage.ATTRIBUTE:
+      {
         Attribute attribute = (Attribute)theEObject;
         T result = caseAttribute(attribute);
         if (result == null) result = caseNamedElement(attribute);

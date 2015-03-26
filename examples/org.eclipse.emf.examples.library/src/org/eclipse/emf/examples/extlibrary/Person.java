@@ -18,11 +18,11 @@ package org.eclipse.emf.examples.extlibrary;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.Person#getFirstName <em>First Name</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.Person#getLastName <em>Last Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getPerson()
  * @model

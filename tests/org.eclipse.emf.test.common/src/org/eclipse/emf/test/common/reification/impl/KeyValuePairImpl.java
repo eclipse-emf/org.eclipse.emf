@@ -23,11 +23,11 @@ import org.eclipse.emf.test.common.reification.ReificationPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.common.reification.impl.KeyValuePairImpl#getKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.emf.test.common.reification.impl.KeyValuePairImpl#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

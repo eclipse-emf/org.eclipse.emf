@@ -26,12 +26,12 @@ import org.eclipse.emf.examples.extlibrary.EXTLibraryPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.AudioVisualItemImpl#getTitle <em>Title</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.AudioVisualItemImpl#getMinutesLength <em>Minutes Length</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.AudioVisualItemImpl#isDamaged <em>Damaged</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ppo.USAddress#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ppo.USAddress#getStreet <em>Street</em>}</li>
@@ -30,7 +31,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.emf.test.models.ppo.USAddress#getZip <em>Zip</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ppo.USAddress#getCountry <em>Country</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.ppo.PPOPackage#getUSAddress()
  * @model

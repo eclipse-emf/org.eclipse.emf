@@ -21,6 +21,7 @@ import java.lang.reflect.Field;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.java.JField#isFinal <em>Final</em>}</li>
  *   <li>{@link org.eclipse.emf.java.JField#isTransient <em>Transient</em>}</li>
@@ -29,7 +30,6 @@ import java.lang.reflect.Field;
  *   <li>{@link org.eclipse.emf.java.JField#getInitializer <em>Initializer</em>}</li>
  *   <li>{@link org.eclipse.emf.java.JField#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.java.JavaPackage#getJField()
  * @model

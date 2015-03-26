@@ -21,13 +21,13 @@ import org.eclipse.emf.test.models.dbprice.PencilType;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.dbitem.DbType#getRedPen <em>Red Pen</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.dbitem.DbType#getBluePen <em>Blue Pen</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.dbitem.DbType#getRedPencil <em>Red Pencil</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.dbitem.DbType#getBluePencil <em>Blue Pencil</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.dbitem.DBItemPackage#getDbType()
  * @model extendedMetaData="name='dbType' kind='elementOnly'"

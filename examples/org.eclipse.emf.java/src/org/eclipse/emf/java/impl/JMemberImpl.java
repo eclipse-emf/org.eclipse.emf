@@ -29,13 +29,13 @@ import org.eclipse.emf.java.JavaPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.java.impl.JMemberImpl#isStatic <em>Static</em>}</li>
  *   <li>{@link org.eclipse.emf.java.impl.JMemberImpl#getVisibility <em>Visibility</em>}</li>
  *   <li>{@link org.eclipse.emf.java.impl.JMemberImpl#getComment <em>Comment</em>}</li>
  *   <li>{@link org.eclipse.emf.java.impl.JMemberImpl#getContainingType <em>Containing Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -199,7 +199,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
   public JClass getContainingType()
   {
     if (eContainerFeatureID() != JavaPackage.JMEMBER__CONTAINING_TYPE) return null;
-    return (JClass)eContainer();
+    return (JClass)eInternalContainer();
   }
 
   /**

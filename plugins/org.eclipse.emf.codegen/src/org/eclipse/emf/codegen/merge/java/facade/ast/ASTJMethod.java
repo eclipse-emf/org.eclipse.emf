@@ -17,7 +17,6 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
-
 import org.eclipse.emf.codegen.merge.java.facade.JMethod;
 
 
@@ -111,6 +110,7 @@ public class ASTJMethod extends ASTJMember<MethodDeclaration> implements JMethod
     return returnType;
   }
 
+  @SuppressWarnings("deprecation")
   public void setReturnType(String type)
   {
     this.returnType = type;
@@ -261,7 +261,7 @@ public class ASTJMethod extends ASTJMember<MethodDeclaration> implements JMethod
   {
     if (exceptions == EMPTY_STRING_ARRAY)
     {
-      @SuppressWarnings("unchecked")
+      @SuppressWarnings({ "unchecked", "deprecation" })
       List<Name> exceptionsList = getASTNode().thrownExceptions();
       
       exceptions = new String [exceptionsList.size()];
@@ -275,6 +275,7 @@ public class ASTJMethod extends ASTJMember<MethodDeclaration> implements JMethod
     return exceptions;
   }
 
+  @SuppressWarnings("deprecation")
   public void setExceptions(String[] exceptionTypes)
   {
     this.exceptions = exceptionTypes;
@@ -282,7 +283,8 @@ public class ASTJMethod extends ASTJMember<MethodDeclaration> implements JMethod
     setListNodeProperty(getASTNode(), exceptionTypes, MethodDeclaration.THROWN_EXCEPTIONS_PROPERTY, ASTNode.SIMPLE_NAME);
   }
 
-  public void addException(String exceptionType)
+  @SuppressWarnings("deprecation")
+public void addException(String exceptionType)
   {
     if (addedExceptions == null)
     {

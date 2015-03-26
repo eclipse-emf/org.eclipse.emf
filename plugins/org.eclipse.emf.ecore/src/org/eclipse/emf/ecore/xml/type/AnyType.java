@@ -22,12 +22,12 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.AnyType#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.AnyType#getAny <em>Any</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.AnyType#getAnyAttribute <em>Any Attribute</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getAnyType()
  * @model extendedMetaData="name='anyType' kind='mixed'"

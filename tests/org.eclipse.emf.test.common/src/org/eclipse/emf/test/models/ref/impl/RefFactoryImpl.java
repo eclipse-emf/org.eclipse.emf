@@ -45,7 +45,7 @@ public class RefFactoryImpl extends EFactoryImpl implements RefFactory
   {
     try
     {
-      RefFactory theRefFactory = (RefFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org.eclipse.emf.test.models/ref"); 
+      RefFactory theRefFactory = (RefFactory)EPackage.Registry.INSTANCE.getEFactory(RefPackage.eNS_URI);
       if (theRefFactory != null)
       {
         return theRefFactory;

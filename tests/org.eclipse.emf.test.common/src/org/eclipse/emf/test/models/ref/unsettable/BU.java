@@ -20,12 +20,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.BU#getAu <em>Au</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.BU#getC2u <em>C2u</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.BU#getDu <em>Du</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.ref.unsettable.URefPackage#getBU()
  * @model
@@ -101,7 +101,7 @@ public interface BU extends EObject
    * @see #setC2u(C2U)
    * @see org.eclipse.emf.test.models.ref.unsettable.URefPackage#getBU_C2u()
    * @see org.eclipse.emf.test.models.ref.unsettable.C2U#getBu
-   * @model opposite="bu" unsettable="true" required="true"
+   * @model opposite="bu" unsettable="true"
    * @generated
    */
   C2U getC2u();

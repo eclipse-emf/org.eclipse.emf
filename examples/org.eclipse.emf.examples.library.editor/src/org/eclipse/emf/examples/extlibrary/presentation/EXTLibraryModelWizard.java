@@ -83,6 +83,7 @@ import org.eclipse.emf.examples.extlibrary.provider.EXTLibraryEditPlugin;
 import org.eclipse.core.runtime.Path;
 
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 
@@ -318,7 +319,9 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
       {
         page.openEditor
           (new FileEditorInput(modelFile),
-           workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());
+           workbench.getEditorRegistry().getDefaultEditor
+           	(modelFile.getFullPath().toString(),
+           	 Platform.getContentTypeManager().getContentType(EXTLibraryPackage.eCONTENT_TYPE)).getId());					 	 
       }
       catch (PartInitException exception)
       {

@@ -19,10 +19,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.dbprice.PenType#getPrice <em>Price</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.dbprice.DBPricePackage#getPenType()
  * @model extendedMetaData="name='penType' kind='elementOnly'"

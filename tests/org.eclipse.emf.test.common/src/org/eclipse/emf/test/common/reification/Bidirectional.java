@@ -17,13 +17,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.common.reification.Bidirectional#getIn <em>In</em>}</li>
  *   <li>{@link org.eclipse.emf.test.common.reification.Bidirectional#getOut <em>Out</em>}</li>
  *   <li>{@link org.eclipse.emf.test.common.reification.Bidirectional#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.test.common.reification.Bidirectional#getValuesList <em>Values</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.common.reification.ReificationPackage#getBidirectional()
  * @model
@@ -154,7 +154,6 @@ public interface Bidirectional<T extends Bidirectional<T>> extends EObject
 
   /**
    * Returns the value of the '<em><b>Values</b></em>' reference list.
-   * The list contents are of type {@link T}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Values</em>' reference list isn't clear,

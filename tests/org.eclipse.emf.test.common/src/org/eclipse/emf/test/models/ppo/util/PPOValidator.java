@@ -132,9 +132,11 @@ public class PPOValidator extends EObjectValidator
    */
   public boolean validateItem(Item item, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(item, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(item, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(item, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(item, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(item, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(item, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(item, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(item, diagnostics, context);
@@ -207,9 +209,11 @@ public class PPOValidator extends EObjectValidator
    */
   public boolean validateUSAddress(USAddress usAddress, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(usAddress, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(usAddress, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(usAddress, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(usAddress, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(usAddress, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(usAddress, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(usAddress, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(usAddress, diagnostics, context);

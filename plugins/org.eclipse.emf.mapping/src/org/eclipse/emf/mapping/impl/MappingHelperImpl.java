@@ -35,13 +35,13 @@ import org.eclipse.emf.mapping.MappingPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.mapping.impl.MappingHelperImpl#getMapper <em>Mapper</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.impl.MappingHelperImpl#getHelpedObject <em>Helped Object</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.impl.MappingHelperImpl#getNestedIn <em>Nested In</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.impl.MappingHelperImpl#getNested <em>Nested</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

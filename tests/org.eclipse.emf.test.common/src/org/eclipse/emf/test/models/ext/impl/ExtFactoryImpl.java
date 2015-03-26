@@ -38,7 +38,7 @@ public class ExtFactoryImpl extends EFactoryImpl implements ExtFactory
   {
     try
     {
-      ExtFactory theExtFactory = (ExtFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org.eclipse.emf.test.models/ext"); 
+      ExtFactory theExtFactory = (ExtFactory)EPackage.Registry.INSTANCE.getEFactory(ExtPackage.eNS_URI);
       if (theExtFactory != null)
       {
         return theExtFactory;

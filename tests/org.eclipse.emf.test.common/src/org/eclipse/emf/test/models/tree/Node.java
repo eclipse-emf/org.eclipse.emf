@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.tree.Node#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.tree.Node#getParent <em>Parent</em>}</li>
@@ -27,7 +28,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.emf.test.models.tree.Node#getData <em>Data</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.tree.Node#getRelatedNodes <em>Related Nodes</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.tree.TreePackage#getNode()
  * @model

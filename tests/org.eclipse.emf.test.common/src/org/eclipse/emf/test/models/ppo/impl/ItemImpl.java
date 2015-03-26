@@ -25,6 +25,7 @@ import org.eclipse.emf.test.models.ppo.PPOPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ppo.impl.ItemImpl#getProductName <em>Product Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ppo.impl.ItemImpl#getQuantity <em>Quantity</em>}</li>
@@ -33,7 +34,6 @@ import org.eclipse.emf.test.models.ppo.PPOPackage;
  *   <li>{@link org.eclipse.emf.test.models.ppo.impl.ItemImpl#getShipDate <em>Ship Date</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ppo.impl.ItemImpl#getPartNum <em>Part Num</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

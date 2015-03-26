@@ -115,10 +115,10 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenBaseImpl#getGenAnnotations <em>Gen Annotations</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

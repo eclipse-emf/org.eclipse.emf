@@ -20,11 +20,11 @@ import org.eclipse.emf.test.models.ref.E;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ext.ExtE#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ext.ExtE#getF <em>F</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.ext.ExtPackage#getExtE()
  * @model

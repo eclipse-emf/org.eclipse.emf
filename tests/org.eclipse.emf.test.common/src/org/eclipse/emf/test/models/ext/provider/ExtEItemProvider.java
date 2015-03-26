@@ -19,12 +19,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
-import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
-import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.test.models.ext.ExtE;
@@ -40,13 +35,7 @@ import org.eclipse.emf.test.models.ref.provider.RefTestEditPlugin;
  * @generated
  */
 public class ExtEItemProvider
-  extends EItemProvider
-  implements	
-    IEditingDomainItemProvider,	
-    IStructuredItemContentProvider,	
-    ITreeItemContentProvider,	
-    IItemLabelProvider,	
-    IItemPropertySource		
+  extends EItemProvider		
 {
   /**
    * This constructs an instance from a factory and a notifier.

@@ -20,11 +20,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.C1#getA <em>A</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.C1#getB <em>B</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.ref.RefPackage#getC1()
  * @model

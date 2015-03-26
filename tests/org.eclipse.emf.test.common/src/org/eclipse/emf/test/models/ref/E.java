@@ -20,13 +20,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.E#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.E#getIds <em>Ids</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.E#getLabels <em>Labels</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.E#getD <em>D</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.ref.RefPackage#getE()
  * @model

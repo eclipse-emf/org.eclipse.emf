@@ -19,11 +19,11 @@ import org.eclipse.emf.test.models.switch2.EClass3;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.switch3.EClass4#getEAttribute8 <em>EAttribute8</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.switch3.EClass4#getEAttribute9 <em>EAttribute9</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.switch3.Switch3Package#getEClass4()
  * @model

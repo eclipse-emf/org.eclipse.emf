@@ -1567,14 +1567,14 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
     addAnnotation
       (anySimpleTypeEDataType, 
        source, 
        new String[] 
        {
        "name", "anySimpleType"
-       });		
+       });	
     addAnnotation
       (anyTypeEClass, 
        source, 
@@ -1582,7 +1582,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "anyType",
        "kind", "mixed"
-       });		
+       });	
     addAnnotation
       (getAnyType_Mixed(), 
        source, 
@@ -1590,7 +1590,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "kind", "elementWildcard",
        "name", ":mixed"
-       });		
+       });	
     addAnnotation
       (getAnyType_Any(), 
        source, 
@@ -1600,7 +1600,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "wildcards", "##any",
        "name", ":1",
        "processing", "lax"
-       });		
+       });	
     addAnnotation
       (getAnyType_AnyAttribute(), 
        source, 
@@ -1610,7 +1610,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "wildcards", "##any",
        "name", ":2",
        "processing", "lax"
-       });		
+       });	
     addAnnotation
       (anyURIEDataType, 
        source, 
@@ -1618,7 +1618,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "anyURI",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (base64BinaryEDataType, 
        source, 
@@ -1626,7 +1626,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "base64Binary",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (booleanEDataType, 
        source, 
@@ -1634,7 +1634,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "boolean",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (booleanObjectEDataType, 
        source, 
@@ -1642,14 +1642,14 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "boolean:Object",
        "baseType", "boolean"
-       });		
+       });	
     addAnnotation
       (byteEDataType, 
        source, 
        new String[] 
        {
        "name", "byte"
-       });		
+       });	
     addAnnotation
       (byteObjectEDataType, 
        source, 
@@ -1657,7 +1657,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "byte:Object",
        "baseType", "byte"
-       });		
+       });	
     addAnnotation
       (dateEDataType, 
        source, 
@@ -1665,7 +1665,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "date",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (dateTimeEDataType, 
        source, 
@@ -1673,7 +1673,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "dateTime",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (decimalEDataType, 
        source, 
@@ -1681,7 +1681,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "decimal",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (doubleEDataType, 
        source, 
@@ -1689,7 +1689,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "double",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (doubleObjectEDataType, 
        source, 
@@ -1697,7 +1697,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "double:Object",
        "baseType", "double"
-       });		
+       });	
     addAnnotation
       (durationEDataType, 
        source, 
@@ -1705,7 +1705,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "duration",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (entitiesEDataType, 
        source, 
@@ -1714,7 +1714,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "ENTITIES",
        "baseType", "ENTITIES_._base",
        "minLength", "1"
-       });		
+       });	
     addAnnotation
       (entitiesBaseEDataType, 
        source, 
@@ -1722,7 +1722,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "ENTITIES_._base",
        "itemType", "ENTITY"
-       });		
+       });	
     addAnnotation
       (entityEDataType, 
        source, 
@@ -1730,7 +1730,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "ENTITY",
        "baseType", "NCName"
-       });		
+       });	
     addAnnotation
       (floatEDataType, 
        source, 
@@ -1738,7 +1738,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "float",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (floatObjectEDataType, 
        source, 
@@ -1746,7 +1746,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "float:Object",
        "baseType", "float"
-       });		
+       });	
     addAnnotation
       (gDayEDataType, 
        source, 
@@ -1754,7 +1754,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "gDay",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (gMonthEDataType, 
        source, 
@@ -1762,7 +1762,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "gMonth",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (gMonthDayEDataType, 
        source, 
@@ -1770,7 +1770,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "gMonthDay",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (gYearEDataType, 
        source, 
@@ -1778,7 +1778,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "gYear",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (gYearMonthEDataType, 
        source, 
@@ -1786,7 +1786,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "gYearMonth",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (hexBinaryEDataType, 
        source, 
@@ -1794,7 +1794,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "hexBinary",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (idEDataType, 
        source, 
@@ -1802,7 +1802,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "ID",
        "baseType", "NCName"
-       });		
+       });	
     addAnnotation
       (idrefEDataType, 
        source, 
@@ -1810,7 +1810,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "IDREF",
        "baseType", "NCName"
-       });		
+       });	
     addAnnotation
       (idrefsEDataType, 
        source, 
@@ -1819,7 +1819,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "IDREFS",
        "baseType", "IDREFS_._base",
        "minLength", "1"
-       });		
+       });	
     addAnnotation
       (idrefsBaseEDataType, 
        source, 
@@ -1827,21 +1827,21 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "IDREFS_._base",
        "itemType", "IDREF"
-       });		
+       });	
     addAnnotation
       (intEDataType, 
        source, 
        new String[] 
        {
        "name", "int"
-       });		
+       });	
     addAnnotation
       (integerEDataType, 
        source, 
        new String[] 
        {
        "name", "integer"
-       });		
+       });	
     addAnnotation
       (intObjectEDataType, 
        source, 
@@ -1849,7 +1849,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "int:Object",
        "baseType", "int"
-       });		
+       });	
     addAnnotation
       (languageEDataType, 
        source, 
@@ -1858,14 +1858,14 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "language",
        "baseType", "token",
        "pattern", "[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*"
-       });		
+       });	
     addAnnotation
       (longEDataType, 
        source, 
        new String[] 
        {
        "name", "long"
-       });		
+       });	
     addAnnotation
       (longObjectEDataType, 
        source, 
@@ -1873,7 +1873,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "long:Object",
        "baseType", "long"
-       });		
+       });	
     addAnnotation
       (nameEDataType, 
        source, 
@@ -1882,7 +1882,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "Name",
        "baseType", "token",
        "pattern", "\\i\\c*"
-       });		
+       });	
     addAnnotation
       (ncNameEDataType, 
        source, 
@@ -1891,7 +1891,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "NCName",
        "baseType", "Name",
        "pattern", "[\\i-[:]][\\c-[:]]*"
-       });		
+       });	
     addAnnotation
       (negativeIntegerEDataType, 
        source, 
@@ -1900,7 +1900,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "negativeInteger",
        "baseType", "nonPositiveInteger",
        "maxInclusive", "-1"
-       });		
+       });	
     addAnnotation
       (nmtokenEDataType, 
        source, 
@@ -1909,7 +1909,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "NMTOKEN",
        "baseType", "token",
        "pattern", "\\c+"
-       });		
+       });	
     addAnnotation
       (nmtokensEDataType, 
        source, 
@@ -1918,7 +1918,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "NMTOKENS",
        "baseType", "NMTOKENS_._base",
        "minLength", "1"
-       });		
+       });	
     addAnnotation
       (nmtokensBaseEDataType, 
        source, 
@@ -1926,7 +1926,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "NMTOKENS_._base",
        "itemType", "NMTOKEN"
-       });		
+       });	
     addAnnotation
       (nonNegativeIntegerEDataType, 
        source, 
@@ -1935,7 +1935,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "nonNegativeInteger",
        "baseType", "integer",
        "minInclusive", "0"
-       });		
+       });	
     addAnnotation
       (nonPositiveIntegerEDataType, 
        source, 
@@ -1944,7 +1944,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "nonPositiveInteger",
        "baseType", "integer",
        "maxInclusive", "0"
-       });		
+       });	
     addAnnotation
       (normalizedStringEDataType, 
        source, 
@@ -1953,7 +1953,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "normalizedString",
        "baseType", "string",
        "whiteSpace", "replace"
-       });		
+       });	
     addAnnotation
       (notationEDataType, 
        source, 
@@ -1961,7 +1961,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "NOTATION",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (positiveIntegerEDataType, 
        source, 
@@ -1970,7 +1970,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "positiveInteger",
        "baseType", "nonNegativeInteger",
        "minInclusive", "1"
-       });		
+       });	
     addAnnotation
       (processingInstructionEClass, 
        source, 
@@ -1978,7 +1978,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "processingInstruction_._type",
        "kind", "empty"
-       });		
+       });	
     addAnnotation
       (getProcessingInstruction_Data(), 
        source, 
@@ -1986,7 +1986,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "kind", "attribute",
        "name", "data"
-       });		
+       });	
     addAnnotation
       (getProcessingInstruction_Target(), 
        source, 
@@ -1994,7 +1994,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "kind", "attribute",
        "name", "target"
-       });		
+       });	
     addAnnotation
       (qNameEDataType, 
        source, 
@@ -2002,14 +2002,14 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "QName",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (shortEDataType, 
        source, 
        new String[] 
        {
        "name", "short"
-       });		
+       });	
     addAnnotation
       (shortObjectEDataType, 
        source, 
@@ -2017,7 +2017,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "short:Object",
        "baseType", "short"
-       });		
+       });	
     addAnnotation
       (simpleAnyTypeEClass, 
        source, 
@@ -2025,7 +2025,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "simpleAnyType",
        "kind", "simple"
-       });		
+       });	
     addAnnotation
       (getSimpleAnyType_RawValue(), 
        source, 
@@ -2033,7 +2033,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", ":3",
        "kind", "simple"
-       });		
+       });	
     addAnnotation
       (getSimpleAnyType_Value(), 
        source, 
@@ -2041,7 +2041,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", ":4",
        "kind", "simple"
-       });		
+       });	
     addAnnotation
       (getSimpleAnyType_InstanceType(), 
        source, 
@@ -2049,7 +2049,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", ":5",
        "kind", "simple"
-       });		
+       });	
     addAnnotation
       (stringEDataType, 
        source, 
@@ -2057,7 +2057,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "string",
        "whiteSpace", "preserve"
-       });		
+       });	
     addAnnotation
       (timeEDataType, 
        source, 
@@ -2065,7 +2065,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "time",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (tokenEDataType, 
        source, 
@@ -2074,7 +2074,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "token",
        "baseType", "normalizedString",
        "whiteSpace", "collapse"
-       });		
+       });	
     addAnnotation
       (unsignedByteEDataType, 
        source, 
@@ -2083,7 +2083,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "unsignedByte",
        "maxInclusive", "255",
        "minInclusive", "0"
-       });		
+       });	
     addAnnotation
       (unsignedByteObjectEDataType, 
        source, 
@@ -2091,7 +2091,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "unsignedByte:Object",
        "baseType", "unsignedByte"
-       });		
+       });	
     addAnnotation
       (unsignedIntEDataType, 
        source, 
@@ -2100,7 +2100,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "unsignedInt",
        "maxInclusive", "4294967295",
        "minInclusive", "0"
-       });		
+       });	
     addAnnotation
       (unsignedIntObjectEDataType, 
        source, 
@@ -2108,7 +2108,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "unsignedInt:Object",
        "baseType", "unsignedInt"
-       });		
+       });	
     addAnnotation
       (unsignedLongEDataType, 
        source, 
@@ -2118,7 +2118,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "baseType", "nonNegativeInteger",
        "maxInclusive", "18446744073709551615",
        "minInclusive", "0"
-       });		
+       });	
     addAnnotation
       (unsignedShortEDataType, 
        source, 
@@ -2127,7 +2127,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "unsignedShort",
        "maxInclusive", "65535",
        "minInclusive", "0"
-       });		
+       });	
     addAnnotation
       (unsignedShortObjectEDataType, 
        source, 
@@ -2135,7 +2135,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "unsignedShort:Object",
        "baseType", "unsignedShort"
-       });		
+       });	
     addAnnotation
       (xmlTypeDocumentRootEClass, 
        source, 
@@ -2143,7 +2143,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "",
        "kind", "mixed"
-       });		
+       });	
     addAnnotation
       (getXMLTypeDocumentRoot_Mixed(), 
        source, 
@@ -2151,7 +2151,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "kind", "elementWildcard",
        "name", ":mixed"
-       });		
+       });	
     addAnnotation
       (getXMLTypeDocumentRoot_XMLNSPrefixMap(), 
        source, 
@@ -2159,7 +2159,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "kind", "attribute",
        "name", "xmlns:prefix"
-       });		
+       });	
     addAnnotation
       (getXMLTypeDocumentRoot_XSISchemaLocation(), 
        source, 
@@ -2167,7 +2167,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "kind", "attribute",
        "name", "xsi:schemaLocation"
-       });		
+       });	
     addAnnotation
       (getXMLTypeDocumentRoot_CDATA(), 
        source, 
@@ -2176,7 +2176,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "kind", "element",
        "name", "cDATA",
        "namespace", "##targetNamespace"
-       });			
+       });	
     addAnnotation
       (getXMLTypeDocumentRoot_Comment(), 
        source, 
@@ -2185,7 +2185,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "kind", "element",
        "name", "comment",
        "namespace", "##targetNamespace"
-       });			
+       });	
     addAnnotation
       (getXMLTypeDocumentRoot_ProcessingInstruction(), 
        source, 
@@ -2194,7 +2194,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "kind", "element",
        "name", "processingInstruction",
        "namespace", "##targetNamespace"
-       });			
+       });	
     addAnnotation
       (getXMLTypeDocumentRoot_Text(), 
        source, 
@@ -2203,7 +2203,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "kind", "element",
        "name", "text",
        "namespace", "##targetNamespace"
-       });	
+       });
   }
 
   /**

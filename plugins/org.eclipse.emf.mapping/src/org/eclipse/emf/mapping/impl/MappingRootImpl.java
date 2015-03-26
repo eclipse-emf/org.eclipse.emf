@@ -49,12 +49,12 @@ import org.eclipse.emf.mapping.domain.MappingDomain;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.mapping.impl.MappingRootImpl#isOutputReadOnly <em>Output Read Only</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.impl.MappingRootImpl#isTopToBottom <em>Top To Bottom</em>}</li>
  *   <li>{@link org.eclipse.emf.mapping.impl.MappingRootImpl#getCommandStack <em>Command Stack</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

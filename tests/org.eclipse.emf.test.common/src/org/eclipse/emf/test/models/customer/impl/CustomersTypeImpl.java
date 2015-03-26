@@ -30,11 +30,11 @@ import org.eclipse.emf.test.models.customer.CustomersType;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.customer.impl.CustomersTypeImpl#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.impl.CustomersTypeImpl#getCustomer <em>Customer</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

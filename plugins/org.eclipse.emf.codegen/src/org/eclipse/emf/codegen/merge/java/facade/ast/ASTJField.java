@@ -21,7 +21,6 @@ import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
-
 import org.eclipse.emf.codegen.merge.java.facade.JField;
 
 
@@ -312,6 +311,7 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
    * 
    * @see org.eclipse.emf.codegen.merge.java.facade.JField#setType(String)
    */
+  @SuppressWarnings("deprecation")
   public void setType(String type)
   {
     // if there are multiple variables in declaration, 

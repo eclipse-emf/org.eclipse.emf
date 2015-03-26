@@ -27,11 +27,11 @@ import org.eclipse.emf.test.models.lib.Person;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.lib.impl.PersonImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.lib.impl.PersonImpl#getLibrary <em>Library</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.java.JClass#isAbstract <em>Abstract</em>}</li>
  *   <li>{@link org.eclipse.emf.java.JClass#isFinal <em>Final</em>}</li>
@@ -41,7 +42,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.emf.java.JClass#getTypes <em>Types</em>}</li>
  *   <li>{@link org.eclipse.emf.java.JClass#getAllTypes <em>All Types</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.java.JavaPackage#getJClass()
  * @model

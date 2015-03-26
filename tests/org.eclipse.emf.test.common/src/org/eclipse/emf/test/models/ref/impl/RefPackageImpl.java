@@ -595,12 +595,12 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
     // Initialize classes and features; add operations and parameters
     initEClass(aEClass, org.eclipse.emf.test.models.ref.A.class, "A", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getA_B(), this.getB(), this.getB_A(), "b", null, 1, 1, org.eclipse.emf.test.models.ref.A.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getA_C2(), this.getC2(), this.getC2_A(), "c2", null, 1, 1, org.eclipse.emf.test.models.ref.A.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getA_C2(), this.getC2(), this.getC2_A(), "c2", null, 0, 1, org.eclipse.emf.test.models.ref.A.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getA_C(), this.getC(), null, "c", null, 1, 1, org.eclipse.emf.test.models.ref.A.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(bEClass, org.eclipse.emf.test.models.ref.B.class, "B", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getB_A(), this.getA(), this.getA_B(), "a", null, 1, 1, org.eclipse.emf.test.models.ref.B.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getB_C2(), this.getC2(), this.getC2_B(), "c2", null, 1, 1, org.eclipse.emf.test.models.ref.B.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getB_C2(), this.getC2(), this.getC2_B(), "c2", null, 0, 1, org.eclipse.emf.test.models.ref.B.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getB_D(), this.getD(), null, "d", null, 0, -1, org.eclipse.emf.test.models.ref.B.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(c1EClass, org.eclipse.emf.test.models.ref.C1.class, "C1", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -613,12 +613,12 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
 
     initEClass(cEClass, org.eclipse.emf.test.models.ref.C.class, "C", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getC_D(), this.getD(), this.getD_C(), "d", null, 0, -1, org.eclipse.emf.test.models.ref.C.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getC_C4(), this.getC4(), this.getC4_C(), "c4", null, 1, 1, org.eclipse.emf.test.models.ref.C.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getC_C4(), this.getC4(), this.getC4_C(), "c4", null, 0, 1, org.eclipse.emf.test.models.ref.C.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(dEClass, org.eclipse.emf.test.models.ref.D.class, "D", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getD_C(), this.getC(), this.getC_D(), "c", null, 1, 1, org.eclipse.emf.test.models.ref.D.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getD_E(), this.getE(), this.getE_D(), "e", null, 0, -1, org.eclipse.emf.test.models.ref.D.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getD_C4(), this.getC4(), this.getC4_D(), "c4", null, 1, 1, org.eclipse.emf.test.models.ref.D.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getD_C4(), this.getC4(), this.getC4_D(), "c4", null, 0, 1, org.eclipse.emf.test.models.ref.D.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(eEClass, org.eclipse.emf.test.models.ref.E.class, "E", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getE_Name(), ecorePackage.getEString(), "name", null, 0, 1, org.eclipse.emf.test.models.ref.E.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -18,13 +18,13 @@ package org.eclipse.emf.examples.extlibrary;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.Book#getTitle <em>Title</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.Book#getPages <em>Pages</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.Book#getCategory <em>Category</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.extlibrary.Book#getAuthor <em>Author</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getBook()
  * @model

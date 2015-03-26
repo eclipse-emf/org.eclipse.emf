@@ -21,13 +21,13 @@ import org.eclipse.emf.ecore.resource.Resource;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.change.ResourceChange#getResourceURI <em>Resource URI</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.ResourceChange#getResource <em>Resource</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.ResourceChange#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.ResourceChange#getListChanges <em>List Changes</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.change.ChangePackage#getResourceChange()
  * @model

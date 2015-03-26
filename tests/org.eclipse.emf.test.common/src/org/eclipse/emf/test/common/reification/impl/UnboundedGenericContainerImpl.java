@@ -22,10 +22,10 @@ import org.eclipse.emf.test.common.reification.UnboundedGenericContainer;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.common.reification.impl.UnboundedGenericContainerImpl#getContent <em>Content</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

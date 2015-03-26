@@ -19,10 +19,10 @@ package org.eclipse.emf.test.core.extmetadata;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.core.extmetadata.Attribute#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.core.extmetadata.ExtmetadataPackage#getAttribute()
  * @model

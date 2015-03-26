@@ -33,11 +33,11 @@ import org.eclipse.emf.test.models.ref.unsettable.URefPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.impl.CUImpl#getDu <em>Du</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.unsettable.impl.CUImpl#getC4u <em>C4u</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -116,7 +116,7 @@ public class CUImpl extends EObjectImpl implements CU
   public C4U getC4u()
   {
     if (eContainerFeatureID() != URefPackage.CU__C4U) return null;
-    return (C4U)eContainer();
+    return (C4U)eInternalContainer();
   }
 
   /**

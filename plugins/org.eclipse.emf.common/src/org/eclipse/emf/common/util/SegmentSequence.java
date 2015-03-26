@@ -2878,7 +2878,7 @@ public final class SegmentSequence implements CharSequence
       {
         throw new NullPointerException("delimiter=null");
       }
-      this.delimiter = delimiter == null ? "" : delimiter;
+      this.delimiter = delimiter;
       strings = new String[capacity];
     }
 

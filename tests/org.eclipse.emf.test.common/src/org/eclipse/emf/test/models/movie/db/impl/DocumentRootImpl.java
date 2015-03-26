@@ -35,6 +35,7 @@ import org.eclipse.emf.test.models.movie.db.MovieDBType;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.impl.DocumentRootImpl#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.impl.DocumentRootImpl#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
@@ -46,7 +47,6 @@ import org.eclipse.emf.test.models.movie.db.MovieDBType;
  *   <li>{@link org.eclipse.emf.test.models.movie.db.impl.DocumentRootImpl#getMovieDB <em>Movie DB</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.movie.db.impl.DocumentRootImpl#getSpecialFeatures <em>Special Features</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

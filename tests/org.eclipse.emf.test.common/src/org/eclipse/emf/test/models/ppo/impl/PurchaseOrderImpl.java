@@ -33,6 +33,7 @@ import org.eclipse.emf.test.models.ppo.USAddress;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ppo.impl.PurchaseOrderImpl#getItems <em>Items</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ppo.impl.PurchaseOrderImpl#getComment <em>Comment</em>}</li>
@@ -40,7 +41,6 @@ import org.eclipse.emf.test.models.ppo.USAddress;
  *   <li>{@link org.eclipse.emf.test.models.ppo.impl.PurchaseOrderImpl#getBillTo <em>Bill To</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ppo.impl.PurchaseOrderImpl#getShipTo <em>Ship To</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

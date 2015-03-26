@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ppo.PurchaseOrder#getItems <em>Items</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ppo.PurchaseOrder#getComment <em>Comment</em>}</li>
@@ -29,7 +30,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.emf.test.models.ppo.PurchaseOrder#getBillTo <em>Bill To</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ppo.PurchaseOrder#getShipTo <em>Ship To</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.test.models.ppo.PPOPackage#getPurchaseOrder()
  * @model

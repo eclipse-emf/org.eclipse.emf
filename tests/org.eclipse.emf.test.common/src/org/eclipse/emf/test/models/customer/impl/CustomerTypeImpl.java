@@ -29,6 +29,7 @@ import org.eclipse.emf.test.models.customer.CustomerType;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.customer.impl.CustomerTypeImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.impl.CustomerTypeImpl#getAddress <em>Address</em>}</li>
@@ -36,7 +37,6 @@ import org.eclipse.emf.test.models.customer.CustomerType;
  *   <li>{@link org.eclipse.emf.test.models.customer.impl.CustomerTypeImpl#getPaymentDay <em>Payment Day</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.impl.CustomerTypeImpl#getID <em>ID</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
