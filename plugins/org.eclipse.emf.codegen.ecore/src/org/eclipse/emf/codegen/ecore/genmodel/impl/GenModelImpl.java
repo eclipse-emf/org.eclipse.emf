@@ -10123,7 +10123,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         try
         {
           IWorkspace workspace = ResourcesPlugin.getWorkspace();
-          IProject project = workspace.getRoot().getProject(uri.segment(1));
+          IProject project = workspace.getRoot().getProject(URI.decode(uri.segment(1)));
           if (project.exists())
           {
             @SuppressWarnings("deprecation")
