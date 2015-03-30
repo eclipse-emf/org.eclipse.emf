@@ -42,7 +42,6 @@ import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.types.XcoreJvmTypeScopeProvider;
-import org.eclipse.internal.xtend.util.Pair;
 import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.common.types.JvmOperation;
 import org.eclipse.xtext.common.types.JvmTypeParameter;
@@ -63,6 +62,7 @@ import org.eclipse.xtext.scoping.impl.ScopeBasedSelectable;
 import org.eclipse.xtext.scoping.impl.SimpleScope;
 import org.eclipse.xtext.util.IResourceScopeCache;
 import org.eclipse.xtext.util.Strings;
+import org.eclipse.xtext.xbase.lib.Pair;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
