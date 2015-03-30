@@ -100,7 +100,15 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF210(8, "EMF210", "2.10");
+  EMF210(8, "EMF210", "2.10"), /**
+   * The '<em><b>EMF211</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #EMF211_VALUE
+   * @generated
+   * @ordered
+   */
+  EMF211(9, "EMF211", "2.11");
 
   /**
    * The '<em><b>EMF22</b></em>' literal value.
@@ -216,6 +224,21 @@ public enum GenRuntimeVersion implements Enumerator
   public static final int EMF210_VALUE = 8;
 
   /**
+   * The '<em><b>EMF211</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>EMF211</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @see #EMF211
+   * @model literal="2.11"
+   * @generated
+   * @ordered
+   */
+  public static final int EMF211_VALUE = 9;
+
+  /**
    * An array of all the '<em><b>Gen Runtime Version</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -233,6 +256,7 @@ public enum GenRuntimeVersion implements Enumerator
       EMF28,
       EMF29,
       EMF210,
+      EMF211,
     };
 
   /**
@@ -306,6 +330,7 @@ public enum GenRuntimeVersion implements Enumerator
       case EMF28_VALUE: return EMF28;
       case EMF29_VALUE: return EMF29;
       case EMF210_VALUE: return EMF210;
+      case EMF211_VALUE: return EMF211;
     }
     return null;
   }

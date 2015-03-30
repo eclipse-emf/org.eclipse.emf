@@ -22,7 +22,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
-
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
@@ -255,6 +254,14 @@ public class MarkerHelper
    */
   public List<?> getTargetObjects(Object object, IMarker marker)
   {
+    return getTargetObjects(object, marker, true);
+  }
+
+  /**
+   * @since 2.11
+   */
+  public List<?> getTargetObjects(Object object, IMarker marker, boolean wrap)
+  {
     return Collections.EMPTY_LIST;
   }
 
@@ -263,6 +270,14 @@ public class MarkerHelper
    * @since 2.9
    */
   public Diagnostic getMarkerDiagnostics(Object object, IFile file)
+  {
+    return getMarkerDiagnostics(object, file, true);
+  }
+
+  /**
+   * @since 2.11
+   */
+  public Diagnostic getMarkerDiagnostics(Object object, IFile file, boolean wrap)
   {
     BasicDiagnostic diagnostic = new BasicDiagnostic(null, 0, getDiagnosticSource(), new Object[] { object });
     try

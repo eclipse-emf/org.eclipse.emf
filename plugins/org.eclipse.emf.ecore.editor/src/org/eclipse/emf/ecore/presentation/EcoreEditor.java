@@ -530,7 +530,7 @@ public class EcoreEditor
                     {
                       if ((delta.getFlags() & IResourceDelta.MARKERS) != 0)
                       {
-                        DiagnosticDecorator.DiagnosticAdapter.update(resource, markerHelper.getMarkerDiagnostics(resource, (IFile)delta.getResource()));
+                        DiagnosticDecorator.DiagnosticAdapter.update(resource, markerHelper.getMarkerDiagnostics(resource, (IFile)delta.getResource(), false));
                       }
                       if ((delta.getFlags() & IResourceDelta.CONTENT) != 0)
                       {

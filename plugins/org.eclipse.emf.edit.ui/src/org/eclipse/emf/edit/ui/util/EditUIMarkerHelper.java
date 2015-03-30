@@ -181,10 +181,10 @@ public class EditUIMarkerHelper extends MarkerHelper
   }  
 
   /**
-   * @since 2.3
+   * @since 2.11
    */
   @Override
-  public List<?> getTargetObjects(Object object, IMarker marker)
+  public List<?> getTargetObjects(Object object, IMarker marker, boolean wrap)
   {
     if (object instanceof AdapterFactoryEditingDomain)
     {
@@ -203,7 +203,7 @@ public class EditUIMarkerHelper extends MarkerHelper
           EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
           if (eObject != null)
           {
-            result.add(editingDomain.getWrapper(eObject));
+            result.add(wrap ? editingDomain.getWrapper(eObject) : eObject);
           }
         }
         catch (Throwable throwable)
@@ -222,7 +222,7 @@ public class EditUIMarkerHelper extends MarkerHelper
             EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
             if (eObject != null)
             {
-              result.add(editingDomain.getWrapper(eObject));
+              result.add(wrap ? editingDomain.getWrapper(eObject) : eObject);
             }
           }
           catch (Throwable throwable)
@@ -251,7 +251,7 @@ public class EditUIMarkerHelper extends MarkerHelper
                 EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
                 if (eObject != null)
                 {
-                  result.add(editingDomain.getWrapper(eObject));
+                  result.add(wrap ? editingDomain.getWrapper(eObject) : eObject);
                 }
               }
             }
@@ -267,15 +267,15 @@ public class EditUIMarkerHelper extends MarkerHelper
     }
     else
     {
-      return super.getTargetObjects(object, marker);
+      return super.getTargetObjects(object, marker, wrap);
     }
   }
 
   /**
-   * @since 2.9
+   * @since 2.11
    */
   @Override
-  public Diagnostic getMarkerDiagnostics(Object object, IFile file)
+  public Diagnostic getMarkerDiagnostics(Object object, IFile file, boolean wrap)
   {
     if (file == null)
     {
@@ -295,7 +295,7 @@ public class EditUIMarkerHelper extends MarkerHelper
             String message = marker.getAttribute(IMarker.MESSAGE, "");
             int severity = marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
             String sourceID = marker.getAttribute(IMarker.SOURCE_ID, "");
-            List<?> data = getTargetObjects(editingDomain, marker);
+            List<?> data = wrap ? getTargetObjects(editingDomain, marker) : getTargetObjects(object, marker, false);
             diagnostic.add
               (new BasicDiagnostic
                  (severity == IMarker.SEVERITY_ERROR ?
@@ -326,7 +326,7 @@ public class EditUIMarkerHelper extends MarkerHelper
     }
     else
     {
-      return super.getMarkerDiagnostics(object, file);
+      return super.getMarkerDiagnostics(object, file, wrap);
     }
   }
 }

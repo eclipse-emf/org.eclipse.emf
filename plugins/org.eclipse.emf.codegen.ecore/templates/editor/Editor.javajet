@@ -663,7 +663,7 @@ public class <%=genPackage.getEditorClassName()%>
 										{
 											if ((delta.getFlags() & IResourceDelta.MARKERS) != 0)
 											{
-												<%=_DiagnosticDecorator%>.DiagnosticAdapter.update(resource, markerHelper.getMarkerDiagnostics(resource, (IFile)delta.getResource()));
+												<%=_DiagnosticDecorator%>.DiagnosticAdapter.update(resource, markerHelper.getMarkerDiagnostics(resource, (IFile)delta.getResource()<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF211_VALUE) {%>, false<%}%>));
 											}
 											if ((delta.getFlags() & IResourceDelta.CONTENT) != 0)
 											{
