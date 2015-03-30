@@ -218,7 +218,7 @@ public class XcoreDiagnosticConverter extends XtextDiagnosticConverter
       }
     }
     EObject result = super.getCauser(diagnostic);
-    if (result.eClass().getEPackage() == EcorePackage.eINSTANCE)
+    if (result != null && result.eClass().getEPackage() == EcorePackage.eINSTANCE)
     {
       result = getCauser(result);
     }
