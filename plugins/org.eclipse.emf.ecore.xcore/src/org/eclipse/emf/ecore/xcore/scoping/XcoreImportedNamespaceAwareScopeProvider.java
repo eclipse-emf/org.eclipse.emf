@@ -33,15 +33,25 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
+import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XImportDirective;
+import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
+import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
+import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.scoping.types.XcoreJvmTypeScopeProvider;
+import org.eclipse.internal.xtend.util.Pair;
+import org.eclipse.xtext.common.types.JvmGenericType;
+import org.eclipse.xtext.common.types.JvmOperation;
+import org.eclipse.xtext.common.types.JvmTypeParameter;
 import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.AbstractEObjectDescription;
+import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
@@ -75,6 +85,9 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
   @Inject
   private XcoreJvmTypeScopeProvider typeScopeProvider;
 
+  @Inject
+  protected XcoreMapper mapper;
+
   @Override
   public IScope getScope(final EObject context, EReference reference)
   {
@@ -85,46 +98,100 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
       final IScope classifierScope = getClassifierScope(context);
       return new ImportableObjectsScope(classifierScope, annotationScope, jvmTypeScope);
     }
+    else if (reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE)
+    {
+      return getClassifierScope(context);
+    }
+    else if (reference == XcorePackage.Literals.XANNOTATION__SOURCE)
+    {
+      return getAnnotationScope(context);
+    }
+    else if (TypesPackage.Literals.JVM_TYPE.isSuperTypeOf(reference.getEReferenceType()))
+    {
+      return getJvmTypeScope(context, reference);
+    }
     else
     {
-      if (context.eContainer() != null)
+      throw new IllegalArgumentException("Scope for unknown reference " + reference + " requested");
+    }
+  }
+
+  private IScope getJvmTypeScope(EObject context, EReference reference)
+  {
+    EObject eContainer = context.eContainer();
+    if (eContainer instanceof XOperation)
+    {
+      XOperation xOperation = (XOperation)eContainer;
+      XOperationMapping mapping = mapper.getMapping(xOperation);
+      JvmOperation jvmOperation = mapping.getJvmOperation();
+      EList<JvmTypeParameter> typeParameters = jvmOperation.getTypeParameters();
+      return getJvmTypeScope(context, reference, typeParameters);
+    }
+    else if (eContainer instanceof XClass)
+    {
+      XClass xClass = (XClass)eContainer;
+      XClassMapping mapping = mapper.getMapping(xClass);
+      JvmGenericType jvmGenericType = mapping.getInterfaceType();
+      EList<JvmTypeParameter> typeParameters = jvmGenericType.getTypeParameters();
+      return getJvmTypeScope(context, reference, typeParameters);
+    }
+    else if (eContainer == null)
+    {
+      return typeScopeProvider.getScope(context, reference);
+    }
+    else
+    {
+      return getJvmTypeScope(eContainer, reference);
+    }
+  }
+
+  private IScope getJvmTypeScope(final EObject context, final EReference reference, final EList<JvmTypeParameter> typeParameters)
+  {
+    final IScope parentScope = getJvmTypeScope(context.eContainer(), reference);
+    if (typeParameters.isEmpty())
+    {
+      return parentScope;
+    }
+    else
+    {
+      final List<IEObjectDescription> descriptions = new ArrayList<IEObjectDescription>();
+      for (JvmTypeParameter jvmTypeParameter : typeParameters)
       {
-        return getScope(context.eContainer(), reference);
+        descriptions.add(EObjectDescription.create(jvmTypeParameter.getName(), jvmTypeParameter));
       }
-      else
+
+      return cache.get(new Pair<String, EObject>("typeParameters", context), context.eResource(), new Provider<IScope>()
       {
-        if (TypesPackage.Literals.JVM_TYPE.isSuperTypeOf(reference.getEReferenceType()))
+        public IScope get()
         {
-          return typeScopeProvider.getScope(context, reference);
+          IScope typeParameterScope =
+            new AbstractScope(parentScope, isIgnoreCase(reference))
+            {
+              @Override
+              protected Iterable<IEObjectDescription> getAllLocalElements()
+              {
+                return descriptions;
+              }
+            };
+          return new CachingScope(typeParameterScope);
         }
-        else if (reference == XcorePackage.Literals.XGENERIC_TYPE__TYPE)
-        {
-          return getClassifierScope(context);
-        }
-        else if (reference == XcorePackage.Literals.XANNOTATION__SOURCE)
-        {
-          return getAnnotationScope(context);
-        }
-        else
-        {
-          throw new IllegalArgumentException("Scope for unknown reference " + reference + " requested");
-        }
-      }
+      });
     }
   }
 
   private IScope getAnnotationScope(final EObject context)
   {
-    String cacheKey = (context instanceof XImportDirective) ? "import.annoation.scope" : "annotation.scope";
-    return cache.get(cacheKey, context.eResource(), new Provider<IScope>()
+    String cacheKey = (context instanceof XImportDirective) ? "import.annotation.scope" : "annotation.scope";
+    final Resource resource = context.eResource();
+    return cache.get(cacheKey, resource, new Provider<IScope>()
     {
       public IScope get()
       {
-        IScope globalScope = getGlobalScope(context.eResource(), XcorePackage.Literals.XANNOTATION__SOURCE);
+        IScope globalScope = getGlobalScope(resource, XcorePackage.Literals.XANNOTATION__SOURCE);
         ImportNormalizer xcoreLang = new ImportNormalizer(nameConverter.toQualifiedName("xcore.lang"), true, false);
         ImportScope xcoreLangScope = createImportScope(globalScope, singletonList(xcoreLang), null, XcorePackage.Literals.XANNOTATION_DIRECTIVE, false);
         ImportScope importScope = createImportScope(xcoreLangScope, getImportedNamespaceResolvers(context, false), null, XcorePackage.Literals.XANNOTATION_DIRECTIVE, false);
-        IScope resourceScope = getLocalAnnotationsScope(context.eResource(), importScope);
+        IScope resourceScope = getLocalAnnotationsScope(resource, importScope);
         return new CachingScope(resourceScope);
       }
     });

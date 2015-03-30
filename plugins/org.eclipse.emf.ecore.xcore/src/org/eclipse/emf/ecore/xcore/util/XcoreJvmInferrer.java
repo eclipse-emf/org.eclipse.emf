@@ -1902,7 +1902,7 @@ public class XcoreJvmInferrer
           }
           if (isImplementation)
           {
-            mapping.setInterfaceType(modelClass);
+            mapping.setClassType(modelClass);
           }
 
           return modelClass;
