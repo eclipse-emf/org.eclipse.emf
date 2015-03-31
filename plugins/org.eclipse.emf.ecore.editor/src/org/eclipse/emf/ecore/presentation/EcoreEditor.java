@@ -1777,6 +1777,8 @@ public class EcoreEditor
         }
         else
         {
+          // Ensure that all proxies are resolved before changing the containing resource implementation.
+          EcoreUtil.resolveAll(currentResource);
           Resource newResource = resourceSet.createResource(newURI);
           newResource.getContents().addAll(currentResource.getContents());
           resourceSet.getResources().remove(0);
