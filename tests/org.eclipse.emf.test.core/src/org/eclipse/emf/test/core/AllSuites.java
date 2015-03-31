@@ -23,6 +23,7 @@ import org.junit.runners.Suite;
       org.eclipse.emf.test.core.ecore.EcoreValidationTest.class,
       org.eclipse.emf.test.core.ecore.EcoreTest.class,
       org.eclipse.emf.test.core.common.NotificationTest.class,
+      org.eclipse.emf.test.core.common.EnumeratorSerialization.class,
       org.eclipse.emf.test.core.common.util.EqualityTest.class,
       org.eclipse.emf.test.core.common.util.ECollectionsTest.class,
       org.eclipse.emf.test.core.dynamic.SimpleModelTest.class,

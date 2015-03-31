@@ -16,5 +16,6 @@ Export-Package: org.eclipse.emf.common,
  org.eclipse.emf.common.util
 Require-Bundle: org.eclipse.core.runtime;resolution:=optional;x-installation:=greedy
 Import-Package: org.osgi.framework
+Eclipse-BuddyPolicy: dependent
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
