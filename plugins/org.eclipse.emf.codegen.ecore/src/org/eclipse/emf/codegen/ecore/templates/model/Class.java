@@ -5889,9 +5889,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     stringBuffer.append(TEXT_1714);
     stringBuffer.append(negativeOperationOffsetCorrection);
     stringBuffer.append(TEXT_1715);
-    for (GenOperation genOperation : (genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenOperations() : genClass.getAllGenOperations())) { List<GenParameter> genParameters = genOperation.getGenParameters(); int size = genParameters.size();  boolean hasCheckedException = genOperation.hasCheckedException(); String indent = hasCheckedException ? "\t" : "";
+    for (GenOperation genOperation : (genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenOperations() : genClass.getAllGenOperations())) { List<GenParameter> genParameters = genOperation.getGenParameters(); int size = genParameters.size();  boolean hasCheckedException = genOperation.hasCheckedException(); String indent = hasCheckedException ? "\t" : ""; GenOperation overrideGenOperation = genClass.getOverrideGenOperation(genOperation);
     stringBuffer.append(TEXT_1716);
-    stringBuffer.append(genClass.getQualifiedOperationID(genOperation));
+    stringBuffer.append(genClass.getQualifiedOperationID(overrideGenOperation != null ? overrideGenOperation : genOperation));
     stringBuffer.append(TEXT_1717);
     if (hasCheckedException) {
     stringBuffer.append(TEXT_1718);

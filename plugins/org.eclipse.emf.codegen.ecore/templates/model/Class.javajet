@@ -2273,8 +2273,8 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	{
 		switch (operationID<%=negativeOperationOffsetCorrection%>)
 		{
-<%for (GenOperation genOperation : (genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenOperations() : genClass.getAllGenOperations())) { List<GenParameter> genParameters = genOperation.getGenParameters(); int size = genParameters.size();  boolean hasCheckedException = genOperation.hasCheckedException(); String indent = hasCheckedException ? "\t" : "";%>
-			case <%=genClass.getQualifiedOperationID(genOperation)%>:
+<%for (GenOperation genOperation : (genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenOperations() : genClass.getAllGenOperations())) { List<GenParameter> genParameters = genOperation.getGenParameters(); int size = genParameters.size();  boolean hasCheckedException = genOperation.hasCheckedException(); String indent = hasCheckedException ? "\t" : ""; GenOperation overrideGenOperation = genClass.getOverrideGenOperation(genOperation);%>
+			case <%=genClass.getQualifiedOperationID(overrideGenOperation != null ? overrideGenOperation : genOperation)%>:
   <%if (hasCheckedException) {%>
 				try
 				{
