@@ -102,6 +102,10 @@ public abstract class AbstractEnumerator implements Enumerator, Serializable
   {
     protected AbstractEnumerator enumerator;
 
+    public AbstractEnumeratorExternalizeable()
+    {
+    }
+
     public AbstractEnumeratorExternalizeable(AbstractEnumerator enumerator)
     {
       this.enumerator = enumerator;
