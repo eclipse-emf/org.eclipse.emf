@@ -95,7 +95,7 @@ public class Generator extends CodeGen
     System.out.println("  [-model] [-edit] [-editor] [-tests]");
     System.out.println("  [-autoBuild <true|false>]");
     System.out.println("  [-reconcile]");
-    System.out.println("  <genmodel-file>");
+    System.out.println("  <genmodel-file-or-platform-resource-uri>");
     System.out.println("  [ <target-root-directory> ]");
     System.out.println("");
     System.out.println("For example:");
@@ -318,7 +318,7 @@ public class Generator extends CodeGen
                   //
                   ResourceSet resourceSet = new ResourceSetImpl();
                   resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
-                  URI genModelURI = URI.createFileURI(new File(genModelName).getAbsoluteFile().getCanonicalPath());
+                  URI genModelURI = genModelName.startsWith("platform:/resource/") ? URI.createURI(genModelName) : URI.createFileURI(new File(genModelName).getAbsoluteFile().getCanonicalPath());
                   Resource genModelResource = resourceSet.getResource(genModelURI, true);
                   GenModel genModel = (GenModel)genModelResource.getContents().get(0);
 
