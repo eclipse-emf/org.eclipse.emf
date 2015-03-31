@@ -9,21 +9,25 @@ package org.eclipse.emf.ecore.xcore.generator;
 
 
 import java.util.Collection;
+import java.util.List;
+import java.util.ListIterator;
 
 import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.generator.GenModelGeneratorAdapterFactory;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import static java.util.Collections.*;
-
 
 public class XcoreGeneratorImpl extends Generator
 {
+  @Inject
+  private Provider<XcoreGenModelGeneratorAdapterFactory> adapterFactoryProvider;
+
   private IFileSystemAccess fsa;
   
   private String modelDirectory;
@@ -54,16 +58,30 @@ public class XcoreGeneratorImpl extends Generator
     super.setInput(input);
   }
 
-  @Inject
-  private Provider<XcoreGenModelGeneratorAdapterFactory> adapterFactoryProvider;
-
   @Override
   protected Collection<GeneratorAdapterFactory> getAdapterFactories(Object object)
   {
-    final XcoreGenModelGeneratorAdapterFactory genAdapterFactory = adapterFactoryProvider.get();
-    genAdapterFactory.setGenerator(this);
-    genAdapterFactory.setFileSystemAccess(fsa);
-    genAdapterFactory.setModelDirectory(URI.createURI(modelDirectory));
-    return singleton((GeneratorAdapterFactory)genAdapterFactory);
+    List<GeneratorAdapterFactory> adapterFactories = (List<GeneratorAdapterFactory>)super.getAdapterFactories(object);
+    for (ListIterator<GeneratorAdapterFactory> i = adapterFactories.listIterator(); i.hasNext(); )
+    {
+      GeneratorAdapterFactory generatorAdapterFactory = i.next();
+      if (generatorAdapterFactory.getClass() == GenModelGeneratorAdapterFactory.class)
+      {
+        XcoreGenModelGeneratorAdapterFactory genAdapterFactory = adapterFactoryProvider.get();
+        genAdapterFactory.setGenerator(this);
+        genAdapterFactory.setFileSystemAccess(fsa);
+        genAdapterFactory.setModelDirectory(URI.createURI(modelDirectory));
+        i.set(genAdapterFactory);
+      }
+      else if (generatorAdapterFactory instanceof XcoreGenModelGeneratorAdapterFactory)
+      {
+        XcoreGenModelGeneratorAdapterFactory xcoreGeneratorAdapterFactory = (XcoreGenModelGeneratorAdapterFactory)generatorAdapterFactory;
+        xcoreGeneratorAdapterFactory.setGenerator(this);
+        xcoreGeneratorAdapterFactory.setFileSystemAccess(fsa);
+        xcoreGeneratorAdapterFactory.setModelDirectory(URI.createURI(modelDirectory));
+      }
+    }
+
+    return adapterFactories;
   }
 }

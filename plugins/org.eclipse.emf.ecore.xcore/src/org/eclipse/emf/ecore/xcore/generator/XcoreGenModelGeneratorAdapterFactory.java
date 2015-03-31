@@ -54,7 +54,7 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
     this.modelDirectory =  !modelDirectory.hasTrailingPathSeparator() ? modelDirectory.appendSegment("") : modelDirectory;
   }
 
-  private boolean isDefaultOutput()
+  protected boolean isDefaultOutput()
   {
     if (isDefaultOutput == null)
     {
@@ -64,7 +64,7 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
         if (uri.isPlatformResource())
         {
           String path = uri.toPlatformString(true) + "/";
-          if (path.equals(modelDirectory.toString()))
+          if (modelDirectory != null && path.equals(modelDirectory.toString()))
           {
             return isDefaultOutput = Boolean.TRUE;
           }
@@ -74,12 +74,16 @@ public class XcoreGenModelGeneratorAdapterFactory extends GenModelGeneratorAdapt
           }
         }
       }
+      else if (fsa == null || modelDirectory == null)
+      {
+        return isDefaultOutput = Boolean.FALSE;
+      }
       return isDefaultOutput = Boolean.TRUE;
     }
     return isDefaultOutput;
   }
 
-  private boolean shouldMerge(URI workspacePath)
+  protected boolean shouldMerge(URI workspacePath)
   {
     if (isDefaultOutput())
     {
