@@ -150,6 +150,7 @@ public class DynamicModelWizard extends Wizard implements INewWizard
               // Save the contents of the resource to the file system.
               //
               Map<Object, Object> options = new HashMap<Object, Object>();
+              options.put(XMLResource.OPTION_ENCODING, "UTF-8");
               options.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
               options.put(XMLResource.OPTION_LINE_WIDTH, 80);
               options.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
