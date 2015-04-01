@@ -1264,7 +1264,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	public void createModel()
 	{
-<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF23_VALUE) {%>
+<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF211_VALUE) {%>
+		URI resourceURI = EditUIUtil.getURI(getEditorInput(), editingDomain.getResourceSet().getURIConverter());
+<%} else if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF23_VALUE) {%>
 		URI resourceURI = EditUIUtil.getURI(getEditorInput());
 <%} else if (genModel.isRichClientPlatform()) {%>
 		URI resourceURI = URI.createURI(getEditorInput().getName());

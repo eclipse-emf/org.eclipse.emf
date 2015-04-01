@@ -1151,7 +1151,7 @@ public class EcoreEditor
    */
   public void createModelGen()
   {
-    URI resourceURI = EditUIUtil.getURI(getEditorInput());
+    URI resourceURI = EditUIUtil.getURI(getEditorInput(), editingDomain.getResourceSet().getURIConverter());
     Exception exception = null;
     Resource resource = null;
     try
