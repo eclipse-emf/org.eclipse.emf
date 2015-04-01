@@ -1918,17 +1918,20 @@ public class EcoreValidator extends EObjectValidator
     if (name != null)
     {
       int length = name.length();
-      int codePoint = name.codePointAt(0);
-      if (length > 0 && Character.isJavaIdentifierStart(codePoint) && codePoint != '$')
+      if (length > 0)
       {
-        result = true;
-        for (int i = Character.offsetByCodePoints(name, 0, 1); i < length; i = Character.offsetByCodePoints(name, i, 1))
+        int codePoint = name.codePointAt(0);
+        if (Character.isJavaIdentifierStart(codePoint) && codePoint != '$')
         {
-          codePoint = name.codePointAt(i);
-          if (codePoint == '$' || !Character.isJavaIdentifierPart(codePoint))
+          result = true;
+          for (int i = Character.offsetByCodePoints(name, 0, 1); i < length; i = Character.offsetByCodePoints(name, i, 1))
           {
-            result = false;
-            break;
+            codePoint = name.codePointAt(i);
+            if (codePoint == '$' || !Character.isJavaIdentifierPart(codePoint))
+            {
+              result = false;
+              break;
+            }
           }
         }
       }
