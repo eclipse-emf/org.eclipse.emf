@@ -11,7 +11,7 @@
 
 	<locator pattern="^org\.eclipse\.datatools(?:\..+)?$" searchPathRef="datatools" />
 	<locator pattern="^com\.google\.(?:appengine|gdt|gwt)\.eclipse(?:\..+)?$" searchPathRef="google" />
-	<locator pattern="^org\.junit(?:\..+)?$" searchPathRef="orbit" />
+	<locator pattern="^org\.junit(?:\..+)?$" searchPathRef="orbit" failOnError="false" />
 	<locator pattern="^org\.junit4(?:\..+)?$" searchPathRef="junit4" />
 	<locator pattern="^org\.hamcrest(?:\..+)?$" searchPathRef="orbit" />
 	<locator searchPathRef="platform" />
