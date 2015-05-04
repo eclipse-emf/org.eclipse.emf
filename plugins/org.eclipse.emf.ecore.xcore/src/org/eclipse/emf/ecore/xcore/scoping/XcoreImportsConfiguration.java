@@ -14,6 +14,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xcore.XImportDirective;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
+import org.eclipse.xtext.common.types.JvmType;
+import org.eclipse.xtext.common.types.access.IJvmTypeProvider;
+import org.eclipse.xtext.common.types.xtext.AbstractTypeScopeProvider;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.util.IResourceScopeCache;
 import org.eclipse.xtext.util.Strings;
@@ -36,6 +39,9 @@ public class XcoreImportsConfiguration extends DefaultImportsConfiguration
   @Inject
   private IResourceScopeCache cache;
 
+  @Inject
+  private AbstractTypeScopeProvider typeScopeProvider;
+
   @Override
   public XImportSection getImportSection(final XtextResource resource)
   {
@@ -50,6 +56,7 @@ public class XcoreImportsConfiguration extends DefaultImportsConfiguration
              XImportSection importSection = XtypeFactory.eINSTANCE.createXImportSection();
              EList<XImportDeclaration> importDeclarations = importSection.getImportDeclarations();
 
+             IJvmTypeProvider typeProvider = typeScopeProvider.getTypeProvider(resource.getResourceSet());
              XPackage xPackage = (XPackage) resource.getContents().get(0);
              EList<XImportDirective> importDirectives = xPackage.getImportDirectives();
              for (XImportDirective importDirective : importDirectives)
@@ -71,6 +78,14 @@ public class XcoreImportsConfiguration extends DefaultImportsConfiguration
                    if (primaryJvmElement instanceof JvmDeclaredType)
                    {
                      importedType = (JvmDeclaredType) primaryJvmElement;
+                   }
+                   else
+                   {
+                     JvmType jvmType = typeProvider.findTypeByName(importedNamespace, false);
+                     if (jvmType instanceof JvmDeclaredType)
+                     {
+                       importedType = (JvmDeclaredType)jvmType;
+                     }
                    }
                  }
                }

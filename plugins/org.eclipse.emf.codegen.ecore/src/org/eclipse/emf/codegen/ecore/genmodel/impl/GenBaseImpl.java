@@ -3472,7 +3472,16 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         }
         if (!isErased)
         {
-          result.append(getTypeArguments(context, eGenericType.getETypeArguments(), isImported));
+          String typeArguments = getTypeArguments(context, eGenericType.getETypeArguments(), isImported);
+          int index = result.indexOf("[]");
+          if (index != -1)
+          {
+            result.insert(index, typeArguments);
+          }
+          else
+          {
+            result.append(typeArguments);
+          }
         }
       }
       else
