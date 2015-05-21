@@ -680,7 +680,7 @@ public class EditUIUtil
         IPath path = storage.getFullPath();
         if (path != null)
         {
-          if (JAR_ENTRY_RESOURCE_CLASS.isInstance(storage))
+          if (JAR_ENTRY_RESOURCE_CLASS != null && JAR_ENTRY_RESOURCE_CLASS.isInstance(storage))
           {
             IFile  file = getNonJavaResourceFieldValue(storage);
             if (file != null)
