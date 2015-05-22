@@ -371,7 +371,8 @@ public class XcoreEcoreBuilder
                 // Be more careful about exceptions.
                 // TODO
                 //
-                eModelElement.eSet(eStructuralFeature, value);
+                EDataType eDataType = (EDataType)eStructuralFeature.getEType();
+                eModelElement.eSet(eStructuralFeature, EcoreUtil.createFromString(eDataType, value));
                 continue;
               }
             }
