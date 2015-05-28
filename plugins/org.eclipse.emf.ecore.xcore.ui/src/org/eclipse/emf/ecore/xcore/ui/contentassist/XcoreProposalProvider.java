@@ -104,6 +104,18 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
   public void completeXGenericType_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
   {
     IScope scope = xcoreScopeProvider.getScope(model, XcorePackage.Literals.XGENERIC_TYPE__TYPE);
+    super.completeXGenericType_Type(model, assignment, context, getImportingProposalAcceptor(scope, context, acceptor));
+  }
+
+  @Override
+  public void completeXAnnotation_Source(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
+  {
+    IScope scope = xcoreScopeProvider.getScope(model, XcorePackage.Literals.XANNOTATION__SOURCE);
+    super.completeXAnnotation_Source(model, assignment, context, getImportingProposalAcceptor(scope, context, acceptor));
+  }
+
+  private ICompletionProposalAcceptor getImportingProposalAcceptor(IScope scope, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
+  {
     final IReplacementTextApplier textApplier =
       new ImportingTypesProposalProvider.FQNImporter
         (context.getResource(),
@@ -112,7 +124,7 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
          qualifiedNameConverter,
          qualifiedNameValueConverter,
          qualifiedNameValueConverter);
-    ICompletionProposalAcceptor scopeAware =
+    ICompletionProposalAcceptor scopeAwareAcceptor =
       new ICompletionProposalAcceptor.Delegate(acceptor)
       {
         @Override
@@ -125,7 +137,7 @@ public class XcoreProposalProvider extends AbstractXcoreProposalProvider
           super.accept(proposal);
         }
       };
-    super.completeXGenericType_Type(model, assignment, context, scopeAware);
+    return scopeAwareAcceptor;
   }
 
   @Override

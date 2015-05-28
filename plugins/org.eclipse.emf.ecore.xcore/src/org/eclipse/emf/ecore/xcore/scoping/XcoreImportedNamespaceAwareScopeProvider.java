@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XImportDirective;
@@ -181,7 +182,8 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
 
   private IScope getAnnotationScope(final EObject context)
   {
-    String cacheKey = (context instanceof XImportDirective) ? "import.annotation.scope" : "annotation.scope";
+    final boolean isImport = context instanceof XImportDirective;
+    String cacheKey = isImport ? "import.annotation.scope" : "annotation.scope";
     final Resource resource = context.eResource();
     return cache.get(cacheKey, resource, new Provider<IScope>()
     {
@@ -190,7 +192,8 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
         IScope globalScope = getGlobalScope(resource, XcorePackage.Literals.XANNOTATION__SOURCE);
         ImportNormalizer xcoreLang = new ImportNormalizer(nameConverter.toQualifiedName("xcore.lang"), true, false);
         ImportScope xcoreLangScope = createImportScope(globalScope, singletonList(xcoreLang), null, XcorePackage.Literals.XANNOTATION_DIRECTIVE, false);
-        ImportScope importScope = createImportScope(xcoreLangScope, getImportedNamespaceResolvers(context, false), null, XcorePackage.Literals.XANNOTATION_DIRECTIVE, false);
+        List<ImportNormalizer> importedNamespaceResolvers = isImport ? Collections.<ImportNormalizer>emptyList() : getImportedNamespaceResolvers(EcoreUtil.getRootContainer(context), false);
+        ImportScope importScope = createImportScope(xcoreLangScope, importedNamespaceResolvers, null, XcorePackage.Literals.XANNOTATION_DIRECTIVE, false);
         IScope resourceScope = getLocalAnnotationsScope(resource, importScope);
         return new CachingScope(resourceScope);
       }
@@ -199,7 +202,8 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
 
   private IScope getClassifierScope(final EObject context)
   {
-    String cacheKey = (context instanceof XImportDirective) ? "import.classifier.scope" : "classifier.scope";
+    final boolean isImport = context instanceof XImportDirective;
+    String cacheKey = isImport ? "import.classifier.scope" : "classifier.scope";
     final Resource resource = context.eResource();
     return cache.get(cacheKey, resource, new Provider<IScope>()
     {
@@ -214,22 +218,27 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
           }
         });
         EcoreDataTypeAliasingScope aliasingScope = new EcoreDataTypeAliasingScope(globalScope, nameConverter);
-        List<ImportNormalizer> importedNamespaceResolvers = Lists.newArrayList(getImportedNamespaceResolvers(context, false));
-        Set<String> names = new HashSet<String>();
-        for (ImportNormalizer importNormalizer : importedNamespaceResolvers)
-        {
-          if (!importNormalizer.hasWildCard())
-          {
-            names.add(importNormalizer.getImportedNamespacePrefix().getLastSegment());
-          }
-        }
 
-        for (String implicitImport : IMPLICIT_IMPORTS)
+        List<ImportNormalizer> importedNamespaceResolvers = Collections.emptyList();
+        if (!isImport)
         {
-          ImportNormalizer importedNamespaceResolver = createImportedNamespaceResolver(implicitImport, false);
-          if (!names.contains(importedNamespaceResolver.getImportedNamespacePrefix().getLastSegment()))
+          importedNamespaceResolvers = Lists.newArrayList(getImportedNamespaceResolvers(EcoreUtil.getRootContainer(context), false));
+          Set<String> names = new HashSet<String>();
+          for (ImportNormalizer importNormalizer : importedNamespaceResolvers)
           {
-            importedNamespaceResolvers.add(importedNamespaceResolver);
+            if (!importNormalizer.hasWildCard())
+            {
+              names.add(importNormalizer.getImportedNamespacePrefix().getLastSegment());
+            }
+          }
+  
+          for (String implicitImport : IMPLICIT_IMPORTS)
+          {
+            ImportNormalizer importedNamespaceResolver = createImportedNamespaceResolver(implicitImport, false);
+            if (!names.contains(importedNamespaceResolver.getImportedNamespacePrefix().getLastSegment()))
+            {
+              importedNamespaceResolvers.add(importedNamespaceResolver);
+            }
           }
         }
 
