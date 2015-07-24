@@ -62,7 +62,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
-      defaultValue="Luna"
+      defaultValue="Mars"
       storageURI="scope://Workspace"/>
   <setupTask
       xsi:type="git:GitCloneTask"
@@ -101,6 +101,23 @@
       <requirement
           name="org.eclipse.egit.feature.group"/>
       <repositoryList
+          name="Neon">
+        <repository
+            url="http://download.eclipse.org/releases/mars"/>
+        <repository
+            url="http://download.itemis.com/updates/releases/2.1.0/"/>
+        <repository
+            url="http://download.eclipse.org/rt/rap/3.0"/>
+        <repository
+            url="http://download.eclipse.org/rt/rap/nightly/runtime/"/>
+        <repository
+            url="${gwt.tool.url}"/>
+        <repository
+            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/maintenance/nightly"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
+      </repositoryList>
+      <repositoryList
           name="Mars">
         <repository
             url="http://download.eclipse.org/releases/mars"/>
@@ -113,11 +130,9 @@
         <repository
             url="${gwt.tool.url}"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/cdo/orbit/latest-R"/>
-        <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/maintenance/nightly"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11milestones"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
       </repositoryList>
       <repositoryList
           name="Luna">
@@ -131,8 +146,6 @@
             url="http://download.eclipse.org/rt/rap/nightly/runtime/"/>
         <repository
             url="${gwt.tool.url}"/>
-        <repository
-            url="http://download.eclipse.org/modeling/emf/cdo/orbit/latest-R"/>
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/maintenance"/>
         <repository
@@ -410,6 +423,22 @@
     <stream
         name="master">
       <setupTask
+          xsi:type="setup:VariableTask"
+          name="eclipse.target.platform"
+          defaultValue="Neon"
+          storageURI="scope://Workspace"/>
+      <setupTask
+          xsi:type="setup.p2:P2Task">
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
+        <repository
+            url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
+      </setupTask>
+    </stream>
+    <stream
+        name="R2_11_maintenance"
+        label="2.11">
+      <setupTask
           xsi:type="setup.p2:P2Task">
         <repository
             url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
@@ -559,6 +588,24 @@
     <stream
         name="master">
       <setupTask
+          xsi:type="setup:VariableTask"
+          name="eclipse.target.platform"
+          defaultValue="Neon"
+          storageURI="scope://Workspace"/>
+      <setupTask
+          xsi:type="setup.p2:P2Task">
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
+        <repository
+            url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
+        <repository
+            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/maintenance/nightly"/>
+      </setupTask>
+    </stream>
+    <stream
+        name="R2_11_maintenance"
+        label="2.11">
+      <setupTask
           xsi:type="setup.p2:P2Task">
         <repository
             url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
@@ -585,10 +632,6 @@
   </project>
   <project name="gwt"
       label="GWT">
-    <setupTask
-        xsi:type="setup:PreferenceTask"
-        key="/instance/org.eclipse.emf.cdo.releng.version///org.eclipse.emf.gwt.common/release.xml"
-        value="NONE"/>
     <setupTask
         xsi:type="setup.p2:P2Task">
       <requirement
@@ -637,7 +680,7 @@
               pattern=".*\.gwt.*"/>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='gwt']/@setupTasks.5/@workingSets.2"/>
+              excludedWorkingSet="//@projects[name='gwt']/@setupTasks.4/@workingSets.2"/>
         </predicate>
       </workingSet>
       <workingSet
@@ -670,6 +713,22 @@
     </setupTask>
     <stream
         name="master">
+      <setupTask
+          xsi:type="setup:VariableTask"
+          name="eclipse.target.platform"
+          defaultValue="Neon"
+          storageURI="scope://Workspace"/>
+      <setupTask
+          xsi:type="setup.p2:P2Task">
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
+        <repository
+            url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
+      </setupTask>
+    </stream>
+    <stream
+        name="R2_11_maintenance"
+        label="2.11">
       <setupTask
           xsi:type="setup.p2:P2Task">
         <repository
@@ -759,12 +818,23 @@
     <stream
         name="master">
       <setupTask
+          xsi:type="setup:VariableTask"
+          name="eclipse.target.platform"
+          defaultValue="Neon"
+          storageURI="scope://Workspace"/>
+      <setupTask
           xsi:type="setup.p2:P2Task">
         <repository
             url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
         <repository
             url="http://download.eclipse.org/rt/rap/tools/3.0"/>
       </setupTask>
+    </stream>
+    <stream
+        name="R2_11_maintenance"
+        label="2.11">
+      <setupTask
+          xsi:type="setup.p2:P2Task"/>
     </stream>
     <stream
         name="R2_10_maintenance"
