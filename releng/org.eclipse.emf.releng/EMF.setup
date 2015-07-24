@@ -412,7 +412,7 @@
       <setupTask
           xsi:type="setup.p2:P2Task">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11milestones"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
         <repository
             url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
       </setupTask>
@@ -561,7 +561,7 @@
       <setupTask
           xsi:type="setup.p2:P2Task">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11milestones"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
         <repository
             url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
         <repository
@@ -673,7 +673,7 @@
       <setupTask
           xsi:type="setup.p2:P2Task">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11milestones"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
         <repository
             url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
       </setupTask>
@@ -693,14 +693,6 @@
   </project>
   <project name="rap"
       label="RAP">
-    <setupTask
-        xsi:type="setup:CompoundTask"
-        name="/org.eclipse.emf.common/release.xml">
-      <setupTask
-          xsi:type="setup:PreferenceTask"
-          key="/instance/org.eclipse.emf.cdo.releng.version///org.eclipse.emf.common/release.xml"
-          value="PARTIAL"/>
-    </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
         name="compilers.p.unresolved-ex-points">
@@ -769,7 +761,7 @@
       <setupTask
           xsi:type="setup.p2:P2Task">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11milestones"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
         <repository
             url="http://download.eclipse.org/rt/rap/tools/3.0"/>
       </setupTask>
