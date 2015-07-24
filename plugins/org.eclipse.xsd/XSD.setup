@@ -26,7 +26,7 @@
   <setupTask
       xsi:type="setup:EclipseIniTask"
       option="-Doomph.redirection.xsd.setup"
-      value="=http://git.eclipse.org/c/xsd/org.eclipse.xsd.git/plain/plugins/org.eclipse.xsd/XSD.setup->${xsd.git.clone.location|uri}/org.eclipse.xsd/XSD.setup"
+      value="=http://git.eclipse.org/c/xsd/org.eclipse.xsd.git/plain/plugins/org.eclipse.xsd/XSD.setup->${xsd.git.clone.location|uri}/plugins/org.eclipse.xsd/XSD.setup"
       vm="true"/>
   <setupTask
       xsi:type="setup:PreferenceTask"
@@ -69,7 +69,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
-      defaultValue="Luna"
+      defaultValue="Mars"
       storageURI="scope://Workspace"/>
   <setupTask
       xsi:type="git:GitCloneTask"
@@ -114,9 +114,14 @@
       <sourceLocator
           rootFolder="${xsd.git.clone.location}"/>
       <repositoryList
+          name="Neon">
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
+      </repositoryList>
+      <repositoryList
           name="Mars">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11milestones"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
       </repositoryList>
       <repositoryList
           name="Luna">
@@ -224,6 +229,21 @@
     </workingSet>
   </setupTask>
   <stream name="master">
+    <setupTask
+        xsi:type="setup:VariableTask"
+        name="eclipse.target.platform"
+        defaultValue="Neon"
+        storageURI="scope://Workspace"/>
+    <setupTask
+        xsi:type="setup.p2:P2Task">
+      <repository
+          url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
+      <repository
+          url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
+    </setupTask>
+  </stream>
+  <stream name="R2_11_maintenance"
+      label="2.11">
     <setupTask
         xsi:type="setup.p2:P2Task">
       <repository
