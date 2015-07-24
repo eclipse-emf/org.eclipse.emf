@@ -99,7 +99,8 @@
       <requirement
           name="org.eclipse.equinox.executable.feature.group"/>
       <requirement
-          name="org.eclipse.egit.feature.group"/>
+          name="org.eclipse.egit.feature.group"
+          optional="true"/>
       <repositoryList
           name="Neon">
         <repository
@@ -191,6 +192,12 @@
         <repository
             url="${xtext.nightly.composite}"/>
         <repository
+            url="http://download.eclipse.org/releases/helios"/>
+        <repository
+            url="http://download.eclipse.org/rt/rap/3.0"/>
+        <repository
+            url="http://download.eclipse.org/rt/rap/nightly/runtime/"/>
+        <repository
             url="http://download.itemis.com/updates/releases/2.1.0/"/>
         <repository
             url="http://download.eclipse.org/technology/m2e/releases/1.0/"/>
@@ -203,6 +210,10 @@
           name="Galileo">
         <repository
             url="${xtext.nightly.composite}"/>
+        <repository
+            url="http://download.eclipse.org/rt/rap/3.0"/>
+        <repository
+            url="http://download.eclipse.org/rt/rap/nightly/runtime/"/>
         <repository
             url="http://download.eclipse.org/tools/gef/updates/milestones"/>
         <repository

@@ -246,7 +246,18 @@ public class ASTFacadeHelper extends FacadeHelper
     // caching parser does not parse 2nd file in the same way (javadoc of package for example)
     // hence, new parser is created every time this method is called
     ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser();
-    astParser.setCompilerOptions(getJavaCoreOptions());
+    Map<String, String> javaCoreOptions = new HashMap<String, String>();
+    for (Map.Entry<?, ?> entry : getJavaCoreOptions().entrySet())
+    {
+      Object key = entry.getKey();
+      Object value = entry.getValue();
+      if (key instanceof String && value instanceof String)
+      {
+        javaCoreOptions.put((String)key, (String)value);
+      }
+    }
+
+    astParser.setCompilerOptions(javaCoreOptions);
     return astParser;
   }
 
@@ -366,10 +377,9 @@ public class ASTFacadeHelper extends FacadeHelper
    * @see JavaCore#getOptions()
    * @see JControlModel#getLeadingTabReplacement()
    */
-  @SuppressWarnings("unchecked")
   private Map<?, ?> getDefaultJavaCoreOptions()
   {
-    Map<Object, String> javaCoreOptions = JavaCore.getOptions();
+    Map<Object, String> javaCoreOptions = new HashMap<Object, String>(JavaCore.getOptions());
 
     // Set of options that we want to copy from the current definition or use defaults
     //

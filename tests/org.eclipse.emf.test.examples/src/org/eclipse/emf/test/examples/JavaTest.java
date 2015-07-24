@@ -61,19 +61,18 @@ public class JavaTest
 
   private boolean trimContents = true;
 
-  @SuppressWarnings("unchecked")
   @Before
   public void setUp() throws Exception
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
     {
-      Hashtable<Object, Object> map = JavaCore.getOptions();
+      Hashtable<String, String> map = JavaCore.getOptions();
       map.put(JavaCore.COMPILER_SOURCE, "1.5");
       JavaCore.setOptions(map);
     }
     else
     {
-      Map<Object, Object> options = new HashMap<Object, Object>();
+      Map<String, String> options = new HashMap<String, String>();
       JavaCore.setComplianceOptions("1.5", options);
       JavaCore.getOptions().putAll(options);
     }
