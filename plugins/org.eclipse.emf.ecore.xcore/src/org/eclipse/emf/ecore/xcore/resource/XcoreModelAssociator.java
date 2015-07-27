@@ -94,6 +94,7 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
       final GenModel genModel = genModelBuilder.getGenModel(model);
       genModel.setCanGenerate(true);
       Collection<? extends Runnable> runnables = genModelInitializer.initialize(genModel, true);
+      resource.getContents().addAll(jvmInferrer.inferElements(genModel));
       if (!preLinkingPhase)
       {
         cache.execWithoutCacheClear(resource, new IUnitOfWork.Void<Resource>()
@@ -166,10 +167,7 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
             }
           }
         }
-      }
-      resource.getContents().addAll(jvmInferrer.inferElements(genModel));
-      if (!preLinkingPhase)
-      {
+
         cache.execWithoutCacheClear(resource, new IUnitOfWork.Void<Resource>()
         {
           @Override
@@ -348,7 +346,7 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
   public EObject getPrimaryJvmElement(EObject sourceElement)
   {
     return Iterables.getFirst(getJvmElements(sourceElement), null);
-  }	
+  }
 
   public boolean isPrimaryJvmElement(EObject jvmElement)
   {
