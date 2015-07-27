@@ -602,6 +602,10 @@ public class GenModelEditor
     genModel.setCanGenerate(true);
     validate();
 
+    if (generator != null)
+    {
+      generator.dispose();
+    }
     generator = GenModelUtil.createGenerator(genModel);
     
     updateProblemIndication = true;
