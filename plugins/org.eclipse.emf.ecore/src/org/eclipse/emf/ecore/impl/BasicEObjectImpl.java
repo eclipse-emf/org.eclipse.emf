@@ -1136,6 +1136,10 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       if (!FeatureMapUtil.isFeatureMap(openFeature))
       {
         openFeature = ExtendedMetaData.INSTANCE.getGroup(openFeature);
+        if (openFeature == null)
+        {
+          throw new IllegalArgumentException("The feature '" + eFeature.getName() + "' is not a valid changeable feature");
+        }
       }
       FeatureMap featureMap = (FeatureMap)eGet(openFeature);
       ((FeatureMap.Internal)featureMap).set(eFeature, newValue);
