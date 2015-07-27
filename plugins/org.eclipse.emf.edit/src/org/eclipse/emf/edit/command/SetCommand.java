@@ -183,6 +183,10 @@ public class SetCommand extends AbstractOverrideableCommand
         {
           compound.append(domain.createCommand(SetCommand.class, new CommandParameter(owner, feature, value)));
         }
+        else if (eReference.isUnsettable() && compound.getCommandList().isEmpty())
+        {
+          return domain.createCommand(SetCommand.class, new CommandParameter(owner, feature, value));
+        }
         else if (compound.getCommandList().isEmpty())
         {
           return IdentityCommand.INSTANCE;
