@@ -49,13 +49,13 @@ public class XcoreJvmTypeScopeProvider extends XImportSectionNamespaceScopeProvi
   @Override
   public IScope getScope(final EObject context, EReference reference)
   {
+    final Resource resource = context.eResource();
     if (reference == XcorePackage.Literals.XIMPORT_DIRECTIVE__IMPORTED_OBJECT)
     {
-      return cache.get("import.type.scope", context.eResource(), new Provider<IScope>()
+      return cache.get("import.type.scope", resource, new Provider<IScope>()
       {
         public IScope get()
         {
-          Resource resource = context.eResource();
           IJvmTypeProvider typeProvider = typeScopeProvider.getTypeProvider(resource.getResourceSet());
           return typeScopeProvider.createTypeScope(typeProvider, null);
         }
@@ -63,16 +63,16 @@ public class XcoreJvmTypeScopeProvider extends XImportSectionNamespaceScopeProvi
       });
     }
 
-    final XPackage xPackage = (XPackage) context;
-    return cache.get("type.scope", context.eResource(), new Provider<IScope>()
+    return cache.get("type.scope", resource, new Provider<IScope>()
     {
       public IScope get()
       {
-        IJvmTypeProvider typeProvider = typeScopeProvider.getTypeProvider(xPackage.eResource().getResourceSet());
+        final XPackage xPackage = (XPackage) resource.getContents().get(0);
+        IJvmTypeProvider typeProvider = typeScopeProvider.getTypeProvider(resource.getResourceSet());
         AbstractTypeScope typeScope = typeScopeProvider.createTypeScope(typeProvider, null);
         AbstractXcoreScope rootTypeScope = getRootTypeScope(xPackage, typeScope);
         AbstractXcoreScope importScope = getImportScope(xPackage, rootTypeScope, typeScope);
-        AbstractXcoreScope localTypes = getResourceTypeScope(xPackage.eResource(), xPackage.getName(), importScope);
+        AbstractXcoreScope localTypes = getResourceTypeScope(resource, xPackage.getName(), importScope);
         AbstractXcoreScope primitiveAware = new PrimitiveAwareScope(localTypes, typeScope);
         AbstractXcoreScope caching = new CachingTypeScope(primitiveAware);
         return caching;
