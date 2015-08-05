@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 
@@ -70,7 +69,7 @@ public class EMOFHandler extends SAXXMIHandler
   @Override
   protected void processElement(String name, String prefix, String localName)
   {
-    if (EMOFExtendedMetaData.EXTENSION.equals(localName) && XMIResource.XMI_URI.equals(helper.getURI(prefix)))
+    if (EMOFExtendedMetaData.EXTENSION.equals(localName) && XMLContentHandlerImpl.isXMINamespace(helper.getURI(prefix)))
     {
       if (attribs != null && EcorePackage.eNS_URI.equals(attribs.getValue(EMOFExtendedMetaData.XMI_EXTENDER_ATTRIBUTE)))
       {
