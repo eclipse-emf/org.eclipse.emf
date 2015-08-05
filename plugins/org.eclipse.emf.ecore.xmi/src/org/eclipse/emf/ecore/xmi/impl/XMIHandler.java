@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
@@ -118,7 +119,29 @@ public abstract class XMIHandler extends XMLHandler
       EReference eReference = (EReference)feature;
       if (!eReference.isContainment())
       {
-        setValueFromId(peekObject, eReference, id);
+        if (eReference.isMany())
+        {
+          if (eReference.isResolveProxies())
+          {
+            super.createObject(peekObject, feature);
+            return;
+          }
+          else
+          {
+            SingleReference ref = new SingleReference
+                                        (peekObject,
+                                         eReference,
+                                         id,
+                                         -1,
+                                         getLineNumber(),
+                                         getColumnNumber());
+            forwardSingleReferences.add(ref);
+          }
+        }
+        else
+        {
+          setValueFromId(peekObject, eReference, id);
+        }
         objects.push(null);
         mixedTargets.push(null);
         types.push(OBJECT_TYPE);
@@ -131,7 +154,7 @@ public abstract class XMIHandler extends XMLHandler
   @Override
   protected void handleUnknownFeature(String prefix, String name, boolean isElement, EObject peekObject, String value)
   {
-    if (XMI_EXTENSION.equals(name) && XMIResource.XMI_URI.equals(helper.getURI(prefix)))
+    if (XMI_EXTENSION.equals(name) && XMLContentHandlerImpl.isXMINamespace(helper.getURI(prefix)))
     {
       if (extendedMetaData == null)
       {
@@ -139,6 +162,10 @@ public abstract class XMIHandler extends XMLHandler
       }
 
       recordUnknownFeature(prefix, name, isElement, peekObject, value);
+    }
+    else if ("idref".equals(name) && XMLContentHandlerImpl.isXMINamespace(helper.getURI(prefix)))
+    {
+      handleProxy((InternalEObject)peekObject, "#" + value);
     }
     else
     {

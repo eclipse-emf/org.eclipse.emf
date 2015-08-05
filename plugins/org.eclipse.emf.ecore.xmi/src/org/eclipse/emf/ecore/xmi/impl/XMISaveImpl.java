@@ -98,7 +98,7 @@ public class XMISaveImpl extends XMLSaveImpl
     else
     {
       // create dummy documentElement
-      Element xmiRootElement = document.createElementNS(XMIResource.XMI_URI, XMI_TAG_NS);
+      Element xmiRootElement = document.createElementNS(xmiURI, XMI_TAG_NS);
       currentNode = document.appendChild(xmiRootElement);
       for (int i = 0, size = contents.size(); i < size; i++)
       {
@@ -134,7 +134,7 @@ public class XMISaveImpl extends XMLSaveImpl
       }
       else
       {
-        ((Element)currentNode).setAttributeNS(XMIResource.XMI_URI, XMI_TYPE_NS, helper.getQName(eClass));
+        ((Element)currentNode).setAttributeNS(xmiURI, XMI_TYPE_NS, helper.getQName(eClass));
       }
     }
     else
@@ -158,7 +158,7 @@ public class XMISaveImpl extends XMLSaveImpl
     }
     else
     {
-      ((Element)currentNode).setAttributeNS(XMIResource.XMI_URI, XMI_VER_NS, version);
+      ((Element)currentNode).setAttributeNS(xmiURI, XMI_VER_NS, version);
       ((Element)currentNode).setAttributeNS(ExtendedMetaData.XMLNS_URI, XMI_XMLNS, xmiURI);
     }
     super.addNamespaceDeclarations();
