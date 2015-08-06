@@ -24,14 +24,14 @@
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=S))"
 		>
-			<uri format="{0}/modeling/emf/emf/updates/2.11milestones/base">
+			<uri format="{0}/modeling/emf/emf/updates/2.11.x/base">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=R))"
 		>
-			<uri format="{0}/modeling/emf/emf/updates/2.11/base">
+			<uri format="{0}/modeling/emf/emf/updates/2.11.x/base">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider> 
@@ -46,7 +46,7 @@
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(!(|(build.type=S)(build.type=R))))"
 		>
-			<uri format="{0}/eclipse/updates/4.5-I-builds">
+			<uri format="{0}/eclipse/updates/4.5-M-builds">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
@@ -60,14 +60,14 @@
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=R))"
 		>
-			<uri format="{0}/eclipse/updates/4.5milestones">
+			<uri format="{0}/eclipse/updates/4.5">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
 	</searchPath>
 
 	<property key="eclipse.download" value="http://download.eclipse.org" />
-	<property key="emf.base.nightly" value="https://hudson.eclipse.org/xtext/job/emf-base/lastSuccessfulBuild/artifact/build-result/p2.repository/" />
+	<property key="emf.base.nightly" value="https://hudson.eclipse.org/xtext/job/emf-base-maintenance/lastSuccessfulBuild/artifact/build-result/p2.repository/" />
 	
 	<property key="resolve.target.platform" value="false" />
 	<property key="resolve.target.platform.base.sources" value="false" />
