@@ -18,25 +18,17 @@
 				<bc:propertyRef key="emf.base.nightly" />
 			</uri>
 		</provider>
-		<!-- Comment out when 3.5 compatible emf Base integration build is promoted to {0}/modeling/emf/emf/updates/2.8-I-builds/base
-		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
-			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(!(|(build.type=S)(build.type=R))))"
-		>
-			<uri format="{0}/modeling/emf/emf/updates/2.8-I-builds/base">
-				<bc:propertyRef key="eclipse.download" />
-			</uri>
-		</provider>-->
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=S))"
 		>
-			<uri format="{0}/modeling/emf/emf/updates/2.11milestones/base">
+			<uri format="{0}/modeling/emf/emf/updates/2.12milestones/base">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(&amp;(|(resolve.target.platform=true)(resolve.target.platform.base.sources=true))(build.type=R))"
 		>
-			<uri format="{0}/modeling/emf/emf/updates/2.11/base">
+			<uri format="{0}/modeling/emf/emf/updates/2.12/base">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider> 
