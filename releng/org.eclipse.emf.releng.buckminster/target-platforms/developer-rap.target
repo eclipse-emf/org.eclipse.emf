@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="emf-developer-withrap" sequenceNumber="1">
+<?pde version="3.8"?><target name="emf-developer-withrap" sequenceNumber="2">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.rap.feature.feature.group" version="0.0.0"/>
@@ -9,7 +9,7 @@
 <unit id="org.eclipse.jdt.source.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.platform.ide" version="0.0.0"/>
 <unit id="org.eclipse.jdt.feature.group" version="0.0.0"/>
-<repository location="http://download.eclipse.org/eclipse/updates/3.6/"/>
+<repository location="http://download.eclipse.org/eclipse/updates/3.7/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.draw2d.feature.group" version="0.0.0"/>
@@ -503,4 +503,5 @@
 <plugin id="org.sat4j.core"/>
 <plugin id="org.sat4j.pb"/>
 </includeBundles>
+<targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 </target>
