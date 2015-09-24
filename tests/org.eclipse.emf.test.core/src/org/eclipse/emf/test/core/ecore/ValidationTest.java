@@ -18,9 +18,11 @@ import static org.junit.Assert.fail;
 import java.util.Date;
 import java.util.Iterator;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EValidator;
@@ -29,6 +31,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.test.models.ppo.Item;
 import org.eclipse.emf.test.models.ppo.PPOFactory;
 import org.eclipse.emf.test.models.ppo.PPOPackage;
@@ -312,5 +315,41 @@ public class ValidationTest
     assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
     john.eSet(numberOfChildren, null);
     assertEquals(Diagnostic.ERROR, Diagnostician.INSTANCE.validate(john).getSeverity());
+  }
+
+  @Test
+  public void defaultValueLiteralValidationTest() throws RuntimeException
+  {
+    EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
+    EClass eClass = EcoreFactory.eINSTANCE.createEClass();
+    ePackage.getEClassifiers().add(eClass);
+    EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
+    eClass.getEStructuralFeatures().add(eAttribute);
+    eAttribute.setDefaultValueLiteral("");
+    EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
+    eAttribute.setEType(eDataType);
+
+    try
+    {
+      EcoreValidator.INSTANCE.validateEStructuralFeature_ValidDefaultValueLiteral(eAttribute, new BasicDiagnostic(), null);
+    }
+    catch (RuntimeException ex)
+    {
+      throw ex;
+    }
+
+    eDataType.setInstanceClass(String.class);
+    ePackage.getEClassifiers().add(eDataType);
+
+    try
+    {
+      eAttribute.getDefaultValue();
+      ePackage.setEFactoryInstance(null);
+      EcoreValidator.INSTANCE.validateEStructuralFeature_ValidDefaultValueLiteral(eAttribute, new BasicDiagnostic(), null);
+    }
+    catch (RuntimeException ex)
+    {
+      throw ex;
+    }
   }
 }

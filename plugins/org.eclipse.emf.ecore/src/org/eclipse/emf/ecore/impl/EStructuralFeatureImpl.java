@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -129,24 +130,28 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     }
     else if (eType instanceof EDataType)
     {
-      EFactory factory = eType.getEPackage().getEFactoryInstance();
-      if (factory != defaultValueFactory)
+      EPackage ePackage = eType.getEPackage();
+      if (ePackage != null)
       {
-        EDataType eDataType = (EDataType)eType;
-        if (eDataType.isSerializable())
+        EFactory factory = ePackage.getEFactoryInstance();
+        if (factory != defaultValueFactory)
         {
-          try
+          EDataType eDataType = (EDataType)eType;
+          if (eDataType.isSerializable())
           {
-            defaultValue = factory.createFromString(eDataType, literal);
+            try
+            {
+              defaultValue = factory.createFromString(eDataType, literal);
+            }
+            catch (Throwable e)
+            {
+              // At development time, the real factory may not be available. Just return null.
+              //
+              defaultValue = null;
+            }
           }
-          catch (Throwable e)
-          {
-            // At development time, the real factory may not be available. Just return null.
-            //
-            defaultValue = null;
-          }
+          defaultValueFactory = factory;
         }
-        defaultValueFactory = factory;
       }
       return defaultValue;
     }
