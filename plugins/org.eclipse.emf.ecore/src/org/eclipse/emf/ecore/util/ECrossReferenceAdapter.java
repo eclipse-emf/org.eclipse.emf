@@ -191,15 +191,18 @@ public class ECrossReferenceAdapter implements Adapter.Internal
           @Override
           public boolean add(EStructuralFeature.Setting setting)
           {
-            EObject eObject = setting.getEObject();
-            EStructuralFeature eStructuralFeature = setting.getEStructuralFeature();
-            EStructuralFeature.Setting [] settingData =  (EStructuralFeature.Setting[])data;
-            for (int i = 0; i < size; ++i)
+            if (!settingTargets)
             {
-              EStructuralFeature.Setting containedSetting = settingData[i];
-              if (containedSetting.getEObject() == eObject && containedSetting.getEStructuralFeature() == eStructuralFeature)
+              EObject eObject = setting.getEObject();
+              EStructuralFeature eStructuralFeature = setting.getEStructuralFeature();
+              EStructuralFeature.Setting [] settingData =  (EStructuralFeature.Setting[])data;
+              for (int i = 0; i < size; ++i)
               {
-                return false;
+                EStructuralFeature.Setting containedSetting = settingData[i];
+                if (containedSetting.getEObject() == eObject && containedSetting.getEStructuralFeature() == eStructuralFeature)
+                {
+                  return false;
+                }
               }
             }
             addUnique(setting);
@@ -348,6 +351,8 @@ public class ECrossReferenceAdapter implements Adapter.Internal
   
   protected InverseCrossReferencer inverseCrossReferencer;
   
+  protected boolean settingTargets;
+
   public ECrossReferenceAdapter()
   {
     inverseCrossReferencer = createInverseCrossReferencer();
@@ -742,18 +747,18 @@ public class ECrossReferenceAdapter implements Adapter.Internal
    */
   public void setTarget(Notifier target)
   {
-    if (target instanceof EObject)
-    {
-      setTarget((EObject)target);
-    }
-    else if (target instanceof Resource)
-    {
-      setTarget((Resource)target);
-    }
-    else if (target instanceof ResourceSet)
-    {
-      setTarget((ResourceSet)target);
-    }
+      if (target instanceof EObject)
+      {
+        setTarget((EObject)target);
+      }
+      else if (target instanceof Resource)
+      {
+        setTarget((Resource)target);
+      }
+      else if (target instanceof ResourceSet)
+      {
+        setTarget((ResourceSet)target);
+      }
   }
 
   /**
@@ -890,7 +895,16 @@ public class ECrossReferenceAdapter implements Adapter.Internal
     List<Adapter> eAdapters = notifier.eAdapters();
     if (!eAdapters.contains(this))
     {
-      eAdapters.add(this);
+      boolean oldSettingTargets = settingTargets;
+      try
+      {
+        settingTargets = true;
+        eAdapters.add(this);
+      }
+      finally
+      {
+        settingTargets = oldSettingTargets;
+      }
     }
   }
   
