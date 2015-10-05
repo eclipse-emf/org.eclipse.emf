@@ -404,7 +404,6 @@ public class BasicEList<E> extends AbstractEList<E> implements RandomAccess, Clo
    * Adds the object at the end of the list;
    * it does no uniqueness checking.
    * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
-   * after uniqueness checking.
    * @param object the object to be added.
    * @see #add(Object)
    */
