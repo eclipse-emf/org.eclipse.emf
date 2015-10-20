@@ -3474,7 +3474,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         }
         else
         {
-          result.append(isImported ? getImportedType(context, eClassifier, false) : getType(context, eClassifier, false));
+          result.append(isImported ? getImportedType(context, eClassifier, false, isErased) : getType(context, eClassifier, false, isErased));
         }
         if (!isErased)
         {
