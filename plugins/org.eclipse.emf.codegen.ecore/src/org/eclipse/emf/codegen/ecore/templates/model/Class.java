@@ -209,7 +209,7 @@ public class Class
   protected final String TEXT_191 = ".getFeatureID(";
   protected final String TEXT_192 = ") - ";
   protected final String TEXT_193 = ";" + NL;
-  protected final String TEXT_194 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate static final int \"EOPERATION_OFFSET_CORRECTION\" = ";
+  protected final String TEXT_194 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate static final int EOPERATION_OFFSET_CORRECTION = ";
   protected final String TEXT_195 = ".getOperationID(";
   protected final String TEXT_196 = ") - ";
   protected final String TEXT_197 = ";" + NL;
