@@ -399,7 +399,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final int "EOPERATION_OFFSET_CORRECTION" = <%=genClass.getQualifiedClassifierAccessor()%>.getOperationID(<%=genClass.getImplementedGenOperations().get(0).getQualifiedOperationAccessor()%>) - <%=genClass.getQualifiedOperationID(genClass.getImplementedGenOperations().get(0))%>;
+	private static final int EOPERATION_OFFSET_CORRECTION = <%=genClass.getQualifiedClassifierAccessor()%>.getOperationID(<%=genClass.getImplementedGenOperations().get(0).getQualifiedOperationAccessor()%>) - <%=genClass.getQualifiedOperationID(genClass.getImplementedGenOperations().get(0))%>;
 
 <%}%>
 <%if (isImplementation) {%>
