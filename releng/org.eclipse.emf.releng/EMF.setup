@@ -15,6 +15,17 @@
     xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore http://www.eclipse.org/oomph/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/WorkingSets.ecore"
     name="emf"
     label="EMF">
+  <annotation
+      source="http://www.eclipse.org/oomph/setup/BrandingInfo">
+    <detail
+        key="imageURI">
+      <value>https://git.eclipse.org/c/emf/org.eclipse.emf.git/plain/plugins/org.eclipse.emf/modeling32.png</value>
+    </detail>
+    <detail
+        key="siteURI">
+      <value>https://www.eclipse.org/modeling/emf/</value>
+    </detail>
+  </annotation>
   <setupTask
       xsi:type="jdt:JRETask"
       version="J2SE-1.5"
@@ -468,7 +479,7 @@
             url="http://download.eclipse.org/ecoretools/updates/nightly/2.0.x/luna"/>
       </setupTask>
     </stream>
-    <description>The development environment for the EMF Core</description>
+    <description>The development environment for the EMF Core.</description>
   </project>
   <project name="xcore"
       label="Xcore">
@@ -505,6 +516,8 @@
         xsi:type="projects:ProjectsImportTask">
       <sourceLocator
           rootFolder="${emf.git.clone.location/releng/org.eclipse.emf.xcore.releng}"/>
+      <sourceLocator
+          rootFolder="${emf.git.clone.location/releng/org.eclipse.emf.xcore.build-feature}"/>
     </setupTask>
     <setupTask
         xsi:type="setup.targlets:TargletTask">
@@ -514,8 +527,6 @@
             name="org.eclipse.emf.ecore.xcore.sdk.feature.group"/>
         <requirement
             name="org.eclipse.emf.test.ecore.xcore.feature.group"/>
-        <requirement
-            name="org.eclipse.emf.xcore.build.feature.group"/>
         <requirement
             name="org.eclipse.xtext.sdk.feature.group"
             versionRange="[2.7.0,3.0.0)"/>
@@ -639,7 +650,7 @@
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/maintenance"/>
       </setupTask>
     </stream>
-    <description>The development environment for EMF Xcore</description>
+    <description>The development environment for EMF Xcore.</description>
   </project>
   <project name="gwt"
       label="GWT">
@@ -759,7 +770,7 @@
             url="http://download.eclipse.org/ecoretools/updates/nightly/2.0.x/luna"/>
       </setupTask>
     </stream>
-    <description>The development environment for EMF GWT</description>
+    <description>The development environment for EMF GWT.</description>
   </project>
   <project name="rap"
       label="RAP">
@@ -858,9 +869,10 @@
             url="http://download.eclipse.org/rt/rap/tools/2.3"/>
       </setupTask>
     </stream>
+    <description>The development environemnt for EMF RAP.</description>
   </project>
   <logicalProjectContainer
       xsi:type="setup:ProjectCatalog"
       href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']"/>
-  <description>The development environments for EMF</description>
+  <description>The development environments for EMF.</description>
 </setup:Project>
