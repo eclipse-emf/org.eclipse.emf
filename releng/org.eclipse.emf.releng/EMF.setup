@@ -437,13 +437,13 @@
         </predicate>
       </workingSet>
     </setupTask>
-    <setupTask
-        xsi:type="setup:EclipseIniTask"
-        option="-Doomph.redirection.emf.setup"
-        value="=http://git.eclipse.org/c/emf/org.eclipse.emf.git/plain/releng/org.eclipse.emf.releng/EMF.setup->${emf.git.clone.location|uri}/releng/org.eclipse.emf.releng/EMF.setup"
-        vm="true"/>
     <stream
         name="master">
+      <setupTask
+          xsi:type="setup:EclipseIniTask"
+          option="-Doomph.redirection.emf.setup"
+          value="=http://git.eclipse.org/c/emf/org.eclipse.emf.git/plain/releng/org.eclipse.emf.releng/EMF.setup->${emf.git.clone.location|uri}/releng/org.eclipse.emf.releng/EMF.setup"
+          vm="true"/>
       <setupTask
           xsi:type="setup:VariableTask"
           name="eclipse.target.platform"
@@ -452,7 +452,7 @@
       <setupTask
           xsi:type="setup.p2:P2Task">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.12"/>
         <repository
             url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
       </setupTask>
@@ -617,7 +617,7 @@
       <setupTask
           xsi:type="setup.p2:P2Task">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.12"/>
         <repository
             url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
         <repository
@@ -743,7 +743,7 @@
       <setupTask
           xsi:type="setup.p2:P2Task">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.12"/>
         <repository
             url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
       </setupTask>
@@ -847,7 +847,7 @@
       <setupTask
           xsi:type="setup.p2:P2Task">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.12"/>
         <repository
             url="http://download.eclipse.org/rt/rap/tools/3.0"/>
       </setupTask>
