@@ -295,7 +295,7 @@ public class EditUIMarkerHelper extends MarkerHelper
             String message = marker.getAttribute(IMarker.MESSAGE, "");
             int severity = marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
             String sourceID = marker.getAttribute(IMarker.SOURCE_ID, "");
-            List<?> data = wrap ? getTargetObjects(editingDomain, marker) : getTargetObjects(object, marker, false);
+            List<?> data = wrap ? getTargetObjects(editingDomain, marker) : getTargetObjects(editingDomain, marker, false);
             diagnostic.add
               (new BasicDiagnostic
                  (severity == IMarker.SEVERITY_ERROR ?
