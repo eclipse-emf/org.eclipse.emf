@@ -24,11 +24,6 @@
       value="2048m"
       vm="true"/>
   <setupTask
-      xsi:type="setup:EclipseIniTask"
-      option="-Doomph.redirection.xsd.setup"
-      value="=http://git.eclipse.org/c/xsd/org.eclipse.xsd.git/plain/plugins/org.eclipse.xsd/XSD.setup->${xsd.git.clone.location|uri}/plugins/org.eclipse.xsd/XSD.setup"
-      vm="true"/>
-  <setupTask
       xsi:type="setup:PreferenceTask"
       key="instance/org.eclipse.jdt.launching/org.eclipse.jdt.launching.PREF_STRICTLY_COMPATIBLE_JRE_NOT_AVAILABLE"
       value="ignore"/>
@@ -79,7 +74,7 @@
         source="http://www.eclipse.org/oomph/setup/InducedChoices">
       <detail
           key="inherit">
-        <value>eclipse.git.remoteURIs</value>
+        <value>eclipse.git.gerrit.remoteURIs</value>
       </detail>
       <detail
           key="label">
@@ -170,10 +165,10 @@
             nature="org.eclipse.pde.PluginNature"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.11/@workingSets.1"/>
+            excludedWorkingSet="//@setupTasks.10/@workingSets.1"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.11/@workingSets.3"/>
+            excludedWorkingSet="//@setupTasks.10/@workingSets.3"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -230,6 +225,11 @@
   </setupTask>
   <stream name="master">
     <setupTask
+        xsi:type="setup:EclipseIniTask"
+        option="-Doomph.redirection.xsd.setup"
+        value="=http://git.eclipse.org/c/xsd/org.eclipse.xsd.git/plain/plugins/org.eclipse.xsd/XSD.setup->${xsd.git.clone.location|uri}/plugins/org.eclipse.xsd/XSD.setup"
+        vm="true"/>
+    <setupTask
         xsi:type="setup:VariableTask"
         name="eclipse.target.platform"
         defaultValue="Neon"
@@ -237,7 +237,7 @@
     <setupTask
         xsi:type="setup.p2:P2Task">
       <repository
-          url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
+          url="http://download.eclipse.org/modeling/emf/emf/updates/2.12"/>
       <repository
           url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
     </setupTask>
@@ -247,7 +247,7 @@
     <setupTask
         xsi:type="setup.p2:P2Task">
       <repository
-          url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
+          url="http://download.eclipse.org/modeling/emf/emf/updates/2.11x"/>
       <repository
           url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
     </setupTask>
