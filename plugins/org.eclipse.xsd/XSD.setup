@@ -247,7 +247,7 @@
     <setupTask
         xsi:type="setup.p2:P2Task">
       <repository
-          url="http://download.eclipse.org/modeling/emf/emf/updates/2.11x"/>
+          url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
       <repository
           url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
     </setupTask>
