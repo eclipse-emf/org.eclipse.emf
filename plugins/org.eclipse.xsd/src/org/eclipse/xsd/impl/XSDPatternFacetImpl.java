@@ -34,6 +34,7 @@ import org.eclipse.xsd.XSDPatternFacet;
 import org.eclipse.xsd.XSDPlugin;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.util.XSDConstants;
+import org.eclipse.xsd.util.XSDUtil;
 
 
 /**
@@ -210,9 +211,9 @@ public class XSDPatternFacetImpl
     {
       ArrayList<RegularExpression> result = new ArrayList<RegularExpression>();
       Collection<String> theValues = getValue();
+      XSDSimpleTypeDefinition xsdSimpleTypeDefinition = getSimpleTypeDefinition();
       if (theValues.isEmpty())
       {
-        XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)getContainer();
         if (xsdSimpleTypeDefinition != null && !xsdSimpleTypeDefinition.getSyntheticFacets().contains(this))
         {
           createRequiredAttributeDiagnostic(XSDConstants.PART1, "element-pattern", getElement(), XSDConstants.VALUE_ATTRIBUTE);
@@ -224,6 +225,11 @@ public class XSDPatternFacetImpl
         {
           try
           {
+            if (value.contains("child:") && xsdSimpleTypeDefinition != null && XSDUtil.isSchemaForSchemaNamespace(xsdSimpleTypeDefinition.getTargetNamespace()))
+            {
+              value = value.replaceAll("\\\\\\.|@|//?|\\\\\\|", "\\\\s*$0\\\\s*");
+            }
+
             result.add(new RegularExpression(value, "X"));
           }
           catch (ParseException parseException)
