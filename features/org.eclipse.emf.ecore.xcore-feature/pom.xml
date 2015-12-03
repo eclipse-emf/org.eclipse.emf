@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.emf</groupId>
 	<artifactId>org.eclipse.emf.ecore.xcore.parent</artifactId>
-	<version>1.3.0-SNAPSHOT</version>
+	<version>1.4.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -11,7 +11,7 @@
 		<version>7</version>
 	</parent>
 	<properties>
-		<tycho-version>0.22.0</tycho-version>
+		<tycho-version>0.23.1</tycho-version>
 	</properties>
 	<modules>
 		<module>../../plugins/org.eclipse.emf.ecore.xcore.lib</module>
