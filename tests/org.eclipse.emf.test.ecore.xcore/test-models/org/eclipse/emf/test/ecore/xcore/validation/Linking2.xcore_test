@@ -1,0 +1,8 @@
+package linking
+
+/* XPECT validationIssues ---
+error at 'foo.bar.Baz' message 'A generic super type must refer to a class'
+error at 'foo.bar.Baz' message 'foo.bar.Baz cannot be resolved to a type.'
+--- */
+
+class Bar extends foo.bar.Baz {}
