@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionManager;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionStrategy;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreScopeProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreSerializerScopeProvider;
+import org.eclipse.emf.ecore.xcore.validation.XcoreAwareMessageProvider;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnosticConverter;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnostician;
 import org.eclipse.emf.ecore.xcore.validation.XcoreJvmTypeReferencesValidator;
@@ -37,6 +38,7 @@ import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.conversion.impl.QualifiedNameValueConverter;
 import org.eclipse.xtext.findReferences.IReferenceFinder;
 import org.eclipse.xtext.generator.IGenerator;
+import org.eclipse.xtext.linking.ILinkingDiagnosticMessageProvider;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.parser.antlr.IReferableElementsUnloader;
 import org.eclipse.xtext.resource.IContainer;
@@ -227,4 +229,7 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   {
     return XcoreReferenceFinder.class;
   }
+	public Class<? extends ILinkingDiagnosticMessageProvider> bindILinkingDiagnosticMessageProvider() {
+		return XcoreAwareMessageProvider.class;
+	}
 }
