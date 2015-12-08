@@ -15,11 +15,14 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
@@ -107,7 +110,7 @@ public class EContentAdapter extends AdapterImpl
         {
           if (oldValue != null)
           {
-            removeAdapter((Notifier)oldValue);
+            removeAdapter((Notifier)oldValue, false, true);
           }
           Notifier newValue = (Notifier)notification.getNewValue();
           if (newValue != null)
@@ -122,7 +125,7 @@ public class EContentAdapter extends AdapterImpl
         Notifier oldValue = (Notifier)notification.getOldValue();
         if (oldValue != null)
         {
-          removeAdapter(oldValue);
+          removeAdapter(oldValue, false, true);
         }
         Notifier newValue = (Notifier)notification.getNewValue();
         if (newValue != null)
@@ -154,16 +157,20 @@ public class EContentAdapter extends AdapterImpl
         Notifier oldValue = (Notifier)notification.getOldValue();
         if (oldValue != null)
         {
-          removeAdapter(oldValue);
+          boolean checkContainer = notification.getNotifier() instanceof Resource;
+          boolean checkResource = notification.getFeature() != null;
+          removeAdapter(oldValue, checkContainer, checkResource);
         }
         break;
       }
       case Notification.REMOVE_MANY:
       {
+        boolean checkContainer = notification.getNotifier() instanceof Resource;
+        boolean checkResource = notification.getFeature() != null;
         @SuppressWarnings("unchecked") Collection<Notifier> oldValues = (Collection<Notifier>)notification.getOldValue();
         for ( Notifier oldContentValue : oldValues)
         {
-          removeAdapter(oldContentValue);
+          removeAdapter(oldContentValue, checkContainer, checkResource);
         }
         break;
       }
@@ -246,10 +253,7 @@ public class EContentAdapter extends AdapterImpl
     for (int i = 0; i < resources.size(); ++i)
     {
       Notifier notifier = resources.get(i);
-      if (!notifier.eAdapters().contains(this))
-      {
-        addAdapter(notifier);
-      }
+      addAdapter(notifier);
     }
   }
 
@@ -310,7 +314,7 @@ public class EContentAdapter extends AdapterImpl
          i.hasNext(); )
     {
       Notifier notifier = i.next();
-      removeAdapter(notifier);
+      removeAdapter(notifier, false, true);
     }
   }
 
@@ -325,7 +329,7 @@ public class EContentAdapter extends AdapterImpl
     for (int i = 0, size = contents.size(); i < size; ++i)
     {
       Notifier notifier = contents.get(i);
-      removeAdapter(notifier);
+      removeAdapter(notifier, true, false);
     }
   }
 
@@ -340,20 +344,50 @@ public class EContentAdapter extends AdapterImpl
     for (int i = 0; i < resources.size(); ++i)
     {
       Notifier notifier = resources.get(i);
-      removeAdapter(notifier);
+      removeAdapter(notifier, false, false);
     }
   }
-  
+
   protected void addAdapter(Notifier notifier)
   {
-    notifier.eAdapters().add(this); 
+    EList<Adapter> eAdapters = notifier.eAdapters();
+    if (!eAdapters.contains(this))
+    {
+      eAdapters.add(this); 
+    }
   }
-  
+
+  protected void removeAdapter(Notifier notifier, boolean checkContainer, boolean checkResource)
+  {
+    if (checkContainer || checkResource)
+    {
+      InternalEObject internalEObject = (InternalEObject) notifier;
+      if (checkResource)
+      {
+        Resource eDirectResource = internalEObject.eDirectResource();
+        if (eDirectResource != null && eDirectResource.eAdapters().contains(this))
+        {
+          return;
+        }
+      }
+      if (checkContainer)
+      {
+        InternalEObject eInternalContainer = internalEObject.eInternalContainer();
+        if (eInternalContainer != null && eInternalContainer.eAdapters().contains(this))
+        {
+          return;
+        }
+      }
+    }
+
+    removeAdapter(notifier);
+  }
+
   protected void removeAdapter(Notifier notifier)
   {
     notifier.eAdapters().remove(this); 
   }
-  
+
   protected boolean resolve()
   {
     return true;
