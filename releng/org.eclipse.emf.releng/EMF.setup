@@ -115,7 +115,7 @@
       <repositoryList
           name="Neon">
         <repository
-            url="http://download.eclipse.org/releases/mars"/>
+            url="http://download.eclipse.org/releases/neon"/>
         <repository
             url="http://download.itemis.com/updates/releases/2.1.0/"/>
         <repository
@@ -125,9 +125,9 @@
         <repository
             url="${gwt.tool.url}"/>
         <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/maintenance/nightly"/>
+            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.12milestones"/>
       </repositoryList>
       <repositoryList
           name="Mars">
@@ -621,7 +621,7 @@
         <repository
             url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
         <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/maintenance/nightly"/>
+            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
       </setupTask>
     </stream>
     <stream
