@@ -111,7 +111,7 @@
       <repositoryList
           name="Neon">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.12milestones"/>
       </repositoryList>
       <repositoryList
           name="Mars">
@@ -237,7 +237,7 @@
     <setupTask
         xsi:type="setup.p2:P2Task">
       <repository
-          url="http://download.eclipse.org/modeling/emf/emf/updates/2.12"/>
+          url="http://download.eclipse.org/modeling/emf/emf/updates/2.12milestones"/>
       <repository
           url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
     </setupTask>
