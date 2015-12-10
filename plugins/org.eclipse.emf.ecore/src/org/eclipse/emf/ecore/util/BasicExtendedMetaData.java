@@ -2197,9 +2197,9 @@ public class BasicExtendedMetaData implements ExtendedMetaData
               }
             }
           }
-          result = nameToClassifierMap.get(name);
           this.nameToClassifierMap = nameToClassifierMap;
         }
+        result = nameToClassifierMap.get(name);
       }
 
       return result;
