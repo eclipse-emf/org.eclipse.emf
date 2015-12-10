@@ -1641,9 +1641,9 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
           Image image = labelProvider.getImage(data);
           result.append("<img src='");
           result.append(ImageURIRegistry.INSTANCE.getImageURI(image));
-          result.append("'/> <a href='");
+          result.append("'/> <a href=\"");
           result.append(EcoreUtil.getURI((EObject)data));
-          result.append("'>");
+          result.append("\">");
           result.append(text);
           result.append("</a></div>\n");
         }
