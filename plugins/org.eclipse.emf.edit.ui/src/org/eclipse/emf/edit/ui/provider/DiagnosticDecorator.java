@@ -563,16 +563,10 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
                      EMFEditUIPlugin.INSTANCE.getString("_UI_DiagnosisOfNObjects_message", new String[] { "1" }),
                      new Object [] { resource } );
 
-                synchronized (resource)
+                for (EObject eObject : resource.getContents())
                 {
-                  synchronized (resourceSet)
-                  {
-                    for (EObject eObject : resource.getContents())
-                    {
-                      diagnostician.validate(eObject, resourceDiagnostic, context);
-                      context.remove(EObjectValidator.ROOT_OBJECT);
-                    }
-                  }
+                  diagnostician.validate(eObject, resourceDiagnostic, context);
+                  context.remove(EObjectValidator.ROOT_OBJECT);
                 }
 
                 for (Resource.Diagnostic warning : resource.getWarnings())
