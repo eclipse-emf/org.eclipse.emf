@@ -26,6 +26,7 @@ import org.junit.runners.Suite;
       org.eclipse.emf.test.core.common.EnumeratorSerialization.class,
       org.eclipse.emf.test.core.common.util.EqualityTest.class,
       org.eclipse.emf.test.core.common.util.ECollectionsTest.class,
+      org.eclipse.emf.test.core.common.util.EMapTest.class,
       org.eclipse.emf.test.core.dynamic.SimpleModelTest.class,
       org.eclipse.emf.test.core.dynamic.ModelNotificationTest.class,
       org.eclipse.emf.test.core.dynamic.DynamicCrossResourceContainmentProxy.class,
