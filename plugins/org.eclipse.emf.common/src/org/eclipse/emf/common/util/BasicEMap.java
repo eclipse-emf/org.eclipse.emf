@@ -820,19 +820,103 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
 
     public Set<Entry<K, V>> entrySet()
     {
-      return BasicEMap.this.entrySet();
+      return
+        new AbstractSet<Entry<K, V>>()
+        {
+          final Iterator<Entry<K, V>> i = BasicEMap.this.entrySet().iterator();
+
+          @Override
+          public Iterator<Entry<K, V>> iterator()
+          {
+            return
+              new Iterator<Entry<K, V>>()
+              {
+                public boolean hasNext()
+                {
+                  return i.hasNext();
+                }
+
+                public Entry<K, V> next()
+                {
+                  final Entry<K, V> entry = i.next();
+                  return
+                    new Entry<K, V>()
+                    {
+                      public K getKey()
+                      {
+                        return entry.getKey();
+                      }
+
+                      public V getValue()
+                      {
+                        return entry.getValue();
+                      }
+
+                      public V setValue(V value)
+                      {
+                        return entry.setValue(value);
+                      }
+
+                      @Override
+                      public int hashCode()
+                      {
+                        K key = entry.getKey();
+                        V value = entry.getValue();
+                        return (key == null ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode());
+                      }
+
+                      @Override
+                      public boolean equals(Object object)
+                      {
+                        if (object instanceof Entry<?, ?>)
+                        {
+                          Map.Entry<?, ?> otherEntry = (Entry<?, ?>) object;
+                          K key = entry.getKey();
+                          Object otherKey = otherEntry.getKey();
+                          if (key == null ? otherKey == null : key.equals(otherKey))
+                          {
+                            V value = entry.getValue();
+                            Object otherValue = otherEntry.getValue();
+                            return value == null ? otherValue == null : value.equals(otherValue);
+                          }
+                        }
+
+                        return false;
+                      }
+                    };
+                }
+
+                public void remove()
+                {
+                  i.remove();
+                }
+              };
+          }
+
+          @Override
+          public int size()
+          {
+            return BasicEMap.this.size();
+          }
+        };
     }
 
     @Override
     public boolean equals(Object object)
     {
-      return BasicEMap.this.equals(object);
+      if (object instanceof Map<?, ?>)
+      {
+        Map<?, ?> otherMap = (Map<?, ?>) object;
+        return entrySet().equals(otherMap.entrySet());
+      }
+
+      return false;
     }
 
     @Override
     public int hashCode()
     {
-      return BasicEMap.this.hashCode();
+      return entrySet().hashCode();
     }
 
     @Override
