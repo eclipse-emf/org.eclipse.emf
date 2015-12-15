@@ -9,10 +9,14 @@ package org.eclipse.emf.test.core.common.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicEMap;
 import org.eclipse.emf.common.util.ECollections;
@@ -47,5 +51,20 @@ public class EMapTest
     Map.Entry<Object, Object> mapViewEntry = basicEMap.entrySet().iterator().next();
     assertEquals("An EMap's map view's entry must be equal to entry of a norma map", mapViewEntry, mapEntry);
     assertEquals("An EMap's map view's entry hashCode must be equal to entry of a norma map", mapViewEntry.hashCode(), mapEntry.hashCode());
+    
+    Set<Map.Entry<Object, Object>> entrySet = basicEMap.map().entrySet();
+    Iterator<Map.Entry<Object, Object>> iterator = entrySet.iterator();
+    if (iterator.hasNext()) {
+      Map.Entry<Object, Object> entry = iterator.next();
+      try
+      {
+        Map.Entry<Object, Object> sameEntry = entrySet.iterator().next();
+        assertEquals("Iterator should yield consistent results", entry, sameEntry);
+      }
+      catch (NoSuchElementException ex)
+      {
+        fail("Iterator is inconsistent");
+      }
+    }
   }
 }

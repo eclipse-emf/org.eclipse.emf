@@ -823,11 +823,10 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
       return
         new AbstractSet<Entry<K, V>>()
         {
-          final Iterator<Entry<K, V>> i = BasicEMap.this.entrySet().iterator();
-
           @Override
           public Iterator<Entry<K, V>> iterator()
           {
+            final Iterator<Entry<K, V>> i = BasicEMap.this.entrySet().iterator();
             return
               new Iterator<Entry<K, V>>()
               {
