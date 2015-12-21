@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aggregator:Aggregation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:aggregator="http://www.eclipse.org/b3/2011/aggregator/1.1.0" label="GWT" buildRoot="./gwt/" packedStrategy="SKIP">
+  <validationSets description="GWT 4.3 TP" label="GWT 4.3">
+    <contributions label="Gwt">
+      <repositories location="https://dl.google.com/eclipse/plugin/4.3">
+        <features name="com.google.appengine.eclipse.sdkbundle.feature.feature.group"/>
+        <features name="com.google.gwt.eclipse.sdkbundle.feature.feature.group"/>
+      </repositories>
+    </contributions>
+  </validationSets>
+  <configurations operatingSystem="macosx" windowSystem="cocoa" architecture="x86_64"/>
+  <configurations operatingSystem="linux" windowSystem="gtk"/>
+  <configurations operatingSystem="linux" windowSystem="gtk" architecture="x86_64"/>
+</aggregator:Aggregation>
