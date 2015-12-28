@@ -1351,7 +1351,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
                  {
                    if (!control.isDisposed())
                    {
-                     propertySheetPage.refresh();
+                     propertySheetPage.refreshLabels();
                    }
                  }
                });

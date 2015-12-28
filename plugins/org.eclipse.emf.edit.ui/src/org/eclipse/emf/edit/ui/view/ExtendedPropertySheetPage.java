@@ -10,6 +10,7 @@
  */
 package org.eclipse.emf.edit.ui.view;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -33,6 +34,7 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbenchPart;
@@ -344,5 +346,29 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
       diagnosticDecorator.dispose();
     }
     super.dispose();
+  }
+
+  /**
+   * Refreshes only the labels of the property sheet viewer.
+   * It does not dismiss the cell editor, if there is one.
+   *
+   * @since 2.12
+   */
+  public void refreshLabels()
+  {
+    try
+    {
+      Field viewerField = PropertySheetPage.class.getDeclaredField("viewer");
+      viewerField.setAccessible(true);
+      Viewer viewer = (Viewer)viewerField.get(this);
+      viewer.refresh();
+      return;
+    }
+    catch (Throwable throwable)
+    {
+      // Ignore.
+    }
+
+    refresh();
   }
 }
