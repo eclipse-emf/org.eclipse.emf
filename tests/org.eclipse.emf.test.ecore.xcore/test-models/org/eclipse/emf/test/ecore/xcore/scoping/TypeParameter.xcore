@@ -1,0 +1,21 @@
+package closure
+
+import org.eclipse.emf.ecore.EObject
+
+class TypeParameter {
+	
+	contains EObject[] eObjs
+
+	op EObject checkInLambda(String name) {
+		EObjs.findFirst[it.eClass.name == name]
+	}
+	
+	op void checkFeature() {
+		EObjs.head.eClass.name
+	}
+
+	op void checkParameter(EObject[] collection) {
+		collection.head.eClass.name
+	}
+	
+}
