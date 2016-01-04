@@ -1,0 +1,11 @@
+package closure
+
+import org.eclipse.emf.ecore.EObject
+
+class Lambda {
+	contains EObject[] eObjs
+	
+	op EObject check(String name) {
+		EObjs.findFirst[it.eClass.name == name]
+	}
+}
