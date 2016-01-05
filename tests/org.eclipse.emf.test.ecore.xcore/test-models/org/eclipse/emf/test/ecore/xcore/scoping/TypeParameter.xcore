@@ -1,4 +1,4 @@
-package closure
+package typeParameter
 
 import org.eclipse.emf.ecore.EObject
 
