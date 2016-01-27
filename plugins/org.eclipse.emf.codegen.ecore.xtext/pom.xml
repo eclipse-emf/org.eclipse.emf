@@ -4,7 +4,7 @@
 	<artifactId>org.eclipse.emf.codegen.ecore.xtext</artifactId>
 	<packaging>eclipse-plugin</packaging>
 	<parent>
-		<version>1.3.0-SNAPSHOT</version>
+		<version>1.4.0-SNAPSHOT</version>
 		<groupId>org.eclipse.emf</groupId>
 		<artifactId>org.eclipse.emf.ecore.xcore.parent</artifactId>
 		<relativePath>../../features/org.eclipse.emf.ecore.xcore-feature</relativePath>
