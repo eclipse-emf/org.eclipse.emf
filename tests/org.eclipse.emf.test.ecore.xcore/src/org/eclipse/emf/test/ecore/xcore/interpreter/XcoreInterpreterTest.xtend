@@ -136,9 +136,10 @@ class XcoreInterpreterTest {
 		assertEquals("Sven", foo.eGet(fooClass.getEStructuralFeature("alias")));
 	}
 	@Test
-	def void testEnum() {
+	def void testEnumJDK14() {
 		val pack = parse.parse('''
-			package foo.bar
+			@GenModel(complianceLevel="1.4")
+			package foo.bar14
 			enum NodeKind { Singleton Root Intermediate Leaf }
 			class Node
 			{
@@ -148,8 +149,38 @@ class XcoreInterpreterTest {
 				transient volatile derived readonly NodeKind nodeKind
 				get
 				{
-					if (hasChildren()) {if (parent == null) {NodeKind::ROOT_LITERAL} else {NodeKind::INTERMEDIATE_LITERAL}}
+					if (hasChildren()) {if (parent == null) {NodeKind::ROOT_LITERAL} else {NodeKind.INTERMEDIATE_LITERAL}}
 					else {if (parent == null) {NodeKind::SINGLETON_LITERAL} else {NodeKind::LEAF_LITERAL}}
+				}
+			}
+		''')
+		validator.assertNoErrors(pack)
+		val ePackage = pack.eResource.contents.get(2) as EPackage
+		val nodeKindEnum = ePackage.getEClassifier("NodeKind") as EEnum
+		val nodeClass = ePackage.getEClassifier("Node") as EClass
+		val node = ePackage.EFactoryInstance.create(nodeClass)
+		assertEquals(nodeKindEnum.getEEnumLiteral("Singleton"), node.eGet(nodeClass.getEStructuralFeature("nodeKind")));
+		val childNode = ePackage.EFactoryInstance.create(nodeClass)
+		(node.eGet(nodeClass.getEStructuralFeature("children")) as List<EObject>).add(childNode);
+		assertEquals(nodeKindEnum.getEEnumLiteral("Root"), node.eGet(nodeClass.getEStructuralFeature("nodeKind")));
+	}
+	
+	@Test
+	def void testEnumJDK50() {
+		val pack = parse.parse('''
+			@GenModel(complianceLevel="5.0")
+			package foo.bar15
+			enum NodeKind { Singleton Root Intermediate Leaf }
+			class Node
+			{
+				refers Node parent opposite children
+				contains Node[0..*] children opposite parent
+				op boolean hasChildren() { !children.empty }
+				transient volatile derived readonly NodeKind nodeKind
+				get
+				{
+					if (hasChildren()) {if (parent == null) {NodeKind::ROOT} else {NodeKind.INTERMEDIATE}}
+					else {if (parent == null) {NodeKind::SINGLETON} else {NodeKind::LEAF}}
 				}
 			}
 		''')

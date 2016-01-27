@@ -271,10 +271,12 @@ public class XcoreInterpreterTest {
   }
   
   @Test
-  public void testEnum() {
+  public void testEnumJDK14() {
     try {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("package foo.bar");
+      _builder.append("@GenModel(complianceLevel=\"1.4\")");
+      _builder.newLine();
+      _builder.append("package foo.bar14");
       _builder.newLine();
       _builder.append("enum NodeKind { Singleton Root Intermediate Leaf }");
       _builder.newLine();
@@ -301,10 +303,83 @@ public class XcoreInterpreterTest {
       _builder.append("{");
       _builder.newLine();
       _builder.append("\t\t");
-      _builder.append("if (hasChildren()) {if (parent == null) {NodeKind::ROOT_LITERAL} else {NodeKind::INTERMEDIATE_LITERAL}}");
+      _builder.append("if (hasChildren()) {if (parent == null) {NodeKind::ROOT_LITERAL} else {NodeKind.INTERMEDIATE_LITERAL}}");
       _builder.newLine();
       _builder.append("\t\t");
       _builder.append("else {if (parent == null) {NodeKind::SINGLETON_LITERAL} else {NodeKind::LEAF_LITERAL}}");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      final XPackage pack = this.parse.parse(_builder);
+      this.validator.assertNoErrors(pack);
+      Resource _eResource = pack.eResource();
+      EList<EObject> _contents = _eResource.getContents();
+      EObject _get = _contents.get(2);
+      final EPackage ePackage = ((EPackage) _get);
+      EClassifier _eClassifier = ePackage.getEClassifier("NodeKind");
+      final EEnum nodeKindEnum = ((EEnum) _eClassifier);
+      EClassifier _eClassifier_1 = ePackage.getEClassifier("Node");
+      final EClass nodeClass = ((EClass) _eClassifier_1);
+      EFactory _eFactoryInstance = ePackage.getEFactoryInstance();
+      final EObject node = _eFactoryInstance.create(nodeClass);
+      EEnumLiteral _eEnumLiteral = nodeKindEnum.getEEnumLiteral("Singleton");
+      EStructuralFeature _eStructuralFeature = nodeClass.getEStructuralFeature("nodeKind");
+      Object _eGet = node.eGet(_eStructuralFeature);
+      Assert.assertEquals(_eEnumLiteral, _eGet);
+      EFactory _eFactoryInstance_1 = ePackage.getEFactoryInstance();
+      final EObject childNode = _eFactoryInstance_1.create(nodeClass);
+      EStructuralFeature _eStructuralFeature_1 = nodeClass.getEStructuralFeature("children");
+      Object _eGet_1 = node.eGet(_eStructuralFeature_1);
+      ((List<EObject>) _eGet_1).add(childNode);
+      EEnumLiteral _eEnumLiteral_1 = nodeKindEnum.getEEnumLiteral("Root");
+      EStructuralFeature _eStructuralFeature_2 = nodeClass.getEStructuralFeature("nodeKind");
+      Object _eGet_2 = node.eGet(_eStructuralFeature_2);
+      Assert.assertEquals(_eEnumLiteral_1, _eGet_2);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+  
+  @Test
+  public void testEnumJDK50() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("@GenModel(complianceLevel=\"5.0\")");
+      _builder.newLine();
+      _builder.append("package foo.bar15");
+      _builder.newLine();
+      _builder.append("enum NodeKind { Singleton Root Intermediate Leaf }");
+      _builder.newLine();
+      _builder.append("class Node");
+      _builder.newLine();
+      _builder.append("{");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("refers Node parent opposite children");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("contains Node[0..*] children opposite parent");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("op boolean hasChildren() { !children.empty }");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("transient volatile derived readonly NodeKind nodeKind");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("get");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("{");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("if (hasChildren()) {if (parent == null) {NodeKind::ROOT} else {NodeKind.INTERMEDIATE}}");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("else {if (parent == null) {NodeKind::SINGLETON} else {NodeKind::LEAF}}");
       _builder.newLine();
       _builder.append("\t");
       _builder.append("}");

@@ -9955,17 +9955,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected Collection<? extends Runnable> initialize(boolean handleAnnotations, boolean isPreLinking)
   {
     List<Runnable> result = isPreLinking ? new ArrayList<Runnable>() : null;
-    if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
+    Resource resource = eResource();
+    if (resource != null)
     {
-      Resource resource = eResource();
-      if (resource != null)
+      URI uri = resource.getURI();
+      setComplianceLevel(EclipseHelper.getComplianceLevel(uri));
+      if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
       {
-        URI uri = resource.getURI();
         if (getModelDirectory() == null)
         {
           setModelDirectory(EclipseHelper.getModelDirectory(uri));
         }
-        setComplianceLevel(EclipseHelper.getComplianceLevel(uri));
         if (getModelPluginID() == null)
         {
           setModelPluginID(EclipseHelper.getPluginID(uri));
