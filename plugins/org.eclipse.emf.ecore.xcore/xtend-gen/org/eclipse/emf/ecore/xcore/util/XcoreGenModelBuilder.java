@@ -18,6 +18,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
@@ -72,6 +73,7 @@ public class XcoreGenModelBuilder {
     XPackageMapping _mapping = this.mapper.getMapping(pack);
     final EPackage ePackage = _mapping.getEPackage();
     final GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
+    genModel.setComplianceLevel(GenJDKLevel.JDK50_LITERAL);
     Set<EPackage> _singleton = Collections.<EPackage>singleton(ePackage);
     genModel.initialize(_singleton);
     Resource _eResource = pack.eResource();
