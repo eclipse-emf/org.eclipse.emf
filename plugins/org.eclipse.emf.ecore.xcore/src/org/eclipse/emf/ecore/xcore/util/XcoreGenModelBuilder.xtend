@@ -36,6 +36,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenParameter
 import org.eclipse.emf.ecore.xcore.XParameter
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter
 import org.eclipse.emf.ecore.xcore.XTypeParameter
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel
 
 class XcoreGenModelBuilder
 {
@@ -45,6 +46,9 @@ class XcoreGenModelBuilder
   {
     val ePackage = pack.mapping.getEPackage
     val genModel =  GenModelFactory::eINSTANCE.createGenModel()
+    // Preset default JDK14 to JDK50 for standalone (Junit/Maven) case
+    // Eclipse level will be recomputed during genModel.initialize()
+    genModel.complianceLevel = GenJDKLevel.JDK50_LITERAL
     genModel.initialize(Collections::singleton(ePackage))
     pack.eResource.getContents().add(1, genModel)
     buildMap(genModel)
