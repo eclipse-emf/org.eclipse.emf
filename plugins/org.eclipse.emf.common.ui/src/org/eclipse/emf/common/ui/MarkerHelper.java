@@ -85,9 +85,8 @@ public class MarkerHelper
 
   protected IFile getFile(URI uri)
   {
-    String platformResourceString = uri.toPlatformString(true);
-    return platformResourceString != null ?
-      ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourceString)) :
+    return uri.isPlatformResource() && uri.segmentCount() > 2 ? 
+      ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uri.toPlatformString(true))) :
       null;
   }
 
