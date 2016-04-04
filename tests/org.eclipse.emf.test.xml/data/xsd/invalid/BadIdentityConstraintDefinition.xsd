@@ -32,6 +32,10 @@
             <xsd:selector xpath="1"/>
             <xsd:field xpath="2"/>
         </xsd:key>
+        <xsd:key name="okayKeyXPaths">
+            <xsd:selector xpath=" . // c:d | x:x "/>
+            <xsd:field xpath=" . // a:b / @ x | x:y "/>
+        </xsd:key>
         <xsd:key name="badKeySelectorFieldContents">
             <xsd:selector xpath="x">
                 <xsd:annotation/>
