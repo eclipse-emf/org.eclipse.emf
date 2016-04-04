@@ -1840,11 +1840,11 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     
     try
     {
-      Method getter = enumClass.getMethod("get", new Class[] { Integer.TYPE });
+      Method getter = enumClass.getMethod("get", new Class[] { String.class});
 
       for (EEnumLiteral eEnumLiteral : eEnum.getELiterals())
       {
-        Enumerator instance = (Enumerator)getter.invoke(null, new Object[] { eEnumLiteral.getValue() });
+        Enumerator instance = (Enumerator)getter.invoke(null, new Object[] { eEnumLiteral.getLiteral() });
         eEnumLiteral.setInstance(instance);
         ((EEnumLiteralImpl)eEnumLiteral).setGeneratedInstance(true);
       }
