@@ -1488,7 +1488,7 @@ class Information
 
 class InformationIterator
 {
-  Iterator<?> iterator;
+  Iterator<Object> iterator;
   InformationIterator(EGenericType eGenericType)
   {
     iterator = EcoreUtil.getAllContents(Collections.singleton(eGenericType));
