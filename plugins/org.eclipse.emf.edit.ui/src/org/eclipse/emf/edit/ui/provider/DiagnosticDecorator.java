@@ -453,77 +453,57 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
             @Override
             protected IStatus run(final IProgressMonitor monitor)
             {
-              Diagnostician diagnostician =
-                new Diagnostician()
-                {
-                  @Override
-                  public String getObjectLabel(EObject eObject)
-                  {
-                    String text = labelProvider != null && eObject.eIsProxy() ? ((InternalEObject)eObject).eProxyURI().toString() : labelProvider.getText(eObject);
-                    if (text == null || text.length() == 0)
-                    {
-                      text = "<i>null</i>";
-                    }
-                    else
-                    {
-                      text = escapeContent(text);
-                    }
-                    Image image = labelProvider != null ? labelProvider.getImage(eObject) : null;
-                    if (image != null)
-                    {
-                      URI imageURI = ImageURIRegistry.INSTANCE.getImageURI(image);
-                      return enquote("<img src='" + imageURI + "'/> " + text);
-                    }
-                    else
-                    {
-                      return escapeContent(text);
-                    }
-                  }
-
-                  @Override
-                  public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
-                  {
-                    monitor.worked(1);
-                    return super.validate(eClass, eObject, diagnostics, context);
-                  }
-                };
-
-              final ResourceSet resourceSet = editingDomain.getResourceSet();
-
-              List<Resource> resources = new UniqueEList<Resource>(Arrays.asList(scheduledResources.toArray(new Resource[0])));
-              scheduledResources.removeAll(resources);
-
-              // Count all the objects we need to validate and resolve proxies.
-              //
-              int count = 0;
-              for (Resource resource : resources)
+              try
               {
-                synchronized (resource)
-                {
-                  synchronized (resourceSet)
+                Diagnostician diagnostician =
+                  new Diagnostician()
                   {
-                    for (Iterator<EObject> i = resource.getAllContents(); i.hasNext(); )
+                    @Override
+                    public String getObjectLabel(EObject eObject)
                     {
-                      ++count;
-                      EObject eObject = i.next();
-                      for (@SuppressWarnings("unused") EObject eCrossReference : eObject.eCrossReferences())
+                      String text = labelProvider != null && eObject.eIsProxy() ? ((InternalEObject)eObject).eProxyURI().toString() : labelProvider.getText(eObject);
+                      if (text == null || text.length() == 0)
                       {
-                        // Just resolve proxies.
+                        text = "<i>null</i>";
+                      }
+                      else
+                      {
+                        text = escapeContent(text);
+                      }
+                      Image image = labelProvider != null ? labelProvider.getImage(eObject) : null;
+                      if (image != null)
+                      {
+                        URI imageURI = ImageURIRegistry.INSTANCE.getImageURI(image);
+                        return enquote("<img src='" + imageURI + "'/> " + text);
+                      }
+                      else
+                      {
+                        return escapeContent(text);
                       }
                     }
-                  }
-                }
-              }
 
-              // Also count all the objects we need to validate from resources loaded because of proxy resolution.
-              //
-              for (List<Resource> moreResources = Arrays.asList(scheduledResources.toArray(new Resource[0]));
-                   !moreResources.isEmpty();
-                   moreResources = Arrays.asList(scheduledResources.toArray(new Resource[0])))
-              {
-                resources.addAll(moreResources);
-                scheduledResources.removeAll(moreResources);
-                for (Resource resource : moreResources)
+                    @Override
+                    public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
+                    {
+                      if (monitor.isCanceled())
+                      {
+                        throw new RuntimeException();
+                      }
+
+                      monitor.worked(1);
+                      return super.validate(eClass, eObject, diagnostics, context);
+                    }
+                  };
+
+                final ResourceSet resourceSet = editingDomain.getResourceSet();
+
+                List<Resource> resources = new UniqueEList<Resource>(Arrays.asList(scheduledResources.toArray(new Resource[0])));
+                scheduledResources.removeAll(resources);
+
+                // Count all the objects we need to validate and resolve proxies.
+                //
+                int count = 0;
+                for (Resource resource : resources)
                 {
                   synchronized (resource)
                   {
@@ -535,80 +515,142 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
                         EObject eObject = i.next();
                         for (@SuppressWarnings("unused") EObject eCrossReference : eObject.eCrossReferences())
                         {
-                          // Just resolve proxies.
+                          if (monitor.isCanceled())
+                          {
+                            throw new RuntimeException();
+                          }
                         }
                       }
                     }
                   }
                 }
-              }
 
-              monitor.beginTask("", count);
-              final BasicDiagnostic diagnostic =
-                new BasicDiagnostic
-                  (EObjectValidator.DIAGNOSTIC_SOURCE,
-                   0,
-                   EMFEditUIPlugin.INSTANCE.getString("_UI_DiagnosisOfNObjects_message", new String[] { "" + resources.size() }),
-                   new Object [] { resourceSet } );
-              Map<Object, Object> context = diagnostician.createDefaultContext();
-              for (int i = 0; i < resources.size(); ++i)
-              {
-                Resource resource = resources.get(i);
-                monitor.setTaskName(EMFEditUIPlugin.INSTANCE.getString("_UI_Validating_message", new Object [] { resource.getURI() }));
+                // Also count all the objects we need to validate from resources loaded because of proxy resolution.
+                //
+                for (List<Resource> moreResources = Arrays.asList(scheduledResources.toArray(new Resource[0]));
+                     !moreResources.isEmpty();
+                     moreResources = Arrays.asList(scheduledResources.toArray(new Resource[0])))
+                {
+                  resources.addAll(moreResources);
+                  scheduledResources.removeAll(moreResources);
+                  for (Resource resource : moreResources)
+                  {
+                    synchronized (resource)
+                    {
+                      synchronized (resourceSet)
+                      {
+                        for (Iterator<EObject> i = resource.getAllContents(); i.hasNext(); )
+                        {
+                          ++count;
+                          EObject eObject = i.next();
+                          for (@SuppressWarnings("unused") EObject eCrossReference : eObject.eCrossReferences())
+                          {
+                            if (monitor.isCanceled())
+                            {
+                              throw new RuntimeException();
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
 
-                final BasicDiagnostic resourceDiagnostic =
+                monitor.beginTask("", count);
+                final BasicDiagnostic diagnostic =
                   new BasicDiagnostic
                     (EObjectValidator.DIAGNOSTIC_SOURCE,
                      0,
-                     EMFEditUIPlugin.INSTANCE.getString("_UI_DiagnosisOfNObjects_message", new String[] { "1" }),
-                     new Object [] { resource } );
-
-                for (EObject eObject : resource.getContents())
+                     EMFEditUIPlugin.INSTANCE.getString("_UI_DiagnosisOfNObjects_message", new String[] { "" + resources.size() }),
+                     new Object [] { resourceSet } );
+                Map<Object, Object> context = diagnostician.createDefaultContext();
+                for (int i = 0; i < resources.size(); ++i)
                 {
-                  diagnostician.validate(eObject, resourceDiagnostic, context);
-                  context.remove(EObjectValidator.ROOT_OBJECT);
+                  Resource resource = resources.get(i);
+                  monitor.setTaskName(EMFEditUIPlugin.INSTANCE.getString("_UI_Validating_message", new Object [] { resource.getURI() }));
+
+                  final BasicDiagnostic resourceDiagnostic =
+                    new BasicDiagnostic
+                      (EObjectValidator.DIAGNOSTIC_SOURCE,
+                       0,
+                       EMFEditUIPlugin.INSTANCE.getString("_UI_DiagnosisOfNObjects_message", new String[] { "1" }),
+                       new Object [] { resource } );
+
+                  for (EObject eObject : resource.getContents())
+                  {
+                    diagnostician.validate(eObject, resourceDiagnostic, context);
+                    context.remove(EObjectValidator.ROOT_OBJECT);
+                  }
+
+                  for (Resource.Diagnostic warning : resource.getWarnings())
+                  {
+                    resourceDiagnostic.add(new BasicDiagnostic(Diagnostic.WARNING, null, 0, warning.getMessage(),  new Object [] { resource }));
+                  }
+
+                  for (Resource.Diagnostic error : resource.getErrors())
+                  {
+                    resourceDiagnostic.add(new BasicDiagnostic(Diagnostic.ERROR, null, 0, error.getMessage(),  new Object[] { resource}));
+                  }
+
+                  diagnostic.add(resourceDiagnostic);
+
+                  if (monitor.isCanceled())
+                  {
+                    throw new RuntimeException();
+                  }
+                  monitor.worked(1);
                 }
 
-                for (Resource.Diagnostic warning : resource.getWarnings())
-                {
-                  resourceDiagnostic.add(new BasicDiagnostic(Diagnostic.WARNING, null, 0, warning.getMessage(),  new Object [] { resource }));
-                }
+                DiagnosticAdapter.update(resourceSet, diagnostic);
 
-                for (Resource.Diagnostic error : resource.getErrors())
-                {
-                  resourceDiagnostic.add(new BasicDiagnostic(Diagnostic.ERROR, null, 0, error.getMessage(),  new Object[] { resource}));
-                }
-
-                diagnostic.add(resourceDiagnostic);
-
-                if (monitor.isCanceled())
-                {
-                  validationJob = null;
-                  return Status.CANCEL_STATUS;
-                }
-                monitor.worked(1);
-              }
-
-              DiagnosticAdapter.update(resourceSet, diagnostic);
-
-              Display.getDefault().asyncExec
-                (new Runnable()
-                 {
-                   public void run()
+                Display.getDefault().asyncExec
+                  (new Runnable()
                    {
-                     validationJob = null;
-                     if (!scheduledResources.isEmpty())
+                     public void run()
                      {
-                       LiveValidator.this.scheduleValidation();
+                       validationJob = null;
+                       if (!monitor.isCanceled() && !scheduledResources.isEmpty())
+                       {
+                         LiveValidator.this.scheduleValidation();
+                       }
                      }
-                   }
-                 });
+                   });
 
-              return Status.OK_STATUS;
+                return Status.OK_STATUS;
+              }
+              catch (RuntimeException exception)
+              {
+                validationJob = null;
+                return Status.CANCEL_STATUS;
+              }
             }
           };
         validationJob.setPriority(Job.DECORATE);
         validationJob.schedule(500);
+      }
+    }
+
+    /**
+     * Cancels the validation job, if there is one.
+     * It blocks {@link Display#readAndDispatch() processing} the event queue until the job is terminated.
+     *
+     * @since 2.12
+     */
+    public void cancelValidation()
+    {
+      Job validationJob = this.validationJob;
+      if (validationJob != null)
+      {
+        validationJob.cancel();
+
+        Display display = Display.getCurrent();
+        while (this.validationJob != null)
+        {
+          if (display.readAndDispatch())
+          {
+            display.sleep();
+          }
+        }
       }
     }
 
@@ -634,7 +676,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
       }
     }
   }
-  
+
   /**
    * An extended {@link DiagnosticDecorator} that handle style strings decoration.
    * @since 2.10
@@ -642,8 +684,8 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
   public static class Styled extends DiagnosticDecorator implements IStyledLabelDecorator
   {
     /**
-     * Creates an instance that supports {@link LiveValidator live validation} and supports 
-     * {@link DiagnosticDecorator.LiveValidator.LiveValidationAction#LIVE_VALIDATOR_DIALOG_SETTINGS_KEY enablement} 
+     * Creates an instance that supports {@link LiveValidator live validation} and supports
+     * {@link DiagnosticDecorator.LiveValidator.LiveValidationAction#LIVE_VALIDATOR_DIALOG_SETTINGS_KEY enablement}
      * via {@link IDialogSettings dialog setting}.
      */
     public Styled(EditingDomain editingDomain, ExtendedPropertySheetPage propertySheetPage, IDialogSettings dialogSettings)
@@ -660,8 +702,8 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
     }
 
     /**
-     * Creates an instance that supports {@link LiveValidator live validation} and supports 
-     * {@link DiagnosticDecorator.LiveValidator.LiveValidationAction#LIVE_VALIDATOR_DIALOG_SETTINGS_KEY enablement} 
+     * Creates an instance that supports {@link LiveValidator live validation} and supports
+     * {@link DiagnosticDecorator.LiveValidator.LiveValidationAction#LIVE_VALIDATOR_DIALOG_SETTINGS_KEY enablement}
      * via {@link IDialogSettings dialog setting}.
      */
     public Styled(EditingDomain editingDomain, StructuredViewer viewer, IDialogSettings dialogSettings)
@@ -679,8 +721,8 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
 
     /**
      * Creates an instance that doesn't support {@link LiveValidator live validation}.
-     * Only decorations explicitly produced from {@link ValidateAction} or those 
-     * {@link EditUIMarkerHelper#getMarkerDiagnostics(Object, org.eclipse.core.resources.IFile, boolean) 
+     * Only decorations explicitly produced from {@link ValidateAction} or those
+     * {@link EditUIMarkerHelper#getMarkerDiagnostics(Object, org.eclipse.core.resources.IFile, boolean)
      * derived from markers} are displayed.
      */
     public Styled(ResourceSet resourceSet, ExtendedPropertySheetPage propertySheetPage)
@@ -690,15 +732,15 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
 
     /**
      * Creates an instance that doesn't support {@link LiveValidator live validation}.
-     * Only decorations explicitly produced from {@link ValidateAction} or those 
-     * {@link EditUIMarkerHelper#getMarkerDiagnostics(Object, org.eclipse.core.resources.IFile, boolean) 
+     * Only decorations explicitly produced from {@link ValidateAction} or those
+     * {@link EditUIMarkerHelper#getMarkerDiagnostics(Object, org.eclipse.core.resources.IFile, boolean)
      * derived from markers} are displayed.
      */
     public Styled(ResourceSet resourceSet, StructuredViewer viewer)
     {
       super(resourceSet, viewer);
     }
-    
+
     public StyledString decorateStyledText(StyledString styledString, Object object)
     {
       return styledString;
@@ -706,14 +748,14 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
   }
 
   /**
-   * A styled diagnostic decorator that will decorate the given styled string by underlying it 
+   * A styled diagnostic decorator that will decorate the given styled string by underlying it
      * with a {@link SWT#UNDERLINE_ERROR} underline style colored in {@link JFacePreferences#ERROR_COLOR}.
    * @author mbarbero
    *
    */
   public static class StyledError extends DiagnosticDecorator.Styled implements IStyledLabelDecorator
   {
-    
+
     public StyledError(EditingDomain editingDomain,
         ExtendedPropertySheetPage propertySheetPage,
         IDialogSettings dialogSettings)
@@ -750,7 +792,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
     }
 
     /**
-     * Decorate the given {@code styledString} by underlying the whole given {@code styledString} 
+     * Decorate the given {@code styledString} by underlying the whole given {@code styledString}
      * with a {@link SWT#UNDERLINE_ERROR} underline style colored in {@link JFacePreferences#ERROR_COLOR}.
      */
     @Override
@@ -787,21 +829,21 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
             result.append(string.substring(start, string.length()), ErrorStyler.INSTANCE);
           }
         }
-        
+
         return result;
       }
       return styledString;
     }
-    
+
     /**
-     * A styler underlying the given text with a {@link SWT#UNDERLINE_ERROR} underline style colored 
+     * A styler underlying the given text with a {@link SWT#UNDERLINE_ERROR} underline style colored
      * in {@link JFacePreferences#ERROR_COLOR}.
      * @since 2.10
      */
     public static final class ErrorStyler extends Styler
     {
       public static final Styler INSTANCE = new ErrorStyler();
-      
+
       @Override
       public void applyStyles(TextStyle textStyle)
       {
@@ -810,11 +852,11 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
         textStyle.underlineColor = JFaceResources.getColorRegistry().get(JFacePreferences.ERROR_COLOR);
       }
     }
-    
+
     /**
-     * An extended styler applying a wrapped base style first, and successively apply other 
+     * An extended styler applying a wrapped base style first, and successively apply other
      * stylers to the given TextStyle, overriding any previous style.
-     * 
+     *
      * @since 2.10
      */
     public static class ComposedStyler extends Styler
@@ -827,27 +869,27 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
         this.baseStyle = baseStyle;
         this.stylers = stylers;
       }
-      
+
       @Override
       public void applyStyles(TextStyle textStyle)
       {
         textStyle.font = baseStyle.font;
         textStyle.metrics = baseStyle.metrics;
         textStyle.rise = baseStyle.rise;
-        
+
         textStyle.background = baseStyle.background;
         textStyle.foreground = baseStyle.foreground;
 
         textStyle.borderColor = baseStyle.borderColor;
         textStyle.borderStyle = baseStyle.borderStyle;
-        
+
         textStyle.strikeout = baseStyle.strikeout;
         textStyle.strikeoutColor = baseStyle.strikeoutColor;
 
         textStyle.underline = baseStyle.underline;
         textStyle.underlineStyle = baseStyle.underlineStyle;
         textStyle.underlineColor = baseStyle.underlineColor;
-        
+
         textStyle.data = baseStyle.data;
 
         for (Styler styler : stylers)
@@ -855,7 +897,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
           styler.applyStyles(textStyle);
         }
       }
-      
+
     }
   }
 
@@ -1146,6 +1188,20 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
     resourceSet.eAdapters().add(diagnosticAdapter);
 
     input = propertySheetPage.getInput();
+  }
+
+  /**
+   * {@link LiveValidator#cancelValidation() Cancel}s the live validator's job, if there is one.
+   *
+   * @since 2.12
+   */
+  public static void cancel(EditingDomain editingDomain)
+  {
+    LiveValidator liveValidator = LIVE_VALIDATORS.get(editingDomain);
+    if (liveValidator != null)
+    {
+      liveValidator.cancelValidation();
+    }
   }
 
   protected LiveValidator getLiveValidator()

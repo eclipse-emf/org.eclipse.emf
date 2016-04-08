@@ -104,6 +104,7 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.ui.viewer.ColumnViewerInformationControlToolTipSupport;
+import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
@@ -838,7 +839,18 @@ public class EcoreEditor
 
     // Create the command stack that will notify this editor as commands are executed.
     //
-    BasicCommandStack commandStack = new BasicCommandStack();
+    BasicCommandStack commandStack = new BasicCommandStack()
+      {
+        @Override
+        public void execute(Command command)
+        {
+          if (!(command instanceof AbstractCommand.NonDirtying))
+          {
+            DiagnosticDecorator.cancel(editingDomain);
+          }
+          super.execute(command);
+        }
+      };
 
     // Add a listener to set the most recent command's affected objects to be the selection of the viewer with focus.
     //
