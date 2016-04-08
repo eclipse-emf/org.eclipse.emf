@@ -80,6 +80,7 @@ import org.eclipse.jface.viewers.StyledString.Styler;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.LocationEvent;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.TextStyle;
@@ -632,25 +633,35 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
 
     /**
      * Cancels the validation job, if there is one.
-     * It blocks {@link Display#readAndDispatch() processing} the event queue until the job is terminated.
+     * It blocks until the job is terminated.
      *
      * @since 2.12
      */
     public void cancelValidation()
     {
-      Job validationJob = this.validationJob;
+      final Job validationJob = this.validationJob;
       if (validationJob != null)
       {
         validationJob.cancel();
 
         Display display = Display.getCurrent();
-        while (this.validationJob != null)
-        {
-          if (display.readAndDispatch())
+        BusyIndicator.showWhile(display, new Runnable()
           {
-            display.sleep();
-          }
-        }
+            public void run()
+            {
+              while (validationJob.getState() == Job.RUNNING)
+              {
+                try
+                {
+                  Thread.sleep(10);
+                }
+                catch (InterruptedException e)
+                {
+                  // Ignore.
+                }
+              }
+            }
+          });
       }
     }
 
