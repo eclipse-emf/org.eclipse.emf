@@ -751,13 +751,13 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	<%=genFeature.getImportedType(genClass)%> <%=genFeature.getGetAccessor()%>();
 
 <%} else {%>
-  <%if (genModel.useGenerics() && ((genFeature.isContainer() || genFeature.isResolveProxies()) && !genFeature.isListType() && !(genModel.isReflectiveDelegation() && genModel.isDynamicDelegation()) && genFeature.isUncheckedCast(genClass) || genFeature.isListType() && !genFeature.isFeatureMapType() && (genModel.isReflectiveDelegation() || genModel.isVirtualDelegation() || genModel.isDynamicDelegation()) || genFeature.isListDataType() && genFeature.hasDelegateFeature() || genFeature.isListType() && genFeature.hasSettingDelegate())) {%>
+  <%if (genModel.useGenerics() && ((genFeature.isContainer() || genFeature.isResolveProxies()) && !genFeature.isListType() && genFeature.isUncheckedCast(genClass) || genFeature.isListType() && !genFeature.isFeatureMapType() && (genModel.isReflectiveDelegation() || genModel.isVirtualDelegation() || (genModel.isDynamicDelegation() && !genFeature.isVolatile())) || genFeature.isListDataType() && genFeature.hasDelegateFeature() || genFeature.isListType() && genFeature.hasSettingDelegate())) {%>
 	@SuppressWarnings("unchecked")
   <%}%>
 	public <%=genFeature.getImportedType(genClass)%> <%=genFeature.getGetAccessor()%><%if (genClass.hasCollidingGetAccessorOperation(genFeature)) {%>_<%}%>()
 	{
 <%@ include file="Class/getGenFeature.pre.insert.javajetinc" fail="silent" %>
-    <%if (genModel.isDynamicDelegation()) {%>
+    <%if (genModel.isDynamicDelegation() && !genFeature.isVolatile()) {%>
 		return <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType(genClass)%>)eDynamicGet(<%=genClass.getQualifiedFeatureID(genFeature)%><%if (genClass.hasStaticFeatures()){%> - ESTATIC_FEATURE_COUNT<%}%>, <%=genFeature.getQualifiedFeatureAccessor()%>, true, <%=!genFeature.isEffectiveSuppressEMFTypes()%>)<%if (!isJDK50 && genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
     <%} else if (genModel.isReflectiveDelegation()) {%>
       <%if (genFeature.hasGetterBody()) {%>
@@ -894,7 +894,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	public <%=genFeature.getImportedType(genClass)%> basicGet<%=genFeature.getAccessorName()%>()
 	{
 <%@ include file="Class/basicGetGenFeature.pre.insert.javajetinc" fail="silent" %>
-    <%if (genModel.isDynamicDelegation()) {%>
+    <%if (genModel.isDynamicDelegation() && !genFeature.isVolatile()) {%>
 		return (<%=genFeature.getImportedType(genClass)%>)eDynamicGet(<%=genClass.getQualifiedFeatureID(genFeature)%><%if (genClass.hasStaticFeatures()){%> - ESTATIC_FEATURE_COUNT<%}%>, <%=genFeature.getQualifiedFeatureAccessor()%>, false, <%=!genFeature.isEffectiveSuppressEMFTypes()%>);
     <%} else if (genFeature.hasSettingDelegate()) {%>
 		return <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType(genClass)%>)<%=genFeature.getUpperName()%>__ESETTING_DELEGATE.dynamicGet(this, null, 0, false, false)<%if (!isJDK50 && genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
@@ -1054,7 +1054,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	public void set<%=genFeature.getAccessorName()%><%if (genClass.hasCollidingSetAccessorOperation(genFeature)) {%>_<%}%>(<%=genFeature.getImportedType(genClass)%> <%=setAccessorOperation == null ? "new" + genFeature.getCapName() : setAccessorOperation.getGenParameters().get(0).getName()%>)
 	{
 <%@ include file="Class/setGenFeature.pre.insert.javajetinc" fail="silent" %>
-    <%if (genModel.isDynamicDelegation()) {%>
+    <%if (genModel.isDynamicDelegation() && !genFeature.isVolatile()) {%>
 		eDynamicSet(<%=genClass.getQualifiedFeatureID(genFeature)%><%if (genClass.hasStaticFeatures()){%> - ESTATIC_FEATURE_COUNT<%}%>, <%=genFeature.getQualifiedFeatureAccessor()%>, <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType(genClass)%>(<%}%>new<%=genFeature.getCapName()%><%if (!isJDK50 && genFeature.isPrimitiveType()) {%>)<%}%>);
     <%} else if (genModel.isReflectiveDelegation()) {%>
 		eSet(<%=genFeature.getQualifiedFeatureAccessor()%>, <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType(genClass)%>(<%}%>new<%=genFeature.getCapName()%><%if (!isJDK50 && genFeature.isPrimitiveType()) {%>)<%}%>);
@@ -1309,7 +1309,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 <%} else {%>
 	public void unset<%=genFeature.getAccessorName()%><%if (genClass.hasCollidingUnsetAccessorOperation(genFeature)) {%>_<%}%>()
 	{
-    <%if (genModel.isDynamicDelegation()) {%>
+    <%if (genModel.isDynamicDelegation() && !genFeature.isVolatile()) {%>
 		eDynamicUnset(<%=genClass.getQualifiedFeatureID(genFeature)%><%if (genClass.hasStaticFeatures()){%> - ESTATIC_FEATURE_COUNT<%}%>, <%=genFeature.getQualifiedFeatureAccessor()%>);
     <%} else if (genModel.isReflectiveDelegation()) {%>
 		eUnset(<%=genFeature.getQualifiedFeatureAccessor()%>);
@@ -1476,7 +1476,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 <%} else {%>
 	public boolean isSet<%=genFeature.getAccessorName()%><%if (genClass.hasCollidingIsSetAccessorOperation(genFeature)) {%>_<%}%>()
 	{
-    <%if (genModel.isDynamicDelegation()) {%>
+    <%if (genModel.isDynamicDelegation() && !genFeature.isVolatile()) {%>
 		return eDynamicIsSet(<%=genClass.getQualifiedFeatureID(genFeature)%><%if (genClass.hasStaticFeatures()){%> - ESTATIC_FEATURE_COUNT<%}%>, <%=genFeature.getQualifiedFeatureAccessor()%>);
     <%} else if (genModel.isReflectiveDelegation()) {%>
 		return eIsSet(<%=genFeature.getQualifiedFeatureAccessor()%>);

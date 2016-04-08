@@ -2845,7 +2845,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_401);
     } else {
-    if (genModel.useGenerics() && ((genFeature.isContainer() || genFeature.isResolveProxies()) && !genFeature.isListType() && !(genModel.isReflectiveDelegation() && genModel.isDynamicDelegation()) && genFeature.isUncheckedCast(genClass) || genFeature.isListType() && !genFeature.isFeatureMapType() && (genModel.isReflectiveDelegation() || genModel.isVirtualDelegation() || genModel.isDynamicDelegation()) || genFeature.isListDataType() && genFeature.hasDelegateFeature() || genFeature.isListType() && genFeature.hasSettingDelegate())) {
+    if (genModel.useGenerics() && ((genFeature.isContainer() || genFeature.isResolveProxies()) && !genFeature.isListType() && genFeature.isUncheckedCast(genClass) || genFeature.isListType() && !genFeature.isFeatureMapType() && (genModel.isReflectiveDelegation() || genModel.isVirtualDelegation() || (genModel.isDynamicDelegation() && !genFeature.isVolatile())) || genFeature.isListDataType() && genFeature.hasDelegateFeature() || genFeature.isListType() && genFeature.hasSettingDelegate())) {
     stringBuffer.append(TEXT_402);
     }
     stringBuffer.append(TEXT_403);
@@ -2856,7 +2856,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     stringBuffer.append(TEXT_405);
     }
     stringBuffer.append(TEXT_406);
-    if (genModel.isDynamicDelegation()) {
+    if (genModel.isDynamicDelegation() && !genFeature.isVolatile()) {
     stringBuffer.append(TEXT_407);
     if (!isJDK50 && genFeature.isPrimitiveType()) {
     stringBuffer.append(TEXT_408);
@@ -3270,7 +3270,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     stringBuffer.append(TEXT_587);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_588);
-    if (genModel.isDynamicDelegation()) {
+    if (genModel.isDynamicDelegation() && !genFeature.isVolatile()) {
     stringBuffer.append(TEXT_589);
     stringBuffer.append(genFeature.getImportedType(genClass));
     stringBuffer.append(TEXT_590);
@@ -3597,7 +3597,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     stringBuffer.append(TEXT_729);
     stringBuffer.append(setAccessorOperation == null ? "new" + genFeature.getCapName() : setAccessorOperation.getGenParameters().get(0).getName());
     stringBuffer.append(TEXT_730);
-    if (genModel.isDynamicDelegation()) {
+    if (genModel.isDynamicDelegation() && !genFeature.isVolatile()) {
     stringBuffer.append(TEXT_731);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     if (genClass.hasStaticFeatures()){
@@ -4300,7 +4300,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     stringBuffer.append(TEXT_1031);
     }
     stringBuffer.append(TEXT_1032);
-    if (genModel.isDynamicDelegation()) {
+    if (genModel.isDynamicDelegation() && !genFeature.isVolatile()) {
     stringBuffer.append(TEXT_1033);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     if (genClass.hasStaticFeatures()){
@@ -4702,7 +4702,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     stringBuffer.append(TEXT_1204);
     }
     stringBuffer.append(TEXT_1205);
-    if (genModel.isDynamicDelegation()) {
+    if (genModel.isDynamicDelegation() && !genFeature.isVolatile()) {
     stringBuffer.append(TEXT_1206);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     if (genClass.hasStaticFeatures()){
