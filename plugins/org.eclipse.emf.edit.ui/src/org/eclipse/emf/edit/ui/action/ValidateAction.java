@@ -185,36 +185,36 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     try
     {
       new ProgressMonitorDialog(shell).run(true, true, validationRunnable);
-    }
-    catch (Exception exception)
-    {
-      EMFEditUIPlugin.INSTANCE.log(exception);
-    }
 
-    IRunnableWithProgress createMarkersRunnable =
-      new IRunnableWithProgress()
-      {
-        public void run(final IProgressMonitor progressMonitor) throws InvocationTargetException, InterruptedException
+      IRunnableWithProgress createMarkersRunnable =
+        new IRunnableWithProgress()
         {
-          try
+          public void run(final IProgressMonitor progressMonitor) throws InvocationTargetException, InterruptedException
           {
-            handleDiagnostic(diagnostic[0]);
+            try
+            {
+              handleDiagnostic(diagnostic[0]);
+            }
+            finally
+            {
+              progressMonitor.done();
+            }
           }
-          finally
-          {
-            progressMonitor.done();
-          }
-        }
-      };
-
-    if (eclipseResourcesUtil != null)
-    {
-      createMarkersRunnable = eclipseResourcesUtil.getWorkspaceModifyOperation(createMarkersRunnable);
-    }
-
-    try
-    {
-      new ProgressMonitorDialog(shell).run(false, true, createMarkersRunnable);
+        };
+  
+      if (eclipseResourcesUtil != null)
+      {
+        createMarkersRunnable = eclipseResourcesUtil.getWorkspaceModifyOperation(createMarkersRunnable);
+      }
+  
+      try
+      {
+        new ProgressMonitorDialog(shell).run(false, true, createMarkersRunnable);
+      }
+      catch (Exception exception)
+      {
+        EMFEditUIPlugin.INSTANCE.log(exception);
+      }
     }
     catch (Exception exception)
     {
