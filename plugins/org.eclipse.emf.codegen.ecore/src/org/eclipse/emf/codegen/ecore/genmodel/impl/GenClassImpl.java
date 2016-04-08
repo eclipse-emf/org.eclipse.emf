@@ -3518,7 +3518,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
                 (!hasBody ||
                   !extendsGenClassFeatures.contains(genFeature) &&
                     (genFeature.isVolatile() && !genFeature.hasDelegateFeature() ||
-                      genFeature.getGenClass() != GenClassImpl.this && !genFeature.getGenClass().hasCollidingIsSetAccessorOperation(genFeature))))
+                      genFeature.getGenClass() != GenClassImpl.this && !genFeature.getGenClass().hasCollidingIsSetAccessorOperation(genFeature) && genOperation.getGenClass() != GenClassImpl.this)))
           {
             return false;
           }
@@ -3535,7 +3535,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
                 (!hasBody ||
                     !extendsGenClassFeatures.contains(genFeature) &&
                       (genFeature.isVolatile() && (!genFeature.isResolveProxies() || genFeature.isListType()) && !genFeature.hasDelegateFeature() ||
-                        genFeature.getGenClass() != GenClassImpl.this && !genFeature.getGenClass().hasCollidingGetAccessorOperation(genFeature))))
+                        genFeature.getGenClass() != GenClassImpl.this && !genFeature.getGenClass().hasCollidingGetAccessorOperation(genFeature) && genOperation.getGenClass() != GenClassImpl.this)))
           {
             return false;
           }
@@ -3553,7 +3553,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
                 (!hasBody ||
                   !extendsGenClassFeatures.contains(genFeature) &&
                    (genFeature.isVolatile() && !genFeature.hasDelegateFeature() ||
-                     genFeature.getGenClass() != GenClassImpl.this && !genFeature.getGenClass().hasCollidingSetAccessorOperation(genFeature))))
+                     genFeature.getGenClass() != GenClassImpl.this && !genFeature.getGenClass().hasCollidingSetAccessorOperation(genFeature) && genOperation.getGenClass() != GenClassImpl.this)))
           {
             return false;
           }
@@ -3569,7 +3569,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
                 (!hasBody ||
                   !extendsGenClassFeatures.contains(genFeature) &&
                     (genFeature.isVolatile() && !genFeature.hasDelegateFeature() ||
-                       genFeature.getGenClass() != GenClassImpl.this && !genFeature.getGenClass().hasCollidingUnsetAccessorOperation(genFeature))))
+                       genFeature.getGenClass() != GenClassImpl.this && !genFeature.getGenClass().hasCollidingUnsetAccessorOperation(genFeature) && genOperation.getGenClass() != GenClassImpl.this)))
           {
             return false;
           }
