@@ -1278,10 +1278,16 @@ public class EObjectValidator implements EValidator
 
       if (effectiveTotalDigits != -1)
       {
-        if (value instanceof BigDecimal && ((BigDecimal)value).unscaledValue().abs().toString().length() > effectiveTotalDigits)
+        if (value instanceof BigDecimal)
         {
-          if (diagnostics != null) reportTotalDigitsViolation(eDataType, value, effectiveTotalDigits, diagnostics, context);
-          result = false;
+          BigDecimal bigDecimal = (BigDecimal)value;
+          int scale = bigDecimal.scale();
+          int totalDigits = scale < 0 ? bigDecimal.precision() - scale : bigDecimal.precision();
+          if (totalDigits > effectiveTotalDigits)
+          {
+            if (diagnostics != null) reportTotalDigitsViolation(eDataType, value, effectiveTotalDigits, diagnostics, context);
+            result = false;
+          }
         }
       }
 

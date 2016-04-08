@@ -308,7 +308,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertDecimal(BigDecimal instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    return instanceValue == null ? null : instanceValue.toPlainString();
   }
 
   /**
@@ -2221,7 +2221,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertDecimalToString(EDataType eDataType, Object instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    return instanceValue == null ? null : ((BigDecimal)instanceValue).toPlainString();
   }
 
   /**

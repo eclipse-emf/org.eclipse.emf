@@ -455,7 +455,9 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 			reportTotalDigitsViolation(<%=genDataType.getQualifiedClassifierAccessor()%>, <%=genDataType.getSafeUncapName()%>, <%=genDataType.getTotalDigits()%>, <%=diagnostics%>, <%=context%>);
 <%}%>
 <%} else if ("java.math.BigDecimal".equals(genDataType.getQualifiedInstanceClassName())) {%>
-		boolean <%=result%> = <%=genDataType.getSafeUncapName()%>.unscaledValue().abs().toString().length() <= <%=genDataType.getTotalDigits()%>;
+		int scale = <%=genDataType.getSafeUncapName()%>.scale();
+		int totalDigits = scale < 0 ? <%=genDataType.getSafeUncapName()%>.precision() - scale : <%=genDataType.getSafeUncapName()%>.precision();
+		boolean <%=result%> = totalDigits <= <%=genDataType.getTotalDigits()%>;
 		if (!<%=result%> && <%=diagnostics%> != null)
 			reportTotalDigitsViolation(<%=genDataType.getQualifiedClassifierAccessor()%>, <%=genDataType.getSafeUncapName()%>, <%=genDataType.getTotalDigits()%>, <%=diagnostics%>, <%=context%>);
 <%} else {%>
