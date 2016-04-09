@@ -133,8 +133,15 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
       XClass xClass = (XClass)eContainer;
       XClassMapping mapping = mapper.getMapping(xClass);
       JvmGenericType jvmGenericType = mapping.getInterfaceType();
-      EList<JvmTypeParameter> typeParameters = jvmGenericType.getTypeParameters();
-      return getJvmTypeScope(context, reference, typeParameters);
+      if (jvmGenericType == null)
+      {
+        return typeScopeProvider.getScope(context, reference);
+      }
+      else
+      {
+        EList<JvmTypeParameter> typeParameters = jvmGenericType.getTypeParameters();
+        return getJvmTypeScope(context, reference, typeParameters);
+      }
     }
     else if (eContainer == null)
     {
