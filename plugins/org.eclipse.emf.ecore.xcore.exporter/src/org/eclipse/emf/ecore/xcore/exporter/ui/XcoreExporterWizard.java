@@ -18,6 +18,8 @@ import org.eclipse.emf.exporter.ui.contribution.base.ModelExporterDirectoryURIPa
 import org.eclipse.emf.exporter.ui.contribution.base.ModelExporterOptionsPage;
 import org.eclipse.emf.exporter.ui.contribution.base.ModelExporterPackagePage;
 import org.eclipse.emf.exporter.ui.contribution.base.ModelExporterWizard;
+import org.eclipse.swt.custom.BusyIndicator;
+import org.eclipse.swt.widgets.Shell;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -65,6 +67,18 @@ public class XcoreExporterWizard extends ModelExporterWizard
     {
       result = super.performFinish();
     }
+
+    Shell shell = getShell();
+    shell.setEnabled(false);
+    BusyIndicator.showWhile(shell.getDisplay(), new Runnable()
+      {
+        @Override
+        public void run()
+        {
+          ((XcoreExporter)getModelConverter()).waitForSaveJob();
+        }
+      });
+
     return result;
   }
   

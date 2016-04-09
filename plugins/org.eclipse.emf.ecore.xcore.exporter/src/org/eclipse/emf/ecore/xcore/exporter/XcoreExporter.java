@@ -24,9 +24,13 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
@@ -83,6 +87,7 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.ui.XtextProjectHelper;
+import org.eclipse.xtext.util.RuntimeIOException;
 import org.eclipse.xtext.xbase.formatting.FormattingPreferenceValues;
 import org.eclipse.xtext.xbase.formatting.IBasicFormatter;
 import org.eclipse.xtext.xbase.formatting.IFormattingPreferenceValuesProvider;
@@ -94,6 +99,8 @@ import com.google.inject.Provider;
 
 public class XcoreExporter extends ModelExporter
 {
+  private static String SAVE_FAMILY = "Save";
+  
   public static Diagnostic RETRY = new BasicDiagnostic();
 
   @Inject
@@ -200,6 +207,7 @@ public class XcoreExporter extends ModelExporter
       return RETRY;
     }
 
+    final List<Runnable> runnables = new ArrayList<Runnable>();
     for (Map.Entry<GenPackage, URI> entry : exportData.genPackageToArtifactURI.entrySet())
     {
       GenPackage genPackage = entry.getKey();
@@ -429,13 +437,11 @@ public class XcoreExporter extends ModelExporter
       final Map<Object, Object> options = new HashMap<Object, Object>();
       SaveOptions.newBuilder().format().noValidation().getOptions().addTo(options);
 
-      // Do this in a job so that Xtext nature we added has a chance to build the index needed by the serializer.
-      //
-      Job job =
-        new Job("Save")
+      Runnable runnable =
+        new Runnable()
         {
           @Override
-          protected IStatus run(IProgressMonitor monitor)
+          public void run()
           {
             try
             {
@@ -480,14 +486,66 @@ public class XcoreExporter extends ModelExporter
             }
             catch (IOException exception)
             {
-              return Status.CANCEL_STATUS;
+              throw new RuntimeIOException(exception);
             }
-            return Status.OK_STATUS;
           }
         };
-      job.schedule();
+      runnables.add(runnable);
     }
+
+    // Do this in a job so that Xtext nature we added has a chance to build the index needed by the serializer.
+    //
+    Job job =
+      new Job("Save")
+      {
+        @Override
+        public boolean belongsTo(Object family)
+        {
+          return family == SAVE_FAMILY;
+        }
+        
+        @Override
+        protected IStatus run(IProgressMonitor monitor)
+        {
+          try
+          {
+            IWorkspace workspace = ResourcesPlugin.getWorkspace();
+            IWorkspaceRunnable runnable =
+               new IWorkspaceRunnable()
+              {
+                @Override
+                public void run(IProgressMonitor monitor) throws CoreException
+                {
+                  for (Runnable runnable : runnables)
+                  {
+                    runnable.run();
+                  }
+                }
+              };
+            workspace.run(runnable, null, IWorkspace.AVOID_UPDATE, null);
+            return Status.OK_STATUS;
+          }
+          catch (Exception exception)
+          {
+            return Status.CANCEL_STATUS;
+          }
+        }
+      };
+    job.schedule();
+
     return Diagnostic.OK_INSTANCE;
+  }
+  
+  public void waitForSaveJob()
+  {
+    try
+    {
+      Job.getJobManager().join(SAVE_FAMILY, new NullProgressMonitor());
+    }
+    catch (Throwable e)
+    {
+      // Ignore
+    }
   }
 
   protected URI getReferencedGenPackageArtifactURI(ModelExporter.ExportData exportData, GenPackage genPackage)

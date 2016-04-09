@@ -137,6 +137,8 @@ class XcoreFormatter extends XbaseFormatter2
 
   def protected dispatch void format(XDataType xDataType, FormattableDocument format)
   {
+    formatAnnotations(xDataType.annotations, format)
+
     val leftAngleBracket = xDataType.nodeForKeyword('<')
     if (leftAngleBracket != null)
     {

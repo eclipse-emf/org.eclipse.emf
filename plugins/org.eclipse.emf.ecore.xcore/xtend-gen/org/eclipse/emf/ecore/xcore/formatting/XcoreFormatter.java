@@ -315,6 +315,8 @@ public class XcoreFormatter extends XbaseFormatter2 {
   }
   
   protected void _format(final XDataType xDataType, final FormattableDocument format) {
+    EList<XAnnotation> _annotations = xDataType.getAnnotations();
+    this.formatAnnotations(_annotations, format);
     final ILeafNode leftAngleBracket = this._nodeModelAccess.nodeForKeyword(xDataType, "<");
     boolean _notEquals = (!Objects.equal(leftAngleBracket, null));
     if (_notEquals) {
