@@ -125,8 +125,15 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
       XOperation xOperation = (XOperation)eContainer;
       XOperationMapping mapping = mapper.getMapping(xOperation);
       JvmOperation jvmOperation = mapping.getJvmOperation();
-      EList<JvmTypeParameter> typeParameters = jvmOperation.getTypeParameters();
-      return getJvmTypeScope(context, reference, typeParameters);
+      if (jvmOperation == null)
+      {
+        return typeScopeProvider.getScope(eContainer, reference);
+      }
+      else
+      {
+        EList<JvmTypeParameter> typeParameters = jvmOperation.getTypeParameters();
+        return getJvmTypeScope(context, reference, typeParameters);
+      }
     }
     else if (eContainer instanceof XClass)
     {
@@ -135,7 +142,7 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
       JvmGenericType jvmGenericType = mapping.getInterfaceType();
       if (jvmGenericType == null)
       {
-        return typeScopeProvider.getScope(context, reference);
+        return typeScopeProvider.getScope(eContainer, reference);
       }
       else
       {
