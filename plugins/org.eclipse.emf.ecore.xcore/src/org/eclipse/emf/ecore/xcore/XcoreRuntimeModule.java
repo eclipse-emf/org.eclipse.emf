@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionManager;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionStrategy;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreScopeProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreSerializerScopeProvider;
+import org.eclipse.emf.ecore.xcore.serializer.XcoreCrossReferenceSerializer;
 import org.eclipse.emf.ecore.xcore.validation.XcoreAwareMessageProvider;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnosticConverter;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnostician;
@@ -50,6 +51,7 @@ import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.serializer.ISerializer;
 import org.eclipse.xtext.serializer.impl.Serializer;
+import org.eclipse.xtext.serializer.tokens.CrossReferenceSerializer;
 import org.eclipse.xtext.serializer.tokens.SerializerScopeProviderBinding;
 import org.eclipse.xtext.service.SingletonBinding;
 import org.eclipse.xtext.validation.IDiagnosticConverter;
@@ -229,7 +231,14 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   {
     return XcoreReferenceFinder.class;
   }
-	public Class<? extends ILinkingDiagnosticMessageProvider> bindILinkingDiagnosticMessageProvider() {
-		return XcoreAwareMessageProvider.class;
-	}
+  
+  public Class<? extends ILinkingDiagnosticMessageProvider> bindILinkingDiagnosticMessageProvider() 
+  {
+    return XcoreAwareMessageProvider.class;
+  }
+
+  public Class<? extends CrossReferenceSerializer> bindCrossReferenceSerializer() 
+  {
+    return XcoreCrossReferenceSerializer.class;
+  }
 }
