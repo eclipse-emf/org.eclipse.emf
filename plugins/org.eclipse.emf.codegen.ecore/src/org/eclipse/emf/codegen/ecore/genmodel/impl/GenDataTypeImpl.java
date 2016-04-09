@@ -1023,8 +1023,24 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
     {
       String namespace = extendedMetaData.getNamespace(eDataType);
-      if (EcorePackage.eNS_URI.equals(namespace) || XMLTypePackage.eNS_URI.equals(namespace))
+      if (EcorePackage.eNS_URI.equals(namespace))
       {
+        if (eDataType.getEPackage() != EcorePackage.eINSTANCE)
+        {
+          return (EDataType)EcorePackage.eINSTANCE.getEClassifier(eDataType.getName());
+          
+        }
+
+        return eDataType;
+      }
+
+      if (XMLTypePackage.eNS_URI.equals(namespace))
+      {
+        if (eDataType.getEPackage() != XMLTypePackage.eINSTANCE)
+        {
+          return (EDataType)XMLTypePackage.eINSTANCE.getEClassifier(eDataType.getName());
+        }
+
         return eDataType;
       }
     }
