@@ -7,8 +7,6 @@
 	
 	<locator pattern="^((?!org\.eclipse\.emf).)*$" searchPathRef="rap" failOnError="true" />
 
-	<!-- refer the resolution to the base RMAP to resolve the emf.rap.sdk-->
-	<redirect href="../emf.base.rmap" pattern="^org\.eclipse\.emf\.rap(?:\..+)?$" /> 
 	
 	<searchPath name="emf.base">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
@@ -67,7 +65,7 @@
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false"
 			resolutionFilter="(resolve.target.platform=true)"
 		>
-			<uri format="{0}/rt/rap/nightly/runtime/">
+			<uri format="{0}downloads/rt/rap/3.0/SR2-20160201-1220/">
 				<bc:propertyRef key="eclipse.download" />
 			</uri>
 		</provider>
