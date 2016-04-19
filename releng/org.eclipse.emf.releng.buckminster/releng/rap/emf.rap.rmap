@@ -6,6 +6,8 @@
 	<locator pattern="^org\.eclipse\.emf\.(?:base|common|ecore|ecore\.xmi|ecore\.change)(?:\.source)?$" searchPathRef="emf.base" failOnError="true" />
 	
 	<locator pattern="^((?!org\.eclipse\.emf).)*$" searchPathRef="rap" failOnError="true" />
+	<!-- refer the resolution to the base RMAP to resolve the emf.rap.sdk-->
+	<redirect href="../emf.base.rmap" pattern="^org\.eclipse\.emf\.rap(?:\..+)?$" /> 
 
 	
 	<searchPath name="emf.base">

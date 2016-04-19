@@ -17,7 +17,7 @@
     </description>
 
 	<!-- Local Xtext git repository -->
-	<property name="checkout.location" value="${user.home}/git/emf-master/" />
+	<property name="checkout.location" value="${user.home}/git/org.eclipse.emf-master/" />
 	<property name="releng.proj.loc" value="${checkout.location}/releng/org.eclipse.emf.releng.buckminster" />
 	<!-- Buckminster headless 3.7 to use. See http://www.eclipse.org/buckminster/downloads.html -->
 	<property name="buckminster.home" location="${user.home}/buckminster" />
@@ -74,11 +74,12 @@
 	<target name="start-build" depends="-cleanup" description="description">
 		<exec executable="${buckminster.home}/buckminster">
 			<arg value="-Declipse.p2.mirrors=false" />
+			<arg value="-Dgoogle.web.toolkit.repository=http://archive.eclipse.org/modeling/emf/emf/gwt/4.3/" />
 			<arg value="-DBUILD_TYPE=${BUILD_TYPE}" />
 			<arg value="-DWORKSPACE=${WORKSPACE}" />
 			<arg value="-Dgit.clones.root=${user.home}/git" />
 			<arg value="-Dreleng.proj.loc=${releng.proj.loc}" />
-			<arg value="-Dcheckout.location=${checkout.location}" />
+			<arg value="-Dcheckout.location=${checkout.location}/releng/" />
 			<arg value="-Declipse.target.platform=${ECLIPSE.TARGET.ALIAS}" />
 			<arg line="-data ${WORKSPACE}/buckminster.workspace" />
 			<arg line="-configuration ${WORKSPACE}/configuration" />
