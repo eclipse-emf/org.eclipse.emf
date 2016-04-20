@@ -4,9 +4,9 @@ setpref complianceLevel=1.5
 setpref targetPlatformPath="${WORKSPACE}/buildroot/target.platform"
 
 # Import all but rap.sdk cause it has a bad dependency to eclipse 3.8
-import -DuseMirror=false -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true  -Dwithout.rap=true "${checkout.location}org.eclipse.emf.releng.buckminster/releng/emf-all.mspec"
+import -DuseMirror=true -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true  -Dwithout.rap=true "${checkout.location}org.eclipse.emf.releng.buckminster/releng/emf-all.mspec"
 # Import sources produced by the EMF Base build into the target platform
-import -DuseMirror=false -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true "${checkout.location}org.eclipse.emf.releng.buckminster/releng/emf-platform.base.sources.cquery"
+import -DuseMirror=true -Dbuild.type=${BUILD_TYPE} -Dwithout.gdt=true "${checkout.location}org.eclipse.emf.releng.buckminster/releng/emf-platform.base.sources.cquery"
 build
 
 junit --launch "org.eclipse.emf.test.core/Test EMF Core.launch" --flatXML --output "${WORKSPACE}/build-result/test-results/Test EMF Core.xml"
