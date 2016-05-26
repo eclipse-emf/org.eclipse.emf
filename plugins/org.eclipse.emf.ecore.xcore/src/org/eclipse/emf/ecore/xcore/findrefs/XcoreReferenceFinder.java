@@ -21,12 +21,17 @@ import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.util.Tuples;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 
 public class XcoreReferenceFinder extends ReferenceFinder
 {
-  @Override
-  protected void findLocalReferencesFromElement(TargetURIs targetURIs, EObject sourceCandidate, Resource localResource,
+  /**
+  * @inheritDoc
+  * 
+  * Xtext 2.10.x
+  */
+  protected void findLocalReferencesFromElement(Predicate<URI> targetURIs, EObject sourceCandidate, Resource localResource,
       Acceptor acceptor)
   {
     super.findLocalReferencesFromElement(targetURIs, sourceCandidate, localResource, new DuplicateFilter(acceptor));
