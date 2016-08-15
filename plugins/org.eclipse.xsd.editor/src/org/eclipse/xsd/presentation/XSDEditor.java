@@ -39,7 +39,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -111,6 +110,7 @@ import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.ui.ViewerPane;
 import org.eclipse.emf.common.ui.celleditor.ExtendedComboBoxCellEditor;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -1046,7 +1046,7 @@ public class XSDEditor
 
             if (determineEncoding() != null && getEditorInput() instanceof IFileEditorInput)
             {
-              ((IFileEditorInput)getEditorInput()).getFile().setCharset(determineEncoding(), new SubProgressMonitor(progressMonitor, 2));
+              ((IFileEditorInput)getEditorInput()).getFile().setCharset(determineEncoding(), BasicMonitor.subProgress(progressMonitor, 2));
             }
 
             progressMonitor.worked(1);

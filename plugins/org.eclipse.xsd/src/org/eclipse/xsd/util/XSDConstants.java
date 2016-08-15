@@ -1382,7 +1382,6 @@ public class XSDConstants
     String namespaceAttribute = "xmlns";
     if (index != -1)
     {
-      @SuppressWarnings("null")
       String prefix = qName.substring(0, index);
       if (prefix.equals("xml"))
       {
