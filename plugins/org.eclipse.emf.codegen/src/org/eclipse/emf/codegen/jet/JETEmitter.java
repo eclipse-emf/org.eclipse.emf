@@ -55,7 +55,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IClasspathAttribute;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaModel;
@@ -631,7 +630,7 @@ public class JETEmitter
   
         if (!javaModel.isOpen())
         {
-          javaModel.open(new SubProgressMonitor(progressMonitor, 1));
+          javaModel.open(BasicMonitor.subProgress(progressMonitor, 1));
         }
         else
         {
@@ -646,14 +645,14 @@ public class JETEmitter
         if (!project.exists())
         {
           progressMonitor.subTask("JET creating project " + project.getName());
-          project.create(new SubProgressMonitor(progressMonitor, 1));
+          project.create(BasicMonitor.subProgress(progressMonitor, 1));
           progressMonitor.subTask
             (CodeGenPlugin.getPlugin().getString("_UI_JETCreatingProject_message", new Object [] { project.getName() }));
           IProjectDescription description = workspace.newProjectDescription(project.getName());
           description.setNatureIds(new String [] { JavaCore.NATURE_ID });
           description.setLocation(null);
-          project.open(new SubProgressMonitor(progressMonitor, 1));
-          project.setDescription(description, new SubProgressMonitor(progressMonitor, 1));
+          project.open(BasicMonitor.subProgress(progressMonitor, 1));
+          project.setDescription(description, BasicMonitor.subProgress(progressMonitor, 1));
           javaProject = JavaCore.create(project);
 
           for (Map.Entry<String, String> option : jetEmitter.getJavaOptions().entrySet())
@@ -663,10 +662,10 @@ public class JETEmitter
         }
         else
         {
-          project.open(new SubProgressMonitor(progressMonitor, 5));
+          project.open(BasicMonitor.subProgress(progressMonitor, 5));
           IProjectDescription description = project.getDescription();
           description.setNatureIds(new String [] { JavaCore.NATURE_ID });
-          project.setDescription(description, new SubProgressMonitor(progressMonitor, 1));
+          project.setDescription(description, BasicMonitor.subProgress(progressMonitor, 1));
           javaProject = JavaCore.create(project);
         }
 
@@ -699,23 +698,23 @@ public class JETEmitter
         IFolder sourceFolder = project.getFolder(new Path("src"));
         if (!sourceFolder.exists())
         {
-          sourceFolder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
+          sourceFolder.create(false, true, BasicMonitor.subProgress(progressMonitor, 1));
         }
         IFolder runtimeFolder = project.getFolder(new Path("bin"));
         if (!runtimeFolder.exists())
         {
-          runtimeFolder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
+          runtimeFolder.create(false, true, BasicMonitor.subProgress(progressMonitor, 1));
         }
   
-        javaProject.setRawClasspath(classpath.toArray(new IClasspathEntry[classpath.size()]), new SubProgressMonitor(progressMonitor, 1));
+        javaProject.setRawClasspath(classpath.toArray(new IClasspathEntry[classpath.size()]), BasicMonitor.subProgress(progressMonitor, 1));
   
-        javaProject.setOutputLocation(new Path("/" + project.getName() + "/bin"), new SubProgressMonitor(progressMonitor, 1));
+        javaProject.setOutputLocation(new Path("/" + project.getName() + "/bin"), BasicMonitor.subProgress(progressMonitor, 1));
   
         javaProject.close();
   
         progressMonitor.subTask
           (CodeGenPlugin.getPlugin().getString("_UI_JETOpeningJavaProject_message", new Object [] { project.getName() }));
-        javaProject.open(new SubProgressMonitor(progressMonitor, 1));
+        javaProject.open(BasicMonitor.subProgress(progressMonitor, 1));
   
         IPackageFragmentRoot [] packageFragmentRoots = javaProject.getPackageFragmentRoots();
         IPackageFragmentRoot sourcePackageFragmentRoot = null;
@@ -730,7 +729,7 @@ public class JETEmitter
         }
   
         StringTokenizer stringTokenizer = new StringTokenizer(packageName, ".");
-        IProgressMonitor subProgressMonitor = new SubProgressMonitor(progressMonitor, 1);
+        IProgressMonitor subProgressMonitor = BasicMonitor.subProgress(progressMonitor, 1);
         subProgressMonitor.beginTask("", stringTokenizer.countTokens() + 4);
         subProgressMonitor.subTask(CodeGenPlugin.getPlugin().getString("_UI_CreateTargetFile_message"));
         IContainer sourceContainer = sourcePackageFragmentRoot == null ? project : (IContainer)sourcePackageFragmentRoot.getCorrespondingResource();
@@ -740,7 +739,7 @@ public class JETEmitter
           sourceContainer = sourceContainer.getFolder(new Path(folderName));
           if (!sourceContainer.exists())
           {
-            ((IFolder)sourceContainer).create(false, true, new SubProgressMonitor(subProgressMonitor, 1));
+            ((IFolder)sourceContainer).create(false, true, BasicMonitor.subProgress(subProgressMonitor, 1));
           }
         }
         IFile targetFile = sourceContainer.getFile(new Path(jetCompiler.getSkeleton().getClassName() + ".java"));
@@ -748,18 +747,18 @@ public class JETEmitter
         {
           subProgressMonitor.subTask
             (CodeGenPlugin.getPlugin().getString("_UI_JETCreating_message", new Object [] { targetFile.getFullPath() }));
-          targetFile.create(contents, true, new SubProgressMonitor(subProgressMonitor, 1));
+          targetFile.create(contents, true, BasicMonitor.subProgress(subProgressMonitor, 1));
         }
         else
         {
           subProgressMonitor.subTask
             (CodeGenPlugin.getPlugin().getString("_UI_JETUpdating_message", new Object [] { targetFile.getFullPath() }));
-          targetFile.setContents(contents, true, true, new SubProgressMonitor(subProgressMonitor, 1));
+          targetFile.setContents(contents, true, true, BasicMonitor.subProgress(subProgressMonitor, 1));
         }
 
         subProgressMonitor.subTask
           (CodeGenPlugin.getPlugin().getString("_UI_JETBuilding_message", new Object [] { project.getName() }));
-        project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new SubProgressMonitor(subProgressMonitor, 1));
+        project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, BasicMonitor.subProgress(subProgressMonitor, 1));
   
         IMarker [] markers = targetFile.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
         boolean errors = false;

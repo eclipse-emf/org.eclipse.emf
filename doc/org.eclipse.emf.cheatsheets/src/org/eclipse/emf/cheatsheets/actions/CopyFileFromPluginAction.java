@@ -30,7 +30,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -40,6 +39,7 @@ import org.eclipse.ui.cheatsheets.ICheatSheetAction;
 import org.eclipse.ui.cheatsheets.ICheatSheetManager;
 
 import org.eclipse.emf.cheatsheets.CheatSheetsPlugin;
+import org.eclipse.emf.common.util.BasicMonitor;
 
 
 /**
@@ -127,12 +127,12 @@ public class CopyFileFromPluginAction extends Action implements ICheatSheetActio
     if (isJavaProject)
     {
       NewJavaProjectAction newJavaProjectAction = new NewJavaProjectAction();
-      project = newJavaProjectAction.createProject(projectName, new SubProgressMonitor(monitor, 1));
+      project = newJavaProjectAction.createProject(projectName, BasicMonitor.subProgress(monitor, 1));
     }
     else
     {
       NewProjectAction newProjectAction = new NewProjectAction();
-      project = newProjectAction.createProject(projectName, new SubProgressMonitor(monitor, 1));
+      project = newProjectAction.createProject(projectName, BasicMonitor.subProgress(monitor, 1));
     }
     monitor.done();
     return project;
@@ -161,7 +161,7 @@ public class CopyFileFromPluginAction extends Action implements ICheatSheetActio
       try
       {
         InputStream in = FileLocator.openStream(bundle, new Path(sourceFilePath), false);
-        targetFile.create(in, true, new SubProgressMonitor(monitor, 1));
+        targetFile.create(in, true, BasicMonitor.subProgress(monitor, 1));
         in.close();
       }
       catch (IOException e)
@@ -226,7 +226,7 @@ public class CopyFileFromPluginAction extends Action implements ICheatSheetActio
         folder = project.getFolder(folderPath);
         if (!folder.exists())
         {
-          folder.create(true, true, new SubProgressMonitor(monitor, 1));
+          folder.create(true, true, BasicMonitor.subProgress(monitor, 1));
         }
       }
     }

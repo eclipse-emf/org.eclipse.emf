@@ -46,6 +46,8 @@ public class TestValidateAction
 {
   public static class MyValidateAction extends ValidateAction
   {
+    private static final long serialVersionUID = 1L;
+
     public MyValidateAction()
     {
       this.domain = new AdapterFactoryEditingDomain(new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE), new BasicCommandStack());

@@ -18,7 +18,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JImport;
 /**
  * @since 2.2.0
  */
-@SuppressWarnings({"deprecation", "unchecked"})
+@SuppressWarnings("deprecation")
 public class JDOMJImport extends JDOMJNode implements JImport
 {
   public JDOMJImport(IDOMImport imp)

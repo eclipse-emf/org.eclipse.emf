@@ -15,7 +15,6 @@ import java.io.PrintStream;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IProgressMonitorWithBlocking;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.SubProgressMonitor;
 
 
 /**
@@ -218,6 +217,15 @@ public class BasicMonitor implements Monitor
   }
   
   /**
+   * Create a progress monitor that consumes the specified number of ticks.
+   * @since 2.13
+   */
+  public static IProgressMonitorWithBlocking subProgress(IProgressMonitor monitor, int ticks)
+  {
+    return new EclipseSubProgress(monitor, ticks);
+  }
+  
+  /**
    * A simple monitor that delegates to another Eclipse monitor.
    */
   private static class EclipseDelegating implements Monitor
@@ -318,7 +326,8 @@ public class BasicMonitor implements Monitor
   /**
    * An Eclipse subprogress monitor that directly implements the monitor API.
    */
-  public static class EclipseSubProgress extends SubProgressMonitor implements Monitor
+  @SuppressWarnings("deprecation")
+  public static class EclipseSubProgress extends org.eclipse.core.runtime.SubProgressMonitor implements Monitor
   {
     public EclipseSubProgress(IProgressMonitor monitor, int ticks)
     {

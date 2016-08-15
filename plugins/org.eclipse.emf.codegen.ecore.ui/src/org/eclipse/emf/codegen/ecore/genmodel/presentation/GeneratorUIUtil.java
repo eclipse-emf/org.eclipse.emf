@@ -26,7 +26,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jface.operation.IRunnableContext;
@@ -179,7 +178,7 @@ public class GeneratorUIUtil
               generatorAndArguments[1], 
               generatorAndArguments[2], 
               (String)generatorAndArguments[3], 
-              BasicMonitor.toMonitor(new SubProgressMonitor(progressMonitor, 1))));
+              BasicMonitor.toMonitor(BasicMonitor.subProgress(progressMonitor, 1))));
               
           if (!canContinue(diagnostic))
           {

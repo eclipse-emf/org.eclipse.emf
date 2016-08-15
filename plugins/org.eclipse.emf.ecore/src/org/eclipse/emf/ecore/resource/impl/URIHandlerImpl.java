@@ -266,8 +266,7 @@ public class URIHandlerImpl implements URIHandler
   /**
    * This implementation delegates to the {@link #getURIConverter(Map) URI converter}'s {@link URIConverter#getContentHandlers() content handlers}.
    */
-  @SuppressWarnings("null")
-public Map<String, ?> contentDescription(URI uri, Map<?, ?> options) throws IOException
+  public Map<String, ?> contentDescription(URI uri, Map<?, ?> options) throws IOException
   {
     URIConverter uriConverter = (URIConverter)options.get(URIConverter.OPTION_URI_CONVERTER);
     InputStream inputStream = null;

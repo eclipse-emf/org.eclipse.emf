@@ -2312,7 +2312,6 @@ public class BasicFeatureMap
       {
         if (isNotificationRequired())
         {
-          @SuppressWarnings("null")
           NotificationImpl notification =
             feature.isMany() ?
               createNotification

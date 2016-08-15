@@ -24,7 +24,6 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -58,6 +57,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
 import org.eclipse.emf.codegen.ecore.genmodel.presentation.GeneratorUIUtil;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
 import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
+import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 
@@ -258,8 +258,8 @@ public class GenerateHandler extends AbstractHandler
         
         IProgressMonitor progressMonitor = statusLineManager.getProgressMonitor();
         progressMonitor.beginTask("", 10);
-        List<URI> uris = getGenModelURIs(new SubProgressMonitor(progressMonitor, 3, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK), getResult());
-        List<GenModel> genModels = GeneratorUIUtil.loadGenModels(new SubProgressMonitor(progressMonitor, 7), uris, getShell());
+        List<URI> uris = getGenModelURIs(BasicMonitor.subProgress(progressMonitor, 3), getResult());
+        List<GenModel> genModels = GeneratorUIUtil.loadGenModels(BasicMonitor.subProgress(progressMonitor, 7), uris, getShell());
         progressMonitor.done();
         
         if (!genModels.isEmpty())

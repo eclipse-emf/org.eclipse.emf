@@ -20,9 +20,9 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.common.util.BasicMonitor;
 
 
 public class JETAddNatureOperation implements IWorkspaceRunnable 
@@ -64,7 +64,7 @@ public class JETAddNatureOperation implements IWorkspaceRunnable
         System.arraycopy(natures, 0, newNatures, 1, natures.length);
         newNatures[0] = IJETNature.NATURE_ID;
         description.setNatureIds(newNatures);
-        project.setDescription(description, new SubProgressMonitor(monitor, 1));
+        project.setDescription(description, BasicMonitor.subProgress(monitor, 1));
       }
 
       monitor.done();

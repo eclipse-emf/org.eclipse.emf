@@ -39,7 +39,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.jdt.core.IClasspathEntry;
@@ -365,7 +364,7 @@ public class Generator extends CodeGen
                          true,
                          targetRootDirectory,
                          //DMS Why not this?
-                         //new SubProgressMonitor(progressMonitor, 1));
+                         //BasicMonitor.subProgress(progressMonitor, 1));
                          BasicMonitor.toIProgressMonitor(CodeGenUtil.EclipseUtil.createMonitor(progressMonitor, 1)));
                     }
                     // This is to handle a genmodel produced by rose2genmodel.
@@ -725,13 +724,13 @@ public class Generator extends CodeGen
           {
             projectDescription.setLocationURI(new java.net.URI(projectLocationURI.toString()));
           }
-          project.create(projectDescription, new SubProgressMonitor(progressMonitor, 1));
-          project.open(new SubProgressMonitor(progressMonitor, 1));
+          project.create(projectDescription, BasicMonitor.subProgress(progressMonitor, 1));
+          project.open(BasicMonitor.subProgress(progressMonitor, 1));
         }
         else
         {
           projectDescription = project.getDescription();
-          project.open(new SubProgressMonitor(progressMonitor, 1));
+          project.open(BasicMonitor.subProgress(progressMonitor, 1));
           if (project.hasNature(JavaCore.NATURE_ID))
           {
             classpathEntries.addAll(Arrays.asList(javaProject.getRawClasspath()));
@@ -833,7 +832,7 @@ public class Generator extends CodeGen
             System.arraycopy(oldBuilders, enhancerBuilderIndex + 1, builders, enhancerBuilderIndex, oldBuilders.length - enhancerBuilderIndex - 1);
           }
           projectDescription.setBuildSpec(builders);
-          project.setDescription(projectDescription, new SubProgressMonitor(progressMonitor, 1));
+          project.setDescription(projectDescription, BasicMonitor.subProgress(progressMonitor, 1));
 
           IContainer sourceContainer = project;
           if (javaSource.segmentCount() > 1)
@@ -847,7 +846,7 @@ public class Generator extends CodeGen
                 sourceContainer = project.getFolder(sourceContainerPath.removeLastSegments(i));
                 if (!sourceContainer.exists())
                 {
-                  ((IFolder)sourceContainer).create(false, true, new SubProgressMonitor(progressMonitor, 1));
+                  ((IFolder)sourceContainer).create(false, true, BasicMonitor.subProgress(progressMonitor, 1));
                 }
               }
             }
@@ -1003,14 +1002,14 @@ public class Generator extends CodeGen
 
           javaProject.setRawClasspath
             (classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]),
-             new SubProgressMonitor(progressMonitor, 1));
+             BasicMonitor.subProgress(progressMonitor, 1));
         }
 
         if (isInitiallyEmpty)
         {
           javaProject.setOutputLocation
             (new Path("/" + javaSource.segment(0) + (((style & EMF_GWT_PROJECT_STYLE) != 0) && ((style & EMF_EDITOR_PROJECT_STYLE) != 0) ? "/war/WEB-INF/classes" : "/bin")),
-             new SubProgressMonitor(progressMonitor, 1));
+             BasicMonitor.subProgress(progressMonitor, 1));
         }
       }
       catch (Exception exception)
@@ -1042,7 +1041,7 @@ public class Generator extends CodeGen
            true,
            modelProjectLocation,
            //DMS Why not this?
-           //new SubProgressMonitor(progressMonitor, 1));
+           //BasicMonitor.subProgress(progressMonitor, 1));
            BasicMonitor.toIProgressMonitor(CodeGenUtil.createMonitor(progressMonitor, 1)));
 
         return projectRelativePath.makeAbsolute().toString();
@@ -1073,7 +1072,7 @@ public class Generator extends CodeGen
                true,
                modelProjectLocation,
                //DMS Why not this?
-               //new SubProgressMonitor(progressMonitor, 1));
+               //BasicMonitor.subProgress(progressMonitor, 1));
                BasicMonitor.toIProgressMonitor(CodeGenUtil.createMonitor(progressMonitor, 1)));
 
             return projectRelativePath.makeAbsolute().toString();

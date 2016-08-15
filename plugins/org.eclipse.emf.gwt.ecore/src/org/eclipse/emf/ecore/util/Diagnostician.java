@@ -151,7 +151,6 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
       }
     }
     boolean circular = context.get(EObjectValidator.ROOT_OBJECT) == eObject;
-    @SuppressWarnings("null")
     boolean result = ((EValidator)eValidator).validate(eClass, eObject, diagnostics, context);
     if ((result || diagnostics != null) && !circular)
     {

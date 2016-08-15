@@ -20,7 +20,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JType;
 /**
  * @since 2.2.0
  */
-@SuppressWarnings({"deprecation", "unchecked"})
+@SuppressWarnings("deprecation")
 public class JDOMJType extends JDOMJMember implements JType
 {
   protected JPackage jPackage;

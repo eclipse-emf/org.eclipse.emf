@@ -29,7 +29,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IClasspathEntry;
 
 import org.eclipse.emf.codegen.jet.JETCompiler;
@@ -37,6 +36,7 @@ import org.eclipse.emf.codegen.jet.JETException;
 import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.codegen.merge.java.JMerger;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
@@ -188,7 +188,7 @@ public class CodeGen
                 IPath projectTargetPath = new Path("/Result/" + jetCompiler.getSkeleton().getPackageName().replace('.','/'));
   
                 IContainer container = 
-                CodeGenUtil.EclipseUtil.findOrCreateContainer(projectTargetPath, true, targetPath, new SubProgressMonitor(progressMonitor, 1));
+                CodeGenUtil.EclipseUtil.findOrCreateContainer(projectTargetPath, true, targetPath, BasicMonitor.subProgress(progressMonitor, 1));
                 IFile targetFile = container.getFile(new Path(jetCompiler.getSkeleton().getClassName() + ".java"));
   
                 progressMonitor.subTask
@@ -203,16 +203,16 @@ public class CodeGen
                     jMerger.merge();
     
                     InputStream mergedContents = new ByteArrayInputStream(jMerger.getTargetCompilationUnitContents().getBytes());
-                    targetFile.setContents(mergedContents, true, true, new SubProgressMonitor(progressMonitor, 1));
+                    targetFile.setContents(mergedContents, true, true, BasicMonitor.subProgress(progressMonitor, 1));
                   }
                   else
                   {
-                    targetFile.setContents(contents, true, true, new SubProgressMonitor(progressMonitor, 1));
+                    targetFile.setContents(contents, true, true, BasicMonitor.subProgress(progressMonitor, 1));
                   }
                 }
                 else
                 {
-                  targetFile.create(contents, true, new SubProgressMonitor(progressMonitor, 1));
+                  targetFile.create(contents, true, BasicMonitor.subProgress(progressMonitor, 1));
                 }
               }
               catch (JETException exception)

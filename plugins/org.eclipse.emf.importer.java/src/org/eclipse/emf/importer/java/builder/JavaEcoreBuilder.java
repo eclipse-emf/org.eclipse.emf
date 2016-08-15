@@ -950,7 +950,6 @@ public class JavaEcoreBuilder
       //
       ePackage = EcoreFactory.eINSTANCE.createEPackage();
       int index = qualifiedPackageName == null ? -1 : qualifiedPackageName.lastIndexOf(".");
-      @SuppressWarnings("null")
       String packageName = index == -1 ? qualifiedPackageName : qualifiedPackageName.substring(index + 1);
       ePackage.setName(packageName);
       ePackage.setNsURI("http:///" + (qualifiedPackageName == null ? "null" : qualifiedPackageName.replace('.', '/')) + ".ecore");
@@ -1163,7 +1162,6 @@ public class JavaEcoreBuilder
         }
 
         int index = qualifiedPackageName == null ? -1 : qualifiedPackageName.lastIndexOf(".");
-        @SuppressWarnings("null")
         String name = index == -1 ? qualifiedPackageName : qualifiedPackageName.substring(index + 1);
         String nsURI = "http:///" + (qualifiedPackageName == null ? "null" : qualifiedPackageName.replace('.', '/')) + ".ecore";
         String nsPrefix = qualifiedPackageName == null ? "null" : qualifiedPackageName;

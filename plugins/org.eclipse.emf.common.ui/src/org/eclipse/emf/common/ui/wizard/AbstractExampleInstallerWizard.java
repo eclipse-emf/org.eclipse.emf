@@ -26,7 +26,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -62,6 +61,7 @@ import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.ui.CommonUIPlugin;
 import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.URI;
@@ -428,7 +428,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
                 @Override
                 protected void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException
                 {
-                  Diagnostic diagnostic = deleteExistingProjects(new SubProgressMonitor(monitor, 1));
+                  Diagnostic diagnostic = deleteExistingProjects(BasicMonitor.subProgress(monitor, 1));
                   if (diagnostic.getSeverity() != Diagnostic.OK)
                   {
                     exceptionWrapper.initCause(new DiagnosticException(diagnostic));
@@ -446,9 +446,9 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
                   }
                 }
               };  
-            op.run(new SubProgressMonitor(monitor, 1));
+            op.run(BasicMonitor.subProgress(monitor, 1));
             
-            openFiles(new SubProgressMonitor(monitor, 1));
+            openFiles(BasicMonitor.subProgress(monitor, 1));
             monitor.done();
           }
         });
@@ -511,7 +511,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
           new DeleteResourcesOperation(projects.toArray(new IProject[projects.size()]), "deleteprojects", true);
         try
         {
-          return BasicDiagnostic.toDiagnostic(op.execute(new SubProgressMonitor(monitor, 1), null));
+          return BasicDiagnostic.toDiagnostic(op.execute(BasicMonitor.subProgress(monitor, 1), null));
         }
         catch (ExecutionException e)
         {
@@ -591,9 +591,9 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
    */
   protected void installProject(ProjectDescriptor projectDescriptor, ImportOperation importOperation, IProgressMonitor progressMonitor) throws Exception
   {
-    createProject(projectDescriptor, new SubProgressMonitor(progressMonitor, 1));
+    createProject(projectDescriptor, BasicMonitor.subProgress(progressMonitor, 1));
     importOperation.setContext(getShell());
-    importOperation.run(new SubProgressMonitor(progressMonitor, 1));    
+    importOperation.run(BasicMonitor.subProgress(progressMonitor, 1));    
   }
 
   protected void createProject(ProjectDescriptor projectDescriptor, IProgressMonitor monitor) throws CoreException
@@ -601,8 +601,8 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
     monitor.beginTask(CommonUIPlugin.INSTANCE.getString("_UI_CreateProject_message", new String []{ projectDescriptor.getName() }), 3);
 
     IProject project = projectDescriptor.getProject();
-    project.create(new SubProgressMonitor(monitor, 1));
-    project.open(new SubProgressMonitor(monitor, 1));
+    project.create(BasicMonitor.subProgress(monitor, 1));
+    project.open(BasicMonitor.subProgress(monitor, 1));
 
     monitor.done();
   }

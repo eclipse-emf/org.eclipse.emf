@@ -19,7 +19,6 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -29,6 +28,7 @@ import org.eclipse.ui.cheatsheets.ICheatSheetAction;
 import org.eclipse.ui.cheatsheets.ICheatSheetManager;
 
 import org.eclipse.emf.cheatsheets.CheatSheetsPlugin;
+import org.eclipse.emf.common.util.BasicMonitor;
 
 
 /**
@@ -99,7 +99,7 @@ public class BuildAllProjectsAction extends Action implements ICheatSheetAction
     monitor.beginTask(CheatSheetsPlugin.INSTANCE.getString("_UI_BuildProject_message"), projects.length);
     for (int i = 0; i < projects.length; i++)
     {
-      projects[i].build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new SubProgressMonitor(monitor, 1));
+      projects[i].build(IncrementalProjectBuilder.INCREMENTAL_BUILD, BasicMonitor.subProgress(monitor, 1));
     }
     monitor.done();
   }

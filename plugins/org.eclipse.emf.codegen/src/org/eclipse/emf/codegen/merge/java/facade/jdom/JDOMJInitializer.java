@@ -20,7 +20,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JInitializer;
 /**
  * @since 2.2.0
  */
-@SuppressWarnings({"deprecation", "unchecked"})
+@SuppressWarnings("deprecation")
 public class JDOMJInitializer extends JDOMJMember implements JInitializer
 {
   /**

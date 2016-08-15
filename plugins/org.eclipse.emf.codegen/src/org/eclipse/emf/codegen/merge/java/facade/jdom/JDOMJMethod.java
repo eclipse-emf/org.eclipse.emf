@@ -19,7 +19,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JMethod;
 /**
  * @since 2.2.0
  */
-@SuppressWarnings({"deprecation", "unchecked"})
+@SuppressWarnings("deprecation")
 public class JDOMJMethod extends JDOMJMember implements JMethod
 {
   /**

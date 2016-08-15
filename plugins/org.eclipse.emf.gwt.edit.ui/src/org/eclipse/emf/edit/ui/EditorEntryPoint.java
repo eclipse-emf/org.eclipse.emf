@@ -1673,7 +1673,8 @@ public abstract class EditorEntryPoint implements EntryPoint
       grid.getColumnFormatter().setWidth(2, "40%");
 
 
-      valueBox = new ListBox(true);
+      valueBox = new ListBox();
+      valueBox.setMultipleSelect(true);
       valueBox.setVisibleItemCount(4);
       valueBox.setWidth("100%");
       grid.setWidget(0, 0, valueBox);
@@ -1719,7 +1720,8 @@ public abstract class EditorEntryPoint implements EntryPoint
       }
       else
       {
-        choiceBox = new ListBox(true);
+        choiceBox = new ListBox();
+        choiceBox.setMultipleSelect(true);
         choiceBox.setVisibleItemCount(4);
         choiceBox.setWidth("100%");
         grid.setWidget(0, 2, choiceBox);

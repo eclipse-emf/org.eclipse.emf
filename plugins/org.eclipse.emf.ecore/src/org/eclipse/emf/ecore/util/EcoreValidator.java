@@ -1503,7 +1503,6 @@ public class EcoreValidator extends EObjectValidator
           }
         }.parseInstanceTypeName(instanceTypeName);
     String formattedName = null;
-    @SuppressWarnings("null")
     boolean result =
       instanceTypeName != null ?
         typeBuilderDiagnostic.getSeverity() == Diagnostic.OK  && 

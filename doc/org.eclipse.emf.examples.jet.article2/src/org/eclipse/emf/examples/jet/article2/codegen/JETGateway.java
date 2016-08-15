@@ -14,7 +14,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
 
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
@@ -149,7 +148,7 @@ public class JETGateway
 
     // The file may be read-only because it is checked out
     // by a VCM component. Here we ask permission to change the file.
-    if (targetFile.getWorkspace().validateEdit(new IFile []{ targetFile }, new SubProgressMonitor(monitor, 1)).isOK())
+    if (targetFile.getWorkspace().validateEdit(new IFile []{ targetFile }, BasicMonitor.subProgress(monitor, 1)).isOK())
     {
 
       jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(targetFile.getContents(true)));
@@ -195,11 +194,11 @@ public class JETGateway
     InputStream newContents = new ByteArrayInputStream(contents);
     if (result.exists())
     {
-      result.setContents(newContents, true, true, new SubProgressMonitor(monitor, 1));
+      result.setContents(newContents, true, true, BasicMonitor.subProgress(monitor, 1));
     }
     else
     {
-      result.create(newContents, true, new SubProgressMonitor(monitor, 1));
+      result.create(newContents, true, BasicMonitor.subProgress(monitor, 1));
     }
     return result;
   }
@@ -227,7 +226,7 @@ public class JETGateway
     IPath outputPath = new Path(targetDirectory + "/" + packageName.replace('.', '/'));
     progressMonitor.beginTask("", 4);
 
-    IProgressMonitor sub = new SubProgressMonitor(progressMonitor, 1);
+    IProgressMonitor sub = BasicMonitor.subProgress(progressMonitor, 1);
     IPath localLocation = null; // use default
     IContainer container = CodeGenUtil.EclipseUtil.findOrCreateContainer(outputPath, true, localLocation, sub);
     return container;

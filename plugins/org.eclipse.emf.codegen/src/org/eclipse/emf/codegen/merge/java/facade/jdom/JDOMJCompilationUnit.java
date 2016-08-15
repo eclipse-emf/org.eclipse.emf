@@ -19,7 +19,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
 /**
  * @since 2.2.0
  */
-@SuppressWarnings({"deprecation", "unchecked"})
+@SuppressWarnings("deprecation")
 public class JDOMJCompilationUnit extends JDOMJNode implements JCompilationUnit
 {
   protected String originalContent;

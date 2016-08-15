@@ -2121,7 +2121,6 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureM
       {
         if (isNotificationRequired())
         {
-          @SuppressWarnings("null")
           NotificationImpl notification =
             feature.isMany() ?
               createNotification

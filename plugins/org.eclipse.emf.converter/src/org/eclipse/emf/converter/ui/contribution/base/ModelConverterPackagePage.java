@@ -36,8 +36,8 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerFilter;
-import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.ModifyEvent;
@@ -605,7 +605,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
       };
 
     // Sorting only the genModels
-    referencedGenModelsTreeViewer.setSorter(new ViewerSorter()
+    referencedGenModelsTreeViewer.setComparator(new ViewerComparator()
       {
         @Override
         public void sort(Viewer viewer, Object[] elements)

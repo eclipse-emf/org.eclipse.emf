@@ -33,8 +33,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
+import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.jdt.core.IClasspathContainer;
@@ -215,7 +215,7 @@ public class GWTBuilder extends IncrementalProjectBuilder
           monitor.beginTask("", filesToDelete.size());
           for (IFile file : filesToDelete)
           {
-            file.delete(true, new SubProgressMonitor(monitor, 1));
+            file.delete(true, BasicMonitor.subProgress(monitor, 1));
           }
       }
     }

@@ -25,7 +25,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardNode;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -254,7 +254,7 @@ public abstract class ModelConverterDescriptorSelectionPage extends WizardSelect
     descriptorTableViewer = new TableViewer(descriptorTable);
     descriptorTableViewer.setContentProvider(new ArrayContentProvider());
     descriptorTableViewer.setLabelProvider(new ModelConverterManager.ModelConverterDescriptorLabelProvider());
-    descriptorTableViewer.setSorter(new ViewerSorter());
+    descriptorTableViewer.setComparator(new ViewerComparator());
 
     descriptorTableViewer.addDoubleClickListener(new IDoubleClickListener()
       {

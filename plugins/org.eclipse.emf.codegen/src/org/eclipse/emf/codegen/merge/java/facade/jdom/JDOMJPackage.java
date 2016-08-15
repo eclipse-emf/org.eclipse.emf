@@ -18,7 +18,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JPackage;
 /**
  * @since 2.2.0
  */
-@SuppressWarnings({"deprecation", "unchecked"})
+@SuppressWarnings("deprecation")
 public class JDOMJPackage extends JDOMJNode implements JPackage
 {
   public JDOMJPackage(IDOMPackage pck)

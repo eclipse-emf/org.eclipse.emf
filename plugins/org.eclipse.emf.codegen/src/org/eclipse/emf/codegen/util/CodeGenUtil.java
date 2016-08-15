@@ -44,7 +44,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IClasspathAttribute;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
@@ -1264,7 +1263,7 @@ public class CodeGenUtil
   
         if (forceRefresh)
         {
-          project.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(progressMonitor, 1));
+          project.refreshLocal(IResource.DEPTH_INFINITE, BasicMonitor.subProgress(progressMonitor, 1));
         }
         else
         {
@@ -1273,12 +1272,12 @@ public class CodeGenUtil
   
         if (!project.exists())
         {
-          project.create(projectDescription, new SubProgressMonitor(progressMonitor, 1));
-          project.open(new SubProgressMonitor(progressMonitor, 1));
+          project.create(projectDescription, BasicMonitor.subProgress(progressMonitor, 1));
+          project.open(BasicMonitor.subProgress(progressMonitor, 1));
         }
         else
         {
-          project.open(new SubProgressMonitor(progressMonitor, 2));
+          project.open(BasicMonitor.subProgress(progressMonitor, 2));
         }
   
         IContainer container = project;
@@ -1287,7 +1286,7 @@ public class CodeGenUtil
           IFolder folder = container.getFolder(new Path(path.segment(i)));
           if (!folder.exists())
           {
-            folder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
+            folder.create(false, true, BasicMonitor.subProgress(progressMonitor, 1));
           }
           else
           {

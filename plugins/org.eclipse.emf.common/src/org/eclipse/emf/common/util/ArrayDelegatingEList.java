@@ -310,7 +310,7 @@ public abstract class ArrayDelegatingEList<E> extends AbstractEList<E> implement
    * @see #resolve
    * @see #basicGet
    */
-  @SuppressWarnings({"unchecked", "null"})
+  @SuppressWarnings("unchecked")
   @Override
   public E get(int index)
   {
@@ -330,7 +330,7 @@ public abstract class ArrayDelegatingEList<E> extends AbstractEList<E> implement
    * @see #resolve
    * @see #get
    */
-  @SuppressWarnings({"unchecked", "null"})
+  @SuppressWarnings("unchecked")
   @Override
   public E basicGet(int index)
   {
@@ -601,7 +601,6 @@ public abstract class ArrayDelegatingEList<E> extends AbstractEList<E> implement
    * @param collection the collection of objects to be removed.
    * @return whether any object was actually contained by the list.
    */
-  @SuppressWarnings("null")
   @Override
   public boolean removeAll(Collection<?> collection)
   {
@@ -627,7 +626,6 @@ public abstract class ArrayDelegatingEList<E> extends AbstractEList<E> implement
    * @return the removed object.
    * @exception IndexOutOfBoundsException if the index isn't within the size range.
    */
-  @SuppressWarnings("null")
   @Override
   public E remove(int index)
   {
@@ -669,7 +667,6 @@ public abstract class ArrayDelegatingEList<E> extends AbstractEList<E> implement
    * @param collection the collection of objects to be retained.
    * @return whether any object was actually removed.
    */
-  @SuppressWarnings("null")
   @Override
   public boolean retainAll(Collection<?> collection)
   {
@@ -717,7 +714,6 @@ public abstract class ArrayDelegatingEList<E> extends AbstractEList<E> implement
    * @return the moved object.
    * @exception IndexOutOfBoundsException if either index isn't within the size range.
    */
-  @SuppressWarnings("null")
   @Override
   public E move(int targetIndex, int sourceIndex)
   {

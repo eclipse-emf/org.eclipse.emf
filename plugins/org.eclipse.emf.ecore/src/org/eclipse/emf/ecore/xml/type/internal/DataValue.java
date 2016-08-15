@@ -1879,7 +1879,6 @@ public static class EncodingMap {
     // Check for scheme, which must be before '/', '?' or '#'. Also handle
     // names with DOS drive letters ('D:'), so 1-character schemes are not
     // allowed.
-    @SuppressWarnings("null")
     int colonIdx = uriSpec.indexOf(':');
     if (colonIdx != -1) {
         final int searchFrom = colonIdx - 1;

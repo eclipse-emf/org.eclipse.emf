@@ -39,10 +39,10 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.SubProgressMonitor;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
 import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.URI;
 
@@ -213,7 +213,7 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
 
         if(!directory.exists())
         {
-          project.getFolder(directory.getProjectRelativePath()).create(true, true, new SubProgressMonitor(progressMonitor, 1));
+          project.getFolder(directory.getProjectRelativePath()).create(true, true, BasicMonitor.subProgress(progressMonitor, 1));
         }
 
         IPath filePath = file instanceof IFile ? ((IFile)file).getFullPath() : new Path(file.toString());
@@ -255,7 +255,7 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
               }
               if (skeleton.getPackageName() != null) 
               {
-                directory = getPackageContainer(directory, skeleton.getPackageName(), new SubProgressMonitor(progressMonitor, 1));
+                directory = getPackageContainer(directory, skeleton.getPackageName(), BasicMonitor.subProgress(progressMonitor, 1));
               }
               else
               {
@@ -333,7 +333,7 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
         {
           progressMonitor.subTask
             (CodeGenPlugin.getPlugin().getString("_UI_JETJavaCompileProject_message", new Object [] { project.getFullPath() }));
-          project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new SubProgressMonitor(progressMonitor, 1));
+          project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, BasicMonitor.subProgress(progressMonitor, 1));
         }
       }
     }

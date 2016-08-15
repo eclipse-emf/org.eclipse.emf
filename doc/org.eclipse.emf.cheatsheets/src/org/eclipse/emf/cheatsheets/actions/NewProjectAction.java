@@ -18,7 +18,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -28,6 +27,7 @@ import org.eclipse.ui.cheatsheets.ICheatSheetAction;
 import org.eclipse.ui.cheatsheets.ICheatSheetManager;
 
 import org.eclipse.emf.cheatsheets.CheatSheetsPlugin;
+import org.eclipse.emf.common.util.BasicMonitor;
 
 
 /**
@@ -106,9 +106,9 @@ public class NewProjectAction extends Action implements ICheatSheetAction
     IProject project = workspaceRoot.getProject(projectName);
     if (!project.exists())
     {
-      project.create(new SubProgressMonitor(monitor, 1));
+      project.create(BasicMonitor.subProgress(monitor, 1));
     }
-    project.open(new SubProgressMonitor(monitor, 1));
+    project.open(BasicMonitor.subProgress(monitor, 1));
     monitor.done();
     return project;
   }

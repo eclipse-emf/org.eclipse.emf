@@ -19,7 +19,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JMember;
 /**
  * @since 2.2.0
  */
-@SuppressWarnings({"deprecation", "unchecked"})
+@SuppressWarnings("deprecation")
 public abstract class JDOMJMember extends JDOMJNode implements JMember
 {
   /**

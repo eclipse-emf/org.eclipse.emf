@@ -613,7 +613,7 @@ public String constructorValues() {
 <span><img src="images/tag_2.gif" width="24" height="13" alt=""/></span>  emitter.addClasspathVariable("JET_TUTORIAL", pluginId);
  
      TypesafeEnum model = mPage1.getTypesafeEnumModel();
-     IProgressMonitor sub = new SubProgressMonitor(monitor, 1);
+     IProgressMonitor sub = BasicMonitor.subProgress(monitor, 1);
 
 <span><img src="images/tag_3.gif" width="24" height="13" alt=""/></span>  String result = emitter.generate(sub, new Object[] { model });
      monitor.worked(1);

@@ -124,7 +124,6 @@ public class GenModelUtil
   public static Map<String, String> getJavaOptions(GenModel genModel)
   {
     IJavaProject javaProject = getJavaProject(genModel);
-    @SuppressWarnings("unchecked")
     Map<String, String> options = javaProject != null ? javaProject.getOptions(true) : JavaCore.getOptions();
     return options;
   }
