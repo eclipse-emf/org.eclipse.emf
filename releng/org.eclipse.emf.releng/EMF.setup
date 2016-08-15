@@ -65,7 +65,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="gwt.tool.url"
-      value="https://dl.google.com/eclipse/plugin/4.3"/>
+      value="https://dl.google.com/eclipse/plugin/4.6"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="xtext.nightly.composite"
@@ -662,7 +662,7 @@
     <setupTask
         xsi:type="setup.p2:P2Task">
       <requirement
-          name="com.google.gdt.eclipse.suite.e43.feature.feature.group"/>
+          name="com.google.gdt.eclipse.suite.e44.feature.feature.group"/>
       <requirement
           name="com.google.gwt.eclipse.sdkbundle.feature.feature.group"/>
       <requirement
