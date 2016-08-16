@@ -2818,10 +2818,11 @@ public class EcoreValidator extends EObjectValidator
           }
           else
           {
-            // If there is a conversion delegate then the lack of a default value really does indicate that there is a problem converting the literal to a value.
+            // If there is a conversion delegate then the lack of a default value really does indicate that there is a problem converting the literal to a value,
+            // unless there is no instance class, in which case we mustn't be able to load the class and we can't expect the conversion delegate to function.
             //
             EDataType.Internal.ConversionDelegate conversionDelegate = ((EDataType.Internal)eDataType).getConversionDelegate();
-            if (conversionDelegate != null)
+            if (conversionDelegate != null && eDataType.getInstanceClass() != null)
             {
               result = false;
             }
