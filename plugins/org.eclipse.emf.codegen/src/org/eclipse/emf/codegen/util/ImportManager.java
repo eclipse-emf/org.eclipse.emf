@@ -354,6 +354,7 @@ public class ImportManager
             result.append(c);
           }
           start = i + 1;
+          break;
         }
         default:
         {
