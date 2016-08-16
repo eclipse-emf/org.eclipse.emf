@@ -87,20 +87,18 @@ public class XcoreGenModelBuilder {
     Iterable<EObject> _allContentsIterable = XcoreExtensions.allContentsIterable(genModel);
     for (final EObject genElement : _allContentsIterable) {
       boolean _matched = false;
-      if (!_matched) {
-        if (genElement instanceof GenPackage) {
-          _matched=true;
-          EPackage _ecorePackage = ((GenPackage)genElement).getEcorePackage();
-          ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecorePackage);
-          XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
-          final XPackage xPackage = ((XPackage) _xcoreElement);
-          boolean _notEquals = (!Objects.equal(xPackage, null));
-          if (_notEquals) {
-            XPackageMapping _mapping = this.mapper.getMapping(xPackage);
-            _mapping.setGenPackage(((GenPackage)genElement));
-            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
-            _toXcoreMapping_1.setXcoreElement(xPackage);
-          }
+      if (genElement instanceof GenPackage) {
+        _matched=true;
+        EPackage _ecorePackage = ((GenPackage)genElement).getEcorePackage();
+        ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecorePackage);
+        XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
+        final XPackage xPackage = ((XPackage) _xcoreElement);
+        boolean _notEquals = (!Objects.equal(xPackage, null));
+        if (_notEquals) {
+          XPackageMapping _mapping = this.mapper.getMapping(xPackage);
+          _mapping.setGenPackage(((GenPackage)genElement));
+          ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
+          _toXcoreMapping_1.setXcoreElement(xPackage);
         }
       }
       if (!_matched) {
@@ -247,16 +245,14 @@ public class XcoreGenModelBuilder {
               EList<EObject> _eCrossReferences = eObject.eCrossReferences();
               for (final EObject eCrossReference : _eCrossReferences) {
                 boolean _matched = false;
-                if (!_matched) {
-                  if (eCrossReference instanceof EClassifier) {
-                    _matched=true;
-                    final EPackage referencedEPackage = ((EClassifier)eCrossReference).getEPackage();
-                    boolean _notEquals = (!Objects.equal(referencedEPackage, null));
-                    if (_notEquals) {
-                      boolean _add = ePackages.add(referencedEPackage);
-                      if (_add) {
-                        referencedEPackages.add(referencedEPackage);
-                      }
+                if (eCrossReference instanceof EClassifier) {
+                  _matched=true;
+                  final EPackage referencedEPackage = ((EClassifier)eCrossReference).getEPackage();
+                  boolean _notEquals = (!Objects.equal(referencedEPackage, null));
+                  if (_notEquals) {
+                    boolean _add = ePackages.add(referencedEPackage);
+                    if (_add) {
+                      referencedEPackages.add(referencedEPackage);
                     }
                   }
                 }

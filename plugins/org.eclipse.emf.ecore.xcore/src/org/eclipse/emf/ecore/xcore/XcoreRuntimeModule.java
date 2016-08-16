@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.xcore.validation.XcoreResourceValidator;
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.conversion.impl.QualifiedNameValueConverter;
 import org.eclipse.xtext.findReferences.IReferenceFinder;
+import org.eclipse.xtext.formatting2.IFormatter2;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.linking.ILinkingDiagnosticMessageProvider;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
@@ -58,7 +59,6 @@ import org.eclipse.xtext.validation.IDiagnosticConverter;
 import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.featurecalls.IdentifiableSimpleNameProvider;
-import org.eclipse.xtext.xbase.formatting.IBasicFormatter;
 import org.eclipse.xtext.xbase.imports.IImportsConfiguration;
 import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations;
 import org.eclipse.xtext.xbase.jvmmodel.ILogicalContainerProvider;
@@ -74,10 +74,8 @@ import com.google.inject.name.Names;
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
-@SuppressWarnings("restriction")
 public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
 {
-
   @Override
   public Class<? extends ISerializer> bindISerializer()
   {
@@ -199,7 +197,7 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
     return XcoreResourceValidator.class;
   }
 
-  public Class<? extends IBasicFormatter> bindIBasicFormatter()
+  public Class<? extends IFormatter2> bindIBasicFormatter()
   {
     return XcoreFormatter.class;
   }

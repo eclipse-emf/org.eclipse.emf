@@ -76,11 +76,17 @@ import org.eclipse.emf.ecore.xcore.util.XcoreGenModelInitializer;
 import org.eclipse.emf.exporter.ModelExporter;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.xtext.formatting2.FormatterPreferenceValuesProvider;
+import org.eclipse.xtext.formatting2.FormatterRequest;
+import org.eclipse.xtext.formatting2.IFormatter2;
+import org.eclipse.xtext.formatting2.regionaccess.ITextReplacement;
+import org.eclipse.xtext.formatting2.regionaccess.internal.NodeModelBasedRegionAccessBuilder;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.parser.IParseResult;
 import org.eclipse.xtext.preferences.IPreferenceValues;
+import org.eclipse.xtext.preferences.TypedPreferenceValues;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.SaveOptions;
 import org.eclipse.xtext.resource.XtextResource;
@@ -88,10 +94,6 @@ import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.ui.XtextProjectHelper;
 import org.eclipse.xtext.util.RuntimeIOException;
-import org.eclipse.xtext.xbase.formatting.FormattingPreferenceValues;
-import org.eclipse.xtext.xbase.formatting.IBasicFormatter;
-import org.eclipse.xtext.xbase.formatting.IFormattingPreferenceValuesProvider;
-import org.eclipse.xtext.xbase.formatting.TextReplacement;
 
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
@@ -125,10 +127,10 @@ public class XcoreExporter extends ModelExporter
   private IQualifiedNameConverter qualifiedNameConverter;
 
   @Inject
-  protected IBasicFormatter formatter;
+  protected IFormatter2 formatter;
 
   @Inject
-  private IFormattingPreferenceValuesProvider preferencesProvider;
+  private FormatterPreferenceValuesProvider preferencesProvider;
 
   @Inject
   private Provider<ResourceSet> resourceSetProvider;
@@ -460,7 +462,11 @@ public class XcoreExporter extends ModelExporter
                 IPreferenceValues configuration = preferencesProvider.getPreferenceValues(outputResource);
                 try
                 {
-                  List<TextReplacement> edits = formatter.format(outputResource, 0, parseResult.getRootNode().getLength(), new FormattingPreferenceValues(configuration));
+                  FormatterRequest request = new FormatterRequest();
+                  request.setTextRegionAccess(new NodeModelBasedRegionAccessBuilder().withResource(outputResource).create());
+                  request.setPreferences(new TypedPreferenceValues(configuration));
+                  request.addRegion(parseResult.getRootNode().getTotalTextRegion());
+                  List<ITextReplacement> edits = formatter.format(request);
 
                   BufferedInputStream bufferedInputStream = new BufferedInputStream(resourceSet.getURIConverter().createInputStream(outputResource.getURI()));
                   byte[] input = new byte[bufferedInputStream.available()];
@@ -470,8 +476,9 @@ public class XcoreExporter extends ModelExporter
                   StringBuilder builder = new StringBuilder(text);
                   for (int i = edits.size(); --i >= 0; )
                   {
-                    TextReplacement replacement = edits.get(i);
-                    builder.replace(replacement.getOffset(), replacement.getOffset() + replacement.getLength(), replacement.getText());
+                    ITextReplacement replacement = edits.get(i);
+                    int offset = replacement.getOffset();
+                    builder.replace(offset, offset + replacement.getLength(), replacement.getReplacementText());
                   }
 
                   OutputStream outputStream = resourceSet.getURIConverter().createOutputStream(outputResource.getURI());

@@ -5,6 +5,7 @@
 		<accessrules>
 			<accessrule kind="accessible" pattern="org/eclipse/xtext/xbase/formatting/**"/>
 			<accessrule kind="accessible" pattern="org/eclipse/xtext/preferences/**"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/formatting2/**"/>
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>

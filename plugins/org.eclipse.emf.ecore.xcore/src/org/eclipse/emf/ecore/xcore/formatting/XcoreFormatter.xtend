@@ -7,17 +7,11 @@
  */
 package org.eclipse.emf.ecore.xcore.formatting
 
-import org.eclipse.xtext.xbase.formatting.XbaseFormatter2
-import org.eclipse.xtext.xbase.formatting.FormattableDocument
 import org.eclipse.emf.ecore.xcore.XPackage
-import com.google.inject.Inject
-import org.eclipse.xtext.xbase.formatting.NodeModelAccess
-import org.eclipse.xtext.xbase.formatting.FormattingDataFactory
 import static org.eclipse.emf.ecore.xcore.XcorePackage$Literals.*
 import org.eclipse.emf.ecore.xcore.XAnnotation
 import java.util.List
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.xbase.formatting.BlankLineKey
 import org.eclipse.emf.ecore.xcore.XClass
 import org.eclipse.emf.ecore.xcore.XReference
 import org.eclipse.emf.ecore.xcore.XAttribute
@@ -27,50 +21,41 @@ import org.eclipse.emf.ecore.xcore.XEnum
 import org.eclipse.emf.ecore.xcore.XEnumLiteral
 import org.eclipse.emf.ecore.xcore.XTypeParameter
 import org.eclipse.emf.ecore.xcore.XDataType
+import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
+import org.eclipse.xtext.formatting2.IFormattableDocument
+import org.eclipse.emf.ecore.xcore.XGenericType
 
-class XcoreFormatter extends XbaseFormatter2
+class XcoreFormatter extends XbaseFormatter
 {
-  @Inject
-  extension NodeModelAccess
-
-  @Inject
-  extension FormattingDataFactory
-
-  val blankLines = new BlankLineKey("foo", 1)
-
-  def protected dispatch void format(XAnnotation xAnnotation, FormattableDocument format)
+  def dispatch void format(XAnnotation xAnnotation, extension IFormattableDocument format)
   {
-    format += xAnnotation.nodeForKeyword('@').append[noSpace]
+    xAnnotation.regionFor.keyword('@').append[noSpace]
 
-    val leftParenthesis = xAnnotation.nodeForKeyword('(')
-    format += leftParenthesis.prepend[noSpace]
-    format += leftParenthesis.append[noSpace]
+    xAnnotation.regionFor.keywordPairs('(', ')').head.interior[indent]
 
-    val rightParenthesis = xAnnotation.nodeForKeyword(')')
-    format += rightParenthesis.prepend[noSpace]
-    format += rightParenthesis.append[newLine]
+    xAnnotation.regionFor.keyword('(').prepend[noSpace].append[noSpace]
+
+    xAnnotation.regionFor.keyword(')').prepend[noSpace].append[newLine]
 
     for (entry : xAnnotation.details)
     {
       val detail = entry as EObject
-      val equals = detail.nodeForKeyword('=')
-      format += equals.prepend[noSpace]
-      format += equals.append[noSpace]
+      detail.regionFor.keyword('=').prepend[noSpace].append[noSpace]
 
-      val comma = detail.nodeForEObject.immediatelyFollowingKeyword(',')
+      val comma = detail.immediatelyFollowing.keyword(',')
       if (comma != null)
       {
-        format += comma.prepend[noSpace]
+        comma.prepend[noSpace].append[oneSpace].append[autowrap]
       }
     }
   }
 
-  def protected dispatch void format(XPackage xPackage, FormattableDocument format)
+  def protected dispatch void format(XPackage xPackage, extension IFormattableDocument format)
   {
     formatAnnotations(xPackage.annotations, format)
 
-    format += xPackage.nodeForEObject.prepend[noSpace]
-    format += xPackage.nodeForFeature(XNAMED_ELEMENT__NAME).prepend[oneSpace]
+    xPackage.regionFor.keyword('package').prepend[noSpace]
+    xPackage.regionFor.feature(XNAMED_ELEMENT__NAME).prepend[oneSpace]
 
     val xImportDirectives = xPackage.importDirectives
     if (!xImportDirectives.empty)
@@ -79,169 +64,147 @@ class XcoreFormatter extends XbaseFormatter2
       val last = xImportDirectives.last
       for (xImportDirective : xImportDirectives)
       {
-        val node = xImportDirective.nodeForEObject
-        if (xImportDirective == first)
-        {
-          format += node.prepend[cfg(blankLines)]
-        }
+        xImportDirective.regionFor.keyword('import').prepend[newLines = if (xImportDirective == first) 2 else 1]
         xImportDirective.format(format)
         if (xImportDirective == last)
         {
-          format += node.append[cfg(blankLines)]
-        }
-        else
-        {
-          format += node.append[newLine]
+          xImportDirective.regionForEObject.allSemanticRegions.last.append[newLines = 2]
         }
       }
     }
     else
     {
-      format += xPackage.nodeForFeature(XNAMED_ELEMENT__NAME).append[cfg(blankLines)]
+      xPackage.regionFor.feature(XNAMED_ELEMENT__NAME).append[newLines = 2]
     }
 
     val xClassifiers = xPackage.classifiers
-    val last = xClassifiers.last
     for (xClassifier : xClassifiers)
     {
       xClassifier.format(format)
-      if (last != xClassifier)
-      {
-        format += xClassifier.nodeForEObject.append[cfg(blankLines)]
-      }
+      xClassifier.regionForEObject.allSemanticRegions.head.prepend[newLines = 2]
     }
   }
 
-  def protected dispatch void format(XEnum xEnum, FormattableDocument format)
+  def protected dispatch void format(XEnum xEnum, extension IFormattableDocument format)
   {
     formatAnnotations(xEnum.annotations, format)
 
-    val leftBrace = xEnum.nodeForKeyword('{')
-    format += leftBrace.append[increaseIndentation]
-    format += leftBrace.append[newLine]
+    xEnum.regionFor.keywordPairs('{', '}').head.interior[indent]
+    xEnum.regionFor.keyword('{').append[newLine] // }
 
     for (xEnumLiteral : xEnum.literals)
     {
       xEnumLiteral.format(format)
-      format += xEnumLiteral.nodeForEObject.append[newLine]
+      xEnumLiteral.regionForEObject.allSemanticRegions.last.append[newLine]
     }
-
-    val rightBrace = xEnum.nodeForKeyword('}')
-    format += rightBrace.prepend[decreaseIndentation]
   }
 
-  def protected dispatch void format(XEnumLiteral xEnumLiteral, FormattableDocument format)
+  def protected dispatch void format(XEnumLiteral xEnumLiteral, IFormattableDocument format)
   {
     formatAnnotations(xEnumLiteral.annotations, format)
   }
 
-  def protected dispatch void format(XDataType xDataType, FormattableDocument format)
+  def protected dispatch void format(XDataType xDataType, extension IFormattableDocument format)
   {
     formatAnnotations(xDataType.annotations, format)
 
-    val leftAngleBracket = xDataType.nodeForKeyword('<')
+    val leftAngleBracket = xDataType.regionFor.keyword('<')
     if (leftAngleBracket != null)
     {
-      format += leftAngleBracket.prepend[noSpace]
-      format += leftAngleBracket.append[noSpace]
+      leftAngleBracket.prepend[noSpace].append[noSpace]
       formatTypeParameters(xDataType.typeParameters, format)
-      format += xDataType.nodeForKeyword('>').prepend[noSpace];
+      xDataType.regionFor.keyword('>').prepend[noSpace].append[oneSpace];
     }
   }
 
-  def protected dispatch void format(XClass xClass, FormattableDocument format)
+  def protected dispatch void format(XClass xClass, extension IFormattableDocument format)
   {
     formatAnnotations(xClass.annotations, format)
 
-    val leftAngleBracket = xClass.nodeForKeyword('<')
+    val leftAngleBracket = xClass.regionFor.keyword('<')
     if (leftAngleBracket != null)
     {
-      format += leftAngleBracket.prepend[noSpace]
-      format += leftAngleBracket.append[noSpace]
+      leftAngleBracket.prepend[noSpace].append[noSpace]
       formatTypeParameters(xClass.typeParameters, format)
-      format += xClass.nodeForKeyword('>').prepend[noSpace];
+      xClass.regionFor.keyword('>').prepend[noSpace].append[oneSpace];
     }
 
-    val leftBrace = xClass.nodeForKeyword('{')
-    format += leftBrace.append[increaseIndentation]
-    format += leftBrace.append[newLine]
+    xClass.regionFor.keywordPairs('{', '}').head.interior[indent]
+    xClass.regionFor.keyword('{').append[newLine] // }
 
     for (xMember : xClass.members)
     {
       xMember.format(format)
-      format += xMember.nodeForEObject.append[newLine]
+      xMember.regionForEObject.allSemanticRegions.last.append[newLine]
     }
-
-    val rightBrace = xClass.nodeForKeyword('}')
-    format += rightBrace.prepend[decreaseIndentation]
   }
 
-  def protected dispatch void format(XReference xReference, FormattableDocument format)
+  def protected dispatch void format(XReference xReference, extension IFormattableDocument format)
   {
     formatAnnotations(xReference.annotations, format)
 
-    val multiplicity = xReference.nodeForFeature(XTYPED_ELEMENT__MULTIPLICITY)
+    xReference.type.format
+
+    val multiplicity = xReference.regionFor.feature(XTYPED_ELEMENT__MULTIPLICITY)
     if (multiplicity != null)
     {
-      format += multiplicity.prepend[noSpace]
+      multiplicity.prepend[noSpace]
     }
 
     val get = xReference.getBody
     if (get != null)
     {
-      val leftBrace = get.nodeForKeyword('{')
-      format += leftBrace.prepend[oneSpace]
+      get.regionFor.keyword('{').prepend[oneSpace] // }
       get.format(format)
     }
   }
 
-  def protected dispatch void format(XAttribute xAttribute, FormattableDocument format)
+  def protected dispatch void format(XAttribute xAttribute, extension IFormattableDocument format)
   {
     formatAnnotations(xAttribute.annotations, format)
 
-    val multiplicity = xAttribute.nodeForFeature(XTYPED_ELEMENT__MULTIPLICITY)
+    xAttribute.type.format
+
+    val multiplicity = xAttribute.regionFor.feature(XTYPED_ELEMENT__MULTIPLICITY)
     if (multiplicity != null)
     {
-      format += multiplicity.prepend[noSpace]
+      multiplicity.prepend[noSpace]
     }
 
     val get = xAttribute.getBody
     if (get != null)
     {
-      val leftBrace = get.nodeForKeyword('{')
-      format += leftBrace.prepend[oneSpace]
+      get.regionFor.keyword('{').prepend[oneSpace] // }
       get.format(format)
     }
   }
 
-  def protected dispatch void format(XOperation xOperation, FormattableDocument format)
+  def protected dispatch void format(XOperation xOperation, extension IFormattableDocument format)
   {
     formatAnnotations(xOperation.annotations, format)
 
-    val multiplicity = xOperation.nodeForFeature(XTYPED_ELEMENT__MULTIPLICITY)
+    xOperation.type.format
+
+    val multiplicity = xOperation.regionFor.feature(XTYPED_ELEMENT__MULTIPLICITY)
     if (multiplicity != null)
     {
-      format += multiplicity.prepend[noSpace]
+      multiplicity.prepend[noSpace]
     }
 
-    val leftAngleBracket = xOperation.nodeForKeyword('<')
+    val leftAngleBracket = xOperation.regionFor.keyword('<')
     if (leftAngleBracket != null)
     {
-      format += leftAngleBracket.prepend[noSpace]
-      format += leftAngleBracket.append[noSpace]
+      leftAngleBracket.prepend[oneSpace].append[noSpace]
       formatTypeParameters(xOperation.typeParameters, format)
-      format += xOperation.nodeForKeyword('>').prepend[noSpace];
+      xOperation.regionFor.keyword('>').prepend[noSpace].append[oneSpace];
     }
 
-    val leftParenthesis = xOperation.nodeForKeyword('(')
-    format += leftParenthesis.prepend[noSpace]
-    format += leftParenthesis.append[noSpace]
+    xOperation.regionFor.keyword('(').prepend[noSpace].append[noSpace]
 
     val xParameters = xOperation.parameters
     if (!xParameters.empty)
     {
-      val rightParenthesis = xOperation.nodeForKeyword(')')
-      format += rightParenthesis.prepend[noSpace]
+      xOperation.regionFor.keyword(')').prepend[noSpace]
 
       for (xParameter : xParameters)
       {
@@ -252,24 +215,74 @@ class XcoreFormatter extends XbaseFormatter2
     val body = xOperation.body
     if (body != null)
     {
-      val leftBrace = body.nodeForKeyword('{')
-      format += leftBrace.prepend[oneSpace]
+      body.regionFor.keyword('{').prepend[oneSpace] // }
       body.format(format)
     }
   }
 
-  def protected dispatch void format(XParameter xParameter, FormattableDocument format)
+  def protected dispatch void format(XParameter xParameter, extension IFormattableDocument format)
   {
     formatAnnotations(xParameter.annotations, format)
 
-    val multiplicity = xParameter.nodeForFeature(XTYPED_ELEMENT__MULTIPLICITY)
+    val multiplicity = xParameter.regionFor.feature(XTYPED_ELEMENT__MULTIPLICITY)
     if (multiplicity != null)
     {
-      format += multiplicity.prepend[noSpace]
+      multiplicity.prepend[noSpace]
+    }
+
+    xParameter.type.format
+  }
+
+  def protected dispatch void format(XGenericType xGenericType, extension IFormattableDocument format)
+  {
+    xGenericType.type.format
+    val leftAngleBracket = xGenericType.regionFor.keyword('<')
+    if (leftAngleBracket != null)
+    {
+      leftAngleBracket.prepend[noSpace].append[noSpace]
+      for (XGenericType typeArgument : xGenericType.typeArguments)
+      {
+        typeArgument.format
+        val comma = typeArgument.immediatelyFollowing.keyword(',')
+        if (comma != null)
+        {
+          comma.prepend[noSpace].append[oneSpace]
+        }
+      }
+
+      xGenericType.regionFor.keyword('>').prepend[noSpace].append[noSpace]
+    }
+
+    val upperBound = xGenericType.upperBound
+    if (upperBound != null)
+    {
+      upperBound.format
+      xGenericType.regionFor.keyword('extends').prepend[oneSpace].append[oneSpace]
+    }
+
+    val lowerBound = xGenericType.lowerBound
+    if (lowerBound != null)
+    {
+      lowerBound.format
+      xGenericType.regionFor.keyword('super').prepend[oneSpace].append[oneSpace]
     }
   }
 
-  def protected void formatAnnotations(List<XAnnotation> xAnnotations, FormattableDocument format)
+  def protected dispatch void format(XTypeParameter xTypeParameter, extension IFormattableDocument format)
+  {
+    formatAnnotations(xTypeParameter.annotations, format)
+    for (XGenericType bound : xTypeParameter.bounds)
+    {
+      bound.format
+      val ampersand = bound.immediatelyFollowing.keyword('&')
+      if (ampersand != null)
+      {
+        ampersand.prepend[oneSpace].append[oneSpace]
+      }
+    }
+  }
+
+  def protected void formatAnnotations(List<XAnnotation> xAnnotations, IFormattableDocument format)
   {
     for (xAnnotation : xAnnotations)
     {
@@ -277,7 +290,7 @@ class XcoreFormatter extends XbaseFormatter2
     }
   }
 
-  def protected void formatTypeParameters(List<XTypeParameter> xTypeParameters, FormattableDocument format)
+  def protected void formatTypeParameters(List<XTypeParameter> xTypeParameters, IFormattableDocument format)
   {
     for (xTypeParameter : xTypeParameters)
     {

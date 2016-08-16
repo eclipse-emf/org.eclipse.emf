@@ -38,6 +38,7 @@ import org.eclipse.xtext.common.types.ui.refactoring.participant.JdtRenamePartic
 import org.eclipse.xtext.common.types.util.jdt.IJavaElementFinder;
 import org.eclipse.xtext.common.types.xtext.ui.ITypesProposalProvider;
 import org.eclipse.xtext.common.types.xtext.ui.JdtVariableCompletions;
+import org.eclipse.xtext.formatting2.FormatterPreferenceValuesProvider;
 import org.eclipse.xtext.resource.containers.IAllContainersState;
 import org.eclipse.xtext.service.SingletonBinding;
 import org.eclipse.xtext.ui.editor.contentassist.antlr.IContentAssistParser;
@@ -49,7 +50,6 @@ import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
 import org.eclipse.xtext.ui.refactoring.IDependentElementsCalculator;
 import org.eclipse.xtext.ui.refactoring.IRenameStrategy;
 import org.eclipse.xtext.ui.refactoring.impl.RenameElementProcessor;
-import org.eclipse.xtext.xbase.formatting.IFormattingPreferenceValuesProvider;
 import org.eclipse.xtext.xbase.ui.hover.XbaseDeclarativeHoverSignatureProvider;
 import org.eclipse.xtext.xbase.ui.hover.XbaseDispatchingEObjectTextHover;
 import org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.jdt.JdtRenameRefactoringParticipantProcessor;
@@ -185,7 +185,8 @@ public class XcoreUiModule extends AbstractXcoreUiModule
     return XcoreFormatterFactory.class;
   }
 
-  public Class<? extends IFormattingPreferenceValuesProvider> bindIFormattingPreferenceValuesProvider()
+  
+  public Class<? extends FormatterPreferenceValuesProvider> bindFormatterPreferenceValuesProvider()
   {
     return XcoreFormatterPreferenceValuesProvider.class;
   }

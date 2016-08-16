@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EPackage;
 
-public class AbstractXcoreJavaValidator extends org.eclipse.xtext.xbase.validation.XbaseJavaValidator {
+public class AbstractXcoreJavaValidator extends org.eclipse.xtext.xbase.validation.XbaseValidator {
 
 	@Override
 	protected List<EPackage> getEPackages() {

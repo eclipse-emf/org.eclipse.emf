@@ -23,11 +23,9 @@ public class XcoreExtensions {
     GenBase _type = type.getType();
     final GenBase t = _type;
     boolean _matched = false;
-    if (!_matched) {
-      if (t instanceof GenClass) {
-        _matched=true;
-        _switchResult = ((GenClass)t);
-      }
+    if (t instanceof GenClass) {
+      _matched=true;
+      _switchResult = ((GenClass)t);
     }
     if (!_matched) {
       _switchResult = null;
@@ -40,11 +38,9 @@ public class XcoreExtensions {
     GenBase _type = type.getType();
     final GenBase t = _type;
     boolean _matched = false;
-    if (!_matched) {
-      if (t instanceof GenTypeParameter) {
-        _matched=true;
-        _switchResult = ((GenTypeParameter)t);
-      }
+    if (t instanceof GenTypeParameter) {
+      _matched=true;
+      _switchResult = ((GenTypeParameter)t);
     }
     if (!_matched) {
       _switchResult = null;

@@ -11,16 +11,17 @@ package org.eclipse.emf.ecore.xcore.formatting;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.formatting.IWhitespaceInformationProvider;
+import org.eclipse.xtext.formatting2.FormatterPreferenceKeys;
+import org.eclipse.xtext.formatting2.FormatterPreferenceValuesProvider;
 import org.eclipse.xtext.preferences.IPreferenceValues;
 import org.eclipse.xtext.preferences.IPreferenceValuesProvider;
 import org.eclipse.xtext.preferences.PreferenceKey;
-import org.eclipse.xtext.xbase.formatting.BasicFormatterPreferenceKeys;
-import org.eclipse.xtext.xbase.formatting.IFormattingPreferenceValuesProvider;
+import org.eclipse.xtext.xbase.formatting2.XbaseFormatterPreferenceKeys;
 
 import com.google.inject.Inject;
 
 
-public class XcoreFormatterPreferenceValuesProvider implements IFormattingPreferenceValuesProvider
+public class XcoreFormatterPreferenceValuesProvider extends FormatterPreferenceValuesProvider
 {
   @Inject
   private IWhitespaceInformationProvider whitespaceInfo;
@@ -41,15 +42,22 @@ public class XcoreFormatterPreferenceValuesProvider implements IFormattingPrefer
       {
         public String getPreference(PreferenceKey key)
         {
-          if (key == BasicFormatterPreferenceKeys.indentation)
+          if (key == XbaseFormatterPreferenceKeys.whitespaceBetweenKeywordAndParenthesisSL)
+          {
+            return "true";
+          }
+          else if (key == FormatterPreferenceKeys.indentation)
           {
             return indent;
           }
-          if (key == BasicFormatterPreferenceKeys.lineSeparator)
+          else if (key == FormatterPreferenceKeys.lineSeparator)
           {
             return lineSep;
           }
-          return preferenceValues.getPreference(key);
+          else
+          {
+            return preferenceValues.getPreference(key);
+          }
         }
       };
   }

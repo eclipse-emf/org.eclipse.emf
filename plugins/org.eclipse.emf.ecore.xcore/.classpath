@@ -11,6 +11,7 @@
 			<accessrule kind="accessible" pattern="org/eclipse/xtext/preferences/**"/>
 			<accessrule kind="accessible" pattern="org/eclipse/xtext/findReferences/**"/>
 			<accessrule kind="accessible" pattern="org/eclipse/xtext/serializer/**"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/formatting2/**"/>
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>

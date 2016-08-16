@@ -20,16 +20,19 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
+import org.eclipse.xtext.formatting2.FormatterPreferenceValuesProvider;
+import org.eclipse.xtext.formatting2.FormatterRequest;
+import org.eclipse.xtext.formatting2.IFormatter2;
+import org.eclipse.xtext.formatting2.regionaccess.ITextReplacement;
+import org.eclipse.xtext.formatting2.regionaccess.internal.NodeModelBasedRegionAccessBuilder;
 import org.eclipse.xtext.parser.IParseResult;
 import org.eclipse.xtext.preferences.IPreferenceValues;
+import org.eclipse.xtext.preferences.TypedPreferenceValues;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.formatting.IContentFormatterFactory;
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
+import org.eclipse.xtext.util.TextRegion;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
-import org.eclipse.xtext.xbase.formatting.FormattingPreferenceValues;
-import org.eclipse.xtext.xbase.formatting.IBasicFormatter;
-import org.eclipse.xtext.xbase.formatting.IFormattingPreferenceValuesProvider;
-import org.eclipse.xtext.xbase.formatting.TextReplacement;
 
 import com.google.inject.Inject;
 
@@ -42,10 +45,10 @@ public class XcoreFormatterFactory implements IContentFormatterFactory
   public static class XcoreContentFormatter implements IContentFormatter
   {
     @Inject
-    protected IBasicFormatter formatter;
+    protected IFormatter2 formatter;
 
     @Inject
-    private IFormattingPreferenceValuesProvider preferencesProvider;
+    private FormatterPreferenceValuesProvider preferencesProvider;
 
     public void format(IDocument document, final IRegion region)
     {
@@ -67,9 +70,19 @@ public class XcoreFormatterFactory implements IContentFormatterFactory
                final MultiTextEdit multiTextEdit = new MultiTextEdit();
                try
                {
-                 List<TextReplacement> edits = formatter.format(xtextResource, region.getOffset(), region.getLength(), new FormattingPreferenceValues(configuration));
-                 for (TextReplacement replacement : edits)
-                   multiTextEdit.addChild(new ReplaceEdit(replacement.getOffset(), replacement.getLength(), replacement.getText()));
+                 FormatterRequest request = new FormatterRequest();
+                 request.setTextRegionAccess(new NodeModelBasedRegionAccessBuilder().withResource(xtextResource).create());
+                 request.addRegion(new TextRegion(region.getOffset(), region.getLength()));
+                 request.setPreferences(new TypedPreferenceValues(configuration));
+                 List<ITextReplacement> edits = formatter.format(request);
+                 for (ITextReplacement replacement : edits)
+                 {
+                   String replacementText = replacement.getReplacementText();
+                   if (!replacementText.equals(replacement.getText()))
+                   {
+                     multiTextEdit.addChild(new ReplaceEdit(replacement.getOffset(), replacement.getLength(), replacementText));
+                   }
+                 }
                }
                catch (Throwable throwable)
                {

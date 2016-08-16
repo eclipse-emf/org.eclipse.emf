@@ -125,19 +125,21 @@ public class XcoreQuickfixProvider extends XbaseQuickfixProvider
       // Determine the associated node.
       //
       ICompositeNode node = NodeModelUtils.getNode(eObject);
-
-      INode previous = node.getPreviousSibling();
-      begin = getLineBeginOffsetOfOffset(previous == null ? node.getOffset() : previous.getOffset() + previous.getLength());
-      INode next = node.getNextSibling();
-      end = getLineEndOffsetOfOffset(next == null ? node.getOffset() + node.getLength() : next.getOffset());
-
-      deleteBegin = getBeginOffset(node);
-      deleteEnd = getEndOffset(node);
-
-      replacement =
-         deleteBegin > 0 && !Character.isWhitespace(xtextDocument.getChar(deleteBegin - 1)) && deleteEnd + 1 <  xtextDocument.getLength() && !Character.isWhitespace(xtextDocument.getChar(deleteEnd + 1)) ?
-           " " :
-           "";
+      if (node != null)
+      {
+        INode previous = node.getPreviousSibling();
+        begin = getLineBeginOffsetOfOffset(previous == null ? node.getOffset() : previous.getOffset() + previous.getLength());
+        INode next = node.getNextSibling();
+        end = getLineEndOffsetOfOffset(next == null ? node.getOffset() + node.getLength() : next.getOffset());
+  
+        deleteBegin = getBeginOffset(node);
+        deleteEnd = getEndOffset(node);
+  
+        replacement =
+           deleteBegin > 0 && !Character.isWhitespace(xtextDocument.getChar(deleteBegin - 1)) && deleteEnd + 1 <  xtextDocument.getLength() && !Character.isWhitespace(xtextDocument.getChar(deleteEnd + 1)) ?
+             " " :
+             "";
+      }
     }
 
     public int getBegin()

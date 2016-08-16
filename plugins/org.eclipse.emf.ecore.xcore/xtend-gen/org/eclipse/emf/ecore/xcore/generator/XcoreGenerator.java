@@ -79,15 +79,7 @@ public class XcoreGenerator implements IGenerator {
         final XBlockExpression createBody = xDataType.getCreateBody();
         XDataTypeMapping _mapping_1 = this.mappings.getMapping(xDataType);
         final JvmOperation creator = _mapping_1.getCreator();
-        boolean _and = false;
-        boolean _notEquals = (!Objects.equal(createBody, null));
-        if (!_notEquals) {
-          _and = false;
-        } else {
-          boolean _notEquals_1 = (!Objects.equal(creator, null));
-          _and = _notEquals_1;
-        }
-        if (_and) {
+        if (((!Objects.equal(createBody, null)) && (!Objects.equal(creator, null)))) {
           final XcoreAppendable appendable = this.createAppendable();
           EList<JvmFormalParameter> _parameters = creator.getParameters();
           JvmFormalParameter _get = _parameters.get(0);
@@ -102,15 +94,7 @@ public class XcoreGenerator implements IGenerator {
         final XBlockExpression convertBody = xDataType.getConvertBody();
         XDataTypeMapping _mapping_2 = this.mappings.getMapping(xDataType);
         final JvmOperation converter = _mapping_2.getConverter();
-        boolean _and_1 = false;
-        boolean _notEquals_2 = (!Objects.equal(convertBody, null));
-        if (!_notEquals_2) {
-          _and_1 = false;
-        } else {
-          boolean _notEquals_3 = (!Objects.equal(converter, null));
-          _and_1 = _notEquals_3;
-        }
-        if (_and_1) {
+        if (((!Objects.equal(convertBody, null)) && (!Objects.equal(converter, null)))) {
           final XcoreAppendable appendable_1 = this.createAppendable();
           EList<JvmFormalParameter> _parameters_1 = converter.getParameters();
           JvmFormalParameter _get_1 = _parameters_1.get(0);
@@ -131,11 +115,11 @@ public class XcoreGenerator implements IGenerator {
           boolean _add = processed.add(eStructuralFeature);
           if (_add) {
             final XStructuralFeature xFeature = this.mappings.getXFeature(eStructuralFeature);
-            boolean _notEquals_4 = (!Objects.equal(xFeature, null));
-            if (_notEquals_4) {
+            boolean _notEquals = (!Objects.equal(xFeature, null));
+            if (_notEquals) {
               final XBlockExpression getBody = xFeature.getGetBody();
-              boolean _notEquals_5 = (!Objects.equal(getBody, null));
-              if (_notEquals_5) {
+              boolean _notEquals_1 = (!Objects.equal(getBody, null));
+              if (_notEquals_1) {
                 XFeatureMapping _mapping_4 = this.mappings.getMapping(xFeature);
                 final JvmOperation getter = _mapping_4.getGetter();
                 final XcoreAppendable appendable_2 = this.createAppendable();
@@ -144,8 +128,8 @@ public class XcoreGenerator implements IGenerator {
                 JvmDeclaredType _declaringType_1 = getter.getDeclaringType();
                 EList<JvmTypeReference> _superTypes = _declaringType_1.getSuperTypes();
                 final JvmTypeReference superType = IterableExtensions.<JvmTypeReference>head(_superTypes);
-                boolean _notEquals_6 = (!Objects.equal(superType, null));
-                if (_notEquals_6) {
+                boolean _notEquals_2 = (!Objects.equal(superType, null));
+                if (_notEquals_2) {
                   JvmType _type = superType.getType();
                   appendable_2.declareVariable(_type, "super");
                 }
@@ -164,15 +148,15 @@ public class XcoreGenerator implements IGenerator {
           boolean _add_1 = processed.add(eOperation);
           if (_add_1) {
             final XOperation xOperation = this.mappings.getXOperation(eOperation);
-            boolean _notEquals_7 = (!Objects.equal(xOperation, null));
-            if (_notEquals_7) {
+            boolean _notEquals_3 = (!Objects.equal(xOperation, null));
+            if (_notEquals_3) {
               final XBlockExpression body = xOperation.getBody();
-              boolean _notEquals_8 = (!Objects.equal(body, null));
-              if (_notEquals_8) {
+              boolean _notEquals_4 = (!Objects.equal(body, null));
+              if (_notEquals_4) {
                 final XOperationMapping xOperationMapping = this.mappings.getMapping(xOperation);
                 final JvmOperation jvmOperation = xOperationMapping.getJvmOperation();
-                boolean _notEquals_9 = (!Objects.equal(jvmOperation, null));
-                if (_notEquals_9) {
+                boolean _notEquals_5 = (!Objects.equal(jvmOperation, null));
+                if (_notEquals_5) {
                   final XcoreAppendable appendable_3 = this.createAppendable();
                   JvmDeclaredType declaringType = jvmOperation.getDeclaringType();
                   GenOperation _genOperation = xOperationMapping.getGenOperation();
@@ -181,8 +165,8 @@ public class XcoreGenerator implements IGenerator {
                   if (_isExternalInterface) {
                     final EList<JvmTypeReference> superTypes = declaringType.getSuperTypes();
                     final JvmTypeReference effectiveTypeReference = IterableExtensions.<JvmTypeReference>head(superTypes);
-                    boolean _notEquals_10 = (!Objects.equal(effectiveTypeReference, null));
-                    if (_notEquals_10) {
+                    boolean _notEquals_6 = (!Objects.equal(effectiveTypeReference, null));
+                    if (_notEquals_6) {
                       JvmType _type_1 = effectiveTypeReference.getType();
                       appendable_3.declareVariable(_type_1, "this");
                     }
@@ -190,8 +174,8 @@ public class XcoreGenerator implements IGenerator {
                     appendable_3.declareVariable(declaringType, "this");
                     EList<JvmTypeReference> _superTypes_1 = declaringType.getSuperTypes();
                     final JvmTypeReference superType_1 = IterableExtensions.<JvmTypeReference>head(_superTypes_1);
-                    boolean _notEquals_11 = (!Objects.equal(superType_1, null));
-                    if (_notEquals_11) {
+                    boolean _notEquals_7 = (!Objects.equal(superType_1, null));
+                    if (_notEquals_7) {
                       JvmType _type_2 = superType_1.getType();
                       appendable_3.declareVariable(_type_2, "super");
                     }

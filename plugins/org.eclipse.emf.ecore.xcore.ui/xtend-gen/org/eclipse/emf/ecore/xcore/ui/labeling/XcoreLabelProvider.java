@@ -37,14 +37,7 @@ public class XcoreLabelProvider extends XbaseLabelProvider {
   @Override
   public String getText(final Object element) {
     final String result = super.getText(element);
-    boolean _and = false;
-    boolean _equals = Objects.equal(result, null);
-    if (!_equals) {
-      _and = false;
-    } else {
-      _and = (element instanceof EObject);
-    }
-    if (_and) {
+    if ((Objects.equal(result, null) && (element instanceof EObject))) {
       final QualifiedName name = this.nameProvider.getFullyQualifiedName(((EObject) element));
       boolean _notEquals = (!Objects.equal(name, null));
       if (_notEquals) {
