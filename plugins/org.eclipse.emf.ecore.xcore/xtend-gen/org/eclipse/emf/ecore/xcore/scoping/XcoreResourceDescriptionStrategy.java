@@ -4,7 +4,6 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.function.Consumer;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -27,6 +26,8 @@ import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.ecore.EcoreResourceDescriptionStrategy;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.util.IAcceptor;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.eclipse.xtext.xbase.resource.XbaseResourceDescriptionStrategy;
 
 @Singleton
@@ -49,13 +50,13 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
         if (it instanceof EPackage) {
           _matched_1=true;
           EList<EClassifier> _eClassifiers = ((EPackage)it).getEClassifiers();
-          final Consumer<EClassifier> _function = new Consumer<EClassifier>() {
+          final Procedure1<EClassifier> _function = new Procedure1<EClassifier>() {
             @Override
-            public void accept(final EClassifier it) {
+            public void apply(final EClassifier it) {
               XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
             }
           };
-          _eClassifiers.forEach(_function);
+          IterableExtensions.<EClassifier>forEach(_eClassifiers, _function);
         }
         if (!_matched_1) {
           if (it instanceof EClass) {
@@ -63,13 +64,13 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
             EList<EOperation> _eOperations = ((EClass)it).getEOperations();
             EList<EStructuralFeature> _eStructuralFeatures = ((EClass)it).getEStructuralFeatures();
             Iterable<ETypedElement> _plus = Iterables.<ETypedElement>concat(_eOperations, _eStructuralFeatures);
-            final Consumer<ETypedElement> _function = new Consumer<ETypedElement>() {
+            final Procedure1<ETypedElement> _function = new Procedure1<ETypedElement>() {
               @Override
-              public void accept(final ETypedElement it) {
+              public void apply(final ETypedElement it) {
                 XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
               }
             };
-            _plus.forEach(_function);
+            IterableExtensions.<ETypedElement>forEach(_plus, _function);
           }
         }
       }
@@ -80,25 +81,25 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
           if (it instanceof GenModel) {
             _matched_2=true;
             EList<GenPackage> _genPackages = ((GenModel)it).getGenPackages();
-            final Consumer<GenPackage> _function = new Consumer<GenPackage>() {
+            final Procedure1<GenPackage> _function = new Procedure1<GenPackage>() {
               @Override
-              public void accept(final GenPackage it) {
+              public void apply(final GenPackage it) {
                 XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
               }
             };
-            _genPackages.forEach(_function);
+            IterableExtensions.<GenPackage>forEach(_genPackages, _function);
           }
           if (!_matched_2) {
             if (it instanceof GenPackage) {
               _matched_2=true;
               EList<GenClassifier> _genClassifiers = ((GenPackage)it).getGenClassifiers();
-              final Consumer<GenClassifier> _function = new Consumer<GenClassifier>() {
+              final Procedure1<GenClassifier> _function = new Procedure1<GenClassifier>() {
                 @Override
-                public void accept(final GenClassifier it) {
+                public void apply(final GenClassifier it) {
                   XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
                 }
               };
-              _genClassifiers.forEach(_function);
+              IterableExtensions.<GenClassifier>forEach(_genClassifiers, _function);
             }
           }
           if (!_matched_2) {
@@ -116,13 +117,13 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
           if (it instanceof XPackage) {
             _matched_3=true;
             EList<XAnnotationDirective> _annotationDirectives = ((XPackage)it).getAnnotationDirectives();
-            final Consumer<XAnnotationDirective> _function = new Consumer<XAnnotationDirective>() {
+            final Procedure1<XAnnotationDirective> _function = new Procedure1<XAnnotationDirective>() {
               @Override
-              public void accept(final XAnnotationDirective it) {
+              public void apply(final XAnnotationDirective it) {
                 XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
               }
             };
-            _annotationDirectives.forEach(_function);
+            IterableExtensions.<XAnnotationDirective>forEach(_annotationDirectives, _function);
           }
           if (!_matched_3) {
             if (it instanceof XAnnotationDirective) {
@@ -139,13 +140,13 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
             super.createEObjectDescriptions(it, acceptor);
             EList<JvmMember> _members = ((JvmDeclaredType)it).getMembers();
             Iterable<JvmDeclaredType> _filter = Iterables.<JvmDeclaredType>filter(_members, JvmDeclaredType.class);
-            final Consumer<JvmDeclaredType> _function = new Consumer<JvmDeclaredType>() {
+            final Procedure1<JvmDeclaredType> _function = new Procedure1<JvmDeclaredType>() {
               @Override
-              public void accept(final JvmDeclaredType it) {
+              public void apply(final JvmDeclaredType it) {
                 XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
               }
             };
-            _filter.forEach(_function);
+            IterableExtensions.<JvmDeclaredType>forEach(_filter, _function);
           }
         }
       }
