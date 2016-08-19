@@ -9,7 +9,7 @@ package org.eclipse.emf.test.ecore.xcore.smoketest;
 
 import com.google.inject.Inject;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
+import org.eclipse.emf.test.ecore.xcore.XcoreStandaloneInjectorProvider;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
@@ -23,7 +23,7 @@ import org.eclipse.xtext.xbase.lib.Extension;
 import org.junit.runner.RunWith;
 
 @RunWith(XtextRunner.class)
-@InjectWith(XcoreInjectorProvider.class)
+@InjectWith(XcoreStandaloneInjectorProvider.class)
 @SuppressWarnings("all")
 public class XcoreSmokeTest extends AbstractSmokeTest {
   @Inject

@@ -12,7 +12,6 @@ import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.xcore.XPackage
-import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.junit4.util.ParseHelper
@@ -26,9 +25,10 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EEnum
 import java.util.List
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.test.ecore.xcore.XcoreStandaloneInjectorProvider
 
 @RunWith(typeof(XtextRunner))
-@InjectWith(typeof(XcoreInjectorProvider))
+@InjectWith(typeof(XcoreStandaloneInjectorProvider))
 class XcoreInterpreterTest {
 	
 	@Inject

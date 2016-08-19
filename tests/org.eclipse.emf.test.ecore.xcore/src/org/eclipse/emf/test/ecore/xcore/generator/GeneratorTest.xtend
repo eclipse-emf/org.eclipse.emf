@@ -9,7 +9,6 @@ package org.eclipse.emf.test.ecore.xcore.generator
 
 import com.google.inject.Inject
 import org.eclipse.emf.ecore.xcore.XPackage
-import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider
 import org.eclipse.emf.ecore.xcore.generator.XcoreGenerator
 import org.eclipse.xtext.generator.InMemoryFileSystemAccess
 import org.eclipse.xtext.junit4.InjectWith
@@ -20,9 +19,10 @@ import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
 import org.eclipse.xtext.generator.IFileSystemAccess
+import org.eclipse.emf.test.ecore.xcore.XcoreStandaloneInjectorProvider
 
 @RunWith(typeof(XtextRunner))
-@InjectWith(typeof(XcoreInjectorProvider))
+@InjectWith(typeof(XcoreStandaloneInjectorProvider))
 class GeneratorTest {
 	
 	@Inject

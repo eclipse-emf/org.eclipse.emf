@@ -11,9 +11,9 @@ package org.eclipse.emf.test.ecore.xcore.ecore;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
-import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.test.ecore.xcore.GenModelFormatter;
+import org.eclipse.emf.test.ecore.xcore.XcoreStandaloneInjectorProvider;
 import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.InjectParameter;
 import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.Offset;
 import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.ParameterizedXtextRunner;
@@ -28,7 +28,7 @@ import org.junit.runner.RunWith;
 import com.google.inject.Inject;
 
 
-@InjectWith(XcoreInjectorProvider.class)
+@InjectWith(XcoreStandaloneInjectorProvider.class)
 @RunWith(ParameterizedXtextRunner.class)
 @ResourceURIs(baseDir = "test-models/org/eclipse/emf/test/ecore/xcore/ecore", fileExtensions = "xcore")
 public class XcoreEcoreTest

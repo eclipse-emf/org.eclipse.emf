@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.xcore.XPackage
 import org.junit.Test
 import static org.junit.Assert.*
 import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider
 import org.eclipse.emf.ecore.xcore.XClass
 import org.eclipse.emf.ecore.xcore.XcoreExtensions
 import org.eclipse.emf.ecore.xcore.XReference
@@ -27,7 +26,7 @@ import org.eclipse.emf.ecore.xcore.XAttribute
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier
 
 @RunWith(typeof(XtextRunner))
-@InjectWith(typeof(XcoreInjectorProvider))
+@InjectWith(typeof(XcoreStandaloneInjectorProvider))
 class ParsingTest extends Object {
 
 	@Inject

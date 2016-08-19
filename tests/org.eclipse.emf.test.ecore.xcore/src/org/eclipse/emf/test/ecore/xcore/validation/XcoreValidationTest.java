@@ -11,7 +11,7 @@ package org.eclipse.emf.test.ecore.xcore.validation;
 import java.util.List;
 
 import org.eclipse.emf.ecore.util.EcoreValidator;
-import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
+import org.eclipse.emf.test.ecore.xcore.XcoreStandaloneInjectorProvider;
 import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.InjectParameter;
 import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.ResourceURIs;
 import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.XpectLines;
@@ -53,7 +53,7 @@ import com.google.inject.Inject;
  * {@link EcoreValidator#WELL_FORMED_SOURCE_URI},
  * 
  */
-@InjectWith(XcoreInjectorProvider.class)
+@InjectWith(XcoreStandaloneInjectorProvider.class)
 @RunWith(XcoreParameterizedTestRunner.class)
 @ResourceURIs(baseDir = "test-models/org/eclipse/emf/test/ecore/xcore/validation", fileExtensions = "xcore_test")
 public class XcoreValidationTest

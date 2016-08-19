@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.xcore.XPackage;
-import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
+import org.eclipse.emf.test.ecore.xcore.XcoreStandaloneInjectorProvider;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.junit4.util.ParseHelper;
@@ -26,7 +26,7 @@ import com.google.inject.Inject;
 
 
 @RunWith(XtextRunner.class)
-@InjectWith(XcoreInjectorProvider.class)
+@InjectWith(XcoreStandaloneInjectorProvider.class)
 public class XcoreInterpreterXbaseIntegrationTest extends AbstractXbaseEvaluationTest
 {
   @Inject

@@ -11,7 +11,6 @@ import com.google.inject.Inject
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.xcore.XClass
-import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper
@@ -26,7 +25,7 @@ import org.eclipse.emf.ecore.xcore.XReference
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper
 
 @RunWith(typeof(XtextRunner))
-@InjectWith(typeof(XcoreInjectorProvider))
+@InjectWith(typeof(XcoreStandaloneInjectorProvider))
 class MultiFileTest {
 	
 	@Inject

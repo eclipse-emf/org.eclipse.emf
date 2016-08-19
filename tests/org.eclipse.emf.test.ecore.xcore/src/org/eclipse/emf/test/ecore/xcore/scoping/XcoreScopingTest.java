@@ -13,7 +13,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
+import org.eclipse.emf.test.ecore.xcore.XcoreStandaloneInjectorProvider;
 import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.InjectParameter;
 import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.Offset;
 import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.ParameterSyntax;
@@ -35,7 +35,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
 
-@InjectWith(XcoreInjectorProvider.class)
+@InjectWith(XcoreStandaloneInjectorProvider.class)
 @RunWith(ParameterizedXtextRunner.class)
 @ResourceURIs(baseDir = "test-models/org/eclipse/emf/test/ecore/xcore/scoping", fileExtensions = "xcore")
 public class XcoreScopingTest

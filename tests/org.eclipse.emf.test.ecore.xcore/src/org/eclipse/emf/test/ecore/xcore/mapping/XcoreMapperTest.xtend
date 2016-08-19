@@ -10,7 +10,6 @@ package org.eclipse.emf.test.ecore.xcore.mapping
 import org.junit.runner.RunWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider
 import com.google.inject.Inject
 import org.eclipse.xtext.junit4.util.ParseHelper
 import org.eclipse.emf.ecore.xcore.XPackage
@@ -20,9 +19,10 @@ import org.junit.Test
 import org.eclipse.emf.ecore.xcore.XClass
 import org.eclipse.emf.ecore.xcore.XStructuralFeature
 import org.eclipse.emf.ecore.xcore.XOperation
+import org.eclipse.emf.test.ecore.xcore.XcoreStandaloneInjectorProvider
 
 @RunWith(typeof(XtextRunner))
-@InjectWith(typeof(XcoreInjectorProvider))
+@InjectWith(typeof(XcoreStandaloneInjectorProvider))
 class XcoreMapperTest {
 
 	@Inject
