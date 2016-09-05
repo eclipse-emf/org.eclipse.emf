@@ -955,6 +955,51 @@ public class CodeGenUtil
     return result.toString();
   }
 
+  /**
+   * @since 2.12
+   */
+  public static String xmlEscapeEncode(String value)
+  {
+    StringBuilder result = new StringBuilder(value.length());
+    for (int i = 0, size = value.length(); i < size; ++i)
+    {
+      char character = value.charAt(i);
+      switch (character)
+      {
+        case '<':
+        {
+          result.append("&lt;");
+          break;
+        }
+        case '>':
+        {
+          result.append("&gt;");
+          break;
+        }
+        case '&':
+        {
+          result.append("&amp;");
+          break;
+        }
+        default:
+        {
+          result.append(character);
+          break;
+        }
+      }
+    }
+
+    return result.toString();
+  }
+
+  /**
+   * @since 2.12
+   */
+  public static String xmlEscapeDecode(String value)
+  {
+    return value.replace("&amp;", "&").replace("&lt;","<").replace("&gt;", ">");
+  }
+
   public static FacadeHelper instantiateFacadeHelper(String facadeHelperClass)
   {
     try

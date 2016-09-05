@@ -1879,7 +1879,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       result.append(name);
     }
     result.append("=\"");
-    result.append(value);
+    result.append(CodeGenUtil.xmlEscapeEncode(value));
     result.append("\" ");
   }
 
@@ -1887,10 +1887,10 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     result.append(name);
     result.append("=\"");
-    result.append(value);
+    result.append(CodeGenUtil.xmlEscapeEncode(value));
     result.append("\" ");
   }
-
+ 
   protected static boolean isJavaUtilMapEntry(String name)
   {
     return "java.util.Map.Entry".equals(name) || "java.util.Map$Entry".equals(name);
