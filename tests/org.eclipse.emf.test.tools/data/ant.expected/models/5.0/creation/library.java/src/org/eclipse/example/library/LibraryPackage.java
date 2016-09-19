@@ -717,7 +717,7 @@ public interface LibraryPackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Many UR Is</em>'.
    * @see java.util.List
-   * @model instanceClass="java.util.List<org.eclipse.emf.common.util.URI>"
+   * @model instanceClass="java.util.List&lt;org.eclipse.emf.common.util.URI&gt;"
    * @generated
    */
   EDataType getManyURIs();
