@@ -3,7 +3,7 @@
 	<rm:property key="checkout.location" value="${workspace.root}/" />
 	<rm:property key="xtext.p2.repository" value="${eclipse.download}/modeling/tmf/xtext/updates/composite" />
 	<rm:property key="xtext.p2.nightly.repository" value="${xtext.p2.repository}/nightly" />
-	<rm:property key="xtext.p2.stable.repository" value="${xtext.p2.repository}/milestones" />
+	<rm:property key="xtext.p2.stable.repository" value="${xtext.p2.repository}/releases/2.10.0/" />
 	<rm:property key="hudson.emf.p2.repository" value="https://hudson.eclipse.org/xtext/job/emf-core/lastSuccessfulBuild/artifact/build-result/p2.repository/" />
 	<rm:property key="emf.p2.repository" value="${eclipse.download}/modeling/emf/emf/updates" />
 	
