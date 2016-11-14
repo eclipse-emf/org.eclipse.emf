@@ -14,11 +14,11 @@
 	<rm:locator pattern="^org\.eclipse\.xtext(?:\..+)?$" searchPathRef="tmf-composite" />
 	<rm:locator pattern="^org\.eclipse\.(?:xpand|xtend)(?:\..+)?$" searchPathRef="tmf-composite" />
 	<rm:locator pattern="^org\.eclipse\.emf\.(?:mwe|mwe2)(?:\..+)?$" searchPathRef="tmf-composite" />
-	<rm:locator pattern="^com\.google(?:\..+)?$" searchPathRef="tmf-composite" />
+	<rm:locator pattern="^com\.google(?:\..+)?$" searchPathRef="orbit" />
 	<rm:locator pattern="^org\.(?:apache|aopalliance)(?:\..+)?$" searchPathRef="tmf-composite" failOnError="false" />
-	<rm:locator pattern="^org\.objectweb\.asm(?:\..+)?$" searchPathRef="tmf-composite"/>
+	<rm:locator pattern="^org\.objectweb\.asm(?:\..+)?$" searchPathRef="orbit"/>
 	<rm:locator pattern="org.antlr.runtime" searchPathRef="tmf-composite"/>
-	<rm:locator pattern="javax.inject" searchPathRef="tmf-composite"/>
+	<rm:locator pattern="javax.inject" searchPathRef="orbit"/>
 	<rm:locator pattern="org.junit" searchPathRef="orbit"/>
 	<rm:locator pattern="org.hamcrest.core" searchPathRef="orbit"/>
 
