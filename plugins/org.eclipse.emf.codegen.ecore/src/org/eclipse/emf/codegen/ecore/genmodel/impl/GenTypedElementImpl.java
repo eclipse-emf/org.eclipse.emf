@@ -329,11 +329,12 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   {
     ETypedElement eTypedElement = getEcoreTypedElement();
     return 
-      eTypedElement.isMany() || 
-        isFeatureMapType() ||
-        eTypedElement.getUpperBound() == ETypedElement.UNSPECIFIED_MULTIPLICITY &&
-          eTypedElement instanceof EStructuralFeature && 
-          XMLTypePackage.eNS_URI.equals(getExtendedMetaData().getNamespace((EStructuralFeature)eTypedElement));
+      eTypedElement != null &&
+        (eTypedElement.isMany() || 
+          isFeatureMapType() ||
+          eTypedElement.getUpperBound() == ETypedElement.UNSPECIFIED_MULTIPLICITY &&
+            eTypedElement instanceof EStructuralFeature && 
+            XMLTypePackage.eNS_URI.equals(getExtendedMetaData().getNamespace((EStructuralFeature)eTypedElement)));
   }
 
   public boolean isListDataType()
