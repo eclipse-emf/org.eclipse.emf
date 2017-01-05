@@ -18,10 +18,10 @@ package org.eclipse.emf.ecore;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.ENamedElement#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getENamedElement()
  * @model abstract="true"

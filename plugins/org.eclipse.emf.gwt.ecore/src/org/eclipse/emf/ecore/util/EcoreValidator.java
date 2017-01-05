@@ -11,6 +11,8 @@
  */
 package org.eclipse.emf.ecore.util;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -435,6 +437,10 @@ public class EcoreValidator extends EObjectValidator
         return validateEGenericType((EGenericType)value, diagnostics, context);
       case EcorePackage.ETYPE_PARAMETER:
         return validateETypeParameter((ETypeParameter)value, diagnostics, context);
+      case EcorePackage.EBIG_DECIMAL:
+        return validateEBigDecimal((BigDecimal)value, diagnostics, context);
+      case EcorePackage.EBIG_INTEGER:
+        return validateEBigInteger((BigInteger)value, diagnostics, context);
       case EcorePackage.EBOOLEAN:
         return validateEBoolean((Boolean)value, diagnostics, context);
       case EcorePackage.EBOOLEAN_OBJECT:
@@ -4139,6 +4145,26 @@ public class EcoreValidator extends EObjectValidator
     if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(eTypeParameter, diagnostics, context);
     if (result || diagnostics != null) result &= validateENamedElement_WellFormedName(eTypeParameter, diagnostics, context);
     return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean validateEBigDecimal(BigDecimal eBigDecimal, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    return true;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean validateEBigInteger(BigInteger eBigInteger, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    return true;
   }
 
   /**

@@ -26,10 +26,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.impl.EParameterImpl#getEOperation <em>EOperation</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

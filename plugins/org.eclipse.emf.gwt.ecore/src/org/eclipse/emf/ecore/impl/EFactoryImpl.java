@@ -47,10 +47,10 @@ import com.google.gwt.i18n.client.DateTimeFormat;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.impl.EFactoryImpl#getEPackage <em>EPackage</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

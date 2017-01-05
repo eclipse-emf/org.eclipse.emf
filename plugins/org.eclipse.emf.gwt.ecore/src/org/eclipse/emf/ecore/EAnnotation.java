@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.EMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.EAnnotation#getSource <em>Source</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EAnnotation#getDetails <em>Details</em>}</li>
@@ -27,7 +28,6 @@ import org.eclipse.emf.common.util.EMap;
  *   <li>{@link org.eclipse.emf.ecore.EAnnotation#getContents <em>Contents</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EAnnotation#getReferences <em>References</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEAnnotation()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='WellFormedSourceURI'"

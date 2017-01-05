@@ -12,6 +12,8 @@
 package org.eclipse.emf.ecore.impl;
 
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.Map;
 
@@ -40,7 +42,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
   {
     try
     {
-      EcoreFactory theEcoreFactory = (EcoreFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2002/Ecore"); 
+      EcoreFactory theEcoreFactory = (EcoreFactory)EPackage.Registry.INSTANCE.getEFactory(EcorePackage.eNS_URI);
       if (theEcoreFactory != null)
       {
         return theEcoreFactory;
@@ -104,6 +106,10 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
   {
     switch (eDataType.getClassifierID())
     {
+      case EcorePackage.EBIG_DECIMAL:
+        return createEBigDecimalFromString(eDataType, initialValue);
+      case EcorePackage.EBIG_INTEGER:
+        return createEBigIntegerFromString(eDataType, initialValue);
       case EcorePackage.EBOOLEAN:
         return createEBooleanFromString(eDataType, initialValue);
       case EcorePackage.EBOOLEAN_OBJECT:
@@ -161,6 +167,10 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
   {
     switch (eDataType.getClassifierID())
     {
+      case EcorePackage.EBIG_DECIMAL:
+        return convertEBigDecimalToString(eDataType, instanceValue);
+      case EcorePackage.EBIG_INTEGER:
+        return convertEBigIntegerToString(eDataType, instanceValue);
       case EcorePackage.EBOOLEAN:
         return convertEBooleanToString(eDataType, instanceValue);
       case EcorePackage.EBOOLEAN_OBJECT:
@@ -551,6 +561,46 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
   {
     ETypeParameterImpl eTypeParameter = new ETypeParameterImpl();
     return eTypeParameter;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public BigDecimal createEBigDecimalFromString(EDataType eDataType, String initialValue)
+  {
+    return initialValue == null ? null : new BigDecimal(initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertEBigDecimalToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public BigInteger createEBigIntegerFromString(EDataType eDataType, String initialValue)
+  {
+    return initialValue == null ? null : new BigInteger(initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertEBigIntegerToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**

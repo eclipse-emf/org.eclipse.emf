@@ -11,9 +11,10 @@
 package org.eclipse.emf.ecore.provider;
 
 
-import com.google.gwt.core.client.GWT;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
+
+import com.google.gwt.core.client.GWT;
 
 
 /**

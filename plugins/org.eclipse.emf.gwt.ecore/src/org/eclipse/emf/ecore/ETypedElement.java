@@ -19,6 +19,7 @@ package org.eclipse.emf.ecore;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.ETypedElement#isOrdered <em>Ordered</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.ETypedElement#isUnique <em>Unique</em>}</li>
@@ -29,7 +30,6 @@ package org.eclipse.emf.ecore;
  *   <li>{@link org.eclipse.emf.ecore.ETypedElement#getEType <em>EType</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.ETypedElement#getEGenericType <em>EGeneric Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getETypedElement()
  * @model abstract="true"

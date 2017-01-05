@@ -15,6 +15,8 @@ package org.eclipse.emf.ecore.impl;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -228,6 +230,20 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * @generated
    */
   private EClass eTypeParameterEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EDataType eBigDecimalEDataType = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EDataType eBigIntegerEDataType = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -780,6 +796,34 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
+      (BigDecimal.class, 
+       new Reflect.Helper() 
+       {
+         public boolean isInstance(Object instance)
+         {
+           return instance instanceof BigDecimal;
+         }
+
+         public Object newArrayInstance(int size)
+         {
+           return new BigDecimal[size];
+         }
+    });
+    Reflect.register
+      (BigInteger.class, 
+       new Reflect.Helper() 
+       {
+         public boolean isInstance(Object instance)
+         {
+           return instance instanceof BigInteger;
+         }
+
+         public Object newArrayInstance(int size)
+         {
+           return new BigInteger[size];
+         }
+    });
+    Reflect.register
       (Boolean.class, 
        new Reflect.Helper() 
        {
@@ -1258,6 +1302,18 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
      */
     protected ETypeParameter eTypeParameter;
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected BigDecimal eBigDecimal;
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected BigInteger eBigInteger;
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2562,6 +2618,26 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EDataType getEBigDecimal()
+  {
+    return eBigDecimalEDataType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EDataType getEBigInteger()
+  {
+    return eBigIntegerEDataType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getEParameter()
   {
     return eParameterEClass;
@@ -3317,6 +3393,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     createEReference(eTypeParameterEClass, ETYPE_PARAMETER__EBOUNDS);
 
     // Create data types
+    eBigDecimalEDataType = createEDataType(EBIG_DECIMAL);
+    eBigIntegerEDataType = createEDataType(EBIG_INTEGER);
     eBooleanEDataType = createEDataType(EBOOLEAN);
     eBooleanObjectEDataType = createEDataType(EBOOLEAN_OBJECT);
     eByteEDataType = createEDataType(EBYTE);
@@ -3651,6 +3729,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initEReference(getETypeParameter_EBounds(), this.getEGenericType(), null, "eBounds", null, 0, -1, ETypeParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize data types
+    initEDataType(eBigDecimalEDataType, BigDecimal.class, "EBigDecimal", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(eBigIntegerEDataType, BigInteger.class, "EBigInteger", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(eBooleanEDataType, boolean.class, "EBoolean", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(eBooleanObjectEDataType, Boolean.class, "EBooleanObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(eByteEDataType, byte.class, "EByte", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
@@ -3695,84 +3775,84 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    */
   protected void createEcoreAnnotations()
   {
-    String source = "http://www.eclipse.org/emf/2002/Ecore";		
+    String source = "http://www.eclipse.org/emf/2002/Ecore";	
     addAnnotation
       (eAttributeEClass, 
        source, 
        new String[] 
        {
        "constraints", "ConsistentTransient"
-       });		
+       });	
     addAnnotation
       (eAnnotationEClass, 
        source, 
        new String[] 
        {
        "constraints", "WellFormedSourceURI"
-       });		
+       });	
     addAnnotation
       (eClassEClass, 
        source, 
        new String[] 
        {
        "constraints", "InterfaceIsAbstract AtMostOneID UniqueFeatureNames UniqueOperationSignatures NoCircularSuperTypes WellFormedMapEntryClass ConsistentSuperTypes DisjointFeatureAndOperationSignatures"
-       });				
+       });	
     addAnnotation
       (eClassifierEClass, 
        source, 
        new String[] 
        {
        "constraints", "WellFormedInstanceTypeName UniqueTypeParameterNames"
-       });				
+       });	
     addAnnotation
       (eEnumEClass, 
        source, 
        new String[] 
        {
        "constraints", "UniqueEnumeratorNames UniqueEnumeratorLiterals"
-       });		
+       });	
     addAnnotation
       (eNamedElementEClass, 
        source, 
        new String[] 
        {
        "constraints", "WellFormedName"
-       });		
+       });	
     addAnnotation
       (eOperationEClass, 
        source, 
        new String[] 
        {
        "constraints", "UniqueParameterNames UniqueTypeParameterNames NoRepeatingVoid"
-       });				
+       });	
     addAnnotation
       (ePackageEClass, 
        source, 
        new String[] 
        {
        "constraints", "WellFormedNsURI WellFormedNsPrefix UniqueSubpackageNames UniqueClassifierNames UniqueNsURIs"
-       });		
+       });	
     addAnnotation
       (eReferenceEClass, 
        source, 
        new String[] 
        {
        "constraints", "ConsistentOpposite SingleContainer ConsistentKeys ConsistentUnique ConsistentContainer"
-       });		
+       });	
     addAnnotation
       (eStructuralFeatureEClass, 
        source, 
        new String[] 
        {
        "constraints", "ValidDefaultValueLiteral"
-       });		
+       });	
     addAnnotation
       (eTypedElementEClass, 
        source, 
        new String[] 
        {
        "constraints", "ValidLowerBound ValidUpperBound ConsistentBounds ValidType"
-       });																					
+       });	
     addAnnotation
       (eGenericTypeEClass, 
        source, 
@@ -3790,14 +3870,28 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";																					
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
+    addAnnotation
+      (eBigDecimalEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "http://www.w3.org/2001/XMLSchema#decimal"
+       });	
+    addAnnotation
+      (eBigIntegerEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "http://www.w3.org/2001/XMLSchema#integer"
+       });	
     addAnnotation
       (eBooleanEDataType, 
        source, 
        new String[] 
        {
        "baseType", "http://www.w3.org/2001/XMLSchema#boolean"
-       });		
+       });	
     addAnnotation
       (eBooleanObjectEDataType, 
        source, 
@@ -3805,21 +3899,21 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        {
        "baseType", "EBoolean",
        "name", "EBoolean:Object"
-       });		
+       });	
     addAnnotation
       (eByteEDataType, 
        source, 
        new String[] 
        {
        "baseType", "http://www.w3.org/2001/XMLSchema#byte"
-       });		
+       });	
     addAnnotation
       (eByteArrayEDataType, 
        source, 
        new String[] 
        {
        "baseType", "http://www.w3.org/2001/XMLSchema#hexBinary"
-       });		
+       });	
     addAnnotation
       (eByteObjectEDataType, 
        source, 
@@ -3827,7 +3921,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        {
        "baseType", "EByte",
        "name", "EByte:Object"
-       });		
+       });	
     addAnnotation
       (eCharacterObjectEDataType, 
        source, 
@@ -3835,14 +3929,14 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        {
        "baseType", "EChar",
        "name", "EChar:Object"
-       });		
+       });	
     addAnnotation
       (eDoubleEDataType, 
        source, 
        new String[] 
        {
        "baseType", "http://www.w3.org/2001/XMLSchema#double"
-       });		
+       });	
     addAnnotation
       (eDoubleObjectEDataType, 
        source, 
@@ -3850,14 +3944,14 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        {
        "baseType", "EDouble",
        "name", "EDouble:Object"
-       });		
+       });	
     addAnnotation
       (eFloatEDataType, 
        source, 
        new String[] 
        {
        "baseType", "http://www.w3.org/2001/XMLSchema#float"
-       });		
+       });	
     addAnnotation
       (eFloatObjectEDataType, 
        source, 
@@ -3865,14 +3959,14 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        {
        "baseType", "EFloat",
        "name", "EFloat:Object"
-       });		
+       });	
     addAnnotation
       (eIntEDataType, 
        source, 
        new String[] 
        {
        "baseType", "http://www.w3.org/2001/XMLSchema#int"
-       });		
+       });	
     addAnnotation
       (eIntegerObjectEDataType, 
        source, 
@@ -3880,14 +3974,14 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        {
        "baseType", "EInt",
        "name", "EInt:Object"
-       });		
+       });	
     addAnnotation
       (eLongEDataType, 
        source, 
        new String[] 
        {
        "baseType", "http://www.w3.org/2001/XMLSchema#long"
-       });		
+       });	
     addAnnotation
       (eLongObjectEDataType, 
        source, 
@@ -3895,14 +3989,14 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        {
        "baseType", "ELong",
        "name", "ELong:Object"
-       });		
+       });	
     addAnnotation
       (eShortEDataType, 
        source, 
        new String[] 
        {
        "baseType", "http://www.w3.org/2001/XMLSchema#short"
-       });		
+       });	
     addAnnotation
       (eShortObjectEDataType, 
        source, 
@@ -3910,14 +4004,14 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        {
        "baseType", "EShort",
        "name", "EShort:Object"
-       });		
+       });	
     addAnnotation
       (eStringEDataType, 
        source, 
        new String[] 
        {
        "baseType", "http://www.w3.org/2001/XMLSchema#string"
-       });	
+       });
   }
 
   /**

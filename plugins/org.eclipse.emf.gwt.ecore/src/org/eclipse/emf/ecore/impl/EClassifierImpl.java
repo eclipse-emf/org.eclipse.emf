@@ -39,6 +39,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.impl.EClassifierImpl#getInstanceClassName <em>Instance Class Name</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EClassifierImpl#getInstanceClass <em>Instance Class</em>}</li>
@@ -47,7 +48,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.ecore.impl.EClassifierImpl#getEPackage <em>EPackage</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EClassifierImpl#getETypeParameters <em>EType Parameters</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

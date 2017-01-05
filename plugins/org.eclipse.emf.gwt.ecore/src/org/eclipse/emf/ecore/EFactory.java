@@ -22,10 +22,10 @@ package org.eclipse.emf.ecore;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.EFactory#getEPackage <em>EPackage</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEFactory()
  * @model

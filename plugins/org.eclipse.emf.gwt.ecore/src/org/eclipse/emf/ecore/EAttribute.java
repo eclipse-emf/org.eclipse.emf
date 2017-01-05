@@ -19,11 +19,11 @@ package org.eclipse.emf.ecore;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.EAttribute#isID <em>ID</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EAttribute#getEAttributeType <em>EAttribute Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEAttribute()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ConsistentTransient'"

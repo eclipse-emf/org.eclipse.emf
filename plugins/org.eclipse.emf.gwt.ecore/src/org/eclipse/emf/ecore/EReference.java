@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.EReference#isContainment <em>Containment</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EReference#isContainer <em>Container</em>}</li>
@@ -29,7 +30,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.emf.ecore.EReference#getEReferenceType <em>EReference Type</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EReference#getEKeys <em>EKeys</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEReference()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ConsistentOpposite SingleContainer ConsistentKeys ConsistentUnique ConsistentContainer'"

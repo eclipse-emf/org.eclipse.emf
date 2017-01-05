@@ -19,10 +19,10 @@ package org.eclipse.emf.ecore;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.EParameter#getEOperation <em>EOperation</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEParameter()
  * @model

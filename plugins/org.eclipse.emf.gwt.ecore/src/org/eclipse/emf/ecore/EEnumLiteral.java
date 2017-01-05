@@ -22,13 +22,13 @@ import org.eclipse.emf.common.util.Enumerator;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.EEnumLiteral#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EEnumLiteral#getInstance <em>Instance</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EEnumLiteral#getLiteral <em>Literal</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EEnumLiteral#getEEnum <em>EEnum</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEEnumLiteral()
  * @model
