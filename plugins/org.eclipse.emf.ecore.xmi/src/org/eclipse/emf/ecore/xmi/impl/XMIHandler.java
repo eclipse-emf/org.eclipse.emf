@@ -121,7 +121,7 @@ public abstract class XMIHandler extends XMLHandler
       {
         if (eReference.isMany())
         {
-          if (eReference.isResolveProxies())
+          if (eReference.isResolveProxies() && (!eReference.getEReferenceType().isAbstract() || getXSIType() != null))
           {
             super.createObject(peekObject, feature);
             return;
