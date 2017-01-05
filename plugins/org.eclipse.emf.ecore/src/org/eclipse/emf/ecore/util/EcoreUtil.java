@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -3389,7 +3390,7 @@ public class EcoreUtil
    * as well as from any other feature that references it 
    * within the enclosing resource set, resource, or root object.
    * If recursive true, contained children of the object that are in the same resource 
-   * are similarly removed from any features that references them.
+   * are similarly removed from any features that reference them.
    * @param eObject the object to delete.
    * @param recursive whether references to contained children should also be removed.
    * @since 2.4
@@ -3410,6 +3411,7 @@ public class EcoreUtil
         if (childEObject.eDirectResource() != null)
         {
           crossResourceEObjects.add(childEObject);
+          j.prune();
         }
         else
         {
@@ -3458,6 +3460,201 @@ public class EcoreUtil
     else
     {
       delete(eObject);
+    }
+  }
+
+  /**
+   * Returns the root object;
+   * it may be either 
+   * the {@link #getRootContainer(EObject, boolean) root container}
+   * if that doesn't have a {@link EObject#eResource() containing} resource,
+   * the containing resource of the root container if that doesn't have a {@link Resource#getResourceSet() containing} resource set,
+   * or the resource set of the root container's resource.
+   *
+   * @param resolve whether to resolve container proxies.
+   * @return the root object.
+   * @since 2.13
+   */
+  public static Notifier getRoot(EObject eObject, boolean resolve)
+  {
+    Resource resource = eObject.eResource();
+    if (resource == null)
+    {
+      return EcoreUtil.getRootContainer(eObject, resolve);
+    }
+    else
+    {
+      ResourceSet resourceSet = resource.getResourceSet();
+      return (resourceSet != null) ? resourceSet : resource;
+    }
+  }
+
+
+  /**
+   * Deletes each object from its {@link EObject#eResource containing} resource 
+   * and/or its {@link EObject#eContainer containing} object
+   * as well as from any other feature that references it 
+   * within the enclosing resource set, resource, or root object of any of the objects.
+   * If recursive true, contained children of the object that are in the same resource 
+   * are similarly removed from any features that reference them.
+   * @param eObjects the objects to delete.
+   * @see #delete(EObject, boolean)
+   * @param recursive whether references to contained children should also be removed.
+   * @since 2.13
+   */
+  public static void deleteAll(Collection<? extends EObject> eObjects, boolean recursive)
+  {
+    // Get objects to remove and all their descendants.
+    Set<Notifier> roots = new HashSet<Notifier>();
+    Set<EObject> eAllObjects = new HashSet<EObject>(eObjects);
+    Set<EObject> crossResourceEObjects = new HashSet<EObject>();
+    for (EObject eObject : eObjects)
+    {
+      roots.add(getRoot(eObject, true));
+
+      if (recursive)
+      {
+        for (TreeIterator<EObject> j = eObject.eAllContents(); j.hasNext();)
+        {
+          InternalEObject childEObject = (InternalEObject)j.next();
+          if (childEObject.eDirectResource() != null)
+          {
+            crossResourceEObjects.add(childEObject);
+            j.prune();
+          }
+          else
+          {
+            eAllObjects.add(childEObject);
+          }
+        }
+      }
+    }
+
+    // Find usages.
+    Map<EObject, Collection<EStructuralFeature.Setting>> usages = UsageCrossReferencer.findAll(eAllObjects, roots);
+
+    // Remove all usages.
+    for (Map.Entry<EObject, Collection<EStructuralFeature.Setting>> entry : usages.entrySet())
+    {
+      EObject deletedEObject = entry.getKey();
+      Collection<EStructuralFeature.Setting> settings = entry.getValue();
+      for (EStructuralFeature.Setting setting : settings)
+      {
+        if (!eAllObjects.contains(setting.getEObject()) && setting.getEStructuralFeature().isChangeable())
+        {
+          EcoreUtil.remove(setting, deletedEObject);
+        }
+      }
+    }
+
+    // Remove all objects.
+    removeAll(eObjects);
+
+    // Disconnect all cross resource objects.
+    for (EObject crossResourceEObject : crossResourceEObjects)
+    {
+      EcoreUtil.remove(crossResourceEObject.eContainer(), crossResourceEObject.eContainmentFeature(), crossResourceEObject);
+    }
+  }
+
+  /**
+   * Removes each object from its {@link EObject#eResource containing}
+   * resource and/or its {@link EObject#eContainer containing} object.
+   * 
+   * @param eObjects the objects to remove.
+   * @see EcoreUtil#remove(EObject)
+   * @since 2.13
+   */
+  public static void removeAll(Collection<? extends EObject> eObjects)
+  {
+    // First collect all siblings based on their containing EStructuralFeature.Setting so that each setting can be modified with a single removeAll.
+    // Use IdentityHashMap as its performance is much better than plain HashMap.
+    //
+    Map<EStructuralFeature.Setting, Collection<EObject>> settings = new IdentityHashMap<EStructuralFeature.Setting, Collection<EObject>>();
+    Map<Resource, Collection<EObject>> resources = new HashMap<Resource, Collection<EObject>>();
+    for (EObject eObject : eObjects)
+    {
+      InternalEObject internalEObject = (InternalEObject)eObject;
+      InternalEObject container = internalEObject.eInternalContainer();
+      if (container != null)
+      {
+        EStructuralFeature.Setting setting = container.eSetting(eObject.eContainingFeature());
+        Collection<EObject> values = settings.get(setting);
+        if (values == null)
+        {
+          values = new ArrayList<EObject>();
+          settings.put(setting, values);
+        }
+        values.add(eObject);
+      }
+
+      Resource resource = internalEObject.eDirectResource();
+      if (resource != null)
+      {
+        Collection<EObject> values = resources.get(resource);
+        if (values == null)
+        {
+          values = new ArrayList<EObject>();
+          resources.put(resource, values);
+        }
+        values.add(eObject);
+      }
+    }
+
+    // Remove the siblings from their settings using removeAll to improve performance.
+    //
+    for (Map.Entry<EStructuralFeature.Setting, Collection<EObject>> entry : settings.entrySet())
+    {
+      removeAll(entry.getKey(), entry.getValue());
+    }
+
+    // Remove objects from their resources.
+    //
+    for (Map.Entry<Resource, Collection<EObject>> entry : resources.entrySet())
+    {
+      entry.getKey().getContents().removeAll(entry.getValue());
+    }
+  }
+
+  /**
+   * Removes the values from the feature of the object.
+   * 
+   * @param eObject the object holding the value.
+   * @param eStructuralFeature the feature of the object holding the value.
+   * @param value the value to remove.
+   * @see EcoreUtil#remove(EObject, EStructuralFeature, Object)
+   * @since 2.13
+   */
+  public static void removeAll(EObject eObject, EStructuralFeature eStructuralFeature, Collection<?> values)
+  {
+    if (FeatureMapUtil.isMany(eObject, eStructuralFeature))
+    {
+      ((List<?>)eObject.eGet(eStructuralFeature)).removeAll(values);
+    }
+    else
+    {
+      // The feature is assumed to hold the value.
+      eObject.eUnset(eStructuralFeature);
+    }
+  }
+
+  /**
+   * Removes the values from the setting.
+   * 
+   * @param setting the setting holding the value.
+   * @param values the values to remove.
+   * @since 2.13
+   */
+  public static void removeAll(EStructuralFeature.Setting setting, Collection<?> values)
+  {
+    if (FeatureMapUtil.isMany(setting.getEObject(), setting.getEStructuralFeature()))
+    {
+      ((List<?>)setting.get(false)).removeAll(values);
+    }
+    else
+    {
+      // The feature is assumed to hold the value.
+      setting.unset();
     }
   }
 

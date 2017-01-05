@@ -240,4 +240,64 @@ public class EcoreUtilStaticMethodsTest
     assertTrue(EcoreUtil.isAncestor(resourceSet, ePackage));
     assertFalse(EcoreUtil.isAncestor(otherResourceSet, ePackage));
   }
+  
+  @Test
+  public void testDelete()
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+    Resource resource = new ResourceImpl();
+    resourceSet.getResources().add(resource);
+    EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
+    resource.getContents().add(ePackage);
+    
+    Resource otherResource = new ResourceImpl();
+    resourceSet.getResources().add(otherResource);
+    EPackage eSubPackage = EcoreFactory.eINSTANCE.createEPackage();
+    otherResource.getContents().add(eSubPackage);
+    
+    EClass eClass = EcoreFactory.eINSTANCE.createEClass();
+    eSubPackage.getEClassifiers().add(eClass);
+    
+    EClass otherEClass = EcoreFactory.eINSTANCE.createEClass();
+    EReference eReference = EcoreFactory.eINSTANCE.createEReference();
+    otherEClass.getEStructuralFeatures().add(eReference);
+    eReference.setEType(eClass);
+    otherResource.getContents().add(otherEClass);
+    
+    ePackage.getESubpackages().add(eSubPackage);
+    
+    EcoreUtil.delete(ePackage, true);
+    
+    assertTrue("Recursive delete doesn't delete cross resource contained children", eReference.getEType() == eClass);
+  }
+  
+  @Test
+  public void testDeleteAll()
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+    Resource resource = new ResourceImpl();
+    resourceSet.getResources().add(resource);
+    EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
+    resource.getContents().add(ePackage);
+    
+    Resource otherResource = new ResourceImpl();
+    resourceSet.getResources().add(otherResource);
+    EPackage eSubPackage = EcoreFactory.eINSTANCE.createEPackage();
+    otherResource.getContents().add(eSubPackage);
+    
+    EClass eClass = EcoreFactory.eINSTANCE.createEClass();
+    eSubPackage.getEClassifiers().add(eClass);
+    
+    EClass otherEClass = EcoreFactory.eINSTANCE.createEClass();
+    EReference eReference = EcoreFactory.eINSTANCE.createEReference();
+    otherEClass.getEStructuralFeatures().add(eReference);
+    eReference.setEType(eClass);
+    otherResource.getContents().add(otherEClass);
+    
+    ePackage.getESubpackages().add(eSubPackage);
+    
+    EcoreUtil.deleteAll(Collections.singleton(ePackage), true);
+    
+    assertTrue("Recursive delete doesn't delete cross resource contained children", eReference.getEType() == eClass);
+  }
 }
