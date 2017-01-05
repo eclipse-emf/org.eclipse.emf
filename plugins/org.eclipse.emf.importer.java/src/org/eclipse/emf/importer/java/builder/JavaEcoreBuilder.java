@@ -2187,7 +2187,7 @@ public class JavaEcoreBuilder
       Matcher matcher = modelAnnotationExpression.matcher(comment);
       if (matcher.find())
       {
-        return comment.substring(matcher.start(1), matcher.end(1));
+        return CodeGenUtil.xmlEscapeDecode(comment.substring(matcher.start(1), matcher.end(1)));
       }
     }
 
