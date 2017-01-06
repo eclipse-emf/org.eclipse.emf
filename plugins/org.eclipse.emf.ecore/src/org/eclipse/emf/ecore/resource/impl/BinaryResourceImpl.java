@@ -2241,7 +2241,7 @@ public class BinaryResourceImpl extends ResourceImpl
         for (int i = 0; i < size; ++i)
         {
           InternalEObject internalEObject = values[i];
-          for (int j = 0, count = 0; j < existingSize; ++j)
+          for (int j = 0, count = duplicateCount; j < existingSize; ++j)
           {
             InternalEObject existingInternalEObject = existingValues[j];
             if (existingInternalEObject == internalEObject)
@@ -2251,7 +2251,6 @@ public class BinaryResourceImpl extends ResourceImpl
                 internalEObjects.move(duplicateCount, count);
               }
               indices[duplicateCount] = i;
-              ++count;
               ++duplicateCount;
               existingValues[j] = null;
               continue LOOP;

@@ -17,26 +17,46 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.test.models.ppo.Item;
 import org.eclipse.emf.test.models.ppo.PPOFactory;
 import org.eclipse.emf.test.models.ppo.PurchaseOrder;
+import org.eclipse.emf.test.models.ref.D;
+import org.eclipse.emf.test.models.ref.E;
+import org.eclipse.emf.test.models.ref.RefPackage;
+import org.eclipse.emf.test.models.ref.impl.DImpl;
+import org.eclipse.emf.test.models.ref.impl.EImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -316,5 +336,155 @@ public class BinaryResourceTest
       inputStream.close();
     }
     assertTrue(EcoreUtil.equals(rootObjects, resource.getContents()));
+  }
+
+  @Test
+  public void testBidirectionalReferenceOrder() throws Exception
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+
+    // Create dynamic package with derived classes for E and D, which are objects with a many-to-many bidirectional non-containment reference relationship.
+    //
+    EPackage ePackageRef = EcoreFactory.eINSTANCE.createEPackage();
+    ePackageRef.setName("extendedRef");
+    ePackageRef.setNsPrefix("extendedRef");
+    ePackageRef.setNsURI("http://www.example.org/extendedRef");
+
+    // Add an ID label feature to E.
+    //
+    final EClass eClassE = EcoreFactory.eINSTANCE.createEClass();
+    eClassE.setName("E");
+    eClassE.getESuperTypes().add(RefPackage.Literals.E);
+    ePackageRef.getEClassifiers().add(eClassE);
+    final EAttribute eAttributeELabel = EcoreFactory.eINSTANCE.createEAttribute();
+    eAttributeELabel.setName("label");
+    eAttributeELabel.setEType(EcorePackage.Literals.ESTRING);
+    eAttributeELabel.setID(true);
+    eClassE.getEStructuralFeatures().add(eAttributeELabel);
+
+    // Add an ID label feature to D.
+    //
+    final EClass eClassD = EcoreFactory.eINSTANCE.createEClass();
+    eClassD.setName("D");
+    eClassD.getESuperTypes().add(RefPackage.Literals.D);
+    ePackageRef.getEClassifiers().add(eClassD);
+    final EAttribute eAttributeDLabel = EcoreFactory.eINSTANCE.createEAttribute();
+    eAttributeDLabel.setName("label");
+    eAttributeDLabel.setEType(EcorePackage.Literals.ESTRING);
+    eAttributeDLabel.setID(true);
+    eClassD.getEStructuralFeatures().add(eAttributeDLabel);
+
+    // Specialize the factory to create dynamic instance with a specialized toString to make debugging easier in BinaryResourceImpl.
+    //
+    EFactoryImpl eFactoryRef = new EFactoryImpl()
+      {
+        @Override
+        public EObject create(EClass eClass)
+        {
+          InternalEObject eObject;
+          if (eClass == eClassE)
+          {
+            eObject = new EImpl()
+              {
+              @Override
+                public String toString()
+                {
+                  Object label = eGet(eAttributeELabel);
+                  return label ==  null ? "e@" + Integer.toHexString(hashCode()) : label.toString();
+                }
+              };
+          }
+          else if (eClass == eClassD)
+          {
+            eObject = new DImpl()
+              {
+              @Override
+                public String toString()
+                {
+                  Object label = eGet(eAttributeDLabel);
+                  return label ==  null ? "d@" + Integer.toHexString(hashCode()) : label.toString();
+                }
+              };
+          }
+          else
+          {
+            throw new RuntimeException("Invalid classifier " + eClass);
+          }
+
+          eObject.eSetClass(eClass);
+
+          return eObject;
+        }
+      };
+
+    ePackageRef.setEFactoryInstance(eFactoryRef);
+
+    // Create 20 derived E instances.
+    //
+    List<E> eInstances = new ArrayList<E>();
+    for (int i = 0; i < 20; ++i)
+    {
+      final String label = "e" + i;
+      E e = (E)eFactoryRef.create(eClassE);
+      e.eSet(eAttributeELabel, label);
+      eInstances.add(e);
+    }
+
+    Random random = new Random(0);
+
+    // Create 20 derived D instances.
+    //
+    List<D> dInstances = new ArrayList<D>();
+    for (int i = 0; i < 20; ++i)
+    {
+      final String label = "d" + i;
+      D d = (D)eFactoryRef.create(eClassD);
+      d.eSet(eAttributeDLabel, label);
+      dInstances.add(d);
+      
+      // Add a random number of E instances to D in random order.
+      //
+      EList<E> es = d.getE();
+      for (int j = 0, count = random.nextInt(20); j < count; ++j)
+      {
+        es.add(eInstances.get(random.nextInt(20)));
+      }
+    }
+
+    // Register the package.
+    //
+    resourceSet.getPackageRegistry().put(ePackageRef.getNsURI(), ePackageRef);
+
+    // Options to do a binary serialization.
+    //
+    Map<String, Object> options = new HashMap<String, Object>();
+    options.put(XMLResource.OPTION_BINARY, Boolean.TRUE);
+    
+    // Serialize model with all E and D instances at the root.
+    //
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    Resource outputResource = resourceSet.createResource(resourceURI);
+    resourceSet.getResources().add(outputResource);
+    outputResource.getContents().addAll(eInstances);
+    outputResource.getContents().addAll(dInstances);
+    outputResource.save(outputStream, options);
+
+    // Deserialize model.
+    //
+    ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+    Resource inputResource = resourceSet.createResource(resourceURI);
+    resourceSet.getResources().add(inputResource);
+    inputResource.load(inputStream, options);
+    
+    // Produce XML representations of each.
+    //
+    StringWriter outputResourceContents = new StringWriter();
+    outputResource.save(new URIConverter.WriteableOutputStream(outputResourceContents, "UTF-8"), Collections.emptyMap());
+    StringWriter inputResourceContents = new StringWriter();
+    inputResource.save(new URIConverter.WriteableOutputStream(inputResourceContents, "UTF-8"), Collections.emptyMap());
+
+    // Those serializations should be equal.  If they're not, we can compare them in the JUnit view's compare view.
+    //
+    assertEquals("Models must be equal after deserialization", outputResourceContents.getBuffer().toString(), inputResourceContents.getBuffer().toString());
   }
 }
