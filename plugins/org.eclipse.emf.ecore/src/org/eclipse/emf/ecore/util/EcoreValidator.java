@@ -743,7 +743,7 @@ public class EcoreValidator extends EObjectValidator
         }
       }
 
-      if (!result)
+      if (!result && diagnostics != null)
       {
         // We do not want to diagnose any errors that have already been diagnosed by a super type.
         //
@@ -831,7 +831,7 @@ public class EcoreValidator extends EObjectValidator
         }
       }
 
-      if (!result)
+      if (!result && diagnostics != null)
       {
         // We do not want to diagnose any errors that have already been diagnosed by a super type.
         //
@@ -1592,7 +1592,7 @@ public class EcoreValidator extends EObjectValidator
       }
     }
 
-    if (!result)
+    if (!result && diagnostics != null)
     {
       for (Map.Entry<String, List<ETypeParameter>> entry : keys.entrySet())
       {
@@ -1710,7 +1710,7 @@ public class EcoreValidator extends EObjectValidator
       }
     }
 
-    if (!result)
+    if (!result && diagnostics != null)
     {
       for (Map.Entry<String, List<EEnumLiteral>> entry : keys.entrySet())
       {
@@ -1805,7 +1805,7 @@ public class EcoreValidator extends EObjectValidator
       }
     }
 
-    if (!result)
+    if (!result && diagnostics != null)
     {
       for (Map.Entry<String, List<EEnumLiteral>> entry : keys.entrySet())
       {
@@ -2025,7 +2025,7 @@ public class EcoreValidator extends EObjectValidator
       }
     }
 
-    if (!result)
+    if (!result && diagnostics != null)
     {
       for (Map.Entry<String, List<EParameter>> entry : keys.entrySet())
       {
@@ -2090,7 +2090,7 @@ public class EcoreValidator extends EObjectValidator
       }
     }
 
-    if (!result)
+    if (!result && diagnostics != null)
     {
       for (Map.Entry<String, List<ETypeParameter>> entry : keys.entrySet())
       {
@@ -2268,7 +2268,7 @@ public class EcoreValidator extends EObjectValidator
       }
     }
     
-    if (!result)
+    if (!result && diagnostics != null)
     {
       for (Map.Entry<String, List<EPackage>> entry : keys.entrySet())
       {
@@ -2343,7 +2343,7 @@ public class EcoreValidator extends EObjectValidator
       }
     }
 
-    if (!result)
+    if (!result && diagnostics != null)
     {
       for (Map.Entry<String, List<EClassifier>> entry : keys.entrySet())
       {
@@ -3591,7 +3591,6 @@ public class EcoreValidator extends EObjectValidator
                     },
                    new Object[] { eGenericType, eTypeArgument, eTypeParameter, EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS },
                    context));
-    
             }
           }
         }

@@ -1801,21 +1801,24 @@ public class EObjectValidator implements EValidator
         EObject otherEObject = resource.getEObject(id);
         if (eObject != otherEObject && otherEObject != null)
         {
-          // ...
-          diagnostics.add
-            (createDiagnostic
-              (Diagnostic.ERROR,
-               DIAGNOSTIC_SOURCE,
-               EOBJECT__UNIQUE_ID,
-               "_UI_DuplicateID_diagnostic",
-               new Object []
-               {
-                 id,
-                 getObjectLabel(eObject, context),
-                 getObjectLabel(otherEObject, context)
-               },
-               new Object [] { eObject, otherEObject, id },
-               context));
+          result = false;
+          if (diagnostics != null)
+          {
+            diagnostics.add
+              (createDiagnostic
+                (Diagnostic.ERROR,
+                 DIAGNOSTIC_SOURCE,
+                 EOBJECT__UNIQUE_ID,
+                 "_UI_DuplicateID_diagnostic",
+                 new Object []
+                 {
+                   id,
+                   getObjectLabel(eObject, context),
+                   getObjectLabel(otherEObject, context)
+                 },
+                 new Object [] { eObject, otherEObject, id },
+                 context));
+          }
         }
       }
     }
