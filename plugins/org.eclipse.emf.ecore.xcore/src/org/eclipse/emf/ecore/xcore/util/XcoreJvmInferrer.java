@@ -1471,7 +1471,10 @@ public class XcoreJvmInferrer
                   associate(genFeature, featureFieldInferrer);
                   associate(genClass, featureFieldInferrer);
                   members.add(featureFieldInferrer.getInferredElement());
+                }
 
+                for (final GenFeature genFeature : genClass.getGenFeatures())
+                {
                   JvmElementInferrer<JvmOperation> featureAccessorInferrer =
                     new JvmElementInferrer<JvmOperation>(X_VERY_LOW)
                     {
