@@ -8,20 +8,29 @@
 package org.eclipse.emf.ecore.xcore.ui.container;
 
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IStorage;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.xtext.ui.containers.JavaProjectsState;
+import org.eclipse.xtext.ui.resource.IStorage2UriMapperJdtExtensions;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class XcoreJavaProjectsState extends JavaProjectsState
 {
+  @Inject
+  IStorage2UriMapperJdtExtensions jdtExtensions;
+
   @Override
   protected String doInitHandle(URI uri)
   {
@@ -34,7 +43,7 @@ public class XcoreJavaProjectsState extends JavaProjectsState
     }
     return result;
   }
-  
+
   @Override
   protected List<String> doInitVisibleHandles(String handle)
   {
@@ -46,6 +55,29 @@ public class XcoreJavaProjectsState extends JavaProjectsState
       {
         IProject project = javaElement.getJavaProject().getProject();
         result = new UniqueEList<String>(result);
+        LOOP:
+        for (ListIterator<String> i = result.listIterator(); i.hasNext();)
+        {
+          String visibleHandle = i.next();
+          IJavaElement visibleHandleElement = JavaCore.create(visibleHandle);
+          if (visibleHandleElement instanceof IPackageFragmentRoot)
+          {
+            Map<URI, IStorage> allEntries = jdtExtensions.getAllEntries((IPackageFragmentRoot)visibleHandleElement);
+            for (URI uri : allEntries.keySet())
+            {
+              if ("xcore".equals(uri.fileExtension()) && uri.isPlatformResource())
+              {
+                String projectName = uri.segment(1);
+                if (!result.contains(projectName))
+                {
+                  i.add(projectName);
+                }
+                continue LOOP;
+              }
+            }
+          }
+        }
+
         result.addAll(getProjectsHelper().initVisibleHandles(project.getName()));
       }
     }

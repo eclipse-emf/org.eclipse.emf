@@ -41,6 +41,7 @@ import org.eclipse.xtext.common.types.xtext.ui.JdtVariableCompletions;
 import org.eclipse.xtext.formatting2.FormatterPreferenceValuesProvider;
 import org.eclipse.xtext.resource.containers.IAllContainersState;
 import org.eclipse.xtext.service.SingletonBinding;
+import org.eclipse.xtext.ui.containers.JavaProjectsState;
 import org.eclipse.xtext.ui.editor.contentassist.antlr.IContentAssistParser;
 import org.eclipse.xtext.ui.editor.formatting.IContentFormatterFactory;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHover;
@@ -166,6 +167,11 @@ public class XcoreUiModule extends AbstractXcoreUiModule
          return instance;
        }
      };
+  }
+
+  public Class<? extends JavaProjectsState> bindJavaProjectState()
+  {
+    return XcoreJavaProjectsState.class;
   }
 
   @Override
