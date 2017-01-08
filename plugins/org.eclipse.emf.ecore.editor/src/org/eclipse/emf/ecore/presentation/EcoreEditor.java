@@ -1194,6 +1194,8 @@ public class EcoreEditor
     final EPackage.Registry packageRegistry = resourceSet.getPackageRegistry();
     resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
 
+    resourceSet.getLoadOptions().put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+
     if (isReflective)
     {
       // If we're in the reflective editor, set up an option to handle missing packages.
