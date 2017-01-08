@@ -589,7 +589,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 		return
 			validate
 				(<%=genClassifier.getQualifiedClassifierAccessor()%>,
-				 <%=genClassifier.getSafeUncapName()%>,
+				 <%if (!((GenClass)genClassifier).isEObjectExtension()) {%>(<%=genModel.getImportedName("org.eclipse.emf.ecore.EObject")%>)<%}%><%=genClassifier.getSafeUncapName()%>,
 				 <%=diagnostics%>,
 				 <%=context%>,
 				 "<%=genClassifier.getValidationDelegate(constraint)%>",<%=genModel.getNonNLS()%>
