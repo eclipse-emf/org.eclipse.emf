@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -271,6 +272,16 @@ public class GeneratorUIUtil
             {
               try
               {
+                // Don't do the cleanup until there are no auto build jobs running.
+                // For Xcore in particular, a build is done on save, and the build is likely to go into an endless loop if cleanup is done during the auto build.
+                //
+                Job[] autoBuildJobs = getJobManager().find(ResourcesPlugin.FAMILY_AUTO_BUILD);
+                if (autoBuildJobs.length != 0)
+                {
+                  schedule(1000);
+                  return Status.OK_STATUS;
+                }
+
                 Set<ICompilationUnit> compilationUnits = getScheduledCompilationUnits();
                 ICompilationUnit[] units = compilationUnits.toArray(new ICompilationUnit[compilationUnits.size()]);
 
@@ -328,7 +339,7 @@ public class GeneratorUIUtil
           };
 
         job.setRule(EcorePlugin.getWorkspaceRoot());
-        job.schedule();
+        job.schedule(1000);
       }
 
       return job;
