@@ -2348,18 +2348,36 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
       simpleDependencies = new ArrayList<GenPackage>();
       List<GenPackage> usedGenPackages = new ArrayList<GenPackage>(getGenModel().getUsedGenPackages());
-      List<GenPackage> genPackages = new ArrayList<GenPackage>(getGenModel().getGenPackages());
+      List<GenPackage> genPackages = new UniqueEList<GenPackage>(getGenModel().getGenPackages());
 
-      for (GenPackage usedGenPackage : usedGenPackages.toArray(new GenPackage [usedGenPackages.size()]))
+      // If any reachable used GenPackage's GenModel's used GenPackages has any of this GenPackage's GenModel's GenPackages in its list, 
+      // add that GenPackage as if it were a GenPackage of this GenModel.
+      // This ensures it's treated as an interdependency.
+      //
+      List<GenPackage> allUsedGenPackages = new UniqueEList<GenPackage>(usedGenPackages);
+      for (int i = 0; i < allUsedGenPackages.size(); ++i)
       {
+        GenPackage usedGenPackage = allUsedGenPackages.get(i);
         EList<GenPackage> indirectlyUsedGenPackages = usedGenPackage.getGenModel().getUsedGenPackages();
-        if (indirectlyUsedGenPackages.contains(GenPackageImpl.this))
+        allUsedGenPackages.addAll(indirectlyUsedGenPackages);
+        for (GenPackage genPackage : genPackages)
         {
-          genPackages.add(usedGenPackage);
-          usedGenPackages.remove(usedGenPackage);
+          if (indirectlyUsedGenPackages.contains(genPackage))
+          {
+            if (genPackages.add(usedGenPackage))
+            {
+              // Start the loop from the beginning because there's a new GenPackage to consider for comparison against indirectly used ones.
+              //
+              i = -1;
+            }
+            break;
+          }
         }
-        usedGenPackages.removeAll(indirectlyUsedGenPackages);
       }
+
+      // Remove any used GenPackages that may have been added directly as GenPackages.
+      //
+      usedGenPackages.removeAll(genPackages);
 
       collectPackages(simpleDependencies, usedGenPackages, 1);
       addAll(simpleDependencies);
