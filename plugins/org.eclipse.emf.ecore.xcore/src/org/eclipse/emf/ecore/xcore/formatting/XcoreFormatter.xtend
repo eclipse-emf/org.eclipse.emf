@@ -7,23 +7,24 @@
  */
 package org.eclipse.emf.ecore.xcore.formatting
 
-import org.eclipse.emf.ecore.xcore.XPackage
-import static org.eclipse.emf.ecore.xcore.XcorePackage$Literals.*
-import org.eclipse.emf.ecore.xcore.XAnnotation
 import java.util.List
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.xcore.XClass
-import org.eclipse.emf.ecore.xcore.XReference
+import org.eclipse.emf.ecore.xcore.XAnnotation
 import org.eclipse.emf.ecore.xcore.XAttribute
-import org.eclipse.emf.ecore.xcore.XOperation
-import org.eclipse.emf.ecore.xcore.XParameter
+import org.eclipse.emf.ecore.xcore.XClass
+import org.eclipse.emf.ecore.xcore.XDataType
 import org.eclipse.emf.ecore.xcore.XEnum
 import org.eclipse.emf.ecore.xcore.XEnumLiteral
-import org.eclipse.emf.ecore.xcore.XTypeParameter
-import org.eclipse.emf.ecore.xcore.XDataType
-import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
-import org.eclipse.xtext.formatting2.IFormattableDocument
 import org.eclipse.emf.ecore.xcore.XGenericType
+import org.eclipse.emf.ecore.xcore.XOperation
+import org.eclipse.emf.ecore.xcore.XPackage
+import org.eclipse.emf.ecore.xcore.XParameter
+import org.eclipse.emf.ecore.xcore.XReference
+import org.eclipse.emf.ecore.xcore.XTypeParameter
+import org.eclipse.xtext.formatting2.IFormattableDocument
+import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
+
+import static org.eclipse.emf.ecore.xcore.XcorePackage.Literals.*
 
 class XcoreFormatter extends XbaseFormatter
 {
@@ -31,21 +32,27 @@ class XcoreFormatter extends XbaseFormatter
   {
     xAnnotation.regionFor.keyword('@').append[noSpace]
 
-    xAnnotation.regionFor.keywordPairs('(', ')').head.interior[indent]
-
-    xAnnotation.regionFor.keyword('(').prepend[noSpace].append[noSpace]
-
-    xAnnotation.regionFor.keyword(')').prepend[noSpace].append[newLine]
-
-    for (entry : xAnnotation.details)
+    val parentheses = xAnnotation.regionFor.keywordPairs('(', ')').head
+    if (parentheses == null)
     {
-      val detail = entry as EObject
-      detail.regionFor.keyword('=').prepend[noSpace].append[noSpace]
+       xAnnotation.regionFor.feature(XANNOTATION__SOURCE).append[newLine]
+    }
+    else
+    {
+      parentheses.interior[indent]
+      xAnnotation.regionFor.keyword('(').prepend[noSpace].append[noSpace]
+      xAnnotation.regionFor.keyword(')').prepend[noSpace].append[newLine]
 
-      val comma = detail.immediatelyFollowing.keyword(',')
-      if (comma != null)
+      for (entry : xAnnotation.details)
       {
-        comma.prepend[noSpace].append[oneSpace].append[autowrap]
+        val detail = entry as EObject
+        detail.regionFor.keyword('=').prepend[noSpace].append[noSpace]
+  
+        val comma = detail.immediatelyFollowing.keyword(',')
+        if (comma != null)
+        {
+          comma.prepend[noSpace].append[oneSpace].append[autowrap]
+        }
       }
     }
   }

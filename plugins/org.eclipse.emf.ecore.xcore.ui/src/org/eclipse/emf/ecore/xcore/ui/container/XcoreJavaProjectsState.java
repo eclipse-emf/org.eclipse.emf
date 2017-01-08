@@ -53,8 +53,17 @@ public class XcoreJavaProjectsState extends JavaProjectsState
       IJavaElement javaElement = JavaCore.create(handle);
       if (javaElement != null)
       {
-        IProject project = javaElement.getJavaProject().getProject();
+        // Because this is for an Xcore project, where the *.xcore resources are not on the classpath,
+        // add the handle for the overall Java project to the resource set.
+        // This ensures that inferred JVM types in the Xcore models have precedence when resolving JVM type references.
+        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=502276
+        //
         result = new UniqueEList<String>(result);
+        if (!result.contains(handle))
+        {
+          result.add(0, handle);
+        }
+
         LOOP:
         for (ListIterator<String> i = result.listIterator(); i.hasNext();)
         {
@@ -62,15 +71,22 @@ public class XcoreJavaProjectsState extends JavaProjectsState
           IJavaElement visibleHandleElement = JavaCore.create(visibleHandle);
           if (visibleHandleElement instanceof IPackageFragmentRoot)
           {
+            // If there are any Xcore resource URIs related to this fragment root,
+            // include the handle for that URI in the result, right after this fragment's handle.
+            // This ensures that inferred JVM types from Xcore models in the target platform are used.
+            // See org.eclipse.xtext.common.types.xtext.ui.JdtIndexedJvmTypeAccess.findAccessibleType(String, ResourceSet, Iterator<IEObjectDescription>)
+            // Unless there is such an entry on the list of visible containers, the resource description for this URI will not be used.
+            // https://bugs.eclipse.org/bugs/show_bug.cgi?id=500822
+            //
             Map<URI, IStorage> allEntries = jdtExtensions.getAllEntries((IPackageFragmentRoot)visibleHandleElement);
             for (URI uri : allEntries.keySet())
             {
               if ("xcore".equals(uri.fileExtension()) && uri.isPlatformResource())
               {
-                String projectName = uri.segment(1);
-                if (!result.contains(projectName))
+                String uriHandle = initHandle(uri);
+                if (!result.contains(uriHandle))
                 {
-                  i.add(projectName);
+                  i.add(uriHandle);
                 }
                 continue LOOP;
               }
@@ -78,6 +94,7 @@ public class XcoreJavaProjectsState extends JavaProjectsState
           }
         }
 
+        IProject project = javaElement.getJavaProject().getProject();
         result.addAll(getProjectsHelper().initVisibleHandles(project.getName()));
       }
     }

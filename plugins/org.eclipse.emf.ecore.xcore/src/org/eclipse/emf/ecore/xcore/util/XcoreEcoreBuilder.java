@@ -649,13 +649,20 @@ public class XcoreEcoreBuilder
           public void run()
           {
             GenBase type = xGenericType.getType();
-            if (type instanceof GenTypeParameter)
+            if (type != null)
             {
-              eGenericType.setETypeParameter(((GenTypeParameter)type).getEcoreTypeParameter());
-            }
-            else if (type instanceof GenClassifier)
-            {
-              eGenericType.setEClassifier(((GenClassifier)type).getEcoreClassifier());
+              if (type instanceof GenTypeParameter)
+              {
+                eGenericType.setETypeParameter(((GenTypeParameter)type).getEcoreTypeParameter());
+              }
+              else if (type instanceof GenClassifier)
+              {
+                eGenericType.setEClassifier(((GenClassifier)type).getEcoreClassifier());
+              }
+              else
+              {
+                eGenericType.setEClassifier(eGenericType.getERawType());
+              }
             }
           }
         });

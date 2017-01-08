@@ -9,21 +9,27 @@ package org.eclipse.emf.ecore.xcore.generator;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -50,9 +56,12 @@ import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IGenerator;
+import org.eclipse.xtext.linking.impl.XtextLinkingDiagnostic;
 import org.eclipse.xtext.xbase.XBlockExpression;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
+import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 
@@ -69,6 +78,7 @@ public class XcoreGenerator implements IGenerator {
   private Provider<XcoreGeneratorImpl> xcoreGeneratorImplProvider;
   
   public void generateBodyAnnotations(final XPackage pack) {
+    final LinkedHashMap<EObject, String> errors = this.getErrors(pack);
     final HashSet<ETypedElement> processed = CollectionLiterals.<ETypedElement>newHashSet();
     EList<XClassifier> _classifiers = pack.getClassifiers();
     for (final XClassifier xClassifier : _classifiers) {
@@ -86,10 +96,7 @@ public class XcoreGenerator implements IGenerator {
           appendable.declareVariable(_get, "it");
           JvmTypeReference _returnType = creator.getReturnType();
           Set<JvmTypeReference> _emptySet = Collections.<JvmTypeReference>emptySet();
-          this.compiler.compile(createBody, appendable, _returnType, _emptySet);
-          String _string = appendable.toString();
-          String _extractBody = this.extractBody(_string);
-          EcoreUtil.setAnnotation(eDataType, GenModelPackage.eNS_URI, "create", _extractBody);
+          this.compile(eDataType, "create", appendable, errors, createBody, _returnType, _emptySet);
         }
         final XBlockExpression convertBody = xDataType.getConvertBody();
         XDataTypeMapping _mapping_2 = this.mappings.getMapping(xDataType);
@@ -101,10 +108,7 @@ public class XcoreGenerator implements IGenerator {
           appendable_1.declareVariable(_get_1, "it");
           JvmTypeReference _returnType_1 = converter.getReturnType();
           Set<JvmTypeReference> _emptySet_1 = Collections.<JvmTypeReference>emptySet();
-          this.compiler.compile(convertBody, appendable_1, _returnType_1, _emptySet_1);
-          String _string_1 = appendable_1.toString();
-          String _extractBody_1 = this.extractBody(_string_1);
-          EcoreUtil.setAnnotation(eDataType, GenModelPackage.eNS_URI, "convert", _extractBody_1);
+          this.compile(eDataType, "convert", appendable_1, errors, convertBody, _returnType_1, _emptySet_1);
         }
       } else {
         final XClass xClass = ((XClass) xClassifier);
@@ -135,10 +139,7 @@ public class XcoreGenerator implements IGenerator {
                 }
                 JvmTypeReference _returnType_2 = getter.getReturnType();
                 Set<JvmTypeReference> _emptySet_2 = Collections.<JvmTypeReference>emptySet();
-                this.compiler.compile(getBody, appendable_2, _returnType_2, _emptySet_2);
-                String _string_2 = appendable_2.toString();
-                String _extractBody_2 = this.extractBody(_string_2);
-                EcoreUtil.setAnnotation(eStructuralFeature, GenModelPackage.eNS_URI, "get", _extractBody_2);
+                this.compile(eStructuralFeature, "get", appendable_2, errors, getBody, _returnType_2, _emptySet_2);
               }
             }
           }
@@ -188,10 +189,7 @@ public class XcoreGenerator implements IGenerator {
                   JvmTypeReference _returnType_3 = jvmOperation.getReturnType();
                   EList<JvmTypeReference> _exceptions = jvmOperation.getExceptions();
                   HashSet<JvmTypeReference> _hashSet = new HashSet<JvmTypeReference>(_exceptions);
-                  this.compiler.compile(body, appendable_3, _returnType_3, _hashSet);
-                  String _string_3 = appendable_3.toString();
-                  String _extractBody_3 = this.extractBody(_string_3);
-                  EcoreUtil.setAnnotation(eOperation, GenModelPackage.eNS_URI, "body", _extractBody_3);
+                  this.compile(eOperation, "body", appendable_3, errors, body, _returnType_3, _hashSet);
                 }
               }
             }
@@ -210,6 +208,57 @@ public class XcoreGenerator implements IGenerator {
     Iterable<GenModel> _filter = Iterables.<GenModel>filter(_contents_1, GenModel.class);
     GenModel _head_1 = IterableExtensions.<GenModel>head(_filter);
     this.generateGenModel(_head_1, fsa);
+  }
+  
+  public void compile(final EModelElement target, final String key, final ITreeAppendable appendable, final Map<EObject, String> errors, final XBlockExpression body, final JvmTypeReference returnType, final Set<JvmTypeReference> exceptions) {
+    try {
+      Set<Map.Entry<EObject, String>> _entrySet = errors.entrySet();
+      for (final Map.Entry<EObject, String> error : _entrySet) {
+        EObject _key = error.getKey();
+        boolean _isAncestor = EcoreUtil.isAncestor(body, _key);
+        if (_isAncestor) {
+          String _value = error.getValue();
+          throw new RuntimeException(_value);
+        }
+      }
+      this.compiler.compile(body, appendable, returnType, exceptions);
+      String _string = appendable.toString();
+      String _extractBody = this.extractBody(_string);
+      EcoreUtil.setAnnotation(target, GenModelPackage.eNS_URI, key, _extractBody);
+    } catch (final Throwable _t) {
+      if (_t instanceof Throwable) {
+        final Throwable throwable = (Throwable)_t;
+        String _message = throwable.getMessage();
+        String _unicodeEscapeEncode = CodeGenUtil.unicodeEscapeEncode(_message);
+        String _plus = ("throw new <%java.lang.Error%>(\"Unresolved compilation problems: " + _unicodeEscapeEncode);
+        String _plus_1 = (_plus + "\");");
+        EcoreUtil.setAnnotation(target, GenModelPackage.eNS_URI, key, _plus_1);
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+  }
+  
+  public LinkedHashMap<EObject, String> getErrors(final XPackage xPackage) {
+    final LinkedHashMap<EObject, String> result = Maps.<EObject, String>newLinkedHashMap();
+    final Resource resource = xPackage.eResource();
+    EList<Resource.Diagnostic> _errors = resource.getErrors();
+    for (final Resource.Diagnostic diagnostic : _errors) {
+      if ((diagnostic instanceof XtextLinkingDiagnostic)) {
+        final URI uri = ((XtextLinkingDiagnostic)diagnostic).getUriToProblem();
+        boolean _notEquals = (!Objects.equal(uri, null));
+        if (_notEquals) {
+          String _fragment = uri.fragment();
+          final EObject eObject = resource.getEObject(_fragment);
+          boolean _notEquals_1 = (!Objects.equal(eObject, null));
+          if (_notEquals_1) {
+            String _message = ((XtextLinkingDiagnostic)diagnostic).getMessage();
+            result.put(eObject, _message);
+          }
+        }
+      }
+    }
+    return result;
   }
   
   public XcoreAppendable createAppendable() {

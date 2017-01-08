@@ -143,4 +143,9 @@ public class XcoreBuildParticipant extends BuilderParticipant
     }
   }
 
+  @Override
+  protected boolean shouldGenerate(Resource resource, IBuildContext context)
+  {
+    return true;
+  }
 }

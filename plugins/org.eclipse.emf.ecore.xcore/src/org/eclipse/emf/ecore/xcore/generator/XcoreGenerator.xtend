@@ -26,6 +26,15 @@ import org.eclipse.xtext.common.types.JvmTypeReference
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler
+import org.eclipse.xtext.linking.impl.XtextLinkingDiagnostic
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.xbase.XBlockExpression
+import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable
+import java.util.Set
+import org.eclipse.emf.ecore.EModelElement
+import com.google.common.collect.Maps
+import java.util.Map
+import org.eclipse.emf.codegen.util.CodeGenUtil
 
 class XcoreGenerator implements IGenerator {
 
@@ -39,6 +48,7 @@ class XcoreGenerator implements IGenerator {
 	Provider<XcoreGeneratorImpl> xcoreGeneratorImplProvider
 
 	def void generateBodyAnnotations(XPackage pack) {
+		val errors = getErrors(pack)
 		val processed = newHashSet()
 		for (xClassifier : pack.classifiers) {
 			if (xClassifier instanceof XDataType) {
@@ -49,16 +59,14 @@ class XcoreGenerator implements IGenerator {
 				if (createBody != null && creator != null) {
 					val appendable = createAppendable
 					appendable.declareVariable(creator.parameters.get(0), "it")
-					compiler.compile(createBody, appendable, creator.returnType, Collections::emptySet)
-					EcoreUtil::setAnnotation(eDataType, GenModelPackage::eNS_URI, "create", extractBody(appendable.toString))
+					compile(eDataType, "create", appendable, errors, createBody, creator.returnType, Collections.emptySet);
 				}
 				val convertBody = xDataType.convertBody
 				val converter = xDataType.mapping.converter
 				if (convertBody != null && converter != null) {
 					val appendable = createAppendable
 					appendable.declareVariable(converter.parameters.get(0), "it")
-					compiler.compile(convertBody, appendable, converter.returnType, Collections::emptySet)
-					EcoreUtil::setAnnotation(eDataType, GenModelPackage::eNS_URI, "convert", extractBody(appendable.toString))
+					compile(eDataType, "convert", appendable, errors, convertBody, converter.returnType, Collections.emptySet);
 				}
 			}
 			else {
@@ -77,8 +85,8 @@ class XcoreGenerator implements IGenerator {
 								if (superType != null) {
 									appendable.declareVariable(superType.type, "super")
 								}
-								compiler.compile(getBody, appendable, getter.returnType, Collections::emptySet)
-								EcoreUtil::setAnnotation(eStructuralFeature, GenModelPackage::eNS_URI, "get", extractBody(appendable.toString)) }
+								compile(eStructuralFeature, "get", appendable, errors, getBody, getter.returnType, Collections.emptySet);
+							}
 						}
 					}
 				}
@@ -110,8 +118,7 @@ class XcoreGenerator implements IGenerator {
 									for (JvmFormalParameter parameter : jvmOperation.parameters) {
 										appendable.declareVariable(parameter, parameter.getName())
 									}
-									compiler.compile(body, appendable, jvmOperation.returnType, new HashSet<JvmTypeReference>(jvmOperation.exceptions))
-									EcoreUtil::setAnnotation(eOperation, GenModelPackage::eNS_URI, "body", extractBody(appendable.toString))
+									compile(eOperation, "body", appendable, errors, body, jvmOperation.returnType, new HashSet<JvmTypeReference>(jvmOperation.exceptions));
 								}
 							}
 						}
@@ -124,6 +131,39 @@ class XcoreGenerator implements IGenerator {
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		generateBodyAnnotations(resource.contents.head as XPackage)
 		generateGenModel(resource.contents.filter(typeof(GenModel)).head, fsa)
+	}
+
+	def compile(EModelElement target, String key, ITreeAppendable appendable, Map<EObject, String> errors, XBlockExpression body, JvmTypeReference returnType, Set<JvmTypeReference> exceptions) {
+		try {
+			for (Map.Entry<EObject, String> error : errors.entrySet) {
+				if (EcoreUtil.isAncestor(body, error.key)) {
+					throw new RuntimeException(error.value);
+				}
+			}
+
+			compiler.compile(body, appendable, returnType, exceptions)
+			EcoreUtil::setAnnotation(target, GenModelPackage::eNS_URI, key, extractBody(appendable.toString))
+		}
+		catch (Throwable throwable) {
+			EcoreUtil::setAnnotation(target, GenModelPackage::eNS_URI, key, "throw new <%java.lang.Error%>(\"Unresolved compilation problems: " + CodeGenUtil.unicodeEscapeEncode(throwable.message) + "\");");
+		}
+	}
+
+	def getErrors(XPackage xPackage) {
+		val result = Maps.<EObject, String>newLinkedHashMap
+		val resource = xPackage.eResource
+		for (Resource.Diagnostic diagnostic : resource.errors) {
+			if (diagnostic instanceof XtextLinkingDiagnostic) {
+				val uri = diagnostic.uriToProblem
+				if (uri != null) {
+					val eObject = resource.getEObject(uri.fragment);
+					if (eObject != null) {
+						result.put(eObject, diagnostic.message)
+					}
+				}
+			}
+		}
+		return result
 	}
 
 	def createAppendable() {
