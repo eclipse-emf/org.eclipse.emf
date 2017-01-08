@@ -380,20 +380,11 @@ public class XcoreJvmInferrer
                       return jvmOperation;
                     }
 
-                    protected boolean rename = false;
-
                     @Override
                     public void inferName()
                     {
-                      if (rename)
-                      {
-                        genPackage.clearCache();
-                      }
-                      else
-                      {
-                        rename = true;
-                      }
                       inferredElement.setSimpleName("case" + genPackage.getClassUniqueName(genClass));
+                      genPackage.clearCache();
                     }
                   };
                 associate(genClass, caseMethodInferrer);
@@ -979,20 +970,11 @@ public class XcoreJvmInferrer
                         return jvmOperation;
                       }
 
-                      protected boolean rename = false;
-
                       @Override
                       public void inferName()
                       {
-                        if (rename)
-                        {
-                          genClass.clearCache();
-                        }
-                        else
-                        {
-                          rename = true;
-                        }
                         inferredElement.setSimpleName("test" + genClass.getUniqueName(genOperation));
+                        genClass.clearCache();
                       }
                     };
                   associate(genOperation, operationTestInferrer);
@@ -1336,20 +1318,11 @@ public class XcoreJvmInferrer
                                 return createJvmField(genClassifier, JvmVisibility.PUBLIC, true, getJvmTypeReference(genOperation.getImportedMetaType(), genClassifier));
                               }
 
-                              protected boolean rename = false;
-
                               @Override
                               public void inferName()
                               {
-                                if (rename)
-                                {
-                                  genClass.clearCache();
-                                }
-                                else
-                                {
-                                  rename = true;
-                                }
                                 inferredElement.setSimpleName(genClass.getOperationID(genOperation, false));
+                                genClass.clearCache();
                               }
                             };
                           associate(genOperation, operationFieldInferrer);
@@ -1530,20 +1503,11 @@ public class XcoreJvmInferrer
                           return createJvmField(genClassifier, JvmVisibility.PUBLIC, true, getJvmTypeReference("int", genClassifier));
                         }
 
-                        protected boolean rename = false;
-
                         @Override
                         public void inferName()
                         {
-                          if (rename)
-                          {
-                            genClass.clearCache();
-                          }
-                          else
-                          {
-                            rename = true;
-                          }
                           inferredElement.setSimpleName(genClass.getOperationID(genOperation, false));
+                          genClass.clearCache();
                         }
                       };
                     associate(genOperation, operationFieldInferrer);
@@ -1564,20 +1528,11 @@ public class XcoreJvmInferrer
                           return featureAccessor;
                         }
 
-                        protected boolean rename = false;
-
                         @Override
                         public void inferName()
                         {
-                          if (rename)
-                          {
-                            genClass.clearCache();
-                          }
-                          else
-                          {
-                            rename = true;
-                          }
                           inferredElement.setSimpleName("get" + genOperation.getOperationAccessorName());
+                          genClass.clearCache();
                         }
                       };
                     associate(genOperation, operationAccessorInferrer);
