@@ -271,6 +271,98 @@ public class XcoreInterpreterTest {
   }
   
   @Test
+  public void testBooleanSettingDelegates() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo.bar");
+      _builder.newLine();
+      _builder.append("class Foo");
+      _builder.newLine();
+      _builder.append("{");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("boolean value");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("boolean oppositeValue get { !value }");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      final XPackage pack = this.parse.parse(_builder);
+      this.validator.assertNoErrors(pack);
+      Resource _eResource = pack.eResource();
+      EList<EObject> _contents = _eResource.getContents();
+      EObject _get = _contents.get(2);
+      final EPackage ePackage = ((EPackage) _get);
+      EClassifier _eClassifier = ePackage.getEClassifier("Foo");
+      final EClass fooClass = ((EClass) _eClassifier);
+      EFactory _eFactoryInstance = ePackage.getEFactoryInstance();
+      final EObject foo = _eFactoryInstance.create(fooClass);
+      EStructuralFeature _eStructuralFeature = fooClass.getEStructuralFeature("oppositeValue");
+      Object _eGet = foo.eGet(_eStructuralFeature);
+      Assert.assertEquals(Boolean.valueOf(true), _eGet);
+      EStructuralFeature _eStructuralFeature_1 = fooClass.getEStructuralFeature("value");
+      foo.eSet(_eStructuralFeature_1, Boolean.TRUE);
+      EStructuralFeature _eStructuralFeature_2 = fooClass.getEStructuralFeature("oppositeValue");
+      Object _eGet_1 = foo.eGet(_eStructuralFeature_2);
+      Assert.assertEquals(Boolean.valueOf(false), _eGet_1);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+  
+  @Test
+  public void testInstanceOfAndCast() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo.bar");
+      _builder.newLine();
+      _builder.append("class Foo ");
+      _builder.newLine();
+      _builder.append("{");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("String bar get { if (this instanceof Bar) (this as Bar).value }");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("class Bar extends Foo");
+      _builder.newLine();
+      _builder.append("{");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("String value");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      final XPackage pack = this.parse.parse(_builder);
+      this.validator.assertNoErrors(pack);
+      Resource _eResource = pack.eResource();
+      EList<EObject> _contents = _eResource.getContents();
+      EObject _get = _contents.get(2);
+      final EPackage ePackage = ((EPackage) _get);
+      EClassifier _eClassifier = ePackage.getEClassifier("Foo");
+      final EClass fooClass = ((EClass) _eClassifier);
+      EFactory _eFactoryInstance = ePackage.getEFactoryInstance();
+      final EObject foo = _eFactoryInstance.create(fooClass);
+      EClassifier _eClassifier_1 = ePackage.getEClassifier("Bar");
+      final EClass barClass = ((EClass) _eClassifier_1);
+      EFactory _eFactoryInstance_1 = ePackage.getEFactoryInstance();
+      final EObject bar = _eFactoryInstance_1.create(barClass);
+      EStructuralFeature _eStructuralFeature = barClass.getEStructuralFeature("value");
+      bar.eSet(_eStructuralFeature, "Sven");
+      EStructuralFeature _eStructuralFeature_1 = fooClass.getEStructuralFeature("bar");
+      Object _eGet = foo.eGet(_eStructuralFeature_1);
+      Assert.assertEquals(null, _eGet);
+      EStructuralFeature _eStructuralFeature_2 = fooClass.getEStructuralFeature("bar");
+      Object _eGet_1 = bar.eGet(_eStructuralFeature_2);
+      Assert.assertEquals("Sven", _eGet_1);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+  
+  @Test
   public void testEnumJDK14() {
     try {
       StringConcatenation _builder = new StringConcatenation();

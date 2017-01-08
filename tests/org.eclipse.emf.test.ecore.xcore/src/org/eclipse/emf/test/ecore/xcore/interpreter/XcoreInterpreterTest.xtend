@@ -135,6 +135,50 @@ class XcoreInterpreterTest {
 		foo.eSet(fooClass.getEStructuralFeature("name"), "Sven");
 		assertEquals("Sven", foo.eGet(fooClass.getEStructuralFeature("alias")));
 	}
+
+	@Test
+	def void testBooleanSettingDelegates() {
+		val pack = parse.parse('''
+			package foo.bar
+			class Foo
+			{
+				boolean value
+				boolean oppositeValue get { !value }
+			}
+		''')
+		validator.assertNoErrors(pack)
+		val ePackage = pack.eResource.contents.get(2) as EPackage
+		val fooClass = ePackage.getEClassifier("Foo") as EClass
+		val foo = ePackage.EFactoryInstance.create(fooClass)
+		assertEquals(true, foo.eGet(fooClass.getEStructuralFeature("oppositeValue")));
+		foo.eSet(fooClass.getEStructuralFeature("value"), Boolean.TRUE);
+		assertEquals(false, foo.eGet(fooClass.getEStructuralFeature("oppositeValue")));
+	}
+
+	@Test
+	def void testInstanceOfAndCast() {
+		val pack = parse.parse('''
+			package foo.bar
+			class Foo 
+			{
+				String bar get { if (this instanceof Bar) (this as Bar).value }
+			}
+			class Bar extends Foo
+			{
+				String value
+			}
+		''')
+		validator.assertNoErrors(pack)
+		val ePackage = pack.eResource.contents.get(2) as EPackage
+		val fooClass = ePackage.getEClassifier("Foo") as EClass
+		val foo = ePackage.EFactoryInstance.create(fooClass)
+		val barClass = ePackage.getEClassifier("Bar") as EClass
+		val bar = ePackage.EFactoryInstance.create(barClass)
+		bar.eSet(barClass.getEStructuralFeature("value"), "Sven");
+		assertEquals(null, foo.eGet(fooClass.getEStructuralFeature("bar")));
+		assertEquals('Sven', bar.eGet(fooClass.getEStructuralFeature("bar")));
+	}
+
 	@Test
 	def void testEnumJDK14() {
 		val pack = parse.parse('''
