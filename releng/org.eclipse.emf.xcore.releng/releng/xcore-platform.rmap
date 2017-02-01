@@ -3,7 +3,7 @@
 	<rm:property key="checkout.location" value="${workspace.root}/" />
 	<rm:property key="xtext.p2.repository" value="${eclipse.download}/modeling/tmf/xtext/updates/composite" />
 	<rm:property key="xtext.p2.nightly.repository" value="${xtext.p2.repository}/nightly" />
-	<rm:property key="xtext.p2.stable.repository" value="${xtext.p2.repository}/releases/2.10.0/" />
+    <rm:property key="xtext.p2.stable.repository" value="${xtext.p2.repository}/releases" />
 	<rm:property key="hudson.emf.p2.repository" value="https://hudson.eclipse.org/xtext/job/emf-core/lastSuccessfulBuild/artifact/build-result/p2.repository/" />
 	<rm:property key="emf.p2.repository" value="${eclipse.download}/modeling/emf/emf/updates" />
 	
@@ -15,7 +15,7 @@
 	<rm:locator pattern="^org\.eclipse\.(?:xpand|xtend)(?:\..+)?$" searchPathRef="tmf-composite" />
 	<rm:locator pattern="^org\.eclipse\.emf\.(?:mwe|mwe2)(?:\..+)?$" searchPathRef="tmf-composite" />
 	<rm:locator pattern="^com\.google(?:\..+)?$" searchPathRef="orbit" />
-	<rm:locator pattern="^org\.(?:apache|aopalliance)(?:\..+)?$" searchPathRef="tmf-composite" failOnError="false" />
+	<rm:locator pattern="^org\.(?:apache|aopalliance)(?:\..+)?$" searchPathRef="orbit" failOnError="false" />
 	<rm:locator pattern="^org\.objectweb\.asm(?:\..+)?$" searchPathRef="orbit"/>
 	<rm:locator pattern="org.antlr.runtime" searchPathRef="tmf-composite"/>
 	<rm:locator pattern="javax.inject" searchPathRef="orbit"/>
@@ -75,7 +75,7 @@
 	<rm:searchPath name="orbit">
 		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false"
 			mutable="false">
-			<rm:uri format="{0}/modeling/tmf/xtext/updates/orbit">
+			<rm:uri format="http://download.eclipse.org/tools/orbit/downloads/latest-S">
 				<bc:propertyRef key="eclipse.download" />
 			</rm:uri>
 		</rm:provider>
