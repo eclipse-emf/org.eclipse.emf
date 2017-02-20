@@ -7826,17 +7826,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     // Different than the Edit and Editor projects, this method is invoked while
     // generating the model plugin xml.
-    return getTestsDirectory() == null ? false : getModelProjectDirectory().equals(getTestsProjectDirectory());
+    return getTestsDirectory() == null ? false : getModelProjectDirectory() != null && getModelProjectDirectory().equals(getTestsProjectDirectory());
   }
 
   public boolean sameEditTestsProject()
   {
-    return getTestsDirectory() == null ? false : getEditProjectDirectory().equals(getTestsProjectDirectory());
+    return getTestsDirectory() == null ? false : getEditProjectDirectory() != null && getEditProjectDirectory().equals(getTestsProjectDirectory());
   }
 
   public boolean sameEditorTestsProject()
   {
-    return getTestsDirectory() == null ? false : getEditorProjectDirectory().equals(getTestsProjectDirectory());
+    return getTestsDirectory() == null ? false : getEditorProjectDirectory() != null && getEditorProjectDirectory().equals(getTestsProjectDirectory());
   }
 
   public String getEditIconsDirectory()
