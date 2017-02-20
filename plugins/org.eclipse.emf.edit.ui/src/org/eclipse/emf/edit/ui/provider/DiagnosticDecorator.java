@@ -1728,33 +1728,37 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
     if (child.getData().contains(object))
     {
       ++index;
-      Image image = labelProvider.getImage(object);
-      if (image != null)
+      if (data.size() > 1)
       {
-        URI imageURI = ImageURIRegistry.INSTANCE.getImageURI(image);
-        result.append("<div><img src='");
-        result.append(imageURI);
-        result.append("'/> ");
-      }
-      result.append("<a href='");
-      result.append("path:");
-      Integer[] path = (Integer[])data.get(1);
-      for (Integer segment : path)
-      {
-        result.append('/');
-        result.append(segment);
-      }
-      String text = escapeContent(labelProvider.getText(object));
-      if (text == null || text.length() == 0)
-      {
-        text = "<i>null</i>";
-      }
-      result.append("'>");
-      result.append(text);
-      result.append("</a></div>\n");
-      for (Diagnostic grandChild : child.getChildren())
-      {
-        buildToolTipMessage(result, labelProvider, object, grandChild, 1);
+        result.append("<div>");
+        Image image = labelProvider.getImage(object);
+        if (image != null)
+        {
+          URI imageURI = ImageURIRegistry.INSTANCE.getImageURI(image);
+          result.append("<img src='");
+          result.append(imageURI);
+          result.append("'/> ");
+        }
+        result.append("<a href='");
+        result.append("path:");
+        Integer[] path = (Integer[])data.get(1);
+        for (Integer segment : path)
+        {
+          result.append('/');
+          result.append(segment);
+        }
+        String text = escapeContent(labelProvider.getText(object));
+        if (text == null || text.length() == 0)
+        {
+          text = "<i>null</i>";
+        }
+        result.append("'>");
+        result.append(text);
+        result.append("</a></div>\n");
+        for (Diagnostic grandChild : child.getChildren())
+        {
+          buildToolTipMessage(result, labelProvider, object, grandChild, 1);
+        }
       }
     }
 
