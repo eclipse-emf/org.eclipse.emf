@@ -282,10 +282,13 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
     EList<EObject> contents = resource.getContents();
     XPackage xPackage = (XPackage)contents.get(0);
     List<GenClassifier> classifiers = newArrayList();
-    EList<GenPackage> genPackages = ((GenModel)contents.get(1)).getGenPackages();
-    for (GenPackage genPackage : genPackages)
+    if (contents.size() > 1)
     {
-      classifiers.addAll(genPackage.getGenClassifiers());
+      EList<GenPackage> genPackages = ((GenModel)contents.get(1)).getGenPackages();
+      for (GenPackage genPackage : genPackages)
+      {
+        classifiers.addAll(genPackage.getGenClassifiers());
+      }
     }
     return classifiers.isEmpty() ? parent : createLocalElementsScope(parent, classifiers, xPackage, GenModelPackage.Literals.GEN_BASE);
   }
