@@ -35,6 +35,12 @@
     <eClassifiers xsi:type="ecore:EClass" name="BadSpace" instanceTypeName="T &lt;X>"/>
     <eClassifiers xsi:type="ecore:EClass" name="NoSpace" instanceTypeName="T&lt;?extends X>"/>
     <eClassifiers xsi:type="ecore:EClass" name="TrailingSpace" instanceTypeName="T "/>
+    <eClassifiers xsi:type="ecore:EClass" name="BaseClassWrapper" instanceTypeName="java.util.Comparator&lt;T>">
+      <eTypeParameters name="T"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EDataType" name="BaseDataTypeWrapper" instanceTypeName="java.util.Comparator&lt;T>">
+      <eTypeParameters name="T"/>
+    </eClassifiers>
   </eSubpackages>
   <eSubpackages name="class" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//class"
       nsPrefix="bad.class">

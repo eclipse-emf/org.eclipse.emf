@@ -1466,7 +1466,8 @@ public class EcoreValidator extends EObjectValidator
    * Validates the WellFormedInstanceTypeName constraint of '<em>EClassifier</em>'.
    * <!-- begin-user-doc -->
    * The instance type name may be null only for a class or an enum
-   * and must be {@link EGenericTypeBuilder#parseInstanceTypeName(String) well formed} when not null.
+   * must be {@link EGenericTypeBuilder#parseInstanceTypeName(String) well formed} when not null,
+   * and must not specify type arguments if the classifier specifies type parameters.
    * <!-- end-user-doc -->
    * @generated NOT
    */
@@ -1553,6 +1554,23 @@ public class EcoreValidator extends EObjectValidator
       }
       diagnostics.add(diagnosic);
     }
+    if (result && instanceTypeName != null && instanceTypeName.indexOf('<') != -1 && eClassifier.getETypeParameters().size() != 0)
+    {
+      result = false;
+      if (diagnostics != null)
+      {
+        diagnostics.add
+          (createDiagnostic
+            (Diagnostic.ERROR,
+             DIAGNOSTIC_SOURCE,
+             WELL_FORMED_INSTANCE_TYPE_NAME,
+             "_UI_EClassifierInstanceTypeNameUnexpectedTypeArguments_diagnostic",
+             null,
+             new Object[] { eClassifier, EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME },
+             context));
+      }
+    }
+
     return result;
   }
 
