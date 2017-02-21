@@ -1035,6 +1035,11 @@ public class EGenericTypeImpl extends MinimalEObjectImpl.Container implements EG
     // Check all the arguments, if any, for equality.
     //
     int size = instanceETypeArguments.size();
+    if (eTypeArguments.size() != size)
+    {
+      return false;
+    }
+    
     if (size != 0)
     {
       for (int i = 0; i < size; ++i)
