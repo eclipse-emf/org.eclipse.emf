@@ -15,11 +15,13 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 
 /**
@@ -1142,7 +1144,40 @@ public abstract class AbstractEList<E> extends AbstractList<E> implements EList<
     }
     else
     {
-      Collection<E> filteredResult = useEquals() ? new BasicEList<E>(collection.size()) : new BasicEList.FastCompare<E>(collection.size());
+      Collection<E> filteredResult =
+        new BasicEList<E>(collection.size())
+        {
+          private static final long serialVersionUID = 1L;
+
+          private int expectedModCount;
+
+          private Set<E> set;
+
+          @Override
+          public boolean contains(Object object)
+          {
+            if (size > 10)
+            {
+              if (set == null || AbstractEList.this.modCount != expectedModCount)
+              {
+                set = new HashSet<E>(this);
+                expectedModCount = modCount;
+              }
+              return set.contains(object);
+            }
+            else
+            {
+              return super.contains(object);
+            }
+          }
+
+          @Override
+          protected boolean useEquals()
+          {
+            return AbstractEList.this.useEquals();
+          }
+        };
+
       for (E object : this)
       {
         if (collection.contains(object))

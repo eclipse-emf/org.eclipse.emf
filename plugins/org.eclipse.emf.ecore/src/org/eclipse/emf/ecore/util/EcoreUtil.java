@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -3582,7 +3583,7 @@ public class EcoreUtil
         Collection<EObject> values = settings.get(setting);
         if (values == null)
         {
-          values = new ArrayList<EObject>();
+          values = new LinkedHashSet<EObject>();
           settings.put(setting, values);
         }
         values.add(eObject);
@@ -3594,7 +3595,7 @@ public class EcoreUtil
         Collection<EObject> values = resources.get(resource);
         if (values == null)
         {
-          values = new ArrayList<EObject>();
+          values = new LinkedHashSet<EObject>();
           resources.put(resource, values);
         }
         values.add(eObject);
