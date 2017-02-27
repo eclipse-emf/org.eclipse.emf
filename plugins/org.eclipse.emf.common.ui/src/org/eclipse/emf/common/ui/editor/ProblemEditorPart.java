@@ -350,17 +350,13 @@ public class ProblemEditorPart extends EditorPart
   {
     if (markerUtil != null)
     {
-      markerUtil.deleteMarkers(diagnostic);
-      if (diagnostic.getSeverity() != Diagnostic.OK)
+      try
       {
-        try
-        {
-          markerUtil.createMarkers(diagnostic);
-        }
-        catch (CoreException exception)
-        {
-          openErrorDialog(CommonUIPlugin.getPlugin().getString("_UI_CreateMarkerError_message"), exception);
-        }
+        markerUtil.updateMarkers(diagnostic);
+      }
+      catch (CoreException exception)
+      {
+        openErrorDialog(CommonUIPlugin.getPlugin().getString("_UI_CreateMarkerError_message"), exception);
       }
     }
   }

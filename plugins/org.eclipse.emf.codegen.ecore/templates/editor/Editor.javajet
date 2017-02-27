@@ -544,6 +544,8 @@ public class <%=genPackage.getEditorClassName()%>
 	protected EContentAdapter problemIndicationAdapter =
 		new EContentAdapter()
 		{
+			protected boolean dispatching;
+
 <%if (genModel.useClassOverrideAnnotation()) {%>
 			@Override
 <%}%>
@@ -567,18 +569,7 @@ public class <%=genPackage.getEditorClassName()%>
 							{
 								resourceToDiagnosticMap.remove(resource);
 							}
-
-							if (updateProblemIndication)
-							{
-								getSite().getShell().getDisplay().asyncExec
-									(new Runnable()
-									 {
-										 public void run()
-										 {
-											 updateProblemIndication();
-										 }
-									 });
-							}
+							dispatchUpdateProblemIndication();
 							break;
 						}
 					}
@@ -586,6 +577,23 @@ public class <%=genPackage.getEditorClassName()%>
 				else
 				{
 					super.notifyChanged(notification);
+				}
+			}
+
+			protected void dispatchUpdateProblemIndication()
+			{
+				if (updateProblemIndication && !dispatching)
+				{
+					dispatching = true;
+					getSite().getShell().getDisplay().asyncExec
+						(new Runnable()
+						 {
+							 public void run()
+							 {
+								 dispatching = false;
+								 updateProblemIndication();
+							 }
+						 });
 				}
 			}
 
@@ -604,17 +612,7 @@ public class <%=genPackage.getEditorClassName()%>
 			{
 				basicUnsetTarget(target);
 				resourceToDiagnosticMap.remove(target);
-				if (updateProblemIndication)
-				{
-					getSite().getShell().getDisplay().asyncExec
-						(new Runnable()
-						 {
-							 public void run()
-							 {
-								 updateProblemIndication();
-							 }
-						 });
-				}
+				dispatchUpdateProblemIndication();
 			}
 		};
 <%if (!genModel.isRichClientPlatform()) {%>
@@ -896,6 +894,7 @@ public class <%=genPackage.getEditorClassName()%>
 
 			if (markerHelper.hasMarkers(editingDomain.getResourceSet()))
 			{
+  <%if (genModel.getRuntimeVersion().getValue() < GenRuntimeVersion.EMF213_VALUE) {%>
 				markerHelper.deleteMarkers(editingDomain.getResourceSet());
 				if (diagnostic.getSeverity() != Diagnostic.OK)
 				{
@@ -908,6 +907,16 @@ public class <%=genPackage.getEditorClassName()%>
 						<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.log(exception);
 					}
 				}
+  <%} else {%>
+				try
+				{
+					markerHelper.updateMarkers(diagnostic);
+				}
+				catch (CoreException exception)
+				{
+					<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.log(exception);
+				}
+  <%}%>
 			}
 <%}%>
 		}
@@ -1404,6 +1413,7 @@ public class <%=genPackage.getEditorClassName()%>
 
 				selectionViewer = (TreeViewer)viewerPane.getViewer();
 				selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+				selectionViewer.setUseHashlookup(true);
 
 				selectionViewer.setLabelProvider(<%if (useStyledLabelProvider) {%>new <%=_DelegatingAdapterFactoryLabelProvider%>(<%}%><%if (genModel.getDecoration() != GenDecoration.NONE) {%>new <%=_DecoratingColumLabelProvider%>(<%}%>new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, selectionViewer<%}%>)<%if (genModel.getDecoration() != GenDecoration.NONE) {%>, new <%=_DiagnosticDecorator%>(editingDomain<%if (genModel.getDecoration() == GenDecoration.MANUAL) {%>.getResourceSet()<%}%>, selectionViewer<%if (genModel.getDecoration() == GenDecoration.LIVE) {%>, <%=genPackage.getImportedEditorPluginClassName()%>.getPlugin().getDialogSettings()<%}%>))<%}%><%if (useStyledLabelProvider) {%>)<%}%>);
 				selectionViewer.setInput(editingDomain.getResourceSet());
@@ -1637,6 +1647,7 @@ public class <%=genPackage.getEditorClassName()%>
 			selectionViewer = new TreeViewer(tree);
 			setCurrentViewer(selectionViewer);
 
+			selectionViewer.setUseHashlookup(true);
 			selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
 			selectionViewer.setLabelProvider(<%if (useStyledLabelProvider) {%>new <%=_DelegatingAdapterFactoryLabelProvider%>(<%}%><%if (genModel.getDecoration() != GenDecoration.NONE) {%>new <%=_DecoratingColumLabelProvider%>(<%}%>new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, selectionViewer<%}%>)<%if (genModel.getDecoration() != GenDecoration.NONE) {%>, new <%=_DiagnosticDecorator%>(editingDomain<%if (genModel.getDecoration() == GenDecoration.MANUAL) {%>.getResourceSet()<%}%>, selectionViewer<%if (genModel.getDecoration() == GenDecoration.LIVE) {%>, <%=genPackage.getImportedEditorPluginClassName()%>.getPlugin().getDialogSettings()<%}%>))<%}%><%if (useStyledLabelProvider) {%>)<%}%>);
 			selectionViewer.setInput(editingDomain.getResourceSet());
@@ -1813,6 +1824,7 @@ public class <%=genPackage.getEditorClassName()%>
 
 					// Set up the tree viewer.
 					//
+					contentOutlineViewer.setUseHashlookup(true);
 					contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
 					contentOutlineViewer.setLabelProvider(<%if (useStyledLabelProvider) {%>new <%=_DelegatingAdapterFactoryLabelProvider%>(<%}%><%if (genModel.getDecoration() != GenDecoration.NONE) {%>new <%=_DecoratingColumLabelProvider%>(<%}%>new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, contentOutlineViewer<%}%>)<%if (genModel.getDecoration() != GenDecoration.NONE) {%>, new <%=_DiagnosticDecorator%>(editingDomain<%if (genModel.getDecoration() == GenDecoration.MANUAL) {%>.getResourceSet()<%}%>, contentOutlineViewer<%if (genModel.getDecoration() == GenDecoration.LIVE) {%>, <%=genPackage.getImportedEditorPluginClassName()%>.getPlugin().getDialogSettings()<%}%>))<%}%><%if (useStyledLabelProvider) {%>)<%}%>);
 					contentOutlineViewer.setInput(editingDomain.getResourceSet());

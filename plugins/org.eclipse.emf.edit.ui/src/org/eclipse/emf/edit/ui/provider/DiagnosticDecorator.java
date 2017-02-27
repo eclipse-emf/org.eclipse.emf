@@ -583,14 +583,9 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
                     context.remove(EObjectValidator.ROOT_OBJECT);
                   }
 
-                  for (Resource.Diagnostic warning : resource.getWarnings())
+                  for (Diagnostic instrinsicDiagnostic : new EditUIMarkerHelper().getInstrinciDiagnostics(resource, false))
                   {
-                    resourceDiagnostic.add(new BasicDiagnostic(Diagnostic.WARNING, null, 0, warning.getMessage(),  new Object [] { resource }));
-                  }
-
-                  for (Resource.Diagnostic error : resource.getErrors())
-                  {
-                    resourceDiagnostic.add(new BasicDiagnostic(Diagnostic.ERROR, null, 0, error.getMessage(),  new Object[] { resource}));
+                    resourceDiagnostic.add(instrinsicDiagnostic);
                   }
 
                   diagnostic.add(resourceDiagnostic);
@@ -1494,6 +1489,20 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
         oldDiagnostic = new BasicDiagnostic(null, 0, null, path == null ? new Object [] { object } : new Object [] { object, path.toArray(new Integer[path.size()]) });
         decorations.put(object, oldDiagnostic);
       }
+
+      String message = diagnostic.getMessage();
+      if (message != null)
+      {
+        List<?> data = diagnostic.getData();
+        for (Diagnostic childDiagnostic : oldDiagnostic.getChildren())
+        {
+          if (childDiagnostic.getMessage().equals(message) && data.equals(childDiagnostic.getData()))
+          {
+            return oldDiagnostic;
+          }
+        }
+      }
+
       oldDiagnostic.add(diagnostic);
     }
     return oldDiagnostic;

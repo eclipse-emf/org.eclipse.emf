@@ -140,6 +140,7 @@ public class DiagnosticComposite extends Composite
       if (getDiagnostic() != null)
       {
         diagnosticTreeViewer.setInput(getDiagnostic());
+        diagnosticTreeViewer.expandToLevel(2);
       }
       else
       {

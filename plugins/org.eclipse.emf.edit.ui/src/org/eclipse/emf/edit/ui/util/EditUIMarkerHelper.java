@@ -10,6 +10,7 @@
  */
 package org.eclipse.emf.edit.ui.util;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
@@ -105,8 +107,29 @@ public class EditUIMarkerHelper extends MarkerHelper
                     Integer.toString(resourceDiagnostic.getLine()), 
                     Integer.toString(resourceDiagnostic.getColumn())
                   }));
-            
+
             marker.setAttribute(IMarker.LINE_NUMBER, resourceDiagnostic.getLine());
+
+            try
+            {
+              Method getObjectMethod = resourceDiagnostic.getClass().getMethod("getObject");
+              Object object = getObjectMethod.invoke(resourceDiagnostic);
+              if (object instanceof EObject)
+              {
+                marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI((EObject)object).toString());
+                Method getFeatureMethod = resourceDiagnostic.getClass().getMethod("getFeature");
+                Object feature = getFeatureMethod.invoke(resourceDiagnostic);
+                if (feature instanceof EObject)
+                {
+                  marker.setAttribute(EValidator.RELATED_URIS_ATTRIBUTE, EcoreUtil.getURI((EObject)feature).toString());
+                }
+              }
+            }
+            catch (Throwable throwable)
+            {
+              // Ignore.
+            }
+
             return true;
           }
         }
@@ -114,7 +137,7 @@ public class EditUIMarkerHelper extends MarkerHelper
     }
     return false;
   }  
-  
+
   @Override
   public boolean hasMarkers(Object object, boolean includeSubtypes, int depth)
   {
@@ -314,13 +337,9 @@ public class EditUIMarkerHelper extends MarkerHelper
           CommonUIPlugin.INSTANCE.log(exception);
         }
       }
-      for (Resource.Diagnostic resourceDiagnostic : resource.getWarnings())
+      for (Diagnostic intrinsicDiagnostic : getInstrinciDiagnostics(resource, wrap))
       {
-        diagnostic.add(new BasicDiagnostic(Diagnostic.WARNING, null, 0, resourceDiagnostic.getMessage(),  new Object [] { resource }));
-      }
-      for (Resource.Diagnostic resourceDiagnostic : resource.getErrors())
-      {
-        diagnostic.add(new BasicDiagnostic(Diagnostic.ERROR, null, 0, resourceDiagnostic.getMessage(),  new Object[] { resource}));
+        diagnostic.add(intrinsicDiagnostic);
       }
       return diagnostic;
     }
@@ -328,5 +347,60 @@ public class EditUIMarkerHelper extends MarkerHelper
     {
       return super.getMarkerDiagnostics(object, file, wrap);
     }
+  }
+
+  @Override
+  public List<? extends Diagnostic> getInstrinciDiagnostics(Object object, boolean wrap)
+  {
+    if (object instanceof Resource)
+    {
+      Resource resource = (Resource)object;
+      List<Diagnostic> diagnostics = new ArrayList<Diagnostic>();
+      for (Resource.Diagnostic resourceDiagnostic : resource.getWarnings())
+      {
+        diagnostics.add(new BasicDiagnostic(Diagnostic.WARNING, null, 0, resourceDiagnostic.getMessage(),  getDiagnosticData(resource, resourceDiagnostic, wrap)));
+      }
+      for (Resource.Diagnostic resourceDiagnostic : resource.getErrors())
+      {
+        diagnostics.add(new BasicDiagnostic(Diagnostic.ERROR, null, 0, resourceDiagnostic.getMessage(), getDiagnosticData(resource, resourceDiagnostic, wrap)));
+      }
+      return diagnostics;
+    }
+    else
+    {
+      return super.getInstrinciDiagnostics(object, wrap);
+    }
+  }
+
+  /**
+   * @since 2.13
+   */
+  protected Object[] getDiagnosticData(Resource resource, Resource.Diagnostic resourceDiagnostic, boolean wrap)
+  {
+    List<Object> result = new ArrayList<Object>();
+    EditingDomain editingDomain = AdapterFactoryEditingDomain.getEditingDomainFor(resource.getResourceSet());
+    try
+    {
+      Method getObjectMethod = resourceDiagnostic.getClass().getMethod("getObject");
+      Object object = getObjectMethod.invoke(resourceDiagnostic);
+      if (object instanceof EObject)
+      {
+        result.add(wrap && editingDomain instanceof AdapterFactoryEditingDomain ? ((AdapterFactoryEditingDomain)editingDomain).getWrapper(object) : object);
+
+        Method getFeatureMethod = resourceDiagnostic.getClass().getMethod("getFeature");
+        Object feature = getFeatureMethod.invoke(resourceDiagnostic);
+        if (feature instanceof EObject)
+        {
+          result.add(wrap && editingDomain instanceof AdapterFactoryEditingDomain ? ((AdapterFactoryEditingDomain)editingDomain).getWrapper(feature) : feature);
+          result.add(feature);
+        }
+      }
+    }
+    catch (Throwable throwable)
+    {
+      // Ignore.
+    }
+
+    return result.isEmpty() ? new Object[] { resource } : result.toArray();
   }
 }

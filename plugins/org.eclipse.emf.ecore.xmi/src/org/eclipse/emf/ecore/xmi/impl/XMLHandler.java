@@ -1176,7 +1176,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       }
       else if (isEndDocument)
       {
-        UnresolvedReferenceException exception = new UnresolvedReferenceException((String) ref.getValue(), getLocation(), ref.getLineNumber(), ref.getColumnNumber());
+        UnresolvedReferenceException exception = new UnresolvedReferenceException(ref.getObject(), ref.getFeature(), (String) ref.getValue(), getLocation(), ref.getLineNumber(), ref.getColumnNumber());
         if (cause != null)
         {
           exception.initCause(cause);
@@ -1212,7 +1212,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
           failure = true;
           if (isEndDocument)
           {
-            UnresolvedReferenceException exception = new UnresolvedReferenceException(id, getLocation(), ref.getLineNumber(), ref.getColumnNumber()); 
+            UnresolvedReferenceException exception = new UnresolvedReferenceException(ref.getObject(), ref.getFeature(), id, getLocation(), ref.getLineNumber(), ref.getColumnNumber()); 
             if (cause != null)
             {
               exception.initCause(cause);

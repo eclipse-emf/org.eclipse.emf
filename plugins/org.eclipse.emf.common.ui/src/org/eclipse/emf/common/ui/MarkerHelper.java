@@ -16,8 +16,11 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.ICoreRunnable;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
@@ -98,26 +101,34 @@ public class MarkerHelper
    * @param diagnostic
    * @throws CoreException
    */
-  public void createMarkers(Diagnostic diagnostic) throws CoreException
+  public void createMarkers(final Diagnostic diagnostic) throws CoreException
   {
-    if (diagnostic.getChildren().isEmpty())
-    {
-      createMarkers(getFile(diagnostic), diagnostic, null);
-    }
-    else if (diagnostic.getMessage() == null)
-    {
-      for (Diagnostic childDiagnostic : diagnostic.getChildren())
-      {
-        createMarkers(childDiagnostic);
-      }
-    }
-    else
-    {
-      for (Diagnostic childDiagnostic : diagnostic.getChildren())
-      {
-        createMarkers(getFile(childDiagnostic), childDiagnostic, diagnostic);
-      }
-    }
+    ResourcesPlugin.getWorkspace().run
+      (new ICoreRunnable()
+       {
+         public void run(IProgressMonitor monitor) throws CoreException
+         {
+           if (diagnostic.getChildren().isEmpty())
+           {
+             createMarkers(getFile(diagnostic), diagnostic, null);
+           }
+           else if (diagnostic.getMessage() == null)
+           {
+             for (Diagnostic childDiagnostic : diagnostic.getChildren())
+             {
+               createMarkers(childDiagnostic);
+             }
+           }
+           else
+           {
+             for (Diagnostic childDiagnostic : diagnostic.getChildren())
+             {
+               createMarkers(getFile(childDiagnostic), childDiagnostic, diagnostic);
+             }
+           }
+         }
+       },
+       null);
   }
 
   protected void createMarkers(IResource resource, Diagnostic diagnostic, Diagnostic parentDiagnostic) throws CoreException
@@ -220,13 +231,21 @@ public class MarkerHelper
     deleteMarkers(getFile(object), includeSubtypes, depth);
   }
   
-  protected void deleteMarkers(IResource resource, boolean includeSubtypes, int depth)
+  protected void deleteMarkers(final IResource resource, final boolean includeSubtypes, final int depth)
   {
     if (resource != null && resource.exists())
     {
       try
       {
-        resource.deleteMarkers(getMarkerID(), includeSubtypes, depth);
+        resource.getWorkspace().run
+          (new ICoreRunnable()
+           {
+             public void run(IProgressMonitor monitor) throws CoreException
+             {
+               resource.deleteMarkers(getMarkerID(), includeSubtypes, depth);
+             }
+           },
+           null);
       }
       catch (CoreException e)
       {
@@ -298,11 +317,48 @@ public class MarkerHelper
             message, 
             null));
       }
+
+      for (Diagnostic instrincDiagnostic : getInstrinciDiagnostics(object, wrap))
+      {
+        diagnostic.add(instrincDiagnostic);
+      }
     }
     catch (CoreException exception)
     {
       CommonUIPlugin.INSTANCE.log(exception);
     }
     return diagnostic;
+  }
+
+  /**
+   * @since 2.13
+   */
+  public List<? extends Diagnostic> getInstrinciDiagnostics(Object object, boolean wrap)
+  {
+    return Collections.emptyList();
+  }
+
+  /**
+   * {@link #deleteMarkers(Object) deletes} any markers associated with the resource of the given diagnostic and the {@link #createMarkers(Diagnostic) creates} new markers for it.
+   * All  processing is done with as a single {@link IWorkspace#run(ICoreRunnable, IProgressMonitor) workspace operation}.
+   * @param diagnostic the diagnostic to process.
+   * @throws CoreException if creating markers results in a core exception.
+   * @since 2.13
+   */
+  public void updateMarkers(final Diagnostic diagnostic) throws CoreException
+  {
+    ResourcesPlugin.getWorkspace().run
+      (new ICoreRunnable()
+       {
+         public void run(IProgressMonitor monitor) throws CoreException
+         {
+           deleteMarkers(diagnostic);
+           if (diagnostic.getSeverity() != Diagnostic.OK)
+           {
+             createMarkers(diagnostic);
+           }
+         }
+       },
+       null);
   }
 }

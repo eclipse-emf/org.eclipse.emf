@@ -425,6 +425,8 @@ public class EcoreEditor
   protected EContentAdapter problemIndicationAdapter = 
     new EContentAdapter()
     {
+      protected boolean dispatching;
+
       @Override
       public void notifyChanged(Notification notification)
       {
@@ -446,18 +448,7 @@ public class EcoreEditor
               {
                 resourceToDiagnosticMap.remove(resource);
               }
-
-              if (updateProblemIndication)
-              {
-                getSite().getShell().getDisplay().asyncExec
-                  (new Runnable()
-                   {
-                     public void run()
-                     {
-                       updateProblemIndication();
-                     }
-                   });
-              }
+              dispatchUpdateProblemIndication();
               break;
             }
           }
@@ -465,6 +456,23 @@ public class EcoreEditor
         else
         {
           super.notifyChanged(notification);
+        }
+      }
+
+      protected void dispatchUpdateProblemIndication()
+      {
+        if (updateProblemIndication && !dispatching)
+        {
+          dispatching = true;
+          getSite().getShell().getDisplay().asyncExec
+            (new Runnable()
+             {
+               public void run()
+               {
+                 dispatching = false;
+                 updateProblemIndication();
+               }
+             });
         }
       }
 
@@ -479,17 +487,7 @@ public class EcoreEditor
       {
         basicUnsetTarget(target);
         resourceToDiagnosticMap.remove(target);
-        if (updateProblemIndication)
-        {
-          getSite().getShell().getDisplay().asyncExec
-            (new Runnable()
-             {
-               public void run()
-               {
-                 updateProblemIndication();
-               }
-             });
-        }
+        dispatchUpdateProblemIndication();
       }
     };
 
@@ -778,17 +776,13 @@ public class EcoreEditor
 
       if (markerHelper.hasMarkers(editingDomain.getResourceSet()))
       {
-        markerHelper.deleteMarkers(editingDomain.getResourceSet());
-        if (diagnostic.getSeverity() != Diagnostic.OK)
+        try
         {
-          try
-          {
-            markerHelper.createMarkers(diagnostic);
-          }
-          catch (CoreException exception)
-          {
-            EcoreEditorPlugin.INSTANCE.log(exception);
-          }
+          markerHelper.updateMarkers(diagnostic);
+        }
+        catch (CoreException exception)
+        {
+          EcoreEditorPlugin.INSTANCE.log(exception);
         }
       }
     }
@@ -1350,6 +1344,7 @@ public class EcoreEditor
       selectionViewer = new TreeViewer(tree);
       setCurrentViewer(selectionViewer);
 
+      selectionViewer.setUseHashlookup(true);
       selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
       selectionViewer.setLabelProvider(new DecoratingColumLabelProvider(new AdapterFactoryLabelProvider(adapterFactory), new DiagnosticDecorator(editingDomain, selectionViewer, EcoreEditorPlugin.getPlugin().getDialogSettings())));
       selectionViewer.setInput(editingDomain.getResourceSet());
@@ -1519,6 +1514,7 @@ public class EcoreEditor
 
           // Set up the tree viewer.
           //
+          contentOutlineViewer.setUseHashlookup(true);
           contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
           contentOutlineViewer.setLabelProvider(new DecoratingColumLabelProvider(new AdapterFactoryLabelProvider(adapterFactory), new DiagnosticDecorator(editingDomain, contentOutlineViewer, EcoreEditorPlugin.getPlugin().getDialogSettings())));
           contentOutlineViewer.setInput(editingDomain.getResourceSet());
