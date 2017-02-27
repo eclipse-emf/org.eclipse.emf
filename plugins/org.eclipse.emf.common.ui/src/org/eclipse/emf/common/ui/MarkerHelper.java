@@ -17,9 +17,9 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.ICoreRunnable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.IEditorInput;
@@ -104,7 +104,7 @@ public class MarkerHelper
   public void createMarkers(final Diagnostic diagnostic) throws CoreException
   {
     ResourcesPlugin.getWorkspace().run
-      (new ICoreRunnable()
+      (new IWorkspaceRunnable()
        {
          public void run(IProgressMonitor monitor) throws CoreException
          {
@@ -238,7 +238,7 @@ public class MarkerHelper
       try
       {
         resource.getWorkspace().run
-          (new ICoreRunnable()
+          (new IWorkspaceRunnable()
            {
              public void run(IProgressMonitor monitor) throws CoreException
              {
@@ -340,7 +340,7 @@ public class MarkerHelper
 
   /**
    * {@link #deleteMarkers(Object) deletes} any markers associated with the resource of the given diagnostic and the {@link #createMarkers(Diagnostic) creates} new markers for it.
-   * All  processing is done with as a single {@link IWorkspace#run(ICoreRunnable, IProgressMonitor) workspace operation}.
+   * All  processing is done with as a single {@link IWorkspace#run(IWorkspaceRunnable, IProgressMonitor) workspace operation}.
    * @param diagnostic the diagnostic to process.
    * @throws CoreException if creating markers results in a core exception.
    * @since 2.13
@@ -348,7 +348,7 @@ public class MarkerHelper
   public void updateMarkers(final Diagnostic diagnostic) throws CoreException
   {
     ResourcesPlugin.getWorkspace().run
-      (new ICoreRunnable()
+      (new IWorkspaceRunnable()
        {
          public void run(IProgressMonitor monitor) throws CoreException
          {
