@@ -1669,8 +1669,10 @@ public class EcoreEditor
           // Save the resources to the file system.
           //
           boolean first = true;
-          for (Resource resource : editingDomain.getResourceSet().getResources())
+          List<Resource> resources = editingDomain.getResourceSet().getResources();
+          for (int i = 0; i < resources.size(); ++i)
           {
+            Resource resource = resources.get(i);
             if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource))
             {
               try

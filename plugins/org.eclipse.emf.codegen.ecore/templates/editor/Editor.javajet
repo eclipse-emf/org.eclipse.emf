@@ -17,6 +17,7 @@
 <%String _ArrayListOfObject = "ArrayList" + (genModel.useGenerics() ? "<Object>" : "");%>
 <%String _ArrayListOfSelectionChangedListener = "ArrayList" + (genModel.useGenerics() ? "<ISelectionChangedListener>" : "");%>
 <%String _CollectionOfSelectionChangedListener = "Collection" + (genModel.useGenerics() ? "<ISelectionChangedListener>" : "");%>
+<%String _ListOfResource = "List" + (genModel.useGenerics() ? "<Resource>" : "");%>
 <%String _ArrayListOfResource = "ArrayList" + (genModel.useGenerics() ? "<Resource>" : "");%>
 <%String _CollectionOfResource = "Collection" + (genModel.useGenerics() ? "<Resource>" : "");%>
 <%String _MapOfResourceToDiagnostic = "Map" + (genModel.useGenerics() ? "<Resource, Diagnostic>" : "");%>
@@ -2031,15 +2032,10 @@ public class <%=genPackage.getEditorClassName()%>
 					// Save the resources to the file system.
 					//
 					boolean first = true;
-<%if (genModel.useGenerics()) {%>
-					for (Resource resource : editingDomain.getResourceSet().getResources())
-<%} else {%>
-					for (Iterator i = editingDomain.getResourceSet().getResources().iterator(); i.hasNext(); )
-<%}%>
+					<%=_ListOfResource%> resources = editingDomain.getResourceSet().getResources();
+					for (int i = 0; i < resources.size(); ++i)
 					{
-<%if (!genModel.useGenerics()) {%>
-						Resource resource = (Resource)i.next();
-<%}%>
+						Resource resource = <%if (!genModel.useGenerics()) {%>(Resource)<%}%>resources.get(i);
 						if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource))
 						{
 							try
