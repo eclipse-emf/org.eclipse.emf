@@ -11,6 +11,8 @@
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10218,13 +10220,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       String pluginID = uri != null && uri.segmentCount() > 2 ? uri.segment(1) : null;
       if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
       {
+        InputStream contents = null;
         try
         {
           IWorkspace workspace = ResourcesPlugin.getWorkspace();
           IFile manifestFile = workspace.getRoot().getFile(new Path(pluginID + "/META-INF/MANIFEST.MF"));
           if (manifestFile.exists())
           {
-            Manifest manifest = new Manifest(manifestFile.getContents());
+            contents = manifestFile.getContents();
+            Manifest manifest = new Manifest(contents);
             String name = manifest.getMainAttributes().getValue("Bundle-SymbolicName");
             if (name != null)
             {
@@ -10240,6 +10244,20 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         catch (Exception exception)
         {
           // Ignore
+        }
+        finally
+        {
+          if (contents != null)
+          {
+            try
+            {
+              contents.close();
+            }
+            catch (IOException e)
+            {
+              // Ignore.
+            }
+          }
         }
       }
       return pluginID;
