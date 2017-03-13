@@ -72,11 +72,18 @@ public final class ImageURIRegistry
 
     ImageLoader loader = new ImageLoader();
     loader.data = new ImageData []{ imageData };
-    loader.save(imageFile.getAbsolutePath(), SWT.IMAGE_PNG);
-
-    uri = URI.createURI(imageFile.toURI().toString());
-    descriptorToURIMap.put(descriptor, uri);
-    return uri;
+    try
+    {
+      loader.save(imageFile.getAbsolutePath(), SWT.IMAGE_PNG);
+  
+      uri = URI.createURI(imageFile.toURI().toString());
+      descriptorToURIMap.put(descriptor, uri);
+      return uri;
+    }
+    catch (RuntimeException exception)
+    {
+      return null;
+    }
   }
 
   private File getTempDir()
