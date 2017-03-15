@@ -131,7 +131,7 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
     List<?> commentList = compilationUnit.getCommentList();
     if (commentList != null)
     {
-      this.commentArray = (Comment[])commentList.toArray();
+      this.commentArray = commentList.toArray(new Comment[commentList.size()]);
       this.commentStartPositions = new int [commentList.size()];
       this.commentEndPositions = new int [commentList.size()];
       int i = 0;
