@@ -19,10 +19,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -3788,7 +3790,7 @@ public class EcoreValidator extends EObjectValidator
           {
             return true;
           }
-          else if (substitution != null && substitution.getEUpperBound() != eGenericType && substitution.getELowerBound() != eGenericType)
+          else if (substitution != null && substitution.getEUpperBound() != eGenericType && substitution.getELowerBound() != eGenericType && !isCircularSubstitution(eTypeParameter, substitution, substitutions))
           {
             return isBounded(substitution, eBound, substitutions);
           }
@@ -3921,6 +3923,33 @@ public class EcoreValidator extends EObjectValidator
         }
       }
     }
+  }
+
+  private static boolean isCircularSubstitution(ETypeParameter eTypeParameter, EGenericType substitution, Map<? extends ETypeParameter, ? extends EGenericType> substitutions)
+  {
+    Set<ETypeParameter> visited = new HashSet<ETypeParameter>();
+    for (ETypeParameter otherETypeParameter = substitution.getETypeParameter(); otherETypeParameter != null; )
+    {
+      if (otherETypeParameter == eTypeParameter)
+      {
+        return true;
+      }
+
+      if (!visited.add(otherETypeParameter))
+      {
+        return false;
+      }
+
+      EGenericType otherSubstitution = substitutions.get(otherETypeParameter);
+      if (otherSubstitution == null)
+      {
+        return false;
+      }
+
+      otherETypeParameter = otherSubstitution.getETypeParameter();
+    }
+
+    return false;
   }
 
   public static boolean matchingTypeArguments
