@@ -191,7 +191,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
           @Override
           public boolean add(EStructuralFeature.Setting setting)
           {
-            if (!settingTargets)
+            if (!settingTargets || ECrossReferenceAdapter.this.resolve())
             {
               EObject eObject = setting.getEObject();
               EStructuralFeature eStructuralFeature = setting.getEStructuralFeature();
