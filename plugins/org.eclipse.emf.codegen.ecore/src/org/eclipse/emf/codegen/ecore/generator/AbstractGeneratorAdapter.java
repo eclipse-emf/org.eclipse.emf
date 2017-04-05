@@ -41,6 +41,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IBuffer;
@@ -377,7 +378,10 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    */
   protected Diagnostic toDiagnostic(Exception exception, String currentMessage)
   {
-    CodeGenEcorePlugin.INSTANCE.log(exception);
+    if (!(exception instanceof OperationCanceledException))
+    {
+      CodeGenEcorePlugin.INSTANCE.log(exception);
+    }
 
     currentMessage = currentMessage != null ?
       CodeGenEcorePlugin.INSTANCE.getString("_UI_GenerateException_diagnostic", new Object[] { currentMessage }) :

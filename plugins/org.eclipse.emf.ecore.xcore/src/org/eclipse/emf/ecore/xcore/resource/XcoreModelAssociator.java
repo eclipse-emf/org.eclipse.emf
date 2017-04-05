@@ -173,7 +173,6 @@ public class XcoreModelAssociator implements IJvmModelAssociations, ILogicalCont
           @Override
           public void process(Resource state) throws Exception
           {
-            xcoreEcoreBuilder.linkInstanceTypes();
             jvmInferrer.inferDeepStructure(genModel);
           }
         });

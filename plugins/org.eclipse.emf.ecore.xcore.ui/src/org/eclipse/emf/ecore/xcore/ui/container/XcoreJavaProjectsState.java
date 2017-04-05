@@ -78,7 +78,8 @@ public class XcoreJavaProjectsState extends JavaProjectsState
             // Unless there is such an entry on the list of visible containers, the resource description for this URI will not be used.
             // https://bugs.eclipse.org/bugs/show_bug.cgi?id=500822
             //
-            Map<URI, IStorage> allEntries = jdtExtensions.getAllEntries((IPackageFragmentRoot)visibleHandleElement);
+            IPackageFragmentRoot packageFragmentRoot = (IPackageFragmentRoot)visibleHandleElement;
+            Map<URI, IStorage> allEntries = jdtExtensions.getAllEntries(packageFragmentRoot);
             for (URI uri : allEntries.keySet())
             {
               if ("xcore".equals(uri.fileExtension()) && uri.isPlatformResource())
@@ -89,6 +90,16 @@ public class XcoreJavaProjectsState extends JavaProjectsState
                   i.add(uriHandle);
                 }
                 continue LOOP;
+              }
+            }
+
+            IJavaProject javaProject = packageFragmentRoot.getJavaProject();
+            if (javaProject != null)
+            {
+              String projectHandle = javaProject.getHandleIdentifier();
+              if (!result.contains(projectHandle))
+              {
+                i.add(projectHandle);
               }
             }
           }

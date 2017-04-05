@@ -9,6 +9,7 @@ package org.eclipse.emf.ecore.xcore.util;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -38,7 +39,11 @@ import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.impl.EClassifierImpl;
+import org.eclipse.emf.ecore.impl.EAnnotationImpl;
+import org.eclipse.emf.ecore.impl.EClassImpl;
+import org.eclipse.emf.ecore.impl.EDataTypeImpl;
+import org.eclipse.emf.ecore.impl.EGenericTypeImpl;
+import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -61,7 +66,6 @@ import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XTypedElement;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
-import org.eclipse.emf.ecore.xcore.XcorePlugin;
 import org.eclipse.emf.ecore.xcore.interpreter.IClassLoaderProvider;
 import org.eclipse.emf.ecore.xcore.interpreter.XcoreConversionDelegate;
 import org.eclipse.emf.ecore.xcore.interpreter.XcoreInterpreter;
@@ -105,9 +109,7 @@ public class XcoreEcoreBuilder
   @Inject
   private XcoreGrammarAccess xcoreGrammarAccess;
 
-  protected List<Runnable> runnables = new ArrayList<Runnable>();
-
-  protected List<Runnable> instanceTypeRunnables = new ArrayList<Runnable>();
+  protected final List<DeferredInitializer> deferredInitializers = new ArrayList<DeferredInitializer>();
 
   protected XcoreInterpreter interpreter;
 
@@ -115,49 +117,17 @@ public class XcoreEcoreBuilder
 
   public void link()
   {
-    // Hook up local references.
-    //
-    List<Runnable> currentRunnables = new ArrayList<Runnable>(runnables);
-    runnables.clear();
-    for (Runnable runnable : currentRunnables)
+    for (DeferredInitializer deferredInitializer : deferredInitializers)
     {
-      try
-      {
-        runnable.run();
-      }
-      catch (Throwable throwable)
-      {
-        XcorePlugin.INSTANCE.log(throwable);
-      }
+      deferredInitializer.setNeedsInitialization(true);
     }
-    for (Runnable runnable : runnables)
-    {
-      try
-      {
-        runnable.run();
-      }
-      catch (Throwable throwable)
-      {
-        XcorePlugin.INSTANCE.log(throwable);
-      }
-    }
-  }
 
-  public void linkInstanceTypes()
-  {
-    // Hook up instance types.
-    //
-    for (Runnable runnable : instanceTypeRunnables)
+    for (DeferredInitializer deferredInitializer : deferredInitializers)
     {
-      try
-      {
-        runnable.run();
-      }
-      catch (Throwable throwable)
-      {
-        XcorePlugin.INSTANCE.log(throwable);
-      }
+      deferredInitializer.initialize();
     }
+
+    deferredInitializers.clear();
   }
 
   public static void setQualifiedPackageName(EPackage ePackage, String name)
@@ -286,32 +256,19 @@ public class XcoreEcoreBuilder
         }
       }
     }
-    handleAnnotations(xModelElement, eModelElement, true);
-    runnables.add
-      (new Runnable()
-       {
-         public void run()
-         {
-           handleAnnotations(xModelElement, eModelElement, false);
-         }
-       });
-  }
 
-  protected void handleAnnotations(final XModelElement xModelElement, final EModelElement eModelElement, boolean preIndexing)
-  {
+    Map<String, DeferredEAnnotationImpl> specialAnnotations = new HashMap<String, XcoreEcoreBuilder.DeferredEAnnotationImpl>();
     EList<EAnnotation> eAnnotations = eModelElement.getEAnnotations();
     for (XAnnotation xAnnotation : xModelElement.getAnnotations())
     {
       //      map(eAnnotation, xAnnotation);
       String sourceURI = null;
 
-      if (preIndexing)
-      {
         List<INode> nodes = NodeModelUtils.findNodesForFeature(xAnnotation, XcorePackage.Literals.XANNOTATION__SOURCE);
         StringBuilder annotationLiteral = new StringBuilder();
-        for (INode node : nodes)
+        for (INode sourceNode : nodes)
         {
-          annotationLiteral.append(NodeModelUtils.getTokenText(node));
+          annotationLiteral.append(NodeModelUtils.getTokenText(sourceNode));
         }
         int index = annotationLiteral.lastIndexOf(" ");
         if (index != -1)
@@ -336,54 +293,50 @@ public class XcoreEcoreBuilder
         {
           sourceURI = ExtendedMetaData.ANNOTATION_URI;
         }
-      }
-      else
-      {
-        XAnnotationDirective source = xAnnotation.getSource();
-        if (source != null)
-        {
-          sourceURI = source.getSourceURI();
-        }
-      }
 
-      if (sourceURI != null)
-      {
         EClass eClass = EcorePackage.eNS_URI.equals(sourceURI) ? eModelElement.eClass() : null;
-   
-        EMap<String, String> details = xAnnotation.getDetails();
-        if (details.isEmpty())
+
+        DeferredEAnnotationImpl eAnnotation = specialAnnotations.get(sourceURI);
+        if (eAnnotation == null)
         {
-          EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-          eAnnotation.setSource(sourceURI);
-          eAnnotations.add(eAnnotation);
-        }
-        else
-        {
-          for (Map.Entry<String, String> detail : details)
+          eAnnotation = new DeferredEAnnotationImpl(xAnnotation);
+          if (sourceURI != null)
           {
-            String key = detail.getKey();
-            String value = detail.getValue();
-            if (eClass != null)
-            {
-              EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(key);
-              if (eStructuralFeature instanceof EAttribute)
-              {
-                // Be more careful about exceptions.
-                // TODO
-                //
-                EDataType eDataType = (EDataType)eStructuralFeature.getEType();
-                eModelElement.eSet(eStructuralFeature, EcoreUtil.createFromString(eDataType, value));
-                continue;
-              }
-            }
-            if (EcoreUtil.getAnnotation(eModelElement, sourceURI, key) == null)
-            {
-              EcoreUtil.setAnnotation(eModelElement, sourceURI, key, value);
-            }
+            specialAnnotations.put(sourceURI, eAnnotation);
           }
         }
+        eAnnotation.setSource(sourceURI);
+
+        EMap<String, String> details = eAnnotation.getDetails();
+        for (Map.Entry<String, String> detail : xAnnotation.getDetails())
+        {
+          String key = detail.getKey();
+          String value = detail.getValue();
+
+          if (eClass != null)
+          {
+            EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(key);
+            if (eStructuralFeature instanceof EAttribute)
+            {
+              // Be more careful about exceptions.
+              // TODO
+              //
+              EDataType eDataType = (EDataType)eStructuralFeature.getEType();
+              eModelElement.eSet(eStructuralFeature, EcoreUtil.createFromString(eDataType, value));
+              continue;
+            }
+          }
+
+          details.put(key,  value);
+        }
+
+        // Add it if it's not an Ecore annotation or if it is an Ecore annotation but isn't empty.
+        if (eClass == null || !eAnnotations.isEmpty())
+        {
+          eAnnotations.add(eAnnotation);
+          deferredInitializers.add(eAnnotation);
+        }
       }
-    }
   }
 
   protected EClassifier getEClassifier(final XClassifier xClassifier)
@@ -417,39 +370,17 @@ public class XcoreEcoreBuilder
         eClassifier.setInstanceTypeName(instanceTypeLiteral.toString());
       }
 
-      instanceTypeRunnables.add
-        (new Runnable()
-         {
-           public void run()
-           {
-             JvmTypeReference instanceType = xClassifier.getInstanceType();
-             if (instanceType != null)
-             {
-               String instanceTypeName = instanceType.getIdentifier();
-               String normalizedInstanceTypeName = EcoreUtil.toJavaInstanceTypeName((EGenericType)EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName).getData().get(0));
-               eClassifier.setInstanceTypeName(normalizedInstanceTypeName);
-               if (classLoader != null && eClassifier instanceof EClassifierImpl)
-               {
-                 try
-                 {
-                   Class<?> instanceClass = classLoader.loadClass(eClassifier.getInstanceClassName());
-                   ((EClassifierImpl)eClassifier).setInstanceClassGen(instanceClass);
-                 }
-                 catch (Throwable throwable)
-                 {
-                   // Ignore.
-                 }
-               }
-             }
-           }
-         });
+      if (eClassifier instanceof DeferredInitializer)
+      {
+        deferredInitializers.add((DeferredInitializer)eClassifier);
+      }
     }
     return eClassifier;
   }
 
   protected EClass getEClass(final XClass xClass)
   {
-    final EClass eClass = EcoreFactory.eINSTANCE.createEClass();
+    final EClass eClass = new DeferredEClassImpl(xClass, classLoader);
     mapper.getMapping(xClass).setEClass(eClass);
     mapper.getToXcoreMapping(eClass).setXcoreElement(xClass);
     if (xClass.isInterface())
@@ -626,8 +557,7 @@ public class XcoreEcoreBuilder
     }
     else
     {
-      final EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
-      //      map(eGenericType, xGenericType);
+      DeferredEGenericTypeImpl eGenericType = new DeferredEGenericTypeImpl(xGenericType);
       XGenericType lowerBound = xGenericType.getLowerBound();
       if (lowerBound != null)
       {
@@ -643,36 +573,14 @@ public class XcoreEcoreBuilder
       {
         eTypeArguments.add(getEGenericType(typeArgument));
       }
-
-      runnables.add(new Runnable()
-        {
-          public void run()
-          {
-            GenBase type = xGenericType.getType();
-            if (type != null)
-            {
-              if (type instanceof GenTypeParameter)
-              {
-                eGenericType.setETypeParameter(((GenTypeParameter)type).getEcoreTypeParameter());
-              }
-              else if (type instanceof GenClassifier)
-              {
-                eGenericType.setEClassifier(((GenClassifier)type).getEcoreClassifier());
-              }
-              else
-              {
-                eGenericType.setEClassifier(eGenericType.getERawType());
-              }
-            }
-          }
-        });
+      deferredInitializers.add(eGenericType);
       return eGenericType;
     }
   }
 
   protected EReference getEReference(final XReference xReference)
   {
-    final EReference eReference = EcoreFactory.eINSTANCE.createEReference();
+    final DeferredEReferenceImpl eReference = new DeferredEReferenceImpl(xReference);
     mapper.getMapping(xReference).setEStructuralFeature(eReference);
     mapper.getToXcoreMapping(eReference).setXcoreElement(xReference);
     if (xReference.isContainment())
@@ -687,34 +595,8 @@ public class XcoreEcoreBuilder
     {
       eReference.setResolveProxies(false);
     }
-
     handleEStructuralFeature(eReference, xReference);
-
-    runnables.add(new Runnable()
-      {
-        public void run()
-        {
-          GenFeature opposite = xReference.getOpposite();
-          if (opposite != null)
-          {
-            eReference.setEOpposite((EReference)opposite.getEcoreFeature());
-          }
-          runnables.add(new Runnable()
-            {
-              public void run()
-              {
-                for (GenFeature key : xReference.getKeys())
-                {
-                  EStructuralFeature eAttribute = key.getEcoreFeature();
-                  if (eAttribute instanceof EAttribute)
-                  {
-                    eReference.getEKeys().add((EAttribute)eAttribute);
-                  }
-                }
-              }});
-        }
-      });
-
+    deferredInitializers.add(eReference);
     return eReference;
   }
 
@@ -783,7 +665,7 @@ public class XcoreEcoreBuilder
 
   protected EDataType getEDataType(XDataType xDataType)
   {
-    EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
+    EDataType eDataType = new DeferredEDataTypeImpl(xDataType, classLoader);
     mapper.getMapping(xDataType).setEDataType(eDataType);
     mapper.getToXcoreMapping(eDataType).setXcoreElement(xDataType);
     EList<ETypeParameter> eTypeParameters = eDataType.getETypeParameters();
@@ -825,5 +707,412 @@ public class XcoreEcoreBuilder
     eEnumLiteral.setLiteral(xEnumLiteral.getLiteral());
     eEnumLiteral.setValue(xEnumLiteral.getValue());
     return eEnumLiteral;
+  }
+
+  /**
+   * This was introduced to address the problems uncovered by https://bugs.eclipse.org/bugs/show_bug.cgi?id=514561.
+   */
+  public interface DeferredInitializer
+  {
+    void setNeedsInitialization(boolean needsInitialization);
+    void initialize();
+  }
+
+  private static final class DeferredEDataTypeImpl extends EDataTypeImpl implements DeferredInitializer
+  {
+    private final XClassifier xClassifier;
+
+    private final ClassLoader classLoader;
+
+    private boolean needsInitialization;
+
+    public DeferredEDataTypeImpl(XClassifier xClassifier, ClassLoader classLoader)
+    {
+      this.xClassifier = xClassifier;
+      this.classLoader = classLoader;
+    }
+
+    public void setNeedsInitialization(boolean needsInitialization)
+    {
+      this.needsInitialization = needsInitialization;
+    }
+
+    public void initialize()
+    {
+      if (needsInitialization)
+      {
+        needsInitialization = false;
+
+        JvmTypeReference instanceType = xClassifier.getInstanceType();
+        if (instanceType != null)
+        {
+          String instanceTypeName = instanceType.getIdentifier();
+          String normalizedInstanceTypeName = EcoreUtil.toJavaInstanceTypeName(
+            (EGenericType)EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName).getData().get(0));
+          setInstanceTypeName(normalizedInstanceTypeName);
+          if (classLoader != null)
+          {
+            try
+            {
+              Class<?> instanceClass = classLoader.loadClass(getInstanceClassName());
+              setInstanceClassGen(instanceClass);
+            }
+            catch (Throwable throwable)
+            {
+              // Ignore.
+            }
+          }
+        }
+      }
+    }
+
+    @Override
+    public boolean isSetInstanceClassName()
+    {
+      initialize();
+      return super.isSetInstanceClassName();
+    }
+
+    @Override
+    public String getInstanceClassName()
+    {
+      initialize();
+      return super.getInstanceClassName();
+    }
+
+    @Override
+    public boolean isSetInstanceTypeName()
+    {
+      initialize();
+      return super.isSetInstanceTypeName();
+    }
+
+    @Override
+    public String getInstanceTypeName()
+    {
+      initialize();
+      return super.getInstanceTypeName();
+    }
+
+    @Override
+    public Class<?> getInstanceClass()
+    {
+      initialize();
+      return super.getInstanceClass();
+    }
+  }
+
+  private static final class DeferredEClassImpl extends EClassImpl implements DeferredInitializer
+  {
+    private final XClassifier xClassifier;
+
+    protected boolean needsInitialization;
+
+    private ClassLoader classLoader;
+
+    public DeferredEClassImpl(XClassifier xClassifier, ClassLoader classLoader)
+    {
+      this.xClassifier = xClassifier;
+      this.classLoader = classLoader;
+    }
+
+    public void setNeedsInitialization(boolean needsInitialization)
+    {
+      this.needsInitialization = needsInitialization;
+    }
+
+    public void initialize()
+    {
+      if (needsInitialization)
+      {
+        needsInitialization = false;
+
+        JvmTypeReference instanceType = xClassifier.getInstanceType();
+        if (instanceType != null)
+        {
+          String instanceTypeName = instanceType.getIdentifier();
+          String normalizedInstanceTypeName = EcoreUtil.toJavaInstanceTypeName(
+            (EGenericType)EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName).getData().get(0));
+          setInstanceTypeName(normalizedInstanceTypeName);
+          if (classLoader != null)
+          {
+            try
+            {
+              Class<?> instanceClass = classLoader.loadClass(getInstanceClassName());
+              setInstanceClassGen(instanceClass);
+            }
+            catch (Throwable throwable)
+            {
+              // Ignore.
+            }
+          }
+        }
+      }
+    }
+
+    @Override
+    public boolean isSetInstanceClassName()
+    {
+      initialize();
+      return super.isSetInstanceClassName();
+    }
+
+    @Override
+    public String getInstanceClassName()
+    {
+      initialize();
+      return super.getInstanceClassName();
+    }
+
+    @Override
+    public boolean isSetInstanceTypeName()
+    {
+      initialize();
+      return super.isSetInstanceTypeName();
+    }
+
+    @Override
+    public String getInstanceTypeName()
+    {
+      initialize();
+      return super.getInstanceTypeName();
+    }
+
+    @Override
+    public Class<?> getInstanceClass()
+    {
+      initialize();
+      return super.getInstanceClass();
+    }
+  }
+
+  private static class DeferredEReferenceImpl extends EReferenceImpl implements DeferredInitializer
+  {
+    private final XReference xReference;
+
+    private boolean needsInitialization;
+
+    public DeferredEReferenceImpl(XReference xReference)
+    {
+      this.xReference = xReference;
+    }
+
+    public void setNeedsInitialization(boolean needsInitialization)
+    {
+      this.needsInitialization = needsInitialization;
+    }
+
+    public void initialize()
+    {
+      if (needsInitialization)
+      {
+        needsInitialization = false;
+        GenFeature opposite = xReference.getOpposite();
+        if (opposite != null)
+        {
+          setEOpposite((EReference)opposite.getEcoreFeature());
+        }
+        for (GenFeature key : xReference.getKeys())
+        {
+          EStructuralFeature eAttribute = key.getEcoreFeature();
+          if (eAttribute instanceof EAttribute)
+          {
+            getEKeys().add((EAttribute)eAttribute);
+         }
+        }
+      }
+    }
+
+    @Override
+    public boolean eIsSet(int featureID)
+    {
+      switch (featureID)
+      {
+        case EcorePackage.EREFERENCE__EREFERENCE_TYPE:
+        case EcorePackage.EREFERENCE__EKEYS:
+          initialize();
+          break;
+      }
+
+      return super.eIsSet(featureID);
+    }
+
+    @Override
+    public EList<EAttribute> getEKeys()
+    {
+      initialize();
+      return super.getEKeys();
+    }
+
+    @Override
+    public EReference getEOpposite()
+    {
+      initialize();
+      return super.getEOpposite();
+    }
+
+    @Override
+    public EReference basicGetEOpposite()
+    {
+      initialize();
+      return super.basicGetEOpposite();
+    }
+  }
+
+  private static final class DeferredEGenericTypeImpl extends EGenericTypeImpl implements DeferredInitializer
+  {
+    private final XGenericType xGenericType;
+
+    private boolean needsInitialization;
+
+    private DeferredEGenericTypeImpl(XGenericType xGenericType)
+    {
+      this.xGenericType = xGenericType;
+    }
+
+    public void setNeedsInitialization(boolean needsInitialization)
+    {
+      this.needsInitialization = needsInitialization;
+    }
+
+    public void initialize()
+    {
+      if (needsInitialization)
+      {
+        GenBase type = xGenericType.getType();
+        // It's possible that we recursively reach this point again while resolving the type proxy.
+        // This does not cause stack overflow because it succeeds the next time, but there's no point in processing the type again if it's already been processed.
+        if (needsInitialization)
+        {
+          needsInitialization = false;
+          if (type != null)
+          {
+            if (type instanceof GenTypeParameter)
+            {
+              setETypeParameter(((GenTypeParameter)type).getEcoreTypeParameter());
+            }
+            else if (type instanceof GenClassifier)
+            {
+              setEClassifier(((GenClassifier)type).getEcoreClassifier());
+            }
+            else
+            {
+              setEClassifier(getERawType());
+            }
+          }
+        }
+      }
+    }
+
+    @Override
+    public EClassifier getERawType()
+    {
+      initialize();
+      return super.getERawType();
+    }
+
+    @Override
+    public EClassifier basicGetERawType()
+    {
+      initialize();
+      return super.basicGetERawType();
+    }
+
+    @Override
+    public EClassifier getEClassifier()
+    {
+      initialize();
+      return super.getEClassifier();
+    }
+
+    @Override
+    public EClassifier basicGetEClassifier()
+    {
+      initialize();
+      return super.basicGetEClassifier();
+    }
+
+    @Override
+    public ETypeParameter getETypeParameter()
+    {
+      initialize();
+      return super.getETypeParameter();
+    }
+
+    @Override
+    public boolean eIsSet(int featureID)
+    {
+      switch (featureID)
+      {
+        case EcorePackage.EGENERIC_TYPE__ERAW_TYPE:
+        case EcorePackage.EGENERIC_TYPE__ETYPE_PARAMETER:
+        case EcorePackage.EGENERIC_TYPE__ECLASSIFIER:
+          initialize();
+          break;
+      }
+
+      return super.eIsSet(featureID);
+    }
+
+    @Override
+    public String toString()
+    {
+      if (needsInitialization)
+      {
+        return "* needs initialization *";
+      }
+
+      return super.toString();
+    }
+  }
+
+  private static final class DeferredEAnnotationImpl extends EAnnotationImpl implements DeferredInitializer
+  {
+    private final XAnnotation xAnnotation;
+
+    private boolean needsInitialization;
+
+    private DeferredEAnnotationImpl(XAnnotation xAnnotation)
+    {
+      this.xAnnotation = xAnnotation;
+    }
+
+    public void setNeedsInitialization(boolean needsInitialization)
+    {
+      this.needsInitialization = needsInitialization;
+    }
+
+    public void initialize()
+    {
+      if (needsInitialization)
+      {
+        needsInitialization = false;
+        XAnnotationDirective source = xAnnotation.getSource();
+        if (source != null)
+        {
+         setSource(source.getSourceURI());
+        }
+      }
+    }
+
+    @Override
+    public boolean eIsSet(int featureID)
+    {
+      switch (featureID)
+      {
+        case EcorePackage.EANNOTATION__SOURCE:
+          initialize();
+          break;
+      }
+
+      return super.eIsSet(featureID);
+    }
+
+    @Override
+    public String getSource()
+    {
+      initialize();
+      return super.getSource();
+    }
   }
 }

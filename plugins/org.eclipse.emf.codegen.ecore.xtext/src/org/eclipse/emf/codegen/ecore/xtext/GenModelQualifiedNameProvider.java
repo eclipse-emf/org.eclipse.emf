@@ -31,7 +31,7 @@ public class GenModelQualifiedNameProvider extends IQualifiedNameProvider.Abstra
     if (eObject instanceof GenPackage)
     {
       String packageName = ((GenPackage)eObject).getQualifiedPackageName();
-      if (packageName != null)
+      if (packageName != null && packageName.length() != 0)
       {
         return qualifiedNameConverter.toQualifiedName(packageName);
       }
@@ -44,7 +44,7 @@ public class GenModelQualifiedNameProvider extends IQualifiedNameProvider.Abstra
       {
         String packageName = genPackage.getQualifiedPackageName();
         String classifierName = classifier.getName();
-        if (packageName != null && classifierName != null)
+        if (packageName != null && packageName.length() != 0 && classifierName != null)
         {
           return qualifiedNameConverter.toQualifiedName(packageName).append(classifierName);
         }
