@@ -907,7 +907,8 @@ public class EcoreEditor
                  "xcore".equals(uri.fileExtension()) ||
                  "xcoreiq".equals(uri.fileExtension()) ||
                  "genmodel".equals(uri.fileExtension()) ||
-                 uri.isPlatformResource() && !resourceSet.getURIConverter().normalize(uri).isPlatformResource();
+                 uri.isPlatformResource() && !resourceSet.getURIConverter().normalize(uri).isPlatformResource() ||
+                 uri.isPlatformPlugin();
             if (resourceToReadOnlyMap != null)
             {
               resourceToReadOnlyMap.put(resource, result);
