@@ -178,5 +178,6 @@ public abstract class DecoratorAdapterFactory
         ((IDisposable)object).dispose();
       }
     }
+    itemProviderDecorators.clear();
   }
 }
