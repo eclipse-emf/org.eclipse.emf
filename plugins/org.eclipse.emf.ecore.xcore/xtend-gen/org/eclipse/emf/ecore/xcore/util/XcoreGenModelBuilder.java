@@ -12,7 +12,6 @@ import com.google.inject.Inject;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
@@ -27,20 +26,13 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XDataType;
 import org.eclipse.emf.ecore.xcore.XEnumLiteral;
@@ -70,15 +62,11 @@ public class XcoreGenModelBuilder {
   private XcoreMapper mapper;
   
   public GenModel getGenModel(final XPackage pack) {
-    XPackageMapping _mapping = this.mapper.getMapping(pack);
-    final EPackage ePackage = _mapping.getEPackage();
+    final EPackage ePackage = this.mapper.getMapping(pack).getEPackage();
     final GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
     genModel.setComplianceLevel(GenJDKLevel.JDK50_LITERAL);
-    Set<EPackage> _singleton = Collections.<EPackage>singleton(ePackage);
-    genModel.initialize(_singleton);
-    Resource _eResource = pack.eResource();
-    EList<EObject> _contents = _eResource.getContents();
-    _contents.add(1, genModel);
+    genModel.initialize(Collections.<EPackage>singleton(ePackage));
+    pack.eResource().getContents().add(1, genModel);
     this.buildMap(genModel);
     return genModel;
   }
@@ -89,127 +77,111 @@ public class XcoreGenModelBuilder {
       boolean _matched = false;
       if (genElement instanceof GenPackage) {
         _matched=true;
-        EPackage _ecorePackage = ((GenPackage)genElement).getEcorePackage();
-        ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecorePackage);
-        XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
+        XNamedElement _xcoreElement = this.mapper.getToXcoreMapping(((GenPackage)genElement).getEcorePackage()).getXcoreElement();
         final XPackage xPackage = ((XPackage) _xcoreElement);
         boolean _notEquals = (!Objects.equal(xPackage, null));
         if (_notEquals) {
           XPackageMapping _mapping = this.mapper.getMapping(xPackage);
           _mapping.setGenPackage(((GenPackage)genElement));
-          ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
-          _toXcoreMapping_1.setXcoreElement(xPackage);
+          ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(genElement);
+          _toXcoreMapping.setXcoreElement(xPackage);
         }
       }
       if (!_matched) {
         if (genElement instanceof GenClass) {
           _matched=true;
-          EClass _ecoreClass = ((GenClass)genElement).getEcoreClass();
-          ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecoreClass);
-          XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
+          XNamedElement _xcoreElement = this.mapper.getToXcoreMapping(((GenClass)genElement).getEcoreClass()).getXcoreElement();
           final XClass xClass = ((XClass) _xcoreElement);
           boolean _notEquals = (!Objects.equal(xClass, null));
           if (_notEquals) {
             XClassMapping _mapping = this.mapper.getMapping(xClass);
             _mapping.setGenClass(((GenClass)genElement));
-            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
-            _toXcoreMapping_1.setXcoreElement(xClass);
+            ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(genElement);
+            _toXcoreMapping.setXcoreElement(xClass);
           }
         }
       }
       if (!_matched) {
         if (genElement instanceof GenDataType) {
           _matched=true;
-          EDataType _ecoreDataType = ((GenDataType)genElement).getEcoreDataType();
-          ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecoreDataType);
-          XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
+          XNamedElement _xcoreElement = this.mapper.getToXcoreMapping(((GenDataType)genElement).getEcoreDataType()).getXcoreElement();
           final XDataType xDataType = ((XDataType) _xcoreElement);
           boolean _notEquals = (!Objects.equal(xDataType, null));
           if (_notEquals) {
             XDataTypeMapping _mapping = this.mapper.getMapping(xDataType);
             _mapping.setGenDataType(((GenDataType)genElement));
-            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
-            _toXcoreMapping_1.setXcoreElement(xDataType);
+            ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(genElement);
+            _toXcoreMapping.setXcoreElement(xDataType);
           }
         }
       }
       if (!_matched) {
         if (genElement instanceof GenFeature) {
           _matched=true;
-          EStructuralFeature _ecoreFeature = ((GenFeature)genElement).getEcoreFeature();
-          ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecoreFeature);
-          XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
+          XNamedElement _xcoreElement = this.mapper.getToXcoreMapping(((GenFeature)genElement).getEcoreFeature()).getXcoreElement();
           final XStructuralFeature xFeature = ((XStructuralFeature) _xcoreElement);
           boolean _notEquals = (!Objects.equal(xFeature, null));
           if (_notEquals) {
             XFeatureMapping _mapping = this.mapper.getMapping(xFeature);
             _mapping.setGenFeature(((GenFeature)genElement));
-            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
-            _toXcoreMapping_1.setXcoreElement(xFeature);
+            ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(genElement);
+            _toXcoreMapping.setXcoreElement(xFeature);
           }
         }
       }
       if (!_matched) {
         if (genElement instanceof GenOperation) {
           _matched=true;
-          EOperation _ecoreOperation = ((GenOperation)genElement).getEcoreOperation();
-          ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecoreOperation);
-          XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
+          XNamedElement _xcoreElement = this.mapper.getToXcoreMapping(((GenOperation)genElement).getEcoreOperation()).getXcoreElement();
           final XOperation xOperation = ((XOperation) _xcoreElement);
           boolean _notEquals = (!Objects.equal(xOperation, null));
           if (_notEquals) {
             XOperationMapping _mapping = this.mapper.getMapping(xOperation);
             _mapping.setGenOperation(((GenOperation)genElement));
-            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
-            _toXcoreMapping_1.setXcoreElement(xOperation);
+            ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(genElement);
+            _toXcoreMapping.setXcoreElement(xOperation);
           }
         }
       }
       if (!_matched) {
         if (genElement instanceof GenParameter) {
           _matched=true;
-          EParameter _ecoreParameter = ((GenParameter)genElement).getEcoreParameter();
-          ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecoreParameter);
-          XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
+          XNamedElement _xcoreElement = this.mapper.getToXcoreMapping(((GenParameter)genElement).getEcoreParameter()).getXcoreElement();
           final XParameter xParameter = ((XParameter) _xcoreElement);
           boolean _notEquals = (!Objects.equal(xParameter, null));
           if (_notEquals) {
             XParameterMapping _mapping = this.mapper.getMapping(xParameter);
             _mapping.setGenParameter(((GenParameter)genElement));
-            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
-            _toXcoreMapping_1.setXcoreElement(xParameter);
+            ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(genElement);
+            _toXcoreMapping.setXcoreElement(xParameter);
           }
         }
       }
       if (!_matched) {
         if (genElement instanceof GenTypeParameter) {
           _matched=true;
-          ETypeParameter _ecoreTypeParameter = ((GenTypeParameter)genElement).getEcoreTypeParameter();
-          ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecoreTypeParameter);
-          XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
+          XNamedElement _xcoreElement = this.mapper.getToXcoreMapping(((GenTypeParameter)genElement).getEcoreTypeParameter()).getXcoreElement();
           final XTypeParameter xTypeParameter = ((XTypeParameter) _xcoreElement);
           boolean _notEquals = (!Objects.equal(xTypeParameter, null));
           if (_notEquals) {
             XTypeParameterMapping _mapping = this.mapper.getMapping(xTypeParameter);
             _mapping.setGenTypeParameter(((GenTypeParameter)genElement));
-            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
-            _toXcoreMapping_1.setXcoreElement(xTypeParameter);
+            ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(genElement);
+            _toXcoreMapping.setXcoreElement(xTypeParameter);
           }
         }
       }
       if (!_matched) {
         if (genElement instanceof GenEnumLiteral) {
           _matched=true;
-          EEnumLiteral _ecoreEnumLiteral = ((GenEnumLiteral)genElement).getEcoreEnumLiteral();
-          ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(_ecoreEnumLiteral);
-          XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
+          XNamedElement _xcoreElement = this.mapper.getToXcoreMapping(((GenEnumLiteral)genElement).getEcoreEnumLiteral()).getXcoreElement();
           final XEnumLiteral xEnumLiteral = ((XEnumLiteral) _xcoreElement);
           boolean _notEquals = (!Objects.equal(xEnumLiteral, null));
           if (_notEquals) {
             XEnumLiteralMapping _mapping = this.mapper.getMapping(xEnumLiteral);
             _mapping.setGenEnumLiteral(((GenEnumLiteral)genElement));
-            ToXcoreMapping _toXcoreMapping_1 = this.mapper.getToXcoreMapping(genElement);
-            _toXcoreMapping_1.setXcoreElement(xEnumLiteral);
+            ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(genElement);
+            _toXcoreMapping.setXcoreElement(xEnumLiteral);
           }
         }
       }
@@ -225,8 +197,7 @@ public class XcoreGenModelBuilder {
         final EPackage ePackage = genPackage.getEcorePackage();
         boolean _notEquals = (!Objects.equal(ePackage, null));
         if (_notEquals) {
-          EPackage _ecorePackage = genPackage.getEcorePackage();
-          ePackages.add(_ecorePackage);
+          ePackages.add(genPackage.getEcorePackage());
         }
       }
     }
@@ -284,14 +255,11 @@ public class XcoreGenModelBuilder {
         GenPackage usedGenPackage = genModel.findGenPackage(referencedEPackage);
         boolean _equals = Objects.equal(usedGenPackage, null);
         if (_equals) {
-          ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(referencedEPackage);
-          XNamedElement _xcoreElement = _toXcoreMapping.getXcoreElement();
-          GenBase _gen = this.mapper.getGen(_xcoreElement);
+          GenBase _gen = this.mapper.getGen(this.mapper.getToXcoreMapping(referencedEPackage).getXcoreElement());
           usedGenPackage = ((GenPackage) _gen);
           boolean _equals_1 = Objects.equal(usedGenPackage, null);
           if (_equals_1) {
-            GenPackage _findLocalGenPackage = this.findLocalGenPackage(referencedEPackage);
-            usedGenPackage = _findLocalGenPackage;
+            usedGenPackage = this.findLocalGenPackage(referencedEPackage);
           }
         }
         boolean _notEquals = (!Objects.equal(usedGenPackage, null));
@@ -299,13 +267,11 @@ public class XcoreGenModelBuilder {
           Resource _eResource = usedGenPackage.eResource();
           boolean _notEquals_1 = (!Objects.equal(_eResource, null));
           if (_notEquals_1) {
-            EList<GenPackage> _usedGenPackages = genModel.getUsedGenPackages();
-            _usedGenPackages.add(usedGenPackage);
+            genModel.getUsedGenPackages().add(usedGenPackage);
           }
         } else {
           final Resource genModelResource = genModel.eResource();
-          ResourceSet _resourceSet = genModelResource.getResourceSet();
-          final EList<Resource> resources = _resourceSet.getResources();
+          final EList<Resource> resources = genModelResource.getResourceSet().getResources();
           i = 0;
           boolean found = false;
           while (((i < resources.size()) && (!found))) {
@@ -313,23 +279,19 @@ public class XcoreGenModelBuilder {
               final Resource resource = resources.get(i);
               boolean _notEquals_2 = (!Objects.equal(resource, genModelResource));
               if (_notEquals_2) {
-                URI _uRI = resource.getURI();
-                final String fileExtension = _uRI.fileExtension();
+                final String fileExtension = resource.getURI().fileExtension();
                 boolean _equals_2 = "xcore".equals(fileExtension);
                 if (_equals_2) {
                   final EList<EObject> contents = resource.getContents();
                   boolean _isEmpty = contents.isEmpty();
                   boolean _not = (!_isEmpty);
                   if (_not) {
-                    EList<EObject> _contents = resource.getContents();
-                    EObject _get = _contents.get(1);
+                    EObject _get = resource.getContents().get(1);
                     final GenModel usedGenModel = ((GenModel) _get);
-                    GenPackage _findGenPackage = usedGenModel.findGenPackage(referencedEPackage);
-                    usedGenPackage = _findGenPackage;
+                    usedGenPackage = usedGenModel.findGenPackage(referencedEPackage);
                     boolean _notEquals_3 = (!Objects.equal(usedGenPackage, null));
                     if (_notEquals_3) {
-                      EList<GenPackage> _usedGenPackages_1 = genModel.getUsedGenPackages();
-                      _usedGenPackages_1.add(usedGenPackage);
+                      genModel.getUsedGenPackages().add(usedGenPackage);
                       found = true;
                     }
                   }
@@ -340,16 +302,13 @@ public class XcoreGenModelBuilder {
                     boolean _isEmpty_1 = contents_1.isEmpty();
                     boolean _not_1 = (!_isEmpty_1);
                     if (_not_1) {
-                      EList<EObject> _contents_1 = resource.getContents();
-                      EObject _get_1 = _contents_1.get(0);
+                      EObject _get_1 = resource.getContents().get(0);
                       final GenModel usedGenModel_1 = ((GenModel) _get_1);
                       usedGenModel_1.reconcile();
-                      GenPackage _findGenPackage_1 = usedGenModel_1.findGenPackage(referencedEPackage);
-                      usedGenPackage = _findGenPackage_1;
+                      usedGenPackage = usedGenModel_1.findGenPackage(referencedEPackage);
                       boolean _notEquals_4 = (!Objects.equal(usedGenPackage, null));
                       if (_notEquals_4) {
-                        EList<GenPackage> _usedGenPackages_2 = genModel.getUsedGenPackages();
-                        _usedGenPackages_2.add(usedGenPackage);
+                        genModel.getUsedGenPackages().add(usedGenPackage);
                         found = true;
                       }
                     }
@@ -371,8 +330,7 @@ public class XcoreGenModelBuilder {
     Resource _eResource = ePackage.eResource();
     boolean _notEquals = (!Objects.equal(_eResource, null));
     if (_notEquals) {
-      Resource _eResource_1 = ePackage.eResource();
-      EList<EObject> _contents = _eResource_1.getContents();
+      EList<EObject> _contents = ePackage.eResource().getContents();
       for (final EObject content : _contents) {
         if ((content instanceof GenModel)) {
           final GenPackage genPackage = ((GenModel)content).findGenPackage(ePackage);

@@ -9,17 +9,13 @@ package org.eclipse.emf.test.ecore.xcore;
 
 import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
-import java.util.Iterator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
-import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xcore.XClass;
-import org.eclipse.emf.ecore.xcore.XGenericType;
 import org.eclipse.emf.ecore.xcore.XMember;
 import org.eclipse.emf.ecore.xcore.XReference;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
@@ -56,10 +52,8 @@ public class MultiFileTest {
   @Test
   public void testReferenceBetweenTwoModels() {
     try {
-      URI _createURI = URI.createURI("file:/modelA.xcore");
-      final Resource resourceA = this.resourceSet.createResource(_createURI);
-      URI _createURI_1 = URI.createURI("file:/modelB.xcore");
-      final Resource resourceB = this.resourceSet.createResource(_createURI_1);
+      final Resource resourceA = this.resourceSet.createResource(URI.createURI("file:/modelA.xcore"));
+      final Resource resourceB = this.resourceSet.createResource(URI.createURI("file:/modelB.xcore"));
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package packB");
       _builder.newLine();
@@ -85,21 +79,12 @@ public class MultiFileTest {
       String _string_1 = _builder_1.toString();
       StringInputStream _stringInputStream_1 = new StringInputStream(_string_1);
       resourceA.load(_stringInputStream_1, null);
-      EList<EObject> _contents = resourceA.getContents();
-      EObject _head = IterableExtensions.<EObject>head(_contents);
-      this.validator.assertNoErrors(_head);
-      EList<EObject> _contents_1 = resourceB.getContents();
-      EObject _head_1 = IterableExtensions.<EObject>head(_contents_1);
-      this.validator.assertNoErrors(_head_1);
+      this.validator.assertNoErrors(IterableExtensions.<EObject>head(resourceA.getContents()));
+      this.validator.assertNoErrors(IterableExtensions.<EObject>head(resourceB.getContents()));
       final TreeIterator<EObject> allContents = resourceA.getAllContents();
-      Iterator<XClass> _filter = Iterators.<XClass>filter(allContents, XClass.class);
-      final XClass xclass = IteratorExtensions.<XClass>head(_filter);
-      EList<XMember> _members = xclass.getMembers();
-      XMember _head_2 = IterableExtensions.<XMember>head(_members);
-      XGenericType _type = _head_2.getType();
-      final GenBase referencedGenClass = _type.getType();
-      String _name = ((GenClass) referencedGenClass).getName();
-      Assert.assertEquals("TypeB", _name);
+      final XClass xclass = IteratorExtensions.<XClass>head(Iterators.<XClass>filter(allContents, XClass.class));
+      final GenBase referencedGenClass = IterableExtensions.<XMember>head(xclass.getMembers()).getType().getType();
+      Assert.assertEquals("TypeB", ((GenClass) referencedGenClass).getName());
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -108,10 +93,8 @@ public class MultiFileTest {
   @Test
   public void testBidirectionalReferenceBetweenTwoModels() {
     try {
-      URI _createURI = URI.createURI("file:/modelA.xcore");
-      final Resource resourceA = this.resourceSet.createResource(_createURI);
-      URI _createURI_1 = URI.createURI("file:/modelB.xcore");
-      final Resource resourceB = this.resourceSet.createResource(_createURI_1);
+      final Resource resourceA = this.resourceSet.createResource(URI.createURI("file:/modelA.xcore"));
+      final Resource resourceB = this.resourceSet.createResource(URI.createURI("file:/modelB.xcore"));
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package packB");
       _builder.newLine();
@@ -140,29 +123,16 @@ public class MultiFileTest {
       String _string_1 = _builder_1.toString();
       StringInputStream _stringInputStream_1 = new StringInputStream(_string_1);
       resourceA.load(_stringInputStream_1, null);
-      EList<EObject> _contents = resourceA.getContents();
-      EObject _head = IterableExtensions.<EObject>head(_contents);
-      this.validator.assertNoErrors(_head);
-      EList<EObject> _contents_1 = resourceB.getContents();
-      EObject _head_1 = IterableExtensions.<EObject>head(_contents_1);
-      this.validator.assertNoErrors(_head_1);
+      this.validator.assertNoErrors(IterableExtensions.<EObject>head(resourceA.getContents()));
+      this.validator.assertNoErrors(IterableExtensions.<EObject>head(resourceB.getContents()));
       final TreeIterator<EObject> allContents = resourceA.getAllContents();
-      Iterator<XClass> _filter = Iterators.<XClass>filter(allContents, XClass.class);
-      final XClass xclass = IteratorExtensions.<XClass>head(_filter);
-      EList<XMember> _members = xclass.getMembers();
-      XMember _head_2 = IterableExtensions.<XMember>head(_members);
-      XGenericType _type = _head_2.getType();
-      final GenBase referencedGenClass = _type.getType();
-      String _name = ((GenClass) referencedGenClass).getName();
-      Assert.assertEquals("TypeB", _name);
-      EList<XMember> _members_1 = xclass.getMembers();
-      XMember _head_3 = IterableExtensions.<XMember>head(_members_1);
-      final XReference ref = ((XReference) _head_3);
-      GenFeature _opposite = ref.getOpposite();
-      XStructuralFeature _xFeature = this.mapper.getXFeature(_opposite);
-      GenFeature _opposite_1 = ((XReference) _xFeature).getOpposite();
-      XStructuralFeature _xFeature_1 = this.mapper.getXFeature(_opposite_1);
-      Assert.assertEquals(ref, _xFeature_1);
+      final XClass xclass = IteratorExtensions.<XClass>head(Iterators.<XClass>filter(allContents, XClass.class));
+      final GenBase referencedGenClass = IterableExtensions.<XMember>head(xclass.getMembers()).getType().getType();
+      Assert.assertEquals("TypeB", ((GenClass) referencedGenClass).getName());
+      XMember _head = IterableExtensions.<XMember>head(xclass.getMembers());
+      final XReference ref = ((XReference) _head);
+      XStructuralFeature _xFeature = this.mapper.getXFeature(ref.getOpposite());
+      Assert.assertEquals(ref, this.mapper.getXFeature(((XReference) _xFeature).getOpposite()));
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

@@ -8,9 +8,6 @@
 package org.eclipse.emf.test.ecore.xcore.generator;
 
 import com.google.inject.Inject;
-import java.util.Map;
-import java.util.Set;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.generator.XcoreGenerator;
 import org.eclipse.emf.test.ecore.xcore.XcoreStandaloneInjectorProvider;
@@ -47,17 +44,9 @@ public class GeneratorTest {
       _builder.newLine();
       final XPackage xPackage = this.parser.parse(_builder);
       final InMemoryFileSystemAccess inmemFsa = new InMemoryFileSystemAccess();
-      Resource _eResource = xPackage.eResource();
-      this.xcoreGenerator.doGenerate(_eResource, inmemFsa);
-      Map<String, Object> _allFiles = inmemFsa.getAllFiles();
-      Set<String> _keySet = _allFiles.keySet();
-      String _string = _keySet.toString();
-      Map<String, Object> _allFiles_1 = inmemFsa.getAllFiles();
-      int _size = _allFiles_1.size();
-      Assert.assertEquals(_string, 8, _size);
-      Map<String, Object> _allFiles_2 = inmemFsa.getAllFiles();
-      Object _get = _allFiles_2.get((IFileSystemAccess.DEFAULT_OUTPUT + "/test/util/TestSwitch.java"));
-      Assert.assertNotNull(_get);
+      this.xcoreGenerator.doGenerate(xPackage.eResource(), inmemFsa);
+      Assert.assertEquals(inmemFsa.getAllFiles().keySet().toString(), 8, inmemFsa.getAllFiles().size());
+      Assert.assertNotNull(inmemFsa.getAllFiles().get((IFileSystemAccess.DEFAULT_OUTPUT + "/test/util/TestSwitch.java")));
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

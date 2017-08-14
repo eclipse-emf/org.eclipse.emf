@@ -17,10 +17,8 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
-import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
@@ -44,15 +42,11 @@ import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
 import org.eclipse.emf.ecore.xcore.generator.XcoreAppendable;
 import org.eclipse.emf.ecore.xcore.generator.XcoreGeneratorImpl;
-import org.eclipse.emf.ecore.xcore.mappings.XClassMapping;
-import org.eclipse.emf.ecore.xcore.mappings.XDataTypeMapping;
-import org.eclipse.emf.ecore.xcore.mappings.XFeatureMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
 import org.eclipse.xtext.common.types.JvmFormalParameter;
 import org.eclipse.xtext.common.types.JvmOperation;
-import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IGenerator;
@@ -84,36 +78,24 @@ public class XcoreGenerator implements IGenerator {
     for (final XClassifier xClassifier : _classifiers) {
       if ((xClassifier instanceof XDataType)) {
         final XDataType xDataType = ((XDataType)xClassifier);
-        XDataTypeMapping _mapping = this.mappings.getMapping(xDataType);
-        final EDataType eDataType = _mapping.getEDataType();
+        final EDataType eDataType = this.mappings.getMapping(xDataType).getEDataType();
         final XBlockExpression createBody = xDataType.getCreateBody();
-        XDataTypeMapping _mapping_1 = this.mappings.getMapping(xDataType);
-        final JvmOperation creator = _mapping_1.getCreator();
+        final JvmOperation creator = this.mappings.getMapping(xDataType).getCreator();
         if (((!Objects.equal(createBody, null)) && (!Objects.equal(creator, null)))) {
           final XcoreAppendable appendable = this.createAppendable();
-          EList<JvmFormalParameter> _parameters = creator.getParameters();
-          JvmFormalParameter _get = _parameters.get(0);
-          appendable.declareVariable(_get, "it");
-          JvmTypeReference _returnType = creator.getReturnType();
-          Set<JvmTypeReference> _emptySet = Collections.<JvmTypeReference>emptySet();
-          this.compile(eDataType, "create", appendable, errors, createBody, _returnType, _emptySet);
+          appendable.declareVariable(creator.getParameters().get(0), "it");
+          this.compile(eDataType, "create", appendable, errors, createBody, creator.getReturnType(), Collections.<JvmTypeReference>emptySet());
         }
         final XBlockExpression convertBody = xDataType.getConvertBody();
-        XDataTypeMapping _mapping_2 = this.mappings.getMapping(xDataType);
-        final JvmOperation converter = _mapping_2.getConverter();
+        final JvmOperation converter = this.mappings.getMapping(xDataType).getConverter();
         if (((!Objects.equal(convertBody, null)) && (!Objects.equal(converter, null)))) {
           final XcoreAppendable appendable_1 = this.createAppendable();
-          EList<JvmFormalParameter> _parameters_1 = converter.getParameters();
-          JvmFormalParameter _get_1 = _parameters_1.get(0);
-          appendable_1.declareVariable(_get_1, "it");
-          JvmTypeReference _returnType_1 = converter.getReturnType();
-          Set<JvmTypeReference> _emptySet_1 = Collections.<JvmTypeReference>emptySet();
-          this.compile(eDataType, "convert", appendable_1, errors, convertBody, _returnType_1, _emptySet_1);
+          appendable_1.declareVariable(converter.getParameters().get(0), "it");
+          this.compile(eDataType, "convert", appendable_1, errors, convertBody, converter.getReturnType(), Collections.<JvmTypeReference>emptySet());
         }
       } else {
         final XClass xClass = ((XClass) xClassifier);
-        XClassMapping _mapping_3 = this.mappings.getMapping(xClass);
-        final EClass eClass = _mapping_3.getEClass();
+        final EClass eClass = this.mappings.getMapping(xClass).getEClass();
         EList<EStructuralFeature> _eAllStructuralFeatures = eClass.getEAllStructuralFeatures();
         for (final EStructuralFeature eStructuralFeature : _eAllStructuralFeatures) {
           boolean _add = processed.add(eStructuralFeature);
@@ -124,22 +106,15 @@ public class XcoreGenerator implements IGenerator {
               final XBlockExpression getBody = xFeature.getGetBody();
               boolean _notEquals_1 = (!Objects.equal(getBody, null));
               if (_notEquals_1) {
-                XFeatureMapping _mapping_4 = this.mappings.getMapping(xFeature);
-                final JvmOperation getter = _mapping_4.getGetter();
+                final JvmOperation getter = this.mappings.getMapping(xFeature).getGetter();
                 final XcoreAppendable appendable_2 = this.createAppendable();
-                JvmDeclaredType _declaringType = getter.getDeclaringType();
-                appendable_2.declareVariable(_declaringType, "this");
-                JvmDeclaredType _declaringType_1 = getter.getDeclaringType();
-                EList<JvmTypeReference> _superTypes = _declaringType_1.getSuperTypes();
-                final JvmTypeReference superType = IterableExtensions.<JvmTypeReference>head(_superTypes);
+                appendable_2.declareVariable(getter.getDeclaringType(), "this");
+                final JvmTypeReference superType = IterableExtensions.<JvmTypeReference>head(getter.getDeclaringType().getSuperTypes());
                 boolean _notEquals_2 = (!Objects.equal(superType, null));
                 if (_notEquals_2) {
-                  JvmType _type = superType.getType();
-                  appendable_2.declareVariable(_type, "super");
+                  appendable_2.declareVariable(superType.getType(), "super");
                 }
-                JvmTypeReference _returnType_2 = getter.getReturnType();
-                Set<JvmTypeReference> _emptySet_2 = Collections.<JvmTypeReference>emptySet();
-                this.compile(eStructuralFeature, "get", appendable_2, errors, getBody, _returnType_2, _emptySet_2);
+                this.compile(eStructuralFeature, "get", appendable_2, errors, getBody, getter.getReturnType(), Collections.<JvmTypeReference>emptySet());
               }
             }
           }
@@ -160,36 +135,30 @@ public class XcoreGenerator implements IGenerator {
                 if (_notEquals_5) {
                   final XcoreAppendable appendable_3 = this.createAppendable();
                   JvmDeclaredType declaringType = jvmOperation.getDeclaringType();
-                  GenOperation _genOperation = xOperationMapping.getGenOperation();
-                  GenClass _genClass = _genOperation.getGenClass();
-                  boolean _isExternalInterface = _genClass.isExternalInterface();
+                  boolean _isExternalInterface = xOperationMapping.getGenOperation().getGenClass().isExternalInterface();
                   if (_isExternalInterface) {
                     final EList<JvmTypeReference> superTypes = declaringType.getSuperTypes();
                     final JvmTypeReference effectiveTypeReference = IterableExtensions.<JvmTypeReference>head(superTypes);
                     boolean _notEquals_6 = (!Objects.equal(effectiveTypeReference, null));
                     if (_notEquals_6) {
-                      JvmType _type_1 = effectiveTypeReference.getType();
-                      appendable_3.declareVariable(_type_1, "this");
+                      appendable_3.declareVariable(effectiveTypeReference.getType(), "this");
                     }
                   } else {
                     appendable_3.declareVariable(declaringType, "this");
-                    EList<JvmTypeReference> _superTypes_1 = declaringType.getSuperTypes();
-                    final JvmTypeReference superType_1 = IterableExtensions.<JvmTypeReference>head(_superTypes_1);
+                    final JvmTypeReference superType_1 = IterableExtensions.<JvmTypeReference>head(declaringType.getSuperTypes());
                     boolean _notEquals_7 = (!Objects.equal(superType_1, null));
                     if (_notEquals_7) {
-                      JvmType _type_2 = superType_1.getType();
-                      appendable_3.declareVariable(_type_2, "super");
+                      appendable_3.declareVariable(superType_1.getType(), "super");
                     }
                   }
-                  EList<JvmFormalParameter> _parameters_2 = jvmOperation.getParameters();
-                  for (final JvmFormalParameter parameter : _parameters_2) {
-                    String _name = parameter.getName();
-                    appendable_3.declareVariable(parameter, _name);
+                  EList<JvmFormalParameter> _parameters = jvmOperation.getParameters();
+                  for (final JvmFormalParameter parameter : _parameters) {
+                    appendable_3.declareVariable(parameter, parameter.getName());
                   }
-                  JvmTypeReference _returnType_3 = jvmOperation.getReturnType();
+                  JvmTypeReference _returnType = jvmOperation.getReturnType();
                   EList<JvmTypeReference> _exceptions = jvmOperation.getExceptions();
                   HashSet<JvmTypeReference> _hashSet = new HashSet<JvmTypeReference>(_exceptions);
-                  this.compile(eOperation, "body", appendable_3, errors, body, _returnType_3, _hashSet);
+                  this.compile(eOperation, "body", appendable_3, errors, body, _returnType, _hashSet);
                 }
               }
             }
@@ -201,35 +170,27 @@ public class XcoreGenerator implements IGenerator {
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
-    EList<EObject> _contents = resource.getContents();
-    EObject _head = IterableExtensions.<EObject>head(_contents);
+    EObject _head = IterableExtensions.<EObject>head(resource.getContents());
     this.generateBodyAnnotations(((XPackage) _head));
-    EList<EObject> _contents_1 = resource.getContents();
-    Iterable<GenModel> _filter = Iterables.<GenModel>filter(_contents_1, GenModel.class);
-    GenModel _head_1 = IterableExtensions.<GenModel>head(_filter);
-    this.generateGenModel(_head_1, fsa);
+    this.generateGenModel(IterableExtensions.<GenModel>head(Iterables.<GenModel>filter(resource.getContents(), GenModel.class)), fsa);
   }
   
   public void compile(final EModelElement target, final String key, final ITreeAppendable appendable, final Map<EObject, String> errors, final XBlockExpression body, final JvmTypeReference returnType, final Set<JvmTypeReference> exceptions) {
     try {
       Set<Map.Entry<EObject, String>> _entrySet = errors.entrySet();
       for (final Map.Entry<EObject, String> error : _entrySet) {
-        EObject _key = error.getKey();
-        boolean _isAncestor = EcoreUtil.isAncestor(body, _key);
+        boolean _isAncestor = EcoreUtil.isAncestor(body, error.getKey());
         if (_isAncestor) {
           String _value = error.getValue();
           throw new RuntimeException(_value);
         }
       }
       this.compiler.compile(body, appendable, returnType, exceptions);
-      String _string = appendable.toString();
-      String _extractBody = this.extractBody(_string);
-      EcoreUtil.setAnnotation(target, GenModelPackage.eNS_URI, key, _extractBody);
+      EcoreUtil.setAnnotation(target, GenModelPackage.eNS_URI, key, this.extractBody(appendable.toString()));
     } catch (final Throwable _t) {
       if (_t instanceof Throwable) {
         final Throwable throwable = (Throwable)_t;
-        String _message = throwable.getMessage();
-        String _unicodeEscapeEncode = CodeGenUtil.unicodeEscapeEncode(_message);
+        String _unicodeEscapeEncode = CodeGenUtil.unicodeEscapeEncode(throwable.getMessage());
         String _plus = ("throw new <%java.lang.Error%>(\"Unresolved compilation problems: " + _unicodeEscapeEncode);
         String _plus_1 = (_plus + "\");");
         EcoreUtil.setAnnotation(target, GenModelPackage.eNS_URI, key, _plus_1);
@@ -248,12 +209,10 @@ public class XcoreGenerator implements IGenerator {
         final URI uri = ((XtextLinkingDiagnostic)diagnostic).getUriToProblem();
         boolean _notEquals = (!Objects.equal(uri, null));
         if (_notEquals) {
-          String _fragment = uri.fragment();
-          final EObject eObject = resource.getEObject(_fragment);
+          final EObject eObject = resource.getEObject(uri.fragment());
           boolean _notEquals_1 = (!Objects.equal(eObject, null));
           if (_notEquals_1) {
-            String _message = ((XtextLinkingDiagnostic)diagnostic).getMessage();
-            result.put(eObject, _message);
+            result.put(eObject, ((XtextLinkingDiagnostic)diagnostic).getMessage());
           }
         }
       }
@@ -281,8 +240,7 @@ public class XcoreGenerator implements IGenerator {
       if (_startsWith_1) {
         String _xblockexpression_1 = null;
         {
-          String _replace = result.replace("\n\t", "\n");
-          result = _replace;
+          result = result.replace("\n\t", "\n");
           int _length = result.length();
           int _minus = (_length - 2);
           _xblockexpression_1 = result.substring(1, _minus);
@@ -307,8 +265,7 @@ public class XcoreGenerator implements IGenerator {
         final XcoreGeneratorImpl generator = this.xcoreGeneratorImplProvider.get();
         generator.setInput(genModel);
         generator.setFileSystemAccess(fsa);
-        String _modelDirectory_1 = genModel.getModelDirectory();
-        generator.setModelDirectory(_modelDirectory_1);
+        generator.setModelDirectory(genModel.getModelDirectory());
         BasicMonitor _basicMonitor = new BasicMonitor();
         generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, _basicMonitor);
         BasicMonitor _basicMonitor_1 = new BasicMonitor();

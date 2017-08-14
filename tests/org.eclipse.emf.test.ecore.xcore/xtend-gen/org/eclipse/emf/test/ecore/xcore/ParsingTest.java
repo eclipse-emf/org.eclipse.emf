@@ -11,10 +11,7 @@ import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import java.util.Iterator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
-import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
-import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -62,8 +59,7 @@ public class ParsingTest {
   public void parseSimpleFile() {
     try {
       final XPackage parse = this.parser.parse("package foo");
-      String _name = parse.getName();
-      Assert.assertEquals("foo", _name);
+      Assert.assertEquals("foo", parse.getName());
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -85,8 +81,7 @@ public class ParsingTest {
       _builder.append("} ");
       _builder.newLine();
       final XPackage pack = this.parser.parse(_builder);
-      Resource _eResource = pack.eResource();
-      EcoreUtil.resolveAll(_eResource);
+      EcoreUtil.resolveAll(pack.eResource());
       this.vth.assertNoErrors(pack);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -104,14 +99,9 @@ public class ParsingTest {
       _builder.append("class B extends A {}");
       _builder.newLine();
       final XPackage pack = this.parser.parse(_builder);
-      EList<XClassifier> _classifiers = pack.getClassifiers();
-      XClassifier _get = _classifiers.get(1);
+      XClassifier _get = pack.getClassifiers().get(1);
       final XClass clazz = ((XClass) _get);
-      EList<XGenericType> _superTypes = clazz.getSuperTypes();
-      XGenericType _head = IterableExtensions.<XGenericType>head(_superTypes);
-      GenClass _genClass = this.exts.getGenClass(_head);
-      String _name = _genClass.getName();
-      Assert.assertEquals("A", _name);
+      Assert.assertEquals("A", this.exts.getGenClass(IterableExtensions.<XGenericType>head(clazz.getSuperTypes())).getName());
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -128,14 +118,9 @@ public class ParsingTest {
       _builder.append("class B extends foo.A {}");
       _builder.newLine();
       final XPackage pack = this.parser.parse(_builder);
-      EList<XClassifier> _classifiers = pack.getClassifiers();
-      XClassifier _get = _classifiers.get(1);
+      XClassifier _get = pack.getClassifiers().get(1);
       final XClass clazz = ((XClass) _get);
-      EList<XGenericType> _superTypes = clazz.getSuperTypes();
-      XGenericType _head = IterableExtensions.<XGenericType>head(_superTypes);
-      GenClass _genClass = this.exts.getGenClass(_head);
-      String _name = _genClass.getName();
-      Assert.assertEquals("A", _name);
+      Assert.assertEquals("A", this.exts.getGenClass(IterableExtensions.<XGenericType>head(clazz.getSuperTypes())).getName());
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -154,15 +139,9 @@ public class ParsingTest {
       _builder.append("class A {} ");
       _builder.newLine();
       final XPackage pack = this.parser.parse(_builder);
-      EList<XClassifier> _classifiers = pack.getClassifiers();
-      XClassifier _get = _classifiers.get(0);
+      XClassifier _get = pack.getClassifiers().get(0);
       final XClass clazz = ((XClass) _get);
-      EList<XAnnotationDirective> _annotationDirectives = pack.getAnnotationDirectives();
-      XAnnotationDirective _head = IterableExtensions.<XAnnotationDirective>head(_annotationDirectives);
-      EList<XAnnotation> _annotations = clazz.getAnnotations();
-      XAnnotation _head_1 = IterableExtensions.<XAnnotation>head(_annotations);
-      XAnnotationDirective _source = _head_1.getSource();
-      Assert.assertEquals(_head, _source);
+      Assert.assertEquals(IterableExtensions.<XAnnotationDirective>head(pack.getAnnotationDirectives()), IterableExtensions.<XAnnotation>head(clazz.getAnnotations()).getSource());
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -198,75 +177,40 @@ public class ParsingTest {
       final String text = _builder.toString();
       final XPackage pack = this.parser.parse(text);
       {
-        EList<XClassifier> _classifiers = pack.getClassifiers();
-        XClassifier _get = _classifiers.get(0);
+        XClassifier _get = pack.getClassifiers().get(0);
         final XClass clazz = ((XClass) _get);
-        EList<XMember> _members = clazz.getMembers();
-        Iterable<XReference> _filter = Iterables.<XReference>filter(_members, XReference.class);
-        final Iterator<XReference> refs = _filter.iterator();
+        final Iterator<XReference> refs = Iterables.<XReference>filter(clazz.getMembers(), XReference.class).iterator();
         XReference refX = refs.next();
         XReference refY = refs.next();
-        String _name = refY.getName();
-        GenFeature _opposite = refX.getOpposite();
-        String _name_1 = _opposite.getName();
-        Assert.assertEquals(_name, _name_1);
-        String _name_2 = refX.getName();
-        GenFeature _opposite_1 = refY.getOpposite();
-        String _name_3 = _opposite_1.getName();
-        Assert.assertEquals(_name_2, _name_3);
+        Assert.assertEquals(refY.getName(), refX.getOpposite().getName());
+        Assert.assertEquals(refX.getName(), refY.getOpposite().getName());
       }
       Resource _eResource = pack.eResource();
       final XtextResource resource = ((XtextResource) _eResource);
-      EList<EObject> _contents = resource.getContents();
-      final int elements = _contents.size();
-      int _length = text.length();
-      resource.update(0, _length, text);
+      final int elements = resource.getContents().size();
+      resource.update(0, text.length(), text);
       {
-        EList<EObject> _contents_1 = resource.getContents();
-        EObject _get = _contents_1.get(0);
-        EList<XClassifier> _classifiers = ((XPackage) _get).getClassifiers();
-        XClassifier _get_1 = _classifiers.get(0);
+        EObject _get = resource.getContents().get(0);
+        XClassifier _get_1 = ((XPackage) _get).getClassifiers().get(0);
         final XClass clazz = ((XClass) _get_1);
-        EList<XMember> _members = clazz.getMembers();
-        Iterable<XReference> _filter = Iterables.<XReference>filter(_members, XReference.class);
-        final Iterator<XReference> refs = _filter.iterator();
+        final Iterator<XReference> refs = Iterables.<XReference>filter(clazz.getMembers(), XReference.class).iterator();
         XReference refX = refs.next();
         XReference refY = refs.next();
-        String _name = refY.getName();
-        GenFeature _opposite = refX.getOpposite();
-        String _name_1 = _opposite.getName();
-        Assert.assertEquals(_name, _name_1);
-        String _name_2 = refX.getName();
-        GenFeature _opposite_1 = refY.getOpposite();
-        String _name_3 = _opposite_1.getName();
-        Assert.assertEquals(_name_2, _name_3);
-        EList<EObject> _contents_2 = resource.getContents();
-        int _size = _contents_2.size();
-        Assert.assertEquals(elements, _size);
+        Assert.assertEquals(refY.getName(), refX.getOpposite().getName());
+        Assert.assertEquals(refX.getName(), refY.getOpposite().getName());
+        Assert.assertEquals(elements, resource.getContents().size());
       }
       resource.reparse(text);
       {
-        EList<EObject> _contents_1 = resource.getContents();
-        EObject _get = _contents_1.get(0);
-        EList<XClassifier> _classifiers = ((XPackage) _get).getClassifiers();
-        XClassifier _get_1 = _classifiers.get(0);
+        EObject _get = resource.getContents().get(0);
+        XClassifier _get_1 = ((XPackage) _get).getClassifiers().get(0);
         final XClass clazz = ((XClass) _get_1);
-        EList<XMember> _members = clazz.getMembers();
-        Iterable<XReference> _filter = Iterables.<XReference>filter(_members, XReference.class);
-        final Iterator<XReference> refs = _filter.iterator();
+        final Iterator<XReference> refs = Iterables.<XReference>filter(clazz.getMembers(), XReference.class).iterator();
         XReference refX = refs.next();
         XReference refY = refs.next();
-        String _name = refY.getName();
-        GenFeature _opposite = refX.getOpposite();
-        String _name_1 = _opposite.getName();
-        Assert.assertEquals(_name, _name_1);
-        String _name_2 = refX.getName();
-        GenFeature _opposite_1 = refY.getOpposite();
-        String _name_3 = _opposite_1.getName();
-        Assert.assertEquals(_name_2, _name_3);
-        EList<EObject> _contents_2 = resource.getContents();
-        int _size = _contents_2.size();
-        Assert.assertEquals(elements, _size);
+        Assert.assertEquals(refY.getName(), refX.getOpposite().getName());
+        Assert.assertEquals(refX.getName(), refY.getOpposite().getName());
+        Assert.assertEquals(elements, resource.getContents().size());
       }
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -287,18 +231,12 @@ public class ParsingTest {
       _builder.append("}");
       _builder.newLine();
       final XPackage pack = this.parser.parse(_builder);
-      EList<XClassifier> _classifiers = pack.getClassifiers();
-      XClassifier _head = IterableExtensions.<XClassifier>head(_classifiers);
+      XClassifier _head = IterableExtensions.<XClassifier>head(pack.getClassifiers());
       final XClass clazz = ((XClass) _head);
-      EList<XMember> _members = clazz.getMembers();
-      XMember _head_1 = IterableExtensions.<XMember>head(_members);
+      XMember _head_1 = IterableExtensions.<XMember>head(clazz.getMembers());
       final XOperation operation = ((XOperation) _head_1);
-      Resource _eResource = clazz.eResource();
-      EList<Resource.Diagnostic> _errors = _eResource.getErrors();
-      boolean _isEmpty = _errors.isEmpty();
-      Assert.assertTrue(_isEmpty);
-      XGenericType _type = operation.getType();
-      Assert.assertNull(_type);
+      Assert.assertTrue(clazz.eResource().getErrors().isEmpty());
+      Assert.assertNull(operation.getType());
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -318,12 +256,8 @@ public class ParsingTest {
       _builder.append("}");
       _builder.newLine();
       final XPackage pack = this.parser.parse(_builder);
-      Resource _eResource = pack.eResource();
-      EList<Resource.Diagnostic> _errors = _eResource.getErrors();
-      String _string = _errors.toString();
-      Resource _eResource_1 = pack.eResource();
-      EList<Resource.Diagnostic> _errors_1 = _eResource_1.getErrors();
-      int _size = _errors_1.size();
+      String _string = pack.eResource().getErrors().toString();
+      int _size = pack.eResource().getErrors().size();
       boolean _lessEqualsThan = (1 <= _size);
       Assert.assertTrue(_string, _lessEqualsThan);
     } catch (Throwable _e) {
@@ -345,19 +279,14 @@ public class ParsingTest {
       _builder.append("}");
       _builder.newLine();
       final XPackage pack = this.parser.parse(_builder);
-      EList<XClassifier> _classifiers = pack.getClassifiers();
-      XClassifier _head = IterableExtensions.<XClassifier>head(_classifiers);
+      XClassifier _head = IterableExtensions.<XClassifier>head(pack.getClassifiers());
       final XClass clazz = ((XClass) _head);
-      EList<XMember> _members = clazz.getMembers();
-      XMember _head_1 = IterableExtensions.<XMember>head(_members);
+      XMember _head_1 = IterableExtensions.<XMember>head(clazz.getMembers());
       final XAttribute attribute = ((XAttribute) _head_1);
-      XGenericType _type = attribute.getType();
-      GenBase _type_1 = _type.getType();
-      Assert.assertTrue((_type_1 instanceof GenClassifier));
-      XGenericType _type_2 = attribute.getType();
-      GenBase _type_3 = _type_2.getType();
-      String _name = ((GenClassifier) _type_3).getName();
-      Assert.assertEquals("EString", _name);
+      GenBase _type = attribute.getType().getType();
+      Assert.assertTrue((_type instanceof GenClassifier));
+      GenBase _type_1 = attribute.getType().getType();
+      Assert.assertEquals("EString", ((GenClassifier) _type_1).getName());
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -442,8 +371,7 @@ public class ParsingTest {
       _builder.append("} ");
       _builder.newLine();
       final XPackage pack = this.parser.parse(_builder);
-      Resource _eResource = pack.eResource();
-      EcoreUtil.resolveAll(_eResource);
+      EcoreUtil.resolveAll(pack.eResource());
       this.vth.assertNoErrors(pack);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -517,8 +445,7 @@ public class ParsingTest {
       _builder.append("}");
       _builder.newLine();
       final XPackage pack = this.parser.parse(_builder);
-      Resource _eResource = pack.eResource();
-      EcoreUtil.resolveAll(_eResource);
+      EcoreUtil.resolveAll(pack.eResource());
       this.vth.assertNoErrors(pack);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);

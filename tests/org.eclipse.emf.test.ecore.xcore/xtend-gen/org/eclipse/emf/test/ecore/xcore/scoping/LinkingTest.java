@@ -8,7 +8,6 @@
 package org.eclipse.emf.test.ecore.xcore.scoping;
 
 import com.google.inject.Inject;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XClassifier;
 import org.eclipse.emf.ecore.xcore.XMember;
@@ -18,7 +17,6 @@ import org.eclipse.emf.test.ecore.xcore.XcoreStandaloneInjectorProvider;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.common.types.JvmIdentifiableElement;
 import org.eclipse.xtext.common.types.JvmType;
-import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.junit4.util.ParseHelper;
@@ -60,12 +58,9 @@ public class LinkingTest {
       _builder.newLine();
       final XPackage pack = this.parser.parse(_builder);
       final XVariableDeclaration declaration = this.firstVariableDeclaration(pack);
-      JvmTypeReference _type = declaration.getType();
-      final JvmType intType = _type.getType();
-      boolean _eIsProxy = intType.eIsProxy();
-      Assert.assertFalse(_eIsProxy);
-      String _qualifiedName = intType.getQualifiedName();
-      Assert.assertEquals("int", _qualifiedName);
+      final JvmType intType = declaration.getType().getType();
+      Assert.assertFalse(intType.eIsProxy());
+      Assert.assertEquals("int", intType.getQualifiedName());
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -92,12 +87,9 @@ public class LinkingTest {
       _builder.newLine();
       final XPackage pack = this.parser.parse(_builder);
       final XVariableDeclaration declaration = this.firstVariableDeclaration(pack);
-      JvmTypeReference _type = declaration.getType();
-      final JvmType stringType = _type.getType();
-      boolean _eIsProxy = stringType.eIsProxy();
-      Assert.assertFalse(_eIsProxy);
-      String _qualifiedName = stringType.getQualifiedName();
-      Assert.assertEquals("java.lang.String", _qualifiedName);
+      final JvmType stringType = declaration.getType().getType();
+      Assert.assertFalse(stringType.eIsProxy());
+      Assert.assertEquals("java.lang.String", stringType.getQualifiedName());
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -124,12 +116,9 @@ public class LinkingTest {
       _builder.newLine();
       final XPackage pack = this.parser.parse(_builder);
       final XVariableDeclaration declaration = this.firstVariableDeclaration(pack);
-      JvmTypeReference _type = declaration.getType();
-      final JvmType stringType = _type.getType();
-      boolean _eIsProxy = stringType.eIsProxy();
-      Assert.assertFalse(_eIsProxy);
-      String _qualifiedName = stringType.getQualifiedName();
-      Assert.assertEquals("foo.Bar", _qualifiedName);
+      final JvmType stringType = declaration.getType().getType();
+      Assert.assertFalse(stringType.eIsProxy());
+      Assert.assertEquals("foo.Bar", stringType.getQualifiedName());
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -159,10 +148,8 @@ public class LinkingTest {
       XExpression _right = declaration.getRight();
       final XBinaryOperation binaryOperation = ((XBinaryOperation) _right);
       final JvmIdentifiableElement feature = binaryOperation.getFeature();
-      boolean _eIsProxy = feature.eIsProxy();
-      Assert.assertFalse(_eIsProxy);
-      String _simpleName = feature.getSimpleName();
-      Assert.assertEquals("operator_plus", _simpleName);
+      Assert.assertFalse(feature.eIsProxy());
+      Assert.assertEquals("operator_plus", feature.getSimpleName());
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -171,15 +158,12 @@ public class LinkingTest {
   public XVariableDeclaration firstVariableDeclaration(final XPackage pack) {
     XVariableDeclaration _xblockexpression = null;
     {
-      EList<XClassifier> _classifiers = pack.getClassifiers();
-      XClassifier _head = IterableExtensions.<XClassifier>head(_classifiers);
+      XClassifier _head = IterableExtensions.<XClassifier>head(pack.getClassifiers());
       final XClass clazz = ((XClass) _head);
-      EList<XMember> _members = clazz.getMembers();
-      XMember _head_1 = IterableExtensions.<XMember>head(_members);
+      XMember _head_1 = IterableExtensions.<XMember>head(clazz.getMembers());
       final XOperation operation = ((XOperation) _head_1);
       final XBlockExpression block = operation.getBody();
-      EList<XExpression> _expressions = block.getExpressions();
-      XExpression _head_2 = IterableExtensions.<XExpression>head(_expressions);
+      XExpression _head_2 = IterableExtensions.<XExpression>head(block.getExpressions());
       final XVariableDeclaration declaration = ((XVariableDeclaration) _head_2);
       _xblockexpression = declaration;
     }

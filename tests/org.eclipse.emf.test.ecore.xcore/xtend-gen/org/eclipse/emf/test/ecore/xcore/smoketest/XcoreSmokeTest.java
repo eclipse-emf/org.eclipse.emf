@@ -80,15 +80,13 @@ public class XcoreSmokeTest extends AbstractSmokeTest {
     _builder.newLine();
     _builder.append("type ListOfStringArray wraps java.util.List<String[]>");
     _builder.newLine();
-    String _string = _builder.toString();
-    return CollectionLiterals.<String>newArrayList(_string);
+    return CollectionLiterals.<String>newArrayList(_builder.toString());
   }
   
   @Override
   public void processModel(final String model) {
     try {
-      EObject _parse = this.parser.parse(model);
-      this.validationTestHelper.validate(_parse);
+      this.validationTestHelper.validate(this.parser.parse(model));
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
