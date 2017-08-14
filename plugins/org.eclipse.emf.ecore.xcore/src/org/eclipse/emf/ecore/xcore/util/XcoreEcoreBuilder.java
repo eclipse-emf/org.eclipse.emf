@@ -331,7 +331,7 @@ public class XcoreEcoreBuilder
         }
 
         // Add it if it's not an Ecore annotation or if it is an Ecore annotation but isn't empty.
-        if (eClass == null || !eAnnotations.isEmpty())
+        if (eClass == null || !details.isEmpty())
         {
           eAnnotations.add(eAnnotation);
           deferredInitializers.add(eAnnotation);
