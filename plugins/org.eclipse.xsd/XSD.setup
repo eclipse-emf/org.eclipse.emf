@@ -59,7 +59,8 @@
     <requirement
         name="org.eclipse.emf.sdk.feature.group"/>
     <requirement
-        name="org.eclipse.emf.ecoretools.sdk.feature.group"/>
+        name="org.eclipse.emf.ecoretools.sdk.feature.group"
+        versionRange="(0.0.1,3.0.0)"/>
   </setupTask>
   <setupTask
       xsi:type="setup:VariableTask"
@@ -109,9 +110,19 @@
       <sourceLocator
           rootFolder="${xsd.git.clone.location}"/>
       <repositoryList
+          name="Photon">
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.13"/>
+      </repositoryList>
+      <repositoryList
+          name="Oxygen">
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.13"/>
+      </repositoryList>
+      <repositoryList
           name="Neon">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.12milestones"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.12"/>
       </repositoryList>
       <repositoryList
           name="Mars">
@@ -232,14 +243,14 @@
     <setupTask
         xsi:type="setup:VariableTask"
         name="eclipse.target.platform"
-        defaultValue="Neon"
+        defaultValue="Photon"
         storageURI="scope://Workspace"/>
     <setupTask
         xsi:type="setup.p2:P2Task">
       <repository
-          url="http://download.eclipse.org/modeling/emf/emf/updates/2.12milestones"/>
+          url="http://download.eclipse.org/modeling/emf/emf/updates/2.13"/>
       <repository
-          url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
+          url="http://download.eclipse.org/ecoretools/updates"/>
     </setupTask>
   </stream>
   <stream name="R2_11_maintenance"
@@ -249,7 +260,7 @@
       <repository
           url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
       <repository
-          url="http://download.eclipse.org/ecoretools/updates/nightly/3.0.x/luna"/>
+          url="http://download.eclipse.org/ecoretools/updates"/>
     </setupTask>
   </stream>
   <stream name="R2_10_maintenance"
