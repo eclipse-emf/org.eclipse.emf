@@ -13,7 +13,7 @@ package org.eclipse.emf.ecore.xml.type.impl;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -35,7 +35,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *
  * @generated
  */
-public class AnyTypeImpl extends EObjectImpl implements AnyType
+public class AnyTypeImpl extends MinimalEObjectImpl.Container implements AnyType
 {
   /**
    * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.

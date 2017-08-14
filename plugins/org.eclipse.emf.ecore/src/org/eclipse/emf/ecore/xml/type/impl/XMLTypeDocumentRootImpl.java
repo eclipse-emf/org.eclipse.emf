@@ -19,8 +19,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.FeatureMap;
@@ -49,7 +49,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *
  * @generated
  */
-public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocumentRoot
+public class XMLTypeDocumentRootImpl extends MinimalEObjectImpl.Container implements XMLTypeDocumentRoot
 {
   /**
    * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.

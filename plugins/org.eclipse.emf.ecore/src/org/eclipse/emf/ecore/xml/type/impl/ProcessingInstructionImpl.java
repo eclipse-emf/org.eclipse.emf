@@ -15,8 +15,8 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.xml.type.ProcessingInstruction;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *
  * @generated
  */
-public class ProcessingInstructionImpl extends EObjectImpl implements ProcessingInstruction
+public class ProcessingInstructionImpl extends MinimalEObjectImpl.Container implements ProcessingInstruction
 {
   /**
    * The default value of the '{@link #getData() <em>Data</em>}' attribute.
