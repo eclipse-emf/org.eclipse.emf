@@ -53,6 +53,7 @@ import org.junit.runners.Suite;
       org.eclipse.emf.test.core.ecore.ResourceSetMappedResourceLocatorTest.class,
       org.eclipse.emf.test.core.ecore.ReificationTest.class,
       org.eclipse.emf.test.core.ecore.ECrossReferenceAdapterTest.class,
+      org.eclipse.emf.test.core.ecore.ECrossReferenceAdapterStressTest.class,
       org.eclipse.emf.test.core.common.util.WeakInterningHashSetTest.class,
       org.eclipse.emf.test.core.common.util.PoolTest.class,
       org.eclipse.emf.test.core.common.util.StringPoolTest.class,

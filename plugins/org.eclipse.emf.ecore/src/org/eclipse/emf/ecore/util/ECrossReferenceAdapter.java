@@ -181,6 +181,10 @@ public class ECrossReferenceAdapter implements Adapter.Internal
         new BasicEList<EStructuralFeature.Setting>()
         {
           private static final long serialVersionUID = 1L;
+ 
+          private static final int THRESHOLD = 100;
+
+          private Map<EObject, Object> map;
 
           @Override
           protected Object[] newData(int capacity)
@@ -189,19 +193,133 @@ public class ECrossReferenceAdapter implements Adapter.Internal
           }
 
           @Override
-          public boolean add(EStructuralFeature.Setting setting)
+          protected void didAdd(int index, EStructuralFeature.Setting setting)
           {
-            if (!settingTargets || ECrossReferenceAdapter.this.resolve())
+            if (map != null)
             {
               EObject eObject = setting.getEObject();
               EStructuralFeature eStructuralFeature = setting.getEStructuralFeature();
-              EStructuralFeature.Setting [] settingData =  (EStructuralFeature.Setting[])data;
-              for (int i = 0; i < size; ++i)
+              Object object = map.get(eObject);
+              if (object == null)
               {
-                EStructuralFeature.Setting containedSetting = settingData[i];
-                if (containedSetting.getEObject() == eObject && containedSetting.getEStructuralFeature() == eStructuralFeature)
+                map.put(eObject, eStructuralFeature);
+              }
+              else if (object instanceof Object[])
+              {
+                Object[] oldFeatures = (Object[])object;
+                Object[] newFeatures = new Object[oldFeatures.length + 1];
+                System.arraycopy(oldFeatures, 0, newFeatures, 0, oldFeatures.length);
+                newFeatures[oldFeatures.length] = eStructuralFeature;
+                map.put(eObject, newFeatures);
+              }
+              else
+              {
+                Object[] newFeatures = new Object[2];
+                newFeatures[0] = object;
+                newFeatures[1] = eStructuralFeature;
+                map.put(eObject, newFeatures);
+              }
+            }
+          }
+
+          @Override
+          protected void didRemove(int index, EStructuralFeature.Setting setting)
+          {
+            if (map != null)
+            {
+              if (size < THRESHOLD / 2)
+              {
+                map = null;
+              }
+              else
+              {
+                EObject eObject = setting.getEObject();
+                Object object = map.get(eObject);
+                if (object instanceof Object[])
                 {
-                  return false;
+                  Object[] oldFeatures = (Object[])object;
+                  EStructuralFeature eStructuralFeature = setting.getEStructuralFeature();
+                  if (oldFeatures.length == 2)
+                  {
+                    map.put(eObject, oldFeatures[0] == eStructuralFeature ? oldFeatures[1] : oldFeatures[0]);
+                  }
+                  else
+                  {
+                    Object[] newFeatures = new Object [oldFeatures.length - 1];
+                    for (int i = 0; i < oldFeatures.length; ++i)
+                    {
+                      Object oldFeature = oldFeatures[i];
+                      if (oldFeature == eStructuralFeature)
+                      {
+                        System.arraycopy(oldFeatures, i + 1, newFeatures, i, oldFeatures.length - i - 1);
+                        break;
+                      }
+                      else
+                      {
+                        newFeatures[i] = oldFeatures[i];
+                      }
+                    }
+                    map.put(eObject, newFeatures);
+                  }
+                }
+                else
+                {
+                  map.remove(eObject);
+                }
+              }
+            }
+          }
+
+          @Override
+          public boolean add(EStructuralFeature.Setting setting)
+          {
+            if (size > 0 && (!settingTargets || ECrossReferenceAdapter.this.resolve()))
+            {
+              EObject eObject = setting.getEObject();
+              if (size > THRESHOLD)
+              {
+                if (map == null)
+                {
+                  map = new HashMap<EObject, Object>();
+                  EStructuralFeature.Setting[] settingData = (EStructuralFeature.Setting[])data;
+                  for (int i = 0; i < size; ++i)
+                  {
+                    didAdd(i, settingData[i]);
+                  }
+                }
+
+                Object object = map.get(eObject);
+                if (object != null)
+                {
+                  EStructuralFeature eStructuralFeature = setting.getEStructuralFeature();
+                  if (object == eStructuralFeature)
+                  {
+                    return false;
+                  }
+                  else if (object instanceof Object[])
+                  {
+                    Object[] features = (Object[])object;
+                    for (int i = 0; i < features.length; ++i)
+                    {
+                      if (features[i] == eStructuralFeature)
+                      {
+                        return false;
+                      }
+                    }
+                  }
+                }
+              }
+              else
+              {
+                EStructuralFeature eStructuralFeature = setting.getEStructuralFeature();
+                EStructuralFeature.Setting[] settingData = (EStructuralFeature.Setting[])data;
+                for (int i = 0; i < size; ++i)
+                {
+                  EStructuralFeature.Setting containedSetting = settingData[i];
+                  if (containedSetting.getEObject() == eObject && containedSetting.getEStructuralFeature() == eStructuralFeature)
+                  {
+                    return false;
+                  }
                 }
               }
             }
@@ -210,7 +328,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
           }
         };
     }
-    
+
     public void add(EObject eObject)
     {
       handleCrossReference(eObject);
