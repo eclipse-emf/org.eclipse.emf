@@ -20,9 +20,9 @@ import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.IParameterProvider.I
 import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.ParameterizedXtextRunner.ResourceRunner;
 import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.TestExpectationValidator.ITestExpectationValidator;
 import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.TestExpectationValidator.TestResult;
-import org.eclipse.xtext.junit4.IInjectorProvider;
-import org.eclipse.xtext.junit4.IRegistryConfigurator;
-import org.eclipse.xtext.junit4.InjectWith;
+import org.eclipse.xtext.testing.IInjectorProvider;
+import org.eclipse.xtext.testing.IRegistryConfigurator;
+import org.eclipse.xtext.testing.InjectWith;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.util.Exceptions;
 import org.eclipse.xtext.util.ReflectionUtil;

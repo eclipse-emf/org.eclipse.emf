@@ -144,10 +144,14 @@ public class EcoreXcoreBuilder
       XAnnotation ecoreAnnotation = null;
       for (XAnnotation xAnnotation : xPackage.getAnnotations())
       {
-        if (EcorePackage.eNS_URI.equals(xAnnotation.getSource()))
+        XAnnotationDirective source = xAnnotation.getSource();
+        if (source != null)
         {
-          ecoreAnnotation = xAnnotation;
-          break;
+          if (EcorePackage.eNS_URI.equals(source.getSourceURI()))
+          {
+            ecoreAnnotation = xAnnotation;
+            break;
+          }
         }
       }
       if (ecoreAnnotation == null)

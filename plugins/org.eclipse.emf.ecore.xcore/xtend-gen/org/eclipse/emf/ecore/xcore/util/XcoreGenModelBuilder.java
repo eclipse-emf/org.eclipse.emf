@@ -79,8 +79,7 @@ public class XcoreGenModelBuilder {
         _matched=true;
         XNamedElement _xcoreElement = this.mapper.getToXcoreMapping(((GenPackage)genElement).getEcorePackage()).getXcoreElement();
         final XPackage xPackage = ((XPackage) _xcoreElement);
-        boolean _notEquals = (!Objects.equal(xPackage, null));
-        if (_notEquals) {
+        if ((xPackage != null)) {
           XPackageMapping _mapping = this.mapper.getMapping(xPackage);
           _mapping.setGenPackage(((GenPackage)genElement));
           ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(genElement);
@@ -92,8 +91,7 @@ public class XcoreGenModelBuilder {
           _matched=true;
           XNamedElement _xcoreElement = this.mapper.getToXcoreMapping(((GenClass)genElement).getEcoreClass()).getXcoreElement();
           final XClass xClass = ((XClass) _xcoreElement);
-          boolean _notEquals = (!Objects.equal(xClass, null));
-          if (_notEquals) {
+          if ((xClass != null)) {
             XClassMapping _mapping = this.mapper.getMapping(xClass);
             _mapping.setGenClass(((GenClass)genElement));
             ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(genElement);
@@ -106,8 +104,7 @@ public class XcoreGenModelBuilder {
           _matched=true;
           XNamedElement _xcoreElement = this.mapper.getToXcoreMapping(((GenDataType)genElement).getEcoreDataType()).getXcoreElement();
           final XDataType xDataType = ((XDataType) _xcoreElement);
-          boolean _notEquals = (!Objects.equal(xDataType, null));
-          if (_notEquals) {
+          if ((xDataType != null)) {
             XDataTypeMapping _mapping = this.mapper.getMapping(xDataType);
             _mapping.setGenDataType(((GenDataType)genElement));
             ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(genElement);
@@ -120,8 +117,7 @@ public class XcoreGenModelBuilder {
           _matched=true;
           XNamedElement _xcoreElement = this.mapper.getToXcoreMapping(((GenFeature)genElement).getEcoreFeature()).getXcoreElement();
           final XStructuralFeature xFeature = ((XStructuralFeature) _xcoreElement);
-          boolean _notEquals = (!Objects.equal(xFeature, null));
-          if (_notEquals) {
+          if ((xFeature != null)) {
             XFeatureMapping _mapping = this.mapper.getMapping(xFeature);
             _mapping.setGenFeature(((GenFeature)genElement));
             ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(genElement);
@@ -134,8 +130,7 @@ public class XcoreGenModelBuilder {
           _matched=true;
           XNamedElement _xcoreElement = this.mapper.getToXcoreMapping(((GenOperation)genElement).getEcoreOperation()).getXcoreElement();
           final XOperation xOperation = ((XOperation) _xcoreElement);
-          boolean _notEquals = (!Objects.equal(xOperation, null));
-          if (_notEquals) {
+          if ((xOperation != null)) {
             XOperationMapping _mapping = this.mapper.getMapping(xOperation);
             _mapping.setGenOperation(((GenOperation)genElement));
             ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(genElement);
@@ -148,8 +143,7 @@ public class XcoreGenModelBuilder {
           _matched=true;
           XNamedElement _xcoreElement = this.mapper.getToXcoreMapping(((GenParameter)genElement).getEcoreParameter()).getXcoreElement();
           final XParameter xParameter = ((XParameter) _xcoreElement);
-          boolean _notEquals = (!Objects.equal(xParameter, null));
-          if (_notEquals) {
+          if ((xParameter != null)) {
             XParameterMapping _mapping = this.mapper.getMapping(xParameter);
             _mapping.setGenParameter(((GenParameter)genElement));
             ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(genElement);
@@ -162,8 +156,7 @@ public class XcoreGenModelBuilder {
           _matched=true;
           XNamedElement _xcoreElement = this.mapper.getToXcoreMapping(((GenTypeParameter)genElement).getEcoreTypeParameter()).getXcoreElement();
           final XTypeParameter xTypeParameter = ((XTypeParameter) _xcoreElement);
-          boolean _notEquals = (!Objects.equal(xTypeParameter, null));
-          if (_notEquals) {
+          if ((xTypeParameter != null)) {
             XTypeParameterMapping _mapping = this.mapper.getMapping(xTypeParameter);
             _mapping.setGenTypeParameter(((GenTypeParameter)genElement));
             ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(genElement);
@@ -176,8 +169,7 @@ public class XcoreGenModelBuilder {
           _matched=true;
           XNamedElement _xcoreElement = this.mapper.getToXcoreMapping(((GenEnumLiteral)genElement).getEcoreEnumLiteral()).getXcoreElement();
           final XEnumLiteral xEnumLiteral = ((XEnumLiteral) _xcoreElement);
-          boolean _notEquals = (!Objects.equal(xEnumLiteral, null));
-          if (_notEquals) {
+          if ((xEnumLiteral != null)) {
             XEnumLiteralMapping _mapping = this.mapper.getMapping(xEnumLiteral);
             _mapping.setGenEnumLiteral(((GenEnumLiteral)genElement));
             ToXcoreMapping _toXcoreMapping = this.mapper.getToXcoreMapping(genElement);
@@ -195,8 +187,7 @@ public class XcoreGenModelBuilder {
     for (final GenPackage genPackage : _genPackages) {
       {
         final EPackage ePackage = genPackage.getEcorePackage();
-        boolean _notEquals = (!Objects.equal(ePackage, null));
-        if (_notEquals) {
+        if ((ePackage != null)) {
           ePackages.add(genPackage.getEcorePackage());
         }
       }
@@ -219,8 +210,7 @@ public class XcoreGenModelBuilder {
                 if (eCrossReference instanceof EClassifier) {
                   _matched=true;
                   final EPackage referencedEPackage = ((EClassifier)eCrossReference).getEPackage();
-                  boolean _notEquals = (!Objects.equal(referencedEPackage, null));
-                  if (_notEquals) {
+                  if ((referencedEPackage != null)) {
                     boolean _add = ePackages.add(referencedEPackage);
                     if (_add) {
                       referencedEPackages.add(referencedEPackage);
@@ -231,11 +221,9 @@ public class XcoreGenModelBuilder {
                   if (eCrossReference instanceof EStructuralFeature) {
                     _matched=true;
                     final EClass eContainingClass = ((EStructuralFeature)eCrossReference).getEContainingClass();
-                    boolean _notEquals = (!Objects.equal(eContainingClass, null));
-                    if (_notEquals) {
+                    if ((eContainingClass != null)) {
                       final EPackage referencedEPackage = eContainingClass.getEPackage();
-                      boolean _notEquals_1 = (!Objects.equal(referencedEPackage, null));
-                      if (_notEquals_1) {
+                      if ((referencedEPackage != null)) {
                         boolean _add = ePackages.add(referencedEPackage);
                         if (_add) {
                           referencedEPackages.add(referencedEPackage);
@@ -253,20 +241,17 @@ public class XcoreGenModelBuilder {
     for (final EPackage referencedEPackage : referencedEPackages) {
       {
         GenPackage usedGenPackage = genModel.findGenPackage(referencedEPackage);
-        boolean _equals = Objects.equal(usedGenPackage, null);
-        if (_equals) {
+        if ((usedGenPackage == null)) {
           GenBase _gen = this.mapper.getGen(this.mapper.getToXcoreMapping(referencedEPackage).getXcoreElement());
           usedGenPackage = ((GenPackage) _gen);
-          boolean _equals_1 = Objects.equal(usedGenPackage, null);
-          if (_equals_1) {
+          if ((usedGenPackage == null)) {
             usedGenPackage = this.findLocalGenPackage(referencedEPackage);
           }
         }
-        boolean _notEquals = (!Objects.equal(usedGenPackage, null));
-        if (_notEquals) {
+        if ((usedGenPackage != null)) {
           Resource _eResource = usedGenPackage.eResource();
-          boolean _notEquals_1 = (!Objects.equal(_eResource, null));
-          if (_notEquals_1) {
+          boolean _tripleNotEquals = (_eResource != null);
+          if (_tripleNotEquals) {
             genModel.getUsedGenPackages().add(usedGenPackage);
           }
         } else {
@@ -277,11 +262,11 @@ public class XcoreGenModelBuilder {
           while (((i < resources.size()) && (!found))) {
             {
               final Resource resource = resources.get(i);
-              boolean _notEquals_2 = (!Objects.equal(resource, genModelResource));
-              if (_notEquals_2) {
+              boolean _notEquals = (!Objects.equal(resource, genModelResource));
+              if (_notEquals) {
                 final String fileExtension = resource.getURI().fileExtension();
-                boolean _equals_2 = "xcore".equals(fileExtension);
-                if (_equals_2) {
+                boolean _equals = "xcore".equals(fileExtension);
+                if (_equals) {
                   final EList<EObject> contents = resource.getContents();
                   boolean _isEmpty = contents.isEmpty();
                   boolean _not = (!_isEmpty);
@@ -289,15 +274,14 @@ public class XcoreGenModelBuilder {
                     EObject _get = resource.getContents().get(1);
                     final GenModel usedGenModel = ((GenModel) _get);
                     usedGenPackage = usedGenModel.findGenPackage(referencedEPackage);
-                    boolean _notEquals_3 = (!Objects.equal(usedGenPackage, null));
-                    if (_notEquals_3) {
+                    if ((usedGenPackage != null)) {
                       genModel.getUsedGenPackages().add(usedGenPackage);
                       found = true;
                     }
                   }
                 } else {
-                  boolean _equals_3 = "genmodel".equals(fileExtension);
-                  if (_equals_3) {
+                  boolean _equals_1 = "genmodel".equals(fileExtension);
+                  if (_equals_1) {
                     final EList<EObject> contents_1 = resource.getContents();
                     boolean _isEmpty_1 = contents_1.isEmpty();
                     boolean _not_1 = (!_isEmpty_1);
@@ -306,8 +290,7 @@ public class XcoreGenModelBuilder {
                       final GenModel usedGenModel_1 = ((GenModel) _get_1);
                       usedGenModel_1.reconcile();
                       usedGenPackage = usedGenModel_1.findGenPackage(referencedEPackage);
-                      boolean _notEquals_4 = (!Objects.equal(usedGenPackage, null));
-                      if (_notEquals_4) {
+                      if ((usedGenPackage != null)) {
                         genModel.getUsedGenPackages().add(usedGenPackage);
                         found = true;
                       }
@@ -328,14 +311,13 @@ public class XcoreGenModelBuilder {
   
   public GenPackage findLocalGenPackage(final EPackage ePackage) {
     Resource _eResource = ePackage.eResource();
-    boolean _notEquals = (!Objects.equal(_eResource, null));
-    if (_notEquals) {
+    boolean _tripleNotEquals = (_eResource != null);
+    if (_tripleNotEquals) {
       EList<EObject> _contents = ePackage.eResource().getContents();
       for (final EObject content : _contents) {
         if ((content instanceof GenModel)) {
           final GenPackage genPackage = ((GenModel)content).findGenPackage(ePackage);
-          boolean _notEquals_1 = (!Objects.equal(genPackage, null));
-          if (_notEquals_1) {
+          if ((genPackage != null)) {
             return genPackage;
           }
         }

@@ -10,11 +10,11 @@ package org.eclipse.emf.test.ecore.xcore.scoping
 import static org.junit.Assert.*
 
 import org.junit.runner.RunWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.InjectWith
 import org.junit.Test
 import com.google.inject.Inject
-import org.eclipse.xtext.junit4.util.ParseHelper
+import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.emf.ecore.xcore.XPackage
 import org.eclipse.emf.ecore.xcore.XClass
 import org.eclipse.emf.ecore.xcore.XOperation

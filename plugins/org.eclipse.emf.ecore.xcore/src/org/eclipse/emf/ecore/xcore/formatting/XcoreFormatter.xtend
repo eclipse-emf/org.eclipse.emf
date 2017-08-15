@@ -33,7 +33,7 @@ class XcoreFormatter extends XbaseFormatter
     xAnnotation.regionFor.keyword('@').append[noSpace]
 
     val parentheses = xAnnotation.regionFor.keywordPairs('(', ')').head
-    if (parentheses == null)
+    if (parentheses === null)
     {
        xAnnotation.regionFor.feature(XANNOTATION__SOURCE).append[newLine]
     }
@@ -49,7 +49,7 @@ class XcoreFormatter extends XbaseFormatter
         detail.regionFor.keyword('=').prepend[noSpace].append[noSpace]
   
         val comma = detail.immediatelyFollowing.keyword(',')
-        if (comma != null)
+        if (comma !== null)
         {
           comma.prepend[noSpace].append[oneSpace].append[autowrap]
         }
@@ -116,7 +116,7 @@ class XcoreFormatter extends XbaseFormatter
     formatAnnotations(xDataType.annotations, format)
 
     val leftAngleBracket = xDataType.regionFor.keyword('<')
-    if (leftAngleBracket != null)
+    if (leftAngleBracket !== null)
     {
       leftAngleBracket.prepend[noSpace].append[noSpace]
       formatTypeParameters(xDataType.typeParameters, format)
@@ -129,7 +129,7 @@ class XcoreFormatter extends XbaseFormatter
     formatAnnotations(xClass.annotations, format)
 
     val leftAngleBracket = xClass.regionFor.keyword('<')
-    if (leftAngleBracket != null)
+    if (leftAngleBracket !== null)
     {
       leftAngleBracket.prepend[noSpace].append[noSpace]
       formatTypeParameters(xClass.typeParameters, format)
@@ -153,13 +153,13 @@ class XcoreFormatter extends XbaseFormatter
     xReference.type.format
 
     val multiplicity = xReference.regionFor.feature(XTYPED_ELEMENT__MULTIPLICITY)
-    if (multiplicity != null)
+    if (multiplicity !== null)
     {
       multiplicity.prepend[noSpace]
     }
 
     val get = xReference.getBody
-    if (get != null)
+    if (get !== null)
     {
       get.regionFor.keyword('{').prepend[oneSpace] // }
       get.format(format)
@@ -173,13 +173,13 @@ class XcoreFormatter extends XbaseFormatter
     xAttribute.type.format
 
     val multiplicity = xAttribute.regionFor.feature(XTYPED_ELEMENT__MULTIPLICITY)
-    if (multiplicity != null)
+    if (multiplicity !== null)
     {
       multiplicity.prepend[noSpace]
     }
 
     val get = xAttribute.getBody
-    if (get != null)
+    if (get !== null)
     {
       get.regionFor.keyword('{').prepend[oneSpace] // }
       get.format(format)
@@ -193,13 +193,13 @@ class XcoreFormatter extends XbaseFormatter
     xOperation.type.format
 
     val multiplicity = xOperation.regionFor.feature(XTYPED_ELEMENT__MULTIPLICITY)
-    if (multiplicity != null)
+    if (multiplicity !== null)
     {
       multiplicity.prepend[noSpace]
     }
 
     val leftAngleBracket = xOperation.regionFor.keyword('<')
-    if (leftAngleBracket != null)
+    if (leftAngleBracket !== null)
     {
       leftAngleBracket.prepend[oneSpace].append[noSpace]
       formatTypeParameters(xOperation.typeParameters, format)
@@ -220,7 +220,7 @@ class XcoreFormatter extends XbaseFormatter
     }
 
     val body = xOperation.body
-    if (body != null)
+    if (body !== null)
     {
       body.regionFor.keyword('{').prepend[oneSpace] // }
       body.format(format)
@@ -232,7 +232,7 @@ class XcoreFormatter extends XbaseFormatter
     formatAnnotations(xParameter.annotations, format)
 
     val multiplicity = xParameter.regionFor.feature(XTYPED_ELEMENT__MULTIPLICITY)
-    if (multiplicity != null)
+    if (multiplicity !== null)
     {
       multiplicity.prepend[noSpace]
     }
@@ -244,14 +244,14 @@ class XcoreFormatter extends XbaseFormatter
   {
     xGenericType.type.format
     val leftAngleBracket = xGenericType.regionFor.keyword('<')
-    if (leftAngleBracket != null)
+    if (leftAngleBracket !== null)
     {
       leftAngleBracket.prepend[noSpace].append[noSpace]
       for (XGenericType typeArgument : xGenericType.typeArguments)
       {
         typeArgument.format
         val comma = typeArgument.immediatelyFollowing.keyword(',')
-        if (comma != null)
+        if (comma !== null)
         {
           comma.prepend[noSpace].append[oneSpace]
         }
@@ -261,14 +261,14 @@ class XcoreFormatter extends XbaseFormatter
     }
 
     val upperBound = xGenericType.upperBound
-    if (upperBound != null)
+    if (upperBound !== null)
     {
       upperBound.format
       xGenericType.regionFor.keyword('extends').prepend[oneSpace].append[oneSpace]
     }
 
     val lowerBound = xGenericType.lowerBound
-    if (lowerBound != null)
+    if (lowerBound !== null)
     {
       lowerBound.format
       xGenericType.regionFor.keyword('super').prepend[oneSpace].append[oneSpace]
@@ -282,7 +282,7 @@ class XcoreFormatter extends XbaseFormatter
     {
       bound.format
       val ampersand = bound.immediatelyFollowing.keyword('&')
-      if (ampersand != null)
+      if (ampersand !== null)
       {
         ampersand.prepend[oneSpace].append[oneSpace]
       }

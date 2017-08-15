@@ -217,6 +217,7 @@ XMultiplicity returns XMultiplicity:
 	']'
 ;
 
+@Override 
 XBlockExpression returns xbase::XBlockExpression:
  {xbase::XBlockExpression}
  '{'
@@ -246,10 +247,12 @@ XID:
 	ID | 'get' | 'isSet' | 'set' | 'unset'
 ;
 
+@Override 
 ValidID:
 	XID | 'void'
 ;
 
+@Override 
 FeatureCallID:
 	ValidID | 'abstract' | 'annotation' | 'as' | 'class' | 'container' | 'contains' | 'convert' | 'create' | 'derived' | 'enum' | 'extends' | 'extension' | 'id' | 'import' | 'keys' |
 	'interface'| 'local' | 'op' | 'opposite' | 'package' | 'readonly' | 'refers' | 'resolving' | 'static' | 'throws' | 'transient' | 'unique' | 'unordered' | 'unsettable'|

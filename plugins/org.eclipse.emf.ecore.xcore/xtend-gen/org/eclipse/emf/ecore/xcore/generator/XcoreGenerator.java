@@ -7,7 +7,6 @@
  */
 package org.eclipse.emf.ecore.xcore.generator;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
@@ -81,14 +80,14 @@ public class XcoreGenerator implements IGenerator {
         final EDataType eDataType = this.mappings.getMapping(xDataType).getEDataType();
         final XBlockExpression createBody = xDataType.getCreateBody();
         final JvmOperation creator = this.mappings.getMapping(xDataType).getCreator();
-        if (((!Objects.equal(createBody, null)) && (!Objects.equal(creator, null)))) {
+        if (((createBody != null) && (creator != null))) {
           final XcoreAppendable appendable = this.createAppendable();
           appendable.declareVariable(creator.getParameters().get(0), "it");
           this.compile(eDataType, "create", appendable, errors, createBody, creator.getReturnType(), Collections.<JvmTypeReference>emptySet());
         }
         final XBlockExpression convertBody = xDataType.getConvertBody();
         final JvmOperation converter = this.mappings.getMapping(xDataType).getConverter();
-        if (((!Objects.equal(convertBody, null)) && (!Objects.equal(converter, null)))) {
+        if (((convertBody != null) && (converter != null))) {
           final XcoreAppendable appendable_1 = this.createAppendable();
           appendable_1.declareVariable(converter.getParameters().get(0), "it");
           this.compile(eDataType, "convert", appendable_1, errors, convertBody, converter.getReturnType(), Collections.<JvmTypeReference>emptySet());
@@ -101,17 +100,14 @@ public class XcoreGenerator implements IGenerator {
           boolean _add = processed.add(eStructuralFeature);
           if (_add) {
             final XStructuralFeature xFeature = this.mappings.getXFeature(eStructuralFeature);
-            boolean _notEquals = (!Objects.equal(xFeature, null));
-            if (_notEquals) {
+            if ((xFeature != null)) {
               final XBlockExpression getBody = xFeature.getGetBody();
-              boolean _notEquals_1 = (!Objects.equal(getBody, null));
-              if (_notEquals_1) {
+              if ((getBody != null)) {
                 final JvmOperation getter = this.mappings.getMapping(xFeature).getGetter();
                 final XcoreAppendable appendable_2 = this.createAppendable();
                 appendable_2.declareVariable(getter.getDeclaringType(), "this");
                 final JvmTypeReference superType = IterableExtensions.<JvmTypeReference>head(getter.getDeclaringType().getSuperTypes());
-                boolean _notEquals_2 = (!Objects.equal(superType, null));
-                if (_notEquals_2) {
+                if ((superType != null)) {
                   appendable_2.declareVariable(superType.getType(), "super");
                 }
                 this.compile(eStructuralFeature, "get", appendable_2, errors, getBody, getter.getReturnType(), Collections.<JvmTypeReference>emptySet());
@@ -124,30 +120,25 @@ public class XcoreGenerator implements IGenerator {
           boolean _add_1 = processed.add(eOperation);
           if (_add_1) {
             final XOperation xOperation = this.mappings.getXOperation(eOperation);
-            boolean _notEquals_3 = (!Objects.equal(xOperation, null));
-            if (_notEquals_3) {
+            if ((xOperation != null)) {
               final XBlockExpression body = xOperation.getBody();
-              boolean _notEquals_4 = (!Objects.equal(body, null));
-              if (_notEquals_4) {
+              if ((body != null)) {
                 final XOperationMapping xOperationMapping = this.mappings.getMapping(xOperation);
                 final JvmOperation jvmOperation = xOperationMapping.getJvmOperation();
-                boolean _notEquals_5 = (!Objects.equal(jvmOperation, null));
-                if (_notEquals_5) {
+                if ((jvmOperation != null)) {
                   final XcoreAppendable appendable_3 = this.createAppendable();
                   JvmDeclaredType declaringType = jvmOperation.getDeclaringType();
                   boolean _isExternalInterface = xOperationMapping.getGenOperation().getGenClass().isExternalInterface();
                   if (_isExternalInterface) {
                     final EList<JvmTypeReference> superTypes = declaringType.getSuperTypes();
                     final JvmTypeReference effectiveTypeReference = IterableExtensions.<JvmTypeReference>head(superTypes);
-                    boolean _notEquals_6 = (!Objects.equal(effectiveTypeReference, null));
-                    if (_notEquals_6) {
+                    if ((effectiveTypeReference != null)) {
                       appendable_3.declareVariable(effectiveTypeReference.getType(), "this");
                     }
                   } else {
                     appendable_3.declareVariable(declaringType, "this");
                     final JvmTypeReference superType_1 = IterableExtensions.<JvmTypeReference>head(declaringType.getSuperTypes());
-                    boolean _notEquals_7 = (!Objects.equal(superType_1, null));
-                    if (_notEquals_7) {
+                    if ((superType_1 != null)) {
                       appendable_3.declareVariable(superType_1.getType(), "super");
                     }
                   }
@@ -207,11 +198,9 @@ public class XcoreGenerator implements IGenerator {
     for (final Resource.Diagnostic diagnostic : _errors) {
       if ((diagnostic instanceof XtextLinkingDiagnostic)) {
         final URI uri = ((XtextLinkingDiagnostic)diagnostic).getUriToProblem();
-        boolean _notEquals = (!Objects.equal(uri, null));
-        if (_notEquals) {
+        if ((uri != null)) {
           final EObject eObject = resource.getEObject(uri.fragment());
-          boolean _notEquals_1 = (!Objects.equal(eObject, null));
-          if (_notEquals_1) {
+          if ((eObject != null)) {
             result.put(eObject, ((XtextLinkingDiagnostic)diagnostic).getMessage());
           }
         }
@@ -257,8 +246,8 @@ public class XcoreGenerator implements IGenerator {
   public Diagnostic generateGenModel(final GenModel genModel, final IFileSystemAccess fsa) {
     Diagnostic _xifexpression = null;
     String _modelDirectory = genModel.getModelDirectory();
-    boolean _notEquals = (!Objects.equal(_modelDirectory, null));
-    if (_notEquals) {
+    boolean _tripleNotEquals = (_modelDirectory != null);
+    if (_tripleNotEquals) {
       Diagnostic _xblockexpression = null;
       {
         genModel.setCanGenerate(true);

@@ -39,10 +39,10 @@ class XcoreLabelProvider extends XbaseLabelProvider
   override String getText(Object element)
   {
     val result = super.getText(element);
-    if (result == null && element instanceof EObject)
+    if (result === null && element instanceof EObject)
     {
       val name = nameProvider.getFullyQualifiedName(element as EObject);
-      if (name != null)
+      if (name !== null)
       {
         return nameConverter.toString(name);
       }

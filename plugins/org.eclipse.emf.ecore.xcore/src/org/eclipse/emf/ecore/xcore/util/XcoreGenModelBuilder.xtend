@@ -64,7 +64,7 @@ class XcoreGenModelBuilder
         GenPackage:
         {
           val xPackage = genElement.getEcorePackage.toXcoreMapping.xcoreElement as XPackage
-          if (xPackage != null)
+          if (xPackage !== null)
           {
             xPackage.mapping.genPackage = genElement
             genElement.toXcoreMapping.xcoreElement = xPackage
@@ -73,7 +73,7 @@ class XcoreGenModelBuilder
         GenClass:
         {
           val xClass = genElement.ecoreClass.toXcoreMapping.xcoreElement as XClass
-          if (xClass != null)
+          if (xClass !== null)
           {
             xClass.mapping.genClass = genElement
             genElement.toXcoreMapping.xcoreElement = xClass
@@ -82,7 +82,7 @@ class XcoreGenModelBuilder
         GenDataType:
         {
           val xDataType = genElement.ecoreDataType.toXcoreMapping.xcoreElement as XDataType
-          if (xDataType != null)
+          if (xDataType !== null)
           {
             xDataType.mapping.genDataType = genElement
             genElement.toXcoreMapping.xcoreElement = xDataType
@@ -91,7 +91,7 @@ class XcoreGenModelBuilder
         GenFeature:
         {
           val xFeature = genElement.ecoreFeature.toXcoreMapping.xcoreElement as XStructuralFeature
-          if (xFeature != null)
+          if (xFeature !== null)
           {
             xFeature.mapping.genFeature = genElement
             genElement.toXcoreMapping.xcoreElement = xFeature
@@ -100,7 +100,7 @@ class XcoreGenModelBuilder
         GenOperation:
         {
           val xOperation = genElement.ecoreOperation.toXcoreMapping.xcoreElement as XOperation
-          if (xOperation != null)
+          if (xOperation !== null)
           {
             xOperation.mapping.genOperation = genElement
             genElement.toXcoreMapping.xcoreElement = xOperation
@@ -109,7 +109,7 @@ class XcoreGenModelBuilder
         GenParameter:
         {
           val xParameter = genElement.ecoreParameter.toXcoreMapping.xcoreElement as XParameter
-          if (xParameter != null)
+          if (xParameter !== null)
           {
             xParameter.mapping.genParameter = genElement
             genElement.toXcoreMapping.xcoreElement = xParameter
@@ -118,7 +118,7 @@ class XcoreGenModelBuilder
         GenTypeParameter:
         {
           val xTypeParameter = genElement.ecoreTypeParameter.toXcoreMapping.xcoreElement as XTypeParameter
-          if (xTypeParameter != null)
+          if (xTypeParameter !== null)
           {
             xTypeParameter.mapping.genTypeParameter = genElement
             genElement.toXcoreMapping.xcoreElement = xTypeParameter
@@ -127,7 +127,7 @@ class XcoreGenModelBuilder
         GenEnumLiteral:
         {
           val xEnumLiteral = genElement.ecoreEnumLiteral.toXcoreMapping.xcoreElement as XEnumLiteral
-          if (xEnumLiteral != null)
+          if (xEnumLiteral !== null)
           {
             xEnumLiteral.mapping.genEnumLiteral = genElement
             genElement.toXcoreMapping.xcoreElement = xEnumLiteral
@@ -144,7 +144,7 @@ class XcoreGenModelBuilder
     for (genPackage : genModel.genPackages)
     {
       val ePackage = genPackage.getEcorePackage
-      if (ePackage != null)
+      if (ePackage !== null)
       {
         ePackages.add(genPackage.getEcorePackage)
       }
@@ -172,7 +172,7 @@ class XcoreGenModelBuilder
              EClassifier:
              {
                val EPackage referencedEPackage = eCrossReference.getEPackage
-               if (referencedEPackage != null)
+               if (referencedEPackage !== null)
                {
                  if (ePackages.add(referencedEPackage))
                  {
@@ -183,10 +183,10 @@ class XcoreGenModelBuilder
              EStructuralFeature:
              {
                val eContainingClass = eCrossReference.getEContainingClass()
-               if (eContainingClass != null)
+               if (eContainingClass !== null)
                {
                  val EPackage referencedEPackage = eContainingClass.getEPackage
-                 if (referencedEPackage != null)
+                 if (referencedEPackage !== null)
                  {
                    if (ePackages.add(referencedEPackage))
                    {
@@ -204,18 +204,18 @@ class XcoreGenModelBuilder
     for (referencedEPackage : referencedEPackages)
     {
       var usedGenPackage = genModel.findGenPackage(referencedEPackage);
-      if (usedGenPackage == null)
+      if (usedGenPackage === null)
       {
         usedGenPackage = mapper.getGen(mapper.getToXcoreMapping(referencedEPackage).xcoreElement) as GenPackage
-        if (usedGenPackage == null)
+        if (usedGenPackage === null)
         {
           usedGenPackage = findLocalGenPackage(referencedEPackage)
         }
       }
 
-      if (usedGenPackage != null)
+      if (usedGenPackage !== null)
       {
-        if (usedGenPackage.eResource() != null)
+        if (usedGenPackage.eResource() !== null)
         {
           genModel.usedGenPackages.add(usedGenPackage)
         }
@@ -239,7 +239,7 @@ class XcoreGenModelBuilder
               {
                 val GenModel usedGenModel = resource.contents.get(1) as GenModel
                 usedGenPackage = usedGenModel.findGenPackage(referencedEPackage)
-                if (usedGenPackage != null)
+                if (usedGenPackage !== null)
                 {
                   genModel.usedGenPackages.add(usedGenPackage)
                   found = true
@@ -254,7 +254,7 @@ class XcoreGenModelBuilder
                 val GenModel usedGenModel = resource.contents.get(0) as GenModel
                 usedGenModel.reconcile
                 usedGenPackage = usedGenModel.findGenPackage(referencedEPackage)
-                if (usedGenPackage != null)
+                if (usedGenPackage !== null)
                 {
                   genModel.usedGenPackages.add(usedGenPackage)
                   found = true
@@ -274,14 +274,14 @@ class XcoreGenModelBuilder
 
   def findLocalGenPackage(EPackage ePackage)
   {
-    if (ePackage.eResource != null)
+    if (ePackage.eResource !== null)
     {
       for (content : ePackage.eResource.contents)
       {
         if (content instanceof GenModel)
         {
           val genPackage = content.findGenPackage(ePackage)
-          if (genPackage != null)
+          if (genPackage !== null)
           {
            return genPackage
           }

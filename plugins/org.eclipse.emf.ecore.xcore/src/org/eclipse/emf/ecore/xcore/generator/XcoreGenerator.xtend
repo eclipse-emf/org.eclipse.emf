@@ -56,14 +56,14 @@ class XcoreGenerator implements IGenerator {
 				val eDataType = xDataType.mapping.EDataType
 				val createBody = xDataType.createBody
 				val creator = xDataType.mapping.creator
-				if (createBody != null && creator != null) {
+				if (createBody !== null && creator !== null) {
 					val appendable = createAppendable
 					appendable.declareVariable(creator.parameters.get(0), "it")
 					compile(eDataType, "create", appendable, errors, createBody, creator.returnType, Collections.emptySet);
 				}
 				val convertBody = xDataType.convertBody
 				val converter = xDataType.mapping.converter
-				if (convertBody != null && converter != null) {
+				if (convertBody !== null && converter !== null) {
 					val appendable = createAppendable
 					appendable.declareVariable(converter.parameters.get(0), "it")
 					compile(eDataType, "convert", appendable, errors, convertBody, converter.returnType, Collections.emptySet);
@@ -75,14 +75,14 @@ class XcoreGenerator implements IGenerator {
 				for (eStructuralFeature : eClass.EAllStructuralFeatures) {
 					if (processed.add(eStructuralFeature)) {
 						val xFeature = mappings.getXFeature(eStructuralFeature)
-						if (xFeature != null) {
+						if (xFeature !== null) {
 							val getBody = xFeature.getBody
-							if (getBody != null) {
+							if (getBody !== null) {
 								val getter = mappings.getMapping(xFeature).getter
 								val appendable = createAppendable
 								appendable.declareVariable(getter.declaringType, "this")
 								val superType = getter.declaringType.superTypes.head
-								if (superType != null) {
+								if (superType !== null) {
 									appendable.declareVariable(superType.type, "super")
 								}
 								compile(eStructuralFeature, "get", appendable, errors, getBody, getter.returnType, Collections.emptySet);
@@ -93,25 +93,25 @@ class XcoreGenerator implements IGenerator {
 				for (eOperation : eClass.EAllOperations) {
 					if (processed.add(eOperation)) {
 						val xOperation = mappings.getXOperation(eOperation)
-						if (xOperation != null) {
+						if (xOperation !== null) {
 							val body = xOperation.body
-							if (body != null) {
+							if (body !== null) {
 								val xOperationMapping = mappings.getMapping(xOperation)
 								val jvmOperation = xOperationMapping.jvmOperation
-								if (jvmOperation != null) {
+								if (jvmOperation !== null) {
 									val appendable = createAppendable
 									var declaringType = jvmOperation.declaringType
 									if (xOperationMapping.genOperation.genClass.externalInterface) {
 										// For an external interface, the synthetic inferred interface should be skipped to use the super type.
 										val superTypes = declaringType.superTypes
 										val effectiveTypeReference = superTypes.head
-										if (effectiveTypeReference != null) {
+										if (effectiveTypeReference !== null) {
 											appendable.declareVariable(effectiveTypeReference.type, "this")
 										}
 									} else {
 										appendable.declareVariable(declaringType, "this")
 										val superType = declaringType.superTypes.head
-										if (superType != null) {
+										if (superType !== null) {
 											appendable.declareVariable(superType.type, "super")
 										}
 									}
@@ -155,9 +155,9 @@ class XcoreGenerator implements IGenerator {
 		for (Resource.Diagnostic diagnostic : resource.errors) {
 			if (diagnostic instanceof XtextLinkingDiagnostic) {
 				val uri = diagnostic.uriToProblem
-				if (uri != null) {
+				if (uri !== null) {
 					val eObject = resource.getEObject(uri.fragment);
-					if (eObject != null) {
+					if (eObject !== null) {
 						result.put(eObject, diagnostic.message)
 					}
 				}
@@ -181,7 +181,7 @@ class XcoreGenerator implements IGenerator {
 	}
 
 	def generateGenModel(GenModel genModel, IFileSystemAccess fsa) {
-		if (genModel.modelDirectory != null) {
+		if (genModel.modelDirectory !== null) {
 			genModel.canGenerate = true
 			val generator = xcoreGeneratorImplProvider.get
 			generator.input = genModel

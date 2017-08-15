@@ -23,6 +23,7 @@ import com.google.common.collect.Sets;
  * 
  * @author Moritz Eysholdt - Initial contribution and API
  */
+@SuppressWarnings("unlikely-arg-type")
 public class ExpectationCollection extends StringCollection<ExpectationItem> {
 	public class ExpectationItem extends StringCollection<ExpectationItem>.Item {
 		protected boolean negated;

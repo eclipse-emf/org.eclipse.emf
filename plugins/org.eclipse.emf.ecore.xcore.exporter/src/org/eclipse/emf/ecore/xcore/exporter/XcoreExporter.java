@@ -437,7 +437,7 @@ public class XcoreExporter extends ModelExporter
       // Save the final result.
       //
       final Map<Object, Object> options = new HashMap<Object, Object>();
-      SaveOptions.newBuilder().format().noValidation().getOptions().addTo(options);
+      SaveOptions.newBuilder().format().getOptions().addTo(options);
 
       Runnable runnable =
         new Runnable()

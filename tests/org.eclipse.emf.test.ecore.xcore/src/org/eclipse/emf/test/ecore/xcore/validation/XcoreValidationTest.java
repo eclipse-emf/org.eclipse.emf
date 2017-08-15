@@ -15,7 +15,7 @@ import org.eclipse.emf.test.ecore.xcore.XcoreStandaloneInjectorProvider;
 import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.InjectParameter;
 import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.ResourceURIs;
 import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.XpectLines;
-import org.eclipse.xtext.junit4.InjectWith;
+import org.eclipse.xtext.testing.InjectWith;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.validation.CheckMode;

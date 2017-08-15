@@ -7,7 +7,6 @@
  */
 package org.eclipse.emf.ecore.xcore.ui.labeling;
 
-import com.google.common.base.Objects;
 import com.google.inject.Inject;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
@@ -37,10 +36,9 @@ public class XcoreLabelProvider extends XbaseLabelProvider {
   @Override
   public String getText(final Object element) {
     final String result = super.getText(element);
-    if ((Objects.equal(result, null) && (element instanceof EObject))) {
+    if (((result == null) && (element instanceof EObject))) {
       final QualifiedName name = this.nameProvider.getFullyQualifiedName(((EObject) element));
-      boolean _notEquals = (!Objects.equal(name, null));
-      if (_notEquals) {
+      if ((name != null)) {
         return this.nameConverter.toString(name);
       } else {
         return this.getDefaultText();

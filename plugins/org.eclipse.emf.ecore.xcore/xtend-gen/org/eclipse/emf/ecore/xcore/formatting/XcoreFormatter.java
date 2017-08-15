@@ -85,8 +85,7 @@ public class XcoreFormatter extends XbaseFormatter {
     };
     format.append(this.textRegionExtensions.regionFor(xAnnotation).keyword("@"), _function);
     final Pair<ISemanticRegion, ISemanticRegion> parentheses = IterableExtensions.<Pair<ISemanticRegion, ISemanticRegion>>head(this.textRegionExtensions.regionFor(xAnnotation).keywordPairs("(", ")"));
-    boolean _equals = Objects.equal(parentheses, null);
-    if (_equals) {
+    if ((parentheses == null)) {
       final Procedure1<IHiddenRegionFormatter> _function_1 = new Procedure1<IHiddenRegionFormatter>() {
         @Override
         public void apply(final IHiddenRegionFormatter it) {
@@ -146,8 +145,7 @@ public class XcoreFormatter extends XbaseFormatter {
           };
           format.append(format.prepend(this.textRegionExtensions.regionFor(detail).keyword("="), _function_7), _function_8);
           final ISemanticRegion comma = this.textRegionExtensions.immediatelyFollowing(detail).keyword(",");
-          boolean _notEquals = (!Objects.equal(comma, null));
-          if (_notEquals) {
+          if ((comma != null)) {
             final Procedure1<IHiddenRegionFormatter> _function_9 = new Procedure1<IHiddenRegionFormatter>() {
               @Override
               public void apply(final IHiddenRegionFormatter it) {
@@ -286,8 +284,7 @@ public class XcoreFormatter extends XbaseFormatter {
   protected void _format(final XDataType xDataType, @Extension final IFormattableDocument format) {
     this.formatAnnotations(xDataType.getAnnotations(), format);
     final ISemanticRegion leftAngleBracket = this.textRegionExtensions.regionFor(xDataType).keyword("<");
-    boolean _notEquals = (!Objects.equal(leftAngleBracket, null));
-    if (_notEquals) {
+    if ((leftAngleBracket != null)) {
       final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
         @Override
         public void apply(final IHiddenRegionFormatter it) {
@@ -321,8 +318,7 @@ public class XcoreFormatter extends XbaseFormatter {
   protected void _format(final XClass xClass, @Extension final IFormattableDocument format) {
     this.formatAnnotations(xClass.getAnnotations(), format);
     final ISemanticRegion leftAngleBracket = this.textRegionExtensions.regionFor(xClass).keyword("<");
-    boolean _notEquals = (!Objects.equal(leftAngleBracket, null));
-    if (_notEquals) {
+    if ((leftAngleBracket != null)) {
       final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
         @Override
         public void apply(final IHiddenRegionFormatter it) {
@@ -384,8 +380,7 @@ public class XcoreFormatter extends XbaseFormatter {
     this.formatAnnotations(xReference.getAnnotations(), format);
     format.<XGenericType>format(xReference.getType());
     final ISemanticRegion multiplicity = this.textRegionExtensions.regionFor(xReference).feature(XcorePackage.Literals.XTYPED_ELEMENT__MULTIPLICITY);
-    boolean _notEquals = (!Objects.equal(multiplicity, null));
-    if (_notEquals) {
+    if ((multiplicity != null)) {
       final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
         @Override
         public void apply(final IHiddenRegionFormatter it) {
@@ -395,8 +390,7 @@ public class XcoreFormatter extends XbaseFormatter {
       format.prepend(multiplicity, _function);
     }
     final XBlockExpression get = xReference.getGetBody();
-    boolean _notEquals_1 = (!Objects.equal(get, null));
-    if (_notEquals_1) {
+    if ((get != null)) {
       final Procedure1<IHiddenRegionFormatter> _function_1 = new Procedure1<IHiddenRegionFormatter>() {
         @Override
         public void apply(final IHiddenRegionFormatter it) {
@@ -412,8 +406,7 @@ public class XcoreFormatter extends XbaseFormatter {
     this.formatAnnotations(xAttribute.getAnnotations(), format);
     format.<XGenericType>format(xAttribute.getType());
     final ISemanticRegion multiplicity = this.textRegionExtensions.regionFor(xAttribute).feature(XcorePackage.Literals.XTYPED_ELEMENT__MULTIPLICITY);
-    boolean _notEquals = (!Objects.equal(multiplicity, null));
-    if (_notEquals) {
+    if ((multiplicity != null)) {
       final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
         @Override
         public void apply(final IHiddenRegionFormatter it) {
@@ -423,8 +416,7 @@ public class XcoreFormatter extends XbaseFormatter {
       format.prepend(multiplicity, _function);
     }
     final XBlockExpression get = xAttribute.getGetBody();
-    boolean _notEquals_1 = (!Objects.equal(get, null));
-    if (_notEquals_1) {
+    if ((get != null)) {
       final Procedure1<IHiddenRegionFormatter> _function_1 = new Procedure1<IHiddenRegionFormatter>() {
         @Override
         public void apply(final IHiddenRegionFormatter it) {
@@ -440,8 +432,7 @@ public class XcoreFormatter extends XbaseFormatter {
     this.formatAnnotations(xOperation.getAnnotations(), format);
     format.<XGenericType>format(xOperation.getType());
     final ISemanticRegion multiplicity = this.textRegionExtensions.regionFor(xOperation).feature(XcorePackage.Literals.XTYPED_ELEMENT__MULTIPLICITY);
-    boolean _notEquals = (!Objects.equal(multiplicity, null));
-    if (_notEquals) {
+    if ((multiplicity != null)) {
       final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
         @Override
         public void apply(final IHiddenRegionFormatter it) {
@@ -451,8 +442,7 @@ public class XcoreFormatter extends XbaseFormatter {
       format.prepend(multiplicity, _function);
     }
     final ISemanticRegion leftAngleBracket = this.textRegionExtensions.regionFor(xOperation).keyword("<");
-    boolean _notEquals_1 = (!Objects.equal(leftAngleBracket, null));
-    if (_notEquals_1) {
+    if ((leftAngleBracket != null)) {
       final Procedure1<IHiddenRegionFormatter> _function_1 = new Procedure1<IHiddenRegionFormatter>() {
         @Override
         public void apply(final IHiddenRegionFormatter it) {
@@ -510,8 +500,7 @@ public class XcoreFormatter extends XbaseFormatter {
       }
     }
     final XBlockExpression body = xOperation.getBody();
-    boolean _notEquals_2 = (!Objects.equal(body, null));
-    if (_notEquals_2) {
+    if ((body != null)) {
       final Procedure1<IHiddenRegionFormatter> _function_8 = new Procedure1<IHiddenRegionFormatter>() {
         @Override
         public void apply(final IHiddenRegionFormatter it) {
@@ -526,8 +515,7 @@ public class XcoreFormatter extends XbaseFormatter {
   protected void _format(final XParameter xParameter, @Extension final IFormattableDocument format) {
     this.formatAnnotations(xParameter.getAnnotations(), format);
     final ISemanticRegion multiplicity = this.textRegionExtensions.regionFor(xParameter).feature(XcorePackage.Literals.XTYPED_ELEMENT__MULTIPLICITY);
-    boolean _notEquals = (!Objects.equal(multiplicity, null));
-    if (_notEquals) {
+    if ((multiplicity != null)) {
       final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
         @Override
         public void apply(final IHiddenRegionFormatter it) {
@@ -542,8 +530,7 @@ public class XcoreFormatter extends XbaseFormatter {
   protected void _format(final XGenericType xGenericType, @Extension final IFormattableDocument format) {
     format.<GenBase>format(xGenericType.getType());
     final ISemanticRegion leftAngleBracket = this.textRegionExtensions.regionFor(xGenericType).keyword("<");
-    boolean _notEquals = (!Objects.equal(leftAngleBracket, null));
-    if (_notEquals) {
+    if ((leftAngleBracket != null)) {
       final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
         @Override
         public void apply(final IHiddenRegionFormatter it) {
@@ -562,8 +549,7 @@ public class XcoreFormatter extends XbaseFormatter {
         {
           format.<XGenericType>format(typeArgument);
           final ISemanticRegion comma = this.textRegionExtensions.immediatelyFollowing(typeArgument).keyword(",");
-          boolean _notEquals_1 = (!Objects.equal(comma, null));
-          if (_notEquals_1) {
+          if ((comma != null)) {
             final Procedure1<IHiddenRegionFormatter> _function_2 = new Procedure1<IHiddenRegionFormatter>() {
               @Override
               public void apply(final IHiddenRegionFormatter it) {
@@ -595,8 +581,7 @@ public class XcoreFormatter extends XbaseFormatter {
       format.append(format.prepend(this.textRegionExtensions.regionFor(xGenericType).keyword(">"), _function_2), _function_3);
     }
     final XGenericType upperBound = xGenericType.getUpperBound();
-    boolean _notEquals_1 = (!Objects.equal(upperBound, null));
-    if (_notEquals_1) {
+    if ((upperBound != null)) {
       format.<XGenericType>format(upperBound);
       final Procedure1<IHiddenRegionFormatter> _function_4 = new Procedure1<IHiddenRegionFormatter>() {
         @Override
@@ -613,8 +598,7 @@ public class XcoreFormatter extends XbaseFormatter {
       format.append(format.prepend(this.textRegionExtensions.regionFor(xGenericType).keyword("extends"), _function_4), _function_5);
     }
     final XGenericType lowerBound = xGenericType.getLowerBound();
-    boolean _notEquals_2 = (!Objects.equal(lowerBound, null));
-    if (_notEquals_2) {
+    if ((lowerBound != null)) {
       format.<XGenericType>format(lowerBound);
       final Procedure1<IHiddenRegionFormatter> _function_6 = new Procedure1<IHiddenRegionFormatter>() {
         @Override
@@ -639,8 +623,7 @@ public class XcoreFormatter extends XbaseFormatter {
       {
         format.<XGenericType>format(bound);
         final ISemanticRegion ampersand = this.textRegionExtensions.immediatelyFollowing(bound).keyword("&");
-        boolean _notEquals = (!Objects.equal(ampersand, null));
-        if (_notEquals) {
+        if ((ampersand != null)) {
           final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
             @Override
             public void apply(final IHiddenRegionFormatter it) {

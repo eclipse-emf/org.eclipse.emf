@@ -11,9 +11,9 @@ import com.google.inject.Inject
 import org.eclipse.emf.ecore.xcore.XPackage
 import org.eclipse.emf.ecore.xcore.generator.XcoreGenerator
 import org.eclipse.xtext.generator.InMemoryFileSystemAccess
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.util.ParseHelper
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.util.ParseHelper
 import org.junit.Test
 import org.junit.runner.RunWith
 
