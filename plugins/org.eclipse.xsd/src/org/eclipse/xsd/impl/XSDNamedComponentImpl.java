@@ -582,7 +582,7 @@ public abstract class XSDNamedComponentImpl
               result = 
                 baseName + 
                   (XSDConstants.isURType(xsdSimpleTypeDefinition.getBaseTypeDefinition()) ? 
-                     "_._member"  + "_._" + xsdSimpleTypeDefinition.getMemberTypeDefinitions().indexOf(this) :
+                     "_._member"  + "_._" + xsdSimpleTypeDefinition.getMemberTypeDefinitions().indexOf((XSDSimpleTypeDefinition)this) :
                      "_._base");
               break;
             }

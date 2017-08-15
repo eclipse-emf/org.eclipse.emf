@@ -1159,7 +1159,7 @@ public class XSDWildcardImpl
         }
         result.setNamespaceConstraintCategory(XSDNamespaceConstraintCategory.SET_LITERAL);
         List<String> newNamespaceConstraint = new ArrayList<String>(getNamespaceConstraint());
-        newNamespaceConstraint.remove(otherWildcard.getNamespaceConstraint());
+        newNamespaceConstraint.removeAll(otherWildcard.getNamespaceConstraint());
         newNamespaceConstraint.remove(null);
         result.getNamespaceConstraint().addAll(newNamespaceConstraint);
         return result;
@@ -1187,7 +1187,7 @@ public class XSDWildcardImpl
         }
         result.setNamespaceConstraintCategory(XSDNamespaceConstraintCategory.SET_LITERAL);
         List<String> newNamespaceConstraint = new ArrayList<String>(otherWildcard.getNamespaceConstraint());
-        newNamespaceConstraint.remove(getNamespaceConstraint());
+        newNamespaceConstraint.removeAll(getNamespaceConstraint());
         newNamespaceConstraint.remove(null);
         result.getNamespaceConstraint().addAll(newNamespaceConstraint);
         return result;

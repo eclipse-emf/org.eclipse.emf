@@ -382,7 +382,7 @@ public class XSDImporter extends ModelImporter
     }
     else if (annotation != null)
     {
-      annotation.getDetails().remove(SORT_ATTRIBUTES_KEY);
+      annotation.getDetails().removeKey(SORT_ATTRIBUTES_KEY);
     }
 
     if (getMappingRoot() != null)
@@ -397,7 +397,7 @@ public class XSDImporter extends ModelImporter
     }
     else if (annotation != null)
     {
-      annotation.getDetails().remove(CREATE_MAP_KEY);
+      annotation.getDetails().removeKey(CREATE_MAP_KEY);
     }
 
     if (annotation != null && annotation.getDetails().isEmpty())
