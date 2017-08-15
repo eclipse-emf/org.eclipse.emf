@@ -778,7 +778,7 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
         if (existingEdit != null)
         {
           existingEdits.removeChild(existingEdit);
-          addedInsertEdits.remove(existingEdit);
+          addedInsertEdits.values().remove(existingEdit);
         }
         existingEdits.addChild(lineBreakEdit);
         textEditsToRevert.add(lineBreakEdit);

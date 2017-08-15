@@ -183,7 +183,6 @@ public class EObjectObservableList extends ObservableList implements IObserving,
   /**
    * @return the wrapped list
    */
-  @SuppressWarnings("unchecked")
   protected final List<Object> wrappedList()
   {
     return wrappedList;
@@ -208,7 +207,6 @@ public class EObjectObservableList extends ObservableList implements IObserving,
     wrappedList().add(index, object);
   }
 
-  @SuppressWarnings({"unchecked", "rawtypes"})
   @Override
   public boolean addAll(Collection collection)
   {
@@ -216,7 +214,6 @@ public class EObjectObservableList extends ObservableList implements IObserving,
     return wrappedList().addAll(collection);
   }
 
-  @SuppressWarnings({"unchecked", "rawtypes"})
   @Override
   public boolean addAll(int index, Collection collection)
   {
@@ -245,7 +242,6 @@ public class EObjectObservableList extends ObservableList implements IObserving,
     return wrappedList.remove(element);
   }
 
-  @SuppressWarnings("rawtypes")
   @Override
   public boolean removeAll(Collection collection)
   {
@@ -253,7 +249,6 @@ public class EObjectObservableList extends ObservableList implements IObserving,
     return wrappedList().removeAll(collection);
   }
 
-  @SuppressWarnings("rawtypes")
   @Override
   public boolean retainAll(Collection collection)
   {
@@ -303,7 +298,6 @@ public class EObjectObservableList extends ObservableList implements IObserving,
   }
 }
 
-@SuppressWarnings("rawtypes")
 interface InternalRawEList extends EList
 {
   // This is only at avoid needing an @SuppressWarnings("rawtypes") on the

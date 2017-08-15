@@ -228,7 +228,6 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public boolean add(Object o)
   {
     checkRealm();
@@ -236,7 +235,6 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
   }
 
   @Override
-  @SuppressWarnings({"unchecked", "rawtypes"})
   public boolean addAll(Collection c)
   {
     checkRealm();
@@ -244,7 +242,6 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
   }
 
   @Override
-  @SuppressWarnings({"unchecked", "rawtypes"})
   public boolean addAll(int index, Collection c)
   {
     checkRealm();
@@ -259,7 +256,6 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
   }
 
   @Override
-  @SuppressWarnings("rawtypes")
   public boolean containsAll(Collection c)
   {
     getterCalled();
@@ -343,7 +339,6 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
   }
 
   @Override
-  @SuppressWarnings("rawtypes")
   public boolean removeAll(Collection c)
   {
     checkRealm();
@@ -351,7 +346,6 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
   }
 
   @Override
-  @SuppressWarnings("rawtypes")
   public boolean retainAll(Collection c)
   {
     checkRealm();
@@ -359,7 +353,6 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public Object set(int index, Object element)
   {
     checkRealm();
@@ -395,7 +388,6 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public void add(int index, Object element)
   {
     checkRealm();

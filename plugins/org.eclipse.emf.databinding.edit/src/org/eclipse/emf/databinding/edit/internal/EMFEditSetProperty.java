@@ -41,7 +41,6 @@ public class EMFEditSetProperty extends EMFSetProperty
     this.editingDomain = editingDomain;
   }
 
-  @SuppressWarnings("rawtypes")
   @Override
   protected void doSetSet(Object source, Set set, SetDiff diff)
   {

@@ -100,7 +100,7 @@ public class EmfdbSwitch<T> extends Switch<T>
       }
       case EmfdbPackage.C:
       {
-        @SuppressWarnings("unchecked") Map.Entry<String, String> c = (Map.Entry<String, String>)theEObject;
+        Map.Entry<String, String> c = (Map.Entry<String, String>)theEObject;
         T result = caseC(c);
         if (result == null) result = defaultCase(theEObject);
         return result;

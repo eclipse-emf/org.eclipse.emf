@@ -34,7 +34,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 public class EMFListValueProperty extends SimpleValueProperty
 {
   private final EStructuralFeature eStructuralFeature;
-  @SuppressWarnings("rawtypes")
   private final ListElementAccess elementAccess;
   private final IListProperty delegate;
 
@@ -59,7 +58,6 @@ public class EMFListValueProperty extends SimpleValueProperty
   protected Object doGetValue(Object source)
   {
     List< ? > list = listFromDelegate(source);
-    @SuppressWarnings("unchecked")
     int idx = elementAccess.getReadValueIndex(list);
     if (idx != WriteData.NO_INDEX)
     {
@@ -68,7 +66,6 @@ public class EMFListValueProperty extends SimpleValueProperty
     return null;
   }
 
-	@SuppressWarnings("unchecked")
 	private List<?> listFromDelegate(Object source) {
 		List<?> list = Collections.EMPTY_LIST;
 		if (source != null) {
@@ -87,7 +84,6 @@ public class EMFListValueProperty extends SimpleValueProperty
 		return list;
 	}
 
-  @SuppressWarnings("unchecked")
   @Override
   protected void doSetValue(Object source, Object value)
   {

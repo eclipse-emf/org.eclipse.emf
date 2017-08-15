@@ -64,6 +64,7 @@ public final class ImageURIRegistry
       return uri;
 
     File imageFile = getNewFile();
+    @SuppressWarnings("deprecation")
     ImageData imageData = descriptor.getImageData();
     if (imageData == null)
     {

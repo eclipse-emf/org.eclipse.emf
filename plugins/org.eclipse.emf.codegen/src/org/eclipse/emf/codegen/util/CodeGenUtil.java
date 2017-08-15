@@ -1182,9 +1182,6 @@ public class CodeGenUtil
       {
         Bundle bundle = Platform.getBundle(pluginID);
 
-        // Ignore this redundant cast for compatibility with Eclipse 3.5.
-        //
-        @SuppressWarnings("cast")
         String requires = (String)bundle.getHeaders().get(Constants.BUNDLE_CLASSPATH);
         if (requires == null)
         {

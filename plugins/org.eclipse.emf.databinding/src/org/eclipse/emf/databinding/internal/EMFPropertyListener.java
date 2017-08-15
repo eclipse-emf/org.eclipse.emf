@@ -274,7 +274,6 @@ public abstract class EMFPropertyListener extends AdapterImpl implements INative
             break;
           }
           case Notification.ADD_MANY: {
-            @SuppressWarnings("unchecked")
             Collection<Map.Entry<?, ?>> newEntries = (Collection<Map.Entry<?, ?>>)msg.getNewValue();
             Map<Object, Object> newValues = new HashMap<Object, Object>();
             for (Map.Entry<?, ?> entry : newEntries)
@@ -292,7 +291,6 @@ public abstract class EMFPropertyListener extends AdapterImpl implements INative
             break;
           }
           case Notification.REMOVE_MANY: {
-            @SuppressWarnings("unchecked")
             Collection<Map.Entry<?, ?>> oldEntries = (Collection<Map.Entry<?, ?>>)msg.getOldValue();
             Map<Object, Object> oldValues = new HashMap<Object, Object>();
             for (Map.Entry<?, ?> entry : oldEntries)

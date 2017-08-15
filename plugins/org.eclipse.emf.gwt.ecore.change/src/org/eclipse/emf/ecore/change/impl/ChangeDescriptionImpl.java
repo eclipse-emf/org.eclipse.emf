@@ -559,7 +559,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
 
       // Remove the entry for the original object.
       //
-      objectChanges.remove(objectToChange);
+      objectChanges.removeKey(objectToChange);
 
       // Ensure that we have a copy of the original object, even if it's just a proxified one.
       //

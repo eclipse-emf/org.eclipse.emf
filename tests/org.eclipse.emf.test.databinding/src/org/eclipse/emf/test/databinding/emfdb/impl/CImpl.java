@@ -316,7 +316,6 @@ public class CImpl extends EObjectImpl implements BasicEMap.Entry<String,String>
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
   public EMap<String, String> getEMap()
   {
     EObject container = eContainer();

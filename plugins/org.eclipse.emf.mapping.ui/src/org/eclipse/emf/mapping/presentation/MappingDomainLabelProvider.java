@@ -80,6 +80,7 @@ public class MappingDomainLabelProvider extends AdapterFactoryLabelProvider
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void drawCompositeImage(int width, int height)
     {
       drawImage(mainImage, 0, 0);

@@ -637,11 +637,9 @@ public class EditUIUtil
         }
       }
 
-      @SuppressWarnings("cast")
       URI uri = (URI)editorInput.getAdapter(URI.class);
       if (uri == null)
       {
-        @SuppressWarnings("cast")
         java.net.URI javaNetURI = (java.net.URI)editorInput.getAdapter(java.net.URI.class);
         if (javaNetURI != null)
         {

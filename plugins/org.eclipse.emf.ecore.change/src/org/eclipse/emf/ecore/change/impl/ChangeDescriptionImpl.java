@@ -532,7 +532,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
       //
       if (copiedObjectToChange != null && !copiedObjectToChange.eIsProxy())
       {
-        objectChanges.remove(objectToChange);
+        objectChanges.removeKey(objectToChange);
       }
       else
       {
@@ -574,7 +574,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
 
         // Remove the entry for the original object.
         //
-        objectChanges.remove(objectToChange);
+        objectChanges.removeKey(objectToChange);
 
         // Add an entry for the proxy copy with the value we updated above.
         //

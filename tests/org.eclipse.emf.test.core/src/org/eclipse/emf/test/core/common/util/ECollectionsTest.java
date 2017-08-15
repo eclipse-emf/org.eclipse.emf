@@ -385,7 +385,7 @@ public class ECollectionsTest
     map.remove("aKey");
     assertEquivalent(map, eMap);
 
-    eMap.remove("bKey");
+    eMap.removeKey("bKey");
     assertEquivalent(map, eMap);
 
     Map<String, String> otherMap = new HashMap<String, String>();

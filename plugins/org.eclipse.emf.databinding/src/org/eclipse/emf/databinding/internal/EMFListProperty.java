@@ -176,7 +176,6 @@ public class EMFListProperty extends SimpleListProperty
   }
 
   @Override
-  @SuppressWarnings("rawtypes")
   protected void doSetList(Object source, List list, ListDiff diff)
   {
     List< ? > currentList = doGetList(source);

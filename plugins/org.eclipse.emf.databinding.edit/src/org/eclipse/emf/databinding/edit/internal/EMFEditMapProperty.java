@@ -40,7 +40,6 @@ public class EMFEditMapProperty extends EMFMapProperty
     this.editingDomain = editingDomain;
   }
 
-  @SuppressWarnings("rawtypes")
   @Override
   protected void doSetMap(Object source, Map map, MapDiff diff)
   {

@@ -381,6 +381,7 @@ class ComposedImageDescriptor extends CompositeImageDescriptor
   }
 
   @Override
+  @SuppressWarnings("deprecation")
   public void drawCompositeImage(int width, int height)
   {
     ComposedImage.Size size = new ComposedImage.Size();

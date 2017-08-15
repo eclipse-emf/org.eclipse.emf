@@ -155,7 +155,8 @@
       xsi:type="setup.targlets:TargletTask">
     <targlet
         name="EMF Target Platform"
-        activeRepositoryList="${eclipse.target.platform}">
+        activeRepositoryList="${eclipse.target.platform}"
+        includeBinaryEquivalents="false">
       <requirement
           name="org.eclipse.platform.feature.group"/>
       <requirement
@@ -304,6 +305,8 @@
           name="Galileo">
         <repository
             url="${xtext.nightly.composite}"/>
+        <repository
+            url="http://download.eclipse.org/releases/galileo"/>
         <repository
             url="http://download.eclipse.org/rt/rap/3.0"/>
         <repository

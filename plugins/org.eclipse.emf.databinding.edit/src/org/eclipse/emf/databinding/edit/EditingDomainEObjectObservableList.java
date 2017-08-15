@@ -105,7 +105,6 @@ public class EditingDomainEObjectObservableList extends EObjectObservableList
     execute(AddCommand.create(domain, eObject, eStructuralFeature, object, index));
   }
 
-  @SuppressWarnings("rawtypes")
   @Override
   public boolean addAll(Collection collection)
   {
@@ -113,7 +112,6 @@ public class EditingDomainEObjectObservableList extends EObjectObservableList
     return execute(AddCommand.create(domain, eObject, eStructuralFeature, collection));
   }
 
-  @SuppressWarnings("rawtypes")
   @Override
   public boolean addAll(int index, Collection collection)
   {
@@ -146,7 +144,6 @@ public class EditingDomainEObjectObservableList extends EObjectObservableList
     return execute(RemoveCommand.create(domain, eObject, eStructuralFeature, element));
   }
 
-  @SuppressWarnings("rawtypes")
   @Override
   public boolean removeAll(Collection collection)
   {
@@ -154,7 +151,6 @@ public class EditingDomainEObjectObservableList extends EObjectObservableList
     return execute(RemoveCommand.create(domain, eObject, eStructuralFeature, collection));
   }
 
-  @SuppressWarnings("rawtypes")
   @Override
   public boolean retainAll(Collection collection)
   {

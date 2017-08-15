@@ -41,7 +41,6 @@ public class EMFResourceContentProperty extends SimpleListProperty
     return resource.getContents();
   }
 
-  @SuppressWarnings("rawtypes")
   @Override
   protected void doSetList(Object source, List list, ListDiff diff)
   {

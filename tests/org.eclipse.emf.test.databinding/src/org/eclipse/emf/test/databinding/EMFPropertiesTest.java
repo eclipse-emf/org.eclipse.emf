@@ -346,7 +346,6 @@ public class EMFPropertiesTest
       });
   }
 
-  @SuppressWarnings("unchecked")
   public void _testMapProperty()
   {
     A a = (A)resource.getContents().get(0);

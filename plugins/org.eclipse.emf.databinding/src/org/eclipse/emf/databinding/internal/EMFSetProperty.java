@@ -53,7 +53,6 @@ public class EMFSetProperty extends SimpleSetProperty
     return eStructuralFeature;
   }
 
-  @SuppressWarnings({"unchecked", "rawtypes"})
   @Override
   protected Set doGetSet(Object source)
   {
@@ -61,7 +60,6 @@ public class EMFSetProperty extends SimpleSetProperty
     return new DelegatingSet((List<?>)eObj.eGet(eStructuralFeature));
   }
 
-  @SuppressWarnings("rawtypes")
   @Override
   protected void doSetSet(Object source, Set set, SetDiff diff)
   {

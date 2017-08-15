@@ -4211,7 +4211,7 @@ public class EcoreUtil
     {
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("validationDelegates");
+        eAnnotation.getDetails().removeKey("validationDelegates");
       }
     }
     else
@@ -4267,7 +4267,7 @@ public class EcoreUtil
     {
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("settingDelegates");
+        eAnnotation.getDetails().removeKey("settingDelegates");
       }
     }
     else
@@ -4336,7 +4336,7 @@ public class EcoreUtil
     {
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("invocationDelegates");
+        eAnnotation.getDetails().removeKey("invocationDelegates");
       }
     }
     else
@@ -4402,7 +4402,7 @@ public class EcoreUtil
     {
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("conversionDelegates");
+        eAnnotation.getDetails().removeKey("conversionDelegates");
       }
     }
     else

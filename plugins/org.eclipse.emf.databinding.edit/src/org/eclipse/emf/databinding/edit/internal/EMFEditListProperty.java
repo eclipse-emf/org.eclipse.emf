@@ -47,7 +47,6 @@ public class EMFEditListProperty extends EMFListProperty
     this.editingDomain = editingDomain;
   }
 
-  @SuppressWarnings("rawtypes")
   @Override
   protected void doSetList(Object source, List list, ListDiff diff)
   {

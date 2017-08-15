@@ -2821,7 +2821,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
                   {
                     // Build up the set up all imported names, ignoring static and on-demand imports.
                     //
-                    @SuppressWarnings({ "unchecked", "cast" })
+                    @SuppressWarnings("unchecked")
                     List<? extends ImportDeclaration> imports = (List<? extends ImportDeclaration>)compiledUnit.imports();
                     for (ImportDeclaration importDeclaration : imports)
                     {

@@ -89,7 +89,6 @@ public class EMFMapProperty extends SimpleMapProperty
   }
 
   @Override
-  @SuppressWarnings("rawtypes")
   protected void doSetMap(Object source, Map map, MapDiff diff)
   {
     EObject eObject = (EObject)source;

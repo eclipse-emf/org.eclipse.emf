@@ -236,7 +236,7 @@ public class ModelConverterURIPage extends ModelConverterPage
   {
     uri = uri.trim();
     StringBuffer text = new StringBuffer(uriText.getText());
-    if (!uri.equals(text))
+    if (!uri.contentEquals(text))
     {
       if (supportMultipleURIs())
       {

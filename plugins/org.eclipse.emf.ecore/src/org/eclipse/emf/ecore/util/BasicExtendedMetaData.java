@@ -200,7 +200,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(ePackage, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("qualified");
+        eAnnotation.getDetails().removeKey("qualified");
       }
     }
     getExtendedMetaData(ePackage).setQualified(isQualified);
@@ -268,7 +268,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eStructuralFeature, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("namespace");
+        eAnnotation.getDetails().removeKey("namespace");
       }
     }
     getExtendedMetaData(eStructuralFeature).setNamespace(namespace);
@@ -439,7 +439,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eStructuralFeature, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("kind");
+        eAnnotation.getDetails().removeKey("kind");
       }
     }
     getExtendedMetaData(eStructuralFeature).setFeatureKind(kind);
@@ -483,7 +483,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eClass, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("kind");
+        eAnnotation.getDetails().removeKey("kind");
       }
     }
     getExtendedMetaData(eClass).setContentKind(kind);
@@ -558,7 +558,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("baseType");
+        eAnnotation.getDetails().removeKey("baseType");
       }
     }
     else
@@ -607,7 +607,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("itemType");
+        eAnnotation.getDetails().removeKey("itemType");
       }
     }
     else
@@ -661,7 +661,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("memberTypes");
+        eAnnotation.getDetails().removeKey("memberTypes");
       }
     }
     else
@@ -1104,8 +1104,8 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eStructuralFeature, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("wildcards");
-        eAnnotation.getDetails().remove("name");
+        eAnnotation.getDetails().removeKey("wildcards");
+        eAnnotation.getDetails().removeKey("name");
       }
     }
     else
@@ -1210,7 +1210,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eStructuralFeature, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("processing");
+        eAnnotation.getDetails().removeKey("processing");
       }
     }
     getExtendedMetaData(eStructuralFeature).setProcessingKind(kind);
@@ -1284,7 +1284,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eStructuralFeature, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("group");
+        eAnnotation.getDetails().removeKey("group");
       }
     }
     else
@@ -1339,7 +1339,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eStructuralFeature, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("affiliation");
+        eAnnotation.getDetails().removeKey("affiliation");
       }
     }
     else
@@ -1514,7 +1514,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("whiteSpace");
+        eAnnotation.getDetails().removeKey("whiteSpace");
       }
     }
     else
@@ -1557,7 +1557,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("enumeration");
+        eAnnotation.getDetails().removeKey("enumeration");
       }
     }
     else
@@ -1606,7 +1606,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("pattern");
+        eAnnotation.getDetails().removeKey("pattern");
       }
     }
     else
@@ -1649,7 +1649,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("totalDigits");
+        eAnnotation.getDetails().removeKey("totalDigits");
       }
     }
     else
@@ -1686,7 +1686,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("fractionDigits");
+        eAnnotation.getDetails().removeKey("fractionDigits");
       }
     }
     else
@@ -1723,7 +1723,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("length");
+        eAnnotation.getDetails().removeKey("length");
       }
     }
     else
@@ -1760,7 +1760,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("minLength");
+        eAnnotation.getDetails().removeKey("minLength");
       }
     }
     else
@@ -1797,7 +1797,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("maxLength");
+        eAnnotation.getDetails().removeKey("maxLength");
       }
     }
     else
@@ -1829,7 +1829,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("minExclusive");
+        eAnnotation.getDetails().removeKey("minExclusive");
       }
     }
     else
@@ -1861,7 +1861,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("maxExclusive");
+        eAnnotation.getDetails().removeKey("maxExclusive");
       }
     }
     else
@@ -1893,7 +1893,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("minInclusive");
+        eAnnotation.getDetails().removeKey("minInclusive");
       }
     }
     else
@@ -1925,7 +1925,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("maxInclusive");
+        eAnnotation.getDetails().removeKey("maxInclusive");
       }
     }
     else

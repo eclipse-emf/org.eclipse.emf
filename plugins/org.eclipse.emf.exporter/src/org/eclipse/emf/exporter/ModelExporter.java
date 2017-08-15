@@ -791,7 +791,8 @@ public abstract class ModelExporter extends ModelConverter
     {
       if (genModelAnnotation != null)
       {
-        changed |= genModelAnnotation.getDetails().remove(GENANNOTATION_KEY_DIRECTORY_URI);
+        String oldValue = genModelAnnotation.getDetails().removeKey(GENANNOTATION_KEY_DIRECTORY_URI);
+        changed |= oldValue != null;
       }
     }
     else
