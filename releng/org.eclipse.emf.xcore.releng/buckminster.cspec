@@ -25,7 +25,7 @@
 		<cs:dependency name="org.eclipse.xtext.ui" componentType="eclipse.feature" versionDesignator="2.8.0"/>
 		<cs:dependency name="org.eclipse.xtext.xbase" componentType="eclipse.feature" versionDesignator="2.8.0"/>
         <cs:dependency name="org.eclipse.xtext.xbase.junit" componentType="osgi.bundle" versionDesignator="2.8.0"/>
-		<cs:dependency name="org.eclipse.xtext.junit4" componentType="osgi.bundle" versionDesignator="2.8.0"/>
+		<cs:dependency name="org.eclipse.xtext.testing" componentType="osgi.bundle" versionDesignator="2.8.0"/>
 
 	</cs:dependencies>
 	<cs:actions>
