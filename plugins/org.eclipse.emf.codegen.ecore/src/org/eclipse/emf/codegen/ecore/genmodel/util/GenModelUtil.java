@@ -142,7 +142,6 @@ public class GenModelUtil
   /**
    * @since 2.14
    */
-  @SafeVarargs
   public static boolean hasAPIDeprecatedTag(Collection<?>... elements)
   {
     for (Collection<?> genBaseElements : elements)
