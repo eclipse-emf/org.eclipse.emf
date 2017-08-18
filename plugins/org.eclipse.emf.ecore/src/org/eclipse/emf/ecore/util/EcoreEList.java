@@ -720,7 +720,7 @@ public abstract class EcoreEList<E> extends NotifyingInternalEListImpl<E> implem
     @Override
     protected boolean canContainNull()
     {
-      return (kind & (IS_EOBJECT | IS_PRIMITIVE | IS_ENUM)) == 0;
+      return (kind & (IS_EOBJECT)) == 0;
     }
 
     @Override
