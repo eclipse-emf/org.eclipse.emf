@@ -124,7 +124,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="xtext.nightly.composite"
-      value="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/nightly/"/>
+      value="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/nightly"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
@@ -173,9 +173,9 @@
         <repository
             url="http://download.eclipse.org/releases/photon"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0/"/>
+            url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime/"/>
+            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
             url="${gwt.tool.url}"/>
         <repository
@@ -188,9 +188,9 @@
         <repository
             url="http://download.eclipse.org/releases/oxygen"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0/"/>
+            url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime/"/>
+            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
             url="${gwt.tool.url}"/>
         <repository
@@ -203,9 +203,9 @@
         <repository
             url="http://download.eclipse.org/releases/neon"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0/"/>
+            url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime/"/>
+            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
             url="${gwt.tool.url}"/>
         <repository
@@ -218,15 +218,13 @@
         <repository
             url="http://download.eclipse.org/releases/mars"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0/"/>
+            url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/3.0"/>
-        <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime/"/>
+            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
             url="${gwt.tool.url}"/>
         <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/maintenance/nightly"/>
+            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
         <repository
             url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
       </repositoryList>
@@ -235,71 +233,81 @@
         <repository
             url="http://download.eclipse.org/releases/luna"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0/"/>
+            url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/2.3"/>
-        <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime/"/>
+            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
             url="${gwt.tool.url}"/>
         <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/maintenance"/>
+            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
         <repository
             url="http://download.eclipse.org/modeling/emf/emf/updates/2.10.x"/>
       </repositoryList>
       <repositoryList
           name="Kepler">
         <repository
-            url="${xtext.nightly.composite}"/>
+            url="http://download.eclipse.org/releases/kepler"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0/"/>
+            url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/orbit/"/>
+            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+        <repository
+            url="${gwt.tool.url}"/>
+        <repository
+            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.9"/>
       </repositoryList>
       <repositoryList
           name="Juno">
         <repository
-            url="${xtext.nightly.composite}"/>
+            url="http://download.eclipse.org/releases/juno"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0/"/>
+            url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/technology/m2e/releases/1.0/"/>
+            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
+            url="${gwt.tool.url}"/>
         <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/orbit/"/>
+            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
+        <repository
+            url="http://download.eclipse.org/technology/m2e/releases/1.0"/>
+        <repository
+            url="http://download.eclipse.org/technology/swtbot/releases/latest"/>
       </repositoryList>
       <repositoryList
           name="Indigo">
         <repository
-            url="${xtext.nightly.composite}"/>
+            url="http://download.eclipse.org/releases/indigo"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0/"/>
+            url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/technology/m2e/releases/1.0/"/>
+            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+        <repository
+            url="${gwt.tool.url}"/>
+        <repository
+            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
+        <repository
+            url="http://download.eclipse.org/technology/m2e/releases/1.0"/>
         <repository
             url="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
-        <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/orbit/"/>
       </repositoryList>
       <repositoryList
           name="Helios">
         <repository
-            url="${xtext.nightly.composite}"/>
-        <repository
             url="http://download.eclipse.org/releases/helios"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/3.0"/>
+            url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime/"/>
+            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0/"/>
+            url="${gwt.tool.url}"/>
         <repository
-            url="http://download.eclipse.org/technology/m2e/releases/1.0/"/>
+            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
         <repository
-            url="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
+            url="http://download.eclipse.org/technology/m2e/releases/1.0"/>
         <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/orbit/"/>
+            url="http://download.eclipse.org/technology/swtbot/releases/latest"/>
       </repositoryList>
       <repositoryList
           name="Galileo">
@@ -310,17 +318,17 @@
         <repository
             url="http://download.eclipse.org/rt/rap/3.0"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime/"/>
+            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
             url="http://download.eclipse.org/tools/gef/updates/milestones"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0/"/>
+            url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/technology/m2e/releases/1.0/"/>
+            url="http://download.eclipse.org/technology/m2e/releases/1.0"/>
         <repository
-            url="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
+            url="http://download.eclipse.org/technology/swtbot/releases/latest"/>
         <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/orbit/"/>
+            url="http://download.eclipse.org/modeling/tmf/xtext/updates/orbit"/>
       </repositoryList>
     </targlet>
   </setupTask>
