@@ -129,6 +129,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isStyleProviders <em>Style Providers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCleanup <em>Cleanup</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isOSGiCompatible <em>OS Gi Compatible</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEclipsePlatformVersion <em>Eclipse Platform Version</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel()
@@ -2289,6 +2290,68 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setOSGiCompatible(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Eclipse Platform Version</b></em>' attribute.
+   * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.GenEclipsePlatformVersion}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Eclipse Platform Version</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.14
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Eclipse Platform Version</em>' attribute.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenEclipsePlatformVersion
+   * @see #isSetEclipsePlatformVersion()
+   * @see #unsetEclipsePlatformVersion()
+   * @see #setEclipsePlatformVersion(GenEclipsePlatformVersion)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_EclipsePlatformVersion()
+   * @model unsettable="true"
+   * @generated
+   */
+  GenEclipsePlatformVersion getEclipsePlatformVersion();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEclipsePlatformVersion <em>Eclipse Platform Version</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Eclipse Platform Version</em>' attribute.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenEclipsePlatformVersion
+   * @see #isSetEclipsePlatformVersion()
+   * @see #unsetEclipsePlatformVersion()
+   * @see #getEclipsePlatformVersion()
+   * @since 2.14
+   * @generated
+   */
+  void setEclipsePlatformVersion(GenEclipsePlatformVersion value);
+
+  /**
+   * Unsets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEclipsePlatformVersion <em>Eclipse Platform Version</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetEclipsePlatformVersion()
+   * @see #getEclipsePlatformVersion()
+   * @see #setEclipsePlatformVersion(GenEclipsePlatformVersion)
+   * @since 2.14
+   * @generated
+   */
+  void unsetEclipsePlatformVersion();
+
+  /**
+   * Returns whether the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEclipsePlatformVersion <em>Eclipse Platform Version</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Eclipse Platform Version</em>' attribute is set.
+   * @see #unsetEclipsePlatformVersion()
+   * @see #getEclipsePlatformVersion()
+   * @see #setEclipsePlatformVersion(GenEclipsePlatformVersion)
+   * @since 2.14
+   * @generated
+   */
+  boolean isSetEclipsePlatformVersion();
 
   EList<GenPackage> getStaticGenPackages();
 

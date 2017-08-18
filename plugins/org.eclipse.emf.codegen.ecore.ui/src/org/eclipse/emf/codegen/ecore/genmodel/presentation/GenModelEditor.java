@@ -338,6 +338,8 @@ public class GenModelEditor
   protected EContentAdapter problemIndicationAdapter = 
     new EContentAdapter()
     {
+      protected boolean dispatching;
+
       @Override
       public void notifyChanged(Notification notification)
       {
@@ -359,18 +361,7 @@ public class GenModelEditor
               {
                 resourceToDiagnosticMap.remove(resource);
               }
-
-              if (updateProblemIndication)
-              {
-                getSite().getShell().getDisplay().asyncExec
-                  (new Runnable()
-                   {
-                     public void run()
-                     {
-                       updateProblemIndication();
-                     }
-                   });
-              }
+              dispatchUpdateProblemIndication();
               break;
             }
           }
@@ -378,6 +369,23 @@ public class GenModelEditor
         else
         {
           super.notifyChanged(notification);
+        }
+      }
+
+      protected void dispatchUpdateProblemIndication()
+      {
+        if (updateProblemIndication && !dispatching)
+        {
+          dispatching = true;
+          getSite().getShell().getDisplay().asyncExec
+            (new Runnable()
+             {
+               public void run()
+               {
+                 dispatching = false;
+                 updateProblemIndication();
+               }
+             });
         }
       }
 
@@ -392,17 +400,7 @@ public class GenModelEditor
       {
         basicUnsetTarget(target);
         resourceToDiagnosticMap.remove(target);
-        if (updateProblemIndication)
-        {
-          getSite().getShell().getDisplay().asyncExec
-            (new Runnable()
-             {
-               public void run()
-               {
-                 updateProblemIndication();
-               }
-             });
-        }
+        dispatchUpdateProblemIndication();
       }
     };
 
@@ -665,17 +663,13 @@ public class GenModelEditor
 
       if (markerHelper.hasMarkers(editingDomain.getResourceSet()))
       {
-        markerHelper.deleteMarkers(editingDomain.getResourceSet());
-        if (diagnostic.getSeverity() != Diagnostic.OK)
+        try
         {
-          try
-          {
-            markerHelper.createMarkers(diagnostic);
-          }
-          catch (CoreException exception)
-          {
-            GenModelEditPlugin.INSTANCE.log(exception);
-          }
+          markerHelper.updateMarkers(diagnostic);
+        }
+        catch (CoreException exception)
+        {
+          GenModelEditPlugin.INSTANCE.log(exception);
         }
       }
     }
@@ -1253,6 +1247,7 @@ public class GenModelEditor
 
           // Set up the tree viewer.
           //
+          contentOutlineViewer.setUseHashlookup(true);
           contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
           contentOutlineViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
           contentOutlineViewer.setInput(editingDomain.getResourceSet());
@@ -1405,8 +1400,10 @@ public class GenModelEditor
           // Save the resources to the file system.
           //
           boolean first = true;
-          for (Resource resource : editingDomain.getResourceSet().getResources())
+          List<Resource> resources = editingDomain.getResourceSet().getResources();
+          for (int i = 0; i < resources.size(); ++i)
           {
+            Resource resource = resources.get(i);
             if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource))
             {
               try

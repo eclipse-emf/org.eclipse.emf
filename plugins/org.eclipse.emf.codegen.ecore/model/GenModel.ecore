@@ -131,6 +131,12 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="styleProviders" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cleanup" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="oSGiCompatible" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="eclipsePlatformVersion"
+        eType="#//GenEclipsePlatformVersion" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.14"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenPackage" eSuperTypes="#//GenBase">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -312,6 +318,11 @@
     <eLiterals name="JDK60" value="2" literal="6.0"/>
     <eLiterals name="JDK70" value="3" literal="7.0"/>
     <eLiterals name="JDK80" value="4" literal="8.0"/>
+    <eLiterals name="JDK90" value="5" literal="9.0">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.14"/>
+      </eAnnotations>
+    </eLiterals>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenTypeParameter" eSuperTypes="#//GenBase">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreTypeParameter" lowerBound="1"
@@ -330,6 +341,11 @@
     <eLiterals name="EMF211" value="9" literal="2.11"/>
     <eLiterals name="EMF212" value="10" literal="2.12"/>
     <eLiterals name="EMF213" value="11" literal="2.13"/>
+    <eLiterals name="EMF214" value="12" literal="2.14">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.14"/>
+      </eAnnotations>
+    </eLiterals>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="GenRuntimePlatform">
     <eLiterals name="IDE"/>
@@ -341,5 +357,17 @@
     <eLiterals name="None"/>
     <eLiterals name="Manual" value="1"/>
     <eLiterals name="Live" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GenEclipsePlatformVersion">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="@since 2.14"/>
+    </eAnnotations>
+    <eLiterals name="Juno"/>
+    <eLiterals name="Kepler" value="1"/>
+    <eLiterals name="Luna" value="2"/>
+    <eLiterals name="Mars" value="3"/>
+    <eLiterals name="Neon" value="4"/>
+    <eLiterals name="Oxygen" value="5"/>
+    <eLiterals name="Photon" value="6"/>
   </eClassifiers>
 </ecore:EPackage>

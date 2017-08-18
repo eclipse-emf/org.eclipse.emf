@@ -52,6 +52,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDecoration;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind;
+import org.eclipse.emf.codegen.ecore.genmodel.GenEclipsePlatformVersion;
 import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
@@ -214,6 +215,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isStyleProviders <em>Style Providers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCleanup <em>Cleanup</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isOSGiCompatible <em>OS Gi Compatible</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getEclipsePlatformVersion <em>Eclipse Platform Version</em>}</li>
  * </ul>
  *
  * @generated
@@ -1887,6 +1889,38 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean oSGiCompatible = OS_GI_COMPATIBLE_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getEclipsePlatformVersion() <em>Eclipse Platform Version</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getEclipsePlatformVersion()
+   * @since 2.14
+   * @generated NOT
+   * @ordered
+   */
+  protected static final GenEclipsePlatformVersion ECLIPSE_PLATFORM_VERSION_EDEFAULT = GenEclipsePlatformVersion.VALUES.get(GenEclipsePlatformVersion.VALUES.size() - 1);
+
+  /**
+   * The cached value of the '{@link #getEclipsePlatformVersion() <em>Eclipse Platform Version</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getEclipsePlatformVersion()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected GenEclipsePlatformVersion eclipsePlatformVersion = ECLIPSE_PLATFORM_VERSION_EDEFAULT;
+
+  /**
+   * This is true if the Eclipse Platform Version attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean eclipsePlatformVersionESet;
 
   protected boolean validateModel = false;
 
@@ -6632,6 +6666,60 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public GenEclipsePlatformVersion getEclipsePlatformVersion()
+  {
+    return eclipsePlatformVersion;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setEclipsePlatformVersion(GenEclipsePlatformVersion newEclipsePlatformVersion)
+  {
+    GenEclipsePlatformVersion oldEclipsePlatformVersion = eclipsePlatformVersion;
+    eclipsePlatformVersion = newEclipsePlatformVersion == null ? ECLIPSE_PLATFORM_VERSION_EDEFAULT : newEclipsePlatformVersion;
+    boolean oldEclipsePlatformVersionESet = eclipsePlatformVersionESet;
+    eclipsePlatformVersionESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__ECLIPSE_PLATFORM_VERSION, oldEclipsePlatformVersion, eclipsePlatformVersion, !oldEclipsePlatformVersionESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetEclipsePlatformVersion()
+  {
+    GenEclipsePlatformVersion oldEclipsePlatformVersion = eclipsePlatformVersion;
+    boolean oldEclipsePlatformVersionESet = eclipsePlatformVersionESet;
+    eclipsePlatformVersion = ECLIPSE_PLATFORM_VERSION_EDEFAULT;
+    eclipsePlatformVersionESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_MODEL__ECLIPSE_PLATFORM_VERSION, oldEclipsePlatformVersion, ECLIPSE_PLATFORM_VERSION_EDEFAULT, oldEclipsePlatformVersionESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetEclipsePlatformVersion()
+  {
+    return eclipsePlatformVersionESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   @SuppressWarnings("unchecked")
@@ -6844,6 +6932,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isCleanup();
       case GenModelPackage.GEN_MODEL__OS_GI_COMPATIBLE:
         return isOSGiCompatible();
+      case GenModelPackage.GEN_MODEL__ECLIPSE_PLATFORM_VERSION:
+        return getEclipsePlatformVersion();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -7126,6 +7216,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__OS_GI_COMPATIBLE:
         setOSGiCompatible((Boolean)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__ECLIPSE_PLATFORM_VERSION:
+        setEclipsePlatformVersion((GenEclipsePlatformVersion)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -7398,6 +7491,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__OS_GI_COMPATIBLE:
         setOSGiCompatible(OS_GI_COMPATIBLE_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__ECLIPSE_PLATFORM_VERSION:
+        unsetEclipsePlatformVersion();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -7584,6 +7680,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return cleanup != CLEANUP_EDEFAULT;
       case GenModelPackage.GEN_MODEL__OS_GI_COMPATIBLE:
         return oSGiCompatible != OS_GI_COMPATIBLE_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__ECLIPSE_PLATFORM_VERSION:
+        return isSetEclipsePlatformVersion();
     }
     return super.eIsSet(featureID);
   }
@@ -7761,6 +7859,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(cleanup);
     result.append(", oSGiCompatible: ");
     result.append(oSGiCompatible);
+    result.append(", eclipsePlatformVersion: ");
+    if (eclipsePlatformVersionESet) result.append(eclipsePlatformVersion); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }
@@ -10240,9 +10340,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
             {
               return GenJDKLevel.JDK70_LITERAL;
             }
-            else
+            else if ("1.8".equals(complianceLevel))
             {
               return GenJDKLevel.JDK80_LITERAL;
+            }
+            else if ("9".equals(complianceLevel))
+            {
+              return GenJDKLevel.JDK90_LITERAL;
             }
           }
         }

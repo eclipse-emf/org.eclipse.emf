@@ -18,6 +18,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDecoration;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind;
+import org.eclipse.emf.codegen.ecore.genmodel.GenEclipsePlatformVersion;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
@@ -209,6 +210,14 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @generated
    */
   private EEnum genDecorationEEnum = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  private EEnum genEclipsePlatformVersionEEnum = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -1161,6 +1170,17 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public EAttribute getGenModel_EclipsePlatformVersion()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(86);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   public EClass getGenPackage()
@@ -2061,6 +2081,17 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public EEnum getGenEclipsePlatformVersion()
+  {
+    return genEclipsePlatformVersionEEnum;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   public GenModelFactory getGenModelFactory()
@@ -2175,6 +2206,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genModelEClass, GEN_MODEL__STYLE_PROVIDERS);
     createEAttribute(genModelEClass, GEN_MODEL__CLEANUP);
     createEAttribute(genModelEClass, GEN_MODEL__OS_GI_COMPATIBLE);
+    createEAttribute(genModelEClass, GEN_MODEL__ECLIPSE_PLATFORM_VERSION);
 
     genPackageEClass = createEClass(GEN_PACKAGE);
     createEAttribute(genPackageEClass, GEN_PACKAGE__PREFIX);
@@ -2280,6 +2312,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     genRuntimeVersionEEnum = createEEnum(GEN_RUNTIME_VERSION);
     genRuntimePlatformEEnum = createEEnum(GEN_RUNTIME_PLATFORM);
     genDecorationEEnum = createEEnum(GEN_DECORATION);
+    genEclipsePlatformVersionEEnum = createEEnum(GEN_ECLIPSE_PLATFORM_VERSION);
   }
 
   /**
@@ -2416,6 +2449,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenModel_StyleProviders(), ecorePackage.getEBoolean(), "styleProviders", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_Cleanup(), ecorePackage.getEBoolean(), "cleanup", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_OSGiCompatible(), theEcorePackage.getEBoolean(), "oSGiCompatible", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_EclipsePlatformVersion(), this.getGenEclipsePlatformVersion(), "eclipsePlatformVersion", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(genPackageEClass, GenPackage.class, "GenPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getGenPackage_Prefix(), ecorePackage.getEString(), "prefix", null, 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2544,6 +2578,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genJDKLevelEEnum, GenJDKLevel.JDK60_LITERAL);
     addEEnumLiteral(genJDKLevelEEnum, GenJDKLevel.JDK70_LITERAL);
     addEEnumLiteral(genJDKLevelEEnum, GenJDKLevel.JDK80_LITERAL);
+    addEEnumLiteral(genJDKLevelEEnum, GenJDKLevel.JDK90_LITERAL);
 
     initEEnum(genRuntimeVersionEEnum, GenRuntimeVersion.class, "GenRuntimeVersion");
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF22);
@@ -2558,6 +2593,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF211);
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF212);
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF213);
+    addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF214);
 
     initEEnum(genRuntimePlatformEEnum, GenRuntimePlatform.class, "GenRuntimePlatform");
     addEEnumLiteral(genRuntimePlatformEEnum, GenRuntimePlatform.IDE);
@@ -2569,6 +2605,15 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genDecorationEEnum, GenDecoration.NONE);
     addEEnumLiteral(genDecorationEEnum, GenDecoration.MANUAL);
     addEEnumLiteral(genDecorationEEnum, GenDecoration.LIVE);
+
+    initEEnum(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.class, "GenEclipsePlatformVersion");
+    addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.JUNO);
+    addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.KEPLER);
+    addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.LUNA);
+    addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.MARS);
+    addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.NEON);
+    addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.OXYGEN);
+    addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.PHOTON);
 
     // Create resource
     createResource(eNS_URI);

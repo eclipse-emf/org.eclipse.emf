@@ -1779,26 +1779,42 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-<%if (genModel.useGenerics()) {%>
+<%if (genModel.useGenerics() && genModel.getEclipsePlatformVersion().getValue() < GenEclipsePlatformVersion.MARS_VALUE) {%>
 	@SuppressWarnings("<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE) {%>rawtypes<%} else {%>unchecked<%}%>")
 <%}%>
 <%if (genModel.useClassOverrideAnnotation()) {%>
 	@Override
 <%}%>
+<%if (genModel.getEclipsePlatformVersion().getValue() >= GenEclipsePlatformVersion.MARS_VALUE) {%>
+	public <T> T getAdapter(Class<T> key)
+<%} else {%>
 	public Object getAdapter(Class key)
+<%}%>
 	{
 		if (key.equals(IContentOutlinePage.class))
 		{
+<%if (genModel.getEclipsePlatformVersion().getValue() >= GenEclipsePlatformVersion.MARS_VALUE) {%>
+			return showOutlineView() ? key.cast(getContentOutlinePage()) : null;
+<%} else {%>
 			return showOutlineView() ? getContentOutlinePage() : null;
+<%}%>
 		}
 		else if (key.equals(IPropertySheetPage.class))
 		{
+<%if (genModel.getEclipsePlatformVersion().getValue() >= GenEclipsePlatformVersion.MARS_VALUE) {%>
+			return key.cast(getPropertySheetPage());
+<%} else {%>
 			return getPropertySheetPage();
+<%}%>
 		}
 <%if (!genModel.isRichClientPlatform()) {%>
 		else if (key.equals(IGotoMarker.class))
 		{
+<%if (genModel.getEclipsePlatformVersion().getValue() >= GenEclipsePlatformVersion.MARS_VALUE) {%>
+			return key.cast(this);
+<%} else {%>
 			return this;
+<%}%>
 		}
 <%}%>
 		else

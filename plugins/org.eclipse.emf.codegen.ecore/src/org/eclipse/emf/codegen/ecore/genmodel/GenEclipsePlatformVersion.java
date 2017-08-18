@@ -1,12 +1,4 @@
 /**
- * Copyright (c) 2006 IBM Corporation and others.
- * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
- *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -18,181 +10,204 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Gen JDK Level</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Gen Eclipse Platform Version</b></em>',
  * and utility methods for working with them.
- * @since 2.3
  * <!-- end-user-doc -->
- * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenJDKLevel()
+ * <!-- begin-model-doc -->
+ * @since 2.14
+ * <!-- end-model-doc -->
+ * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenEclipsePlatformVersion()
  * @model
  * @generated
  */
-public enum GenJDKLevel implements Enumerator
+public enum GenEclipsePlatformVersion implements Enumerator
 {
   /**
-   * The '<em><b>JDK14</b></em>' literal object.
+   * The '<em><b>Juno</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #JDK14
+   * @see #JUNO_VALUE
    * @generated
    * @ordered
    */
-  JDK14_LITERAL(0, "JDK14", "1.4"),
-  /**
-   * The '<em><b>JDK50</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #JDK50
-   * @generated
-   * @ordered
-   */
-  JDK50_LITERAL(1, "JDK50", "5.0"),
-  /**
-   * The '<em><b>JDK60</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #JDK60
-   * @generated
-   * @ordered
-   */
-  JDK60_LITERAL(2, "JDK60", "6.0"), /**
-   * The '<em><b>JDK70</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * @since 2.8
-   * <!-- end-user-doc -->
-   * @see #JDK70
-   * @generated
-   * @ordered
-   */
-  JDK70_LITERAL(3, "JDK70", "7.0"), /**
-   * The '<em><b>JDK80</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #JDK80
-   * @generated
-   * @ordered
-   */
-  JDK80_LITERAL(4, "JDK80", "8.0"), /**
-   * The '<em><b>JDK90</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #JDK90
-   * @since 2.14
-   * @generated
-   * @ordered
-   */
-  JDK90_LITERAL(5, "JDK90", "9.0");
-  /**
-   * The '<em><b>JDK14</b></em>' literal value.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #JDK14_LITERAL
-   * @model literal="1.4"
-   * @generated
-   * @ordered
-   */
-  public static final int JDK14 = 0;
+  JUNO(0, "Juno", "Juno"),
 
   /**
-   * The '<em><b>JDK50</b></em>' literal value.
+   * The '<em><b>Kepler</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #JDK50_LITERAL
-   * @model literal="5.0"
+   * @see #KEPLER_VALUE
    * @generated
    * @ordered
    */
-  public static final int JDK50 = 1;
+  KEPLER(1, "Kepler", "Kepler"),
 
   /**
-   * The '<em><b>JDK60</b></em>' literal value.
+   * The '<em><b>Luna</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #JDK60_LITERAL
-   * @model literal="6.0"
+   * @see #LUNA_VALUE
    * @generated
    * @ordered
    */
-  public static final int JDK60 = 2;
+  LUNA(2, "Luna", "Luna"),
 
   /**
-   * The '<em><b>JDK70</b></em>' literal value.
+   * The '<em><b>Mars</b></em>' literal object.
    * <!-- begin-user-doc -->
-   * <p>
-   * @since 2.8
-   * </p>
    * <!-- end-user-doc -->
-   * @see #JDK70_LITERAL
-   * @model literal="7.0"
+   * @see #MARS_VALUE
    * @generated
    * @ordered
    */
-  public static final int JDK70 = 3;
+  MARS(3, "Mars", "Mars"),
 
   /**
-   * The '<em><b>JDK80</b></em>' literal value.
+   * The '<em><b>Neon</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #JDK80_LITERAL
-   * @model literal="8.0"
+   * @see #NEON_VALUE
    * @generated
    * @ordered
    */
-  public static final int JDK80 = 4;
+  NEON(4, "Neon", "Neon"),
 
   /**
-   * The '<em><b>JDK90</b></em>' literal value.
+   * The '<em><b>Oxygen</b></em>' literal object.
    * <!-- begin-user-doc -->
-   * <p>
-   * </p>
    * <!-- end-user-doc -->
-   * <!-- begin-model-doc -->
-   * @since 2.14
-   * <!-- end-model-doc -->
-   * @see #JDK90_LITERAL
-   * @model literal="9.0"
+   * @see #OXYGEN_VALUE
    * @generated
    * @ordered
    */
-  public static final int JDK90 = 5;
+  OXYGEN(5, "Oxygen", "Oxygen"),
 
   /**
-   * An array of all the '<em><b>Gen JDK Level</b></em>' enumerators.
+   * The '<em><b>Photon</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #PHOTON_VALUE
+   * @generated
+   * @ordered
+   */
+  PHOTON(6, "Photon", "Photon");
+
+  /**
+   * The '<em><b>Juno</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #JUNO
+   * @model name="Juno"
+   * @generated
+   * @ordered
+   */
+  public static final int JUNO_VALUE = 0;
+
+  /**
+   * The '<em><b>Kepler</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #KEPLER
+   * @model name="Kepler"
+   * @generated
+   * @ordered
+   */
+  public static final int KEPLER_VALUE = 1;
+
+  /**
+   * The '<em><b>Luna</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #LUNA
+   * @model name="Luna"
+   * @generated
+   * @ordered
+   */
+  public static final int LUNA_VALUE = 2;
+
+  /**
+   * The '<em><b>Mars</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #MARS
+   * @model name="Mars"
+   * @generated
+   * @ordered
+   */
+  public static final int MARS_VALUE = 3;
+
+  /**
+   * The '<em><b>Neon</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #NEON
+   * @model name="Neon"
+   * @generated
+   * @ordered
+   */
+  public static final int NEON_VALUE = 4;
+
+  /**
+   * The '<em><b>Oxygen</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #OXYGEN
+   * @model name="Oxygen"
+   * @generated
+   * @ordered
+   */
+  public static final int OXYGEN_VALUE = 5;
+
+  /**
+   * The '<em><b>Photon</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #PHOTON
+   * @model name="Photon"
+   * @generated
+   * @ordered
+   */
+  public static final int PHOTON_VALUE = 6;
+
+  /**
+   * An array of all the '<em><b>Gen Eclipse Platform Version</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  private static final GenJDKLevel[] VALUES_ARRAY =
-    new GenJDKLevel[]
+  private static final GenEclipsePlatformVersion[] VALUES_ARRAY =
+    new GenEclipsePlatformVersion[]
     {
-      JDK14_LITERAL,
-      JDK50_LITERAL,
-      JDK60_LITERAL,
-      JDK70_LITERAL,
-      JDK80_LITERAL,
-      JDK90_LITERAL,
+      JUNO,
+      KEPLER,
+      LUNA,
+      MARS,
+      NEON,
+      OXYGEN,
+      PHOTON,
     };
 
   /**
-   * A public read-only list of all the '<em><b>Gen JDK Level</b></em>' enumerators.
+   * A public read-only list of all the '<em><b>Gen Eclipse Platform Version</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final List<GenJDKLevel> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<GenEclipsePlatformVersion> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Gen JDK Level</b></em>' literal with the specified literal value.
+   * Returns the '<em><b>Gen Eclipse Platform Version</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param literal the literal.
    * @return the matching enumerator or <code>null</code>.
    * @generated
    */
-  public static GenJDKLevel get(String literal)
+  public static GenEclipsePlatformVersion get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
-      GenJDKLevel result = VALUES_ARRAY[i];
+      GenEclipsePlatformVersion result = VALUES_ARRAY[i];
       if (result.toString().equals(literal))
       {
         return result;
@@ -202,18 +217,18 @@ public enum GenJDKLevel implements Enumerator
   }
 
   /**
-   * Returns the '<em><b>Gen JDK Level</b></em>' literal with the specified name.
+   * Returns the '<em><b>Gen Eclipse Platform Version</b></em>' literal with the specified name.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param name the name.
    * @return the matching enumerator or <code>null</code>.
    * @generated
    */
-  public static GenJDKLevel getByName(String name)
+  public static GenEclipsePlatformVersion getByName(String name)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
-      GenJDKLevel result = VALUES_ARRAY[i];
+      GenEclipsePlatformVersion result = VALUES_ARRAY[i];
       if (result.getName().equals(name))
       {
         return result;
@@ -223,23 +238,24 @@ public enum GenJDKLevel implements Enumerator
   }
 
   /**
-   * Returns the '<em><b>Gen JDK Level</b></em>' literal with the specified integer value.
+   * Returns the '<em><b>Gen Eclipse Platform Version</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the integer value.
    * @return the matching enumerator or <code>null</code>.
    * @generated
    */
-  public static GenJDKLevel get(int value)
+  public static GenEclipsePlatformVersion get(int value)
   {
     switch (value)
     {
-      case JDK14: return JDK14_LITERAL;
-      case JDK50: return JDK50_LITERAL;
-      case JDK60: return JDK60_LITERAL;
-      case JDK70: return JDK70_LITERAL;
-      case JDK80: return JDK80_LITERAL;
-      case JDK90: return JDK90_LITERAL;
+      case JUNO_VALUE: return JUNO;
+      case KEPLER_VALUE: return KEPLER;
+      case LUNA_VALUE: return LUNA;
+      case MARS_VALUE: return MARS;
+      case NEON_VALUE: return NEON;
+      case OXYGEN_VALUE: return OXYGEN;
+      case PHOTON_VALUE: return PHOTON;
     }
     return null;
   }
@@ -271,7 +287,7 @@ public enum GenJDKLevel implements Enumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  private GenJDKLevel(int value, String name, String literal)
+  private GenEclipsePlatformVersion(int value, String name, String literal)
   {
     this.value = value;
     this.name = name;
@@ -319,4 +335,5 @@ public enum GenJDKLevel implements Enumerator
   {
     return literal;
   }
-}
+  
+} //GenEclipsePlatformVersion

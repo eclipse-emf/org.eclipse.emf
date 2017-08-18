@@ -116,6 +116,8 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
         return createGenRuntimePlatformFromString(eDataType, initialValue);
       case GenModelPackage.GEN_DECORATION:
         return createGenDecorationFromString(eDataType, initialValue);
+      case GenModelPackage.GEN_ECLIPSE_PLATFORM_VERSION:
+        return createGenEclipsePlatformVersionFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -147,6 +149,8 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
         return convertGenRuntimePlatformToString(eDataType, instanceValue);
       case GenModelPackage.GEN_DECORATION:
         return convertGenDecorationToString(eDataType, instanceValue);
+      case GenModelPackage.GEN_ECLIPSE_PLATFORM_VERSION:
+        return convertGenEclipsePlatformVersionToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -445,6 +449,30 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * @generated
    */
   public String convertGenDecorationToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public GenEclipsePlatformVersion createGenEclipsePlatformVersionFromString(EDataType eDataType, String initialValue)
+  {
+    GenEclipsePlatformVersion result = GenEclipsePlatformVersion.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public String convertGenEclipsePlatformVersionToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }

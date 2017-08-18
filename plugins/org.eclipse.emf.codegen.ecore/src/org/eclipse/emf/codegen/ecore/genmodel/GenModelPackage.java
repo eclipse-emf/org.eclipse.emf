@@ -902,13 +902,23 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__OS_GI_COMPATIBLE = GEN_BASE_FEATURE_COUNT + 85;
 
   /**
+   * The feature id for the '<em><b>Eclipse Platform Version</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__ECLIPSE_PLATFORM_VERSION = GEN_BASE_FEATURE_COUNT + 86;
+
+  /**
    * The number of structural features of the '<em>Gen Model</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 86;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 87;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -2010,6 +2020,18 @@ public interface GenModelPackage extends EPackage
 
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenEclipsePlatformVersion <em>Gen Eclipse Platform Version</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenEclipsePlatformVersion
+   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenEclipsePlatformVersion()
+   * @since 2.14
+   * @generated
+   */
+  int GEN_ECLIPSE_PLATFORM_VERSION = 22;
+
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel <em>Gen Model</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2965,6 +2987,18 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   EAttribute getGenModel_OSGiCompatible();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEclipsePlatformVersion <em>Eclipse Platform Version</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Eclipse Platform Version</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEclipsePlatformVersion()
+   * @see #getGenModel()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenModel_EclipsePlatformVersion();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage <em>Gen Package</em>}'.
@@ -3936,6 +3970,17 @@ public interface GenModelPackage extends EPackage
   EEnum getGenDecoration();
 
   /**
+   * Returns the meta object for enum '{@link org.eclipse.emf.codegen.ecore.genmodel.GenEclipsePlatformVersion <em>Gen Eclipse Platform Version</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for enum '<em>Gen Eclipse Platform Version</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenEclipsePlatformVersion
+   * @since 2.14
+   * @generated
+   */
+  EEnum getGenEclipsePlatformVersion();
+
+  /**
    * Returns the factory that creates the instances of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4656,6 +4701,15 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_MODEL__OS_GI_COMPATIBLE = eINSTANCE.getGenModel_OSGiCompatible();
+
+    /**
+     * The meta object literal for the '<em><b>Eclipse Platform Version</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_MODEL__ECLIPSE_PLATFORM_VERSION = eINSTANCE.getGenModel_EclipsePlatformVersion();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -5418,6 +5472,17 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EEnum GEN_DECORATION = eINSTANCE.getGenDecoration();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenEclipsePlatformVersion <em>Gen Eclipse Platform Version</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.GenEclipsePlatformVersion
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenEclipsePlatformVersion()
+     * @since 2.14
+     * @generated
+     */
+    EEnum GEN_ECLIPSE_PLATFORM_VERSION = eINSTANCE.getGenEclipsePlatformVersion();
 
   }
 

@@ -39,6 +39,7 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenJDKLevel/JDK60"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenJDKLevel/JDK70"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenJDKLevel/JDK80"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenJDKLevel/JDK90"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenRuntimeVersion">
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF22"/>
@@ -53,6 +54,7 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF211"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF212"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF213"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF214"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenRuntimePlatform">
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimePlatform/IDE"/>
@@ -64,6 +66,15 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenDecoration/None"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenDecoration/Manual"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenDecoration/Live"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenEclipsePlatformVersion">
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Juno"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Kepler"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Luna"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Mars"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Neon"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Oxygen"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Photon"/>
     </genEnums>
     <genClasses ecoreClass="GenModel.ecore#//GenModel">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="A copyright string to appear in the header of each generated artifact"
@@ -233,6 +244,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/cleanup"/>
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="Whether to generate bundles that are purely compatible with any OSGi runtime implementation"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/oSGiCompatible"/>
+      <genFeatures createChild="false" propertyCategory="All" propertyDescription="The version of the Eclipse runtime against which to target the generated code for an RCP or IDE runtime platform"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/eclipsePlatformVersion"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenPackage">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The prefix for names of several packaged-related classes, including package, factory, switch, and adapter factory"

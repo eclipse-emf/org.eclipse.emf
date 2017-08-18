@@ -66,7 +66,7 @@ public interface GenAnnotation extends GenBase
    * <!-- end-user-doc -->
    * @return the value of the '<em>Details</em>' map.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenAnnotation_Details()
-   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
+   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry&lt;org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString&gt;"
    * @generated
    */
   EMap<String, String> getDetails();
