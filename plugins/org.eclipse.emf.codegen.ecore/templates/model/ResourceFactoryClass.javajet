@@ -12,6 +12,7 @@
  */
 %>
 <%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();%>
+<%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getUtilitiesPackageName()%>;
 
@@ -24,8 +25,14 @@ package <%=genPackage.getUtilitiesPackageName()%>;
  * The <b>Resource Factory</b> associated with the package.
  * <!-- end-user-doc -->
  * @see <%=genPackage.getQualifiedResourceClassName()%>
+<%if (genPackage.hasAPITags()) {%>
+ * <%=genPackage.getAPITags(genModel.getIndentation(stringBuffer))%>
+<%}%>
  * @generated
  */
+<%if (isJDK50 && genPackage.hasAPIDeprecatedTag()) {%>
+@Deprecated
+<%}%>
 public class <%=genPackage.getResourceFactoryClassName()%> extends <%=genPackage.getImportedResourceFactoryBaseClassName()%>
 {
 <%if (genModel.hasCopyrightField()) {%>

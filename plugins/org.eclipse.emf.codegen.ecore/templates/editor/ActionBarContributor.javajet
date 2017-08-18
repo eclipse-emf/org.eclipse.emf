@@ -12,6 +12,7 @@
  */
 %>
 <%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();%>
+<%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
 <%
 String _CollectionOfAnything = null;
 String _CollectionOfIAction = null;
@@ -45,8 +46,14 @@ package <%=genPackage.getPresentationPackageName()%>;
  * This is the action bar contributor for the <%=genPackage.getPrefix()%> model editor.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
+<%if (genPackage.hasAPITags()) {%>
+ * <%=genPackage.getAPITags(genModel.getIndentation(stringBuffer))%>
+<%}%>
  * @generated
  */
+<%if (isJDK50 && genPackage.hasAPIDeprecatedTag()) {%>
+@Deprecated
+<%}%>
 public class <%=genPackage.getActionBarContributorClassName()%>
 	extends <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor")%>
 	implements <%=genModel.getImportedName("org.eclipse.jface.viewers.ISelectionChangedListener")%>

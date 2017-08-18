@@ -4785,4 +4785,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     int i = extensions.indexOf(',');
     return i == -1 ? extensions : extensions.substring(0, i);
   }
+
+  @Override
+  protected String getLink()
+  {
+    return getQualifiedPackageInterfaceName();
+  }
 } //GenPackageImpl

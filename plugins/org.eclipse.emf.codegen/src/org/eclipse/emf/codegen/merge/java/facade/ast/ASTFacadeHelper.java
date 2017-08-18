@@ -337,7 +337,7 @@ public class ASTFacadeHelper extends FacadeHelper
           CodeGenPlugin.INSTANCE.getString("_UI_LineNumber_message", new Object[] {problem.getSourceLineNumber()});
         
         BasicDiagnostic childDiagnostic = new BasicDiagnostic(
-          problem.isWarning() ? Diagnostic.WARNING : Diagnostic.ERROR,
+          problem.isWarning() ? Diagnostic.WARNING : problem.isError() ? Diagnostic.ERROR : Diagnostic.INFO,
           CodeGenPlugin.ID,
           0,
           message.toString(),

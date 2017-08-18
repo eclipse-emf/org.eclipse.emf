@@ -12,6 +12,7 @@
  */
 %>
 <%GenModel genModel = (GenModel)argument;%>
+<%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genModel.getModelPluginPackageName()%>;
 
@@ -23,8 +24,14 @@ package <%=genModel.getModelPluginPackageName()%>;
  * This is the central singleton for the <%=genModel.getModelName()%> model plugin.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
+<%if (genModel.hasAPITags()) {%>
+ * <%=genModel.getAPITags(genModel.getIndentation(stringBuffer))%>
+<%}%>
  * @generated
  */
+<%if (isJDK50 && genModel.hasAPIDeprecatedTag()) {%>
+@Deprecated
+<%}%>
 public final class <%=genModel.getModelPluginClassName()%> extends EMFPlugin
 {
 <%if (genModel.hasCopyrightField()) {%>

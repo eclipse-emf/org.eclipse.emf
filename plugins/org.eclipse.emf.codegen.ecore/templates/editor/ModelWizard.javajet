@@ -12,6 +12,7 @@
  */
 %>
 <%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();%>
+<%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
 <%@ include file="../Header.javajetinc"%>
 <%String _ListOfString = "List" + (genModel.useGenerics() ? "<" + genModel.getImportedName("java.lang.String") + ">" : "");%>
 <%String _ArrayListOfString = "ArrayList" + (genModel.useGenerics() ? "<" + genModel.getImportedName("java.lang.String") + ">" : "");%>
@@ -110,8 +111,14 @@ import <%=genPackage.getQualifiedEditPluginClassName()%>;
  * This is a simple wizard for creating a new model file.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
+<%if (genPackage.hasAPITags()) {%>
+ * <%=genPackage.getAPITags(genModel.getIndentation(stringBuffer))%>
+<%}%>
  * @generated
  */
+<%if (isJDK50 && genPackage.hasAPIDeprecatedTag()) {%>
+@Deprecated
+<%}%>
 public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements INewWizard
 {
 <%if (genModel.hasCopyrightField()) {%>

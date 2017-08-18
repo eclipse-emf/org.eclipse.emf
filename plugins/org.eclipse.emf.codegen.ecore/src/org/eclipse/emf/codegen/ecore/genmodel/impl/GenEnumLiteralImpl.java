@@ -427,4 +427,10 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
       return true;
     }
   }
+
+  @Override
+  protected String getLink()
+  {
+    return getGenEnum().getQualifiedInstanceClassName() + "#" + getEnumLiteralValueConstantName();
+  }
 }

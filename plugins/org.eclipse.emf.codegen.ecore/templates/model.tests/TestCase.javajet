@@ -12,6 +12,7 @@
  */
 %>
 <%GenClass genClass = (GenClass)argument; GenPackage genPackage = genClass.getGenPackage(); GenModel genModel=genPackage.getGenModel(); /* Trick to import java.util.* without warnings */Iterator.class.getName();%>
+<%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getTestsPackageName()%>;
 
@@ -51,8 +52,14 @@ package <%=genPackage.getTestsPackageName()%>;
  * </p>
   <%}%>
 <%}%>
+<%if (genClass.hasImplicitAPITags()) {%>
+ * <%=genClass.getImplicitAPITags(genModel.getIndentation(stringBuffer))%>
+<%}%>
  * @generated
  */
+<%if (isJDK50 && genClass.hasImplicitAPIDeprecatedTag()) {%>
+@Deprecated
+<%}%>
 public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCaseClassName()%> extends <%=genClass.isModelRoot() ? genModel.getImportedName("junit.framework.TestCase") : genClass.getClassExtendsGenClass().getImportedTestCaseClassName()%>
 {
 <%if (genModel.hasCopyrightField()) {%>
@@ -187,10 +194,16 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%>()
+      <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+      <%}%>
 	 * @generated
 	 */
       <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/getGenFeature.annotations.insert.javajetinc%>
 <%@ include file="TestCase/getGenFeature.annotations.insert.javajetinc" fail="silent" %>
+      <%}%>
+      <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
       <%}%>
 	public void test<%=genModel.capName(genFeature.getGetAccessor())%>()
 	{
@@ -212,10 +225,16 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#set<%=genFeature.getAccessorName()%>(<%=genFeature.getRawBoundType()%>)
+      <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+      <%}%>
 	 * @generated
 	 */
       <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/setGenFeature.annotations.insert.javajetinc%>
 <%@ include file="TestCase/setGenFeature.annotations.insert.javajetinc" fail="silent" %>
+      <%}%>
+      <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
       <%}%>
 	public void testSet<%=genFeature.getAccessorName()%>()
 	{
@@ -237,10 +256,16 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#unset<%=genFeature.getAccessorName()%>()
+      <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+      <%}%>
 	 * @generated
 	 */
       <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/unsetGenFeature.annotations.insert.javajetinc%>
 <%@ include file="TestCase/unsetGenFeature.annotations.insert.javajetinc" fail="silent" %>
+      <%}%>
+      <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
       <%}%>
 	public void testUnset<%=genFeature.getAccessorName()%>()
 	{
@@ -262,10 +287,16 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#isSet<%=genFeature.getAccessorName()%>()
+      <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+      <%}%>
 	 * @generated
 	 */
       <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/isSetGenFeature.annotations.insert.javajetinc%>
 <%@ include file="TestCase/isSetGenFeature.annotations.insert.javajetinc" fail="silent" %>
+      <%}%>
+      <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
       <%}%>
 	public void testIsSet<%=genFeature.getAccessorName()%>()
 	{
@@ -291,11 +322,17 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see <%=genOperation.getGenClass().getQualifiedInterfaceName()%>#<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>)
+      <%if (genOperation.hasAPITags()) {%>
+	 * <%=genOperation.getAPITags(genModel.getIndentation(stringBuffer))%>
+      <%}%>
 	 * @generated
 	 */
   <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/genOperation.annotations.insert.javajetinc%>
 <%@ include file="TestCase/genOperation.annotations.insert.javajetinc" fail="silent" %>
   <%}%>
+      <%if (isJDK50 && genOperation.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+      <%}%>
 	public void test<%=genClass.getUniqueName(genOperation)%>()
 	{
 <%@ include file="TestCase/implementedGenOperation.TODO.override.javajetinc" fail="alternative" %>

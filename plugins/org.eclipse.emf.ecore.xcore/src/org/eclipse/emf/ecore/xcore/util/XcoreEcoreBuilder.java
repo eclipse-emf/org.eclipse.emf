@@ -206,6 +206,7 @@ public class XcoreEcoreBuilder
 
   protected void handleAnnotations(final XModelElement xModelElement, final EModelElement eModelElement)
   {
+    Map<String, DeferredEAnnotationImpl> specialAnnotations = new HashMap<String, XcoreEcoreBuilder.DeferredEAnnotationImpl>();
     ICompositeNode node = NodeModelUtils.getNode(xModelElement);
     if (node != null)
     {
@@ -244,7 +245,11 @@ public class XcoreEcoreBuilder
               }
               if (comment != null)
               {
-                EcoreUtil.setDocumentation(eModelElement, comment.toString());
+                DeferredEAnnotationImpl eAnnotation = new DeferredEAnnotationImpl(null);
+                eAnnotation.setSource(GenModelPackage.eNS_URI);
+                eModelElement.getEAnnotations().add(eAnnotation);
+                eAnnotation.getDetails().put("documentation", comment.toString());
+                specialAnnotations.put(GenModelPackage.eNS_URI, eAnnotation);
               }
             }
             break;
@@ -257,7 +262,6 @@ public class XcoreEcoreBuilder
       }
     }
 
-    Map<String, DeferredEAnnotationImpl> specialAnnotations = new HashMap<String, XcoreEcoreBuilder.DeferredEAnnotationImpl>();
     EList<EAnnotation> eAnnotations = eModelElement.getEAnnotations();
     for (XAnnotation xAnnotation : xModelElement.getAnnotations())
     {
@@ -1084,7 +1088,7 @@ public class XcoreEcoreBuilder
 
     public void initialize()
     {
-      if (needsInitialization)
+      if (needsInitialization && xAnnotation != null)
       {
         needsInitialization = false;
         XAnnotationDirective source = xAnnotation.getSource();

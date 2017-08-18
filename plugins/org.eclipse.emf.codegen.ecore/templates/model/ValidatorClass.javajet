@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass"%>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil" class="ValidatorClass"%>
 <%
 /**
  * Copyright (c) 2002-2013 IBM Corporation and others.
@@ -12,6 +12,7 @@
  */
 %>
 <%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();%>
+<%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
 <%final String singleWildcard = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50 ? "<?>" : "";%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getUtilitiesPackageName()%>;
@@ -33,8 +34,16 @@ package <%=genPackage.getUtilitiesPackageName()%>;
  * The <b>Validator</b> for the model.
  * <!-- end-user-doc -->
  * @see <%=genPackage.getQualifiedPackageInterfaceName()%>
+<%if (genPackage.hasAPITags()) {%>
+ * <%=genPackage.getAPITags(genModel.getIndentation(stringBuffer))%>
+<%}%>
  * @generated
  */
+<%if (isJDK50 && genPackage.hasAPIDeprecatedTag()) {%>
+@Deprecated
+<%} else if (isJDK50 && GenModelUtil.hasAPIDeprecatedTag(genPackage.getGenClassifiers())) {%>
+@SuppressWarnings("deprecation")
+<%}%>
 public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImportedName("org.eclipse.emf.ecore.util.EObjectValidator")%>
 {
 <%if (genModel.hasCopyrightField()) {%>
@@ -187,8 +196,14 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+    <%if (genClassifier.hasAPITags()) {%>
+	 * <%=genClassifier.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
+  <%if (isJDK50 && genClassifier.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+  <%}%>
 	public boolean validate<%=genClassifier.getName()%>(<%=genClassifier.getImportedWildcardInstanceClassName()%> <%=genClassifier.getSafeUncapName()%>, DiagnosticChain <%=diagnostics%>, <%=_Map%> <%=context%>)
 	{
 <%if (genClassifier.getAllGenConstraints().isEmpty()) {%>

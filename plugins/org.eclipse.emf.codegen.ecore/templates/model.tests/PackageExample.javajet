@@ -12,6 +12,7 @@
  */
 %>
 <%GenPackage genPackage = (GenPackage)argument; GenModel genModel = genPackage.getGenModel();%>
+<%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
 <%
 String _System = genModel.getImportedName("java.lang.System");
 String _String = genModel.getImportedName("java.lang.String");
@@ -38,8 +39,16 @@ package <%=genPackage.getTestsPackageName()%>;
  * <!-- begin-user-doc -->
  * A sample utility for the '<em><b><%=genPackage.getPackageName()%></b></em>' package.
  * <!-- end-user-doc -->
+<%if (genPackage.hasAPITags()) {%>
+ * <%=genPackage.getAPITags(genModel.getIndentation(stringBuffer))%>
+<%}%>
  * @generated
  */
+<%if (isJDK50 && genPackage.hasAPIDeprecatedTag()) {%>
+@Deprecated
+<%} else if (isJDK50 && genPackage.getRootClass() != null && genPackage.getRootClass().hasAPIDeprecatedTag()) {%>
+@SuppressWarnings("deprecation")
+<%}%>
 public class <%=genPackage.getExampleClassName()%>
 {
 <%if (genModel.hasCopyrightField()) {%>

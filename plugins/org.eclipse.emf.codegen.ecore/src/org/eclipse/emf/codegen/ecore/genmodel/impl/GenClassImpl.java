@@ -3894,4 +3894,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
     }
   }
+
+  @Override
+  protected String getLink()
+  {
+    return getImportedInterfaceName();
+  }
 }

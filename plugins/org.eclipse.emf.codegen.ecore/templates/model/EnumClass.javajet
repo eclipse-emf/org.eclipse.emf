@@ -12,6 +12,7 @@
  */
 %>
 <%GenEnum genEnum = (GenEnum)argument; GenPackage genPackage = genEnum.getGenPackage(); GenModel genModel=genPackage.getGenModel();%>
+<%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getInterfacePackageName()%>;
 
@@ -39,8 +40,14 @@ package <%=genPackage.getInterfacePackageName()%>;
 <%}} if (first) {%>
  * @model
 <%}}%>
+<%if (genEnum.hasImplicitAPITags(true)) {%>
+ * <%=genEnum.getImplicitAPITags(genModel.getIndentation(stringBuffer), true)%>
+<%}%>
  * @generated
  */
+<%if (isJDK50 && genEnum.hasImplicitAPIDeprecatedTag()) {%>
+@Deprecated
+<%}%>
 public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> <%if (isEnum) {%>implements<%} else {%>extends<%}%> <%=genModel.isSuppressEMFMetaData() && !genModel.isSuppressInterfaces() ? "Internal" + genEnum.getName() : genModel.getImportedName(isEnum ? "org.eclipse.emf.common.util.Enumerator" : "org.eclipse.emf.common.util.AbstractEnumerator")%>
 {
 <%if (isEnum) {%>
@@ -54,9 +61,15 @@ public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> 
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #<%=genEnumLiteral.getEnumLiteralValueConstantName()%>
+      <%if (genEnumLiteral.hasAPITags()) {%>
+	 * <%=genEnumLiteral.getAPITags(genModel.getIndentation(stringBuffer))%>
+      <%}%>
 	 * @generated
 	 * @ordered
 	 */
+      <%if (isJDK50 && genEnumLiteral.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+      <%}%>
 	<%=genEnumLiteral.getEnumLiteralInstanceConstantName()%>(<%=genEnumLiteral.getValue()%>, "<%=genEnumLiteral.getName()%>", <%=Literals.toStringLiteral(genEnumLiteral.getLiteral(), genModel)%>)<%if (l.hasNext()) {%>,<%} else {%>;<%}%><%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 
     <%}%>
@@ -98,6 +111,9 @@ public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> 
 	 * @generated
 	 * @ordered
 	 */
+<%if (isJDK50 && genEnumLiteral.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+<%}%>
 	public static final int <%=genEnumLiteral.getEnumLiteralValueConstantName()%> = <%=genEnumLiteral.getValue()%>;
 
 <%}%>
@@ -107,9 +123,15 @@ public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> 
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #<%=genEnumLiteral.getEnumLiteralValueConstantName()%>
+  <%if (genEnumLiteral.hasAPITags()) {%>
+	 * <%=genEnumLiteral.getAPITags(genModel.getIndentation(stringBuffer))%>
+  <%}%>
 	 * @generated
 	 * @ordered
 	 */
+<%if (isJDK50 && genEnumLiteral.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+<%}%>
 	public static final <%=genEnum.getName()%> <%=genEnumLiteral.getEnumLiteralInstanceConstantName()%> = new <%=genEnum.getName()%>(<%=genEnumLiteral.getEnumLiteralValueConstantName()%>, "<%=genEnumLiteral.getName()%>", <%=Literals.toStringLiteral(genEnumLiteral.getLiteral(), genModel)%>);<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 
 <%}%>

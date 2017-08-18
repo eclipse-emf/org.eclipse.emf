@@ -1250,4 +1250,10 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   {
     return indentAndImport(getConverterBody(), indentation);
   }
+
+  @Override
+  protected String getLink()
+  {
+    return getGenPackage().getQualifiedPackageInterfaceName() + "#get" + getClassifierAccessorName() + "()";
+  }
 }

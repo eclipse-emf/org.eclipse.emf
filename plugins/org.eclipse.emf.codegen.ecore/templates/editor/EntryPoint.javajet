@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EntryPoint"%>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil" class="EntryPoint"%>
 <%
 /**
  * Copyright (c) 20010 Ed Merks and others.
@@ -12,6 +12,7 @@
  */
 %>
 <%GenModel genModel = (GenModel)argument; /* Trick to import java.util.* without warnings */Iterator.class.getName();%>
+<%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genModel.getEditorPluginPackageName()%>;
 
@@ -22,8 +23,16 @@ import org.eclipse.emf.edit.ui.EditorEntryPoint;
  * This is the entry point.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
+<%if (genModel.hasAPITags()) {%>
+ * <%=genModel.getAPITags(genModel.getIndentation(stringBuffer))%>
+<%}%>
  * @generated
  */
+<%if (isJDK50 && genModel.hasAPIDeprecatedTag()) {%>
+@Deprecated
+<%} else if (isJDK50 && GenModelUtil.hasAPIDeprecatedTag(genModel.getAllGenAndUsedGenPackagesWithClassifiers())) {%>
+@SuppressWarnings("deprecation")
+<%}%>
 public class <%=genModel.getEditorEntryPointClassName()%> extends EditorEntryPoint
 {
 <%if (genModel.hasCopyrightField()) {%>

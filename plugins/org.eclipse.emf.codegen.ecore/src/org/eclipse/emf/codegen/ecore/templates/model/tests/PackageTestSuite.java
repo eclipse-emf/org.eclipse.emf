@@ -21,23 +21,28 @@ public class PackageTestSuite
   protected final String TEXT_4 = NL + " */" + NL + "package ";
   protected final String TEXT_5 = ";" + NL;
   protected final String TEXT_6 = NL + NL + "/**" + NL + " * <!-- begin-user-doc -->" + NL + " * A test suite for the '<em><b>";
-  protected final String TEXT_7 = "</b></em>' package." + NL + " * <!-- end-user-doc -->" + NL + " * @generated" + NL + " */" + NL + "public class ";
-  protected final String TEXT_8 = " extends ";
-  protected final String TEXT_9 = NL + "{";
-  protected final String TEXT_10 = NL + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static final ";
-  protected final String TEXT_11 = " copyright = ";
-  protected final String TEXT_12 = ";";
-  protected final String TEXT_13 = NL + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static void main(String[] args)" + NL + "\t{" + NL + "\t\t";
-  protected final String TEXT_14 = ".run(suite());" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static ";
-  protected final String TEXT_15 = " suite()" + NL + "\t{" + NL + "\t\t";
-  protected final String TEXT_16 = " suite = new ";
-  protected final String TEXT_17 = "(\"";
-  protected final String TEXT_18 = " Tests\");";
-  protected final String TEXT_19 = NL + "\t\tsuite.addTestSuite(";
-  protected final String TEXT_20 = ".class);";
-  protected final String TEXT_21 = NL + "\t\treturn suite;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
-  protected final String TEXT_22 = "(String name)" + NL + "\t{" + NL + "\t\tsuper(name);" + NL + "\t}" + NL + "" + NL + "} //";
-  protected final String TEXT_23 = NL;
+  protected final String TEXT_7 = "</b></em>' package." + NL + " * <!-- end-user-doc -->";
+  protected final String TEXT_8 = NL + " * ";
+  protected final String TEXT_9 = NL + " * @generated" + NL + " */";
+  protected final String TEXT_10 = NL + "@Deprecated";
+  protected final String TEXT_11 = NL + "@SuppressWarnings(\"deprecation\")";
+  protected final String TEXT_12 = NL + "public class ";
+  protected final String TEXT_13 = " extends ";
+  protected final String TEXT_14 = NL + "{";
+  protected final String TEXT_15 = NL + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static final ";
+  protected final String TEXT_16 = " copyright = ";
+  protected final String TEXT_17 = ";";
+  protected final String TEXT_18 = NL + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static void main(String[] args)" + NL + "\t{" + NL + "\t\t";
+  protected final String TEXT_19 = ".run(suite());" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static ";
+  protected final String TEXT_20 = " suite()" + NL + "\t{" + NL + "\t\t";
+  protected final String TEXT_21 = " suite = new ";
+  protected final String TEXT_22 = "(\"";
+  protected final String TEXT_23 = " Tests\");";
+  protected final String TEXT_24 = NL + "\t\tsuite.addTestSuite(";
+  protected final String TEXT_25 = ".class);";
+  protected final String TEXT_26 = NL + "\t\treturn suite;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
+  protected final String TEXT_27 = "(String name)" + NL + "\t{" + NL + "\t\tsuper(name);" + NL + "\t}" + NL + "" + NL + "} //";
+  protected final String TEXT_28 = NL;
 
   public String generate(Object argument)
   {
@@ -55,6 +60,7 @@ public class PackageTestSuite
  */
 
     GenPackage genPackage = (GenPackage)argument; GenModel genModel = genPackage.getGenModel(); /* Trick to import java.util.* without warnings */Iterator.class.getName();
+    final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;
     stringBuffer.append(TEXT_1);
     stringBuffer.append(TEXT_2);
     {GenBase copyrightHolder = argument instanceof GenBase ? (GenBase)argument : argument instanceof Object[] && ((Object[])argument)[0] instanceof GenBase ? (GenBase)((Object[])argument)[0] : null;
@@ -69,43 +75,57 @@ public class PackageTestSuite
     stringBuffer.append(TEXT_6);
     stringBuffer.append(genPackage.getPackageName());
     stringBuffer.append(TEXT_7);
-    stringBuffer.append(genPackage.getTestSuiteClassName());
+    if (genPackage.hasAPITags()) {
     stringBuffer.append(TEXT_8);
-    stringBuffer.append(genModel.getImportedName("junit.framework.TestSuite"));
+    stringBuffer.append(genPackage.getAPITags(genModel.getIndentation(stringBuffer)));
+    }
     stringBuffer.append(TEXT_9);
-    if (genModel.hasCopyrightField()) {
+    if (isJDK50 && genPackage.hasAPIDeprecatedTag()) {
     stringBuffer.append(TEXT_10);
-    stringBuffer.append(genModel.getImportedName("java.lang.String"));
+    } else if (isJDK50) {
+  boolean needsSuppressDeprecation = false;
+  for (GenClass genClass : genPackage.getGenClasses()) { if (!genClass.isExternalInterface() && !genClass.isAbstract() && genClass.hasTests() && genClass.hasImplicitAPIDeprecatedTag()) { needsSuppressDeprecation = true; break; }} 
+  if (needsSuppressDeprecation) {
     stringBuffer.append(TEXT_11);
-    stringBuffer.append(genModel.getCopyrightFieldLiteral());
+    }}
     stringBuffer.append(TEXT_12);
-    stringBuffer.append(genModel.getNonNLS());
-    }
-    stringBuffer.append(TEXT_13);
-    stringBuffer.append(genModel.getImportedName("junit.textui.TestRunner"));
-    stringBuffer.append(TEXT_14);
-    stringBuffer.append(genModel.getImportedName("junit.framework.Test"));
-    stringBuffer.append(TEXT_15);
-    stringBuffer.append(genModel.getImportedName("junit.framework.TestSuite"));
-    stringBuffer.append(TEXT_16);
     stringBuffer.append(genPackage.getTestSuiteClassName());
+    stringBuffer.append(TEXT_13);
+    stringBuffer.append(genModel.getImportedName("junit.framework.TestSuite"));
+    stringBuffer.append(TEXT_14);
+    if (genModel.hasCopyrightField()) {
+    stringBuffer.append(TEXT_15);
+    stringBuffer.append(genModel.getImportedName("java.lang.String"));
+    stringBuffer.append(TEXT_16);
+    stringBuffer.append(genModel.getCopyrightFieldLiteral());
     stringBuffer.append(TEXT_17);
-    stringBuffer.append(genPackage.getPackageName());
-    stringBuffer.append(TEXT_18);
     stringBuffer.append(genModel.getNonNLS());
-    for (GenClass genClass : genPackage.getGenClasses()) {
-    if (!genClass.isExternalInterface() && !genClass.isAbstract() && genClass.hasTests()) {
+    }
+    stringBuffer.append(TEXT_18);
+    stringBuffer.append(genModel.getImportedName("junit.textui.TestRunner"));
     stringBuffer.append(TEXT_19);
-    stringBuffer.append(genClass.getImportedTestCaseClassName());
+    stringBuffer.append(genModel.getImportedName("junit.framework.Test"));
     stringBuffer.append(TEXT_20);
-    }
-    }
+    stringBuffer.append(genModel.getImportedName("junit.framework.TestSuite"));
     stringBuffer.append(TEXT_21);
     stringBuffer.append(genPackage.getTestSuiteClassName());
     stringBuffer.append(TEXT_22);
+    stringBuffer.append(genPackage.getPackageName());
+    stringBuffer.append(TEXT_23);
+    stringBuffer.append(genModel.getNonNLS());
+    for (GenClass genClass : genPackage.getGenClasses()) {
+    if (!genClass.isExternalInterface() && !genClass.isAbstract() && genClass.hasTests()) {
+    stringBuffer.append(TEXT_24);
+    stringBuffer.append(genClass.getImportedTestCaseClassName());
+    stringBuffer.append(TEXT_25);
+    }
+    }
+    stringBuffer.append(TEXT_26);
+    stringBuffer.append(genPackage.getTestSuiteClassName());
+    stringBuffer.append(TEXT_27);
     stringBuffer.append(genPackage.getTestSuiteClassName());
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_23);
+    stringBuffer.append(TEXT_28);
     return stringBuffer.toString();
   }
 }

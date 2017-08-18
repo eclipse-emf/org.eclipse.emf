@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="Class"%>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil" class="Class"%>
 <%
 /**
  * Copyright (c) 2002-2011 IBM Corporation and others.
@@ -71,6 +71,9 @@ package <%=genPackage.getClassPackageName()%>;
 <%if (genClass.needsRootExtendsInterfaceExtendsTag()) {%>
  * @extends <%=genModel.getImportedName(genModel.getRootExtendsInterface())%>
 <%}%>
+<%if (genClass.hasImplicitAPITags(true)) {%>
+ * <%=genClass.getImplicitAPITags(genModel.getIndentation(stringBuffer), true)%>
+<%}%>
  * @generated
  */
 <%@ end %><%//Class/interface.javadoc.override.javajetinc%>
@@ -90,10 +93,19 @@ package <%=genPackage.getClassPackageName()%>;
  * </ul>
 <%}%>
  *
+<%if (genClass.hasImplicitAPITags()) {%>
+ * <%=genClass.getImplicitAPITags(genModel.getIndentation(stringBuffer))%>
+<%}%>
  * @generated
  */
 <%}%>
+<%if (isJDK50 && genClass.hasImplicitAPIDeprecatedTag()) {%>
+@Deprecated
+<%}%>
 <%if (isImplementation) {%>
+<%if (isJDK50 && !genClass.hasAPIDeprecatedTag() && GenModelUtil.hasImplicitAPIDeprecatedTag(genClass.getEGetGenFeatures(), genClass.getEIsSetGenFeatures(), genClass.getESetGenFeatures(), genClass.getEUnsetGenFeatures(), genClass.getEInverseAddGenFeatures(), genClass.getEInverseRemoveGenFeatures(), genClass.getEBasicRemoveFromContainerGenFeatures(), genClass.getToStringGenFeatures())) {%>
+@SuppressWarnings("deprecation")
+<%}%>
 public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassName()%><%=genClass.getTypeParameters().trim()%><%=genClass.getClassExtends()%><%=genClass.getClassImplements()%>
 <%} else {%>
 public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters().trim()%><%=genClass.getInterfaceExtends()%>
@@ -181,9 +193,15 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #<%=genFeature.getGetArrayAccessor()%>()
+       <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+       <%}%>
 	 * @generated
 	 * @ordered
 	 */
+        <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+        <%}%>
         <%if (genFeature.getQualifiedListItemType(genClass).contains("<") || genFeature.getArrayItemType(genClass).contains("<")) {%>
 	@SuppressWarnings("rawtypes")
         <%}%>
@@ -200,12 +218,18 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #<%=genFeature.getGetAccessor()%>()
+       <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+       <%}%>
 	 * @generated
 	 * @ordered
 	 */
       <%if (isGWT) {%>
 	@<%=genModel.getImportedName("com.google.gwt.user.client.rpc.GwtTransient")%>
       <%}%>
+        <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+        <%}%>
 	protected <%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%>.Internal.SettingDelegate <%=genFeature.getUpperName()%>__ESETTING_DELEGATE = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%>.Internal)<%=genFeature.getQualifiedFeatureAccessor()%>).getSettingDelegate();
 
     <%} else if (genFeature.isListType() || genFeature.isReferenceType()) {%>
@@ -215,12 +239,18 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #<%=genFeature.getGetAccessor()%>()
+       <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+       <%}%>
 	 * @generated
 	 * @ordered
 	 */
       <%if (isGWT) {%>
 	@<%=genModel.getImportedName("com.google.gwt.user.client.rpc.GwtTransient")%>
       <%}%>
+        <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+        <%}%>
 	protected <%=genFeature.getImportedInternalType(genClass)%> <%=genFeature.getSafeName()%>;
 
       <%}%>
@@ -230,11 +260,17 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #<%=genFeature.getGetArrayAccessor()%>()
+       <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+       <%}%>
 	 * @generated
 	 * @ordered
 	 */
         <%if (genFeature.getQualifiedListItemType(genClass).contains("<") || genFeature.getArrayItemType(genClass).contains("<")) {%>
 	@SuppressWarnings("rawtypes")
+        <%}%>
+        <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
         <%}%>
 	protected static final <%=rawListItemType%>[] <%=genFeature.getUpperName()%>_EEMPTY_ARRAY = new <%=head%> [0]<%=tail%>;
 
@@ -246,11 +282,17 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #<%=genFeature.getGetAccessor()%>()
+       <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+       <%}%>
 	 * @generated
 	 * @ordered
 	 */
         <%if (genModel.useGenerics() && genFeature.isListDataType() && genFeature.isSetDefaultValue()) {%>
 	@SuppressWarnings("unchecked")
+        <%}%>
+        <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
         <%}%>
 	protected static final <%=genFeature.getImportedType(genClass)%> <%=genFeature.getEDefault()%><%if ("".equals(staticDefaultValue)) {%>; // TODO The default value literal "<%=genFeature.getEcoreFeature().getDefaultValueLiteral()%>" is not valid.<%} else {%> = <%=staticDefaultValue%>;<%=genModel.getNonNLS(staticDefaultValue)%><%}%>
 
@@ -276,27 +318,45 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * The offset of the flags representing the value of the '{@link #<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+       <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+       <%}%>
 	 * @generated
 	 * @ordered
 	 */
+        <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+        <%}%>
 	protected static final int <%=genFeature.getUpperName()%>_EFLAG_OFFSET = <%=flagIndex % 32%>;
 
 	/**
 	 * The flags representing the default value of the '{@link #<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+       <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+       <%}%>
 	 * @generated
 	 * @ordered
 	 */
+        <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+        <%}%>
 	protected static final int <%=genFeature.getUpperName()%>_EFLAG_DEFAULT = <%if (isJDK50) {%><%=genFeature.getEDefault()%>.ordinal()<%} else {%><%=genFeature.getImportedType(genClass)%>.VALUES.indexOf(<%=genFeature.getEDefault()%>)<%}%> << <%=genFeature.getUpperName()%>_EFLAG_OFFSET;
 
 	/**
 	 * The array of enumeration values for '{@link <%=genFeature.getImportedType(genClass)%> <%=genFeature.getTypeGenClassifier().getFormattedName()%>}'
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+       <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+       <%}%>
 	 * @generated
 	 * @ordered
 	 */
+        <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+        <%}%>
 	private static final <%=genFeature.getImportedType(genClass)%>[] <%=genFeature.getUpperName()%>_EFLAG_VALUES = <%if (isJDK50) {%><%=genFeature.getImportedType(genClass)%>.values()<%} else {%>(<%=genFeature.getImportedType(genClass)%>[])<%=genFeature.getImportedType(genClass)%>.VALUES.toArray(new <%=genFeature.getImportedType(genClass)%>[<%=genFeature.getImportedType(genClass)%>.VALUES.size()])<%}%>;
 
           <%}%>
@@ -305,9 +365,15 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #<%=genFeature.getGetAccessor()%>()
+       <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+       <%}%>
 	 * @generated
 	 * @ordered
 	 */
+        <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+        <%}%>
 	protected static final int <%=genFeature.getUpperName()%>_EFLAG = <%=genClass.getFlagMask(genFeature)%> << <%if (genFeature.isEnumType()) {%><%=genFeature.getUpperName()%>_EFLAG_OFFSET<%} else {%><%=flagIndex % 32%><%}%>;
 
         <%} else {%>
@@ -316,12 +382,18 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #<%=genFeature.getGetAccessor()%>()
+       <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+       <%}%>
 	 * @generated
 	 * @ordered
 	 */
       <%if (isGWT) {%>
 	@<%=genModel.getImportedName("com.google.gwt.user.client.rpc.GwtTransient")%>
       <%}%>
+        <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+        <%}%>
 	protected <%=genFeature.getImportedType(genClass)%> <%=genFeature.getSafeName()%><%if (genFeature.hasEDefault()) {%> = <%=genFeature.getEDefault()%><%}%>;
 
         <%}%>
@@ -347,9 +419,15 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * The flag representing whether the <%=genFeature.getFormattedName()%> <%=genFeature.getFeatureKind()%> has been set.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+       <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+       <%}%>
 	 * @generated
 	 * @ordered
 	 */
+       <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+       <%}%>
 	protected static final int <%=genFeature.getUpperName()%>_ESETFLAG = 1 << <%=flagIndex % 32 %>;
 
       <%} else {%>
@@ -357,12 +435,18 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * This is true if the <%=genFeature.getFormattedName()%> <%=genFeature.getFeatureKind()%> has been set.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+       <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+       <%}%>
 	 * @generated
 	 * @ordered
 	 */
       <%if (isGWT) {%>
 	@<%=genModel.getImportedName("com.google.gwt.user.client.rpc.GwtTransient")%>
       <%}%>
+        <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+        <%}%>
 	protected boolean <%=genFeature.getUncapName()%>ESet;
 
       <%}%>
@@ -386,8 +470,14 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+       <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+       <%}%>
 	 * @generated
 	 */
+        <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+        <%}%>
 	private static final int <%=genClass.getOffsetCorrectionField(genFeature)%> = <%=reverseFeature.getGenClass().getQualifiedClassifierAccessor()%>.getFeatureID(<%=reverseFeature.getQualifiedFeatureAccessor()%>) - <%=reverseFeature.getGenClass().getQualifiedFeatureID(reverseFeature)%>;
 
     <%}%>
@@ -467,10 +557,17 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * This is specialized for the more specific element type known in this context.
+	 * @see #<%=genFeature.getGetAccessor()%>()
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
     <%if (genModel.useGenerics() && CodeGenUtil.isUncheckedCast(arrayElementType)) {%>
 	@SuppressWarnings("unchecked")
+    <%}%>
+    <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
     <%}%>
     <%if (classExtendsAllGenFeatures.contains(genFeature)) {%>
 	@Override
@@ -494,6 +591,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * This is specialized for the more specific element type known in this context.
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
 <%if (isJDK50) { //Class/getGenFeature.annotations.insert.javajetinc%>
@@ -502,6 +602,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
   <%if (genFeature.isListType() && genModel.isVirtualDelegation()) {%>
 	@SuppressWarnings("unchecked")
   <%}%>
+    <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+    <%}%>
     <%if (classExtendsAllGenFeatures.contains(genFeature)) {%>
 	@Override
     <%}%>
@@ -528,11 +631,17 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * This is specialized for the more specific type known in this context.
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
 <%if (isJDK50) { //Class/basicSetGenFeature.annotations.insert.javajetinc%>
 <%@ include file="Class/basicSetGenFeature.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
+    <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+    <%}%>
     <%if (classExtendsAllGenFeatures.contains(genFeature)) {%>
 	@Override
     <%}%>
@@ -547,12 +656,18 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * This is specialized for the more specific type known in this context.
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
 <%if (isJDK50) { //Class/setGenFeature.annotations.insert.javajetinc%>
 <%@ include file="Class/setGenFeature.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
 <%{ GenOperation setAccessorOperation = genClass.getSetAccessorOperation(genFeature);%>
+    <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+    <%}%>
     <%if (classExtendsAllGenFeatures.contains(genFeature)) {%>
 	@Override
     <%}%>
@@ -573,6 +688,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
     <%if (!isImplementation) {%>
@@ -581,6 +699,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
     <%} else {%>
     <%if (genModel.useGenerics() && CodeGenUtil.isUncheckedCast(arrayElementType)) {%>
 	@SuppressWarnings("unchecked")
+    <%}%>
+    <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
     <%}%>
 	public <%=arrayElementType%>[] <%=genFeature.getGetArrayAccessor()%>()
 	{
@@ -599,8 +720,14 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
+    <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+    <%}%>
     <%if (!isImplementation) {%>
 	<%=genFeature.getListItemType(genClass)%> get<%=genFeature.getAccessorName()%>(int index);
 
@@ -614,8 +741,14 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
+    <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+    <%}%>
     <%if (!isImplementation) {%>
 	int get<%=genFeature.getAccessorName()%>Length();
 
@@ -633,8 +766,14 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
+    <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+    <%}%>
     <%if (!isImplementation) {%>
 	void set<%=genFeature.getAccessorName()%>(<%=genFeature.getListItemType(genClass)%>[] new<%=genFeature.getCapName()%>);
 
@@ -648,8 +787,14 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
+    <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+    <%}%>
     <%if (!isImplementation) {%>
 	void set<%=genFeature.getAccessorName()%>(int index, <%=genFeature.getListItemType(genClass)%> element);
 
@@ -741,12 +886,18 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
 <%if (isJDK50) { //Class/getGenFeature.annotations.insert.javajetinc%>
 <%@ include file="Class/getGenFeature.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
 <%}%>
+        <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+        <%}%>
 <%if (!isImplementation) {%>
 	<%=genFeature.getImportedType(genClass)%> <%=genFeature.getGetAccessor()%>();
 
@@ -886,11 +1037,17 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
 <%if (isJDK50) { //Class/basicGetGenFeature.annotations.insert.javajetinc%>
 <%@ include file="Class/basicGetGenFeature.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
+    <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+    <%}%>
 	public <%=genFeature.getImportedType(genClass)%> basicGet<%=genFeature.getAccessorName()%>()
 	{
 <%@ include file="Class/basicGetGenFeature.pre.insert.javajetinc" fail="silent" %>
@@ -934,11 +1091,17 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
 <%if (isJDK50) { //Class/basicSetGenFeature.annotations.insert.javajetinc%>
 <%@ include file="Class/basicSetGenFeature.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
+    <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+    <%}%>
 	public <%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> basicSet<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedInternalType(genClass)%> new<%=genFeature.getCapName()%>, <%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> msgs)
 	{
     <%if (genFeature.isContainer()) {%>
@@ -1034,6 +1197,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
       <%}%>
     <%}%>
 	 * @see #<%=genFeature.getGetAccessor()%>()
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
 <%@ end %><%//Class/setGenFeature.javadoc.override.javajetinc%>
@@ -1041,11 +1207,17 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
 <%if (isJDK50) { //Class/setGenFeature.annotations.insert.javajetinc%>
 <%@ include file="Class/setGenFeature.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
+<%}%>
+<%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
 <%}%>
 <%if (!isImplementation) { %>
 	void set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType(genClass)%> value);
@@ -1216,10 +1388,16 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
 <%if (isJDK50) { //Class/basicUnsetGenFeature.annotations.insert.javajetinc%>
 <%@ include file="Class/basicUnsetGenFeature.annotations.insert.javajetinc" fail="silent" %>
+<%}%>
+<%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
 <%}%>
 	public <%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> basicUnset<%=genFeature.getAccessorName()%>(<%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> msgs)
 	{
@@ -1290,6 +1468,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
   <%if (!genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {%>
 	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getRawImportedBoundType()%>)
   <%}%>
+  <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+  <%}%>
 	 * @generated
 	 */
 <%@ end %><%//Class/unsetGenFeature.javadoc.override.javajetinc%>
@@ -1297,11 +1478,17 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+  <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+  <%}%>
 	 * @generated
 	 */
 <%if (isJDK50) { //Class/unsetGenFeature.annotations.insert.javajetinc%>
 <%@ include file="Class/unsetGenFeature.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
+<%}%>
+<%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
 <%}%>
 <%if (!isImplementation) {%>
 	void unset<%=genFeature.getAccessorName()%>();
@@ -1457,6 +1644,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
     <%if (!genFeature.isListType() && genFeature.isChangeable() && !genFeature.isSuppressedSetVisibility()) {%>
 	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getRawImportedBoundType()%>)
     <%}%>
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
 <%@ end %><%//Class/isSetGenFeature.javadoc.override.javajetinc%>
@@ -1464,11 +1654,17 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+    <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%}%>
 	 * @generated
 	 */
 <%if (isJDK50) { //Class/isSetGenFeature.annotations.insert.javajetinc%>
 <%@ include file="Class/isSetGenFeature.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
+<%}%>
+<%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
 <%}%>
 <%if (!isImplementation) {%>
 	boolean isSet<%=genFeature.getAccessorName()%>();
@@ -1532,9 +1728,15 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>)
+      <%if (genOperation.hasAPITags()) {%>
+	 * <%=genOperation.getAPITags(genModel.getIndentation(stringBuffer))%>
+      <%}%>
 	 * @generated
 	 * @ordered
 	 */
+      <%if (isJDK50 && genOperation.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+      <%}%>
 	protected static final <%=genModel.getImportedName("java.lang.String")%> <%=CodeGenUtil.upperName(genClass.getUniqueName(genOperation), genModel.getLocale())%>__EEXPRESSION = "<%=genOperation.getInvariantExpression("\t\t")%>";<%=genModel.getNonNLS()%>
 
     <%} else if (genOperation.hasInvocationDelegate()) {%>
@@ -1543,9 +1745,15 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>)
+      <%if (genOperation.hasAPITags()) {%>
+	 * <%=genOperation.getAPITags(genModel.getIndentation(stringBuffer))%>
+      <%}%>
 	 * @generated
 	 * @ordered
 	 */
+      <%if (isJDK50 && genOperation.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+      <%}%>
 	protected static final <%=genModel.getImportedName("org.eclipse.emf.ecore.EOperation")%>.Internal.InvocationDelegate <%=CodeGenUtil.upperName(genClass.getUniqueName(genOperation), genModel.getLocale())%>__EINVOCATION_DELEGATE = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.EOperation")%>.Internal)<%=genOperation.getQualifiedOperationAccessor()%>).getInvocationDelegate();
 
     <%}%>
@@ -1588,11 +1796,17 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+      <%if (genOperation.hasAPITags()) {%>
+	 * <%=genOperation.getAPITags(genModel.getIndentation(stringBuffer))%>
+      <%}%>
 	 * @generated
 	 */
 <%if (isJDK50) { //Class/genOperation.annotations.insert.javajetinc%>
 <%@ include file="Class/genOperation.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
+<%}%>
+<%if (isJDK50 && genOperation.hasAPIDeprecatedTag()) {%>
+	@Deprecated
 <%}%>
 <%if (!isImplementation) {%>
 	<%=genOperation.getTypeParameters(genClass)%><%=genOperation.getImportedType(genClass)%> <%=genOperation.getName()%>(<%=genOperation.getParameters(genClass)%>)<%=genOperation.getThrows(genClass)%>;

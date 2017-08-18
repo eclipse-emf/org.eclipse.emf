@@ -10032,7 +10032,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       EClass eClass = genBase.eClass();
       for (Map.Entry<String, String> entry : eAnnotation.getDetails())
       {
-        final EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(entry.getKey());
+        String key = entry.getKey();
+        final EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(key);
         final String literal = entry.getValue();
         if (eStructuralFeature instanceof EAttribute)
         {
@@ -10062,9 +10063,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
             genBase.eSet(eStructuralFeature, value);
           }
         }
-        else if (eStructuralFeature instanceof EReference)
+        else if (eStructuralFeature instanceof EReference && genBase instanceof GenClass)
         {
-          
           if (runnables == null)
           {
             for (GenFeature genFeature : ((GenClass)genBase).getAllGenFeatures())
@@ -10093,6 +10093,45 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
                    }
                  }
                });
+          }
+        }
+        else if (key != null)
+        {
+          final String effectiveKey;
+          if ("documentation".equals(key))
+          {
+            effectiveKey = null;
+          }
+          else if (eClass == GenModelPackage.Literals.GEN_MODEL)
+          {
+            effectiveKey = eStructuralFeature != null ? key : key.startsWith("model.") ? key.substring(6) : null;
+          }
+          else if (eClass == GenModelPackage.Literals.GEN_PACKAGE )
+          {
+            effectiveKey = GenModelPackage.Literals.GEN_MODEL.getEStructuralFeature(key) == null && !key.startsWith("model.") ? key : null;
+          }
+          else
+          {
+            effectiveKey = key;
+          }
+          if (effectiveKey != null)
+          {
+            if (runnables == null)
+            {
+              GenModelUtil.setAnnotation(genBase, GenModelPackage.eNS_URI, effectiveKey, literal);
+            }
+            else
+            {
+              runnables.add
+                (new Runnable()
+                 {
+                   public void run()
+                   {
+                     GenModelUtil.setAnnotation(genBase, GenModelPackage.eNS_URI, effectiveKey, literal);
+                   }
+                 });
+              
+            }
           }
         }
       }
@@ -10262,6 +10301,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       }
       return pluginID;
     }
+  }
+
+  @Override
+  protected String getDocumentation()
+  {
+    return GenModelUtil.getAnnotation(this, GenModelPackage.eNS_URI, "documentation");
   }
 
 } //GenModelImpl

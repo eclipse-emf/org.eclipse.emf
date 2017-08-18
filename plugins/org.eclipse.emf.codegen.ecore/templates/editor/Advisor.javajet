@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="Advisor"%>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil" class="Advisor"%>
 <%
 /**
  * Copyright (c) 2004-2010 IBM Corporation and others.
@@ -12,6 +12,7 @@
  */
 %>
 <%GenModel genModel = (GenModel)argument;%>
+<%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
 <%String _ListOfString = "List" + (genModel.useGenerics() ? "<String>" : "");%>
 <%String _UniqueEListOfString = "UniqueEList" + (genModel.useGenerics() ? "<String>" : "");%>
 <%String _StringBuilder = genModel.getImportedName(genModel.useGenerics() ? "java.lang.StringBuilder" : "java.lang.StringBuffer");%>
@@ -86,8 +87,16 @@ import <%=genModel.getQualifiedEditorPluginClassName()%>;
  * Customized {@link WorkbenchAdvisor} for the RCP application.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
+<%if (genModel.hasAPITags()) {%>
+ * <%=genModel.getAPITags(genModel.getIndentation(stringBuffer))%>
+<%}%>
  * @generated
  */
+<%if (isJDK50 && genModel.hasAPIDeprecatedTag()) {%>
+@Deprecated
+<%} else if (isJDK50 && GenModelUtil.hasAPIDeprecatedTag(genModel.getAllGenPackagesWithConcreteClasses())) {%>
+@SuppressWarnings("deprecation")
+<%}%>
 public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAdvisor
 {
 <%if (genModel.hasCopyrightField()) {%>

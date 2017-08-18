@@ -11,6 +11,7 @@
 
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.eclipse.jdt.core.JavaCore;
@@ -137,4 +138,41 @@ public class GenModelUtil
     generator.setInput(genModel);
     return generator;
   }  
+
+  /**
+   * @since 2.14
+   */
+  @SafeVarargs
+  public static boolean hasAPIDeprecatedTag(Collection<?>... elements)
+  {
+    for (Collection<?> genBaseElements : elements)
+    {
+      for (Object genBase : genBaseElements)
+      {
+        if (genBase instanceof GenBase && ((GenBase)genBase).hasAPIDeprecatedTag())
+        {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * @since 2.14
+   */
+  public static boolean hasImplicitAPIDeprecatedTag(Collection<?>... elements)
+  {
+    for (Collection<?> genBaseElements : elements)
+    {
+      for (Object genBase : genBaseElements)
+      {
+        if (genBase instanceof GenBase && ((GenBase)genBase).hasImplicitAPIDeprecatedTag())
+        {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 }

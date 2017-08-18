@@ -1201,4 +1201,11 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     }
     return false;
   }
+
+  @Override
+  protected String getLink()
+  {
+    GenClass genClass = getGenClass();
+    return genClass.getQualifiedInterfaceName() + "#" + getName() + "(" + getParameterTypes(", ") + ")";
+  }
 }

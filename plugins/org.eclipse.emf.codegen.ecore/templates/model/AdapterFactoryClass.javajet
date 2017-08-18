@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="AdapterFactoryClass"%>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil" class="AdapterFactoryClass"%>
 <%
 /**
  * Copyright (c) 2002-2006 IBM Corporation and others.
@@ -12,6 +12,7 @@
  */
 %>
 <%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel(); /* Trick to import java.util.* without warnings */Iterator.class.getName();%>
+<%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getUtilitiesPackageName()%>;
 
@@ -31,8 +32,16 @@ package <%=genPackage.getUtilitiesPackageName()%>;
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
  * @see <%=genPackage.getQualifiedPackageInterfaceName()%>
+<%if (genPackage.hasAPITags()) {%>
+ * <%=genPackage.getAPITags(genModel.getIndentation(stringBuffer))%>
+<%}%>
  * @generated
  */
+<%if (isJDK50 && genPackage.hasAPIDeprecatedTag()) {%>
+@Deprecated
+<%} else if (isJDK50 && GenModelUtil.hasAPIDeprecatedTag(genPackage.getAllSwitchGenClasses())) {%>
+@SuppressWarnings("deprecation")
+<%}%>
 public class <%=genPackage.getAdapterFactoryClassName()%> extends AdapterFactoryImpl
 {
 <%if (genModel.hasCopyrightField()) {%>
@@ -143,8 +152,14 @@ public class <%=genPackage.getAdapterFactoryClassName()%> extends AdapterFactory
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see <%=genClass.getQualifiedInterfaceName()%>
+  <%if (genClass.hasAPITags()) {%>
+	 * <%=genClass.getAPITags(genModel.getIndentation(stringBuffer))%>
+  <%}%>
 	 * @generated
 	 */
+  <%if (isJDK50 && genClass.hasAPIDeprecatedTag()) {%>
+		@Deprecated
+  <%}%>
 	public Adapter create<%=genPackage.getClassUniqueName(genClass)%>Adapter()
 	{
 		return null;

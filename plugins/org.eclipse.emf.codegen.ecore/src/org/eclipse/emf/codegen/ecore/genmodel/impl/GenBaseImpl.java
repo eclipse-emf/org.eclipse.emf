@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IContainer;
@@ -2497,6 +2498,258 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   public String getDocumentation(String indentation)
   {
     return indent(getDocumentation(), indentation);
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected String getAPITags()
+  {
+    StringBuilder result = new StringBuilder();
+    Map<String, String> documentationTags = getDocumentationTags();
+    String since = documentationTags.get("since");
+    composeSince(result, since);
+    String deprecated = documentationTags.get("deprecated");
+    composeDeprecated(result, deprecated, this);
+    return result.toString();
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected void composeSince(StringBuilder builder, String since)
+  {
+    if (since != null && since.trim().length() != 0)
+    {
+      if (builder.length() > 0)
+      {
+        builder.append('\n');
+      }
+      builder.append("@since ").append(since.trim());
+    }
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected void composeDeprecated(StringBuilder builder, String deprecated, GenBaseImpl linkTarget)
+  {
+    if (deprecated != null)
+    {
+      if (builder.length() > 0)
+      {
+        builder.append('\n');
+      }
+      builder.append("@deprecated");
+      if (deprecated.trim().length() != 0)
+      {
+        String link = linkTarget.getLink();
+        if (link.length() != 0)
+        {
+          builder.append(" See {@link ");
+          builder.append(link);
+          builder.append(" model documentation} for details.");
+        }
+        else
+        {
+          builder.append(' ').append(deprecated.trim());
+        }
+      }
+    }
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected String getLink()
+  {
+    return "";
+  }
+
+  /**
+   * @since 2.14
+   */
+  public boolean hasAPIDeprecatedTag()
+  {
+    String deprecated = getDocumentationTags().get("deprecated");
+     return deprecated != null;
+  }
+
+  /**
+   * @since 2.14
+   */
+  public boolean hasAPITags()
+  {
+    return getAPITags().length() > 0;
+  }
+
+  /**
+   * @since 2.14
+   */
+  public String getAPITags(String indentation)
+  {
+    return indent(getAPITags(), indentation);
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected String getImpliciAPITags(boolean excludeOwnDocumentation)
+  {
+    Map<String, String> documentationTags = getDocumentationTags();
+    GenBaseImpl container = null;
+    Map<String, String> containerDocumentationTags = null;
+    EObject eContainer = eContainer();
+    if (eContainer instanceof GenBaseImpl)
+    {
+      container = (GenBaseImpl)eContainer;
+      containerDocumentationTags = container.getDocumentationTags();
+    }
+
+    if (excludeOwnDocumentation)
+    {
+      if (containerDocumentationTags != null)
+      {
+        containerDocumentationTags.keySet().removeAll(documentationTags.keySet());
+      }
+      documentationTags.clear();
+    }
+
+    String since = documentationTags.get("since");
+    if (containerDocumentationTags != null && (since == null || since.trim().length() == 0))
+    {
+      since = containerDocumentationTags.get("since");
+    }
+    StringBuilder result = new StringBuilder();
+    composeSince(result, since);
+
+    String deprecated = documentationTags.get("deprecated");
+    if (deprecated != null)
+    {
+      composeDeprecated(result, deprecated, this);
+    }
+    else if (containerDocumentationTags != null)
+    {
+      deprecated = containerDocumentationTags.get("deprecated");
+      composeDeprecated(result, deprecated, container);
+    }
+
+    return result.toString();
+  }
+
+  /**
+   * @since 2.14
+   */
+  public boolean hasImplicitAPIDeprecatedTag()
+  {
+    if (hasAPIDeprecatedTag())
+    {
+      return true;
+    }
+    else
+    {
+      EObject eContainer = eContainer();
+      if (eContainer instanceof GenBaseImpl)
+      {
+        GenBaseImpl container = (GenBaseImpl)eContainer;
+        return container.hasAPIDeprecatedTag();
+      }
+      else
+      {
+        return false;
+      }
+    }
+  }
+
+  /**
+   * @since 2.14
+   */
+  public boolean hasImplicitAPITags()
+  {
+    return hasImplicitAPITags(false);
+  }
+
+  /**
+   * @since 2.14
+   */
+  public boolean hasImplicitAPITags(boolean excludeOwnDocumentation)
+  {
+    if (excludeOwnDocumentation)
+    {
+      EObject eContainer = eContainer();
+      if (eContainer instanceof GenBaseImpl)
+      {
+        GenBaseImpl container = (GenBaseImpl)eContainer;
+        Map<String, String> containerDocumentationTags = container.getDocumentationTags();
+        Map<String, String> documentationTags = getDocumentationTags();
+        containerDocumentationTags.keySet().removeAll(documentationTags.keySet());
+        return containerDocumentationTags.containsKey("since") || containerDocumentationTags.containsKey("deprecated");
+      }
+      else
+      {
+        return false;
+      }
+    }
+    else if (hasAPITags())
+    {
+      return true;
+    }
+    else
+    {
+      EObject eContainer = eContainer();
+      if (eContainer instanceof GenBaseImpl)
+      {
+        GenBaseImpl container = (GenBaseImpl)eContainer;
+        return container.hasAPITags();
+      }
+      else
+      {
+        return false;
+      }
+    }
+  }
+
+  /**
+   * @since 2.14
+   */
+  public String getImplicitAPITags(String indentation)
+  {
+    return getImplicitAPITags(indentation, false);
+  }
+
+  /**
+   * @since 2.14
+   */
+  public String getImplicitAPITags(String indentation, boolean excludeOwnDocumentation)
+  {
+    return indent(getImpliciAPITags(excludeOwnDocumentation), indentation);
+  }
+
+  /**
+   * @since-2.14
+   */
+  protected Map<String, String> getDocumentationTags()
+  {
+    String documentation = getDocumentation();
+    if (documentation != null)
+    {
+      Map<String, String> result = new HashMap<String, String>();
+      int index = 0;
+      String tag = "";
+      Pattern tagPattern = Pattern.compile("^[ \\t]*@(\\S+)", Pattern.MULTILINE);
+      for (Matcher matcher = tagPattern.matcher(documentation); matcher.find();)
+      {
+        result.put(tag, documentation.substring(index, matcher.start()));
+        index = matcher.end();
+        tag = matcher.group(1);
+      }
+      result.put(tag, documentation.substring(index));
+      return result;
+    }
+    else
+    {
+      return Collections.emptyMap();
+    }
   }
 
   protected String getCopyright(boolean includeGenModelCopyrightTextAsDefault)

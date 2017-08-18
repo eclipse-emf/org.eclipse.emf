@@ -574,4 +574,9 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     return genEnumLiteral == null ? "null" : getImportedName() + "." + genEnumLiteral.getEnumLiteralInstanceConstantName();
   }
 
+  @Override
+  protected String getLink()
+  {
+    return getQualifiedInstanceClassName();
+  }
 } //GenEnumImpl

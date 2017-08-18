@@ -7,6 +7,7 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
+ *   Harald Weiner - https://bugs.eclipse.org/bugs/show_bug.cgi?id=428088#c17
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -196,6 +197,46 @@ public interface GenBase extends EObject
 
   boolean hasDocumentation();
   String getDocumentation(String indentation);
+
+  /**
+   * @since 2.14
+   */
+  boolean hasAPIDeprecatedTag();
+
+  /**
+   * @since 2.14
+   */
+  boolean hasAPITags();
+
+  /**
+   * Since 2.14
+   */
+  String getAPITags(String indentation);
+
+  /**
+   * @since 2.14
+   */
+  boolean hasImplicitAPIDeprecatedTag();
+
+  /**
+   * @since 2.14
+   */
+  boolean hasImplicitAPITags();
+
+  /**
+   * Since 2.14
+   */
+  String getImplicitAPITags(String indentation, boolean excludeOwnDocumentation);
+
+  /**
+   * @since 2.14
+   */
+  boolean hasImplicitAPITags(boolean excludeOwnDocumentation);
+
+  /**
+   * Since 2.14
+   */
+  String getImplicitAPITags(String indentation);
   
   EModelElement getEcoreModelElement();
 
