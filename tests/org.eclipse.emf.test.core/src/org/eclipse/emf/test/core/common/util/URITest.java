@@ -1064,7 +1064,22 @@ public class URITest
       {
         // Expected failure.
       }
+    }
+  }
 
+  @Test
+  public void testFileURINormalizations()
+  {
+    assertSame(URI.createURI("HTTP://test"), URI.createURI("http://test"));
+    
+    // We can only run this part of the test on Windows, where empty segment normalization at the start of the path is done.
+    if (File.separatorChar == '\\')
+    {
+      assertSame(URI.createFileURI("\\\\x\\y"), URI.createFileURI("\\\\x\\\\y"));
+      assertSame(URI.createFileURI("c:\\\\"), URI.createFileURI("c:\\"));
+      assertSame(URI.createFileURI("c:\\\\x"), URI.createFileURI("c:\\x"));
+      assertSame(URI.createFileURI("c://x"), URI.createFileURI("c:/x"));
+      assertSame(URI.createFileURI("c:\\\\x"), URI.createFileURI("c:/x"));
     }
   }
 

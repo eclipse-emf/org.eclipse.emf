@@ -463,7 +463,7 @@ public abstract class URI
             isArchiveScheme = true;
           }
 
-          // If it isn't one of the expected schemes, or it is, then we need to make sure it's really equal to what's in the URI, not an accidential hash code collision...
+          // If it isn't one of the expected schemes, or it is, then we need to make sure it's really equal to what's in the URI, not an accidental hash code collision...
           //
           if (scheme == null || !scheme.regionMatches(0, uri, 0, j))
           {
@@ -1234,7 +1234,7 @@ public abstract class URI
           //
           char character = path.charAt(0);
 
-          // We're convert this character to a /.
+          // We'll convert this character to a /.
           //
           char separatorchar = File.separatorChar;
 
@@ -1475,7 +1475,7 @@ public abstract class URI
         //
         int deviceIndex = 0;
 
-        // An empty segment at this index will be igored.
+        // An empty segment at this index will be ignored.
         //
         int ignoredEmptySegmentIndex = -1;
 
@@ -1583,9 +1583,21 @@ public abstract class URI
         String[] internedSegments = internArray(segments, 0, segmentCount, segmentsHashCode);
         if (isAbsoluteFile)
         {
-          // If it's absolute, we include the file scheme, and it has an absolute path, if there is one or more segments, or if we ignored an empty segment.
-          //
-          return new Hierarchical(this.hashCode, true, SCHEME_FILE, authority, device, segmentCount > 0 || ignoredEmptySegment, internedSegments, null);
+          // If we've ignored a segment then the hash code and encoded path will be different than expected.
+          if (ignoredEmptySegment)
+          {
+            // Get the URI for the information we've computed, and update the hash code and encoded path to ensure that another entry for original path is not added to the pool.
+            URI actualURI = URI.POOL.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_NONE, true, SCHEME_FILE, authority, device, true, internedSegments, null);
+            this.hashCode = actualURI.hashCode;
+            this.encodedPath = actualURI.toString();
+            return actualURI;
+          }
+          else
+          {
+            // If it's absolute, we include the file scheme, and it has an absolute path, if there is one or more segments.
+            //
+            return new Hierarchical(this.hashCode, true, SCHEME_FILE, authority, device, segmentCount > 0, internedSegments, null);
+          }
         }
         else
         {
