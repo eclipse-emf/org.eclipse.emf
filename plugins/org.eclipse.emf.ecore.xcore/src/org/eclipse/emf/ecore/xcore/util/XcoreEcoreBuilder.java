@@ -185,7 +185,8 @@ public class XcoreEcoreBuilder
       }
       if (ePackage.getNsPrefix() == null)
       {
-        ePackage.setNsPrefix(ePackage.getName());
+        String packageName = ePackage.getName();
+        ePackage.setNsPrefix(packageName.toLowerCase().startsWith("xml") ? "_" + packageName : packageName);
       }
     }
 
