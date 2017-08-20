@@ -209,6 +209,26 @@ public class <%=genClass.getProviderClassName()%> <%if (genClass.getProviderImpl
 	}
 
 <%}%>
+<%if (genClass.getProviderImplementsClassNames().contains("org.eclipse.emf.edit.provider.ITableItemLabelProvider")) {%>
+	/**
+	 * This returns <code>getImage(object)</code> for the column index <code>0</code> or <code>super.getImage(object)</code> otherwise.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getText(Object)
+	 * @see #getColumnText(Object, int)
+	 * @generated
+	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
+	public Object getColumnImage(Object object, int columnIndex)
+	{
+		// TODO: implement this method to return appropriate information for each column.
+		// Ensure that you remove @generated or mark it @generated NOT
+		return columnIndex == 0 ? getImage(object) : super.getImage(object);
+	}
+
+<%}%>
 <%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && !genModel.isCreationIcons()) {%>
 	/**
 	 * <!-- begin-user-doc -->
@@ -218,7 +238,7 @@ public class <%=genClass.getProviderClassName()%> <%if (genClass.getProviderImpl
 <%if (genModel.useClassOverrideAnnotation()) {%>
 	@Override
 <%}%>
-	protected boolean shouldComposeCreationImage() 
+	protected boolean shouldComposeCreationImage()
 	{
 		return true;
 	}
@@ -286,7 +306,27 @@ public class <%=genClass.getProviderClassName()%> <%if (genClass.getProviderImpl
 <%}%>
 <%@ end %><%//ItemProvider/getText.override.javajetinc%>
 	}
-	
+
+<%if (genClass.getProviderImplementsClassNames().contains("org.eclipse.emf.edit.provider.ITableItemLabelProvider")) {%>
+	/**
+	 * This returns <code>getText(object)</code> for the column index <code>0</code> or <code>super.getText(object)</code> otherwise.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getImage(Object)
+	 * @see #getColumnImage(Object, int)
+	 * @generated
+	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
+	public String getColumnText(Object object, int columnIndex)
+	{
+		// TODO: implement this method to return appropriate information for each column.
+		// Ensure that you remove @generated or mark it @generated NOT
+		return columnIndex == 0 ? getText(object) : super.getText(object);
+	}
+
+<%}%>
 <%if (genModel.isStyleProviders()) {%>
 	/**
 	 * This returns the label styled text for the adapted class.
@@ -338,7 +378,7 @@ public class <%=genClass.getProviderClassName()%> <%if (genClass.getProviderImpl
 		String label = labelValue == null ? null : labelValue.toString();
     <%}%>
     	<%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString")%> styledLabel = new <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString")%>();
-		if (label == null || label.length() == 0) 
+		if (label == null || label.length() == 0)
 		{
 			styledLabel.append(getString("_UI_<%=genClass.getName()%>_type"), <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString$Style")%>.QUALIFIER_STYLER); <%=genModel.getNonNLS()%>
 		} else {
@@ -350,7 +390,7 @@ public class <%=genClass.getProviderClassName()%> <%if (genClass.getProviderImpl
 		return new <%=genModel.getImportedName("org.eclipse.emf.edit.provider.StyledString")%>(getString("_UI_<%=genClass.getName()%>_type"));<%=genModel.getNonNLS()%>
 <%}%>
 <%@ end %><%//ItemProvider/getStyledText.override.javajetinc%>
-	}	
+	}
 <%}%>
 
 	/**
