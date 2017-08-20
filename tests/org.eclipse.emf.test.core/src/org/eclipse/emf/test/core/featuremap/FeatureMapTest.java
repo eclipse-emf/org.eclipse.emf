@@ -13,14 +13,19 @@ package org.eclipse.emf.test.core.featuremap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.core.AllSuites;
@@ -103,6 +108,97 @@ public class FeatureMapTest
     assertEquals(2, supplier.getOrders().list(SupplierPackage.eINSTANCE.getSupplier_StandardOrders()).size());
     assertEquals(po2, supplier.getOrders().list(SupplierPackage.eINSTANCE.getSupplier_StandardOrders()).get(0));
     assertEquals(po1, supplier.getOrders().list(SupplierPackage.eINSTANCE.getSupplier_StandardOrders()).get(1));
+  }
+
+  /**
+   * A test for <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=516113">bug 516113</a>.
+   */
+  @Test
+  public void testRemoveAllNotifications()
+  {
+    supplier.getPreferredOrders();
+    PurchaseOrder po1 = SupplierFactory.eINSTANCE.createPurchaseOrder();
+    PurchaseOrder po2 = SupplierFactory.eINSTANCE.createPurchaseOrder();
+    List<PurchaseOrder> purchaseOrders = new ArrayList<PurchaseOrder>();
+    purchaseOrders.add(po1);
+    purchaseOrders.add(po2);
+
+    class NotificationTester extends EContentAdapter
+    {
+      public int supplierAddManyOrdersNotificationCount;
+      public int supplierAddManyPreferredOrdersNotificationCount;
+      public int supplierRemoveManyOrdersNotificationCount;
+      public int supplierRemoveManyPreferredOrdersNotificationCount;
+      public int removingAdapterCount;
+
+      @Override
+      public void notifyChanged(Notification notification)
+      {
+        switch (notification.getEventType())
+        {
+          case Notification.ADD_MANY:
+          {
+            Object feature = notification.getFeature();
+            if (feature == SupplierPackage.Literals.SUPPLIER__ORDERS)
+            {
+              ++supplierAddManyOrdersNotificationCount;
+            }
+            else if (feature == SupplierPackage.Literals.SUPPLIER__PREFERRED_ORDERS)
+            {
+              ++supplierAddManyPreferredOrdersNotificationCount;
+            }
+            else
+            {
+              fail("Unexpected notification: " + notification);
+            }
+            break;
+          }
+          case Notification.REMOVE_MANY:
+          {
+            Object feature = notification.getFeature();
+            if (feature == SupplierPackage.Literals.SUPPLIER__ORDERS)
+            {
+              ++supplierRemoveManyOrdersNotificationCount;
+            }
+            else if (feature == SupplierPackage.Literals.SUPPLIER__PREFERRED_ORDERS)
+            {
+              ++supplierRemoveManyPreferredOrdersNotificationCount;
+            }
+            else
+            {
+              fail("Unexpected notification: " + notification);
+            }
+            break;
+          }
+          case Notification.REMOVING_ADAPTER:
+          {
+            ++removingAdapterCount;
+            break;
+          }
+          default:
+          {
+            fail("Unexpected notification: " + notification);
+            break;
+          }
+        }
+
+        super.notifyChanged(notification);
+      }
+    }
+
+    NotificationTester notificationTester = new NotificationTester();
+
+    supplier.eAdapters().add(notificationTester);
+    supplier.getPreferredOrders().addAll(purchaseOrders);
+    supplier.getPreferredOrders().removeAll(purchaseOrders);
+
+    assertEquals("One ADD_MANY notification expected for the supplier.getOrder()",  1, notificationTester.supplierAddManyOrdersNotificationCount);
+    assertEquals("One ADD_MANY notification expected for the supplier.getPreferredOrders()",  1, notificationTester.supplierAddManyPreferredOrdersNotificationCount);
+    assertEquals("One REMOVE_MANY notification expected for the supplier.getOrder()",  1, notificationTester.supplierRemoveManyOrdersNotificationCount);
+    assertEquals("One REMOVE_MANY notification expected for the supplier.getPreferredOrders()",  1, notificationTester.supplierRemoveManyPreferredOrdersNotificationCount);
+    assertEquals("Two REMOVING_ADPATER notifications expected",  2, notificationTester.removingAdapterCount);
+
+    supplier.eAdapters().remove(notificationTester);
   }
 
   @Test

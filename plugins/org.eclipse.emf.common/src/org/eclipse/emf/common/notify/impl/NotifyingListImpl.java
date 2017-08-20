@@ -774,13 +774,12 @@ public class NotifyingListImpl<E> extends BasicEList<E> implements NotifyingList
 
     boolean result = false;
     int [] positions = null;
+    NotificationChain notifications = null;
     if (isNotificationRequired())
     {
       int listSize = collection.size();
       if (listSize > 0)
       {
-        NotificationChain notifications = createNotificationChain(listSize);
-
         // Copy to a list and allocate positions.
         //
         BasicEList<Object> list = new BasicEList<Object>(collection);
@@ -879,6 +878,8 @@ public class NotifyingListImpl<E> extends BasicEList<E> implements NotifyingList
 
           if (hasShadow())
           {
+            notifications = createNotificationChain(count);
+
             // Remove from by position in reverse order.
             //
             for (int i = 0; i < count; ++i)
@@ -936,7 +937,11 @@ public class NotifyingListImpl<E> extends BasicEList<E> implements NotifyingList
             createNotification(Notification.REMOVE, collection.iterator().next(), null, positions[0], oldIsSet) :
             createNotification(Notification.REMOVE_MANY, collection, positions, positions[0], oldIsSet));
 
-        NotificationChain notifications = createNotificationChain(collectionSize);
+        if (notifications == null)
+        {
+          notifications = createNotificationChain(collectionSize);
+        }
+
         if (hasInverse())
         {
           for (Iterator<?> i = collection.iterator(); i.hasNext(); )
@@ -969,7 +974,11 @@ public class NotifyingListImpl<E> extends BasicEList<E> implements NotifyingList
       }
       else if (hasInverse())
       {
-        NotificationChain notifications = createNotificationChain(collection.size());
+        if (notifications == null)
+        {
+          notifications = createNotificationChain(collection.size());
+        }
+
         for (Iterator<?> i = collection.iterator(); i.hasNext(); )
         {
           @SuppressWarnings("unchecked") E object = (E)i.next();
