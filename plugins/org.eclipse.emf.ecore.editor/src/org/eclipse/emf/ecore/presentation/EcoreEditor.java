@@ -1363,7 +1363,10 @@ public class EcoreEditor
          {
            public void run()
            {
-             setActivePage(0);
+             if (!getContainer().isDisposed())
+             {
+               setActivePage(0);
+             }
            }
          });
     }
