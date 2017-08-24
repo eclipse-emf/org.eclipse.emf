@@ -93,7 +93,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link LibraryPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -108,7 +108,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     if (isInited) return (LibraryPackage)EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI);
 
     // Obtain or create and register package
-    LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new LibraryPackageImpl());
+    Object registeredLibraryPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    LibraryPackageImpl theLibraryPackage = registeredLibraryPackage instanceof LibraryPackageImpl ? (LibraryPackageImpl)registeredLibraryPackage : new LibraryPackageImpl();
 
     isInited = true;
 
@@ -124,7 +125,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     // Mark meta-data to indicate it can't be changed
     theLibraryPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(LibraryPackage.eNS_URI, theLibraryPackage);
     return theLibraryPackage;
@@ -396,117 +396,117 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
     addAnnotation
-      (bookEClass, 
-       source, 
-       new String[] 
+      (bookEClass,
+       source,
+       new String[]
        {
-       "name", "Book",
-       "kind", "elementOnly"
-       });	
+         "name", "Book",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getBook_Title(), 
-       source, 
-       new String[] 
+      (getBook_Title(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "title"
-       });	
+         "kind", "element",
+         "name", "title"
+       });
     addAnnotation
-      (getBook_Pages(), 
-       source, 
-       new String[] 
+      (getBook_Pages(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "pages"
-       });	
+         "kind", "element",
+         "name", "pages"
+       });
     addAnnotation
-      (getBook_Category(), 
-       source, 
-       new String[] 
+      (getBook_Category(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "category"
-       });	
+         "kind", "element",
+         "name", "category"
+       });
     addAnnotation
-      (getBook_Author(), 
-       source, 
-       new String[] 
+      (getBook_Author(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "author"
-       });	
+         "kind", "element",
+         "name", "author"
+       });
     addAnnotation
-      (bookCategoryEEnum, 
-       source, 
-       new String[] 
+      (bookCategoryEEnum,
+       source,
+       new String[]
        {
-       "name", "BookCategory"
-       });	
+         "name", "BookCategory"
+       });
     addAnnotation
-      (bookCategoryObjectEDataType, 
-       source, 
-       new String[] 
+      (bookCategoryObjectEDataType,
+       source,
+       new String[]
        {
-       "name", "BookCategory:Object",
-       "baseType", "BookCategory"
-       });	
+         "name", "BookCategory:Object",
+         "baseType", "BookCategory"
+       });
     addAnnotation
-      (libraryEClass, 
-       source, 
-       new String[] 
+      (libraryEClass,
+       source,
+       new String[]
        {
-       "name", "Library",
-       "kind", "elementOnly"
-       });	
+         "name", "Library",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getLibrary_Name(), 
-       source, 
-       new String[] 
+      (getLibrary_Name(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "name"
-       });	
+         "kind", "element",
+         "name", "name"
+       });
     addAnnotation
-      (getLibrary_Writers(), 
-       source, 
-       new String[] 
+      (getLibrary_Writers(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "writers"
-       });	
+         "kind", "element",
+         "name", "writers"
+       });
     addAnnotation
-      (getLibrary_Books(), 
-       source, 
-       new String[] 
+      (getLibrary_Books(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "books"
-       });	
+         "kind", "element",
+         "name", "books"
+       });
     addAnnotation
-      (writerEClass, 
-       source, 
-       new String[] 
+      (writerEClass,
+       source,
+       new String[]
        {
-       "name", "Writer",
-       "kind", "elementOnly"
-       });	
+         "name", "Writer",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getWriter_Name(), 
-       source, 
-       new String[] 
+      (getWriter_Name(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "name"
-       });	
+         "kind", "element",
+         "name", "name"
+       });
     addAnnotation
-      (getWriter_Books(), 
-       source, 
-       new String[] 
+      (getWriter_Books(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "books"
+         "kind", "element",
+         "name", "books"
        });
   }
 

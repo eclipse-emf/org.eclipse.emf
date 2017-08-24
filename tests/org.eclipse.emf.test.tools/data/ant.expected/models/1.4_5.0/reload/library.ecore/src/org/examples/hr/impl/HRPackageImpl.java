@@ -62,7 +62,7 @@ public class HRPackageImpl extends EPackageImpl implements HRPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link HRPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -77,12 +77,14 @@ public class HRPackageImpl extends EPackageImpl implements HRPackage
     if (isInited) return (HRPackage)EPackage.Registry.INSTANCE.getEPackage(HRPackage.eNS_URI);
 
     // Obtain or create and register package
-    HRPackageImpl theHRPackage = (HRPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof HRPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new HRPackageImpl());
+    Object registeredHRPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    HRPackageImpl theHRPackage = registeredHRPackage instanceof HRPackageImpl ? (HRPackageImpl)registeredHRPackage : new HRPackageImpl();
 
     isInited = true;
 
     // Obtain or create and register interdependencies
-    LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) : LibraryPackage.eINSTANCE);
+    Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI);
+    LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(registeredPackage instanceof LibraryPackageImpl ? registeredPackage : LibraryPackage.eINSTANCE);
 
     // Create package meta-data objects
     theHRPackage.createPackageContents();
@@ -95,7 +97,6 @@ public class HRPackageImpl extends EPackageImpl implements HRPackage
     // Mark meta-data to indicate it can't be changed
     theHRPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(HRPackage.eNS_URI, theHRPackage);
     return theHRPackage;

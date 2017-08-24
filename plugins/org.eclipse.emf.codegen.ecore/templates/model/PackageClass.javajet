@@ -308,7 +308,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link <%=genPackage.getImportedPackageInterfaceName()%>#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -329,7 +329,8 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 
     <%}%>
 		// Obtain or create and register package
-		<%=genPackage.getPackageClassName()%> the<%=genPackage.getBasicPackageName()%> = (<%=genPackage.getPackageClassName()%>)(<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.get(eNS_URI) instanceof <%=genPackage.getPackageClassName()%> ? <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.get(eNS_URI) : new <%=genPackage.getPackageClassName()%>());
+		Object registered<%=genPackage.getBasicPackageName()%> = <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.get(eNS_URI);
+		<%=genPackage.getPackageClassName()%> the<%=genPackage.getBasicPackageName()%> = registered<%=genPackage.getBasicPackageName()%> instanceof <%=genPackage.getPackageClassName()%> ? (<%=genPackage.getPackageClassName()%>)registered<%=genPackage.getBasicPackageName()%> : new <%=genPackage.getPackageClassName()%>();
 
 		isInited = true;
 
@@ -342,8 +343,9 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
   <%}%>
   <%if (!genPackage.getPackageInterDependencies().isEmpty()) {%>
 		// Obtain or create and register interdependencies
-    <%for (GenPackage interdep : genPackage.getPackageInterDependencies()) {%>
-		<%=interdep.getImportedPackageClassName()%> <%=genPackage.getPackageInstanceVariable(interdep)%> = (<%=interdep.getImportedPackageClassName()%>)(<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=interdep.getImportedPackageInterfaceName()%>.eNS_URI) instanceof <%=interdep.getImportedPackageClassName()%> ? <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=interdep.getImportedPackageInterfaceName()%>.eNS_URI) : <%=interdep.getImportedPackageInterfaceName()%>.eINSTANCE);
+    <%for (ListIterator<GenPackage> i = genPackage.getPackageInterDependencies().listIterator(); i.hasNext(); ) { GenPackage interdep = i.next(); %>
+		<%if (i.previousIndex() == 0) {%>Object <%}%>registeredPackage = <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=interdep.getImportedPackageInterfaceName()%>.eNS_URI);
+		<%=interdep.getImportedPackageClassName()%> <%=genPackage.getPackageInstanceVariable(interdep)%> = (<%=interdep.getImportedPackageClassName()%>)(registeredPackage instanceof <%=interdep.getImportedPackageClassName()%> ? registeredPackage : <%=interdep.getImportedPackageInterfaceName()%>.eINSTANCE);
     <%}%>
 
   <%}%>
@@ -390,7 +392,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
   <%if (genPackage.hasConstraints()) {%>
 		// Register package validator
 		<%=genModel.getImportedName("org.eclipse.emf.ecore.EValidator")%>.Registry.INSTANCE.put
-			(the<%=genPackage.getBasicPackageName()%>, 
+			(the<%=genPackage.getBasicPackageName()%>,
 			 new <%=genModel.getImportedName("org.eclipse.emf.ecore.EValidator")%>.Descriptor()
 			 {
 				 public <%=genModel.getImportedName("org.eclipse.emf.ecore.EValidator")%> getEValidator()
@@ -405,7 +407,6 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 		the<%=genPackage.getBasicPackageName()%>.freeze();
 
   <%}%>
-  
 		// Update the registry and return the package
 		<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.put(<%=genPackage.getImportedPackageInterfaceName()%>.eNS_URI, the<%=genPackage.getBasicPackageName()%>);
 		return the<%=genPackage.getBasicPackageName()%>;
@@ -423,8 +424,8 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
       <%if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;%>
         <%if (!genClass.isDynamic()) { String theClass = genClass.isMapEntry() ? genClass.getImportedClassName() : genClass.getRawImportedInterfaceName(); if (helpers.add(theClass)) {%>
 		<%=genModel.getImportedName("org.eclipse.emf.common.util.Reflect")%>.register
-			(<%=theClass%>.class, 
-			 new <%=genModel.getImportedName("org.eclipse.emf.common.util.Reflect")%>.Helper() 
+			(<%=theClass%>.class,
+			 new <%=genModel.getImportedName("org.eclipse.emf.common.util.Reflect")%>.Helper()
 			 {
 				 public boolean isInstance(Object instance)
 				 {
@@ -440,8 +441,8 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
       <%} else if (genClassifier instanceof GenDataType) { GenDataType genDataType = (GenDataType)genClassifier;%>
         <%if (!genDataType.isPrimitiveType() && !genDataType.isObjectType()) { String theClass = genDataType.getRawImportedInstanceClassName(); if (helpers.add(theClass)) { %>
 		<%=genModel.getImportedName("org.eclipse.emf.common.util.Reflect")%>.register
-			(<%=theClass%>.class, 
-			 new <%=genModel.getImportedName("org.eclipse.emf.common.util.Reflect")%>.Helper() 
+			(<%=theClass%>.class,
+			 new <%=genModel.getImportedName("org.eclipse.emf.common.util.Reflect")%>.Helper()
 			 {
 				 public boolean isInstance(Object instance)
 				 {
@@ -1052,18 +1053,18 @@ int maxGenericTypeAssignment = 0;
 	{
 		String source = <%if (annotationSource == null) {%>null;<%} else {%>"<%=annotationSource%>";<%=genModel.getNonNLS()%><%}%>
       <%for (EAnnotation eAnnotation : genPackage.getAllAnnotations()) { List<GenPackage.AnnotationReferenceData> annotationReferenceDataList = genPackage.getReferenceData(eAnnotation);%>
-        <%if (annotationSource == null ? eAnnotation.getSource() == null : annotationSource.equals(eAnnotation.getSource())) {%>	
+        <%if (annotationSource == null ? eAnnotation.getSource() == null : annotationSource.equals(eAnnotation.getSource())) {%>
 		addAnnotation
-		  (<%=genPackage.getAnnotatedModelElementAccessor(eAnnotation)%>, 
-		   source, 
-		   new String[] 
+		  (<%=genPackage.getAnnotatedModelElementAccessor(eAnnotation)%>,
+		   source,
+		   new String[]
 		   {
           <%for (Iterator<Map.Entry<String, String>> k = eAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry<String, String> detail = k.next(); String key = Literals.toStringLiteral(detail.getKey(), genModel); String value = Literals.toStringLiteral(detail.getValue(), genModel);%>
-			 <%=key%>, <%=value%><%=k.hasNext() ? "," : ""%><%=genModel.getNonNLS(key + value)%>
+			   <%=key%>, <%=value%><%=k.hasNext() ? "," : ""%><%=genModel.getNonNLS(key + value)%>
           <%}%>
 		   }<%if (annotationReferenceDataList.isEmpty()) {%>);<%} else {%>,<%}%>
           <%if (!annotationReferenceDataList.isEmpty()) {%>
-		   new <%=genModel.getImportedName("org.eclipse.emf.common.util.URI")%>[] 
+		   new <%=genModel.getImportedName("org.eclipse.emf.common.util.URI")%>[]
 		   {
             <%for (Iterator<GenPackage.AnnotationReferenceData> k = annotationReferenceDataList.iterator(); k.hasNext();) { GenPackage.AnnotationReferenceData annotationReferenceData = k.next();%>
 			 <%=genModel.getImportedName("org.eclipse.emf.common.util.URI")%>.createURI(<%if (annotationReferenceData.containingGenPackage != genPackage) {%><%=annotationReferenceData.containingGenPackage.getImportedPackageInterfaceName()%>.<%}%>eNS_URI).appendFragment("<%=annotationReferenceData.uriFragment%>")<%if (k.hasNext()) {%>,<%}%><%=genModel.getNonNLS()%>
@@ -1072,17 +1073,17 @@ int maxGenericTypeAssignment = 0;
           <%}%>
           <%for (EAnnotation nestedEAnnotation : genPackage.getAllNestedAnnotations(eAnnotation)) {String nestedAnnotationSource = nestedEAnnotation.getSource();  int depth = 0; boolean nonContentAnnotation = false; StringBuilder path = new StringBuilder();  for (EObject eContainer = nestedEAnnotation.eContainer(), child = nestedEAnnotation; child != eAnnotation; child = eContainer, eContainer = eContainer.eContainer())  {  boolean nonContentChild = child.eContainmentFeature() != EcorePackage.Literals.EANNOTATION__CONTENTS; if (path.length() != 0) { path.insert(0, ", ");  } path.insert(0, nonContentChild); if (nonContentChild) { nonContentAnnotation = true; } ++depth;  } List<GenPackage.AnnotationReferenceData> nestedAnnotationReferenceDataList = genPackage.getReferenceData(nestedEAnnotation);%>
 		addAnnotation
-		  (<%=genPackage.getAnnotatedModelElementAccessor(eAnnotation)%>, 
+		  (<%=genPackage.getAnnotatedModelElementAccessor(eAnnotation)%>,
 		   <%if (nonContentAnnotation && genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF210_VALUE) {%>new boolean[] { <%=path.toString()%> }<%} else {%><%=depth%><%}%>,
 		   <%if (nestedAnnotationSource == null) {%>null,<%} else {%>"<%=nestedAnnotationSource%>",<%=genModel.getNonNLS()%><%}%>
-		   new String[] 
+		   new String[]
 		   {
             <%for (Iterator<Map.Entry<String, String>> l = nestedEAnnotation.getDetails().iterator(); l.hasNext();) { Map.Entry<String, String> detail = l.next(); String key = Literals.toStringLiteral(detail.getKey(), genModel); String value = Literals.toStringLiteral(detail.getValue(), genModel);%>
-			 <%=key%>, <%=value%><%=l.hasNext() ? "," : ""%><%=genModel.getNonNLS(key + value)%>
+			   <%=key%>, <%=value%><%=l.hasNext() ? "," : ""%><%=genModel.getNonNLS(key + value)%>
             <%}%>
 		   }<%if (nestedAnnotationReferenceDataList.isEmpty()) {%>);<%} else {%>,<%}%>
             <%if (!nestedAnnotationReferenceDataList.isEmpty()) {%>
-		   new <%=genModel.getImportedName("org.eclipse.emf.common.util.URI")%>[] 
+		   new <%=genModel.getImportedName("org.eclipse.emf.common.util.URI")%>[]
 		   {
             <%for (Iterator<GenPackage.AnnotationReferenceData> l = nestedAnnotationReferenceDataList.iterator(); l.hasNext();) { GenPackage.AnnotationReferenceData annotationReferenceData = l.next();%>
 			 <%=genModel.getImportedName("org.eclipse.emf.common.util.URI")%>.createURI(<%if (annotationReferenceData.containingGenPackage != genPackage) {%><%=annotationReferenceData.containingGenPackage.getImportedPackageInterfaceName()%>.<%}%>eNS_URI).appendFragment("<%=annotationReferenceData.uriFragment%>")<%if (l.hasNext()) {%>,<%}%><%=genModel.getNonNLS()%>
@@ -1209,7 +1210,7 @@ int maxGenericTypeAssignment = 0;
 		o.setOrdered(isOrdered);
 		return o;
 	}
-	
+
   <%}%>
   <%if (needsAddEParameter) {%>
 	/**
@@ -1229,7 +1230,7 @@ int maxGenericTypeAssignment = 0;
 		owner.getEParameters().add(p);
 		return p;
 	}
-	
+
   <%}%>
 <%}%>
 <%if (isInterface && genPackage.isLiteralsInterface()) {%>

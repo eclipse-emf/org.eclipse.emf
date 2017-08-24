@@ -85,7 +85,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link LibraryPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -100,12 +100,14 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     if (isInited) return (LibraryPackage)EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI);
 
     // Obtain or create and register package
-    LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new LibraryPackageImpl());
+    Object registeredLibraryPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    LibraryPackageImpl theLibraryPackage = registeredLibraryPackage instanceof LibraryPackageImpl ? (LibraryPackageImpl)registeredLibraryPackage : new LibraryPackageImpl();
 
     isInited = true;
 
     // Obtain or create and register interdependencies
-    HRPackageImpl theHRPackage = (HRPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HRPackage.eNS_URI) instanceof HRPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HRPackage.eNS_URI) : HRPackage.eINSTANCE);
+    Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(HRPackage.eNS_URI);
+    HRPackageImpl theHRPackage = (HRPackageImpl)(registeredPackage instanceof HRPackageImpl ? registeredPackage : HRPackage.eINSTANCE);
 
     // Create package meta-data objects
     theLibraryPackage.createPackageContents();
@@ -118,7 +120,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     // Mark meta-data to indicate it can't be changed
     theLibraryPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(LibraryPackage.eNS_URI, theLibraryPackage);
     return theLibraryPackage;

@@ -68,7 +68,7 @@ public class HrPackageImpl extends EPackageImpl implements HrPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link HrPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -83,7 +83,8 @@ public class HrPackageImpl extends EPackageImpl implements HrPackage
     if (isInited) return (HrPackage)EPackage.Registry.INSTANCE.getEPackage(HrPackage.eNS_URI);
 
     // Obtain or create and register package
-    HrPackageImpl theHrPackage = (HrPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof HrPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new HrPackageImpl());
+    Object registeredHrPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    HrPackageImpl theHrPackage = registeredHrPackage instanceof HrPackageImpl ? (HrPackageImpl)registeredHrPackage : new HrPackageImpl();
 
     isInited = true;
 
@@ -91,8 +92,10 @@ public class HrPackageImpl extends EPackageImpl implements HrPackage
     XMLTypePackage.eINSTANCE.eClass();
 
     // Obtain or create and register interdependencies
-    ElementsPackageImpl theElementsPackage = (ElementsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ElementsPackage.eNS_URI) instanceof ElementsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ElementsPackage.eNS_URI) : ElementsPackage.eINSTANCE);
-    LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) : LibraryPackage.eINSTANCE);
+    Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ElementsPackage.eNS_URI);
+    ElementsPackageImpl theElementsPackage = (ElementsPackageImpl)(registeredPackage instanceof ElementsPackageImpl ? registeredPackage : ElementsPackage.eINSTANCE);
+    registeredPackage = EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI);
+    LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(registeredPackage instanceof LibraryPackageImpl ? registeredPackage : LibraryPackage.eINSTANCE);
 
     // Create package meta-data objects
     theHrPackage.createPackageContents();
@@ -107,7 +110,6 @@ public class HrPackageImpl extends EPackageImpl implements HrPackage
     // Mark meta-data to indicate it can't be changed
     theHrPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(HrPackage.eNS_URI, theHrPackage);
     return theHrPackage;
@@ -229,30 +231,30 @@ public class HrPackageImpl extends EPackageImpl implements HrPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$	
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$
     addAnnotation
-      (personEClass, 
-       source, 
-       new String[] 
+      (personEClass,
+       source,
+       new String[]
        {
-       "name", "Person", //$NON-NLS-1$ //$NON-NLS-2$
-       "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "name", "Person", //$NON-NLS-1$ //$NON-NLS-2$
+         "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getPerson_Name(), 
-       source, 
-       new String[] 
+      (getPerson_Name(),
+       source,
+       new String[]
        {
-       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-       "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+         "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getPerson_Library(), 
-       source, 
-       new String[] 
+      (getPerson_Library(),
+       source,
+       new String[]
        {
-       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-       "name", "library" //$NON-NLS-1$ //$NON-NLS-2$
+         "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+         "name", "library" //$NON-NLS-1$ //$NON-NLS-2$
        });
   }
 

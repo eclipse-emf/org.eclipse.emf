@@ -93,7 +93,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link LibraryPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -108,7 +108,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     if (isInited) return (LibraryPackage)EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI);
 
     // Obtain or create and register package
-    LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new LibraryPackageImpl());
+    Object registeredLibraryPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    LibraryPackageImpl theLibraryPackage = registeredLibraryPackage instanceof LibraryPackageImpl ? (LibraryPackageImpl)registeredLibraryPackage : new LibraryPackageImpl();
 
     isInited = true;
 
@@ -124,7 +125,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     // Mark meta-data to indicate it can't be changed
     theLibraryPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(LibraryPackage.eNS_URI, theLibraryPackage);
     return theLibraryPackage;
@@ -405,125 +405,125 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$	
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$
     addAnnotation
-      (bookEClass, 
-       source, 
-       new String[] 
+      (bookEClass,
+       source,
+       new String[]
        {
-       "name", "Book", //$NON-NLS-1$ //$NON-NLS-2$
-       "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "name", "Book", //$NON-NLS-1$ //$NON-NLS-2$
+         "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getBook_Title(), 
-       source, 
-       new String[] 
+      (getBook_Title(),
+       source,
+       new String[]
        {
-       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-       "name", "title" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+         "name", "title" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getBook_Pages(), 
-       source, 
-       new String[] 
+      (getBook_Pages(),
+       source,
+       new String[]
        {
-       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-       "name", "pages" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+         "name", "pages" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getBook_Category(), 
-       source, 
-       new String[] 
+      (getBook_Category(),
+       source,
+       new String[]
        {
-       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-       "name", "category" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+         "name", "category" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getBook_Author(), 
-       source, 
-       new String[] 
+      (getBook_Author(),
+       source,
+       new String[]
        {
-       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-       "name", "author" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+         "name", "author" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (bookCategoryEEnum, 
-       source, 
-       new String[] 
+      (bookCategoryEEnum,
+       source,
+       new String[]
        {
-       "name", "BookCategory" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "name", "BookCategory" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (bookCategoryObjectEDataType, 
-       source, 
-       new String[] 
+      (bookCategoryObjectEDataType,
+       source,
+       new String[]
        {
-       "name", "BookCategory:Object", //$NON-NLS-1$ //$NON-NLS-2$
-       "baseType", "BookCategory" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "name", "BookCategory:Object", //$NON-NLS-1$ //$NON-NLS-2$
+         "baseType", "BookCategory" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (libraryEClass, 
-       source, 
-       new String[] 
+      (libraryEClass,
+       source,
+       new String[]
        {
-       "name", "Library", //$NON-NLS-1$ //$NON-NLS-2$
-       "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "name", "Library", //$NON-NLS-1$ //$NON-NLS-2$
+         "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getLibrary_Name(), 
-       source, 
-       new String[] 
+      (getLibrary_Name(),
+       source,
+       new String[]
        {
-       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-       "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+         "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getLibrary_Site(), 
-       source, 
-       new String[] 
+      (getLibrary_Site(),
+       source,
+       new String[]
        {
-       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-       "name", "site" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+         "name", "site" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getLibrary_Writers(), 
-       source, 
-       new String[] 
+      (getLibrary_Writers(),
+       source,
+       new String[]
        {
-       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-       "name", "writers" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+         "name", "writers" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getLibrary_Books(), 
-       source, 
-       new String[] 
+      (getLibrary_Books(),
+       source,
+       new String[]
        {
-       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-       "name", "books" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+         "name", "books" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (writerEClass, 
-       source, 
-       new String[] 
+      (writerEClass,
+       source,
+       new String[]
        {
-       "name", "Writer", //$NON-NLS-1$ //$NON-NLS-2$
-       "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "name", "Writer", //$NON-NLS-1$ //$NON-NLS-2$
+         "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getWriter_Name(), 
-       source, 
-       new String[] 
+      (getWriter_Name(),
+       source,
+       new String[]
        {
-       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-       "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+         "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getWriter_Books(), 
-       source, 
-       new String[] 
+      (getWriter_Books(),
+       source,
+       new String[]
        {
-       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-       "name", "books" //$NON-NLS-1$ //$NON-NLS-2$
+         "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+         "name", "books" //$NON-NLS-1$ //$NON-NLS-2$
        });
   }
 

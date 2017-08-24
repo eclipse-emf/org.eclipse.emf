@@ -66,7 +66,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link LibraryPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -81,7 +81,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     if (isInited) return (LibraryPackage)EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI);
 
     // Obtain or create and register package
-    LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new LibraryPackageImpl());
+    Object registeredLibraryPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    LibraryPackageImpl theLibraryPackage = registeredLibraryPackage instanceof LibraryPackageImpl ? (LibraryPackageImpl)registeredLibraryPackage : new LibraryPackageImpl();
 
     isInited = true;
 
@@ -89,8 +90,10 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     XMLTypePackage.eINSTANCE.eClass();
 
     // Obtain or create and register interdependencies
-    ElementsPackageImpl theElementsPackage = (ElementsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ElementsPackage.eNS_URI) instanceof ElementsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ElementsPackage.eNS_URI) : ElementsPackage.eINSTANCE);
-    HrPackageImpl theHrPackage = (HrPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HrPackage.eNS_URI) instanceof HrPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HrPackage.eNS_URI) : HrPackage.eINSTANCE);
+    Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ElementsPackage.eNS_URI);
+    ElementsPackageImpl theElementsPackage = (ElementsPackageImpl)(registeredPackage instanceof ElementsPackageImpl ? registeredPackage : ElementsPackage.eINSTANCE);
+    registeredPackage = EPackage.Registry.INSTANCE.getEPackage(HrPackage.eNS_URI);
+    HrPackageImpl theHrPackage = (HrPackageImpl)(registeredPackage instanceof HrPackageImpl ? registeredPackage : HrPackage.eINSTANCE);
 
     // Create package meta-data objects
     theLibraryPackage.createPackageContents();
@@ -105,7 +108,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     // Mark meta-data to indicate it can't be changed
     theLibraryPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(LibraryPackage.eNS_URI, theLibraryPackage);
     return theLibraryPackage;
@@ -256,46 +258,46 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$	
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$
     addAnnotation
-      (libraryEClass, 
-       source, 
-       new String[] 
+      (libraryEClass,
+       source,
+       new String[]
        {
-       "name", "Library", //$NON-NLS-1$ //$NON-NLS-2$
-       "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "name", "Library", //$NON-NLS-1$ //$NON-NLS-2$
+         "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getLibrary_Name(), 
-       source, 
-       new String[] 
+      (getLibrary_Name(),
+       source,
+       new String[]
        {
-       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-       "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+         "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getLibrary_Writers(), 
-       source, 
-       new String[] 
+      (getLibrary_Writers(),
+       source,
+       new String[]
        {
-       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-       "name", "writers" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+         "name", "writers" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getLibrary_Books(), 
-       source, 
-       new String[] 
+      (getLibrary_Books(),
+       source,
+       new String[]
        {
-       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-       "name", "books" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+         "name", "books" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getLibrary_Employees(), 
-       source, 
-       new String[] 
+      (getLibrary_Employees(),
+       source,
+       new String[]
        {
-       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-       "name", "employees" //$NON-NLS-1$ //$NON-NLS-2$
+         "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+         "name", "employees" //$NON-NLS-1$ //$NON-NLS-2$
        });
   }
 
