@@ -1255,9 +1255,9 @@ public class FactoryClass
     }
     } else if (genDataType.getItemType() != null) { GenDataType genItemType = genDataType.getItemType(); 
     stringBuffer.append(TEXT_310);
-    stringBuffer.append(genModel.getImportedName("java.lang.StringBuffer"));
+    stringBuffer.append(genModel.getImportedName(genModel.useGenerics() ? "java.lang.StringBuilder" : "java.lang.StringBuffer"));
     stringBuffer.append(TEXT_311);
-    stringBuffer.append(genModel.getImportedName("java.lang.StringBuffer"));
+    stringBuffer.append(genModel.getImportedName(genModel.useGenerics() ? "java.lang.StringBuilder" : "java.lang.StringBuffer"));
     stringBuffer.append(TEXT_312);
     String item; if (!genModel.useGenerics()) { item = "i.next()"; 
     stringBuffer.append(TEXT_313);

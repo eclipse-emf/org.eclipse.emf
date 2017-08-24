@@ -238,7 +238,7 @@ public class WriterNameMapImpl extends EObjectImpl implements BasicEMap.Entry<St
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (key: ");
     result.append(key);
     result.append(')');

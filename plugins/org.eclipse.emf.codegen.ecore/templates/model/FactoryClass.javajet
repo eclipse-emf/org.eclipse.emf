@@ -484,7 +484,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
     <%} else if (genDataType.getItemType() != null) { GenDataType genItemType = genDataType.getItemType(); %>
 		if (instanceValue == null) return null;
 		if (instanceValue.isEmpty()) return "";
-		<%=genModel.getImportedName("java.lang.StringBuffer")%> result = new <%=genModel.getImportedName("java.lang.StringBuffer")%>();
+		<%=genModel.getImportedName(genModel.useGenerics() ? "java.lang.StringBuilder" : "java.lang.StringBuffer")%> result = new <%=genModel.getImportedName(genModel.useGenerics() ? "java.lang.StringBuilder" : "java.lang.StringBuffer")%>();
         <%String item; if (!genModel.useGenerics()) { item = "i.next()"; %>
 		for (<%=genModel.getImportedName("java.util.Iterator")%> i = instanceValue.iterator(); i.hasNext(); )
         <%} else { item = "item";%>
