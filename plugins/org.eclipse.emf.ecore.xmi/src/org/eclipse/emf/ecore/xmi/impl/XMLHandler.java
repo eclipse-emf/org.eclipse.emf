@@ -75,6 +75,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import org.xml.sax.ext.Locator2;
 import org.xml.sax.helpers.DefaultHandler;
 
 
@@ -919,34 +920,51 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   {
     if (locator != null)
     {
-      Class<?> locatorClass = locator.getClass();
-      try
+      if (locator instanceof Locator2)
       {
-        Method encodingMethod = locatorClass.getMethod("getEncoding");
-        String encoding = (String)encodingMethod.invoke(locator);
+        Locator2 locator2 = (Locator2)locator;
+        String encoding = locator2.getEncoding();
         if (encoding != null)
         {
           this.xmlResource.setEncoding(encoding);
         }
-
-        Method versionMethod = locatorClass.getMethod("getXMLVersion");
-        String version = (String)versionMethod.invoke(locator);
+        String version = locator2.getXMLVersion();
         if (version != null)
         {
           this.xmlResource.setXMLVersion(version);
         }
       }
-      catch (NoSuchMethodException e)
+      else
       {
-        // Ignore.
-      }
-      catch (IllegalAccessException e)
-      {
-        // Ignore.
-      }
-      catch (InvocationTargetException e)
-      {
-        // Ignore.
+        Class<?> locatorClass = locator.getClass();
+        try
+        {
+          Method encodingMethod = locatorClass.getMethod("getEncoding");
+          String encoding = (String)encodingMethod.invoke(locator);
+          if (encoding != null)
+          {
+            this.xmlResource.setEncoding(encoding);
+          }
+  
+          Method versionMethod = locatorClass.getMethod("getXMLVersion");
+          String version = (String)versionMethod.invoke(locator);
+          if (version != null)
+          {
+            this.xmlResource.setXMLVersion(version);
+          }
+        }
+        catch (NoSuchMethodException e)
+        {
+          // Ignore.
+        }
+        catch (IllegalAccessException e)
+        {
+          // Ignore.
+        }
+        catch (InvocationTargetException e)
+        {
+          // Ignore.
+        }
       }
     }
   }
