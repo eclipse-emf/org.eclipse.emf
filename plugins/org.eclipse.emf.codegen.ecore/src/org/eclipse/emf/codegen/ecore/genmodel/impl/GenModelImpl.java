@@ -9192,42 +9192,59 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setOSGiCompatible(oldGenModelVersion.isOSGiCompatible());
   }
 
+  private boolean isReconciling;
+
   public boolean reconcile()
   {
-    clearCache();
-    EList<GenPackage> genPackages = getGenPackages();
-    for (Iterator<GenPackage> i = genPackages.iterator(); i.hasNext(); )
+    if (isReconciling)
     {
-      GenPackage genPackage = i.next();
-      if (!genPackage.reconcile())
-      {
-        i.remove();
-      }
+      return !getGenPackages().isEmpty();
     }
-    EList<GenPackage> usedGenPackages = getUsedGenPackages();
-    for (Iterator<GenPackage> i = usedGenPackages.iterator(); i.hasNext(); )
+    else
     {
-      GenPackage genPackage = i.next();
-      if (!genPackage.reconcile())
+      isReconciling = true;
+      try
       {
-        i.remove();
-      }
-    }
-    List<EPackage> missingEPackages = new UniqueEList<EPackage>(getMissingPackages());
-    usedGenPackages.addAll(computeMissingUsedGenPackages(missingEPackages));
+        clearCache();
+        EList<GenPackage> genPackages = getGenPackages();
+        for (Iterator<GenPackage> i = genPackages.iterator(); i.hasNext();)
+        {
+          GenPackage genPackage = i.next();
+          if (!genPackage.reconcile())
+          {
+            i.remove();
+          }
+        }
+        EList<GenPackage> usedGenPackages = getUsedGenPackages();
+        for (Iterator<GenPackage> i = usedGenPackages.iterator(); i.hasNext();)
+        {
+          GenPackage genPackage = i.next();
+          if (!genPackage.reconcile())
+          {
+            i.remove();
+          }
+        }
+        List<EPackage> missingEPackages = new UniqueEList<EPackage>(getMissingPackages());
+        usedGenPackages.addAll(computeMissingUsedGenPackages(missingEPackages));
 
-    for (EPackage ePackage : missingEPackages)
-    {
-      GenPackage genPackage = createGenPackage();
-      genPackage.setEcorePackage(ePackage);
-      genPackages.add(genPackage);
-      if (!genPackage.reconcile())
+        for (EPackage ePackage : missingEPackages)
+        {
+          GenPackage genPackage = createGenPackage();
+          genPackage.setEcorePackage(ePackage);
+          genPackages.add(genPackage);
+          if (!genPackage.reconcile())
+          {
+            genPackages.remove(genPackage);
+          }
+        }
+
+        return !genPackages.isEmpty();
+      }
+      finally
       {
-        genPackages.remove(genPackage);
+        isReconciling = false;
       }
     }
-
-    return !genPackages.isEmpty();
   }
 
   private void clearCache()
