@@ -8,9 +8,12 @@
 package org.eclipse.emf.ecore.xcore.validation;
 
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -27,7 +30,6 @@ public class XcoreDiagnostician extends CancelableDiagnostician
   public XcoreDiagnostician(EValidator.Registry registry)
   {
     super(registry);
-    // TODO Auto-generated constructor stub
   }
 
   @Override
@@ -62,10 +64,27 @@ public class XcoreDiagnostician extends CancelableDiagnostician
         }.convertJavaInstanceTypeName(result, (EGenericType)eObject);
       return result.toString();
     }
+    else if (eObject instanceof GenModel)
+    {
+      GenModel genModel = (GenModel)eObject;
+      return genModel.getModelName();
+    }
+    else if (eObject instanceof GenBase)
+    {
+      GenBase genBase = (GenBase)eObject;
+      EModelElement ecoreModelElement = genBase.getEcoreModelElement();
+      if (ecoreModelElement != null)
+      {
+        return getObjectLabel(ecoreModelElement);
+      }
+      else
+      {
+        return super.getObjectLabel(eObject);
+      }
+    }
     else
     {
       return super.getObjectLabel(eObject);
     }
   }
-
 }

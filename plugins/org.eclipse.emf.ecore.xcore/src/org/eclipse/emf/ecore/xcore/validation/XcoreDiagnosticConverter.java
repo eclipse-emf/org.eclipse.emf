@@ -9,7 +9,11 @@ package org.eclipse.emf.ecore.xcore.validation;
 
 
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EGenericType;
@@ -17,13 +21,17 @@ import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreValidator;
+import org.eclipse.emf.ecore.xcore.XAnnotation;
+import org.eclipse.emf.ecore.xcore.XAnnotationDirective;
 import org.eclipse.emf.ecore.xcore.XClass;
 import org.eclipse.emf.ecore.xcore.XGenericType;
+import org.eclipse.emf.ecore.xcore.XModelElement;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XTypeParameter;
 import org.eclipse.emf.ecore.xcore.XTypedElement;
@@ -122,7 +130,12 @@ public class XcoreDiagnosticConverter extends XtextDiagnosticConverter
         issue.setType(CheckType.FAST);
         issue.setCode(diagnostic.getSource() + "." + diagnostic.getCode());
       }
-      issue.setMessage(diagnostic.getMessage());
+      String message = diagnostic.getMessage();
+      if (isEObjectConstraint(diagnostic) && diagnostic.getCode() == EObjectValidator.EOBJECT__EVERY_DATA_VALUE_CONFORMS && !diagnostic.getChildren().isEmpty())
+      {
+        message += ". " + diagnostic.getChildren().get(0).getMessage();
+      }
+      issue.setMessage(message);
       acceptor.accept(issue);
     }
   }
@@ -150,6 +163,55 @@ public class XcoreDiagnosticConverter extends XtextDiagnosticConverter
       }
     }
     return super.getLocationData(diagnostic);
+  }
+
+  @Override
+  protected IssueLocation getLocationData(EObject eObject, EStructuralFeature eStructuralFeature, int index)
+  {
+    if (eObject instanceof GenBase)
+    {
+      EObject xcoreElement = mapper.getXcoreElement(eObject instanceof GenModel ? ((GenModel)eObject).getGenPackages().get(0) : eObject);
+      if (xcoreElement instanceof XModelElement && eStructuralFeature != null)
+      {
+        XModelElement xModelElement = (XModelElement)xcoreElement;
+        String name = eStructuralFeature.getName();
+        for (XAnnotation xAnnotation : xModelElement.getAnnotations())
+        {
+          XAnnotationDirective source = xAnnotation.getSource();
+          if (source != null && GenModelPackage.eNS_URI.equals(source.getSourceURI()))
+          {
+            for (Map.Entry<String, String> entry : xAnnotation.getDetails())
+            {
+              if (name.equals(entry.getKey()))
+              {
+                return super.getLocationData((EObject)entry, XcorePackage.Literals.XSTRING_TO_STRING_MAP_ENTRY__VALUE);
+              }
+            }
+          }
+        }
+      }
+    }
+    else if (eStructuralFeature != null && eStructuralFeature.getEContainingClass().getEPackage() == EcorePackage.eINSTANCE && eObject instanceof XModelElement)
+    {
+      XModelElement xModelElement = (XModelElement)eObject;
+      String name = eStructuralFeature.getName();
+      for (XAnnotation xAnnotation : xModelElement.getAnnotations())
+      {
+        XAnnotationDirective source = xAnnotation.getSource();
+        if (source != null && EcorePackage.eNS_URI.equals(source.getSourceURI()))
+        {
+          for (Map.Entry<String, String> entry : xAnnotation.getDetails())
+          {
+            if (name.equals(entry.getKey()))
+            {
+              return super.getLocationData((EObject)entry, XcorePackage.Literals.XSTRING_TO_STRING_MAP_ENTRY__VALUE);
+            }
+          }
+        }
+      }
+    }
+
+    return super.getLocationData(eObject, eStructuralFeature, index);
   }
 
   protected EObject getCauser(EObject eObject)

@@ -64,6 +64,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.action.CommandActionHandler;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
 
 
@@ -529,6 +530,7 @@ public class GenModelActionBarContributor
   public GenModelActionBarContributor()
   {
     super(ADDITIONS_LAST_STYLE);
+    liveValidationAction = new DiagnosticDecorator.LiveValidator.LiveValidationAction(GenModelEditPlugin.getPlugin().getDialogSettings());
     showGenAnnotationsAction.setChecked
      (Boolean.parseBoolean(GenModelEditPlugin.getPlugin().getDialogSettings().get("showGenAnnotationsAction")));
   }
@@ -567,6 +569,9 @@ public class GenModelActionBarContributor
 
     generateMenuManager.add(new Separator("annotation-actions"));
     generateMenuManager.add(showGenAnnotationsAction);
+
+    generateMenuManager.add(new Separator("validation-actions"));
+    generateMenuManager.add(liveValidationAction);
 
     generateMenuManager.add(new Separator("global-actions"));
   }

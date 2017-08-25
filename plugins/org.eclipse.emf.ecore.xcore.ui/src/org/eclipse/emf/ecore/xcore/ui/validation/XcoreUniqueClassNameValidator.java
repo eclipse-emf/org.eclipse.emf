@@ -42,7 +42,10 @@ public class XcoreUniqueClassNameValidator extends ProjectAwareUniqueClassNameVa
 			if (contents.size() > 1) {
 				GenModel genmodel = (GenModel) contents.get(1);
 				String modelDirectory = genmodel.getModelDirectory();
-				currentContext.put(OUTPUT_DIR, new Path(modelDirectory));
+				if (modelDirectory != null)
+				{
+				  currentContext.put(OUTPUT_DIR, new Path(modelDirectory));
+				}
 			}
 		}
 		super.doCheckUniqueName(type);

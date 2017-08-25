@@ -26,6 +26,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -47,6 +48,7 @@ import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess;
 import org.eclipse.emf.ecore.xcore.ui.quickfix.XcoreQuickfixProvider;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelInitializer;
+import org.eclipse.emf.ecore.xcore.validation.XcoreResourceValidator;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -59,6 +61,7 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptorDecorator;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.PropertyDescriptor;
 import org.eclipse.emf.edit.ui.provider.PropertySource;
+import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator.DiagnosticDecoratorAdapter;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.CellEditor;
@@ -581,10 +584,21 @@ public class XcoreEditor extends XtextEditor
     }
     resourceSet.eAdapters().add(new EditingDomainProvider());
 
+    // The property sheet does manual validation, but the resource validation is done automatically.
+    // Inform the diagnostic decorator adapter about the results of the resource validation.
+    resourceSet.eAdapters().add(new XcoreResourceValidator.ValidationAdapter()
+      {
+        @Override
+        public void update(Diagnostic diagnostic)
+        {
+          DiagnosticDecoratorAdapter.update(resourceSet, diagnostic);
+        }
+      });
+
     // Create a specialized property sheet page.
     //
     final PropertySheetPage propertySheetPage =
-      new ExtendedPropertySheetPage(editingDomain)
+      new ExtendedPropertySheetPage(editingDomain, ExtendedPropertySheetPage.Decoration.MANUAL)
       {
         protected DelayedProcessor<Control, ITextSelection> delayedProcessor;
 

@@ -7696,7 +7696,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (copyrightText: ");
     result.append(copyrightText);
     result.append(", modelDirectory: ");

@@ -118,6 +118,8 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
         return createGenDecorationFromString(eDataType, initialValue);
       case GenModelPackage.GEN_ECLIPSE_PLATFORM_VERSION:
         return createGenEclipsePlatformVersionFromString(eDataType, initialValue);
+      case GenModelPackage.PATH:
+        return createPathFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -151,6 +153,8 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
         return convertGenDecorationToString(eDataType, instanceValue);
       case GenModelPackage.GEN_ECLIPSE_PLATFORM_VERSION:
         return convertGenEclipsePlatformVersionToString(eDataType, instanceValue);
+      case GenModelPackage.PATH:
+        return convertPathToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -475,6 +479,28 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
   public String convertGenEclipsePlatformVersionToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated NOT
+   */
+  public String createPathFromString(EDataType eDataType, String initialValue)
+  {
+    return initialValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated NOT
+   */
+  public String convertPathToString(EDataType eDataType, Object instanceValue)
+  {
+    return (String)instanceValue;
   }
 
   /**

@@ -90,6 +90,8 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
 // import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
+import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.common.ui.viewer.ColumnViewerInformationControlToolTipSupport;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
@@ -108,6 +110,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.command.ChangeCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -117,6 +120,8 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 // import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
+import org.eclipse.emf.edit.ui.provider.DecoratingColumLabelProvider;
+import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator;
 import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
@@ -424,23 +429,33 @@ public class GenModelEditor
             protected Collection<Resource> changedResources = new ArrayList<Resource>();
             protected Collection<Resource> removedResources = new ArrayList<Resource>();
 
-            public boolean visit(IResourceDelta delta)
+            public boolean visit(final IResourceDelta delta)
             {
               if (delta.getResource().getType() == IResource.FILE)
               {
                 if (delta.getKind() == IResourceDelta.REMOVED ||
-                    delta.getKind() == IResourceDelta.CHANGED && delta.getFlags() != IResourceDelta.MARKERS)
+                    delta.getKind() == IResourceDelta.CHANGED)
                 {
-                  Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(delta.getFullPath().toString(), true), false);
+                  final Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(delta.getFullPath().toString(), true), false);
                   if (resource != null)
                   {
                     if (delta.getKind() == IResourceDelta.REMOVED)
                     {
                       removedResources.add(resource);
                     }
-                    else if (!savedResources.remove(resource))
+                    else
                     {
-                      changedResources.add(resource);
+                      if ((delta.getFlags() & IResourceDelta.MARKERS) != 0)
+                      {
+                        DiagnosticDecorator.DiagnosticAdapter.update(resource, markerHelper.getMarkerDiagnostics(resource, (IFile)delta.getResource(), false));
+                      }
+                      if ((delta.getFlags() & IResourceDelta.CONTENT) != 0)
+                      {
+                        if (!savedResources.remove(resource))
+                        {
+                          changedResources.add(resource);
+                        }
+                      }
                     }
                   }
                 }
@@ -591,12 +606,43 @@ public class GenModelEditor
       updateProblemIndication();
     }
   }
-  
+
   protected void initialize(GenModel genModel)
   {
     updateProblemIndication = false;
-    
-    genModel.reconcile();
+
+    // Reconcile the GenModel using a ChangeCommand.
+    class ReconcileCommand extends ChangeCommand
+    {
+      public ReconcileCommand(GenModel genModel)
+      {
+        super(genModel);
+        setLabel(GenModelEditPlugin.INSTANCE.getString("_UI_ReconcileCommand_name"));
+        setDescription(GenModelEditPlugin.INSTANCE.getString("_UI_ReconcileCommand_description"));
+      }
+
+      @Override
+      protected void doExecute()
+      {
+        ((GenModel)notifier).reconcile();
+      }
+      
+      public boolean hasChanges()
+      {
+        return changeDescription != null && !changeDescription.getObjectChanges().isEmpty();
+      }
+    }
+
+    ReconcileCommand reconcileCommand = new ReconcileCommand(genModel);
+    CommandStack commandStack = editingDomain.getCommandStack();
+    commandStack.execute(reconcileCommand);
+    // If the reconcile operation produced no changes, the command is a no-op so we can remove it from the command stack.
+    // This way the resource is only dirty if it's actually been reconciled in a way that changes the structure.
+    if (!reconcileCommand.hasChanges())
+    {
+      commandStack.undo();
+    }
+
     genModel.setCanGenerate(true);
     validate();
 
@@ -716,7 +762,18 @@ public class GenModelEditor
 
     // Create the command stack that will notify this editor as commands are executed.
     //
-    BasicCommandStack commandStack = new BasicCommandStack();
+    BasicCommandStack commandStack = new BasicCommandStack()
+    {
+      @Override
+      public void execute(Command command)
+      {
+        if (!(command instanceof AbstractCommand.NonDirtying))
+        {
+          DiagnosticDecorator.cancel(editingDomain);
+        }
+        super.execute(command);
+      }
+    };
 
     // Add a listener to set the most recent command's affected objects to be the selection of the viewer with focus.
     //
@@ -1101,11 +1158,12 @@ public class GenModelEditor
         setCurrentViewer(selectionViewer);
   
         selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-        selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+        selectionViewer.setLabelProvider(new DecoratingColumLabelProvider(new AdapterFactoryLabelProvider(adapterFactory), new DiagnosticDecorator(editingDomain, selectionViewer, GenModelEditPlugin.getPlugin().getDialogSettings())));
         selectionViewer.setInput(resource);
         selectionViewer.setSelection(new StructuredSelection(genModel), true);
 
         new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
+        new ColumnViewerInformationControlToolTipSupport(selectionViewer, new DiagnosticDecorator.EditingDomainLocationListener(editingDomain, selectionViewer));
   
         createContextMenuFor(selectionViewer);
         int pageIndex = addPage(tree);
@@ -1249,8 +1307,10 @@ public class GenModelEditor
           //
           contentOutlineViewer.setUseHashlookup(true);
           contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-          contentOutlineViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+          contentOutlineViewer.setLabelProvider(new DecoratingColumLabelProvider(new AdapterFactoryLabelProvider(adapterFactory), new DiagnosticDecorator(editingDomain, contentOutlineViewer, GenModelEditPlugin.getPlugin().getDialogSettings())));
           contentOutlineViewer.setInput(editingDomain.getResourceSet());
+
+          new ColumnViewerInformationControlToolTipSupport(contentOutlineViewer, new DiagnosticDecorator.EditingDomainLocationListener(editingDomain, contentOutlineViewer));
 
           // Make sure our popups work.
           //
@@ -1307,7 +1367,7 @@ public class GenModelEditor
   public IPropertySheetPage getPropertySheetPage()
   {
     PropertySheetPage propertySheetPage =
-      new ExtendedPropertySheetPage(editingDomain)
+      new ExtendedPropertySheetPage(editingDomain, ExtendedPropertySheetPage.Decoration.LIVE, GenModelEditPlugin.getPlugin().getDialogSettings())
       {
         @Override
         public void setSelectionToViewer(List<?> selection)

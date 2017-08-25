@@ -13,6 +13,7 @@ package org.eclipse.emf.codegen.ecore.genmodel;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -2032,6 +2033,18 @@ public interface GenModelPackage extends EPackage
 
 
   /**
+   * The meta object id for the '<em>Path</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see java.lang.String
+   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getPath()
+   * @since 2.14
+   * @generated
+   */
+  int PATH = 23;
+
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel <em>Gen Model</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3981,6 +3994,21 @@ public interface GenModelPackage extends EPackage
   EEnum getGenEclipsePlatformVersion();
 
   /**
+   * Returns the meta object for data type '{@link java.lang.String <em>Path</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+     * <!-- begin-model-doc -->
+     * @since 2.14
+     * <!-- end-model-doc -->
+   * @return the meta object for data type '<em>Path</em>'.
+   * @see java.lang.String
+   * @model instanceClass="java.lang.String"
+   *        annotation="http://www.eclipse.org/emf/2002/Ecore constraints='WellFormedPath'"
+   * @generated
+   */
+  EDataType getPath();
+
+  /**
    * Returns the factory that creates the instances of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -5483,6 +5511,17 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EEnum GEN_ECLIPSE_PLATFORM_VERSION = eINSTANCE.getGenEclipsePlatformVersion();
+
+    /**
+     * The meta object literal for the '<em>Path</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getPath()
+     * @since 2.14
+     * @generated
+     */
+    EDataType PATH = eINSTANCE.getPath();
 
   }
 

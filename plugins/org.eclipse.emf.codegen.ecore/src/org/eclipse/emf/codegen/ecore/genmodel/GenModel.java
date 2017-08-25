@@ -170,7 +170,7 @@ public interface GenModel extends GenBase
    * @return the value of the '<em>Model Directory</em>' attribute.
    * @see #setModelDirectory(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ModelDirectory()
-   * @model
+   * @model dataType="org.eclipse.emf.codegen.ecore.genmodel.Path"
    * @generated
    */
   String getModelDirectory();
@@ -243,7 +243,7 @@ public interface GenModel extends GenBase
    * @see #unsetEditDirectory()
    * @see #setEditDirectory(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_EditDirectory()
-   * @model unsettable="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.codegen.ecore.genmodel.Path"
    * @generated
    */
   String getEditDirectory();
@@ -317,7 +317,7 @@ public interface GenModel extends GenBase
    * @see #unsetEditorDirectory()
    * @see #setEditorDirectory(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_EditorDirectory()
-   * @model unsettable="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.codegen.ecore.genmodel.Path"
    * @generated
    */
   String getEditorDirectory();
@@ -1135,7 +1135,7 @@ public interface GenModel extends GenBase
    * @see #unsetTestsDirectory()
    * @see #setTestsDirectory(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_TestsDirectory()
-   * @model unsettable="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.codegen.ecore.genmodel.Path"
    * @generated
    */
   String getTestsDirectory();

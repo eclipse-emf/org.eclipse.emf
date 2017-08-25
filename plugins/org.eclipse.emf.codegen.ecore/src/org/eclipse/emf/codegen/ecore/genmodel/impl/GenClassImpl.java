@@ -2774,7 +2774,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (provider: ");
     result.append(provider);
     result.append(", image: ");

@@ -858,7 +858,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (property: ");
     result.append(property);
     result.append(", notify: ");

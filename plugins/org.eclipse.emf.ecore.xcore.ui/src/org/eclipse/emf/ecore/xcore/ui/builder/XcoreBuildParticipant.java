@@ -22,8 +22,10 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator;
 import org.eclipse.ui.IWorkbench;
@@ -146,6 +148,7 @@ public class XcoreBuildParticipant extends BuilderParticipant
   @Override
   protected boolean shouldGenerate(Resource resource, IBuildContext context)
   {
-    return true;
+    GenModel genModel = (GenModel)EcoreUtil.getObjectByType(resource.getContents(), GenModelPackage.Literals.GEN_MODEL);
+    return genModel != null && Diagnostician.INSTANCE.validate(genModel, (DiagnosticChain)null);
   }
 }

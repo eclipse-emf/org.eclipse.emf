@@ -12,18 +12,23 @@ package org.eclipse.emf.codegen.ecore.genmodel.util;
 
 import java.util.Map;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.genmodel.*;
-
+import org.eclipse.emf.codegen.ecore.genmodel.impl.Literals;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-//import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.EStructuralFeature;
-
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 
 /**
@@ -68,12 +73,17 @@ public class GenModelValidator extends EObjectValidator
   public static final int NO_ECORE_DATA_TYPE = GENERATED_DIAGNOSTIC_CODE_COUNT + 1;
   
   /**
+   * @see #validatePath_WellFormedPath(String, DiagnosticChain, Map)
+   */
+  public static final int WELL_FORMED_PATH = GENERATED_DIAGNOSTIC_CODE_COUNT + 2;
+  
+  /**
    * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected static final int DIAGNOSTIC_CODE_COUNT = NO_ECORE_DATA_TYPE;
+  protected static final int DIAGNOSTIC_CODE_COUNT = WELL_FORMED_PATH;
 
   /**
    * Creates an instance of the switch.
@@ -155,6 +165,8 @@ public class GenModelValidator extends EObjectValidator
         return validateGenDecoration((GenDecoration)value, diagnostics, context);
       case GenModelPackage.GEN_ECLIPSE_PLATFORM_VERSION:
         return validateGenEclipsePlatformVersion((GenEclipsePlatformVersion)value, diagnostics, context);
+      case GenModelPackage.PATH:
+        return validatePath((String)value, diagnostics, context);
       default:
         return true;
     }
@@ -437,6 +449,73 @@ public class GenModelValidator extends EObjectValidator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean validatePath(String path, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = validatePath_WellFormedPath(path, diagnostics, context);
+    return result;
+  }
+
+  /**
+   * Validates the WellFormedPath constraint of '<em>Path</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public boolean validatePath_WellFormedPath(String path, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    if ("".equals(path))
+    {
+      return true;
+    }
+
+    IStatus status;
+    try
+    {
+      IWorkspaceRoot workspaceRoot = EcorePlugin.getWorkspaceRoot();
+      IPath workspacePath = new Path(path).makeAbsolute();
+      status = workspaceRoot.getWorkspace().validatePath(workspacePath.toString(), IResource.FOLDER);
+      if (status.isOK())
+      {
+        for (char c : path.toCharArray())
+        {
+          if (c < ' ' || c == '\\')
+          {
+            status = new Status(
+              IStatus.ERROR,
+              CodeGenEcorePlugin.ID,
+              CodeGenEcorePlugin.INSTANCE.getString("_UI_BadCharacterInPath_message", new Object []{ Literals.toCharLiteral(c, null) }));
+            break;
+          }
+        }
+      }
+    }
+    catch (RuntimeException exception)
+    {
+      status = new Status(IStatus.ERROR, CodeGenEcorePlugin.ID, exception.getMessage());
+    }
+
+    if (diagnostics != null && !status.isOK())
+    {
+      diagnostics.add(
+        createDiagnostic(
+          Diagnostic.ERROR,
+          DIAGNOSTIC_SOURCE,
+          WELL_FORMED_PATH,
+          "_UI_WellFormedPath_diagnostic",
+          new Object []{ getValueLabel(GenModelPackage.Literals.PATH, path, context), status.getMessage() },
+          new Object []{ path },
+          context));
+    }
+    
+    return status.getSeverity() != IStatus.ERROR;
+  }
+
+  /**
    * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -447,5 +526,4 @@ public class GenModelValidator extends EObjectValidator
   {
     return CodeGenEcorePlugin.INSTANCE;
   }
-
 } //GenModelValidator
