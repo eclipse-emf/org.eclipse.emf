@@ -91,6 +91,11 @@ public class JETCompiler implements JETParseEventListener
                   return delegateIterator.hasNext();
                 }
 
+                public void remove()
+                {
+                  delegateIterator.remove();
+                }
+
                 public Entry<char[], JETConstantDataGenerator> next()
                 {
                   final Entry<String, JETConstantDataGenerator> next = delegateIterator.next();
