@@ -90,8 +90,14 @@ public class <%=genClass.getProviderClassName()%> <%if (genClass.getProviderImpl
 	 * This adds a property descriptor for the <%=genFeature.getFormattedName()%> feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+  <%if (genFeature.hasAPITags()) {%>
+	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
+  <%}%>
 	 * @generated
 	 */
+  <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
+	@Deprecated
+  <%}%>
 	protected void add<%=genFeature.getCapName()%>PropertyDescriptor(Object object)
 	{
 <%@ include file="ItemProvider/addPropertyDescriptor.override.javajetinc" fail="alternative" %>
