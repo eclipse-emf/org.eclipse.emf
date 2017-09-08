@@ -19,10 +19,14 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.AbstractMap;
+import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
@@ -50,7 +54,102 @@ public class JETCompiler implements JETParseEventListener
 
   protected List<JETConstantDataGenerator> constants = new ArrayList<JETConstantDataGenerator>(100);
 
-  protected Map<char[], JETConstantDataGenerator> constantDictionary = new HashMap<char[], JETConstantDataGenerator>(100, 100);
+  protected Map<char[], JETConstantDataGenerator> constantDictionary =
+    new AbstractMap<char[], JETConstantDataGenerator>()
+    {
+      private final Map<String, JETConstantDataGenerator> delegate = new HashMap<String, JETConstantDataGenerator>(100, 100);
+
+      public JETConstantDataGenerator put(char[] key, JETConstantDataGenerator value)
+      {
+        return delegate.put(new String(key), value);
+      }
+
+      public JETConstantDataGenerator get(Object key)
+      {
+        return delegate.get(key instanceof char[] ? new String((char[])key) : key);
+      }
+
+      public int size()
+      {
+        return delegate.size();
+      }
+
+      @Override
+      public Set<Map.Entry<char[], JETConstantDataGenerator>> entrySet()
+      {
+        return
+          new AbstractSet<Map.Entry<char[], JETConstantDataGenerator>>()
+          {
+            public Iterator<Map.Entry<char[],JETConstantDataGenerator>> iterator()
+            {
+              return new Iterator<Map.Entry<char[],JETConstantDataGenerator>>()
+              {
+                private final Iterator<Map.Entry<String,JETConstantDataGenerator>> delegateIterator = delegate.entrySet().iterator();
+
+                public boolean hasNext()
+                {
+                  return delegateIterator.hasNext();
+                }
+
+                public Entry<char[], JETConstantDataGenerator> next()
+                {
+                  final Entry<String, JETConstantDataGenerator> next = delegateIterator.next();
+                  return
+                    new Map.Entry<char[], JETConstantDataGenerator>()
+                    {
+                      public char[] getKey()
+                      {
+                        return next.getKey().toCharArray();
+                      }
+
+                      public JETConstantDataGenerator getValue()
+                      {
+                        return next.getValue();
+                      }
+
+                      public JETConstantDataGenerator setValue(JETConstantDataGenerator value)
+                      {
+                        return next.setValue(value);
+                      }
+
+                      @Override
+                      public boolean equals(Object obj)
+                      {
+                        if (obj instanceof Map.Entry)
+                        {
+                          char[] key = getKey();
+                          String keyValue = key == null ? null : new String(key);
+                          Map.Entry<?,?> entry = (Map.Entry<?, ?>)obj;
+                          Object otherKey = entry.getKey();
+                          Object otherKeyValue = otherKey instanceof char[] ? new String((char[])otherKey) : null;
+                          return
+                            (keyValue==null ? otherKeyValue==null : keyValue.equals(otherKeyValue)) &&
+                              (getValue()==null ? entry.getValue()==null : getValue().equals(entry.getValue()));
+                        }
+                        else
+                        {
+                          return false;
+                        }
+                      }
+
+                      @Override
+                      public int hashCode()
+                      {
+                        return next.hashCode();
+                      }
+                    };
+                }
+              };
+            }
+
+            @Override
+            public int size()
+            {
+              return delegate.size();
+            }
+          };
+      }
+    };
 
   protected long constantCount = 0;
 
