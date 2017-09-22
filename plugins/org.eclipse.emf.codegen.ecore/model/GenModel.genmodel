@@ -248,6 +248,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/oSGiCompatible"/>
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The version of the Eclipse runtime against which to target the generated code for an RCP or IDE runtime platform"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/eclipsePlatformVersion"/>
+      <genFeatures createChild="false" propertyCategory="All" propertyDescription="The Javadoc documentation to generate for the model-level artifacts such as plug-in classes, including any @since or @deprecated tags"
+          propertyMultiLine="true" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/modelDocumentation"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenPackage">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The prefix for names of several packaged-related classes, including package, factory, switch, and adapter factory"
@@ -304,6 +306,8 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genClassifiers"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The workspace-relative location at which to generate a published version of the Ecore model resource"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/publicationLocation"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The Javadoc to be generated, including any @since or @deprecated tags"
+          propertyMultiLine="true" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/documentation"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenClass">
       <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether to generate an item provider and which pattern to use"
@@ -342,6 +346,14 @@
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           propertyDescription="The Ecore model element for this structural feature"
           ecoreFeature="ecore:EReference GenModel.ecore#//GenFeature/ecoreFeature"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to suppress the generated get accessor from the interface"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/suppressedGetVisibility"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to suppress the generated set accessor from the interface"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/suppressedSetVisibility"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to suppress the generated is-set accessor from the interface"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/suppressedIsSetVisibility"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to suppress the generated unset accessor from the interface"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/suppressedUnsetVisibility"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenBase">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenBase/genAnnotations"/>
@@ -361,10 +373,14 @@
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           propertyDescription="The Ecore model element for this enumerated type literal"
           ecoreFeature="ecore:EReference GenModel.ecore#//GenEnumLiteral/ecoreEnumLiteral"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The Javadoc to be generated, including any @since or @deprecated tags"
+          propertyMultiLine="true" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenEnumLiteral/documentation"/>
     </genClasses>
     <genClasses provider="None" image="false" ecoreClass="GenModel.ecore#//GenClassifier">
       <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenClassifier/genPackage"/>
       <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenClassifier/genTypeParameters"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The Javadoc to be generated, including any @since or @deprecated tags"
+          propertyMultiLine="true" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenClassifier/documentation"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenDataType">
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
@@ -376,13 +392,18 @@
           propertyDescription="The Ecore model element for this operation" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/ecoreOperation"/>
       <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/genParameters"/>
       <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/genTypeParameters"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to suppress the generated method from the interface"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenOperation/suppressedVisibility"/>
     </genClasses>
-    <genClasses provider="None" image="false" ecoreClass="GenModel.ecore#//GenParameter">
+    <genClasses image="false" ecoreClass="GenModel.ecore#//GenParameter">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenParameter/genOperation"/>
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           ecoreFeature="ecore:EReference GenModel.ecore#//GenParameter/ecoreParameter"/>
     </genClasses>
-    <genClasses provider="None" image="false" ecoreClass="GenModel.ecore#//GenTypedElement"/>
+    <genClasses provider="None" image="false" ecoreClass="GenModel.ecore#//GenTypedElement">
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The Javadoc to be generated, including any @since or @deprecated tags"
+          propertyMultiLine="true" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenTypedElement/documentation"/>
+    </genClasses>
     <genClasses ecoreClass="GenModel.ecore#//GenAnnotation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenAnnotation/source"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenAnnotation/details"/>
@@ -392,6 +413,8 @@
     </genClasses>
     <genClasses provider="None" image="false" ecoreClass="GenModel.ecore#//GenTypeParameter">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenTypeParameter/ecoreTypeParameter"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The Javadoc to be generated"
+          propertyMultiLine="true" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenTypeParameter/documentation"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

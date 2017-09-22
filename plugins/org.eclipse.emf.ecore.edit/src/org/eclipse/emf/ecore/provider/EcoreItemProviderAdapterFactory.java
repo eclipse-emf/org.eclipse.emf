@@ -13,11 +13,17 @@ package org.eclipse.emf.ecore.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.provider.annotation.EAnnotationItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.util.EcoreAdapterFactory;
+import org.eclipse.emf.ecore.util.EcoreSwitch;
 import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -38,6 +44,11 @@ import org.eclipse.emf.edit.provider.ReflectiveItemProvider;
  * The adapters also support Eclipse property sheets.
  * Note that most of the adapters are shared among multiple instances.
  * <!-- begin-user-doc -->
+ * <p>
+ * This implementation is specialized {@link #adapt(Notifier, Object)} to use the {@link EAnnotationItemProviderAdapterFactory}.
+ * It maintains a {@link #eAnnotationItemProviderAdapterFactories map} from {@link EAnnotation#getSource() annotation source} to EAnnotationItemProviderAdapterFactory,
+ * which it uses to create specialized instances of {@link EAnnotationItemProvider} and {@link EStringToStringMapEntryItemProvider}.
+ * </p>
  * <!-- end-user-doc -->
  * @generated
  */
@@ -66,6 +77,11 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * @generated
    */
   protected Collection<Object> supportedTypes = new ArrayList<Object>();
+
+  /**
+   * @since 2.14
+   */
+  protected Map<String, EAnnotationItemProviderAdapterFactory> eAnnotationItemProviderAdapterFactories = new HashMap<String, EAnnotationItemProviderAdapterFactory>();
 
   /**
    * This constructs an instance.
@@ -493,13 +509,60 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
   /**
    * This implementation substitutes the factory itself as the key for the adapter.
    * <!-- begin-user-doc -->
+   * <p>
+   * This method is specialized to use {@link EAnnotationItemProviderAdapterFactory}.
+   * </p>
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   @Override
-  public Adapter adapt(Notifier notifier, Object type)
+  public Adapter adapt(Notifier notifier, final Object type)
   {
-    return super.adapt(notifier, this);
+    EcoreSwitch<Adapter> annotationSwitch =
+      new EcoreSwitch<Adapter>()
+      {
+        protected EAnnotationItemProviderAdapterFactory getEAnnotationItemProviderAdapterFactory(EAnnotation eAnnotation)
+        {
+          String annotationSource = eAnnotation.getSource();
+          EAnnotationItemProviderAdapterFactory eAnnotationItemProviderAdapterFactory = eAnnotationItemProviderAdapterFactories.get(annotationSource);
+          if (eAnnotationItemProviderAdapterFactory == null)
+          {
+            eAnnotationItemProviderAdapterFactory = EAnnotationItemProviderAdapterFactory.Registry.INSTANCE.createEAnnotationItemProviderAdapterFactory(annotationSource);
+            if (eAnnotationItemProviderAdapterFactory != null)
+            {
+              eAnnotationItemProviderAdapterFactory.setParentAdapterFactory(EcoreItemProviderAdapterFactory.this);
+              eAnnotationItemProviderAdapterFactories.put(annotationSource, eAnnotationItemProviderAdapterFactory);
+            }
+          }
+          return eAnnotationItemProviderAdapterFactory;
+        }
+
+        @Override
+        public Adapter caseEAnnotation(EAnnotation eAnnotation)
+        {
+          EAnnotationItemProviderAdapterFactory eAnnotationItemProviderAdapterFactory = getEAnnotationItemProviderAdapterFactory(eAnnotation);
+          return eAnnotationItemProviderAdapterFactory == null ? null : eAnnotationItemProviderAdapterFactory.adapt(eAnnotation, type);
+        }
+
+        @Override
+        public Adapter caseEStringToStringMapEntry(Map.Entry<String, String> object)
+        {
+          EObject eObject = (EObject)object;
+          EObject eContainer = eObject.eContainer();
+          if (eContainer instanceof EAnnotation)
+          {
+            EAnnotationItemProviderAdapterFactory eAnnotationItemProviderAdapterFactory = getEAnnotationItemProviderAdapterFactory((EAnnotation)eContainer);
+            return eAnnotationItemProviderAdapterFactory == null ? null : eAnnotationItemProviderAdapterFactory.adapt(eObject, type);
+          }
+          else
+          {
+            return null;
+          }
+        }
+      };
+
+    Adapter result = annotationSwitch.doSwitch((EObject)notifier);
+    return result != null ? result : super.adapt(notifier, this);
   }
 
   /**
@@ -566,7 +629,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public void dispose()
+  private void disposeGen()
   {
     if (eAttributeItemProvider != null) eAttributeItemProvider.dispose();
     if (eAnnotationItemProvider != null) eAnnotationItemProvider.dispose();
@@ -585,4 +648,13 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
     if (eTypeParameterItemProvider != null) eTypeParameterItemProvider.dispose();
   }
 
+  public void dispose()
+  {
+    disposeGen();
+    for (EAnnotationItemProviderAdapterFactory eAnnotationItemProviderAdapterFactory : eAnnotationItemProviderAdapterFactories.values())
+    {
+      eAnnotationItemProviderAdapterFactory.dispose();
+    }
+    eAnnotationItemProviderAdapterFactories.clear();
+  }
 }

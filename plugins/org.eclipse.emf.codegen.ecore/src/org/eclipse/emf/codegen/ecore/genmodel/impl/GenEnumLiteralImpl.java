@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenEnumLiteralImpl#getGenEnum <em>Gen Enum</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenEnumLiteralImpl#getEcoreEnumLiteral <em>Ecore Enum Literal</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenEnumLiteralImpl#getDocumentation <em>Documentation</em>}</li>
  * </ul>
  *
  * @generated
@@ -52,6 +53,37 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * @ordered
    */
   protected EEnumLiteral ecoreEnumLiteral;
+
+  /**
+   * The default value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDocumentation()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final String DOCUMENTATION_EDEFAULT = null;
+  /**
+   * The cached value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDocumentation()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected String documentation = DOCUMENTATION_EDEFAULT;
+
+  /**
+   * This is true if the Documentation attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean documentationESet;
 
   /**
    * <!-- begin-user-doc -->
@@ -177,6 +209,66 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public String getDocumentationGen()
+  {
+    return documentation;
+  }
+
+  @Override
+  public String getDocumentation()
+  {
+    return isSetDocumentation() ? getDocumentationGen() : super.getDocumentation();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setDocumentation(String newDocumentation)
+  {
+    String oldDocumentation = documentation;
+    documentation = newDocumentation;
+    boolean oldDocumentationESet = documentationESet;
+    documentationESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_ENUM_LITERAL__DOCUMENTATION, oldDocumentation, documentation, !oldDocumentationESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetDocumentation()
+  {
+    String oldDocumentation = documentation;
+    boolean oldDocumentationESet = documentationESet;
+    documentation = DOCUMENTATION_EDEFAULT;
+    documentationESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_ENUM_LITERAL__DOCUMENTATION, oldDocumentation, DOCUMENTATION_EDEFAULT, oldDocumentationESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetDocumentation()
+  {
+    return documentationESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   @Override
@@ -239,6 +331,8 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
       case GenModelPackage.GEN_ENUM_LITERAL__ECORE_ENUM_LITERAL:
         if (resolve) return getEcoreEnumLiteral();
         return basicGetEcoreEnumLiteral();
+      case GenModelPackage.GEN_ENUM_LITERAL__DOCUMENTATION:
+        return getDocumentation();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -258,6 +352,9 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
         return;
       case GenModelPackage.GEN_ENUM_LITERAL__ECORE_ENUM_LITERAL:
         setEcoreEnumLiteral((EEnumLiteral)newValue);
+        return;
+      case GenModelPackage.GEN_ENUM_LITERAL__DOCUMENTATION:
+        setDocumentation((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -279,6 +376,9 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
       case GenModelPackage.GEN_ENUM_LITERAL__ECORE_ENUM_LITERAL:
         setEcoreEnumLiteral((EEnumLiteral)null);
         return;
+      case GenModelPackage.GEN_ENUM_LITERAL__DOCUMENTATION:
+        unsetDocumentation();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -297,8 +397,27 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
         return getGenEnum() != null;
       case GenModelPackage.GEN_ENUM_LITERAL__ECORE_ENUM_LITERAL:
         return ecoreEnumLiteral != null;
+      case GenModelPackage.GEN_ENUM_LITERAL__DOCUMENTATION:
+        return isSetDocumentation();
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (documentation: ");
+    if (documentationESet) result.append(documentation); else result.append("<unset>");
+    result.append(')');
+    return result.toString();
   }
 
   @Override
@@ -413,6 +532,11 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
   protected void reconcileSettings(GenEnumLiteral oldGenEnumLiteralVersion)
   {
     reconcileGenAnnotations(oldGenEnumLiteralVersion);
+
+    if (oldGenEnumLiteralVersion.eIsSet(GenModelPackage.Literals.GEN_ENUM_LITERAL__DOCUMENTATION))
+    {
+      setDocumentation(oldGenEnumLiteralVersion.getDocumentation());
+    }
   }
 
   public boolean reconcile()

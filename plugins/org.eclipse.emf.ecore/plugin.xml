@@ -15,6 +15,7 @@
    <extension-point id="invocation_delegate" name="%_UI_InvocationDelegateRegistry_extensionpoint" schema="schema/invocation_delegate.exsd"/>
    <extension-point id="query_delegate" name="%_UI_QueryDelegateRegistry_extensionpoint" schema="schema/query_delegate.exsd"/>
    <extension-point id="conversion_delegate" name="%_UI_ConversionDelegateRegistry_extensionpoint" schema="schema/conversion_delegate.exsd"/>
+   <extension-point id="annotation_validator" name="%_UI_AnnotationValidatorRegistry_extensionpoint" schema="schema/annotation_validator.exsd"/>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
@@ -74,4 +75,17 @@
             priority="2000">
       </contentHandler>
    </extension>
+
+   <extension
+         point="org.eclipse.emf.ecore.annotation_validator">
+      <validator
+            uri="http://www.eclipse.org/emf/2002/Ecore"
+            class="org.eclipse.emf.ecore.util.EcoreAnnotationValidator">
+      </validator>
+      <validator
+            uri="http:///org/eclipse/emf/ecore/util/ExtendedMetaData"
+            class="org.eclipse.emf.ecore.util.ExtendedMetaDataAnnotationValidator">
+      </validator>
+   </extension>
+
 </plugin>

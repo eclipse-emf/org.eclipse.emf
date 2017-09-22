@@ -726,7 +726,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (nsURI: ");
     result.append(nsURI);
     result.append(", nsPrefix: ");

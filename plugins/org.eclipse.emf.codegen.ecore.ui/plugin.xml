@@ -39,7 +39,15 @@
                org.eclipse.emf.edit.provider.IItemLabelProvider
                org.eclipse.emf.edit.provider.IItemPropertySource"/>
    </extension>
-   
+
+   <extension
+         point="org.eclipse.emf.ecore.edit.annotation_item_provider_adapter_factory">
+      <factory
+            uri="http://www.eclipse.org/emf/2002/GenModel"
+            class="org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEAnnotationItemProviderAdapterFactory">
+      </factory>
+   </extension>
+
    <extension point="org.eclipse.ui.commands">
       <category
             id="org.eclipse.emf.codegen.ecore.ui.Commands"

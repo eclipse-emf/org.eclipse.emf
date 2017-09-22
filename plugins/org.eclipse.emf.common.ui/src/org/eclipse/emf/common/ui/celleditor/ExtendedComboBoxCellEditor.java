@@ -11,6 +11,7 @@
 package org.eclipse.emf.common.ui.celleditor;
 
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -18,15 +19,24 @@ import java.util.List;
 
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
+import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseTrackAdapter;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 
 
 /**
@@ -35,6 +45,17 @@ import org.eclipse.swt.widgets.Control;
  */
 public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
 {
+  /**
+   * A handler for providing validation feedback and for converting from literal values to instances values.
+   *
+   * @since 2.14
+   */
+  public interface ValueHandler
+  {
+    String isValid(String text);
+    Object toValue(String text);
+  }
+
   private static class StringPositionPair implements Comparable<StringPositionPair>
   {
     Comparator<String> comparator = CommonPlugin.INSTANCE.getComparator();
@@ -173,32 +194,155 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
 
   protected boolean sorted;
 
+  /**
+   * @since 2.14
+   */
+  protected boolean autoShowDropDownList;
+
+  private boolean mouseInCombo;
+
   public ExtendedComboBoxCellEditor(Composite composite, List<?> list, ILabelProvider labelProvider)
   {
-    this(composite, list, labelProvider, false, SWT.READ_ONLY);
+    this(composite, list, labelProvider, false, SWT.READ_ONLY, null, false);
   }
 
   public ExtendedComboBoxCellEditor(Composite composite, List<?> list, ILabelProvider labelProvider, boolean sorted)
   {
-    this(composite, list, labelProvider, sorted, SWT.READ_ONLY);
+    this(composite, list, labelProvider, sorted, SWT.READ_ONLY, null, false);
   }
 
   public ExtendedComboBoxCellEditor(Composite composite, List<?> list, ILabelProvider labelProvider, int style)
   {
-    this(composite, list, labelProvider, false, style);
+    this(composite, list, labelProvider, false, style, null, false);
   }
 
   public ExtendedComboBoxCellEditor(Composite composite, List<?> list, ILabelProvider labelProvider, boolean sorted, int style)
+  {
+    this(composite, list, labelProvider, sorted, style, null, false);
+  }
+
+  /**
+   * This constructor is useful for creating a cell editor that supports both choices of values as well as direct entry of a value in the text field.
+   *
+   * @since 2.14
+   */
+  public ExtendedComboBoxCellEditor(Composite composite, List<?> list, ILabelProvider labelProvider, boolean sorted, int style, final ValueHandler valueHandler, boolean autoShowDropDownList)
   {
     super(composite, createItems(sorted ? list = new ArrayList<Object>(list) : list, labelProvider, null, sorted), style);
     this.originalList = list;
     this.list = list;
     this.labelProvider = labelProvider;
     this.sorted = sorted;
+    this.autoShowDropDownList = autoShowDropDownList;
+    final CCombo combo = (CCombo)getControl();
     if ((style & SWT.READ_ONLY) != 0)
     {
       new FilteringAdapter(getControl());
+
+      // Clicking in the text area while the drop down list is showing, will cause the drop down to disappear and reappear.
+      // If we keep track of the very short time between the focus lost and the mouse down event, we can avoid that.
+      class DropDownAvoider extends FocusAdapter implements Listener
+      {
+        private long focusLostTime;
+
+        @Override
+        public void focusLost(FocusEvent e)
+        {
+          focusLostTime = System.currentTimeMillis();
+        }
+
+        public void handleEvent(Event event)
+        {
+          if (System.currentTimeMillis() - focusLostTime < 100)
+          {
+            event.doit = false;
+          }
+        }
+      }
+
+      DropDownAvoider dopDownAvoider = new DropDownAvoider();
+      combo.addListener(SWT.MouseDown, dopDownAvoider);
+      combo.addFocusListener(dopDownAvoider);
     }
+    else if (valueHandler != null)
+    {
+      setValidator(new ICellEditorValidator()
+        {
+          public String isValid(Object value)
+          {
+            return valueHandler.isValid((String)value);
+          }
+        });
+
+      combo.addModifyListener
+        (new ModifyListener()
+         {
+          boolean updating;
+
+          public void modifyText(ModifyEvent e)
+          {
+            if (!updating)
+            {
+              updating = true;
+
+              String text = combo.getText();
+              ArrayList<Object> newList = new ArrayList<Object>(originalList);
+              Object valueToSelect = null;
+
+              try
+              {
+                valueToSelect = valueHandler.toValue(text);
+                if (!newList.contains(valueToSelect))
+                {
+                  newList.add(0, valueToSelect);
+                }
+              }
+              catch (RuntimeException exception)
+              {
+                // Ignore.
+              }
+
+              String[] items = createItems(newList, ExtendedComboBoxCellEditor.this.labelProvider, null, ExtendedComboBoxCellEditor.this.sorted);
+              ExtendedComboBoxCellEditor.this.list = newList;
+              combo.setItems(items);
+              combo.notifyListeners(SWT.Selection, new Event());
+              combo.setRedraw(false);
+              Point selection = combo.getSelection();
+              if (ExtendedComboBoxCellEditor.this.list.contains(valueToSelect))
+              {
+                setValue(valueToSelect);
+              }
+              else if (!ExtendedComboBoxCellEditor.this.list.isEmpty())
+              {
+                setValue(ExtendedComboBoxCellEditor.this.list.get(0));
+              }
+              combo.setText(text);
+              combo.setSelection(selection);
+              String oldErrorMessage = getErrorMessage();
+              String newErrorMessage = valueHandler.isValid(text);
+              setErrorMessage(newErrorMessage == null ? null : MessageFormat.format(newErrorMessage, new Object[0]));
+              fireEditorValueChanged(oldErrorMessage == null, newErrorMessage == null);
+              combo.setRedraw(true);
+              updating = false;
+            }
+          }
+         });
+    }
+
+    combo.addMouseTrackListener(new MouseTrackAdapter()
+      {
+        @Override
+        public void mouseExit(MouseEvent e)
+        {
+          mouseInCombo = false;
+        }
+
+        @Override
+        public void mouseEnter(MouseEvent e)
+        {
+          mouseInCombo = true;
+        }
+      });
   }
 
   protected void refreshItems(String filter)
@@ -225,6 +369,22 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
     }
   }
 
+  /**
+   * When the drop down button is clicked while the drop down list is showing,
+   * the focus goes to the shell, but the cell editor will get focus again so hasn't really lost focus for long.
+   * We track whether the mouse is currently in the combo and ignore focus lost in this case.
+   */
+  @Override
+  protected void focusLost()
+  {
+    if (!mouseInCombo)
+    {
+      // Send one more event to ensure that the current text is selected at the right index in the list.
+      ((CCombo)getControl()).notifyListeners(SWT.Modify, null);
+      super.focusLost();
+    }
+  }
+
   @Override
   public Object doGetValue()
   {
@@ -240,9 +400,26 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
     // Set the index of the object value in the list via this call to super.
     //
     int index = list.indexOf(value);
+    if (index == -1 && value != null)
+    {
+      // Look for the item textually.
+      String text = labelProvider.getText(value);
+      index = Arrays.asList(getItems()).indexOf(text);
+    }
     if (index != -1)
     {
       super.doSetValue(index);
+    }
+  }
+
+  @Override
+  public void setFocus()
+  {
+    super.setFocus();
+
+    if (autoShowDropDownList)
+    {
+      ((CCombo)getControl()).setListVisible(true);
     }
   }
 

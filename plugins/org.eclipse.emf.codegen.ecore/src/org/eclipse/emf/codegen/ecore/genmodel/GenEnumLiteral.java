@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EEnumLiteral;
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral#getGenEnum <em>Gen Enum</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral#getEcoreEnumLiteral <em>Ecore Enum Literal</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral#getDocumentation <em>Documentation</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenEnumLiteral()
@@ -78,6 +79,32 @@ public interface GenEnumLiteral extends GenBase
    * @generated
    */
   void setEcoreEnumLiteral(EEnumLiteral value);
+
+  /**
+   * Returns the value of the '<em><b>Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.14
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Documentation</em>' attribute.
+   * @see #setDocumentation(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenEnumLiteral_Documentation()
+   * @model unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
+   * @generated
+   */
+  String getDocumentation();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral#getDocumentation <em>Documentation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Documentation</em>' attribute.
+   * @see #getDocumentation()
+   * @since 2.14
+   * @generated
+   */
+  void setDocumentation(String value);
 
   String getName();
   String getCapName();

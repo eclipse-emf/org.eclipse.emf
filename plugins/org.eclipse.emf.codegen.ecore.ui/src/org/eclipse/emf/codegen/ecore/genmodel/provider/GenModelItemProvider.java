@@ -149,6 +149,7 @@ public class GenModelItemProvider
       addCleanupPropertyDescriptor(object);
       addOSGiCompatiblePropertyDescriptor(object);
       addEclipsePlatformVersionPropertyDescriptor(object);
+      addModelDocumentationPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -1998,6 +1999,7 @@ public class GenModelItemProvider
    * This adds a property descriptor for the Eclipse Platform Version feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
    * @generated
    */
   protected void addEclipsePlatformVersionPropertyDescriptor(Object object)
@@ -2011,6 +2013,30 @@ public class GenModelItemProvider
          GenModelPackage.Literals.GEN_MODEL__ECLIPSE_PLATFORM_VERSION,
          true,
          false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_AllPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Model Documentation feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addModelDocumentationPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_modelDocumentation_feature"),
+         getString("_UI_GenModel_modelDocumentation_description"),
+         GenModelPackage.Literals.GEN_MODEL__MODEL_DOCUMENTATION,
+         true,
+         true,
          false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_AllPropertyCategory"),
@@ -2168,6 +2194,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__CLEANUP:
       case GenModelPackage.GEN_MODEL__OS_GI_COMPATIBLE:
       case GenModelPackage.GEN_MODEL__ECLIPSE_PLATFORM_VERSION:
+      case GenModelPackage.GEN_MODEL__MODEL_DOCUMENTATION:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:

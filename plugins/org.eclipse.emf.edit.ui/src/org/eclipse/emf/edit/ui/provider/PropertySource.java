@@ -16,17 +16,16 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
-import org.eclipse.ui.views.properties.IPropertySource;
-import org.eclipse.ui.views.properties.IPropertySource2;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
+import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
 
 /**
  * This is used to encapsulate an {@link IItemPropertySource} along with the object for which it is an item property source
  * and make it behave like an {@link org.eclipse.ui.views.properties.IPropertySource}.
  */
-public class PropertySource implements IPropertySource, IPropertySource2
+public class PropertySource implements ExtendedPropertySheetPage.IUnsettablePropertySource
 {
   /**
    * This is the object for which this class is a property source.
@@ -95,7 +94,7 @@ public class PropertySource implements IPropertySource, IPropertySource2
   }
 
   /**
-   * This returns <code>true</code> only when {@link IItemPropertyDescriptor#isPropertySet IItemPropertyDescriptor.isPropertySet} 
+   * This returns <code>true</code> only when {@link IItemPropertyDescriptor#isPropertySet IItemPropertyDescriptor.isPropertySet}
    * and {@link IItemPropertyDescriptor#canSetProperty IItemPropertyDescriptor.canSetProperty} are <code>true</code>.
    * @since 2.10
    */
@@ -119,5 +118,19 @@ public class PropertySource implements IPropertySource, IPropertySource2
   public void setPropertyValue(Object propertyId, Object value)
   {
     itemPropertySource.getPropertyDescriptor(object, propertyId).setPropertyValue(object, value);
+  }
+
+  /**
+   * This returns <code>true</code> only when {@link IItemPropertyDescriptor.ValueHandlerProvider#isPropertyUnsettable IItemPropertyDescriptor.ValueHandlerProvider.isPropertyUnsettable} 
+   * and {@link IItemPropertyDescriptor#canSetProperty IItemPropertyDescriptor.canSetProperty} are <code>true</code>.
+   * @since 2.14
+   */
+  public boolean isPropertyUnsettable(Object propertyId)
+  {
+    IItemPropertyDescriptor propertyDescriptor = itemPropertySource.getPropertyDescriptor(object, propertyId);
+    return 
+      propertyDescriptor.canSetProperty(object) && 
+        propertyDescriptor instanceof IItemPropertyDescriptor.ValueHandlerProvider &&
+        ((IItemPropertyDescriptor.ValueHandlerProvider)propertyDescriptor).isPropertyUnsettable(object);
   }
 }

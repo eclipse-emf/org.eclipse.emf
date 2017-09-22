@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.ETypeParameter;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter#getEcoreTypeParameter <em>Ecore Type Parameter</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter#getDocumentation <em>Documentation</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenTypeParameter()
@@ -52,6 +53,32 @@ public interface GenTypeParameter extends GenBase
    */
   void setEcoreTypeParameter(ETypeParameter value);
   
+  /**
+   * Returns the value of the '<em><b>Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.14
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Documentation</em>' attribute.
+   * @see #setDocumentation(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenTypeParameter_Documentation()
+   * @model unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
+   * @generated
+   */
+  String getDocumentation();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter#getDocumentation <em>Documentation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Documentation</em>' attribute.
+   * @see #getDocumentation()
+   * @since 2.14
+   * @generated
+   */
+  void setDocumentation(String value);
+
   String getName();
 
   void initialize(ETypeParameter eTypeParameter);

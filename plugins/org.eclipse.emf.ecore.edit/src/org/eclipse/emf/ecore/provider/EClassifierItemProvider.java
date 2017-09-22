@@ -99,6 +99,12 @@ public class EClassifierItemProvider
          })
        {
          @Override
+         public boolean isPropertyUnsettable(Object object)
+         {
+           return false;
+         }
+
+         @Override
          public void setPropertyValue(Object object, Object value)
          {
            EObject eObject = (EObject)object;
@@ -178,6 +184,12 @@ public class EClassifierItemProvider
          null,
          null)
        {
+         @Override
+         public boolean isPropertyUnsettable(Object object)
+         {
+           return false;
+         }
+
          @Override
          public void setPropertyValue(Object object, Object value)
          {

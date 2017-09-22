@@ -11,7 +11,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EAnnotation" eSuperTypes="#//EModelElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="WellFormedSourceURI"/>
+      <details key="constraints" value="WellFormed WellFormedSourceURI"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="details" upperBound="-1"

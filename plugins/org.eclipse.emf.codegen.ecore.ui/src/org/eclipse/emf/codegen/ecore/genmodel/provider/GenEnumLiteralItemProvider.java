@@ -20,9 +20,8 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
-// import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
 
 /**
@@ -59,6 +58,7 @@ public class GenEnumLiteralItemProvider
       super.getPropertyDescriptors(object);
 
       addEcoreEnumLiteralPropertyDescriptor(object);
+      addDocumentationPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -83,6 +83,30 @@ public class GenEnumLiteralItemProvider
          false,
          null,
          getString("_UI_EcorePropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Documentation feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addDocumentationPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenEnumLiteral_documentation_feature"),
+         getString("_UI_GenEnumLiteral_documentation_description"),
+         GenModelPackage.Literals.GEN_ENUM_LITERAL__DOCUMENTATION,
+         true,
+         true,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
          null));
   }
 
@@ -120,6 +144,7 @@ public class GenEnumLiteralItemProvider
     switch (notification.getFeatureID(GenEnumLiteral.class))
     {
       case GenModelPackage.GEN_ENUM_LITERAL__ECORE_ENUM_LITERAL:
+      case GenModelPackage.GEN_ENUM_LITERAL__DOCUMENTATION:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
     }

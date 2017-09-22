@@ -12,6 +12,7 @@
 		genClassifiers -> [
 			GenClass genPackage1.Bar
 		]
+		documentation = null
 	}
 ---
 */

@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EClassifier;
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenClassifier#getGenPackage <em>Gen Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenClassifier#getGenTypeParameters <em>Gen Type Parameters</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenClassifier#getDocumentation <em>Documentation</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenClassifier()
@@ -63,6 +64,32 @@ public interface GenClassifier extends GenBase
    * @generated
    */
   EList<GenTypeParameter> getGenTypeParameters();
+
+  /**
+   * Returns the value of the '<em><b>Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.14
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Documentation</em>' attribute.
+   * @see #setDocumentation(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenClassifier_Documentation()
+   * @model unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
+   * @generated
+   */
+  String getDocumentation();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenClassifier#getDocumentation <em>Documentation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Documentation</em>' attribute.
+   * @see #getDocumentation()
+   * @since 2.14
+   * @generated
+   */
+  void setDocumentation(String value);
 
   EClassifier getEcoreClassifier();
   String getImportedMetaType();

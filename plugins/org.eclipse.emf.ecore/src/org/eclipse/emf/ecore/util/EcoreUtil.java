@@ -3793,6 +3793,13 @@ public class EcoreUtil
 
   protected static final String GEN_MODEL_PACKAGE_NS_URI = "http://www.eclipse.org/emf/2002/GenModel";
 
+  /**
+   * The {@link EAnnotation#getSource() source} URI for GenModel annotations.
+   *
+   * @since 2.14
+   */
+  public static final String GEN_MODEL_ANNOTATION_URI = GEN_MODEL_PACKAGE_NS_URI;
+
   public static String getDocumentation(EModelElement eModelElement)
   {
     EAnnotation eAnnotation = eModelElement.getEAnnotation(GEN_MODEL_PACKAGE_NS_URI);

@@ -119,6 +119,11 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
             escape = true;
             break;
           }
+          case ' ':
+          {
+            result.append("&#160;");
+            break;
+          }
           case '&':
           {
             result.append("&amp;");
@@ -479,7 +484,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
                       }
                       else
                       {
-                        return escapeContent(text);
+                        return text;
                       }
                     }
 
@@ -657,6 +662,10 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
               }
             }
           });
+
+        // If the job was only scheduled and not yet running, it will not get a chance to clear its field.
+        // So best we do it here to be sure it's done and a new job can be created and scheduled.
+        this.validationJob = null;
       }
     }
 
@@ -1515,6 +1524,18 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
       for (Object object : propertySheetPage.getInput())
       {
         decorate(decorations, object, objects.get(object), null);
+        if (object instanceof EObject)
+        {
+          EObject eObject = (EObject)object;
+          for (EObject child : eObject.eContents())
+          {
+            decorate(decorations, child, objects.get(child), null);
+          }
+          for (EObject child : eObject.eCrossReferences())
+          {
+            decorate(decorations, child, objects.get(child), null);
+          }
+        }
       }
     }
     else
@@ -1684,7 +1705,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
       ExtendedImageRegistry.INSTANCE.getImageDescriptor
         (EMFEditUIPlugin.INSTANCE.getImage(diagnostic.getSeverity() == Diagnostic.WARNING ? "full/ovr16/warning_ovr.gif" : "full/ovr16/error_ovr.gif"));
     URI severityURI = ImageURIRegistry.INSTANCE.getImageURI(imageDescriptor);
-    result.append("<div>");
+    result.append("<div style='white-space: nowrap;'>");
     for (int i = 0; i < indentation; ++i)
     {
       result.append("&#160;&#160;&#160;");
@@ -1702,7 +1723,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
         EObject eObject = (EObject)data;
         if (eObject.eResource() != null && eObject.eResource().getResourceSet() == resourceSet)
         {
-          result.append("<div>");
+          result.append("<div style='white-space: nowrap;'>");
           for (int i = 0; i <= indentation; ++i)
           {
             result.append("&#160;&#160;&#160;");
@@ -1739,6 +1760,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
       ++index;
       if (data.size() > 1)
       {
+        result.append("<div style='white-space: nowrap;'>");
         result.append("<div>");
         Image image = labelProvider.getImage(object);
         if (image != null)

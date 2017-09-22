@@ -450,7 +450,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (iD: ");
     result.append((eFlags & ID_EFLAG) != 0);
     result.append(')');

@@ -535,6 +535,10 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
   {
     setTypeSafeEnumCompatible(oldGenEnumVersion.isTypeSafeEnumCompatible());
     reconcileGenAnnotations(oldGenEnumVersion);
+    if (oldGenEnumVersion.eIsSet(GenModelPackage.Literals.GEN_CLASSIFIER__DOCUMENTATION))
+    {
+      setDocumentation(oldGenEnumVersion.getDocumentation());
+    }
   }
 
   @Override

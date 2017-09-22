@@ -459,7 +459,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link EcorePackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -474,7 +474,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     if (isInited) return (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
     // Obtain or create and register package
-    EcorePackageImpl theEcorePackage = (EcorePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EcorePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new EcorePackageImpl());
+    Object registeredEcorePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    EcorePackageImpl theEcorePackage = registeredEcorePackage instanceof EcorePackageImpl ? (EcorePackageImpl)registeredEcorePackage : new EcorePackageImpl();
 
     isInited = true;
 
@@ -486,7 +487,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
 
     // Register package validator
     EValidator.Registry.INSTANCE.put
-      (theEcorePackage, 
+      (theEcorePackage,
        new EValidator.Descriptor()
        {
          public EValidator getEValidator()
@@ -495,7 +496,6 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(EcorePackage.eNS_URI, theEcorePackage);
     return theEcorePackage;
@@ -2846,90 +2846,90 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    */
   protected void createEcoreAnnotations()
   {
-    String source = "http://www.eclipse.org/emf/2002/Ecore";	
+    String source = "http://www.eclipse.org/emf/2002/Ecore";
     addAnnotation
-      (eAttributeEClass, 
-       source, 
-       new String[] 
+      (eAttributeEClass,
+       source,
+       new String[]
        {
-       "constraints", "ConsistentTransient"
-       });	
+         "constraints", "ConsistentTransient"
+       });
     addAnnotation
-      (eAnnotationEClass, 
-       source, 
-       new String[] 
+      (eAnnotationEClass,
+       source,
+       new String[]
        {
-       "constraints", "WellFormedSourceURI"
-       });	
+         "constraints", "WellFormed WellFormedSourceURI"
+       });
     addAnnotation
-      (eClassEClass, 
-       source, 
-       new String[] 
+      (eClassEClass,
+       source,
+       new String[]
        {
-       "constraints", "InterfaceIsAbstract AtMostOneID UniqueFeatureNames UniqueOperationSignatures NoCircularSuperTypes WellFormedMapEntryClass ConsistentSuperTypes DisjointFeatureAndOperationSignatures"
-       });	
+         "constraints", "InterfaceIsAbstract AtMostOneID UniqueFeatureNames UniqueOperationSignatures NoCircularSuperTypes WellFormedMapEntryClass ConsistentSuperTypes DisjointFeatureAndOperationSignatures"
+       });
     addAnnotation
-      (eClassifierEClass, 
-       source, 
-       new String[] 
+      (eClassifierEClass,
+       source,
+       new String[]
        {
-       "constraints", "WellFormedInstanceTypeName UniqueTypeParameterNames"
-       });	
+         "constraints", "WellFormedInstanceTypeName UniqueTypeParameterNames"
+       });
     addAnnotation
-      (eEnumEClass, 
-       source, 
-       new String[] 
+      (eEnumEClass,
+       source,
+       new String[]
        {
-       "constraints", "UniqueEnumeratorNames UniqueEnumeratorLiterals"
-       });	
+         "constraints", "UniqueEnumeratorNames UniqueEnumeratorLiterals"
+       });
     addAnnotation
-      (eNamedElementEClass, 
-       source, 
-       new String[] 
+      (eNamedElementEClass,
+       source,
+       new String[]
        {
-       "constraints", "WellFormedName"
-       });	
+         "constraints", "WellFormedName"
+       });
     addAnnotation
-      (eOperationEClass, 
-       source, 
-       new String[] 
+      (eOperationEClass,
+       source,
+       new String[]
        {
-       "constraints", "UniqueParameterNames UniqueTypeParameterNames NoRepeatingVoid"
-       });	
+         "constraints", "UniqueParameterNames UniqueTypeParameterNames NoRepeatingVoid"
+       });
     addAnnotation
-      (ePackageEClass, 
-       source, 
-       new String[] 
+      (ePackageEClass,
+       source,
+       new String[]
        {
-       "constraints", "WellFormedNsURI WellFormedNsPrefix UniqueSubpackageNames UniqueClassifierNames UniqueNsURIs"
-       });	
+         "constraints", "WellFormedNsURI WellFormedNsPrefix UniqueSubpackageNames UniqueClassifierNames UniqueNsURIs"
+       });
     addAnnotation
-      (eReferenceEClass, 
-       source, 
-       new String[] 
+      (eReferenceEClass,
+       source,
+       new String[]
        {
-       "constraints", "ConsistentOpposite SingleContainer ConsistentKeys ConsistentUnique ConsistentContainer"
-       });	
+         "constraints", "ConsistentOpposite SingleContainer ConsistentKeys ConsistentUnique ConsistentContainer"
+       });
     addAnnotation
-      (eStructuralFeatureEClass, 
-       source, 
-       new String[] 
+      (eStructuralFeatureEClass,
+       source,
+       new String[]
        {
-       "constraints", "ValidDefaultValueLiteral"
-       });	
+         "constraints", "ValidDefaultValueLiteral"
+       });
     addAnnotation
-      (eTypedElementEClass, 
-       source, 
-       new String[] 
+      (eTypedElementEClass,
+       source,
+       new String[]
        {
-       "constraints", "ValidLowerBound ValidUpperBound ConsistentBounds ValidType"
-       });	
+         "constraints", "ValidLowerBound ValidUpperBound ConsistentBounds ValidType"
+       });
     addAnnotation
-      (eGenericTypeEClass, 
-       source, 
-       new String[] 
+      (eGenericTypeEClass,
+       source,
+       new String[]
        {
-       "constraints", "ConsistentType ConsistentBounds ConsistentArguments"
+         "constraints", "ConsistentType ConsistentBounds ConsistentArguments"
        });
   }
 
@@ -2941,147 +2941,147 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
     addAnnotation
-      (eBigDecimalEDataType, 
-       source, 
-       new String[] 
+      (eBigDecimalEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#decimal"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#decimal"
+       });
     addAnnotation
-      (eBigIntegerEDataType, 
-       source, 
-       new String[] 
+      (eBigIntegerEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#integer"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#integer"
+       });
     addAnnotation
-      (eBooleanEDataType, 
-       source, 
-       new String[] 
+      (eBooleanEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#boolean"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#boolean"
+       });
     addAnnotation
-      (eBooleanObjectEDataType, 
-       source, 
-       new String[] 
+      (eBooleanObjectEDataType,
+       source,
+       new String[]
        {
-       "baseType", "EBoolean",
-       "name", "EBoolean:Object"
-       });	
+         "baseType", "EBoolean",
+         "name", "EBoolean:Object"
+       });
     addAnnotation
-      (eByteEDataType, 
-       source, 
-       new String[] 
+      (eByteEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#byte"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#byte"
+       });
     addAnnotation
-      (eByteArrayEDataType, 
-       source, 
-       new String[] 
+      (eByteArrayEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#hexBinary"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#hexBinary"
+       });
     addAnnotation
-      (eByteObjectEDataType, 
-       source, 
-       new String[] 
+      (eByteObjectEDataType,
+       source,
+       new String[]
        {
-       "baseType", "EByte",
-       "name", "EByte:Object"
-       });	
+         "baseType", "EByte",
+         "name", "EByte:Object"
+       });
     addAnnotation
-      (eCharacterObjectEDataType, 
-       source, 
-       new String[] 
+      (eCharacterObjectEDataType,
+       source,
+       new String[]
        {
-       "baseType", "EChar",
-       "name", "EChar:Object"
-       });	
+         "baseType", "EChar",
+         "name", "EChar:Object"
+       });
     addAnnotation
-      (eDoubleEDataType, 
-       source, 
-       new String[] 
+      (eDoubleEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#double"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#double"
+       });
     addAnnotation
-      (eDoubleObjectEDataType, 
-       source, 
-       new String[] 
+      (eDoubleObjectEDataType,
+       source,
+       new String[]
        {
-       "baseType", "EDouble",
-       "name", "EDouble:Object"
-       });	
+         "baseType", "EDouble",
+         "name", "EDouble:Object"
+       });
     addAnnotation
-      (eFloatEDataType, 
-       source, 
-       new String[] 
+      (eFloatEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#float"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#float"
+       });
     addAnnotation
-      (eFloatObjectEDataType, 
-       source, 
-       new String[] 
+      (eFloatObjectEDataType,
+       source,
+       new String[]
        {
-       "baseType", "EFloat",
-       "name", "EFloat:Object"
-       });	
+         "baseType", "EFloat",
+         "name", "EFloat:Object"
+       });
     addAnnotation
-      (eIntEDataType, 
-       source, 
-       new String[] 
+      (eIntEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#int"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#int"
+       });
     addAnnotation
-      (eIntegerObjectEDataType, 
-       source, 
-       new String[] 
+      (eIntegerObjectEDataType,
+       source,
+       new String[]
        {
-       "baseType", "EInt",
-       "name", "EInt:Object"
-       });	
+         "baseType", "EInt",
+         "name", "EInt:Object"
+       });
     addAnnotation
-      (eLongEDataType, 
-       source, 
-       new String[] 
+      (eLongEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#long"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#long"
+       });
     addAnnotation
-      (eLongObjectEDataType, 
-       source, 
-       new String[] 
+      (eLongObjectEDataType,
+       source,
+       new String[]
        {
-       "baseType", "ELong",
-       "name", "ELong:Object"
-       });	
+         "baseType", "ELong",
+         "name", "ELong:Object"
+       });
     addAnnotation
-      (eShortEDataType, 
-       source, 
-       new String[] 
+      (eShortEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#short"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#short"
+       });
     addAnnotation
-      (eShortObjectEDataType, 
-       source, 
-       new String[] 
+      (eShortObjectEDataType,
+       source,
+       new String[]
        {
-       "baseType", "EShort",
-       "name", "EShort:Object"
-       });	
+         "baseType", "EShort",
+         "name", "EShort:Object"
+       });
     addAnnotation
-      (eStringEDataType, 
-       source, 
-       new String[] 
+      (eStringEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#string"
+         "baseType", "http://www.w3.org/2001/XMLSchema#string"
        });
   }
 

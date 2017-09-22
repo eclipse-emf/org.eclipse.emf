@@ -280,6 +280,31 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
   }
 
   /**
+   * This keeps track of the one adapter used for all {@link org.eclipse.emf.codegen.ecore.genmodel.GenParameter} instances.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected GenParameterItemProvider genParameterItemProvider;
+
+  /**
+   * This creates an adapter for a {@link org.eclipse.emf.codegen.ecore.genmodel.GenParameter}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Adapter createGenParameterAdapter()
+  {
+    if (genParameterItemProvider == null)
+    {
+      genParameterItemProvider = new GenParameterItemProvider(this);
+    }
+
+    return genParameterItemProvider;
+  }
+
+  /**
    * This keeps track of the one adapter used for all {@link org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation} instances.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -423,6 +448,7 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
     if (genEnumLiteralItemProvider != null) genEnumLiteralItemProvider.dispose();
     if (genDataTypeItemProvider != null) genDataTypeItemProvider.dispose();
     if (genOperationItemProvider != null) genOperationItemProvider.dispose();
+    if (genParameterItemProvider != null) genParameterItemProvider.dispose();
     if (genAnnotationItemProvider != null) genAnnotationItemProvider.dispose();
   }
 

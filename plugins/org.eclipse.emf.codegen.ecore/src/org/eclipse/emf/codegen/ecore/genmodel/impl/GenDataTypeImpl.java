@@ -878,6 +878,10 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   protected void reconcileSettings(GenDataType oldGenDataTypeVersion)
   {
     reconcileGenAnnotations(oldGenDataTypeVersion);
+    if (oldGenDataTypeVersion.eIsSet(GenModelPackage.Literals.GEN_CLASSIFIER__DOCUMENTATION))
+    {
+      setDocumentation(oldGenDataTypeVersion.getDocumentation());
+    }
   }
 
   public boolean reconcile()

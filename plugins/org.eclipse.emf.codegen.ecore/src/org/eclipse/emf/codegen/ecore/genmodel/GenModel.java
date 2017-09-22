@@ -130,6 +130,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCleanup <em>Cleanup</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isOSGiCompatible <em>OS Gi Compatible</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEclipsePlatformVersion <em>Eclipse Platform Version</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getModelDocumentation <em>Model Documentation</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel()
@@ -2305,11 +2306,9 @@ public interface GenModel extends GenBase
    * <!-- end-model-doc -->
    * @return the value of the '<em>Eclipse Platform Version</em>' attribute.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenEclipsePlatformVersion
-   * @see #isSetEclipsePlatformVersion()
-   * @see #unsetEclipsePlatformVersion()
    * @see #setEclipsePlatformVersion(GenEclipsePlatformVersion)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_EclipsePlatformVersion()
-   * @model unsettable="true"
+   * @model unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
    * @generated
    */
   GenEclipsePlatformVersion getEclipsePlatformVersion();
@@ -2320,8 +2319,6 @@ public interface GenModel extends GenBase
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Eclipse Platform Version</em>' attribute.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenEclipsePlatformVersion
-   * @see #isSetEclipsePlatformVersion()
-   * @see #unsetEclipsePlatformVersion()
    * @see #getEclipsePlatformVersion()
    * @since 2.14
    * @generated
@@ -2329,29 +2326,30 @@ public interface GenModel extends GenBase
   void setEclipsePlatformVersion(GenEclipsePlatformVersion value);
 
   /**
-   * Unsets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEclipsePlatformVersion <em>Eclipse Platform Version</em>}' attribute.
+   * Returns the value of the '<em><b>Model Documentation</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #isSetEclipsePlatformVersion()
-   * @see #getEclipsePlatformVersion()
-   * @see #setEclipsePlatformVersion(GenEclipsePlatformVersion)
+   * <!-- begin-model-doc -->
    * @since 2.14
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Model Documentation</em>' attribute.
+   * @see #setModelDocumentation(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ModelDocumentation()
+   * @model unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
    * @generated
    */
-  void unsetEclipsePlatformVersion();
+  String getModelDocumentation();
 
   /**
-   * Returns whether the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEclipsePlatformVersion <em>Eclipse Platform Version</em>}' attribute is set.
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getModelDocumentation <em>Model Documentation</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return whether the value of the '<em>Eclipse Platform Version</em>' attribute is set.
-   * @see #unsetEclipsePlatformVersion()
-   * @see #getEclipsePlatformVersion()
-   * @see #setEclipsePlatformVersion(GenEclipsePlatformVersion)
+   * @param value the new value of the '<em>Model Documentation</em>' attribute.
+   * @see #getModelDocumentation()
    * @since 2.14
    * @generated
    */
-  boolean isSetEclipsePlatformVersion();
+  void setModelDocumentation(String value);
 
   EList<GenPackage> getStaticGenPackages();
 

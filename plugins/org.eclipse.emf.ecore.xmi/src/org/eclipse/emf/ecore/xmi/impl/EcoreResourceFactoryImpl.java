@@ -41,6 +41,11 @@ public class EcoreResourceFactoryImpl extends ResourceFactoryImpl
       };
     result.setEncoding("UTF-8");
 
+    if ("genmodel".equals(uri.fileExtension()))
+    {
+      result.getDefaultLoadOptions().put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
+    }
+
     result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
     result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, 80);
     result.getDefaultSaveOptions().put(XMLResource.OPTION_URI_HANDLER, new URIHandlerImpl.PlatformSchemeAware());

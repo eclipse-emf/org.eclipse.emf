@@ -69,6 +69,10 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isPropertySortChoices <em>Property Sort Choices</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getGenClass <em>Gen Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getEcoreFeature <em>Ecore Feature</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isSuppressedGetVisibility <em>Suppressed Get Visibility</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isSuppressedSetVisibility <em>Suppressed Set Visibility</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isSuppressedIsSetVisibility <em>Suppressed Is Set Visibility</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isSuppressedUnsetVisibility <em>Suppressed Unset Visibility</em>}</li>
  * </ul>
  *
  * @generated
@@ -263,6 +267,134 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * @ordered
    */
   protected EStructuralFeature ecoreFeature;
+
+  /**
+   * The default value of the '{@link #isSuppressedGetVisibility() <em>Suppressed Get Visibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressedGetVisibility()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final boolean SUPPRESSED_GET_VISIBILITY_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isSuppressedGetVisibility() <em>Suppressed Get Visibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressedGetVisibility()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressedGetVisibility = SUPPRESSED_GET_VISIBILITY_EDEFAULT;
+
+  /**
+   * This is true if the Suppressed Get Visibility attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressedGetVisibilityESet;
+
+  /**
+   * The default value of the '{@link #isSuppressedSetVisibility() <em>Suppressed Set Visibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressedSetVisibility()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final boolean SUPPRESSED_SET_VISIBILITY_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isSuppressedSetVisibility() <em>Suppressed Set Visibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressedSetVisibility()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressedSetVisibility = SUPPRESSED_SET_VISIBILITY_EDEFAULT;
+
+  /**
+   * This is true if the Suppressed Set Visibility attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressedSetVisibilityESet;
+
+  /**
+   * The default value of the '{@link #isSuppressedIsSetVisibility() <em>Suppressed Is Set Visibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressedIsSetVisibility()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final boolean SUPPRESSED_IS_SET_VISIBILITY_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isSuppressedIsSetVisibility() <em>Suppressed Is Set Visibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressedIsSetVisibility()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressedIsSetVisibility = SUPPRESSED_IS_SET_VISIBILITY_EDEFAULT;
+
+  /**
+   * This is true if the Suppressed Is Set Visibility attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressedIsSetVisibilityESet;
+
+  /**
+   * The default value of the '{@link #isSuppressedUnsetVisibility() <em>Suppressed Unset Visibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressedUnsetVisibility()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final boolean SUPPRESSED_UNSET_VISIBILITY_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isSuppressedUnsetVisibility() <em>Suppressed Unset Visibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressedUnsetVisibility()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressedUnsetVisibility = SUPPRESSED_UNSET_VISIBILITY_EDEFAULT;
+
+  /**
+   * This is true if the Suppressed Unset Visibility attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressedUnsetVisibilityESet;
 
   /**
    * <!-- begin-user-doc -->
@@ -712,6 +844,14 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
         if (resolve) return getEcoreFeature();
         return basicGetEcoreFeature();
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_GET_VISIBILITY:
+        return isSuppressedGetVisibility();
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_SET_VISIBILITY:
+        return isSuppressedSetVisibility();
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_IS_SET_VISIBILITY:
+        return isSuppressedIsSetVisibility();
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY:
+        return isSuppressedUnsetVisibility();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -761,6 +901,18 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
         setEcoreFeature((EStructuralFeature)newValue);
         return;
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_GET_VISIBILITY:
+        setSuppressedGetVisibility((Boolean)newValue);
+        return;
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_SET_VISIBILITY:
+        setSuppressedSetVisibility((Boolean)newValue);
+        return;
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_IS_SET_VISIBILITY:
+        setSuppressedIsSetVisibility((Boolean)newValue);
+        return;
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY:
+        setSuppressedUnsetVisibility((Boolean)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -808,6 +960,18 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
         setEcoreFeature((EStructuralFeature)null);
         return;
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_GET_VISIBILITY:
+        unsetSuppressedGetVisibility();
+        return;
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_SET_VISIBILITY:
+        unsetSuppressedSetVisibility();
+        return;
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_IS_SET_VISIBILITY:
+        unsetSuppressedIsSetVisibility();
+        return;
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY:
+        unsetSuppressedUnsetVisibility();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -844,6 +1008,14 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         return getGenClass() != null;
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
         return ecoreFeature != null;
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_GET_VISIBILITY:
+        return isSetSuppressedGetVisibility();
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_SET_VISIBILITY:
+        return isSetSuppressedSetVisibility();
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_IS_SET_VISIBILITY:
+        return isSetSuppressedIsSetVisibility();
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY:
+        return isSetSuppressedUnsetVisibility();
     }
     return super.eIsSet(featureID);
   }
@@ -877,6 +1049,14 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     result.append(propertyMultiLine);
     result.append(", propertySortChoices: ");
     result.append(propertySortChoices);
+    result.append(", suppressedGetVisibility: ");
+    if (suppressedGetVisibilityESet) result.append(suppressedGetVisibility); else result.append("<unset>");
+    result.append(", suppressedSetVisibility: ");
+    if (suppressedSetVisibilityESet) result.append(suppressedSetVisibility); else result.append("<unset>");
+    result.append(", suppressedIsSetVisibility: ");
+    if (suppressedIsSetVisibilityESet) result.append(suppressedIsSetVisibility); else result.append("<unset>");
+    result.append(", suppressedUnsetVisibility: ");
+    if (suppressedUnsetVisibilityESet) result.append(suppressedUnsetVisibility); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }
@@ -1490,24 +1670,240 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     return result;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSuppressedGetVisibilityGen()
+  {
+    return suppressedGetVisibility;
+  }
+
   public boolean isSuppressedGetVisibility()
   {
-    return EcoreUtil.isSuppressedVisibility(getEcoreFeature(), EcoreUtil.GET);
+    return isSetSuppressedGetVisibility() ? isSuppressedGetVisibilityGen() : EcoreUtil.isSuppressedVisibility(getEcoreFeature(), EcoreUtil.GET);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setSuppressedGetVisibility(boolean newSuppressedGetVisibility)
+  {
+    boolean oldSuppressedGetVisibility = suppressedGetVisibility;
+    suppressedGetVisibility = newSuppressedGetVisibility;
+    boolean oldSuppressedGetVisibilityESet = suppressedGetVisibilityESet;
+    suppressedGetVisibilityESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_FEATURE__SUPPRESSED_GET_VISIBILITY, oldSuppressedGetVisibility, suppressedGetVisibility, !oldSuppressedGetVisibilityESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetSuppressedGetVisibility()
+  {
+    return suppressedGetVisibilityESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetSuppressedGetVisibility()
+  {
+    boolean oldSuppressedGetVisibility = suppressedGetVisibility;
+    boolean oldSuppressedGetVisibilityESet = suppressedGetVisibilityESet;
+    suppressedGetVisibility = SUPPRESSED_GET_VISIBILITY_EDEFAULT;
+    suppressedGetVisibilityESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_FEATURE__SUPPRESSED_GET_VISIBILITY, oldSuppressedGetVisibility, SUPPRESSED_GET_VISIBILITY_EDEFAULT, oldSuppressedGetVisibilityESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSuppressedSetVisibilityGen()
+  {
+    return suppressedSetVisibility;
   }
 
   public boolean isSuppressedSetVisibility()
   {
-    return EcoreUtil.isSuppressedVisibility(getEcoreFeature(), EcoreUtil.SET);
+    return isSetSuppressedSetVisibility() ?  isSuppressedSetVisibilityGen() : EcoreUtil.isSuppressedVisibility(getEcoreFeature(), EcoreUtil.SET);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setSuppressedSetVisibility(boolean newSuppressedSetVisibility)
+  {
+    boolean oldSuppressedSetVisibility = suppressedSetVisibility;
+    suppressedSetVisibility = newSuppressedSetVisibility;
+    boolean oldSuppressedSetVisibilityESet = suppressedSetVisibilityESet;
+    suppressedSetVisibilityESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_FEATURE__SUPPRESSED_SET_VISIBILITY, oldSuppressedSetVisibility, suppressedSetVisibility, !oldSuppressedSetVisibilityESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetSuppressedSetVisibility()
+  {
+    return suppressedSetVisibilityESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetSuppressedSetVisibility()
+  {
+    boolean oldSuppressedSetVisibility = suppressedSetVisibility;
+    boolean oldSuppressedSetVisibilityESet = suppressedSetVisibilityESet;
+    suppressedSetVisibility = SUPPRESSED_SET_VISIBILITY_EDEFAULT;
+    suppressedSetVisibilityESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_FEATURE__SUPPRESSED_SET_VISIBILITY, oldSuppressedSetVisibility, SUPPRESSED_SET_VISIBILITY_EDEFAULT, oldSuppressedSetVisibilityESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSuppressedIsSetVisibilityGen()
+  {
+    return suppressedIsSetVisibility;
   }
 
   public boolean isSuppressedIsSetVisibility()
   {
-    return EcoreUtil.isSuppressedVisibility(getEcoreFeature(), EcoreUtil.IS_SET);
+    return isSetSuppressedIsSetVisibility() ? isSuppressedIsSetVisibilityGen() : EcoreUtil.isSuppressedVisibility(getEcoreFeature(), EcoreUtil.IS_SET);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setSuppressedIsSetVisibility(boolean newSuppressedIsSetVisibility)
+  {
+    boolean oldSuppressedIsSetVisibility = suppressedIsSetVisibility;
+    suppressedIsSetVisibility = newSuppressedIsSetVisibility;
+    boolean oldSuppressedIsSetVisibilityESet = suppressedIsSetVisibilityESet;
+    suppressedIsSetVisibilityESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_FEATURE__SUPPRESSED_IS_SET_VISIBILITY, oldSuppressedIsSetVisibility, suppressedIsSetVisibility, !oldSuppressedIsSetVisibilityESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetSuppressedIsSetVisibility()
+  {
+    return suppressedIsSetVisibilityESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetSuppressedIsSetVisibility()
+  {
+    boolean oldSuppressedIsSetVisibility = suppressedIsSetVisibility;
+    boolean oldSuppressedIsSetVisibilityESet = suppressedIsSetVisibilityESet;
+    suppressedIsSetVisibility = SUPPRESSED_IS_SET_VISIBILITY_EDEFAULT;
+    suppressedIsSetVisibilityESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_FEATURE__SUPPRESSED_IS_SET_VISIBILITY, oldSuppressedIsSetVisibility, SUPPRESSED_IS_SET_VISIBILITY_EDEFAULT, oldSuppressedIsSetVisibilityESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSuppressedUnsetVisibilityGen()
+  {
+    return suppressedUnsetVisibility;
   }
 
   public boolean isSuppressedUnsetVisibility()
   {
-    return EcoreUtil.isSuppressedVisibility(getEcoreFeature(), EcoreUtil.UNSET);
+    return isSetSuppressedUnsetVisibility() ? isSuppressedUnsetVisibilityGen() : EcoreUtil.isSuppressedVisibility(getEcoreFeature(), EcoreUtil.UNSET);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setSuppressedUnsetVisibility(boolean newSuppressedUnsetVisibility)
+  {
+    boolean oldSuppressedUnsetVisibility = suppressedUnsetVisibility;
+    suppressedUnsetVisibility = newSuppressedUnsetVisibility;
+    boolean oldSuppressedUnsetVisibilityESet = suppressedUnsetVisibilityESet;
+    suppressedUnsetVisibilityESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY, oldSuppressedUnsetVisibility, suppressedUnsetVisibility, !oldSuppressedUnsetVisibilityESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetSuppressedUnsetVisibility()
+  {
+    return suppressedUnsetVisibilityESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetSuppressedUnsetVisibility()
+  {
+    boolean oldSuppressedUnsetVisibility = suppressedUnsetVisibility;
+    boolean oldSuppressedUnsetVisibilityESet = suppressedUnsetVisibilityESet;
+    suppressedUnsetVisibility = SUPPRESSED_UNSET_VISIBILITY_EDEFAULT;
+    suppressedUnsetVisibilityESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY, oldSuppressedUnsetVisibility, SUPPRESSED_UNSET_VISIBILITY_EDEFAULT, oldSuppressedUnsetVisibilityESet));
   }
 
   public void initialize(EStructuralFeature eFeature)
@@ -1820,6 +2216,31 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
 
     getPropertyFilterFlags().addAll(oldGenFeatureVersion.getPropertyFilterFlags());
     reconcileGenAnnotations(oldGenFeatureVersion);
+
+    if (oldGenFeatureVersion.eIsSet(GenModelPackage.Literals.GEN_TYPED_ELEMENT__DOCUMENTATION))
+    {
+      setDocumentation(oldGenFeatureVersion.getDocumentation());
+    }
+
+    if (oldGenFeatureVersion.eIsSet(GenModelPackage.Literals.GEN_FEATURE__SUPPRESSED_GET_VISIBILITY))
+    {
+      setSuppressedGetVisibility(oldGenFeatureVersion.isSuppressedGetVisibility());
+    }
+
+    if (oldGenFeatureVersion.eIsSet(GenModelPackage.Literals.GEN_FEATURE__SUPPRESSED_SET_VISIBILITY))
+    {
+      setSuppressedSetVisibility(oldGenFeatureVersion.isSuppressedSetVisibility());
+    }
+
+    if (oldGenFeatureVersion.eIsSet(GenModelPackage.Literals.GEN_FEATURE__SUPPRESSED_IS_SET_VISIBILITY))
+    {
+      setSuppressedIsSetVisibility(oldGenFeatureVersion.isSuppressedIsSetVisibility());
+    }
+
+    if (oldGenFeatureVersion.eIsSet(GenModelPackage.Literals.GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY))
+    {
+      setSuppressedUnsetVisibility(oldGenFeatureVersion.isSuppressedUnsetVisibility());
+    }
   }
 
   public boolean reconcile()

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -127,6 +128,7 @@ import org.osgi.framework.Bundle;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getNestedGenPackages <em>Nested Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenClassifiers <em>Gen Classifiers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getPublicationLocation <em>Publication Location</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getDocumentation <em>Documentation</em>}</li>
  * </ul>
  *
  * @generated
@@ -644,6 +646,38 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @ordered
    */
   protected String publicationLocation = PUBLICATION_LOCATION_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDocumentation()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final String DOCUMENTATION_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDocumentation()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected String documentation = DOCUMENTATION_EDEFAULT;
+
+  /**
+   * This is true if the Documentation attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean documentationESet;
 
   /**
    * <!-- begin-user-doc -->
@@ -1187,7 +1221,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   {
     if (fileExtensions == null)
     {
-      return getPrefix().toLowerCase(getGenModel().getLocale());
+      GenModel genModel = getGenModel();
+      return getPrefix().toLowerCase(genModel == null ? Locale.getDefault() : genModel.getLocale());
     }
     return COMMA_SEPARATOR_PATTERN.matcher(fileExtensions).replaceAll(",");
   }
@@ -1437,6 +1472,66 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public String getDocumentationGen()
+  {
+    return documentation;
+  }
+
+  @Override
+  public String getDocumentation()
+  {
+    return isSetDocumentation() ? getDocumentationGen() : super.getDocumentation();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setDocumentation(String newDocumentation)
+  {
+    String oldDocumentation = documentation;
+    documentation = newDocumentation;
+    boolean oldDocumentationESet = documentationESet;
+    documentationESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__DOCUMENTATION, oldDocumentation, documentation, !oldDocumentationESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetDocumentation()
+  {
+    String oldDocumentation = documentation;
+    boolean oldDocumentationESet = documentationESet;
+    documentation = DOCUMENTATION_EDEFAULT;
+    documentationESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_PACKAGE__DOCUMENTATION, oldDocumentation, DOCUMENTATION_EDEFAULT, oldDocumentationESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetDocumentation()
+  {
+    return documentationESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   @Override
@@ -1563,6 +1658,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return getGenClassifiers();
       case GenModelPackage.GEN_PACKAGE__PUBLICATION_LOCATION:
         return getPublicationLocation();
+      case GenModelPackage.GEN_PACKAGE__DOCUMENTATION:
+        return getDocumentation();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -1669,6 +1766,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__PUBLICATION_LOCATION:
         setPublicationLocation((String)newValue);
         return;
+      case GenModelPackage.GEN_PACKAGE__DOCUMENTATION:
+        setDocumentation((String)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -1770,6 +1870,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__PUBLICATION_LOCATION:
         setPublicationLocation(PUBLICATION_LOCATION_EDEFAULT);
         return;
+      case GenModelPackage.GEN_PACKAGE__DOCUMENTATION:
+        unsetDocumentation();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -1844,6 +1947,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return !getGenClassifiers().isEmpty();
       case GenModelPackage.GEN_PACKAGE__PUBLICATION_LOCATION:
         return PUBLICATION_LOCATION_EDEFAULT == null ? publicationLocation != null : !PUBLICATION_LOCATION_EDEFAULT.equals(publicationLocation);
+      case GenModelPackage.GEN_PACKAGE__DOCUMENTATION:
+        return isSetDocumentation();
     }
     return super.eIsSet(featureID);
   }
@@ -1905,6 +2010,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.append(fileExtensions);
     result.append(", publicationLocation: ");
     result.append(publicationLocation);
+    result.append(", documentation: ");
+    if (documentationESet) result.append(documentation); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }
@@ -4131,6 +4238,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     reconcileGenAnnotations(oldGenPackageVersion);
 
     setPublicationLocation(oldGenPackageVersion.getPublicationLocation());
+
+    if (oldGenPackageVersion.eIsSet(GenModelPackage.Literals.GEN_PACKAGE__DOCUMENTATION))
+    {
+      setDocumentation(oldGenPackageVersion.getDocumentation());
+    }
   }
 
   public boolean reconcile()

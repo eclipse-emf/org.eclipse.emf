@@ -220,12 +220,31 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
   public String getNamespace(EClassifier eClassifier)
   {
-    return getNamespace(eClassifier.getEPackage());
+    EPackage ePackage = eClassifier.getEPackage();
+    return ePackage == null ? null : getNamespace(ePackage);
   }
 
   public String getNamespace(EStructuralFeature eStructuralFeature)
   {
     return getExtendedMetaData(eStructuralFeature).getNamespace();
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected String getPackageNamespace(EStructuralFeature eStructuralFeature)
+  {
+    EClass eContainingClass = eStructuralFeature.getEContainingClass();
+    if (eContainingClass != null)
+    {
+      EPackage ePackage = eContainingClass.getEPackage();
+      if (ePackage != null)
+      {
+        return getNamespace(ePackage);
+      }
+    }
+    
+    return null;
   }
 
   public String basicGetNamespace(EStructuralFeature eStructuralFeature)
@@ -240,7 +259,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       String result = eAnnotation.getDetails().get("namespace");
       if ("##targetNamespace".equals(result))
       {
-        return getNamespace(eStructuralFeature.getEContainingClass().getEPackage());
+        return getPackageNamespace(eStructuralFeature);
       }
       else
       {
@@ -251,7 +270,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
   public void setNamespace(EStructuralFeature eStructuralFeature, String namespace)
   {
-    String packageNamespace = getNamespace(eStructuralFeature.getEContainingClass().getEPackage());
+    String packageNamespace = getPackageNamespace(eStructuralFeature);
     String convertedNamespace = namespace;
     if (namespace == null ? packageNamespace == null : namespace.equals(packageNamespace))
     {
@@ -532,23 +551,36 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     {
       EMap<String, String> details = eAnnotation.getDetails();
       String baseType = details.get("baseType");
-      if (baseType != null)
+      EClassifier type = getEClassifier(eDataType.getEPackage(), baseType);
+      if (type instanceof EDataType)
       {
-        int index = baseType.lastIndexOf("#");
-        EClassifier type = 
-          index == -1 ?
-            getType(eDataType.getEPackage(), baseType) :
-            index == 0 ?
-              getType((String)null, baseType.substring(1)) :
-              getType(baseType.substring(0, index), baseType.substring(index + 1));
-        if (type instanceof EDataType)
-        {
-          return (EDataType)type;
-        }
+        return (EDataType)type;
       }
     }
 
     return null;
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected EClassifier getEClassifier(EPackage ePackage, String type)
+  {
+    if (type == null)
+    {
+      return null;
+    }
+    else
+    {
+      int index = type.lastIndexOf("#");
+      EClassifier eClassifier = 
+        index == -1 ?
+          ePackage == null ? null : getType(ePackage, type) :
+          index == 0 ?
+            getType((String)null, type.substring(1)) :
+            getType(type.substring(0, index), type.substring(index + 1));
+      return eClassifier;
+    }
   }
 
   public void setBaseType(EDataType eDataType, EDataType baseType)
@@ -581,19 +613,10 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     {
       EMap<String, String> details = eAnnotation.getDetails();
       String itemType = details.get("itemType");
-      if (itemType != null)
+      EClassifier type = getEClassifier(eDataType.getEPackage(), itemType);
+      if (type instanceof EDataType)
       {
-        int index = itemType.lastIndexOf("#");
-        EClassifier type = 
-          index == -1 ?
-            getType(eDataType.getEPackage(), itemType) :
-            index == 0 ?
-              getType((String)null, itemType.substring(1)) :
-              getType(itemType.substring(0, index), itemType.substring(index + 1));
-        if (type instanceof EDataType)
-        {
-          return (EDataType)type;
-        }
+        return (EDataType)type;
       }
     }
 
@@ -632,16 +655,11 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       if (memberTypes != null)
       {
         List<EDataType> result = new ArrayList<EDataType>();
+        EPackage ePackage = eDataType.getEPackage();
         for (StringTokenizer stringTokenizer = new StringTokenizer(memberTypes); stringTokenizer.hasMoreTokens(); )
         {
           String member = stringTokenizer.nextToken();
-          int index = member.lastIndexOf("#");
-          EClassifier type = 
-            index == -1 ?
-              getType(eDataType.getEPackage(), member) :
-              index == 0 ?
-                getType((String)null, member.substring(1)) :
-                getType(member.substring(0, index), member.substring(index + 1));
+          EClassifier type = getEClassifier(ePackage, member);
           if (type instanceof EDataType)
           {
             result.add((EDataType)type);
@@ -821,6 +839,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         switch (getFeatureKind(eStructuralFeature))
         {
           case UNSPECIFIED_FEATURE:
+          case GROUP_FEATURE:
           case ELEMENT_FEATURE:
           {
             if (name.equals(getName(eStructuralFeature)))
@@ -1075,7 +1094,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
           String wildcard = stringTokenizer.nextToken();
           if (wildcard.equals("##other"))
           {
-            result.add("!##" + getNamespace(eStructuralFeature.getEContainingClass().getEPackage()));
+            result.add("!##" + getPackageNamespace(eStructuralFeature));
           }
           else if (wildcard.equals("##local"))
           {
@@ -1083,7 +1102,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
           }
           else if (wildcard.equals("##targetNamespace"))
           {
-            result.add(getNamespace(eStructuralFeature.getEContainingClass().getEPackage()));
+            result.add(getPackageNamespace(eStructuralFeature));
           }
           else
           {
@@ -1110,7 +1129,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     }
     else
     {
-      String namespace = getNamespace(eStructuralFeature.getEContainingClass().getEPackage());
+      String namespace = getPackageNamespace(eStructuralFeature);
       EAnnotation eAnnotation = getAnnotation(eStructuralFeature, true);
       eAnnotation.getDetails().put("wildcards", getEncodedWildcards(namespace, wildcards));
       eAnnotation.getDetails().put("name","");
@@ -1229,13 +1248,19 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       String qualifiedName = eAnnotation.getDetails().get("group");
       if (qualifiedName != null)
       {
-        int fragmentIndex = qualifiedName.lastIndexOf('#');
         EClass eContainingClass = eStructuralFeature.getEContainingClass();
+        if (eContainingClass == null)
+        {
+          return null;
+        }
+
+        int fragmentIndex = qualifiedName.lastIndexOf('#');
         String namespace;
         String name;
         if (fragmentIndex == -1)
         {
-          namespace = getNamespace(eContainingClass.getEPackage());
+          EPackage ePackage = eContainingClass.getEPackage();
+          namespace = ePackage == null ? null : getNamespace(ePackage);
           name = qualifiedName;
         }
         else if (fragmentIndex == 0)
@@ -1291,7 +1316,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     {
       EAnnotation eAnnotation = getAnnotation(eStructuralFeature, true);
       eAnnotation.getDetails().put
-        ("group", getQualifiedName(getNamespace(eStructuralFeature.getEContainingClass().getEPackage()), group));
+        ("group", getQualifiedName(getPackageNamespace(eStructuralFeature), group));
     }
     getExtendedMetaData(eStructuralFeature).setGroup(group);
   }
@@ -1312,11 +1337,18 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         int fragmentIndex = qualifiedName.lastIndexOf('#');
         if (fragmentIndex == -1)
         {
-          EPackage ePackage = eStructuralFeature.getEContainingClass().getEPackage();
-          EClass documentRoot = getDocumentRoot(ePackage);
-          if (documentRoot != null)
+          EClass eContainingClass = eStructuralFeature.getEContainingClass();
+          if (eContainingClass != null)
           {
-            return getLocalElement(documentRoot, getNamespace(ePackage), qualifiedName);
+            EPackage ePackage = eContainingClass.getEPackage();
+            if (ePackage != null)
+            {
+              EClass documentRoot = getDocumentRoot(ePackage);
+              if (documentRoot != null)
+              {
+                return getLocalElement(documentRoot, getNamespace(ePackage), qualifiedName);
+              }
+            }
           }
         }
         else if (fragmentIndex == 0)
@@ -1346,7 +1378,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     {
       EAnnotation eAnnotation = getAnnotation(eStructuralFeature, true);
       eAnnotation.getDetails().put
-        ("affiliation", getQualifiedName(getNamespace(eStructuralFeature.getEContainingClass().getEPackage()), affiliation));
+        ("affiliation", getQualifiedName(getPackageNamespace(eStructuralFeature), affiliation));
     }
     getExtendedMetaData(eStructuralFeature).setAffiliation(affiliation);
   }
@@ -1362,7 +1394,8 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     {
       case ATTRIBUTE_FEATURE:
       {
-        if (isDocumentRoot(eStructuralFeature.getEContainingClass()))
+        EClass eContainingClass = eStructuralFeature.getEContainingClass();
+        if (eContainingClass != null && isDocumentRoot(eContainingClass))
         {
           String namespace = getNamespace(eStructuralFeature);
           String name = getName(eStructuralFeature);
@@ -1386,7 +1419,8 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       }
       case ELEMENT_FEATURE:
       {
-        if (isDocumentRoot(eStructuralFeature.getEContainingClass()))
+        EClass eContainingClass = eStructuralFeature.getEContainingClass();
+        if (eContainingClass != null && isDocumentRoot(eContainingClass))
         {
           for (EStructuralFeature affiliation = eStructuralFeature; affiliation != null; affiliation = getAffiliation(affiliation))
           {
@@ -1628,6 +1662,18 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     return getExtendedMetaData(eDataType).getTotalDigitsFacet();
   }
 
+  private int parseInt(String literal)
+  {
+    try
+    {
+      return Integer.parseInt(literal);
+    }
+    catch (NumberFormatException exception)
+    {
+      return -1;
+    }
+  }
+
   protected int basicGetTotalDigitsFacet(EDataType eDataType)
   {
     EAnnotation eAnnotation = getAnnotation(eDataType, false);
@@ -1636,7 +1682,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       String totalDigitsLiteral = eAnnotation.getDetails().get("totalDigits");
       if (totalDigitsLiteral != null)
       {
-        return Integer.parseInt(totalDigitsLiteral);
+        return parseInt(totalDigitsLiteral);
       }
     }
     return -1;
@@ -1673,7 +1719,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       String fractionDigitsLiteral = eAnnotation.getDetails().get("fractionDigits");
       if (fractionDigitsLiteral != null)
       {
-        return Integer.parseInt(fractionDigitsLiteral);
+        return parseInt(fractionDigitsLiteral);
       }
     }
     return -1;
@@ -1710,7 +1756,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       String lengthLiteral = eAnnotation.getDetails().get("length");
       if (lengthLiteral != null)
       {
-        return Integer.parseInt(lengthLiteral);
+        return parseInt(lengthLiteral);
       }
     }
     return -1;
@@ -1747,7 +1793,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       String minLengthLiteral = eAnnotation.getDetails().get("minLength");
       if (minLengthLiteral != null)
       {
-        return Integer.parseInt(minLengthLiteral);
+        return parseInt(minLengthLiteral);
       }
     }
     return -1;
@@ -1784,7 +1830,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       String maxLengthLiteral = eAnnotation.getDetails().get("maxLength");
       if (maxLengthLiteral != null)
       {
-        return Integer.parseInt(maxLengthLiteral);
+        return parseInt(maxLengthLiteral);
       }
     }
     return -1;

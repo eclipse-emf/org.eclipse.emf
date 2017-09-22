@@ -4,6 +4,7 @@ class X
 {
 	/* XPECT genBase at x ---
 		GenFeature {
+			documentation = null
 			notify = 'false'
 			createChild = 'false'
 			propertySortChoices = 'true'
@@ -14,6 +15,7 @@ class X
 	   
 	/* XPECT genBase at y ---
 		GenFeature {
+			documentation = null
 			notify = 'false'
 			createChild = 'false'
 			propertySortChoices = 'true'

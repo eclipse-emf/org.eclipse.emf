@@ -20,10 +20,12 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.EClassifier;
@@ -41,6 +43,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassifierImpl#getGenPackage <em>Gen Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassifierImpl#getGenTypeParameters <em>Gen Type Parameters</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassifierImpl#getDocumentation <em>Documentation</em>}</li>
  * </ul>
  *
  * @generated
@@ -56,6 +59,37 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
    * @ordered
    */
   protected EList<GenTypeParameter> genTypeParameters;
+
+  /**
+   * The default value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDocumentation()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final String DOCUMENTATION_EDEFAULT = null;
+  /**
+   * The cached value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDocumentation()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected String documentation = DOCUMENTATION_EDEFAULT;
+
+  /**
+   * This is true if the Documentation attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean documentationESet;
 
   /**
    * <!-- begin-user-doc -->
@@ -105,6 +139,66 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public String getDocumentationGen()
+  {
+    return documentation;
+  }
+
+  @Override
+  public String getDocumentation()
+  {
+    return isSetDocumentation() ? getDocumentationGen() : super.getDocumentation();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setDocumentation(String newDocumentation)
+  {
+    String oldDocumentation = documentation;
+    documentation = newDocumentation;
+    boolean oldDocumentationESet = documentationESet;
+    documentationESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_CLASSIFIER__DOCUMENTATION, oldDocumentation, documentation, !oldDocumentationESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetDocumentation()
+  {
+    String oldDocumentation = documentation;
+    boolean oldDocumentationESet = documentationESet;
+    documentation = DOCUMENTATION_EDEFAULT;
+    documentationESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_CLASSIFIER__DOCUMENTATION, oldDocumentation, DOCUMENTATION_EDEFAULT, oldDocumentationESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetDocumentation()
+  {
+    return documentationESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   @Override
@@ -132,6 +226,8 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
         return getGenPackage();
       case GenModelPackage.GEN_CLASSIFIER__GEN_TYPE_PARAMETERS:
         return getGenTypeParameters();
+      case GenModelPackage.GEN_CLASSIFIER__DOCUMENTATION:
+        return getDocumentation();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -151,6 +247,9 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
         getGenTypeParameters().clear();
         getGenTypeParameters().addAll((Collection<? extends GenTypeParameter>)newValue);
         return;
+      case GenModelPackage.GEN_CLASSIFIER__DOCUMENTATION:
+        setDocumentation((String)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -167,6 +266,9 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
     {
       case GenModelPackage.GEN_CLASSIFIER__GEN_TYPE_PARAMETERS:
         getGenTypeParameters().clear();
+        return;
+      case GenModelPackage.GEN_CLASSIFIER__DOCUMENTATION:
+        unsetDocumentation();
         return;
     }
     super.eUnset(featureID);
@@ -186,8 +288,27 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
         return getGenPackage() != null;
       case GenModelPackage.GEN_CLASSIFIER__GEN_TYPE_PARAMETERS:
         return genTypeParameters != null && !genTypeParameters.isEmpty();
+      case GenModelPackage.GEN_CLASSIFIER__DOCUMENTATION:
+        return isSetDocumentation();
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (documentation: ");
+    if (documentationESet) result.append(documentation); else result.append("<unset>");
+    result.append(')');
+    return result.toString();
   }
 
   @Override

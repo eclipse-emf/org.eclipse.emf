@@ -29,6 +29,7 @@ public class XcoreFormatterPreferenceValuesProvider extends FormatterPreferenceV
   @Inject 
   private IPreferenceValuesProvider valuesProvider;
 
+  @Override
   public IPreferenceValues getPreferenceValues(Resource resource)
   {
     final IPreferenceValues preferenceValues = internalGetRawPreferenceValues(resource);
@@ -62,6 +63,7 @@ public class XcoreFormatterPreferenceValuesProvider extends FormatterPreferenceV
       };
   }
 
+  @Override
   protected IPreferenceValues internalGetRawPreferenceValues(final Resource resource)
   {
     return valuesProvider.getPreferenceValues(resource);

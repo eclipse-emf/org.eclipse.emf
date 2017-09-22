@@ -60,7 +60,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 /**
  * NOTE: this class is for internal use only.
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings("all")
 public final class RegEx
 {
 

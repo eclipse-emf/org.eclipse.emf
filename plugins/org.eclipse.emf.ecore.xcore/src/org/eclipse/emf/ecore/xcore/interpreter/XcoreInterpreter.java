@@ -112,6 +112,7 @@ public class XcoreInterpreter extends XbaseInterpreter
     return super.featureCallField(jvmField, receiver);
   }
 
+  @Override
   protected Object _doEvaluate(XInstanceOfExpression instanceOf, IEvaluationContext context, CancelIndicator indicator)
   {
     ToXcoreMapping mapping = mapper.getToXcoreMapping(instanceOf.getType().getType());
@@ -128,6 +129,7 @@ public class XcoreInterpreter extends XbaseInterpreter
     }
   }
 
+  @Override
   protected Object _doEvaluate(XCastedExpression castedExpression, IEvaluationContext context, CancelIndicator indicator)
   {
     JvmType castType = castedExpression.getType().getType();

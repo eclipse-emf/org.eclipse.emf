@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenTypeParameterImpl#getEcoreTypeParameter <em>Ecore Type Parameter</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenTypeParameterImpl#getDocumentation <em>Documentation</em>}</li>
  * </ul>
  *
  * @generated
@@ -47,6 +48,35 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
    * @ordered
    */
   protected ETypeParameter ecoreTypeParameter;
+  /**
+   * The default value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDocumentation()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final String DOCUMENTATION_EDEFAULT = null;
+  /**
+   * The cached value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDocumentation()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected String documentation = DOCUMENTATION_EDEFAULT;
+  /**
+   * This is true if the Documentation attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean documentationESet;
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -114,6 +144,66 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public String getDocumentationGen()
+  {
+    return documentation;
+  }
+
+  @Override
+  public String getDocumentation()
+  {
+    return isSetDocumentation() ? getDocumentationGen() : super.getDocumentation();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setDocumentation(String newDocumentation)
+  {
+    String oldDocumentation = documentation;
+    documentation = newDocumentation;
+    boolean oldDocumentationESet = documentationESet;
+    documentationESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_TYPE_PARAMETER__DOCUMENTATION, oldDocumentation, documentation, !oldDocumentationESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetDocumentation()
+  {
+    String oldDocumentation = documentation;
+    boolean oldDocumentationESet = documentationESet;
+    documentation = DOCUMENTATION_EDEFAULT;
+    documentationESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_TYPE_PARAMETER__DOCUMENTATION, oldDocumentation, DOCUMENTATION_EDEFAULT, oldDocumentationESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetDocumentation()
+  {
+    return documentationESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   @Override
@@ -124,6 +214,8 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
       case GenModelPackage.GEN_TYPE_PARAMETER__ECORE_TYPE_PARAMETER:
         if (resolve) return getEcoreTypeParameter();
         return basicGetEcoreTypeParameter();
+      case GenModelPackage.GEN_TYPE_PARAMETER__DOCUMENTATION:
+        return getDocumentation();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -140,6 +232,9 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
     {
       case GenModelPackage.GEN_TYPE_PARAMETER__ECORE_TYPE_PARAMETER:
         setEcoreTypeParameter((ETypeParameter)newValue);
+        return;
+      case GenModelPackage.GEN_TYPE_PARAMETER__DOCUMENTATION:
+        setDocumentation((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -158,6 +253,9 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
       case GenModelPackage.GEN_TYPE_PARAMETER__ECORE_TYPE_PARAMETER:
         setEcoreTypeParameter((ETypeParameter)null);
         return;
+      case GenModelPackage.GEN_TYPE_PARAMETER__DOCUMENTATION:
+        unsetDocumentation();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -174,8 +272,27 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
     {
       case GenModelPackage.GEN_TYPE_PARAMETER__ECORE_TYPE_PARAMETER:
         return ecoreTypeParameter != null;
+      case GenModelPackage.GEN_TYPE_PARAMETER__DOCUMENTATION:
+        return isSetDocumentation();
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (documentation: ");
+    if (documentationESet) result.append(documentation); else result.append("<unset>");
+    result.append(')');
+    return result.toString();
   }
 
   @Override
@@ -202,6 +319,10 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
   protected void reconcileSettings(GenTypeParameter oldGenTypeParameterVersion)
   {
     reconcileGenAnnotations(oldGenTypeParameterVersion);
+    if (oldGenTypeParameterVersion.eIsSet(GenModelPackage.Literals.GEN_TYPE_PARAMETER__DOCUMENTATION))
+    {
+      setDocumentation(oldGenTypeParameterVersion.getDocumentation());
+    }
   }
 
   public boolean reconcile()

@@ -16,7 +16,7 @@ import java.util.Collection;
 
 /**
  */
-public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor
+public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor, IItemPropertyDescriptor.ValueHandlerProvider
 {
   protected Object object;
   protected IItemPropertyDescriptor itemPropertyDescriptor;
@@ -110,6 +110,16 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor
   }
 
   /**
+   * This does the delegated job of determining whether the property supports the concept of an unset state.
+   *
+   * @since 2.14
+   */
+  public boolean isPropertyUnsettable(Object object)
+  {
+    return itemPropertyDescriptor instanceof IItemPropertyDescriptor.ValueHandlerProvider && ((IItemPropertyDescriptor.ValueHandlerProvider)itemPropertyDescriptor).isPropertyUnsettable(object);
+  }
+
+  /**
    * This does the delegated job of determining whether the property value from the given object supports set (and reset).
    */
   public boolean canSetProperty(Object thisObject)
@@ -151,7 +161,7 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor
   {
     return itemPropertyDescriptor.isMany(thisObject);
   }
-  
+
   /**
    * This does the delegated job of determining whether the property's value consists of multi-line text.
    * @since 2.2.0
@@ -168,5 +178,21 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor
   public boolean isSortChoices(Object object)
   {
     return itemPropertyDescriptor.isSortChoices(object);
+  }
+
+  /**
+   * @since 2.14
+   */
+  public boolean isChoiceArbitrary(Object object)
+  {
+    return itemPropertyDescriptor instanceof ValueHandlerProvider && ((ValueHandlerProvider)itemPropertyDescriptor).isChoiceArbitrary(object);
+  }
+
+  /**
+   * @since 2.14
+   */
+  public ValueHandler getValueHandler(Object object)
+  {
+    return itemPropertyDescriptor instanceof ValueHandlerProvider ? ((ValueHandlerProvider)itemPropertyDescriptor).getValueHandler(object) : null;
   }
 }

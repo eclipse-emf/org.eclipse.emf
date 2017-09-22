@@ -21,9 +21,8 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
-// import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
 
 /**
@@ -59,9 +58,34 @@ public class GenDataTypeItemProvider
     {
       super.getPropertyDescriptors(object);
 
+      addDocumentationPropertyDescriptor(object);
       addEcoreDataTypePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
+  }
+
+  /**
+   * This adds a property descriptor for the Documentation feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addDocumentationPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenClassifier_documentation_feature"),
+         getString("_UI_GenClassifier_documentation_description"),
+         GenModelPackage.Literals.GEN_CLASSIFIER__DOCUMENTATION,
+         true,
+         true,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
   }
 
   /**
@@ -126,6 +150,7 @@ public class GenDataTypeItemProvider
     {
       case GenModelPackage.GEN_DATA_TYPE__GEN_PACKAGE:
       case GenModelPackage.GEN_DATA_TYPE__GEN_TYPE_PARAMETERS:
+      case GenModelPackage.GEN_DATA_TYPE__DOCUMENTATION:
       case GenModelPackage.GEN_DATA_TYPE__ECORE_DATA_TYPE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;

@@ -135,6 +135,16 @@
         eType="#//GenEclipsePlatformVersion" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="@since 2.14"/>
+        <details key="suppressedIsSetVisibility" value="true"/>
+        <details key="suppressedUnsetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelDocumentation" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.14"/>
+        <details key="suppressedIsSetVisibility" value="true"/>
+        <details key="suppressedUnsetVisibility" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -193,6 +203,14 @@
         eType="#//GenClassifier" changeable="false" volatile="true" transient="true"
         resolveProxies="false" eOpposite="#//GenClassifier/genPackage"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="publicationLocation" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentation" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.14"/>
+        <details key="suppressedIsSetVisibility" value="true"/>
+        <details key="suppressedUnsetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenClass" eSuperTypes="#//GenClassifier">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="provider" eType="#//GenProviderKind"/>
@@ -224,6 +242,42 @@
         eType="#//GenClass" transient="true" eOpposite="#//GenClass/genFeatures"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreFeature" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="suppressedGetVisibility"
+        eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.14"/>
+        <details key="suppressedIsSetVisibility" value="true"/>
+        <details key="suppressedUnsetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="suppressedSetVisibility"
+        eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.14"/>
+        <details key="suppressedIsSetVisibility" value="true"/>
+        <details key="suppressedUnsetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="suppressedIsSetVisibility"
+        eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.14"/>
+        <details key="suppressedIsSetVisibility" value="true"/>
+        <details key="suppressedUnsetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="suppressedUnsetVisibility"
+        eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.14"/>
+        <details key="suppressedIsSetVisibility" value="true"/>
+        <details key="suppressedUnsetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenBase" abstract="true">
     <eOperations name="getGenAnnotation" eType="#//GenAnnotation">
@@ -248,6 +302,14 @@
         eType="#//GenEnum" transient="true" eOpposite="#//GenEnum/genEnumLiterals"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreEnumLiteral" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EEnumLiteral"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentation" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.14"/>
+        <details key="suppressedIsSetVisibility" value="true"/>
+        <details key="suppressedUnsetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenClassifier" abstract="true" eSuperTypes="#//GenBase">
     <eStructuralFeatures xsi:type="ecore:EReference" name="genPackage" lowerBound="1"
@@ -255,6 +317,14 @@
         resolveProxies="false" eOpposite="#//GenPackage/genClassifiers"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genTypeParameters" upperBound="-1"
         eType="#//GenTypeParameter" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentation" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.14"/>
+        <details key="suppressedIsSetVisibility" value="true"/>
+        <details key="suppressedUnsetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenDataType" eSuperTypes="#//GenClassifier">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreDataType" lowerBound="1"
@@ -269,6 +339,14 @@
         eType="#//GenParameter" containment="true" eOpposite="#//GenParameter/genOperation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genTypeParameters" upperBound="-1"
         eType="#//GenTypeParameter" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="suppressedVisibility" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.14"/>
+        <details key="suppressedIsSetVisibility" value="true"/>
+        <details key="suppressedUnsetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenParameter" eSuperTypes="#//GenTypedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="genOperation" lowerBound="1"
@@ -292,7 +370,16 @@
     <eLiterals name="XMI" value="2"/>
     <eLiterals name="XML" value="3"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GenTypedElement" abstract="true" eSuperTypes="#//GenBase"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GenTypedElement" abstract="true" eSuperTypes="#//GenBase">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentation" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.14"/>
+        <details key="suppressedIsSetVisibility" value="true"/>
+        <details key="suppressedUnsetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="GenDelegationKind">
     <eLiterals name="None"/>
     <eLiterals name="Reflective" value="1"/>
@@ -327,6 +414,14 @@
   <eClassifiers xsi:type="ecore:EClass" name="GenTypeParameter" eSuperTypes="#//GenBase">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreTypeParameter" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//ETypeParameter"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentation" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.14"/>
+        <details key="suppressedIsSetVisibility" value="true"/>
+        <details key="suppressedUnsetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="GenRuntimeVersion">
     <eLiterals name="EMF22" literal="2.2"/>

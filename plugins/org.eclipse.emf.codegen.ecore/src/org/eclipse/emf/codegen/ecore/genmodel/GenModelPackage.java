@@ -913,13 +913,23 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__ECLIPSE_PLATFORM_VERSION = GEN_BASE_FEATURE_COUNT + 86;
 
   /**
+   * The feature id for the '<em><b>Model Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__MODEL_DOCUMENTATION = GEN_BASE_FEATURE_COUNT + 87;
+
+  /**
    * The number of structural features of the '<em>Gen Model</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 87;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 88;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -1211,13 +1221,23 @@ public interface GenModelPackage extends EPackage
   int GEN_PACKAGE__PUBLICATION_LOCATION = GEN_BASE_FEATURE_COUNT + 29;
 
   /**
+   * The feature id for the '<em><b>Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_PACKAGE__DOCUMENTATION = GEN_BASE_FEATURE_COUNT + 30;
+
+  /**
    * The number of structural features of the '<em>Gen Package</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 30;
+  int GEN_PACKAGE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 31;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassifierImpl <em>Gen Classifier</em>}' class.
@@ -1257,13 +1277,23 @@ public interface GenModelPackage extends EPackage
   int GEN_CLASSIFIER__GEN_TYPE_PARAMETERS = GEN_BASE_FEATURE_COUNT + 1;
 
   /**
+   * The feature id for the '<em><b>Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_CLASSIFIER__DOCUMENTATION = GEN_BASE_FEATURE_COUNT + 2;
+
+  /**
    * The number of structural features of the '<em>Gen Classifier</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_CLASSIFIER_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 2;
+  int GEN_CLASSIFIER_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 3;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassImpl <em>Gen Class</em>}' class.
@@ -1301,6 +1331,16 @@ public interface GenModelPackage extends EPackage
    * @ordered
    */
   int GEN_CLASS__GEN_TYPE_PARAMETERS = GEN_CLASSIFIER__GEN_TYPE_PARAMETERS;
+
+  /**
+   * The feature id for the '<em><b>Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_CLASS__DOCUMENTATION = GEN_CLASSIFIER__DOCUMENTATION;
 
   /**
    * The feature id for the '<em><b>Provider</b></em>' attribute.
@@ -1394,13 +1434,23 @@ public interface GenModelPackage extends EPackage
   int GEN_TYPED_ELEMENT__GEN_ANNOTATIONS = GEN_BASE__GEN_ANNOTATIONS;
 
   /**
+   * The feature id for the '<em><b>Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_TYPED_ELEMENT__DOCUMENTATION = GEN_BASE_FEATURE_COUNT + 0;
+
+  /**
    * The number of structural features of the '<em>Gen Typed Element</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_TYPED_ELEMENT_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 0;
+  int GEN_TYPED_ELEMENT_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl <em>Gen Feature</em>}' class.
@@ -1420,6 +1470,16 @@ public interface GenModelPackage extends EPackage
    * @ordered
    */
   int GEN_FEATURE__GEN_ANNOTATIONS = GEN_TYPED_ELEMENT__GEN_ANNOTATIONS;
+
+  /**
+   * The feature id for the '<em><b>Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_FEATURE__DOCUMENTATION = GEN_TYPED_ELEMENT__DOCUMENTATION;
 
   /**
    * The feature id for the '<em><b>Property</b></em>' attribute.
@@ -1521,13 +1581,53 @@ public interface GenModelPackage extends EPackage
   int GEN_FEATURE__ECORE_FEATURE = GEN_TYPED_ELEMENT_FEATURE_COUNT + 10;
 
   /**
+   * The feature id for the '<em><b>Suppressed Get Visibility</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_FEATURE__SUPPRESSED_GET_VISIBILITY = GEN_TYPED_ELEMENT_FEATURE_COUNT + 11;
+
+  /**
+   * The feature id for the '<em><b>Suppressed Set Visibility</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_FEATURE__SUPPRESSED_SET_VISIBILITY = GEN_TYPED_ELEMENT_FEATURE_COUNT + 12;
+
+  /**
+   * The feature id for the '<em><b>Suppressed Is Set Visibility</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_FEATURE__SUPPRESSED_IS_SET_VISIBILITY = GEN_TYPED_ELEMENT_FEATURE_COUNT + 13;
+
+  /**
+   * The feature id for the '<em><b>Suppressed Unset Visibility</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY = GEN_TYPED_ELEMENT_FEATURE_COUNT + 14;
+
+  /**
    * The number of structural features of the '<em>Gen Feature</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_FEATURE_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 11;
+  int GEN_FEATURE_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 15;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl <em>Gen Data Type</em>}' class.
@@ -1565,6 +1665,16 @@ public interface GenModelPackage extends EPackage
    * @ordered
    */
   int GEN_DATA_TYPE__GEN_TYPE_PARAMETERS = GEN_CLASSIFIER__GEN_TYPE_PARAMETERS;
+
+  /**
+   * The feature id for the '<em><b>Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_DATA_TYPE__DOCUMENTATION = GEN_CLASSIFIER__DOCUMENTATION;
 
   /**
    * The feature id for the '<em><b>Ecore Data Type</b></em>' reference.
@@ -1620,6 +1730,16 @@ public interface GenModelPackage extends EPackage
    * @ordered
    */
   int GEN_ENUM__GEN_TYPE_PARAMETERS = GEN_DATA_TYPE__GEN_TYPE_PARAMETERS;
+
+  /**
+   * The feature id for the '<em><b>Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_ENUM__DOCUMENTATION = GEN_DATA_TYPE__DOCUMENTATION;
 
   /**
    * The feature id for the '<em><b>Ecore Data Type</b></em>' reference.
@@ -1704,13 +1824,23 @@ public interface GenModelPackage extends EPackage
   int GEN_ENUM_LITERAL__ECORE_ENUM_LITERAL = GEN_BASE_FEATURE_COUNT + 1;
 
   /**
+   * The feature id for the '<em><b>Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_ENUM_LITERAL__DOCUMENTATION = GEN_BASE_FEATURE_COUNT + 2;
+
+  /**
    * The number of structural features of the '<em>Gen Enum Literal</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_ENUM_LITERAL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 2;
+  int GEN_ENUM_LITERAL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 3;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenOperationImpl <em>Gen Operation</em>}' class.
@@ -1730,6 +1860,16 @@ public interface GenModelPackage extends EPackage
    * @ordered
    */
   int GEN_OPERATION__GEN_ANNOTATIONS = GEN_TYPED_ELEMENT__GEN_ANNOTATIONS;
+
+  /**
+   * The feature id for the '<em><b>Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_OPERATION__DOCUMENTATION = GEN_TYPED_ELEMENT__DOCUMENTATION;
 
   /**
    * The feature id for the '<em><b>Gen Class</b></em>' container reference.
@@ -1768,13 +1908,23 @@ public interface GenModelPackage extends EPackage
   int GEN_OPERATION__GEN_TYPE_PARAMETERS = GEN_TYPED_ELEMENT_FEATURE_COUNT + 3;
 
   /**
+   * The feature id for the '<em><b>Suppressed Visibility</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_OPERATION__SUPPRESSED_VISIBILITY = GEN_TYPED_ELEMENT_FEATURE_COUNT + 4;
+
+  /**
    * The number of structural features of the '<em>Gen Operation</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_OPERATION_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 4;
+  int GEN_OPERATION_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 5;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenParameterImpl <em>Gen Parameter</em>}' class.
@@ -1794,6 +1944,16 @@ public interface GenModelPackage extends EPackage
    * @ordered
    */
   int GEN_PARAMETER__GEN_ANNOTATIONS = GEN_TYPED_ELEMENT__GEN_ANNOTATIONS;
+
+  /**
+   * The feature id for the '<em><b>Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_PARAMETER__DOCUMENTATION = GEN_TYPED_ELEMENT__DOCUMENTATION;
 
   /**
    * The feature id for the '<em><b>Gen Operation</b></em>' container reference.
@@ -1925,13 +2085,23 @@ public interface GenModelPackage extends EPackage
   int GEN_TYPE_PARAMETER__ECORE_TYPE_PARAMETER = GEN_BASE_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_TYPE_PARAMETER__DOCUMENTATION = GEN_BASE_FEATURE_COUNT + 1;
+
+  /**
    * The number of structural features of the '<em>Gen Type Parameter</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_TYPE_PARAMETER_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 1;
+  int GEN_TYPE_PARAMETER_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind <em>Gen Provider Kind</em>}' enum.
@@ -3014,6 +3184,18 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenModel_EclipsePlatformVersion();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getModelDocumentation <em>Model Documentation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Model Documentation</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getModelDocumentation()
+   * @see #getGenModel()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenModel_ModelDocumentation();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage <em>Gen Package</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3354,6 +3536,18 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenPackage_PublicationLocation();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getDocumentation <em>Documentation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Documentation</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getDocumentation()
+   * @see #getGenPackage()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenPackage_Documentation();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass <em>Gen Class</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3572,6 +3766,54 @@ public interface GenModelPackage extends EPackage
   EReference getGenFeature_EcoreFeature();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedGetVisibility <em>Suppressed Get Visibility</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Suppressed Get Visibility</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedGetVisibility()
+   * @see #getGenFeature()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenFeature_SuppressedGetVisibility();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedSetVisibility <em>Suppressed Set Visibility</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Suppressed Set Visibility</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedSetVisibility()
+   * @see #getGenFeature()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenFeature_SuppressedSetVisibility();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedIsSetVisibility <em>Suppressed Is Set Visibility</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Suppressed Is Set Visibility</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedIsSetVisibility()
+   * @see #getGenFeature()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenFeature_SuppressedIsSetVisibility();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedUnsetVisibility <em>Suppressed Unset Visibility</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Suppressed Unset Visibility</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedUnsetVisibility()
+   * @see #getGenFeature()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenFeature_SuppressedUnsetVisibility();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenBase <em>Gen Base</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3668,6 +3910,18 @@ public interface GenModelPackage extends EPackage
   EReference getGenEnumLiteral_EcoreEnumLiteral();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral#getDocumentation <em>Documentation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Documentation</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral#getDocumentation()
+   * @see #getGenEnumLiteral()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenEnumLiteral_Documentation();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenClassifier <em>Gen Classifier</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3698,6 +3952,18 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   EReference getGenClassifier_GenTypeParameters();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenClassifier#getDocumentation <em>Documentation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Documentation</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenClassifier#getDocumentation()
+   * @see #getGenClassifier()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenClassifier_Documentation();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenDataType <em>Gen Data Type</em>}'.
@@ -3775,6 +4041,18 @@ public interface GenModelPackage extends EPackage
   EReference getGenOperation_GenTypeParameters();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation#isSuppressedVisibility <em>Suppressed Visibility</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Suppressed Visibility</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenOperation#isSuppressedVisibility()
+   * @see #getGenOperation()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenOperation_SuppressedVisibility();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenParameter <em>Gen Parameter</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3815,6 +4093,18 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   EClass getGenTypedElement();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenTypedElement#getDocumentation <em>Documentation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Documentation</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenTypedElement#getDocumentation()
+   * @see #getGenTypedElement()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenTypedElement_Documentation();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation <em>Gen Annotation</em>}'.
@@ -3901,6 +4191,18 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   EReference getGenTypeParameter_EcoreTypeParameter();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter#getDocumentation <em>Documentation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Documentation</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter#getDocumentation()
+   * @see #getGenTypeParameter()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenTypeParameter_Documentation();
 
   /**
    * Returns the meta object for enum '{@link org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind <em>Gen Provider Kind</em>}'.
@@ -4740,6 +5042,15 @@ public interface GenModelPackage extends EPackage
     EAttribute GEN_MODEL__ECLIPSE_PLATFORM_VERSION = eINSTANCE.getGenModel_EclipsePlatformVersion();
 
     /**
+     * The meta object literal for the '<em><b>Model Documentation</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_MODEL__MODEL_DOCUMENTATION = eINSTANCE.getGenModel_ModelDocumentation();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4990,6 +5301,15 @@ public interface GenModelPackage extends EPackage
     EAttribute GEN_PACKAGE__PUBLICATION_LOCATION = eINSTANCE.getGenPackage_PublicationLocation();
 
     /**
+     * The meta object literal for the '<em><b>Documentation</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__DOCUMENTATION = eINSTANCE.getGenPackage_Documentation();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassImpl <em>Gen Class</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5154,6 +5474,42 @@ public interface GenModelPackage extends EPackage
     EReference GEN_FEATURE__ECORE_FEATURE = eINSTANCE.getGenFeature_EcoreFeature();
 
     /**
+     * The meta object literal for the '<em><b>Suppressed Get Visibility</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_FEATURE__SUPPRESSED_GET_VISIBILITY = eINSTANCE.getGenFeature_SuppressedGetVisibility();
+
+    /**
+     * The meta object literal for the '<em><b>Suppressed Set Visibility</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_FEATURE__SUPPRESSED_SET_VISIBILITY = eINSTANCE.getGenFeature_SuppressedSetVisibility();
+
+    /**
+     * The meta object literal for the '<em><b>Suppressed Is Set Visibility</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_FEATURE__SUPPRESSED_IS_SET_VISIBILITY = eINSTANCE.getGenFeature_SuppressedIsSetVisibility();
+
+    /**
+     * The meta object literal for the '<em><b>Suppressed Unset Visibility</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY = eINSTANCE.getGenFeature_SuppressedUnsetVisibility();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenBaseImpl <em>Gen Base</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5232,6 +5588,15 @@ public interface GenModelPackage extends EPackage
     EReference GEN_ENUM_LITERAL__ECORE_ENUM_LITERAL = eINSTANCE.getGenEnumLiteral_EcoreEnumLiteral();
 
     /**
+     * The meta object literal for the '<em><b>Documentation</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_ENUM_LITERAL__DOCUMENTATION = eINSTANCE.getGenEnumLiteral_Documentation();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassifierImpl <em>Gen Classifier</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5256,6 +5621,15 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EReference GEN_CLASSIFIER__GEN_TYPE_PARAMETERS = eINSTANCE.getGenClassifier_GenTypeParameters();
+
+    /**
+     * The meta object literal for the '<em><b>Documentation</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_CLASSIFIER__DOCUMENTATION = eINSTANCE.getGenClassifier_Documentation();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl <em>Gen Data Type</em>}' class.
@@ -5318,6 +5692,15 @@ public interface GenModelPackage extends EPackage
     EReference GEN_OPERATION__GEN_TYPE_PARAMETERS = eINSTANCE.getGenOperation_GenTypeParameters();
 
     /**
+     * The meta object literal for the '<em><b>Suppressed Visibility</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_OPERATION__SUPPRESSED_VISIBILITY = eINSTANCE.getGenOperation_SuppressedVisibility();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenParameterImpl <em>Gen Parameter</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5352,6 +5735,15 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EClass GEN_TYPED_ELEMENT = eINSTANCE.getGenTypedElement();
+
+    /**
+     * The meta object literal for the '<em><b>Documentation</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_TYPED_ELEMENT__DOCUMENTATION = eINSTANCE.getGenTypedElement_Documentation();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenAnnotationImpl <em>Gen Annotation</em>}' class.
@@ -5420,6 +5812,15 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EReference GEN_TYPE_PARAMETER__ECORE_TYPE_PARAMETER = eINSTANCE.getGenTypeParameter_EcoreTypeParameter();
+
+    /**
+     * The meta object literal for the '<em><b>Documentation</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_TYPE_PARAMETER__DOCUMENTATION = eINSTANCE.getGenTypeParameter_Documentation();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind <em>Gen Provider Kind</em>}' enum.

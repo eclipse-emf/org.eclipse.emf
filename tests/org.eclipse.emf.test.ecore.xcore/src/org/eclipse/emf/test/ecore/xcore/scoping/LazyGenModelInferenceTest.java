@@ -103,6 +103,7 @@ public class LazyGenModelInferenceTest
       return contents;
     }
 
+    @Override
     public boolean isFullyInitialized()
     {
       return fullyInitialized;

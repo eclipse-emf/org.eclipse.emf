@@ -927,6 +927,7 @@ public class EcorePlugin  extends EMFPlugin
       new InvocationDelegateFactoryRegistryReader().readRegistry();
       new QueryDelegateFactoryRegistryReader().readRegistry();
       new ConversionDelegateFactoryRegistryReader().readRegistry();
+      new AnnotationValidatorRegistryReader().readRegistry();
     }
   }
 
@@ -1431,4 +1432,9 @@ public class EcorePlugin  extends EMFPlugin
   public static final String INVOCATION_DELEGATE_PPID = "invocation_delegate";
   public static final String QUERY_DELEGATE_PPID = "query_delegate";
   public static final String CONVERSION_DELEGATE_PPID = "conversion_delegate";
+
+  /**
+   * Since 2.14
+   */
+  public static final String ANNOTATION_VALIDATOR_PPID = "annotation_validator";
 }

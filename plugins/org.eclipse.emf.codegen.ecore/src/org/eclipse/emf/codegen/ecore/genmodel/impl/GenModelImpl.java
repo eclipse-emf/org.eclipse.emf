@@ -97,7 +97,6 @@ import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EValidator;
@@ -216,6 +215,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCleanup <em>Cleanup</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isOSGiCompatible <em>OS Gi Compatible</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getEclipsePlatformVersion <em>Eclipse Platform Version</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getModelDocumentation <em>Model Documentation</em>}</li>
  * </ul>
  *
  * @generated
@@ -1921,6 +1921,38 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean eclipsePlatformVersionESet;
+
+  /**
+   * The default value of the '{@link #getModelDocumentation() <em>Model Documentation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getModelDocumentation()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final String MODEL_DOCUMENTATION_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getModelDocumentation() <em>Model Documentation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getModelDocumentation()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected String modelDocumentation = MODEL_DOCUMENTATION_EDEFAULT;
+
+  /**
+   * This is true if the Model Documentation attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean modelDocumentationESet;
 
   protected boolean validateModel = false;
 
@@ -6720,6 +6752,81 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public String getModelDocumentationGen()
+  {
+    return modelDocumentation;
+  }
+
+  public String getModelDocumentation()
+  {
+    if (isSetModelDocumentation())
+    {
+      return getModelDocumentationGen();
+    }
+    else
+    {
+      GenPackage mainGenPackage = getMainGenPackage();
+      if (mainGenPackage != null)
+      {
+        EPackage mainEPackage = mainGenPackage.getEcorePackage();
+        if (mainEPackage != null)
+        {
+          return EcoreUtil.getAnnotation(mainEPackage, GenModelPackage.eNS_URI, "modelDocumentation");
+        }
+      }
+      return null;
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setModelDocumentation(String newModelDocumentation)
+  {
+    String oldModelDocumentation = modelDocumentation;
+    modelDocumentation = newModelDocumentation;
+    boolean oldModelDocumentationESet = modelDocumentationESet;
+    modelDocumentationESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__MODEL_DOCUMENTATION, oldModelDocumentation, modelDocumentation, !oldModelDocumentationESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetModelDocumentation()
+  {
+    String oldModelDocumentation = modelDocumentation;
+    boolean oldModelDocumentationESet = modelDocumentationESet;
+    modelDocumentation = MODEL_DOCUMENTATION_EDEFAULT;
+    modelDocumentationESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_MODEL__MODEL_DOCUMENTATION, oldModelDocumentation, MODEL_DOCUMENTATION_EDEFAULT, oldModelDocumentationESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetModelDocumentation()
+  {
+    return modelDocumentationESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   @SuppressWarnings("unchecked")
@@ -6934,6 +7041,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isOSGiCompatible();
       case GenModelPackage.GEN_MODEL__ECLIPSE_PLATFORM_VERSION:
         return getEclipsePlatformVersion();
+      case GenModelPackage.GEN_MODEL__MODEL_DOCUMENTATION:
+        return getModelDocumentation();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -7219,6 +7328,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__ECLIPSE_PLATFORM_VERSION:
         setEclipsePlatformVersion((GenEclipsePlatformVersion)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__MODEL_DOCUMENTATION:
+        setModelDocumentation((String)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -7494,6 +7606,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__ECLIPSE_PLATFORM_VERSION:
         unsetEclipsePlatformVersion();
         return;
+      case GenModelPackage.GEN_MODEL__MODEL_DOCUMENTATION:
+        unsetModelDocumentation();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -7682,6 +7797,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return oSGiCompatible != OS_GI_COMPATIBLE_EDEFAULT;
       case GenModelPackage.GEN_MODEL__ECLIPSE_PLATFORM_VERSION:
         return isSetEclipsePlatformVersion();
+      case GenModelPackage.GEN_MODEL__MODEL_DOCUMENTATION:
+        return isSetModelDocumentation();
     }
     return super.eIsSet(featureID);
   }
@@ -7861,6 +7978,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(oSGiCompatible);
     result.append(", eclipsePlatformVersion: ");
     if (eclipsePlatformVersionESet) result.append(eclipsePlatformVersion); else result.append("<unset>");
+    result.append(", modelDocumentation: ");
+    if (modelDocumentationESet) result.append(modelDocumentation); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }
@@ -9190,6 +9309,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setStyleProviders(oldGenModelVersion.isStyleProviders());
     
     setOSGiCompatible(oldGenModelVersion.isOSGiCompatible());
+
+    if (oldGenModelVersion.eIsSet(GenModelPackage.Literals.GEN_MODEL__ECLIPSE_PLATFORM_VERSION))
+    {
+      setEclipsePlatformVersion(oldGenModelVersion.getEclipsePlatformVersion());
+    }
+
+    if (oldGenModelVersion.eIsSet(GenModelPackage.Literals.GEN_MODEL__MODEL_DOCUMENTATION))
+    {
+      setModelDocumentation(oldGenModelVersion.getModelDocumentation());
+    }
   }
 
   private boolean isReconciling;
@@ -9237,6 +9366,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
             genPackages.remove(genPackage);
           }
         }
+
+        handleAnnotations(null);
 
         return !genPackages.isEmpty();
       }
@@ -10104,6 +10235,20 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
     if (handleAnnotations)
     {
+      handleAnnotations(result);
+    }
+
+    return result;
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected void handleAnnotations(Collection<Runnable> runnables)
+  {
+    GenPackage mainGenPackage = getMainGenPackage();
+    if (mainGenPackage != null)
+    {
       handleAnnotations(this, mainGenPackage.getEcorePackage());
       for (TreeIterator<EObject> i = eAllContents(); i.hasNext();)
       {
@@ -10114,20 +10259,18 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           EModelElement eModelElement = genBase.getEcoreModelElement();
           if (eModelElement != null)
           {
-            if (result == null)
+            if (runnables == null)
             {
               handleAnnotations(genBase, eModelElement);
             }
             else
             {
-              handleAnnotations(result, genBase, eModelElement);
+              handleAnnotations(runnables, genBase, eModelElement);
             }
           }
         }
       }
     }
-
-    return result;
   }
 
   /**
@@ -10177,19 +10320,51 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           }
           if (value != null)
           {
-            genBase.eSet(eStructuralFeature, value);
+            // Only set the value for features that are not implemented to directly derive their value from the annotation.
+            boolean isFeatureDerivedDirectlyFromAnnotation =
+              eStructuralFeature == GenModelPackage.Literals.GEN_MODEL__MODEL_DOCUMENTATION ||
+                eStructuralFeature == GenModelPackage.Literals.GEN_PACKAGE__DOCUMENTATION ||
+                eStructuralFeature == GenModelPackage.Literals.GEN_FEATURE__SUPPRESSED_GET_VISIBILITY ||
+                eStructuralFeature == GenModelPackage.Literals.GEN_FEATURE__SUPPRESSED_SET_VISIBILITY ||
+                eStructuralFeature == GenModelPackage.Literals.GEN_FEATURE__SUPPRESSED_IS_SET_VISIBILITY ||
+                eStructuralFeature == GenModelPackage.Literals.GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY ||
+                eStructuralFeature == GenModelPackage.Literals.GEN_ENUM_LITERAL__DOCUMENTATION ||
+                eStructuralFeature == GenModelPackage.Literals.GEN_CLASSIFIER__DOCUMENTATION ||
+                eStructuralFeature == GenModelPackage.Literals.GEN_OPERATION__SUPPRESSED_VISIBILITY ||
+                eStructuralFeature == GenModelPackage.Literals.GEN_TYPED_ELEMENT__DOCUMENTATION ||
+                eStructuralFeature == GenModelPackage.Literals.GEN_TYPE_PARAMETER__DOCUMENTATION;
+            if (!isFeatureDerivedDirectlyFromAnnotation)
+            {
+              genBase.eSet(eStructuralFeature, value);
+            }
           }
         }
-        else if (eStructuralFeature instanceof EReference && genBase instanceof GenClass)
+        else if (eStructuralFeature == GenModelPackage.Literals.GEN_CLASS__LABEL_FEATURE && literal != null)
         {
           if (runnables == null)
           {
-            for (GenFeature genFeature : ((GenClass)genBase).getAllGenFeatures())
+            GenClass genClass = (GenClass)genBase;
+            if (genClass.eContainer() == null)
             {
-              if (literal.equals(genFeature.getName()))
+              for (EStructuralFeature feature : ((EClass)eModelElement).getEAllStructuralFeatures())
               {
-                genBase.eSet(eStructuralFeature, genFeature);
-                break;
+                if (literal.equals(feature.getName()))
+                {
+                  GenFeature genFeature = GenModelFactory.eINSTANCE.createGenFeature();
+                  genFeature.setEcoreFeature(feature);
+                  genClass.setLabelFeature(genFeature);
+                }
+              }
+            }
+            else
+            {
+              for (GenFeature genFeature : genClass.getAllGenFeatures())
+              {
+                if (literal.equals(genFeature.getName()))
+                {
+                  genClass.setLabelFeature(genFeature);
+                  break;
+                }
               }
             }
           }
@@ -10427,7 +10602,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   protected String getDocumentation()
   {
-    return GenModelUtil.getAnnotation(this, GenModelPackage.eNS_URI, "documentation");
+    return getModelDocumentation();
   }
 
 } //GenModelImpl

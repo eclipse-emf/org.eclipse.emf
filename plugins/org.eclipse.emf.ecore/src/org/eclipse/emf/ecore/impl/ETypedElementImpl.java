@@ -678,7 +678,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (ordered: ");
     result.append((eFlags & ORDERED_EFLAG) != 0);
     result.append(", unique: ");

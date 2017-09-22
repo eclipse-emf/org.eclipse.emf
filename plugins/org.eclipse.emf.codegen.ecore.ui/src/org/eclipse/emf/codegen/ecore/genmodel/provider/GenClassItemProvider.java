@@ -64,6 +64,7 @@ public class GenClassItemProvider
     {
       super.getPropertyDescriptors(object);
 
+      addDocumentationPropertyDescriptor(object);
       addProviderPropertyDescriptor(object);
       addImagePropertyDescriptor(object);
       addDynamicPropertyDescriptor(object);
@@ -71,6 +72,30 @@ public class GenClassItemProvider
       addLabelFeaturePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
+  }
+
+  /**
+   * This adds a property descriptor for the Documentation feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addDocumentationPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenClassifier_documentation_feature"),
+         getString("_UI_GenClassifier_documentation_description"),
+         GenModelPackage.Literals.GEN_CLASSIFIER__DOCUMENTATION,
+         true,
+         true,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
   }
 
   /**
@@ -288,6 +313,7 @@ public class GenClassItemProvider
     {
       case GenModelPackage.GEN_CLASS__GEN_PACKAGE:
       case GenModelPackage.GEN_CLASS__GEN_TYPE_PARAMETERS:
+      case GenModelPackage.GEN_CLASS__DOCUMENTATION:
       case GenModelPackage.GEN_CLASS__PROVIDER:
       case GenModelPackage.GEN_CLASS__IMAGE:
       case GenModelPackage.GEN_CLASS__DYNAMIC:

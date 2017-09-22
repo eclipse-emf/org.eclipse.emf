@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.EOperation;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation#getEcoreOperation <em>Ecore Operation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation#getGenParameters <em>Gen Parameters</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation#getGenTypeParameters <em>Gen Type Parameters</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation#isSuppressedVisibility <em>Suppressed Visibility</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenOperation()
@@ -279,6 +280,17 @@ public interface GenOperation extends GenTypedElement
    * @since 2.4
    */
   boolean isSuppressedVisibility();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation#isSuppressedVisibility <em>Suppressed Visibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Suppressed Visibility</em>' attribute.
+   * @see #isSuppressedVisibility()
+   * @since 2.14
+   * @generated
+   */
+  void setSuppressedVisibility(boolean value);
 
   /**
    * Returns whether this operation is implemented with a registered invocation delegate.

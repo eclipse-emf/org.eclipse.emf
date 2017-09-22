@@ -600,7 +600,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (containment: ");
     result.append((eFlags & CONTAINMENT_EFLAG) != 0);
     result.append(", resolveProxies: ");

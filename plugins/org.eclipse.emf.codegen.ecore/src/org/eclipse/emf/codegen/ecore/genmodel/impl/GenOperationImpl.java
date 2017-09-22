@@ -58,6 +58,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenOperationImpl#getEcoreOperation <em>Ecore Operation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenOperationImpl#getGenParameters <em>Gen Parameters</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenOperationImpl#getGenTypeParameters <em>Gen Type Parameters</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenOperationImpl#isSuppressedVisibility <em>Suppressed Visibility</em>}</li>
  * </ul>
  *
  * @generated
@@ -93,6 +94,38 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * @ordered
    */
   protected EList<GenTypeParameter> genTypeParameters;
+
+  /**
+   * The default value of the '{@link #isSuppressedVisibility() <em>Suppressed Visibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressedVisibility()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final boolean SUPPRESSED_VISIBILITY_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isSuppressedVisibility() <em>Suppressed Visibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressedVisibility()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressedVisibility = SUPPRESSED_VISIBILITY_EDEFAULT;
+
+  /**
+   * This is true if the Suppressed Visibility attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressedVisibilityESet;
 
   /**
    * <!-- begin-user-doc -->
@@ -307,6 +340,8 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
         return getGenParameters();
       case GenModelPackage.GEN_OPERATION__GEN_TYPE_PARAMETERS:
         return getGenTypeParameters();
+      case GenModelPackage.GEN_OPERATION__SUPPRESSED_VISIBILITY:
+        return isSuppressedVisibility();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -336,6 +371,9 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
         getGenTypeParameters().clear();
         getGenTypeParameters().addAll((Collection<? extends GenTypeParameter>)newValue);
         return;
+      case GenModelPackage.GEN_OPERATION__SUPPRESSED_VISIBILITY:
+        setSuppressedVisibility((Boolean)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -362,6 +400,9 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       case GenModelPackage.GEN_OPERATION__GEN_TYPE_PARAMETERS:
         getGenTypeParameters().clear();
         return;
+      case GenModelPackage.GEN_OPERATION__SUPPRESSED_VISIBILITY:
+        unsetSuppressedVisibility();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -384,8 +425,27 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
         return genParameters != null && !genParameters.isEmpty();
       case GenModelPackage.GEN_OPERATION__GEN_TYPE_PARAMETERS:
         return genTypeParameters != null && !genTypeParameters.isEmpty();
+      case GenModelPackage.GEN_OPERATION__SUPPRESSED_VISIBILITY:
+        return isSetSuppressedVisibility();
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (suppressedVisibility: ");
+    if (suppressedVisibilityESet) result.append(suppressedVisibility); else result.append("<unset>");
+    result.append(')');
+    return result.toString();
   }
 
   @Override
@@ -916,6 +976,15 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   protected void reconcileSettings(GenOperation oldGenOperationVersion)
   {
     reconcileGenAnnotations(oldGenOperationVersion);
+    if (oldGenOperationVersion.eIsSet(GenModelPackage.Literals.GEN_TYPED_ELEMENT__DOCUMENTATION))
+    {
+      setDocumentation(oldGenOperationVersion.getDocumentation());
+    }
+
+    if (oldGenOperationVersion.eIsSet(GenModelPackage.Literals.GEN_OPERATION__SUPPRESSED_VISIBILITY))
+    {
+      setSuppressedVisibility(oldGenOperationVersion.isSuppressedVisibility());
+    }
   }
 
   public boolean reconcile()
@@ -1184,9 +1253,63 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     return false;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSuppressedVisibilityGen()
+  {
+    return suppressedVisibility;
+  }
+
   public boolean isSuppressedVisibility()
   {
-    return EcoreUtil.isSuppressedVisibility(getEcoreOperation());
+    return isSetSuppressedVisibility() ? isSuppressedVisibilityGen() : EcoreUtil.isSuppressedVisibility(getEcoreOperation());
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setSuppressedVisibility(boolean newSuppressedVisibility)
+  {
+    boolean oldSuppressedVisibility = suppressedVisibility;
+    suppressedVisibility = newSuppressedVisibility;
+    boolean oldSuppressedVisibilityESet = suppressedVisibilityESet;
+    suppressedVisibilityESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_OPERATION__SUPPRESSED_VISIBILITY, oldSuppressedVisibility, suppressedVisibility, !oldSuppressedVisibilityESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetSuppressedVisibility()
+  {
+    boolean oldSuppressedVisibility = suppressedVisibility;
+    boolean oldSuppressedVisibilityESet = suppressedVisibilityESet;
+    suppressedVisibility = SUPPRESSED_VISIBILITY_EDEFAULT;
+    suppressedVisibilityESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_OPERATION__SUPPRESSED_VISIBILITY, oldSuppressedVisibility, SUPPRESSED_VISIBILITY_EDEFAULT, oldSuppressedVisibilityESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetSuppressedVisibility()
+  {
+    return suppressedVisibilityESet;
   }
 
   public boolean hasInvocationDelegate()

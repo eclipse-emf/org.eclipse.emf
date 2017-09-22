@@ -9,6 +9,7 @@ package org.eclipse.emf.test.ecore.xcore.genmodel;
 
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xcore.XNamedElement;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
@@ -59,6 +60,13 @@ public class XcoreGenModelTest
   {
     EcoreUtil.resolveAll(resource);
     GenBase gen = mapper.getGen((XNamedElement)offset.getEObject());
+    EStructuralFeature eStructuralFeature = gen.eClass().getEStructuralFeature("documentation");
+    if (eStructuralFeature != null)
+    {
+      // Clear the documentation feature because this will have the Xpect documentation tag which we don't want to format.
+      //
+      gen.eSet(eStructuralFeature, null);
+    }
     return new GenModelFormatter().resolveCrossReferences().format(gen);
   }
 

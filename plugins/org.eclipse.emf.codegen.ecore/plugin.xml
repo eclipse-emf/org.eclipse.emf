@@ -13,6 +13,14 @@
             class="org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage" genModel="model/GenModel.genmodel"/>
    </extension>
 
+   <extension
+         point="org.eclipse.emf.ecore.annotation_validator">
+      <validator
+            uri="http://www.eclipse.org/emf/2002/GenModel"
+            class="org.eclipse.emf.codegen.ecore.genmodel.util.GenModelAnnotatonValidator">
+      </validator>
+   </extension>
+
    <!--
    <extension point="org.eclipse.emf.ecore.content_parser">
       <parser

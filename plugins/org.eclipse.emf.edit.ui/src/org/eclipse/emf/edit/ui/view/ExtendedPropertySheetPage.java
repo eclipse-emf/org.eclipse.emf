@@ -17,6 +17,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.ui.viewer.ColumnResizer;
+import org.eclipse.emf.common.ui.viewer.ColumnResizer.Handler;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -28,17 +30,30 @@ import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.edit.ui.provider.PropertyDescriptor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.jface.action.IContributionManagerOverrides;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.IDialogSettings;
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.eclipse.ui.views.properties.IPropertySource2;
 import org.eclipse.ui.views.properties.IPropertySourceProvider;
 import org.eclipse.ui.views.properties.PropertySheetEntry;
 import org.eclipse.ui.views.properties.PropertySheetPage;
@@ -106,10 +121,63 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
     }
   }
 
+  /**
+   * @since 2.14
+   */
+  protected static class SetValueAction extends Action
+  {
+    protected ExtendedPropertySheetEntry entry;
+
+    public SetValueAction()
+    {
+      setText(EMFEditUIPlugin.INSTANCE.getString("_UI_SetValue_action"));
+      setToolTipText(EMFEditUIPlugin.INSTANCE.getString("_UI_SetValue_action_tool_tip"));
+      setImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(EMFEditUIPlugin.INSTANCE.getImage("full/elcl16/SetProperty.png")));
+      setDisabledImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(EMFEditUIPlugin.INSTANCE.getImage("full/dlcl16/SetProperty.png")));
+    }
+
+    @Override
+    public void run()
+    {
+      entry.setPropertyValue();
+    }
+
+    public void setEntry(ExtendedPropertySheetEntry entry)
+    {
+      this.entry = entry;
+      setEnabled(entry != null && entry.isSetValueEnabled());
+    }
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected SetValueAction setValueAction = new SetValueAction();
+
+  /**
+   * @since 2.14
+   */
+  protected  IAction restoreValueAction;
+
+  /**
+   * @since 2.14
+   */
+  protected int autoExpandLevel;
+
+  /**
+   * @since 2.14
+   */
+  protected boolean autoResizeColumns;
+
+  /**
+   * @since 2.14
+   */
+  protected Handler columnResizer;
+
+
   public ExtendedPropertySheetPage(AdapterFactoryEditingDomain editingDomain)
   {
-    super();
-    this.editingDomain = editingDomain;
+    this(editingDomain, Decoration.NONE, null, 0, false);
   }
 
   /**
@@ -117,7 +185,7 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
    */
   public ExtendedPropertySheetPage(AdapterFactoryEditingDomain editingDomain, Decoration decoration)
   {
-    this(editingDomain, decoration, null);
+    this(editingDomain, decoration, null, 0, false);
   }
 
   /**
@@ -125,8 +193,19 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
    */
   public ExtendedPropertySheetPage(AdapterFactoryEditingDomain editingDomain, Decoration decoration, IDialogSettings dialogSettings)
   {
-    this(editingDomain);
+    this(editingDomain, decoration, dialogSettings, 0, false);
+  }
+
+  /**
+   * @since 2.14
+   */
+  public ExtendedPropertySheetPage(AdapterFactoryEditingDomain editingDomain, Decoration decoration, IDialogSettings dialogSettings, int autoExpandLevel, boolean autoResizeColumns)
+  {
+    this.editingDomain = editingDomain;
     this.dialogSettings = dialogSettings;
+    this.autoExpandLevel = autoExpandLevel;
+    this.autoResizeColumns = autoResizeColumns;
+    this.autoResizeColumns = autoResizeColumns;
     diagnosticDecorator =  createDiagnosticDecorator(decoration);
   }
 
@@ -163,88 +242,33 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
   public void createControl(Composite parent)
   {
     super.createControl(parent);
-    if (diagnosticDecorator != null)
-    {
-      class DecoratingPropertySheetEntry extends PropertySheetEntry
+
+    // Always create our extension of a property sheet entry.
+    //
+    ExtendedPropertySheetEntry decoratingPropertySheetEntry = new ExtendedPropertySheetEntry(diagnosticDecorator);
+    decoratingPropertySheetEntry.setPropertySourceProvider(propertySourceProvider);
+    setRootEntry(decoratingPropertySheetEntry);
+
+    // The property sheet page's viewer does not respond to widget selected events in a way that updates the current entry selection.
+    // This ensures that we can update the tool bar actions when the selection is changed via the keyboard.
+    //
+    final Tree tree = (Tree)getControl();
+    tree.addSelectionListener(new SelectionListener()
       {
-        @Override
-        protected PropertySheetEntry createChildEntry()
+        public void widgetSelected(SelectionEvent e)
         {
-          return new DecoratingPropertySheetEntry();
-        }
-    
-        @Override
-        public Image getImage()
-        {
-          Image image = super.getImage();
-          if (image == null)
-          {
-            image = ExtendedImageRegistry.INSTANCE.getImage(ItemPropertyDescriptor.GENERIC_VALUE_IMAGE);
-          }
-          Diagnostic featureDiagnostic = findDiagnostic();
-          return featureDiagnostic != null ? diagnosticDecorator.decorate(image, featureDiagnostic) : image;
-        }
-        
-        protected Diagnostic findDiagnostic()
-        {
-          IPropertyDescriptor descriptor = getDescriptor();
-          if (descriptor instanceof PropertyDescriptor)
-          {
-            Object feature = ((PropertyDescriptor)descriptor).getFeature();
-            Map<Object, ? extends Diagnostic> decorations = diagnosticDecorator.getDecorations();
-            if (!decorations.isEmpty() && feature != null)
-            {
-              for (Diagnostic diagnostic : decorations.values())
-              {
-                Diagnostic featureDiagnostic = find(diagnostic, feature);
-                if (featureDiagnostic != null)
-                {
-                  return featureDiagnostic;
-                }
-              }
-            }
-          }
-          return null;
+          Object data = e.item.getData();
+          handleEntrySelection(new StructuredSelection(data));
         }
 
-        protected Diagnostic find(Diagnostic diagnostic, Object feature)
+        public void widgetDefaultSelected(SelectionEvent e)
         {
-          // Gather them all...
-          //
-          if (diagnostic.getData().contains(feature))
-          {
-            return diagnostic;
-          }
-          for (Diagnostic child : diagnostic.getChildren())
-          {
-            Diagnostic result = find(child, feature);
-            if (result != null)
-            {
-              return result;
-            }
-          }
-          return null;
         }
+      });
 
-        @Override
-        public String getDescription()
-        {
-          String description = super.getDescription();
-          Diagnostic featureDiagnostic = findDiagnostic();
-          if (featureDiagnostic != null)
-          {
-            return description + " - " + DiagnosticDecorator.strip(featureDiagnostic.getMessage());
-          }
-          else
-          {
-            return description;
-          }
-        }
-      }
-
-      DecoratingPropertySheetEntry decoratingPropertySheetEntry = new DecoratingPropertySheetEntry();
-      decoratingPropertySheetEntry.setPropertySourceProvider(propertySourceProvider);
-      setRootEntry(decoratingPropertySheetEntry);
+    if (autoResizeColumns)
+    {
+      columnResizer = ColumnResizer.addColumnResizer(tree);
     }
   }
 
@@ -257,16 +281,127 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
   }
 
   @Override
-  public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
+  public void makeContributions(IMenuManager menuManager, final IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
   {
-    super.makeContributions(menuManager, toolBarManager, statusLineManager);
+    class DelegatingToolBarManager implements IToolBarManager
+    {
+      public void add(IAction action)
+      {
+        if ("defaults".equals(action.getId()))
+        {
+          restoreValueAction = action;
+          if (setValueAction != null)
+          {
+            toolBarManager.add(setValueAction);
+          }
+        }
+        toolBarManager.add(action);
+      }
+
+      public void add(IContributionItem item)
+      {
+        toolBarManager.add(item);
+      }
+
+      public void appendToGroup(String groupName, IAction action)
+      {
+        toolBarManager.appendToGroup(groupName, action);
+      }
+
+      public void appendToGroup(String groupName, IContributionItem item)
+      {
+        toolBarManager.appendToGroup(groupName, item);
+      }
+
+      public IContributionItem find(String id)
+      {
+        return toolBarManager.find(id);
+      }
+
+      public IContributionItem[] getItems()
+      {
+        return toolBarManager.getItems();
+      }
+
+      public IContributionManagerOverrides getOverrides()
+      {
+        return toolBarManager.getOverrides();
+      }
+
+      public void insertAfter(String id, IAction action)
+      {
+        toolBarManager.insertAfter(id, action);
+      }
+
+      public void insertAfter(String id, IContributionItem item)
+      {
+        toolBarManager.insertAfter(id, item);
+      }
+
+      public void insertBefore(String id, IAction action)
+      {
+        toolBarManager.insertBefore(id, action);
+      }
+
+      public void insertBefore(String id, IContributionItem item)
+      {
+        toolBarManager.insertBefore(id, item);
+      }
+
+      public boolean isDirty()
+      {
+        return toolBarManager.isDirty();
+      }
+
+      public boolean isEmpty()
+      {
+        return toolBarManager.isEmpty();
+      }
+
+      public void markDirty()
+      {
+        toolBarManager.markDirty();
+      }
+
+      public void prependToGroup(String groupName, IAction action)
+      {
+        toolBarManager.prependToGroup(groupName, action);
+      }
+
+      public void prependToGroup(String groupName, IContributionItem item)
+      {
+        toolBarManager.prependToGroup(groupName, item);
+      }
+
+      public IContributionItem remove(String id)
+      {
+        return toolBarManager.remove(id);
+      }
+
+      public IContributionItem remove(IContributionItem item)
+      {
+        return toolBarManager.remove(item);
+      }
+
+      public void removeAll()
+      {
+        toolBarManager.removeAll();
+      }
+
+      public void update(boolean force)
+      {
+        toolBarManager.update(force);
+      }
+    }
+
+    super.makeContributions(menuManager, new DelegatingToolBarManager(), statusLineManager);
     toolBarManager.add(locateValueAction);
   }
 
   @Override
   public void handleEntrySelection(ISelection selection)
   {
-    super.handleEntrySelection(selection);
+    ExtendedPropertySheetEntry entry = null;
     objectsToSelect.clear();
     if (!selection.isEmpty() && selection instanceof IStructuredSelection)
     {
@@ -274,9 +409,10 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
       if (structuredSelection.size() == 1)
       {
         Object object = structuredSelection.getFirstElement();
-        if (object instanceof PropertySheetEntry)
+        if (object instanceof ExtendedPropertySheetEntry)
         {
-          PropertySheetEntry entry = (PropertySheetEntry)object;
+          entry = (ExtendedPropertySheetEntry)object;
+
           Object [] values = entry.getValues();
           if (values != null)
           {
@@ -303,7 +439,22 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
         }
       }
     }
+
     locateValueAction.setEnabled(!objectsToSelect.isEmpty());
+
+    if (restoreValueAction == null || entry == null)
+    {
+      super.handleEntrySelection(selection);
+    }
+    else
+    {
+      restoreValueAction.setEnabled(entry.isRestoreValueEnabled());
+    }
+
+    if (setValueAction != null)
+    {
+      setValueAction.setEntry(entry);
+    }
   }
 
   protected void addObjectToSelect(Object object)
@@ -325,7 +476,40 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
     {
       input = Collections.emptyList();
     }
+
     super.selectionChanged(part, selection);
+
+    if (autoExpandLevel != 0)
+    {
+      Tree tree = (Tree)getControl();
+      try
+      {
+        tree.setRedraw(false);
+        expand(tree, tree.getItems(), autoExpandLevel);
+      }
+      finally
+      {
+        tree.setRedraw(true);
+      }
+    }
+  }
+
+  private void expand(Tree tree, TreeItem[] items, int level)
+  {
+    if (level != 0)
+    {
+      for (TreeItem treeItem : items)
+      {
+        Event event = new Event();
+        event.item = treeItem;
+        if (!treeItem.getExpanded())
+        {
+          tree.notifyListeners(SWT.Expand, event);
+          treeItem.setExpanded(true);
+        }
+        expand(tree, treeItem.getItems(), level - 1);
+      }
+    }
   }
 
   /**
@@ -362,6 +546,10 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
       viewerField.setAccessible(true);
       Viewer viewer = (Viewer)viewerField.get(this);
       viewer.refresh();
+      if (columnResizer != null)
+      {
+        columnResizer.resizeColumns();
+      }
       return;
     }
     catch (Throwable throwable)
@@ -370,5 +558,298 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
     }
 
     refresh();
+  }
+
+  @Override
+  public void refresh()
+  {
+    Control control = getControl();
+    // Check that there isn't currently a cell editor active.
+    // If there is a focus control that isn't the control of the property sheet page...
+    Control focusControl = control.getDisplay().getFocusControl();
+    if (focusControl != null && focusControl != control)
+    {
+      // Check if that focus control is contained by the property sheet page's control.
+      for (Control parent = focusControl.getParent(); parent != null; parent = parent.getParent())
+      {
+        if (parent == control)
+        {
+          if (autoResizeColumns)
+          {
+            columnResizer.resizeColumns();
+          }
+
+          // If it is, then don't refresh the property sheet page
+          // because that will make the cell editor deactivate.
+          return;
+        }
+      }
+    }
+
+    // If it's a CCombo and the list (Shell) is active, the above logic won't find it.
+    if (setValueAction.entry != null && setValueAction.entry.editor != null && setValueAction.entry.editor.getControl() != null
+      && !setValueAction.entry.editor.getControl().isDisposed() && setValueAction.entry.editor.getControl().isFocusControl())
+    {
+      if (columnResizer != null)
+      {
+        columnResizer.resizeColumns();
+      }
+      return;
+    }
+
+    super.refresh();
+    if (columnResizer != null)
+    {
+      columnResizer.resizeColumns();
+    }
+  }
+
+  /**
+   * @since 2.14
+   */
+  public static class ExtendedPropertySheetEntry extends PropertySheetEntry
+  {
+    protected DiagnosticDecorator diagnosticDecorator;
+    
+    protected CellEditor editor;
+
+    public ExtendedPropertySheetEntry(DiagnosticDecorator diagnosticDecorator)
+    {
+      this.diagnosticDecorator = diagnosticDecorator;
+    }
+
+    @Override
+    protected PropertySheetEntry createChildEntry()
+    {
+      return new ExtendedPropertySheetEntry(diagnosticDecorator);
+    }
+
+    public boolean isRestoreValueEnabled()
+    {
+      PropertySheetEntry parent = getParent();
+      if (parent != null)
+      {
+        Object[] objects = parent.getValues();
+        IPropertyDescriptor descriptor = getDescriptor();
+        Object id = descriptor.getId();
+        for (Object object : objects)
+        {
+          IPropertySource source = getPropertySource(object);
+          for (IPropertyDescriptor propertyDescriptor : source.getPropertyDescriptors())
+          {
+            if (id.equals(propertyDescriptor.getId()))
+            {
+              if (source.isPropertySet(id) && (!(source instanceof IPropertySource2) || ((IPropertySource2)source).isPropertyResettable(id)))
+              {
+               return true;
+              }
+              else
+              {
+                break;
+              }
+            }
+          }
+        }
+      }
+      return false;
+    }
+
+    public boolean isSetValueEnabled()
+    {
+      PropertySheetEntry parent = getParent();
+      if (parent != null)
+      {
+        Object[] objects = parent.getValues();
+        IPropertyDescriptor descriptor = getDescriptor();
+        Object id = descriptor.getId();
+        for (Object object : objects)
+        {
+          IPropertySource source = getPropertySource(object);
+          for (IPropertyDescriptor propertyDescriptor : source.getPropertyDescriptors())
+          {
+            if (id.equals(propertyDescriptor.getId()))
+            {
+              if (!source.isPropertySet(id) && source instanceof IUnsettablePropertySource && ((IUnsettablePropertySource)source).isPropertyUnsettable(id))
+              {
+                return true;
+              }
+              else
+              {
+                break;
+              }
+            }
+          }
+        }
+      }
+      return false;
+    }
+
+    public void setPropertyValue()
+    {
+      PropertySheetEntry parent = getParent();
+      if (parent != null)
+      {
+        boolean change = false;
+        Object[] objects = parent.getValues();
+        IPropertyDescriptor descriptor = getDescriptor();
+        Object id = descriptor.getId();
+        for (int i = 0; i < objects.length; ++i)
+        {
+          Object object = objects[i];
+          IPropertySource source = getPropertySource(object);
+          Object value = getEditValue(i);
+          source.setPropertyValue(id, value);
+          change = true;
+        }
+        if (change)
+        {
+          refreshFromRoot();
+        }
+      }
+    }
+
+    @Override
+    public Image getImage()
+    {
+      Image image = super.getImage();
+      if (image == null)
+      {
+        image = ExtendedImageRegistry.INSTANCE.getImage(ItemPropertyDescriptor.GENERIC_VALUE_IMAGE);
+      }
+      Diagnostic featureDiagnostic = findDiagnostic();
+      return featureDiagnostic != null ? diagnosticDecorator.decorate(image, featureDiagnostic) : image;
+    }
+
+    protected Diagnostic findDiagnostic()
+    {
+      if (diagnosticDecorator != null)
+      {
+        IPropertyDescriptor descriptor = getDescriptor();
+        if (descriptor instanceof PropertyDescriptor)
+        {
+          Object feature = ((PropertyDescriptor)descriptor).getFeature();
+          Map<Object, ? extends Diagnostic> decorations = diagnosticDecorator.getDecorations();
+          if (!decorations.isEmpty() && feature != null)
+          {
+            for (Diagnostic diagnostic : decorations.values())
+            {
+              Diagnostic featureDiagnostic = find(diagnostic, feature);
+              if (featureDiagnostic != null)
+              {
+                return featureDiagnostic;
+              }
+            }
+          }
+        }
+      }
+      return null;
+    }
+
+    protected Diagnostic find(Diagnostic diagnostic, Object feature)
+    {
+      // Gather them all...
+      //
+      if (diagnostic.getData().contains(feature))
+      {
+        return diagnostic;
+      }
+      for (Diagnostic child : diagnostic.getChildren())
+      {
+        Diagnostic result = find(child, feature);
+        if (result != null)
+        {
+          return result;
+        }
+      }
+      return null;
+    }
+
+    @Override
+    public String getDescription()
+    {
+      String description = super.getDescription();
+      Diagnostic featureDiagnostic = findDiagnostic();
+      if (featureDiagnostic != null)
+      {
+        List<Diagnostic> children = featureDiagnostic.getChildren();
+        if (!children.isEmpty())
+        {
+          return description + " - " + DiagnosticDecorator.strip(children.get(0).getMessage());
+        }
+        else
+        {
+          return description + " - " + DiagnosticDecorator.strip(featureDiagnostic.getMessage());
+        }
+      }
+      else
+      {
+        return description;
+      }
+    }
+
+    /**
+     * This override guards the creation so it's only done if the current selection in the tree is the tree item for this property sheet entry.
+     * The framework listens for and handles the mouse down event using the point of that event to determine the tree item,
+     * but if the tree scrolls during an expansion, that point may not  be the tree item that was actually expanded but instead a tree item that's just been revealed.
+     * We really only want to create a cell editor for the actual selected tree item.
+     */
+    @Override
+    public CellEditor getEditor(Composite parent)
+    {
+      editor = null;
+      Tree tree = (Tree)parent;
+      TreeItem[] selection = tree.getSelection();
+      for (TreeItem treeItem : selection)
+      {
+        if (treeItem.getData() == this)
+        {
+          editor = super.getEditor(parent);
+          break;
+        }
+      }
+      return editor;
+    }
+
+    @Override
+    public void setValues(Object[] objects)
+    {
+      editor = null;
+      super.setValues(objects);
+    }
+
+    @Override
+    public void applyEditorValue()
+    {
+      if (editor != null && editor.isDirty())
+      {
+        super.applyEditorValue();
+      }
+    }
+  }
+
+  /**
+   *  An extension of the standard <code>{@link IPropertySource2}</code> interface.
+   * <p>
+   * This interface provides an extended API to allow a property to indicate whether or not it supports the concept of being in the <em>unset</em> state,
+   * i.e., to indicate that the value state of the property includes one additional state, the unset state, that is distinct from the set of values the property can have.
+   * For a property with {@link IPropertyDescriptor#getId() ID} <code>x</code> that returns <code>true</code> for <code>{@link #isPropertyUnsettable(Object) isPropertyUnsettable}(x)</code>
+   * and that returns <code>false</code> for <code>{@link #isPropertySet(Object) isPropertySet}(x)</code>,
+   * calling <code>{@link #setPropertyValue(Object, Object) setPropertyValue}(x, {@link #getEditableValue getEditableValue}(x)</code>
+   * will result in <code>isPropertySet(true)</code> becoming <code>true</code>, even though in both states the property has the same value.
+   * Such a property <code>x</code> will always return <code>false</code> for <code>isPropertySet(x)</code> after a call to  <code>{@link #resetPropertyValue(Object) resetPropertyValue}(x)</code>.
+   * A property <code>x</code> that is read-only will always return <code>false</code> for <code>isPropertyUnsettable(x)</code>.
+   * </p>
+   *
+   * @since 2.14
+   */
+  public interface IUnsettablePropertySource extends IPropertySource2
+  {
+    /**
+     * Returns whether the property supports the concept of being in the <em>{@link IUnsettablePropertySource unset}</em> state.
+     * @param id the ID of the property.
+     * @return whether the property supports the concept of being in the unset.
+     * @see IUnsettablePropertySource
+     */
+    boolean isPropertyUnsettable(Object id);
   }
 }

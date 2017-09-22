@@ -111,6 +111,7 @@ public class XcoreUiModule extends AbstractXcoreUiModule
     return XcoreJavaProjectProvider.class;
   }
 
+  @Override
   public Class<?extends EclipseResourceFileSystemAccess2> bindEclipseResourceFileSystemAccess2()
   {
     return XcoreFileSystemAccess.class;

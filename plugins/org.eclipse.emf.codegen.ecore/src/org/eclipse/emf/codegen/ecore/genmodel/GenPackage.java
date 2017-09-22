@@ -58,6 +58,7 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getNestedGenPackages <em>Nested Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenClassifiers <em>Gen Classifiers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getPublicationLocation <em>Publication Location</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getDocumentation <em>Documentation</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage()
@@ -718,6 +719,32 @@ public interface GenPackage extends GenBase
    * @generated
    */
   void setPublicationLocation(String value);
+
+  /**
+   * Returns the value of the '<em><b>Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.14
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Documentation</em>' attribute.
+   * @see #setDocumentation(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_Documentation()
+   * @model unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
+   * @generated
+   */
+  String getDocumentation();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getDocumentation <em>Documentation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Documentation</em>' attribute.
+   * @see #getDocumentation()
+   * @since 2.14
+   * @generated
+   */
+  void setDocumentation(String value);
 
   String getInterfacePackageName();
   String getReflectionPackageName();

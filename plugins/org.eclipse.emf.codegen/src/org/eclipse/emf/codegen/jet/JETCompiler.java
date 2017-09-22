@@ -59,16 +59,19 @@ public class JETCompiler implements JETParseEventListener
     {
       private final Map<String, JETConstantDataGenerator> delegate = new HashMap<String, JETConstantDataGenerator>(100, 100);
 
+      @Override
       public JETConstantDataGenerator put(char[] key, JETConstantDataGenerator value)
       {
         return delegate.put(new String(key), value);
       }
 
+      @Override
       public JETConstantDataGenerator get(Object key)
       {
         return delegate.get(key instanceof char[] ? new String((char[])key) : key);
       }
 
+      @Override
       public int size()
       {
         return delegate.size();
@@ -80,6 +83,7 @@ public class JETCompiler implements JETParseEventListener
         return
           new AbstractSet<Map.Entry<char[], JETConstantDataGenerator>>()
           {
+            @Override
             public Iterator<Map.Entry<char[],JETConstantDataGenerator>> iterator()
             {
               return new Iterator<Map.Entry<char[],JETConstantDataGenerator>>()

@@ -389,6 +389,10 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
   protected void reconcileSettings(GenParameter oldGenParameterVersion)
   {
     reconcileGenAnnotations(oldGenParameterVersion);
+    if (oldGenParameterVersion.eIsSet(GenModelPackage.Literals.GEN_TYPED_ELEMENT__DOCUMENTATION))
+    {
+      setDocumentation(oldGenParameterVersion.getDocumentation());
+    }
   }
 
   public boolean reconcile()

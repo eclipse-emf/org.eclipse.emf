@@ -11,41 +11,60 @@
 package org.eclipse.emf.edit.ui.provider;
 
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
-
 import org.eclipse.emf.common.ui.celleditor.ExtendedComboBoxCellEditor;
 import org.eclipse.emf.common.ui.celleditor.ExtendedDialogCellEditor;
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.util.Diagnostician;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 import org.eclipse.emf.edit.ui.celleditor.FeatureEditorDialog;
 
@@ -147,45 +166,42 @@ public class PropertyDescriptor implements IPropertyDescriptor
   /**
    * A delegate for handling validation and conversion for data type values.
    */
-  protected static class EDataTypeValueHandler implements ICellEditorValidator, IInputValidator
+  protected static class EDataTypeValueHandler implements ICellEditorValidator, IInputValidator, ExtendedComboBoxCellEditor.ValueHandler
   {
     protected EDataType eDataType;
 
+    /**
+     * @since 2.14
+     */
+    protected IItemPropertyDescriptor.ValueHandler valueHandler;
+
     public EDataTypeValueHandler(EDataType eDataType)
     {
+      this(eDataType, new ItemPropertyDescriptor.DataTypeValueHandler(eDataType));
+    }
+
+    /**
+     * @since 2.14
+     */
+    public EDataTypeValueHandler(EDataType eDataType, IItemPropertyDescriptor.ValueHandler valueHandler)
+    {
       this.eDataType = eDataType;
+      this.valueHandler = valueHandler;
     }
 
     public String isValid(Object object)
     {
-      Object value;
-      try
-      {
-        value = eDataType.getEPackage().getEFactoryInstance().createFromString(eDataType, (String)object);
-      }
-      catch (Exception exception)
-      {
-        String message = exception.getClass().getName();
-        int index = message.lastIndexOf('.');
-        if (index >= 0)
-        {
-          message = message.substring(index + 1);
-        }
-        if (exception.getLocalizedMessage() != null)
-        {
-          message = message + ": " + exception.getLocalizedMessage();
-        }
-        return message;
-      }
-      Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eDataType, value);
-      if (diagnostic.getSeverity() == Diagnostic.OK)
-      {
-        return null;
-      }
-      else
-      {
-        return (diagnostic.getChildren().get(0)).getMessage().replaceAll("'","''").replaceAll("\\{", "'{'"); // }}
-      }
+      return escape(valueHandler.isValid((String)object));
+    }
+
+    /**
+     * JFace {@link MessageFormat#format(String, Object...) formats} messages, so special pattern characters need to be escaped.
+     * 
+     * @since 2.14
+     */
+    protected String escape(String message)
+    {
+      return message == null ? null : message.replaceAll("'","''").replaceAll("\\{", "'{'"); // }}
     }
 
     public String isValid(String text)
@@ -195,15 +211,14 @@ public class PropertyDescriptor implements IPropertyDescriptor
 
     public Object toValue(String string)
     {
-      return EcoreUtil.createFromString(eDataType, string);
+      return valueHandler.toValue(string);
     }
 
     public String toString(Object value)
     {
-      String result = EcoreUtil.convertToString(eDataType, value);
+      String result = valueHandler.toString(value);
       return result == null ? "" : result;
     }
-    
   }
 
   public static class EDataTypeCellEditor extends TextCellEditor
@@ -213,9 +228,17 @@ public class PropertyDescriptor implements IPropertyDescriptor
 
     public EDataTypeCellEditor(EDataType eDataType, Composite parent)
     {
+      this(eDataType, new EDataTypeValueHandler(eDataType), parent);
+    }
+
+    /**
+     * @since 2.14
+     */
+    public EDataTypeCellEditor(EDataType eDataType, EDataTypeValueHandler valueHandler, Composite parent)
+    {
       super(parent);
       this.eDataType = eDataType;
-      valueHandler = new EDataTypeValueHandler(eDataType);
+      this.valueHandler = valueHandler;
       setValidator(valueHandler);
     }
 
@@ -258,12 +281,450 @@ public class PropertyDescriptor implements IPropertyDescriptor
     }
   }
 
+  /**
+   * @since 2.14
+   */
+  public static class MultiLineEDataTypeCellEditor extends EDataTypeCellEditor
+  {
+    private static final EDataTypeValueHandler NO_OP_VALUE_HANDLER = new EDataTypeValueHandler(EcorePackage.Literals.ESTRING);
+
+    protected Text text;
+
+    protected Button button;
+
+    protected boolean doEscape;
+
+    private String value;
+
+    private String dialogTitle;
+
+    private MouseListener mouseListener = new MouseAdapter()
+      {
+        @Override
+        public void mouseUp(MouseEvent e)
+        {
+          showDialog();
+        }
+
+        @Override
+        public void mouseDoubleClick(MouseEvent e)
+        {
+          showDialog();
+        }
+      };
+
+    private VerifyListener verifyListener = new VerifyListener()
+      {
+        public void verifyText(VerifyEvent e)
+        {
+          e.doit = false;
+          showDialog();
+        }
+      };
+
+    public MultiLineEDataTypeCellEditor(EDataType eDataType, EDataTypeValueHandler valueHandler, String dialogTitle, Composite parent)
+    {
+      super(eDataType, valueHandler, parent);
+      this.dialogTitle = dialogTitle;
+    }
+
+    private void showDialog()
+    {
+      button.setFocus();
+      button.getDisplay().asyncExec(new Runnable()
+        {
+          public void run()
+          {
+            button.notifyListeners(SWT.Selection, null);
+          }
+        });
+    }
+
+    @Override
+    public Object doGetValue()
+    {
+      String str = value != null ? value : (String)super.doGetValue();
+
+      if (doEscape)
+      {
+        str = unescape(str);
+      }
+
+      return str;
+    }
+
+    @Override
+    public void doSetValue(Object value)
+    {
+      text.removeMouseListener(mouseListener);
+      text.removeVerifyListener(verifyListener);
+
+      String literal = valueHandler.toString(value);
+      if (literal != null)
+      {
+        for (char c : literal.toCharArray())
+        {
+          if (Character.isISOControl(c))
+          {
+            doEscape = true;
+            button.setImage(ExtendedImageRegistry.INSTANCE.getImage(EMFEditUIPlugin.INSTANCE.getImage("full/ctool16/EncodedEllipses")));
+            literal = escape(literal);
+            break;
+          }
+        }
+      }
+
+      EDataTypeValueHandler oldValueHandler = valueHandler;
+      try
+      {
+        boolean isVeryLong = literal.length() > 2000;
+        if (isVeryLong)
+        {
+          this.value = literal;
+          literal = literal.substring(0, 2000);
+        }
+        else
+        {
+          this.value = null;
+        }
+
+        valueHandler = NO_OP_VALUE_HANDLER;
+        super.doSetValue(literal);
+
+        if (isVeryLong)
+        {
+          text.addMouseListener(mouseListener);
+          text.addVerifyListener(verifyListener);
+        }
+      }
+      finally
+      {
+        valueHandler = oldValueHandler;
+      }
+    }
+
+    @Override
+    protected Control createControl(Composite parent)
+    {
+      GridLayout layout = new GridLayout(2, false);
+      layout.marginWidth = 0;
+      layout.marginHeight = 0;
+      layout.horizontalSpacing = 0;
+
+      final Composite composite = new Composite(parent, SWT.NONE);
+      composite.setLayout(layout);
+      composite.setFont(parent.getFont());
+      composite.setBackground(parent.getBackground());
+
+      text = (Text)super.createControl(composite);
+      text.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+      button = new Button(composite, SWT.PUSH);
+      GridData layoutData = new GridData(SWT.FILL, SWT.FILL, false, true);
+      if (parent instanceof Tree)
+      {
+        layoutData.widthHint = ((Tree)parent).getItemHeight();
+      }
+      else if (parent instanceof Table)
+      {
+       layoutData.widthHint = ((Table)parent).getItemHeight();
+      }
+      button.setLayoutData(layoutData);
+      button.setImage(ExtendedImageRegistry.INSTANCE.getImage(EMFEditUIPlugin.INSTANCE.getImage("full/ctool16/Ellipses")));
+      button.addSelectionListener(new SelectionAdapter()
+        {
+          @Override
+          public void widgetSelected(SelectionEvent e)
+          {
+            String stringValue = valueHandler.toString(getValue());
+            boolean containsNull = stringValue.indexOf('\u0000') != -1;
+            if (containsNull)
+            {
+              stringValue = stringValue.replace('\u0000', '\n');
+            }
+
+            MultiLineInputDialog dialog = new MultiLineInputDialog(
+              composite.getShell(),
+              dialogTitle,
+              EMFEditUIPlugin.INSTANCE.getString("_UI_MultiLineInputDialog_message"),
+              stringValue,
+              valueHandler);
+
+            if (dialog.open() == Window.OK)
+            {
+              String value = dialog.getValue();
+
+              value = value.replace("\r\n", "\n");
+              if (containsNull)
+              {
+                value = value.replace('\n', '\u0000');
+              }
+
+              Object newValue = valueHandler.toValue(value);
+              if (newValue != null)
+              {
+                boolean newValidState = isCorrect(newValue);
+                if (newValidState)
+                {
+                  markDirty();
+                  doSetValue(newValue);
+                  fireApplyEditorValue();
+                }
+              }
+            }
+            else
+            {
+              fireCancelEditor();
+            }
+          }
+        });
+
+      button.addKeyListener(new KeyAdapter()
+        {
+          @Override
+          public void keyReleased(KeyEvent e)
+          {
+            if (e.character == '\u001b')
+            {
+              fireCancelEditor();
+            }
+          }
+        });
+
+      return composite;
+    }
+
+    @Override
+    protected void focusLost()
+    {
+      if (isActivated())
+      {
+        button.getDisplay().asyncExec(new Runnable()
+          {
+            public void run()
+            {
+              try
+              {
+                if (button.isFocusControl())
+                {
+                  return;
+                }
+              }
+              catch (Exception ex)
+              {
+                // Ignore.
+              }
+
+              try
+              {
+                fireApplyEditorValue();
+                deactivate();
+              }
+              catch (Exception ex)
+              {
+                // Ignore.
+              }
+            }
+          });
+      }
+    }
+
+    protected String escape(String literal)
+    {
+      if (literal == null)
+      {
+        return null;
+      }
+
+      int len = literal.length();
+      StringBuilder builder = new StringBuilder(len);
+
+      for (int i = 0; i < len; i++)
+      {
+        char c = literal.charAt(i);
+        if (c < 32)
+        {
+          switch (c)
+          {
+            case '\r':
+              builder.append('\\');
+              builder.append('r');
+              break;
+
+            case '\n':
+              builder.append('\\');
+              builder.append('n');
+              break;
+
+            case '\t':
+              builder.append('\\');
+              builder.append('t');
+              break;
+
+            case '\f':
+              builder.append('\\');
+              builder.append('f');
+              break;
+
+            case '\b':
+              builder.append('\\');
+              builder.append('b');
+              break;
+
+            default:
+              if (c > 0xf)
+              {
+                builder.append("\\u00" + charToHex(c));
+              }
+              else
+              {
+                builder.append("\\u000" + charToHex(c));
+              }
+          }
+        }
+        else if (c == '\\')
+        {
+          builder.append('\\');
+          builder.append('\\');
+        }
+        else
+        {
+          builder.append(c);
+        }
+      }
+
+      return builder.toString();
+    }
+
+    protected String unescape(String literal)
+    {
+      if (literal == null)
+      {
+        return null;
+      }
+
+      int len = literal.length();
+      StringBuilder builder = new StringBuilder(len);
+
+      StringBuilder unicodeBuilder = new StringBuilder(4);
+      boolean unicode = false;
+      boolean slash = false;
+
+      for (int i = 0; i < len; i++)
+      {
+        char c = literal.charAt(i);
+        if (unicode)
+        {
+          unicodeBuilder.append(c);
+          if (unicodeBuilder.length() == 4)
+          {
+            try
+            {
+              char value = hexToChar(unicodeBuilder.toString());
+              builder.append(value);
+              unicodeBuilder.setLength(0);
+              unicode = false;
+              slash = false;
+            }
+            catch (NumberFormatException ex)
+            {
+              builder.append('\\');
+              builder.append('u');
+              builder.append(unicodeBuilder);
+            }
+          }
+
+          continue;
+        }
+
+        if (slash)
+        {
+          slash = false;
+
+          switch (c)
+          {
+            case '\\':
+              builder.append('\\');
+              break;
+
+            case 'r':
+              builder.append('\r');
+              break;
+
+            case 'n':
+              builder.append('\n');
+              break;
+
+            case 't':
+              builder.append('\t');
+              break;
+
+            case 'f':
+              builder.append('\f');
+              break;
+
+            case 'b':
+              builder.append('\b');
+              break;
+
+            case 'u':
+              unicode = true;
+              break;
+
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+              if (i + 2 < len && literal.charAt(i + 1) >= '0' && literal.charAt(i + 1) <= '7' && literal.charAt(i + 2) >= '0' && literal.charAt(i + 2) <= '7')
+              {
+                builder.append((char)Integer.parseInt(literal.substring(i, i + 3), 8));
+                i += 2;
+                continue;
+              }
+
+              //$FALL-THROUGH$
+            default:
+            {
+              builder.append(c);
+            }
+          }
+
+          continue;
+        }
+        else if (c == '\\')
+        {
+          slash = true;
+          continue;
+        }
+
+        builder.append(c);
+      }
+
+      if (slash)
+      {
+        builder.append('\\');
+      }
+
+      return builder.toString();
+    }
+
+    protected String charToHex(char ch)
+    {
+      return Integer.toHexString(ch).toUpperCase(Locale.ENGLISH);
+    }
+
+    protected char hexToChar(String s)
+    {
+      return (char)Integer.parseInt(s, 16);
+    }
+  }
+
   private static class MultiLineInputDialog extends InputDialog
   {
     public MultiLineInputDialog(Shell parentShell, String title, String message, String initialValue, IInputValidator validator)
     {
       super(parentShell, title, message, initialValue, validator);
-      setShellStyle(getShellStyle() | SWT.RESIZE);
+      setShellStyle(getShellStyle() | SWT.RESIZE | SWT.MAX);
     }
 
     @Override
@@ -278,29 +739,160 @@ public class PropertyDescriptor implements IPropertyDescriptor
     }
   }
 
-  protected CellEditor createEDataTypeCellEditor(final EDataType eDataType, Composite composite)
+  /**
+   * Unlike {@link CheckboxCellEditor} this really creates a check box.
+   *
+   * @since 2.14
+   */
+  public static class CheckBoxCellEditor extends CellEditor
+  {
+    private Button checkButton;
+
+    private boolean isTriState;
+
+    private Label label;
+
+    public CheckBoxCellEditor(Composite parent, int style, boolean isTriState)
+    {
+      super(parent, style);
+      this.isTriState = isTriState;
+    }
+
+    @Override
+    protected Control createControl(Composite parent)
+    {
+      Composite composite = new Composite(parent, SWT.NONE);
+      RowLayout layout = new RowLayout();
+      layout.marginTop = 1;
+      layout.marginBottom = 0;
+      layout.marginLeft = 5;
+      layout.center = true;
+      composite.setLayout(layout);
+      checkButton = new Button(composite, SWT.CHECK | getStyle());
+      checkButton.addFocusListener(new FocusAdapter()
+        {
+          @Override
+          public void focusLost(FocusEvent e)
+          {
+            CheckBoxCellEditor.this.focusLost();
+          }
+        });
+      checkButton.addSelectionListener(new SelectionAdapter()
+        {
+          @Override
+          public void widgetSelected(SelectionEvent e)
+          {
+            changeState(false);
+          }
+        });
+      checkButton.addTraverseListener(new TraverseListener()
+        {
+          public void keyTraversed(TraverseEvent e)
+          {
+            if (e.detail == SWT.TRAVERSE_ESCAPE)
+            {
+              fireCancelEditor();
+            }
+            else if (e.detail == SWT.TRAVERSE_RETURN)
+            {
+              focusLost();
+            }
+          }
+        });
+
+      label = new Label(composite, SWT.NONE);
+
+      MouseAdapter mouseListener = new MouseAdapter()
+        {
+          @Override
+          public void mouseUp(MouseEvent e)
+          {
+            changeState(true);
+          }
+        };
+
+      label.addMouseListener(mouseListener);
+      composite.addMouseListener(mouseListener);
+      Color background = parent.getBackground();
+      label.setBackground(background);
+      composite.setBackground(background);
+      return composite;
+    }
+
+    private void changeState(boolean toggle)
+    {
+      markDirty();
+      if (isTriState)
+      {
+        if (checkButton.getGrayed())
+        {
+          checkButton.setGrayed(false);
+          checkButton.setSelection(false);
+        }
+        else if (checkButton.getSelection() == toggle)
+        {
+          checkButton.setSelection(false);
+          checkButton.setGrayed(true);
+        }
+        else
+        {
+          checkButton.setSelection(true);
+        }
+      }
+      else if (toggle)
+      {
+        checkButton.setSelection(!checkButton.getSelection());
+      }
+      doSetValue(doGetValue());
+    }
+
+    @Override
+    protected Object doGetValue()
+    {
+      return checkButton.getGrayed() ? null : checkButton.getSelection();
+    }
+
+    @Override
+    protected void doSetValue(Object value)
+    {
+      checkButton.setSelection(Boolean.TRUE.equals(value));
+      checkButton.setGrayed(value == null);
+      label.setText(value == null ? "null" : Boolean.TRUE.equals(value) ? "true" : "false");
+      label.setEnabled(value != null);
+      label.getParent().layout();
+    }
+
+    @Override
+    protected void doSetFocus()
+    {
+      if (checkButton != null)
+      {
+        checkButton.setFocus();
+      }
+    }
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected CellEditor createEDataTypeCellEditor(final EDataType eDataType, final IItemPropertyDescriptor.ValueHandler specializedValueHandler, Composite composite)
   {
     if (itemPropertyDescriptor.isMultiLine(object))
     {
-      return new ExtendedDialogCellEditor(composite, getEditLabelProvider())
-      {
-        protected EDataTypeValueHandler valueHandler = new EDataTypeValueHandler(eDataType);
-
-        @Override
-        protected Object openDialogBox(Control cellEditorWindow)
-        {
-          InputDialog dialog = new MultiLineInputDialog
-            (cellEditorWindow.getShell(),
-             EMFEditUIPlugin.INSTANCE.getString
-               ("_UI_FeatureEditorDialog_title", new Object [] { getDisplayName(), getEditLabelProvider().getText(object) }),
-             EMFEditUIPlugin.INSTANCE.getString("_UI_MultiLineInputDialog_message"),
-             valueHandler.toString(getValue()),
-             valueHandler);
-          return dialog.open() == Window.OK ? valueHandler.toValue(dialog.getValue()) : null;
-        }
-      };
+      EDataTypeValueHandler valueHandler = new EDataTypeValueHandler(eDataType, specializedValueHandler);
+      return new MultiLineEDataTypeCellEditor(
+        eDataType,
+        valueHandler,
+        EMFEditUIPlugin.INSTANCE.getString("_UI_FeatureEditorDialog_title", new Object []{ getDisplayName(), getEditLabelProvider().getText(object) }),
+        composite);
     }
-    return new EDataTypeCellEditor(eDataType, composite);
+    return specializedValueHandler == null
+      ? new EDataTypeCellEditor(eDataType, composite) : new EDataTypeCellEditor(eDataType, new EDataTypeValueHandler(eDataType, specializedValueHandler), composite);
+  }
+
+  protected CellEditor createEDataTypeCellEditor(final EDataType eDataType, Composite composite)
+  {
+    return createEDataTypeCellEditor(eDataType, null, composite);
   }
 
   /**
@@ -423,7 +1015,10 @@ public class PropertyDescriptor implements IPropertyDescriptor
         composite,
         new ArrayList<Object>(itemPropertyDescriptor.getChoiceOfValues(object)),
         getEditLabelProvider(),
-        itemPropertyDescriptor.isSortChoices(object));
+        itemPropertyDescriptor.isSortChoices(object),
+        SWT.READ_ONLY,
+        null,
+        true);
     }
     else if (genericFeature instanceof EStructuralFeature)
     {
@@ -463,7 +1058,11 @@ public class PropertyDescriptor implements IPropertyDescriptor
                     new ArrayList<Object>(choiceOfValues),
                     false,
                     itemPropertyDescriptor.isSortChoices(object),
-                    feature.isUnique() || feature instanceof EReference);
+                    feature.isUnique() || feature instanceof EReference,
+                    itemPropertyDescriptor instanceof IItemPropertyDescriptor.ValueHandlerProvider &&
+                      ((IItemPropertyDescriptor.ValueHandlerProvider)itemPropertyDescriptor).isChoiceArbitrary(object) ?
+                        ((IItemPropertyDescriptor.ValueHandlerProvider)itemPropertyDescriptor).getValueHandler(object) :
+                        null);
                   dialog.open();
                   return dialog.getResult();
                 }
@@ -473,20 +1072,37 @@ public class PropertyDescriptor implements IPropertyDescriptor
 
         if (result == null)
         {
-          result = 
-            new ExtendedComboBoxCellEditor
-              (composite, new ArrayList<Object>(choiceOfValues), getEditLabelProvider(), itemPropertyDescriptor.isSortChoices(object));
+          ArrayList<Object> values = new ArrayList<Object>(choiceOfValues);
+          if (itemPropertyDescriptor instanceof IItemPropertyDescriptor.ValueHandlerProvider &&
+                ((IItemPropertyDescriptor.ValueHandlerProvider)itemPropertyDescriptor).isChoiceArbitrary(object))
+          {
+            result =
+              new ExtendedComboBoxCellEditor
+                (composite,
+                 values,
+                 getEditLabelProvider(),
+                 itemPropertyDescriptor.isSortChoices(object),
+                 SWT.NONE,
+                 new EDataTypeValueHandler((EDataType)eType, ((IItemPropertyDescriptor.ValueHandlerProvider)itemPropertyDescriptor).getValueHandler(object)),
+                 false);
+          }
+          else
+          {
+            result =
+              new ExtendedComboBoxCellEditor
+                (composite, values, getEditLabelProvider(), itemPropertyDescriptor.isSortChoices(object), SWT.READ_ONLY, null, true);
+          }
         }
       }
       else if (eType instanceof EDataType)
       {
-        EDataType eDataType = (EDataType)eType;
+        final EDataType eDataType = (EDataType)eType;
         if (eDataType.isSerializable())
         {
           if (itemPropertyDescriptor.isMany(object))
           {
             final ILabelProvider editLabelProvider = getEditLabelProvider();
-            result = 
+            result =
               new ExtendedDialogCellEditor(composite, editLabelProvider)
               {
                 @Override
@@ -502,7 +1118,10 @@ public class PropertyDescriptor implements IPropertyDescriptor
                     null,
                     itemPropertyDescriptor.isMultiLine(object),
                     false,
-                    feature.isUnique());
+                    feature.isUnique(),
+                    itemPropertyDescriptor instanceof IItemPropertyDescriptor.ValueHandlerProvider ?
+                      ((IItemPropertyDescriptor.ValueHandlerProvider)itemPropertyDescriptor).getValueHandler(object) :
+                      null);
                   dialog.open();
                   return dialog.getResult();
                 }
@@ -510,19 +1129,15 @@ public class PropertyDescriptor implements IPropertyDescriptor
           }
           else if (eDataType.getInstanceClass() == Boolean.class) 
           {
-            result = new ExtendedComboBoxCellEditor(
-              composite,
-              Arrays.asList(new Object [] { null, Boolean.FALSE, Boolean.TRUE }),
-              getEditLabelProvider(),
-              itemPropertyDescriptor.isSortChoices(object));
+            return new CheckBoxCellEditor(composite, SWT.NONE, true);
           }
           else if (eDataType.getInstanceClass() == Boolean.TYPE)
           {
-            result = new ExtendedComboBoxCellEditor(
-              composite,
-              Arrays.asList(new Object [] { Boolean.FALSE, Boolean.TRUE }),
-              getEditLabelProvider(),
-              itemPropertyDescriptor.isSortChoices(object));
+            return new CheckBoxCellEditor(composite, SWT.NONE, false);
+          }
+          else if (itemPropertyDescriptor instanceof IItemPropertyDescriptor.ValueHandlerProvider)
+          {
+            result = createEDataTypeCellEditor(eDataType, ((IItemPropertyDescriptor.ValueHandlerProvider)itemPropertyDescriptor).getValueHandler(object), composite);
           }
           else
           {

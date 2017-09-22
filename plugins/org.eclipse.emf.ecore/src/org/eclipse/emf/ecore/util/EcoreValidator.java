@@ -37,8 +37,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 
 import org.eclipse.emf.ecore.*;
-
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import org.eclipse.emf.ecore.resource.Resource;
@@ -601,8 +599,30 @@ public class EcoreValidator extends EObjectValidator
     if (result || diagnostics != null) result &= validate_UniqueID(eAnnotation, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(eAnnotation, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(eAnnotation, diagnostics, context);
+    if (result || diagnostics != null) result &= validateEAnnotation_WellFormed(eAnnotation, diagnostics, context);
     if (result || diagnostics != null) result &= validateEAnnotation_WellFormedSourceURI(eAnnotation, diagnostics, context);
     return result;
+  }
+
+  /**
+   * Validates the WellFormed constraint of '<em>EAnnotation</em>'.
+   * <!-- begin-user-doc -->
+   * @since 2.14
+   * @see EAnnotationValidator#validate(EAnnotation, DiagnosticChain, Map)
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public boolean validateEAnnotation_WellFormed(EAnnotation eAnnotation, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    EAnnotationValidator eAnnotationValidator = EAnnotationValidator.Registry.INSTANCE.getEAnnotationValidator(eAnnotation.getSource());
+    if (eAnnotationValidator != null)
+    {
+      return eAnnotationValidator.validate(eAnnotation, diagnostics, context);
+    }
+    else
+    {
+      return true;
+    }
   }
 
   /**
@@ -651,6 +671,40 @@ public class EcoreValidator extends EObjectValidator
     {
       return false;
     }
+  }
+
+  /**
+   * A well formed Java identifier must start with a {@link Character#isJavaIdentifierStart(int) Java identifier start} character
+   * followed by zero or more {@link Character#isJavaIdentifierPart(int) Java identifier part} characters.
+   * @param name the name in question.
+   * @return whether the name is a well formed Java identifier.
+   * @since 2.14
+   */
+  public static boolean isWellFormedJavaIdentifier(String name)
+  {
+    boolean result = false;
+    if (name != null)
+    {
+      int length = name.length();
+      if (length > 0)
+      {
+        int codePoint = name.codePointAt(0);
+        if (Character.isJavaIdentifierStart(codePoint) && codePoint != '$')
+        {
+          result = true;
+          for (int i = Character.offsetByCodePoints(name, 0, 1); i < length; i = Character.offsetByCodePoints(name, i, 1))
+          {
+            codePoint = name.codePointAt(i);
+            if (codePoint == '$' || !Character.isJavaIdentifierPart(codePoint))
+            {
+              result = false;
+              break;
+            }
+          }
+        }
+      }
+    }
+    return result;
   }
 
   /**
@@ -1932,30 +1986,8 @@ public class EcoreValidator extends EObjectValidator
       return true;
     }
 
-    boolean result = false;
     String name = eNamedElement.getName();
-    if (name != null)
-    {
-      int length = name.length();
-      if (length > 0)
-      {
-        int codePoint = name.codePointAt(0);
-        if (Character.isJavaIdentifierStart(codePoint) && codePoint != '$')
-        {
-          result = true;
-          for (int i = Character.offsetByCodePoints(name, 0, 1); i < length; i = Character.offsetByCodePoints(name, i, 1))
-          {
-            codePoint = name.codePointAt(i);
-            if (codePoint == '$' || !Character.isJavaIdentifierPart(codePoint))
-            {
-              result = false;
-              break;
-            }
-          }
-        }
-      }
-    }
-
+    boolean result = isWellFormedJavaIdentifier(name);
     if (!result && diagnostics != null)
     {
       diagnostics.add

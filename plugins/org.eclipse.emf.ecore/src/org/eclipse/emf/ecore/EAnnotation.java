@@ -30,7 +30,7 @@ import org.eclipse.emf.common.util.EMap;
  * </ul>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEAnnotation()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='WellFormedSourceURI'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='WellFormed WellFormedSourceURI'"
  * @generated
  */
 public interface EAnnotation extends EModelElement

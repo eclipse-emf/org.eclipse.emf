@@ -62,6 +62,7 @@ public class GenFeatureItemProvider
     {
       super.getPropertyDescriptors(object);
 
+      addDocumentationPropertyDescriptor(object);
       addPropertyPropertyDescriptor(object);
       addNotifyPropertyDescriptor(object);
       addChildrenPropertyDescriptor(object);
@@ -72,8 +73,36 @@ public class GenFeatureItemProvider
       addPropertyMultiLinePropertyDescriptor(object);
       addPropertySortChoicesPropertyDescriptor(object);
       addEcoreFeaturePropertyDescriptor(object);
+      addSuppressedGetVisibilityPropertyDescriptor(object);
+      addSuppressedSetVisibilityPropertyDescriptor(object);
+      addSuppressedIsSetVisibilityPropertyDescriptor(object);
+      addSuppressedUnsetVisibilityPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
+  }
+
+  /**
+   * This adds a property descriptor for the Documentation feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addDocumentationPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenTypedElement_documentation_feature"),
+         getString("_UI_GenTypedElement_documentation_description"),
+         GenModelPackage.Literals.GEN_TYPED_ELEMENT__DOCUMENTATION,
+         true,
+         true,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
   }
 
   /**
@@ -307,6 +336,102 @@ public class GenFeatureItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Suppressed Get Visibility feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addSuppressedGetVisibilityPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenFeature_suppressedGetVisibility_feature"),
+         getString("_UI_GenFeature_suppressedGetVisibility_description"),
+         GenModelPackage.Literals.GEN_FEATURE__SUPPRESSED_GET_VISIBILITY,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Suppressed Set Visibility feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addSuppressedSetVisibilityPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenFeature_suppressedSetVisibility_feature"),
+         getString("_UI_GenFeature_suppressedSetVisibility_description"),
+         GenModelPackage.Literals.GEN_FEATURE__SUPPRESSED_SET_VISIBILITY,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Suppressed Is Set Visibility feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addSuppressedIsSetVisibilityPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenFeature_suppressedIsSetVisibility_feature"),
+         getString("_UI_GenFeature_suppressedIsSetVisibility_description"),
+         GenModelPackage.Literals.GEN_FEATURE__SUPPRESSED_IS_SET_VISIBILITY,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Suppressed Unset Visibility feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addSuppressedUnsetVisibilityPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenFeature_suppressedUnsetVisibility_feature"),
+         getString("_UI_GenFeature_suppressedUnsetVisibility_description"),
+         GenModelPackage.Literals.GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
    */
   @Override
   public Object getImage(Object object)
@@ -419,6 +544,7 @@ public class GenFeatureItemProvider
 
     switch (notification.getFeatureID(GenFeature.class))
     {
+      case GenModelPackage.GEN_FEATURE__DOCUMENTATION:
       case GenModelPackage.GEN_FEATURE__PROPERTY:
       case GenModelPackage.GEN_FEATURE__NOTIFY:
       case GenModelPackage.GEN_FEATURE__CHILDREN:
@@ -429,6 +555,10 @@ public class GenFeatureItemProvider
       case GenModelPackage.GEN_FEATURE__PROPERTY_MULTI_LINE:
       case GenModelPackage.GEN_FEATURE__PROPERTY_SORT_CHOICES:
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_GET_VISIBILITY:
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_SET_VISIBILITY:
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_IS_SET_VISIBILITY:
+      case GenModelPackage.GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
     }

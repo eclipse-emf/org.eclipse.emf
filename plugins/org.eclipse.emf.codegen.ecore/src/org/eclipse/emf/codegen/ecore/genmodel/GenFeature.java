@@ -37,6 +37,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isPropertySortChoices <em>Property Sort Choices</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getGenClass <em>Gen Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getEcoreFeature <em>Ecore Feature</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedGetVisibility <em>Suppressed Get Visibility</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedSetVisibility <em>Suppressed Set Visibility</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedIsSetVisibility <em>Suppressed Is Set Visibility</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedUnsetVisibility <em>Suppressed Unset Visibility</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenFeature()
@@ -398,10 +402,57 @@ public interface GenFeature extends GenTypedElement
   String getCreateChildValueLiteral();
 
   boolean isSuppressedGetVisibility();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedGetVisibility <em>Suppressed Get Visibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Suppressed Get Visibility</em>' attribute.
+   * @see #isSuppressedGetVisibility()
+   * @since 2.14
+   * @generated
+   */
+  void setSuppressedGetVisibility(boolean value);
+
   boolean isSuppressedSetVisibility();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedSetVisibility <em>Suppressed Set Visibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Suppressed Set Visibility</em>' attribute.
+   * @see #isSuppressedSetVisibility()
+   * @since 2.14
+   * @generated
+   */
+  void setSuppressedSetVisibility(boolean value);
+
   boolean isSuppressedIsSetVisibility();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedIsSetVisibility <em>Suppressed Is Set Visibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Suppressed Is Set Visibility</em>' attribute.
+   * @see #isSuppressedIsSetVisibility()
+   * @since 2.14
+   * @generated
+   */
+  void setSuppressedIsSetVisibility(boolean value);
+
   boolean isSuppressedUnsetVisibility();
-  
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedUnsetVisibility <em>Suppressed Unset Visibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Suppressed Unset Visibility</em>' attribute.
+   * @see #isSuppressedUnsetVisibility()
+   * @since 2.14
+   * @generated
+   */
+  void setSuppressedUnsetVisibility(boolean value);
+
   void initialize(EStructuralFeature eFeature);
 
   //

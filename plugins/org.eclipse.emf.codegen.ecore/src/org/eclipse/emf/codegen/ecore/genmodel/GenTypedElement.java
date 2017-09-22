@@ -18,6 +18,12 @@ import org.eclipse.emf.ecore.EModelElement;
  * A representation of the model object '<em><b>Gen Typed Element</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <p>
+ * The following features are supported:
+ * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenTypedElement#getDocumentation <em>Documentation</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenTypedElement()
  * @model abstract="true"
@@ -25,6 +31,32 @@ import org.eclipse.emf.ecore.EModelElement;
  */
 public interface GenTypedElement extends GenBase
 {
+  /**
+   * Returns the value of the '<em><b>Documentation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.14
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Documentation</em>' attribute.
+   * @see #setDocumentation(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenTypedElement_Documentation()
+   * @model unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
+   * @generated
+   */
+  String getDocumentation();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenTypedElement#getDocumentation <em>Documentation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Documentation</em>' attribute.
+   * @see #getDocumentation()
+   * @since 2.14
+   * @generated
+   */
+  void setDocumentation(String value);
+
   EModelElement getEcoreModelElement();
 
   GenPackage getTypeGenPackage();

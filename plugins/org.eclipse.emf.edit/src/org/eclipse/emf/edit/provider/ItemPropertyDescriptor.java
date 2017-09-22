@@ -25,6 +25,7 @@ import java.util.MissingResourceException;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -42,6 +43,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
@@ -58,7 +60,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor.OverrideableCommand
  * This implementation of an item property descriptor supports delegating of the {@link IItemPropertySource} interface
  * to the {@link IItemPropertyDescriptor} interface.
  */
-public class ItemPropertyDescriptor implements IItemPropertyDescriptor, OverrideableCommandOwner
+public class ItemPropertyDescriptor implements IItemPropertyDescriptor, OverrideableCommandOwner, IItemPropertyDescriptor.ValueHandlerProvider
 {
   /**
    * Returns the feature's default {@link #getId(Object) identifier}.
@@ -75,6 +77,11 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
   public static final Object INTEGRAL_VALUE_IMAGE = EMFEditPlugin.INSTANCE.getImage("full/obj16/IntegralValue");
   public static final Object REAL_VALUE_IMAGE = EMFEditPlugin.INSTANCE.getImage("full/obj16/RealValue");
   public static final Object TEXT_VALUE_IMAGE = EMFEditPlugin.INSTANCE.getImage("full/obj16/TextValue");
+
+  /**
+   * @since 2.14
+   */
+  public static final Object NO_VALUE_IMAGE = EMFEditPlugin.INSTANCE.getImage("full/obj16/NoValue");
 
   /**
    * For now we need to keep track of the adapter factory, because we need it to provide a correct label provider.
@@ -1362,12 +1369,11 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
   }
 
   /**
-   * This does the delegated job of determine whether the property value from the given object is set.
+   * This does the delegated job of determining whether the property value from the given object is set.
    * It is implemented in a generic way using the structural feature.
    */
   public boolean isPropertySet(Object object)
   {
-    // System.out.println("isPropertySet " + object);
     EObject eObject = (EObject)object;
 
     if (parentReferences != null)
@@ -1385,17 +1391,32 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
     {
       try
       {
-        return 
-          feature instanceof EAttribute ? 
-            feature.isMany() ?
-              !((List<?>)eObject.eGet(feature)).isEmpty() : 
-              eObject.eIsSet(feature) : 
-            eObject.eGet(feature) != null;
+        return eObject.eIsSet(feature);
       }
       catch (Throwable exception)
       {
         return false;
       }
+    }
+  }
+
+  /**
+   * This does the delegated job of determining whether the property supports the concept of an unset state.
+   * It is implemented in a generic way using the structural feature.
+   *
+   * @see EStructuralFeature#isUnsettable()
+   *
+   * @since 2.14
+   */
+  public boolean isPropertyUnsettable(Object object)
+  {
+    if (parentReferences != null)
+    {
+      return false;
+    }
+    else
+    {
+      return feature.isUnsettable();
     }
   }
 
@@ -1645,5 +1666,83 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
   public boolean isSortChoices(Object object)
   {
     return sortChoices;
+  }
+
+  /**
+   * @since 2.14
+   */
+  public boolean isChoiceArbitrary(Object object)
+  {
+    return false;
+  }
+
+  /**
+   * @since 2.14
+   */
+  public ValueHandler getValueHandler(Object object)
+  {
+    return feature instanceof EAttribute ? new DataTypeValueHandler((EDataType)feature.getEType()) : null;
+  }
+
+  /**
+   * @since 2.14
+   */
+  public static class DataTypeValueHandler implements ValueHandler
+  {
+    protected final EDataType eDataType;
+
+    public DataTypeValueHandler(EDataType eDataType)
+    {
+      this.eDataType = eDataType;
+    }
+
+    protected Diagnostic validate(EDataType eDataType, Object instance)
+    {
+      Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eDataType, instance);
+      return diagnostic;
+    }
+
+    public String isValid(String literal)
+    {
+      Object value;
+      try
+      {
+        value = eDataType.getEPackage().getEFactoryInstance().createFromString(eDataType, literal);
+      }
+      catch (Exception exception)
+      {
+        String message = exception.getClass().getName();
+        int index = message.lastIndexOf('.');
+        if (index >= 0)
+        {
+          message = message.substring(index + 1);
+        }
+        if (exception.getLocalizedMessage() != null)
+        {
+          message = message + ": " + exception.getLocalizedMessage();
+        }
+        return message;
+      }
+      Diagnostic diagnostic = validate(eDataType, value);
+      if (diagnostic.getSeverity() == Diagnostic.OK)
+      {
+        return null;
+      }
+      else
+      {
+        return (diagnostic.getChildren().get(0)).getMessage();
+      }
+    }
+
+    public Object toValue(String string)
+    {
+        return EcoreUtil.createFromString(eDataType, string);
+    }
+
+    public String toString(Object value)
+    {
+      String result = EcoreUtil.convertToString(eDataType, value);
+      return result == null ? "" : result;
+    }
   }
 }

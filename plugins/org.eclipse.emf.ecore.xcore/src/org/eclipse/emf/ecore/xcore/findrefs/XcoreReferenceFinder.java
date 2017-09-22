@@ -31,6 +31,7 @@ public class XcoreReferenceFinder extends ReferenceFinder
   * 
   * Xtext 2.10.x
   */
+  @Override
   protected void findLocalReferencesFromElement(Predicate<URI> targetURIs, EObject sourceCandidate, Resource localResource,
       Acceptor acceptor)
   {

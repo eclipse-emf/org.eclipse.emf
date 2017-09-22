@@ -1,4 +1,5 @@
 /**
+ *
  * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -12,23 +13,28 @@ package org.eclipse.emf.edit.ui.celleditor;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
@@ -47,7 +53,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.PatternFilter;
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.common.ui.celleditor.ExtendedComboBoxCellEditor;
@@ -58,8 +63,10 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor.ValueHandler;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProvider;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
@@ -79,21 +86,28 @@ public class FeatureEditorDialog extends Dialog
   protected boolean unique;
 
   /**
-   * @since 2.6
+   * @since 2.14
+   */
+  protected ValueHandler valueHandler;
+
+  /**
+   * @since 2.14
    */
   public FeatureEditorDialog
-    (Shell parent, 
-     ILabelProvider labelProvider, 
-     Object object, 
-     EClassifier eClassifier, 
-     List<?> currentValues, 
-     String displayName, 
+    (Shell parent,
+     ILabelProvider labelProvider,
+     Object object,
+     EClassifier eClassifier,
+     List<?> currentValues,
+     String displayName,
      List<?> choiceOfValues,
      boolean multiLine,
      boolean sortChoices,
-     boolean unique)
+     boolean unique,
+     IItemPropertyDescriptor.ValueHandler valueHandler)
   {
     super(parent);
+    this.valueHandler = valueHandler;
     setShellStyle(getShellStyle() | SWT.RESIZE | SWT.MAX);
     this.labelProvider = labelProvider;
     this.object = object;
@@ -114,18 +128,36 @@ public class FeatureEditorDialog extends Dialog
   }
 
   /**
+   * @since 2.6
+   */
+  public FeatureEditorDialog
+    (Shell parent,
+     ILabelProvider labelProvider,
+     Object object,
+     EClassifier eClassifier,
+     List<?> currentValues,
+     String displayName,
+     List<?> choiceOfValues,
+     boolean multiLine,
+     boolean sortChoices,
+     boolean unique)
+  {
+    this(parent, labelProvider, object, eClassifier, currentValues, displayName, choiceOfValues, multiLine, sortChoices, unique, null);
+  }
+
+  /**
    * @deprecated Use {@link #FeatureEditorDialog(Shell, ILabelProvider, Object, EClassifier, List, String, List, boolean, boolean, boolean)},
    * which provides proper behaviour for unique and non-unique features. This form retains the old behaviour, where
    * specifying a list of choices enforces uniqueness.
    */
   @Deprecated
   public FeatureEditorDialog
-  (Shell parent, 
-   ILabelProvider labelProvider, 
-   Object object, 
-   EClassifier eClassifier, 
-   List<?> currentValues, 
-   String displayName, 
+  (Shell parent,
+   ILabelProvider labelProvider,
+   Object object,
+   EClassifier eClassifier,
+   List<?> currentValues,
+   String displayName,
    List<?> choiceOfValues,
    boolean multiLine,
    boolean sortChoices)
@@ -140,23 +172,23 @@ public class FeatureEditorDialog extends Dialog
    */
   @Deprecated
   public FeatureEditorDialog
-    (Shell parent, 
-     ILabelProvider labelProvider, 
-     Object object, 
-     EClassifier eClassifier, 
-     List<?> currentValues, 
-     String displayName, 
+    (Shell parent,
+     ILabelProvider labelProvider,
+     Object object,
+     EClassifier eClassifier,
+     List<?> currentValues,
+     String displayName,
      List<?> choiceOfValues)
   {
     this(parent, labelProvider, object, eClassifier, currentValues, displayName, choiceOfValues, false, false, choiceOfValues != null);
   }
 
   public FeatureEditorDialog
-    (Shell parent, 
-     ILabelProvider labelProvider, 
-     EObject eObject, 
-     EStructuralFeature eStructuralFeature, 
-     String displayName, 
+    (Shell parent,
+     ILabelProvider labelProvider,
+     EObject eObject,
+     EStructuralFeature eStructuralFeature,
+     String displayName,
      List<?> choiceOfValues)
   {
     this(parent,
@@ -172,7 +204,7 @@ public class FeatureEditorDialog extends Dialog
   }
 
   @Override
-  protected void configureShell(Shell shell) 
+  protected void configureShell(Shell shell)
   {
     super.configureShell(shell);
     shell.setText
@@ -182,7 +214,7 @@ public class FeatureEditorDialog extends Dialog
   }
 
   @Override
-  protected Control createDialogArea(Composite parent) 
+  protected Control createDialogArea(Composite parent)
   {
     Composite contents = (Composite)super.createDialogArea(parent);
 
@@ -195,7 +227,7 @@ public class FeatureEditorDialog extends Dialog
 
     Text patternText = null;
 
-    if (choiceOfValues != null) 
+    if (choiceOfValues != null)
     {
       Group filterGroupComposite = new Group(contents, SWT.NONE);
       filterGroupComposite.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_Choices_pattern_group"));
@@ -225,13 +257,41 @@ public class FeatureEditorDialog extends Dialog
 
     Label choiceLabel = new Label(choiceComposite, SWT.NONE);
     choiceLabel.setText
-      (choiceOfValues == null ? 
-         EMFEditUIPlugin.INSTANCE.getString("_UI_Value_label") : 
-         EMFEditUIPlugin.INSTANCE.getString("_UI_Choices_label"));
+       (EMFEditUIPlugin.INSTANCE.getString
+           (choiceOfValues == null ?
+               "_UI_Value_label" :
+                  valueHandler == null ?
+                    "_UI_Choices_label" :
+                    "_UI_ValueAndChoices_label"));
     GridData choiceLabelGridData = new GridData();
     choiceLabelGridData.verticalAlignment = SWT.FILL;
     choiceLabelGridData.horizontalAlignment = SWT.FILL;
     choiceLabel.setLayoutData(choiceLabelGridData);
+
+    // We use multi even for a single line because we want to respond to the enter key.
+    //
+    int style = multiLine ?
+      SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER :
+      SWT.MULTI | SWT.BORDER;
+    final Text choiceText = choiceOfValues == null || valueHandler != null ? new Text(choiceComposite, style) : null;
+    if (choiceText != null)
+    {
+      GridData choiceTextGridData = new GridData();
+      choiceTextGridData.widthHint = Display.getCurrent().getBounds().width / 5;
+      choiceTextGridData.verticalAlignment = SWT.BEGINNING;
+      choiceTextGridData.horizontalAlignment = SWT.FILL;
+      choiceTextGridData.grabExcessHorizontalSpace = true;
+      if (multiLine)
+      {
+        choiceTextGridData.verticalAlignment = SWT.FILL;
+        choiceTextGridData.grabExcessVerticalSpace = true;
+      }
+      choiceText.setLayoutData(choiceTextGridData);
+      if (valueHandler == null)
+      {
+        valueHandler = new ItemPropertyDescriptor.DataTypeValueHandler((EDataType)eClassifier);
+      }
+    }
 
     final Table choiceTable = choiceOfValues == null ? null : new Table(choiceComposite, SWT.MULTI | SWT.BORDER);
     if (choiceTable != null)
@@ -278,7 +338,6 @@ public class FeatureEditorDialog extends Dialog
         choiceTableViewer.addFilter
           (new ViewerFilter()
            {
-             
              @Override
              public boolean select(Viewer viewer, Object parentElement, Object element)
              {
@@ -287,27 +346,6 @@ public class FeatureEditorDialog extends Dialog
            });
       }
       choiceTableViewer.setInput(new ItemProvider(choiceOfValues));
-    }
-
-    // We use multi even for a single line because we want to respond to the enter key.
-    //
-    int style = multiLine ?
-      SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER :
-      SWT.MULTI | SWT.BORDER;
-    final Text choiceText = choiceOfValues == null ? new Text(choiceComposite, style) : null;
-    if (choiceText != null)
-    {
-      GridData choiceTextGridData = new GridData();
-      choiceTextGridData.widthHint = Display.getCurrent().getBounds().width / 5;
-      choiceTextGridData.verticalAlignment = SWT.BEGINNING;
-      choiceTextGridData.horizontalAlignment = SWT.FILL;
-      choiceTextGridData.grabExcessHorizontalSpace = true;
-      if (multiLine)
-      {
-        choiceTextGridData.verticalAlignment = SWT.FILL;
-        choiceTextGridData.grabExcessVerticalSpace = true;
-      }
-      choiceText.setLayoutData(choiceTextGridData);
     }
 
     Composite controlButtons = new Composite(contents, SWT.NONE);
@@ -320,13 +358,17 @@ public class FeatureEditorDialog extends Dialog
     controlButtons.setLayout(controlsButtonGridLayout);
 
     new Label(controlButtons, SWT.NONE);
-    
+
     final Button addButton = new Button(controlButtons, SWT.PUSH);
     addButton.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_Add_label"));
     GridData addButtonGridData = new GridData();
     addButtonGridData.verticalAlignment = SWT.FILL;
     addButtonGridData.horizontalAlignment = SWT.FILL;
     addButton.setLayoutData(addButtonGridData);
+    if (valueHandler != null)
+    {
+      addButton.setEnabled(valueHandler.isValid("") == null);
+    }
 
     final Button removeButton = new Button(controlButtons, SWT.PUSH);
     removeButton.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_Remove_label"));
@@ -334,12 +376,12 @@ public class FeatureEditorDialog extends Dialog
     removeButtonGridData.verticalAlignment = SWT.FILL;
     removeButtonGridData.horizontalAlignment = SWT.FILL;
     removeButton.setLayoutData(removeButtonGridData);
-    
+
     Label spaceLabel = new Label(controlButtons, SWT.NONE);
     GridData spaceLabelGridData = new GridData();
     spaceLabelGridData.verticalSpan = 2;
     spaceLabel.setLayoutData(spaceLabelGridData);
-    
+
     final Button upButton = new Button(controlButtons, SWT.PUSH);
     upButton.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_Up_label"));
     GridData upButtonGridData = new GridData();
@@ -375,7 +417,7 @@ public class FeatureEditorDialog extends Dialog
     featureLabelGridData.horizontalAlignment = SWT.FILL;
     featureLabelGridData.verticalAlignment = SWT.FILL;
     featureLabel.setLayoutData(featureLabelGridData);
-    
+
     final Table featureTable = new Table(featureComposite, SWT.MULTI | SWT.BORDER);
     GridData featureTableGridData = new GridData();
     featureTableGridData.widthHint = Display.getCurrent().getBounds().width / 5;
@@ -386,18 +428,110 @@ public class FeatureEditorDialog extends Dialog
     featureTableGridData.grabExcessVerticalSpace= true;
     featureTable.setLayoutData(featureTableGridData);
 
-    final TableViewer featureTableViewer = new TableViewer(featureTable);
+    // We carefully manage the selection because for non-unique features,
+    // because the value selected by a selection-preserving refresh will be the first of the duplicates.
+    //
+    final TableViewer featureTableViewer = new TableViewer(featureTable)
+      {
+        @Override
+        public void refresh(Object element, boolean updateLabels)
+        {
+          internalRefresh(element, updateLabels);
+        }
+
+        @Override
+        public void refresh(Object element)
+        {
+          internalRefresh(element);
+        }
+      };
     featureTableViewer.setContentProvider(contentProvider);
     featureTableViewer.setLabelProvider(labelProvider);
     featureTableViewer.setInput(values);
+
+    featureTableViewer.addSelectionChangedListener(new ISelectionChangedListener()
+      {
+        public void selectionChanged(SelectionChangedEvent event)
+        {
+          // Remove is enabled only if something is selected.
+          //
+          removeButton.setEnabled(!event.getSelection().isEmpty());
+
+          int[] selectionIndices = getSelectionIndices(featureTable);
+
+          // Up is enabled only if something will actually be moved up.
+          //
+          boolean upEnabled = false;
+          int upIndex = Math.max(selectionIndices[0] - 1, 0);
+          for (int i = 0; i < selectionIndices.length; ++i)
+          {
+            if (upIndex++ != selectionIndices[i])
+            {
+              upEnabled = true;
+            }
+          }
+          upButton.setEnabled(upEnabled);
+
+          // Down is enabled only if something will actually be moved up.
+          //
+          boolean downEnabled = false;
+          int downIndex = Math.min(selectionIndices[selectionIndices.length - 1] + 1, featureTable.getItemCount() - 1);
+          for (int i = selectionIndices.length - 1; i >= 0; --i)
+          {
+            if (downIndex-- !=  selectionIndices[i])
+            {
+              downEnabled = true;
+            }
+          }
+          downButton.setEnabled(downEnabled);
+        }
+      });
+
+    // Manage the active control used by the Add button.
+    //
+    class ActiveControl
+    {
+      private Control control = choiceText == null ? choiceTable : choiceText;
+
+      public Control get()
+      {
+        return control;
+      }
+
+      public void set(Control control)
+      {
+        this.control = control;
+        if (control == choiceText)
+        {
+          choiceText.notifyListeners(SWT.Modify, null);
+        }
+        else
+        {
+          choiceTable.notifyListeners(SWT.Selection, null);
+          setErrorMessage(null);
+        }
+      }
+    }
+    final ActiveControl activeControl = new ActiveControl();
+
     final EList<Object> children = values.getChildren();
     if (!children.isEmpty())
     {
       featureTableViewer.setSelection(new StructuredSelection(children.get(0)));
     }
-    
+
     if (choiceTableViewer != null)
     {
+      choiceTableViewer.addSelectionChangedListener(new ISelectionChangedListener()
+        {
+          public void selectionChanged(SelectionChangedEvent event)
+          {
+            if (activeControl.get() == choiceTable)
+            {
+              addButton.setEnabled(!event.getSelection().isEmpty());
+            }
+          }
+        });
       choiceTableViewer.addDoubleClickListener(new IDoubleClickListener()
         {
           public void doubleClick(DoubleClickEvent event)
@@ -408,19 +542,27 @@ public class FeatureEditorDialog extends Dialog
             }
           }
         });
-
-      featureTableViewer.addDoubleClickListener(new IDoubleClickListener()
-      {
-        public void doubleClick(DoubleClickEvent event)
+      choiceTable.addFocusListener(new FocusAdapter()
         {
-          if (removeButton.isEnabled())
+          @Override
+          public void focusGained(FocusEvent e)
           {
-            removeButton.notifyListeners(SWT.Selection, null);
+            activeControl.set(choiceTable);
           }
-        }
-      });
+        });
     }
-    
+
+    featureTableViewer.addDoubleClickListener(new IDoubleClickListener()
+    {
+      public void doubleClick(DoubleClickEvent event)
+      {
+        if (removeButton.isEnabled())
+        {
+          removeButton.notifyListeners(SWT.Selection, null);
+        }
+      }
+    });
+
     if (choiceText != null)
     {
       choiceText.addKeyListener(
@@ -431,43 +573,62 @@ public class FeatureEditorDialog extends Dialog
           {
             if (!multiLine && (event.character == '\r' || event.character == '\n'))
             {
-              try
-              {
-                Object value = EcoreUtil.createFromString((EDataType)eClassifier, choiceText.getText());
-                children.add(value);
-                choiceText.setText("");
-                featureTableViewer.refresh();
-                featureTableViewer.setSelection(new StructuredSelection(value));
-                event.doit = false;
-              }
-              catch (RuntimeException exception)
-              {
-                // Ignore
-              }
-            }
-            else if (event.character == '\33')
-            {
-              choiceText.setText("");
               event.doit = false;
+              if (addButton.isEnabled())
+              {
+                addButton.notifyListeners(SWT.Selection, null);
+              }
             }
           }
         });
+      choiceText.addModifyListener(
+        new ModifyListener()
+        {
+          public void modifyText(ModifyEvent e)
+          {
+            if (activeControl.get() == choiceText)
+            {
+              String errorMessage = valueHandler.isValid(choiceText.getText());
+              if (errorMessage == null && unique && children.contains(valueHandler.toValue(choiceText.getText())))
+              {
+                errorMessage = EMFEditUIPlugin.INSTANCE.getString("_UI_DuplicateValue_message");
+              }
+              setErrorMessage(errorMessage);
+              addButton.setEnabled(errorMessage == null);
+            }
+          }
+        });
+      choiceText.addFocusListener(new FocusAdapter()
+        {
+          @Override
+          public void focusGained(FocusEvent e)
+          {
+            activeControl.set(choiceText);
+          }
+        });
     }
-        
+
     upButton.addSelectionListener(
       new SelectionAdapter()
       {
         @Override
         public void widgetSelected(SelectionEvent event)
         {
-          IStructuredSelection selection = (IStructuredSelection)featureTableViewer.getSelection();
-          int minIndex = 0;
-          for (Iterator<?> i = selection.iterator(); i.hasNext();)
+          // We use indices to properly handle non-unique values.
+          //
+          int[] selectionIndices = getSelectionIndices(featureTable);
+          int index = Math.max(selectionIndices[0] - 1, 0);
+          int start = index;
+          for (int i = 0; i < selectionIndices.length; ++i)
           {
-            Object value = i.next();
-            int index = children.indexOf(value);
-            children.move(Math.max(index - 1, minIndex++), value);
+            children.move(index++, selectionIndices[i]);
           }
+
+          // We manage the selection to select exactly the appropriate indices.
+          //
+          featureTableViewer.refresh();
+          featureTable.setSelection(start, start + selectionIndices.length - 1);
+          featureTable.notifyListeners(SWT.Selection, null);
         }
       });
 
@@ -477,56 +638,105 @@ public class FeatureEditorDialog extends Dialog
         @Override
         public void widgetSelected(SelectionEvent event)
         {
-          IStructuredSelection selection = (IStructuredSelection)featureTableViewer.getSelection();
-          int maxIndex = children.size() - 1;
-          List<?> objects = selection.toList();
-          for (ListIterator<?> i = objects.listIterator(objects.size()); i.hasPrevious();)
+          // We use indices to properly handle non-unique values.
+          //
+          int[] selectionIndices = getSelectionIndices(featureTable);
+          int index = Math.min(selectionIndices[selectionIndices.length - 1] + 1, children.size() - 1);
+          for (int i = selectionIndices.length - 1; i >= 0; --i)
           {
-            Object value = i.previous();
-            int index = children.indexOf(value);
-            children.move(Math.min(index + 1, maxIndex--), value);
+            children.move(index--, selectionIndices[i]);
           }
+
+          // We manage the selection to select exactly the appropriate indices.
+          //
+          featureTableViewer.refresh();
+          featureTable.setSelection(index + 1, index + selectionIndices.length);
+          featureTable.notifyListeners(SWT.Selection, null);
         }
       });
 
     addButton.addSelectionListener(
       new SelectionAdapter()
       {
-        // event is null when choiceTableViewer is double clicked
         @Override
         public void widgetSelected(SelectionEvent event)
         {
-          if (choiceTableViewer != null)
+          // If there is a choice table and there is no choice text or the choice table is the active control...
+          //
+          if (choiceTableViewer != null && (choiceText == null || activeControl.get() == choiceTable))
           {
+            // Remember the selection of the choices table.
+            //
+            int[] selectionIndices = getSelectionIndices(choiceTable);
+
+            // Process the selected values...
+            //
             IStructuredSelection selection = (IStructuredSelection)choiceTableViewer.getSelection();
-            for (Iterator<?> i = selection.iterator(); i.hasNext();)
+            int addCount = 0;
+            for (Object value : selection.toArray())
             {
-              Object value = i.next();
+              // If duplicates are allowed or the value isn't already present...
+              //
               if (!unique || !children.contains(value))
               {
+                // Add the value and remember how many we added.
                 children.add(value);
+                ++addCount;
+
+                // If there is a choice text, and its value is equal to the text value we added, clear that value.
+                //
+                if (choiceText != null && choiceText.getText().equals(valueHandler.toString(value)))
+                {
+                  choiceText.setText("");
+                }
               }
             }
+
+            // Select exactly the expected indices.
+            //
             featureTableViewer.refresh();
-            featureTableViewer.setSelection(selection);
+            featureTable.setSelection(children.size() - addCount, children.size() - 1);
+            featureTable.notifyListeners(SWT.Selection, null);
+
+            // Refresh the choice table based on the filters and if the table isn't empty and there is no selection.
+            //
             choiceTableViewer.refresh();
+            if (choiceTable.getItemCount() > 0 && getSelectionIndices(choiceTable).length == 0)
+            {
+              // Select the index before the previously selected index.
+              //
+              choiceTable.setSelection(selectionIndices.length == 0 || selectionIndices[0] == 0 ? 0 : selectionIndices[0] - 1);
+              choiceTableViewer.setSelection(choiceTableViewer.getSelection());
+            }
           }
           else if (choiceText != null)
           {
-            try
+            // Convert the value, add it, and clear the value from the choice text.
+            //
+            Object value = valueHandler.toValue(choiceText.getText());
+            children.add(value);
+            choiceText.setText("");
+
+            // Select the new value at the end of the table.
+            //
+            featureTableViewer.refresh();
+            featureTable.setSelection(featureTable.getItemCount() - 1);
+            featureTable.notifyListeners(SWT.Selection, null);
+
+            // If there is a choice table...
+            //
+            if (choiceTableViewer != null)
             {
-              Object value = EcoreUtil.createFromString((EDataType)eClassifier, choiceText.getText());
-              if (!unique || !children.contains(value))
+              // Refresh it and if there is no longer a selection and the table isn't empty...
+              //
+              choiceTableViewer.refresh();
+              if (choiceTableViewer.getSelection().isEmpty() && choiceTable.getItemCount() > 0)
               {
-                children.add(value);
-                choiceText.setText("");
+                // Select the first item in the table.
+                //
+                choiceTable.setSelection(0);
+                choiceTable.notifyListeners(SWT.Selection, null);
               }
-              featureTableViewer.refresh();
-              featureTableViewer.setSelection(new StructuredSelection(value));
-            }
-            catch (RuntimeException exception)
-            {
-              // Ignore
             }
           }
         }
@@ -535,44 +745,137 @@ public class FeatureEditorDialog extends Dialog
     removeButton.addSelectionListener(
       new SelectionAdapter()
       {
-        // event is null when featureTableViewer is double clicked 
         @Override
         public void widgetSelected(SelectionEvent event)
         {
+          // Remember the selection in the feature table...
+          //
           IStructuredSelection selection = (IStructuredSelection)featureTableViewer.getSelection();
-          Object firstValue = null;
-          for (Iterator<?> i = selection.iterator(); i.hasNext();)
+
+          // Process the selection to remove the appropriate values.
+          // And remember the value we might put into the choice text.
+          //
+          int[] selectionIndices = getSelectionIndices(featureTable);
+          Object firstValue = children.get(selectionIndices[0]);
+          for (int i = selectionIndices.length -1; i >= 0; --i)
           {
-            Object value = i.next();
-            if (firstValue == null)
-            {
-              firstValue = value;
-            }
-            children.remove(value);
+            children.remove(selectionIndices[i]);
           }
 
+          // Refresh the feature table and select the index before the previous selection.
+          //
+          featureTableViewer.refresh();
           if (!children.isEmpty())
           {
-            featureTableViewer.setSelection(new StructuredSelection(children.get(0)));
+            featureTable.setSelection(selectionIndices[0] == 0 ? 0 : selectionIndices[0] - 1);
+            featureTable.notifyListeners(SWT.Selection, null);
           }
 
+          // If there is a choice table...
+          //
           if (choiceTableViewer != null)
           {
+            // Refresh it and select the values we just removed.
+            //
             choiceTableViewer.refresh();
             choiceTableViewer.setSelection(selection);
-          }
-          else if (choiceText != null)
-          {
-            if (firstValue != null)
+
+            // Check which values are actually selected, them from the list of things we tried to select...
+            //
+            IStructuredSelection choiceSelection = (IStructuredSelection)choiceTableViewer.getSelection();
+            @SuppressWarnings("unchecked")
+            List<?> values = new ArrayList<Object>(selection.toList());
+            values.removeAll(choiceSelection.toList());
+
+            // If there is a value that was removed but isn't selected in the choice table...
+            //
+            if (!values.isEmpty())
             {
-              String value = EcoreUtil.convertToString((EDataType)eClassifier, firstValue);
-              choiceText.setText(value);
+              // Use the first such value as the value to set into the choice text.
+              //
+              firstValue = values.get(0);
+            }
+          }
+
+          // If there is a choice text, and we have a value...
+          //
+          if (choiceText != null && firstValue != null)
+          {
+            // Convert the value to text, and set it into the choice.
+            //
+            String value = valueHandler.toString(firstValue);
+            choiceText.setText(value);
+
+            // If the choice table is the active control and it doesn't have a selection...
+            //
+            if (activeControl.get() == choiceTable && choiceTableViewer.getSelection().isEmpty())
+            {
+              // Make the choice text the active control.
+              // This ensures that when you do a remove, that the Add button is enabled and you can add the value back.
+              //
+              activeControl.set(choiceText);
             }
           }
         }
-      });    
-        
+      });
+
+    // If there is a choice text, clear the error message to ensure that the dialog does not come up initially in an error state.
+    // The add button will be disabled if there is an error message.
+    //
+    if (choiceText != null)
+    {
+      choiceText.getDisplay().asyncExec(new Runnable()
+        {
+          public void run()
+          {
+            if (!choiceText.isDisposed())
+            {
+              if (choiceTable != null && choiceTable.getItemCount() == 0)
+              {
+                choiceText.setFocus();
+              }
+              setErrorMessage(null);
+            }
+          }
+        });
+    }
+
     return contents;
+  }
+
+  @Override
+  protected Control createButtonBar(Composite parent)
+  {
+    // Specialize the button area so that we can provide a label control that displays error messages.
+    //
+    Composite composite = new Composite(parent, SWT.NONE);
+    GridLayout layout = new GridLayout();
+    layout.numColumns = 2;
+    composite.setLayout(layout);
+    GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_CENTER);
+    composite.setLayoutData(data);
+    composite.setFont(parent.getFont());
+
+    Label label = new Label(composite, SWT.NONE);
+    label.setForeground(JFaceColors.getErrorText(label.getDisplay()));
+    GridData labelData = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_CENTER | GridData.GRAB_HORIZONTAL);
+    labelData.horizontalIndent = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
+    label.setLayoutData(labelData);
+
+    Control buttonBar = super.createButtonBar(composite);
+    GridData buttonBarData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.VERTICAL_ALIGN_CENTER);
+    buttonBar.setLayoutData(buttonBarData);
+    return buttonBar;
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected void setErrorMessage(String message)
+  {
+    Label label = (Label)getButtonBar().getParent().getChildren()[0];
+    label.setText(message == null ? "" : message);
+    label.setToolTipText(message == null ? "" : message);
   }
 
   @Override
@@ -592,5 +895,12 @@ public class FeatureEditorDialog extends Dialog
   public EList<?> getResult()
   {
     return result;
+  }
+
+  private static int[] getSelectionIndices(Table table)
+  {
+    int[] selectionIndices = table.getSelectionIndices();
+    Arrays.sort(selectionIndices);
+    return selectionIndices;
   }
 }

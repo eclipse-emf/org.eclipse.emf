@@ -229,7 +229,8 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   {
     return XcoreReferenceFinder.class;
   }
-  
+
+  @Override
   public Class<? extends ILinkingDiagnosticMessageProvider> bindILinkingDiagnosticMessageProvider() 
   {
     return XcoreAwareMessageProvider.class;

@@ -18,18 +18,72 @@ import java.util.Collection;
  * This interface extends IPropertyDescriptor so that the methods of {@link IItemPropertySource} can be delegated to the descriptor.
  * This allows the implementing class to completely encapsulate the work associated with supporting a particular property sheet property.
  */
-public interface IItemPropertyDescriptor 
+public interface IItemPropertyDescriptor
 {
   /**
+   * An interface that may be implemented by property descriptor to specialize the handling of entered literals and values.
+   * 
+   * @since 2.14
+   */
+  public interface ValueHandlerProvider
+  {
+    /**
+     * Returns the value handler.
+     * This must not be <code>null</code> if {@link #isChoiceArbitrary(Object)} return <code>true</code>.
+     */
+    public ValueHandler getValueHandler(Object object);
+
+    /**
+     * Returns whether this property descriptor allows arbitrary values
+     * in addition to the explicit {@link IItemPropertyDescriptor#getChoiceOfValues(Object) choices} provided.
+     */
+    public boolean isChoiceArbitrary(Object object);
+
+    /**
+     * Returns whether this property descriptor supports the concept of an <em>unset</em> state,
+     * i.e., whether the value state of the property includes one additional state, the unset state, that is distinct from the set of values the property can have.
+     */
+    public boolean isPropertyUnsettable(Object object);
+  }
+
+  /**
+   * An interface used by by property descriptors to specialize the validation and handling of entered literals and values.
+   * 
+   * @since 2.14
+   */
+  public interface ValueHandler
+  {
+    /**
+     * Converts a literal value to an instance value.
+     * @param literal the literal textual value.
+     * @return the instance value.
+     * @see #toString(Object)
+     */
+    public Object toValue(String literal);
+
+    /**
+     * Converts an instance value to literal value.
+     * @param instance the instance value.
+     * @return the literal value.
+     * @see #toString(Object)
+     */
+    public String toString(Object instance);
+
+    /**
+     * Validates the literal value, returning <code>null</code> if the literal is valid and a description of why it's invalid otherwise.
+     * @param literal the literal value.
+     * @return returns <code>null</code> if the literal is valid and a description of why it's invalid otherwise.
+     */
+    public String isValid(String literal);
+  }
+
+  /**
    * This fetches this descriptor's property from the object.
-   * Sometimes it's necessary to update the contents of the cell editor during this call,
-   * i.e., the call is used as a notification that this descriptor is being used to edit another object.
    */
   public Object getPropertyValue(Object object);
 
   /**
    * This determines whether this descriptor's property for the object is set.
-   * I'm not sure right now what this is used for?  I should find out.
    */
   public boolean isPropertySet(Object object);
 
@@ -50,7 +104,7 @@ public interface IItemPropertyDescriptor
 
   /**
    * Returns the name of the category to which this property belongs.
-   */ 
+   */
   String getCategory(Object object);
 
   /**
@@ -86,7 +140,7 @@ public interface IItemPropertyDescriptor
   /**
    * Returns whether this property descriptor and the given one are compatible.
    */
-  boolean isCompatibleWith(Object object, Object anotherObject,  IItemPropertyDescriptor anotherPropertyDescriptor);
+  boolean isCompatibleWith(Object object, Object anotherObject, IItemPropertyDescriptor anotherPropertyDescriptor);
 
   /**
    * Returns the feature.
@@ -103,7 +157,7 @@ public interface IItemPropertyDescriptor
    * Returns the choices of all the values that this property may take one.
    */
   public Collection<?> getChoiceOfValues(Object object);
-  
+
   /**
    * Returns whether this property's value will consist of multi-line text.
    * @since 2.2.0

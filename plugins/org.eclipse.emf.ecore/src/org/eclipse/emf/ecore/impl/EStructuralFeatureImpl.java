@@ -467,7 +467,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (changeable: ");
     result.append((eFlags & CHANGEABLE_EFLAG) != 0);
     result.append(", volatile: ");

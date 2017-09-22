@@ -87,6 +87,7 @@ public class GenPackageItemProvider
       addFileExtensionsPropertyDescriptor(object);
       addEcorePackagePropertyDescriptor(object);
       addPublicationLocationPropertyDescriptor(object);
+      addDocumentationPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -644,6 +645,30 @@ public class GenPackageItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Documentation feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addDocumentationPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_documentation_feature"),
+         getString("_UI_GenPackage_documentation_description"),
+         GenModelPackage.Literals.GEN_PACKAGE__DOCUMENTATION,
+         true,
+         true,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -753,6 +778,7 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__FILE_EXTENSIONS:
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
       case GenModelPackage.GEN_PACKAGE__PUBLICATION_LOCATION:
+      case GenModelPackage.GEN_PACKAGE__DOCUMENTATION:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_PACKAGE__GEN_ENUMS:

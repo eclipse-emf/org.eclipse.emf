@@ -2523,7 +2523,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public GenFeature getLabelFeature()
   {
     GenFeature labelFeature = getLabelFeatureGen();
-    if (labelFeature != null)
+    if (labelFeature != null || eInternalContainer() == null)
       return labelFeature;
     
     Locale locale = getGenModel().getLocale();

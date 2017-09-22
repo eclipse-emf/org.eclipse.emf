@@ -13,7 +13,12 @@ package org.eclipse.emf.common.ui.celleditor;
 
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 
 /**
@@ -23,10 +28,37 @@ public abstract class ExtendedDialogCellEditor extends DialogCellEditor
 {
   protected ILabelProvider labelProvider;
 
+  private Button button;
+
   public ExtendedDialogCellEditor(Composite composite, ILabelProvider labelProvider)
   {
     super(composite);
     this.labelProvider = labelProvider;
+  }
+
+  @Override
+  protected Control createContents(Composite cell)
+  {
+    final Control control = super.createContents(cell);
+    control.addMouseListener(new MouseAdapter()
+      {
+        @Override
+        public void mouseUp(MouseEvent event)
+        {
+          if (button != null)
+          {
+            button.notifyListeners(SWT.Selection, null);
+          }
+        }
+      });
+    return control;
+  }
+
+  @Override
+  protected Button createButton(Composite parent)
+  {
+    button = super.createButton(parent);
+    return button;
   }
 
   @Override
