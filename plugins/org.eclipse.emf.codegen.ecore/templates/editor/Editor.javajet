@@ -121,6 +121,7 @@ import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 <%if (genPackage.isMultipleEditorPages()) {%>
 
 import org.eclipse.swt.layout.FillLayout;
@@ -1729,9 +1730,9 @@ public class <%=genPackage.getEditorClassName()%>
 			setPageText(0, "");<%=genModel.getNonNLS()%>
 			if (getContainer() instanceof CTabFolder)
 			{
-				((CTabFolder)getContainer()).setTabHeight(1);
 				Point point = getContainer().getSize();
-				getContainer().setSize(point.x, point.y + 6);
+				Rectangle clientArea = getContainer().getClientArea();
+				getContainer().setSize(point.x,  2 * point.y - clientArea.height - clientArea.y);
 			}
 		}
 	}
@@ -1750,9 +1751,9 @@ public class <%=genPackage.getEditorClassName()%>
 			setPageText(0, getString("_UI_SelectionPage_label"));<%=genModel.getNonNLS()%>
 			if (getContainer() instanceof CTabFolder)
 			{
-				((CTabFolder)getContainer()).setTabHeight(SWT.DEFAULT);
 				Point point = getContainer().getSize();
-				getContainer().setSize(point.x, point.y - 6);
+				Rectangle clientArea = getContainer().getClientArea();
+				getContainer().setSize(point.x, clientArea.height + clientArea.y);
 			}
 		}
 	}
