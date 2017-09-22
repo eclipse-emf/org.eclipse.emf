@@ -1488,7 +1488,7 @@ public final class ExtendedMetaDataAnnotationValidator extends BasicEAnnotationV
       for (Method method : methods)
       {
         String name = method.getName();
-        if (name.equals(expectedName) && method.getParameterCount() == expectedCount && method.getParameterTypes()[0].getName().endsWith(eClass.getName()))
+        if (name.equals(expectedName) && method.getParameterTypes().length == expectedCount && method.getParameterTypes()[0].getName().endsWith(eClass.getName()))
         {
           return method;
         }
