@@ -2128,6 +2128,10 @@ public class BinaryResourceImpl extends ResourceImpl
         eStructuralFeatureData = eClassData.eStructuralFeatureData[featureID] = new EStructuralFeatureData();
         String name = readString();
         eStructuralFeatureData.eStructuralFeature = eClassData.eClass.getEStructuralFeature(name);
+        if (eStructuralFeatureData.eStructuralFeature == null)
+        {
+          throw new IOException("Invalid Structural Feature '" + name + "' for EClass " + eClassData.eClass.getName());
+        }
         eStructuralFeatureData.featureID = eClassData.eClass.getFeatureID(eStructuralFeatureData.eStructuralFeature);
         eStructuralFeatureData.kind = FeatureKind.get(eStructuralFeatureData.eStructuralFeature);
         if (eStructuralFeatureData.eStructuralFeature instanceof EAttribute)
