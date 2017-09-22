@@ -235,7 +235,7 @@ public final class ExtendedMetaDataAnnotationValidator extends BasicEAnnotationV
           }
           else
           {
-            specializedExtendedMetaData = new SpecializedExtendedMetaData(resourceSet.getPackageRegistry());
+            specializedExtendedMetaData = new SpecializedExtendedMetaData(new EPackageRegistryImpl(resourceSet.getPackageRegistry()));
           }
           EXTENDED_META_DATA_CACHE.put(resourceSet, specializedExtendedMetaData);
         }
