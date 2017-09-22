@@ -150,6 +150,8 @@ public class GenModelItemProvider
       addOSGiCompatiblePropertyDescriptor(object);
       addEclipsePlatformVersionPropertyDescriptor(object);
       addModelDocumentationPropertyDescriptor(object);
+      addAutoResizePropertiesPropertyDescriptor(object);
+      addAutoExpandPropertiesPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -2044,6 +2046,54 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Auto Resize Properties feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addAutoResizePropertiesPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_autoResizeProperties_feature"),
+         getString("_UI_GenModel_autoResizeProperties_description"),
+         GenModelPackage.Literals.GEN_MODEL__AUTO_RESIZE_PROPERTIES,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditorPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Auto Expand Properties feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addAutoExpandPropertiesPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_autoExpandProperties_feature"),
+         getString("_UI_GenModel_autoExpandProperties_description"),
+         GenModelPackage.Literals.GEN_MODEL__AUTO_EXPAND_PROPERTIES,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+         getString("_UI_EditorPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -2195,6 +2245,8 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__OS_GI_COMPATIBLE:
       case GenModelPackage.GEN_MODEL__ECLIPSE_PLATFORM_VERSION:
       case GenModelPackage.GEN_MODEL__MODEL_DOCUMENTATION:
+      case GenModelPackage.GEN_MODEL__AUTO_RESIZE_PROPERTIES:
+      case GenModelPackage.GEN_MODEL__AUTO_EXPAND_PROPERTIES:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:

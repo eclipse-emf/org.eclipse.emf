@@ -73,7 +73,6 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Point;
-
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
@@ -1581,7 +1580,7 @@ public class EcoreEditor
   public IPropertySheetPage getPropertySheetPage()
   {
     PropertySheetPage propertySheetPage =
-      new ExtendedPropertySheetPage(editingDomain, ExtendedPropertySheetPage.Decoration.LIVE, EcoreEditorPlugin.getPlugin().getDialogSettings())
+      new ExtendedPropertySheetPage(editingDomain, ExtendedPropertySheetPage.Decoration.LIVE, EcoreEditorPlugin.getPlugin().getDialogSettings(), 10, true)
       {
         @Override
         public void setSelectionToViewer(List<?> selection)

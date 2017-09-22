@@ -923,13 +923,33 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__MODEL_DOCUMENTATION = GEN_BASE_FEATURE_COUNT + 87;
 
   /**
+   * The feature id for the '<em><b>Auto Resize Properties</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__AUTO_RESIZE_PROPERTIES = GEN_BASE_FEATURE_COUNT + 88;
+
+  /**
+   * The feature id for the '<em><b>Auto Expand Properties</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__AUTO_EXPAND_PROPERTIES = GEN_BASE_FEATURE_COUNT + 89;
+
+  /**
    * The number of structural features of the '<em>Gen Model</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 88;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 90;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -3196,6 +3216,30 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenModel_ModelDocumentation();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isAutoResizeProperties <em>Auto Resize Properties</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Auto Resize Properties</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isAutoResizeProperties()
+   * @see #getGenModel()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenModel_AutoResizeProperties();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getAutoExpandProperties <em>Auto Expand Properties</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Auto Expand Properties</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getAutoExpandProperties()
+   * @see #getGenModel()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenModel_AutoExpandProperties();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage <em>Gen Package</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -5049,6 +5093,24 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_MODEL__MODEL_DOCUMENTATION = eINSTANCE.getGenModel_ModelDocumentation();
+
+    /**
+     * The meta object literal for the '<em><b>Auto Resize Properties</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_MODEL__AUTO_RESIZE_PROPERTIES = eINSTANCE.getGenModel_AutoResizeProperties();
+
+    /**
+     * The meta object literal for the '<em><b>Auto Expand Properties</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_MODEL__AUTO_EXPAND_PROPERTIES = eINSTANCE.getGenModel_AutoExpandProperties();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.

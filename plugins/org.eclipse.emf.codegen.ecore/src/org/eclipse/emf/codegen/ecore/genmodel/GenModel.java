@@ -131,6 +131,8 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isOSGiCompatible <em>OS Gi Compatible</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEclipsePlatformVersion <em>Eclipse Platform Version</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getModelDocumentation <em>Model Documentation</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isAutoResizeProperties <em>Auto Resize Properties</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getAutoExpandProperties <em>Auto Expand Properties</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel()
@@ -2350,6 +2352,58 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setModelDocumentation(String value);
+
+  /**
+   * Returns the value of the '<em><b>Auto Resize Properties</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.14
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Auto Resize Properties</em>' attribute.
+   * @see #setAutoResizeProperties(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_AutoResizeProperties()
+   * @model
+   * @generated
+   */
+  boolean isAutoResizeProperties();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isAutoResizeProperties <em>Auto Resize Properties</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Auto Resize Properties</em>' attribute.
+   * @see #isAutoResizeProperties()
+   * @since 2.14
+   * @generated
+   */
+  void setAutoResizeProperties(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Auto Expand Properties</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.14
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Auto Expand Properties</em>' attribute.
+   * @see #setAutoExpandProperties(int)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_AutoExpandProperties()
+   * @model
+   * @generated
+   */
+  int getAutoExpandProperties();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getAutoExpandProperties <em>Auto Expand Properties</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Auto Expand Properties</em>' attribute.
+   * @see #getAutoExpandProperties()
+   * @since 2.14
+   * @generated
+   */
+  void setAutoExpandProperties(int value);
 
   EList<GenPackage> getStaticGenPackages();
 

@@ -1368,7 +1368,7 @@ public class GenModelEditor
   public IPropertySheetPage getPropertySheetPage()
   {
     PropertySheetPage propertySheetPage =
-      new ExtendedPropertySheetPage(editingDomain, ExtendedPropertySheetPage.Decoration.LIVE, GenModelEditPlugin.getPlugin().getDialogSettings())
+      new ExtendedPropertySheetPage(editingDomain, ExtendedPropertySheetPage.Decoration.LIVE, GenModelEditPlugin.getPlugin().getDialogSettings(), 0, true)
       {
         @Override
         public void setSelectionToViewer(List<?> selection)

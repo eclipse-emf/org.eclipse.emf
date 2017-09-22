@@ -1201,6 +1201,28 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public EAttribute getGenModel_AutoResizeProperties()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(88);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public EAttribute getGenModel_AutoExpandProperties()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(89);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   public EClass getGenPackage()
@@ -2349,6 +2371,8 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genModelEClass, GEN_MODEL__OS_GI_COMPATIBLE);
     createEAttribute(genModelEClass, GEN_MODEL__ECLIPSE_PLATFORM_VERSION);
     createEAttribute(genModelEClass, GEN_MODEL__MODEL_DOCUMENTATION);
+    createEAttribute(genModelEClass, GEN_MODEL__AUTO_RESIZE_PROPERTIES);
+    createEAttribute(genModelEClass, GEN_MODEL__AUTO_EXPAND_PROPERTIES);
 
     genPackageEClass = createEClass(GEN_PACKAGE);
     createEAttribute(genPackageEClass, GEN_PACKAGE__PREFIX);
@@ -2606,6 +2630,8 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenModel_OSGiCompatible(), theEcorePackage.getEBoolean(), "oSGiCompatible", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_EclipsePlatformVersion(), this.getGenEclipsePlatformVersion(), "eclipsePlatformVersion", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_ModelDocumentation(), theEcorePackage.getEString(), "modelDocumentation", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_AutoResizeProperties(), ecorePackage.getEBoolean(), "autoResizeProperties", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_AutoExpandProperties(), ecorePackage.getEInt(), "autoExpandProperties", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(genPackageEClass, GenPackage.class, "GenPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getGenPackage_Prefix(), ecorePackage.getEString(), "prefix", null, 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

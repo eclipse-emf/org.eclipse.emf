@@ -7,7 +7,7 @@
     editorPluginClass="" updateClasspath="false" testsDirectory="" importerID="org.eclipse.emf.importer.ecore"
     complianceLevel="5.0" editPluginID="org.eclipse.emf.codegen.ecore.ui" language="en"
     usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore" decoration="Live"
-    eclipsePlatformVersion="Juno">
+    eclipsePlatformVersion="Juno" autoResizeProperties="true">
   <foreignModel>GenModel.ecore</foreignModel>
   <genPackages prefix="GenModel" basePackage="org.eclipse.emf.codegen.ecore" disposableProviderFactory="true"
       multipleEditorPages="false" generateModelWizard="false" contentTypeIdentifier="org.eclipse.emf.codegen.genmodel"
@@ -250,6 +250,10 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/eclipsePlatformVersion"/>
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The Javadoc documentation to generate for the model-level artifacts such as plug-in classes, including any @since or @deprecated tags"
           propertyMultiLine="true" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/modelDocumentation"/>
+      <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="Whether the columns in the properties view should automatically resize to fit the content size as well as the client area"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/autoResizeProperties"/>
+      <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="The depth to which properties should be automaticall expanded in the properties view"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/autoExpandProperties"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenPackage">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The prefix for names of several packaged-related classes, including package, factory, switch, and adapter factory"

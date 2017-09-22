@@ -216,6 +216,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isOSGiCompatible <em>OS Gi Compatible</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getEclipsePlatformVersion <em>Eclipse Platform Version</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getModelDocumentation <em>Model Documentation</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isAutoResizeProperties <em>Auto Resize Properties</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getAutoExpandProperties <em>Auto Expand Properties</em>}</li>
  * </ul>
  *
  * @generated
@@ -1953,6 +1955,50 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean modelDocumentationESet;
+
+  /**
+   * The default value of the '{@link #isAutoResizeProperties() <em>Auto Resize Properties</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isAutoResizeProperties()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final boolean AUTO_RESIZE_PROPERTIES_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isAutoResizeProperties() <em>Auto Resize Properties</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isAutoResizeProperties()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean autoResizeProperties = AUTO_RESIZE_PROPERTIES_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getAutoExpandProperties() <em>Auto Expand Properties</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getAutoExpandProperties()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final int AUTO_EXPAND_PROPERTIES_EDEFAULT = 0;
+
+  /**
+   * The cached value of the '{@link #getAutoExpandProperties() <em>Auto Expand Properties</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getAutoExpandProperties()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected int autoExpandProperties = AUTO_EXPAND_PROPERTIES_EDEFAULT;
 
   protected boolean validateModel = false;
 
@@ -6827,6 +6873,56 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isAutoResizeProperties()
+  {
+    return autoResizeProperties;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setAutoResizeProperties(boolean newAutoResizeProperties)
+  {
+    boolean oldAutoResizeProperties = autoResizeProperties;
+    autoResizeProperties = newAutoResizeProperties;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__AUTO_RESIZE_PROPERTIES, oldAutoResizeProperties, autoResizeProperties));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public int getAutoExpandProperties()
+  {
+    return autoExpandProperties;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setAutoExpandProperties(int newAutoExpandProperties)
+  {
+    int oldAutoExpandProperties = autoExpandProperties;
+    autoExpandProperties = newAutoExpandProperties;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__AUTO_EXPAND_PROPERTIES, oldAutoExpandProperties, autoExpandProperties));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   @SuppressWarnings("unchecked")
@@ -7043,6 +7139,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getEclipsePlatformVersion();
       case GenModelPackage.GEN_MODEL__MODEL_DOCUMENTATION:
         return getModelDocumentation();
+      case GenModelPackage.GEN_MODEL__AUTO_RESIZE_PROPERTIES:
+        return isAutoResizeProperties();
+      case GenModelPackage.GEN_MODEL__AUTO_EXPAND_PROPERTIES:
+        return getAutoExpandProperties();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -7331,6 +7431,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__MODEL_DOCUMENTATION:
         setModelDocumentation((String)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__AUTO_RESIZE_PROPERTIES:
+        setAutoResizeProperties((Boolean)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__AUTO_EXPAND_PROPERTIES:
+        setAutoExpandProperties((Integer)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -7609,6 +7715,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__MODEL_DOCUMENTATION:
         unsetModelDocumentation();
         return;
+      case GenModelPackage.GEN_MODEL__AUTO_RESIZE_PROPERTIES:
+        setAutoResizeProperties(AUTO_RESIZE_PROPERTIES_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__AUTO_EXPAND_PROPERTIES:
+        setAutoExpandProperties(AUTO_EXPAND_PROPERTIES_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -7799,6 +7911,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isSetEclipsePlatformVersion();
       case GenModelPackage.GEN_MODEL__MODEL_DOCUMENTATION:
         return isSetModelDocumentation();
+      case GenModelPackage.GEN_MODEL__AUTO_RESIZE_PROPERTIES:
+        return autoResizeProperties != AUTO_RESIZE_PROPERTIES_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__AUTO_EXPAND_PROPERTIES:
+        return autoExpandProperties != AUTO_EXPAND_PROPERTIES_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -7980,6 +8096,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     if (eclipsePlatformVersionESet) result.append(eclipsePlatformVersion); else result.append("<unset>");
     result.append(", modelDocumentation: ");
     if (modelDocumentationESet) result.append(modelDocumentation); else result.append("<unset>");
+    result.append(", autoResizeProperties: ");
+    result.append(autoResizeProperties);
+    result.append(", autoExpandProperties: ");
+    result.append(autoExpandProperties);
     result.append(')');
     return result.toString();
   }
