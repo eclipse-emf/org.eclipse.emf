@@ -87,6 +87,12 @@ public interface EAnnotationValidator
   }
 
   /**
+   * Returns the {@link EAnnotation#getSource() annotation source} of the annotations validated by this annotation validator.
+   * @return the annotation source.
+   */
+  String getAnnotationSource();
+
+  /**
    * Returns whether this annotation with this annotation validator's {@link EAnnotation#getSource() annotation source} is valid at its {@link EAnnotation#getEModelElement() current location}.
    * @param eAnnotation the annotation in question.
    * @return whether this annotation with this annotation validator's annotation source is valid at its current location.

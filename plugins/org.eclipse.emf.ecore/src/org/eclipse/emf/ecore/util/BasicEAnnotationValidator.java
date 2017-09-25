@@ -175,6 +175,14 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
   }
 
   /**
+   * {@inheritDoc}
+   */
+  public String getAnnotationSource()
+  {
+    return annotationSource;
+  }
+
+  /**
    * Returns the resource locator for fetching implementation-specific messages.
    * @return the resource locator for fetching model-specific messages.
    */
