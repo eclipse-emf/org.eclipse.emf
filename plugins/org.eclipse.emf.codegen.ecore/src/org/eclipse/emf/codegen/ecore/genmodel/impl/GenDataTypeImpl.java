@@ -49,6 +49,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl#getEcoreDataType <em>Ecore Data Type</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl#getCreate <em>Create</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl#getConvert <em>Convert</em>}</li>
  * </ul>
  *
  * @generated
@@ -64,6 +66,65 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    * @ordered
    */
   protected EDataType ecoreDataType;
+
+  /**
+   * The default value of the '{@link #getCreate() <em>Create</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getCreate()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final String CREATE_EDEFAULT = null;
+  /**
+   * The cached value of the '{@link #getCreate() <em>Create</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getCreate()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected String create = CREATE_EDEFAULT;
+  /**
+   * This is true if the Create attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean createESet;
+  /**
+   * The default value of the '{@link #getConvert() <em>Convert</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getConvert()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final String CONVERT_EDEFAULT = null;
+  /**
+   * The cached value of the '{@link #getConvert() <em>Convert</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getConvert()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected String convert = CONVERT_EDEFAULT;
+  /**
+   * This is true if the Convert attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean convertESet;
 
   protected GenDataTypeImpl()
   {
@@ -127,6 +188,114 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public String getCreate()
+  {
+    return create;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setCreate(String newCreate)
+  {
+    String oldCreate = create;
+    create = newCreate;
+    boolean oldCreateESet = createESet;
+    createESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_DATA_TYPE__CREATE, oldCreate, create, !oldCreateESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetCreate()
+  {
+    String oldCreate = create;
+    boolean oldCreateESet = createESet;
+    create = CREATE_EDEFAULT;
+    createESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_DATA_TYPE__CREATE, oldCreate, CREATE_EDEFAULT, oldCreateESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetCreate()
+  {
+    return createESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public String getConvert()
+  {
+    return convert;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setConvert(String newConvert)
+  {
+    String oldConvert = convert;
+    convert = newConvert;
+    boolean oldConvertESet = convertESet;
+    convertESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_DATA_TYPE__CONVERT, oldConvert, convert, !oldConvertESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetConvert()
+  {
+    String oldConvert = convert;
+    boolean oldConvertESet = convertESet;
+    convert = CONVERT_EDEFAULT;
+    convertESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_DATA_TYPE__CONVERT, oldConvert, CONVERT_EDEFAULT, oldConvertESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetConvert()
+  {
+    return convertESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   @Override
@@ -137,6 +306,10 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       case GenModelPackage.GEN_DATA_TYPE__ECORE_DATA_TYPE:
         if (resolve) return getEcoreDataType();
         return basicGetEcoreDataType();
+      case GenModelPackage.GEN_DATA_TYPE__CREATE:
+        return getCreate();
+      case GenModelPackage.GEN_DATA_TYPE__CONVERT:
+        return getConvert();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -153,6 +326,12 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     {
       case GenModelPackage.GEN_DATA_TYPE__ECORE_DATA_TYPE:
         setEcoreDataType((EDataType)newValue);
+        return;
+      case GenModelPackage.GEN_DATA_TYPE__CREATE:
+        setCreate((String)newValue);
+        return;
+      case GenModelPackage.GEN_DATA_TYPE__CONVERT:
+        setConvert((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -171,6 +350,12 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       case GenModelPackage.GEN_DATA_TYPE__ECORE_DATA_TYPE:
         setEcoreDataType((EDataType)null);
         return;
+      case GenModelPackage.GEN_DATA_TYPE__CREATE:
+        unsetCreate();
+        return;
+      case GenModelPackage.GEN_DATA_TYPE__CONVERT:
+        unsetConvert();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -187,8 +372,31 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     {
       case GenModelPackage.GEN_DATA_TYPE__ECORE_DATA_TYPE:
         return ecoreDataType != null;
+      case GenModelPackage.GEN_DATA_TYPE__CREATE:
+        return isSetCreate();
+      case GenModelPackage.GEN_DATA_TYPE__CONVERT:
+        return isSetConvert();
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (create: ");
+    if (createESet) result.append(create); else result.append("<unset>");
+    result.append(", convert: ");
+    if (convertESet) result.append(convert); else result.append("<unset>");
+    result.append(')');
+    return result.toString();
   }
 
   @Override
@@ -882,6 +1090,16 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     {
       setDocumentation(oldGenDataTypeVersion.getDocumentation());
     }
+
+    if (oldGenDataTypeVersion.eIsSet(GenModelPackage.Literals.GEN_DATA_TYPE__CREATE))
+    {
+      setCreate((String)oldGenDataTypeVersion.eGet(GenModelPackage.Literals.GEN_DATA_TYPE__CREATE));
+    }
+
+    if (oldGenDataTypeVersion.eIsSet(GenModelPackage.Literals.GEN_DATA_TYPE__CONVERT))
+    {
+      setConvert((String)oldGenDataTypeVersion.eGet(GenModelPackage.Literals.GEN_DATA_TYPE__CONVERT));
+    }
   }
 
   public boolean reconcile()
@@ -1206,9 +1424,16 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   protected String getCreatorBody()
   {
-    EDataType eDataType = getEcoreDataType();
-    EAnnotation eAnnotation = eDataType.getEAnnotation(GenModelPackage.eNS_URI);
-    return eAnnotation == null ? null : (String)eAnnotation.getDetails().get("create");
+    if (isSetCreate())
+    {
+      return getCreate();
+    }
+    else
+    {
+      EDataType eDataType = getEcoreDataType();
+      EAnnotation eAnnotation = eDataType.getEAnnotation(GenModelPackage.eNS_URI);
+      return eAnnotation == null ? null : (String)eAnnotation.getDetails().get("create");
+    }
   }
 
   public boolean hasCreatorBody()
@@ -1240,9 +1465,16 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   protected String getConverterBody()
   {
-    EDataType eDataType = getEcoreDataType();
-    EAnnotation eAnnotation = eDataType.getEAnnotation(GenModelPackage.eNS_URI);
-    return eAnnotation == null ? null : (String)eAnnotation.getDetails().get("convert");
+    if (isSetConvert())
+    {
+      return getConvert();
+    }
+    else
+    {
+      EDataType eDataType = getEcoreDataType();
+      EAnnotation eAnnotation = eDataType.getEAnnotation(GenModelPackage.eNS_URI);
+      return eAnnotation == null ? null : (String)eAnnotation.getDetails().get("convert");
+    }
   }
 
   public boolean hasConverterBody()

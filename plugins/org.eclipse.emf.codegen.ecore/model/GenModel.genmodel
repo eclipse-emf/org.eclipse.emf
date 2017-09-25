@@ -358,6 +358,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/suppressedIsSetVisibility"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to suppress the generated unset accessor from the interface"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/suppressedUnsetVisibility"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The body to be generated for the get-accessor method of the feature in the implementation class"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/get"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenBase">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenBase/genAnnotations"/>
@@ -389,6 +391,10 @@
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenDataType">
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           propertyDescription="The Ecore model element for this data type" ecoreFeature="ecore:EReference GenModel.ecore#//GenDataType/ecoreDataType"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The body to be generated for the create-from-string method of the data type in the factory implementation class"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenDataType/create"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The body to be generated for the convert-to-string method of the data type in the factory implementation class"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenDataType/convert"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenOperation">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/genClass"/>
@@ -398,6 +404,8 @@
       <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/genTypeParameters"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to suppress the generated method from the interface"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenOperation/suppressedVisibility"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The body to be generated for the method of the operation in the implementation class"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenOperation/body"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenParameter">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenParameter/genOperation"/>

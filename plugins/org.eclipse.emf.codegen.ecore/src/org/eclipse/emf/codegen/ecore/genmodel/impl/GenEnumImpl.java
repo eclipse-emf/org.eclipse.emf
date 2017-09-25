@@ -539,6 +539,16 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     {
       setDocumentation(oldGenEnumVersion.getDocumentation());
     }
+
+    if (oldGenEnumVersion.eIsSet(GenModelPackage.Literals.GEN_DATA_TYPE__CREATE))
+    {
+      setCreate((String)oldGenEnumVersion.eGet(GenModelPackage.Literals.GEN_DATA_TYPE__CREATE));
+    }
+
+    if (oldGenEnumVersion.eIsSet(GenModelPackage.Literals.GEN_DATA_TYPE__CONVERT))
+    {
+      setConvert((String)oldGenEnumVersion.eGet(GenModelPackage.Literals.GEN_DATA_TYPE__CONVERT));
+    }
   }
 
   @Override

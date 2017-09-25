@@ -44,7 +44,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenFeature()
- * @model
+ * @model features="get" 
+ *        getUnsettable="true" getDataType="org.eclipse.emf.ecore.EString" getSuppressedGetVisibility="true" getSuppressedSetVisibility="true" getSuppressedIsSetVisibility="true" getSuppressedUnsetVisibility="true"
  * @generated
  */
 public interface GenFeature extends GenTypedElement

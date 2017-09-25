@@ -59,6 +59,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenOperationImpl#getGenParameters <em>Gen Parameters</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenOperationImpl#getGenTypeParameters <em>Gen Type Parameters</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenOperationImpl#isSuppressedVisibility <em>Suppressed Visibility</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenOperationImpl#getBody <em>Body</em>}</li>
  * </ul>
  *
  * @generated
@@ -126,6 +127,38 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * @ordered
    */
   protected boolean suppressedVisibilityESet;
+
+  /**
+   * The default value of the '{@link #getBody() <em>Body</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getBody()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final String BODY_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getBody() <em>Body</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getBody()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected String body = BODY_EDEFAULT;
+
+  /**
+   * This is true if the Body attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean bodyESet;
 
   /**
    * <!-- begin-user-doc -->
@@ -342,6 +375,8 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
         return getGenTypeParameters();
       case GenModelPackage.GEN_OPERATION__SUPPRESSED_VISIBILITY:
         return isSuppressedVisibility();
+      case GenModelPackage.GEN_OPERATION__BODY:
+        return getBody();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -374,6 +409,9 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       case GenModelPackage.GEN_OPERATION__SUPPRESSED_VISIBILITY:
         setSuppressedVisibility((Boolean)newValue);
         return;
+      case GenModelPackage.GEN_OPERATION__BODY:
+        setBody((String)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -403,6 +441,9 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       case GenModelPackage.GEN_OPERATION__SUPPRESSED_VISIBILITY:
         unsetSuppressedVisibility();
         return;
+      case GenModelPackage.GEN_OPERATION__BODY:
+        unsetBody();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -427,6 +468,8 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
         return genTypeParameters != null && !genTypeParameters.isEmpty();
       case GenModelPackage.GEN_OPERATION__SUPPRESSED_VISIBILITY:
         return isSetSuppressedVisibility();
+      case GenModelPackage.GEN_OPERATION__BODY:
+        return isSetBody();
     }
     return super.eIsSet(featureID);
   }
@@ -444,6 +487,8 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     StringBuilder result = new StringBuilder(super.toString());
     result.append(" (suppressedVisibility: ");
     if (suppressedVisibilityESet) result.append(suppressedVisibility); else result.append("<unset>");
+    result.append(", body: ");
+    if (bodyESet) result.append(body); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }
@@ -985,6 +1030,11 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     {
       setSuppressedVisibility(oldGenOperationVersion.isSuppressedVisibility());
     }
+
+    if (oldGenOperationVersion.eIsSet(GenModelPackage.Literals.GEN_OPERATION__BODY))
+    {
+      setBody((String)oldGenOperationVersion.eGet(GenModelPackage.Literals.GEN_OPERATION__BODY));
+    }
   }
 
   public boolean reconcile()
@@ -1018,11 +1068,72 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     }
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public String getBodyGen()
+  {
+    return body;
+  }
+
   protected String getBody()
   {
-    EOperation eOperation = getEcoreOperation();
-    EAnnotation eAnnotation = eOperation.getEAnnotation(GenModelPackage.eNS_URI);
-    return eAnnotation == null ? null : (String)eAnnotation.getDetails().get("body");
+    if (isSetBody())
+    {
+      return getBodyGen();
+    }
+    else
+    {
+      EOperation eOperation = getEcoreOperation();
+      EAnnotation eAnnotation = eOperation.getEAnnotation(GenModelPackage.eNS_URI);
+      return eAnnotation == null ? null : (String)eAnnotation.getDetails().get("body");
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setBody(String newBody)
+  {
+    String oldBody = body;
+    body = newBody;
+    boolean oldBodyESet = bodyESet;
+    bodyESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_OPERATION__BODY, oldBody, body, !oldBodyESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetBody()
+  {
+    String oldBody = body;
+    boolean oldBodyESet = bodyESet;
+    body = BODY_EDEFAULT;
+    bodyESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_OPERATION__BODY, oldBody, BODY_EDEFAULT, oldBodyESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetBody()
+  {
+    return bodyESet;
   }
 
   public boolean hasBody()

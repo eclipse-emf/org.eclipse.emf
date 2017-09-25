@@ -34,7 +34,8 @@ import org.eclipse.emf.ecore.EOperation;
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenOperation()
- * @model
+ * @model features="body" 
+ *        bodyUnsettable="true" bodyDataType="org.eclipse.emf.ecore.EString" bodySuppressedGetVisibility="true" bodySuppressedSetVisibility="true" bodySuppressedIsSetVisibility="true" bodySuppressedUnsetVisibility="true"
  * @generated
  */
 public interface GenOperation extends GenTypedElement

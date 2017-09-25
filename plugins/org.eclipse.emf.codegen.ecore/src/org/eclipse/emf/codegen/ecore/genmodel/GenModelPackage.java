@@ -1641,13 +1641,23 @@ public interface GenModelPackage extends EPackage
   int GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY = GEN_TYPED_ELEMENT_FEATURE_COUNT + 14;
 
   /**
+   * The feature id for the '<em><b>Get</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_FEATURE__GET = GEN_TYPED_ELEMENT_FEATURE_COUNT + 15;
+
+  /**
    * The number of structural features of the '<em>Gen Feature</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_FEATURE_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 15;
+  int GEN_FEATURE_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 16;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl <em>Gen Data Type</em>}' class.
@@ -1706,13 +1716,33 @@ public interface GenModelPackage extends EPackage
   int GEN_DATA_TYPE__ECORE_DATA_TYPE = GEN_CLASSIFIER_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>Create</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_DATA_TYPE__CREATE = GEN_CLASSIFIER_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>Convert</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_DATA_TYPE__CONVERT = GEN_CLASSIFIER_FEATURE_COUNT + 2;
+
+  /**
    * The number of structural features of the '<em>Gen Data Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_DATA_TYPE_FEATURE_COUNT = GEN_CLASSIFIER_FEATURE_COUNT + 1;
+  int GEN_DATA_TYPE_FEATURE_COUNT = GEN_CLASSIFIER_FEATURE_COUNT + 3;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenEnumImpl <em>Gen Enum</em>}' class.
@@ -1769,6 +1799,26 @@ public interface GenModelPackage extends EPackage
    * @ordered
    */
   int GEN_ENUM__ECORE_DATA_TYPE = GEN_DATA_TYPE__ECORE_DATA_TYPE;
+
+  /**
+   * The feature id for the '<em><b>Create</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_ENUM__CREATE = GEN_DATA_TYPE__CREATE;
+
+  /**
+   * The feature id for the '<em><b>Convert</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_ENUM__CONVERT = GEN_DATA_TYPE__CONVERT;
 
   /**
    * The feature id for the '<em><b>Type Safe Enum Compatible</b></em>' attribute.
@@ -1938,13 +1988,23 @@ public interface GenModelPackage extends EPackage
   int GEN_OPERATION__SUPPRESSED_VISIBILITY = GEN_TYPED_ELEMENT_FEATURE_COUNT + 4;
 
   /**
+   * The feature id for the '<em><b>Body</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_OPERATION__BODY = GEN_TYPED_ELEMENT_FEATURE_COUNT + 5;
+
+  /**
    * The number of structural features of the '<em>Gen Operation</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_OPERATION_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 5;
+  int GEN_OPERATION_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 6;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenParameterImpl <em>Gen Parameter</em>}' class.
@@ -3858,6 +3918,18 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenFeature_SuppressedUnsetVisibility();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature <em>Get</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Get</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenFeature
+   * @see #getGenFeature()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenFeature_Get();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenBase <em>Gen Base</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4031,6 +4103,30 @@ public interface GenModelPackage extends EPackage
   EReference getGenDataType_EcoreDataType();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenDataType <em>Create</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Create</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenDataType
+   * @see #getGenDataType()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenDataType_Create();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenDataType <em>Convert</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Convert</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenDataType
+   * @see #getGenDataType()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenDataType_Convert();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation <em>Gen Operation</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4095,6 +4191,18 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   EAttribute getGenOperation_SuppressedVisibility();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation <em>Body</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Body</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenOperation
+   * @see #getGenOperation()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenOperation_Body();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenParameter <em>Gen Parameter</em>}'.
@@ -5572,6 +5680,15 @@ public interface GenModelPackage extends EPackage
     EAttribute GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY = eINSTANCE.getGenFeature_SuppressedUnsetVisibility();
 
     /**
+     * The meta object literal for the '<em><b>Get</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_FEATURE__GET = eINSTANCE.getGenFeature_Get();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenBaseImpl <em>Gen Base</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5712,6 +5829,24 @@ public interface GenModelPackage extends EPackage
     EReference GEN_DATA_TYPE__ECORE_DATA_TYPE = eINSTANCE.getGenDataType_EcoreDataType();
 
     /**
+     * The meta object literal for the '<em><b>Create</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_DATA_TYPE__CREATE = eINSTANCE.getGenDataType_Create();
+
+    /**
+     * The meta object literal for the '<em><b>Convert</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_DATA_TYPE__CONVERT = eINSTANCE.getGenDataType_Convert();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenOperationImpl <em>Gen Operation</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5761,6 +5896,15 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_OPERATION__SUPPRESSED_VISIBILITY = eINSTANCE.getGenOperation_SuppressedVisibility();
+
+    /**
+     * The meta object literal for the '<em><b>Body</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_OPERATION__BODY = eINSTANCE.getGenOperation_Body();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenParameterImpl <em>Gen Parameter</em>}' class.

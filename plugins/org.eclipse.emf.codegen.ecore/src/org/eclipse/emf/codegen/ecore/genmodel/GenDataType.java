@@ -29,7 +29,9 @@ import org.eclipse.emf.ecore.EDataType;
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenDataType()
- * @model
+ * @model features="create convert" 
+ *        createUnsettable="true" createDataType="org.eclipse.emf.ecore.EString" createSuppressedGetVisibility="true" createSuppressedSetVisibility="true" createSuppressedIsSetVisibility="true" createSuppressedUnsetVisibility="true"
+ *        convertUnsettable="true" convertDataType="org.eclipse.emf.ecore.EString" convertSuppressedGetVisibility="true" convertSuppressedSetVisibility="true" convertSuppressedIsSetVisibility="true" convertSuppressedUnsetVisibility="true"
  * @generated
  */
 public interface GenDataType extends GenClassifier

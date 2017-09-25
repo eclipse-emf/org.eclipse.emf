@@ -73,6 +73,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isSuppressedSetVisibility <em>Suppressed Set Visibility</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isSuppressedIsSetVisibility <em>Suppressed Is Set Visibility</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isSuppressedUnsetVisibility <em>Suppressed Unset Visibility</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getGet <em>Get</em>}</li>
  * </ul>
  *
  * @generated
@@ -395,6 +396,38 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * @ordered
    */
   protected boolean suppressedUnsetVisibilityESet;
+
+  /**
+   * The default value of the '{@link #getGet() <em>Get</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getGet()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final String GET_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getGet() <em>Get</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getGet()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected String get = GET_EDEFAULT;
+
+  /**
+   * This is true if the Get attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean getESet;
 
   /**
    * <!-- begin-user-doc -->
@@ -852,6 +885,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         return isSuppressedIsSetVisibility();
       case GenModelPackage.GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY:
         return isSuppressedUnsetVisibility();
+      case GenModelPackage.GEN_FEATURE__GET:
+        return getGet();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -913,6 +948,9 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       case GenModelPackage.GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY:
         setSuppressedUnsetVisibility((Boolean)newValue);
         return;
+      case GenModelPackage.GEN_FEATURE__GET:
+        setGet((String)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -972,6 +1010,9 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       case GenModelPackage.GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY:
         unsetSuppressedUnsetVisibility();
         return;
+      case GenModelPackage.GEN_FEATURE__GET:
+        unsetGet();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -1016,6 +1057,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         return isSetSuppressedIsSetVisibility();
       case GenModelPackage.GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY:
         return isSetSuppressedUnsetVisibility();
+      case GenModelPackage.GEN_FEATURE__GET:
+        return isSetGet();
     }
     return super.eIsSet(featureID);
   }
@@ -1057,6 +1100,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     if (suppressedIsSetVisibilityESet) result.append(suppressedIsSetVisibility); else result.append("<unset>");
     result.append(", suppressedUnsetVisibility: ");
     if (suppressedUnsetVisibilityESet) result.append(suppressedUnsetVisibility); else result.append("<unset>");
+    result.append(", get: ");
+    if (getESet) result.append(get); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }
@@ -1896,6 +1941,60 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * @since 2.14
    * @generated
    */
+  public String getGet()
+  {
+    return get;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setGet(String newGet)
+  {
+    String oldGet = get;
+    get = newGet;
+    boolean oldGetESet = getESet;
+    getESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_FEATURE__GET, oldGet, get, !oldGetESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetGet()
+  {
+    String oldGet = get;
+    boolean oldGetESet = getESet;
+    get = GET_EDEFAULT;
+    getESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_FEATURE__GET, oldGet, GET_EDEFAULT, oldGetESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetGet()
+  {
+    return getESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
   public void unsetSuppressedUnsetVisibility()
   {
     boolean oldSuppressedUnsetVisibility = suppressedUnsetVisibility;
@@ -2241,6 +2340,11 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     {
       setSuppressedUnsetVisibility(oldGenFeatureVersion.isSuppressedUnsetVisibility());
     }
+
+    if (oldGenFeatureVersion.eIsSet(GenModelPackage.Literals.GEN_FEATURE__GET))
+    {
+      setGet((String)oldGenFeatureVersion.eGet(GenModelPackage.Literals.GEN_FEATURE__GET));
+    }
   }
 
   public boolean reconcile()
@@ -2341,9 +2445,16 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
 
   protected String getGetterBody()
   {
-    EStructuralFeature eStructuralFeature = getEcoreFeature();
-    EAnnotation eAnnotation = eStructuralFeature.getEAnnotation(GenModelPackage.eNS_URI);
-    return eAnnotation == null ? null : (String)eAnnotation.getDetails().get("get");
+    if (isSetGet())
+    {
+      return getGet();
+    }
+    else
+    {
+      EStructuralFeature eStructuralFeature = getEcoreFeature();
+      EAnnotation eAnnotation = eStructuralFeature.getEAnnotation(GenModelPackage.eNS_URI);
+      return eAnnotation == null ? null : (String)eAnnotation.getDetails().get("get");
+    }
   }
 
   public boolean hasGetterBody()

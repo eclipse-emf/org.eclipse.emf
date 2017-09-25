@@ -60,6 +60,8 @@ public class GenDataTypeItemProvider
 
       addDocumentationPropertyDescriptor(object);
       addEcoreDataTypePropertyDescriptor(object);
+      addCreatePropertyDescriptor(object);
+      addConvertPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -112,6 +114,54 @@ public class GenDataTypeItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Create feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addCreatePropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenDataType_create_feature"),
+         getString("_UI_GenDataType_create_description"),
+         GenModelPackage.Literals.GEN_DATA_TYPE__CREATE,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Convert feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addConvertPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenDataType_convert_feature"),
+         getString("_UI_GenDataType_convert_description"),
+         GenModelPackage.Literals.GEN_DATA_TYPE__CONVERT,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
    */
   @Override
   public Object getImage(Object object)
@@ -152,6 +202,8 @@ public class GenDataTypeItemProvider
       case GenModelPackage.GEN_DATA_TYPE__GEN_TYPE_PARAMETERS:
       case GenModelPackage.GEN_DATA_TYPE__DOCUMENTATION:
       case GenModelPackage.GEN_DATA_TYPE__ECORE_DATA_TYPE:
+      case GenModelPackage.GEN_DATA_TYPE__CREATE:
+      case GenModelPackage.GEN_DATA_TYPE__CONVERT:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
     }

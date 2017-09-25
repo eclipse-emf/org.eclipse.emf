@@ -63,6 +63,7 @@ public class GenOperationItemProvider
       addDocumentationPropertyDescriptor(object);
       addEcoreOperationPropertyDescriptor(object);
       addSuppressedVisibilityPropertyDescriptor(object);
+      addBodyPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -134,6 +135,30 @@ public class GenOperationItemProvider
          false,
          false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Body feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addBodyPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenOperation_body_feature"),
+         getString("_UI_GenOperation_body_description"),
+         GenModelPackage.Literals.GEN_OPERATION__BODY,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),
          null));
   }
@@ -219,6 +244,7 @@ public class GenOperationItemProvider
       case GenModelPackage.GEN_OPERATION__GEN_PARAMETERS:
       case GenModelPackage.GEN_OPERATION__GEN_TYPE_PARAMETERS:
       case GenModelPackage.GEN_OPERATION__SUPPRESSED_VISIBILITY:
+      case GenModelPackage.GEN_OPERATION__BODY:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
     }

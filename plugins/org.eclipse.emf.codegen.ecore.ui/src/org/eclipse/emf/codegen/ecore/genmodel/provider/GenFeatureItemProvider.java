@@ -77,6 +77,7 @@ public class GenFeatureItemProvider
       addSuppressedSetVisibilityPropertyDescriptor(object);
       addSuppressedIsSetVisibilityPropertyDescriptor(object);
       addSuppressedUnsetVisibilityPropertyDescriptor(object);
+      addGetPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -432,6 +433,30 @@ public class GenFeatureItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Get feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addGetPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenFeature_get_feature"),
+         getString("_UI_GenFeature_get_description"),
+         GenModelPackage.Literals.GEN_FEATURE__GET,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
    */
   @Override
   public Object getImage(Object object)
@@ -559,6 +584,7 @@ public class GenFeatureItemProvider
       case GenModelPackage.GEN_FEATURE__SUPPRESSED_SET_VISIBILITY:
       case GenModelPackage.GEN_FEATURE__SUPPRESSED_IS_SET_VISIBILITY:
       case GenModelPackage.GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY:
+      case GenModelPackage.GEN_FEATURE__GET:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
     }
