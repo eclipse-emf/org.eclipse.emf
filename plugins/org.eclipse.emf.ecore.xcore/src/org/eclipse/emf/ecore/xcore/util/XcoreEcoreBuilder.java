@@ -9,7 +9,7 @@ package org.eclipse.emf.ecore.xcore.util;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -207,7 +207,7 @@ public class XcoreEcoreBuilder
 
   protected void handleAnnotations(final XModelElement xModelElement, final EModelElement eModelElement)
   {
-    Map<String, DeferredEAnnotationImpl> specialAnnotations = new HashMap<String, XcoreEcoreBuilder.DeferredEAnnotationImpl>();
+    Map<String, DeferredEAnnotationImpl> specialAnnotations = new LinkedHashMap<String, XcoreEcoreBuilder.DeferredEAnnotationImpl>();
     ICompositeNode node = NodeModelUtils.getNode(xModelElement);
     if (node != null)
     {
