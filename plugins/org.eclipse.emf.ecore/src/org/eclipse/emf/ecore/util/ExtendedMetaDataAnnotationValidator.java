@@ -1388,7 +1388,7 @@ public final class ExtendedMetaDataAnnotationValidator extends BasicEAnnotationV
     static
     {
       URL baseURL = EcorePlugin.INSTANCE.getBaseURL();
-      URI baseURI = URI.createURI(baseURL + "/model/ExtendedMetaData.ecore");
+      URI baseURI = URI.createURI(baseURL + "model/ExtendedMetaData.ecore");
       EPackage ePackage = null;
       try
       {
