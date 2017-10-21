@@ -25,8 +25,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.swt.widgets.TreeItem;
 
 
 /**
@@ -163,7 +165,7 @@ public final class ColumnResizer
       return control;
     }
 
-    protected abstract boolean isEmpty();
+    protected abstract boolean isPackable();
 
     protected abstract List<? extends C> getColumns();
 
@@ -188,7 +190,7 @@ public final class ColumnResizer
 
     public void controlResized(ControlEvent controlEvent)
     {
-      if (!resizing)
+      if (!resizing && isPackable())
       {
         T control = getControl();
         Rectangle clientArea = control.getClientArea();
@@ -323,9 +325,10 @@ public final class ColumnResizer
     }
 
     @Override
-    protected boolean isEmpty()
+    protected boolean isPackable()
     {
-      return getControl().getItemCount() != 0;
+      TreeItem[] items = getControl().getItems();
+      return items.length == 0 || !items[0].isDisposed();
     }
 
     @Override
@@ -367,9 +370,10 @@ public final class ColumnResizer
     }
 
     @Override
-    protected boolean isEmpty()
+    protected boolean isPackable()
     {
-      return getControl().getItemCount() != 0;
+      TableItem[] items = getControl().getItems();
+      return items.length == 0 || !items[0].isDisposed();
     }
 
     @Override

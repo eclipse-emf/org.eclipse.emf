@@ -1920,7 +1920,7 @@ public class <%=genPackage.getEditorClassName()%>
 	public IPropertySheetPage getPropertySheetPage()
 	{
 		PropertySheetPage propertySheetPage =
-			new ExtendedPropertySheetPage(editingDomain<%if (genModel.getDecoration() == GenDecoration.MANUAL) {%>, ExtendedPropertySheetPage.Decoration.MANUAL<%} else if (genModel.getDecoration() == GenDecoration.LIVE) {%>, ExtendedPropertySheetPage.Decoration.LIVE, <%=genPackage.getImportedEditorPluginClassName()%>.getPlugin().getDialogSettings()<%}%><%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF214_VALUE) {%>, <%=genModel.getAutoExpandProperties()%>, <%=genModel.isAutoResizeProperties()%><%}%>)
+			new ExtendedPropertySheetPage(editingDomain<%if (genModel.getDecoration() == GenDecoration.MANUAL) {%>, ExtendedPropertySheetPage.Decoration.MANUAL<%} else if (genModel.getDecoration() == GenDecoration.LIVE) {%>, ExtendedPropertySheetPage.Decoration.LIVE, <%=genPackage.getImportedEditorPluginClassName()%>.getPlugin().getDialogSettings()<%}%><%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF214_VALUE) {%>, <%if (genModel.getDecoration() == GenDecoration.NONE) {%>ExtendedPropertySheetPage.Decoration.NONE, <%}%><%if (genModel.getDecoration() != GenDecoration.LIVE) {%>null, <%}%><%=genModel.getAutoExpandProperties()%>, <%=genModel.isAutoResizeProperties()%><%}%>)
 			{
 <%if (genModel.useClassOverrideAnnotation()) {%>
 				@Override
