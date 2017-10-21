@@ -107,7 +107,6 @@ public interface XSDParticle extends XSDComplexTypeContent
    * infoset property.
    * The <code>unbounded</code> value is represented by {@link #UNBOUNDED}, i.e., <code>-1</code>.
    * @see #UNBOUNDED
-   * @
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Max Occurs</em>' attribute.
@@ -163,7 +162,7 @@ public interface XSDParticle extends XSDComplexTypeContent
    * It is used to compute the {@link #getTerm term}.
    * </p>
    * @see #getTerm()
-   * @ <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the value of the '<em>Content</em>' containment reference.
    * @see #setContent(XSDParticleContent)
    * @see org.eclipse.xsd.XSDPackage#getXSDParticle_Content()
