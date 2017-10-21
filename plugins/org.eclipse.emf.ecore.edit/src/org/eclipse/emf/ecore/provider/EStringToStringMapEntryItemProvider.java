@@ -331,7 +331,7 @@ public class EStringToStringMapEntryItemProvider extends ItemProviderAdapter
         {
           EObject instance = assistant.createInstance(eClass, eAnnotation);
           Map<String, EStructuralFeature> applicableProperties = assistant.getApplicableProperties(instance, eAnnotation);
-          EStructuralFeature eStructuralFeature = applicableProperties.get(key);
+          final EStructuralFeature eStructuralFeature = applicableProperties.get(key);
           if (eClass.getEAllStructuralFeatures().contains(eStructuralFeature))
           {
             IItemPropertyDescriptor itemPropertyDescriptor = eAnnotationItemProviderAdapterFactory.getPropertyDescriptor(
@@ -357,6 +357,12 @@ public class EStringToStringMapEntryItemProvider extends ItemProviderAdapter
                 public String getDisplayName(Object thisObject)
                 {
                   return valuePropertyDescriptor.getDisplayName(entry);
+                }
+
+                @Override
+                public Object getFeature(Object thisObject)
+                {
+                  return valuePropertyDescriptor.getFeature(entry);
                 }
 
                 @Override
