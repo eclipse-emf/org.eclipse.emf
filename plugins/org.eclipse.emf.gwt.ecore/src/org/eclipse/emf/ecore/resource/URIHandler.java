@@ -104,7 +104,6 @@ public interface URIHandler
    * @param uri
    * @param options
    * @param callback
-   * @throws IOException
    */
   void delete(URI uri, Map<?, ?> options, Callback<Map<?, ?>> callback);
 

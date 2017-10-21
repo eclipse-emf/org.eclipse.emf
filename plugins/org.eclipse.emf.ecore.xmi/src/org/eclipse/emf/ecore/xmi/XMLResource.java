@@ -538,7 +538,7 @@ public interface XMLResource extends Resource
   String OPTION_PROXY_ATTRIBUTES = org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl.OPTION_STYLE_PROXY_ATTRIBUTES;
 
   /**
-   * A load option that when set to Boolean.TRUE directs the resource to load the an {@link EPackage.Registry unregistered package} using the {@link EPackage#getNsURI() package's namespace} as its location.
+   * A load option that when set to Boolean.TRUE directs the resource to load the an {@link org.eclipse.emf.ecore.EPackage.Registry unregistered package} using the {@link EPackage#getNsURI() package's namespace} as its location.
    * The default is true.
    * @since 2.9
    */

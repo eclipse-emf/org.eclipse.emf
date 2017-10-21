@@ -35,7 +35,7 @@ import org.eclipse.emf.ecore.resource.URIHandler;
  * This implementation provides seamless transparent Eclipse integration
  * by supporting the <code>platform:/resource</code> mechanism both inside of Eclipse and outside of Eclipse.
  * Furthermore, although the implementation imports
- * both {@link org.eclipse.core.runtime} and {@link org.eclipse.core.resources},
+ * both {@code org.eclipse.core.runtime} and {@code org.eclipse.core.resources},
  * and hence requires the Eclipse libraries at development time,
  * the implementation does <b>not</b> require them at runtime.
  * Clients of this implementation must be cautious if they wish to maintain this platform neutral behaviour.

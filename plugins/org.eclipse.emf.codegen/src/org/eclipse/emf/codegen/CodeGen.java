@@ -51,7 +51,7 @@ public class CodeGen
 {
   /**
    * This is a progress monitor that prints the progress information to a stream.
-   * @deprecated As of EMF 2.1.0, moved to {@link CodeGenUtil.StreamProgressMonitor CodeGenUtil}.
+   * @deprecated As of EMF 2.1.0, moved to {@link org.eclipse.emf.codegen.util.CodeGenUtil.StreamProgressMonitor CodeGenUtil}.
    */
   @Deprecated
   public static class StreamProgressMonitor extends CodeGenUtil.EclipseUtil.StreamProgressMonitor

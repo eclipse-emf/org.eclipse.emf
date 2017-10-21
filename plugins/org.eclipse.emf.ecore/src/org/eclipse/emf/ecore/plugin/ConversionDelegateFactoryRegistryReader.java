@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.EDataType;
 
 /**
  * A plugin extension reader that populates the
- * {@link org.eclipse.emf.ecore.util.EDataType.ConversionDelegate.Factory.Registry#INSTANCE global} EDataType delegate factory registry.
+ * {@link org.eclipse.emf.ecore.EDataType.Internal.ConversionDelegate.Factory.Registry#INSTANCE global} EDataType delegate factory registry.
  * Clients are not expected to use this class directly.
  */
 class ConversionDelegateFactoryRegistryReader extends RegistryReader

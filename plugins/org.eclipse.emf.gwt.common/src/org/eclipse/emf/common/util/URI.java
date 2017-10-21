@@ -836,7 +836,6 @@ public final class URI
    * {@link #validSegments validSegments}, {@link #validQuery validQuery}, or
    * {@link #validFragment validFragment}.
    *
-   * @see org.eclipse.core.runtime.Platform#resolve
    * @see #createPlatformResourceURI(String, boolean)
    * @deprecated Use {@link #createPlatformResourceURI(String, boolean)} instead.
    */
@@ -877,7 +876,6 @@ public final class URI
    * {@link #validSegments validSegments}, {@link #validQuery validQuery}, or
    * {@link #validFragment validFragment}.
    *
-   * @see org.eclipse.core.runtime.Platform#resolve
    */
   public static URI createPlatformResourceURI(String pathName, boolean encode)
   {
@@ -914,7 +912,6 @@ public final class URI
    * {@link #validSegments validSegments}, {@link #validQuery validQuery}, or
    * {@link #validFragment validFragment}.
    *
-   * @see org.eclipse.core.runtime.Platform#resolve
    * @since org.eclipse.emf.common 2.3
    */
   public static URI createPlatformPluginURI(String pathName, boolean encode)

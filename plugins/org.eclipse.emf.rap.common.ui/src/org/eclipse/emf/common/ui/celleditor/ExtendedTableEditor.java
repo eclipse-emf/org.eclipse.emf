@@ -32,7 +32,6 @@ import org.eclipse.swt.widgets.TableItem;
  * when the cell editor potentially needs to be activated.
  * This API is under construction; please do not use it for anything more than experimentation.
  * It also does not fully support keyboard navigation.
- * @deprecated Use {@link SingleColumnTableEditor} or {@link MultiColumnTableEditor}.
  */
 @Deprecated
 public abstract class ExtendedTableEditor 

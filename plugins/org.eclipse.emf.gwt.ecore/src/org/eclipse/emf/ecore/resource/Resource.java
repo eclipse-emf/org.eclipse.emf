@@ -567,9 +567,6 @@ public interface Resource extends Notifier
      *</pre>
      * A {@link Resource.Factory.Descriptor descriptor} can be used in place of an actual {@link Resource.Factory factory}
      * as a value in the map.
-     * It is used for factories registered via
-     * {@link org.eclipse.emf.ecore.plugin.EcorePlugin.Implementation#startup() plugin registration}
-     * to ensure delayed plugin load.
      * </p>
      * <p>
      * Clients must extend the default {@link org.eclipse.emf.ecore.resource.impl.ResourceFactoryRegistryImpl implementation},

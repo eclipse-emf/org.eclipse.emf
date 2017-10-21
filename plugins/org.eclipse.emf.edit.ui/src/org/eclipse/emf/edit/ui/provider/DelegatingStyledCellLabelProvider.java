@@ -35,7 +35,7 @@ public class DelegatingStyledCellLabelProvider extends org.eclipse.jface.viewers
 
   /**
    * An extended version of the delegating styled cell label provider that also provides for fonts if the wrapped
-   * {@link IStyledLabelProvider} itself provides for fonts.
+   * {@link org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider} itself provides for fonts.
    */
   public static class FontProvider extends DelegatingStyledCellLabelProvider implements IFontProvider, ITableFontProvider
   {
@@ -53,7 +53,7 @@ public class DelegatingStyledCellLabelProvider extends org.eclipse.jface.viewers
   
   /**
    * An extended version of the delegating styled cell label provider that also provides for colors if the wrapped
-   * {@link IStyledLabelProvider} itself provides for colors.
+   * {@link org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider} itself provides for colors.
    */
   public static class ColorProvider extends DelegatingStyledCellLabelProvider implements IColorProvider, ITableColorProvider
   {
@@ -71,7 +71,7 @@ public class DelegatingStyledCellLabelProvider extends org.eclipse.jface.viewers
   
   /**
    * An extended version of the delegating styled cell label provider that also provides for fonts and colors if the wrapped
-   * {@link IStyledLabelProvider} itself provides for fonts and colors.
+   * {@link org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider} itself provides for fonts and colors.
    */
   public static class FontAndColorProvider extends DelegatingStyledCellLabelProvider implements IFontProvider, ITableFontProvider, IColorProvider, ITableColorProvider
   {

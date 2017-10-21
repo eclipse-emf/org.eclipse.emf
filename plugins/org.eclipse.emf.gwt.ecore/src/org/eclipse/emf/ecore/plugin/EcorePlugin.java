@@ -347,7 +347,7 @@ public class EcorePlugin  extends EMFPlugin
   private static Map<String, URI> platformResourceMap;
 
   /**
-   * @see {@link URIHandler#DEFAULT_HANDLERS}
+   * @see URIHandler#DEFAULT_HANDLERS
    */
   public static List<URIHandler> DEFAULT_URI_HANDLERS = new ArrayList<URIHandler>();
 }

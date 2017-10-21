@@ -70,12 +70,12 @@ public final class EMFEditPlugin extends EMFPlugin
   }
   
   /**
-   * The singleton instance of an {@link ComposedAdapterFactory.Descriptor.Registry item provider adapter factory registry}.
+   * The singleton instance of an {@link org.eclipse.emf.edit.provider.ComposedAdapterFactory.Descriptor.Registry item provider adapter factory registry}.
    */
   private static ComposedAdapterFactory.Descriptor.Registry.Impl composedAdapterFactoryDescriptorRegistry;
 
   /**
-   * Returns a populated instance of an {@link ComposedAdapterFactory.Descriptor.Registry item provider adapter factory registry}.
+   * Returns a populated instance of an {@link org.eclipse.emf.edit.provider.ComposedAdapterFactory.Descriptor.Registry item provider adapter factory registry}.
    * @return a populated instance of an item provider adapter factory registry.
    */
   public static ComposedAdapterFactory.Descriptor.Registry getComposedAdapterFactoryDescriptorRegistry()
@@ -187,12 +187,12 @@ public final class EMFEditPlugin extends EMFPlugin
   }
 
   /**
-   * The singleton instance of a {@link IChildCreationExtender.Descriptor.Registry child creation extender registry}.
+   * The singleton instance of a {@link org.eclipse.emf.edit.provider.IChildCreationExtender.Descriptor.Registry child creation extender registry}.
    */
   private static IChildCreationExtender.Descriptor.Registry.Impl childCreationExtenderDescriptorRegistry;
 
   /**
-   * Returns a populated instance of a {@link IChildCreationExtender.Descriptor.Registry child creation extender registry}.
+   * Returns a populated instance of a {@link org.eclipse.emf.edit.provider.IChildCreationExtender.Descriptor.Registry child creation extender registry}.
    * @return a populated instance of child creation extender registry.
    */
   public static IChildCreationExtender.Descriptor.Registry getChildCreationExtenderDescriptorRegistry()

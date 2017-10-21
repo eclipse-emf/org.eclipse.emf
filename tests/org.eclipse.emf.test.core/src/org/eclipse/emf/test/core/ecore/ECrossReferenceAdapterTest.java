@@ -124,7 +124,7 @@ public class ECrossReferenceAdapterTest
 
   /**
    * Tests the wrapped intrinsic cross-reference iterator for a resolving cross-referencer. This also tests that
-   * its implementation of {@link EContentsEList.FeatureIterator#feature()} is consistent.
+   * its implementation of {@link org.eclipse.emf.ecore.util.EContentsEList.FeatureIterator#feature()} is consistent.
    */
   @Test
   public void testCrossReferenceIterator_resolving_wrapper()
@@ -161,7 +161,7 @@ public class ECrossReferenceAdapterTest
 
   /**
    * Tests the wrapped intrinsic cross-reference iterator for a non-resolving cross-referencer. This also tests that
-   * its implementation of {@link EContentsEList.FeatureIterator#feature()} is consistent.
+   * its implementation of {@link org.eclipse.emf.ecore.util.EContentsEList.FeatureIterator#feature()} is consistent.
    */
   @Test
   public void testCrossReferenceIterator_nonResolving_wrapper()
@@ -224,7 +224,7 @@ public class ECrossReferenceAdapterTest
   /**
    * Memory leak scenario:  ETypedElements referencing types via eGenericType
    *
-   * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=433027
+   * @see <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=433027">https://bugs.eclipse.org/bugs/show_bug.cgi?id=433027</a>
    */
   @Test
   public void testGenericTypeTypeReferencesDoNotLeak()

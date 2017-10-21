@@ -511,7 +511,7 @@ public abstract class FacadeHelper
 
   /**
    * Specify the required Java {@link JavaCore#COMPILER_COMPLIANCE compiler compliance} level.
-   * @param complierCompliance the required Java compiler compliance level.
+   * @param compilerCompliance the required Java compiler compliance level.
    * @since 2.8
    */
   public void setCompilerCompliance(String compilerCompliance) 

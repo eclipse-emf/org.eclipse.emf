@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * A {@link DelegatingNotifyingInternalEListImpl delegating notifying internal EList}
- * that implements {@link InternalEList.Unsettable} and {@link EStructuralFeature.Setting}.
+ * that implements {@link InternalEList.Unsettable} and {@link org.eclipse.emf.ecore.EStructuralFeature.Setting}.
  * At least one of {@link #getEStructuralFeature()} or {@link #getFeatureID()} must be specialized
  * since each delegates to the other and without specialization this will lead to stack overflow.
  */

@@ -376,7 +376,6 @@ public class ImportManager
    * In fact, a parameterized type expression is also allowed, in which case the expression will be parsed to obtain the
    * individual imported names within it. Then the full expression, with the appropriate substitutions, is returned.
    * @param qualifiedName the qualified name or parameterized type expression.
-   * @param autoImport whether to try to automatically import types as needed.
    * @return the equivalent type or type expression, using short names wherever possible.
    */
   public String getImportedName(String qualifiedName)

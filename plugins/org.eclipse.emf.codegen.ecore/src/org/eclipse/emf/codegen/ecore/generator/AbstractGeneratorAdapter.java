@@ -1863,7 +1863,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   }
 
   /**
-   * Whether {@link #generateJava(String, String, String, JETEmitter, Object[], Monitor) generateJava) or
+   * Whether {@link #generateJava(String, String, String, JETEmitter, Object[], Monitor) generateJava} or
    * {@link #generateProperties(String, JETEmitter, Object[], Monitor) generateProperties}
    * should merge the newly generated contents with the existing contents 
    * or should simply overwrite the old contents.

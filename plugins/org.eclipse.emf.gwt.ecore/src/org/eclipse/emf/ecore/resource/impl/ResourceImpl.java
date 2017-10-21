@@ -75,8 +75,6 @@ import com.google.gwt.core.shared.GWT;
  *   <li><b>ZIP</b></li>
  *   <ul>
  *     <li>{@link #useZip}</li>
- *     <li>{@link #newContentZipEntry}</li>
- *     <li>{@link #isContentZipEntry(ZipEntry)}</li>
  *   </ul>
  *   <li><b>URI Conversion</b></li>
  *   <ul>
@@ -626,8 +624,6 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * {@link #save(OutputStream, Map)} and {@link #load(InputStream, Map)}
    * will zip compress and decompress contents.
    * @return whether contents will be compressed.
-   * @see #newContentZipEntry
-   * @see #isContentZipEntry(ZipEntry)
    */
   protected boolean useZip()
   {

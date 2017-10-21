@@ -270,7 +270,6 @@ public abstract class AbstractEList<E> extends AbstractList<E> implements EList<
    * Sets the object at the index
    * and returns the old object at the index;
    * it does no ranging checking or uniqueness checking.
-   * This implementation delegates to {@link #assign assign}, {@link #didSet didSet}, and {@link #didChange didChange}.
    * @param index the position in question.
    * @param object the object to set.
    * @return the old object at the index.
@@ -283,8 +282,6 @@ public abstract class AbstractEList<E> extends AbstractList<E> implements EList<
    * and returns whether the object was added;
    * if {@link #isUnique uniqueness} is required,
    * duplicates will be ignored and <code>false</code> will be returned.
-   * This implementation delegates to {@link #addUnique(Object) addUnique(E)}
-   * after uniqueness checking.
    * @param object the object to be added.
    * @return whether the object was added.
    * @see #addUnique(Object)
@@ -306,8 +303,6 @@ public abstract class AbstractEList<E> extends AbstractList<E> implements EList<
   /**
    * Adds the object at the end of the list;
    * it does no uniqueness checking.
-   * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
-   * after uniqueness checking.
    * @param object the object to be added.
    * @see #add(Object)
    */
@@ -342,7 +337,6 @@ public abstract class AbstractEList<E> extends AbstractList<E> implements EList<
   /**
    * Adds the object at the given index in the list;
    * it does no ranging checking or uniqueness checking.
-   * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
    * @param object the object to be added.
    * @see #add(int, Object)
    */
@@ -371,7 +365,6 @@ public abstract class AbstractEList<E> extends AbstractList<E> implements EList<
   /**
    * Adds each object of the collection to the end of the list;
    * it does no uniqueness checking.
-   * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
    * @param collection the collection of objects to be added.
    * @see #addAll(Collection)
    */
@@ -408,7 +401,6 @@ public abstract class AbstractEList<E> extends AbstractList<E> implements EList<
    * Adds each object of the collection at each successive index in the list
    * and returns whether any objects were added;
    * it does no ranging checking or uniqueness checking.
-   * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
    * @param index the index at which to add.
    * @param collection the collection of objects to be added.
    * @return whether any objects were added.
@@ -420,7 +412,6 @@ public abstract class AbstractEList<E> extends AbstractList<E> implements EList<
    * Adds each object from start to end of the array at the index of list
    * and returns whether any objects were added;
    * it does no ranging checking or uniqueness checking.
-   * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
    * @param objects the objects to be added.
    * @param start the index of first object to be added.
    * @param end the index past the last object to be added.
@@ -433,7 +424,6 @@ public abstract class AbstractEList<E> extends AbstractList<E> implements EList<
    * Adds each object from start to end of the array at each successive index in the list
    * and returns whether any objects were added;
    * it does no ranging checking or uniqueness checking.
-   * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
    * @param index the index at which to add.
    * @param objects the objects to be added.
    * @param start the index of first object to be added.
@@ -536,7 +526,6 @@ public abstract class AbstractEList<E> extends AbstractList<E> implements EList<
   /**
    * Moves the object at the source index of the list to the target index of the list
    * and returns the moved object.
-   * This implementation delegates to {@link #assign assign}, {@link #didMove didMove}, and {@link #didChange didChange}.
    * @param targetIndex the new position for the object in the list.
    * @param sourceIndex the old position of the object in the list.
    * @return the moved object.

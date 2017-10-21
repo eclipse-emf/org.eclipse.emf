@@ -108,9 +108,6 @@ public interface ContentHandler
    * The value will be one of {@link Validity#INVALID}, {@link Validity#INDETERMINATE}, or {@link Validity#VALID}.
    * This property will always be present in a {@link #contentDescription(URI, InputStream, Map, Map) content description}.
    * @see Validity
-   * @see IContentDescriber#INVALID
-   * @see IContentDescriber#INDETERMINATE
-   * @see IContentDescriber#VALID
    */
   String VALIDITY_PROPERTY = "org.eclipse.emf.ecore:validity";
 
@@ -118,22 +115,16 @@ public interface ContentHandler
    * A value specifying the validity of a {@link ContentHandler#contentDescription(URI, InputStream, Map, Map) content description}.
    * The {@link ContentHandler#VALIDITY_PROPERTY validity property} will have a value of this type,
    * i.., either {@link Validity#INVALID}, {@link Validity#INDETERMINATE}, or {@link Validity#VALID}.
-   * @see IContentDescriber#INVALID
-   * @see IContentDescriber#INDETERMINATE
-   * @see IContentDescriber#VALID
    */
   enum Validity
   {
     /**
-     * @see IContentDescriber#INVALID
      */
     INVALID,
     /**
-     * @see IContentDescriber#INDETERMINATE
      */
     INDETERMINATE,
     /**
-     * @see IContentDescriber#VALID
      */
     VALID
   }
@@ -143,7 +134,6 @@ public interface ContentHandler
    *  The value will be an arbitrary string.
    *  The content type is often used to {@link Resource.Factory.Registry#getContentTypeToFactoryMap() determine} an appropriate resource factory
    *  for processing the contents of a URI.
-   *  @see IContentType#getId()
    *  @see Resource.Factory.Registry#getContentTypeToFactoryMap()
    *  @see Resource.Factory.Registry#getFactory(URI, String)
    */
@@ -159,14 +149,12 @@ public interface ContentHandler
   /**
    * A {@link #contentDescription(URI, InputStream, Map, Map) content description} property describing the character set encoding used by the bytes of the content.
    * The value will be a string denoting a character set.
-   * @see IContentDescription#CHARSET
    */
   String CHARSET_PROPERTY = "org.eclipse.core.runtime:charset";
 
   /**
    * A {@link #contentDescription(URI, InputStream, Map, Map) content description} property describing the byte order mark at the beginning of the contents.
    * The value will be of type {@link ByteOrderMark}.
-   * @see IContentDescription#BYTE_ORDER_MARK
    */
   String BYTE_ORDER_MARK_PROPERTY = "org.eclipse.core.runtime:bom";
 
@@ -174,16 +162,11 @@ public interface ContentHandler
    * A value specifying the byte order mark of a {@link ContentHandler#contentDescription(URI, InputStream, Map, Map) content description}.
    * The {@link ContentHandler#BYTE_ORDER_MARK_PROPERTY byte order mark property} will have a value of this type,
    * i.., either {@link #UTF_8}, {@link #UTF_16BE}, or {@link #UTF_16LE}.
-   * @see IContentDescription#BYTE_ORDER_MARK
-   * @see IContentDescription#BOM_UTF_8
-   * @see IContentDescription#BOM_UTF_16BE
-   * @see IContentDescription#BOM_UTF_16LE
    */
   enum ByteOrderMark
   {
     /**
      * A byte order mark indicating a UTF-8 encoding.
-     * @see IContentDescription#BOM_UTF_8
      */
     UTF_8
       {
@@ -195,7 +178,6 @@ public interface ContentHandler
       },
     /**
      * A byte order mark indicating a UTF-16 big endian encoding.
-     * @see IContentDescription#BOM_UTF_16BE
      */
     UTF_16BE
       {
@@ -207,7 +189,6 @@ public interface ContentHandler
       },
     /**
      * A byte order mark indicating a UTF-16 little endian encoding.
-     * @see IContentDescription#BOM_UTF_16LE
      */
     UTF_16LE
       {
@@ -246,11 +227,6 @@ public interface ContentHandler
 
     /**
      * Returns the bytes associated with this byte order mark.
-     * This value will be identical to the corresponding constant for {@link IContentDescription#BYTE_ORDER_MARK}.
-     * @see IContentDescription#BYTE_ORDER_MARK
-     * @see IContentDescription#BOM_UTF_8
-     * @see IContentDescription#BOM_UTF_16BE
-     * @see IContentDescription#BOM_UTF_16LE
      * @return the bytes associated with this byte order mark.
      */
     public abstract byte [] bytes();

@@ -442,7 +442,7 @@ public interface InternalEObject extends EObject
 
   /**
    * Does the equivalent of <code>eObject.eInvoke(eObject.eClass().getEOperation(featureID), arguments)</code>.
-   * @see #eInvoke(EOperation, EList<?>)
+   * @see #eInvoke(EOperation, EList)
    * @since 2.6
    */
   Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException;

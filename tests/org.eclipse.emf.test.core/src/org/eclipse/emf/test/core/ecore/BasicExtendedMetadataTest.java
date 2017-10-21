@@ -46,7 +46,7 @@ public class BasicExtendedMetadataTest
    * resource set's local package registry, are not leaked in the extended
    * metadata of statically registered (generated) EPackages.
    *
-   * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=433108
+   * @see <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=433108">https://bugs.eclipse.org/bugs/show_bug.cgi?id=433108</a>
    */
   @Test
   public void testDynamicEPackageLeak()

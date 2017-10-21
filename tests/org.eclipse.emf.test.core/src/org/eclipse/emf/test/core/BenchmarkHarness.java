@@ -127,7 +127,7 @@ public class BenchmarkHarness
   }
 
   /**
-   * The {@link #accumulateResults() accumulated result} of the {@link #results} at the end of the call to {@link #measure(Benchmark)}.
+   * The accumulated result of the at the end of the call to {@link #measure(Benchmark)}.
    */
   protected int accumulatedResult;
 
@@ -138,7 +138,7 @@ public class BenchmarkHarness
 
   /**
    * Creates an instance.
-   * @see #run(Benchmark...)}.
+   * @see #run(int, Benchmark...)
    */
   public BenchmarkHarness()
   {
@@ -147,7 +147,7 @@ public class BenchmarkHarness
 
   /**
    * Creates an instance.
-   * @see #run(Benchmark...)}.
+   * @see #run(int, Benchmark...)
    */
   public BenchmarkHarness(int interval)
   {

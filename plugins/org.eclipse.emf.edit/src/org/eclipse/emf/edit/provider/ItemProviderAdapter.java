@@ -739,7 +739,7 @@ public class ItemProviderAdapter
 
   /**
    * This implements {@link IItemStyledLabelProvider#getStyledText IItemStyledLabelProvider.getStyledText} by simply creating
-   * an {@link IStyledString IStyledString} from the value returned {@link #getText getText}.
+   * an {@link StyledString} from the value returned {@link #getText getText}.
    * 
    * @since 2.10
    */

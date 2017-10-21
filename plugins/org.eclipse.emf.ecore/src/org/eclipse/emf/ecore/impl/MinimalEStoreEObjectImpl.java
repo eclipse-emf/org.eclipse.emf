@@ -210,7 +210,7 @@ public abstract class MinimalEStoreEObjectImpl extends MinimalEObjectImpl
   }
 
   /**
-   * Returns the container as {@link InternalEObject.EStore#getContainer(InternalEObject) provided} by the store.
+   * Returns the container as {@link org.eclipse.emf.ecore.InternalEObject.EStore#getContainer(InternalEObject) provided} by the store.
    */
   @Override
   public InternalEObject eInternalContainer()
@@ -227,7 +227,7 @@ public abstract class MinimalEStoreEObjectImpl extends MinimalEObjectImpl
   }
 
   /**
-   * Returns the container feature ID as computed from the container feature {@link InternalEObject.EStore#getContainingFeature(InternalEObject) provided} by the store.
+   * Returns the container feature ID as computed from the container feature {@link org.eclipse.emf.ecore.InternalEObject.EStore#getContainingFeature(InternalEObject) provided} by the store.
    */
   @Override
   public int eContainerFeatureID()

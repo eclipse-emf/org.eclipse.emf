@@ -1992,11 +1992,11 @@ public class EcoreUtil
   }
 
   /**
-   * An iterator over {@link EStructuralFeature.Setting settings} that filters out the ones that aren't of interest.
+   * An iterator over {@link org.eclipse.emf.ecore.EStructuralFeature.Setting settings} that filters out the ones that aren't of interest.
    * If an {@link EReference} is specified, 
-   * the iterator will only yield settings with that as their {@link EStructuralFeature.Setting#getEStructuralFeature() feature}.
+   * the iterator will only yield settings with that as their {@link org.eclipse.emf.ecore.EStructuralFeature.Setting#getEStructuralFeature() feature}.
    * If an {@link EClass} is specified, 
-   * the iterator will only yield settings with an {@link EStructuralFeature.Setting#getEObject() object} of that type.
+   * the iterator will only yield settings with an {@link org.eclipse.emf.ecore.EStructuralFeature.Setting#getEObject() object} of that type.
    * Use {@link EcoreUtil.FilteredSettingsIterator} to yield just the settings themselves,
    * or to affect the yielded values, extend this class and implement {@link #yield}.
    * @since 2.5
@@ -2121,11 +2121,11 @@ public class EcoreUtil
   }
 
   /**
-   * An iterator over {@link EStructuralFeature.Setting settings} that filters out the ones that aren't of interest.
+   * An iterator over {@link org.eclipse.emf.ecore.EStructuralFeature.Setting settings} that filters out the ones that aren't of interest.
    * If an {@link EReference} is specified, 
-   * the iterator will only yield settings with that as their {@link EStructuralFeature.Setting#getEStructuralFeature() feature}.
+   * the iterator will only yield settings with that as their {@link org.eclipse.emf.ecore.EStructuralFeature.Setting#getEStructuralFeature() feature}.
    * If an {@link EClass} is specified, 
-   * the iterator will only yield settings with an {@link EStructuralFeature.Setting#getEObject() object} of that type.
+   * the iterator will only yield settings with an {@link org.eclipse.emf.ecore.EStructuralFeature.Setting#getEObject() object} of that type.
    */
   public static class FilteredSettingsIterator extends AbstractFilteredSettingsIterator<EStructuralFeature.Setting>
   {

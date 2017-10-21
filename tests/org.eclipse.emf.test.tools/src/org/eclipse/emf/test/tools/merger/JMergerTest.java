@@ -48,9 +48,6 @@ import org.junit.Test;
 /**
  * Base class for all JMerger tests.
  * <p>
- * For special test cases, default data directory is determined by {@link #getDefaultDataDirectory()}.
- * For tests created by <code>JMergerTestSuite</code>, see {@link JMergerTestSuite}.
- * <p>
  * Merge source and target files are respectively <code>MergerSource.java</code> and <code>MergerTarget.java</code> in data directory.
  * <p>
  * Expected output file is either test specific output file (determined by {@link #getTestSpecificExpectedOutput()} or
@@ -381,7 +378,6 @@ public abstract class JMergerTest
    * <p>
    * If <code>merge.xml</code> is not available in data directory, default EMF merge rules are used.
    *
-   * @see #getDataDirectory()
    * @see #computeExpectedOutputFile()
    * @see #getEMFMergeRulesURI()
    */
@@ -468,7 +464,6 @@ public abstract class JMergerTest
    * Directories used as input must be accepted by {@link JMergerDataDirectoryFilter}.
    * @param prefix
    * @param rootDirectory root directory to create test suite for
-   * @return resulting test suite
    */
   private static void createTestSuiteRecursively(String prefix, Collection<Object[]> result, File rootDirectory, String subDirectory)
   {

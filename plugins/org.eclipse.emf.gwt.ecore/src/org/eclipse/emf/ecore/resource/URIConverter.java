@@ -159,8 +159,6 @@ public interface URIConverter
    * The global static URI map.
    * Registrations made in this instance will (typically) be available
    * for {@link URIConverter#normalize use} by any URI converter.
-   * It is populated by URI mappings registered via
-   * {@link org.eclipse.emf.ecore.plugin.EcorePlugin.Implementation#startup() plugin registration}.
    * @see #normalize(URI)
    */
   Map<URI, URI> URI_MAP = org.eclipse.emf.ecore.resource.impl.URIMappingRegistryImpl.INSTANCE.map();

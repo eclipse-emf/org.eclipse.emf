@@ -350,7 +350,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
   }
 
   /**
-   * Rehashes the existing {@#entries} into the new entries.
+   * Rehashes the existing {@link #entries} into the new entries.
    */
   final void rehash(Entry<E> [] newEntries)
   {

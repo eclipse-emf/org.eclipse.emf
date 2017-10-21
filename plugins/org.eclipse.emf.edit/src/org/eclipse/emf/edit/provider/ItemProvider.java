@@ -1070,7 +1070,7 @@ public class ItemProvider
   }
 
   /**
-   * This delegates to {@link #getStyledText(Object, Object) getStyledText(this, styledText)}.
+   * This delegates to {@link #setStyledText(Object, Object) setStyledText(this, styledText)}.
    * @since 2.10
    */
   public void setStyledText(Object styledText)

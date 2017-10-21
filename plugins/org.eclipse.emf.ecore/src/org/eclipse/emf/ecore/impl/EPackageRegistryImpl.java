@@ -34,7 +34,7 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
   private static final long serialVersionUID = 1L;
 
   /**
-   * Creates the {@link EPackage.Registry#INSTANCE instance} of the global registry.
+   * Creates the {@link org.eclipse.emf.ecore.EPackage.Registry#INSTANCE instance} of the global registry.
    * If a {@link System#getSecurityManager() security manager} is active,
    * and <code>"classLoader"</code> {@link RuntimePermission permission} is not granted,
    * a secure delegator instance is created,

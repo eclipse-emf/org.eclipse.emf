@@ -53,8 +53,8 @@ public class XcoreCollectionLiterals
   /**
    * Creates a mutable {@link BasicEList} containing the given elements.
    *
-   * @param initial the initial elements that the list should contain, in order. May not be <code>null</code>.
-   * @return a new {@link Basic} containing the given elements
+   * @param elements the initial elements that the list should contain, in order. May not be <code>null</code>.
+   * @return a new {@link BasicEList} containing the given elements
    */
   @Pure
   public static <T> BasicEList<T> newBasicEList(T... elements)

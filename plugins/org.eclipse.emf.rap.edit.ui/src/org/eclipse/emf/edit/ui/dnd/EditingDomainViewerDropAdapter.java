@@ -412,9 +412,7 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
   }
 
   /**
-   * This extracts an object from the given item widget, providing the special
-   * support required by an 
-   * {@link org.eclipse.emf.common.ui.viewer.ExtendedTableTreeViewer.ExtendedTableTreeItem}.
+   * This extracts an object from the given item widget.
    */
   protected Object extractDropTarget(Widget item)
   {

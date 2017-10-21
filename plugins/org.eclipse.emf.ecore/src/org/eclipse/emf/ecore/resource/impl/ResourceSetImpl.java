@@ -1108,7 +1108,7 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
 
     /**
      * {@link #cachedURIConverter Caches} the URI converter,
-     * checking that it's the same as the {@link ResourceLocator#resourceSet's} current {@link ResourceSet#getURIConverter() URI converter}
+     * checking that it's the same as the {@link #resourceSet resource set's} current {@link ResourceSet#getURIConverter() URI converter}
      * and that the {@link #modificationCount() modification count} of the {@link URIConverter#getURIMap() URI map}
      * is the same as the {@link #expectedModificationCount expected modification count},
      * {@link #buildMaps() building} normalization and resource maps, if necessary.

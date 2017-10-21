@@ -69,7 +69,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * The implementation also only handles an {@link IStructuredSelection},
  * but the method {@link #extractDragSource} can be overridden to change the behaviour.
  * In EMF 2.9, this class was enhanced to also handle {@link LocalSelectionTransfer} and {@link FileTransfer}.
- * For the latter, the file names are converted to a list of {@link URIs} by {@link #extractDragSource}.
+ * For the latter, the file names are converted to a list of {@link URI}s by {@link #extractDragSource}.
  * <p>
  * SWT's {@link DND#FEEDBACK_SCROLL auto-scroll} and {@link DND#FEEDBACK_EXPAND auto-expand}
  * (hover) are enabled by default.  The method {@link #getAutoFeedback} can be overridden

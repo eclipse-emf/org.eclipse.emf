@@ -79,7 +79,7 @@ public class XRefsModelUtil
 
   /**
    * Sets whether {@link EObject#eCrossReferences()} iterators will be wrapped so that they do not implement the
-   * {@link EContentsEList.Filterable} interface.
+   * {@link org.eclipse.emf.ecore.util.EContentsEList.Filterable} interface.
    */
   public static void setWrapCrossReferenceIterators(boolean wrap)
   {
@@ -99,7 +99,7 @@ public class XRefsModelUtil
 
   /**
    * Obtains a list for {@link EObject#eCrossReferences()} which may provide iterators that do not implement
-   * the {@link EContentsEList.Filterable} interface.
+   * the {@link org.eclipse.emf.ecore.util.EContentsEList.Filterable} interface.
    *
    * @see #setWrapCrossReferenceIterators(boolean)
    */

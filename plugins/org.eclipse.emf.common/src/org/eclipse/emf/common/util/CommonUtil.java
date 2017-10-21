@@ -666,7 +666,7 @@ public final class CommonUtil
       }
 
       /**
-       * Sets the {@link #characters}, {@link #offset}, {@link #count}, and {@link #hashCode()} of the value being {@link StringPool#intern(char[], int, int, int) accessed}.
+       * Sets the {@link #string}, {@link #offset}, {@link #count}, and {@link #hashCode()} of the value being {@link StringPool#intern(char[], int, int, int) accessed}.
        */
       public void setValue(String string, int offset, int count, int hashCode)
       {
@@ -677,7 +677,7 @@ public final class CommonUtil
       }
 
       /**
-       * Sets the {@link #characters}, {@link #offset}, and {@link #count} and computes the {@link #hashCode()} of the value being {@link StringPool#intern(char[], int, int) accessed}.
+       * Sets the {@link #string}, {@link #offset}, and {@link #count} and computes the {@link #hashCode()} of the value being {@link StringPool#intern(char[], int, int) accessed}.
        */
       public void setValue(String string, int offset, int count)
       {

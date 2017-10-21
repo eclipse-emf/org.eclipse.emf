@@ -124,8 +124,7 @@ public class ResourceDialog extends Dialog
   /**
    * Creates and returns the contents of the upper part of this dialog.
    * This implementation creates a labeled text field for the URI(s) and buttons for browsing the
-   * file system and workspace. These buttons are configured (selection listeners are added) by calling
-   * {@link #prepareBrowseFileSystemButton} and {@link #prepareBrowseWorkspaceButton}, respectively.
+   * file system and workspace. 
    */
   @Override
   protected Control createDialogArea(Composite parent) 

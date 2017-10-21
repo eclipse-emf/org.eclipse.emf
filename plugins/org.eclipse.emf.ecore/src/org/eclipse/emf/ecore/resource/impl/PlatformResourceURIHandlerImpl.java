@@ -410,7 +410,7 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
     }
 
     /**
-     * Returns the {@link IFile#getCharset() character set) for the file at the specified location.
+     * Returns the {@link IFile#getCharset() character set} for the file at the specified location.
      * @since 2.9
      */
     public static String getCharset(String platformResourcePath, Map<?, ?> options) throws IOException

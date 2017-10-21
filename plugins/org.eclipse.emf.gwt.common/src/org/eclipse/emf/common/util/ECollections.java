@@ -1349,8 +1349,8 @@ public class ECollections
   }
 
   /**
-   * Creates an empty mutable {@link BasicEList>}.
-   * @return an empty mutable {@link BasicEList>}.
+   * Creates an empty mutable {@link BasicEList}.
+   * @return an empty mutable {@link BasicEList}.
    * @since 2.9
    */
   public static <T> BasicEList<T> newBasicEList()
@@ -1359,8 +1359,8 @@ public class ECollections
   }
 
   /**
-   * Creates an empty mutable {@link BasicEList>} with the given capacity.
-   * @return an empty mutable {@link BasicEList>}.
+   * Creates an empty mutable {@link BasicEList} with the given capacity.
+   * @return an empty mutable {@link BasicEList}.
    * @since 2.9
    */
   public static <T> BasicEList<T> newBasicEListWithCapacity(int capacity)
@@ -1369,9 +1369,9 @@ public class ECollections
   }
 
   /**
-   * Creates an empty mutable {@link BasicEList>} with a capacity large enough to hold a bit more than the estimated number of elements.
+   * Creates an empty mutable {@link BasicEList} with a capacity large enough to hold a bit more than the estimated number of elements.
    * If you know the exact size, use {@link #newBasicEListWithCapacity(int)} instead.
-   * @return an empty mutable {@link BasicEList>}.
+   * @return an empty mutable {@link BasicEList}.
    * @since 2.9
    */
   public static <T> BasicEList<T> newBasicEListWithExpectedSize(int estimatedSize)
@@ -1382,8 +1382,8 @@ public class ECollections
   }
 
   /**
-   * Creates a mutable {@link BasicEList>} containing the given elements.
-   * @return a mutable {@link BasicEList>} containing the given elements.
+   * Creates a mutable {@link BasicEList} containing the given elements.
+   * @return a mutable {@link BasicEList} containing the given elements.
    * @since 2.9
    */
   public static <T> BasicEList<T> newBasicEList(T... elements)
@@ -1397,8 +1397,8 @@ public class ECollections
   }
 
   /**
-   * Creates a mutable {@link BasicEList>} containing the given elements.
-   * @return a mutable {@link BasicEList>} containing the given elements.
+   * Creates a mutable {@link BasicEList} containing the given elements.
+   * @return a mutable {@link BasicEList} containing the given elements.
    * @since 2.9
    */
   public static <T> BasicEList<T> newBasicEList(Iterator<? extends T> iterator)
@@ -1412,8 +1412,8 @@ public class ECollections
   }
 
   /**
-   * Creates a mutable {@link BasicEList>} containing the given elements.
-   * @return a mutable {@link BasicEList>} containing the given elements.
+   * Creates a mutable {@link BasicEList} containing the given elements.
+   * @return a mutable {@link BasicEList} containing the given elements.
    * @since 2.9
    */
   public static <T> BasicEList<T> newBasicEList(Iterable<? extends T> iterable)

@@ -1834,7 +1834,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
 
   /**
    * This interface is provided to support single sourcing GWT runtime and regular runtime applications.
-   * Generated WhiteList classes in generated packages will implement this and this extends the {@link URIService.WhiteList white list used in URI service}.
+   * Generated WhiteList classes in generated packages will implement this and this extends the {@link org.eclipse.emf.ecore.resource.URIService.WhiteList white list used in URI service}.
    * This avoids having generated classes depend on classes not available in the regular runtime.
    * @since 2.7
    */

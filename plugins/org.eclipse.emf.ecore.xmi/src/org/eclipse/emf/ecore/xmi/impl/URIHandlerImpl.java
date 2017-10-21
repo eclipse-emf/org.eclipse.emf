@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 
 
 /**
- * This is the basic implementation of the {@link XMLResource.URIHandler URIHandler} interface. 
+ * This is the basic implementation of the {@link org.eclipse.emf.ecore.xmi.XMLResource.URIHandler URIHandler} interface. 
  * Implementations should extend this class to implement a specialized URI handler.
  */
 public class URIHandlerImpl implements XMLResource.URIHandler

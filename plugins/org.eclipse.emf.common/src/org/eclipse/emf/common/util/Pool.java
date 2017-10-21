@@ -135,7 +135,7 @@ public class Pool<E> extends WeakInterningHashSet<E>
     protected final Queue<E> queue;
 
     /**
-     * Access units are chained in {@link Pool#accessUnits} via this link.
+     * Access units are chained via this link.
      */
     protected AccessUnit<E> next;
 
@@ -298,7 +298,7 @@ public class Pool<E> extends WeakInterningHashSet<E>
 
     /**
      * Prepare the access unit for reuse.
-     * In particular remove the hard references to each element in both the {@link #getValues()} and {@link #getEntries()}
+     * In particular remove the hard references to each element in both the {@link #values} and {@link #entries}
      * and then reset the {@link #valuesLength} to 0
      */
     public void reset(boolean isExclusive)
@@ -394,7 +394,7 @@ public class Pool<E> extends WeakInterningHashSet<E>
   protected int accessCount;
 
   /**
-   * The number of {@link #access(AccessUnit, int) access} between each attempt to {@link #cleanup() clean up} garbage collected entries.
+   * The number of {@link #access(boolean, AccessUnit) accesses} between each attempt to {@link #cleanup() clean up} garbage collected entries.
    * Garbage collecting entries requires the exclusive {@link #getWriteLock()} to be held, so it's best to do this infrequently.
    */
   protected int cleanupPeriod = 1000;
@@ -663,7 +663,7 @@ public class Pool<E> extends WeakInterningHashSet<E>
 
   /**
    * Gets the first entry with the matching hash code.
-   * Use {@link Entry#getNextEntry()} to navigate to the next entry with the same hash code.
+   * Use {@link org.eclipse.emf.common.util.WeakInterningHashSet.Entry#getNextEntry()} to navigate to the next entry with the same hash code.
    * This method does no locking so it may fail to find matches if the pool is rehashing or another thread is adding the entry.
    */
   @Override
@@ -728,8 +728,8 @@ public class Pool<E> extends WeakInterningHashSet<E>
   /**
    * Adds an entry to the pool,
    * but first checks if the entry has been added by another thread
-   * since the time when the pool was {@link #access(AccessUnit, int) accessed} while without holding any locks.
-   * The access unit is used to {@link AccessUnit#isEntryCreated record} whether an entry was really added.
+   * since the time when the pool was {@link #access(boolean, AccessUnit) accessed} without holding any locks.
+   * The access unit is used to {@link AccessUnit#rematches(Object, Entry) determine} whether an entry was already added.
    * This returns either the value added, or the value that was already added by another thread.
    * The <code>isExlusive</code> argument controls whether the write lock needs to be acquired (<code>false</code>) or is already acquired (<code>true</code>).
    */
@@ -910,7 +910,7 @@ public class Pool<E> extends WeakInterningHashSet<E>
 
   /**
    * Returns the interned version of the value accessed by this access unit
-   * and {@link #setAccessUnit(AccessUnit) frees} the access unit for reuse.
+   * and {@link AccessUnit#reset(boolean) frees} the access unit for reuse.
    */
   protected E doIntern(boolean isExclusive, AccessUnit<E> accessUnit)
   {

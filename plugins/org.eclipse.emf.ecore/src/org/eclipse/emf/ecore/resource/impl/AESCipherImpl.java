@@ -31,7 +31,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.eclipse.emf.ecore.resource.URIConverter;
 
 /**
- * <p>EMF implementation for the {@link URIConverter.Cipher} interface using 
+ * <p>EMF implementation for the {@link org.eclipse.emf.ecore.resource.URIConverter.Cipher} interface using 
  * the AES encryption algorithm.</p>  
  * <p>This shows how this class can be used:</p>
  * <pre>

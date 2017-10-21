@@ -202,7 +202,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
   private static final int ADAPTER = 1 << 2;
 
   /**
-   * The {@link #eFlags bit flag} for indicating that a dynamic {@link BasicNotifierImpl.EObservableAdapterList.Listener adapter list listener} field is allocated.
+   * The {@link #eFlags bit flag} for indicating that a dynamic {@link org.eclipse.emf.common.notify.impl.BasicNotifierImpl.EObservableAdapterList.Listener adapter list listener} field is allocated.
    */
   private static final int ADAPTER_LISTENER = 1 << 3;
 

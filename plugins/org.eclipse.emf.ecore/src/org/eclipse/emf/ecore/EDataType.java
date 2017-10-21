@@ -160,7 +160,7 @@ public interface EDataType extends EClassifier
 
     /**
      * Sets the specialized delegate for this data type.
-     * @param settingDelegate the specialized delegate.
+     * @param conversionDelegate the specialized delegate.
      */
     void setConversionDelegate(ConversionDelegate conversionDelegate);
   }

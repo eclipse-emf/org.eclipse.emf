@@ -41,11 +41,7 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
   /**
    * Creates an output stream for the platform resource path and returns it.
    * <p>
-   * This implementation does one of two things, depending on the runtime environment.
-   * If there is an Eclipse workspace, it delegates to
-   * {@link WorkbenchHelper#createPlatformResourceOutputStream WorkbenchHelper.createPlatformResourceOutputStream},
-   * which gives the expected Eclipse behaviour.
-   * Otherwise, the {@link EcorePlugin#resolvePlatformResourcePath resolved} URI
+   * The {@link EcorePlugin#resolvePlatformResourcePath resolved} URI
    * is delegated to {@link #createOutputStream createOutputStream}
    * for recursive processing.
    * @return an open output stream.
@@ -68,11 +64,7 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
   /**
    * Creates an input stream for the platform resource path and returns it.
    * <p>
-   * This implementation does one of two things, depending on the runtime environment.
-   * If there is an Eclipse workspace, it delegates to
-   * {@link WorkbenchHelper#createPlatformResourceInputStream WorkbenchHelper.createPlatformResourceInputStream},
-   * which gives the expected Eclipse behaviour.
-   * Otherwise, the {@link EcorePlugin#resolvePlatformResourcePath resolved} URI
+   * The {@link EcorePlugin#resolvePlatformResourcePath resolved} URI
    * is delegated to {@link #createInputStream createInputStream}
    * for recursive processing.
    * @return an open input stream.

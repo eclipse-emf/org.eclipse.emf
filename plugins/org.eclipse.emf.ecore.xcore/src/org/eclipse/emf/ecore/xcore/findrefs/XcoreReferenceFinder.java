@@ -27,7 +27,7 @@ import com.google.common.collect.Sets;
 public class XcoreReferenceFinder extends ReferenceFinder
 {
   /**
-  * @inheritDoc
+  * {@inheritDoc}
   * 
   * Xtext 2.10.x
   */

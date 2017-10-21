@@ -27,11 +27,7 @@ import org.junit.runners.Parameterized.Parameters;
  * Each test method in this class works with same directory as {@link JMergerTest}.
  * <p>
  * This test should contain special test cases that require special code executed for them.
- * Special cases will use directory returned by {@link #getDefaultDataDirectory()}.
  * <p>
- * In addition, this test is ran automatically by {@link JMergerTestSuite} for all input directories.
- *
- * @see #JMergerJDOMTest(TestSuite, File)
  */
 @RunWith(Parameterized.class)
 public class JMergerJDOMTest extends JMergerTest

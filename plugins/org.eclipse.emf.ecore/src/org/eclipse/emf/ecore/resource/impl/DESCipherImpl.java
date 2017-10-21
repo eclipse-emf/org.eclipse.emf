@@ -25,7 +25,7 @@ import javax.crypto.spec.DESKeySpec;
 import org.eclipse.emf.ecore.resource.URIConverter;
 
 /**
- * <p>EMF implementation for the {@link URIConverter.Cipher} interface using 
+ * <p>EMF implementation for the {@link org.eclipse.emf.ecore.resource.URIConverter.Cipher} interface using 
  * the DES encryption algorithm.</p>  
  * <p>This shows how this class can be used:</p>
  * <pre>

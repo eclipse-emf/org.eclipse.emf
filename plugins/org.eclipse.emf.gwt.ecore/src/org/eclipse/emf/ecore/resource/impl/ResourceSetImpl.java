@@ -46,14 +46,14 @@ import org.eclipse.emf.ecore.util.NotifyingInternalEListImpl;
  * <ul>
  *   <li><b>Resolve</b></li>
  *   <ul>
- *     <li>{@link #delegatedGetResource(URI, boolean)}</li>
+ *     <li>{@link #delegatedGetResource(URI, boolean, Callback)}</li>
  *     <li>{@link #getEObject(URI, boolean)}</li>
  *   </ul>
  *   <li><b>Demand</b></li>
  *   <ul>
  *     <li>{@link #demandCreateResource(URI)}</li>
- *     <li>{@link #demandLoad(Resource)}</li>
- *     <li>{@link #demandLoadHelper(Resource)}</li>
+ *     <li>{@link #demandLoad(Resource, Callback)}</li>
+ *     <li>{@link #demandLoadHelper(Resource, Callback)}</li>
  *   </ul>
  * </ul>
  * </p>
@@ -268,14 +268,14 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
 
   /**
    * Loads the given resource.
-   * It is called by {@link #demandLoadHelper(Resource) demandLoadHelper(Resource)}
+   * It is called by {@link #demandLoadHelper(Resource, Callback) demandLoadHelper(Resource)}
    * to perform a demand load.
    * This implementation simply calls <code>resource.</code>{@link Resource#load(Map) load}({@link #getLoadOptions() getLoadOptions}()).
    * Clients may extend this as appropriate.
    * @param resource  a resource that isn't loaded.
    * @exception IOException if there are serious problems loading the resource.
    * @see #getResource(URI, boolean)
-   * @see #demandLoadHelper(Resource)
+   * @see #demandLoadHelper(Resource, Callback)
    */
   protected void demandLoad(Resource resource, Callback<Resource> callback) throws IOException
   {
@@ -283,12 +283,12 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
   }
 
   /**
-   * Demand loads the given resource using {@link #demandLoad(Resource)}
+   * Demand loads the given resource using {@link #demandLoad(Resource, Callback)}
    * and {@link WrappedException wraps} any {@link IOException} as a runtime exception.
    * It is called by {@link #getResource(URI, boolean) getResource(URI, boolean)}
    * to perform a demand load.
    * @param resource a resource that isn't loaded.
-   * @see #demandLoad(Resource)
+   * @see #demandLoad(Resource, Callback)
    */
   protected void demandLoadHelper(Resource resource, Callback<Resource> callback)
   {
@@ -308,7 +308,7 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    * and throwing a wrapping runtime exception.
    * @param resource the resource that threw an exception while loading.
    * @param exception the exception thrown from the resource while loading.
-   * @see #demandLoadHelper(Resource)
+   * @see #demandLoadHelper(Resource, Callback)
    */
   protected void handleDemandLoadException(Resource resource, IOException exception) throws RuntimeException
   {

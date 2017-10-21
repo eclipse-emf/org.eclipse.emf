@@ -48,8 +48,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public class BinaryResourceImpl extends ResourceImpl
 {
   /**
-   * A save option to specify the {@link Version} to be used for the serialization.
-   * @see Version
+   * A save option to specify the {@link BinaryIO.Version} to be used for the serialization.
+   * @see BinaryIO.Version
    * @since 2.7
    */
   public static final String OPTION_VERSION = "VERSION";
@@ -59,7 +59,7 @@ public class BinaryResourceImpl extends ResourceImpl
    * are encoded using {@link Float#floatToIntBits(float)} and {@link Double#doubleToLongBits(double)} respectively,
    * rather than a string representation.
    * The default is false because GWT's client doesn't support this method.
-   * This style option is only supported for serializations with {@link Version#VERSION_1_1 version 1.1} or higher.
+   * This style option is only supported for serializations with {@link BinaryIO.Version#VERSION_1_1 version 1.1} or higher.
    * @see BinaryIO#STYLE_BINARY_FLOATING_POINT
    * @since 2.7
    */
@@ -67,7 +67,7 @@ public class BinaryResourceImpl extends ResourceImpl
 
   /**
    * A Boolean save option to specify whether {@link Date date} values will be serialized using {@link Date#getTime()} rather than a string representation.
-   * This style option is only supported for serializations with {@link Version#VERSION_1_1 version 1.1} or higher.
+   * This style option is only supported for serializations with {@link BinaryIO.Version#VERSION_1_1 version 1.1} or higher.
    * The default is false.
    * @see BinaryIO#STYLE_BINARY_DATE
    * @since 2.7
@@ -76,7 +76,7 @@ public class BinaryResourceImpl extends ResourceImpl
 
   /**
    * A Boolean save option to specify whether serialized proxies will include the serialization of their attribute values.
-   * This style option is only supported for serializations with {@link Version#VERSION_1_1 version 1.1} or higher.
+   * This style option is only supported for serializations with {@link BinaryIO.Version#VERSION_1_1 version 1.1} or higher.
    * The default is false.
    * @see BinaryIO#STYLE_PROXY_ATTRIBUTES
    * @since 2.7
@@ -85,7 +85,7 @@ public class BinaryResourceImpl extends ResourceImpl
 
   /**
    * A Boolean save option to specify whether {@link Enumerator enumerator} values will be serialized using {@link Enumerator#getValue()} rather than a string representation.
-   * This style option is only supported for serializations with {@link Version#VERSION_1_1 version 1.1} or higher.
+   * This style option is only supported for serializations with {@link BinaryIO.Version#VERSION_1_1 version 1.1} or higher.
    * The default is false.
    * @see BinaryIO#STYLE_BINARY_ENUMERATOR
    * @since 2.8
