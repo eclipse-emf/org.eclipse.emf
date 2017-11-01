@@ -1149,7 +1149,7 @@ public abstract class AbstractEList<E> extends AbstractList<E> implements EList<
           {
             if (size > 10)
             {
-              if (set == null || AbstractEList.this.modCount != expectedModCount)
+              if (set == null || modCount != expectedModCount)
               {
                 set = new HashSet<E>(this);
                 expectedModCount = modCount;
