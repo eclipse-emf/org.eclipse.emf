@@ -23,7 +23,7 @@ package <%=genPackage.getProviderPackageName()%>;
 <%genModel.markImportLocation(stringBuffer);%>
 
 /**
- * This is the item provider adapter for a {@link <%=genClass.getQualifiedInterfaceName()%>} object.
+ * This is the item provider adapter for a {@link <%=genClass.getRawQualifiedInterfaceName()%>} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
 <%if (genClass.hasImplicitAPITags()) {%>

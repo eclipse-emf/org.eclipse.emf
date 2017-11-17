@@ -2044,7 +2044,7 @@ public class Class
     for (GenFeature genFeature : genClass.getGenFeatures()) {
     if (!genFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_17);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_18);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_19);
@@ -3074,7 +3074,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
     if (genFeature.isBidirectional() && !genFeature.getReverse().getGenClass().isMapEntry()) { GenFeature reverseGenFeature = genFeature.getReverse(); 
     if (!reverseGenFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_445);
-    stringBuffer.append(reverseGenFeature.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(reverseGenFeature.getGenClass().getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_446);
     stringBuffer.append(reverseGenFeature.getGetAccessor());
     stringBuffer.append(TEXT_447);
@@ -3134,7 +3134,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
     if (genFeature.isBidirectional() && !genFeature.getReverse().getGenClass().isMapEntry()) { GenFeature reverseGenFeature = genFeature.getReverse(); 
     if (!reverseGenFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_470);
-    stringBuffer.append(reverseGenFeature.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(reverseGenFeature.getGenClass().getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_471);
     stringBuffer.append(reverseGenFeature.getGetAccessor());
     }
@@ -3883,7 +3883,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
     if (genFeature.isSet() && (isImplementation || !genFeature.isSuppressedSetVisibility())) {
     if (isInterface) { 
     stringBuffer.append(TEXT_794);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_795);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_796);
@@ -4620,7 +4620,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
     if (genFeature.isUnset() && (isImplementation || !genFeature.isSuppressedUnsetVisibility())) {
     if (isInterface) {
     stringBuffer.append(TEXT_1108);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_1109);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1110);
@@ -5030,7 +5030,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
     if (genFeature.isIsSet() && (isImplementation || !genFeature.isSuppressedIsSetVisibility())) {
     if (isInterface) {
     stringBuffer.append(TEXT_1283);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_1284);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1285);

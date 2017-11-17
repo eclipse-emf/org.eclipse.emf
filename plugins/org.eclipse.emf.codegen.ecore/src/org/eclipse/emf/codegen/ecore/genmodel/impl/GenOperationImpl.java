@@ -1083,13 +1083,30 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   {
     if (isSetBody())
     {
-      return getBodyGen();
+      // For Xcore, the Ecore builder sets an empty string early to indicate that there is a body, 
+      // but the actual compiled body will be set later, modifying the annotation.
+      // So we need to ensure that we consider the annotation's value in this case.
+      String body = getBodyGen();
+      if (body == null || "".equals(body))
+      {
+        EOperation eOperation = getEcoreOperation();
+        EAnnotation eAnnotation = eOperation.getEAnnotation(GenModelPackage.eNS_URI);
+        if (eAnnotation != null)
+        {
+          String annotationBody = eAnnotation.getDetails().get("body");
+          if (annotationBody != null)
+          {
+            body = annotationBody;
+          }
+        }
+      }
+      return body;
     }
     else
     {
       EOperation eOperation = getEcoreOperation();
       EAnnotation eAnnotation = eOperation.getEAnnotation(GenModelPackage.eNS_URI);
-      return eAnnotation == null ? null : (String)eAnnotation.getDetails().get("body");
+      return eAnnotation == null ? null : eAnnotation.getDetails().get("body");
     }
   }
 
@@ -1440,6 +1457,6 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   protected String getLink()
   {
     GenClass genClass = getGenClass();
-    return genClass.getQualifiedInterfaceName() + "#" + getName() + "(" + getParameterTypes(", ") + ")";
+    return genClass.getRawQualifiedInterfaceName() + "#" + getName() + "(" + getParameterTypes(", ") + ")";
   }
 }

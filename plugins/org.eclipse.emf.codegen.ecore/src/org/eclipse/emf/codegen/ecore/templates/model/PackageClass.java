@@ -937,11 +937,11 @@ public class PackageClass
     stringBuffer.append(genClass.getQualifiedClassName());
     } else {
     stringBuffer.append(TEXT_54);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_55);
     stringBuffer.append(genClass.getFormattedName());
     stringBuffer.append(TEXT_56);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     }
     } else if (genClassifier instanceof GenEnum) { GenEnum genEnum = (GenEnum)genClassifier;
     stringBuffer.append(TEXT_57);
@@ -1325,13 +1325,13 @@ public class PackageClass
     stringBuffer.append(TEXT_223);
     if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;
     stringBuffer.append(TEXT_224);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_225);
     stringBuffer.append(genClass.getFormattedName());
     stringBuffer.append(TEXT_226);
     stringBuffer.append(genClass.getFormattedName());
     stringBuffer.append(TEXT_227);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     if (!genModel.isSuppressEMFModelTags() && (genClass.isExternalInterface() || genClass.isDynamic())) { boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genClass.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;
     stringBuffer.append(TEXT_228);
     stringBuffer.append(modelInfo);
@@ -1438,7 +1438,7 @@ public class PackageClass
     stringBuffer.append(TEXT_270);
     stringBuffer.append(genFeature.getFeatureKind());
     stringBuffer.append(TEXT_271);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     if (!genClass.isMapEntry() && !genFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_272);
     stringBuffer.append(genFeature.getGetAccessor());
@@ -1450,7 +1450,7 @@ public class PackageClass
     stringBuffer.append(TEXT_275);
     stringBuffer.append(genFeature.getFormattedName());
     stringBuffer.append(TEXT_276);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     if (!genClass.isMapEntry() && !genFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_277);
     stringBuffer.append(genFeature.getGetAccessor());
@@ -1512,7 +1512,7 @@ public class PackageClass
     for (GenOperation genOperation : genClass.getGenOperations()) {
     if (isInterface) {
     stringBuffer.append(TEXT_303);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_304);
     stringBuffer.append(genOperation.getName());
     stringBuffer.append(TEXT_305);
@@ -1522,7 +1522,7 @@ public class PackageClass
     stringBuffer.append(TEXT_307);
     stringBuffer.append(genOperation.getFormattedName());
     stringBuffer.append(TEXT_308);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_309);
     stringBuffer.append(genOperation.getName());
     stringBuffer.append(TEXT_310);
@@ -2571,11 +2571,11 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(genClass.getQualifiedClassName());
     } else {
     stringBuffer.append(TEXT_713);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_714);
     stringBuffer.append(genClass.getFormattedName());
     stringBuffer.append(TEXT_715);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     }
     } else if (genClassifier instanceof GenEnum) { GenEnum genEnum = (GenEnum)genClassifier;
     stringBuffer.append(TEXT_716);

@@ -359,7 +359,7 @@ public class XcoreJvmInferrer
 
             for (final GenClass genClass : genPackage.getAllSwitchGenClasses())
             {
-              if (!genClass.isAbstract())
+              if (genClass.isAbstract())
               {
                 JvmElementInferrer<JvmOperation> caseMethodInferrer =
                   new JvmElementInferrer<JvmOperation>(X_MEDIUM)

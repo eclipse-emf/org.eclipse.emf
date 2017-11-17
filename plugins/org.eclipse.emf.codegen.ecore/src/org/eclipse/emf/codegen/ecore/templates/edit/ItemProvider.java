@@ -349,7 +349,7 @@ public class ItemProvider
     String _List = genModel.getImportedName(genModel.useGenerics() ? "java.util.List<org.eclipse.emf.edit.provider.IItemPropertyDescriptor>" : "java.util.List");
     genModel.markImportLocation(stringBuffer);
     stringBuffer.append(TEXT_6);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_7);
     if (genClass.hasImplicitAPITags()) {
     stringBuffer.append(TEXT_8);

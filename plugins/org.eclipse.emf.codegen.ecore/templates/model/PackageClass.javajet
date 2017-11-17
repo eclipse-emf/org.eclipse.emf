@@ -153,10 +153,10 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	 * <!-- end-user-doc -->
 	 * @see <%=genClass.getQualifiedClassName()%>
       <%} else {%>
-	 * The meta object id for the '{@link <%=genClass.getQualifiedInterfaceName()%> <em><%=genClass.getFormattedName()%></em>}' class.
+	 * The meta object id for the '{@link <%=genClass.getRawQualifiedInterfaceName()%> <em><%=genClass.getFormattedName()%></em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see <%=genClass.getQualifiedInterfaceName()%>
+	 * @see <%=genClass.getRawQualifiedInterfaceName()%>
       <%}%>
     <%} else if (genClassifier instanceof GenEnum) { GenEnum genEnum = (GenEnum)genClassifier;%>
 	 * The meta object id for the '{@link <%=genEnum.getQualifiedName()%> <em><%=genEnum.getFormattedName()%></em>}' enum.
@@ -505,11 +505,11 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 <%if (isInterface) {%>
 	/**
     <%if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;%>
-	 * Returns the meta object for class '{@link <%=genClass.getQualifiedInterfaceName()%> <em><%=genClass.getFormattedName()%></em>}'.
+	 * Returns the meta object for class '{@link <%=genClass.getRawQualifiedInterfaceName()%> <em><%=genClass.getFormattedName()%></em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em><%=genClass.getFormattedName()%></em>'.
-	 * @see <%=genClass.getQualifiedInterfaceName()%>
+	 * @see <%=genClass.getRawQualifiedInterfaceName()%>
       <%if (!genModel.isSuppressEMFModelTags() && (genClass.isExternalInterface() || genClass.isDynamic())) { boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genClass.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
 	 * @model <%=modelInfo%>
         <%} else {%>
@@ -586,11 +586,11 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
       <%for (GenFeature genFeature : genClass.getGenFeatures()) {%>
 <%if (isInterface) {%>
 	/**
-	 * Returns the meta object for the <%=genFeature.getFeatureKind()%> '{@link <%=genClass.getQualifiedInterfaceName()%><%if (!genClass.isMapEntry() && !genFeature.isSuppressedGetVisibility()) {%>#<%=genFeature.getGetAccessor()%><%}%> <em><%=genFeature.getFormattedName()%></em>}'.
+	 * Returns the meta object for the <%=genFeature.getFeatureKind()%> '{@link <%=genClass.getRawQualifiedInterfaceName()%><%if (!genClass.isMapEntry() && !genFeature.isSuppressedGetVisibility()) {%>#<%=genFeature.getGetAccessor()%><%}%> <em><%=genFeature.getFormattedName()%></em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the <%=genFeature.getFeatureKind()%> '<em><%=genFeature.getFormattedName()%></em>'.
-	 * @see <%=genClass.getQualifiedInterfaceName()%><%if (!genClass.isMapEntry() && !genFeature.isSuppressedGetVisibility()) {%>#<%=genFeature.getGetAccessor()%>()<%}%>
+	 * @see <%=genClass.getRawQualifiedInterfaceName()%><%if (!genClass.isMapEntry() && !genFeature.isSuppressedGetVisibility()) {%>#<%=genFeature.getGetAccessor()%>()<%}%>
 	 * @see #get<%=genClass.getClassifierAccessorName()%>()
     <%if (genFeature.hasImplicitAPITags()) {%>
 	 * <%=genFeature.getImplicitAPITags(genModel.getIndentation(stringBuffer))%>
@@ -628,11 +628,11 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
         <%for (GenOperation genOperation : genClass.getGenOperations()) {%>
 <%if (isInterface) {%>
 	/**
-	 * Returns the meta object for the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>) <em><%=genOperation.getFormattedName()%></em>}' operation.
+	 * Returns the meta object for the '{@link <%=genClass.getRawQualifiedInterfaceName()%>#<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>) <em><%=genOperation.getFormattedName()%></em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em><%=genOperation.getFormattedName()%></em>' operation.
-	 * @see <%=genClass.getQualifiedInterfaceName()%>#<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>)
+	 * @see <%=genClass.getRawQualifiedInterfaceName()%>#<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>)
     <%if (genOperation.hasImplicitAPITags()) {%>
 	 * <%=genOperation.getImplicitAPITags(genModel.getIndentation(stringBuffer))%>
     <%}%>
@@ -1260,10 +1260,10 @@ int maxGenericTypeAssignment = 0;
 		 * <!-- end-user-doc -->
 		 * @see <%=genClass.getQualifiedClassName()%>
       <%} else {%>
-		 * The meta object literal for the '{@link <%=genClass.getQualifiedInterfaceName()%> <em><%=genClass.getFormattedName()%></em>}' class.
+		 * The meta object literal for the '{@link <%=genClass.getRawQualifiedInterfaceName()%> <em><%=genClass.getFormattedName()%></em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see <%=genClass.getQualifiedInterfaceName()%>
+		 * @see <%=genClass.getRawQualifiedInterfaceName()%>
       <%}%>
     <%} else if (genClassifier instanceof GenEnum) { GenEnum genEnum = (GenEnum)genClassifier;%>
 		 * The meta object literal for the '{@link <%=genEnum.getQualifiedName()%> <em><%=genEnum.getFormattedName()%></em>}' enum.

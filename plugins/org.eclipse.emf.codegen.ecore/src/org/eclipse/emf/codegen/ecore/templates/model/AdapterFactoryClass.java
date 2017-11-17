@@ -174,11 +174,11 @@ public class AdapterFactoryClass
     stringBuffer.append(TEXT_37);
     for (GenClass genClass : genPackage.getAllSwitchGenClasses()) {
     stringBuffer.append(TEXT_38);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_39);
     stringBuffer.append(genClass.getFormattedName());
     stringBuffer.append(TEXT_40);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     if (genClass.hasAPITags()) {
     stringBuffer.append(TEXT_41);
     stringBuffer.append(genClass.getAPITags(genModel.getIndentation(stringBuffer)));

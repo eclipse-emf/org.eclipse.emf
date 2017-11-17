@@ -379,6 +379,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return getInternalQualifiedInterfaceName().replace('$', '.');
   }
 
+  public String getRawQualifiedInterfaceName()
+  {
+    return getInternalQualifiedInterfaceName(false).replace('$', '.');
+  }
+
   protected String getInternalQualifiedInterfaceName()
   {
     return getInternalQualifiedInterfaceName(getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50);
@@ -407,7 +412,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getRawInstanceClassName()
   {
-    return getQualifiedInterfaceName();
+    return getRawQualifiedInterfaceName();
   }
 
   public String getImportedInstanceClassName()

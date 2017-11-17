@@ -345,7 +345,7 @@ public class ItemProviderAdapterFactory
     if (!genClass.isAbstract() && genClass.getProvider() != GenProviderKind.NONE_LITERAL) {
     if (genClass.isProviderSingleton()) {
     stringBuffer.append(TEXT_49);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_50);
     if (genClass.hasAPITags()) {
     stringBuffer.append(TEXT_51);
@@ -360,7 +360,7 @@ public class ItemProviderAdapterFactory
     stringBuffer.append(TEXT_55);
     stringBuffer.append(genClass.getUncapName());
     stringBuffer.append(TEXT_56);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_57);
     if (genClass.hasAPITags()) {
     stringBuffer.append(TEXT_58);
@@ -386,7 +386,7 @@ public class ItemProviderAdapterFactory
     stringBuffer.append(TEXT_67);
     } else {
     stringBuffer.append(TEXT_68);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_69);
     if (genClass.hasAPITags()) {
     stringBuffer.append(TEXT_70);

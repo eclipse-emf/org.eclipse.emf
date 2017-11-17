@@ -30,7 +30,7 @@ package <%=genPackage.getTestsPackageName()%>;
  * The following features are tested:
  * <ul>
       <%}%>
- *   <li>{@link <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}</li>
+ *   <li>{@link <%=genFeature.getGenClass().getRawQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}</li>
     <%}%>
   <%}%>
   <% if (!first) {%>
@@ -45,7 +45,7 @@ package <%=genPackage.getTestsPackageName()%>;
  * The following operations are tested:
  * <ul>
     <%}%>
- *   <li>{@link <%=genOperation.getGenClass().getQualifiedInterfaceName()%>#<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>) <em><%=genOperation.getFormattedName()%></em>}</li>
+ *   <li>{@link <%=genOperation.getGenClass().getRawQualifiedInterfaceName()%>#<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>) <em><%=genOperation.getFormattedName()%></em>}</li>
   <%}%>
   <% if (!first) {%>
  * </ul>
@@ -190,10 +190,10 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 <%@ start %>
 
 	/**
-	 * Tests the '{@link <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' feature getter.
+	 * Tests the '{@link <%=genFeature.getGenClass().getRawQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' feature getter.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%>()
+	 * @see <%=genFeature.getGenClass().getRawQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%>()
       <%if (genFeature.hasAPITags()) {%>
 	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
       <%}%>
@@ -221,10 +221,10 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 <%@ start %>
 
 	/**
-	 * Tests the '{@link <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#set<%=genFeature.getAccessorName()%>(<%=genFeature.getRawBoundType()%>) <em><%=genFeature.getFormattedName()%></em>}' feature setter.
+	 * Tests the '{@link <%=genFeature.getGenClass().getRawQualifiedInterfaceName()%>#set<%=genFeature.getAccessorName()%>(<%=genFeature.getRawBoundType()%>) <em><%=genFeature.getFormattedName()%></em>}' feature setter.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#set<%=genFeature.getAccessorName()%>(<%=genFeature.getRawBoundType()%>)
+	 * @see <%=genFeature.getGenClass().getRawQualifiedInterfaceName()%>#set<%=genFeature.getAccessorName()%>(<%=genFeature.getRawBoundType()%>)
       <%if (genFeature.hasAPITags()) {%>
 	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
       <%}%>
@@ -252,10 +252,10 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 <%@ start %>
 
 	/**
-	 * Tests the '{@link <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#unset<%=genFeature.getAccessorName()%>() <em>unset<%=genFeature.getAccessorName()%>()</em>}' method.
+	 * Tests the '{@link <%=genFeature.getGenClass().getRawQualifiedInterfaceName()%>#unset<%=genFeature.getAccessorName()%>() <em>unset<%=genFeature.getAccessorName()%>()</em>}' method.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#unset<%=genFeature.getAccessorName()%>()
+	 * @see <%=genFeature.getGenClass().getRawQualifiedInterfaceName()%>#unset<%=genFeature.getAccessorName()%>()
       <%if (genFeature.hasAPITags()) {%>
 	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
       <%}%>
@@ -283,10 +283,10 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 <%@ start %>
 
 	/**
-	 * Tests the '{@link <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#isSet<%=genFeature.getAccessorName()%>() <em>isSet<%=genFeature.getAccessorName()%>()</em>}' method.
+	 * Tests the '{@link <%=genFeature.getGenClass().getRawQualifiedInterfaceName()%>#isSet<%=genFeature.getAccessorName()%>() <em>isSet<%=genFeature.getAccessorName()%>()</em>}' method.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#isSet<%=genFeature.getAccessorName()%>()
+	 * @see <%=genFeature.getGenClass().getRawQualifiedInterfaceName()%>#isSet<%=genFeature.getAccessorName()%>()
       <%if (genFeature.hasAPITags()) {%>
 	 * <%=genFeature.getAPITags(genModel.getIndentation(stringBuffer))%>
       <%}%>
@@ -318,10 +318,10 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 <%@ start %>
 
 	/**
-	 * Tests the '{@link <%=genOperation.getGenClass().getQualifiedInterfaceName()%>#<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>) <em><%=genOperation.getFormattedName()%></em>}' operation.
+	 * Tests the '{@link <%=genOperation.getGenClass().getRawQualifiedInterfaceName()%>#<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>) <em><%=genOperation.getFormattedName()%></em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see <%=genOperation.getGenClass().getQualifiedInterfaceName()%>#<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>)
+	 * @see <%=genOperation.getGenClass().getRawQualifiedInterfaceName()%>#<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>)
       <%if (genOperation.hasAPITags()) {%>
 	 * <%=genOperation.getAPITags(genModel.getIndentation(stringBuffer))%>
       <%}%>

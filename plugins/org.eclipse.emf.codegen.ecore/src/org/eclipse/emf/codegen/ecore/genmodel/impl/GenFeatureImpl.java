@@ -2471,6 +2471,6 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   protected String getLink()
   {
     GenClass genClass = getGenClass();
-    return getGenClass().getQualifiedInterfaceName() + (!genClass.isMapEntry() && !isSuppressedGetVisibility() ? "#" + getGetAccessor() + "()" : "");
+    return genClass.getRawQualifiedInterfaceName() + (!genClass.isMapEntry() && !isSuppressedGetVisibility() ? "#" + getGetAccessor() + "()" : "");
   }
 } //GenFeatureImpl

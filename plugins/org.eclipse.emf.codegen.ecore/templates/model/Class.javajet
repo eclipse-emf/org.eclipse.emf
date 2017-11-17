@@ -52,7 +52,7 @@ package <%=genPackage.getClassPackageName()%>;
  * <ul>
 <%for (GenFeature genFeature : genClass.getGenFeatures()) {%>
   <%if (!genFeature.isSuppressedGetVisibility()) {%>
- *   <li>{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}</li>
+ *   <li>{@link <%=genClass.getRawQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}</li>
   <%}%>
 <%}%>
  * </ul>
@@ -832,7 +832,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
     <%}%>
     <%if (genFeature.isBidirectional() && !genFeature.getReverse().getGenClass().isMapEntry()) { GenFeature reverseGenFeature = genFeature.getReverse(); %>
       <%if (!reverseGenFeature.isSuppressedGetVisibility()) {%>
-	 * It is bidirectional and its opposite is '{@link <%=reverseGenFeature.getGenClass().getQualifiedInterfaceName()%>#<%=reverseGenFeature.getGetAccessor()%> <em><%=reverseGenFeature.getFormattedName()%></em>}'.
+	 * It is bidirectional and its opposite is '{@link <%=reverseGenFeature.getGenClass().getRawQualifiedInterfaceName()%>#<%=reverseGenFeature.getGetAccessor()%> <em><%=reverseGenFeature.getFormattedName()%></em>}'.
       <%}%>
     <%}%>
 <%@ include file="Class/getGenFeature.javadoc.insert.javajetinc" fail="silent" %>
@@ -869,7 +869,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
     <%}%>
     <%if (genFeature.isBidirectional() && !genFeature.getReverse().getGenClass().isMapEntry()) { GenFeature reverseGenFeature = genFeature.getReverse(); %>
       <%if (!reverseGenFeature.isSuppressedGetVisibility()) {%>
-	 * @see <%=reverseGenFeature.getGenClass().getQualifiedInterfaceName()%>#<%=reverseGenFeature.getGetAccessor()%>
+	 * @see <%=reverseGenFeature.getGenClass().getRawQualifiedInterfaceName()%>#<%=reverseGenFeature.getGetAccessor()%>
       <%}%>
     <%}%>
     <%if (!genModel.isSuppressEMFModelTags()) { boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genFeature.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
@@ -1180,7 +1180,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 <%@ include file="Class/setGenFeature.javadoc.override.javajetinc" fail="alternative" %>
 <%@ start %>
 	/**
-	 * Sets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * Sets the value of the '{@link <%=genClass.getRawQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
 <%@ include file="Class/setGenFeature.javadoc.insert.javajetinc" fail="silent" %>
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1457,7 +1457,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 <%@ include file="Class/unsetGenFeature.javadoc.override.javajetinc" fail="alternative" %>
 <%@ start %>
 	/**
-	 * Unsets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * Unsets the value of the '{@link <%=genClass.getRawQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
 <%@ include file="Class/unsetGenFeature.javadoc.insert.javajetinc" fail="silent" %>
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1632,7 +1632,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 <%@ include file="Class/isSetGenFeature.javadoc.override.javajetinc" fail="alternative" %>
 <%@ start %>
 	/**
-	 * Returns whether the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%> is set.
+	 * Returns whether the value of the '{@link <%=genClass.getRawQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%> is set.
 <%@ include file="Class/isSetGenFeature.javadoc.insert.javajetinc" fail="silent" %>
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

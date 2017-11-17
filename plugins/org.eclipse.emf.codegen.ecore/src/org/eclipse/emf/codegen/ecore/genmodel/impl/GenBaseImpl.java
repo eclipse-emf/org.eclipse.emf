@@ -1293,7 +1293,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     if (eType instanceof EClass)
     {
       GenClass genClass = (context == null ? this : (GenBaseImpl)context).findGenClass((EClass)eType);
-      return genClass == null ? "java.lang.Void" : genClass.getQualifiedInterfaceName();
+      return genClass == null ? "java.lang.Void" : erased ? genClass.getRawQualifiedInterfaceName() : genClass.getQualifiedInterfaceName();
     }
 
     if (eType instanceof EEnum)

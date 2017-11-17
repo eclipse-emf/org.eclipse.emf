@@ -192,6 +192,12 @@ public interface GenClass extends GenClassifier
   String getInterfaceName();
 
   String getQualifiedInterfaceName();
+
+  /**
+   * @since 2.14
+   */
+  String getRawQualifiedInterfaceName();
+
   String getImportedInterfaceName();
   /**
    * @since 2.3

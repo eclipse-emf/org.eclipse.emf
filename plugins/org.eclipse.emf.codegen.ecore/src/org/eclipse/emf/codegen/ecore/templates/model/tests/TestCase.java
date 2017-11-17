@@ -198,7 +198,7 @@ public class TestCase
     stringBuffer.append(TEXT_8);
     }
     stringBuffer.append(TEXT_9);
-    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(genFeature.getGenClass().getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_10);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_11);
@@ -216,7 +216,7 @@ public class TestCase
     stringBuffer.append(TEXT_14);
     }
     stringBuffer.append(TEXT_15);
-    stringBuffer.append(genOperation.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(genOperation.getGenClass().getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_16);
     stringBuffer.append(genOperation.getName());
     stringBuffer.append(TEXT_17);
@@ -350,13 +350,13 @@ public class TestCase
     if (genFeature.isTested()) {
     if (genFeature.isGet() && !genFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_73);
-    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(genFeature.getGenClass().getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_74);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_75);
     stringBuffer.append(genFeature.getFormattedName());
     stringBuffer.append(TEXT_76);
-    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(genFeature.getGenClass().getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_77);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_78);
@@ -380,7 +380,7 @@ public class TestCase
     }
     if (genFeature.isSet() && !genFeature.isSuppressedSetVisibility()) {
     stringBuffer.append(TEXT_86);
-    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(genFeature.getGenClass().getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_87);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_88);
@@ -388,7 +388,7 @@ public class TestCase
     stringBuffer.append(TEXT_89);
     stringBuffer.append(genFeature.getFormattedName());
     stringBuffer.append(TEXT_90);
-    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(genFeature.getGenClass().getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_91);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_92);
@@ -414,13 +414,13 @@ public class TestCase
     }
     if (genFeature.isUnset() && !genFeature.isSuppressedUnsetVisibility()) {
     stringBuffer.append(TEXT_101);
-    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(genFeature.getGenClass().getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_102);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_103);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_104);
-    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(genFeature.getGenClass().getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_105);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_106);
@@ -444,13 +444,13 @@ public class TestCase
     }
     if (genFeature.isIsSet() && !genFeature.isSuppressedIsSetVisibility()) {
     stringBuffer.append(TEXT_114);
-    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(genFeature.getGenClass().getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_115);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_116);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_117);
-    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(genFeature.getGenClass().getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_118);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_119);
@@ -477,7 +477,7 @@ public class TestCase
     }
     for (GenOperation genOperation : genClass.getImplementedGenOperations()) {
     stringBuffer.append(TEXT_127);
-    stringBuffer.append(genOperation.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(genOperation.getGenClass().getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_128);
     stringBuffer.append(genOperation.getName());
     stringBuffer.append(TEXT_129);
@@ -485,7 +485,7 @@ public class TestCase
     stringBuffer.append(TEXT_130);
     stringBuffer.append(genOperation.getFormattedName());
     stringBuffer.append(TEXT_131);
-    stringBuffer.append(genOperation.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(genOperation.getGenClass().getRawQualifiedInterfaceName());
     stringBuffer.append(TEXT_132);
     stringBuffer.append(genOperation.getName());
     stringBuffer.append(TEXT_133);

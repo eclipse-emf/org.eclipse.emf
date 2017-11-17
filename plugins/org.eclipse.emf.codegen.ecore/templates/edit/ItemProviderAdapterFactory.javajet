@@ -157,7 +157,7 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 <%if (!genClass.isAbstract() && genClass.getProvider() != GenProviderKind.NONE_LITERAL) {%>
 <%if (genClass.isProviderSingleton()) {%>
 	/**
-	 * This keeps track of the one adapter used for all {@link <%=genClass.getQualifiedInterfaceName()%>} instances.
+	 * This keeps track of the one adapter used for all {@link <%=genClass.getRawQualifiedInterfaceName()%>} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
   <%if (genClass.hasAPITags()) {%>
@@ -171,7 +171,7 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 	protected <%=genClass.getProviderClassName()%> <%=genClass.getUncapName()%>ItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link <%=genClass.getQualifiedInterfaceName()%>}.
+	 * This creates an adapter for a {@link <%=genClass.getRawQualifiedInterfaceName()%>}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
   <%if (genClass.hasAPITags()) {%>
@@ -197,7 +197,7 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 
 <%} else {%>
 	/**
-	 * This creates an adapter for a {@link <%=genClass.getQualifiedInterfaceName()%>}.
+	 * This creates an adapter for a {@link <%=genClass.getRawQualifiedInterfaceName()%>}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
   <%if (genClass.hasAPITags()) {%>
