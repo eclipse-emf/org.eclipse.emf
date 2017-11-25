@@ -588,12 +588,16 @@ public class FeatureEditorDialog extends Dialog
           {
             if (activeControl.get() == choiceText)
             {
-              String errorMessage = valueHandler.isValid(choiceText.getText());
-              if (errorMessage == null && unique && children.contains(valueHandler.toValue(choiceText.getText())))
+              String text = choiceText.getText();
+              String errorMessage = valueHandler.isValid(text);
+              if (errorMessage == null && unique && children.contains(valueHandler.toValue(text)))
               {
                 errorMessage = EMFEditUIPlugin.INSTANCE.getString("_UI_DuplicateValue_message");
               }
-              setErrorMessage(errorMessage);
+              if (choiceText.isFocusControl() || !"".equals(text))
+              {
+                setErrorMessage(errorMessage);
+              }
               addButton.setEnabled(errorMessage == null);
             }
           }
