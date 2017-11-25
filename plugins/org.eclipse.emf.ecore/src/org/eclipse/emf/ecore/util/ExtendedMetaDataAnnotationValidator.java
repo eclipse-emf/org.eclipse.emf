@@ -1437,7 +1437,7 @@ public final class ExtendedMetaDataAnnotationValidator extends BasicEAnnotationV
                         0,
                         "_UI_BadXMLPattern_diagnostic",
                         new Object []{ getValueLabel(eDataType, value, context), exception.getLocalizedMessage() },
-                        new Object []{ value, eDataType },
+                        new Object []{ value },
                         context));
                   }
                 }

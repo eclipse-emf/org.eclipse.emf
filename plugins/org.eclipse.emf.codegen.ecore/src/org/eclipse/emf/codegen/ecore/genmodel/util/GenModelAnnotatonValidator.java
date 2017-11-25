@@ -108,9 +108,7 @@ public final class GenModelAnnotatonValidator extends BasicEAnnotationValidator
           Diagnostic.WARNING,
           INVALID_VALUE_LITERAL,
           getString(getResourceLocator(), "_UI_InvalidAnnotationLabelEntryValue_diagnostic", value),
-          value,
-          reference.getEReferenceType(),
-          reference));
+          value));
     }
 
     return result;

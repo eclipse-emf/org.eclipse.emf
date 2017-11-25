@@ -301,7 +301,7 @@ public final class EcoreAnnotationValidator extends BasicEAnnotationValidator
                         0,
                         "_UI_NameNotWellFormedJavaIdentifier_diagnostic",
                         new Object []{ value },
-                        new Object []{ value, eDataType },
+                        new Object []{ value },
                         context));
                   }
                 }
@@ -320,7 +320,7 @@ public final class EcoreAnnotationValidator extends BasicEAnnotationValidator
                         0,
                         "_UI_EAnnotationSourceURINotWellFormed_diagnostic",
                         new Object []{ value },
-                        new Object []{ value, eDataType },
+                        new Object []{ value },
                         context));
                   }
                 }

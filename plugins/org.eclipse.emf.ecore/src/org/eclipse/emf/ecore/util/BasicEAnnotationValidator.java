@@ -1404,8 +1404,7 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
           "_UI_InvalidValue_diagnostic",
           literalValue,
           getString(getEcoreResourceLocator(), "_UI_InvalidReferenceValue_substitution", reference.getEReferenceType().getName())),
-        literalValue,
-        reference.getEReferenceType()));
+        literalValue));
   }
 
   /**
@@ -1427,8 +1426,7 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
         Diagnostic.WARNING,
         INVALID_VALUE_LITERAL,
         getString(getEcoreResourceLocator(), "_UI_InvalidValue_diagnostic", literalValue, exception.getLocalizedMessage()),
-        literalValue,
-        dataType));
+        literalValue));
   }
 
   /**
@@ -1692,8 +1690,7 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
       INVALID_DETAIL_VALUE,
       getString(getEcoreResourceLocator(), "_UI_InvalidAnnotationEntryValue_diagnostic", annotationName, entry.getKey()),
       entry,
-      EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY__VALUE,
-      feature);
+      EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY__VALUE);
   }
 
   /**
