@@ -563,43 +563,50 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
   protected boolean validateAnnotations(EAnnotation eAnnotation, EModelElement eModelElement, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     EList<EAnnotation> annotations = eAnnotation.getEAnnotations();
-    Collection<? extends EAnnotation> validAnnotations = getValidAnnotations(eAnnotation, eModelElement, annotations);
-    if (!isAnnotationsSupported(eAnnotation, eModelElement))
+    if (!annotations.isEmpty())
     {
-      if (!validAnnotations.containsAll(annotations))
+      Collection<? extends EAnnotation> validAnnotations = getValidAnnotations(eAnnotation, eModelElement, annotations);
+      if (!isAnnotationsSupported(eAnnotation, eModelElement))
       {
-        if (diagnostics != null)
+        if (!validAnnotations.containsAll(annotations))
         {
-          List<EAnnotation> ignoredAnnotations = new ArrayList<EAnnotation>(annotations);
-          ignoredAnnotations.removeAll(validAnnotations);
-          reportIgnoredAnnotations(eAnnotation, eModelElement, ignoredAnnotations, diagnostics, context);
+          if (diagnostics != null)
+          {
+            List<EAnnotation> ignoredAnnotations = new ArrayList<EAnnotation>(annotations);
+            ignoredAnnotations.removeAll(validAnnotations);
+            reportIgnoredAnnotations(eAnnotation, eModelElement, ignoredAnnotations, diagnostics, context);
+          }
+          return false;
         }
-        return false;
+        else
+        {
+          return true;
+        }
       }
       else
       {
-        return true;
+        boolean result = true;
+        for (EAnnotation nestedEAnnotation : annotations)
+        {
+          if (!validAnnotations.contains(nestedEAnnotation))
+          {
+            result = false;
+            if (diagnostics == null)
+            {
+              break;
+            }
+            else
+            {
+              reportInvalidAnnotation(eAnnotation, eModelElement, nestedEAnnotation, diagnostics, context);
+            }
+          }
+        }
+        return result;
       }
     }
     else
     {
-      boolean result = true;
-      for (EAnnotation nestedEAnnotation : annotations)
-      {
-        if (!validAnnotations.contains(nestedEAnnotation))
-        {
-          result = false;
-          if (diagnostics == null)
-          {
-            break;
-          }
-          else
-          {
-            reportInvalidAnnotation(eAnnotation, eModelElement, nestedEAnnotation, diagnostics, context);
-          }
-        }
-      }
-      return result;
+      return true;
     }
   }
 
@@ -624,23 +631,19 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
   /**
    * Returns the filtered collection of nested annotations that are valid for this annotation.
    * <p>
-   * An induced user interface should provide the ability to specify only the nested annotations returned by this method.
-   * The contents argument may contain nothing at all, or the {@link EModelElement#getEAnnotations() current nested annotations} of the specified annotation;
-   * an implementation may choose to filter from this collection or to provide its own result, including objects not in this collection,
+   * The annotations argument typically contains the {@link EModelElement#getEAnnotations() current nested annotations} of the specified annotation;
+   * an implementation may choose to filter from this collection,
    * but it should <b>not</b> remove nested annotations currently contained by the annotation that are valid.
    * This implementation takes into account the fact that annotations may be specifically designed to annotate other annotations,
    * i.e., that the nested annotation source might correspond to a {@link org.eclipse.emf.ecore.EAnnotationValidator.Registry#getEAnnotationValidator(String) registered annotation validator}
    * that considers its annotations {@link BasicEAnnotationValidator#isValidLocation(EAnnotation, EModelElement) valid} when contained by the specified annotation.
    * As such, this implementation does not remove nested annotations for which there is a registered validator that considers its annotation valid in the specified annotation.
-   * Also, this implementation's result will include an additional annotation for each registered annotation validator that considers its annotations valid when nested in this annotation.
-   * This method is used to {@link #validateAnnotations(EAnnotation, EModelElement, DiagnosticChain, Map) determine} which nested annotations are valid
-   * and should therefore <b>not</b> remove values from the provided annotations argument if they are valid.
-   * In fact, an override should <b>only</b> add values to those returned by this implementation.
-   * An implementation that overrides this method should also override {@link #isAnnotationsSupported(EAnnotation, EModelElement)}.
+   * Note that this method is used to {@link #validateAnnotations(EAnnotation, EModelElement, DiagnosticChain, Map) determine} which nested annotations are valid
+   * and that is why it should <b>not</b> remove values from the provided annotations argument if they are valid.
    * </p>
    * @param eAnnotation the annotation in question.
    * @param eModelElement the annotation's {@link EAnnotation#getEModelElement() containing} model element.
-   * @param annotations nothing at all, or the {@link EModelElement#getEAnnotations() current or potential nested annotations} of the annotation.
+   * @param annotations typically the {@link EModelElement#getEAnnotations() current nested annotations} of the annotation.
    * @return the nested annotations that are valid as annotations for this annotation.
    * @see Assistant#getValidAnnotations(EAnnotation, Collection)
    */
@@ -655,6 +658,33 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
         result.remove(nestedEAnnotation);
       }
     }
+    return result;
+  }
+
+  /**
+   * Returns the filtered collection of nested annotations that are valid for this annotation.
+   * <p>
+   * An induced user interface should provide the ability to specify only the nested annotations returned by this method.
+   * The annotations argument may contain nothing at all, or the {@link EModelElement#getEAnnotations() current nested annotations} of the specified annotation;
+   * an implementation may choose to filter from this collection or to provide its own result, including objects not in this collection,
+   * but it should <b>not</b> remove nested annotations currently contained by the annotation that are valid.
+   * This implementation takes into account the fact that annotations may be specifically designed to annotate other annotations,
+   * i.e., that the nested annotation source might correspond to a {@link org.eclipse.emf.ecore.EAnnotationValidator.Registry#getEAnnotationValidator(String) registered annotation validator}
+   * that considers its annotations {@link BasicEAnnotationValidator#isValidLocation(EAnnotation, EModelElement) valid} when contained by the specified annotation.
+   * As such, this implementation does not remove nested annotations for which there is a registered validator that considers its annotation valid in the specified annotation.
+   * Also, this implementation's result will include an additional annotation for each registered annotation validator that considers its annotations valid when nested in this annotation.
+   * In fact, an override should <b>only</b> add values to those returned by this implementation.
+   * An implementation that overrides this method should also override {@link #isAnnotationsSupported(EAnnotation, EModelElement)}.
+   * </p>
+   * @param eAnnotation the annotation in question.
+   * @param eModelElement the annotation's {@link EAnnotation#getEModelElement() containing} model element.
+   * @param annotations nothing at all, or the {@link EModelElement#getEAnnotations() current or potential nested annotations} of the annotation.
+   * @return the nested annotations that are valid as annotations for this annotation.
+   * @see Assistant#getValidAnnotations(EAnnotation, Collection)
+   */
+  protected Collection<? extends EAnnotation> getAllValidAnnotations(EAnnotation eAnnotation, EModelElement eModelElement, Collection<? extends EAnnotation> annotations)
+  {
+    List<EAnnotation> result = new ArrayList<EAnnotation>(getValidAnnotations(eAnnotation, eModelElement, annotations));
     for (String annotationSource : EAnnotationValidator.Registry.INSTANCE.keySet())
     {
       EAnnotationValidator eAnnotationValidator = EAnnotationValidator.Registry.INSTANCE.getEAnnotationValidator(annotationSource);
@@ -1912,7 +1942,7 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
     /**
      * Returns the filtered collection of nested annotations that are valid for this annotation.
      * <p>
-     * The implementation delegates to {@link BasicEAnnotationValidator#getValidAnnotations(EAnnotation, EModelElement, Collection)}
+     * The implementation delegates to {@link BasicEAnnotationValidator#getAllValidAnnotations(EAnnotation, EModelElement, Collection)}
      * passing in the {@link EAnnotation#getEModelElement() containing} model element.
      * An induced user interface should provide the ability to specify only the nested annotations returned by this method.
      * </p>
@@ -1922,7 +1952,7 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
      */
     public Collection<? extends EAnnotation> getValidAnnotations(EAnnotation eAnnotation, Collection<? extends EAnnotation> annotations)
     {
-      return eAnnotationValidator.getValidAnnotations(eAnnotation, eAnnotation.getEModelElement(), annotations);
+      return eAnnotationValidator.getAllValidAnnotations(eAnnotation, eAnnotation.getEModelElement(), annotations);
     }
   }
 }
