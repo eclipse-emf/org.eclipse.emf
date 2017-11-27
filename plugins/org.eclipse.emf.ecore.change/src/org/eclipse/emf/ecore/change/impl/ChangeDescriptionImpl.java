@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -323,8 +324,8 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
   {
     preApply(true);
 
-    List<EObject> objectsBeforeApply = new UniqueEList.FastCompare<EObject>();
-    List<EObject> objectsAfterApply = new UniqueEList.FastCompare<EObject>();
+    Collection<EObject> objectsBeforeApply = new LinkedHashSet<EObject>();
+    Collection<EObject> objectsAfterApply = new LinkedHashSet<EObject>();
 
     // Apply the change and reverse the change information.
     //
@@ -417,12 +418,13 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
 
     // Reverse the objects to attach and detach lists.
     //
-    getObjectsToAttach().clear();
+    EList<EObject> objectsToAttach = getObjectsToAttach();
+    objectsToAttach.clear();
     for (EObject eObject : objectsBeforeApply)
     {
       if (eObject.eContainer() == null && eObject.eResource() == null)
       {
-        getObjectsToAttach().add(eObject);
+        objectsToAttach.add(eObject);
       }
     }
     oldContainmentInformation = null;
