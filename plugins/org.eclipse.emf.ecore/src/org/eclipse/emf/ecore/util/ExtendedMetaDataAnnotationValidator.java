@@ -10,7 +10,6 @@ package org.eclipse.emf.ecore.util;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -21,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
-import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -32,7 +30,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -50,7 +47,6 @@ import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
@@ -77,7 +73,7 @@ public final class ExtendedMetaDataAnnotationValidator extends BasicEAnnotationV
   public static final int INVALID_VALUE_LITERAL = BasicEAnnotationValidator.INVALID_VALUE_LITERAL;
 
   /**
-   * @see SpecializedExtendedMetaData#reportIgnoredEntry(Entry, DiagnosticChain, String, Object...)
+   * @see SpecializedExtendedMetaData#reportIgnoredEntry(Map.Entry, DiagnosticChain, String, Object...)
    */
   public static final int IGNORED_ENTRY = BasicEAnnotationValidator.IGNORED_ENTRY;
 
@@ -160,7 +156,7 @@ public final class ExtendedMetaDataAnnotationValidator extends BasicEAnnotationV
   protected boolean validateFeatureDetail(
     EAnnotation eAnnotation,
     EModelElement eModelElement,
-    Entry<String, String> entry,
+    Map.Entry<String, String> entry,
     EStructuralFeature feature,
     DiagnosticChain diagnostics,
     Map<Object, Object> context)
@@ -177,7 +173,7 @@ public final class ExtendedMetaDataAnnotationValidator extends BasicEAnnotationV
   protected boolean validateReferenceDetailValueLiteral(
     EAnnotation eAnnotation,
     EModelElement eModelElement,
-    Entry<String, String> entry,
+    Map.Entry<String, String> entry,
     EReference reference,
     String literalValue,
     List<Object> referenceValues,
@@ -191,7 +187,7 @@ public final class ExtendedMetaDataAnnotationValidator extends BasicEAnnotationV
   protected boolean validateFeatureDetailValue(
     EAnnotation eAnnotation,
     EModelElement eModelElement,
-    Entry<String, String> entry,
+    Map.Entry<String, String> entry,
     EStructuralFeature feature,
     List<Object> values,
     DiagnosticChain diagnostics,
@@ -1387,28 +1383,7 @@ public final class ExtendedMetaDataAnnotationValidator extends BasicEAnnotationV
 
     static
     {
-      URL baseURL = EcorePlugin.INSTANCE.getBaseURL();
-      URI baseURI = URI.createURI(baseURL + "model/ExtendedMetaData.ecore");
-      EPackage ePackage = null;
-      try
-      {
-        Resource resource = new EPackageImpl()
-          {
-            @Override
-            public Resource createResource(String uri)
-            {
-              return super.createResource(uri);
-            }
-          }.createResource(baseURI.toString());
-        resource.unload();
-        resource.load(null);
-        ePackage = (EPackage)resource.getContents().get(0);
-      }
-      catch (Exception ex)
-      {
-        // Ignore.
-      }
-
+      EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(ExtendedMetaData.ANNOTATION_URI);
       EXTENDED_META_DATA_PACKAGE = ePackage;
       if (ePackage != null)
       {
@@ -1437,7 +1412,7 @@ public final class ExtendedMetaDataAnnotationValidator extends BasicEAnnotationV
                         0,
                         "_UI_BadXMLPattern_diagnostic",
                         new Object []{ getValueLabel(eDataType, value, context), exception.getLocalizedMessage() },
-                        new Object []{ value },
+                        new Object []{ value, eDataType },
                         context));
                   }
                 }

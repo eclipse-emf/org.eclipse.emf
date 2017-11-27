@@ -29,6 +29,7 @@ import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -238,14 +239,31 @@ public abstract class RegistryReader
                 locationURI = locationURI.appendFragment(fragment);
               }
             }
+
+            EPackage ePackage;
             if (locationURI.hasFragment())
             {
-              return (EPackage)resourceSet.getEObject(locationURI, true);
+              ePackage = (EPackage)resourceSet.getEObject(locationURI, true);
             }
             else
             {
-              return (EPackage) EcoreUtil.getObjectByType(resourceSet.getResource(locationURI, true).getContents(), EcorePackage.Literals.EPACKAGE);
+              ePackage = (EPackage) EcoreUtil.getObjectByType(resourceSet.getResource(locationURI, true).getContents(), EcorePackage.Literals.EPACKAGE);
             }
+            if (ePackage instanceof EPackageImpl)
+            {
+              String schemaLocation = EcoreUtil.getAnnotation(ePackage, EcorePackage.eNS_URI, "schemaLocation");
+              if (schemaLocation != null)
+              {
+                URI schemaLocationURI = URI.createURI(schemaLocation);
+                Resource resource = ePackage.eResource();
+                URI resourceURI = resource.getURI();
+                resourceSet.getURIConverter().getURIMap().put(resourceURI, schemaLocationURI);
+                ((EPackageImpl)ePackage).freeze();
+                resource.setURI(schemaLocationURI);
+                
+              }
+            }
+            return ePackage;
           }
           else
           {

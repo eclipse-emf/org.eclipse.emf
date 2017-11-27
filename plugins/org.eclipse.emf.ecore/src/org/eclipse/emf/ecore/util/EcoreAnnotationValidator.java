@@ -14,11 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
@@ -30,7 +28,6 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EValidator;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
 
@@ -151,7 +148,7 @@ public final class EcoreAnnotationValidator extends BasicEAnnotationValidator
   protected boolean validateAttributeDetailValueLiteral(
     EAnnotation eAnnotation,
     EModelElement eModelElement,
-    Entry<String, String> entry,
+    Map.Entry<String, String> entry,
     EAttribute attribute,
     String literalValue,
     List<Object> dataValues,
@@ -197,138 +194,95 @@ public final class EcoreAnnotationValidator extends BasicEAnnotationValidator
 
   private static abstract class PropertySwitch extends EcoreSwitch<Void>
   {
+    private static final String ANNOTATION_NS_URI = "http:///org/eclipse/emf/ecore/util/EcoreAnnotation";
+
+    private static final Map<EAttribute, Set<String>> VALID_KEYS = new HashMap<EAttribute, Set<String>>();
+
     private static final EClass ANNOTATION_PACKAGE_CLASS;
 
     private static final EClass ANNOTATION_CLASSIFIER_CLASS;
 
     private static final EClass ANNOTATION_OPERATION_CLASS;
 
-    private static final Map<EAttribute, Set<String>> VALID_KEYS = new HashMap<EAttribute, Set<String>>();
-
     static
     {
-      EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
-      ePackage.setName("annotation");
-      ePackage.setNsPrefix("annotation");
-      ePackage.setNsURI("annotation");
-      EList<EClassifier> eClassifiers = ePackage.getEClassifiers();
+      EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(ANNOTATION_NS_URI);
+      if (ePackage == null)
+      {
+        ANNOTATION_PACKAGE_CLASS = null;
+        ANNOTATION_CLASSIFIER_CLASS = null;
+        ANNOTATION_OPERATION_CLASS = null;
+      }
+      else
+      {
+        ANNOTATION_PACKAGE_CLASS = (EClass)ePackage.getEClassifier("Package");
+        VALID_KEYS.put(
+          (EAttribute)ANNOTATION_PACKAGE_CLASS.getEStructuralFeature("settingDelegates"),
+          EStructuralFeature.Internal.SettingDelegate.Factory.Registry.INSTANCE.keySet());
+        VALID_KEYS.put((EAttribute)ANNOTATION_PACKAGE_CLASS.getEStructuralFeature("validationDelegates"), EValidator.ValidationDelegate.Registry.INSTANCE.keySet());
+        VALID_KEYS.put(
+          (EAttribute)ANNOTATION_PACKAGE_CLASS.getEStructuralFeature("invocationDelegates"),
+          EOperation.Internal.InvocationDelegate.Factory.Registry.INSTANCE.keySet());
+        VALID_KEYS.put((EAttribute)ANNOTATION_PACKAGE_CLASS.getEStructuralFeature("conversionDelegates"), EDataType.Internal.ConversionDelegate.Factory.Registry.INSTANCE.keySet());
 
-      final EDataType javaIdentifier = EcoreFactory.eINSTANCE.createEDataType();
-      javaIdentifier.setName("JavaIdentifier");
-      javaIdentifier.setInstanceClass(String.class);
-      ePackage.getEClassifiers().add(javaIdentifier);
+        ANNOTATION_CLASSIFIER_CLASS = (EClass)ePackage.getEClassifier("Classifier");
 
-      final EDataType uriDataType = EcoreFactory.eINSTANCE.createEDataType();
-      uriDataType.setName("WellFormedURI");
-      uriDataType.setInstanceClass(String.class);
-      ePackage.getEClassifiers().add(uriDataType);
+        ANNOTATION_OPERATION_CLASS = (EClass)ePackage.getEClassifier("Operation");
 
-      ANNOTATION_PACKAGE_CLASS = EcoreFactory.eINSTANCE.createEClass();
-      ANNOTATION_PACKAGE_CLASS.setName("Package");
-      eClassifiers.add(ANNOTATION_PACKAGE_CLASS);
+        final EDataType javaIdentifier = (EDataType)ePackage.getEClassifier("JavaIdentifier");
+        final EDataType uriDataType = (EDataType)ePackage.getEClassifier("URI");
 
-      EAttribute schemaLocationAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-      schemaLocationAttribute.setName("schemaLocation");
-      schemaLocationAttribute.setEType(uriDataType);
-      ANNOTATION_PACKAGE_CLASS.getEStructuralFeatures().add(schemaLocationAttribute);
-
-      EAttribute settingDelegatesAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-      settingDelegatesAttribute.setName("settingDelegates");
-      settingDelegatesAttribute.setUpperBound(-1);
-      settingDelegatesAttribute.setEType(uriDataType);
-      ANNOTATION_PACKAGE_CLASS.getEStructuralFeatures().add(settingDelegatesAttribute);
-      VALID_KEYS.put(settingDelegatesAttribute, EStructuralFeature.Internal.SettingDelegate.Factory.Registry.INSTANCE.keySet());
-
-      EAttribute validationDelegatesAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-      validationDelegatesAttribute.setName("validationDelegates");
-      validationDelegatesAttribute.setUpperBound(-1);
-      validationDelegatesAttribute.setEType(uriDataType);
-      ANNOTATION_PACKAGE_CLASS.getEStructuralFeatures().add(validationDelegatesAttribute);
-      VALID_KEYS.put(validationDelegatesAttribute, EValidator.ValidationDelegate.Registry.INSTANCE.keySet());
-
-      EAttribute invocationDelegatesAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-      invocationDelegatesAttribute.setName("invocationDelegates");
-      invocationDelegatesAttribute.setUpperBound(-1);
-      invocationDelegatesAttribute.setEType(uriDataType);
-      ANNOTATION_PACKAGE_CLASS.getEStructuralFeatures().add(invocationDelegatesAttribute);
-      VALID_KEYS.put(invocationDelegatesAttribute, EOperation.Internal.InvocationDelegate.Factory.Registry.INSTANCE.keySet());
-
-      EAttribute conversionDelegatesAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-      conversionDelegatesAttribute.setName("conversionDelegates");
-      conversionDelegatesAttribute.setUpperBound(-1);
-      conversionDelegatesAttribute.setEType(uriDataType);
-      ANNOTATION_PACKAGE_CLASS.getEStructuralFeatures().add(conversionDelegatesAttribute);
-      VALID_KEYS.put(conversionDelegatesAttribute, EDataType.Internal.ConversionDelegate.Factory.Registry.INSTANCE.keySet());
-
-      ANNOTATION_CLASSIFIER_CLASS = EcoreFactory.eINSTANCE.createEClass();
-      ANNOTATION_CLASSIFIER_CLASS.setName("Classifier");
-      eClassifiers.add(ANNOTATION_CLASSIFIER_CLASS);
-
-      EAttribute constraintsAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-      constraintsAttribute.setName("constraints");
-      constraintsAttribute.setEType(javaIdentifier);
-      constraintsAttribute.setUpperBound(-1);
-      ANNOTATION_CLASSIFIER_CLASS.getEStructuralFeatures().add(constraintsAttribute);
-
-      ANNOTATION_OPERATION_CLASS = EcoreFactory.eINSTANCE.createEClass();
-      ANNOTATION_OPERATION_CLASS.setName("Operation");
-      eClassifiers.add(ANNOTATION_OPERATION_CLASS);
-
-      EAttribute invariantAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-      invariantAttribute.setName("invariant");
-      invariantAttribute.setEType(EcorePackage.Literals.EBOOLEAN);
-      ANNOTATION_OPERATION_CLASS.getEStructuralFeatures().add(invariantAttribute);
-
-      EValidator.Registry.INSTANCE.put(ePackage, new EObjectValidator()
-        {
-          @Override
-          public boolean validate(EDataType eDataType, Object value, DiagnosticChain diagnostics, Map<Object, Object> context)
+        EValidator.Registry.INSTANCE.put(ePackage, new EObjectValidator()
           {
-            boolean result = super.validate(eDataType, value, diagnostics, context);
-            if (result)
+            @Override
+            public boolean validate(EDataType eDataType, Object value, DiagnosticChain diagnostics, Map<Object, Object> context)
             {
-              if (eDataType == javaIdentifier)
+              boolean result = super.validate(eDataType, value, diagnostics, context);
+              if (result)
               {
-                if (javaIdentifier != null)
+                if (eDataType == javaIdentifier)
                 {
-                  result = EcoreValidator.isWellFormedJavaIdentifier((String)value);
-                  if (!result && diagnostics != null)
+                  if (javaIdentifier != null)
                   {
-                    diagnostics.add(
-                      createDiagnostic(
-                        Diagnostic.ERROR,
-                        DIAGNOSTIC_SOURCE,
-                        0,
-                        "_UI_NameNotWellFormedJavaIdentifier_diagnostic",
-                        new Object []{ value },
-                        new Object []{ value },
-                        context));
+                    result = EcoreValidator.isWellFormedJavaIdentifier((String)value);
+                    if (!result && diagnostics != null)
+                    {
+                      diagnostics.add(
+                        createDiagnostic(
+                          Diagnostic.ERROR,
+                          DIAGNOSTIC_SOURCE,
+                          0,
+                          "_UI_NameNotWellFormedJavaIdentifier_diagnostic",
+                          new Object []{ value },
+                          new Object []{ value, eDataType },
+                          context));
+                    }
+                  }
+                }
+                else if (eDataType == uriDataType)
+                {
+                  if (value != null)
+                  {
+                    result = EcoreValidator.isWellFormedURI((String)value);
+                    if (!result && diagnostics != null)
+                    {
+                      diagnostics.add(
+                        createDiagnostic(
+                          Diagnostic.ERROR,
+                          DIAGNOSTIC_SOURCE,
+                          0,
+                          "_UI_EAnnotationSourceURINotWellFormed_diagnostic",
+                          new Object []{ value },
+                          new Object []{ value, eDataType },
+                          context));
+                    }
                   }
                 }
               }
-              else if (eDataType == uriDataType)
-              {
-                if (value != null)
-                {
-                  result = EcoreValidator.isWellFormedURI((String)value);
-                  if (!result && diagnostics != null)
-                  {
-                    diagnostics.add(
-                      createDiagnostic(
-                        Diagnostic.ERROR,
-                        DIAGNOSTIC_SOURCE,
-                        0,
-                        "_UI_EAnnotationSourceURINotWellFormed_diagnostic",
-                        new Object []{ value },
-                        new Object []{ value },
-                        context));
-                  }
-                }
-              }
+              return result;
             }
-            return result;
-          }
-        });
+          });
+      }
     }
 
     protected abstract void addFeatures(EClass eClass);
@@ -336,21 +290,30 @@ public final class EcoreAnnotationValidator extends BasicEAnnotationValidator
     @Override
     public Void caseEClassifier(EClassifier eClassifier)
     {
-      addFeatures(ANNOTATION_CLASSIFIER_CLASS);
+      if (ANNOTATION_CLASSIFIER_CLASS != null)
+      {
+        addFeatures(ANNOTATION_CLASSIFIER_CLASS);
+      }
       return null;
     }
 
     @Override
     public Void caseEOperation(EOperation eOperation)
     {
-      addFeatures(ANNOTATION_OPERATION_CLASS);
+      if (ANNOTATION_OPERATION_CLASS != null)
+      {
+        addFeatures(ANNOTATION_OPERATION_CLASS);
+      }
       return null;
     }
 
     @Override
     public Void caseEPackage(EPackage object)
     {
-      addFeatures(ANNOTATION_PACKAGE_CLASS);
+      if (ANNOTATION_PACKAGE_CLASS != null)
+      {
+        addFeatures(ANNOTATION_PACKAGE_CLASS);
+      }
       return null;
     }
   }

@@ -61,6 +61,18 @@
    </extension>
 
    <extension
+         point="org.eclipse.emf.ecore.dynamic_package">
+      <resource
+            location="model/ExtendedMetaData.ecore"
+            uri="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      </resource>
+      <resource
+            location="model/EcoreAnnotation.ecore"
+            uri="http:///org/eclipse/emf/ecore/util/EcoreAnnotation">
+      </resource>
+   </extension>
+
+   <extension
          id="diagnostic"
          name="%_UI_EMFDiagnostic_marker"
          point="org.eclipse.core.resources.markers">
