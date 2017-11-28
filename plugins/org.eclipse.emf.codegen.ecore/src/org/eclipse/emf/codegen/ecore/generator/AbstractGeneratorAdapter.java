@@ -2781,7 +2781,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
             // Create a parser that will produce errors for unused imports.
             //
-            ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser();
+            ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser(true);
             astParser.setCompilerOptions(Collections.singletonMap(JavaCore.COMPILER_PB_UNUSED_IMPORT, JavaCore.ERROR));
             astParser.setResolveBindings(true);
             astParser.setProject(javaProject);

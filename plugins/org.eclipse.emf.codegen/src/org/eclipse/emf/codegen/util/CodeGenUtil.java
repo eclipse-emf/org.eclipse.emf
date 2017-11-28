@@ -1111,6 +1111,7 @@ public class CodeGenUtil
      * It will determine the 
      */
     private static final int JLS;
+    private static final int JLS4;
     static
     {
       @SuppressWarnings("deprecation")
@@ -1124,16 +1125,44 @@ public class CodeGenUtil
       {
         // Ignore the absence of the new version support in older runtimes.
       }
+      JLS4 = jls;
+      try
+      {
+        Field field = AST.class.getField("JLS8");
+        jls = (Integer)field.get(null);
+      }
+      catch (Throwable exception)
+      {
+        // Ignore the absence of the new version support in older runtimes.
+      }
+      try
+      {
+        Field field = AST.class.getField("JLS9");
+        jls = (Integer)field.get(null);
+      }
+      catch (Throwable exception)
+      {
+        // Ignore the absence of the new version support in older runtimes.
+      }
       JLS = jls;
     }
 
     /**
-     * Return an ASTParser that supports the latest language level in the version of the JDT in the installed runtime.
+     * Return an ASTParser that supports the latest language level in the version of the JDT in the installed runtime, up to JLS4.
      * @since 2.9
      */
     public static ASTParser newASTParser()
     {
-      return ASTParser.newParser(JLS);
+      return ASTParser.newParser(JLS4);
+    }
+
+    /**
+     * Return an ASTParser that supports the latest language level in the version of the JDT in the installed runtime or JLS4 otherwise.
+     * @since 2.14
+     */
+    public static ASTParser newASTParser(boolean latest)
+    {
+      return ASTParser.newParser(latest ? JLS : JLS4);
     }
 
     public static class StreamProgressMonitor extends NullProgressMonitor
