@@ -219,6 +219,15 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     catch (Exception exception)
     {
       EMFEditUIPlugin.INSTANCE.log(exception);
+      MessageDialog.openError(shell, EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationProblems_title"), EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationFailed_message"));
+      try
+      {
+        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.pde.runtime.LogView");
+      }
+      catch (Exception ex)
+      {
+        // Ignored.
+      }
     }
   }
 

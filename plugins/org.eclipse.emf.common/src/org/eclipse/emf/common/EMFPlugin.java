@@ -438,7 +438,15 @@ public abstract class EMFPlugin extends DelegatingResourceLocator implements Res
           String message = throwable.getLocalizedMessage();
           if (message == null)
           {
-            message = "";
+            Throwable cause = throwable.getCause();
+            if (cause != null)
+            {
+              message = cause.getLocalizedMessage();
+            }
+            if (message == null)
+            {
+              message = "";
+            }
           }
 
           getLog().log(new Status(IStatus.WARNING, getBundle().getSymbolicName(), 0, message, throwable));
