@@ -692,7 +692,17 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
     List<EAnnotation> result = new ArrayList<EAnnotation>(getValidAnnotations(eAnnotation, eModelElement, annotations));
     for (String annotationSource : EAnnotationValidator.Registry.INSTANCE.keySet())
     {
-      EAnnotationValidator eAnnotationValidator = EAnnotationValidator.Registry.INSTANCE.getEAnnotationValidator(annotationSource);
+      EAnnotationValidator eAnnotationValidator;
+      try
+      {
+        eAnnotationValidator = EAnnotationValidator.Registry.INSTANCE.getEAnnotationValidator(annotationSource);
+      }
+      catch (RuntimeException exception)
+      {
+        eAnnotationValidator = null;
+        EcorePlugin.INSTANCE.log(exception);
+      }
+
       if (eAnnotationValidator instanceof BasicEAnnotationValidator)
       {
         BasicEAnnotationValidator basicEAnnotationValidator = (BasicEAnnotationValidator)eAnnotationValidator;
