@@ -259,7 +259,10 @@ public class EAnnotationItemProvider extends EModelElementItemProvider
               {
                 List<IItemPropertyDescriptor> groupPropertyDescriptors = targetGroup.getPropertyDescriptors();
                 groupPropertyDescriptors.clear();
-                groupPropertyDescriptors.addAll(categories.values().iterator().next().getPropertyDescriptors());
+                if (!categories.isEmpty())
+                {
+                  groupPropertyDescriptors.addAll(categories.values().iterator().next().getPropertyDescriptors());
+                }
               }
             }
 
@@ -267,7 +270,10 @@ public class EAnnotationItemProvider extends EModelElementItemProvider
             {
               List<IItemPropertyDescriptor> groupPropertyDescriptors = group.getPropertyDescriptors();
               groupPropertyDescriptors.clear();
-              groupPropertyDescriptors.addAll(categories.values().iterator().next().getPropertyDescriptors());
+              if (!categories.isEmpty())
+              {
+                groupPropertyDescriptors.addAll(categories.values().iterator().next().getPropertyDescriptors());
+              }
             }
 
             return group;
