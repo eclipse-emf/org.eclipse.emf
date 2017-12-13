@@ -17,6 +17,8 @@
         eType="#//WellFormedURI"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="conversionDelegates" upperBound="-1"
         eType="#//WellFormedURI"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="queryDelegates" upperBound="-1"
+        eType="#//WellFormedURI"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Classifier">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="constraints" upperBound="-1"

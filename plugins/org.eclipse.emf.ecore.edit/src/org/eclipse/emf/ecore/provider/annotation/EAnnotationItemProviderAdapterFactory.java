@@ -784,5 +784,11 @@ public abstract class EAnnotationItemProviderAdapterFactory extends AdapterFacto
     {
       return propertyValue;
     }
+
+    @Override
+    public String toString()
+    {
+      return propertyValue == null ? "null" : propertyValue.toString();
+    }
   }
 }

@@ -170,14 +170,16 @@ public final class EcoreAnnotationValidator extends BasicEAnnotationValidator
     DiagnosticChain diagnostics,
     Map<Object, Object> context)
   {
-    boolean result = super.validateAttributeDetailValueLiteral(eAnnotation, eModelElement, entry, attribute, literalValue, dataValues, diagnostics, context);
+    List<Object> newValues = new ArrayList<Object>(1);
+    boolean result = super.validateAttributeDetailValueLiteral(eAnnotation, eModelElement, entry, attribute, literalValue, newValues, diagnostics, context);
+    dataValues.addAll(newValues);
     if (result || diagnostics != null)
     {
       Set<String> validKeys = PropertySwitch.VALID_KEYS.get(attribute);
       if (validKeys != null)
       {
         @SuppressWarnings("unchecked")
-        List<String> values = (List<String>)(List<?>)dataValues;
+        List<String> values = (List<String>)(List<?>)newValues;
         for (String value : values)
         {
           if (!validKeys.contains(value) && EcoreValidator.isWellFormedURI(value))
@@ -246,13 +248,14 @@ public final class EcoreAnnotationValidator extends BasicEAnnotationValidator
           (EAttribute)ANNOTATION_PACKAGE_CLASS.getEStructuralFeature("invocationDelegates"),
           EOperation.Internal.InvocationDelegate.Factory.Registry.INSTANCE.keySet());
         VALID_KEYS.put((EAttribute)ANNOTATION_PACKAGE_CLASS.getEStructuralFeature("conversionDelegates"), EDataType.Internal.ConversionDelegate.Factory.Registry.INSTANCE.keySet());
+        VALID_KEYS.put((EAttribute)ANNOTATION_PACKAGE_CLASS.getEStructuralFeature("queryDelegates"), QueryDelegate.Factory.Registry.INSTANCE.keySet());
 
         ANNOTATION_CLASSIFIER_CLASS = (EClass)ePackage.getEClassifier("Classifier");
 
         ANNOTATION_OPERATION_CLASS = (EClass)ePackage.getEClassifier("Operation");
 
         final EDataType javaIdentifier = (EDataType)ePackage.getEClassifier("JavaIdentifier");
-        final EDataType uriDataType = (EDataType)ePackage.getEClassifier("URI");
+        final EDataType uriDataType = (EDataType)ePackage.getEClassifier("WellFormedURI");
 
         EValidator.Registry.INSTANCE.put(ePackage, new EObjectValidator()
           {
@@ -260,7 +263,7 @@ public final class EcoreAnnotationValidator extends BasicEAnnotationValidator
             public boolean validate(EDataType eDataType, Object value, DiagnosticChain diagnostics, Map<Object, Object> context)
             {
               boolean result = super.validate(eDataType, value, diagnostics, context);
-              if (result)
+             if (result)
               {
                 if (eDataType == javaIdentifier)
                 {
