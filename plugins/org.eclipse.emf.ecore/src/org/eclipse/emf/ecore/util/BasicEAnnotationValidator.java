@@ -8,6 +8,7 @@
 package org.eclipse.emf.ecore.util;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -20,6 +21,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAnnotationValidator;
 import org.eclipse.emf.ecore.EAttribute;
@@ -28,13 +30,16 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 
@@ -1747,6 +1752,46 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
     }
 
     return Diagnostician.INSTANCE;
+  }
+
+  /**
+   * Returns the package loaded from the location specified by the given URI.
+   * If the resource loads successfully---the org.eclipse.ecore.xmi jar must be on the class---and it contains an {@link EPackage},
+   * that package is registered in the {@link org.eclipse.emf.ecore.EPackage.Registry#INSTANCE}.
+   * 
+   * @param uri the location of a resource containing an EPackage.
+   * @return the loaded package registered package.
+   */
+  protected static EPackage loadEPackage(String uri)
+  {
+    Resource resource = new EPackageImpl()
+      {
+        @Override
+        public Resource createResource(String uri)
+        {
+          Resource resource = super.createResource(uri);
+          resource.getContents().clear();
+          resource.unload();
+          return resource;
+        }
+      }.createResource(uri);
+
+    try
+    {
+      resource.load(null);
+      EPackage ePackage = (EPackage)EcoreUtil.getObjectByType(resource.getContents(), EcorePackage.Literals.EPACKAGE);
+      if (ePackage != null)
+      {
+        String nsURI = ePackage.getNsURI();
+        EPackage.Registry.INSTANCE.put(nsURI, ePackage);
+        resource.setURI(URI.createURI(nsURI));
+      }
+      return ePackage;
+    }
+    catch (IOException e)
+    {
+      return null;
+    }
   }
 
   /**

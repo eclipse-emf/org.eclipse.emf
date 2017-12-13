@@ -19,6 +19,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAnnotationValidator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -29,6 +30,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 
 /**
@@ -41,6 +43,19 @@ public final class EcoreAnnotationValidator extends BasicEAnnotationValidator
   public static final EcoreAnnotationValidator INSTANCE = new EcoreAnnotationValidator();
 
   public static final String DIAGNOSTIC_SOURCE = "org.eclipse.emf.ecore.annotation";
+
+  static
+  {
+    // Check that the instance is registered properly...
+    if (!EAnnotationValidator.Registry.INSTANCE.containsKey(EcorePackage.eNS_URI))
+    {
+      // In a stand alone application, we'll need to explicitly register it.
+      EAnnotationValidator.Registry.INSTANCE.put(EcorePackage.eNS_URI, INSTANCE);
+    }
+
+    // Force eager initialization; in a stand alone application, the dynamic model won't be registered until this class is initialized.
+    PropertySwitch.VALID_KEYS.isEmpty();
+  }
 
   public EcoreAnnotationValidator()
   {
@@ -207,6 +222,13 @@ public final class EcoreAnnotationValidator extends BasicEAnnotationValidator
     static
     {
       EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(ANNOTATION_NS_URI);
+      if (ePackage == null)
+      {
+        // If the package isn't registered, as well be the case in a stand alone application, try to load it dynamically.
+        // This will ensure that the package is registered as well.
+        ePackage = loadEPackage(EcorePlugin.INSTANCE.getBaseURL().toString() + "model/EcoreAnnotation.ecore");
+      }
+
       if (ePackage == null)
       {
         ANNOTATION_PACKAGE_CLASS = null;

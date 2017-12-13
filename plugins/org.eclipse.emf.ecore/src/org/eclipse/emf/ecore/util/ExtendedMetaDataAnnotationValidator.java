@@ -31,6 +31,7 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAnnotationValidator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -66,6 +67,19 @@ public final class ExtendedMetaDataAnnotationValidator extends BasicEAnnotationV
   public static final ExtendedMetaDataAnnotationValidator INSTANCE = new ExtendedMetaDataAnnotationValidator();
 
   public static final String DIAGNOSTIC_SOURCE = "org.eclipse.emf.ecore.annotation.extended.meta.data";
+
+  static
+  {
+    // Check that the instance is registered properly...
+    if (!EAnnotationValidator.Registry.INSTANCE.containsKey(ExtendedMetaData.ANNOTATION_URI))
+    {
+      // In a stand alone application, we'll need to explicitly register it.
+      EAnnotationValidator.Registry.INSTANCE.put(ExtendedMetaData.ANNOTATION_URI, INSTANCE);
+    }
+
+    // Force eager initialization; in a stand alone application, the dynamic model won't be registered until this class is initialized.
+    PropertySwitch.GETTERS.isEmpty();
+  }
 
   /**
    * @see SpecializedExtendedMetaData#reportBadValue(Object, DiagnosticChain, int, String, Object...)
@@ -1384,6 +1398,14 @@ public final class ExtendedMetaDataAnnotationValidator extends BasicEAnnotationV
     static
     {
       EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(ExtendedMetaData.ANNOTATION_URI);
+
+      if (ePackage == null)
+      {
+        // If the package isn't registered, as well be the case in a stand alone application, try to load it dynamically.
+        // This will ensure that the package is registered as well.
+        ePackage = loadEPackage(EcorePlugin.INSTANCE.getBaseURL().toString() + "model/ExtendedMetaData.ecore");
+      }
+
       EXTENDED_META_DATA_PACKAGE = ePackage;
       if (ePackage != null)
       {

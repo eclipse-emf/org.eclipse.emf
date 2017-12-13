@@ -27,6 +27,7 @@ import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAnnotationValidator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -63,6 +64,19 @@ public final class GenModelAnnotatonValidator extends BasicEAnnotationValidator
   public static final GenModelAnnotatonValidator INSTANCE = new GenModelAnnotatonValidator();
 
   public static final String DIAGNOSTIC_SOURCE = "org.eclipse.emf.codegen.ecore.genmodel.annotation";
+
+  static
+  {
+    // Check that the instance is registered properly...
+    if (!EAnnotationValidator.Registry.INSTANCE.containsKey(GenModelPackage.eNS_URI))
+    {
+      // In a stand alone application, we'll need to explicitly register it.
+      EAnnotationValidator.Registry.INSTANCE.put(GenModelPackage.eNS_URI, INSTANCE);
+
+      // For the GenModel to be registered as well.
+      GenModelPackage.eINSTANCE.eClass();
+    }
+  }
 
   public GenModelAnnotatonValidator()
   {
