@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.provider.EAnnotationItemProvider;
 import org.eclipse.emf.ecore.provider.EStringToStringMapEntryItemProvider;
+import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.BasicEAnnotationValidator;
@@ -55,6 +56,7 @@ import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptorDecorator;
+import org.eclipse.emf.edit.provider.ReflectiveItemProvider;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 
 
@@ -137,6 +139,61 @@ public abstract class EAnnotationItemProviderAdapterFactory extends AdapterFacto
       {
         EAnnotationItemProviderAdapterFactory.Factory factory = get(annotationSource);
         return factory == null ? null : factory.createEAnnotationItemProviderAdapterFactory();
+      }
+    }
+  }
+
+  /**
+   * A reflective implementation of an annotation item provider adapter factory.
+   */
+  public static class Reflective extends EAnnotationItemProviderAdapterFactory
+  {
+    private static BasicEAnnotationValidator.Assistant getAssistant(String annotationSource)
+    {
+      EAnnotationValidator eAnnotationValidator = EAnnotationValidator.Registry.INSTANCE.getEAnnotationValidator(annotationSource);
+      if (eAnnotationValidator instanceof BasicEAnnotationValidator)
+      {
+        return ((BasicEAnnotationValidator)eAnnotationValidator).getAssistant();
+      }
+      else
+      {
+        throw new RuntimeException("There is no BasicEAnnotationValidator validator registered for " + annotationSource);
+      }
+    }
+
+    /**
+     * Constructs an instance that uses {@link EcoreEditPlugin#INSTANCE} and the assistant associated with the registered annotation validator of the annotation source.
+     * @param annotationSource the annotation source of a {@link org.eclipse.emf.ecore.EAnnotationValidator.Registry#getEAnnotationValidator(String) registered} annotation validator.
+     */
+    public Reflective(String annotationSource)
+    {
+      super(EcoreEditPlugin.INSTANCE, getAssistant(annotationSource));
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * </p>
+     */
+    @Override
+    public String getGroupName(EObject instance)
+    {
+      return NameHelper.INSTANCE.getTypeText(instance);
+    }
+
+    private static class NameHelper extends ReflectiveItemProvider
+    {
+      private static final NameHelper INSTANCE = new NameHelper();
+
+      private NameHelper()
+      {
+        super(null);
+      }
+
+      @Override
+      public String getTypeText(Object object)
+      {
+        return super.getTypeText(object);
       }
     }
   }
@@ -524,6 +581,24 @@ public abstract class EAnnotationItemProviderAdapterFactory extends AdapterFacto
       resourceLocator,
       domain,
       getAssistant());
+  }
+
+  /**
+   * Returns the group name associated with the given instance object.
+   * This will typically be the name of the {@link EObject#eClass() instances's class}.
+   * If instances are {@link #isShowInstances(EAnnotation) shown},
+   * this name will be shown for the {@link org.eclipse.emf.ecore.provider.EAnnotationItemProvider.SourcePropertyDescriptor#createPropertyValueWrapper(Object, Object) group of properties} associated with that instance.
+   * 
+   * @param instance
+   * @return the group name associated with the given instance object.
+   * 
+   * @see #isShowInstances(EAnnotation)
+   * @see org.eclipse.emf.ecore.provider.EAnnotationItemProvider.SourcePropertyDescriptor#createPropertyValueWrapper(Object, Object)
+   */
+  public String getGroupName(EObject instance)
+  {
+    String groupName = getResourceLocator().getString("_UI_" + instance.eClass().getName() + "_type");
+    return groupName;
   }
 
   /**

@@ -215,7 +215,7 @@ public class EAnnotationItemProvider extends EModelElementItemProvider
               if (showInstances)
               {
                 Group classGroup = new Group(instance);
-                String groupName = eAnnotationItemProviderAdapterFactory.getResourceLocator().getString("_UI_" + instance.eClass().getName() + "_type");
+                String groupName = eAnnotationItemProviderAdapterFactory.getGroupName(instance);
                 GroupPropertyDescriptor groupPropertyDescriptor = new GroupPropertyDescriptor(groupName, groupName, classGroup);
                 group.add(groupPropertyDescriptor);
                 targetGroup = classGroup;

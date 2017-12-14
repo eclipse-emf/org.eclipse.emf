@@ -11,10 +11,15 @@
 package org.eclipse.emf.ecore.provider;
 
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.RegistryFactory;
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.plugin.RegistryReader;
 import org.eclipse.emf.ecore.provider.annotation.EAnnotationItemProviderAdapterFactory;
@@ -136,16 +141,63 @@ class AnnotationItemProviderAdapterFactoryRegistryReader extends RegistryReader
 {
   static class AnnotationItemProviderAdapterFactoryDescriptor extends PluginClassDescriptor implements EAnnotationItemProviderAdapterFactory.Factory
   {
-    public AnnotationItemProviderAdapterFactoryDescriptor(IConfigurationElement e, String attrName)
+    private String uri;
+
+    public AnnotationItemProviderAdapterFactoryDescriptor(IConfigurationElement e, String uri, String attrName)
     {
       super(e, attrName);
+      this.uri = uri;
     }
 
     public EAnnotationItemProviderAdapterFactory createEAnnotationItemProviderAdapterFactory()
     {
-      return (EAnnotationItemProviderAdapterFactory)createInstance();
+      try
+      {
+        Class<?> javaClass = CommonPlugin.loadClass(element.getDeclaringExtension().getContributor().getName(), element.getAttribute(attributeName));
+        try
+        {
+          Constructor<?> defaultConstructor = javaClass.getConstructor();
+          return (EAnnotationItemProviderAdapterFactory)defaultConstructor.newInstance();
+        }
+        catch (NoSuchMethodException e)
+        {
+          try
+          {
+            Constructor<?> annotationSourceConstructor = javaClass.getConstructor(String.class);
+            return (EAnnotationItemProviderAdapterFactory)annotationSourceConstructor.newInstance(uri);
+          }
+          catch (NoSuchMethodException nestedException)
+          {
+            throw new WrappedException(e);
+          }
+        }
+      }
+      catch (ClassNotFoundException e)
+      {
+        throw new WrappedException(e);
+      }
+      catch (SecurityException e)
+      {
+        throw new WrappedException(e);
+      }
+      catch (InstantiationException e)
+      {
+        throw new WrappedException(e);
+      }
+      catch (IllegalAccessException e)
+      {
+        throw new WrappedException(e);
+      }
+      catch (IllegalArgumentException e)
+      {
+        throw new WrappedException(e);
+      }
+      catch (InvocationTargetException e)
+      {
+        throw new WrappedException(e);
+      }
     }
- 
+
     public IConfigurationElement getElement()
     {
       return element;
@@ -177,7 +229,7 @@ class AnnotationItemProviderAdapterFactoryRegistryReader extends RegistryReader
       }
       else if (add)
       {
-        Object previous = EAnnotationItemProviderAdapterFactory.Registry.INSTANCE.put(uri, new AnnotationItemProviderAdapterFactoryDescriptor(element, ATT_CLASS));
+        Object previous = EAnnotationItemProviderAdapterFactory.Registry.INSTANCE.put(uri, new AnnotationItemProviderAdapterFactoryDescriptor(element, uri, ATT_CLASS));
         if (previous instanceof AnnotationItemProviderAdapterFactoryDescriptor)
         {
           AnnotationItemProviderAdapterFactoryDescriptor descriptor = (AnnotationItemProviderAdapterFactoryDescriptor)previous;
