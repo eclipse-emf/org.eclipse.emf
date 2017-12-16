@@ -10,9 +10,14 @@
  */
 package org.eclipse.emf.importer.ecore;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -22,12 +27,18 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.converter.ConverterPlugin;
 import org.eclipse.emf.converter.util.ConverterUtil;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.importer.ModelImporter;
 
 
@@ -69,10 +80,71 @@ public class EcoreImporter extends ModelImporter
       List<EPackage> ePackages = getEPackages();
       for (Resource resource : ecoreResourceSet.getResources())
       {
-        ePackages.addAll(EcoreUtil.<EPackage>getObjectsByType(resource.getContents(), EcorePackage.Literals.EPACKAGE));
+        ePackages.addAll(EcoreUtil.<EPackage> getObjectsByType(resource.getContents(), EcorePackage.Literals.EPACKAGE));
       }
-      
-      for (Iterator<EPackage> i = ePackages.iterator(); i.hasNext(); )
+
+      // Find all external cross references to classifiers not contained the resource set nor in one of the of the built-in packages.
+      final List<Object> excludedAncestors = Arrays.asList(new Object []{ ecoreResourceSet, EcorePackage.eINSTANCE, XMLTypePackage.eINSTANCE, XMLNamespacePackage.eINSTANCE });
+      Map<EObject, Collection<EStructuralFeature.Setting>> externalCrossReferences = new EcoreUtil.ExternalCrossReferencer(ecoreResourceSet)
+        {
+          private static final long serialVersionUID = 1L;
+
+          @Override
+          protected void handleCrossReference(EObject eObject)
+          {
+            if (eObject.eClass().getEPackage() == EcorePackage.eINSTANCE)
+            {
+              super.handleCrossReference(eObject);
+            }
+          }
+
+          @Override
+          protected boolean crossReference(EObject eObject, EReference eReference, EObject crossReferencedEObject)
+          {
+            return eReference == EcorePackage.Literals.EGENERIC_TYPE__ECLASSIFIER && !EcoreUtil.isAncestor(excludedAncestors, crossReferencedEObject);
+          }
+
+          @Override
+          public Map<EObject, Collection<EStructuralFeature.Setting>> findExternalCrossReferences()
+          {
+            return super.findExternalCrossReferences();
+          }
+        }.findExternalCrossReferences();
+
+      if (!externalCrossReferences.isEmpty())
+      {
+        // Try to resolve those external references to their equivalent development-time Ecore model.
+        Map<String, URI> ePackageNsURIToGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true);
+        for (Map.Entry<EObject, Collection<EStructuralFeature.Setting>> entry : externalCrossReferences.entrySet())
+        {
+          EObject eObject = entry.getKey();
+          EObject rootEObject = EcoreUtil.getRootContainer(eObject);
+          if (rootEObject instanceof EPackage)
+          {
+            EPackage externalEPackage = (EPackage)rootEObject;
+            URI genModelLocation = ePackageNsURIToGenModelLocationMap.get(externalEPackage.getNsURI());
+            Resource genModelResource = ecoreResourceSet.getResource(genModelLocation, true);
+            GenModel genModel = (GenModel)EcoreUtil.getObjectByType(genModelResource.getContents(), GenModelPackage.Literals.GEN_MODEL);
+            GenPackage genPackage = genModel.findGenPackage(externalEPackage);
+            if (genPackage != null)
+            {
+              EPackage ecorePackage = genPackage.getEcorePackage();
+              String relativeURIFragmentPath = EcoreUtil.getRelativeURIFragmentPath(externalEPackage, eObject);
+              EObject resolvedEObject = EcoreUtil.getEObject(ecorePackage, relativeURIFragmentPath);
+              if (eObject.eClass().isInstance(resolvedEObject))
+              {
+                ePackages.add(ecorePackage);
+                for (EStructuralFeature.Setting setting : entry.getValue())
+                {
+                  EcoreUtil.replace(setting, eObject, resolvedEObject);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      for (Iterator<EPackage> i = ePackages.iterator(); i.hasNext();)
       {
         if ("xcore.lang".equals(i.next().getNsURI()))
         {
