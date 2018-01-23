@@ -112,7 +112,7 @@
       <repositoryList
           name="Photon">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.13"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.14milestones"/>
       </repositoryList>
       <repositoryList
           name="Oxygen">
@@ -137,27 +137,27 @@
       <repositoryList
           name="Kepler">
         <repository
-            url="http://hudson.eclipse.org/xtext/job/emf-core/lastSuccessfulBuild/artifact/build-result/p2.repository"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.9.x"/>
       </repositoryList>
       <repositoryList
           name="Juno">
         <repository
-            url="http://hudson.eclipse.org/xtext/job/emf-core/lastSuccessfulBuild/artifact/build-result/p2.repository"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.8.x"/>
       </repositoryList>
       <repositoryList
           name="Indigo">
         <repository
-            url="http://hudson.eclipse.org/xtext/job/emf-core/lastSuccessfulBuild/artifact/build-result/p2.repository"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/2.7.x"/>
       </repositoryList>
       <repositoryList
           name="Helios">
         <repository
-            url="http://hudson.eclipse.org/xtext/job/emf-core/lastSuccessfulBuild/artifact/build-result/p2.repository"/>
+            url="http://download.eclipse.org/releases/helios/201102250900"/>
       </repositoryList>
       <repositoryList
           name="Galileo">
         <repository
-            url="http://hudson.eclipse.org/xtext/job/emf-core/lastSuccessfulBuild/artifact/build-result/p2.repository"/>
+            url="http://download.eclipse.org/releases/galileo"/>
       </repositoryList>
     </targlet>
   </setupTask>
@@ -251,26 +251,6 @@
           url="http://download.eclipse.org/modeling/emf/emf/updates/2.13"/>
       <repository
           url="http://download.eclipse.org/ecoretools/updates"/>
-    </setupTask>
-  </stream>
-  <stream name="R2_11_maintenance"
-      label="2.11">
-    <setupTask
-        xsi:type="setup.p2:P2Task">
-      <repository
-          url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
-      <repository
-          url="http://download.eclipse.org/ecoretools/updates"/>
-    </setupTask>
-  </stream>
-  <stream name="R2_10_maintenance"
-      label="2.10">
-    <setupTask
-        xsi:type="setup.p2:P2Task">
-      <repository
-          url="http://download.eclipse.org/modeling/emf/emf/updates/2.10.x"/>
-      <repository
-          url="http://download.eclipse.org/ecoretools/updates/nightly/2.0.x/luna"/>
     </setupTask>
   </stream>
   <logicalProjectContainer

@@ -2,17 +2,17 @@
 <feature
       id="org.eclipse.xsd.mapping.editor"
       label="%featureName"
-      version="2.9.0.qualifier"
+      version="2.10.0.qualifier"
       provider-name="%providerName"
       license-feature="org.eclipse.xsd.license"
-      license-feature-version="2.8.0.qualifier">
+      license-feature-version="2.9.0.qualifier">
 
    <description>
       %description
    </description>
 
    <copyright url="http://www.eclipse.org/legal/epl-v10.html">
-      Copyright (c) 2002-2011 IBM Corporation and others.
+      Copyright (c) 2002-2018 IBM Corporation and others.
 All rights reserved.   This program and the accompanying materials
 are made available under the terms of the Eclipse Public License v1.0
 which accompanies this distribution, and is available at
@@ -24,8 +24,8 @@ http://www.eclipse.org/legal/epl-v10.html
    </license>
 
    <url>
-      <update label="%ModelingUpdateSiteName" url="http://www.eclipse.org/modeling/updates/"/>
-      <discovery label="%ModelingUpdateSiteName" url="http://www.eclipse.org/modeling/updates/"/>
+      <update label="%EMFUpdateSiteName" url="http://download.eclipse.org/modeling/emf/emf/builds/"/>
+      <discovery label="%EMFUpdateSiteName" url="http://download.eclipse.org/modeling/emf/emf/builds/"/>
    </url>
 
    <requires>
