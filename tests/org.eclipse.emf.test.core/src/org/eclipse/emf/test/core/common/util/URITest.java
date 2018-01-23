@@ -1303,6 +1303,7 @@ public class URITest
     {
       // Expected.
     }
+    System.gc();
 
     uriStrings = new HashSet<String>();
     for (Iterator<URI> i = uris.iterator(); i.hasNext(); )

@@ -1,3 +1,10 @@
-requires.1.namespace=A.PDE.Target.Platform
-requires.1.name=Cannot be installed into the IDE
-requires.1.range=0.0.0
+requires.0.namespace=org.eclipse.equinox.p2.iu
+requires.0.name=org.eclipse.emf.gwt.sdk
+requires.0.range=[$version$,$version$]
+requires.0.greedy=true
+requires.0.optional=true
+
+requires.1.name = org.eclipse.platform.feature.group
+requires.1.namespace = org.eclipse.equinox.p2.iu
+requires.1.min = 0
+requires.1.max = 0

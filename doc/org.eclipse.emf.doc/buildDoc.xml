@@ -1,22 +1,18 @@
-<project name="CDE Doc Build" default="all"  basedir="." >
+<project name="Doc Build" default="all"  basedir="." >
 
-	<target name="init">
-		<available file="${basedir}/index" property="index.present"/>
-	</target>
-
-	<target name="all" depends="init" unless="index.present">
-<!-- Not needed for now. Uncomment as they become needed.		
+	<target name="all">
+		<!-- Not needed for now. Uncomment as they become needed.		
 		<antcall target="convertSchemaToHtml" />
 		<antcall target="examplesDocCopy" />
 		<antcall target="generateJavadoc" />
--->		
+-->
 		<antcall target="build.index" />
 		<!--antcall target="createDocZip" /-->
 	</target>
 
-
-	<target name="build.index" description="Builds search index for the plug-in: org.eclipse.jdt.doc.isv" if="eclipse.running">
+	<target name="build.index" description="Builds search index for the containing documentation plugin" if="eclipse.running">
 		<help.buildHelpIndex manifest="${basedir}/plugin.xml" destination="${basedir}"/>
+		<echo message="*${line.separator}!.gitignore${line.separator}" file="${basedir}/index/.gitignore" append="false" />
 	</target>
 
 	<target name="convertSchemaToHtml" if="eclipse.running">
@@ -107,7 +103,7 @@
 		<exec dir="." executable="${javadoc}" output="doc.bin.log">
 			<arg line="@${basedir}/${optionsFile} -J-Xmx1000M" />
 		</exec>
-		
+
 		<!--workaround for bug 101048-->
 		<replace dir="reference/api" token="=&quot;/../misc/api-usage-rules.html" value="=&quot;./../misc/api-usage-rules.html">
 			<include name="*htm*" />

@@ -10,12 +10,12 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.test.databinding.emfdb,
  org.eclipse.emf.test.databinding.emfdb.impl,
  org.eclipse.emf.test.databinding.emfdb.util
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
- org.junit;bundle-version="[4.11.0,5.0.0)",
- org.eclipse.core.databinding,
- org.eclipse.emf.ecore.xmi,
- org.eclipse.emf.test.common,
- org.eclipse.emf.databinding,
- org.eclipse.core.databinding.property
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
+ org.eclipse.emf.ecore;bundle-version="[2.14.0,3.0.0)";visibility:=reexport,
+ org.junit;bundle-version="[4.12.0,5.0.0)",
+ org.eclipse.core.databinding;bundle-version="[1.3.0,2.0.0)",
+ org.eclipse.emf.ecore.xmi;bundle-version="[2.14.0,3.0.0)",
+ org.eclipse.emf.test.common;bundle-version="[1.6.0,2.0.0)",
+ org.eclipse.emf.databinding;bundle-version="[1.4.0,2.0.0)",
+ org.eclipse.core.databinding.property;bundle-version="[1.3.0,2.0.0)"
 Bundle-ActivationPolicy: lazy

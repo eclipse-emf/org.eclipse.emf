@@ -45,6 +45,12 @@ public class ToolsTest
     Map<String, URI> map = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true);
     assertNotNull(map);
 
+    // The map is empty during a Tycho build, so just use the map for the runtime installation itself.
+    if (map.isEmpty())
+    {
+      map = EcorePlugin.getEPackageNsURIToGenModelLocationMap(false);
+    }
+
     URI genModelURI = map.get(nsURI);
     assertNotNull(genModelURI);
 

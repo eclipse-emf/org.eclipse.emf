@@ -4,8 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.tools.merger;
@@ -20,14 +20,14 @@ import source.ClassB;
  * Source user javadoc 3
  * Source user javadoc 4
  * <!-- end-user-doc -->
- * 
+ *
  * @author EMF Team (source)
  * @generated
  */
 public class MergerExample
 {
   private int a1 = 1;
-  
+
   /**
    * Source javadoc 5
    */
@@ -55,10 +55,7 @@ public class MergerExample
    * @generated
    */
   protected int a5 = 5;
-  
-  
-  
-  
+
   /**
    * Source javadoc 11
    * <!-- begin-user-doc -->
@@ -73,9 +70,9 @@ public class MergerExample
    * <!-- end-user-doc -->
    * @generated
    */
-  protected boolean newAttribute = true;  
-  
-  /**
+  protected boolean newAttribute = true;
+
+/**
    * Source javadoc 13
    * <!-- begin-user-doc -->
    * Source user javadoc 14
@@ -88,7 +85,7 @@ public class MergerExample
   {
     // begin-user-code
     System.out.println("Source user code 1");
-    // end-user-code    
+    // end-user-code
     System.out.println("Source code 2");
     return id == "source";
   }
@@ -105,8 +102,8 @@ public class MergerExample
   {
      System.out.println("Source code 3");
      id = value ? "source" : "target";
-  }  
-  
+  }
+
   /**
    * Source javadoc 17
    * <!-- begin-user-doc -->
@@ -120,7 +117,7 @@ public class MergerExample
   {
     System.out.println("Source code 4");
   }
-  
+
   /**
    * Source javadoc 20
    * <!-- begin-user-doc -->
@@ -133,10 +130,10 @@ public class MergerExample
   {
     // begin-user-code
     System.out.println("Source user code 5");
-    // end-user-code        
+    // end-user-code
     System.out.println("Source code 6");
   }
-  
+
   /**
    * Source javadoc 23
    * @generated
@@ -145,7 +142,7 @@ public class MergerExample
   {
     System.out.println("Source code 7");
   }
-  
+
   /**
    * Source javadoc 24
    * @generated

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.importer.rose; singleton:=true
-Bundle-Version: 2.8.0.qualifier
+Bundle-Version: 2.9.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.importer.rose.RoseImporterPlugin$Implementation
 Bundle-Vendor: %providerName
@@ -13,11 +13,11 @@ Export-Package: org.eclipse.emf.importer.rose,
  org.eclipse.emf.importer.rose.parser,
  org.eclipse.emf.importer.rose.taskdefs,
  org.eclipse.emf.importer.rose.ui
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.core.resources,
- org.eclipse.emf.importer,
- org.eclipse.emf.codegen.ecore.ui;resolution:=optional,
- org.apache.ant;resolution:=optional,
- org.eclipse.emf.ant;resolution:=optional
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
+ org.eclipse.core.resources;bundle-version="[3.6.0,4.0.0)",
+ org.eclipse.emf.importer;bundle-version="[2.10.0,3.0.0)",
+ org.eclipse.emf.codegen.ecore.ui;bundle-version="[2.14.0,3.0.0)";resolution:=optional,
+ org.apache.ant;bundle-version="[1.7.0,2.0.0)";resolution:=optional,
+ org.eclipse.emf.ant;bundle-version="[2.9.0,3.0.0)";resolution:=optional
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy

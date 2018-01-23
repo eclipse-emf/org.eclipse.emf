@@ -4,8 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.test.tools.merger;
@@ -21,7 +21,7 @@ import target.ClassA;
  * Target user javadoc 3
  * Target user javadoc 4
  * <!-- end-user-doc -->
- * 
+ *
  * @author EMF Team (target)
  * @generated
  */
@@ -32,7 +32,7 @@ public class MergerExample
    * @generated
    */
   private int a1 = -1;
-  
+
   /**
    * Target javadoc 6
    * @generated
@@ -48,7 +48,7 @@ public class MergerExample
   /**
    * Target javadoc 8
    * <!-- begin-user-doc -->
-   * Target user javadoc 9 
+   * Target user javadoc 9
    * <!-- end-user-doc -->
    * @generated
    */
@@ -62,11 +62,7 @@ public class MergerExample
    * @generated
    */
   private int a5 = -5;
-  
-  
-  
-  
-  
+
   /**
    * Target javadoc 12
    * <!-- begin-user-doc -->
@@ -111,7 +107,7 @@ public class MergerExample
      id = value ? "target" : "source";
      System.out.println("Target code 4");
   }
-  
+
   /**
    * Target javadoc 23
    * <!-- begin-user-doc -->
@@ -119,12 +115,12 @@ public class MergerExample
    * <!-- end-user-doc -->
    * Target javadoc 25
    * @param target
-   */  
+   */
   protected Object sourceRequired()
   {
     System.out.println("Target code 5");
-  }    
-  
+  }
+
   /**
    * Target javadoc 26
    * @generated
@@ -133,7 +129,7 @@ public class MergerExample
   {
     System.out.println("Target code 6");
   }
-  
+
   /**
    * Target javadoc 27
    * <!-- begin-user-doc -->
@@ -146,10 +142,10 @@ public class MergerExample
   {
     // begin-user-code
     System.out.println("Target user code 7");
-    // end-user-code        
+    // end-user-code
     System.out.println("Target code 8");
   }
-  
+
   /**
    * Target javadoc 30
    * @generated

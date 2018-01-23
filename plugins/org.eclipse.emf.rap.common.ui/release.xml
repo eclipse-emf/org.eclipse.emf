@@ -41,9 +41,7 @@
 	<feature name="org.eclipse.emf.rap.sdk" version="2.13.0">
 		<feature name="org.eclipse.emf.license" version="2.8.0" license="true"/>
 		<feature name="org.eclipse.emf.rap" version="2.13.0"/>
-		<feature name="org.eclipse.emf.rap.source" version="0.0.0"/> <!-- UNRESOLVED -->
 	</feature>
-	<feature name="org.eclipse.emf.rap.source" version="0.0.0"/> <!-- UNRESOLVED -->
 	<plugin name="org.eclipse.emf.common" version="2.13.0"/>
 	<plugin name="org.eclipse.emf.ecore" version="2.13.0"/>
 	<plugin name="org.eclipse.emf.ecore.change" version="2.11.0"/>

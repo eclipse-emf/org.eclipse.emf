@@ -22,11 +22,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.emf.ecore.xcore.XcoreStandaloneSetup;
 import org.eclipse.emf.ecore.xcore.resource.XcoreResource;
+import org.eclipse.emf.test.ecore.xcore.XcoreStandaloneInjectorProvider;
 import org.eclipse.xtext.common.types.TypesPackage;
-import org.eclipse.xtext.testing.GlobalRegistries;
 import org.eclipse.xtext.testing.InjectWith;
 import org.eclipse.xtext.testing.XtextRunner;
 import org.eclipse.xtext.resource.IEObjectDescription;
@@ -48,40 +47,30 @@ import com.google.inject.Provider;
 @InjectWith(LazyGenModelInferenceTest.MyXcoreInjectorProvider.class)
 public class LazyGenModelInferenceTest
 {
-
   @Inject
   private Provider<XtextResourceSet> resourceSetProvider;
 
-  public static class MyXcoreInjectorProvider extends XcoreInjectorProvider
+  public static class MyXcoreInjectorProvider extends XcoreStandaloneInjectorProvider
   {
-
-    private Injector injector;
-
     @Override
-    public Injector getInjector()
+    protected Injector internalCreateInjector()
     {
-      if (injector == null)
-      {
-        stateBeforeInjectorCreation = GlobalRegistries.makeCopyOfGlobalState();
-        this.injector =
-          new XcoreStandaloneSetup()
+      return
+        new XcoreStandaloneSetup()
+        {
+          @Override
+          public Injector createInjector()
           {
-            @Override
-            public Injector createInjector()
-            {
-              return Guice.createInjector(new org.eclipse.emf.ecore.xcore.XcoreRuntimeModule()
+            return Guice.createInjector(new org.eclipse.emf.ecore.xcore.XcoreRuntimeModule()
+              {
+                @Override
+                public Class<? extends XtextResource> bindXtextResource()
                 {
-                  @Override
-                  public Class<? extends XtextResource> bindXtextResource()
-                  {
-                    return InspectableXcoreResource.class;
-                  }
-                });
-            }
-          }.createInjectorAndDoEMFRegistration();
-          stateAfterInjectorCreation = GlobalRegistries.makeCopyOfGlobalState();
-      }
-      return injector;
+                  return InspectableXcoreResource.class;
+                }
+              });
+          }
+        }.createInjectorAndDoEMFRegistration();
     }
 
     @Override

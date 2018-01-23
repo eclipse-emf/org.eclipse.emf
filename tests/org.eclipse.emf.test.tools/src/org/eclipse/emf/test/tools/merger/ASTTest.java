@@ -17,12 +17,15 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.tools.AllSuites;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ArrayCreation;
@@ -51,6 +54,7 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
+import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.TextEdit;
@@ -410,7 +414,7 @@ public class ASTTest
  public void testWrite() throws Exception
  {
    // read
-     String source = TestUtil.readFile(CLASS_FILE, false);
+     String source = TestUtil.readFile(CLASS_FILE, true);
     ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser();
     astParser.setSource(source.toCharArray());
     CompilationUnit sourceCu = (CompilationUnit)astParser.createAST(null);
@@ -464,14 +468,16 @@ public class ASTTest
    rewriter.set(targetClass.getMethods()[6], MethodDeclaration.JAVADOC_PROPERTY, comment, null);
 
    // apply changes
-    TextEdit editsInWriter = rewriter.rewriteAST(targetDoc, null);
-    editsInWriter.apply(targetDoc);
-    String result = targetDoc.get();
+   Map<String, String> options = new HashMap<String, String>();
+   options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.TAB);
+   TextEdit editsInWriter = rewriter.rewriteAST(targetDoc, options);
+   editsInWriter.apply(targetDoc);
+   String result = targetDoc.get();
 
-     File expectedOutputFile = new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/Example1Changed.java").getAbsoluteFile();
+   File expectedOutputFile = new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/Example1Changed.java").getAbsoluteFile();
 
-     String expectedResult = TestUtil.readFile(expectedOutputFile, false);
+   String expectedResult = TestUtil.readFile(expectedOutputFile, true);
 
-     assertEquals(expectedResult, result);
+   assertEquals(expectedResult, result);
   }
 }

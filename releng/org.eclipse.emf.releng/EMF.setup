@@ -157,6 +157,62 @@
         name="EMF Target Platform"
         activeRepositoryList="${eclipse.target.platform}"
         includeBinaryEquivalents="false">
+      <annotation
+          source="http:/www.eclipse.org/oomph/targlets/PomArtifactUpdater">
+        <detail
+            key="skipArtifactIDs">
+          <value>false</value>
+        </detail>
+        <detail
+            key="skipVersions">
+          <value>false</value>
+        </detail>
+      </annotation>
+      <annotation
+          source="http:/www.eclipse.org/oomph/targlets/PomModulesUpdaterX">
+        <detail
+            key="location">
+          <value>${emf.git.clone.location/releng/org.eclipse.emf.parent/plugins/pom.xml}</value>
+        </detail>
+        <detail
+            key="moduleRoots">
+          <value>${emf.git.clone.location/plugins}</value>
+        </detail>
+      </annotation>
+      <annotation
+          source="http:/www.eclipse.org/oomph/targlets/PomModulesUpdaterX">
+        <detail
+            key="location">
+          <value>${emf.git.clone.location/releng/org.eclipse.emf.parent/features/pom.xml}</value>
+        </detail>
+        <detail
+            key="moduleRoots">
+          <value>${emf.git.clone.location/features}</value>
+        </detail>
+      </annotation>
+      <annotation
+          source="http:/www.eclipse.org/oomph/targlets/TargetDefinitionGeneratorX">
+        <detail
+            key="location">
+          <value>${emf.git.clone.location/releng/org.eclipse.emf.parent/tp/org.eclipse.emf.tp.target}</value>
+        </detail>
+        <detail
+            key="extraUnits">
+          <value>org.eclipse.equinox.executable.feature.group</value>
+        </detail>
+        <detail
+            key="singleLocation">
+          <value>true</value>
+        </detail>
+        <detail
+            key="includeAllPlatforms">
+          <value>false</value>
+        </detail>
+        <detail
+            key="includeSource">
+          <value>true</value>
+        </detail>
+      </annotation>
       <requirement
           name="org.eclipse.platform.feature.group"/>
       <requirement
@@ -190,13 +246,11 @@
         <repository
             url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
         <repository
             url="${gwt.tool.url}"/>
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
-        <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.13"/>
       </repositoryList>
       <repositoryList
           name="Neon">
@@ -205,13 +259,11 @@
         <repository
             url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
         <repository
             url="${gwt.tool.url}"/>
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
-        <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.12"/>
       </repositoryList>
       <repositoryList
           name="Mars">
@@ -220,13 +272,11 @@
         <repository
             url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
         <repository
             url="${gwt.tool.url}"/>
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
-        <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
       </repositoryList>
       <repositoryList
           name="Luna">
@@ -235,13 +285,11 @@
         <repository
             url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
         <repository
             url="${gwt.tool.url}"/>
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
-        <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.10.x"/>
       </repositoryList>
       <repositoryList
           name="Kepler">
@@ -250,30 +298,24 @@
         <repository
             url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
         <repository
             url="${gwt.tool.url}"/>
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
-        <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.9"/>
       </repositoryList>
       <repositoryList
           name="Juno">
         <repository
-            url="http://download.eclipse.org/releases/juno"/>
+            url="http://download.eclipse.org/releases/juno/201303010900"/>
         <repository
             url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
         <repository
             url="${gwt.tool.url}"/>
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
-        <repository
-            url="http://download.eclipse.org/technology/m2e/releases/1.0"/>
-        <repository
-            url="http://download.eclipse.org/technology/swtbot/releases/latest"/>
       </repositoryList>
       <repositoryList
           name="Indigo">
@@ -282,56 +324,31 @@
         <repository
             url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
         <repository
             url="${gwt.tool.url}"/>
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
-        <repository
-            url="http://download.eclipse.org/technology/m2e/releases/1.0"/>
-        <repository
-            url="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
       </repositoryList>
       <repositoryList
           name="Helios">
         <repository
-            url="http://download.eclipse.org/releases/helios"/>
+            url="http://download.eclipse.org/releases/helios/201102250900"/>
         <repository
             url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
         <repository
             url="${gwt.tool.url}"/>
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
-        <repository
-            url="http://download.eclipse.org/technology/m2e/releases/1.0"/>
-        <repository
-            url="http://download.eclipse.org/technology/swtbot/releases/latest"/>
-      </repositoryList>
-      <repositoryList
-          name="Galileo">
-        <repository
-            url="${xtext.nightly.composite}"/>
-        <repository
-            url="http://download.eclipse.org/releases/galileo"/>
-        <repository
-            url="http://download.eclipse.org/rt/rap/3.0"/>
-        <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
-        <repository
-            url="http://download.eclipse.org/tools/gef/updates/milestones"/>
-        <repository
-            url="http://download.itemis.com/updates/releases/2.1.0"/>
-        <repository
-            url="http://download.eclipse.org/technology/m2e/releases/1.0"/>
-        <repository
-            url="http://download.eclipse.org/technology/swtbot/releases/latest"/>
-        <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/orbit"/>
       </repositoryList>
     </targlet>
   </setupTask>
+  <setupTask
+      xsi:type="setup:StringSubstitutionTask"
+      name="emf.git.clone.location"
+      value="${emf.git.clone.location}"/>
   <project name="core"
       label="Core">
     <setupTask
@@ -347,11 +364,11 @@
     <setupTask
         xsi:type="projects:ProjectsImportTask">
       <sourceLocator
-          rootFolder="${emf.git.clone.location/releng/org.eclipse.emf.build-feature}"/>
-      <sourceLocator
           rootFolder="${emf.git.clone.location/releng/org.eclipse.emf.releng}"/>
       <sourceLocator
-          rootFolder="${emf.git.clone.location/releng/org.eclipse.emf.releng.buckminster}"/>
+          rootFolder="${emf.git.clone.location/releng/org.eclipse.emf.site}"/>
+      <sourceLocator
+          rootFolder="${emf.git.clone.location/releng/org.eclipse.emf.parent}"/>
     </setupTask>
     <setupTask
         xsi:type="setup.targlets:TargletTask">
@@ -360,9 +377,9 @@
         <requirement
             name="org.eclipse.emf.all.feature.group"/>
         <requirement
-            name="org.eclipse.emf.base.build.feature.group"/>
-        <requirement
             name="org.eclipse.emf.tests.feature.group"/>
+        <requirement
+            name="org.eclipse.emf.base.feature.group"/>
         <sourceLocator
             rootFolder="${emf.git.clone.location}"/>
       </targlet>
@@ -434,9 +451,6 @@
               xsi:type="predicates:OrPredicate">
             <operand
                 xsi:type="predicates:NamePredicate"
-                pattern="org\.eclipse\.emf\.cheatsheets.*"/>
-            <operand
-                xsi:type="predicates:NamePredicate"
                 pattern="org\.eclipse\.emf\.example.*"/>
             <operand
                 xsi:type="predicates:NamePredicate"
@@ -462,7 +476,7 @@
               nature="org.eclipse.pde.PluginNature"/>
           <operand
               xsi:type="predicates:NamePredicate"
-              pattern="org\.eclipse\.emf\.doc"/>
+              pattern="org\.eclipse\.emf\.doc|org\.eclipse\.emf\.cheatsheets"/>
         </predicate>
       </workingSet>
       <workingSet
@@ -498,7 +512,7 @@
               project="org.eclipse.emf"/>
           <operand
               xsi:type="predicates:NamePredicate"
-              pattern="org\.eclipse\.emf\.releng.*"/>
+              pattern="org\.eclipse\.emf\.releng.*|org\.eclipse\.emf\.parent|org\.eclipse\.emf\.site"/>
         </predicate>
       </workingSet>
       <workingSet
@@ -552,28 +566,6 @@
             url="http://download.eclipse.org/ecoretools/updates"/>
       </setupTask>
     </stream>
-    <stream
-        name="R2_11_maintenance"
-        label="2.11">
-      <setupTask
-          xsi:type="setup.p2:P2Task">
-        <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
-        <repository
-            url="http://download.eclipse.org/ecoretools/updates"/>
-      </setupTask>
-    </stream>
-    <stream
-        name="R2_10_maintenance"
-        label="2.10">
-      <setupTask
-          xsi:type="setup.p2:P2Task">
-        <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.10.x"/>
-        <repository
-            url="http://download.eclipse.org/ecoretools/updates/nightly/2.0.x/luna"/>
-      </setupTask>
-    </stream>
     <description>The development environment for the EMF Core.</description>
   </project>
   <project name="xcore"
@@ -606,13 +598,6 @@
           name="org.eclipse.xtend.sdk.feature.group"/>
       <requirement
           name="org.eclipse.xsd.sdk.feature.group"/>
-    </setupTask>
-    <setupTask
-        xsi:type="projects:ProjectsImportTask">
-      <sourceLocator
-          rootFolder="${emf.git.clone.location/releng/org.eclipse.emf.xcore.releng}"/>
-      <sourceLocator
-          rootFolder="${emf.git.clone.location/releng/org.eclipse.emf.xcore.build-feature}"/>
     </setupTask>
     <setupTask
         xsi:type="setup.targlets:TargletTask">
@@ -656,7 +641,7 @@
               pattern=".*\.xcore.*|.*\.xtext.*"/>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='xcore']/@setupTasks.5/@workingSets.1"/>
+              excludedWorkingSet="//@projects[name='xcore']/@setupTasks.4/@workingSets.1"/>
         </predicate>
       </workingSet>
       <workingSet
@@ -689,18 +674,6 @@
               pattern=".*\.xcore.*|.*\.xtext.*"/>
         </predicate>
       </workingSet>
-      <workingSet
-          name="Xcore Releng">
-        <predicate
-            xsi:type="predicates:AndPredicate">
-          <operand
-              xsi:type="predicates:RepositoryPredicate"
-              project="org.eclipse.emf.ecore.xcore"/>
-          <operand
-              xsi:type="predicates:NamePredicate"
-              pattern=".*\.xcore\.releng.*"/>
-        </predicate>
-      </workingSet>
     </setupTask>
     <stream
         name="master">
@@ -717,32 +690,6 @@
             url="http://download.eclipse.org/ecoretools/updates"/>
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
-      </setupTask>
-    </stream>
-    <stream
-        name="R2_11_maintenance"
-        label="2.11">
-      <setupTask
-          xsi:type="setup.p2:P2Task">
-        <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
-        <repository
-            url="http://download.eclipse.org/ecoretools/updates"/>
-        <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/maintenance/nightly"/>
-      </setupTask>
-    </stream>
-    <stream
-        name="R2_10_maintenance"
-        label="2.10">
-      <setupTask
-          xsi:type="setup.p2:P2Task">
-        <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.10.x"/>
-        <repository
-            url="http://download.eclipse.org/ecoretools/updates/nightly/2.0.x/luna"/>
-        <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/maintenance"/>
       </setupTask>
     </stream>
     <description>The development environment for EMF Xcore.</description>
@@ -766,16 +713,15 @@
           url="${gwt.tool.url}"/>
     </setupTask>
     <setupTask
-        xsi:type="projects:ProjectsImportTask">
-      <sourceLocator
-          rootFolder="${emf.git.clone.location/releng/org.eclipse.emf.gwt.build.helper}"/>
-    </setupTask>
-    <setupTask
         xsi:type="setup.targlets:TargletTask">
       <targlet
           name="EMF GWT">
         <requirement
             name="org.eclipse.emf.gwt.sdk.feature.group"/>
+        <requirement
+            name="com.google.appengine.eclipse.sdkbundle"/>
+        <requirement
+            name="com.google.gwt.eclipse.sdkbundle"/>
         <sourceLocator
             rootFolder="${emf.git.clone.location}"/>
       </targlet>
@@ -796,8 +742,7 @@
               xsi:type="predicates:NamePredicate"
               pattern=".*\.gwt.*"/>
           <operand
-              xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='gwt']/@setupTasks.4/@workingSets.2"/>
+              xsi:type="workingsets:ExclusionPredicate"/>
         </predicate>
       </workingSet>
       <workingSet
@@ -815,18 +760,6 @@
               pattern=".*\.gwt.*"/>
         </predicate>
       </workingSet>
-      <workingSet
-          name="EMF GWT Releng">
-        <predicate
-            xsi:type="predicates:AndPredicate">
-          <operand
-              xsi:type="predicates:RepositoryPredicate"
-              project="org.eclipse.emf.gwt"/>
-          <operand
-              xsi:type="predicates:NamePredicate"
-              pattern=".*\.gwt\.build.*"/>
-        </predicate>
-      </workingSet>
     </setupTask>
     <stream
         name="master">
@@ -841,28 +774,6 @@
             url="http://download.eclipse.org/modeling/emf/emf/updates/2.13"/>
         <repository
             url="http://download.eclipse.org/ecoretools/updates"/>
-      </setupTask>
-    </stream>
-    <stream
-        name="R2_11_maintenance"
-        label="2.11">
-      <setupTask
-          xsi:type="setup.p2:P2Task">
-        <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
-        <repository
-            url="http://download.eclipse.org/ecoretools/updates"/>
-      </setupTask>
-    </stream>
-    <stream
-        name="R2_10_maintenance"
-        label="2.10">
-      <setupTask
-          xsi:type="setup.p2:P2Task">
-        <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.10.x"/>
-        <repository
-            url="http://download.eclipse.org/ecoretools/updates/nightly/2.0.x/luna"/>
       </setupTask>
     </stream>
     <description>The development environment for EMF GWT.</description>
@@ -943,23 +854,6 @@
           xsi:type="setup.p2:P2Task">
         <repository
             url="http://download.eclipse.org/modeling/emf/emf/updates/2.13"/>
-      </setupTask>
-    </stream>
-    <stream
-        name="R2_11_maintenance"
-        label="2.11">
-      <setupTask
-          xsi:type="setup.p2:P2Task"/>
-    </stream>
-    <stream
-        name="R2_10_maintenance"
-        label="2.10">
-      <setupTask
-          xsi:type="setup.p2:P2Task">
-        <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.10.x"/>
-        <repository
-            url="http://download.eclipse.org/rt/rap/tools/2.3"/>
       </setupTask>
     </stream>
     <description>The development environemnt for EMF RAP.</description>

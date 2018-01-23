@@ -1,0 +1,5 @@
+requires.0.namespace=org.eclipse.equinox.p2.iu
+requires.0.name=org.eclipse.emf.ecore.xcore.sdk.source.feature.group
+requires.0.range=[$version$,$version$]
+requires.0.greedy=true
+requires.0.optional=true

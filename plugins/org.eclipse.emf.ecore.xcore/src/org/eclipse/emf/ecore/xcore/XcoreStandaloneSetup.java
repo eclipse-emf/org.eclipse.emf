@@ -10,12 +10,16 @@ package org.eclipse.emf.ecore.xcore;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.xtext.GenModelSupport;
+import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -34,6 +38,7 @@ import org.eclipse.xtext.mwe.UriFilter;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.resource.containers.IAllContainersState;
 import org.eclipse.xtext.xbase.XbasePackage;
+import org.osgi.framework.Bundle;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.HashMultimap;
@@ -168,7 +173,33 @@ public class XcoreStandaloneSetup extends XcoreStandaloneSetupGenerated
       {
         if (paths == null)
         {
-          paths = super.getClassPathEntries();
+          if (EMFPlugin.IS_ECLIPSE_RUNNING)
+          {
+            Bundle xcoreBundle = Platform.getBundle("org.eclipse.emf.ecore.xcore");
+            Bundle[] bundles = xcoreBundle.getBundleContext().getBundles();
+            paths = Lists.newArrayList();
+            for (Bundle bundle : bundles)
+            {
+              URL resource = bundle.getResource("/");
+              if (resource != null)
+              {
+                URI resolved = CommonPlugin.resolve(URI.createURI(resource.toExternalForm()));
+                if (resolved.isArchive())
+                {
+                  String authority = resolved.authority();
+                  resolved = URI.createURI(authority.substring(0, authority.length() - 1));
+                }
+                if (resolved.isFile())
+                {
+                  paths.add(resolved.toFileString());
+                }
+              }
+            }
+          }
+          else
+          {
+            paths = super.getClassPathEntries();
+          }
         }
         return paths;
       }

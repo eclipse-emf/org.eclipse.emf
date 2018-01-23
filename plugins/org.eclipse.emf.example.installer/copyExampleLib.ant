@@ -25,6 +25,8 @@
 					<exclude name=".externalToolBuilders/" />
 					<exclude name="database/" />
 					<exclude name="bin/" />
+					<exclude name="target/" />
+					<exclude name="pom.xml" />
 					<exclude name=".settings/org.eclipse.mylyn*" />
 					<exclude name=".settings/org.eclipse.pde.api.tools.prefs" />
 					<exclude name="**/.gitignore" />
@@ -48,7 +50,7 @@
 			<replaceregexp file="${examples.path}/@{project}/.project"
 			               byline="false"
 			               flags="s"
-			               match="\s*&lt;buildCommand>\s+&lt;name>org.eclipse.emf.cdo.releng.version.VersionBuilder.*?&lt;/buildCommand>"
+			               match="\s*&lt;buildCommand>\s+&lt;name>org.eclipse.oomph.version.VersionBuilder.*?&lt;/buildCommand>"
 			               replace="" />
 
 			<replaceregexp file="${examples.path}/@{project}/.project"
@@ -60,7 +62,7 @@
 			<replaceregexp file="${examples.path}/@{project}/.project"
 			               byline="false"
 			               flags="s"
-			               match="\s*&lt;nature>org.eclipse.emf.cdo.releng.version.VersionNature&lt;/nature>"
+			               match="\s*&lt;nature>org.eclipse.oomph.version.VersionNature&lt;/nature>"
 			               replace="" />
 		</sequential>
 	</macrodef>

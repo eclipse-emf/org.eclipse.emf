@@ -17,6 +17,6 @@
 	</topic>
 	<topic label="Online Docs">
 		<topic label="FAQ" href="http://wiki.eclipse.org/EMF/FAQ" />
-		<topic label="Release Notes" href="http://www.eclipse.org/modeling/emf/news/relnotes.php?project=emf&amp;version=2.5.x" />
+		<topic label="EMF Recipes" href="http://wiki.eclipse.org/EMF/Recipes" />
 	</topic>
 </toc>

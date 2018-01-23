@@ -11,11 +11,11 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.importer.ecore,
  org.eclipse.emf.importer.ecore.taskdefs,
  org.eclipse.emf.importer.ecore.ui
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.core.resources,
- org.eclipse.emf.importer,
- org.eclipse.emf.codegen.ecore.ui;resolution:=optional,
- org.apache.ant;resolution:=optional,
- org.eclipse.emf.ant;resolution:=optional
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
+ org.eclipse.core.resources;bundle-version="[3.6.0,4.0.0)",
+ org.eclipse.emf.importer;bundle-version="[2.10.0,3.0.0)",
+ org.eclipse.emf.codegen.ecore.ui;bundle-version="[2.14.0,3.0.0)";resolution:=optional,
+ org.apache.ant;bundle-version="[1.7.0,2.0.0)";resolution:=optional,
+ org.eclipse.emf.ant;bundle-version="[2.9.0,3.0.0)";resolution:=optional
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy

@@ -15,13 +15,13 @@ Export-Package: org.eclipse.emf.edit.ui,
  org.eclipse.emf.edit.ui.provider,
  org.eclipse.emf.edit.ui.util,
  org.eclipse.emf.edit.ui.view
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.ui.views;visibility:=reexport,
- org.eclipse.ui.workbench;visibility:=reexport,
- org.eclipse.emf.edit;visibility:=reexport,
- org.eclipse.emf.common.ui;visibility:=reexport,
- org.eclipse.core.resources;resolution:=optional,
- org.eclipse.ui.ide;resolution:=optional,
- org.eclipse.jface.text;resolution:=optional
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
+ org.eclipse.ui.views;bundle-version="[3.5.0,4.0.0)";visibility:=reexport,
+ org.eclipse.ui.workbench;bundle-version="[3.6.0,4.0.0)";visibility:=reexport,
+ org.eclipse.emf.edit;bundle-version="[2.13.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.common.ui;bundle-version="[2.13.0,3.0.0)";visibility:=reexport,
+ org.eclipse.core.resources;bundle-version="[3.6.0,4.0.0)";resolution:=optional,
+ org.eclipse.ui.ide;bundle-version="[3.6.0,4.0.0)";resolution:=optional,
+ org.eclipse.jface.text;bundle-version="[3.6.0,4.0.0)";resolution:=optional
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy

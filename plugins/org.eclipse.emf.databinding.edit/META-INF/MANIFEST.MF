@@ -9,9 +9,9 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.databinding.edit
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.databinding;visibility:=reexport,
- org.eclipse.emf.edit;visibility:=reexport,
- org.eclipse.core.databinding.property
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
+ org.eclipse.emf.databinding;bundle-version="[1.4.0,2.0.0)";visibility:=reexport,
+ org.eclipse.emf.edit;bundle-version="[2.13.0,3.0.0)";visibility:=reexport,
+ org.eclipse.core.databinding.property;bundle-version="[1.3.0,2.0.0)"
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy

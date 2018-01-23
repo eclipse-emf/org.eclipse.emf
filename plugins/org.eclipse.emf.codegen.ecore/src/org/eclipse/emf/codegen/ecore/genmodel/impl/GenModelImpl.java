@@ -10572,7 +10572,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
     static String getModelDirectory(URI uri)
     {
-      if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE && uri.segmentCount() >= 2)
+      if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE && uri != null && uri.segmentCount() >= 2)
       {
         try
         {
@@ -10627,7 +10627,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
     static GenJDKLevel getComplianceLevel(URI uri)
     {
-      if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE && uri.segmentCount() >= 2)
+      if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE && uri != null && uri.segmentCount() >= 2)
       {
         try
         {

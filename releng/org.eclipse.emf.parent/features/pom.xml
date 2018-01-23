@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.eclipse.emf</groupId>
+    <artifactId>org.eclipse.emf.parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>..</relativePath>
+  </parent>
+
+  <groupId>org.eclipse.emf</groupId>
+  <artifactId>org.eclipse.emf.features</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <modules>
+
+    <module>../../../examples/org.eclipse.emf.examples-feature</module>
+
+    <module>../../../features/org.eclipse.emf-feature</module>
+    <module>../../../features/org.eclipse.emf.all-feature</module>
+    <module>../../../features/org.eclipse.emf.base-feature</module>
+    <module>../../../features/org.eclipse.emf.license-feature</module>
+    <module>../../../features/org.eclipse.emf.common-feature</module>
+    <module>../../../features/org.eclipse.emf.common.ui-feature</module>
+    <module>../../../features/org.eclipse.emf.ecore-feature</module>
+    <module>../../../features/org.eclipse.emf.ecore.edit-feature</module>
+    <module>../../../features/org.eclipse.emf.ecore.editor-feature</module>
+    <module>../../../features/org.eclipse.emf.edit-feature</module>
+    <module>../../../features/org.eclipse.emf.edit.ui-feature</module>
+    <module>../../../features/org.eclipse.emf.codegen-feature</module>
+    <module>../../../features/org.eclipse.emf.codegen.ui-feature</module>
+    <module>../../../features/org.eclipse.emf.codegen.ecore-feature</module>
+    <module>../../../features/org.eclipse.emf.codegen.ecore.ui-feature</module>
+    <module>../../../features/org.eclipse.emf.converter-feature</module>
+    <module>../../../features/org.eclipse.emf.databinding-feature</module>
+    <module>../../../features/org.eclipse.emf.databinding.edit-feature</module>
+    <module>../../../features/org.eclipse.emf.mapping-feature</module>
+    <module>../../../features/org.eclipse.emf.mapping.ui-feature</module>
+    <module>../../../features/org.eclipse.emf.mapping.ecore-feature</module>
+    <module>../../../features/org.eclipse.emf.mapping.ecore.editor-feature</module>
+    <module>../../../features/org.eclipse.emf.sdk-feature</module>
+
+    <module>../../../features/org.eclipse.emf.oda-feature</module>
+    <module>../../../features/org.eclipse.emf.oda.ecore-feature</module>
+    <module>../../../features/org.eclipse.emf.oda.ecore.ui-feature</module>
+    <module>../../../features/org.eclipse.emf.oda.sdk-feature</module>
+
+    <module>../../../features/org.eclipse.emf.rap-feature</module>
+    <module>../../../features/org.eclipse.emf.rap.common.ui-feature</module>
+    <module>../../../features/org.eclipse.emf.rap.edit.ui-feature</module>
+    <module>../../../features/org.eclipse.emf.rap.sdk-feature</module>
+
+    <module>../../../features/org.eclipse.emf.gwt-feature</module>
+    <module>../../../features/org.eclipse.emf.gwt.common-feature</module>
+    <module>../../../features/org.eclipse.emf.gwt.ecore-feature</module>
+    <module>../../../features/org.eclipse.emf.gwt.ecore.edit-feature</module>
+    <module>../../../features/org.eclipse.emf.gwt.edit-feature</module>
+    <module>../../../features/org.eclipse.emf.gwt.edit.ui-feature</module>
+    <module>../../../features/org.eclipse.emf.gwt.sdk-feature</module>
+
+    <module>../../../doc/org.eclipse.emf.doc-feature</module>
+
+    <module>../../../tests/org.eclipse.emf.tests-feature</module>
+
+    <module>../../../features/org.eclipse.emf.ecore.xcore-feature</module>
+    <module>../../../features/org.eclipse.emf.ecore.xcore.lib-feature</module>
+    <module>../../../features/org.eclipse.emf.ecore.xcore.sdk-feature</module>
+    <module>../../../features/org.eclipse.emf.ecore.xcore.ui-feature</module>
+
+    <module>../../../tests/org.eclipse.emf.test.ecore.xcore-feature</module>
+
+    <module>../../../../org.eclipse.xsd/features/org.eclipse.xsd.example-feature</module>
+
+    <module>../../../../org.eclipse.xsd/features/org.eclipse.xsd-feature</module>
+    <module>../../../../org.eclipse.xsd/features/org.eclipse.xsd.ecore.converter-feature</module>
+    <module>../../../../org.eclipse.xsd/features/org.eclipse.xsd.edit-feature</module>
+    <module>../../../../org.eclipse.xsd/features/org.eclipse.xsd.editor-feature</module>
+    <module>../../../../org.eclipse.xsd/features/org.eclipse.xsd.license-feature</module>
+    <module>../../../../org.eclipse.xsd/features/org.eclipse.xsd.mapping-feature</module>
+    <module>../../../../org.eclipse.xsd/features/org.eclipse.xsd.mapping.editor-feature</module>
+    <module>../../../../org.eclipse.xsd/features/org.eclipse.xsd.sdk-feature</module>
+
+    <module>../../../../org.eclipse.xsd/doc/org.eclipse.xsd.doc-feature</module>
+
+  </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho.extras</groupId>
+        <artifactId>tycho-source-feature-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-source-feature</id>
+            <goals>
+              <goal>source-feature</goal>
+            </goals>
+            <configuration>
+              <excludes>
+                <plugin id="org.eclipse.emf.doc" />
+                <plugin id="org.eclipse.emf.cheatsheets" />
+
+                <plugin id="org.eclipse.emf.examples" />
+                <plugin id="org.eclipse.emf.activities" />
+                <plugin id="org.eclipse.emf.example.installer" />
+                <plugin id="org.eclipse.emf.examples" />
+                <plugin id="org.eclipse.emf.examples.databinding.project.core" />
+                <plugin id="org.eclipse.emf.examples.databinding.project.core.model" />
+                <plugin id="org.eclipse.emf.examples.databinding.project.ui.rcp" />
+                <plugin id="org.eclipse.emf.examples.generator.validator" />
+                <plugin id="org.eclipse.emf.examples.jet.article2" />
+                <plugin id="org.eclipse.emf.examples.library" />
+                <plugin id="org.eclipse.emf.examples.library.edit" />
+                <plugin id="org.eclipse.emf.examples.library.editor" />
+                <plugin id="org.eclipse.emf.exporter.html" />
+                <plugin id="org.eclipse.emf.java" />
+                <plugin id="org.eclipse.emf.java.edit" />
+                <plugin id="org.eclipse.emf.java.editor" />
+
+                <plugin id="org.eclipse.emf.test.common" />
+                <plugin id="org.eclipse.emf.test.core" />
+                <plugin id="org.eclipse.emf.test.databinding" />
+                <plugin id="org.eclipse.emf.test.databinding.edit" />
+                <plugin id="org.eclipse.emf.test.edit" />
+                <plugin id="org.eclipse.emf.test.examples" />
+                <plugin id="org.eclipse.emf.test.tools" />
+                <plugin id="org.eclipse.emf.test.xml" />
+                <plugin id="org.eclipse.emf.tests" />
+
+                <plugin id="org.eclipse.emf.rap" />
+
+                <plugin id="org.eclipse.emf.gwt" />
+
+                <feature id="org.eclipse.emf.doc" />
+
+                <plugin id="org.eclipse.xsd.doc" />
+                <plugin id="org.eclipse.xsd.example" />
+                <plugin id="org.eclipse.xsd.cheatsheets" />
+                <plugin id="org.eclipse.xsd.example.installer" />
+
+                <feature id="org.eclipse.xsd.doc" />
+
+              </excludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-p2-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-p2-metadata-default</id>
+            <configuration>
+              <attachP2Metadata>false</attachP2Metadata>
+            </configuration>
+          </execution>
+          <execution>
+            <id>attach-p2-metadata</id>
+            <phase>package</phase>
+            <goals>
+              <goal>p2-metadata</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>pack-and-sign</id>
+      <activation>
+        <property>
+          <name>PACK_AND_SIGN</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.cbi.maven.plugins</groupId>
+            <artifactId>eclipse-jarsigner-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign</id>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>tycho-p2-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>

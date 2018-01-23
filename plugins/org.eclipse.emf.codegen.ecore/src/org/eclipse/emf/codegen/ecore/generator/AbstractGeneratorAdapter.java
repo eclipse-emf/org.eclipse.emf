@@ -95,6 +95,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ContentHandlerImpl;
@@ -2282,7 +2283,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       }
     }
 
-    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    if (EcorePlugin.getWorkspaceRoot() != null)
     {
       return PlatformResourceURIHandlerImpl.WorkbenchHelper.getLineDelimiter(workspacePath.toString(), null);
     }
@@ -2294,7 +2295,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    */
   protected boolean exists(URI workspacePath)
   {
-    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    if (EcorePlugin.getWorkspaceRoot() != null)
     {
       return PlatformResourceURIHandlerImpl.WorkbenchHelper.exists(workspacePath.toString(), null);
     }
@@ -2306,7 +2307,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    */
   protected boolean isReadOnly(URI workspacePath)
   {
-    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    if (EcorePlugin.getWorkspaceRoot() != null)
     {
       return EclipseHelper.isReadOnly(workspacePath.toString());
     }
