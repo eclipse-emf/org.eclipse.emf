@@ -1110,7 +1110,7 @@ public class UpdateSiteGenerator
      */
     private IMetadataRepository getMetadataRepository()
     {
-      ICompositeRepository<IInstallableUnit> compositeMetadataRepository = (ICompositeRepository<IInstallableUnit>)getCompositeMetadataRepository();
+      ICompositeRepository<?> compositeMetadataRepository = (ICompositeRepository<?>)getCompositeMetadataRepository();
       IMetadataRepositoryManager metadataRepositoryManager = getMetadataRepositoryManager();
       try
       {

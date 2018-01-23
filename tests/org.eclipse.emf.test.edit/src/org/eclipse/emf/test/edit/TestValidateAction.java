@@ -46,6 +46,7 @@ public class TestValidateAction
 {
   public static class MyValidateAction extends ValidateAction
   {
+    @SuppressWarnings("all")
     private static final long serialVersionUID = 1L;
 
     public MyValidateAction()
