@@ -429,8 +429,8 @@ public class UpdateSiteIndexGenerator
   }
 
   /**
-   * Returns the ordered index generators for the childre of this folder.
-   * @return the ordered index generators for the childre of this folder.
+   * Returns the ordered index generators for the children of this folder.
+   * @return the ordered index generators for the children of this folder.
    */
   public List<UpdateSiteIndexGenerator> getChildren()
   {
@@ -456,5 +456,23 @@ public class UpdateSiteIndexGenerator
     }
 
     return result;
+  }
+
+  /**
+   * Returns a map from project name to the URL for the commit ID URL in that project's branding plugin.
+   * @return a map from project name to the URL for the commit ID URL in that project's branding plugin.
+   */
+  public Map<String, String> getCommits()
+  {
+    return repositoryAnalyzer.getCommits();
+  }
+
+  /**
+   * Returns the date string for when the IUs in the repository were built.
+   * @return the date string for when the IUs in the repository were built.
+   */
+  public String getDate()
+  {
+    return repositoryAnalyzer.getDate();
   }
 }

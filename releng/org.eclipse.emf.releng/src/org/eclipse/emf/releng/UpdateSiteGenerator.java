@@ -8,6 +8,7 @@
 package org.eclipse.emf.releng;
 
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,10 +19,15 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -29,6 +35,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import org.eclipse.core.runtime.CoreException;
@@ -44,6 +51,7 @@ import org.eclipse.equinox.p2.internal.repository.tools.CompositeRepositoryAppli
 import org.eclipse.equinox.p2.internal.repository.tools.MirrorApplication;
 import org.eclipse.equinox.p2.internal.repository.tools.RepositoryDescriptor;
 import org.eclipse.equinox.p2.internal.repository.tools.SlicingOptions;
+import org.eclipse.equinox.p2.metadata.IArtifactKey;
 import org.eclipse.equinox.p2.metadata.IInstallableUnit;
 import org.eclipse.equinox.p2.metadata.IProvidedCapability;
 import org.eclipse.equinox.p2.metadata.IRequirement;
@@ -53,6 +61,8 @@ import org.eclipse.equinox.p2.query.IQueryResult;
 import org.eclipse.equinox.p2.query.QueryUtil;
 import org.eclipse.equinox.p2.repository.ICompositeRepository;
 import org.eclipse.equinox.p2.repository.IRepository;
+import org.eclipse.equinox.p2.repository.artifact.IArtifactDescriptor;
+import org.eclipse.equinox.p2.repository.artifact.IArtifactRepository;
 import org.eclipse.equinox.p2.repository.artifact.spi.AbstractArtifactRepository;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepositoryManager;
@@ -838,6 +848,29 @@ public class UpdateSiteGenerator
    */
   public static class RepositoryAnalyzer extends AbstractApplication
   {
+    /**
+     * The pattern for finding the commit ID in a branding plugin's {@code about.mappings}.
+     */
+    private static final Pattern COMMIT_ID_PATTERN = Pattern.compile("^1=(.*)$", Pattern.MULTILINE);
+
+    /**
+     * The pattern for a well-formed Git commit ID.
+     */
+    private static final Pattern VALID_COMMIT_ID_PATTERN = Pattern.compile("^([0-9a-fA-F]+)$");
+
+    /**
+     * The pattern for finding the commit ID in a branding plugin's {@code about.mappings}.
+     */
+    private static final Pattern BUILD_ID_PATTERN = Pattern.compile("^0=(.*)$", Pattern.MULTILINE);
+
+    /**
+     * The pattern for a well-formed build ID.
+     */
+    private static final Pattern VALID_BUILD_ID_PATTERN = Pattern.compile("^[MNRS](\\d{12})$");
+
+    /**
+     * The pattern for finding a child location in a {@code compositeContent.xml}.
+     */
     private static final Pattern CHILD_LOCATION_PATTERN = Pattern.compile("<child location='([^']*)'");
 
     /**
@@ -1102,6 +1135,126 @@ public class UpdateSiteGenerator
         }
       }
       return result;
+    }
+
+    /**
+     * Returns a map from project name to the URL for the commit ID URL in that project's branding plugin.
+     * @return a map from project name to the URL for the commit ID URL in that project's branding plugin.
+     */
+    public Map<String, String> getCommits()
+    {
+      Map<String, String> result = new LinkedHashMap<String, String>();
+      getIDs(result, "org.eclipse.emf", COMMIT_ID_PATTERN, VALID_COMMIT_ID_PATTERN, "http://git.eclipse.org/c/emf/org.eclipse.emf.git/commit/?id=");
+      getIDs(result, "org.eclipse.xsd", COMMIT_ID_PATTERN, VALID_COMMIT_ID_PATTERN, "http://git.eclipse.org/c/xsd/org.eclipse.xsd.git/commit/?id=");
+      getDate();
+      return result;
+    }
+
+    /**
+     * Returns the build date as determined from the EMF project's branding plugin.
+     * @return the build date as determined from the EMF project's branding plugin.
+     */
+    public String getDate()
+    {
+      Map<String, String> result = new LinkedHashMap<String, String>();
+      getIDs(result, "org.eclipse.emf", BUILD_ID_PATTERN, VALID_BUILD_ID_PATTERN, "");
+      if (!result.isEmpty())
+      {
+        String value = result.values().iterator().next();
+        try
+        {
+          Date date = new SimpleDateFormat("yyyyMMddHHmm").parse(value);
+          return new SimpleDateFormat("yyyy'-'MM'-'dd' at 'HH':'mm ").format(date);
+        }
+        catch (ParseException e)
+        {
+          // Ignore.
+        }
+      }
+
+      return null;
+    }
+
+    /**
+     * Populates the IDs with the information from {@code about.mappings} for the branding plugin with the give UI ID.
+     * @param ids the IDs to populate.
+     * @param iuID the ID of a branding plugin.
+     * @param idPattern the pattern for finding the ID in the {@link about.mappings}
+     * @param validIDPattern the pattern for validating and extracting the ID.
+     * @param prefix the prefix that will be prepended to the ID.
+     */
+    private void getIDs(Map<String, String> ids, String iuID, Pattern idPattern, Pattern validIDPattern, String prefix)
+    {
+      IMetadataRepository metadataRepository = getCompositeMetadataRepository();
+      IArtifactRepository artifactRepository = getCompositeArtifactRepository();
+      IQueryResult<IInstallableUnit> ius = metadataRepository.query(QueryUtil.createIUQuery(iuID), new NullProgressMonitor());
+      for (Iterator<IInstallableUnit> i = ius.iterator(); i.hasNext();)
+      {
+        IInstallableUnit iu = i.next();
+        Collection<IArtifactKey> artifacts = iu.getArtifacts();
+        for (IArtifactKey artifactKey : artifacts)
+        {
+          IArtifactDescriptor[] artifactDescriptors = artifactRepository.getArtifactDescriptors(artifactKey);
+          for (IArtifactDescriptor artifactDescriptor : artifactDescriptors)
+          {
+            ByteArrayOutputStream artifact = new ByteArrayOutputStream();
+            artifactRepository.getArtifact(artifactDescriptor, artifact, new NullProgressMonitor());
+            ZipInputStream zipInputStream = null;
+            try
+            {
+              zipInputStream = new ZipInputStream(new ByteArrayInputStream(artifact.toByteArray()));
+              for (ZipEntry entry = zipInputStream.getNextEntry(); entry != null; entry = zipInputStream.getNextEntry())
+              {
+                String name = entry.getName();
+                if ("about.mappings".equals(name))
+                {
+                  ByteArrayOutputStream content = new ByteArrayOutputStream();
+                  byte[] bytes = new byte [1024];
+                  for (int length = zipInputStream.read(bytes); length != -1; length = zipInputStream.read(bytes))
+                  {
+                    content.write(bytes, 0, length);
+                  }
+
+                  content.close();
+                  String value = new String(content.toByteArray(), "UTF-8");
+                  for (Matcher matcher = idPattern.matcher(value); matcher.find();)
+                  {
+                    String id = matcher.group(1);
+                    Matcher idMatcher = validIDPattern.matcher(id);
+                    if (idMatcher.matches())
+                    {
+                      ids.put(iuID.substring(iuID.lastIndexOf('.') + 1).toUpperCase(), prefix + idMatcher.group(1));
+                    }
+                    break;
+                  }
+                  break;
+                }
+              }
+            }
+            catch (IOException exception)
+            {
+              // Ignore.
+            }
+            finally
+            {
+              if (zipInputStream != null)
+              {
+                try
+                {
+                  zipInputStream.close();
+                }
+                catch (IOException e)
+                {
+                  // Ignore.
+                }
+              }
+            }
+            break;
+          }
+        }
+
+        break;
+      }
     }
 
     /**

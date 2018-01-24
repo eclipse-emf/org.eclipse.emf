@@ -33,80 +33,93 @@ public class UpdateSiteIndex
   protected final String TEXT_15 = "</a>";
   protected final String TEXT_16 = NL + "            <div style=\"float: right;\"><tt class=\"orange\">&#xab;</tt></div>";
   protected final String TEXT_17 = NL + "          </li>";
-  protected final String TEXT_18 = NL + "        </ul>" + NL + "      </aside>" + NL + "" + NL + "      <div id=\"maincontent\">" + NL + "        <div id=\"midcolumn\">" + NL + "          <h2>";
+  protected final String TEXT_18 = NL + "        </ul>" + NL + "      </aside>" + NL + "" + NL + "      <div id=\"maincontent\">" + NL + "        <div id=\"midcolumn\">" + NL + "          <h2 style=\"text-align: center;\">";
   protected final String TEXT_19 = "</h2>";
-  protected final String TEXT_20 = NL + "          <p>" + NL + "            <button title=\"Copy to Clipboard\" class=\"orange\" style=\"font-size: 150%; background-color: white; border: none; padding: 0px 0px;\" onclick=\"copyToClipboard('#p1')\">&#x270e;</button>" + NL + "            <span id=\"p1\" style=\"font-size: 125%\">";
-  protected final String TEXT_21 = "</span>";
-  protected final String TEXT_22 = NL + "            <br/>" + NL + "            <button title=\"Copy to Clipboard\" class=\"orange\" style=\"font-size: 125%; margin-left: 1em; background-color: white; border: none; padding: 0px 0px;\" onclick=\"copyToClipboard('#";
-  protected final String TEXT_23 = "')\">&#x270e;</button>" + NL + "            <a href=\"";
-  protected final String TEXT_24 = "/index.html\" id=\"";
-  protected final String TEXT_25 = "\" style=\"font-size: 100%; font-weight: normal;\">";
-  protected final String TEXT_26 = "</a>";
-  protected final String TEXT_27 = NL + "          </p>";
-  protected final String TEXT_28 = NL + "          <br/>" + NL + "          <img style=\"float:right\" src=\"https://www.eclipse.org/modeling/emf/images/emf_logo.png\" alt=\"\"/>";
-  protected final String TEXT_29 = NL + "           <p>This is the root folder for the Eclipse Modeling Framework's p2 update sites.</p>" + NL + "           <p>These update sites are produced by <a href=\"https://ci.eclipse.org/emf/\">https://ci.eclipse.org/emf/</a>.</p>" + NL + "           <p>EMF provides a large number of fine-grained features that are useful for provisioning a minimal target platform and for building smaller RCP applications and IDE products.</p>";
-  protected final String TEXT_30 = NL + "           <p>The update sites provide access to the following course-grained SDK features, useful for installing in a development IDE," + NL + "              as well as course-grained Target Component features, useful provisioning a full target platform:</p>";
-  protected final String TEXT_31 = NL + "           <p>" + NL + "             This is a p2 update site for the Eclipse Modeling Framework." + NL + "             Use the <button title=\"Copy to Clipboard\" class=\"orange\" style=\"background-color: white; border: none; padding: 0px 0px;\" onclick=\"copyToClipboard('#p1')\">&#x270e;</button> glyph to copy the update site URL to the system clipboard.";
-  protected final String TEXT_32 = NL + "             Alternatively, you can download the archive of this repository from the download sidebar on the right.";
-  protected final String TEXT_33 = NL + "           </p>";
-  protected final String TEXT_34 = NL + "           <p>" + NL + "             This composite update site references the most recent successful nightly build." + NL + "           </p>";
-  protected final String TEXT_35 = NL + "           <p>" + NL + "             This composite update site references the ";
-  protected final String TEXT_36 = " most recent successful nightly builds." + NL + "           </p>";
-  protected final String TEXT_37 = NL + "           <p>" + NL + "             This simple update site will be retained <b>only</b> until it is no longer one of the ";
-  protected final String TEXT_38 = " most recent successful nightly builds." + NL + "           </p>";
-  protected final String TEXT_39 = NL + "           <p>" + NL + "             This composite update site references the most recent successful milestone build." + NL + "           </p>";
-  protected final String TEXT_40 = NL + "           <p>" + NL + "             This composite update site references ";
-  protected final String TEXT_41 = " successful milestone builds." + NL + "             These sites will be retained <b>only</b> until the first successful milestone build of the next EMF release." + NL + "           </p>";
-  protected final String TEXT_42 = NL + "           <p>" + NL + "             This simple update site will be retained <b>only</b> until the first successful milestone build of the next EMF release." + NL + "           </p>";
-  protected final String TEXT_43 = NL + "           <p>" + NL + "             This composite update site references the most recent release of EMF." + NL + "           </p>";
-  protected final String TEXT_44 = NL + "           <p>" + NL + "             This composite update site references ";
-  protected final String TEXT_45 = " releases." + NL + "             These sites will be retained <b>permanently</b>." + NL + "           </p>";
-  protected final String TEXT_46 = NL + "           <p>" + NL + "             This simple update site will be retained <b>permanently</b>." + NL + "           </p>";
-  protected final String TEXT_47 = NL + "           <p>This update site provides access to the following course-grained SDK features, useful for installing in a development IDE," + NL + "              as well as course-grained Target Component features, useful provisioning a complete target platform:</p>";
-  protected final String TEXT_48 = NL + "           <p>This update site provides access to the following fine-grained features:</p>";
-  protected final String TEXT_49 = NL + "           <ul>";
-  protected final String TEXT_50 = NL + "             <li>";
-  protected final String TEXT_51 = "</li>";
-  protected final String TEXT_52 = NL + "           </ul>";
-  protected final String TEXT_53 = NL + "           <p>" + NL + "             The update sites listed below provide access to specific versions of the features listed above.";
-  protected final String TEXT_54 = NL + "             Use the <button title=\"Copy to Clipboard\" class=\"orange\" style=\"background-color: white; border: none; padding: 0px 0px;\">&#x270e;</button> glyph to copy the update site URL to the system clipboard.";
-  protected final String TEXT_55 = NL + "           </p>";
-  protected final String TEXT_56 = NL + "           <h3><a href=\"";
-  protected final String TEXT_57 = "\" style=\"font-weight: normal;\">";
-  protected final String TEXT_58 = "</a></h3>" + NL + "           <p>The following is the p2 update site URL for this repository:</p>" + NL + "           <p style=\"margin-left: 1em\">" + NL + "             <button title=\"Copy to Clipboard\" class=\"orange\" style=\"font-size: 125%; background-color: white; border: none; padding: 0px 0px;\" onclick=\"copyToClipboard('#";
-  protected final String TEXT_59 = "')\">&#x270e;</button>" + NL + "             <a href=\"";
-  protected final String TEXT_60 = "\" id=\"";
-  protected final String TEXT_61 = "\" style=\"font-weight: normal;\">";
-  protected final String TEXT_62 = "</a>" + NL + "           </p>" + NL + "           <p>Click the header link or the update site link for more details.</p>";
-  protected final String TEXT_63 = NL + "          <ul style=\"margin-left: -1em\">";
-  protected final String TEXT_64 = "<b>";
-  protected final String TEXT_65 = "<li style=\"font-size: 90%;\">";
-  protected final String TEXT_66 = "</li>";
-  protected final String TEXT_67 = "</b>";
-  protected final String TEXT_68 = NL + "           </ul>";
-  protected final String TEXT_69 = NL + "           <h3>EMF Bundles</h3>" + NL + "           <p>" + NL + "             This update site provides access to the bundles listed below." + NL + "             Each section is expandable via";
-  protected final String TEXT_70 = NL + "             <span style=\"white-space: nowrap;\">the&nbsp;<button id=\"all\" title=\"Expand All\" class=\"orange\" style=\"background-color: white; border: none; padding: 0px 0px;\" onclick=\"toggle('all');";
-  protected final String TEXT_71 = "\">&#x25B7;</button>&nbsp;glyph</span>";
-  protected final String TEXT_72 = NL + "             to provide detailed information about the exports and imports of each bundle." + NL + "           </p>" + NL + "           <ul>" + NL + "             <li>" + NL + "               The &#x21D6; glyph denotes the exported bundle identifier along with its full version." + NL + "             </li>" + NL + "             <li>" + NL + "               The &#x2196; glyph denotes an exported java package along with its full version, if specified." + NL + "             </li>" + NL + "             <li>" + NL + "               The &#x21D8; glyph denotes a required bundle along with its version range, if specified, as well as information about whether the requirement is optional and if so, whether it's greedy." + NL + "             </li>" + NL + "             <li>" + NL + "               The &#x2198; glyph denotes a required package along with its version range, if specified." + NL + "             </li>" + NL + "           </ul>" + NL + "" + NL + "          <ul style=\"margin-left: -1em; list-style-type: none; padding: 0; margin: 0;\">";
-  protected final String TEXT_73 = NL + "            <li style=\"font-size: 90%;\">" + NL + "              <button id=\"";
-  protected final String TEXT_74 = "_arrows\" class=\"orange\" style=\"background-color: white; margin-left: 1em; border: none; padding: 0px 0px;\" onclick=\"expand_collapse('";
-  protected final String TEXT_75 = "');\">&#x25B7;</button>" + NL + "              <span style=\"font-size:100%;\">";
-  protected final String TEXT_76 = "</span>" + NL + "              <div id=\"";
-  protected final String TEXT_77 = "\" style=\"display:none; margin-left: 2em;\">";
-  protected final String TEXT_78 = NL + "                ";
-  protected final String TEXT_79 = "<br/>";
-  protected final String TEXT_80 = NL + "              </div>" + NL + "            </li>";
-  protected final String TEXT_81 = NL + "           </ul>";
-  protected final String TEXT_82 = NL + NL + "        </div>" + NL;
-  protected final String TEXT_83 = NL + "        <div style=\"padding-top: 100;\" id=\"rightcolumn\">" + NL + "          <div class=\"sideitem\">" + NL + "            <h6>Downloads</h6>" + NL + "            <p>" + NL + "              <a style=\"font-size: 90%;\" href=\"\">";
-  protected final String TEXT_84 = "</a>" + NL + "              <br/>" + NL + "              <a class=\"btn btn-warning\" style=\"margin-top: 5pt; font-size: 90%;\" href=\"";
-  protected final String TEXT_85 = "\" title=\"Download ";
-  protected final String TEXT_86 = "\">Download</a>" + NL + "              <a class=\"btn btn-warning\" style=\"margin-top: 5pt; border-color: DarkGreen; background-color: OliveDrab; font-size: 90%; padding-left: 0.2em; padding-right: 0.2em;\" href=\"";
-  protected final String TEXT_87 = "\" title=\"Download ";
-  protected final String TEXT_88 = "\">sha256</a>" + NL + "              <a class=\"btn btn-warning\" style=\"margin-top: 5pt; border-color: DarkGreen; background-color: OliveDrab; font-size: 90%; padding-left: 0.2em; padding-right: 0.2em;\" href=\"";
-  protected final String TEXT_89 = "\" title=\"Download ";
-  protected final String TEXT_90 = "\">sha512</a>" + NL + "            </p>" + NL + "          </div>" + NL + "        </div>" + NL;
-  protected final String TEXT_91 = NL + "      </div>" + NL + "     </div>" + NL + "     </main>" + NL + "  </body>" + NL + "</html>";
+  protected final String TEXT_20 = NL + "          <p style=\"font-size: 125%; text-align: center;\">" + NL + "            <b>Built: ";
+  protected final String TEXT_21 = "</b>" + NL + "          </p>";
+  protected final String TEXT_22 = NL + "          <p style=\"text-align: center;\">" + NL + "            <button title=\"Copy to Clipboard\" class=\"orange\" style=\"font-size: 150%; background-color: white; border: none; padding: 0px 0px;\" onclick=\"copyToClipboard('#p1')\">&#x270e;</button>" + NL + "            <span id=\"p1\" style=\"font-size: 125%\">";
+  protected final String TEXT_23 = "</span>";
+  protected final String TEXT_24 = NL + "            <br/>" + NL + "            <button title=\"Copy to Clipboard\" class=\"orange\" style=\"font-size: 125%; margin-left: 1em; background-color: white; border: none; padding: 0px 0px;\" onclick=\"copyToClipboard('#";
+  protected final String TEXT_25 = "')\">&#x270e;</button>" + NL + "            <a href=\"";
+  protected final String TEXT_26 = "/index.html\" id=\"";
+  protected final String TEXT_27 = "\" style=\"font-size: 100%; font-weight: normal;\">";
+  protected final String TEXT_28 = "</a>";
+  protected final String TEXT_29 = NL + "          </p>";
+  protected final String TEXT_30 = NL + "          <br/>" + NL + "          <img style=\"float:right\" src=\"https://www.eclipse.org/modeling/emf/images/emf_logo.png\" alt=\"\"/>";
+  protected final String TEXT_31 = NL + "           <p>This is the root folder for the Eclipse Modeling Framework's p2 update sites.</p>" + NL + "           <p>These update sites are produced by <a href=\"https://ci.eclipse.org/emf/\" target=\"emf_jipp\">https://ci.eclipse.org/emf/</a>.</p>" + NL + "           <p>EMF provides a large number of fine-grained features that are useful for provisioning a minimal target platform and for building smaller RCP applications and IDE products.</p>";
+  protected final String TEXT_32 = NL + "           <p>" + NL + "             This is a p2 update site for the Eclipse Modeling Framework." + NL + "             Use the <button title=\"Copy to Clipboard\" class=\"orange\" style=\"background-color: white; border: none; padding: 0px 0px;\" onclick=\"copyToClipboard('#p1')\">&#x270e;</button> glyph to copy the update site URL to the system clipboard.";
+  protected final String TEXT_33 = NL + "             Alternatively, you can download the archive of this repository from the download sidebar on the right.";
+  protected final String TEXT_34 = NL + "           </p>";
+  protected final String TEXT_35 = NL + "           <p>" + NL + "             This composite update site references the most recent successful nightly build." + NL + "           </p>";
+  protected final String TEXT_36 = NL + "           <p>" + NL + "             This composite update site references the ";
+  protected final String TEXT_37 = " most recent successful nightly builds." + NL + "           </p>";
+  protected final String TEXT_38 = NL + "           <p>" + NL + "             This simple update site will be retained <b>only</b> until it is no longer one of the ";
+  protected final String TEXT_39 = " most recent successful nightly builds." + NL + "           </p>";
+  protected final String TEXT_40 = NL + "           <p>" + NL + "             This composite update site references the most recent successful milestone build." + NL + "           </p>";
+  protected final String TEXT_41 = NL + "           <p>" + NL + "             This composite update site references ";
+  protected final String TEXT_42 = " successful milestone builds." + NL + "             These sites will be retained <b>only</b> until the first successful milestone build of the next EMF release." + NL + "           </p>";
+  protected final String TEXT_43 = NL + "           <p>" + NL + "             This simple update site will be retained <b>only</b> until the first successful milestone build of the next EMF release." + NL + "           </p>";
+  protected final String TEXT_44 = NL + "           <p>" + NL + "             This composite update site references the most recent release of EMF." + NL + "           </p>";
+  protected final String TEXT_45 = NL + "           <p>" + NL + "             This composite update site references ";
+  protected final String TEXT_46 = " releases." + NL + "             These sites will be retained <b>permanently</b>." + NL + "           </p>";
+  protected final String TEXT_47 = NL + "           <p>" + NL + "             This simple update site will be retained <b>permanently</b>." + NL + "           </p>";
+  protected final String TEXT_48 = NL + "           <p>This update site provides access to the following coarse-grained SDK features, useful for installing in a development IDE," + NL + "              as well as coarse-grained Target Component features, useful provisioning a complete target platform:</p>";
+  protected final String TEXT_49 = NL + "           <p>This update site provides access to the following fine-grained features:</p>";
+  protected final String TEXT_50 = NL + "           <ul>";
+  protected final String TEXT_51 = NL + "             <li>";
+  protected final String TEXT_52 = "</li>";
+  protected final String TEXT_53 = NL + "           </ul>";
+  protected final String TEXT_54 = NL + "           <p>" + NL + "             The update sites listed below provide access to specific versions of the features listed above.";
+  protected final String TEXT_55 = NL + "             Use the <button title=\"Copy to Clipboard\" class=\"orange\" style=\"background-color: white; border: none; padding: 0px 0px;\">&#x270e;</button> glyph to copy the update site URL to the system clipboard.";
+  protected final String TEXT_56 = NL + "           </p>";
+  protected final String TEXT_57 = NL + "           <h3><a href=\"";
+  protected final String TEXT_58 = "\" style=\"font-weight: normal;\">";
+  protected final String TEXT_59 = "</a></h3>" + NL + "           <p>The following is the p2 update site URL for this repository:</p>" + NL + "           <p style=\"margin-left: 1em\">" + NL + "             <button title=\"Copy to Clipboard\" class=\"orange\" style=\"font-size: 125%; background-color: white; border: none; padding: 0px 0px;\" onclick=\"copyToClipboard('#";
+  protected final String TEXT_60 = "')\">&#x270e;</button>" + NL + "             <a href=\"";
+  protected final String TEXT_61 = "\" id=\"";
+  protected final String TEXT_62 = "\" style=\"font-weight: normal;\">";
+  protected final String TEXT_63 = "</a>" + NL + "           </p>" + NL + "           <p>Click the header link or the update site link for more details.</p>";
+  protected final String TEXT_64 = NL + "          <ul style=\"margin-left: -1em\">";
+  protected final String TEXT_65 = "<b>";
+  protected final String TEXT_66 = "<li style=\"font-size: 90%;\">";
+  protected final String TEXT_67 = "</li>";
+  protected final String TEXT_68 = "</b>";
+  protected final String TEXT_69 = NL + "           </ul>";
+  protected final String TEXT_70 = NL + "           <h3>EMF Bundles</h3>" + NL + "           <p>" + NL + "             This update site provides access to the bundles listed below." + NL + "             Each section is expandable via";
+  protected final String TEXT_71 = NL + "             <span style=\"white-space: nowrap;\">the&nbsp;<button id=\"all\" title=\"Expand All\" class=\"orange\" style=\"background-color: white; border: none; padding: 0px 0px;\" onclick=\"toggle('all');";
+  protected final String TEXT_72 = "\">&#x25B7;</button>&nbsp;glyph</span>";
+  protected final String TEXT_73 = NL + "             to provide detailed information about the exports and imports of each bundle." + NL + "           </p>" + NL + "           <ul>" + NL + "             <li>" + NL + "               The &#x21D6; glyph denotes the exported bundle identifier along with its full version." + NL + "             </li>" + NL + "             <li>" + NL + "               The &#x2196; glyph denotes an exported java package along with its full version, if specified." + NL + "             </li>" + NL + "             <li>" + NL + "               The &#x21D8; glyph denotes a required bundle along with its version range, if specified, as well as information about whether the requirement is optional and if so, whether it's greedy." + NL + "             </li>" + NL + "             <li>" + NL + "               The &#x2198; glyph denotes a required package along with its version range, if specified." + NL + "             </li>" + NL + "           </ul>" + NL + "" + NL + "          <ul style=\"margin-left: -1em; list-style-type: none; padding: 0; margin: 0;\">";
+  protected final String TEXT_74 = NL + "            <li style=\"font-size: 90%;\">" + NL + "              <button id=\"";
+  protected final String TEXT_75 = "_arrows\" class=\"orange\" style=\"background-color: white; margin-left: 1em; border: none; padding: 0px 0px;\" onclick=\"expand_collapse('";
+  protected final String TEXT_76 = "');\">&#x25B7;</button>" + NL + "              <span style=\"font-size:100%;\">";
+  protected final String TEXT_77 = "</span>" + NL + "              <div id=\"";
+  protected final String TEXT_78 = "\" style=\"display:none; margin-left: 2em;\">";
+  protected final String TEXT_79 = NL + "                ";
+  protected final String TEXT_80 = "<br/>";
+  protected final String TEXT_81 = NL + "              </div>" + NL + "            </li>";
+  protected final String TEXT_82 = NL + "           </ul>";
+  protected final String TEXT_83 = NL + NL + "        </div>" + NL;
+  protected final String TEXT_84 = NL + "        <div style=\"padding-top: 100;\" id=\"rightcolumn\">" + NL + "          <div class=\"sideitem\">" + NL + "            <h6>Downloads</h6>" + NL + "            <p>" + NL + "              <a style=\"font-size: 90%;\" href=\"";
+  protected final String TEXT_85 = "\" target=\"_blank\">";
+  protected final String TEXT_86 = "</a>" + NL + "              <br/>" + NL + "              <a class=\"btn btn-warning\" style=\"margin-top: 5pt; font-size: 90%;\" href=\"";
+  protected final String TEXT_87 = "\" target=\"_blank\" title=\"Download ";
+  protected final String TEXT_88 = "\">Download</a>" + NL + "              <a class=\"btn btn-warning\" style=\"margin-top: 5pt; border-color: DarkGreen; background-color: OliveDrab; font-size: 90%; padding-left: 0.2em; padding-right: 0.2em;\" href=\"";
+  protected final String TEXT_89 = "\" target=\"_blank\" title=\"Download ";
+  protected final String TEXT_90 = "\">sha256</a>" + NL + "              <a class=\"btn btn-warning\" style=\"margin-top: 5pt; border-color: DarkGreen; background-color: OliveDrab; font-size: 90%; padding-left: 0.2em; padding-right: 0.2em;\" href=\"";
+  protected final String TEXT_91 = "\" target=\"_blank\" title=\"Download ";
+  protected final String TEXT_92 = "\">sha512</a>" + NL + "            </p>" + NL + "          </div>";
+  protected final String TEXT_93 = NL + "          <div class=\"sideitem\">" + NL + "            <h6>Git Commits</h6>";
+  protected final String TEXT_94 = NL + "            <p>" + NL + "              <a style=\"font-size: 100%;\" href=\"";
+  protected final String TEXT_95 = "\" target=\"";
+  protected final String TEXT_96 = "_git\">";
+  protected final String TEXT_97 = "</a>" + NL + "              <br/>" + NL + "              <tt><a class=\"btn btn-warning\" style=\"text-transform: none; margin-top: 5pt; border-color: DarkGreen; background-color: OliveDrab; font-size: 70%; padding-top: 0.2ex; padding-bottom: 0.2ex; padding-left: 0.2em; padding-right: 0.2em;\" href=\"";
+  protected final String TEXT_98 = "\" target=\"";
+  protected final String TEXT_99 = "_git_commit\" title=\"";
+  protected final String TEXT_100 = " Git Commit ID\">";
+  protected final String TEXT_101 = "</a></tt>" + NL + "            </p>";
+  protected final String TEXT_102 = NL + "          </div>";
+  protected final String TEXT_103 = NL + "        </div>" + NL;
+  protected final String TEXT_104 = NL + "      </div>" + NL + "     </div>" + NL + "     </main>" + NL + "  </body>" + NL + "</html>";
 
   public String generate(Object argument)
   {
@@ -152,167 +165,193 @@ public class UpdateSiteIndex
     stringBuffer.append(TEXT_18);
     stringBuffer.append(parent.getTitle());
     stringBuffer.append(TEXT_19);
-    if (!parent.isRoot()) {
+    if (children.isEmpty()) {String date = parent.getDate(); if (date != null) {
     stringBuffer.append(TEXT_20);
-    stringBuffer.append(parent.getSiteURL());
+    stringBuffer.append(date);
     stringBuffer.append(TEXT_21);
-    Map<String, String> repositories = parent.getRepositoryChildren(); if (repositories != null) { for (Map.Entry<String, String> entry : repositories.entrySet()) {String repository = entry.getKey(); String relativeURL = entry.getValue(); String id = parent.getFolderID(repository);
+    }}
+    if (!parent.isRoot()) {
     stringBuffer.append(TEXT_22);
-    stringBuffer.append(id);
+    stringBuffer.append(parent.getSiteURL());
     stringBuffer.append(TEXT_23);
-    stringBuffer.append(relativeURL);
+    Map<String, String> repositories = parent.getRepositoryChildren(); if (repositories != null) { for (Map.Entry<String, String> entry : repositories.entrySet()) {String repository = entry.getKey(); String relativeURL = entry.getValue(); String id = parent.getFolderID(repository);
     stringBuffer.append(TEXT_24);
     stringBuffer.append(id);
     stringBuffer.append(TEXT_25);
-    stringBuffer.append(repository);
+    stringBuffer.append(relativeURL);
     stringBuffer.append(TEXT_26);
-    }}
+    stringBuffer.append(id);
     stringBuffer.append(TEXT_27);
-    }
+    stringBuffer.append(repository);
     stringBuffer.append(TEXT_28);
-    if (parent.isRoot()) {
+    }}
     stringBuffer.append(TEXT_29);
-    if (children.isEmpty()) {
+    }
     stringBuffer.append(TEXT_30);
-    }
-    } else {
+    if (parent.isRoot()) {
     stringBuffer.append(TEXT_31);
-    if (parent.hasArchive()) {
+    } else {
     stringBuffer.append(TEXT_32);
-    }
+    if (parent.hasArchive()) {
     stringBuffer.append(TEXT_33);
+    }
+    stringBuffer.append(TEXT_34);
     {String buildType = parent.getBuildType(); boolean isLatest = parent.isLatest(); Map<String, String> repositoryChildren = parent.getRepositoryChildren(); if ("nightly".equals(buildType)) {
     if (isLatest) {
-    stringBuffer.append(TEXT_34);
-    } else if (repositoryChildren != null) {
     stringBuffer.append(TEXT_35);
-    stringBuffer.append(parent.getRepositoryChildren().size());
+    } else if (repositoryChildren != null) {
     stringBuffer.append(TEXT_36);
-    } else {
+    stringBuffer.append(parent.getRepositoryChildren().size());
     stringBuffer.append(TEXT_37);
-    stringBuffer.append(UpdateSiteGenerator.RETAINED_NIGHTLY_BUILDS);
+    } else {
     stringBuffer.append(TEXT_38);
+    stringBuffer.append(UpdateSiteGenerator.RETAINED_NIGHTLY_BUILDS);
+    stringBuffer.append(TEXT_39);
     }
     } else if ("milestone".equals(buildType)) {
     if (isLatest) {
-    stringBuffer.append(TEXT_39);
-    } else if (repositoryChildren != null) {
     stringBuffer.append(TEXT_40);
-    stringBuffer.append(parent.getRepositoryChildren().size());
+    } else if (repositoryChildren != null) {
     stringBuffer.append(TEXT_41);
-    } else {
+    stringBuffer.append(parent.getRepositoryChildren().size());
     stringBuffer.append(TEXT_42);
+    } else {
+    stringBuffer.append(TEXT_43);
     }
     } else {
     if (isLatest) {
-    stringBuffer.append(TEXT_43);
-    } else if (repositoryChildren != null) {
     stringBuffer.append(TEXT_44);
-    stringBuffer.append(parent.getRepositoryChildren().size());
+    } else if (repositoryChildren != null) {
     stringBuffer.append(TEXT_45);
-    } else {
+    stringBuffer.append(parent.getRepositoryChildren().size());
     stringBuffer.append(TEXT_46);
+    } else {
+    stringBuffer.append(TEXT_47);
     }
     }}
     if (!children.isEmpty()) {
-    stringBuffer.append(TEXT_47);
-    } else {
     stringBuffer.append(TEXT_48);
+    } else {
+    stringBuffer.append(TEXT_49);
     }
     }
     if (!children.isEmpty()) {
     List<String> sdks = parent.getSDKs(); if (!sdks.isEmpty()) {
-    stringBuffer.append(TEXT_49);
-    for (String sdk: sdks) {
     stringBuffer.append(TEXT_50);
-    stringBuffer.append(sdk);
+    for (String sdk: sdks) {
     stringBuffer.append(TEXT_51);
-    }
+    stringBuffer.append(sdk);
     stringBuffer.append(TEXT_52);
     }
     stringBuffer.append(TEXT_53);
-    if (parent.isRoot()) {
-    stringBuffer.append(TEXT_54);
     }
+    stringBuffer.append(TEXT_54);
+    if (parent.isRoot()) {
     stringBuffer.append(TEXT_55);
-    for (UpdateSiteIndexGenerator child : children) { String id = parent.getFolderID(child.getFolderName());
+    }
     stringBuffer.append(TEXT_56);
-    stringBuffer.append(child.getRelativeIndexURL());
+    for (UpdateSiteIndexGenerator child : children) { String id = parent.getFolderID(child.getFolderName());
     stringBuffer.append(TEXT_57);
-    stringBuffer.append(child.getTitle());
-    stringBuffer.append(TEXT_58);
-    stringBuffer.append(id);
-    stringBuffer.append(TEXT_59);
     stringBuffer.append(child.getRelativeIndexURL());
-    stringBuffer.append(TEXT_60);
+    stringBuffer.append(TEXT_58);
+    stringBuffer.append(child.getTitle());
+    stringBuffer.append(TEXT_59);
     stringBuffer.append(id);
+    stringBuffer.append(TEXT_60);
+    stringBuffer.append(child.getRelativeIndexURL());
     stringBuffer.append(TEXT_61);
-    stringBuffer.append(child.getSiteURL());
+    stringBuffer.append(id);
     stringBuffer.append(TEXT_62);
+    stringBuffer.append(child.getSiteURL());
+    stringBuffer.append(TEXT_63);
     }
     } else {
     List<String> features = parent.getFeatures(); if (!features.isEmpty()) {
-    stringBuffer.append(TEXT_63);
+    stringBuffer.append(TEXT_64);
     for (String feature: features) {
     if (parent.isSDK(feature)) {
-    stringBuffer.append(TEXT_64);
-    }
     stringBuffer.append(TEXT_65);
-    stringBuffer.append(feature.replace(" ", "&nbsp;"));
+    }
     stringBuffer.append(TEXT_66);
-    if (parent.isSDK(feature)) {
+    stringBuffer.append(feature.replace(" ", "&nbsp;"));
     stringBuffer.append(TEXT_67);
-    }
-    }
+    if (parent.isSDK(feature)) {
     stringBuffer.append(TEXT_68);
     }
-    Map<String, List<String>> bundles = parent.getBundles(); if (!bundles.isEmpty()) { 
-    stringBuffer.append(TEXT_69);
-    { StringBuilder onClick = new StringBuilder(); for (String bundle : bundles.keySet()) {  onClick.append("expand('").append(parent.getFolderID(bundle)).append("');"); }
-    stringBuffer.append(TEXT_70);
-    stringBuffer.append(onClick);
-    stringBuffer.append(TEXT_71);
     }
+    stringBuffer.append(TEXT_69);
+    }
+    Map<String, List<String>> bundles = parent.getBundles(); if (!bundles.isEmpty()) { 
+    stringBuffer.append(TEXT_70);
+    { StringBuilder onClick = new StringBuilder(); for (String bundle : bundles.keySet()) {  onClick.append("expand('").append(parent.getFolderID(bundle)).append("');"); }
+    stringBuffer.append(TEXT_71);
+    stringBuffer.append(onClick);
     stringBuffer.append(TEXT_72);
-    for (Map.Entry<String, List<String>> entry: bundles.entrySet()) { String bundle = entry.getKey(); String id = parent.getFolderID(bundle);
+    }
     stringBuffer.append(TEXT_73);
-    stringBuffer.append(id);
+    for (Map.Entry<String, List<String>> entry: bundles.entrySet()) { String bundle = entry.getKey(); String id = parent.getFolderID(bundle);
     stringBuffer.append(TEXT_74);
     stringBuffer.append(id);
     stringBuffer.append(TEXT_75);
-    stringBuffer.append(bundle.replace(" ", "&nbsp;"));
-    stringBuffer.append(TEXT_76);
     stringBuffer.append(id);
+    stringBuffer.append(TEXT_76);
+    stringBuffer.append(bundle.replace(" ", "&nbsp;"));
     stringBuffer.append(TEXT_77);
-    for (String line : entry.getValue()) {
+    stringBuffer.append(id);
     stringBuffer.append(TEXT_78);
-    stringBuffer.append(line);
+    for (String line : entry.getValue()) {
     stringBuffer.append(TEXT_79);
-    }
+    stringBuffer.append(line);
     stringBuffer.append(TEXT_80);
     }
     stringBuffer.append(TEXT_81);
     }
-    }
     stringBuffer.append(TEXT_82);
-    if (parent.hasArchive()) { String archiveName = new File(parent.getArchive()).getName(); String sha256Name = new File(parent.getDigest("SHA-256")).getName(); String sha512Name = new File(parent.getDigest("SHA-512")).getName();
+    }
+    }
     stringBuffer.append(TEXT_83);
-    stringBuffer.append(archiveName);
+    if (parent.hasArchive()) { String archiveName = new File(parent.getArchive()).getName(); String sha256Name = new File(parent.getDigest("SHA-256")).getName(); String sha512Name = new File(parent.getDigest("SHA-512")).getName();
     stringBuffer.append(TEXT_84);
     stringBuffer.append(parent.getArchiveDownloadURL());
     stringBuffer.append(TEXT_85);
     stringBuffer.append(archiveName);
     stringBuffer.append(TEXT_86);
-    stringBuffer.append(sha256Name);
+    stringBuffer.append(parent.getArchiveDownloadURL());
     stringBuffer.append(TEXT_87);
-    stringBuffer.append(sha256Name);
+    stringBuffer.append(archiveName);
     stringBuffer.append(TEXT_88);
-    stringBuffer.append(sha512Name);
+    stringBuffer.append(sha256Name);
     stringBuffer.append(TEXT_89);
-    stringBuffer.append(sha512Name);
+    stringBuffer.append(sha256Name);
     stringBuffer.append(TEXT_90);
-    }
+    stringBuffer.append(sha512Name);
     stringBuffer.append(TEXT_91);
+    stringBuffer.append(sha512Name);
+    stringBuffer.append(TEXT_92);
+    { Map<String, String> commits = parent.getCommits(); if (!commits.isEmpty()) {
+    stringBuffer.append(TEXT_93);
+    for (Map.Entry<String, String> entry : commits.entrySet()) { String label = entry.getKey(); String url = entry.getValue(); String gitRepoURL = url.substring(0, url.indexOf("commit")) + "log/";String id = url.substring(url.indexOf('=') + 1);
+    stringBuffer.append(TEXT_94);
+    stringBuffer.append(gitRepoURL);
+    stringBuffer.append(TEXT_95);
+    stringBuffer.append(label.toLowerCase());
+    stringBuffer.append(TEXT_96);
+    stringBuffer.append(label);
+    stringBuffer.append(TEXT_97);
+    stringBuffer.append(url);
+    stringBuffer.append(TEXT_98);
+    stringBuffer.append(label.toLowerCase());
+    stringBuffer.append(TEXT_99);
+    stringBuffer.append(label);
+    stringBuffer.append(TEXT_100);
+    stringBuffer.append(id);
+    stringBuffer.append(TEXT_101);
+    }
+    stringBuffer.append(TEXT_102);
+    }}
+    stringBuffer.append(TEXT_103);
+    }
+    stringBuffer.append(TEXT_104);
     return stringBuffer.toString();
   }
 }

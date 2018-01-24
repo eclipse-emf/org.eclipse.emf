@@ -126,9 +126,14 @@
 
       <div id="maincontent">
         <div id="midcolumn">
-          <h2><%=parent.getTitle()%></h2>
+          <h2 style="text-align: center;"><%=parent.getTitle()%></h2>
+<%if (children.isEmpty()) {String date = parent.getDate(); if (date != null) {%>
+          <p style="font-size: 125%; text-align: center;">
+            <b>Built: <%=date%></b>
+          </p>
+<%}}%>
 <%if (!parent.isRoot()) {%>
-          <p>
+          <p style="text-align: center;">
             <button title="Copy to Clipboard" class="orange" style="font-size: 150%; background-color: white; border: none; padding: 0px 0px;" onclick="copyToClipboard('#p1')">&#x270e;</button>
             <span id="p1" style="font-size: 125%"><%=parent.getSiteURL()%></span>
   <%Map<String, String> repositories = parent.getRepositoryChildren(); if (repositories != null) { for (Map.Entry<String, String> entry : repositories.entrySet()) {String repository = entry.getKey(); String relativeURL = entry.getValue(); String id = parent.getFolderID(repository);%>
@@ -142,12 +147,8 @@
           <img style="float:right" src="https://www.eclipse.org/modeling/emf/images/emf_logo.png" alt=""/>
 <%if (parent.isRoot()) {%>
            <p>This is the root folder for the Eclipse Modeling Framework's p2 update sites.</p>
-           <p>These update sites are produced by <a href="https://ci.eclipse.org/emf/">https://ci.eclipse.org/emf/</a>.</p>
+           <p>These update sites are produced by <a href="https://ci.eclipse.org/emf/" target="emf_jipp">https://ci.eclipse.org/emf/</a>.</p>
            <p>EMF provides a large number of fine-grained features that are useful for provisioning a minimal target platform and for building smaller RCP applications and IDE products.</p>
-  <%if (children.isEmpty()) {%>
-           <p>The update sites provide access to the following course-grained SDK features, useful for installing in a development IDE,
-              as well as course-grained Target Component features, useful provisioning a full target platform:</p>
-   <%}%>
 <%} else {%>
            <p>
              This is a p2 update site for the Eclipse Modeling Framework.
@@ -202,8 +203,8 @@
     <%}%>
   <%}}%>
   <%if (!children.isEmpty()) {%>
-           <p>This update site provides access to the following course-grained SDK features, useful for installing in a development IDE,
-              as well as course-grained Target Component features, useful provisioning a complete target platform:</p>
+           <p>This update site provides access to the following coarse-grained SDK features, useful for installing in a development IDE,
+              as well as coarse-grained Target Component features, useful provisioning a complete target platform:</p>
   <%} else {%>
            <p>This update site provides access to the following fine-grained features:</p>
   <%}%>
@@ -287,13 +288,25 @@
           <div class="sideitem">
             <h6>Downloads</h6>
             <p>
-              <a style="font-size: 90%;" href=""><%=archiveName%></a>
+              <a style="font-size: 90%;" href="<%=parent.getArchiveDownloadURL()%>" target="_blank"><%=archiveName%></a>
               <br/>
-              <a class="btn btn-warning" style="margin-top: 5pt; font-size: 90%;" href="<%=parent.getArchiveDownloadURL()%>" title="Download <%=archiveName%>">Download</a>
-              <a class="btn btn-warning" style="margin-top: 5pt; border-color: DarkGreen; background-color: OliveDrab; font-size: 90%; padding-left: 0.2em; padding-right: 0.2em;" href="<%=sha256Name%>" title="Download <%=sha256Name%>">sha256</a>
-              <a class="btn btn-warning" style="margin-top: 5pt; border-color: DarkGreen; background-color: OliveDrab; font-size: 90%; padding-left: 0.2em; padding-right: 0.2em;" href="<%=sha512Name%>" title="Download <%=sha512Name%>">sha512</a>
+              <a class="btn btn-warning" style="margin-top: 5pt; font-size: 90%;" href="<%=parent.getArchiveDownloadURL()%>" target="_blank" title="Download <%=archiveName%>">Download</a>
+              <a class="btn btn-warning" style="margin-top: 5pt; border-color: DarkGreen; background-color: OliveDrab; font-size: 90%; padding-left: 0.2em; padding-right: 0.2em;" href="<%=sha256Name%>" target="_blank" title="Download <%=sha256Name%>">sha256</a>
+              <a class="btn btn-warning" style="margin-top: 5pt; border-color: DarkGreen; background-color: OliveDrab; font-size: 90%; padding-left: 0.2em; padding-right: 0.2em;" href="<%=sha512Name%>" target="_blank" title="Download <%=sha512Name%>">sha512</a>
             </p>
           </div>
+  <%{ Map<String, String> commits = parent.getCommits(); if (!commits.isEmpty()) {%>
+          <div class="sideitem">
+            <h6>Git Commits</h6>
+    <%for (Map.Entry<String, String> entry : commits.entrySet()) { String label = entry.getKey(); String url = entry.getValue(); String gitRepoURL = url.substring(0, url.indexOf("commit")) + "log/";String id = url.substring(url.indexOf('=') + 1);%>
+            <p>
+              <a style="font-size: 100%;" href="<%=gitRepoURL%>" target="<%=label.toLowerCase()%>_git"><%=label%></a>
+              <br/>
+              <tt><a class="btn btn-warning" style="text-transform: none; margin-top: 5pt; border-color: DarkGreen; background-color: OliveDrab; font-size: 70%; padding-top: 0.2ex; padding-bottom: 0.2ex; padding-left: 0.2em; padding-right: 0.2em;" href="<%=url%>" target="<%=label.toLowerCase()%>_git_commit" title="<%=label%> Git Commit ID"><%=id%></a></tt>
+            </p>
+    <%}%>
+          </div>
+  <%}}%>
         </div>
 
 <%}%>
