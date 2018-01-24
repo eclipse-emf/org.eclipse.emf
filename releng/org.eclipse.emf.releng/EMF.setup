@@ -6,13 +6,12 @@
     xmlns:git="http://www.eclipse.org/oomph/setup/git/1.0"
     xmlns:jdt="http://www.eclipse.org/oomph/setup/jdt/1.0"
     xmlns:predicates="http://www.eclipse.org/oomph/predicates/1.0"
-    xmlns:projects="http://www.eclipse.org/oomph/setup/projects/1.0"
     xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
     xmlns:setup.p2="http://www.eclipse.org/oomph/setup/p2/1.0"
     xmlns:setup.targlets="http://www.eclipse.org/oomph/setup/targlets/1.0"
     xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
     xmlns:workingsets="http://www.eclipse.org/oomph/workingsets/1.0"
-    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore http://www.eclipse.org/oomph/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/WorkingSets.ecore"
+    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore http://www.eclipse.org/oomph/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/WorkingSets.ecore"
     name="emf"
     label="EMF">
   <annotation
@@ -127,8 +126,27 @@
   </setupTask>
   <setupTask
       xsi:type="jdt:JRETask"
-      version="J2SE-1.5"
-      location="${jre.location-1.5}"/>
+      version="JavaSE-1.8"
+      location="${jre.location-1.8}"/>
+  <setupTask
+      xsi:type="setup:StringSubstitutionTask"
+      name="maven.build.java.home"
+      value="${jre.location-1.8}">
+    <description>The location used to specify JAVA_HOME in the External Tools Configurations for Build EMF and Build EMF Releng</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:VariableTask"
+      name="maven.build.command"
+      defaultValue="mvn.cmd"
+      label="Maven Command">
+    <description>The absolute path location of the mvn command that will execute mvn on your operating system; it is used in the External Tools Configurations for Build EMF and Build EMF Releng. You may leave the default if you don't intend to do Maven builds.</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:StringSubstitutionTask"
+      name="maven.build.command"
+      value="${maven.build.command}">
+    <description>The location of the mvn command that will execute mvn on your operating system; it is used in the External Tools Configurations for Build EMF and Build EMF Releng.</description>
+  </setupTask>
   <setupTask
       xsi:type="setup:EclipseIniTask"
       option="-Xmx"
@@ -141,9 +159,18 @@
       targetURL="${workspace.location|uri}/.metadata/.plugins/org.eclipse.jdt.ui/dialog_settings.xml"
       encoding="UTF-8"/>
   <setupTask
-      xsi:type="setup.p2:P2Task">
+      xsi:type="setup.p2:P2Task"
+      label="PDE/JDT">
     <requirement
         name="org.eclipse.pde.api.tools.ee.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.pde.feature.group"/>
+    <requirement
+        name="org.eclipse.jdt.feature.group"/>
+  </setupTask>
+  <setupTask
+      xsi:type="setup.p2:P2Task"
+      label="Oomph Tools">
     <requirement
         name="org.eclipse.oomph.version.feature.group"/>
     <requirement
@@ -156,6 +183,21 @@
         name="org.eclipse.oomph.projectcopy.feature.group"/>
     <requirement
         name="org.eclipse.oomph.workingsets.feature.group"/>
+  </setupTask>
+  <setupTask
+      xsi:type="setup.p2:P2Task"
+      label="EMF/XSD/Ecore Tools">
+    <requirement
+        name="org.eclipse.emf.sdk.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.ecoretools.sdk.feature.group"
+        versionRange="(0.0.1,3.0.0)"/>
+    <requirement
+        name="org.eclipse.xsd.sdk.feature.group"/>
+    <repository
+        url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+    <repository
+        url="http://download.eclipse.org/ecoretools/updates"/>
   </setupTask>
   <setupTask
       xsi:type="setup:VariableTask"
@@ -277,7 +319,7 @@
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.13"/>
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
       </repositoryList>
       <repositoryList
           name="Oxygen">
@@ -295,7 +337,7 @@
       <repositoryList
           name="Neon">
         <repository
-            url="http://download.eclipse.org/releases/neon"/>
+            url="http://download.eclipse.org/releases/neon/201705151400"/>
         <repository
             url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
@@ -308,7 +350,7 @@
       <repositoryList
           name="Mars">
         <repository
-            url="http://download.eclipse.org/releases/mars"/>
+            url="http://download.eclipse.org/releases/mars/201602261000"/>
         <repository
             url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
@@ -321,7 +363,7 @@
       <repositoryList
           name="Luna">
         <repository
-            url="http://download.eclipse.org/releases/luna"/>
+            url="http://download.eclipse.org/releases/luna/201502271000"/>
         <repository
             url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
@@ -334,7 +376,7 @@
       <repositoryList
           name="Kepler">
         <repository
-            url="http://download.eclipse.org/releases/kepler"/>
+            url="http://download.eclipse.org/releases/kepler/201402280900"/>
         <repository
             url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
@@ -360,7 +402,7 @@
       <repositoryList
           name="Indigo">
         <repository
-            url="http://download.eclipse.org/releases/indigo"/>
+            url="http://download.eclipse.org/releases/indigo/201202240900"/>
         <repository
             url="http://download.itemis.com/updates/releases/2.1.0"/>
         <repository
@@ -392,25 +434,6 @@
   <project name="core"
       label="Core">
     <setupTask
-        xsi:type="setup.p2:P2Task">
-      <requirement
-          name="org.eclipse.emf.sdk.feature.group"/>
-      <requirement
-          name="org.eclipse.emf.ecoretools.sdk.feature.group"
-          versionRange="(0.0.1,3.0.0)"/>
-      <requirement
-          name="org.eclipse.xsd.sdk.feature.group"/>
-    </setupTask>
-    <setupTask
-        xsi:type="projects:ProjectsImportTask">
-      <sourceLocator
-          rootFolder="${emf.git.clone.location/releng/org.eclipse.emf.releng}"/>
-      <sourceLocator
-          rootFolder="${emf.git.clone.location/releng/org.eclipse.emf.site}"/>
-      <sourceLocator
-          rootFolder="${emf.git.clone.location/releng/org.eclipse.emf.parent}"/>
-    </setupTask>
-    <setupTask
         xsi:type="setup.targlets:TargletTask">
       <targlet
           name="EMF Core">
@@ -420,6 +443,12 @@
             name="org.eclipse.emf.tests.feature.group"/>
         <requirement
             name="org.eclipse.emf.base.feature.group"/>
+        <requirement
+            name="org.eclipse.emf.parent.plain.project"/>
+        <requirement
+            name="org.eclipse.emf.releng.plain.project"/>
+        <requirement
+            name="org.eclipse.emf.site.plain.project"/>
         <sourceLocator
             rootFolder="${emf.git.clone.location}"/>
       </targlet>
@@ -444,16 +473,16 @@
           </operand>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='core']/@setupTasks.3/@workingSets.1"/>
+              excludedWorkingSet="//@projects[name='core']/@setupTasks.1/@workingSets.1"/>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='core']/@setupTasks.3/@workingSets.2"/>
+              excludedWorkingSet="//@projects[name='core']/@setupTasks.1/@workingSets.2"/>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='core']/@setupTasks.3/@workingSets.3"/>
+              excludedWorkingSet="//@projects[name='core']/@setupTasks.1/@workingSets.3"/>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='core']/@setupTasks.3/@workingSets.6"/>
+              excludedWorkingSet="//@projects[name='core']/@setupTasks.1/@workingSets.6"/>
         </predicate>
       </workingSet>
       <workingSet
@@ -537,10 +566,10 @@
           </operand>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='core']/@setupTasks.3/@workingSets.7"/>
+              excludedWorkingSet="//@projects[name='core']/@setupTasks.1/@workingSets.7"/>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='core']/@setupTasks.3/@workingSets.5"/>
+              excludedWorkingSet="//@projects[name='core']/@setupTasks.1/@workingSets.5"/>
         </predicate>
       </workingSet>
       <workingSet
@@ -593,18 +622,6 @@
           option="-Doomph.redirection.emf.setup"
           value="=http://git.eclipse.org/c/emf/org.eclipse.emf.git/plain/releng/org.eclipse.emf.releng/EMF.setup->${emf.git.clone.location|uri}/releng/org.eclipse.emf.releng/EMF.setup"
           vm="true"/>
-      <setupTask
-          xsi:type="setup:VariableTask"
-          name="eclipse.target.platform"
-          defaultValue="Photon"
-          storageURI="scope://Workspace"/>
-      <setupTask
-          xsi:type="setup.p2:P2Task">
-        <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.13"/>
-        <repository
-            url="http://download.eclipse.org/ecoretools/updates"/>
-      </setupTask>
     </stream>
     <description>The development environment for the EMF Core.</description>
   </project>
@@ -627,17 +644,16 @@
           value="Ignore"/>
     </setupTask>
     <setupTask
-        xsi:type="setup.p2:P2Task">
-      <requirement
-          name="org.eclipse.emf.sdk.feature.group"/>
+        xsi:type="setup.p2:P2Task"
+        label="Xtext/Xcore">
       <requirement
           name="org.eclipse.emf.ecore.xcore.sdk.feature.group"/>
       <requirement
           name="org.eclipse.xtext.sdk.feature.group"/>
       <requirement
           name="org.eclipse.xtend.sdk.feature.group"/>
-      <requirement
-          name="org.eclipse.xsd.sdk.feature.group"/>
+      <repository
+          url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
     </setupTask>
     <setupTask
         xsi:type="setup.targlets:TargletTask">
@@ -716,33 +732,14 @@
       </workingSet>
     </setupTask>
     <stream
-        name="master">
-      <setupTask
-          xsi:type="setup:VariableTask"
-          name="eclipse.target.platform"
-          defaultValue="Photon"
-          storageURI="scope://Workspace"/>
-      <setupTask
-          xsi:type="setup.p2:P2Task">
-        <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.13"/>
-        <repository
-            url="http://download.eclipse.org/ecoretools/updates"/>
-        <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
-      </setupTask>
-    </stream>
+        name="master"/>
     <description>The development environment for EMF Xcore.</description>
   </project>
   <project name="gwt"
       label="GWT">
     <setupTask
-        xsi:type="setup.p2:P2Task">
-      <requirement
-          name="org.eclipse.emf.sdk.feature.group"/>
-    </setupTask>
-    <setupTask
-        xsi:type="setup.p2:P2Task">
+        xsi:type="setup.p2:P2Task"
+        label="GWT">
       <requirement
           name="com.google.gdt.eclipse.suite.e44.feature.feature.group"/>
       <requirement
@@ -802,20 +799,7 @@
       </workingSet>
     </setupTask>
     <stream
-        name="master">
-      <setupTask
-          xsi:type="setup:VariableTask"
-          name="eclipse.target.platform"
-          defaultValue="Photon"
-          storageURI="scope://Workspace"/>
-      <setupTask
-          xsi:type="setup.p2:P2Task">
-        <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.13"/>
-        <repository
-            url="http://download.eclipse.org/ecoretools/updates"/>
-      </setupTask>
-    </stream>
+        name="master"/>
     <description>The development environment for EMF GWT.</description>
   </project>
   <project name="rap"
@@ -829,7 +813,8 @@
           value="2"/>
     </setupTask>
     <setupTask
-        xsi:type="setup.p2:P2Task">
+        xsi:type="setup.p2:P2Task"
+        label="RAP">
       <requirement
           name="org.eclipse.rap.tools.feature.feature.group"/>
     </setupTask>
@@ -884,18 +869,7 @@
       </workingSet>
     </setupTask>
     <stream
-        name="master">
-      <setupTask
-          xsi:type="setup:VariableTask"
-          name="eclipse.target.platform"
-          defaultValue="Photon"
-          storageURI="scope://Workspace"/>
-      <setupTask
-          xsi:type="setup.p2:P2Task">
-        <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.13"/>
-      </setupTask>
-    </stream>
+        name="master"/>
     <description>The development environemnt for EMF RAP.</description>
   </project>
   <logicalProjectContainer
