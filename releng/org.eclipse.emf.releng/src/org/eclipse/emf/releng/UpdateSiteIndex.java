@@ -109,17 +109,20 @@ public class UpdateSiteIndex
   protected final String TEXT_91 = "\" target=\"_blank\" title=\"Download ";
   protected final String TEXT_92 = "\">sha512</a>" + NL + "            </p>" + NL + "          </div>";
   protected final String TEXT_93 = NL + "          <div class=\"sideitem\">" + NL + "            <h6>Git Commits</h6>";
-  protected final String TEXT_94 = NL + "            <p>" + NL + "              <a style=\"font-size: 100%;\" href=\"";
-  protected final String TEXT_95 = "\" target=\"";
-  protected final String TEXT_96 = "_git\">";
-  protected final String TEXT_97 = "</a>" + NL + "              <br/>" + NL + "              <tt><a class=\"btn btn-warning\" style=\"text-transform: none; margin-top: 5pt; border-color: DarkGreen; background-color: OliveDrab; font-size: 70%; padding-top: 0.2ex; padding-bottom: 0.2ex; padding-left: 0.2em; padding-right: 0.2em;\" href=\"";
-  protected final String TEXT_98 = "\" target=\"";
-  protected final String TEXT_99 = "_git_commit\" title=\"";
-  protected final String TEXT_100 = " Git Commit ID\">";
-  protected final String TEXT_101 = "</a></tt>" + NL + "            </p>";
-  protected final String TEXT_102 = NL + "          </div>";
-  protected final String TEXT_103 = NL + "        </div>" + NL;
-  protected final String TEXT_104 = NL + "      </div>" + NL + "     </div>" + NL + "     </main>" + NL + "  </body>" + NL + "</html>";
+  protected final String TEXT_94 = NL + "            <p>" + NL + "              <button title=\"Copy Commit ID ";
+  protected final String TEXT_95 = " to Clipboard\" class=\"orange\" style=\"font-size: 150%; background-color: transparent; border: none; padding: 0px 0px;\" onclick=\"copyToClipboard('#";
+  protected final String TEXT_96 = "_commit_id')\">&#x270e;</button>" + NL + "              <a style=\"font-size: 100%;\" href=\"";
+  protected final String TEXT_97 = "\" target=\"";
+  protected final String TEXT_98 = "_git\">";
+  protected final String TEXT_99 = "</a>" + NL + "              <br/>" + NL + "              <tt><a id=\"";
+  protected final String TEXT_100 = "_commit_id\" class=\"btn btn-warning\" style=\"text-transform: none; margin-top: 5pt; border-color: DarkGreen; background-color: OliveDrab; font-size: 70%; padding-top: 0.2ex; padding-bottom: 0.2ex; padding-left: 0.2em; padding-right: 0.2em;\" href=\"";
+  protected final String TEXT_101 = "\" target=\"";
+  protected final String TEXT_102 = "_git_commit\" title=\"";
+  protected final String TEXT_103 = " Git Commit ID\">";
+  protected final String TEXT_104 = "</a></tt>" + NL + "            </p>";
+  protected final String TEXT_105 = NL + "          </div>";
+  protected final String TEXT_106 = NL + "        </div>" + NL;
+  protected final String TEXT_107 = NL + "      </div>" + NL + "     </div>" + NL + "     </main>" + NL + "  </body>" + NL + "</html>";
 
   public String generate(Object argument)
   {
@@ -332,26 +335,32 @@ public class UpdateSiteIndex
     stringBuffer.append(TEXT_93);
     for (Map.Entry<String, String> entry : commits.entrySet()) { String label = entry.getKey(); String url = entry.getValue(); String gitRepoURL = url.substring(0, url.indexOf("commit")) + "log/";String id = url.substring(url.indexOf('=') + 1);
     stringBuffer.append(TEXT_94);
-    stringBuffer.append(gitRepoURL);
+    stringBuffer.append(id);
     stringBuffer.append(TEXT_95);
     stringBuffer.append(label.toLowerCase());
     stringBuffer.append(TEXT_96);
-    stringBuffer.append(label);
+    stringBuffer.append(gitRepoURL);
     stringBuffer.append(TEXT_97);
-    stringBuffer.append(url);
-    stringBuffer.append(TEXT_98);
     stringBuffer.append(label.toLowerCase());
-    stringBuffer.append(TEXT_99);
+    stringBuffer.append(TEXT_98);
     stringBuffer.append(label);
+    stringBuffer.append(TEXT_99);
+    stringBuffer.append(label.toLowerCase());
     stringBuffer.append(TEXT_100);
-    stringBuffer.append(id);
+    stringBuffer.append(url);
     stringBuffer.append(TEXT_101);
-    }
+    stringBuffer.append(label.toLowerCase());
     stringBuffer.append(TEXT_102);
-    }}
+    stringBuffer.append(label);
     stringBuffer.append(TEXT_103);
-    }
+    stringBuffer.append(id);
     stringBuffer.append(TEXT_104);
+    }
+    stringBuffer.append(TEXT_105);
+    }}
+    stringBuffer.append(TEXT_106);
+    }
+    stringBuffer.append(TEXT_107);
     return stringBuffer.toString();
   }
 }

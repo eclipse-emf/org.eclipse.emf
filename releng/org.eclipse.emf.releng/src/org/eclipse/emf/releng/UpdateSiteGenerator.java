@@ -866,7 +866,7 @@ public class UpdateSiteGenerator
     /**
      * The pattern for a well-formed build ID.
      */
-    private static final Pattern VALID_BUILD_ID_PATTERN = Pattern.compile("^[MNRS](\\d{12})$");
+    private static final Pattern VALID_BUILD_ID_PATTERN = Pattern.compile("^[MNRS]?(\\d{12})$");
 
     /**
      * The pattern for finding a child location in a {@code compositeContent.xml}.

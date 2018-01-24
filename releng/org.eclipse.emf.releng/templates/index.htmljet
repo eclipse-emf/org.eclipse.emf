@@ -300,9 +300,10 @@
             <h6>Git Commits</h6>
     <%for (Map.Entry<String, String> entry : commits.entrySet()) { String label = entry.getKey(); String url = entry.getValue(); String gitRepoURL = url.substring(0, url.indexOf("commit")) + "log/";String id = url.substring(url.indexOf('=') + 1);%>
             <p>
+              <button title="Copy Commit ID <%=id%> to Clipboard" class="orange" style="font-size: 150%; background-color: transparent; border: none; padding: 0px 0px;" onclick="copyToClipboard('#<%=label.toLowerCase()%>_commit_id')">&#x270e;</button>
               <a style="font-size: 100%;" href="<%=gitRepoURL%>" target="<%=label.toLowerCase()%>_git"><%=label%></a>
               <br/>
-              <tt><a class="btn btn-warning" style="text-transform: none; margin-top: 5pt; border-color: DarkGreen; background-color: OliveDrab; font-size: 70%; padding-top: 0.2ex; padding-bottom: 0.2ex; padding-left: 0.2em; padding-right: 0.2em;" href="<%=url%>" target="<%=label.toLowerCase()%>_git_commit" title="<%=label%> Git Commit ID"><%=id%></a></tt>
+              <tt><a id="<%=label.toLowerCase()%>_commit_id" class="btn btn-warning" style="text-transform: none; margin-top: 5pt; border-color: DarkGreen; background-color: OliveDrab; font-size: 70%; padding-top: 0.2ex; padding-bottom: 0.2ex; padding-left: 0.2em; padding-right: 0.2em;" href="<%=url%>" target="<%=label.toLowerCase()%>_git_commit" title="<%=label%> Git Commit ID"><%=id%></a></tt>
             </p>
     <%}%>
           </div>
