@@ -148,6 +148,19 @@
     <description>The location of the mvn command that will execute mvn on your operating system; it is used in the External Tools Configurations for Build EMF and Build EMF Releng.</description>
   </setupTask>
   <setupTask
+      xsi:type="setup:VariableTask"
+      name="maven.build.releng.publish.target"
+      defaultValue="/tmp/"
+      label="Releng Maven Publish Target">
+    <description>The location of the folder to which the External Tools Configurations for Build EMF Releng will publish p2 update sites. You may leave the default if you don't intend to do Releng Maven builds.</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:StringSubstitutionTask"
+      name="maven.build.releng.publish.target"
+      value="${maven.build.releng.publish.target}">
+    <description>The location of the folder to which the External Tools Configurations for Build EMF Releng will publish p2 update sites.</description>
+  </setupTask>
+  <setupTask
       xsi:type="setup:EclipseIniTask"
       option="-Xmx"
       value="2048m"
