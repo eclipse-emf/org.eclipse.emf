@@ -14,10 +14,21 @@
     xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore http://www.eclipse.org/oomph/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/WorkingSets.ecore"
     name="xsd"
     label="XSD">
+  <annotation
+      source="http://www.eclipse.org/oomph/setup/BrandingInfo">
+    <detail
+        key="imageURI">
+      <value>https://git.eclipse.org/c/emf/org.eclipse.emf.git/plain/plugins/org.eclipse.emf/modeling32.png</value>
+    </detail>
+    <detail
+        key="siteURI">
+      <value>https://www.eclipse.org/modeling/mdt/?project=xsd</value>
+    </detail>
+  </annotation>
   <setupTask
       xsi:type="jdt:JRETask"
-      version="J2SE-1.5"
-      location="${jre.location-1.5}"/>
+      version="JavaSE-1.8"
+      location="${jre.location-1.8}"/>
   <setupTask
       xsi:type="setup:EclipseIniTask"
       option="-Xmx"
@@ -34,9 +45,18 @@
       targetURL="${workspace.location|uri}/.metadata/.plugins/org.eclipse.jdt.ui/dialog_settings.xml"
       encoding="UTF-8"/>
   <setupTask
-      xsi:type="setup.p2:P2Task">
+      xsi:type="setup.p2:P2Task"
+      label="PDE/JDT">
     <requirement
         name="org.eclipse.pde.api.tools.ee.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.pde.feature.group"/>
+    <requirement
+        name="org.eclipse.jdt.feature.group"/>
+  </setupTask>
+  <setupTask
+      xsi:type="setup.p2:P2Task"
+      label="Oomph Tools">
     <requirement
         name="org.eclipse.oomph.version.feature.group"/>
     <requirement
@@ -51,21 +71,24 @@
         name="org.eclipse.oomph.workingsets.feature.group"/>
   </setupTask>
   <setupTask
-      xsi:type="jdt:JRETask"
-      version="J2SE-1.5"
-      location="${jre.location-1.5}"/>
-  <setupTask
-      xsi:type="setup.p2:P2Task">
+      xsi:type="setup.p2:P2Task"
+      label="EMF/XSD/Ecore Tools">
     <requirement
         name="org.eclipse.emf.sdk.feature.group"/>
     <requirement
         name="org.eclipse.emf.ecoretools.sdk.feature.group"
         versionRange="(0.0.1,3.0.0)"/>
+    <requirement
+        name="org.eclipse.xsd.sdk.feature.group"/>
+    <repository
+        url="http://download.eclipse.org/modeling/emf/emf/builds/milestone"/>
+    <repository
+        url="http://download.eclipse.org/ecoretools/updates"/>
   </setupTask>
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
-      defaultValue="Mars"
+      defaultValue="Photon"
       storageURI="scope://Workspace"/>
   <setupTask
       xsi:type="git:GitCloneTask"
@@ -112,40 +135,56 @@
       <repositoryList
           name="Photon">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.14milestones"/>
+            url="http://download.eclipse.org/releases/photon"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
       </repositoryList>
       <repositoryList
           name="Oxygen">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.13"/>
+            url="http://download.eclipse.org/releases/oxygen"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
       </repositoryList>
       <repositoryList
           name="Neon">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.12"/>
+            url="http://download.eclipse.org/releases/neon/201705151400"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
       </repositoryList>
       <repositoryList
           name="Mars">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.11"/>
+            url="http://download.eclipse.org/releases/mars/201602261000"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
       </repositoryList>
       <repositoryList
           name="Luna">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.10.x"/>
+            url="http://download.eclipse.org/releases/luna/201502271000"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
       </repositoryList>
       <repositoryList
           name="Kepler">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.9.x"/>
+            url="http://download.eclipse.org/releases/kepler/201402280900"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
       </repositoryList>
       <repositoryList
           name="Juno">
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.8.x"/>
+            url="http://download.eclipse.org/releases/juno/201303010900"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
       </repositoryList>
       <repositoryList
           name="Indigo">
+        <repository
+            url="http://download.eclipse.org/releases/indigo/201202240900"/>
         <repository
             url="http://download.eclipse.org/modeling/emf/emf/updates/2.7.x"/>
       </repositoryList>
@@ -153,11 +192,8 @@
           name="Helios">
         <repository
             url="http://download.eclipse.org/releases/helios/201102250900"/>
-      </repositoryList>
-      <repositoryList
-          name="Galileo">
         <repository
-            url="http://download.eclipse.org/releases/galileo"/>
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
       </repositoryList>
     </targlet>
   </setupTask>
