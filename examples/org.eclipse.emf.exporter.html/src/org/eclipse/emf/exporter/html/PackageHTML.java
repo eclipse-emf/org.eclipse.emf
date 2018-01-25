@@ -34,124 +34,51 @@ public class PackageHTML
   protected final String TEXT_14 = "</td>" + NL + "\t\t\t\t</tr>" + NL + "\t\t\t\t<tr>" + NL + "\t\t\t\t\t<td>Namespace Prefix</td>" + NL + "\t\t\t\t\t<td>";
   protected final String TEXT_15 = "</td>" + NL + "\t\t\t\t</tr>" + NL + "\t\t";
   protected final String TEXT_16 = NL + "\t\t\t\t<tr>" + NL + "\t\t\t\t\t<td>Documentation</td>" + NL + "\t\t\t\t\t<td>";
-  protected final String TEXT_17 = "</td>" + NL + "\t\t\t\t</tr>" + NL + "\t\t";
-  protected final String TEXT_18 = NL + "\t\t\t</table>" + NL + "" + NL + "\t\t\t<p><input type=\"checkbox\" onclick=\"javascript:selectAllChechboxes(document.packform.detailCheckbox, this.checked)\"/>expand all details</p>" + NL;
-  protected final String TEXT_19 = NL + "\t\t<h1>Classes</h1>";
-  protected final String TEXT_20 = NL + "\t\t\t<h2>";
-  protected final String TEXT_21 = "</h2>" + NL + "\t\t";
-  protected final String TEXT_22 = NL + "\t\t\t\t<h3>Documentation</h3>" + NL + "\t\t\t\t\t";
-  protected final String TEXT_23 = NL + "\t\t";
-  protected final String TEXT_24 = NL + "\t\t\t\t<h3>Details</h3>" + NL + "\t\t\t\t<dt>" + NL + "\t\t\t\t\t<dd><table class=\"details\">";
-  protected final String TEXT_25 = NL + "\t\t\t\t\t\t<tr class=\"";
-  protected final String TEXT_26 = "\"><td class=\"left\">constraints</td><td class=\"right\">";
-  protected final String TEXT_27 = "</td></tr>";
-  protected final String TEXT_28 = NL + "\t\t\t\t\t\t<tr class=\"";
-  protected final String TEXT_29 = "\"><td class=\"left\">";
-  protected final String TEXT_30 = "</td><td class=\"right\"><tt>";
-  protected final String TEXT_31 = "</tt></td></tr>";
-  protected final String TEXT_32 = NL + "\t\t\t\t\t</table></dd>" + NL + "\t\t\t\t</dt>" + NL + "\t\t";
-  protected final String TEXT_33 = NL + "\t\t\t\t<h3>Super Classes</h3>" + NL + "\t\t\t\t\t<ul>";
-  protected final String TEXT_34 = NL + "\t\t\t\t\t\t<li><tt>";
-  protected final String TEXT_35 = "</tt></li>";
-  protected final String TEXT_36 = NL + "\t\t\t\t\t</ul>" + NL + "\t\t";
-  protected final String TEXT_37 = NL + "\t\t";
-  protected final String TEXT_38 = NL + "\t\t\t\t<h3>Attributes</h3>" + NL + "\t\t\t\t\t<ul>";
-  protected final String TEXT_39 = NL + "\t\t\t\t\t\t<li>" + NL + "\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"detailCheckbox\" value=\"detail";
-  protected final String TEXT_40 = "\" onclick=\"javascript:openSection(this.value, this.checked)\"/> ";
-  protected final String TEXT_41 = NL + "\t\t\t\t\t\t\t<div id=\"detail";
-  protected final String TEXT_42 = "\" name=\"detail";
-  protected final String TEXT_43 = "\" style=\"overflow:hidden;display:none\">" + NL + "\t\t\t\t\t\t\t\t<table class=\"details\">";
-  protected final String TEXT_44 = NL + "\t\t\t\t\t\t\t\t\t<tr class=\"documentation\"><td class=\"left\" colspan=\"2\">";
-  protected final String TEXT_45 = "</td></tr>";
-  protected final String TEXT_46 = NL + "\t\t\t\t\t\t\t\t\t<tr class=\"";
-  protected final String TEXT_47 = "\"><td class=\"left\">constraints</td><td class=\"right\">";
-  protected final String TEXT_48 = "</td></tr>";
-  protected final String TEXT_49 = NL + "\t\t\t\t\t\t\t\t\t<tr class=\"";
-  protected final String TEXT_50 = "\"><td class=\"left\">";
-  protected final String TEXT_51 = "</td><td class=\"right\"><tt>";
-  protected final String TEXT_52 = "</tt></td></tr>";
-  protected final String TEXT_53 = NL + "\t\t\t\t\t\t\t\t</table><br />" + NL + "\t\t\t\t\t\t\t</div>" + NL + "\t\t\t\t\t\t</li>";
-  protected final String TEXT_54 = NL + "\t\t\t\t\t</ul>" + NL + "\t\t";
-  protected final String TEXT_55 = NL + "\t\t";
-  protected final String TEXT_56 = NL + "\t\t\t\t<h3>References</h3>" + NL + "\t\t\t\t\t<ul>";
-  protected final String TEXT_57 = NL + "\t\t\t\t\t\t<li>" + NL + "\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"detailCheckbox\" value=\"detail";
-  protected final String TEXT_58 = "\" onclick=\"javascript:openSection(this.value, this.checked)\"/> ";
-  protected final String TEXT_59 = NL + "\t\t\t\t\t\t\t<div id=\"detail";
-  protected final String TEXT_60 = "\" name=\"detail";
-  protected final String TEXT_61 = "\" style=\"overflow:hidden;display:none\">" + NL + "\t\t\t\t\t\t\t\t<table class=\"details\">";
-  protected final String TEXT_62 = NL + "\t\t\t\t\t\t\t\t\t<tr class=\"documentation\"><td class=\"left\" colspan=\"2\">";
-  protected final String TEXT_63 = "</td></tr>";
-  protected final String TEXT_64 = NL + "\t\t\t\t\t\t\t\t\t<tr class=\"";
-  protected final String TEXT_65 = "\"><td class=\"left\">constraints</td><td class=\"right\">";
-  protected final String TEXT_66 = "</td></tr>";
-  protected final String TEXT_67 = NL + "\t\t\t\t\t\t\t\t\t<tr class=\"";
-  protected final String TEXT_68 = "\"><td class=\"left\">opposite</td><td class=\"right\">";
-  protected final String TEXT_69 = "</td></tr> ";
-  protected final String TEXT_70 = NL + "\t\t\t\t\t\t\t\t\t<tr class=\"";
-  protected final String TEXT_71 = "\"><td class=\"left\">key(s)</td><td class=\"right\">";
-  protected final String TEXT_72 = "</td></tr> ";
-  protected final String TEXT_73 = NL + "\t\t\t\t\t\t\t\t\t<tr class=\"";
-  protected final String TEXT_74 = "\"><td class=\"left\">";
-  protected final String TEXT_75 = "</td><td class=\"right\"><tt>";
-  protected final String TEXT_76 = "</tt></td></tr>";
-  protected final String TEXT_77 = NL + "\t\t\t\t\t\t\t\t</table><br />" + NL + "\t\t\t\t\t\t\t</div>" + NL + "\t\t\t\t\t\t</li>";
-  protected final String TEXT_78 = NL + "\t\t\t\t\t</ul>" + NL + "\t\t";
-  protected final String TEXT_79 = NL + "\t\t";
-  protected final String TEXT_80 = NL + "\t\t\t\t<h3>Operations</h3>" + NL + "\t\t\t\t\t<ul>";
-  protected final String TEXT_81 = NL + "\t\t\t\t\t\t<li>" + NL + "\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"detailCheckbox\" value=\"detail";
-  protected final String TEXT_82 = "\" onclick=\"javascript:openSection(this.value, this.checked)\"/> ";
-  protected final String TEXT_83 = NL + "\t\t\t\t\t\t\t<div id=\"detail";
-  protected final String TEXT_84 = "\" name=\"detail";
-  protected final String TEXT_85 = "\" style=\"overflow:hidden;display:none\">" + NL + "\t\t\t\t\t\t\t\t<table class=\"details\">";
-  protected final String TEXT_86 = NL + "\t\t\t\t\t\t\t\t\t<tr class=\"documentation\"><td class=\"left\" colspan=\"2\">";
-  protected final String TEXT_87 = "</td></tr>";
-  protected final String TEXT_88 = NL + "\t\t\t\t\t\t\t\t\t<tr class=\"";
-  protected final String TEXT_89 = "\"><td class=\"left\">constraints</td><td class=\"right\">";
-  protected final String TEXT_90 = "</td></tr>";
-  protected final String TEXT_91 = NL + "\t\t\t\t\t\t\t\t\t<tr class=\"";
-  protected final String TEXT_92 = "\"><td class=\"left\">";
-  protected final String TEXT_93 = "</td><td class=\"right\"><tt>";
-  protected final String TEXT_94 = "</tt></td></tr>";
-  protected final String TEXT_95 = NL + "\t\t\t\t\t\t\t\t</table><br />" + NL + "\t\t\t\t\t\t\t</div>" + NL + "\t\t\t\t\t\t</li>";
-  protected final String TEXT_96 = NL + "\t\t\t\t\t</ul>" + NL + "\t\t";
-  protected final String TEXT_97 = NL + "\t";
-  protected final String TEXT_98 = NL;
-  protected final String TEXT_99 = "\t\t" + NL + "\t\t<h1>Enumerations</h1>";
-  protected final String TEXT_100 = NL + "\t\t\t<h2><a name=\"";
-  protected final String TEXT_101 = "\">";
-  protected final String TEXT_102 = "</a></h2>";
-  protected final String TEXT_103 = NL + "\t\t";
-  protected final String TEXT_104 = NL + "\t\t\t\t<h3>Documentation</h3>" + NL + "\t\t\t\t\t";
-  protected final String TEXT_105 = NL + "\t\t";
-  protected final String TEXT_106 = NL + "\t\t\t\t<h3>Literals</h3>" + NL + "\t\t\t\t\t<ul>";
-  protected final String TEXT_107 = NL + "\t\t\t\t\t\t<li>" + NL + "\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"detailCheckbox\" value=\"detail";
-  protected final String TEXT_108 = "\" onclick=\"javascript:openSection(this.value, this.checked)\"/> ";
-  protected final String TEXT_109 = NL + "\t\t\t\t\t\t\t<div id=\"detail";
-  protected final String TEXT_110 = "\" name=\"detail";
-  protected final String TEXT_111 = "\" style=\"overflow:hidden;display:none\">" + NL + "\t\t\t\t\t\t\t\t<table class=\"details\">";
-  protected final String TEXT_112 = NL + "\t\t\t\t\t\t\t\t\t<tr class=\"documentation\"><td class=\"left\" colspan=\"2\">";
-  protected final String TEXT_113 = "</td></tr>";
-  protected final String TEXT_114 = NL + "\t\t\t\t\t\t\t\t\t<tr class=\"";
-  protected final String TEXT_115 = "\"><td class=\"left\">";
-  protected final String TEXT_116 = "</td><td class=\"right\"><tt>";
-  protected final String TEXT_117 = "</tt></td></tr>";
-  protected final String TEXT_118 = NL + "\t\t\t\t\t\t\t\t</table><br />" + NL + "\t\t\t\t\t\t\t</div>" + NL + "\t\t\t\t\t\t</li>";
-  protected final String TEXT_119 = NL + "\t\t\t\t\t</ul>";
-  protected final String TEXT_120 = NL;
-  protected final String TEXT_121 = "\t\t" + NL + "\t\t<h1>Data Types</h1>";
-  protected final String TEXT_122 = NL + "\t\t\t<h2>";
-  protected final String TEXT_123 = "</h2>" + NL + "\t\t";
-  protected final String TEXT_124 = NL + "\t\t\t\t<h3>Documentation</h3>" + NL + "\t\t\t\t\t";
-  protected final String TEXT_125 = NL + "\t\t";
-  protected final String TEXT_126 = NL + "\t\t\t\t<h3>Details</h3>" + NL + "\t\t\t\t<dt>" + NL + "\t\t\t\t\t<dd>" + NL + "\t\t\t\t\t\t<table class=\"details\">";
-  protected final String TEXT_127 = NL + "\t\t\t\t\t\t\t<tr class=\"";
-  protected final String TEXT_128 = "\"><td class=\"left\">";
-  protected final String TEXT_129 = "</td><td class=\"right\"><tt>";
-  protected final String TEXT_130 = "</tt></td></tr>";
-  protected final String TEXT_131 = NL + "\t\t\t\t\t\t</table>" + NL + "\t\t\t\t\t</dd>";
-  protected final String TEXT_132 = NL + "\t\t\t\t</dt>";
-  protected final String TEXT_133 = NL + "\t</form></body>" + NL + "</html>";
-  protected final String TEXT_134 = NL;
+  protected final String TEXT_17 = NL + "\t\t\t</table>" + NL + "" + NL + "\t\t\t<p><input type=\"checkbox\" onclick=\"javascript:selectAllChechboxes(document.packform.detailCheckbox, this.checked)\"/>expand all details</p>" + NL;
+  protected final String TEXT_18 = NL + "\t\t<h1>Classes</h1>";
+  protected final String TEXT_19 = NL + "\t\t\t<h2>";
+  protected final String TEXT_20 = "</h2>" + NL + "\t\t";
+  protected final String TEXT_21 = NL + "\t\t\t\t<h3>Documentation</h3>" + NL + "\t\t\t\t\t";
+  protected final String TEXT_22 = NL + "\t\t";
+  protected final String TEXT_23 = NL + "\t\t\t\t<h3>Details</h3>" + NL + "\t\t\t\t<dt>" + NL + "\t\t\t\t\t<dd><table class=\"details\">";
+  protected final String TEXT_24 = NL + "\t\t\t\t\t\t<tr class=\"";
+  protected final String TEXT_25 = "\"><td class=\"left\">constraints</td><td class=\"right\">";
+  protected final String TEXT_26 = "</td></tr>";
+  protected final String TEXT_27 = "\"><td class=\"left\">";
+  protected final String TEXT_28 = "</td><td class=\"right\"><tt>";
+  protected final String TEXT_29 = "</tt></td></tr>";
+  protected final String TEXT_30 = NL + "\t\t\t\t\t</table></dd>" + NL + "\t\t\t\t</dt>" + NL + "\t\t";
+  protected final String TEXT_31 = NL + "\t\t\t\t<h3>Super Classes</h3>" + NL + "\t\t\t\t\t<ul>";
+  protected final String TEXT_32 = NL + "\t\t\t\t\t\t<li><tt>";
+  protected final String TEXT_33 = "</tt></li>";
+  protected final String TEXT_34 = NL + "\t\t\t\t\t</ul>" + NL + "\t\t";
+  protected final String TEXT_35 = NL + "\t\t\t\t<h3>Attributes</h3>" + NL + "\t\t\t\t\t<ul>";
+  protected final String TEXT_36 = NL + "\t\t\t\t\t\t<li>" + NL + "\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"detailCheckbox\" value=\"detail";
+  protected final String TEXT_37 = "\" onclick=\"javascript:openSection(this.value, this.checked)\"/> ";
+  protected final String TEXT_38 = NL + "\t\t\t\t\t\t\t<div id=\"detail";
+  protected final String TEXT_39 = "\" name=\"detail";
+  protected final String TEXT_40 = "\" style=\"overflow:hidden;display:none\">" + NL + "\t\t\t\t\t\t\t\t<table class=\"details\">";
+  protected final String TEXT_41 = NL + "\t\t\t\t\t\t\t\t\t<tr class=\"documentation\"><td class=\"left\" colspan=\"2\">";
+  protected final String TEXT_42 = NL + "\t\t\t\t\t\t\t\t\t<tr class=\"";
+  protected final String TEXT_43 = NL + "\t\t\t\t\t\t\t\t</table><br />" + NL + "\t\t\t\t\t\t\t</div>" + NL + "\t\t\t\t\t\t</li>";
+  protected final String TEXT_44 = NL + "\t\t\t\t<h3>References</h3>" + NL + "\t\t\t\t\t<ul>";
+  protected final String TEXT_45 = "\"><td class=\"left\">opposite</td><td class=\"right\">";
+  protected final String TEXT_46 = "</td></tr> ";
+  protected final String TEXT_47 = "\"><td class=\"left\">key(s)</td><td class=\"right\">";
+  protected final String TEXT_48 = NL + "\t\t\t\t<h3>Operations</h3>" + NL + "\t\t\t\t\t<ul>";
+  protected final String TEXT_49 = NL + "\t";
+  protected final String TEXT_50 = NL;
+  protected final String TEXT_51 = "\t\t" + NL + "\t\t<h1>Enumerations</h1>";
+  protected final String TEXT_52 = NL + "\t\t\t<h2><a name=\"";
+  protected final String TEXT_53 = "</a></h2>";
+  protected final String TEXT_54 = NL + "\t\t\t\t<h3>Literals</h3>" + NL + "\t\t\t\t\t<ul>";
+  protected final String TEXT_55 = NL + "\t\t\t\t\t</ul>";
+  protected final String TEXT_56 = "\t\t" + NL + "\t\t<h1>Data Types</h1>";
+  protected final String TEXT_57 = NL + "\t\t\t\t<h3>Details</h3>" + NL + "\t\t\t\t<dt>" + NL + "\t\t\t\t\t<dd>" + NL + "\t\t\t\t\t\t<table class=\"details\">";
+  protected final String TEXT_58 = NL + "\t\t\t\t\t\t\t<tr class=\"";
+  protected final String TEXT_59 = NL + "\t\t\t\t\t\t</table>" + NL + "\t\t\t\t\t</dd>";
+  protected final String TEXT_60 = NL + "\t\t\t\t</dt>";
+  protected final String TEXT_61 = NL + "\t</form></body>" + NL + "</html>";
 
   public String generate(Object argument)
   {
@@ -203,246 +130,246 @@ public class PackageHTML
     String packageDocumentation = EcoreUtil.getDocumentation(ePackage); if (packageDocumentation != null) {
     stringBuffer.append(TEXT_16);
     stringBuffer.append(htmlExporter.getLongText(packageDocumentation));
-    stringBuffer.append(TEXT_17);
+    stringBuffer.append(TEXT_15);
     }
-    stringBuffer.append(TEXT_18);
+    stringBuffer.append(TEXT_17);
     int detailsCounter=0; Collection<EClass> eClasses = EcoreUtil.getObjectsByType(ePackage.getEClassifiers(), EcorePackage.Literals.ECLASS);
     if (!eClasses.isEmpty()) {
-    stringBuffer.append(TEXT_19);
+    stringBuffer.append(TEXT_18);
     for (EClass eClass : eClasses) { 
-    stringBuffer.append(TEXT_20);
+    stringBuffer.append(TEXT_19);
     stringBuffer.append(htmlExporter.computeClassifierLabel(eClass));
-    stringBuffer.append(TEXT_21);
+    stringBuffer.append(TEXT_20);
     String classDocumentation = EcoreUtil.getDocumentation(eClass); if (classDocumentation != null) {
-    stringBuffer.append(TEXT_22);
+    stringBuffer.append(TEXT_21);
     stringBuffer.append(htmlExporter.getLongText(classDocumentation));
+    stringBuffer.append(TEXT_22);
+    }
     stringBuffer.append(TEXT_23);
-    }
-    stringBuffer.append(TEXT_24);
     int row=0; String classConstraints = htmlExporter.computeConstraints(eClass); if (classConstraints != null) {
+    stringBuffer.append(TEXT_24);
+    stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
     stringBuffer.append(TEXT_25);
-    stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
-    stringBuffer.append(TEXT_26);
     stringBuffer.append(classConstraints);
-    stringBuffer.append(TEXT_27);
+    stringBuffer.append(TEXT_26);
     } for (EStructuralFeature detail : htmlExporter.getDetails(eClass)) {
-    stringBuffer.append(TEXT_28);
+    stringBuffer.append(TEXT_24);
     stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
-    stringBuffer.append(TEXT_29);
+    stringBuffer.append(TEXT_27);
     stringBuffer.append(detail.getName());
-    stringBuffer.append(TEXT_30);
+    stringBuffer.append(TEXT_28);
     stringBuffer.append(HTMLExporter.escape(eClass.eGet(detail).toString()));
-    stringBuffer.append(TEXT_31);
+    stringBuffer.append(TEXT_29);
     }
-    stringBuffer.append(TEXT_32);
+    stringBuffer.append(TEXT_30);
     if (!eClass.getEGenericSuperTypes().isEmpty()) {
-    stringBuffer.append(TEXT_33);
+    stringBuffer.append(TEXT_31);
     for (EGenericType eSuperType : eClass.getEGenericSuperTypes()) {
-    stringBuffer.append(TEXT_34);
+    stringBuffer.append(TEXT_32);
     stringBuffer.append(htmlExporter.computeLabel(eSuperType));
-    stringBuffer.append(TEXT_35);
+    stringBuffer.append(TEXT_33);
     }
-    stringBuffer.append(TEXT_36);
+    stringBuffer.append(TEXT_34);
     }
-    stringBuffer.append(TEXT_37);
+    stringBuffer.append(TEXT_22);
     if (!eClass.getEAttributes().isEmpty()) {
-    stringBuffer.append(TEXT_38);
+    stringBuffer.append(TEXT_35);
     for (EAttribute eAttribute : eClass.getEAttributes()) {
-    stringBuffer.append(TEXT_39);
+    stringBuffer.append(TEXT_36);
     stringBuffer.append(++detailsCounter);
-    stringBuffer.append(TEXT_40);
+    stringBuffer.append(TEXT_37);
     stringBuffer.append(htmlExporter.computeTypedElementLabel(eAttribute));
-    stringBuffer.append(TEXT_41);
+    stringBuffer.append(TEXT_38);
     stringBuffer.append(detailsCounter);
-    stringBuffer.append(TEXT_42);
+    stringBuffer.append(TEXT_39);
     stringBuffer.append(detailsCounter);
-    stringBuffer.append(TEXT_43);
+    stringBuffer.append(TEXT_40);
     String attributeDocumentation = EcoreUtil.getDocumentation(eAttribute); if (attributeDocumentation != null) {
-    stringBuffer.append(TEXT_44);
+    stringBuffer.append(TEXT_41);
     stringBuffer.append(attributeDocumentation);
-    stringBuffer.append(TEXT_45);
+    stringBuffer.append(TEXT_26);
     } row=0; String attributeConstraints = htmlExporter.computeConstraints(eAttribute); if (attributeConstraints != null) {
+    stringBuffer.append(TEXT_42);
+    stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
+    stringBuffer.append(TEXT_25);
+    stringBuffer.append(attributeConstraints);
+    stringBuffer.append(TEXT_26);
+    } for (EStructuralFeature detail : htmlExporter.getDetails(eAttribute)) {
+    stringBuffer.append(TEXT_42);
+    stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
+    stringBuffer.append(TEXT_27);
+    stringBuffer.append(detail.getName());
+    stringBuffer.append(TEXT_28);
+    stringBuffer.append(eAttribute.eGet(detail));
+    stringBuffer.append(TEXT_29);
+    }
+    stringBuffer.append(TEXT_43);
+    }
+    stringBuffer.append(TEXT_34);
+    }
+    stringBuffer.append(TEXT_22);
+    if (!eClass.getEReferences().isEmpty()) {
+    stringBuffer.append(TEXT_44);
+    for (EReference eReference : eClass.getEReferences()) {
+    stringBuffer.append(TEXT_36);
+    stringBuffer.append(++detailsCounter);
+    stringBuffer.append(TEXT_37);
+    stringBuffer.append(htmlExporter.computeTypedElementLabel(eReference));
+    stringBuffer.append(TEXT_38);
+    stringBuffer.append(detailsCounter);
+    stringBuffer.append(TEXT_39);
+    stringBuffer.append(detailsCounter);
+    stringBuffer.append(TEXT_40);
+    String referenceDocumentation = EcoreUtil.getDocumentation(eReference); if (referenceDocumentation != null) {
+    stringBuffer.append(TEXT_41);
+    stringBuffer.append(referenceDocumentation);
+    stringBuffer.append(TEXT_26);
+    } row=0; String referenceConstraints = htmlExporter.computeConstraints(eReference); if (referenceConstraints != null) {
+    stringBuffer.append(TEXT_42);
+    stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
+    stringBuffer.append(TEXT_25);
+    stringBuffer.append(referenceConstraints);
+    stringBuffer.append(TEXT_26);
+    } if (eReference.getEOpposite() != null) {
+    stringBuffer.append(TEXT_42);
+    stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
+    stringBuffer.append(TEXT_45);
+    stringBuffer.append(htmlExporter.computeLabel(eReference.getEOpposite()));
     stringBuffer.append(TEXT_46);
+    } if (!eReference.getEKeys().isEmpty()) {
+    stringBuffer.append(TEXT_42);
     stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
     stringBuffer.append(TEXT_47);
-    stringBuffer.append(attributeConstraints);
-    stringBuffer.append(TEXT_48);
-    } for (EStructuralFeature detail : htmlExporter.getDetails(eAttribute)) {
-    stringBuffer.append(TEXT_49);
-    stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
-    stringBuffer.append(TEXT_50);
-    stringBuffer.append(detail.getName());
-    stringBuffer.append(TEXT_51);
-    stringBuffer.append(eAttribute.eGet(detail));
-    stringBuffer.append(TEXT_52);
-    }
-    stringBuffer.append(TEXT_53);
-    }
-    stringBuffer.append(TEXT_54);
-    }
-    stringBuffer.append(TEXT_55);
-    if (!eClass.getEReferences().isEmpty()) {
-    stringBuffer.append(TEXT_56);
-    for (EReference eReference : eClass.getEReferences()) {
-    stringBuffer.append(TEXT_57);
-    stringBuffer.append(++detailsCounter);
-    stringBuffer.append(TEXT_58);
-    stringBuffer.append(htmlExporter.computeTypedElementLabel(eReference));
-    stringBuffer.append(TEXT_59);
-    stringBuffer.append(detailsCounter);
-    stringBuffer.append(TEXT_60);
-    stringBuffer.append(detailsCounter);
-    stringBuffer.append(TEXT_61);
-    String referenceDocumentation = EcoreUtil.getDocumentation(eReference); if (referenceDocumentation != null) {
-    stringBuffer.append(TEXT_62);
-    stringBuffer.append(referenceDocumentation);
-    stringBuffer.append(TEXT_63);
-    } row=0; String referenceConstraints = htmlExporter.computeConstraints(eReference); if (referenceConstraints != null) {
-    stringBuffer.append(TEXT_64);
-    stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
-    stringBuffer.append(TEXT_65);
-    stringBuffer.append(referenceConstraints);
-    stringBuffer.append(TEXT_66);
-    } if (eReference.getEOpposite() != null) {
-    stringBuffer.append(TEXT_67);
-    stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
-    stringBuffer.append(TEXT_68);
-    stringBuffer.append(htmlExporter.computeLabel(eReference.getEOpposite()));
-    stringBuffer.append(TEXT_69);
-    } if (!eReference.getEKeys().isEmpty()) {
-    stringBuffer.append(TEXT_70);
-    stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
-    stringBuffer.append(TEXT_71);
     stringBuffer.append(htmlExporter.computeEKeys(eReference));
-    stringBuffer.append(TEXT_72);
+    stringBuffer.append(TEXT_46);
     } for (EStructuralFeature detail : htmlExporter.getDetails(eReference)) {
-    stringBuffer.append(TEXT_73);
+    stringBuffer.append(TEXT_42);
     stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
-    stringBuffer.append(TEXT_74);
+    stringBuffer.append(TEXT_27);
     stringBuffer.append(detail.getName());
-    stringBuffer.append(TEXT_75);
+    stringBuffer.append(TEXT_28);
     stringBuffer.append(eReference.eGet(detail));
-    stringBuffer.append(TEXT_76);
+    stringBuffer.append(TEXT_29);
     }
-    stringBuffer.append(TEXT_77);
+    stringBuffer.append(TEXT_43);
     }
-    stringBuffer.append(TEXT_78);
+    stringBuffer.append(TEXT_34);
     }
-    stringBuffer.append(TEXT_79);
+    stringBuffer.append(TEXT_22);
     if (!eClass.getEOperations().isEmpty()) {
-    stringBuffer.append(TEXT_80);
+    stringBuffer.append(TEXT_48);
     for (EOperation eOperation : eClass.getEOperations()) {
-    stringBuffer.append(TEXT_81);
+    stringBuffer.append(TEXT_36);
     stringBuffer.append(++detailsCounter);
-    stringBuffer.append(TEXT_82);
+    stringBuffer.append(TEXT_37);
     stringBuffer.append(htmlExporter.computeLabel(eOperation));
-    stringBuffer.append(TEXT_83);
+    stringBuffer.append(TEXT_38);
     stringBuffer.append(detailsCounter);
-    stringBuffer.append(TEXT_84);
+    stringBuffer.append(TEXT_39);
     stringBuffer.append(detailsCounter);
-    stringBuffer.append(TEXT_85);
+    stringBuffer.append(TEXT_40);
     String operationDocumentation = EcoreUtil.getDocumentation(eOperation); if (operationDocumentation != null) {
-    stringBuffer.append(TEXT_86);
+    stringBuffer.append(TEXT_41);
     stringBuffer.append(operationDocumentation);
-    stringBuffer.append(TEXT_87);
+    stringBuffer.append(TEXT_26);
     } row=0; String operationConstraints = htmlExporter.computeConstraints(eOperation); if (operationConstraints != null) {
-    stringBuffer.append(TEXT_88);
+    stringBuffer.append(TEXT_42);
     stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
-    stringBuffer.append(TEXT_89);
+    stringBuffer.append(TEXT_25);
     stringBuffer.append(operationConstraints);
-    stringBuffer.append(TEXT_90);
+    stringBuffer.append(TEXT_26);
     } for (EStructuralFeature detail : htmlExporter.getDetails(eOperation)) {
-    stringBuffer.append(TEXT_91);
+    stringBuffer.append(TEXT_42);
     stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
-    stringBuffer.append(TEXT_92);
+    stringBuffer.append(TEXT_27);
     stringBuffer.append(detail.getName());
-    stringBuffer.append(TEXT_93);
+    stringBuffer.append(TEXT_28);
     stringBuffer.append(eOperation.eGet(detail));
-    stringBuffer.append(TEXT_94);
+    stringBuffer.append(TEXT_29);
     }
-    stringBuffer.append(TEXT_95);
+    stringBuffer.append(TEXT_43);
     }
-    stringBuffer.append(TEXT_96);
+    stringBuffer.append(TEXT_34);
     }
-    stringBuffer.append(TEXT_97);
+    stringBuffer.append(TEXT_49);
     }
     }
-    stringBuffer.append(TEXT_98);
+    stringBuffer.append(TEXT_50);
     Collection<EEnum> eEnums = EcoreUtil.getObjectsByType(ePackage.getEClassifiers(), EcorePackage.Literals.EENUM);
     if (!eEnums.isEmpty()) {
-    stringBuffer.append(TEXT_99);
+    stringBuffer.append(TEXT_51);
     for (EEnum eEnum : eEnums) {
-    stringBuffer.append(TEXT_100);
+    stringBuffer.append(TEXT_52);
     stringBuffer.append(eEnum.getName());
-    stringBuffer.append(TEXT_101);
+    stringBuffer.append(TEXT_6);
     stringBuffer.append(eEnum.getName());
-    stringBuffer.append(TEXT_102);
+    stringBuffer.append(TEXT_53);
     if (!eEnum.getELiterals().isEmpty()) {
-    stringBuffer.append(TEXT_103);
+    stringBuffer.append(TEXT_22);
     String enumDocumentation = EcoreUtil.getDocumentation(eEnum); if (enumDocumentation != null) {
-    stringBuffer.append(TEXT_104);
+    stringBuffer.append(TEXT_21);
     stringBuffer.append(htmlExporter.getLongText(enumDocumentation));
-    stringBuffer.append(TEXT_105);
+    stringBuffer.append(TEXT_22);
     }
-    stringBuffer.append(TEXT_106);
+    stringBuffer.append(TEXT_54);
     for (EEnumLiteral eEnumLiteral : eEnum.getELiterals()) {
-    stringBuffer.append(TEXT_107);
+    stringBuffer.append(TEXT_36);
     stringBuffer.append(++detailsCounter);
-    stringBuffer.append(TEXT_108);
+    stringBuffer.append(TEXT_37);
     stringBuffer.append(htmlExporter.computeLabel(eEnumLiteral));
-    stringBuffer.append(TEXT_109);
+    stringBuffer.append(TEXT_38);
     stringBuffer.append(detailsCounter);
-    stringBuffer.append(TEXT_110);
+    stringBuffer.append(TEXT_39);
     stringBuffer.append(detailsCounter);
-    stringBuffer.append(TEXT_111);
+    stringBuffer.append(TEXT_40);
     String enumLiteralDocumentation = EcoreUtil.getDocumentation(eEnumLiteral); if (enumLiteralDocumentation != null) {
-    stringBuffer.append(TEXT_112);
+    stringBuffer.append(TEXT_41);
     stringBuffer.append(enumLiteralDocumentation);
-    stringBuffer.append(TEXT_113);
+    stringBuffer.append(TEXT_26);
     } int row = 0; for (EStructuralFeature detail : htmlExporter.getDetails(eEnumLiteral)) {
-    stringBuffer.append(TEXT_114);
+    stringBuffer.append(TEXT_42);
     stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
-    stringBuffer.append(TEXT_115);
+    stringBuffer.append(TEXT_27);
     stringBuffer.append(detail.getName());
-    stringBuffer.append(TEXT_116);
+    stringBuffer.append(TEXT_28);
     stringBuffer.append(eEnumLiteral.eGet(detail));
-    stringBuffer.append(TEXT_117);
+    stringBuffer.append(TEXT_29);
     }
-    stringBuffer.append(TEXT_118);
+    stringBuffer.append(TEXT_43);
     }
-    stringBuffer.append(TEXT_119);
+    stringBuffer.append(TEXT_55);
     }
     }
     }
-    stringBuffer.append(TEXT_120);
+    stringBuffer.append(TEXT_50);
     Collection<EDataType> eDataTypes = EcoreUtil.getObjectsByType(ePackage.getEClassifiers(), EcorePackage.Literals.EDATA_TYPE); eDataTypes.removeAll(eEnums);
     if (!eDataTypes.isEmpty()) {
-    stringBuffer.append(TEXT_121);
+    stringBuffer.append(TEXT_56);
     for (EDataType eDataType : eDataTypes) {
-    stringBuffer.append(TEXT_122);
+    stringBuffer.append(TEXT_19);
     stringBuffer.append(htmlExporter.computeClassifierLabel(eDataType));
-    stringBuffer.append(TEXT_123);
+    stringBuffer.append(TEXT_20);
     String dataTypeDocumentation = EcoreUtil.getDocumentation(eDataType); if (dataTypeDocumentation != null) {
-    stringBuffer.append(TEXT_124);
+    stringBuffer.append(TEXT_21);
     stringBuffer.append(htmlExporter.getLongText(dataTypeDocumentation));
-    stringBuffer.append(TEXT_125);
+    stringBuffer.append(TEXT_22);
     }
-    stringBuffer.append(TEXT_126);
+    stringBuffer.append(TEXT_57);
     int row = 0; for (EStructuralFeature detail : htmlExporter.getDetails(eDataType)) {
-    stringBuffer.append(TEXT_127);
+    stringBuffer.append(TEXT_58);
     stringBuffer.append((++row)%2 == 0 ? "even" : "odd");
-    stringBuffer.append(TEXT_128);
+    stringBuffer.append(TEXT_27);
     stringBuffer.append(detail.getName());
-    stringBuffer.append(TEXT_129);
+    stringBuffer.append(TEXT_28);
     stringBuffer.append(HTMLExporter.escape(eDataType.eGet(detail).toString()));
-    stringBuffer.append(TEXT_130);
+    stringBuffer.append(TEXT_29);
     }
-    stringBuffer.append(TEXT_131);
+    stringBuffer.append(TEXT_59);
     }
-    stringBuffer.append(TEXT_132);
+    stringBuffer.append(TEXT_60);
     }
-    stringBuffer.append(TEXT_133);
-    stringBuffer.append(TEXT_134);
+    stringBuffer.append(TEXT_61);
+    stringBuffer.append(TEXT_50);
     return stringBuffer.toString();
   }
 }

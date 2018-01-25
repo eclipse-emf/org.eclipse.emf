@@ -16,3 +16,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.emf.codegen.ecore.xtext.ui.Activator
 Export-Package: org.eclipse.emf.codegen.ecore.xtext.ui
+Automatic-Module-Name: org.eclipse.emf.codegen.ecore.xtext.ui

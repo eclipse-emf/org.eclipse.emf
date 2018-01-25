@@ -15,3 +15,4 @@ Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.emf.examples.generator.validator,
  org.eclipse.emf.examples.generator.validator.templates.model
+Automatic-Module-Name: org.eclipse.emf.examples.generator.validator

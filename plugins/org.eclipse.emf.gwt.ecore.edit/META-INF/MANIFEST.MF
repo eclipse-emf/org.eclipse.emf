@@ -12,3 +12,4 @@ Require-Bundle: org.eclipse.emf.gwt.ecore;bundle-version="[2.11.0,3.0.0)";visibi
  org.eclipse.emf.gwt.edit;bundle-version="[2.9.0,3.0.0)";visibility:=reexport
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: org.eclipse.emf.gwt.ecore.edit

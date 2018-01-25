@@ -25,3 +25,4 @@ Export-Package: org.eclipse.emf.example.databinding.project.ui.rcp,
  org.eclipse.emf.example.databinding.project.ui.rcp.dialogs,
  org.eclipse.emf.example.databinding.project.ui.rcp.handlers,
  org.eclipse.emf.example.databinding.project.ui.rcp.views
+Automatic-Module-Name: org.eclipse.emf.examples.databinding.project.ui.rcp

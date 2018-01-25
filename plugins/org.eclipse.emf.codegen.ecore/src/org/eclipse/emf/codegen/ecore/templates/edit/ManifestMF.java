@@ -34,14 +34,10 @@ public class ManifestMF
   protected final String TEXT_17 = NL + "Require-Bundle: ";
   protected final String TEXT_18 = ";resolution:=optional;x-installation:=greedy";
   protected final String TEXT_19 = ";visibility:=reexport";
-  protected final String TEXT_20 = ",";
-  protected final String TEXT_21 = NL + " ";
-  protected final String TEXT_22 = ";resolution:=optional;x-installation:=greedy";
-  protected final String TEXT_23 = ";visibility:=reexport";
-  protected final String TEXT_24 = NL + "Import-Package: org.osgi.framework";
-  protected final String TEXT_25 = NL + "Eclipse-LazyStart: true";
-  protected final String TEXT_26 = NL + "Bundle-ActivationPolicy: lazy";
-  protected final String TEXT_27 = NL;
+  protected final String TEXT_20 = NL + "Import-Package: org.osgi.framework";
+  protected final String TEXT_21 = NL + "Eclipse-LazyStart: true";
+  protected final String TEXT_22 = NL + "Bundle-ActivationPolicy: lazy";
+  protected final String TEXT_23 = NL;
 
   public String generate(Object argument)
   {
@@ -105,23 +101,23 @@ public class ManifestMF
     }} else {
     stringBuffer.append(TEXT_19);
     } while(requiredPluginIterator.hasNext()) { pluginID = requiredPluginIterator.next();
-    stringBuffer.append(TEXT_20);
-    stringBuffer.append(TEXT_21);
+    stringBuffer.append(TEXT_15);
+    stringBuffer.append(TEXT_16);
     stringBuffer.append(pluginID);
     if (pluginID.startsWith("org.eclipse.core.runtime")) {if (genModel.isOSGiCompatible()) {
-    stringBuffer.append(TEXT_22);
+    stringBuffer.append(TEXT_18);
     }} else if (!pluginID.equals("org.eclipse.xtext.xbase.lib") && !pluginID.equals("org.eclipse.emf.ecore.xcore.lib")) {
-    stringBuffer.append(TEXT_23);
+    stringBuffer.append(TEXT_19);
     }}
     }
     if (genModel.isOSGiCompatible()) {
-    stringBuffer.append(TEXT_24);
+    stringBuffer.append(TEXT_20);
     }
     if (genModel.getRuntimeVersion() == GenRuntimeVersion.EMF22 || genModel.getRuntimeVersion() == GenRuntimeVersion.EMF23) {
-    stringBuffer.append(TEXT_25);
+    stringBuffer.append(TEXT_21);
     }
-    stringBuffer.append(TEXT_26);
-    stringBuffer.append(TEXT_27);
+    stringBuffer.append(TEXT_22);
+    stringBuffer.append(TEXT_23);
     return stringBuffer.toString();
   }
 }

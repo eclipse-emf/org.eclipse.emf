@@ -20,11 +20,13 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+<!--
 		<buildCommand>
 			<name>com.google.gwt.eclipse.core.gwtProjectValidator</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
+-->
 		<buildCommand>
 			<name>org.eclipse.oomph.version.VersionBuilder</name>
 			<arguments>

@@ -27,4 +27,5 @@ Import-Package: org.eclipse.emf.common.ui,
  org.eclipse.jface.operation,
  org.eclipse.jface.viewers,
  org.eclipse.jface.window
+Automatic-Module-Name: org.eclipse.emf.test.edit
 

@@ -21,23 +21,19 @@ public class DiagnosticTestGen
   protected final String TEXT_4 = " = diagnosticIterator.next();" + NL + "\t\tassertEquals(";
   protected final String TEXT_5 = ", diagnostic";
   protected final String TEXT_6 = ".getSeverity());" + NL + "\t\tassertEquals(";
-  protected final String TEXT_7 = ", diagnostic";
-  protected final String TEXT_8 = ".getSource());" + NL + "\t\tassertEquals(";
-  protected final String TEXT_9 = ", removeObjectHashCode(diagnostic";
-  protected final String TEXT_10 = ".getMessage()));" + NL + "\t\tassertEquals(";
-  protected final String TEXT_11 = ", diagnostic";
-  protected final String TEXT_12 = ".getCode());" + NL + "\t\tassertEquals(";
-  protected final String TEXT_13 = ", diagnostic";
-  protected final String TEXT_14 = ".getChildren().size());" + NL + "\t\tassertEquals(";
-  protected final String TEXT_15 = ", diagnostic";
-  protected final String TEXT_16 = ".getData().size());" + NL + "\t\t";
-  protected final String TEXT_17 = "assertEquals(";
-  protected final String TEXT_18 = ", toString(diagnostic";
-  protected final String TEXT_19 = ".getException()));" + NL + "\t\t";
-  protected final String TEXT_20 = "assertNull(diagnostic";
-  protected final String TEXT_21 = ".getException());";
-  protected final String TEXT_22 = NL + "\t\t" + NL + "\t\tassertFalse(diagnosticIterator.hasNext());" + NL + "\t}" + NL + "\t" + NL + "\tprotected String toString(Throwable throwable)" + NL + "\t{" + NL + "\t\tStringBuilder sb = new StringBuilder();" + NL + "\t\tsb.append(throwable.getClass().getName());" + NL + "\t\tsb.append(\"#\").append(throwable.getMessage());" + NL + "" + NL + "\t\tThrowable cause = throwable.getCause();" + NL + "\t\tif (cause != null && cause != throwable)" + NL + "\t\t{" + NL + "\t\t\tsb.append(\"--\").append(toString(cause));" + NL + "\t\t}" + NL + "\t\treturn sb.toString();" + NL + "\t}" + NL + "\t" + NL + "\tprotected String removeObjectHashCode(String string)" + NL + "\t{" + NL + "\t\treturn string.replaceAll(\"@\\\\w+\", \"\");" + NL + "\t}" + NL + "}";
-  protected final String TEXT_23 = NL;
+  protected final String TEXT_7 = ".getSource());" + NL + "\t\tassertEquals(";
+  protected final String TEXT_8 = ", removeObjectHashCode(diagnostic";
+  protected final String TEXT_9 = ".getMessage()));" + NL + "\t\tassertEquals(";
+  protected final String TEXT_10 = ".getCode());" + NL + "\t\tassertEquals(";
+  protected final String TEXT_11 = ".getChildren().size());" + NL + "\t\tassertEquals(";
+  protected final String TEXT_12 = ".getData().size());" + NL + "\t\t";
+  protected final String TEXT_13 = "assertEquals(";
+  protected final String TEXT_14 = ", toString(diagnostic";
+  protected final String TEXT_15 = ".getException()));" + NL + "\t\t";
+  protected final String TEXT_16 = "assertNull(diagnostic";
+  protected final String TEXT_17 = ".getException());";
+  protected final String TEXT_18 = NL + "\t\t" + NL + "\t\tassertFalse(diagnosticIterator.hasNext());" + NL + "\t}" + NL + "\t" + NL + "\tprotected String toString(Throwable throwable)" + NL + "\t{" + NL + "\t\tStringBuilder sb = new StringBuilder();" + NL + "\t\tsb.append(throwable.getClass().getName());" + NL + "\t\tsb.append(\"#\").append(throwable.getMessage());" + NL + "" + NL + "\t\tThrowable cause = throwable.getCause();" + NL + "\t\tif (cause != null && cause != throwable)" + NL + "\t\t{" + NL + "\t\t\tsb.append(\"--\").append(toString(cause));" + NL + "\t\t}" + NL + "\t\treturn sb.toString();" + NL + "\t}" + NL + "\t" + NL + "\tprotected String removeObjectHashCode(String string)" + NL + "\t{" + NL + "\t\treturn string.replaceAll(\"@\\\\w+\", \"\");" + NL + "\t}" + NL + "}";
+  protected final String TEXT_19 = NL;
 
   public String generate(Object argument)
   {
@@ -127,38 +123,38 @@ public class DiagnosticTestGen
     stringBuffer.append(count);
     stringBuffer.append(TEXT_6);
     stringBuffer.append(helper.toCodeString(diagnostic.getSource()));
-    stringBuffer.append(TEXT_7);
+    stringBuffer.append(TEXT_5);
     stringBuffer.append(count);
-    stringBuffer.append(TEXT_8);
+    stringBuffer.append(TEXT_7);
     stringBuffer.append(helper.removeObjectHashCode(helper.toCodeString(diagnostic.getMessage())));
+    stringBuffer.append(TEXT_8);
+    stringBuffer.append(count);
     stringBuffer.append(TEXT_9);
+    stringBuffer.append(diagnostic.getCode());
+    stringBuffer.append(TEXT_5);
     stringBuffer.append(count);
     stringBuffer.append(TEXT_10);
-    stringBuffer.append(diagnostic.getCode());
+    stringBuffer.append(diagnostic.getChildren().size());
+    stringBuffer.append(TEXT_5);
+    stringBuffer.append(count);
     stringBuffer.append(TEXT_11);
+    stringBuffer.append(diagnostic.getData().size());
+    stringBuffer.append(TEXT_5);
     stringBuffer.append(count);
     stringBuffer.append(TEXT_12);
-    stringBuffer.append(diagnostic.getChildren().size());
-    stringBuffer.append(TEXT_13);
-    stringBuffer.append(count);
-    stringBuffer.append(TEXT_14);
-    stringBuffer.append(diagnostic.getData().size());
-    stringBuffer.append(TEXT_15);
-    stringBuffer.append(count);
-    stringBuffer.append(TEXT_16);
     Throwable throwable = diagnostic.getException(); if (throwable != null) {
-    stringBuffer.append(TEXT_17);
+    stringBuffer.append(TEXT_13);
     stringBuffer.append(helper.toCodeString(helper.toString(diagnostic.getException())));
-    stringBuffer.append(TEXT_18);
+    stringBuffer.append(TEXT_14);
     stringBuffer.append(count);
-    stringBuffer.append(TEXT_19);
+    stringBuffer.append(TEXT_15);
     } else {
-    stringBuffer.append(TEXT_20);
+    stringBuffer.append(TEXT_16);
     stringBuffer.append(count);
-    stringBuffer.append(TEXT_21);
+    stringBuffer.append(TEXT_17);
     } if (diagnosticIterator.hasNext()) {stringBuffer.append(NL);}}
-    stringBuffer.append(TEXT_22);
-    stringBuffer.append(TEXT_23);
+    stringBuffer.append(TEXT_18);
+    stringBuffer.append(TEXT_19);
     return stringBuffer.toString();
   }
 }

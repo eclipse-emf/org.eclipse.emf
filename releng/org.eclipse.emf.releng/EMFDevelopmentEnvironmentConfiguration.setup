@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<setup:Configuration
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:setup="http://www.eclipse.org/oomph/setup/1.0">
+  <installation
+      name="emf.development.environment.installation"
+      label="EMF Development Environment Installation">
+    <productVersion
+        href="index:/org.eclipse.setup#//@productCatalogs[name='org.eclipse.products']/@products[name='epp.package.committers']/@versions[name='photon']"/>
+    <description>The EMF development environment installation provides the full development environment for working with EMF and XSD.</description>
+  </installation>
+  <workspace
+      name="emf.development.environment.workspace"
+      label="EMF Development Environment Workspace">
+    <setupTask
+        xsi:type="setup:VariableTask"
+        name="eclipse.target.platform"
+        value="Photon"/>
+    <stream
+        href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']/@projects[name='emf']/@projects[name='core']/@streams[name='master']"/>
+    <stream
+        href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']/@projects[name='emf']/@projects[name='gwt']/@streams[name='master']"/>
+    <stream
+        href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']/@projects[name='emf']/@projects[name='rap']/@streams[name='master']"/>
+    <stream
+        href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']/@projects[name='emf']/@projects[name='xcore']/@streams[name='master']"/>
+    <stream
+        href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']/@projects[name='xsd']/@streams[name='master']"/>
+    <description>The EMF/XSD development environment workspace includes the Core, RAP, GWT, Xcore, ODA, Releng, and XSD.</description>
+  </workspace>
+</setup:Configuration>

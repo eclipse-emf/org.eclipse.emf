@@ -518,6 +518,7 @@ public final class ColumnViewerInformationControlToolTipSupport
       }
 
       @Override
+      @SuppressWarnings("deprecation")
       protected void computeInformation()
       {
         MouseEvent hoverEvent = getHoverEvent();

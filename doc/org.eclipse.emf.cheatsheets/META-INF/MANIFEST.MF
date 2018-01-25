@@ -23,3 +23,4 @@ Eclipse-LazyStart: true
 Export-Package: org.eclipse.emf.cheatsheets,
  org.eclipse.emf.cheatsheets.actions
 Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: org.eclipse.emf.cheatsheets

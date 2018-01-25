@@ -12,3 +12,4 @@ Bundle-Name: %pluginName
 Import-Package: org.apache.log4j;version="[1.2.0,2.0.0)"
 Export-Package: org.eclipse.emf.codegen.ecore.xtext
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Automatic-Module-Name: org.eclipse.emf.codegen.ecore.xtext

@@ -23,23 +23,17 @@ public class ModelDescription
   protected final String TEXT_6 = ">";
   protected final String TEXT_7 = NL;
   protected final String TEXT_8 = NL + "Package ";
-  protected final String TEXT_9 = " <";
-  protected final String TEXT_10 = ">" + NL;
-  protected final String TEXT_11 = NL + "  Class ";
-  protected final String TEXT_12 = NL + "    ";
-  protected final String TEXT_13 = " ";
-  protected final String TEXT_14 = "/";
-  protected final String TEXT_15 = " : ";
-  protected final String TEXT_16 = NL + "    Operation ";
-  protected final String TEXT_17 = " : ";
-  protected final String TEXT_18 = NL;
-  protected final String TEXT_19 = NL + "  Enum ";
-  protected final String TEXT_20 = NL + "    Literal ";
-  protected final String TEXT_21 = " = ";
-  protected final String TEXT_22 = NL;
-  protected final String TEXT_23 = NL + "  DataType ";
-  protected final String TEXT_24 = " <";
-  protected final String TEXT_25 = ">" + NL;
+  protected final String TEXT_9 = ">" + NL;
+  protected final String TEXT_10 = NL + "  Class ";
+  protected final String TEXT_11 = NL + "    ";
+  protected final String TEXT_12 = " ";
+  protected final String TEXT_13 = "/";
+  protected final String TEXT_14 = " : ";
+  protected final String TEXT_15 = NL + "    Operation ";
+  protected final String TEXT_16 = NL + "  Enum ";
+  protected final String TEXT_17 = NL + "    Literal ";
+  protected final String TEXT_18 = " = ";
+  protected final String TEXT_19 = NL + "  DataType ";
 
   public String generate(Object argument)
   {
@@ -62,50 +56,50 @@ public class ModelDescription
     for (GenPackage genPackage : genModel.getGenPackages()) {
     stringBuffer.append(TEXT_8);
     stringBuffer.append(genPackage.getPackageName());
-    stringBuffer.append(TEXT_9);
+    stringBuffer.append(TEXT_5);
     stringBuffer.append(genPackage.getNSURI());
-    stringBuffer.append(TEXT_10);
+    stringBuffer.append(TEXT_9);
     for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {
     if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;
-    stringBuffer.append(TEXT_11);
+    stringBuffer.append(TEXT_10);
     stringBuffer.append(genClass.getName());
     stringBuffer.append(ValidatorGeneratorUtil.getSuperTypesExpression(genClass));
     for (GenFeature genFeature : genClass.getGenFeatures()) {
     String keyword = genFeature.isReferenceType() ? "Reference" : "Attribute";
-    stringBuffer.append(TEXT_12);
+    stringBuffer.append(TEXT_11);
     stringBuffer.append(keyword);
-    stringBuffer.append(TEXT_13);
+    stringBuffer.append(TEXT_12);
     if (genFeature.isDerived()) {
-    stringBuffer.append(TEXT_14);
+    stringBuffer.append(TEXT_13);
     }
     stringBuffer.append(genFeature.getName());
-    stringBuffer.append(TEXT_15);
+    stringBuffer.append(TEXT_14);
     stringBuffer.append(ValidatorGeneratorUtil.getTypeExpression(genFeature));
     }
     for (GenOperation genOperation : genClass.getGenOperations()) {
-    stringBuffer.append(TEXT_16);
+    stringBuffer.append(TEXT_15);
     stringBuffer.append(genOperation.getName());
     stringBuffer.append(ValidatorGeneratorUtil.getParameterExpression(genOperation));
-    stringBuffer.append(TEXT_17);
+    stringBuffer.append(TEXT_14);
     stringBuffer.append(ValidatorGeneratorUtil.getTypeExpression(genOperation));
     }
-    stringBuffer.append(TEXT_18);
+    stringBuffer.append(TEXT_7);
     } else if (genClassifier instanceof GenEnum) { GenEnum genEnum = (GenEnum)genClassifier;
-    stringBuffer.append(TEXT_19);
+    stringBuffer.append(TEXT_16);
     stringBuffer.append(genEnum.getName());
     for (GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals()) {
-    stringBuffer.append(TEXT_20);
+    stringBuffer.append(TEXT_17);
     stringBuffer.append(genEnumLiteral.getName());
-    stringBuffer.append(TEXT_21);
+    stringBuffer.append(TEXT_18);
     stringBuffer.append(genEnumLiteral.getValue());
     }
-    stringBuffer.append(TEXT_22);
+    stringBuffer.append(TEXT_7);
     } else if (genClassifier instanceof GenDataType) { GenDataType genDataType = (GenDataType)genClassifier;
-    stringBuffer.append(TEXT_23);
+    stringBuffer.append(TEXT_19);
     stringBuffer.append(genDataType.getName());
-    stringBuffer.append(TEXT_24);
+    stringBuffer.append(TEXT_5);
     stringBuffer.append(genDataType.getEcoreDataType().getInstanceClassName());
-    stringBuffer.append(TEXT_25);
+    stringBuffer.append(TEXT_9);
     }
     }
     }

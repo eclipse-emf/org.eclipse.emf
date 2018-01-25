@@ -18,3 +18,4 @@ Require-Bundle: org.eclipse.equinox.app,
  org.eclipse.core.runtime,
  org.eclipse.equinox.ds,
  org.junit;bundle-version="[4.12.0,5.0.0)"
+Automatic-Module-Name: org.eclipse.emf.releng

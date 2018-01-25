@@ -14,3 +14,4 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.examples.databinding.project.core
 Service-Component: META-INF/component.xml, META-INF/xmiprovider.xml
 Import-Package: org.eclipse.emf.examples.databinding.project.core.model.project
+Automatic-Module-Name: org.eclipse.emf.examples.databinding.project.core

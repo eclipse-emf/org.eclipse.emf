@@ -22,3 +22,4 @@ Import-Package: javax.xml.namespace,
  org.xml.sax.ext,
  org.xml.sax.helpers
 Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: org.eclipse.emf.ecore.xmi
