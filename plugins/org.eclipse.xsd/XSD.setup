@@ -186,7 +186,7 @@
         <repository
             url="http://download.eclipse.org/releases/indigo/201202240900"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/2.7.x"/>
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
       </repositoryList>
       <repositoryList
           name="Helios">
