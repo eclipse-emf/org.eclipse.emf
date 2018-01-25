@@ -25,6 +25,11 @@
       <value>https://www.eclipse.org/modeling/emf/</value>
     </detail>
   </annotation>
+  <annotation
+      source="ConfigurationReference">
+    <reference
+        href="EMFDevelopmentEnvironmentConfiguration.setup#/"/>
+  </annotation>
   <setupTask
       xsi:type="setup:CompoundTask"
       name="User Preferences">
