@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  */
-package org.eclipse.emf.test.edit;
+package org.eclipse.emf.test.edit.ui.platform;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -37,6 +37,8 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.junit.Test;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 
 
 /**
@@ -65,6 +67,14 @@ public class TestValidateAction
     {
       return super.validate(progressMonitor);
     }
+  }
+
+  @Test
+  public void testRuntime()
+  {
+    Bundle bundle = FrameworkUtil.getBundle(StructuredSelection.class);
+    String symbolicName = bundle.getSymbolicName();
+    assertEquals("org.eclipse.jface", symbolicName);
   }
 
   @Test

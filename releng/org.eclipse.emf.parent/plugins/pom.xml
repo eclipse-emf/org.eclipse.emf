@@ -72,6 +72,8 @@
     <module>../../../tests/org.eclipse.emf.test.databinding</module>
     <module>../../../tests/org.eclipse.emf.test.databinding.edit</module>
     <module>../../../tests/org.eclipse.emf.test.edit</module>
+    <module>../../../tests/org.eclipse.emf.test.edit.ui.platform</module>
+    <module>../../../tests/org.eclipse.emf.test.edit.ui.rap</module>
     <module>../../../tests/org.eclipse.emf.test.examples</module>
     <module>../../../tests/org.eclipse.emf.test.tools</module>
     <module>../../../tests/org.eclipse.emf.test.xml</module>

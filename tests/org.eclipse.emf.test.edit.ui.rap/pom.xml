@@ -11,7 +11,7 @@
   </parent>
 
   <groupId>org.eclipse.emf</groupId>
-  <artifactId>org.eclipse.emf.test.edit</artifactId>
+  <artifactId>org.eclipse.emf.test.edit.ui.rap</artifactId>
   <version>2.10.0-SNAPSHOT</version>
   <packaging>eclipse-test-plugin</packaging>
 

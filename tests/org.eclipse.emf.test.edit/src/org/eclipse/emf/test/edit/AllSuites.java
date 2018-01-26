@@ -25,7 +25,6 @@ import org.junit.runners.Suite;
      org.eclipse.emf.test.edit.command.ChangeCommandTest.class,
      org.eclipse.emf.test.edit.provider.ComposedAdapterFactoryTest.class,
      org.eclipse.emf.test.edit.provider.TypeSearchTest.class,
-     org.eclipse.emf.test.edit.TestValidateAction.class
   })
 public class AllSuites
 {

@@ -1,21 +1,20 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.emf.test.edit;singleton:=true
+Bundle-SymbolicName: org.eclipse.emf.test.edit.ui.platform;singleton:=true
 Bundle-Version: 2.10.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.test.edit,
- org.eclipse.emf.test.edit.command,
- org.eclipse.emf.test.edit.provider
+Export-Package: org.eclipse.emf.test.edit.ui.platform
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
  org.eclipse.emf.ecore;bundle-version="[2.14.0,3.0.0)",
  org.eclipse.emf.edit;bundle-version="[2.13.0,3.0.0)",
- org.eclipse.emf.test.common;bundle-version="[1.6.0,2.0.0)",
- org.junit;bundle-version="[4.12.0,5.0.0)"
+ org.eclipse.emf.edit.ui;bundle-version="[2.14.0,3.0.0)",
+ org.junit;bundle-version="[4.12.0,5.0.0)",
+ org.eclipse.emf.test.common;bundle-version="[1.6.0,2.0.0)"
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
-Automatic-Module-Name: org.eclipse.emf.test.edit
+Automatic-Module-Name: org.eclipse.emf.test.edit.ui.platform
 
