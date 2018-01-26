@@ -233,8 +233,22 @@
       value="https://dl.google.com/eclipse/plugin/4.6"/>
   <setupTask
       xsi:type="setup:VariableTask"
-      name="xtext.nightly.composite"
-      value="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/nightly"/>
+      name="xtext.latest.release.url"
+      value="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.13.0">
+    <description>The p2 update site URL for the last Xtext release.</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:VariableTask"
+      name="xpand.latest.release.url"
+      value="http://download.eclipse.org/modeling/m2t/xpand/updates/releases/R201605260315">
+    <description>The p2 update site URL for the last XPant release.</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:VariableTask"
+      name="mwe.latest.release.url"
+      value="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.9.1">
+    <description>The p2 update site URL for the last MWE release.</description>
+  </setupTask>
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
@@ -339,13 +353,7 @@
         <repository
             url="http://download.eclipse.org/releases/photon"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0"/>
-        <repository
             url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
-        <repository
-            url="${gwt.tool.url}"/>
-        <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
         <repository
             url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
       </repositoryList>
@@ -354,104 +362,56 @@
         <repository
             url="http://download.eclipse.org/releases/oxygen"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0"/>
-        <repository
             url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
-        <repository
-            url="${gwt.tool.url}"/>
-        <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
       </repositoryList>
       <repositoryList
           name="Neon">
         <repository
             url="http://download.eclipse.org/releases/neon/201705151400"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0"/>
-        <repository
             url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
-        <repository
-            url="${gwt.tool.url}"/>
-        <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
       </repositoryList>
       <repositoryList
           name="Mars">
         <repository
             url="http://download.eclipse.org/releases/mars/201602261000"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0"/>
-        <repository
             url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
-        <repository
-            url="${gwt.tool.url}"/>
-        <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
       </repositoryList>
       <repositoryList
           name="Luna">
         <repository
             url="http://download.eclipse.org/releases/luna/201502271000"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0"/>
-        <repository
             url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
-        <repository
-            url="${gwt.tool.url}"/>
-        <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
       </repositoryList>
       <repositoryList
           name="Kepler">
         <repository
             url="http://download.eclipse.org/releases/kepler/201402280900"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0"/>
-        <repository
             url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
-        <repository
-            url="${gwt.tool.url}"/>
-        <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
       </repositoryList>
       <repositoryList
           name="Juno">
         <repository
             url="http://download.eclipse.org/releases/juno/201303010900"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0"/>
-        <repository
             url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
-        <repository
-            url="${gwt.tool.url}"/>
-        <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
       </repositoryList>
       <repositoryList
           name="Indigo">
         <repository
             url="http://download.eclipse.org/releases/indigo/201202240900"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0"/>
-        <repository
             url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
-        <repository
-            url="${gwt.tool.url}"/>
-        <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
       </repositoryList>
       <repositoryList
           name="Helios">
         <repository
             url="http://download.eclipse.org/releases/helios/201102250900"/>
         <repository
-            url="http://download.itemis.com/updates/releases/2.1.0"/>
-        <repository
             url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
-        <repository
-            url="${gwt.tool.url}"/>
-        <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
       </repositoryList>
     </targlet>
   </setupTask>
@@ -684,12 +644,13 @@
       <requirement
           name="org.eclipse.xtend.sdk.feature.group"/>
       <repository
-          url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
+          url="${xtext.latest.release.url}"/>
     </setupTask>
     <setupTask
         xsi:type="setup.targlets:TargletTask">
       <targlet
-          name="EMF Xcore">
+          name="EMF Xcore"
+          activeRepositoryList="Xtext">
         <requirement
             name="org.eclipse.emf.ecore.xcore.sdk.feature.group"/>
         <requirement
@@ -709,6 +670,17 @@
               xsi:type="predicates:NamePredicate"
               pattern=".*\.xcore.*|.*\.xtext.*"/>
         </sourceLocator>
+        <repositoryList
+            name="Xtext">
+          <repository
+              url="http://download.itemis.com/updates/releases/2.1.0"/>
+          <repository
+              url="${xtext.latest.release.url}"/>
+          <repository
+              url="${mwe.latest.release.url}"/>
+          <repository
+              url="${xpand.latest.release.url}"/>
+        </repositoryList>
       </targlet>
     </setupTask>
     <setupTask
@@ -783,7 +755,8 @@
     <setupTask
         xsi:type="setup.targlets:TargletTask">
       <targlet
-          name="EMF GWT">
+          name="EMF GWT"
+          activeRepositoryList="GWT">
         <requirement
             name="org.eclipse.emf.gwt.sdk.feature.group"/>
         <requirement
@@ -792,6 +765,11 @@
             name="com.google.gwt.eclipse.sdkbundle"/>
         <sourceLocator
             rootFolder="${emf.git.clone.location}"/>
+        <repositoryList
+            name="GWT">
+          <repository
+              url="${gwt.tool.url}"/>
+        </repositoryList>
       </targlet>
     </setupTask>
     <setupTask
