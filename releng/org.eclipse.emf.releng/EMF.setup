@@ -422,7 +422,7 @@
   <setupTask
       xsi:type="setup:ResourceCreationTask"
       content="eclipse.preferences.version=1&#xA;updateNotifications=false&#xA;"
-      targetURL="${installation.location|uri}/${installation.relativeProductFolder}/configuration/.settings/com.google.gdt.eclipse.suite.prefs}"
+      targetURL="${installation.location|uri}/${installation.relativeProductFolder}/configuration/.settings/com.google.gdt.eclipse.suite.prefs"
       encoding="UTF-8">
     <description>Turn off notification about updates from the GWT Tools.</description>
   </setupTask>
