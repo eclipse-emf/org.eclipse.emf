@@ -419,6 +419,13 @@
       xsi:type="setup:StringSubstitutionTask"
       name="emf.git.clone.location"
       value="${emf.git.clone.location}"/>
+  <setupTask
+      xsi:type="setup:ResourceCreationTask"
+      content="eclipse.preferences.version=1&#xA;updateNotifications=false&#xA;"
+      targetURL="${installation.location|uri}/configuration/.settings/com.google.gdt.eclipse.suite.prefs}"
+      encoding="UTF-8">
+    <description>Turn off notification about updates from the GWT Tools.</description>
+  </setupTask>
   <project name="core"
       label="Core">
     <setupTask
