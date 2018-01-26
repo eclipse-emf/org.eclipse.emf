@@ -81,7 +81,7 @@
     <requirement
         name="org.eclipse.xsd.sdk.feature.group"/>
     <repository
-        url="http://download.eclipse.org/modeling/emf/emf/builds/milestone"/>
+        url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
     <repository
         url="http://download.eclipse.org/ecoretools/updates"/>
   </setupTask>
@@ -281,13 +281,6 @@
         name="eclipse.target.platform"
         defaultValue="Photon"
         storageURI="scope://Workspace"/>
-    <setupTask
-        xsi:type="setup.p2:P2Task">
-      <repository
-          url="http://download.eclipse.org/modeling/emf/emf/updates/2.13"/>
-      <repository
-          url="http://download.eclipse.org/ecoretools/updates"/>
-    </setupTask>
   </stream>
   <logicalProjectContainer
       xsi:type="setup:ProjectCatalog"
