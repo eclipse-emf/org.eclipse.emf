@@ -850,93 +850,8 @@ public class BinaryResourceImpl extends ResourceImpl
         EStructuralFeatureData [] eStructuralFeaturesData = eClassData.eStructuralFeatureData = new EStructuralFeatureData[featureCount];
         for (int i = 0; i < featureCount; ++i)
         {
-          EStructuralFeatureData eStructuralFeatureData = eStructuralFeaturesData[i] = new EStructuralFeatureData();
           EStructuralFeature.Internal eStructuralFeature = (EStructuralFeature.Internal)eClass.getEStructuralFeature(i);
-          eStructuralFeatureData.name = eStructuralFeature.getName();
-          eStructuralFeatureData.isTransient = eStructuralFeature.isTransient() || eStructuralFeature.isContainer() && !eStructuralFeature.isResolveProxies();
-          eStructuralFeatureData.kind = FeatureKind.get(eStructuralFeature);
-          if (eStructuralFeature instanceof EAttribute)
-          {
-            EAttribute eAttribute = (EAttribute)eStructuralFeature;
-            EDataType eDataType = eAttribute.getEAttributeType();
-            eStructuralFeatureData.eDataType = eDataType;
-            eStructuralFeatureData.eFactory = eDataType.getEPackage().getEFactoryInstance();
-            eStructuralFeatureData.isProxyTransient = eStructuralFeatureData.kind == FeatureKind.FEATURE_MAP;
-            if (segmentedStringToIDMap != null)
-            {
-              DataConverter<?> dataConverter = dataConverterMap.get(eDataType);
-              if (dataConverter != DataConverter.NULL)
-              {
-                if (dataConverter == null)
-                {
-                  final DataConverter<?> rawDataConverter = ((DataConverter.Factory)eStructuralFeatureData.eFactory).create(eDataType);
-                  if (rawDataConverter == null)
-                  {
-                    dataConverterMap.put(eDataType,  DataConverter.NULL);
-                  }
-                  else
-                  {
-                    if (rawDataConverter.isTabulated())
-                    {
-                      DataConverter<?> tabulatedDataConverter =
-                        new DataConverter<Object>()
-                        {
-                          Map<Object, Integer> objectToIDMap = new HashMap<Object, Integer>();
-
-                          @Override
-                          public Object read(EObjectInputStream eObjectInputStream) throws IOException
-                          {
-                            throw new UnsupportedOperationException();
-                          }
-
-                          @Override
-                          public void write(EObjectOutputStream eObjectOutputStream, Object value) throws IOException
-                          {
-                            if (value == null)
-                            {
-                              eObjectOutputStream.writeCompressedInt(-1);
-                            }
-                            else
-                            {
-                              Integer id = objectToIDMap.get(value);
-                              if (id == null)
-                              {
-                                int idValue = objectToIDMap.size();
-                                objectToIDMap.put(value, idValue);
-                                eObjectOutputStream.writeCompressedInt(idValue);
-                                super.write(eObjectOutputStream, value);
-                              }
-                              else
-                              {
-                                eObjectOutputStream.writeCompressedInt(id);
-                              }
-                            }
-                          }
-
-                          @Override
-                          protected void doWrite(EObjectOutputStream eObjectOutputStream, Object value) throws IOException
-                          {
-                            rawDataConverter.write(eObjectOutputStream, value);
-                          }
-                        };
-                      dataConverter = tabulatedDataConverter;
-                    }
-                    else
-                    {
-                      dataConverter = rawDataConverter;
-                    }
-                    dataConverterMap.put(eDataType, dataConverter);
-                  }
-                }
-
-                eStructuralFeatureData.dataConverter = dataConverter;
-              }
-            }
-          }
-          else
-          {
-            eStructuralFeatureData.isProxyTransient = true;
-          }
+          eStructuralFeaturesData[i] = createEStructuralFeatureData(eStructuralFeature);
         }
         ePackageData.eClassData[eClassData.id] = eClassData;
         eClassDataMap.put(eClass, eClassData);
@@ -947,6 +862,101 @@ public class BinaryResourceImpl extends ResourceImpl
         writeCompressedInt(eClassData.id);
       }
       return eClassData;
+    }
+
+    /**
+     * @since 2.14
+     */
+    protected EStructuralFeatureData createEStructuralFeatureData(EStructuralFeature.Internal eStructuralFeature)
+    {
+      EStructuralFeatureData eStructuralFeatureData =  new EStructuralFeatureData();
+      eStructuralFeatureData.name = eStructuralFeature.getName();
+      eStructuralFeatureData.isTransient = eStructuralFeature.isTransient() || eStructuralFeature.isContainer() && !eStructuralFeature.isResolveProxies();
+      eStructuralFeatureData.kind = FeatureKind.get(eStructuralFeature);
+      if (eStructuralFeature instanceof EAttribute)
+      {
+        EAttribute eAttribute = (EAttribute)eStructuralFeature;
+        EDataType eDataType = eAttribute.getEAttributeType();
+        eStructuralFeatureData.eDataType = eDataType;
+        eStructuralFeatureData.eFactory = eDataType.getEPackage().getEFactoryInstance();
+        eStructuralFeatureData.isProxyTransient = eStructuralFeatureData.kind == FeatureKind.FEATURE_MAP;
+        if (segmentedStringToIDMap != null)
+        {
+          DataConverter<?> dataConverter = dataConverterMap.get(eDataType);
+          if (dataConverter != DataConverter.NULL)
+          {
+            if (dataConverter == null)
+            {
+              final DataConverter<?> rawDataConverter = ((DataConverter.Factory)eStructuralFeatureData.eFactory).create(eDataType);
+              if (rawDataConverter == null)
+              {
+                dataConverterMap.put(eDataType,  DataConverter.NULL);
+              }
+              else
+              {
+                if (rawDataConverter.isTabulated())
+                {
+                  DataConverter<?> tabulatedDataConverter =
+                    new DataConverter<Object>()
+                    {
+                      Map<Object, Integer> objectToIDMap = new HashMap<Object, Integer>();
+
+                      @Override
+                      public Object read(EObjectInputStream eObjectInputStream) throws IOException
+                      {
+                        throw new UnsupportedOperationException();
+                      }
+
+                      @Override
+                      public void write(EObjectOutputStream eObjectOutputStream, Object value) throws IOException
+                      {
+                        if (value == null)
+                        {
+                          eObjectOutputStream.writeCompressedInt(-1);
+                        }
+                        else
+                        {
+                          Integer id = objectToIDMap.get(value);
+                          if (id == null)
+                          {
+                            int idValue = objectToIDMap.size();
+                            objectToIDMap.put(value, idValue);
+                            eObjectOutputStream.writeCompressedInt(idValue);
+                            super.write(eObjectOutputStream, value);
+                          }
+                          else
+                          {
+                            eObjectOutputStream.writeCompressedInt(id);
+                          }
+                        }
+                      }
+
+                      @Override
+                      protected void doWrite(EObjectOutputStream eObjectOutputStream, Object value) throws IOException
+                      {
+                        rawDataConverter.write(eObjectOutputStream, value);
+                      }
+                    };
+                  dataConverter = tabulatedDataConverter;
+                }
+                else
+                {
+                  dataConverter = rawDataConverter;
+                }
+                dataConverterMap.put(eDataType, dataConverter);
+              }
+            }
+
+            eStructuralFeatureData.dataConverter = dataConverter;
+          }
+        }
+      }
+      else
+      {
+        eStructuralFeatureData.isProxyTransient = true;
+      }
+
+      return eStructuralFeatureData;
     }
 
     protected EStructuralFeatureData writeEStructuralFeature(EStructuralFeature eStructuralFeature) throws IOException
