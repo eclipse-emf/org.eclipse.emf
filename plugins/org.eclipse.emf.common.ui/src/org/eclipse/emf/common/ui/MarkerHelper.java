@@ -318,7 +318,7 @@ public class MarkerHelper
             null));
       }
 
-      for (Diagnostic instrincDiagnostic : getInstrincDiagnostics(object, wrap))
+      for (Diagnostic instrincDiagnostic : getIntrinsicDiagnostics(object, wrap))
       {
         diagnostic.add(instrincDiagnostic);
       }
@@ -333,7 +333,7 @@ public class MarkerHelper
   /**
    * Returns any additional diagnostics associated in some way with the given object.
    * <p>
-   * The method has a typo so please avoid calling this method and rather the fixed spelling of {@link #getInstrincDiagnostics(Object, boolean)}.
+   * The method has a typo so please avoid calling this method and rather the fixed spelling of {@link #getIntrinsicDiagnostics(Object, boolean)}.
    * Use this method only in a derived class to specialize the behavior.
    * </p>
    *
@@ -353,7 +353,7 @@ public class MarkerHelper
    *
    * @since 2.14
    */
-  public final List<? extends Diagnostic> getInstrincDiagnostics(Object object, boolean wrap)
+  public final List<? extends Diagnostic> getIntrinsicDiagnostics(Object object, boolean wrap)
   {
     return getInstrinciDiagnostics(object, wrap);
   }
