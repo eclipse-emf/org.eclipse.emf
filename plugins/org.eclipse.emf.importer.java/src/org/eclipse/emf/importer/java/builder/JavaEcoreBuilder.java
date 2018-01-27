@@ -625,7 +625,7 @@ public class JavaEcoreBuilder
       // If it's a platform plugin URI, include it in the map.
       //
       URI genModelLocation = entry.getValue();
-      if (genModelLocation.isPlatformPlugin())
+      if (genModelLocation.isPlatformResource())
       {
         List<URI> uris = allPluginsWithGenModels.get(genModelLocation.segment(1));
         if (uris == null)
