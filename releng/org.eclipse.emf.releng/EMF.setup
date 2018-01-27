@@ -225,7 +225,7 @@
     <repository
         url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
     <repository
-        url="http://download.eclipse.org/ecoretools/updates/releases/2.0.3/luna"/>
+        url="http://download.eclipse.org/ecoretools/updates/0.10/R201006151639"/>
   </setupTask>
   <setupTask
       xsi:type="setup:VariableTask"
