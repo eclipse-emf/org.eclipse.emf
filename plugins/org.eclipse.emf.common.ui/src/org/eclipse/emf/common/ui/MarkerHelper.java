@@ -318,7 +318,7 @@ public class MarkerHelper
             null));
       }
 
-      for (Diagnostic instrincDiagnostic : getInstrinciDiagnostics(object, wrap))
+      for (Diagnostic instrincDiagnostic : getInstrincDiagnostics(object, wrap))
       {
         diagnostic.add(instrincDiagnostic);
       }
@@ -331,11 +331,31 @@ public class MarkerHelper
   }
 
   /**
+   * Returns any additional diagnostics associated in some way with the given object.
+   * <p>
+   * The method has a typo so please avoid calling this method and rather the fixed spelling of {@link #getInstrincDiagnostics(Object, boolean)}.
+   * Use this method only in a derived class to specialize the behavior.
+   * </p>
+   *
    * @since 2.13
    */
   public List<? extends Diagnostic> getInstrinciDiagnostics(Object object, boolean wrap)
   {
     return Collections.emptyList();
+  }
+
+  /**
+   * Returns any additional diagnostics associated in some way with the given object.
+   * <p>
+   * This method is final because the older wrongly spelled method {@link #getInstrinciDiagnostics(Object, boolean)} may have been used to specialize the behavior,
+   * so developers needing to specialize the behavior of this method should continue to use the older wrongly spelled method.
+   * </p>
+   *
+   * @since 2.14
+   */
+  public final List<? extends Diagnostic> getInstrincDiagnostics(Object object, boolean wrap)
+  {
+    return getInstrinciDiagnostics(object, wrap);
   }
 
   /**
