@@ -16,7 +16,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
@@ -162,7 +161,6 @@ public class UpdateSiteGenerator
    *
    * @param source the source repository.
    * @param buildType the {@code publish.build.type}.
-   * @param buildTimestamp the {@code publish.build.timestamp}.
    * @return the destination location at the repository was promoted.
    * @throws Exception
    */
@@ -181,7 +179,7 @@ public class UpdateSiteGenerator
    *
    * @param source the source repository location.
    * @param destination the destination repository location.
-   * @param buildType the {@link publish.build.type}.
+   * @param buildType the {@code publish.build.type}.
    * @return the destination location at the repository was mirrored.
    * @throws Exception
    */
@@ -337,7 +335,7 @@ public class UpdateSiteGenerator
   /**
    * Returns the destination folder for the given build type and whether it is a latest composite or not.
    *
-   * @param buildType the {@link publish.build.type}.
+   * @param buildType the {@code publish.build.type}.
    * @param latest whether this is a composite for the latest build.
    * @return the destination folder.
    *
@@ -356,7 +354,7 @@ public class UpdateSiteGenerator
   /**
    * Creates a composite update that references the given source repositories, at a location determined by the build type and the latest indicator.
    * @param sources the source repositories.
-   * @param buildType the {@link publish.build.type}.
+   * @param buildType the {@code publish.build.type}.
    * @param latest whether is is a composite refering to the latest.
    *
    * @throws Exception
@@ -447,8 +445,6 @@ public class UpdateSiteGenerator
    * @param sourceURI the source URI.
    * @param targetURI the target URI.
    * @return the relative URI.
-   *
-   * @throws URISyntaxException
    */
   private static URI relativize(URI sourceURI, URI targetURI)
   {
@@ -471,7 +467,7 @@ public class UpdateSiteGenerator
   }
 
   /**
-   * Produces the {@link .xml.zx} forms as well as the {@code p2.index}.
+   * Produces the {@code .xml.zx} forms as well as the {@code p2.index}.
    *
    * @param targetRepository
    */
@@ -1179,7 +1175,7 @@ public class UpdateSiteGenerator
      * Populates the IDs with the information from {@code about.mappings} for the branding plugin with the give UI ID.
      * @param ids the IDs to populate.
      * @param iuID the ID of a branding plugin.
-     * @param idPattern the pattern for finding the ID in the {@link about.mappings}
+     * @param idPattern the pattern for finding the ID in the {@code about.mappings}
      * @param validIDPattern the pattern for validating and extracting the ID.
      * @param prefix the prefix that will be prepended to the ID.
      */

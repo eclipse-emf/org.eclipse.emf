@@ -273,7 +273,7 @@ public class UpdateSiteGeneratorTest
    * If {@code publish.clean} is 'true",
    * it deletes older builds to ensure that each milestone build has the same newest version of the {@code org.eclipse.emf.sdk.feature.group} installable unit.
    * In other words, milestone builds are delete as soon as there is a milestome build a newer version of EMF,
-   * as opposed to deleting all the milestone builds after a release build, which would leave the {@link milestone} and {@link milestone/latest} empty.
+   * as opposed to deleting all the milestone builds after a release build, which would leave the {@code milestone} and {@code milestone/latest} empty.
    *
    * @throws Exception
    */
