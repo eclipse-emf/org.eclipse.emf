@@ -11,15 +11,17 @@
 package org.eclipse.emf.ecore.util;
 
 
-//import java.util.Collections;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.common.util.TreeIterator;
 
 import org.eclipse.emf.ecore.EValidator;
 
@@ -36,13 +38,34 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  */
 public class Diagnostician implements EValidator.SubstitutionLabelProvider, EValidator
 {
+  /**
+   * A Boolean key to be used in <code>context</code> maps to indicate whether {@link #validate(EObject, DiagnosticChain, Map)}
+   * should directly call {@link #validate(EClass, EObject, DiagnosticChain, Map)} once and expect that method to recursively call {@link #doValidateContents(EObject, DiagnosticChain, Map)}
+   * or whether it should iterate over all contents and call {@link #validate(EClass, EObject, DiagnosticChain, Map)} for each
+   * with the expectation that that method <b>not</b> call {@link #doValidateContents(EObject, DiagnosticChain, Map)}.
+   * In either case, {@link #doValidate(EValidator, EClass, EObject, DiagnosticChain, Map)} is ultimately called for each object in the tree.
+   * The default behavior is controlled by {@link #isValidateContentsRecursively()} which is {@code false} in the default implementation.
+   * So as of EMF 2.14, the default behavior is to use iteration instead of recursion to validate all objects in the tree.
+   *
+   * @see #validate(EObject, DiagnosticChain, Map)
+   * @see #validate(EClass, EObject, DiagnosticChain, Map)
+   * @see #doValidateContents(EObject, DiagnosticChain, Map)
+   * @see #isValidateContentsRecursively()
+   *
+   * @since 2.14
+   */
+  public static final String VALIDATE_RECURSIVELY = "VALIDATE_RECURSIVELY";
+
   public static final Diagnostician INSTANCE = new Diagnostician();
+
+  private boolean validateContentsRecursively;
 
   protected EValidator.Registry eValidatorRegistry;
 
   public Diagnostician(EValidator.Registry eValidatorRegistry)
   {
     this.eValidatorRegistry = eValidatorRegistry;
+    validateContentsRecursively = OverrideChecker.hasDoValidateContentsOverride(getClass());
   }
 
   public Diagnostician()
@@ -132,11 +155,74 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
     return validate(eObject, diagnostics, createDefaultContext());
   }
 
-  public boolean validate(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
+  /**
+   * Returns whether
+   * {@link #validate(EObject, DiagnosticChain, Map)} should call {@link #validate(EClass, EObject, DiagnosticChain, Map)} once
+   * with {@link #VALIDATE_RECURSIVELY} mapped to {@code Boolean.TRUE} in the {@code context},
+   * or should iterator over {@link EcoreUtil#getAllContents(java.util.Collection) all contents},
+   * including the given object,
+   * and call {@link #validate(EClass, EObject, DiagnosticChain, Map)} for each
+   * with {@link #VALIDATE_RECURSIVELY} mapped to {@code Boolean.FALSE} in the {@code context}.
+   *
+   * @since 2.14
+   */
+  protected boolean isValidateContentsRecursively()
   {
-    return validate(eObject.eClass(), eObject, diagnostics, context); 
+    return validateContentsRecursively;
   }
 
+  /**
+   * {@inheritDoc}
+   * <p>
+   * This implementation will ultimately recursive validate all objects in the containment tree.
+   * But, depending on {@link #isValidateContentsRecursively()} and the value of {@link #VALIDATE_RECURSIVELY} in the {@code context},
+   * it will do so either iteratively or recursively.
+   * </p>
+   */
+  public boolean validate(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean needsRecursion = isValidateContentsRecursively();
+    Object validateRecursively = context.put(VALIDATE_RECURSIVELY, needsRecursion);
+    try
+    {
+      if (needsRecursion || Boolean.TRUE.equals(validateRecursively))
+      {
+        context.put(VALIDATE_RECURSIVELY, Boolean.TRUE);
+        return validate(eObject.eClass(), eObject, diagnostics, context);
+      }
+      else
+      {
+        context.put(VALIDATE_RECURSIVELY, Boolean.FALSE);
+        boolean result = true;
+        for (TreeIterator<? extends EObject> i = EcoreUtil.getAllContents(Collections.singleton(eObject)); i.hasNext();)
+        {
+          EObject child = i.next();
+          boolean circular = context.get(EObjectValidator.ROOT_OBJECT) == child;
+          result &= validate(child.eClass(), child, diagnostics, context);
+          if (circular)
+          {
+            i.prune();
+          }
+          else if (!result && diagnostics == null)
+          {
+            break;
+          }
+        }
+        return result;
+      }
+    }
+    finally
+    {
+      context.put(VALIDATE_RECURSIVELY, validateRecursively);
+    }
+  }
+
+  /**
+   * Validates the object.
+   * If the {@code context} does not contain {@link #VALIDATE_RECURSIVELY} mapped to {@code Boolean.FALSE},
+   * this method will call {@link #doValidateContents(EObject, DiagnosticChain, Map)},
+   * i.e., it will recursively validate all contents of the tree unless the context explicitly indicates not to do that.
+   */
   public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     Object eValidator;
@@ -156,7 +242,7 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
     }
     boolean circular = context.get(EObjectValidator.ROOT_OBJECT) == eObject;
     boolean result = doValidate((EValidator)eValidator, eClass, eObject, diagnostics, context);
-    if ((result || diagnostics != null) && !circular)
+    if (!Boolean.FALSE.equals(context.get(VALIDATE_RECURSIVELY)) && (result || diagnostics != null) && !circular)
     {
       result &= doValidateContents(eObject, diagnostics, context);
     }
@@ -216,5 +302,41 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
   protected boolean doValidate(EValidator eValidator, EDataType eDataType, Object value, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return eValidator.validate(eDataType, value, diagnostics, context);
+  }
+
+  private static class OverrideChecker
+  {
+    private static final Map<Class<?>, Boolean> CLASSES_WITH_OVERRIDES = new ConcurrentHashMap<Class<?>, Boolean>();
+
+    public static boolean hasDoValidateContentsOverride(Class<?> diagnosticianClass)
+    {
+      Boolean result = CLASSES_WITH_OVERRIDES.get(diagnosticianClass);
+      if (result == null)
+      {
+        try
+        {
+          result = Boolean.FALSE;
+          for (Class<?> theClass = diagnosticianClass; theClass != Diagnostician.class; theClass = theClass.getSuperclass())
+          {
+            try
+            {
+              theClass.getDeclaredMethod("doValidateContents", EObject.class, DiagnosticChain.class, Map.class);
+              result = Boolean.TRUE;
+              break;
+            }
+            catch (NoSuchMethodException noSuchMethodException)
+            {
+            }
+          }
+        }
+        catch (Exception exception)
+        {
+          result = Boolean.TRUE;
+        }
+
+        CLASSES_WITH_OVERRIDES.put(diagnosticianClass, result);
+      }
+      return result;
+    }
   }
 }
