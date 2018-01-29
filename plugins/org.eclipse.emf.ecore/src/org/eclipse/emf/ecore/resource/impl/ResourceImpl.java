@@ -668,10 +668,24 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       {
         SegmentSequence.Builder builder = SegmentSequence.newBuilder("/");
 
+        boolean supportIDRelativeURIFragmentPaths = supportIDRelativeURIFragmentPaths();
         boolean isContained = false;
         for (InternalEObject container = internalEObject.eInternalContainer(); container != null; container = internalEObject.eInternalContainer())
         {
-          builder.append(container.eURIFragmentSegment(internalEObject.eContainingFeature(), internalEObject));
+          // If we've not already found an ID, which will be the last segment, then continue building segments.
+          //
+          if (id == null)
+          {
+            builder.append(container.eURIFragmentSegment(internalEObject.eContainingFeature(), internalEObject));
+
+            // We will stop appending segments but will continue the loop for proper isContained checking if there is an ID.
+            //
+            if (supportIDRelativeURIFragmentPaths)
+            {
+              id = getIDForEObject(container);
+            }
+          }
+
           internalEObject = container;
           if (container.eDirectResource() == this || unloadingContents != null && unloadingContents.contains(container))
           {
@@ -685,7 +699,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
           return "/-1";
         }
   
-        builder.append(getURIFragmentRootSegment(internalEObject));
+        builder.append(id != null ? "?" + id : getURIFragmentRootSegment(internalEObject));
         builder.append("");
         builder.reverse();
 
@@ -695,6 +709,30 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         return builder.toSegmentSequence().toString();
       }
     }
+  }
+
+  /**
+   * Returns whether {@link #getURIFragment(EObject)} should support ID-relative URI fragment segments.
+   * Normally that method returns either the ID of the object,
+   * or a fragment path relative to the root object.
+   * When this is enabled, the fragment path construction stops at the first {@link #getIDForEObject(EObject) object with an ID}
+   * to construct a path of to form {@code /?<id>/...}
+   * @since 2.14
+   */
+  protected boolean supportIDRelativeURIFragmentPaths()
+  {
+    return false;
+  }
+
+  /**
+   * Returns the ID for the given EObject such that {@link #getEObjectByID(String)} would return this same object.
+   * It is used by {@link #getURIFragment(EObject)}, but only if {@link #supportIDRelativeURIFragmentPaths()} is {@code true}.
+   *
+   * @since 2.14
+   */
+  protected String getIDForEObject(EObject eObject)
+  {
+    return EcoreUtil.getID(eObject);
   }
 
   /**
@@ -708,13 +746,20 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     int position =  0;
     if (uriFragmentRootSegment.length() > 0)
     {
-      try
+      if (uriFragmentRootSegment.charAt(0) == '?')
       {
-        position = Integer.parseInt(uriFragmentRootSegment);
+        return getEObjectByID(uriFragmentRootSegment.substring(1));
       }
-      catch (NumberFormatException exception)
+      else
       {
-        throw new WrappedException(exception);
+        try
+        {
+          position = Integer.parseInt(uriFragmentRootSegment);
+        }
+        catch (NumberFormatException exception)
+        {
+          throw new WrappedException(exception);
+        }
       }
     }
 

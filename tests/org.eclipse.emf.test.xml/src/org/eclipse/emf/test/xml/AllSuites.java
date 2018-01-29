@@ -25,6 +25,8 @@ import org.eclipse.emf.test.xml.xmi.OrderTest;
 import org.eclipse.emf.test.xml.xmi.QNameTest;
 import org.eclipse.emf.test.xml.xmi.URIHandlerTest;
 import org.eclipse.emf.test.xml.xmi.UnloadXMIResourceTest;
+import org.eclipse.emf.test.xml.xmi.XMIExtendedMetadataTest;
+import org.eclipse.emf.test.xml.xmi.XMIResourceURIFragmentsTest;
 import org.eclipse.emf.test.xml.xsd.XSDFeatureTypeTest;
 import org.eclipse.emf.test.xml.xsdecore.Ecore2XSDTest;
 import org.eclipse.emf.test.xml.xsdecore.XSD2EcoreTest;
@@ -38,28 +40,36 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses
   ({
-    LineWidthTest.class,
-    ElementHandlerTest.class,
-    NullNamespaceTest.class,
-    NamespaceTest.class,
-    OrderTest.class,
-    QNameTest.class,
-    CrossResourceReferencesTest.class,
-    UnloadXMIResourceTest.class,
-    MultipleDocumentRootTest.class,
+    DTDTest.class,
+    ProcessingInstructionTest.class,
+    XMLStringTest.class,
+
     UnicodeEncodingTest.class,
     XMLHeaderTest.class,
-    Ecore2XSDTest.class,
-    XSDEcoreBuilderTests.class,
-    XSD2EcoreTest.class,
-    XSDValidateTest.class,
-    XSDTests.class,
+
     RSSTests.class,
-    ProcessingInstructionTest.class,
-    DTDTest.class,
-    URIHandlerTest.class,
+
+    CrossResourceReferencesTest.class,
+    ElementHandlerTest.class,
     LaxFeatureNamespaceMatchingTest.class,
-    XSDFeatureTypeTest.class
+    LineWidthTest.class,
+    MultipleDocumentRootTest.class,
+    NamespaceTest.class,
+    NullNamespaceTest.class,
+    OrderTest.class,
+    QNameTest.class,
+    UnloadXMIResourceTest.class,
+    URIHandlerTest.class,
+    XMIExtendedMetadataTest.class,
+    XMIResourceURIFragmentsTest.class,
+
+    XSDFeatureTypeTest.class,
+
+    Ecore2XSDTest.class,
+    XSD2EcoreTest.class,
+    XSDEcoreBuilderTests.class,
+    XSDTests.class,
+    XSDValidateTest.class,
   })
 public class AllSuites
 {

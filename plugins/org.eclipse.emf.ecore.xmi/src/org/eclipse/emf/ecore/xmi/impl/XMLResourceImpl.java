@@ -576,6 +576,13 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     return eObjectToExtensionMap;
   }
 
+  @Override
+  protected String getIDForEObject(EObject eObject)
+  {
+    String id = getID(eObject);
+    return id == null && useIDAttributes() ? super.getIDForEObject(eObject) : id;
+  }
+
   /*
    * Javadoc copied from interface
    */

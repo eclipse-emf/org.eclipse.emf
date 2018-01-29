@@ -50,6 +50,7 @@ import org.junit.runners.Suite;
       org.eclipse.emf.test.core.ecore.XMLTypeTest.class,
       org.eclipse.emf.test.core.ecore.BinaryResourceTest.class,
       org.eclipse.emf.test.core.ecore.SwitchTest.class,
+      org.eclipse.emf.test.core.ecore.ResourceURIFragmentsTest.class,
       org.eclipse.emf.test.core.ecore.ResourceSetMappedResourceLocatorTest.class,
       org.eclipse.emf.test.core.ecore.ReificationTest.class,
       org.eclipse.emf.test.core.ecore.ECrossReferenceAdapterTest.class,
