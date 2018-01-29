@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -668,8 +669,8 @@ public class ModelConverterPackagePage extends ModelConverterPage
         boolean plugin = uri.isPlatformPlugin();
         if (plugin || uri.isPlatformResource())
         {
-          String segment = URI.decode(uri.segment(1));
-          location = ConverterPlugin.INSTANCE.getString(plugin ? "_UI_PlatformPlugin_label" : "_UI_PlatformResource_label", new String[]{segment});
+          String path = uri.toPlatformString(true);
+          location = ConverterPlugin.INSTANCE.getString(plugin ? "_UI_PlatformPlugin_label" : "_UI_PlatformResource_label", new String[]{path});
         }
         return ConverterPlugin.INSTANCE.getString("_UI_ReferencedGenModel_label", new Object [] { defaultText, location });
       }
@@ -899,9 +900,24 @@ public class ModelConverterPackagePage extends ModelConverterPage
       {
         if (!getModelConverter().getReferencedGenPackages().isEmpty() || !getModelConverter().getExternalGenModels().isEmpty())
         {
+          // Check for duplicates that would result in an error message in the dialog.
+          Map<String, GenPackage> uniqueGenPackages = new LinkedHashMap<String, GenPackage>();
+          List<GenPackage> referencedGenPackages = getModelConverter().getReferencedGenPackages();
+          for (GenPackage genPackage : referencedGenPackages)
+          {
+            String nsURI = genPackage.getEcorePackage().getNsURI();
+            GenPackage otherGenPackage = uniqueGenPackages.put(nsURI, genPackage);
+            // Prefer the *.genmodel over any alternative.
+            if (otherGenPackage != null && "genmodel".equals(otherGenPackage.eResource().getURI().fileExtension()))
+            {
+              uniqueGenPackages.put(nsURI, otherGenPackage);
+            }
+          }
+          referencedGenPackages.retainAll(uniqueGenPackages.values());
+
           List<GenModel> genModels = new UniqueEList.FastCompare<GenModel>();
           genPackagesToCheck = new ConverterUtil.GenPackageList();
-          for (GenPackage genPackage : getModelConverter().getReferencedGenPackages())
+          for (GenPackage genPackage : referencedGenPackages)
           {
             genModels.add(genPackage.getGenModel());
             ModelConverter.ReferencedGenPackageConvertInfo genPackageInfo = 
