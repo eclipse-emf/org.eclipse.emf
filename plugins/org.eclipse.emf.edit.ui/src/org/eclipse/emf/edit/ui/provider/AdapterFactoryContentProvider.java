@@ -265,12 +265,31 @@ public class AdapterFactoryContentProvider
       {
         if (viewerRefresh == null)
         {
-          viewerRefresh = new ViewerRefresh(viewer);
+          viewerRefresh = new ViewerRefresh(viewer, getViewerRefreshTheshold());
         }
 
         if (viewerRefresh.addNotification((IViewerNotification)notification))
         {
-          viewer.getControl().getDisplay().asyncExec(viewerRefresh);
+          // If we have positive refresh delay and the notification is arriving from a background thread...
+          //
+          final Display display = viewer.getControl().getDisplay();
+          final int viewerRefreshDelay = getViewerRefreshDelay();
+          if (viewerRefreshDelay > 0 && display.getThread() != Thread.currentThread())
+          {
+            // Process the viewer refresh after the specified delay.
+            display.asyncExec
+              (new Runnable()
+               {
+                 public void run()
+                 {
+                   display.timerExec(viewerRefreshDelay, viewerRefresh);
+                 }
+               });
+          }
+          else
+          {
+            display.asyncExec(viewerRefresh);
+          }
         }
       }
       else
@@ -288,21 +307,58 @@ public class AdapterFactoryContentProvider
   }
 
   /**
+   * Returns the value threshold value passed to {@link ViewerRefresh#ViewerRefresh(Viewer, int)},
+   * which in turn determines the maximum number of queued {@link IViewerNotification viewer notifications}
+   * before they are all folded into a single full viewer refresh notification.
+   * The default value is 30.
+   *
+   * @since 2.14
+   */
+  protected int getViewerRefreshTheshold()
+  {
+    return 30;
+  }
+
+  /**
+   * Returns the delay value used by {@link #notifyChanged(Notification)} to specify the time in milliseconds to delay processing of queued notifications
+   * in the case that the notifications arrive from a non-display thread.
+   * The default value is 200.
+   *
+   * @since 2.14
+   */
+  protected int getViewerRefreshDelay()
+  {
+    return 200;
+  }
+
+  /**
    * A runnable class that efficiently updates a {@link org.eclipse.jface.viewers.Viewer} via standard APIs, based on
    * queued {@link org.eclipse.emf.edit.provider.IViewerNotification}s from the model's item providers.
    */
   public static class ViewerRefresh implements Runnable
   {
-    Viewer viewer;
-    List<IViewerNotification> notifications;
-    boolean compatibility;
+    private Viewer viewer;
+    private List<IViewerNotification> notifications;
+    private boolean compatibility;
+    private int count;
+    private int threshold;
 
     /**
      * @since 2.2.0
      */
     public ViewerRefresh(Viewer viewer)
     {
+      this(viewer, Integer.MAX_VALUE);
+    }
+
+    /**
+     * @param threshold the maximum number of queued notifications before they are all folded into a single full viewer refresh.
+     * @since 2.14
+     */
+    public ViewerRefresh(Viewer viewer, int threshold)
+    {
       this.viewer = viewer;
+      this.threshold = threshold;
     }
 
     /**
@@ -329,33 +385,49 @@ public class AdapterFactoryContentProvider
       if (notifications == null)
       {
         notifications = new ArrayList<IViewerNotification>();
+        count = 0;
       }
 
       if (notifications.isEmpty())
       {
+        ++count;
         notifications.add(notification);
         return true;
       }
 
       if (viewer instanceof StructuredViewer)
       {
-        for (Iterator<IViewerNotification> i = notifications.iterator(); i.hasNext() && notification != null; )
+        // If there are more than threshold notifications, it will be cheaper just to refresh the tree once.
+        if (count > threshold)
         {
-          IViewerNotification old = i.next();
-          IViewerNotification merged = merge(old, notification);
-          if (merged == old)
+          if (notifications.size() != 1)
           {
-            notification = null;
-          }
-          else if (merged != null)
-          {
-            notification = merged;
-            i.remove();
+            notifications.clear();
+            notifications.add(new ViewerNotification(notification, null, true, true));
           }
         }
-        if (notification != null)
+        else
         {
-          notifications.add(notification);
+          for (Iterator<IViewerNotification> i = notifications.iterator(); i.hasNext() && notification != null; )
+          {
+            IViewerNotification old = i.next();
+            IViewerNotification merged = merge(old, notification);
+            if (merged == old)
+            {
+              notification = null;
+            }
+            else if (merged != null)
+            {
+              notification = merged;
+              --count;
+              i.remove();
+            }
+          }
+          if (notification != null)
+          {
+            notifications.add(notification);
+            ++count;
+          }
         }
       }
       return false;
