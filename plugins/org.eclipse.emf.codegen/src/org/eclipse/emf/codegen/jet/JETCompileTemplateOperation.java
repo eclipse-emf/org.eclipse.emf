@@ -33,13 +33,16 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
-
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.codegen.CodeGenPlugin;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.BasicMonitor;
@@ -268,7 +271,7 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
               progressMonitor.subTask(CodeGenPlugin.getPlugin().getString("_UI_JETUpdate_message", new Object [] { fileName }));
   
               String encoding = outputFile.getCharset();
-              String result = stringWriter.getBuffer().toString();
+              String result = convertLineDelimiters(outputFile, stringWriter.getBuffer().toString());
               byte [] bytes;
               try
               {
@@ -345,6 +348,19 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
     {
       progressMonitor.done();
     }
+  }
+
+  @SuppressWarnings("deprecation")
+  private static String convertLineDelimiters(IFile file, String text)
+  {
+    IProject project = file.getProject();
+    String lineDelimiter = 
+      Platform.getPreferencesService().getString
+        (Platform.PI_RUNTIME, 
+         Platform.PREF_LINE_SEPARATOR, 
+         System.getProperty(Platform.PREF_LINE_SEPARATOR), 
+         new IScopeContext[] { new ProjectScope(project), new InstanceScope() });
+    return text.replaceAll("\r?\n", lineDelimiter);
   }
 
   protected IContainer getPackageContainer(IContainer root, String packagename, IProgressMonitor monitor) throws CoreException 
