@@ -321,7 +321,7 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
   public Object move(int oldIndex, int newIndex)
   {
     checkRealm();
-    return wrappedList.move(oldIndex, newIndex);
+    return wrappedList.move(newIndex, oldIndex);
   }
 
   @Override

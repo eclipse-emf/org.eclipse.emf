@@ -168,10 +168,10 @@ public class EditingDomainEObjectObservableList extends EObjectObservableList
   }
 
   @Override
-  public Object move(int newPosition, int oldPosition)
+  public Object move(int oldIndex, int newIndex)
   {
-    Object result = wrappedList.get(oldPosition);
-    move(newPosition, result);
+    Object result = wrappedList.get(oldIndex);
+    move(newIndex, result);
     return result;
   }
 

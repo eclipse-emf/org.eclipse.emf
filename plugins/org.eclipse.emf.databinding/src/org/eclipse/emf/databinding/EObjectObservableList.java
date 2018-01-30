@@ -264,15 +264,15 @@ public class EObjectObservableList extends ObservableList implements IObserving,
   }
 
   @Override
-  public Object move(int newPosition, int oldPosition)
+  public Object move(int oldIndex, int newIndex)
   {
     checkRealm();
-    return ((EList< ? >)wrappedList).move(newPosition, oldPosition);
+    return ((EList< ? >)wrappedList).move(newIndex, oldIndex);
   }
 
   public void move(int newPosition, Object object)
   {
-    move(newPosition, indexOf(object));
+    move(indexOf(object), newPosition);
   }
 
   @Override
