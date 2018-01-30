@@ -19,10 +19,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.notify.impl.NotificationImpl;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -30,7 +32,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.junit.Test;
 
 /**
@@ -259,6 +263,42 @@ public class NotificationTest
     result.setName(name);
     return result;
   }
+
+  /**
+   * Tests that <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=530494">Bug 530494</a> is performing properly.
+   */
+  @Test
+  public void testNotificationMergeScaling()
+  {
+    int baseSize = 100000;
+    long testNotificationBasePerformance = testNotificationPerformance(baseSize);
+    long testNotificationOrderOfMagnitudeLargerPerformance = testNotificationPerformance(10 * baseSize);
+    long scaling = testNotificationOrderOfMagnitudeLargerPerformance / testNotificationBasePerformance;
+    assertTrue("Removing many objects should scale linearly so for an order of magnitude large list, it should not take " + scaling + " times longer", scaling < 20);
+  }
+
+  private long testNotificationPerformance(int size)
+  {
+    Adapter adapter = new AdapterImpl();
+
+    ResourceSet resourceSet = new ResourceSetImpl();
+
+    EList<Resource> resources = resourceSet.getResources();
+    for (int i = 0; i < size; ++i)
+    {
+      Resource resource = new ResourceImpl();
+      resources.add(resource);
+      resource.eAdapters().add(adapter);
+    }
+
+    resourceSet.eAdapters().add(adapter);
+
+    long start = System.currentTimeMillis();
+    resources.clear();
+    long end = System.currentTimeMillis();
+    return end - start;
+  }
+
 
   class NotificationResult
   {
