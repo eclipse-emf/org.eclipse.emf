@@ -78,11 +78,19 @@ public class PropertySource implements ExtendedPropertySheetPage.IUnsettableProp
   }
 
   /**
+   * @since 2.14
+   */
+  protected IItemPropertyDescriptor getItemPropertyDescriptor(Object propertyId)
+  {
+    return itemPropertySource.getPropertyDescriptor(object, propertyId);
+  }
+
+  /**
    * This delegates to {@link IItemPropertyDescriptor#getPropertyValue IItemPropertyDescriptor.getPropertyValue}.
    */
   public Object getPropertyValue(Object propertyId)
   {
-    return itemPropertySource.getPropertyDescriptor(object, propertyId).getPropertyValue(object);
+    return getItemPropertyDescriptor(propertyId).getPropertyValue(object);
   }
 
   /**
@@ -90,7 +98,7 @@ public class PropertySource implements ExtendedPropertySheetPage.IUnsettableProp
    */
   public boolean isPropertySet(Object propertyId)
   {
-    return itemPropertySource.getPropertyDescriptor(object, propertyId).isPropertySet(object);
+    return getItemPropertyDescriptor(propertyId).isPropertySet(object);
   }
 
   /**
@@ -100,7 +108,7 @@ public class PropertySource implements ExtendedPropertySheetPage.IUnsettableProp
    */
   public boolean isPropertyResettable(Object propertyId)
   {
-    IItemPropertyDescriptor propertyDescriptor = itemPropertySource.getPropertyDescriptor(object, propertyId);
+    IItemPropertyDescriptor propertyDescriptor = getItemPropertyDescriptor(propertyId);
     return propertyDescriptor.canSetProperty(object) && propertyDescriptor.isPropertySet(object);
   }
 
@@ -109,7 +117,7 @@ public class PropertySource implements ExtendedPropertySheetPage.IUnsettableProp
    */
   public void resetPropertyValue(Object propertyId)
   {
-    itemPropertySource.getPropertyDescriptor(object, propertyId).resetPropertyValue(object);
+    getItemPropertyDescriptor(propertyId).resetPropertyValue(object);
   }
 
   /**
@@ -117,7 +125,7 @@ public class PropertySource implements ExtendedPropertySheetPage.IUnsettableProp
    */
   public void setPropertyValue(Object propertyId, Object value)
   {
-    itemPropertySource.getPropertyDescriptor(object, propertyId).setPropertyValue(object, value);
+    getItemPropertyDescriptor(propertyId).setPropertyValue(object, value);
   }
 
   /**
@@ -127,7 +135,7 @@ public class PropertySource implements ExtendedPropertySheetPage.IUnsettableProp
    */
   public boolean isPropertyUnsettable(Object propertyId)
   {
-    IItemPropertyDescriptor propertyDescriptor = itemPropertySource.getPropertyDescriptor(object, propertyId);
+    IItemPropertyDescriptor propertyDescriptor = getItemPropertyDescriptor(propertyId);
     return 
       propertyDescriptor.canSetProperty(object) && 
         propertyDescriptor instanceof IItemPropertyDescriptor.ValueHandlerProvider &&
