@@ -588,7 +588,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
                     context.remove(EObjectValidator.ROOT_OBJECT);
                   }
 
-                  for (Diagnostic instrinsicDiagnostic : new EditUIMarkerHelper().getInstrinciDiagnostics(resource, false))
+                  for (Diagnostic instrinsicDiagnostic : new EditUIMarkerHelper().getIntrinsicDiagnostics(resource, false))
                   {
                     resourceDiagnostic.add(instrinsicDiagnostic);
                   }

@@ -337,7 +337,7 @@ public class EditUIMarkerHelper extends MarkerHelper
           CommonUIPlugin.INSTANCE.log(exception);
         }
       }
-      for (Diagnostic intrinsicDiagnostic : getInstrinciDiagnostics(resource, wrap))
+      for (Diagnostic intrinsicDiagnostic : getIntrinsicDiagnostics(resource, wrap))
       {
         diagnostic.add(intrinsicDiagnostic);
       }
