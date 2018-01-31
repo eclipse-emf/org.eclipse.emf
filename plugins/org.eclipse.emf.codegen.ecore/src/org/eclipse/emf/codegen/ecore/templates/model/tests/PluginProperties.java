@@ -17,7 +17,7 @@ public class PluginProperties
   protected final String TEXT_1 = "# ";
   protected final String TEXT_2 = "#";
   protected final String TEXT_3 = NL + NL + "pluginName = ";
-  protected final String TEXT_4 = " Tests" + NL + "providerName = www.example.org";
+  protected final String TEXT_4 = NL + "providerName = ";
   protected final String TEXT_5 = NL;
 
   public String generate(Object argument)
@@ -44,8 +44,9 @@ public class PluginProperties
     stringBuffer.append(TEXT_2);
     }}
     stringBuffer.append(TEXT_3);
-    stringBuffer.append(genModel.getModelName());
+    stringBuffer.append(genModel.getTestsBundleName());
     stringBuffer.append(TEXT_4);
+    stringBuffer.append(genModel.getTestsBundleVendorName());
     stringBuffer.append(TEXT_5);
     return stringBuffer.toString();
   }

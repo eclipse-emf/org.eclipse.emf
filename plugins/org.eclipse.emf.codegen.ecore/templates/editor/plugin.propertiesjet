@@ -14,8 +14,8 @@
 <%GenModel genModel = (GenModel)argument; /* Trick to import java.util.* without warnings */Iterator.class.getName();%>
 <%@ include file="../Header.propertiesjetinc"%>
 
-pluginName = <%=genModel.getModelName()%> Editor
-providerName = www.example.org
+pluginName = <%=genModel.getEditorBundleName()%>
+providerName = <%=genModel.getEditorBundleVendorName()%>
 <%if (genModel.getRuntimePlatform() != GenRuntimePlatform.GWT) {%>
 
 <%boolean hasMultiPageEditor = false;%>

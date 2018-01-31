@@ -22,7 +22,11 @@ bin.includes = <%=pluginClassesLocation%>,\
 <%} else {%>
                plugin.xml,\
 <%}%>
-               plugin.properties
+<%String testsBundleLocalization = genModel.getTestsBundleLocalization(); int index = testsBundleLocalization.indexOf("/"); if (index == -1) {%>
+               <%=testsBundleLocalization%>.properties
+<%} else {%>
+               <%=testsBundleLocalization.substring(0, index + 1)%>
+<%}%>
 jars.compile.order = <%=pluginClassesLocation%>
 <% boolean first=true; for (Iterator<String> i = sourceFolders.iterator(); i.hasNext();) { String sourceFolder = i.next(); if (i.hasNext()){sourceFolder +=",\\";} if (first) {%>
 source.<%=pluginClassesLocation%> = <%=sourceFolder%><%first=false;} else {%><%=sourceFolder%><%}}%>

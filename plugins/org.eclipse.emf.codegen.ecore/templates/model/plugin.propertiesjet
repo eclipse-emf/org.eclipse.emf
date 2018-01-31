@@ -14,8 +14,8 @@
 <%GenModel genModel = (GenModel)argument;%>
 <%@ include file="../Header.propertiesjetinc"%>
 
-pluginName = <%=genModel.getModelName()%> Model
-providerName = www.example.org
+pluginName = <%=genModel.getModelBundleName()%>
+providerName = <%=genModel.getModelBundleVendorName()%>
 <%boolean first = true; for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
   <%if (genPackage.isContentType()) {%>
     <%if (first) { first = false;%>

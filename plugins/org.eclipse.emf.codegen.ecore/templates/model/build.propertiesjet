@@ -27,7 +27,11 @@ bin.includes = <%=pluginClassesLocation%>,\
 <%if (genModel.getRuntimePlatform() != GenRuntimePlatform.GWT) {%>
                plugin.xml,\
 <%}%>
-               plugin.properties
+<%String modelBundleLocalization = genModel.getModelBundleLocalization(); int index = modelBundleLocalization.indexOf("/"); if (index == -1) {%>
+               <%=modelBundleLocalization%>.properties
+<%} else {%>
+               <%=modelBundleLocalization.substring(0, index + 1)%>
+<%}%>
 jars.compile.order = <%=pluginClassesLocation%>
 <% boolean first=true; for (Iterator<String> i = sourceFolders.iterator(); i.hasNext();) { String sourceFolder = i.next(); if (i.hasNext()){sourceFolder +=",\\";} if (first) {%>
 source.<%=pluginClassesLocation%> = <%=sourceFolder%><%first=false;} else {%><%=sourceFolder%><%}}%>

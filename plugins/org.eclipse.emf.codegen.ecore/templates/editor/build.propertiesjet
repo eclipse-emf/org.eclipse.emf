@@ -24,7 +24,11 @@ bin.includes = <%=pluginClassesLocation%>,\
 <%if (genModel.getRuntimePlatform() != GenRuntimePlatform.GWT) {%>
                plugin.xml,\
 <%}%>
-               plugin.properties
+<%String editorBundleLocalization = genModel.getEditorBundleLocalization(); int index = editorBundleLocalization.indexOf("/"); if (index == -1) {%>
+               <%=editorBundleLocalization%>.properties
+<%} else {%>
+               <%=editorBundleLocalization.substring(0, index + 1)%>
+<%}%>
 jars.compile.order = <%=pluginClassesLocation%>
 <% boolean first=true; for (Iterator<String> i = sourceFolders.iterator(); i.hasNext();) { String sourceFolder = i.next(); if (i.hasNext()){sourceFolder +=",\\";} if (first) {%>
 source.<%=pluginClassesLocation%> = <%=sourceFolder%><%first=false;} else {%><%=sourceFolder%><%}}%>

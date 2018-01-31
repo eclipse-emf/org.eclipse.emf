@@ -14,5 +14,5 @@
 <%GenModel genModel = (GenModel)argument;%>
 <%@ include file="../Header.propertiesjetinc"%>
 
-pluginName = <%=genModel.getModelName()%> Tests
-providerName = www.example.org
+pluginName = <%=genModel.getTestsBundleName()%>
+providerName = <%=genModel.getTestsBundleVendorName()%>

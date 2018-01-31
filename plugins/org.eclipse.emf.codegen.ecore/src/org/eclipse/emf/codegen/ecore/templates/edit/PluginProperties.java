@@ -18,7 +18,7 @@ public class PluginProperties
   protected final String TEXT_1 = "# ";
   protected final String TEXT_2 = "#";
   protected final String TEXT_3 = NL + NL + "pluginName = ";
-  protected final String TEXT_4 = " Edit Support" + NL + "providerName = www.example.org";
+  protected final String TEXT_4 = NL + "providerName = ";
   protected final String TEXT_5 = NL;
   protected final String TEXT_6 = NL + "_UI_CreateChild_text = {0}" + NL + "_UI_CreateChild_text2 = {1} ";
   protected final String TEXT_7 = "| ";
@@ -58,8 +58,9 @@ public class PluginProperties
     stringBuffer.append(TEXT_2);
     }}
     stringBuffer.append(TEXT_3);
-    stringBuffer.append(genModel.getModelName());
+    stringBuffer.append(genModel.getEditBundleName());
     stringBuffer.append(TEXT_4);
+    stringBuffer.append(genModel.getEditBundleVendorName());
     if (genModel.getRuntimePlatform() != GenRuntimePlatform.GWT) {
     stringBuffer.append(TEXT_5);
     if (genModel.isCreationCommands()) {

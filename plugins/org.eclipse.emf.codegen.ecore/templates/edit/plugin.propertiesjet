@@ -14,8 +14,8 @@
 <%GenModel genModel = (GenModel)argument; /* Trick to import java.util.* without warnings */Iterator.class.getName();%>
 <%@ include file="../Header.propertiesjetinc"%>
 
-pluginName = <%=genModel.getModelName()%> Edit Support
-providerName = www.example.org
+pluginName = <%=genModel.getEditBundleName()%>
+providerName = <%=genModel.getEditBundleVendorName()%>
 <%if (genModel.getRuntimePlatform() != GenRuntimePlatform.GWT) {%>
 
 <%if (genModel.isCreationCommands()) {%>

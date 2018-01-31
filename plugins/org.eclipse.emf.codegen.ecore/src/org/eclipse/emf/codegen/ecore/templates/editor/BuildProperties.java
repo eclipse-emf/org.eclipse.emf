@@ -21,13 +21,15 @@ public class BuildProperties
   protected final String TEXT_4 = ",\\" + NL + "               icons/,\\";
   protected final String TEXT_5 = NL + "               META-INF/,\\";
   protected final String TEXT_6 = NL + "               plugin.xml,\\";
-  protected final String TEXT_7 = NL + "               plugin.properties" + NL + "jars.compile.order = ";
-  protected final String TEXT_8 = NL + "source.";
-  protected final String TEXT_9 = " = ";
-  protected final String TEXT_10 = NL + "output.";
-  protected final String TEXT_11 = "bin";
-  protected final String TEXT_12 = "war/WEB-INF/classes";
-  protected final String TEXT_13 = NL;
+  protected final String TEXT_7 = NL + "               ";
+  protected final String TEXT_8 = ".properties";
+  protected final String TEXT_9 = NL + "jars.compile.order = ";
+  protected final String TEXT_10 = NL + "source.";
+  protected final String TEXT_11 = " = ";
+  protected final String TEXT_12 = NL + "output.";
+  protected final String TEXT_13 = "bin";
+  protected final String TEXT_14 = "war/WEB-INF/classes";
+  protected final String TEXT_15 = NL;
 
   public String generate(Object argument)
   {
@@ -63,25 +65,33 @@ public class BuildProperties
     if (genModel.getRuntimePlatform() != GenRuntimePlatform.GWT) {
     stringBuffer.append(TEXT_6);
     }
+    String editorBundleLocalization = genModel.getEditorBundleLocalization(); int index = editorBundleLocalization.indexOf("/"); if (index == -1) {
     stringBuffer.append(TEXT_7);
+    stringBuffer.append(editorBundleLocalization);
+    stringBuffer.append(TEXT_8);
+    } else {
+    stringBuffer.append(TEXT_7);
+    stringBuffer.append(editorBundleLocalization.substring(0, index + 1));
+    }
+    stringBuffer.append(TEXT_9);
     stringBuffer.append(pluginClassesLocation);
      boolean first=true; for (Iterator<String> i = sourceFolders.iterator(); i.hasNext();) { String sourceFolder = i.next(); if (i.hasNext()){sourceFolder +=",\\";} if (first) {
-    stringBuffer.append(TEXT_8);
+    stringBuffer.append(TEXT_10);
     stringBuffer.append(pluginClassesLocation);
-    stringBuffer.append(TEXT_9);
+    stringBuffer.append(TEXT_11);
     stringBuffer.append(sourceFolder);
     first=false;} else {
     stringBuffer.append(sourceFolder);
     }}
-    stringBuffer.append(TEXT_10);
-    stringBuffer.append(pluginClassesLocation);
-    stringBuffer.append(TEXT_9);
-    if (genModel.getRuntimePlatform() != GenRuntimePlatform.GWT) {
-    stringBuffer.append(TEXT_11);
-    } else {
     stringBuffer.append(TEXT_12);
-    }
+    stringBuffer.append(pluginClassesLocation);
+    stringBuffer.append(TEXT_11);
+    if (genModel.getRuntimePlatform() != GenRuntimePlatform.GWT) {
     stringBuffer.append(TEXT_13);
+    } else {
+    stringBuffer.append(TEXT_14);
+    }
+    stringBuffer.append(TEXT_15);
     return stringBuffer.toString();
   }
 }

@@ -255,7 +255,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModelPluginProperties_message");
       monitor.subTask(message);
       generateProperties
-        (genModel.getModelProjectDirectory() + "/plugin.properties",
+        (genModel.getModelProjectDirectory() + "/" + genModel.getModelBundleLocalization() + ".properties",
          getJETEmitter(getJETEmitterDescriptors(), MODEL_PLUGIN_PROPERTIES_ID),
          null,
          createMonitor(monitor, 1));
@@ -459,7 +459,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditPluginProperties_message");
       monitor.subTask(message);
       generateProperties
-        (genModel.getEditProjectDirectory() + "/plugin.properties",
+        (genModel.getEditProjectDirectory() + "/" + genModel.getEditBundleLocalization() + ".properties",
          getJETEmitter(getJETEmitterDescriptors(), EDIT_PLUGIN_PROPERTIES_ID),
          null,
          createMonitor(monitor, 1));
@@ -617,7 +617,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorPluginProperties_message");
     monitor.subTask(message);
     generateProperties
-      (genModel.getEditorProjectDirectory() + "/plugin.properties",
+      (genModel.getEditorProjectDirectory() + "/" + genModel.getEditorBundleLocalization() + ".properties",
        getJETEmitter(getJETEmitterDescriptors(), EDITOR_PLUGIN_PROPERTIES_ID),
        null,
        createMonitor(monitor, 1));
@@ -809,7 +809,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsPluginProperties_message");
       monitor.subTask(message);
       generateProperties
-        (genModel.getTestsProjectDirectory() + "/plugin.properties",
+        (genModel.getTestsProjectDirectory() + "/" + genModel.getTestsBundleLocalization() + ".properties",
          getJETEmitter(getJETEmitterDescriptors(), TESTS_PLUGIN_PROPERTIES_ID),
          null,
          createMonitor(monitor, 1));

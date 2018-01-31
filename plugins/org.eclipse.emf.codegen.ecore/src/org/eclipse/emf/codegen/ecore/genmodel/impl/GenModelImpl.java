@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.jar.Manifest;
 
@@ -45,6 +46,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
+import org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
@@ -2001,6 +2003,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected int autoExpandProperties = AUTO_EXPAND_PROPERTIES_EDEFAULT;
 
   protected boolean validateModel = false;
+
+  protected BundleHelper bundleHelper = new BundleHelper();
 
   /**
    * <!-- begin-user-doc -->
@@ -10723,6 +10727,231 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String getDocumentation()
   {
     return getModelDocumentation();
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected String getBundleManifestKey(String project, String key, String expectedPrefix, String defaultValue)
+  {
+    if (project != null)
+    {
+      String value = bundleHelper.getAttributeValue(project, key);
+      if (value != null && (expectedPrefix == null || value.startsWith(expectedPrefix)))
+      {
+        return value;
+      }
+    }
+    return defaultValue;
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected String getTranslatedBundleManifestKey(String project, String key, String defaultValue)
+  {
+    if (project != null)
+    {
+      String value = bundleHelper.getAttributeValue(project, key);
+      if (value != null)
+      {
+        if (value.startsWith("%"))
+        {
+          String propertiesPath = getBundleManifestKey(project, "Bundle-Localization", null, "plugin") + ".properties";
+          String propertyValue = bundleHelper.getPropertyValue(project, propertiesPath, value.substring(1));
+          if (propertyValue != null)
+          {
+            return propertyValue;
+          }
+        }
+        else
+        {
+          return value;
+        }
+      }
+    }
+    return defaultValue;
+  }
+
+  public String getModelBundleNameKey()
+  {
+    return getBundleManifestKey(getModelProject(), "Bundle-Name", "%", "%pluginName");
+  }
+
+  public String getModelBundleVendorKey()
+  {
+    return getBundleManifestKey(getModelProject(), "Bundle-Vendor", "%", "%providerName");
+  }
+
+  public String getModelBundleLocalization()
+  {
+    return getBundleManifestKey(getModelProject(), "Bundle-Localization", null, "plugin");
+  }
+
+  public String getModelBundleName()
+  {
+    return getTranslatedBundleManifestKey(getModelProject(), "Bundle-Name", getModelName() + " Model");
+  }
+
+  public String getModelBundleVendorName()
+  {
+    return getTranslatedBundleManifestKey(getModelProject(), "Bundle-Vendor", "www.example.org");
+  }
+
+  public String getEditBundleNameKey()
+  {
+    return getBundleManifestKey(getEditProjectDirectory(), "Bundle-Name", "%", getModelBundleNameKey());
+  }
+
+  public String getEditBundleVendorKey()
+  {
+    return getBundleManifestKey(getEditProjectDirectory(), "Bundle-Vendor", "%", getModelBundleVendorKey());
+  }
+
+  public String getEditBundleLocalization()
+  {
+    return getBundleManifestKey(getEditProjectDirectory(), "Bundle-Localization", null, getModelBundleLocalization());
+  }
+
+  public String getEditBundleName()
+  {
+    return getTranslatedBundleManifestKey(getEditProjectDirectory(), "Bundle-Name", getTranslatedBundleManifestKey(getModelProject(), "Bundle-Name", getModelName()) + " Edit Support");
+  }
+
+  public String getEditBundleVendorName()
+  {
+    return getTranslatedBundleManifestKey(getEditProjectDirectory(), "Bundle-Vendor", getModelBundleVendorName());
+  }
+
+  public String getEditorBundleNameKey()
+  {
+    return getBundleManifestKey(getEditorProjectDirectory(), "Bundle-Name", "%", getModelBundleNameKey());
+  }
+
+  public String getEditorBundleVendorKey()
+  {
+    return getBundleManifestKey(getEditorProjectDirectory(), "Bundle-Vendor", "%", getModelBundleVendorKey());
+  }
+
+  public String getEditorBundleLocalization()
+  {
+    return getBundleManifestKey(getEditorProjectDirectory(), "Bundle-Localization", null, getModelBundleLocalization());
+  }
+
+  public String getEditorBundleName()
+  {
+    return getTranslatedBundleManifestKey(getEditorProjectDirectory(), "Bundle-Name", getTranslatedBundleManifestKey(getModelProject(), "Bundle-Name", getModelName()) + " Editor");
+  }
+
+  public String getEditorBundleVendorName()
+  {
+    return getTranslatedBundleManifestKey(getEditorProjectDirectory(), "Bundle-Vendor", getModelBundleVendorName());
+  }
+
+  public String getTestsBundleNameKey()
+  {
+    return getBundleManifestKey(getTestsProjectDirectory(), "Bundle-Name", "%", getModelBundleNameKey());
+  }
+
+  public String getTestsBundleVendorKey()
+  {
+    return getBundleManifestKey(getTestsProjectDirectory(), "Bundle-Vendor", "%", getModelBundleVendorKey());
+  }
+
+  public String getTestsBundleLocalization()
+  {
+    return getBundleManifestKey(getTestsProjectDirectory(), "Bundle-Localization", null, getModelBundleLocalization());
+  }
+
+  public String getTestsBundleName()
+  {
+    return getTranslatedBundleManifestKey(getTestsProjectDirectory(), "Bundle-Name", getTranslatedBundleManifestKey(getModelProject(), "Bundle-Name", getModelName()) + " Tests");
+  }
+
+  public String getTestsBundleVendorName()
+  {
+    return getTranslatedBundleManifestKey(getTestsProjectDirectory(), "Bundle-Vendor", getModelBundleVendorName());
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected static class BundleHelper extends AbstractGeneratorAdapter
+  {
+    private final Map<String, List<AttributeData>> projectAttributeData = new HashMap<String, List<AttributeData>>();
+
+    private final Map<String, Properties> projectPropertyData = new HashMap<String, Properties>();
+
+    @Override
+    public boolean canGenerate(Object object, Object projectType)
+    {
+      return false;
+    }
+
+    @Override
+    protected Diagnostic doGenerate(Object object, Object projectType, Monitor monitor) throws Exception
+    {
+      return null;
+    }
+
+    private List<AttributeData> getProjectAttributeData(String project)
+    {
+      List<AttributeData> result = projectAttributeData.get(project);
+      if (result == null)
+      {
+        result = Collections.emptyList();
+        try
+        {
+          URI manifestURI = URI.createURI(project + "/META-INF/MANIFEST.MF");
+          String contents = getContents(manifestURI, MANIFEST_ENCODING);
+          result = getAttributeData(contents);
+        }
+        catch (Exception e)
+        {
+          result = Collections.emptyList();
+        }
+        projectAttributeData.put(project, result);
+      }
+      return result;
+    }
+
+    private Properties getProjectPropertyData(String project, String propertiesPath)
+    {
+      Properties result = projectPropertyData.get(project);
+      if (result == null)
+      {
+        result = new Properties();
+        try
+        {
+          URI propertiesURI = URI.createURI(project + "/" + propertiesPath);
+          result.load(createInputStream(propertiesURI));
+        }
+        catch (Exception e)
+        {
+          // Ignore
+        }
+        projectPropertyData.put(project, result);
+      }
+      return result;
+    }
+
+    public String getAttributeValue(String project, String name)
+    {
+      for (AttributeData attributeData : getProjectAttributeData(project))
+      {
+        if (name.equals(attributeData.name))
+        {
+          return attributeData.value;
+        }
+      }
+      return null;
+    }
+
+    public String getPropertyValue(String project, String propertiesPath, String key)
+    {
+      Object value = getProjectPropertyData(project, propertiesPath).get(key);
+      return value == null ? null : value.toString();
+    }
   }
 
 } //GenModelImpl

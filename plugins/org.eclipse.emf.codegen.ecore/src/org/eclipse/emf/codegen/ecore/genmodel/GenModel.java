@@ -3126,4 +3126,104 @@ public interface GenModel extends GenBase
    * @since 2.9
    */
   boolean isUnnecessaryElse();
+
+  /**
+   * @since 2.14
+   */
+  String getModelBundleNameKey();
+
+  /**
+   * @since 2.14
+   */
+  String getModelBundleVendorKey();
+
+  /**
+   * @since 2.14
+   */
+  String getModelBundleLocalization();
+
+  /**
+   * @since 2.14
+   */
+  String getModelBundleName();
+
+  /**
+   * @since 2.14
+   */
+  String getModelBundleVendorName();
+  
+  /**
+   * @since 2.14
+   */
+  String getEditBundleNameKey();
+
+  /**
+   * @since 2.14
+   */
+  String getEditBundleVendorKey();
+
+  /**
+   * @since 2.14
+   */
+  String getEditBundleLocalization();
+
+  /**
+   * @since 2.14
+   */
+  String getEditBundleName();
+
+  /**
+   * @since 2.14
+   */
+  String getEditBundleVendorName();
+
+  /**
+   * @since 2.14
+   */
+  String getEditorBundleNameKey();
+
+  /**
+   * @since 2.14
+   */
+  String getEditorBundleVendorKey();
+
+  /**
+   * @since 2.14
+   */
+  String getEditorBundleLocalization();
+
+  /**
+   * @since 2.14
+   */
+  String getEditorBundleName();
+
+  /**
+   * @since 2.14
+   */
+  String getEditorBundleVendorName();
+
+  /**
+   * @since 2.14
+   */
+  String getTestsBundleNameKey();
+
+  /**
+   * @since 2.14
+   */
+  String getTestsBundleVendorKey();
+
+  /**
+   * @since 2.14
+   */
+  String getTestsBundleLocalization();
+
+  /**
+   * @since 2.14
+   */
+  String getTestsBundleName();
+
+  /**
+   * @since 2.14
+   */
+  String getTestsBundleVendorName();
 }

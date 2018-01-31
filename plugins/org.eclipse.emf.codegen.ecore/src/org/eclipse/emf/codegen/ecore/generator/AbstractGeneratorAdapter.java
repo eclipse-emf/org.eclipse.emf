@@ -1348,22 +1348,6 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   }
 
   /**
-   * Finds the first attribute with the given name.
-   */
-  private static AttributeData getAttribute(List<AttributeData> attributes, String name)
-  {
-    for (int i = 0, size = attributes.size(); i < size; ++i)
-    {
-      AttributeData attribute = attributes.get(i);
-      if (name.equals(attribute.name))
-      {
-        return attribute;
-      }
-    }
-    return null;
-  }
-
-  /**
    * Merge the contents of to manifests.
    * @since 2.9
    */
@@ -1371,12 +1355,6 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   {
     List<AttributeData> oldAttributes = getAttributeData(oldContents);
     List<AttributeData> newAttributes = getAttributeData(newContents);
-
-    // We should merge the translated attributes if the bundle localization changes.
-    //
-    AttributeData oldBundleLocalization = getAttribute(oldAttributes, "Bundle-Localization");
-    AttributeData newBundleLocalization = getAttribute(newAttributes, "Bundle-Localization");
-    boolean mergeTranslatedAttributes = oldBundleLocalization == null || (newBundleLocalization != null && !newBundleLocalization.value.equals(oldBundleLocalization.value));
 
     // Pull in the appropriate new attribute content.
     //
@@ -1390,29 +1368,16 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       {
         AttributeData newAttributeData = newAttributes.get(index);
 
-        // Pull in the contents for these specific attributes if the are merging translated attributes...
+        // The attributes should all be merged because the should match what we specify.
+        // The Bundle-Name, Bundle-Vendor, and Bundle-Localization are all preserved anyway because the generator find the old values,
+        // and for the first two, if they are not already externalized, the name in the MANIFEST.MF will be externalized and referenced with a key.
         //
-        if ("Bundle-Name".equals(oldAttributeData.name) || "Bundle-Vendor".equals(oldAttributeData.name))
-        {
-          // If we should merge translated attributes...
-          //
-          if (mergeTranslatedAttributes)
-          {
-            if (oldAttributeData.elements == null)
-            {
-              oldAttributeData.value = newAttributeData.value;
-            }
-            else
-            {
-              oldAttributeData.elements = newAttributeData.elements;
-            }
-          }
-        }
-
-        // The bundle localization attribute must be what we generate because we must be able to find the properties in that generated properties file.
-        // Also the bundle activator class name can change, so we should use the one we generate.
-        //
-        else if ("Bundle-Localization".equals(oldAttributeData.name) || "Bundle-SymbolicName".equals(oldAttributeData.name) || "Bundle-Activator".equals(oldAttributeData.name))
+        if ("Bundle-Name".equals(oldAttributeData.name) ||
+              "Bundle-Vendor".equals(oldAttributeData.name) ||
+              "Bundle-Localization".equals(oldAttributeData.name) ||
+              "Bundle-SymbolicName".equals(oldAttributeData.name) ||
+              "Bundle-Activator".equals(oldAttributeData.name) ||
+              "Automatic-Module-Name".equals(oldAttributeData.name))
         {
           if (oldAttributeData.elements == null)
           {
@@ -1423,7 +1388,6 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
             oldAttributeData.elements = newAttributeData.elements;
           }
         }
-
         // These attributes have structured content that we should merge...
         //
         else if ("Export-Package".equals(oldAttributeData.name) ||

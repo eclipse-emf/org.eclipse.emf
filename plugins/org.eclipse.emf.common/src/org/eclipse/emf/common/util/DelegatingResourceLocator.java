@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -68,6 +70,12 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
    * Whether to translate strings by default.
    */
   protected boolean shouldTranslate = true;
+
+  /**
+   * The default localization properties file.
+   * @since 2.14
+   */
+  protected String bundleLocalization = "plugin.properties";
 
   /**
    * Creates an instance.
@@ -147,19 +155,31 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
             {
               try
               {
-                // If we can open  an input stream, then the plugin.properties is there, and we have a good base URL.
-                //
-                InputStream inputStream =  new URL(uri.appendSegment("plugin.properties").toString()).openStream();
-                inputStream.close();
+                String bundleLocalization = getBundleLocalization(new URL(uri.appendSegment("META-INF").appendSegment("MANIFEST.MF").toString()));
+                if (bundleLocalization != null)
+                {
+                  this.bundleLocalization = bundleLocalization;
+                }
                 baseURL = new URL(uri.toString());
               }
               catch (IOException exception)
               {
-                // If the plugin.properties isn't within the root of the archive,
-                // create a new URI for the folder location of the archive,
-                // so we can look in the folder that contains it.
-                //
-                uri = URI.createURI(uri.authority()).trimSegments(1);
+                try
+                {
+                  // If we can open  an input stream, then the plugin.properties is there, and we have a good base URL.
+                  //
+                  InputStream inputStream =  new URL(uri.appendSegment("plugin.properties").toString()).openStream();
+                  inputStream.close();
+                  baseURL = new URL(uri.toString());
+                }
+                catch (IOException nestedException)
+                {
+                  // If the plugin.properties isn't within the root of the archive,
+                  // create a new URI for the folder location of the archive,
+                  // so we can look in the folder that contains it.
+                  //
+                  uri = URI.createURI(uri.authority()).trimSegments(1);
+                }
               }
             }
 
@@ -174,18 +194,31 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
               {
                 uri = uri.trimSegments(1);
               }
-              uri = uri.appendSegment("plugin.properties");
+
               try
               {
-                // If we can open  an input stream, then the plugin.properties is in the folder, and we have a good base URL.
-                //
-                InputStream inputStream = new URL(uri.toString()).openStream();
-                inputStream.close();
-                baseURL = new URL(DOT.resolve(uri).toString());
+                String bundleLocalization = getBundleLocalization(new URL(uri.appendSegment("META-INF").appendSegment("MANIFEST.MF").toString()));
+                if (bundleLocalization != null)
+                {
+                  this.bundleLocalization = bundleLocalization;
+                }
+                baseURL = new URL(uri.toString() + "/");
               }
               catch (IOException exception)
               {
-                // Continue with the established base URL.
+                uri = uri.appendSegment("plugin.properties");
+                try
+                {
+                  // If we can open  an input stream, then the plugin.properties is in the folder, and we have a good base URL.
+                  //
+                  InputStream inputStream = new URL(uri.toString()).openStream();
+                  inputStream.close();
+                  baseURL = new URL(DOT.resolve(uri).toString());
+                }
+                catch (IOException nextedException)
+                {
+                  // We're going to fail.
+                }
               }
             }
 
@@ -217,6 +250,34 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
     }
 
     return baseURL;
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected String getBundleLocalization(URL manifestURL) throws IOException
+  {
+    InputStream inputStream =  null;
+    try
+    {
+      inputStream =  manifestURL.openStream();
+      Manifest manifest = new Manifest(inputStream);
+      Attributes mainAttributes = manifest.getMainAttributes();
+      String value = mainAttributes.getValue("Bundle-Localization");
+      if (value != null)
+      {
+        return value + ".properties";
+      }
+    }
+    finally
+    {
+      if (inputStream != null)
+      {
+        inputStream.close();
+      }
+    }
+    
+    return null;
   }
 
   /*
@@ -409,6 +470,7 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
       {
         packageName = packageName.substring(0, index);
       }
+      URL baseURL = getBaseURL();
       if (translate)
       {
         try
@@ -422,7 +484,7 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
           //
           try
           {
-            InputStream inputStream =  new URL(getBaseURL().toString() + "plugin.properties").openStream();
+            InputStream inputStream =  new URL(baseURL.toString() + bundleLocalization).openStream();
             bundle = untranslatedResourceBundle = resourceBundle = new PropertyResourceBundle(inputStream);
             inputStream.close();
           }
@@ -438,7 +500,7 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
       }
       else
       {
-        String resourceName = getBaseURL().toString() + "plugin.properties";
+        String resourceName = baseURL.toString() + bundleLocalization;
         try
         {
           InputStream inputStream =  new URL(resourceName).openStream();

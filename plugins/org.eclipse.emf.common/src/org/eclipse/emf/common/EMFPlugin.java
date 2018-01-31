@@ -24,6 +24,7 @@ import java.util.jar.Manifest;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.Constants;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
@@ -392,7 +393,9 @@ public abstract class EMFPlugin extends DelegatingResourceLocator implements Res
         }
         else
         {
-          String resourceName = getBaseURL().toString() + "plugin.properties";
+          String bundleLocalization = getBundle().getHeaders().get(Constants.BUNDLE_LOCALIZATION);
+          String propertiesPath = bundleLocalization != null ? bundleLocalization + ".properties" : "plugin.properties";
+          String resourceName = getBaseURL().toString() + propertiesPath;
           try
           {
             InputStream inputStream =  new URL(resourceName).openStream();
@@ -401,7 +404,7 @@ public abstract class EMFPlugin extends DelegatingResourceLocator implements Res
           }
           catch (IOException ioException)
           {
-            throw new MissingResourceException("Missing properties: " + resourceName, getClass().getName(), "plugin.properties");
+            throw new MissingResourceException("Missing properties: " + resourceName, getClass().getName(), propertiesPath);
           }
         }
       }
