@@ -15,6 +15,7 @@
             project="true"
             icon="icons/full/ctool16/NewXSDExample.gif">
          <description>%_UI_XSDWizard_desc</description>
+         <selection class="org.eclipse.ui.IWorkingSet" />
       </wizard>
    </extension>
 
