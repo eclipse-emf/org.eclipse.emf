@@ -622,7 +622,7 @@
             project="true"
             icon="icons/full/ctool16/NewXcoreProject.gif">
          <description>%wizard.description</description>
-         <selection class="org.eclipse.core.resources.IResource"/>
+         <selection class="org.eclipse.ui.IWorkingSet"/>
       </wizard>
    </extension>
 

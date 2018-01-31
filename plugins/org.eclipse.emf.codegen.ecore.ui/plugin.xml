@@ -24,7 +24,7 @@
             project="true"
             icon="icons/full/ctool16/NewEmptyEMFProject.gif">
          <description>%_UI_EmptyProject_description</description>
-         <selection class="org.eclipse.core.resources.IResource"/>
+         <selection class="org.eclipse.ui.IWorkingSet"/>
       </wizard>
    </extension>
 

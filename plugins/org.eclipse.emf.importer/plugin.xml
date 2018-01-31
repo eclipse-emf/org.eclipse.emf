@@ -10,7 +10,7 @@
     </wizard>
     <wizard id="org.eclipse.emf.importer.ui.EMFProjectWizard" name="%_UI_EMFProjectWizard_name" class="org.eclipse.emf.importer.ui.EMFProjectWizard" category="org.eclipse.emf.codegen.ecore.ui.wizardCategory" project="true" finalPerspective="org.eclipse.ui.resourcePerspective" icon="icons/full/ctool16/NewEMFProject.gif">
       <description>%_UI_EMFProjectWizard_description</description>
-      <selection class="org.eclipse.core.resources.IResource" />
+      <selection class="org.eclipse.ui.IWorkingSet" />
     </wizard>
   </extension>
 
