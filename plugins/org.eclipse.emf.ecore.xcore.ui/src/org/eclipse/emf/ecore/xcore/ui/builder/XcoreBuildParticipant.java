@@ -110,39 +110,34 @@ public class XcoreBuildParticipant extends BuilderParticipant
     newProjects.clear();
   }
 
-   @Override
+  @Override
   protected void handleChangedContents(Delta delta, IBuildContext context, EclipseResourceFileSystemAccess2 fileSystemAccess) throws CoreException
   {
-    // Determine if this resource is logically nested in the project being built.
+    // Determine which projects existed before we run the generator.
     //
     URI uri = delta.getUri();
     IProject builtProject = context.getBuiltProject();
-    if (uri.isPlatformResource() && builtProject.getName().equals(uri.segment(1)))
+    Resource resource = context.getResourceSet().getResource(uri, true);
+    GenModel genModel = (GenModel)EcoreUtil.getObjectByType(resource.getContents(), GenModelPackage.Literals.GEN_MODEL);
+    if (genModel != null)
     {
-      // Determine which projects existed before we run the generator.
-      //
-      Resource resource = context.getResourceSet().getResource(uri, true);
-      GenModel genModel = (GenModel)EcoreUtil.getObjectByType(resource.getContents(), GenModelPackage.Literals.GEN_MODEL);
-      if (genModel != null)
+      IWorkspaceRoot root = builtProject.getWorkspace().getRoot();
+      for (String projectName : new String [] { genModel.getEditProjectDirectory(), genModel.getEditorProjectDirectory(), genModel.getTestsProjectDirectory() })
       {
-        IWorkspaceRoot root = builtProject.getWorkspace().getRoot();
-        for (String projectName : new String [] { genModel.getEditProjectDirectory(), genModel.getEditorProjectDirectory(), genModel.getTestsProjectDirectory() })
+        if (!Strings.isNullOrEmpty(projectName))
         {
-          if (!Strings.isNullOrEmpty(projectName))
-          {
-            IProject project = root.getProject(projectName);
-            if (!project.exists())
+          IProject project = root.getProject(projectName);
+          if (!project.exists())
             {
-              newProjects.add(project);
-            }
+            newProjects.add(project);
           }
         }
       }
-
-      // Do the normal generation.
-      //
-      super.handleChangedContents(delta, context, fileSystemAccess);
     }
+
+    // Do the normal generation.
+    //
+    super.handleChangedContents(delta, context, fileSystemAccess);
   }
 
   @Override
