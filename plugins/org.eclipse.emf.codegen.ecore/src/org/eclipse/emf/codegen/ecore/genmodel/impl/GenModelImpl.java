@@ -3175,6 +3175,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   public boolean canGenerate()
   {
+    clearCache();
     return canGenerate && hasModelSupport();
   }
 
@@ -3502,6 +3503,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   public boolean canGenerateEdit()
   {
+    clearCache();
     return canGenerate && hasEditSupport();
   }
 
@@ -3612,6 +3614,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   public boolean canGenerateEditor()
   {
+    clearCache();
     return canGenerate && hasEditorSupport();
   }
 
@@ -3755,6 +3758,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   public boolean canGenerateTests()
   {
+    clearCache();
     return canGenerate && hasTestSupport();
   }
 
@@ -9512,6 +9516,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       ePackageToGenPackageMap.clear();
     }
+    bundleHelper.flush();
   }
 
   public List<GenPackage> computeMissingUsedGenPackages()
@@ -10951,6 +10956,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       Object value = getProjectPropertyData(project, propertiesPath).get(key);
       return value == null ? null : value.toString();
+    }
+
+    public void flush()
+    {
+      projectAttributeData.clear();
+      projectPropertyData.clear();
     }
   }
 
