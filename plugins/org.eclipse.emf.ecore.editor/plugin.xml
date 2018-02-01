@@ -22,7 +22,8 @@
             name="%_UI_EcoreEditor_label"
             icon="icons/full/obj16/EcoreModelFile.gif"
             class="org.eclipse.emf.ecore.presentation.EcoreEditor"
-            contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor">
+            contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor"
+            default="true">
          <contentTypeBinding contentTypeId="org.eclipse.emf.ecore"/>
          <contentTypeBinding contentTypeId="org.eclipse.emf.emof"/>
       </editor>
