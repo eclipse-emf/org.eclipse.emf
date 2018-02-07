@@ -127,15 +127,25 @@ public class <%=genClass.getProviderClassName()%> <%if (genClass.getProviderImpl
 				 getString("<%=genModel.getPropertyCategoryKey(genFeature.getPropertyCategory())%>"),<%=genModel.getNonNLS()%>
   <%}%>
   <%if (genFeature.getPropertyFilterFlags().isEmpty()) {%>
+    <%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF214_VALUE && genFeature.getPropertyEditorFactory() != null && genFeature.getPropertyEditorFactory().trim().length() != 0) {%>
+				 null,
+				 <%=genModel.getImportedName("org.eclipse.emf.common.util.URI")%>.createURI(<%=org.eclipse.emf.codegen.ecore.genmodel.impl.Literals.toStringLiteral(genFeature.getPropertyEditorFactory().trim(), genModel)%>)));
+    <%} else {%>
 				 null));
+    <%}%>
   <%} else {%>
 				 new String[] {
-    <%for (Iterator<String> j = genFeature.getPropertyFilterFlags().iterator(); j.hasNext();) { String filterFlag = j.next();%>
+    <%/*}*/for (Iterator<String> j = genFeature.getPropertyFilterFlags().iterator(); j.hasNext();) { String filterFlag = j.next();%>
       <%if (filterFlag != null && filterFlag.length() > 0) {%>
 					"<%=filterFlag%>"<%if (j.hasNext()) {%>,<%}%><%=genModel.getNonNLS()%>
       <%}%>
     <%}%>
+    <%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF214_VALUE && genFeature.getPropertyEditorFactory() != null && genFeature.getPropertyEditorFactory().trim().length() != 0) { // {%>
+				 },
+				 <%=genModel.getImportedName("org.eclipse.emf.common.util.URI")%>.createURI(<%=org.eclipse.emf.codegen.ecore.genmodel.impl.Literals.toStringLiteral(genFeature.getPropertyEditorFactory().trim(), genModel)%>)));
+    <%} else { // {%>
 				 }));
+    <%}%>
   <%}%>
 <%@ end %><%//ItemProvider/addPropertyDescriptor.override.javajetinc%>
 	}

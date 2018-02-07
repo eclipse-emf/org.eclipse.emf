@@ -74,6 +74,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isSuppressedIsSetVisibility <em>Suppressed Is Set Visibility</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isSuppressedUnsetVisibility <em>Suppressed Unset Visibility</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getGet <em>Get</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getPropertyEditorFactory <em>Property Editor Factory</em>}</li>
  * </ul>
  *
  * @generated
@@ -428,6 +429,38 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * @ordered
    */
   protected boolean getESet;
+
+  /**
+   * The default value of the '{@link #getPropertyEditorFactory() <em>Property Editor Factory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPropertyEditorFactory()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final String PROPERTY_EDITOR_FACTORY_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getPropertyEditorFactory() <em>Property Editor Factory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPropertyEditorFactory()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected String propertyEditorFactory = PROPERTY_EDITOR_FACTORY_EDEFAULT;
+
+  /**
+   * This is true if the Property Editor Factory attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean propertyEditorFactoryESet;
 
   /**
    * <!-- begin-user-doc -->
@@ -887,6 +920,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         return isSuppressedUnsetVisibility();
       case GenModelPackage.GEN_FEATURE__GET:
         return getGet();
+      case GenModelPackage.GEN_FEATURE__PROPERTY_EDITOR_FACTORY:
+        return getPropertyEditorFactory();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -951,6 +986,9 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       case GenModelPackage.GEN_FEATURE__GET:
         setGet((String)newValue);
         return;
+      case GenModelPackage.GEN_FEATURE__PROPERTY_EDITOR_FACTORY:
+        setPropertyEditorFactory((String)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -1013,6 +1051,9 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       case GenModelPackage.GEN_FEATURE__GET:
         unsetGet();
         return;
+      case GenModelPackage.GEN_FEATURE__PROPERTY_EDITOR_FACTORY:
+        unsetPropertyEditorFactory();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -1059,6 +1100,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         return isSetSuppressedUnsetVisibility();
       case GenModelPackage.GEN_FEATURE__GET:
         return isSetGet();
+      case GenModelPackage.GEN_FEATURE__PROPERTY_EDITOR_FACTORY:
+        return isSetPropertyEditorFactory();
     }
     return super.eIsSet(featureID);
   }
@@ -1102,6 +1145,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     if (suppressedUnsetVisibilityESet) result.append(suppressedUnsetVisibility); else result.append("<unset>");
     result.append(", get: ");
     if (getESet) result.append(get); else result.append("<unset>");
+    result.append(", propertyEditorFactory: ");
+    if (propertyEditorFactoryESet) result.append(propertyEditorFactory); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }
@@ -1995,6 +2040,98 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * @since 2.14
    * @generated
    */
+  public String getPropertyEditorFactoryGen()
+  {
+    return propertyEditorFactory;
+  }
+
+  public String getPropertyEditorFactory()
+  {
+    if (isSetPropertyEditorFactory())
+    {
+      return getPropertyEditorFactoryGen();
+    }
+    else
+    {
+      EStructuralFeature ecoreFeature = getEcoreFeature();
+      if (ecoreFeature != null)
+      {
+        String result = EcoreUtil.getAnnotation(ecoreFeature, GenModelPackage.eNS_URI, "propertyEditorFactory");
+        if (result == null)
+        {
+          if (getGenModel() != null)
+          {
+            GenDataType genDataType = getTypeGenDataType();
+            if (genDataType != null)
+            {
+              result = genDataType.getPropertyEditorFactory();
+            }
+          }
+
+          EClassifier eType = ecoreFeature.getEType();
+          if (eType != null)
+          {
+            result = EcoreUtil.getAnnotation(eType, GenModelPackage.eNS_URI, "propertyEditorFactory");
+          }
+        }
+        return result;
+      }
+      else
+      {
+        return null;
+      }
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setPropertyEditorFactory(String newPropertyEditorFactory)
+  {
+    String oldPropertyEditorFactory = propertyEditorFactory;
+    propertyEditorFactory = newPropertyEditorFactory;
+    boolean oldPropertyEditorFactoryESet = propertyEditorFactoryESet;
+    propertyEditorFactoryESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_FEATURE__PROPERTY_EDITOR_FACTORY, oldPropertyEditorFactory, propertyEditorFactory, !oldPropertyEditorFactoryESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetPropertyEditorFactory()
+  {
+    String oldPropertyEditorFactory = propertyEditorFactory;
+    boolean oldPropertyEditorFactoryESet = propertyEditorFactoryESet;
+    propertyEditorFactory = PROPERTY_EDITOR_FACTORY_EDEFAULT;
+    propertyEditorFactoryESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_FEATURE__PROPERTY_EDITOR_FACTORY, oldPropertyEditorFactory, PROPERTY_EDITOR_FACTORY_EDEFAULT, oldPropertyEditorFactoryESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetPropertyEditorFactory()
+  {
+    return propertyEditorFactoryESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
   public void unsetSuppressedUnsetVisibility()
   {
     boolean oldSuppressedUnsetVisibility = suppressedUnsetVisibility;
@@ -2344,6 +2481,11 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     if (oldGenFeatureVersion.eIsSet(GenModelPackage.Literals.GEN_FEATURE__GET))
     {
       setGet((String)oldGenFeatureVersion.eGet(GenModelPackage.Literals.GEN_FEATURE__GET));
+    }
+
+    if (oldGenFeatureVersion.eIsSet(GenModelPackage.Literals.GEN_FEATURE__PROPERTY_EDITOR_FACTORY))
+    {
+      setPropertyEditorFactory(oldGenFeatureVersion.getPropertyEditorFactory());
     }
   }
 

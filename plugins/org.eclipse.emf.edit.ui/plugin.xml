@@ -2,4 +2,12 @@
 <?eclipse version="3.0"?>
 <plugin>
    <extension-point id="queryDelegateTextViewerFactories" name="%_UI_QueryDelegateTextViewerFactory_extensionpoint" schema="schema/queryDelegateTextViewerFactories.exsd"/>
+
+   <extension
+         point="org.eclipse.emf.edit.propertyEditorFactories">
+      <factory
+            class="org.eclipse.emf.edit.ui.provider.NebulaDatePropertyEditorFactory"
+            uri="editor://org.eclipse.nebula.widgets.cdatetime/">
+      </factory>
+   </extension>
 </plugin>

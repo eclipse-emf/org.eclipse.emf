@@ -28,7 +28,6 @@ import java.util.WeakHashMap;
  * All the caveats about the behavior of the garbage collector that apply for a {@link WeakHashMap#keySet() weak hash map} apply for this implementation as well.
  *
  * @since 2.9
- * @noextends This API is subject to binary incompatible changes until the API is fully stabilized, i.e., at least until the 2.10 release.
  */
 public class WeakInterningHashSet<E>  extends AbstractSet<E> implements InterningSet<E>, Serializable
 {

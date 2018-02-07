@@ -12,6 +12,7 @@ package org.eclipse.emf.ecore;
 
 
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
 
@@ -130,6 +131,7 @@ public interface EValidator
 
     /**
      * A map from {@link java.lang.String String} to {@link ValidationDelegate}.
+     * @noimplement Do not implement this interface directly; instead extend {@link org.eclipse.emf.ecore.impl.ValidationDelegateRegistryImpl}.
      */
     interface Registry extends Map<String, Object>
     {
@@ -137,6 +139,13 @@ public interface EValidator
        * Looks up the validation delegate in the map.
        */
       ValidationDelegate getValidationDelegate(String uri);
+
+      /**
+       * Returns the factories registered in the target platform when running with the Eclipse Plug-in Development environment,
+       * a copy of the {@link #keySet()} otherwise.
+       * @since 2.14
+       */
+      Set<String> getTargetPlatformFactories();
 
       /**
        * The global instance of a validation delegate registry.

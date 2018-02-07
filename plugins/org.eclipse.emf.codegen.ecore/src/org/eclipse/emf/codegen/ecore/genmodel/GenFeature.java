@@ -41,6 +41,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedSetVisibility <em>Suppressed Set Visibility</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedIsSetVisibility <em>Suppressed Is Set Visibility</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isSuppressedUnsetVisibility <em>Suppressed Unset Visibility</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getPropertyEditorFactory <em>Property Editor Factory</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenFeature()
@@ -453,6 +454,32 @@ public interface GenFeature extends GenTypedElement
    * @generated
    */
   void setSuppressedUnsetVisibility(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Property Editor Factory</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.14
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Property Editor Factory</em>' attribute.
+   * @see #setPropertyEditorFactory(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenFeature_PropertyEditorFactory()
+   * @model unsettable="true" dataType="org.eclipse.emf.codegen.ecore.genmodel.PropertyEditorFactory" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
+   * @generated
+   */
+  String getPropertyEditorFactory();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getPropertyEditorFactory <em>Property Editor Factory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Property Editor Factory</em>' attribute.
+   * @see #getPropertyEditorFactory()
+   * @since 2.14
+   * @generated
+   */
+  void setPropertyEditorFactory(String value);
 
   void initialize(EStructuralFeature eFeature);
 

@@ -60,7 +60,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor.OverrideableCommand
  * This implementation of an item property descriptor supports delegating of the {@link IItemPropertySource} interface
  * to the {@link IItemPropertyDescriptor} interface.
  */
-public class ItemPropertyDescriptor implements IItemPropertyDescriptor, OverrideableCommandOwner, IItemPropertyDescriptor.ValueHandlerProvider
+public class ItemPropertyDescriptor implements IItemPropertyDescriptor, OverrideableCommandOwner, IItemPropertyDescriptor.ValueHandlerProvider, IPropertyEditorFactory.Provider
 {
   /**
    * Returns the feature's default {@link #getId(Object) identifier}.
@@ -161,6 +161,11 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
    * If non-null, this object will be the owner of commands created to set the property's value. 
    */
   protected Object commandOwner;
+
+  /**
+   * @since 2.14
+   */
+  protected Object editorFactory;
 
   /**
    * This class uses a static image
@@ -552,6 +557,28 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       String category,
       String [] filterFlags)
   {
+    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, multiLine, sortChoices, staticImage, category, filterFlags, null);
+  }
+
+  /**
+   * This creates an instance that uses a resource locator; indicates whether to be multi-line and to sort choices; specifies
+   * a  static image, a category, and filter flags, and determines the cell editor from the editor factory.
+   * @since 2.14
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      ResourceLocator resourceLocator,
+      String displayName,
+      String description,
+      EStructuralFeature feature, 
+      boolean isSettable,
+      boolean multiLine,
+      boolean sortChoices,
+      Object staticImage,
+      String category,
+      String [] filterFlags,
+      Object editorFactory)
+  {
     this.adapterFactory = adapterFactory;
     this.resourceLocator = resourceLocator;
     this.itemDelegator = new ItemDelegator(adapterFactory, resourceLocator);
@@ -564,6 +591,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
     this.staticImage = staticImage;
     this.category = category;
     this.filterFlags = filterFlags;
+    this.editorFactory = editorFactory;
   }
 
   /**
@@ -706,15 +734,8 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       String category,
       String [] filterFlags)
   {
-    this.adapterFactory = adapterFactory;
-    this.resourceLocator = resourceLocator;
-    this.itemDelegator = new ItemDelegator(adapterFactory, resourceLocator);
-    this.displayName = displayName;
-    this.description = description;
+    this(adapterFactory, resourceLocator, displayName, description, null, isSettable, false, false, parentReferences, category, filterFlags, null);
     this.parentReferences = parentReferences;
-    this.isSettable = isSettable;
-    this.category = category;
-    this.filterFlags = filterFlags;
   }
 
   /**
@@ -1140,10 +1161,21 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
 
   /**
    * This returns the label provider that will be used to render the value of this property.
-   * The implementation here just creates an {@link AdapterFactoryItemDelegator}.
+   * The implementation here just returns {@link #itemDelegator},
+   * unless {@link #getEditorFactory(Object)} returns a property editor that can {@link IPropertyEditorFactory#createLabelProvider(Object, IItemPropertyDescriptor) create} an item label provider.
    */
   public IItemLabelProvider getLabelProvider(Object object) 
   {
+    IPropertyEditorFactory propertyEditorFactory = IPropertyEditorFactory.Registry.INSTANCE.getPropertyEditorFactory(getEditorFactory(object));
+    if (propertyEditorFactory != null)
+    {
+      IItemLabelProvider itemLabelProvider = propertyEditorFactory.createLabelProvider(object, this);
+      if (itemLabelProvider != null)
+      {
+        return itemLabelProvider;
+      }
+    }
+
     return itemDelegator;
   }
 
@@ -1666,6 +1698,14 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
   public boolean isSortChoices(Object object)
   {
     return sortChoices;
+  }
+
+  /**
+   * @since 2.14
+   */
+  public Object getEditorFactory(Object object)
+  {
+    return editorFactory;
   }
 
   /**

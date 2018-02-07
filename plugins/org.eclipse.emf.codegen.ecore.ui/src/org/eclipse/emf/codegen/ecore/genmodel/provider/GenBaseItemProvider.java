@@ -216,7 +216,8 @@ public class GenBaseItemProvider
      boolean sortChoices,
      Object staticImage, 
      String category, 
-     String[] filterFlags)
+     String[] filterFlags,
+     Object editorFactory)
   {
     return new GenItemPropertyDescriptor(
       adapterFactory,
@@ -229,7 +230,8 @@ public class GenBaseItemProvider
       sortChoices,
       staticImage,
       category,
-      filterFlags);
+      filterFlags,
+      editorFactory);
   }
 
   /**
@@ -270,7 +272,27 @@ public class GenBaseItemProvider
         String category,
         String [] filterFlags)
     {
-      super(adapterFactory, resourceLocator, displayName, description, feature, isSettable, multiLine, sortChoices, staticImage, category, filterFlags);
+      this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, multiLine, sortChoices, staticImage, category, filterFlags, null);
+    }
+
+    /**
+     * Since 2.14
+     */
+    public GenItemPropertyDescriptor
+      (AdapterFactory adapterFactory,
+       ResourceLocator resourceLocator,
+       String displayName,
+       String description,
+       EStructuralFeature feature, 
+       boolean isSettable,
+       boolean multiLine,
+       boolean sortChoices,
+       Object staticImage,
+       String category,
+       String [] filterFlags,
+       Object editorFactory)
+    {
+      super(adapterFactory, resourceLocator, displayName, description, feature, isSettable, multiLine, sortChoices, staticImage, category, filterFlags, editorFactory);
     }
 
     @Override

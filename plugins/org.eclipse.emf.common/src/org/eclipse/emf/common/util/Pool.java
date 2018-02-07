@@ -24,7 +24,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * Removals, i.e., {@link #remove(Object) remove}, {@link #removeAll(Collection) removeAll}, {@link #clear() clear}, and {@link #retainAll(Collection) retainAll}, are not supported.
  * 
  * @since 2.9
- * @noextends This API is subject to binary incompatible changes until the API is fully stabilized, i.e., at least until the 2.10 release.
  */
 public class Pool<E> extends WeakInterningHashSet<E>
 {

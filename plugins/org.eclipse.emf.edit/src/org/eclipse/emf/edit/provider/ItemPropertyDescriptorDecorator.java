@@ -16,7 +16,7 @@ import java.util.Collection;
 
 /**
  */
-public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor, IItemPropertyDescriptor.ValueHandlerProvider
+public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor, IItemPropertyDescriptor.ValueHandlerProvider, IPropertyEditorFactory.Provider
 {
   protected Object object;
   protected IItemPropertyDescriptor itemPropertyDescriptor;
@@ -88,7 +88,7 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor,
    * It's not really clear to me how this is meant to be used, 
    * but it's a little bit like an equals test.
    */
-  public boolean isCompatibleWith(Object object, Object anotherObject, IItemPropertyDescriptor anotherItemPropertyDescriptor) 
+  public boolean isCompatibleWith(Object thisObject, Object anotherObject, IItemPropertyDescriptor anotherItemPropertyDescriptor) 
   {
     return itemPropertyDescriptor.isCompatibleWith(object, anotherObject, anotherItemPropertyDescriptor);
   }
@@ -114,7 +114,7 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor,
    *
    * @since 2.14
    */
-  public boolean isPropertyUnsettable(Object object)
+  public boolean isPropertyUnsettable(Object thisObject)
   {
     return itemPropertyDescriptor instanceof IItemPropertyDescriptor.ValueHandlerProvider && ((IItemPropertyDescriptor.ValueHandlerProvider)itemPropertyDescriptor).isPropertyUnsettable(object);
   }
@@ -146,7 +146,6 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor,
   public Object getFeature(Object thisObject)
   {
     return itemPropertyDescriptor.getFeature(object);
-
   }
 
   public Collection<?> getChoiceOfValues(Object thisObject)
@@ -166,7 +165,7 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor,
    * This does the delegated job of determining whether the property's value consists of multi-line text.
    * @since 2.2.0
    */
-  public boolean isMultiLine(Object object)
+  public boolean isMultiLine(Object thisObject)
   {
     return itemPropertyDescriptor.isMultiLine(object);
   }
@@ -175,7 +174,7 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor,
    * This does the delegated job of determining the choices for this property should be sorted for display.
    * @since 2.2.0
    */
-  public boolean isSortChoices(Object object)
+  public boolean isSortChoices(Object thisObject)
   {
     return itemPropertyDescriptor.isSortChoices(object);
   }
@@ -183,7 +182,7 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor,
   /**
    * @since 2.14
    */
-  public boolean isChoiceArbitrary(Object object)
+  public boolean isChoiceArbitrary(Object thisObject)
   {
     return itemPropertyDescriptor instanceof ValueHandlerProvider && ((ValueHandlerProvider)itemPropertyDescriptor).isChoiceArbitrary(object);
   }
@@ -191,8 +190,17 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor,
   /**
    * @since 2.14
    */
-  public ValueHandler getValueHandler(Object object)
+  public ValueHandler getValueHandler(Object thisObject)
   {
     return itemPropertyDescriptor instanceof ValueHandlerProvider ? ((ValueHandlerProvider)itemPropertyDescriptor).getValueHandler(object) : null;
   }
+
+  /**
+   * @since 2.14
+   */
+  public Object getEditorFactory(Object thisObject)
+  {
+    return itemPropertyDescriptor instanceof IPropertyEditorFactory.Provider ? ((IPropertyEditorFactory.Provider)itemPropertyDescriptor).getEditorFactory(object) : null;
+  }
 }
+

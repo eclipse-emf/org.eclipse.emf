@@ -78,6 +78,7 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Photon"/>
     </genEnums>
     <genDataTypes ecoreDataType="GenModel.ecore#//Path"/>
+    <genDataTypes ecoreDataType="GenModel.ecore#//PropertyEditorFactory"/>
     <genClasses ecoreClass="GenModel.ecore#//GenModel">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="A copyright string to appear in the header of each generated artifact"
           propertyMultiLine="true" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/copyrightText"/>
@@ -360,6 +361,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/suppressedUnsetVisibility"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The body to be generated for the get-accessor method of the feature in the implementation class"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/get"/>
+      <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="A URI that specifies a registered property editor factory that will be used to create property editors"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/propertyEditorFactory"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenBase">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenBase/genAnnotations"/>
@@ -395,6 +398,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenDataType/create"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The body to be generated for the convert-to-string method of the data type in the factory implementation class"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenDataType/convert"/>
+      <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="A URI that specifies a registered property editor factory that will be used to create property editors for attributes of this type"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenDataType/propertyEditorFactory"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenOperation">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/genClass"/>

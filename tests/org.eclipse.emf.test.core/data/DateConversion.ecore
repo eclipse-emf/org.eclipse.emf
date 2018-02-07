@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="date" nsURI="http:///date" nsPrefix="date">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="conversionDelegates" value="http:///org/eclipse/emf/ecore/util/DateConversionDelegate"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadCalendarType" instanceClassName="java.util.Calendar">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//DateTimeFormat/yyyy-MM-dd'T'HH:mm?bad-calendar-type"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadSimpleDateFormatMissing" instanceClassName="java.util.Date">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//SimpleDateFormat"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadSimpleDateFormatInvalidFormat"
+      instanceClassName="java.util.Date">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//SimpleDateFormat/x"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadSimpleDateFormatEmpty" instanceClassName="java.util.Date">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//SimpleDateFormat"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadDateFormatMissing" instanceClassName="java.util.Date">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//DateFormat"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadDateFormatBadDateStyle" instanceClassName="java.util.Date">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//DateFormat/DEFAULT/en/US"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadTimeFormatMissing" instanceClassName="java.util.Date">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//TimeFormat"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadDateFormatBadTimeStyle" instanceClassName="java.util.Date">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//TimeFormat/DEFAULT/en/US"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadDateTimeFormatMissing" instanceClassName="java.util.Date">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//DateTimeFormat"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadDateTimeFormatBadDateStyle" instanceClassName="java.util.Date">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//DateTimeFormat/DEFAULT/LONG/en/US"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadDateTimeFormatBadTimeStyle" instanceClassName="java.util.Date">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//DateTimeFormat/LONG/DEFAULT/en/US"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadStyle" instanceClassName="java.util.Date">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//Bogus"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadLocaleMissing" instanceClassName="java.util.Date">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//DateFormat/LONG"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadLocaleBadLanguage" instanceClassName="java.util.Date">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//DateFormat/LONG/english/US"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadLocaleBadCountry" instanceClassName="java.util.Date">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//DateFormat/LONG/en/DE"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadLocaleBadVariant" instanceClassName="java.util.Date">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//DateFormat/LONG/en/US/bogus"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="BadInstanceType" instanceClassName="java.lang.String">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      <details key="format" value="//DateFormat/LONG/en/US"/>
+    </eAnnotations>
+  </eClassifiers>
+</ecore:EPackage>

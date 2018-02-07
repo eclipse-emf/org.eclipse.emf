@@ -17,6 +17,7 @@ import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -42,7 +43,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.ContributorFactorySimple;
@@ -575,9 +575,7 @@ public class EcorePlugin  extends EMFPlugin
     {
       try
       {
-        Map<URI, URI> pluginMap = new HashMap<URI, URI>();
-        PDEHelper.computeModels(pluginMap, null);
-        result.putAll(pluginMap);
+        PDEHelper.computeModels(result, null);
       }
       catch (Exception e)
       {
@@ -1136,278 +1134,140 @@ public class EcorePlugin  extends EMFPlugin
 
   private static class PDEHelper
   {
-    private static final Method PLUGIN_MODEL_BASE_GET_BUNDLE_DESCRIPTION_METHOD;
-    private static final Method PLUGIN_MODEL_BASE_GET_UNDERLYING_RESOURCE_METHOD;
-    private static final Method PLUGIN_MODEL_BASE_GET_INSTALL_LOCATION_METHOD;
-    private static final Method PLUGIN_MODEL_BASE_GET_EXTENSIONS_METHOD;
-    private static final Method PLUGIN_REGISTRY_GET_ACTIVE_MODELS_METHOD;
-    private static final Method BUNDLE_DESCRIPTION_GET_SYMBOLIC_NAME_METHOD;
-    private static final Method EXTENSIONS_GET_EXTENSIONS_METHOD;
-    private static final Method PLUGIN_EXTENSION_GET_POINT_METHOD;
-    private static final Method PLUGIN_EXTENSION_GET_CHILDREN_METHOD;
-    private static final Class<?> PLUGIN_ELEMENT_CLASS;
-    private static final Method PLUGIN_ELEMENT_GET_ATTRIBUTE_METHOD;
-    private static final Method PLUGIN_ATTRIBUTE_GET_VALUE_METHOD;
     private static final boolean IS_PDE_BUNDLE_AVAILABLE;
-  
+
     static
     {
-      Method pluginModelBaseGetBundleDescriptionMethod = null;
-      Method pluginModelBaseGetUnderlyingResourceMethod = null;
-      Method pluginModelBaseGetInstallLocationMethod = null;
-      Method pluginModelBaseGetExtensionsMethod = null;
-      Method pluginRegistryGetActiveModelsMethod = null;
-      Method bundleDescriptionGetSymbolicNameMethod = null;
-      Method extensionsGetExtensionsMethod = null;
-      Method pluginExtensionGetPointMethod = null;
-      Method pluginExtensionGetChildrenMethod = null;
-      Class<?> pluginElementClass = null;
-      Method pluginElementGetAttributeMethod = null;
-      Method pluginAttributeGetValueMethod = null;
       boolean isPDEBundleAvailable = false;
-  
+
       try
       {
-        Class<?> pluginModelBaseClass = CommonPlugin.loadClass("org.eclipse.pde.core", "org.eclipse.pde.core.plugin.IPluginModelBase");
-        pluginModelBaseGetBundleDescriptionMethod = pluginModelBaseClass.getMethod("getBundleDescription");
-        pluginModelBaseGetUnderlyingResourceMethod = pluginModelBaseClass.getMethod("getUnderlyingResource");
-        pluginModelBaseGetInstallLocationMethod = pluginModelBaseClass.getMethod("getInstallLocation");
-        pluginModelBaseGetExtensionsMethod = pluginModelBaseClass.getMethod("getExtensions");
-        Class<?> pluginRegistryClass = CommonPlugin.loadClass("org.eclipse.pde.core", "org.eclipse.pde.core.plugin.PluginRegistry");
-        pluginRegistryGetActiveModelsMethod = pluginRegistryClass.getMethod("getActiveModels", boolean.class);
-        Class<?> bundleDescriptionClass = CommonPlugin.loadClass("org.eclipse.pde.core", "org.eclipse.osgi.service.resolver.BundleDescription");
-        bundleDescriptionGetSymbolicNameMethod = bundleDescriptionClass.getMethod("getSymbolicName");
-        Class<?> extensionsClass = CommonPlugin.loadClass("org.eclipse.pde.core", "org.eclipse.pde.core.plugin.IExtensions");
-        extensionsGetExtensionsMethod = extensionsClass.getMethod("getExtensions");
-        Class<?> pluginExtensionClass = CommonPlugin.loadClass("org.eclipse.pde.core", "org.eclipse.pde.core.plugin.IPluginExtension");
-        pluginExtensionGetPointMethod = pluginExtensionClass.getMethod("getPoint");
-        pluginExtensionGetChildrenMethod = pluginExtensionClass.getMethod("getChildren");
-        pluginElementClass = CommonPlugin.loadClass("org.eclipse.pde.core", "org.eclipse.pde.core.plugin.IPluginElement");
-        pluginElementGetAttributeMethod = pluginElementClass.getMethod("getAttribute", String.class);
-        Class<?> pluginAttributeClass = CommonPlugin.loadClass("org.eclipse.pde.core", "org.eclipse.pde.core.plugin.IPluginAttribute");
-        pluginAttributeGetValueMethod = pluginAttributeClass.getMethod("getValue");
+        CommonPlugin.loadClass("org.eclipse.pde.core", "org.eclipse.pde.core.plugin.IPluginModelBase");
         isPDEBundleAvailable = true;
       }
       catch (Throwable exception)
       {
         // Ignore.
       }
-  
-      PLUGIN_MODEL_BASE_GET_BUNDLE_DESCRIPTION_METHOD = pluginModelBaseGetBundleDescriptionMethod;
-      PLUGIN_MODEL_BASE_GET_UNDERLYING_RESOURCE_METHOD = pluginModelBaseGetUnderlyingResourceMethod;
-      PLUGIN_MODEL_BASE_GET_INSTALL_LOCATION_METHOD = pluginModelBaseGetInstallLocationMethod;
-      PLUGIN_MODEL_BASE_GET_EXTENSIONS_METHOD = pluginModelBaseGetExtensionsMethod;
-      PLUGIN_REGISTRY_GET_ACTIVE_MODELS_METHOD = pluginRegistryGetActiveModelsMethod;
-      BUNDLE_DESCRIPTION_GET_SYMBOLIC_NAME_METHOD = bundleDescriptionGetSymbolicNameMethod;
-      EXTENSIONS_GET_EXTENSIONS_METHOD = extensionsGetExtensionsMethod;
-      PLUGIN_EXTENSION_GET_POINT_METHOD = pluginExtensionGetPointMethod;
-      PLUGIN_EXTENSION_GET_CHILDREN_METHOD = pluginExtensionGetChildrenMethod;
-      PLUGIN_ELEMENT_CLASS = pluginElementClass;
-      PLUGIN_ELEMENT_GET_ATTRIBUTE_METHOD = pluginElementGetAttributeMethod;
-      PLUGIN_ATTRIBUTE_GET_VALUE_METHOD = pluginAttributeGetValueMethod;
       IS_PDE_BUNDLE_AVAILABLE = isPDEBundleAvailable;
     }
-  
-    private static Object invoke(Object object, Method method, Object... arguments)
-    {
-      try
-      {
-        return method.invoke(object, arguments);
-      }
-      catch (Exception exception)
-      {
-        return null;
-      }
-    }
-  
+
     private static void computeModels(Map<URI, URI> pluginMap, Map<String, URI> nsURIMap)
     {
       // Cache the workspace for use in the loop.
       //
       IWorkspaceRoot root = getWorkspaceRoot();
-  
-      // Iterate over all the active models in the workspace and target platform.
-      //
-      // IPluginModelBase[] activeModels = PluginRegistry.getActiveModels(false);
-      //
-      Object[] activeModels = (Object[])invoke(null, PLUGIN_REGISTRY_GET_ACTIVE_MODELS_METHOD, Boolean.FALSE);
-      LOOP:
-      for (Object activeModel : activeModels)
+
+      Map<String, List<CommonPlugin.ElementRecord>> targetPlatformExtensionPoints = CommonPlugin.getTargetPlatformExtensionPoints(
+        new HashSet<String>(Arrays.asList("org.eclipse.emf.ecore.generated_package", "org.eclipse.emf.ecore.dynamic_package")));
+
+      for (Map.Entry<String, List<CommonPlugin.ElementRecord>> entry : targetPlatformExtensionPoints.entrySet())
       {
-        // Determine the symbolic name, underlying resource, if any, and the install location.
-        //
-        // BundleDescription bundleDescription = activeModel.getBundleDescription();
-        // String symbolicName = bundleDescription.getSymbolicName();
-        // IResource underlyingResource = activeModel.getUnderlyingResource();
-        // String installLocation = activeModel.getInstallLocation();
-        //
-        Object bundleDescription = invoke(activeModel, PLUGIN_MODEL_BASE_GET_BUNDLE_DESCRIPTION_METHOD);
-        String symbolicName = (String)invoke(bundleDescription, BUNDLE_DESCRIPTION_GET_SYMBOLIC_NAME_METHOD);
-        IResource underlyingResource = (IResource)invoke(activeModel, PLUGIN_MODEL_BASE_GET_UNDERLYING_RESOURCE_METHOD);
-        String installLocation = (String)invoke(activeModel, PLUGIN_MODEL_BASE_GET_INSTALL_LOCATION_METHOD);
-  
-        // The URI for the location is determined from the underlying resource or the install location, with preference to the former if available.
-        //
-        URI location = null;
-        if (underlyingResource != null)
+        String extensionPoint = entry.getKey();
+        boolean isGenerated = "org.eclipse.emf.ecore.generated_package".equals(extensionPoint);
+        List<CommonPlugin.ElementRecord> extensionPoints = entry.getValue();
+        LOOP: for (CommonPlugin.ElementRecord extensionPointRecord : extensionPoints)
         {
-          // If there is an underlying resource, use the platform resource URI referencing the project in the workspace as the location.
-          //
-          location = URI.createPlatformResourceURI(underlyingResource.getProject().getFullPath().toString(), true);
-        }
-        else if (installLocation != null)
-        {
-          // Otherwise, the install location in the file system is used...
-          //
-          File file = new File(installLocation);
-          if (file.isDirectory())
+          String locationValue = extensionPointRecord.getAttributes().get("location");
+          String symbolicName = extensionPointRecord.getAttributes().get("symbolicName");
+          if (locationValue != null)
           {
-            // If the file is a directory, create a file URI for that directory.
+            // The logical URI will be computed when we need it to deal with generated package extension points.
             //
-            location = URI.createFileURI(installLocation);
-          }
-          else
-          {
-            // Otherwise, the location must be an archive, create an archive URI for the file URI of the jar.
-            //
-            location = URI.createURI("archive:" + URI.createFileURI(installLocation) + "!/");
-          }
-        }
-  
-        // If we're able to compute a location...
-        //
-        if (location != null)
-        {
-          // The logical URI will be computed when we need it to deal with generated package extension points.
-          //
-          URI logicalLocation = null;
-  
-          // Iterate over the plugin's extensions...
-          //
-          // IExtensions extensions = activeModel.getExtensions();
-          // IPluginExtension[] pluginExtensions = extensions.getExtensions();
-          //
-          Object extensions = invoke(activeModel, PLUGIN_MODEL_BASE_GET_EXTENSIONS_METHOD);
-          Object[] pluginExtensions = (Object[])invoke(extensions, EXTENSIONS_GET_EXTENSIONS_METHOD);
-          for (Object pluginExtension : pluginExtensions)
-          {
-            // Consider only the generated package extension points.
-            //
-            // String point = pluginExtension.getPoint();
-            //
-            String point = (String)invoke(pluginExtension, PLUGIN_EXTENSION_GET_POINT_METHOD);
-            
-            // Process both generated and dynamic extension points.
-            //
-            boolean isGeneratedPackage = "org.eclipse.emf.ecore.generated_package".equals(point);
-            if (isGeneratedPackage || "org.eclipse.emf.ecore.dynamic_package".equals(point))
+            URI logicalLocation = null;
+
+            URI location = URI.createURI(locationValue);
+
+            for (CommonPlugin.ElementRecord elementRecord : extensionPointRecord.getChildren())
             {
-              // Iterate over the child elements, i.e., the <package> elements, of the generated package extension point...
-              //
-              // IPluginObject[] children = pluginExtension.getChildren();
-              //
-              Object[] children = (Object[])invoke(pluginExtension, PLUGIN_EXTENSION_GET_CHILDREN_METHOD);
-              for (Object child : children)
+              Map<String, String> attributes = elementRecord.getAttributes();
+              String uri = attributes.get("uri");
+              String modelLocation = attributes.get(isGenerated ? "genModel" : "location");
+              if (uri != null && modelLocation != null)
               {
-                // if (child instanceof IPluginElement)
+                // We need the logical location of the plugin, so if we haven't computed it already, do so now..
+                // This creates folder mappings as a side-effect.
                 //
-                if (PLUGIN_ELEMENT_CLASS.isInstance(child))
+                if (logicalLocation == null)
                 {
-                  // If the the uri and the genModel attributes are present...
+                  // We'll always want to redirect the platform plugin URI to the platform resource URI for this plugin...
                   //
-                  // IPluginElement pluginElement = (IPluginElement)child;
-                  // IPluginAttribute uri = pluginElement.getAttribute("uri");
-                  // IPluginAttribute genModel = pluginElement.getAttribute("genModel");
-                  //
-                  Object uri = invoke(child, PLUGIN_ELEMENT_GET_ATTRIBUTE_METHOD, "uri");
-                  Object genModel = invoke(child, PLUGIN_ELEMENT_GET_ATTRIBUTE_METHOD, isGeneratedPackage ? "genModel" : "location");
-                  if (uri != null && genModel != null)
+                  URI platformPluginURI = URI.createPlatformPluginURI(symbolicName, true).appendSegment("");
+                  if (location.isPlatformResource())
                   {
-                    // We need the logical location of the plugin, so if we haven't computed it already, do so now..
-                    // This creates folder mappings as a side-effect.
+                    // If we're computing the plugin map and the physical location is in the workspace, map the platform plugin URI to the platform resource URI of the workspace project.
                     //
-                    if (logicalLocation == null)
+                    if (pluginMap != null)
                     {
-                      // We'll always want to redirect the platform plugin URI to the platform resource URI for this plugin...
+                      pluginMap.put(platformPluginURI, location.appendSegment(""));
+                    }
+
+                    // The physical location is also the logical location.
+                    //
+                    logicalLocation = location;
+                  }
+                  else
+                  {
+                    // The logical location will be a platform resource URI as if the external plugin were in the workspace.
+                    //
+                    logicalLocation = URI.createPlatformResourceURI(symbolicName, true);
+
+                    // We'll create a folder mapping for this logical location...
+                    //
+                    URI resourceURI = logicalLocation.appendSegment("");
+
+                    // But only if an actual project doesn't already exist in the workspace.
+                    //
+                    boolean exists = root.getProject(symbolicName).isAccessible();
+
+                    // If we're computing the plugin map...
+                    //
+                    if (pluginMap != null)
+                    {
+                      // If the physical location is an external folder...
                       //
-                      URI platformPluginURI = URI.createPlatformPluginURI(symbolicName, true).appendSegment("");
-                      if (location.isPlatformResource())
+                      if (location.isFile())
                       {
-                        // If we're computing the plugin map and the physical location is in the workspace, map the platform plugin URI to the platform resource URI of the workspace project.
+                        // If the physical location is an external folder, map the platform plugin URI to file URI of that external folder.
                         //
-                        if (pluginMap != null)
+                        pluginMap.put(platformPluginURI, location.appendSegment(""));
+                        if (!exists)
                         {
-                          pluginMap.put(platformPluginURI, location.appendSegment(""));
+                          // If there is no corresponding project physically present in the workspace, also map the platform resource URI of the plugin to the file URI of the external folder.
+                          //
+                          pluginMap.put(resourceURI, location.appendSegment(""));
                         }
-  
-                        // The physical location is also the logical location.
-                        //
-                        logicalLocation = location;
                       }
                       else
                       {
-                        // The logical location will be a platform resource URI as if the external plugin were in the workspace.
+                        // If the physical location is an external jar, map the platform plugin URI to the archive URI of that external jar.
                         //
-                        logicalLocation = URI.createPlatformResourceURI(symbolicName, true);
-  
-                        // We'll create a folder mapping for this logical location...
-                        //
-                        URI resourceURI = logicalLocation.appendSegment("");
-  
-                        // But only if an actual project doesn't already exist in the workspace.
-                        //
-                        boolean exists = root.getProject(symbolicName).isAccessible();
-  
-                        // If we're computing the plugin map...
-                        //
-                        if (pluginMap != null)
+                        pluginMap.put(platformPluginURI, location);
+                        if (!exists)
                         {
-                          // If the physical location is an external folder...
+                          // If there is no corresponding project physically present in the workspace, also map the platform resource URI of the plugin to the archive URI of that external jar.
                           //
-                          if (location.isFile())
-                          {
-                            // If the physical location is an external folder, map the platform plugin URI to file URI of that external folder.
-                            //
-                            pluginMap.put(platformPluginURI, location.appendSegment(""));
-                            if (!exists)
-                            {
-                              // If there is no corresponding project physically present in the workspace, also map the platform resource URI of the plugin to the file URI of the external folder.
-                              //
-                              pluginMap.put(resourceURI, location.appendSegment(""));
-                            }
-                          }
-                          else
-                          {
-                            // If the physical location is an external jar, map the platform plugin URI to the archive URI of that external jar.
-                            //
-                            pluginMap.put(platformPluginURI, location);
-                            if (!exists)
-                            {
-                              // If there is no corresponding project physically present in the workspace, also map the platform resource URI of the plugin to the archive URI of that external jar.
-                              //
-                              pluginMap.put(resourceURI, location);
-                            }
-                          }
+                          pluginMap.put(resourceURI, location);
                         }
                       }
                     }
-  
-                    // If we're not computing the nsURI map, we're done with this plugin.
-                    //
-                    if (nsURIMap == null)
-                    {
-                      continue LOOP;
-                    }
-  
-                    // Map the nsURI to the logical location URI of the registered GenModel, if we're dealing with a generated package extension point.
-                    //
-                    // nsURIMap.put(uri.getValue(), logicalLocation.appendSegments(new Path(genModel.getValue()).segments()));
-                    //
-                    if (isGeneratedPackage)
-                    {
-                      nsURIMap.put((String)invoke(uri, PLUGIN_ATTRIBUTE_GET_VALUE_METHOD), logicalLocation.appendSegments(new Path((String)invoke(genModel, PLUGIN_ATTRIBUTE_GET_VALUE_METHOD)).segments()));
-                    }
                   }
+                }
+
+                // If we're not computing the nsURI map, we're done with this plugin.
+                //
+                if (nsURIMap == null)
+                {
+                  continue LOOP;
+                }
+
+                // Map the nsURI to the logical location URI of the registered GenModel, if we're dealing with a generated package extension point.
+                //
+                // nsURIMap.put(uri.getValue(), logicalLocation.appendSegments(new Path(genModel.getValue()).segments()));
+                //
+                if (isGenerated)
+                {
+                  nsURIMap.put(uri, logicalLocation.appendSegments(new Path(modelLocation).segments()));
                 }
               }
             }

@@ -75,15 +75,26 @@ public class ReflectiveItemProvider
       {
         if (!(eFeature instanceof EReference) || !((EReference)eFeature).isContainment())
         {
+          String propertyEditorFactory = EcoreUtil.getAnnotation(eFeature, EcoreUtil.GEN_MODEL_ANNOTATION_URI, "propertyEditorFactory");
+          if (propertyEditorFactory == null)
+          {
+            propertyEditorFactory = EcoreUtil.getAnnotation(eFeature.getEType(), EcoreUtil.GEN_MODEL_ANNOTATION_URI, "propertyEditorFactory");
+          }
           itemPropertyDescriptors.add
             (new ItemPropertyDescriptor
               (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+               getResourceLocator(),
                getFeatureText(eFeature),
                getResourceLocator().getString
                  ("_UI_Property_description", new Object [] { getFeatureText(eFeature), eFeature.getEType().getName() }),
                eFeature,
                eFeature.isChangeable(),
-               ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+               false,
+               false,
+               ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+               null,
+               null,
+               propertyEditorFactory == null ? null : URI.createURI(propertyEditorFactory)));
         }
       }
     }

@@ -51,6 +51,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl#getEcoreDataType <em>Ecore Data Type</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl#getCreate <em>Create</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl#getConvert <em>Convert</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl#getPropertyEditorFactory <em>Property Editor Factory</em>}</li>
  * </ul>
  *
  * @generated
@@ -125,6 +126,38 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    * @ordered
    */
   protected boolean convertESet;
+
+  /**
+   * The default value of the '{@link #getPropertyEditorFactory() <em>Property Editor Factory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPropertyEditorFactory()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final String PROPERTY_EDITOR_FACTORY_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getPropertyEditorFactory() <em>Property Editor Factory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPropertyEditorFactory()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected String propertyEditorFactory = PROPERTY_EDITOR_FACTORY_EDEFAULT;
+
+  /**
+   * This is true if the Property Editor Factory attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean propertyEditorFactoryESet;
 
   protected GenDataTypeImpl()
   {
@@ -296,6 +329,83 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public String getPropertyEditorFactoryGen()
+  {
+    return propertyEditorFactory;
+  }
+
+  /**
+   * @since 2.14
+   */
+  public String getPropertyEditorFactory()
+  {
+    if (isSetPropertyEditorFactory())
+    {
+      return getPropertyEditorFactoryGen();
+    }
+    else
+    {
+      EDataType ecoreDataType = getEcoreDataType();
+      if (ecoreDataType != null)
+      {
+        return EcoreUtil.getAnnotation(ecoreDataType, GenModelPackage.eNS_URI, "propertyEditorFactory");
+      }
+      else
+      {
+        return null;
+      }
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setPropertyEditorFactory(String newPropertyEditorFactory)
+  {
+    String oldPropertyEditorFactory = propertyEditorFactory;
+    propertyEditorFactory = newPropertyEditorFactory;
+    boolean oldPropertyEditorFactoryESet = propertyEditorFactoryESet;
+    propertyEditorFactoryESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_DATA_TYPE__PROPERTY_EDITOR_FACTORY, oldPropertyEditorFactory, propertyEditorFactory, !oldPropertyEditorFactoryESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void unsetPropertyEditorFactory()
+  {
+    String oldPropertyEditorFactory = propertyEditorFactory;
+    boolean oldPropertyEditorFactoryESet = propertyEditorFactoryESet;
+    propertyEditorFactory = PROPERTY_EDITOR_FACTORY_EDEFAULT;
+    propertyEditorFactoryESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_DATA_TYPE__PROPERTY_EDITOR_FACTORY, oldPropertyEditorFactory, PROPERTY_EDITOR_FACTORY_EDEFAULT, oldPropertyEditorFactoryESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isSetPropertyEditorFactory()
+  {
+    return propertyEditorFactoryESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   @Override
@@ -310,6 +420,8 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
         return getCreate();
       case GenModelPackage.GEN_DATA_TYPE__CONVERT:
         return getConvert();
+      case GenModelPackage.GEN_DATA_TYPE__PROPERTY_EDITOR_FACTORY:
+        return getPropertyEditorFactory();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -332,6 +444,9 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
         return;
       case GenModelPackage.GEN_DATA_TYPE__CONVERT:
         setConvert((String)newValue);
+        return;
+      case GenModelPackage.GEN_DATA_TYPE__PROPERTY_EDITOR_FACTORY:
+        setPropertyEditorFactory((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -356,6 +471,9 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       case GenModelPackage.GEN_DATA_TYPE__CONVERT:
         unsetConvert();
         return;
+      case GenModelPackage.GEN_DATA_TYPE__PROPERTY_EDITOR_FACTORY:
+        unsetPropertyEditorFactory();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -376,6 +494,8 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
         return isSetCreate();
       case GenModelPackage.GEN_DATA_TYPE__CONVERT:
         return isSetConvert();
+      case GenModelPackage.GEN_DATA_TYPE__PROPERTY_EDITOR_FACTORY:
+        return isSetPropertyEditorFactory();
     }
     return super.eIsSet(featureID);
   }
@@ -395,6 +515,8 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     if (createESet) result.append(create); else result.append("<unset>");
     result.append(", convert: ");
     if (convertESet) result.append(convert); else result.append("<unset>");
+    result.append(", propertyEditorFactory: ");
+    if (propertyEditorFactoryESet) result.append(propertyEditorFactory); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }
@@ -1099,6 +1221,11 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     if (oldGenDataTypeVersion.eIsSet(GenModelPackage.Literals.GEN_DATA_TYPE__CONVERT))
     {
       setConvert((String)oldGenDataTypeVersion.eGet(GenModelPackage.Literals.GEN_DATA_TYPE__CONVERT));
+    }
+
+    if (oldGenDataTypeVersion.eIsSet(GenModelPackage.Literals.GEN_DATA_TYPE__PROPERTY_EDITOR_FACTORY))
+    {
+      setConvert(oldGenDataTypeVersion.getPropertyEditorFactory());
     }
   }
 

@@ -10,15 +10,16 @@
  */
 package org.eclipse.emf.ecore.impl;
 
-import java.util.HashMap;
+import java.util.Set;
 
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.ecore.EValidator;
 
 
 /**
  * An implementation of a validation delegate registry.
  */
-public class ValidationDelegateRegistryImpl extends HashMap<String, Object> implements EValidator.ValidationDelegate.Registry
+public class ValidationDelegateRegistryImpl extends CommonPlugin.SimpleTargetPlatformRegistryImpl<String, Object> implements EValidator.ValidationDelegate.Registry
 {
   private static final long serialVersionUID = 1L;
 
@@ -32,6 +33,17 @@ public class ValidationDelegateRegistryImpl extends HashMap<String, Object> impl
   public ValidationDelegateRegistryImpl(EValidator.ValidationDelegate.Registry delegateRegistry)
   {
     this.delegateRegistry = delegateRegistry;
+  }
+
+  public Set<String> getTargetPlatformFactories()
+  {
+    return getTargetPlatformValues("org.eclipse.emf.ecore.validation_delegate", "uri");
+  }
+
+  @Override
+  protected String createKey(String attribute)
+  {
+    return attribute;
   }
 
   @Override

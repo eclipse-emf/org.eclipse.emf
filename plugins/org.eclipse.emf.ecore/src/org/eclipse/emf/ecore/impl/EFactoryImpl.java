@@ -299,6 +299,12 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory, BinaryR
       throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
 
+    EDataType.Internal.ConversionDelegate conversionDelegate = ((EDataType.Internal)eDataType).getConversionDelegate();
+    if (conversionDelegate != null)
+    {
+      return conversionDelegate.createFromString(stringValue);
+    }
+
     if (eDataType instanceof EEnum)
     {
       Object result = ((EEnum)eDataType).getEEnumLiteralByLiteral(stringValue);
@@ -359,12 +365,6 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory, BinaryR
         }
       }
       throw new IllegalArgumentException("The value '" + stringValue + "' does not match any member types of the union datatype '" + eDataType.getName() + "'");
-    }
-
-    EDataType.Internal.ConversionDelegate conversionDelegate = ((EDataType.Internal)eDataType).getConversionDelegate();
-    if (conversionDelegate != null)
-    {
-      return conversionDelegate.createFromString(stringValue);
     }
 
     Class<?> c = EcoreUtil.wrapperClassFor(eDataType.getInstanceClass());
@@ -480,6 +480,12 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory, BinaryR
       throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
 
+    EDataType.Internal.ConversionDelegate conversionDelegate = ((EDataType.Internal)eDataType).getConversionDelegate();
+    if (conversionDelegate != null)
+    {
+      return conversionDelegate.convertToString(objectValue);
+    }
+
     EDataType baseType = ExtendedMetaData.INSTANCE.getBaseType(eDataType);
     if (baseType != null)
     {
@@ -529,12 +535,6 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory, BinaryR
         }
       }
       throw new IllegalArgumentException("Invalid value: '" + objectValue + "' for datatype :"+eDataType.getName());
-    }
-
-    EDataType.Internal.ConversionDelegate conversionDelegate = ((EDataType.Internal)eDataType).getConversionDelegate();
-    if (conversionDelegate != null)
-    {
-      return conversionDelegate.convertToString(objectValue);
     }
 
     if (objectValue == null)

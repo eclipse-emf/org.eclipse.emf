@@ -238,6 +238,8 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
     super.setPropertySourceProvider(newProvider);
   }
 
+  private ExtendedPropertySheetEntry rootEntry;
+
   @Override
   public void createControl(Composite parent)
   {
@@ -247,6 +249,7 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
     //
     ExtendedPropertySheetEntry decoratingPropertySheetEntry = new ExtendedPropertySheetEntry(diagnosticDecorator);
     decoratingPropertySheetEntry.setPropertySourceProvider(propertySourceProvider);
+    rootEntry =  decoratingPropertySheetEntry;
     setRootEntry(decoratingPropertySheetEntry);
 
     // The property sheet page's viewer does not respond to widget selected events in a way that updates the current entry selection.
@@ -477,11 +480,23 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
       input = Collections.emptyList();
     }
 
-    super.selectionChanged(part, selection);
+    Tree tree = (Tree)getControl();
+    try
+    {
+      tree.setRedraw(false);
+      super.selectionChanged(part, selection);
+    }
+    finally
+    {
+      if (columnResizer != null)
+      {
+        columnResizer.resizeColumns();
+      }
+      tree.setRedraw(true);
+    }
 
     if (autoExpandLevel != 0)
     {
-      Tree tree = (Tree)getControl();
       try
       {
         tree.setRedraw(false);
@@ -574,7 +589,7 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
       {
         if (parent == control)
         {
-          if (autoResizeColumns)
+          if (columnResizer != null)
           {
             columnResizer.resizeColumns();
           }
@@ -597,10 +612,25 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
       return;
     }
 
-    super.refresh();
-    if (columnResizer != null)
+    Tree tree = (Tree)getControl();
+    try
     {
-      columnResizer.resizeColumns();
+      tree.setRedraw(false);
+      int expectedModCount = rootEntry.modCount;
+      super.refresh();
+      if (expectedModCount != rootEntry.modCount && autoExpandLevel != 0)
+      {
+        expand(tree, tree.getItems(), autoExpandLevel);
+      }
+
+      if (columnResizer != null)
+      {
+        columnResizer.resizeColumns();
+      }
+    }
+    finally
+    {
+      tree.setRedraw(true);
     }
   }
 
@@ -609,6 +639,8 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
    */
   public static class ExtendedPropertySheetEntry extends PropertySheetEntry
   {
+    private int modCount;
+    
     protected DiagnosticDecorator diagnosticDecorator;
     
     protected CellEditor editor;
@@ -621,6 +653,12 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
     @Override
     protected PropertySheetEntry createChildEntry()
     {
+      ++modCount;
+      for (PropertySheetEntry parent = getParent(); parent instanceof ExtendedPropertySheetEntry; parent = ((ExtendedPropertySheetEntry)parent).getParent())
+      {
+        ++((ExtendedPropertySheetEntry)parent).modCount;
+      }
+
       return new ExtendedPropertySheetEntry(diagnosticDecorator);
     }
 

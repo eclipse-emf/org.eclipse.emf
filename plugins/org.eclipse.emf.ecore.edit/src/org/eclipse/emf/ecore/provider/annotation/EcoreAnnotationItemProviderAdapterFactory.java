@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
 import org.eclipse.emf.ecore.util.BasicEAnnotationValidator;
+import org.eclipse.emf.ecore.util.QueryDelegate;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
@@ -81,19 +82,23 @@ public final class EcoreAnnotationItemProviderAdapterFactory extends EAnnotation
           String name = feature.getName();
           if (name.equals("conversionDelegates"))
           {
-            return mergeValueChoices(object, EDataType.Internal.ConversionDelegate.Factory.Registry.INSTANCE.keySet());
+            return mergeValueChoices(object, EDataType.Internal.ConversionDelegate.Factory.Registry.INSTANCE.getTargetPlatformFactories());
           }
           else if (name.equals("invocationDelegates"))
           {
-            return mergeValueChoices(object, EOperation.Internal.InvocationDelegate.Factory.Registry.INSTANCE.keySet());
+            return mergeValueChoices(object, EOperation.Internal.InvocationDelegate.Factory.Registry.INSTANCE.getTargetPlatformFactories());
           }
           else if (name.equals("validationDelegates"))
           {
-            return mergeValueChoices(object, EValidator.ValidationDelegate.Registry.INSTANCE.keySet());
+            return mergeValueChoices(object, EValidator.ValidationDelegate.Registry.INSTANCE.getTargetPlatformFactories());
           }
           else if (name.equals("settingDelegates"))
           {
-            return mergeValueChoices(object, EStructuralFeature.Internal.SettingDelegate.Factory.Registry.INSTANCE.keySet());
+            return mergeValueChoices(object, EStructuralFeature.Internal.SettingDelegate.Factory.Registry.INSTANCE.getTargetPlatformFactories());
+          }
+          else if (name.equals("queryDelegates"))
+          {
+            return mergeValueChoices(object, QueryDelegate.Factory.Registry.INSTANCE.getTargetPlatformFactories());
           }
           else
           {

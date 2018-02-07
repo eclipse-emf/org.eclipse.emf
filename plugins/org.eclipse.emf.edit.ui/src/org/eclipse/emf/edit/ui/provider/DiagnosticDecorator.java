@@ -1413,7 +1413,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
         if (!decorations.isEmpty() || !oldDecorations.isEmpty())
         {
           final Control control = propertySheetPage.getControl();
-          if (!control.isDisposed())
+          if (control != null && !control.isDisposed())
           {
             control.getDisplay().asyncExec
               (new Runnable()

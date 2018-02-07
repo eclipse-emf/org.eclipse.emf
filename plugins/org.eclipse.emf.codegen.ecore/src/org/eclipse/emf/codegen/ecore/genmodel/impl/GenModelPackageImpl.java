@@ -229,6 +229,14 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
   private EDataType pathEDataType = null;
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  private EDataType propertyEditorFactoryEDataType = null;
+
+  /**
    * Creates an instance of the model <b>Package</b>, registered with
    * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
    * package URI value.
@@ -1799,6 +1807,17 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public EAttribute getGenFeature_PropertyEditorFactory()
+  {
+    return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(16);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   public EClass getGenBase()
@@ -1978,6 +1997,17 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
   public EAttribute getGenDataType_Convert()
   {
     return (EAttribute)genDataTypeEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public EAttribute getGenDataType_PropertyEditorFactory()
+  {
+    return (EAttribute)genDataTypeEClass.getEStructuralFeatures().get(3);
   }
 
   /**
@@ -2299,6 +2329,17 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public EDataType getPropertyEditorFactory()
+  {
+    return propertyEditorFactoryEDataType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   public GenModelFactory getGenModelFactory()
@@ -2477,6 +2518,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genFeatureEClass, GEN_FEATURE__SUPPRESSED_IS_SET_VISIBILITY);
     createEAttribute(genFeatureEClass, GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY);
     createEAttribute(genFeatureEClass, GEN_FEATURE__GET);
+    createEAttribute(genFeatureEClass, GEN_FEATURE__PROPERTY_EDITOR_FACTORY);
 
     genBaseEClass = createEClass(GEN_BASE);
     createEReference(genBaseEClass, GEN_BASE__GEN_ANNOTATIONS);
@@ -2500,6 +2542,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEReference(genDataTypeEClass, GEN_DATA_TYPE__ECORE_DATA_TYPE);
     createEAttribute(genDataTypeEClass, GEN_DATA_TYPE__CREATE);
     createEAttribute(genDataTypeEClass, GEN_DATA_TYPE__CONVERT);
+    createEAttribute(genDataTypeEClass, GEN_DATA_TYPE__PROPERTY_EDITOR_FACTORY);
 
     genOperationEClass = createEClass(GEN_OPERATION);
     createEReference(genOperationEClass, GEN_OPERATION__GEN_CLASS);
@@ -2540,6 +2583,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
 
     // Create data types
     pathEDataType = createEDataType(PATH);
+    propertyEditorFactoryEDataType = createEDataType(PROPERTY_EDITOR_FACTORY);
   }
 
   /**
@@ -2740,6 +2784,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenFeature_SuppressedIsSetVisibility(), theEcorePackage.getEBoolean(), "suppressedIsSetVisibility", null, 0, 1, GenFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenFeature_SuppressedUnsetVisibility(), theEcorePackage.getEBoolean(), "suppressedUnsetVisibility", null, 0, 1, GenFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenFeature_Get(), ecorePackage.getEString(), "get", null, 0, 1, GenFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenFeature_PropertyEditorFactory(), this.getPropertyEditorFactory(), "propertyEditorFactory", null, 0, 1, GenFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(genBaseEClass, GenBase.class, "GenBase", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getGenBase_GenAnnotations(), this.getGenAnnotation(), this.getGenAnnotation_GenBase(), "genAnnotations", null, 0, -1, GenBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2766,6 +2811,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEReference(getGenDataType_EcoreDataType(), theEcorePackage.getEDataType(), null, "ecoreDataType", null, 1, 1, GenDataType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenDataType_Create(), ecorePackage.getEString(), "create", null, 0, 1, GenDataType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenDataType_Convert(), ecorePackage.getEString(), "convert", null, 0, 1, GenDataType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenDataType_PropertyEditorFactory(), this.getPropertyEditorFactory(), "propertyEditorFactory", null, 0, 1, GenDataType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(genOperationEClass, GenOperation.class, "GenOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getGenOperation_GenClass(), this.getGenClass(), this.getGenClass_GenOperations(), "genClass", null, 1, 1, GenOperation.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2861,6 +2907,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
 
     // Initialize data types
     initEDataType(pathEDataType, String.class, "Path", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(propertyEditorFactoryEDataType, String.class, "PropertyEditorFactory", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
     // Create resource
     createResource(eNS_URI);

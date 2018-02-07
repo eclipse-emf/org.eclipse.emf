@@ -64,6 +64,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.IPropertyEditorFactory;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 import org.eclipse.emf.edit.ui.celleditor.FeatureEditorDialog;
@@ -997,16 +998,21 @@ public class PropertyDescriptor implements IPropertyDescriptor
 
   /**
    * This returns the cell editor that will be used to edit the value of this property.
-   * This default implementation determines the type of cell editor from the nature of the structural feature.
+   * This default implementation first calls {@link #createPropertyEditorFromFactory(Composite)} returning that result if not {@code null}.
+   * Otherwise it determines the type of cell editor from the nature of the structural feature.
    */
   public CellEditor createPropertyEditor(Composite composite) 
   {
+    CellEditor result = createPropertyEditorFromFactory(composite);
+    if (result != null)
+    {
+      return result;
+    }
+
     if (!itemPropertyDescriptor.canSetProperty(object))
     {
       return null;
     }
-
-    CellEditor result = null;
 
     Object genericFeature = itemPropertyDescriptor.getFeature(object);
     if (genericFeature instanceof EReference[])
@@ -1148,5 +1154,29 @@ public class PropertyDescriptor implements IPropertyDescriptor
     }
 
     return result;
+  }
+
+  /**
+   * If the {@link #itemPropertyDescriptor} is an {@link org.eclipse.emf.edit.provider.IPropertyEditorFactory.Provider property editor factory provider},
+   * this uses the factory, if available, to create the cell editor.
+   * @return a new cell editor, or {@code null}.
+   * @since 2.14
+   */
+  protected CellEditor createPropertyEditorFromFactory(Composite composite) 
+  {
+    if (itemPropertyDescriptor instanceof IPropertyEditorFactory.Provider)
+    {
+      IPropertyEditorFactory.Provider editorFactoryProvider = (IPropertyEditorFactory.Provider)itemPropertyDescriptor;
+      IPropertyEditorFactory editorFactory = IPropertyEditorFactory.Registry.INSTANCE.getPropertyEditorFactory(editorFactoryProvider.getEditorFactory(object));
+      if (editorFactory != null)
+      {
+        Object editor = editorFactory.createEditor(object, itemPropertyDescriptor, composite);
+        if (editor instanceof CellEditor)
+        {
+          return (CellEditor)editor;
+        }
+      }
+    }
+    return null;
   }
 }

@@ -10461,7 +10461,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
                 eStructuralFeature == GenModelPackage.Literals.GEN_CLASSIFIER__DOCUMENTATION ||
                 eStructuralFeature == GenModelPackage.Literals.GEN_OPERATION__SUPPRESSED_VISIBILITY ||
                 eStructuralFeature == GenModelPackage.Literals.GEN_TYPED_ELEMENT__DOCUMENTATION ||
-                eStructuralFeature == GenModelPackage.Literals.GEN_TYPE_PARAMETER__DOCUMENTATION;
+                eStructuralFeature == GenModelPackage.Literals.GEN_TYPE_PARAMETER__DOCUMENTATION ||
+                eStructuralFeature == GenModelPackage.Literals.GEN_FEATURE__PROPERTY_EDITOR_FACTORY ||
+                eStructuralFeature == GenModelPackage.Literals.GEN_DATA_TYPE__PROPERTY_EDITOR_FACTORY;
             if (!isFeatureDerivedDirectlyFromAnnotation)
             {
               genBase.eSet(eStructuralFeature, value);

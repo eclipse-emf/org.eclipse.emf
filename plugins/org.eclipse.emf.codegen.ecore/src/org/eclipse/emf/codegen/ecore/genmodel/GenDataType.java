@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EDataType;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenDataType#getEcoreDataType <em>Ecore Data Type</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenDataType#getPropertyEditorFactory <em>Property Editor Factory</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenDataType()
@@ -57,6 +58,32 @@ public interface GenDataType extends GenClassifier
    * @generated
    */
   void setEcoreDataType(EDataType value);
+
+  /**
+   * Returns the value of the '<em><b>Property Editor Factory</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.14
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Property Editor Factory</em>' attribute.
+   * @see #setPropertyEditorFactory(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenDataType_PropertyEditorFactory()
+   * @model unsettable="true" dataType="org.eclipse.emf.codegen.ecore.genmodel.PropertyEditorFactory" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
+   * @generated
+   */
+  String getPropertyEditorFactory();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenDataType#getPropertyEditorFactory <em>Property Editor Factory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Property Editor Factory</em>' attribute.
+   * @see #getPropertyEditorFactory()
+   * @since 2.14
+   * @generated
+   */
+  void setPropertyEditorFactory(String value);
 
   String getQualifiedInstanceClassName();
   String getImportedInstanceClassName();

@@ -1651,13 +1651,23 @@ public interface GenModelPackage extends EPackage
   int GEN_FEATURE__GET = GEN_TYPED_ELEMENT_FEATURE_COUNT + 15;
 
   /**
+   * The feature id for the '<em><b>Property Editor Factory</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_FEATURE__PROPERTY_EDITOR_FACTORY = GEN_TYPED_ELEMENT_FEATURE_COUNT + 16;
+
+  /**
    * The number of structural features of the '<em>Gen Feature</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_FEATURE_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 16;
+  int GEN_FEATURE_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 17;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl <em>Gen Data Type</em>}' class.
@@ -1736,13 +1746,23 @@ public interface GenModelPackage extends EPackage
   int GEN_DATA_TYPE__CONVERT = GEN_CLASSIFIER_FEATURE_COUNT + 2;
 
   /**
+   * The feature id for the '<em><b>Property Editor Factory</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_DATA_TYPE__PROPERTY_EDITOR_FACTORY = GEN_CLASSIFIER_FEATURE_COUNT + 3;
+
+  /**
    * The number of structural features of the '<em>Gen Data Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_DATA_TYPE_FEATURE_COUNT = GEN_CLASSIFIER_FEATURE_COUNT + 3;
+  int GEN_DATA_TYPE_FEATURE_COUNT = GEN_CLASSIFIER_FEATURE_COUNT + 4;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenEnumImpl <em>Gen Enum</em>}' class.
@@ -1819,6 +1839,16 @@ public interface GenModelPackage extends EPackage
    * @ordered
    */
   int GEN_ENUM__CONVERT = GEN_DATA_TYPE__CONVERT;
+
+  /**
+   * The feature id for the '<em><b>Property Editor Factory</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_ENUM__PROPERTY_EDITOR_FACTORY = GEN_DATA_TYPE__PROPERTY_EDITOR_FACTORY;
 
   /**
    * The feature id for the '<em><b>Type Safe Enum Compatible</b></em>' attribute.
@@ -2292,6 +2322,18 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   int PATH = 23;
+
+
+  /**
+   * The meta object id for the '<em>Property Editor Factory</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see java.lang.String
+   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getPropertyEditorFactory()
+   * @since 2.14
+   * @generated
+   */
+  int PROPERTY_EDITOR_FACTORY = 24;
 
 
   /**
@@ -3930,6 +3972,18 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenFeature_Get();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getPropertyEditorFactory <em>Property Editor Factory</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Property Editor Factory</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getPropertyEditorFactory()
+   * @see #getGenFeature()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenFeature_PropertyEditorFactory();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenBase <em>Gen Base</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4125,6 +4179,18 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   EAttribute getGenDataType_Convert();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenDataType#getPropertyEditorFactory <em>Property Editor Factory</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Property Editor Factory</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenDataType#getPropertyEditorFactory()
+   * @see #getGenDataType()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenDataType_PropertyEditorFactory();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation <em>Gen Operation</em>}'.
@@ -4461,6 +4527,20 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   EDataType getPath();
+
+  /**
+   * Returns the meta object for data type '{@link java.lang.String <em>Property Editor Factory</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+     * <!-- begin-model-doc -->
+     * @since 2.14
+     * <!-- end-model-doc -->
+   * @return the meta object for data type '<em>Property Editor Factory</em>'.
+   * @see java.lang.String
+   * @model instanceClass="java.lang.String"
+   * @generated
+   */
+  EDataType getPropertyEditorFactory();
 
   /**
    * Returns the factory that creates the instances of the model.
@@ -5689,6 +5769,15 @@ public interface GenModelPackage extends EPackage
     EAttribute GEN_FEATURE__GET = eINSTANCE.getGenFeature_Get();
 
     /**
+     * The meta object literal for the '<em><b>Property Editor Factory</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_FEATURE__PROPERTY_EDITOR_FACTORY = eINSTANCE.getGenFeature_PropertyEditorFactory();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenBaseImpl <em>Gen Base</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5845,6 +5934,15 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_DATA_TYPE__CONVERT = eINSTANCE.getGenDataType_Convert();
+
+    /**
+     * The meta object literal for the '<em><b>Property Editor Factory</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_DATA_TYPE__PROPERTY_EDITOR_FACTORY = eINSTANCE.getGenDataType_PropertyEditorFactory();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenOperationImpl <em>Gen Operation</em>}' class.
@@ -6129,6 +6227,17 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EDataType PATH = eINSTANCE.getPath();
+
+    /**
+     * The meta object literal for the '<em>Property Editor Factory</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getPropertyEditorFactory()
+     * @since 2.14
+     * @generated
+     */
+    EDataType PROPERTY_EDITOR_FACTORY = eINSTANCE.getPropertyEditorFactory();
 
   }
 

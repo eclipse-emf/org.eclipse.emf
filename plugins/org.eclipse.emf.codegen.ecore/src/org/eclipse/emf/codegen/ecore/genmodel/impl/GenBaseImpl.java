@@ -306,7 +306,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   public GenModel getGenModel()
   {
-    return ((GenBase)eInternalContainer()).getGenModel();
+    GenBase container = (GenBase)eInternalContainer();
+    return container == null ? null : container.getGenModel();
   }
 
   public abstract String getName();

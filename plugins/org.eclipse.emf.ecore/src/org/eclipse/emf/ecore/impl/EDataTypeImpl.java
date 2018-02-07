@@ -352,12 +352,12 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType, EDataTy
             if (eDataTypeDelegateFactory != null)
             {
               conversionDelegate = eDataTypeDelegateFactory.createConversionDelegate(this);
-              conversionDelegateIsSet = true;
               break;
             }
           }
         }
       }
+      conversionDelegateIsSet = true;
     }
     return conversionDelegate;
   }

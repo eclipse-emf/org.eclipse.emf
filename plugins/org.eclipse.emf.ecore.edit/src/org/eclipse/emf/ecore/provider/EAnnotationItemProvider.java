@@ -28,6 +28,8 @@ import org.eclipse.emf.ecore.EAnnotationValidator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -329,7 +331,37 @@ public class EAnnotationItemProvider extends EModelElementItemProvider
         }
       }
 
-      for (String annotationSource : EAnnotationValidator.Registry.INSTANCE.keySet())
+      EObject eContainer = eAnnotation.eContainer();
+      for (EObject eObject = eContainer; eObject != null; eObject = eObject.eContainer())
+      {
+        if (eObject instanceof EPackage)
+        {
+          EPackage ePackage = (EPackage)eObject;
+          if (eContainer instanceof EDataType)
+          {
+            for (String conversionDelegate : EcoreUtil.getConversionDelegates(ePackage))
+            {
+              result.add(conversionDelegate);
+            }
+          }
+          else if (eContainer instanceof EOperation)
+          {
+            for (String invocationDelegate : EcoreUtil.getInvocationDelegates(ePackage))
+            {
+              result.add(invocationDelegate);
+            }
+          }
+          else if (eContainer instanceof EStructuralFeature)
+          {
+            for (String settingDelegate : EcoreUtil.getSettingDelegates(ePackage))
+            {
+              result.add(settingDelegate);
+            }
+          }
+        }
+      }
+
+      for (String annotationSource : EAnnotationValidator.Registry.INSTANCE.keySet().toArray(new String[0]))
       {
         EAnnotationValidator eAnnotationValidator = EAnnotationValidator.Registry.INSTANCE.getEAnnotationValidator(annotationSource);
         if (eAnnotationValidator.isValidLocation(eAnnotation))

@@ -35,6 +35,7 @@ import org.junit.runners.Suite;
       org.eclipse.emf.test.core.ecore.ListTest.class,
       org.eclipse.emf.test.core.ecore.ResourceCacheMechanismTest.class,
       org.eclipse.emf.test.core.ecore.ContentTypeTest.class,
+      org.eclipse.emf.test.core.ecore.DateConversionDelegateTest.class,
       org.eclipse.emf.test.core.ecore.EContentAdapterTest.class,
       org.eclipse.emf.test.core.ecore.PersistenceTest.class,
       org.eclipse.emf.test.core.ecore.ProxyURITest.class,

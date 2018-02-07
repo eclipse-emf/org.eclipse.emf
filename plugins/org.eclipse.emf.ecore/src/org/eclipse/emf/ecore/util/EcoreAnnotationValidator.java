@@ -175,7 +175,7 @@ public final class EcoreAnnotationValidator extends BasicEAnnotationValidator
     dataValues.addAll(newValues);
     if (result || diagnostics != null)
     {
-      Set<String> validKeys = PropertySwitch.VALID_KEYS.get(attribute);
+      Set<String> validKeys = PropertySwitch.getValidKeys(attribute, context);
       if (validKeys != null)
       {
         @SuppressWarnings("unchecked")
@@ -263,7 +263,7 @@ public final class EcoreAnnotationValidator extends BasicEAnnotationValidator
             public boolean validate(EDataType eDataType, Object value, DiagnosticChain diagnostics, Map<Object, Object> context)
             {
               boolean result = super.validate(eDataType, value, diagnostics, context);
-             if (result)
+              if (result)
               {
                 if (eDataType == javaIdentifier)
                 {
@@ -311,6 +311,36 @@ public final class EcoreAnnotationValidator extends BasicEAnnotationValidator
     }
 
     protected abstract void addFeatures(EClass eClass);
+
+    public static Set<String> getValidKeys(EAttribute attribute, Map<Object, Object> context)
+    {
+      @SuppressWarnings("unchecked")
+      Map<EAttribute, Set<String>> validKeys = context == null ? null : (Map<EAttribute, Set<String>>)context.get("VALID_DELEGATE_KEYS");
+      if (validKeys == null)
+      {
+        validKeys = new HashMap<EAttribute, Set<String>>();
+
+        validKeys.put(
+          (EAttribute)ANNOTATION_PACKAGE_CLASS.getEStructuralFeature("settingDelegates"),
+          EStructuralFeature.Internal.SettingDelegate.Factory.Registry.INSTANCE.getTargetPlatformFactories());
+        validKeys.put(
+          (EAttribute)ANNOTATION_PACKAGE_CLASS.getEStructuralFeature("validationDelegates"),
+          EValidator.ValidationDelegate.Registry.INSTANCE.getTargetPlatformFactories());
+        validKeys.put(
+          (EAttribute)ANNOTATION_PACKAGE_CLASS.getEStructuralFeature("invocationDelegates"),
+          EOperation.Internal.InvocationDelegate.Factory.Registry.INSTANCE.getTargetPlatformFactories());
+        validKeys.put(
+          (EAttribute)ANNOTATION_PACKAGE_CLASS.getEStructuralFeature("conversionDelegates"),
+          EDataType.Internal.ConversionDelegate.Factory.Registry.INSTANCE.getTargetPlatformFactories());
+        validKeys.put((EAttribute)ANNOTATION_PACKAGE_CLASS.getEStructuralFeature("queryDelegates"), QueryDelegate.Factory.Registry.INSTANCE.getTargetPlatformFactories());
+
+        if (context != null)
+        {
+          context.put("VALID_DELEGATE_KEYS", validKeys);
+        }
+      }
+      return validKeys.get(attribute);
+    }
 
     @Override
     public Void caseEClassifier(EClassifier eClassifier)

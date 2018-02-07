@@ -25,6 +25,10 @@
             uri="http:///org/eclipse/emf/ecore/util/ExtendedMetaData"
             class="org.eclipse.emf.ecore.provider.annotation.ExtendedMetaDataAnnotationItemProviderAdapterFactory">
       </factory>
+      <factory
+            uri="http:///org/eclipse/emf/ecore/util/DateConversionDelegate"
+            class="org.eclipse.emf.ecore.provider.annotation.DateConversionDelegateAnnotationItemProviderAdapterFactory">
+      </factory>
    </extension>
 
 </plugin>

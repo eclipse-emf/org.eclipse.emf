@@ -11,6 +11,7 @@
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
@@ -78,6 +79,7 @@ public class GenFeatureItemProvider
       addSuppressedIsSetVisibilityPropertyDescriptor(object);
       addSuppressedUnsetVisibilityPropertyDescriptor(object);
       addGetPropertyDescriptor(object);
+      addPropertyEditorFactoryPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -457,6 +459,46 @@ public class GenFeatureItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Property Editor Factory feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated NOT
+   */
+  protected void addPropertyEditorFactoryPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      ((ItemPropertyDescriptor)new GenItemPropertyDescriptor(
+        ((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+        getResourceLocator(),
+        getString("_UI_GenFeature_propertyEditorFactory_feature"),
+        getString("_UI_GenFeature_propertyEditorFactory_description"),
+        GenModelPackage.Literals.GEN_FEATURE__PROPERTY_EDITOR_FACTORY,
+        true,
+        false,
+        false,
+        ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+        getString("_UI_EditPropertyCategory"),
+        null,
+        null) 
+      {
+        @Override
+        public Collection<?> getChoiceOfValues(Object object)
+        {
+          GenFeature genFeature = (GenFeature)object;
+          String propertyEditorFactory = genFeature.getPropertyEditorFactory();
+          return GenDataTypeItemProvider.getPropertyEditorChoices(propertyEditorFactory, genFeature.getEcoreFeature());
+        }
+
+        @Override
+        public boolean isChoiceArbitrary(Object object)
+        {
+          return true;
+        }
+      });
+  }
+
+  /**
    */
   @Override
   public Object getImage(Object object)
@@ -585,6 +627,7 @@ public class GenFeatureItemProvider
       case GenModelPackage.GEN_FEATURE__SUPPRESSED_IS_SET_VISIBILITY:
       case GenModelPackage.GEN_FEATURE__SUPPRESSED_UNSET_VISIBILITY:
       case GenModelPackage.GEN_FEATURE__GET:
+      case GenModelPackage.GEN_FEATURE__PROPERTY_EDITOR_FACTORY:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
     }

@@ -16,7 +16,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses
   ({
-     org.eclipse.emf.test.edit.ui.platform.TestValidateAction.class
+     org.eclipse.emf.test.edit.ui.platform.NebulaDatePropertyEditorFactoryValidationTest.class,
+     org.eclipse.emf.test.edit.ui.platform.TestValidateAction.class,
   })
 public class AllSuites
 {

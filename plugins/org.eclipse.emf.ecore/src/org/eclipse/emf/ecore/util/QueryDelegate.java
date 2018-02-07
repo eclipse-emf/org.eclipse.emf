@@ -11,9 +11,10 @@
 package org.eclipse.emf.ecore.util;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.ecore.EClassifier;
 
 
@@ -50,6 +51,7 @@ public interface QueryDelegate
 
     /**
      * A registry of query delegate factories.
+     * @noimplement Do not implement this interface directly; instead extend {@link Impl}.
      */
     interface Registry extends Map<String, Object>
     {
@@ -57,9 +59,27 @@ public interface QueryDelegate
 
       Factory getFactory(String uri);
 
-      class Impl extends HashMap<String, Object> implements Registry
+      /**
+       * Returns the factories registered in the target platform when running with the Eclipse Plug-in Development environment,
+       * a copy of the {@link #keySet()} otherwise.
+       * @since 2.14
+       */
+      Set<String> getTargetPlatformFactories();
+
+      class Impl extends CommonPlugin.SimpleTargetPlatformRegistryImpl<String, Object> implements Registry
       {
         private static final long serialVersionUID = 1L;
+
+        public Set<String> getTargetPlatformFactories()
+        {
+          return getTargetPlatformValues("org.eclipse.emf.ecore.query_delegate", "uri");
+        }
+
+        @Override
+        protected String createKey(String attribute)
+        {
+          return attribute;
+        }
 
         @Override
         public Object get(Object key)

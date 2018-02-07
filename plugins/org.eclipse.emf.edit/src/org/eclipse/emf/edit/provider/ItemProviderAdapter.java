@@ -2988,20 +2988,56 @@ public class ItemProviderAdapter
     String category,
     String[] filterFlags)
   {
-    return new ItemPropertyDescriptor(
-      adapterFactory,
-      resourceLocator,
-      displayName,
-      description,
-      feature,
-      isSettable,
-      multiLine,
-      sortChoices,
-      staticImage,
-      category,
-      filterFlags);
+    return createItemPropertyDescriptor
+      (adapterFactory,
+       resourceLocator,
+       displayName,
+       description,
+       feature,
+       isSettable,
+       multiLine,
+       sortChoices,
+       staticImage,
+       category,
+       filterFlags,
+       null);
   }
-  
+
+  /**
+   * Creates an instance that uses a resource locator; indicates whether to be multi-line and to sort choices; specifies
+   * a static image, a category, and filter flags; and determines the cell editor from the property editor factory.
+   * @since 2.14
+   */
+  protected ItemPropertyDescriptor createItemPropertyDescriptor(
+    AdapterFactory adapterFactory,
+    ResourceLocator resourceLocator,
+    String displayName,
+    String description,
+    EStructuralFeature feature,
+    boolean isSettable,
+    boolean multiLine,
+    boolean sortChoices,
+    Object staticImage,
+    String category,
+    String[] filterFlags,
+    Object propertyEditorFactory)
+  {
+    return 
+      new ItemPropertyDescriptor
+        (adapterFactory,
+         resourceLocator,
+         displayName,
+         description,
+         feature,
+         isSettable,
+         multiLine,
+         sortChoices,
+         staticImage,
+         category,
+         filterFlags,
+         propertyEditorFactory);
+  }
+
   /**
    * A <code>ResultAndAffectedObjectsWrappingCommand</code> wraps another command to substitute {@link
    * IWrapperItemProvider}s for their values in the command's result and affected objects. This is needed

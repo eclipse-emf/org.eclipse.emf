@@ -15,6 +15,8 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.MissingResourceException;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -738,7 +740,7 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
    */
   protected boolean validateDetails(EAnnotation eAnnotation, EModelElement eModelElement, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    boolean result = false;
+    boolean result = true;
     Map<String, EStructuralFeature> properties = new LinkedHashMap<String, EStructuralFeature>(getProperties(eModelElement));
     for (Map.Entry<String, String> entry : eAnnotation.getDetails())
     {
@@ -1165,7 +1167,7 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
     {
       if (feature.isRequired())
       {
-        if (size != 0 || values.get(0) == null)
+        if (size == 0 || values.get(0) == null)
         {
           result = false;
           if (diagnostics != null)
@@ -1269,7 +1271,16 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
       Object value = EcoreUtil.createFromString(dataType, literalValue);
       dataValues.add(value);
       EValidator rootEValidator = getRootEValidator(context);
-      result = rootEValidator == null || rootEValidator.validate(dataType, value, diagnostics, context);
+      ValidationContext validationContext = new ValidationContext(eAnnotation, eModelElement, entry, attribute);
+      context.put(ValidationContext.CONTEXT_KEY, validationContext);
+      try
+      {
+        result = rootEValidator == null || rootEValidator.validate(dataType, value, diagnostics, context);
+      }
+      finally
+      {
+        context.remove(ValidationContext.CONTEXT_KEY);
+      }
     }
     catch (RuntimeException exception)
     {
@@ -1688,7 +1699,18 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
    */
   protected String getValidLocationDescription()
   {
-    return getString(getResourceLocator(), "_UI_Valid" + annotationName + "AnnotationLocation_substitution");
+    String description;
+    try
+    {
+      description = getString(getResourceLocator(), "_UI_Valid" + annotationName + "AnnotationLocation_substitution");
+    }
+    catch (MissingResourceException exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+      description = "unknown; Implementation error for " + getClass().getName() + ":" + exception.getLocalizedMessage();
+    }
+
+    return description;
   }
 
   /**
@@ -2008,6 +2030,89 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
     public Collection<? extends EAnnotation> getValidAnnotations(EAnnotation eAnnotation, Collection<? extends EAnnotation> annotations)
     {
       return eAnnotationValidator.getAllValidAnnotations(eAnnotation, eAnnotation.getEModelElement(), annotations);
+    }
+  }
+
+  /**
+   * Context data used by {@link BasicEAnnotationValidator#validateAttributeDetailValueLiteral(EAnnotation, EModelElement, Entry, EAttribute, String, List, DiagnosticChain, Map) validateAttributeDetailValueLiteral} 
+   * to pass contextual information that can be used when a data type's value is {@link EValidator#validate(EDataType, Object, DiagnosticChain, Map) validated}.
+   */
+  public static class ValidationContext
+  {
+    /**
+     * The key used in the context map.
+     */
+    public static final String CONTEXT_KEY = "EANNOTATION_VALIDATION_CONTEXT";
+
+    /**
+     * The annotation being validated.
+     */
+    private final EAnnotation eAnnotation;
+
+    /**
+     * The model element containing that annotation.
+     */
+    private final EModelElement eModelElement;
+
+    /**
+     * The detail entry being validated.
+     */
+    private final Entry<String, String> entry;
+
+    /**
+     * The attribute of the data type.
+     */
+    private final EAttribute eAttribute;
+
+    /**
+     * Creates an instance.
+     * @param eAnnotation the annotation being validated.
+     * @param eModelElement the model element containing that annotation.
+     * @param entry the detail entry being validated.
+     * @param eAttribute the structural feature of the data type.
+     */
+    public ValidationContext(EAnnotation eAnnotation, EModelElement eModelElement, Entry<String, String> entry, EAttribute eAttribute)
+    {
+      this.eAnnotation = eAnnotation;
+      this.eModelElement = eModelElement;
+      this.entry = entry;
+      this.eAttribute = eAttribute;
+    }
+
+    /**
+     * Returns the annotation being validated.
+     * @return the annotation being validated.
+     */
+    public EAnnotation getEAnnotation()
+    {
+      return eAnnotation;
+    }
+
+    /**
+     * The containing model elements of the annotation being validated.
+     * @return the containing model elements of the annotation being validated.
+     */
+    public EModelElement getEModelElement()
+    {
+      return eModelElement;
+    }
+
+    /**
+     * The {@link EAnnotation#getDetails() detail entry} being validated.
+     * @return the detail entry being validated.
+     */
+    public Entry<String, String> getEntry()
+    {
+      return entry;
+    }
+
+    /**
+     * The attribute of the data type being validated.
+     * @return the attribute of the data type being validated.
+     */
+    public EAttribute getEAttribute()
+    {
+      return eAttribute;
     }
   }
 }

@@ -120,6 +120,8 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
         return createGenEclipsePlatformVersionFromString(eDataType, initialValue);
       case GenModelPackage.PATH:
         return createPathFromString(eDataType, initialValue);
+      case GenModelPackage.PROPERTY_EDITOR_FACTORY:
+        return createPropertyEditorFactoryFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -155,6 +157,8 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
         return convertGenEclipsePlatformVersionToString(eDataType, instanceValue);
       case GenModelPackage.PATH:
         return convertPathToString(eDataType, instanceValue);
+      case GenModelPackage.PROPERTY_EDITOR_FACTORY:
+        return convertPropertyEditorFactoryToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -501,6 +505,28 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
   public String convertPathToString(EDataType eDataType, Object instanceValue)
   {
     return (String)instanceValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public String createPropertyEditorFactoryFromString(EDataType eDataType, String initialValue)
+  {
+    return (String)super.createFromString(eDataType, initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public String convertPropertyEditorFactoryToString(EDataType eDataType, Object instanceValue)
+  {
+    return super.convertToString(eDataType, instanceValue);
   }
 
   /**

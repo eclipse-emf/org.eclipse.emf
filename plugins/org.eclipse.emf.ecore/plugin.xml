@@ -70,6 +70,10 @@
             location="model/EcoreAnnotation.ecore"
             uri="http:///org/eclipse/emf/ecore/util/EcoreAnnotation">
       </resource>
+      <resource
+            location="model/DateConversionDelegateAnnotation.ecore"
+            uri="http:///org/eclipse/emf/ecore/util/DateConversionDelegateAnnotation">
+      </resource>
    </extension>
 
    <extension
@@ -98,6 +102,18 @@
             uri="http:///org/eclipse/emf/ecore/util/ExtendedMetaData"
             class="org.eclipse.emf.ecore.util.ExtendedMetaDataAnnotationValidator">
       </validator>
+      <validator
+            uri="http:///org/eclipse/emf/ecore/util/DateConversionDelegate"
+            class="org.eclipse.emf.ecore.util.DateConversionDelegateFactory$AnnotationValidator">
+      </validator>
+   </extension>
+
+   <extension
+         point="org.eclipse.emf.ecore.conversion_delegate">
+      <factory
+            class="org.eclipse.emf.ecore.util.DateConversionDelegateFactory"
+            uri="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
+      </factory>
    </extension>
 
 </plugin>

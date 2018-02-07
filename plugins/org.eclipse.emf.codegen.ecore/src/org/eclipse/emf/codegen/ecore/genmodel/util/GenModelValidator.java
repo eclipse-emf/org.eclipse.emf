@@ -10,7 +10,9 @@
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
+import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -21,14 +23,21 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.genmodel.*;
 import org.eclipse.emf.codegen.ecore.genmodel.impl.Literals;
+import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.ecore.util.BasicEAnnotationValidator;
+import org.eclipse.emf.ecore.util.BasicEAnnotationValidator.ValidationContext;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 
 /**
@@ -76,6 +85,11 @@ public class GenModelValidator extends EObjectValidator
    * @see #validatePath_WellFormedPath(String, DiagnosticChain, Map)
    */
   public static final int WELL_FORMED_PATH = GENERATED_DIAGNOSTIC_CODE_COUNT + 2;
+
+  /**
+   * @see #validatePath_WellFormedPath(String, DiagnosticChain, Map)
+   */
+  public static final int VALID_PROPERTY_EDIT_FACTORY = GENERATED_DIAGNOSTIC_CODE_COUNT + 3;
   
   /**
    * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
@@ -83,7 +97,113 @@ public class GenModelValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected static final int DIAGNOSTIC_CODE_COUNT = WELL_FORMED_PATH;
+  protected static final int DIAGNOSTIC_CODE_COUNT = VALID_PROPERTY_EDIT_FACTORY;
+
+  /**
+   * This supports delegation to the validator of the IPropertyEditorFactory.
+   * It is done reflectively avoid avoid a hard dependency on EMF.Edit.
+   *
+   * @since 2.14
+   */
+  protected abstract static class PropertyEditorFactoryValidator
+  {
+    public abstract boolean validatePropertyEditorFactory(EModelElement eModelElement, String propertyEditorFactory, DiagnosticChain diagnostics, Map<Object, Object> context);
+  }
+
+  /**
+   * The one instance of the {@link PropertyEditorFactoryValidator}.
+   *
+   * @since 2.14
+   */
+  protected static final PropertyEditorFactoryValidator PROPERTY_EDITOR_FACTORY_VALIDATOR;
+
+  static
+  {
+    PropertyEditorFactoryValidator propertyEditorFactoryValidator = null;
+    try
+    {
+      final Class<?> propertyEditorFactoryRegistryClass = CommonPlugin.loadClass("org.eclipse.emf.edit", "org.eclipse.emf.edit.provider.IPropertyEditorFactory$Registry");
+      final Object registryInstance = propertyEditorFactoryRegistryClass.getField("INSTANCE").get(null);
+
+      final Method getPropertyEditorFactoryMethod = propertyEditorFactoryRegistryClass.getMethod("getPropertyEditorFactory", Object.class);
+      final Method getTargetPlatformFactoriesMethod = propertyEditorFactoryRegistryClass.getMethod("getTargetPlatformFactories");
+
+      Class<?> propertyEditorFactoryClass = CommonPlugin.loadClass("org.eclipse.emf.edit", "org.eclipse.emf.edit.provider.PropertyEditorFactory");
+      final Method validateMethod = propertyEditorFactoryClass.getMethod("validate", EModelElement.class, URI.class, DiagnosticChain.class, Map.class);
+
+      propertyEditorFactoryValidator = new PropertyEditorFactoryValidator()
+        {
+          @Override
+          public boolean validatePropertyEditorFactory(EModelElement eModelElement, String propertyEditorFactory, DiagnosticChain diagnostics, Map<Object, Object> context)
+          {
+            if (propertyEditorFactory != null && propertyEditorFactory.trim().length() != 0)
+            {
+              try
+              {
+                URI propertyEditorFactoryURI = URI.createURI(propertyEditorFactory);
+                Object propertyEditorFactoryInstance = getPropertyEditorFactoryMethod.invoke(registryInstance, propertyEditorFactoryURI);
+                if (propertyEditorFactoryInstance != null)
+                {
+                  return (Boolean)validateMethod.invoke(propertyEditorFactoryInstance, eModelElement, propertyEditorFactoryURI, diagnostics, context);
+                }
+                else
+                {
+                  // We cache this set of IPropertyFactoryEditors registered in the target platform because it's relatively expensive to compute.
+                  //
+                  @SuppressWarnings("unchecked")
+                  Set<URI> targetPlatformPropertyEditorFactories = context == null ? null : (Set<URI>)context.get("TARGET_PLATFORM_PROPERTY_EDITOR_FACTORIES");
+                  if (targetPlatformPropertyEditorFactories == null)
+                  {
+                    @SuppressWarnings("unchecked")
+                    Set<URI> computedTargetPlatformPropertyEditorFactories = (Set<URI>)getTargetPlatformFactoriesMethod.invoke(registryInstance);
+                    targetPlatformPropertyEditorFactories = computedTargetPlatformPropertyEditorFactories;
+                    if (context != null)
+                    {
+                      context.put("TARGET_PLATFORM_PROPERTY_EDITOR_FACTORIES", targetPlatformPropertyEditorFactories);
+                    }
+                  }
+
+                  // This uses the same algorithm for looking up the registered property editor factory.
+                  //
+                  URI baseURI = propertyEditorFactoryURI.trimQuery().trimFragment();
+                  for (int i = 0, count = baseURI.segmentCount(); i <= count; ++i)
+                  {
+                    URI uri = baseURI.trimSegments(i);
+                    if (targetPlatformPropertyEditorFactories.contains(uri))
+                    {
+                      return true;
+                    }
+                  }
+
+                  if (diagnostics != null)
+                  {
+                    diagnostics.add(
+                      new BasicDiagnostic(
+                        Diagnostic.WARNING,
+                        DIAGNOSTIC_SOURCE,
+                        VALID_PROPERTY_EDIT_FACTORY,
+                        CodeGenEcorePlugin.INSTANCE.getString("_URI_ValidPropertyFactoryEditor_diagnostic", new Object[] { propertyEditorFactoryURI }),
+                        new Object []{ propertyEditorFactory }));
+                  }
+
+                  return false;
+                }
+              }
+              catch (Exception exception)
+              {
+                // Ignore.
+              }
+            }
+            return true;
+          }
+        };
+    }
+    catch (Exception exception)
+    {
+      // Ignore.
+    }
+    PROPERTY_EDITOR_FACTORY_VALIDATOR = propertyEditorFactoryValidator;
+  }
 
   /**
    * Creates an instance of the switch.
@@ -167,6 +287,8 @@ public class GenModelValidator extends EObjectValidator
         return validateGenEclipsePlatformVersion((GenEclipsePlatformVersion)value, diagnostics, context);
       case GenModelPackage.PATH:
         return validatePath((String)value, diagnostics, context);
+      case GenModelPackage.PROPERTY_EDITOR_FACTORY:
+        return validatePropertyEditorFactory((String)value, diagnostics, context);
       default:
         return true;
     }
@@ -275,6 +397,18 @@ public class GenModelValidator extends EObjectValidator
     return
       eStructuralFeature == GenModelPackage.Literals.GEN_DATA_TYPE__ECORE_DATA_TYPE && eObject instanceof GenEnum ||
       super.validate_MultiplicityConforms(eObject, eStructuralFeature, diagnostics, context);
+  }
+
+  @Override
+  protected boolean validate_DataValueConforms(EObject eObject, EAttribute eAttribute, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = super.validate_DataValueConforms(eObject, eAttribute, diagnostics, context);
+    if (result && eAttribute.getEType() == GenModelPackage.Literals.PROPERTY_EDITOR_FACTORY)
+    {
+      String propertyEditorFactory = (String)eObject.eGet(eAttribute);
+      result = validatePropertyEditorFactory(((GenBase)eObject).getEcoreModelElement(), propertyEditorFactory, diagnostics, context);
+    }
+    return result;
   }
 
   /**
@@ -514,6 +648,40 @@ public class GenModelValidator extends EObjectValidator
     
     return status.getSeverity() != IStatus.ERROR;
   }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated NOT
+   */
+  public boolean validatePropertyEditorFactory(String propertyEditorFactory, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    BasicEAnnotationValidator.ValidationContext validationContext = (ValidationContext)context.get(BasicEAnnotationValidator.ValidationContext.CONTEXT_KEY);
+    if (validationContext != null)
+    {
+      EModelElement eModelElement = validationContext.getEModelElement();
+      return validatePropertyEditorFactory(eModelElement, propertyEditorFactory, diagnostics, context);
+    }
+    return true;
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected boolean validatePropertyEditorFactory(EModelElement eModelElement, String propertyEditorFactory, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    if (propertyEditorFactory != null && PROPERTY_EDITOR_FACTORY_VALIDATOR != null)
+    {
+        return PROPERTY_EDITOR_FACTORY_VALIDATOR.validatePropertyEditorFactory(eModelElement, propertyEditorFactory, diagnostics, context);
+    }
+    else
+    {
+      return true;
+    }
+  }
+  
+  
 
   /**
    * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.

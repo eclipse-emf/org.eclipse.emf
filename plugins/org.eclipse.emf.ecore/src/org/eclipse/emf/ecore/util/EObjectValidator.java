@@ -2091,4 +2091,71 @@ public class EObjectValidator implements EValidator
   {
     return substitutions == null ? resourceLocator.getString(key) : resourceLocator.getString(key, substitutions);
   }
+
+  /**
+   * Composes a localized message from the collection of choices
+   * with each choice value surrounded by the given quote character, except if the choice value is {@code null}.
+   * Each choice value will be {@link String#valueOf(Object) converted} to a string, for {@code Class} value, it will use the class {@link Class#getName() name}.
+   * <p>
+   * Example usage with results for the default locale:
+   * </p>
+   * <pre>
+   *   ({}, true, "'", Integer.MAX_INT)                 &rarr;   none available
+   *   ({"a", "b"}, true, "'", Integer.MAX_INT)         &rarr;   'a' and 'b'
+   *   ({"a", "b", "c"}, false, "", Integer.MAX_INT)    &rarr;   a, b, or c
+   *   ({"a", "b", "c", "d"}, false, "", 3)    ->       &rarr;   a, b, c, &hellip;
+   * </pre>
+   * @param choices a collection of choice values.
+   * @param inclusive whether this an inclusive choice, i.e., one or more possible, e.g., {@code 'and'}, or an exclusive choice, i.e., only one possible, e.g., {@code 'or'}.
+   * @param quote the quotation characters used to bracket each choice value; use the empty string for no quotations.
+   * @param limit the maximum number to compose before terminating with an ellipsis.
+   * @return a localized messages for the collection of choices.
+   * @since 2.14
+   */
+  public String getAvailableChoices(Collection<?> choices, boolean inclusive, String quote, int limit)
+  {
+    if (choices.isEmpty())
+    {
+      return "none available";
+    }
+    else if (choices.size() == 1)
+    {
+      return quote(choices.iterator().next(), quote);
+    }
+    else
+    {
+      Iterator<?> i = choices.iterator();
+      String result = quote(i.next(), quote);
+      ResourceLocator ecoreResourceLocator = getEcoreResourceLocator();
+      if (choices.size() == 2)
+      {
+        return getString(ecoreResourceLocator, "_UI_SimpleListTrivialOr_composition", new Object[] { result, quote(i.next(), quote) });
+      }
+
+      for (int count = 2; i.hasNext(); ++count)
+      {
+        String next = quote(i.next(), quote);
+        if (i.hasNext())
+        {
+          result = getString(ecoreResourceLocator, "_UI_SimpleListIntermediate_composition", new Object[] { result, next });
+        }
+        else
+        {
+          result = getString(ecoreResourceLocator, inclusive ? "_UI_SimpleListTailAnd_composition" : "_UI_SimpleListTailOr_composition", new Object[] { result, next });
+        }
+
+        if (count == limit)
+        {
+          result = getString(ecoreResourceLocator, "_UI_SimpleListTailLimited_composition", new Object[] { result });
+          break;
+        }
+      }
+      return result;
+    }
+  }
+
+  private static String quote(Object value, String quote)
+  {
+    return value == null ? "null" : quote + (value instanceof Class<?> ? ((Class<?>)value).getName() : value) + quote;
+  }
 }
