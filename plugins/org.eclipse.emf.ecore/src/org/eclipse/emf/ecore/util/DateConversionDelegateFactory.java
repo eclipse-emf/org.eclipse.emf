@@ -50,7 +50,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * A {@link org.eclipse.emf.ecore.EDataType.Internal.ConversionDelegate.Factory conversion delegate factory} 
- * for converting {@link Date}, {@link Calendar}, and {@link XMLGregorianCalendar} instances to and from a string representation.
+ * for converting {@link Date}, {@link java.sql.Date}, {@link Calendar}, {@link GregorianCalendar}, and {@link XMLGregorianCalendar} instances to and from a string representation.
  * <p>
  * The annotation detail for the {@code "format"} key of this annotation must be present and the value must be one of the following forms:
  * <p>
