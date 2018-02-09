@@ -11,6 +11,7 @@
 package org.eclipse.emf.ecore.provider;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,8 +22,10 @@ import java.util.Set;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -33,6 +36,7 @@ import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -154,17 +158,54 @@ public class EModelElementItemProvider
    * that can be created under this object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   @Override
   protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
 
-    newChildDescriptors.add
-      (createChildParameter
-        (EcorePackage.Literals.EMODEL_ELEMENT__EANNOTATIONS,
-         EcoreFactory.eINSTANCE.createEAnnotation()));
+    EModelElement eModelElement = (EModelElement)object;
+
+    // Collect the sources we will use for creating annotations.
+    // It will always include null which will always be first.
+    //
+    Collection<String> sources = new ArrayList<String>();
+    sources.add(null);
+
+    // Create an annotation that we will temporarily add as a child.
+    // We will disable notifications because no adapter should see this happen.
+    //
+    EList<EAnnotation> eAnnotations = eModelElement.getEAnnotations();
+    EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+    eModelElement.eSetDeliver(false);
+    try
+    {
+      // Add the annotation
+      eAnnotations.add(eAnnotation);
+      IItemPropertyDescriptor propertyDescriptor = new AdapterFactoryItemDelegator(getRootAdapterFactory()).getPropertyDescriptor(
+        eAnnotation,
+        EcorePackage.Literals.EANNOTATION__SOURCE);
+      @SuppressWarnings("unchecked")
+      Collection<String> choiceOfValues = (Collection<String>)propertyDescriptor.getChoiceOfValues(eAnnotation);
+      sources.addAll(choiceOfValues);
+    }
+    finally
+    {
+      // No matter what might go wrong, we will remove the annotation, re-enable notification, and clear any adapters added to the annotation.
+      eAnnotations.remove(eAnnotation);
+      eModelElement.eSetDeliver(true);
+      eAnnotation.eAdapters().clear();
+    }
+
+    // Create a child descriptor for each source.
+    //
+    for (String source : sources)
+    {
+      eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+      eAnnotation.setSource(source);
+      newChildDescriptors.add(createChildParameter(EcorePackage.Literals.EMODEL_ELEMENT__EANNOTATIONS, eAnnotation));
+    }
   }
 
   /**

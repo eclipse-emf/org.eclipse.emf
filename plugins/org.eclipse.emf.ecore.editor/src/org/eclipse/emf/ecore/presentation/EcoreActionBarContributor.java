@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -50,8 +51,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
@@ -64,6 +67,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -823,7 +827,7 @@ public class EcoreActionBarContributor
             continue;
           }
         }
-        actions.add(new CreateChildAction(activeEditorPart, selection, descriptor));
+        actions.add(new EcoreCreateChildAction(activeEditorPart, selection, descriptor));
       }
     }
     return actions;
@@ -851,7 +855,7 @@ public class EcoreActionBarContributor
             continue;
           }
         }
-        actions.add(new CreateSiblingAction(activeEditorPart, selection, descriptor));
+        actions.add(new EcoreCreateSiblingAction(activeEditorPart, selection, descriptor));
       }
     }
     return actions;
@@ -873,21 +877,83 @@ public class EcoreActionBarContributor
    * If <code>contributionID</code> is <code>null</code>, they are simply added.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected void populateManager(IContributionManager manager, Collection<? extends IAction> actions, String contributionID)
   {
     if (actions != null)
     {
+      // Look for actions that create EAnnotations.
+      //
+      Set<IAction> ignoredActions = new HashSet<IAction>();
+      Set<IAction> annotationActions = new LinkedHashSet<IAction>();
       for (IAction action : actions)
       {
+        if (action instanceof EObjectProvider)
+        {
+          EObjectProvider eObjectProvider = (EObjectProvider)action;
+          EObject eObject = eObjectProvider.getEObject();
+          if (eObject instanceof EAnnotation)
+          {
+            annotationActions.add(action);
+            ignoredActions.add(action);
+          }
+        }
+      }
+
+      // If there is more than one action that creates an annotation...
+      //
+      if (annotationActions.size() > 1)
+      {
+        // Create a menu manager to group them.
+        // This assumes the first action is one for the null source.
+        //
+        IAction action = annotationActions.iterator().next();
+        String actionText = action.getText();
+        MenuManager annotationMenuManager = new MenuManager(actionText);
+        annotationMenuManager.setImageDescriptor(action.getImageDescriptor());
+
+        // Add that menu manager instead of the individual actions.
         if (contributionID != null)
         {
-          manager.insertBefore(contributionID, action);
+          manager.insertBefore(contributionID, annotationMenuManager);
         }
         else
         {
-          manager.add(action);
+          manager.add(annotationMenuManager);
+        }
+
+        // Add an item for each annotation action.
+        //
+        for (IAction annotationAction : annotationActions)
+        {
+          annotationMenuManager.add(annotationAction);
+          String source = ((EAnnotation)((EObjectProvider)annotationAction).getEObject()).getSource();
+          if (source != null)
+          {
+            // Set the label to include the source.
+            //
+            annotationAction.setText(actionText + " - " + source);
+          }
+        }
+      }
+      else
+      {
+        ignoredActions.clear();
+      }
+
+      for (IAction action : actions)
+      {
+        if (!ignoredActions.contains(action))
+        {
+          if (contributionID != null)
+          {
+            manager.insertBefore(contributionID, action);
+          }
+          else
+          {
+            manager.add(action);
+          }
         }
       }
     }
@@ -980,4 +1046,111 @@ public class EcoreActionBarContributor
     return true;
   }
 
+  /**
+   * An interface implemented by {@link EcoreCreateChildAction} and {@link EcoreCreateSiblingAction} to provide access to the data in the descriptor.
+   * @since 2.14
+   */
+  public interface EObjectProvider
+  {
+    public EObject getEObject();
+  }
+
+  /**
+   * A create child action subclass that provides access to the {@link #descriptor} and specializes {@link #run()} to show the properties view.
+   * @since 2.14
+   */
+  public class EcoreCreateChildAction extends CreateChildAction implements EObjectProvider
+  {
+    public EcoreCreateChildAction(IWorkbenchPart workbenchPart, ISelection selection, Object descriptor)
+    {
+      super(workbenchPart, selection, descriptor);
+    }
+
+    public EObject getEObject()
+    {
+      if (descriptor instanceof CommandParameter)
+      {
+        CommandParameter commandParameter = (CommandParameter)descriptor;
+        return commandParameter.getEValue();
+      }
+      else
+      {
+        return null;
+      }
+    }
+
+    @Override
+    public void run()
+    {
+      super.run();
+
+      // This is dispatched twice because the command stack listener dispatches once and then the viewer selection is also dispatches once,
+      // and we need to delay until the selection is established.
+      //
+      final Display display = EcoreActionBarContributor.this.getPage().getWorkbenchWindow().getShell().getDisplay();
+      display.asyncExec(new Runnable()
+        {
+          public void run()
+          {
+            display.asyncExec(new Runnable()
+              {
+                public void run()
+                {
+                  showPropertiesViewAction.run();
+                }
+              });
+          }
+        });
+    }
+  }
+
+  /**
+   * A create sibling action subclass that provides access to the {@link #descriptor} and specializes {@link #run()} to show the properties view.
+   *
+   * @since 2.14
+   */
+  public class EcoreCreateSiblingAction extends CreateSiblingAction implements EObjectProvider
+  {
+    public EcoreCreateSiblingAction(IWorkbenchPart workbenchPart, ISelection selection, Object descriptor)
+    {
+      super(workbenchPart, selection, descriptor);
+    }
+
+    public EObject getEObject()
+    {
+      if (descriptor instanceof CommandParameter)
+      {
+        CommandParameter commandParameter = (CommandParameter)descriptor;
+        return commandParameter.getEValue();
+      }
+      else
+      {
+        return null;
+      }
+    }
+
+    @Override
+    public void run()
+    {
+      super.run();
+
+      // This is dispatched twice because the command stack listener dispatches once and then the viewer selection is also dispatches once,
+      // and we need to delay until the selection is established.
+      //
+      final Display display = EcoreActionBarContributor.this.getPage().getWorkbenchWindow().getShell().getDisplay();
+      display.asyncExec(new Runnable()
+        {
+          public void run()
+          {
+            display.asyncExec(new Runnable()
+              {
+                public void run()
+                {
+                  showPropertiesViewAction.run();
+                }
+              });
+          }
+        });
+    }
+  }
 }
