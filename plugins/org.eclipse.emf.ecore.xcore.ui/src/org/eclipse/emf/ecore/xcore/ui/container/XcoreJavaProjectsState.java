@@ -37,7 +37,7 @@ public class XcoreJavaProjectsState extends JavaProjectsState
     String result = getJavaProjectsHelper().initHandle(uri);
     if (result == null && uri.isPlatformResource() && uri.segmentCount() > 1)
     {
-      IProject project = getWorkspaceRoot().getProject(uri.segment(1));
+      IProject project = getWorkspaceRoot().getProject(URI.decode(uri.segment(1)));
       IJavaProject javaProject = JavaCore.create(project);
       result = javaProject.exists() ? javaProject.getHandleIdentifier() : project.getName();
     }
