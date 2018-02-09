@@ -683,7 +683,7 @@ public class NebulaDatePropertyEditorFactory extends EMFEditUIPropertyEditorFact
       try
       {
         Class<?> cdtClass = CommonPlugin.loadClass("org.eclipse.nebula.widgets.cdatetime", "org.eclipse.nebula.widgets.cdatetime.CDT");
-        Pattern styleNamePattern = Pattern.compile("[A-Z_]*");
+        Pattern styleNamePattern = Pattern.compile("[A-Z124_]*");
         for (Field field : cdtClass.getFields())
         {
           String name = field.getName();
@@ -708,7 +708,6 @@ public class NebulaDatePropertyEditorFactory extends EMFEditUIPropertyEditorFact
               // else
               // {
               //   literal = "1 << " + binaryString.length();
-              //   
               // }
               // System.out.println("CDT_STYLES.put(\"" + name + "\", " + literal + ");");
             }
@@ -755,6 +754,8 @@ public class NebulaDatePropertyEditorFactory extends EMFEditUIPropertyEditorFact
         CDT_STYLES.put("TAB_FIELDS", 1 << 26);
         CDT_STYLES.put("SPINNER", 1 << 27);
         CDT_STYLES.put("CLOCK_DISCRETE", 1 << 28);
+        CDT_STYLES.put("CLOCK_12_HOUR", 1 << 29);
+        CDT_STYLES.put("CLOCK_24_HOUR", 1 << 30);
         CDT_STYLES.put("MULTI", 1 << 31);
       }
 

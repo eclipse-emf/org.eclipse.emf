@@ -56,7 +56,7 @@ public class DateConversionDelegateTest
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
     Resource ecoreResource = resourceSet.getResource(logicalURI, true);
 
-    Class<?>[] validClasses = new Class []{ Date.class, /*java.sql.Date.class,*/ Calendar.class, GregorianCalendar.class, XMLGregorianCalendar.class };
+    Class<?>[] validClasses = new Class []{ long.class, Long.class, Date.class, /*java.sql.Date.class,*/ Calendar.class, GregorianCalendar.class, XMLGregorianCalendar.class };
     String[] formats = new String []{
       "//Long",
       "//SimpleDateFormat/yyyy-MM-dd'T'HH:mm:ss'.'SSSS",
@@ -238,7 +238,15 @@ public class DateConversionDelegateTest
         message += " -> " + literal;
         Object value = EcoreUtil.createFromString(eDataType, literal);
         message += " : " + value.getClass().getName();
-        Assert.assertTrue(message, eDataType.getInstanceClass().isInstance(value));
+        Class<?> instanceClass = eDataType.getInstanceClass();
+        if (instanceClass.isPrimitive())
+        {
+          Assert.assertTrue(message + " -> " + value.getClass(), Long.class.isInstance(value));
+        }
+        else
+        {
+          Assert.assertTrue(message + " -> " + value.getClass(), instanceClass.isInstance(value));
+        }
         String convertedLiteral = EcoreUtil.convertToString(eDataType, value);
         Assert.assertEquals(message, literal, convertedLiteral);
       }

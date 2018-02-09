@@ -50,7 +50,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * A {@link org.eclipse.emf.ecore.EDataType.Internal.ConversionDelegate.Factory conversion delegate factory} 
- * for converting {@link Date}, {@link java.sql.Date}, {@link Calendar}, {@link GregorianCalendar}, and {@link XMLGregorianCalendar} instances to and from a string representation.
+ * for converting {@link Long#TYPE long}, {@link Long} {@link Date}, {@link java.sql.Date}, {@link Calendar}, {@link GregorianCalendar}, and {@link XMLGregorianCalendar} instances to and from a string representation.
  * <p>
  * The annotation detail for the {@code "format"} key of this annotation must be present and the value must be one of the following forms:
  * <p>
@@ -294,7 +294,19 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
     {
       URI formatURI = URI.createURI(format);
       Class<?> instanceClass = eDataType.getInstanceClass();
-      if (instanceClass == Date.class)
+      if (instanceClass == long.class || instanceClass == Long.class)
+      {
+        if ("Long".equals(formatURI.authority()))
+        {
+          return LongAsLongConversionDelegate.INSTANCE;
+        }
+        else
+        {
+          DateFormat dateFormat = getDateFormat(formatURI);
+          return new LongAsDateConversionDelegate(dateFormat);
+        }
+      }
+      else if (instanceClass == Date.class)
       {
         if ("Long".equals(formatURI.authority()))
         {
@@ -372,7 +384,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
         AnnotationValidator.INSTANCE.throwIllegalArgumentException(
           AnnotationValidator.INVALID_INSTANCE_TYPE,
           eDataType.getInstanceTypeName(),
-          Arrays.asList(new Object []{ Date.class, java.sql.Date.class, Calendar.class, XMLGregorianCalendar.class }));
+          Arrays.asList(new Object []{ long.class, Long.class, Date.class, java.sql.Date.class, Calendar.class, XMLGregorianCalendar.class }));
       }
     }
 
@@ -891,6 +903,80 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
     }
   }
 
+  private static class LongAsLongConversionDelegate implements EDataType.Internal.ConversionDelegate
+  {
+    private static final LongAsLongConversionDelegate INSTANCE = new LongAsLongConversionDelegate();
+
+    private LongAsLongConversionDelegate()
+    {
+    }
+
+    public String convertToString(Object value)
+    {
+      if (value == null)
+      {
+        return null;
+      }
+      else
+      {
+        return Long.toString((Long)value);
+      }
+    }
+
+    public Object createFromString(String literal)
+    {
+      if (literal == null)
+      {
+        return null;
+      }
+      else
+      {
+        return Long.parseLong(literal);
+      }
+    }
+  }
+
+  private static class LongAsDateConversionDelegate implements EDataType.Internal.ConversionDelegate
+  {
+    private final DateFormat dateFormat;
+
+    public LongAsDateConversionDelegate(DateFormat dateFormat)
+    {
+      this.dateFormat = dateFormat;
+    }
+
+    public synchronized String convertToString(Object value)
+    {
+      if (value == null)
+      {
+        return null;
+      }
+      else
+      {
+        return dateFormat.format(new Date((Long)value));
+      }
+    }
+
+    public synchronized Object createFromString(String literal)
+    {
+      if (literal == null)
+      {
+        return null;
+      }
+      else
+      {
+        try
+        {
+          return dateFormat.parse(literal).getTime();
+        }
+        catch (ParseException exception)
+        {
+          throw new IllegalArgumentException(exception);
+        }
+      }
+    }
+  }
+  
   private static class DateAsLongConversionDelegate implements EDataType.Internal.ConversionDelegate
   {
     private static final DateAsLongConversionDelegate INSTANCE = new DateAsLongConversionDelegate();
