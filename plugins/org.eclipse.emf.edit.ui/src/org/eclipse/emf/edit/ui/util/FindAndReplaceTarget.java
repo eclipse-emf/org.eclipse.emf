@@ -2283,7 +2283,8 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
 
     protected List<? extends IItemPropertyDescriptor> sort(List<IItemPropertyDescriptor> propertyDescriptors, Object object)
     {
-      Map<String, Map<String, IItemPropertyDescriptor>> categorizedPropertyDescriptors = new TreeMap<String, Map<String, IItemPropertyDescriptor>>(collator);
+      Map<String, Map<String, IItemPropertyDescriptor>> categorizedPropertyDescriptors = collator == null
+        ? new LinkedHashMap<String, Map<String, IItemPropertyDescriptor>>() : new TreeMap<String, Map<String, IItemPropertyDescriptor>>(collator);
       for (IItemPropertyDescriptor itemPropertyDescriptor : propertyDescriptors)
       {
         String category = itemPropertyDescriptor.getCategory(object);
@@ -2294,7 +2295,8 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
         Map<String, IItemPropertyDescriptor> sortedItemPropertyDescriptors = categorizedPropertyDescriptors.get(category);
         if (sortedItemPropertyDescriptors == null)
         {
-          sortedItemPropertyDescriptors = new TreeMap<String, IItemPropertyDescriptor>(Collator.getInstance());
+          sortedItemPropertyDescriptors = collator == null
+            ? new LinkedHashMap<String, IItemPropertyDescriptor>() : new TreeMap<String, IItemPropertyDescriptor>(Collator.getInstance());
           categorizedPropertyDescriptors.put(category, sortedItemPropertyDescriptors);
         }
         sortedItemPropertyDescriptors.put(itemPropertyDescriptor.getDisplayName(object), itemPropertyDescriptor);
