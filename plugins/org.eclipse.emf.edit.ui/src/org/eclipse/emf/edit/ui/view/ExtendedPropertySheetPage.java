@@ -42,16 +42,24 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTError;
+import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
+import org.eclipse.ui.views.properties.IPropertySheetEntry;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.IPropertySource2;
 import org.eclipse.ui.views.properties.IPropertySourceProvider;
@@ -174,6 +182,15 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
    */
   protected Handler columnResizer;
 
+  /**
+   * @since 2.14
+   */
+  protected Clipboard clipboard = new Clipboard(PlatformUI.getWorkbench().getDisplay());
+
+  /**
+   * @since 2.14
+   */
+  protected CopyValuePropertyAction copyPropertyValueAction = new CopyValuePropertyAction(clipboard);
 
   public ExtendedPropertySheetPage(AdapterFactoryEditingDomain editingDomain)
   {
@@ -272,6 +289,14 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
     if (autoResizeColumns)
     {
       columnResizer = ColumnResizer.addColumnResizer(tree);
+    }
+
+    Menu menu = getControl().getMenu();
+    IMenuManager menuManager = (IMenuManager)menu.getData("org.eclipse.jface.action.MenuManager.managerKey");
+    if (menuManager != null)
+    {
+      menuManager.insertAfter("copy", copyPropertyValueAction);
+      menuManager.insertAfter("defaults", setValueAction);
     }
   }
 
@@ -454,6 +479,8 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
       restoreValueAction.setEnabled(entry.isRestoreValueEnabled());
     }
 
+    copyPropertyValueAction.selectionChanged(selection);
+
     if (setValueAction != null)
     {
       setValueAction.setEntry(entry);
@@ -544,6 +571,7 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
     {
       diagnosticDecorator.dispose();
     }
+    clipboard.dispose();
     super.dispose();
   }
 
@@ -889,5 +917,64 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
      * @see IUnsettablePropertySource
      */
     boolean isPropertyUnsettable(Object id);
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected static class CopyValuePropertyAction extends Action
+  {
+    private Clipboard clipboard;
+
+    private IStructuredSelection selection;
+
+    public CopyValuePropertyAction(Clipboard clipboard)
+    {
+      super(EMFEditUIPlugin.INSTANCE.getString("_UI_CopyValue_menu_item"));
+      this.clipboard = clipboard;
+      setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
+    }
+
+    @Override
+    public void run()
+    {
+      if (selection != null && !selection.isEmpty())
+      {
+        IPropertySheetEntry entry = (IPropertySheetEntry)selection.getFirstElement();
+        String value = entry.getValueAsString();
+        if (value != null)
+        {
+          setClipboard(value);
+        }
+      }
+    }
+
+    public void selectionChanged(ISelection selection)
+    {
+      if (selection instanceof IStructuredSelection)
+      {
+        this.selection = (IStructuredSelection)selection;
+        setEnabled(!selection.isEmpty());
+      }
+      else
+      {
+        this.selection = null;
+        setEnabled(false);
+      }
+    }
+
+    private void setClipboard(String text)
+    {
+      try
+      {
+        Object[] data = new Object []{ text };
+        Transfer[] transferTypes = new Transfer []{ TextTransfer.getInstance() };
+        clipboard.setContents(data, transferTypes);
+      }
+      catch (SWTError exception)
+      {
+        EMFEditUIPlugin.INSTANCE.log(exception);
+      }
+    }
   }
 }
