@@ -47,6 +47,26 @@ public class PropertySource implements ExtendedPropertySheetPage.IUnsettableProp
   }
 
   /**
+   * Returns the object for which this is a property source.
+   *
+   * @since 2.14
+   */
+  public Object getObject()
+  {
+    return object;
+  }
+
+  /**
+   * Returns the underlying item property source of this property source.
+   *
+   * @since 2.14
+   */
+  public IItemPropertySource getItemPropertySource()
+  {
+    return itemPropertySource;
+  }
+
+  /**
    * This delegates to {@link IItemPropertySource#getEditableValue IItemPropertySource.getEditableValue}.
    */
   public Object getEditableValue()

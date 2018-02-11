@@ -353,7 +353,7 @@ public class ETypedElementItemProvider
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   @Override
   public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
@@ -361,7 +361,10 @@ public class ETypedElementItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE);
+      if (isShowGenerics())
+      {
+        childrenFeatures.add(EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE);
+      }
     }
     return childrenFeatures;
   }
@@ -556,17 +559,20 @@ public class ETypedElementItemProvider
    * that can be created under this object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   @Override
   protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
 
-    newChildDescriptors.add
-      (createChildParameter
-        (EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE,
-         EcoreFactory.eINSTANCE.createEGenericType()));
+    if (isShowGenerics())
+    {
+      newChildDescriptors.add
+        (createChildParameter
+          (EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE,
+           EcoreFactory.eINSTANCE.createEGenericType()));
+    }
   }
 
 }

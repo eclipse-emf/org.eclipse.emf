@@ -238,6 +238,9 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 		liveValidationAction = new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.provider.DiagnosticDecorator")%>.LiveValidator.LiveValidationAction(<%=genPackage.getImportedEditorPluginClassName()%>.getPlugin().getDialogSettings());
 <%}%>
 		controlAction = new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.ControlAction")%>();
+<%if (genModel.isFindAction()) {%>
+		findAction = <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.FindAction")%>.create();
+<%}%>
 	}
 
 	/**

@@ -114,6 +114,12 @@ public class EditingDomainActionBarContributor
   protected DiagnosticDecorator.LiveValidator.LiveValidationAction liveValidationAction;
 
   /**
+   * This is action is used to bring up the find and replace dialog.
+   * @since 2.14
+   */
+  protected FindAction findAction;
+
+  /**
    * This style bit indicates that the "additions" separator should come after the "edit" separator.
    */
   public static final int ADDITIONS_LAST_STYLE = 0x1;
@@ -169,6 +175,11 @@ public class EditingDomainActionBarContributor
     redoAction = createRedoAction();
     redoAction.setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_REDO));
     actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), redoAction);
+
+    if (findAction != null)
+    {
+      actionBars.setGlobalActionHandler(ActionFactory.FIND.getId(), findAction);
+    }
   }
 
   /**
@@ -272,6 +283,11 @@ public class EditingDomainActionBarContributor
     }
     actionBars.setGlobalActionHandler(ActionFactory.UNDO.getId(), undoAction);
     actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), redoAction);
+
+    if (findAction != null)
+    {
+      actionBars.setGlobalActionHandler(ActionFactory.FIND.getId(), findAction);
+    }
   }
 
   /**
@@ -299,6 +315,7 @@ public class EditingDomainActionBarContributor
     return activeEditor;
   }
 
+  @SuppressWarnings("restriction")
   @Override
   public void setActiveEditor(IEditorPart part) 
   {
@@ -315,8 +332,13 @@ public class EditingDomainActionBarContributor
       {
         activeEditor = part;
         activate();
-
       }
+    }
+    else
+    {
+      // The platform ends up disabling the editor actions when, for example, the properties view becomes active, but we don't want that.
+      org.eclipse.ui.internal.EditorSite editorSite = (org.eclipse.ui.internal.EditorSite)part.getEditorSite();
+      editorSite.activateActionBars(part instanceof IEditingDomainProvider);
     }
   }
 
@@ -355,6 +377,11 @@ public class EditingDomainActionBarContributor
     if (liveValidationAction != null)
     {
       liveValidationAction.setActiveWorkbenchPart(null);
+    }
+
+    if (findAction != null)
+    {
+      findAction.setActiveWorkbenchPart(null);
     }
 
     ISelectionProvider selectionProvider = 
@@ -410,6 +437,11 @@ public class EditingDomainActionBarContributor
     if (liveValidationAction != null)
     {
       liveValidationAction.setActiveWorkbenchPart(activeEditor);
+    }
+
+    if (findAction != null)
+    {
+      findAction.setActiveWorkbenchPart(activeEditor);
     }
 
     ISelectionProvider selectionProvider = 
@@ -479,6 +511,11 @@ public class EditingDomainActionBarContributor
     {
       liveValidationAction.update();
     }
+
+    if (findAction != null)
+    {
+      findAction.update();
+    }
   }
 
   /**
@@ -505,6 +542,12 @@ public class EditingDomainActionBarContributor
     menuManager.add(new Separator());
     menuManager.add(new ActionContributionItem(deleteAction));
     menuManager.add(new Separator());
+
+    if (findAction != null)
+    {
+      menuManager.add(new ActionContributionItem(findAction));
+      menuManager.add(new Separator());
+    }
 
     if ((style & ADDITIONS_LAST_STYLE) != 0)
     {

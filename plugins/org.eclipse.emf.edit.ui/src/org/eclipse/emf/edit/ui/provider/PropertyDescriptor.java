@@ -95,6 +95,22 @@ public class PropertyDescriptor implements IPropertyDescriptor
     this.itemPropertyDescriptor = itemPropertyDescriptor;
   }
 
+  /**
+   * @since 2.14
+   */
+  public Object getObject()
+  {
+    return object;
+  }
+
+  /**
+   * @since 2.14
+   */
+  public IItemPropertyDescriptor getItemPropertyDescriptor()
+  {
+    return itemPropertyDescriptor;
+  }
+
   public String getCategory() 
   {
     return itemPropertyDescriptor.getCategory(object);

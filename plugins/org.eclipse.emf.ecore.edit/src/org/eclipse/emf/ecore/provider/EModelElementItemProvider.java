@@ -107,6 +107,22 @@ public class EModelElementItemProvider
   }
 
   /**
+   * @since 2.14
+   */
+  public void resetChildrenFeatures()
+  {
+    childrenFeatures = null;
+  }
+
+  /**
+   * @since 2.14
+   */
+  protected boolean isShowGenerics()
+  {
+    return !(adapterFactory instanceof EcoreItemProviderAdapterFactory) || ((EcoreItemProviderAdapterFactory)adapterFactory).isShowGenerics();
+  }
+
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

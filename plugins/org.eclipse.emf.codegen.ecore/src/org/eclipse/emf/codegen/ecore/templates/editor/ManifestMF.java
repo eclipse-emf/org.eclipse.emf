@@ -107,7 +107,7 @@ public class ManifestMF
     stringBuffer.append(TEXT_17);
     stringBuffer.append(TEXT_18);
     stringBuffer.append(pluginID);
-    if (!pluginID.startsWith("org.eclipse.core.runtime") && !pluginID.equals("org.eclipse.xtext.xbase.lib") && !pluginID.equals("org.eclipse.emf.ecore.xcore.lib")) {
+    if (!pluginID.startsWith("org.eclipse.core.runtime") && !pluginID.equals("org.eclipse.jface.text") && !pluginID.equals("org.eclipse.xtext.xbase.lib") && !pluginID.equals("org.eclipse.emf.ecore.xcore.lib")) {
     stringBuffer.append(TEXT_20);
     }}
     }

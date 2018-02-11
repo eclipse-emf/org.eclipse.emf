@@ -722,7 +722,7 @@ public class EAnnotationItemProvider extends EModelElementItemProvider
         {
           public String getText(Object object)
           {
-            return null;
+            return "";
           }
 
           public Object getImage(Object object)

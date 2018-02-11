@@ -367,7 +367,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
           return new CalendarConversionDelegate(dateFormat, calendarBuilder);
         }
       }
-      else if (XMLGregorianCalendar.class.isAssignableFrom(instanceClass) && XMLGregorianCalendarConversionDelegate.DATATYPE_FACTORY != null)
+      else if (instanceClass != null && XMLGregorianCalendar.class.isAssignableFrom(instanceClass) && XMLGregorianCalendarConversionDelegate.DATATYPE_FACTORY != null)
       {
         if ("Long".equals(formatURI.authority()))
         {

@@ -220,6 +220,10 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getModelDocumentation <em>Model Documentation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isAutoResizeProperties <em>Auto Resize Properties</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getAutoExpandProperties <em>Auto Expand Properties</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isFindAction <em>Find Action</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isExpandAllAction <em>Expand All Action</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCollapseAllAction <em>Collapse All Action</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isRevertAction <em>Revert Action</em>}</li>
  * </ul>
  *
  * @generated
@@ -2001,6 +2005,94 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected int autoExpandProperties = AUTO_EXPAND_PROPERTIES_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isFindAction() <em>Find Action</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isFindAction()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final boolean FIND_ACTION_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isFindAction() <em>Find Action</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isFindAction()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean findAction = FIND_ACTION_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isExpandAllAction() <em>Expand All Action</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isExpandAllAction()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final boolean EXPAND_ALL_ACTION_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isExpandAllAction() <em>Expand All Action</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isExpandAllAction()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean expandAllAction = EXPAND_ALL_ACTION_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isCollapseAllAction() <em>Collapse All Action</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isCollapseAllAction()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final boolean COLLAPSE_ALL_ACTION_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isCollapseAllAction() <em>Collapse All Action</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isCollapseAllAction()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean collapseAllAction = COLLAPSE_ALL_ACTION_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isRevertAction() <em>Revert Action</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isRevertAction()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected static final boolean REVERT_ACTION_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isRevertAction() <em>Revert Action</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isRevertAction()
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  protected boolean revertAction = REVERT_ACTION_EDEFAULT;
 
   protected boolean validateModel = false;
 
@@ -6931,6 +7023,106 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isFindAction()
+  {
+    return findAction;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setFindAction(boolean newFindAction)
+  {
+    boolean oldFindAction = findAction;
+    findAction = newFindAction;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__FIND_ACTION, oldFindAction, findAction));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isExpandAllAction()
+  {
+    return expandAllAction;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setExpandAllAction(boolean newExpandAllAction)
+  {
+    boolean oldExpandAllAction = expandAllAction;
+    expandAllAction = newExpandAllAction;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__EXPAND_ALL_ACTION, oldExpandAllAction, expandAllAction));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isCollapseAllAction()
+  {
+    return collapseAllAction;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setCollapseAllAction(boolean newCollapseAllAction)
+  {
+    boolean oldCollapseAllAction = collapseAllAction;
+    collapseAllAction = newCollapseAllAction;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__COLLAPSE_ALL_ACTION, oldCollapseAllAction, collapseAllAction));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public boolean isRevertAction()
+  {
+    return revertAction;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public void setRevertAction(boolean newRevertAction)
+  {
+    boolean oldRevertAction = revertAction;
+    revertAction = newRevertAction;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__REVERT_ACTION, oldRevertAction, revertAction));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   @SuppressWarnings("unchecked")
@@ -7151,6 +7343,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isAutoResizeProperties();
       case GenModelPackage.GEN_MODEL__AUTO_EXPAND_PROPERTIES:
         return getAutoExpandProperties();
+      case GenModelPackage.GEN_MODEL__FIND_ACTION:
+        return isFindAction();
+      case GenModelPackage.GEN_MODEL__EXPAND_ALL_ACTION:
+        return isExpandAllAction();
+      case GenModelPackage.GEN_MODEL__COLLAPSE_ALL_ACTION:
+        return isCollapseAllAction();
+      case GenModelPackage.GEN_MODEL__REVERT_ACTION:
+        return isRevertAction();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -7445,6 +7645,18 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__AUTO_EXPAND_PROPERTIES:
         setAutoExpandProperties((Integer)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__FIND_ACTION:
+        setFindAction((Boolean)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__EXPAND_ALL_ACTION:
+        setExpandAllAction((Boolean)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__COLLAPSE_ALL_ACTION:
+        setCollapseAllAction((Boolean)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__REVERT_ACTION:
+        setRevertAction((Boolean)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -7729,6 +7941,18 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__AUTO_EXPAND_PROPERTIES:
         setAutoExpandProperties(AUTO_EXPAND_PROPERTIES_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__FIND_ACTION:
+        setFindAction(FIND_ACTION_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__EXPAND_ALL_ACTION:
+        setExpandAllAction(EXPAND_ALL_ACTION_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__COLLAPSE_ALL_ACTION:
+        setCollapseAllAction(COLLAPSE_ALL_ACTION_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__REVERT_ACTION:
+        setRevertAction(REVERT_ACTION_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -7923,6 +8147,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return autoResizeProperties != AUTO_RESIZE_PROPERTIES_EDEFAULT;
       case GenModelPackage.GEN_MODEL__AUTO_EXPAND_PROPERTIES:
         return autoExpandProperties != AUTO_EXPAND_PROPERTIES_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__FIND_ACTION:
+        return findAction != FIND_ACTION_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__EXPAND_ALL_ACTION:
+        return expandAllAction != EXPAND_ALL_ACTION_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__COLLAPSE_ALL_ACTION:
+        return collapseAllAction != COLLAPSE_ALL_ACTION_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__REVERT_ACTION:
+        return revertAction != REVERT_ACTION_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -8108,6 +8340,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(autoResizeProperties);
     result.append(", autoExpandProperties: ");
     result.append(autoExpandProperties);
+    result.append(", findAction: ");
+    result.append(findAction);
+    result.append(", expandAllAction: ");
+    result.append(expandAllAction);
+    result.append(", collapseAllAction: ");
+    result.append(collapseAllAction);
+    result.append(", revertAction: ");
+    result.append(revertAction);
     result.append(')');
     return result.toString();
   }
@@ -9154,6 +9394,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     else
     {
       result.add(getRuntimePlatform() == GenRuntimePlatform.GWT ? "org.eclipse.emf.gwt.edit.ui" : "org.eclipse.emf.edit.ui");
+      if (isFindAction())
+      {
+         result.add("org.eclipse.jface.text");
+      }
     }
     if (!isRichClientPlatform() && getRuntimePlatform() != GenRuntimePlatform.GWT)
     {
@@ -9447,6 +9691,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       setModelDocumentation(oldGenModelVersion.getModelDocumentation());
     }
+
+    setAutoResizeProperties(oldGenModelVersion.isAutoResizeProperties());
+    setAutoExpandProperties(oldGenModelVersion.getAutoExpandProperties());
+
+    setFindAction(oldGenModelVersion.isFindAction());
+    setExpandAllAction(oldGenModelVersion.isExpandAllAction());
+    setCollapseAllAction(oldGenModelVersion.isCollapseAllAction());
+    setRevertAction(oldGenModelVersion.isRevertAction());
   }
 
   private boolean isReconciling;

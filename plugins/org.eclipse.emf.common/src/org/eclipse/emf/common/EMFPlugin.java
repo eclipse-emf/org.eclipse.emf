@@ -393,7 +393,7 @@ public abstract class EMFPlugin extends DelegatingResourceLocator implements Res
         }
         else
         {
-          String bundleLocalization = getBundle().getHeaders().get(Constants.BUNDLE_LOCALIZATION);
+          String bundleLocalization = (String)getBundle().getHeaders().get(Constants.BUNDLE_LOCALIZATION);
           String propertiesPath = bundleLocalization != null ? bundleLocalization + ".properties" : "plugin.properties";
           String resourceName = getBaseURL().toString() + propertiesPath;
           try

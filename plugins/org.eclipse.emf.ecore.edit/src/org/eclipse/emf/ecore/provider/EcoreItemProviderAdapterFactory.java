@@ -84,6 +84,11 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
   protected Map<String, EAnnotationItemProviderAdapterFactory> eAnnotationItemProviderAdapterFactories = new HashMap<String, EAnnotationItemProviderAdapterFactory>();
 
   /**
+   * @since 2.14
+   */
+  protected boolean showGenerics;
+
+  /**
    * This constructs an instance.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -96,6 +101,30 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
     supportedTypes.add(ITreeItemContentProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
     supportedTypes.add(IItemPropertySource.class);
+  }
+
+  /**
+   * @since 2.14
+   */
+  public boolean isShowGenerics()
+  {
+    return showGenerics;
+  }
+
+  /**
+   * @since 2.14
+   */
+  public void setShowGenerics(boolean showGenerics)
+  {
+    this.showGenerics = showGenerics;
+
+    if (eAttributeItemProvider != null) eAttributeItemProvider.resetChildrenFeatures();
+    if (eClassItemProvider != null) eClassItemProvider.resetChildrenFeatures();
+    if (eDataTypeItemProvider != null) eDataTypeItemProvider.resetChildrenFeatures();
+    if (eOperationItemProvider != null) eOperationItemProvider.resetChildrenFeatures();
+    if (eParameterItemProvider != null) eParameterItemProvider.resetChildrenFeatures();
+    if (eReferenceItemProvider != null) eReferenceItemProvider.resetChildrenFeatures();
+    if (eTypeParameterItemProvider != null) eTypeParameterItemProvider.resetChildrenFeatures();
   }
 
   /**

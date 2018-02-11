@@ -943,13 +943,53 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__AUTO_EXPAND_PROPERTIES = GEN_BASE_FEATURE_COUNT + 89;
 
   /**
+   * The feature id for the '<em><b>Find Action</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__FIND_ACTION = GEN_BASE_FEATURE_COUNT + 90;
+
+  /**
+   * The feature id for the '<em><b>Expand All Action</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__EXPAND_ALL_ACTION = GEN_BASE_FEATURE_COUNT + 91;
+
+  /**
+   * The feature id for the '<em><b>Collapse All Action</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__COLLAPSE_ALL_ACTION = GEN_BASE_FEATURE_COUNT + 92;
+
+  /**
+   * The feature id for the '<em><b>Revert Action</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__REVERT_ACTION = GEN_BASE_FEATURE_COUNT + 93;
+
+  /**
    * The number of structural features of the '<em>Gen Model</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 90;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 94;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -3342,6 +3382,54 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenModel_AutoExpandProperties();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isFindAction <em>Find Action</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Find Action</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isFindAction()
+   * @see #getGenModel()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenModel_FindAction();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isExpandAllAction <em>Expand All Action</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Expand All Action</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isExpandAllAction()
+   * @see #getGenModel()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenModel_ExpandAllAction();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCollapseAllAction <em>Collapse All Action</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Collapse All Action</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCollapseAllAction()
+   * @see #getGenModel()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenModel_CollapseAllAction();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRevertAction <em>Revert Action</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Revert Action</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRevertAction()
+   * @see #getGenModel()
+   * @since 2.14
+   * @generated
+   */
+  EAttribute getGenModel_RevertAction();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage <em>Gen Package</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -5299,6 +5387,42 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_MODEL__AUTO_EXPAND_PROPERTIES = eINSTANCE.getGenModel_AutoExpandProperties();
+
+    /**
+     * The meta object literal for the '<em><b>Find Action</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_MODEL__FIND_ACTION = eINSTANCE.getGenModel_FindAction();
+
+    /**
+     * The meta object literal for the '<em><b>Expand All Action</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_MODEL__EXPAND_ALL_ACTION = eINSTANCE.getGenModel_ExpandAllAction();
+
+    /**
+     * The meta object literal for the '<em><b>Collapse All Action</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_MODEL__COLLAPSE_ALL_ACTION = eINSTANCE.getGenModel_CollapseAllAction();
+
+    /**
+     * The meta object literal for the '<em><b>Revert Action</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.14
+     * @generated
+     */
+    EAttribute GEN_MODEL__REVERT_ACTION = eINSTANCE.getGenModel_RevertAction();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.

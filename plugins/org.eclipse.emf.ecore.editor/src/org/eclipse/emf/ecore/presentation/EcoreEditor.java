@@ -48,7 +48,7 @@ import org.eclipse.jface.action.Separator;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-
+import org.eclipse.jface.text.IFindReplaceTarget;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -167,6 +167,7 @@ import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
+import org.eclipse.emf.edit.ui.util.FindAndReplaceTarget;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
@@ -242,6 +243,11 @@ public class EcoreEditor
    * @generated
    */
   protected ComposedAdapterFactory adapterFactory;
+
+  /**
+   * @since 2.14
+   */
+  protected EcoreItemProviderAdapterFactory ecoreItemProviderAdapterFactory;
 
   /**
    * This is the content outline page.
@@ -828,7 +834,8 @@ public class EcoreEditor
     adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
     adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
-    adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
+    ecoreItemProviderAdapterFactory = new EcoreItemProviderAdapterFactory();
+    adapterFactory.addAdapterFactory(ecoreItemProviderAdapterFactory);
     adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
     // Create the command stack that will notify this editor as commands are executed.
@@ -1481,6 +1488,10 @@ public class EcoreEditor
     else if (key.equals(IGotoMarker.class))
     {
       return this;
+    }
+    else if (key.equals(IFindReplaceTarget.class))
+    {
+      return FindAndReplaceTarget.getAdapter(key, this, EcoreEditorPlugin.getPlugin());
     }
     else if ("org.eclipse.ui.texteditor.ITextEditor".equals(key.getName()))
     {

@@ -151,7 +151,10 @@ public class EOperationItemProvider
       super.getChildrenFeatures(object);
       childrenFeatures.add(1, EcorePackage.Literals.EOPERATION__ETYPE_PARAMETERS);
       childrenFeatures.add(2, EcorePackage.Literals.EOPERATION__EPARAMETERS);
-      childrenFeatures.add(4, EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS);
+      if (isShowGenerics())
+      {
+        childrenFeatures.add(4, EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS);
+      }
     }
     return childrenFeatures;
   }

@@ -1231,6 +1231,50 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public EAttribute getGenModel_FindAction()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(90);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public EAttribute getGenModel_ExpandAllAction()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(91);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public EAttribute getGenModel_CollapseAllAction()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(92);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  public EAttribute getGenModel_RevertAction()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(93);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   public EClass getGenPackage()
@@ -2458,6 +2502,10 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genModelEClass, GEN_MODEL__MODEL_DOCUMENTATION);
     createEAttribute(genModelEClass, GEN_MODEL__AUTO_RESIZE_PROPERTIES);
     createEAttribute(genModelEClass, GEN_MODEL__AUTO_EXPAND_PROPERTIES);
+    createEAttribute(genModelEClass, GEN_MODEL__FIND_ACTION);
+    createEAttribute(genModelEClass, GEN_MODEL__EXPAND_ALL_ACTION);
+    createEAttribute(genModelEClass, GEN_MODEL__COLLAPSE_ALL_ACTION);
+    createEAttribute(genModelEClass, GEN_MODEL__REVERT_ACTION);
 
     genPackageEClass = createEClass(GEN_PACKAGE);
     createEAttribute(genPackageEClass, GEN_PACKAGE__PREFIX);
@@ -2724,6 +2772,10 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenModel_ModelDocumentation(), theEcorePackage.getEString(), "modelDocumentation", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_AutoResizeProperties(), ecorePackage.getEBoolean(), "autoResizeProperties", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_AutoExpandProperties(), ecorePackage.getEInt(), "autoExpandProperties", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_FindAction(), ecorePackage.getEBoolean(), "findAction", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_ExpandAllAction(), ecorePackage.getEBoolean(), "expandAllAction", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_CollapseAllAction(), ecorePackage.getEBoolean(), "collapseAllAction", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_RevertAction(), ecorePackage.getEBoolean(), "revertAction", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(genPackageEClass, GenPackage.class, "GenPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getGenPackage_Prefix(), ecorePackage.getEString(), "prefix", null, 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

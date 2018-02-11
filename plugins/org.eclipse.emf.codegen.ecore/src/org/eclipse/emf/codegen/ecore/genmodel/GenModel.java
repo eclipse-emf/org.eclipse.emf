@@ -133,6 +133,10 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getModelDocumentation <em>Model Documentation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isAutoResizeProperties <em>Auto Resize Properties</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getAutoExpandProperties <em>Auto Expand Properties</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isFindAction <em>Find Action</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isExpandAllAction <em>Expand All Action</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCollapseAllAction <em>Collapse All Action</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRevertAction <em>Revert Action</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel()
@@ -2404,6 +2408,110 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setAutoExpandProperties(int value);
+
+  /**
+   * Returns the value of the '<em><b>Find Action</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.14
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Find Action</em>' attribute.
+   * @see #setFindAction(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_FindAction()
+   * @model
+   * @generated
+   */
+  boolean isFindAction();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isFindAction <em>Find Action</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Find Action</em>' attribute.
+   * @see #isFindAction()
+   * @since 2.14
+   * @generated
+   */
+  void setFindAction(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Expand All Action</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.14
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Expand All Action</em>' attribute.
+   * @see #setExpandAllAction(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ExpandAllAction()
+   * @model
+   * @generated
+   */
+  boolean isExpandAllAction();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isExpandAllAction <em>Expand All Action</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Expand All Action</em>' attribute.
+   * @see #isExpandAllAction()
+   * @since 2.14
+   * @generated
+   */
+  void setExpandAllAction(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Collapse All Action</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.14
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Collapse All Action</em>' attribute.
+   * @see #setCollapseAllAction(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_CollapseAllAction()
+   * @model
+   * @generated
+   */
+  boolean isCollapseAllAction();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCollapseAllAction <em>Collapse All Action</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Collapse All Action</em>' attribute.
+   * @see #isCollapseAllAction()
+   * @since 2.14
+   * @generated
+   */
+  void setCollapseAllAction(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Revert Action</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.14
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Revert Action</em>' attribute.
+   * @see #setRevertAction(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_RevertAction()
+   * @model
+   * @generated
+   */
+  boolean isRevertAction();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRevertAction <em>Revert Action</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Revert Action</em>' attribute.
+   * @see #isRevertAction()
+   * @since 2.14
+   * @generated
+   */
+  void setRevertAction(boolean value);
 
   EList<GenPackage> getStaticGenPackages();
 

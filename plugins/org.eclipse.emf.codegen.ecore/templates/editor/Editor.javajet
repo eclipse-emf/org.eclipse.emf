@@ -1821,6 +1821,12 @@ public class <%=genPackage.getEditorClassName()%>
 <%}%>
 		}
 <%}%>
+<%if (genModel.isFindAction()) {%>
+		else if (key.equals(<%=genModel.getImportedName("org.eclipse.jface.text.IFindReplaceTarget")%>.class)) 
+		{
+			return <%=genModel.getImportedName("org.eclipse.emf.edit.ui.util.FindAndReplaceTarget")%>.getAdapter(key, this, <%=genPackage.getImportedEditorPluginClassName()%>.getPlugin());
+		}
+<%}%>
 		else
 		{
 			return super.getAdapter(key);

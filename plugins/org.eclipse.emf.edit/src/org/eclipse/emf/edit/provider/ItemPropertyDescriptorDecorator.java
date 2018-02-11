@@ -30,6 +30,26 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor,
   }
 
   /**
+   * Returns the object of the decorated item property descriptor.
+   *
+   * @since 2.14
+   */
+  public Object getDecoratedObject()
+  {
+    return object;
+  }
+
+  /**
+   * Returns the decorated item property descriptor.
+   *
+   * @since 2.14
+   */
+  public IItemPropertyDescriptor getDecoratedItemPropertyDescriptor()
+  {
+    return itemPropertyDescriptor;
+  }
+
+  /**
    * This returns the group of properties into which this one should be placed.
    */
   public String getCategory(Object thisObject) 

@@ -123,6 +123,8 @@ import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
 import org.eclipse.emf.edit.ui.provider.DecoratingColumLabelProvider;
 import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator;
+import org.eclipse.emf.edit.ui.util.FindAndReplaceTarget;
+import org.eclipse.jface.text.IFindReplaceTarget;
 import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
@@ -1276,6 +1278,10 @@ public class GenModelEditor
     else if (key.equals(IGotoMarker.class))
     {
       return this;
+    }
+    else if (key.equals(IFindReplaceTarget.class)) 
+    {
+      return FindAndReplaceTarget.getAdapter(key, this, GenModelEditPlugin.getPlugin());
     }
     else
     {

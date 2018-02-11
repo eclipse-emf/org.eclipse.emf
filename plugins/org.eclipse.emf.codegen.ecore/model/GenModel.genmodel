@@ -7,7 +7,7 @@
     editorPluginClass="" updateClasspath="false" testsDirectory="" importerID="org.eclipse.emf.importer.ecore"
     complianceLevel="5.0" editPluginID="org.eclipse.emf.codegen.ecore.ui" language="en"
     usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore" decoration="Live"
-    eclipsePlatformVersion="Juno" autoResizeProperties="true">
+    eclipsePlatformVersion="Juno" autoResizeProperties="true" findAction="true">
   <foreignModel>GenModel.ecore</foreignModel>
   <genPackages prefix="GenModel" basePackage="org.eclipse.emf.codegen.ecore" disposableProviderFactory="true"
       multipleEditorPages="false" generateModelWizard="false" contentTypeIdentifier="org.eclipse.emf.codegen.genmodel"
@@ -255,6 +255,14 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/autoResizeProperties"/>
       <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="The depth to which properties should be automaticall expanded in the properties view"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/autoExpandProperties"/>
+      <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="Whether the generated editor should support the Find/Replace action"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/findAction"/>
+      <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="Whether the generated editor should support an expand-all action"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/expandAllAction"/>
+      <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="Whether the generated editor should support a collapse-all action"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/collapseAllAction"/>
+      <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="Whether the generated editor should support a File -> Revert action"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/revertAction"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenPackage">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The prefix for names of several packaged-related classes, including package, factory, switch, and adapter factory"

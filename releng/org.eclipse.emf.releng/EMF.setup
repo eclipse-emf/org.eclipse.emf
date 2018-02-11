@@ -392,6 +392,8 @@
             url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
             url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+        <repository
+            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Oxygen">
@@ -399,6 +401,8 @@
             url="http://download.eclipse.org/releases/oxygen"/>
         <repository
             url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+        <repository
+            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Neon">
@@ -406,6 +410,8 @@
             url="http://download.eclipse.org/releases/neon/201705151400"/>
         <repository
             url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+        <repository
+            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Mars">
@@ -413,6 +419,8 @@
             url="http://download.eclipse.org/releases/mars/201602261000"/>
         <repository
             url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+        <repository
+            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Luna">
@@ -420,6 +428,8 @@
             url="http://download.eclipse.org/releases/luna/201502271000"/>
         <repository
             url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+        <repository
+            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Kepler">
@@ -427,6 +437,8 @@
             url="http://download.eclipse.org/releases/kepler/201402280900"/>
         <repository
             url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+        <repository
+            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Juno">
@@ -434,6 +446,8 @@
             url="http://download.eclipse.org/releases/juno/201303010900"/>
         <repository
             url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+        <repository
+            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Indigo">
@@ -441,6 +455,8 @@
             url="http://download.eclipse.org/releases/indigo/201202240900"/>
         <repository
             url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+        <repository
+            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Helios">
@@ -448,6 +464,8 @@
             url="http://download.eclipse.org/releases/helios/201102250900"/>
         <repository
             url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+        <repository
+            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
     </targlet>
   </setupTask>

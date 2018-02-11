@@ -87,6 +87,7 @@ import org.eclipse.emf.edit.ui.action.ControlAction;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+import org.eclipse.emf.edit.ui.action.FindAction;
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
 import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator;
@@ -580,7 +581,13 @@ public class EcoreActionBarContributor
       @Override
       protected void refreshViewers()
       {
+        if (activeEditorPart instanceof EcoreEditor)
+        {
+          ((EcoreEditor)activeEditorPart).ecoreItemProviderAdapterFactory.setShowGenerics(isChecked());
+        }
+
         super.refreshViewers();
+
         if (lastSelectionChangedEvent != null && activeEditorPart instanceof EcoreEditor)
         {
           selectionChanged(lastSelectionChangedEvent);
@@ -609,6 +616,7 @@ public class EcoreActionBarContributor
     liveValidationAction = new DiagnosticDecorator.LiveValidator.LiveValidationAction(EcoreEditorPlugin.getPlugin().getDialogSettings());
     validateAction = new ValidateAction();
     controlAction = new ControlAction();
+    findAction = FindAction.create();
 
     showGenericsAction.setChecked
       (Boolean.parseBoolean(EcoreEditorPlugin.getPlugin().getDialogSettings().get("showGenericsAction")));
@@ -910,8 +918,7 @@ public class EcoreActionBarContributor
         //
         IAction action = annotationActions.iterator().next();
         String actionText = action.getText();
-        MenuManager annotationMenuManager = new MenuManager(actionText);
-        annotationMenuManager.setImageDescriptor(action.getImageDescriptor());
+        MenuManager annotationMenuManager = new MenuManager(actionText, action.getImageDescriptor(), "annotations");
 
         // Add that menu manager instead of the individual actions.
         if (contributionID != null)

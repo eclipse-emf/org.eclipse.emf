@@ -244,7 +244,10 @@ public class EClassItemProvider
       super.getChildrenFeatures(object);
       childrenFeatures.add(EcorePackage.Literals.ECLASS__EOPERATIONS);
       childrenFeatures.add(EcorePackage.Literals.ECLASS__ESTRUCTURAL_FEATURES);
-      childrenFeatures.add(2, EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES);
+      if (isShowGenerics())
+      {
+        childrenFeatures.add(2, EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES);
+      }
     }
     return childrenFeatures;
   }

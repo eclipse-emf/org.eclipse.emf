@@ -29,6 +29,7 @@ import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.edit.ui.provider.PropertyDescriptor;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IContributionManagerOverrides;
@@ -36,6 +37,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.IDialogSettings;
+import org.eclipse.jface.text.IFindReplaceTarget;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -106,6 +108,11 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
   protected IPropertySourceProvider propertySourceProvider;
 
   protected IAction locateValueAction = new LocateValueAction();
+
+  /**
+   * @since 2.14
+   */
+  protected IWorkbenchPart workbenchPart;
 
   protected class LocateValueAction extends Action
   {
@@ -192,6 +199,12 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
    */
   protected CopyValuePropertyAction copyPropertyValueAction = new CopyValuePropertyAction(clipboard);
 
+  private ExtendedPropertySheetEntry rootEntry;
+
+  private IAction filterAction;
+
+  private IAction categoriesAction;
+
   public ExtendedPropertySheetPage(AdapterFactoryEditingDomain editingDomain)
   {
     this(editingDomain, Decoration.NONE, null, 0, false);
@@ -227,6 +240,22 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
   }
 
   /**
+   * @since 2.14
+   */
+  public IAction getFilterAction()
+  {
+    return filterAction;
+  }
+
+  /**
+   * @since 2.14
+   */
+  public IAction getCategoriesAction()
+  {
+    return categoriesAction;
+  }
+
+  /**
    * @since 2.9
    */
   protected DiagnosticDecorator createDiagnosticDecorator(Decoration decoration)
@@ -254,8 +283,6 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
     propertySourceProvider = newProvider;
     super.setPropertySourceProvider(newProvider);
   }
-
-  private ExtendedPropertySheetEntry rootEntry;
 
   @Override
   public void createControl(Composite parent)
@@ -424,6 +451,17 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
 
     super.makeContributions(menuManager, new DelegatingToolBarManager(), statusLineManager);
     toolBarManager.add(locateValueAction);
+    for (IContributionItem contributionItem : toolBarManager.getItems())
+    {
+      if ("filter".equals(contributionItem.getId()) && contributionItem instanceof ActionContributionItem)
+      {
+        filterAction = ((ActionContributionItem)contributionItem).getAction();
+      }
+      else if ("categories".equals(contributionItem.getId()) && contributionItem instanceof ActionContributionItem)
+      {
+        categoriesAction = ((ActionContributionItem)contributionItem).getAction();
+      }
+    }
   }
 
   @Override
@@ -498,6 +536,7 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
   @Override
   public void selectionChanged(IWorkbenchPart part, ISelection selection)
   {
+    workbenchPart = part;
     if (selection instanceof IStructuredSelection)
     {
       input = ((IStructuredSelection)selection).toList();
@@ -662,6 +701,20 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
     }
   }
 
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  @Override
+  public  Object getAdapter(Class adapter)
+  {
+    if (workbenchPart != null && adapter == IFindReplaceTarget.class)
+    {
+      return workbenchPart.getAdapter(adapter);
+    }
+    else
+    {
+      return super.getAdapter(adapter);
+    }
+  }
+
   /**
    * @since 2.14
    */
@@ -676,6 +729,12 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
     public ExtendedPropertySheetEntry(DiagnosticDecorator diagnosticDecorator)
     {
       this.diagnosticDecorator = diagnosticDecorator;
+    }
+
+    @Override
+    public IPropertyDescriptor getDescriptor()
+    {
+      return super.getDescriptor();
     }
 
     @Override
