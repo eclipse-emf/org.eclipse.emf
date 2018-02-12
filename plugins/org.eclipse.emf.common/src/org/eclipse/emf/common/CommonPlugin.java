@@ -142,7 +142,7 @@ public final class CommonPlugin extends EMFPlugin
    */
   public static Map<String, List<ElementRecord>> getTargetPlatformExtensionPoints(Set<String> extensionPoints)
   {
-    if (PDEHelper.IS_PDE_BUNDLE_AVAILABLE)
+    if (IS_ECLIPSE_RUNNING && PDEHelper.IS_PDE_BUNDLE_AVAILABLE)
     {
       return PDEHelper.computeModels(extensionPoints);
     }
