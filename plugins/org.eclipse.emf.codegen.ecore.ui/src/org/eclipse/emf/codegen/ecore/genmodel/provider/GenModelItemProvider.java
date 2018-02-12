@@ -152,6 +152,10 @@ public class GenModelItemProvider
       addModelDocumentationPropertyDescriptor(object);
       addAutoResizePropertiesPropertyDescriptor(object);
       addAutoExpandPropertiesPropertyDescriptor(object);
+      addFindActionPropertyDescriptor(object);
+      addExpandAllActionPropertyDescriptor(object);
+      addCollapseAllActionPropertyDescriptor(object);
+      addRevertActionPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -2094,6 +2098,102 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Find Action feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addFindActionPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_findAction_feature"),
+         getString("_UI_GenModel_findAction_description"),
+         GenModelPackage.Literals.GEN_MODEL__FIND_ACTION,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditorPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Expand All Action feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addExpandAllActionPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_expandAllAction_feature"),
+         getString("_UI_GenModel_expandAllAction_description"),
+         GenModelPackage.Literals.GEN_MODEL__EXPAND_ALL_ACTION,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditorPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Collapse All Action feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addCollapseAllActionPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_collapseAllAction_feature"),
+         getString("_UI_GenModel_collapseAllAction_description"),
+         GenModelPackage.Literals.GEN_MODEL__COLLAPSE_ALL_ACTION,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditorPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Revert Action feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.14
+   * @generated
+   */
+  protected void addRevertActionPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_revertAction_feature"),
+         getString("_UI_GenModel_revertAction_description"),
+         GenModelPackage.Literals.GEN_MODEL__REVERT_ACTION,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditorPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -2247,6 +2347,10 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__MODEL_DOCUMENTATION:
       case GenModelPackage.GEN_MODEL__AUTO_RESIZE_PROPERTIES:
       case GenModelPackage.GEN_MODEL__AUTO_EXPAND_PROPERTIES:
+      case GenModelPackage.GEN_MODEL__FIND_ACTION:
+      case GenModelPackage.GEN_MODEL__EXPAND_ALL_ACTION:
+      case GenModelPackage.GEN_MODEL__COLLAPSE_ALL_ACTION:
+      case GenModelPackage.GEN_MODEL__REVERT_ACTION:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:

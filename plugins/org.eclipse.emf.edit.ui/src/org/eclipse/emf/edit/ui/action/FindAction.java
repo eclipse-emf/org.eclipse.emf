@@ -22,7 +22,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 
 /**
- * An action from showing the find and replace dialog.
+ * An action for showing the find and replace dialog.
  * Use {@link #create()} to create an instance.
  * Because this implementation use platform internals, it is not extensible because the platform internals could arbitrarily change.
  * 
@@ -90,7 +90,7 @@ public final class FindAction extends Action
    */
   private FindAction()
   {
-    super("Find/Replace...", ExtendedImageRegistry.INSTANCE.getImageDescriptor(EMFEditUIPlugin.INSTANCE.getImage("full/ctool16/Search")));
+    super(EMFEditUIPlugin.INSTANCE.getString("_UI_FindReplace_menu_item"), ExtendedImageRegistry.INSTANCE.getImageDescriptor(EMFEditUIPlugin.INSTANCE.getImage("full/ctool16/Search")));
   }
 
   /**
@@ -103,12 +103,6 @@ public final class FindAction extends Action
   @Override
   public void run()
   {
-//    IFindReplaceTarget adapter = workbenchPart.getAdapter(IFindReplaceTarget.class);
-//    if (adapter instanceof FindAndReplaceTarget)
-//    {
-//      FindAndReplaceTarget findAndReplaceTarget = (FindAndReplaceTarget)adapter;
-//    }
-
     try
     {
       Action findAndReplaceAction = FIND_AND_REPLACE_CONSTRUCTOR.newInstance(FIND_AND_REPLACE_RESOURCE_BUNDLE, "Editor.FindReplace.", workbenchPart);
