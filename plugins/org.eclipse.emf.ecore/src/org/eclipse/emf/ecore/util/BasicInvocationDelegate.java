@@ -87,7 +87,7 @@ public class BasicInvocationDelegate implements EOperation.Internal.InvocationDe
       }
     }
 
-    throw new UnsupportedOperationException("eInvoke not implemented for " + eOperation.getName());
+    throw new UnsupportedOperationException("No InvocationDelegate registered to provide an eInvoke implementation for " + eOperation.getName());
   }
 
 }
