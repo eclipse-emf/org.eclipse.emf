@@ -7,7 +7,8 @@
     editorPluginClass="" updateClasspath="false" testsDirectory="" importerID="org.eclipse.emf.importer.ecore"
     complianceLevel="5.0" editPluginID="org.eclipse.emf.codegen.ecore.ui" language="en"
     usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore" decoration="Live"
-    eclipsePlatformVersion="Juno" autoResizeProperties="true" findAction="true">
+    eclipsePlatformVersion="Juno" autoResizeProperties="true" findAction="true" expandAllAction="true"
+    collapseAllAction="true" revertAction="true">
   <foreignModel>GenModel.ecore</foreignModel>
   <genPackages prefix="GenModel" basePackage="org.eclipse.emf.codegen.ecore" disposableProviderFactory="true"
       multipleEditorPages="false" generateModelWizard="false" contentTypeIdentifier="org.eclipse.emf.codegen.genmodel"

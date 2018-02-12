@@ -89,6 +89,7 @@ import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.action.FindAction;
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
+import org.eclipse.emf.edit.ui.action.RevertAction;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
 import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
@@ -617,6 +618,7 @@ public class EcoreActionBarContributor
     validateAction = new ValidateAction();
     controlAction = new ControlAction();
     findAction = FindAction.create();
+    revertAction = new RevertAction();
 
     showGenericsAction.setChecked
       (Boolean.parseBoolean(EcoreEditorPlugin.getPlugin().getDialogSettings().get("showGenericsAction")));

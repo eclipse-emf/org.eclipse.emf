@@ -105,7 +105,9 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -124,6 +126,7 @@ import org.eclipse.emf.edit.ui.action.ValidateAction;
 import org.eclipse.emf.edit.ui.provider.DecoratingColumLabelProvider;
 import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator;
 import org.eclipse.emf.edit.ui.util.FindAndReplaceTarget;
+import org.eclipse.emf.edit.ui.util.IRevertablePart;
 import org.eclipse.jface.text.IFindReplaceTarget;
 import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
@@ -146,7 +149,7 @@ import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
  */
 public class GenModelEditor
   extends MultiPageEditorPart
-  implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker
+  implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker, IRevertablePart
 {
   /**
    * This keeps track of the editing domain that is used to track all changes to the model.
@@ -1437,6 +1440,76 @@ public class GenModelEditor
   public boolean isDirty()
   {
     return ((BasicCommandStack)editingDomain.getCommandStack()).isSaveNeeded();
+  }
+
+  /**
+   * This is for implementing {@link IRevertablePart}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void doRevertGen()
+  {
+    DiagnosticDecorator.cancel(editingDomain);
+    
+    ResourceSet resourceSet = editingDomain.getResourceSet();
+    List<Resource> resources = resourceSet.getResources();
+    List<Resource> unloadedResources = new ArrayList<Resource>();
+    updateProblemIndication = false;
+    for (int i = 0; i < resources.size(); ++i)
+    {
+      Resource resource = resources.get(i);
+      if (resource.isLoaded())
+      {
+        resource.unload();
+        unloadedResources.add(resource);
+      }
+    }
+
+    resourceToDiagnosticMap.clear();
+    for (Resource resource : unloadedResources)
+    {
+      try
+      {
+        resource.load(resourceSet.getLoadOptions());
+      }
+      catch (IOException exception)
+      {
+        if (!resourceToDiagnosticMap.containsKey(resource))
+        {
+          resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
+        }
+      }
+    }
+
+    editingDomain.getCommandStack().flush();
+
+    if (AdapterFactoryEditingDomain.isStale(editorSelection))
+    {
+      setSelection(StructuredSelection.EMPTY);
+    }
+
+    updateProblemIndication = true;
+    updateProblemIndication();
+  }
+
+  public void doRevert()
+  {
+    doRevertGen();
+    EList<Resource> resources = editingDomain.getResourceSet().getResources();
+    if (!resources.isEmpty())
+    {
+      Resource mainResource = resources.get(0);
+      EList<EObject> contents = mainResource.getContents();
+      if (!contents.isEmpty())
+      {
+        EObject genModel = contents.get(0);
+        if (genModel instanceof GenModel)
+        {
+          initialize((GenModel)genModel);
+        }
+      }
+    }
   }
 
   /**

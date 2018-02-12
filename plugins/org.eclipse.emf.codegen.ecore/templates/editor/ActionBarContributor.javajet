@@ -241,6 +241,9 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 <%if (genModel.isFindAction()) {%>
 		findAction = <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.FindAction")%>.create();
 <%}%>
+<%if (genModel.isRevertAction()) {%>
+		revertAction = new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.RevertAction")%>();
+<%}%>
 	}
 
 	/**

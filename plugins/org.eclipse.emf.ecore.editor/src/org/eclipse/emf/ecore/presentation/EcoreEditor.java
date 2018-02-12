@@ -168,6 +168,7 @@ import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.util.FindAndReplaceTarget;
+import org.eclipse.emf.edit.ui.util.IRevertablePart;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
@@ -184,7 +185,7 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
  */
 public class EcoreEditor
   extends MultiPageEditorPart
-  implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker
+  implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker, IRevertablePart
 {
   public static class XML extends EcoreEditor
   {
@@ -1655,6 +1656,57 @@ public class EcoreEditor
   public boolean isDirty()
   {
     return ((BasicCommandStack)editingDomain.getCommandStack()).isSaveNeeded();
+  }
+
+  /**
+   * This is for implementing {@link IRevertablePart}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void doRevert()
+  {
+    DiagnosticDecorator.cancel(editingDomain);
+    
+    ResourceSet resourceSet = editingDomain.getResourceSet();
+    List<Resource> resources = resourceSet.getResources();
+    List<Resource> unloadedResources = new ArrayList<Resource>();
+    updateProblemIndication = false;
+    for (int i = 0; i < resources.size(); ++i)
+    {
+      Resource resource = resources.get(i);
+      if (resource.isLoaded())
+      {
+        resource.unload();
+        unloadedResources.add(resource);
+      }
+    }
+
+    resourceToDiagnosticMap.clear();
+    for (Resource resource : unloadedResources)
+    {
+      try
+      {
+        resource.load(resourceSet.getLoadOptions());
+      }
+      catch (IOException exception)
+      {
+        if (!resourceToDiagnosticMap.containsKey(resource))
+        {
+          resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
+        }
+      }
+    }
+
+    editingDomain.getCommandStack().flush();
+
+    if (AdapterFactoryEditingDomain.isStale(editorSelection))
+    {
+      setSelection(StructuredSelection.EMPTY);
+    }
+
+    updateProblemIndication = true;
+    updateProblemIndication();
   }
 
   /**

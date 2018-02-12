@@ -13,6 +13,7 @@ package org.eclipse.emf.edit.ui.action;
 
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator;
+import org.eclipse.emf.edit.ui.util.IRevertablePart;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -26,6 +27,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPropertyListener;
+import org.eclipse.ui.ISaveablePart;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
@@ -120,6 +122,12 @@ public class EditingDomainActionBarContributor
   protected FindAction findAction;
 
   /**
+   * This action is used to {@link IRevertablePart#doRevert() revert} a {@link ISaveablePart#isDirty() dirty} editor to it's saved state.
+   * @since 2.14
+   */
+  protected RevertAction revertAction;
+
+  /**
    * This style bit indicates that the "additions" separator should come after the "edit" separator.
    */
   public static final int ADDITIONS_LAST_STYLE = 0x1;
@@ -179,6 +187,11 @@ public class EditingDomainActionBarContributor
     if (findAction != null)
     {
       actionBars.setGlobalActionHandler(ActionFactory.FIND.getId(), findAction);
+    }
+
+    if (revertAction != null)
+    {
+      actionBars.setGlobalActionHandler(ActionFactory.REVERT.getId(), revertAction);
     }
   }
 
@@ -288,6 +301,11 @@ public class EditingDomainActionBarContributor
     {
       actionBars.setGlobalActionHandler(ActionFactory.FIND.getId(), findAction);
     }
+
+    if (revertAction != null)
+    {
+      actionBars.setGlobalActionHandler(ActionFactory.REVERT.getId(), revertAction);
+    }
   }
 
   /**
@@ -384,6 +402,11 @@ public class EditingDomainActionBarContributor
       findAction.setActiveWorkbenchPart(null);
     }
 
+    if (revertAction != null)
+    {
+      revertAction.setActiveWorkbenchPart(null);
+    }
+
     ISelectionProvider selectionProvider = 
       activeEditor instanceof ISelectionProvider ?
         (ISelectionProvider)activeEditor :
@@ -442,6 +465,11 @@ public class EditingDomainActionBarContributor
     if (findAction != null)
     {
       findAction.setActiveWorkbenchPart(activeEditor);
+    }
+
+    if (revertAction != null)
+    {
+      revertAction.setActiveWorkbenchPart(activeEditor);
     }
 
     ISelectionProvider selectionProvider = 
@@ -515,6 +543,11 @@ public class EditingDomainActionBarContributor
     if (findAction != null)
     {
       findAction.update();
+    }
+
+    if (revertAction != null)
+    {
+      revertAction.update();
     }
   }
 

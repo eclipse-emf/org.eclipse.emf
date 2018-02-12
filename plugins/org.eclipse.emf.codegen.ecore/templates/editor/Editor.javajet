@@ -256,7 +256,7 @@ import <%=genPackage.getQualifiedItemProviderAdapterFactoryClassName()%>;
 <%}%>
 public class <%=genPackage.getEditorClassName()%>
 	extends MultiPageEditorPart
-	implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider<%if (!genModel.isRichClientPlatform()) {%>, IGotoMarker<%}%>
+	implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider<%if (!genModel.isRichClientPlatform()) {%>, IGotoMarker<%}%><%if (genModel.isRevertAction()) {%>, <%=genModel.getImportedName("org.eclipse.emf.edit.ui.util.IRevertablePart")%><%}%>
 {
 <%if (genModel.hasCopyrightField()) {%>
 	/**
@@ -794,9 +794,10 @@ public class <%=genPackage.getEditorClassName()%>
 	{
 		if (!changedResources.isEmpty() && (!isDirty() || handleDirtyConflict()))
 		{
+			ResourceSet resourceSet = editingDomain.getResourceSet();
 			if (isDirty())
 			{
-				changedResources.addAll(editingDomain.getResourceSet().getResources());
+				changedResources.addAll(resourceSet.getResources());
 			}
 			editingDomain.getCommandStack().flush();
 
@@ -815,7 +816,7 @@ public class <%=genPackage.getEditorClassName()%>
 					resource.unload();
 					try
 					{
-						resource.load(Collections.EMPTY_MAP);
+						resource.load(resourceSet.getLoadOptions());
 					}
 					catch (IOException exception)
 					{
@@ -2029,6 +2030,68 @@ public class <%=genPackage.getEditorClassName()%>
 		return ((BasicCommandStack)editingDomain.getCommandStack()).isSaveNeeded();
 	}
 
+<%if (genModel.isRevertAction()) {%>
+	/**
+	 * This is for implementing {@link IRevertablePart}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void doRevert()
+	{
+<%if (genModel.getDecoration() == GenDecoration.LIVE) {%>
+		DiagnosticDecorator.cancel(editingDomain);
+
+<%}%>		
+		ResourceSet resourceSet = editingDomain.getResourceSet();
+		<%=_ListOfResource%> resources = resourceSet.getResources();
+		<%=_ListOfResource%> unloadedResources = new <%=_ArrayListOfResource%>();
+		updateProblemIndication = false;
+		for (int i = 0; i < resources.size(); ++i)
+		{
+			Resource resource = resources.get(i);
+			if (resource.isLoaded())
+			{
+				resource.unload();
+				unloadedResources.add(resource);
+			}
+		}
+
+		resourceToDiagnosticMap.clear();
+<%if (genModel.useGenerics()) {%>
+		for (Resource resource : unloadedResources)
+<%} else {%>
+		for (Iterator i = unloadedResources.iterator(); i.hasNext(); )
+<%}%>
+		{
+<%if (!genModel.useGenerics()) {%>
+				Resource resource = (Resource)i.next();
+<%}%>
+			try
+			{
+				resource.load(resourceSet.getLoadOptions());
+			}
+			catch (IOException exception)
+			{
+				if (!resourceToDiagnosticMap.containsKey(resource))
+				{
+					resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
+				}
+			}
+		}
+
+		editingDomain.getCommandStack().flush();
+
+		if (AdapterFactoryEditingDomain.isStale(editorSelection))
+		{
+			setSelection(StructuredSelection.EMPTY);
+		}
+
+		updateProblemIndication = true;
+		updateProblemIndication();
+	}
+
+<%}%>
 	/**
 	 * This is for implementing {@link IEditorPart} and simply saves the model file.
 	 * <!-- begin-user-doc -->
