@@ -83,10 +83,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.ui.action.CollapseAllAction;
 import org.eclipse.emf.edit.ui.action.ControlAction;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+import org.eclipse.emf.edit.ui.action.ExpandAllAction;
 import org.eclipse.emf.edit.ui.action.FindAction;
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
 import org.eclipse.emf.edit.ui.action.RevertAction;
@@ -619,6 +621,8 @@ public class EcoreActionBarContributor
     controlAction = new ControlAction();
     findAction = FindAction.create();
     revertAction = new RevertAction();
+    expandAllAction = new ExpandAllAction();
+    collapseAllAction = new CollapseAllAction();
 
     showGenericsAction.setChecked
       (Boolean.parseBoolean(EcoreEditorPlugin.getPlugin().getDialogSettings().get("showGenericsAction")));
@@ -650,6 +654,7 @@ public class EcoreActionBarContributor
   @Override
   public void contributeToToolBar(IToolBarManager toolBarManager)
   {
+    super.contributeToToolBar(toolBarManager);
     toolBarManager.add(new Separator("ecore-settings"));
     toolBarManager.add(new Separator("ecore-additions"));
   }
@@ -975,7 +980,7 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void depopulateManager(IContributionManager manager, Collection<? extends IAction> actions)
+  protected void depopulateManagerGen(IContributionManager manager, Collection<? extends IAction> actions)
   {
     if (actions != null)
     {
@@ -1000,6 +1005,20 @@ public class EcoreActionBarContributor
             manager.remove(contributionItem);
           }
         }
+      }
+    }
+  }
+
+  protected void depopulateManager(IContributionManager manager, Collection<? extends IAction> actions)
+  {
+    depopulateManagerGen(manager, actions);
+    IContributionItem[] items = manager.getItems();
+    for (int i = 0; i < items.length; i++)
+    {
+      IContributionItem contributionItem = items[i];
+      if ("annotations".equals(contributionItem.getId()))
+      {
+        manager.remove(contributionItem);
       }
     }
   }

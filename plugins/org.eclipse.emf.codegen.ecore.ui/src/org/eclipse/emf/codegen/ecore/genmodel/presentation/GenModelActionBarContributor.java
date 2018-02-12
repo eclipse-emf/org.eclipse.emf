@@ -62,8 +62,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.ui.action.CollapseAllAction;
 import org.eclipse.emf.edit.ui.action.CommandActionHandler;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+import org.eclipse.emf.edit.ui.action.ExpandAllAction;
 import org.eclipse.emf.edit.ui.action.FindAction;
 import org.eclipse.emf.edit.ui.action.RevertAction;
 import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator;
@@ -537,6 +539,8 @@ public class GenModelActionBarContributor
      (Boolean.parseBoolean(GenModelEditPlugin.getPlugin().getDialogSettings().get("showGenAnnotationsAction")));
     findAction = FindAction.create();
     revertAction = new RevertAction();
+    expandAllAction = new ExpandAllAction();
+    collapseAllAction = new CollapseAllAction();
   }
 
   @Override
@@ -586,6 +590,7 @@ public class GenModelActionBarContributor
   @Override
   public void contributeToToolBar(IToolBarManager toolBarManager)
   {
+    super.contributeToToolBar(toolBarManager);
     toolBarManager.add(new Separator("genmodel-settings"));
     toolBarManager.add(new Separator("genmodel-additions"));
   }

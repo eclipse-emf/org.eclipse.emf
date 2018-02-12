@@ -244,6 +244,12 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 <%if (genModel.isRevertAction()) {%>
 		revertAction = new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.RevertAction")%>();
 <%}%>
+<%if (genModel.isExpandAllAction()) {%>
+		expandAllAction = new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.ExpandAllAction")%>();
+<%}%>
+<%if (genModel.isCollapseAllAction()) {%>
+		collapseAllAction = new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.CollapseAllAction")%>();
+<%}%>
 	}
 
 	/**
@@ -257,6 +263,7 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 <%}%>
 	public void contributeToToolBar(<%=genModel.getImportedName("org.eclipse.jface.action.IToolBarManager")%> toolBarManager)
 	{
+		super.contributeToToolBar(toolBarManager);
 		toolBarManager.add(new <%=genModel.getImportedName("org.eclipse.jface.action.Separator")%>("<%=genPackage.getPrefix().toLowerCase(genModel.getLocale())%>-settings"));<%=genModel.getNonNLS()%>
 		toolBarManager.add(new <%=genModel.getImportedName("org.eclipse.jface.action.Separator")%>("<%=genPackage.getPrefix().toLowerCase(genModel.getLocale())%>-additions"));<%=genModel.getNonNLS()%>
 	}

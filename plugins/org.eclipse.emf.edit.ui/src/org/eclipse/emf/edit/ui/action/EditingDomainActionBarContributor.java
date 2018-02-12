@@ -128,6 +128,18 @@ public class EditingDomainActionBarContributor
   protected RevertAction revertAction;
 
   /**
+   * This action is used to collapse all items in a tree viewer.
+   * @since 2.14
+   */
+  protected CollapseAllAction collapseAllAction;
+ 
+  /**
+   * This action is used to expand all items in a tree viewer.
+   * @since 2.14
+   */
+  protected ExpandAllAction expandAllAction;
+
+  /**
    * This style bit indicates that the "additions" separator should come after the "edit" separator.
    */
   public static final int ADDITIONS_LAST_STYLE = 0x1;
@@ -283,6 +295,20 @@ public class EditingDomainActionBarContributor
   public void contributeToToolBar(IToolBarManager toolBarManager)
   {
     super.contributeToToolBar(toolBarManager);
+
+    toolBarManager.add(new Separator("expand-collapse"));
+
+    if (expandAllAction != null)
+    {
+      toolBarManager.add(expandAllAction);
+    }
+
+    if (collapseAllAction != null)
+    {
+      toolBarManager.add(collapseAllAction);
+    }
+
+    toolBarManager.add(new Separator("expand-collapse-end"));
   }
 
   public void shareGlobalActions(IPage page, IActionBars actionBars)
@@ -355,6 +381,7 @@ public class EditingDomainActionBarContributor
     else
     {
       // The platform ends up disabling the editor actions when, for example, the properties view becomes active, but we don't want that.
+      //
       org.eclipse.ui.internal.EditorSite editorSite = (org.eclipse.ui.internal.EditorSite)part.getEditorSite();
       editorSite.activateActionBars(part instanceof IEditingDomainProvider);
     }
@@ -405,6 +432,16 @@ public class EditingDomainActionBarContributor
     if (revertAction != null)
     {
       revertAction.setActiveWorkbenchPart(null);
+    }
+
+    if (collapseAllAction != null)
+    {
+      collapseAllAction.setActiveWorkbenchPart(null);
+    }
+
+    if (expandAllAction != null)
+    {
+      expandAllAction.setActiveWorkbenchPart(null);
     }
 
     ISelectionProvider selectionProvider = 
@@ -470,6 +507,16 @@ public class EditingDomainActionBarContributor
     if (revertAction != null)
     {
       revertAction.setActiveWorkbenchPart(activeEditor);
+    }
+
+    if (collapseAllAction != null)
+    {
+      collapseAllAction.setActiveWorkbenchPart(activeEditor);
+    }
+
+    if (expandAllAction != null)
+    {
+      expandAllAction.setActiveWorkbenchPart(activeEditor);
     }
 
     ISelectionProvider selectionProvider = 
@@ -548,6 +595,16 @@ public class EditingDomainActionBarContributor
     if (revertAction != null)
     {
       revertAction.update();
+    }
+
+    if (collapseAllAction != null)
+    {
+      collapseAllAction.update();
+    }
+
+    if (expandAllAction != null)
+    {
+      expandAllAction.update();
     }
   }
 
