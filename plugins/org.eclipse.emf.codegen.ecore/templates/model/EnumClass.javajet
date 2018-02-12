@@ -60,6 +60,11 @@ public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> 
 	 * The '<em><b><%=genEnumLiteral.getFormattedName()%></b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+<%if (genEnumLiteral.hasDocumentation()) {%>
+	 * <!-- begin-model-doc -->
+	 * <%=genEnumLiteral.getDocumentation(genModel.getIndentation(stringBuffer))%>
+	 * <!-- end-model-doc -->
+<%}%>
 	 * @see #<%=genEnumLiteral.getEnumLiteralValueConstantName()%>
       <%if (genEnumLiteral.hasAPITags()) {%>
 	 * <%=genEnumLiteral.getAPITags(genModel.getIndentation(stringBuffer))%>
