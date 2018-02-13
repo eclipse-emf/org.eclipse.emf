@@ -182,7 +182,7 @@ public class GenModelValidator extends EObjectValidator
                         Diagnostic.WARNING,
                         DIAGNOSTIC_SOURCE,
                         VALID_PROPERTY_EDIT_FACTORY,
-                        CodeGenEcorePlugin.INSTANCE.getString("_URI_ValidPropertyFactoryEditor_diagnostic", new Object[] { propertyEditorFactoryURI }),
+                        CodeGenEcorePlugin.INSTANCE.getString("_UI_ValidPropertyFactoryEditor_diagnostic", new Object[] { propertyEditorFactoryURI }),
                         new Object []{ propertyEditorFactory }));
                   }
 
