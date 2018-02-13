@@ -1149,7 +1149,7 @@ public class EcorePlugin  extends EMFPlugin
       {
         // Ignore.
       }
-      IS_PDE_BUNDLE_AVAILABLE = isPDEBundleAvailable && !"false".equals(System.getProperty("org.eclipse.emf.common.CommonPlugin.doNotUsePDE"));
+      IS_PDE_BUNDLE_AVAILABLE = isPDEBundleAvailable && !"true".equals(System.getProperty("org.eclipse.emf.common.CommonPlugin.doNotUsePDE"));
     }
 
     private static void computeModels(Map<URI, URI> pluginMap, Map<String, URI> nsURIMap)

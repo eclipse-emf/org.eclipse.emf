@@ -558,7 +558,7 @@ public final class CommonPlugin extends EMFPlugin
       PLUGIN_OBJECT_GET_NAME_METHOD = pluginObjectGetNameMethod;
       PLUGIN_ELEMENT_GET_ATTRIBUTES_METHOD = pluginElementGetAttributesMethod;
       PLUGIN_ATTRIBUTE_GET_VALUE_METHOD = pluginAttributeGetValueMethod;
-      IS_PDE_BUNDLE_AVAILABLE = isPDEBundleAvailable && !"false".equals(System.getProperty("org.eclipse.emf.common.CommonPlugin.doNotUsePDE"));
+      IS_PDE_BUNDLE_AVAILABLE = isPDEBundleAvailable && !"true".equals(System.getProperty("org.eclipse.emf.common.CommonPlugin.doNotUsePDE"));
     }
 
     @SuppressWarnings("unchecked")
