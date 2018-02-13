@@ -104,6 +104,9 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
   }
 
   /**
+   * Whether this factory's adapters should show generics.
+   * @see EModelElementItemProvider#isShowGenerics()
+   * @see EModelElementItemProvider#getChildren(Object)
    * @since 2.14
    */
   public boolean isShowGenerics()
@@ -112,19 +115,14 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
   }
 
   /**
+   * Sets whether this factory's adapters should show generics.
+   * @see EModelElementItemProvider#isShowGenerics()
+   * @see EModelElementItemProvider#getChildren(Object)
    * @since 2.14
    */
   public void setShowGenerics(boolean showGenerics)
   {
     this.showGenerics = showGenerics;
-
-    if (eAttributeItemProvider != null) eAttributeItemProvider.resetChildrenFeatures();
-    if (eClassItemProvider != null) eClassItemProvider.resetChildrenFeatures();
-    if (eDataTypeItemProvider != null) eDataTypeItemProvider.resetChildrenFeatures();
-    if (eOperationItemProvider != null) eOperationItemProvider.resetChildrenFeatures();
-    if (eParameterItemProvider != null) eParameterItemProvider.resetChildrenFeatures();
-    if (eReferenceItemProvider != null) eReferenceItemProvider.resetChildrenFeatures();
-    if (eTypeParameterItemProvider != null) eTypeParameterItemProvider.resetChildrenFeatures();
   }
 
   /**

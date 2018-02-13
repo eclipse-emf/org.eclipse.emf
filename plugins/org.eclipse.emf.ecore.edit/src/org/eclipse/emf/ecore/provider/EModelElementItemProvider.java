@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +27,12 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
@@ -107,19 +110,35 @@ public class EModelElementItemProvider
   }
 
   /**
-   * @since 2.14
-   */
-  public void resetChildrenFeatures()
-  {
-    childrenFeatures = null;
-  }
-
-  /**
+   * Returns whether the adapter factory {@link EcoreItemProviderAdapterFactory#isShowGenerics() supports showing generics}.
    * @since 2.14
    */
   protected boolean isShowGenerics()
   {
     return !(adapterFactory instanceof EcoreItemProviderAdapterFactory) || ((EcoreItemProviderAdapterFactory)adapterFactory).isShowGenerics();
+  }
+
+  /**
+   * Filters out {@link ETypeParameter} and {@link EGenericType} instances from the children.
+   *
+   * @since 2.14
+   */
+  @Override
+  public Collection<?> getChildren(Object object)
+  {
+    Collection<?> result = super.getChildren(object);
+    if (!isShowGenerics())
+    {
+      for (Iterator<?> i = result.iterator(); i.hasNext();)
+      {
+        Object child = i.next();
+        if (child instanceof ETypeParameter || child instanceof EGenericType)
+        {
+          i.remove();
+        }
+      }
+    }
+    return result;
   }
 
   /**

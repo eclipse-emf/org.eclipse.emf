@@ -361,10 +361,7 @@ public class ETypedElementItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      if (isShowGenerics())
-      {
-        childrenFeatures.add(EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE);
-      }
+      childrenFeatures.add(EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE);
     }
     return childrenFeatures;
   }
@@ -559,20 +556,17 @@ public class ETypedElementItemProvider
    * that can be created under this object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   @Override
   protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
 
-    if (isShowGenerics())
-    {
-      newChildDescriptors.add
-        (createChildParameter
-          (EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE,
-           EcoreFactory.eINSTANCE.createEGenericType()));
-    }
+    newChildDescriptors.add
+      (createChildParameter
+        (EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE,
+         EcoreFactory.eINSTANCE.createEGenericType()));
   }
 
 }
