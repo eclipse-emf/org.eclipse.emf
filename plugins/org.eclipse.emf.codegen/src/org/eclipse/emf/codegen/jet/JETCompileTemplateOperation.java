@@ -174,19 +174,22 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
    */
   protected void consider(IContainer container) throws CoreException 
   {
-    IResource[] children = container.members();
-    if (children != null) 
+    if (container.isAccessible())
     {
-      for (int i = 0; i < children.length; ++i) 
+      IResource[] children = container.members();
+      if (children != null) 
       {
-        IResource resource = children[i];
-        if (resource instanceof IFile) 
+        for (int i = 0; i < children.length; ++i) 
         {
-          consider((IFile)resource);
-        }
-        else if (resource instanceof IContainer) 
-        {
-          consider((IContainer)resource);
+          IResource resource = children[i];
+          if (resource instanceof IFile) 
+          {
+            consider((IFile)resource);
+          }
+          else if (resource instanceof IContainer) 
+          {
+            consider((IContainer)resource);
+          }
         }
       }
     }

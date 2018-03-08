@@ -30,7 +30,6 @@ import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
-import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
 
 
@@ -765,7 +764,7 @@ public class JETCompiler implements JETParseEventListener
     try
     {
       new URL(locationURI);
-      uri = CommonPlugin.resolve(uri);
+      uri = JETNature.resolve(uri);
     }
     catch (MalformedURLException exception)
     {
@@ -780,7 +779,7 @@ public class JETCompiler implements JETParseEventListener
       {
         resolvedLocation = baseLocationURI.substring(0, index + 1);
       }
-      resolvedLocation += uri;
+      resolvedLocation = resolve(resolvedLocation, uri.toString());
       result[0] = resolvedLocation;
       if (templateURIPath != null)
       {
@@ -813,7 +812,7 @@ public class JETCompiler implements JETParseEventListener
           {
             result[0] += "/";
           }
-          result[0] += relativeLocationURI;
+          result[0] = resolve(result[0], relativeLocationURI);
   
           InputStream inputStream = openStream(result[0]);
           inputStream.close();
@@ -832,6 +831,32 @@ public class JETCompiler implements JETParseEventListener
     return result;
   }
   
+  private static String resolve(String base, String relativePath)
+  {
+    while (relativePath.startsWith("./"))
+    {
+      relativePath = relativePath.substring(2);
+    }
+
+    while (relativePath.startsWith("../"))
+    {
+      int index = base.lastIndexOf('/', base.length() - 2);
+      if (index == -1)
+      {
+        base = "";
+        relativePath = relativePath.substring(3);
+        break;
+      }
+      else
+      {
+        base = base.substring(0, index);
+        relativePath = relativePath.substring(3);
+      }
+    }
+
+    return base + relativePath;
+  }
+
   public static String find(String[] locationURIPath, String relativeLocationURI)
   {
     return findLocation(locationURIPath, 0, relativeLocationURI)[0];
@@ -845,7 +870,7 @@ public class JETCompiler implements JETParseEventListener
       URL url;
       try
       {
-        uri = CommonPlugin.resolve(uri);
+        uri = JETNature.resolve(uri);
         url = new URL(uri.toString());
       }
       catch (MalformedURLException exception)

@@ -20,8 +20,11 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.WeakHashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -47,6 +50,10 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -54,6 +61,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
 
 
@@ -84,6 +92,29 @@ public class JETNature implements IJETNature
   protected static final String SOURCE_CONTAINER_NODE = "source-container";
   protected static final String JET_SETTINGS_NODE = "jet-settings";
 
+  private static final Map<JETNature, Void> JET_NATURES = new WeakHashMap<JETNature, Void>();
+  
+  static
+  {
+    ResourcesPlugin.getWorkspace().addResourceChangeListener
+      (new IResourceChangeListener()
+       {
+         public void resourceChanged(IResourceChangeEvent event)
+         {
+           targetPlatformBundleRedirections = null;
+           for (JETNature jetNature : JET_NATURES.keySet())
+           {
+            jetNature.jetJavaSourceContainer = null;
+            jetNature.jetTemplateContainers = null;
+            jetNature.jetTemplateSourceContainers = null;
+           }
+         }
+       },
+       IResourceChangeEvent.PRE_BUILD);
+  }
+
+  private static Map<String, URI> targetPlatformBundleRedirections;
+
   protected IProject jetProject;
   protected List<Object> jetTemplateContainers;
   protected List<Object> jetTemplateSourceContainers;
@@ -95,6 +126,7 @@ public class JETNature implements IJETNature
   public JETNature() 
   {
     super();
+    JET_NATURES.put(this, null);
   }
 
   public List<Object> getTemplateContainers() 
@@ -775,12 +807,16 @@ public class JETNature implements IJETNature
       {
         result = null;
       }
-      else if (path.isAbsolute() && path.getDevice() == null)
+      else if (path.isAbsolute())
       {
-        IResource resource = project.getWorkspace().getRoot().findMember(path);
-        if (resource instanceof IContainer)
+        IWorkspaceRoot root = project.getWorkspace().getRoot();
+        if (path.segmentCount() == 1)
         {
-          result = (IContainer)resource;
+          result = root.getProject(path.segment(0));
+        }
+        else
+        {
+          result = root.getFolder(path);
         }
       }
       else
@@ -865,5 +901,65 @@ public class JETNature implements IJETNature
       (project == container.getProject() ?
         container.getProjectRelativePath() :
         container.getFullPath()).toString();
+  }
+
+  /**
+   * @sine 2.14
+   */
+  public static URI resolve(URI uri)
+  {
+    // If the URI is a platform resource denoting something that might exist in the workspace...
+    //
+    if (uri.isPlatformResource() && uri.segmentCount() > 1)
+    {
+      // If the resource doesn't really exist in the workspace, or is inaccessible.
+      //
+      IResource member = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(uri.toPlatformString(true)));
+      if (member == null || !member.isAccessible())
+      {
+        // Compute the target platform bundle redirections, if possible.
+        //
+        if (targetPlatformBundleRedirections == null)
+        {
+          targetPlatformBundleRedirections = new HashMap<String, URI>();
+          Map<String, URI> targetPlatformBundleMappings = CommonPlugin.getTargetPlatformBundleMappings();
+          if (targetPlatformBundleMappings != null)
+          {
+            for (Map.Entry<String, URI> entry : targetPlatformBundleMappings.entrySet())
+            {
+              String bundleName = entry.getKey();
+              URI locationURI = entry.getValue();
+
+              // If the bundle isn't redirected to the workspace already,
+              // add a mapping to the bundle's location.
+              //
+              if (!locationURI.isPlatformResource())
+              {
+                if ("archive".equals(locationURI.scheme()))
+                {
+                  locationURI = URI.createURI("jar" + locationURI.toString().substring(7));
+                }
+                targetPlatformBundleRedirections.put(bundleName, locationURI);
+              }
+            }
+          }
+        }
+
+        // If the resource's project name maps to a target platform bundle...
+        //
+        URI targetPlatformBundleLocation = targetPlatformBundleRedirections.get(URI.decode(uri.segment(1)));
+        if (targetPlatformBundleLocation != null)
+        {
+          // Compute the segments after the project name, append those to the bundle's location,
+          // and return that result, which does not need to be further resolved because it will be a file: or jar: URI already.
+          //
+          List<String> segments = uri.segmentsList().subList(2, uri.segmentCount());
+          URI result = targetPlatformBundleLocation.appendSegments(segments.toArray(new String[segments.size()]));
+          return result;
+        }
+      }
+    }
+
+    return CommonPlugin.resolve(uri);
   }
 }

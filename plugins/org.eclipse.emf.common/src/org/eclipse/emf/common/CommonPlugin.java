@@ -152,6 +152,29 @@ public final class CommonPlugin extends EMFPlugin
     }
   }
 
+  /**
+   * Computes a map from bundle symbolic name to the bundle's location URI.
+   * <p>
+   * This method uses the Plug-in Development Environment (PDE) to compute the results.
+   * It will include results for plug-ins in the workspace as well as for plug-ins in the target platform.
+   * If PDE is not available, this information cannot be computed.
+   * </p>
+   * 
+   * @return a map from bundle symbolic name to the bundle's location URI, or {@code null} if PDE is not available.
+   * @since 2.14
+   */
+  public static Map<String, URI> getTargetPlatformBundleMappings()
+  {
+    if (IS_ECLIPSE_RUNNING && PDEHelper.IS_PDE_BUNDLE_AVAILABLE)
+    {
+      return PDEHelper.computeTargetPlatformBundleMappings();
+    }
+    else
+    {
+      return null;
+    }
+  }
+
   private static final Method COLLATOR_GET_INSTANCE_METHOD;
   static
   {
@@ -572,6 +595,73 @@ public final class CommonPlugin extends EMFPlugin
       {
         return null;
       }
+    }
+
+    private static Map<String, URI> computeTargetPlatformBundleMappings()
+    {
+      Map<String, URI> result = new TreeMap<String, URI>();
+
+      // Iterate over all the active models in the workspace and target platform.
+      //
+      // IPluginModelBase[] activeModels = PluginRegistry.getActiveModels(false);
+      //
+      Object[] activeModels = invoke(null, PLUGIN_REGISTRY_GET_ACTIVE_MODELS_METHOD, Boolean.FALSE);
+      for (Object activeModel : activeModels)
+      {
+        // Determine the symbolic name, underlying resource, if any, and the install location.
+        //
+        // BundleDescription bundleDescription = activeModel.getBundleDescription();
+        // String symbolicName = bundleDescription.getSymbolicName();
+        // IResource underlyingResource = activeModel.getUnderlyingResource();
+        // String installLocation = activeModel.getInstallLocation();
+        //
+        Object bundleDescription = invoke(activeModel, PLUGIN_MODEL_BASE_GET_BUNDLE_DESCRIPTION_METHOD);
+        String symbolicName = (String)invoke(bundleDescription, BUNDLE_DESCRIPTION_GET_SYMBOLIC_NAME_METHOD);
+        Object underlyingResource = invoke(activeModel, PLUGIN_MODEL_BASE_GET_UNDERLYING_RESOURCE_METHOD);
+        String installLocation = (String)invoke(activeModel, PLUGIN_MODEL_BASE_GET_INSTALL_LOCATION_METHOD);
+
+        // The URI for the location is determined from the underlying resource or the install location, with preference to the former if available.
+        //
+        URI location;
+        if (underlyingResource != null)
+        {
+          // If there is an underlying resource, use the platform resource URI referencing the project in the workspace as the location.
+          // underlyingResource.getProject()
+          //
+          Object project = invoke(underlyingResource, RESOURCE_GET_PROJECT_METHOD);
+          IPath fullPath = invoke(project, RESOURCE_GET_FULL_PATH_METHOD);
+          location = URI.createPlatformResourceURI(fullPath.toString(), true);
+        }
+        else if (installLocation != null)
+        {
+          // Otherwise, the install location in the file system is used...
+          //
+          File file = new File(installLocation);
+          if (file.isDirectory())
+          {
+            // If the file is a directory, create a file URI for that directory.
+            //
+            location = URI.createFileURI(installLocation);
+          }
+          else
+          {
+            // Otherwise, the location must be an archive, create an archive URI for the file URI of the jar.
+            //
+            location = URI.createURI("archive:" + URI.createFileURI(installLocation) + "!/");
+          }
+        }
+        else
+        {
+          location = null;
+        }
+
+        if (location != null)
+        {
+          result.put(symbolicName, location);
+        }
+      }
+
+      return result;
     }
 
     private static Map<String, List<ElementRecord>> computeModels(Set<String> extensionPoints)
