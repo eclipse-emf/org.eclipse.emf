@@ -52,6 +52,7 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -93,24 +94,37 @@ public class JETNature implements IJETNature
   protected static final String JET_SETTINGS_NODE = "jet-settings";
 
   private static final Map<JETNature, Void> JET_NATURES = new WeakHashMap<JETNature, Void>();
-  
+
+  private static final IWorkspace WORKSPACE;
+
   static
   {
-    ResourcesPlugin.getWorkspace().addResourceChangeListener
-      (new IResourceChangeListener()
-       {
-         public void resourceChanged(IResourceChangeEvent event)
+    IWorkspace workspace = null;
+    try
+    {
+      workspace = ResourcesPlugin.getWorkspace();
+      workspace.addResourceChangeListener
+        (new IResourceChangeListener()
          {
-           targetPlatformBundleRedirections = null;
-           for (JETNature jetNature : JET_NATURES.keySet())
+           public void resourceChanged(IResourceChangeEvent event)
            {
-            jetNature.jetJavaSourceContainer = null;
-            jetNature.jetTemplateContainers = null;
-            jetNature.jetTemplateSourceContainers = null;
+             targetPlatformBundleRedirections = null;
+             for (JETNature jetNature : JET_NATURES.keySet())
+             {
+               jetNature.jetJavaSourceContainer = null;
+               jetNature.jetTemplateContainers = null;
+               jetNature.jetTemplateSourceContainers = null;
+             }
            }
-         }
-       },
-       IResourceChangeEvent.PRE_BUILD);
+         },
+         IResourceChangeEvent.PRE_BUILD);
+    }
+    catch (IllegalStateException exception)
+    {
+      // Ignore if the workspace is closed.
+    }
+
+    WORKSPACE = workspace;
   }
 
   private static Map<String, URI> targetPlatformBundleRedirections;
@@ -910,11 +924,11 @@ public class JETNature implements IJETNature
   {
     // If the URI is a platform resource denoting something that might exist in the workspace...
     //
-    if (uri.isPlatformResource() && uri.segmentCount() > 1)
+    if (WORKSPACE != null && uri.isPlatformResource() && uri.segmentCount() > 1)
     {
       // If the resource doesn't really exist in the workspace, or is inaccessible.
       //
-      IResource member = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(uri.toPlatformString(true)));
+      IResource member = WORKSPACE.getRoot().findMember(new Path(uri.toPlatformString(true)));
       if (member == null || !member.isAccessible())
       {
         // Compute the target platform bundle redirections, if possible.
