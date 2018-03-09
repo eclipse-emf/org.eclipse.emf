@@ -655,7 +655,7 @@ public final class CommonPlugin extends EMFPlugin
           location = null;
         }
 
-        if (location != null)
+        if (symbolicName != null && location != null)
         {
           result.put(symbolicName, location);
         }
