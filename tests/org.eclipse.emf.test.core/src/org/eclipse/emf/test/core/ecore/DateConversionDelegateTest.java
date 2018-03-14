@@ -248,7 +248,10 @@ public class DateConversionDelegateTest
           Assert.assertTrue(message + " -> " + value.getClass(), instanceClass.isInstance(value));
         }
         String convertedLiteral = EcoreUtil.convertToString(eDataType, value);
-        Assert.assertEquals(message, literal, convertedLiteral);
+        Object convertedValue = EcoreUtil.createFromString(eDataType, convertedLiteral);
+        String doubleConvertedLiteral = EcoreUtil.convertToString(eDataType, convertedValue);
+        Assert.assertEquals(message, convertedLiteral, doubleConvertedLiteral);
+        System.out.println("###" + message);
       }
     }
   }
