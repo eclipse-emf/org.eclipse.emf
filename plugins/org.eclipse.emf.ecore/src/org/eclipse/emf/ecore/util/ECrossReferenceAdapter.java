@@ -27,6 +27,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -471,11 +472,33 @@ public class ECrossReferenceAdapter implements Adapter.Internal
   
   protected boolean settingTargets;
 
+  /**
+   * Indicates whether the adapter is currently being attached {@link #useRecursion() iteratively}.
+   *
+   * @see #useRecursion()
+   * @see #setTarget(EObject)
+   * @see #unsetTarget(EObject)
+   * @since 2.14
+   */
+  protected boolean iterating;
+
   public ECrossReferenceAdapter()
   {
     inverseCrossReferencer = createInverseCrossReferencer();
   }
-  
+
+  /**
+   * Returns whether the process of attaching this adapter should be done recursively or iteratively;
+   * the default is to return {@code true} for recursion.
+   *
+   * @since 2.14
+   * @return whether the process of attaching this adapter should be done recursively or iteratively.
+   */
+  protected boolean useRecursion()
+  {
+    return true;
+  }
+
   public Collection<EStructuralFeature.Setting> getNonNavigableInverseReferences(EObject eObject)
   {
     return getNonNavigableInverseReferences(eObject, !resolve());
@@ -886,14 +909,35 @@ public class ECrossReferenceAdapter implements Adapter.Internal
   protected void setTarget(EObject target)
   {
     inverseCrossReferencer.add(target);
-    for (@SuppressWarnings("unchecked") Iterator<EObject> i = 
-           resolve() ? 
-              target.eContents().iterator() : 
-              (Iterator<EObject>)((InternalEList<?>)target.eContents()).basicIterator(); 
-         i.hasNext(); )
+
+    if (useRecursion())
     {
-      Notifier notifier = i.next();
-      addAdapter(notifier);
+      for (@SuppressWarnings("unchecked") Iterator<EObject> i = 
+             resolve() ? 
+                target.eContents().iterator() : 
+                (Iterator<EObject>)((InternalEList<?>)target.eContents()).basicIterator(); 
+           i.hasNext(); )
+      {
+        Notifier notifier = i.next();
+        addAdapter(notifier);
+      }
+    }
+    else if (!iterating)
+    {
+      iterating = true;
+      for (TreeIterator<EObject> i = EcoreUtil.getAllContents(target, resolve()); i.hasNext(); )
+      {
+        EObject eObject = i.next();
+        if (eObject.eAdapters().contains(this))
+        {
+          i.prune();
+        }
+        else
+        {
+          addAdapter(eObject);
+        }
+      }
+      iterating = false;
     }
   }
 
@@ -961,21 +1005,41 @@ public class ECrossReferenceAdapter implements Adapter.Internal
       inverseCrossReferencer.remove(target, (EReference)i.feature(), crossReferencedEObject);     
     }
 
-    for (@SuppressWarnings("unchecked") Iterator<InternalEObject> i = 
-           resolve() ? 
-             (Iterator<InternalEObject>)(Iterator<?>)target.eContents().iterator() : 
-             (Iterator<InternalEObject>)((InternalEList<?>)target.eContents()).basicIterator(); 
-         i.hasNext(); )
+    if (useRecursion())
     {
-      // Don't remove the adapter if the object is in a different resource 
-      // and that resource (and hence all its contents) are being cross referenced.
-      //
-      InternalEObject internalEObject = i.next();
-      Resource eDirectResource = internalEObject.eDirectResource();
-      if (eDirectResource == null || !eDirectResource.eAdapters().contains(this))
+      for (@SuppressWarnings("unchecked") Iterator<InternalEObject> i = 
+             resolve() ? 
+               (Iterator<InternalEObject>)(Iterator<?>)target.eContents().iterator() : 
+               (Iterator<InternalEObject>)((InternalEList<?>)target.eContents()).basicIterator(); 
+           i.hasNext(); )
       {
-        removeAdapter(internalEObject);
+        // Don't remove the adapter if the object is in a different resource 
+        // and that resource (and hence all its contents) are being cross referenced.
+        //
+        InternalEObject internalEObject = i.next();
+        Resource eDirectResource = internalEObject.eDirectResource();
+        if (eDirectResource == null || !eDirectResource.eAdapters().contains(this))
+        {
+          removeAdapter(internalEObject);
+        }
       }
+    }
+    else if (!iterating)
+    {
+      iterating = true;
+      for (TreeIterator<InternalEObject> i = EcoreUtil.getAllContents(target, resolve()); i.hasNext(); )
+      {
+        // Don't remove the adapter if the object is in a different resource 
+        // and that resource (and hence all its contents) are being cross referenced.
+        //
+        InternalEObject internalEObject = i.next();
+        Resource eDirectResource = internalEObject.eDirectResource();
+        if (eDirectResource == null || !eDirectResource.eAdapters().contains(this))
+        {
+          removeAdapter(internalEObject);
+        }
+      }
+      iterating = false;
     }
   }
 

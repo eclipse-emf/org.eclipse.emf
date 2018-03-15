@@ -49,15 +49,27 @@ import org.eclipse.emf.test.core.xrefsmodel.util.XRefsModelUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 
+@RunWith(Parameterized.class)
 public class ECrossReferenceAdapterTest
 {
+  @Parameters(name="{0}")
+  public static Collection<ECrossReferenceAdapterFixture> eCrossReferenceAdapters()
+  {
+    return Arrays.asList(new ECrossReferenceAdapterFixture(), new IterativeECrossReferenceAdapterFixture());
+  }
+
   private EPackage testPackage;
 
   private EAttribute mapAttribute;
 
-  private ECrossReferenceAdapterFixture fixture;
+  @Parameter
+  public ECrossReferenceAdapterFixture fixture;
 
   /**
    * Tests the filtered intrinsic cross-reference iterator for a resolving cross-referencer.
@@ -67,10 +79,8 @@ public class ECrossReferenceAdapterTest
   {
     A a0 = loadXRefsInstance();
 
-    List<EStructuralFeature> expectedEntries = new ArrayList<EStructuralFeature>(Arrays.asList(
-      XRefsModelPackage.Literals.A__OTHERS,
-      XRefsModelPackage.Literals.A__OTHERS,
-      XRefsModelPackage.Literals.A__NON_OTHERS));
+    List<EStructuralFeature> expectedEntries = new ArrayList<EStructuralFeature>(
+      Arrays.asList(XRefsModelPackage.Literals.A__OTHERS, XRefsModelPackage.Literals.A__OTHERS, XRefsModelPackage.Literals.A__NON_OTHERS));
     List<String> expectedNames = new ArrayList<String>(Arrays.asList("a1", "a2", "a3"));
     for (EContentsEList.FeatureIterator<EObject> iter = fixture.getCrossReferences(a0); iter.hasNext();)
     {
@@ -100,10 +110,8 @@ public class ECrossReferenceAdapterTest
 
     A a0 = loadXRefsInstance();
 
-    List<EStructuralFeature> expectedEntries = new ArrayList<EStructuralFeature>(Arrays.asList(
-      XRefsModelPackage.Literals.A__OTHERS,
-      XRefsModelPackage.Literals.A__OTHERS,
-      XRefsModelPackage.Literals.A__NON_OTHERS));
+    List<EStructuralFeature> expectedEntries = new ArrayList<EStructuralFeature>(
+      Arrays.asList(XRefsModelPackage.Literals.A__OTHERS, XRefsModelPackage.Literals.A__OTHERS, XRefsModelPackage.Literals.A__NON_OTHERS));
     List<String> expectedURIs = new ArrayList<String>(Arrays.asList("xrefs1.xmi#/0", "xrefs1.xmi#/1", "xrefs1.xmi#/2"));
     for (EContentsEList.FeatureIterator<EObject> iter = fixture.getCrossReferences(a0); iter.hasNext();)
     {
@@ -133,10 +141,8 @@ public class ECrossReferenceAdapterTest
 
     A a0 = loadXRefsInstance();
 
-    List<EStructuralFeature> expectedEntries = new ArrayList<EStructuralFeature>(Arrays.asList(
-      XRefsModelPackage.Literals.A__OTHERS,
-      XRefsModelPackage.Literals.A__OTHERS,
-      XRefsModelPackage.Literals.A__NON_OTHERS));
+    List<EStructuralFeature> expectedEntries = new ArrayList<EStructuralFeature>(
+      Arrays.asList(XRefsModelPackage.Literals.A__OTHERS, XRefsModelPackage.Literals.A__OTHERS, XRefsModelPackage.Literals.A__NON_OTHERS));
     List<String> expectedNames = new ArrayList<String>(Arrays.asList("a1", "a2", "a3"));
     for (EContentsEList.FeatureIterator<EObject> iter = fixture.getCrossReferences(a0); iter.hasNext();)
     {
@@ -173,10 +179,8 @@ public class ECrossReferenceAdapterTest
 
     A a0 = loadXRefsInstance();
 
-    List<EStructuralFeature> expectedEntries = new ArrayList<EStructuralFeature>(Arrays.asList(
-      XRefsModelPackage.Literals.A__OTHERS,
-      XRefsModelPackage.Literals.A__OTHERS,
-      XRefsModelPackage.Literals.A__NON_OTHERS));
+    List<EStructuralFeature> expectedEntries = new ArrayList<EStructuralFeature>(
+      Arrays.asList(XRefsModelPackage.Literals.A__OTHERS, XRefsModelPackage.Literals.A__OTHERS, XRefsModelPackage.Literals.A__NON_OTHERS));
     List<String> expectedURIs = new ArrayList<String>(Arrays.asList("xrefs1.xmi#/0", "xrefs1.xmi#/1", "xrefs1.xmi#/2"));
     for (EContentsEList.FeatureIterator<EObject> iter = fixture.getCrossReferences(a0); iter.hasNext();)
     {
@@ -267,8 +271,6 @@ public class ECrossReferenceAdapterTest
     // We must never call the A::getAllOthers() derived reference accessor when cross-referencing
     XRefsModelUtil.assertNoAllOthersCalls(true);
 
-    fixture = new ECrossReferenceAdapterFixture();
-
     testPackage = EcoreFactory.eINSTANCE.createEPackage();
     testPackage.setName("test");
     testPackage.setNsPrefix("test");
@@ -282,6 +284,9 @@ public class ECrossReferenceAdapterTest
     foo.getEStructuralFeatures().add(mapAttribute);
     mapAttribute.setName("map");
     mapAttribute.setEType(EcorePackage.Literals.ESTRING);
+
+    // Create a fresh new instance the same as the parameter.
+    fixture = fixture.newInstance();
   }
 
   @After
@@ -297,7 +302,7 @@ public class ECrossReferenceAdapterTest
     fixture = null;
   }
 
-  A loadXRefsInstance()
+  private A loadXRefsInstance()
   {
     ResourceSet rset = new ResourceSetImpl();
     rset.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
@@ -365,6 +370,38 @@ public class ECrossReferenceAdapterTest
     void assertCrossReferenceMapEmpty()
     {
       assertTrue("Cross-reference map is not empty", inverseCrossReferencer.isEmpty());
+    }
+
+    public ECrossReferenceAdapterFixture newInstance()
+    {
+      return new ECrossReferenceAdapterFixture();
+    }
+
+    @Override
+    public String toString()
+    {
+      return "recursive";
+    }
+  }
+
+  static class IterativeECrossReferenceAdapterFixture extends ECrossReferenceAdapterFixture
+  {
+    @Override
+    protected boolean useRecursion()
+    {
+      return false;
+    }
+
+    @Override
+    public IterativeECrossReferenceAdapterFixture newInstance()
+    {
+      return new IterativeECrossReferenceAdapterFixture();
+    }
+    
+    @Override
+    public String toString()
+    {
+      return "iterative";
     }
   }
 }

@@ -7,8 +7,12 @@
  */
 package org.eclipse.emf.test.core.ecore;
 
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.EList;
@@ -24,13 +28,52 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
+
+@RunWith(Parameterized.class)
 public class EContentAdapterTest
 {
+  @Parameters(name="{0}")
+  public static Collection<EContentAdapter> eContentAdapters()
+  {
+    return Arrays.asList(new EContentAdapter()
+      {
+        @Override
+        public String toString()
+        {
+          return "resursive";
+        }
+      }, new EContentAdapter()
+        {
+          @Override
+          protected boolean useRecursion()
+          {
+            return false;
+          }
+
+          @Override
+          public String toString()
+          {
+            return "iterative";
+          }
+        });
+  }
+
+  @Parameter
+  public EContentAdapter eContentAdapter;
+
   private ResourceSet resourceSet;
+
   private Resource rootResource;
+
   private Resource childResource;
+
   private EPackage ePackage;
+
   private EClass eClass;
 
   @Before
@@ -49,7 +92,7 @@ public class EContentAdapterTest
     rootResource.getContents().add(ePackage);
     childResource.getContents().add(eClass);
 
-    resourceSet.eAdapters().add(new EContentAdapter());
+    resourceSet.eAdapters().add(eContentAdapter);
   }
 
   @Test
@@ -63,7 +106,8 @@ public class EContentAdapterTest
   }
 
   @Test
-  public void testRemovingStillAdaptedObjectFromCrossContainmentReference() {
+  public void testRemovingStillAdaptedObjectFromCrossContainmentReference()
+  {
     ePackage.getEClassifiers().add(eClass);
 
     EList<Adapter> eAdapters = eClass.eAdapters();
@@ -88,9 +132,10 @@ public class EContentAdapterTest
     size = eAdapters.size();
     assertEquals("No additional EContentAdapter is expected", expectedSize, size);
   }
-  
+
   @Test
-  public void testRemovingStillAdaptedObjectFromResourceContents() {
+  public void testRemovingStillAdaptedObjectFromResourceContents()
+  {
     ePackage.getEClassifiers().add(eClass);
 
     EList<Adapter> eAdapters = eClass.eAdapters();
@@ -99,9 +144,10 @@ public class EContentAdapterTest
     int size = eAdapters.size();
     assertEquals("No removal of EContentAdapter is expected", expectedSize, size);
   }
-  
+
   @Test
-  public void testRemovingStillAdaptedObjectFromCrossContainmentReferenceAndResourceContents() {
+  public void testRemovingStillAdaptedObjectFromCrossContainmentReferenceAndResourceContents()
+  {
     ePackage.getEClassifiers().add(eClass);
 
     EList<Adapter> eAdapters = eClass.eAdapters();
@@ -111,12 +157,13 @@ public class EContentAdapterTest
     int size = eAdapters.size();
     assertEquals("No removal of EContentAdapter is expected", expectedSize - 1, size);
   }
-  
+
   @Test
-  public void testProxyResolve() {
+  public void testProxyResolve()
+  {
     EList<Adapter> eAdapters = eClass.eAdapters();
     int expectedSize = eAdapters.size();
-    
+
     EClass proxyEClass = EcoreFactory.eINSTANCE.createEClass();
     proxyEClass.getESuperTypes();
     ((InternalEObject)proxyEClass).eSetProxyURI(EcoreUtil.getURI(eClass));
@@ -126,35 +173,37 @@ public class EContentAdapterTest
     assertTrue("Added proxy is still a proxy", proxyEClass.eIsProxy());
     int proxySize = proxyEAdapters.size();
     assertEquals("One EContentAdapter is expected", expectedProxySize + 1, proxySize);
-    
+
     // Resolve the proxy.
     ePackage.getEClassifiers().get(0);
     proxySize = proxyEAdapters.size();
     assertEquals("No EContentAdapter is expected", expectedProxySize, proxySize);
-    
+
     int size = eAdapters.size();
     assertEquals("One EContentAdapter is expected", expectedSize, size);
   }
-  
+
   @Test
-  public void testRemoveContentAdapter() {
+  public void testRemoveContentAdapter()
+  {
     EList<Adapter> childResourceEAdapters = childResource.eAdapters();
     ePackage.getEClassifiers().add(eClass);
     EList<Adapter> eAdapters = eClass.eAdapters();
     int expectedSize = eAdapters.size();
-    
+
     resourceSet.eAdapters().clear();
-    assertEquals("No EContentAdapter is expected", expectedSize-1, eAdapters.size());
+    assertEquals("No EContentAdapter is expected", expectedSize - 1, eAdapters.size());
     assertEquals("No EContentAdapter is expected", 0, childResourceEAdapters.size());
   }
-  
+
   @Test
-  public void testRemoveResource() {
+  public void testRemoveResource()
+  {
     EList<Adapter> childResourceEAdapters = childResource.eAdapters();
     ePackage.getEClassifiers().add(eClass);
     EList<Adapter> eAdapters = eClass.eAdapters();
     int expectedSize = eAdapters.size();
-    
+
     resourceSet.getResources().remove(childResource);
     assertEquals("One EContentAdapter is expected", expectedSize, eAdapters.size());
     assertEquals("No EContentAdapter is expected", 0, childResourceEAdapters.size());

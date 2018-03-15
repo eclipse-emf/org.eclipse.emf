@@ -20,6 +20,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -34,6 +35,28 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  */
 public class EContentAdapter extends AdapterImpl
 {
+  /**
+   * Indicates whether the adapter is currently being attached {@link #useRecursion() iteratively}.
+   *
+   * @see #useRecursion()
+   * @see #setTarget(EObject)
+   * @see #unsetTarget(EObject)
+   * @since 2.14
+   */
+  protected boolean iterating;
+
+  /**
+   * Returns whether the process of attaching this adapter should be done recursively or iteratively;
+   * the default is to return {@code true} for recursion.
+   *
+   * @since 2.14
+   * @return whether the process of attaching this adapter should be done recursively or iteratively.
+   */
+  protected boolean useRecursion()
+  {
+    return true;
+  }
+
   /**
    * Handles a notification by calling {@link #selfAdapt selfAdapter}.
    */
@@ -217,13 +240,33 @@ public class EContentAdapter extends AdapterImpl
   protected void setTarget(EObject target)
   {
     basicSetTarget(target);
-    for (Iterator<? extends Notifier> i = resolve() ? 
-           target.eContents().iterator() : 
-           ((InternalEList<? extends Notifier>)target.eContents()).basicIterator();
-         i.hasNext(); )
+    if (useRecursion())
     {
-      Notifier notifier = i.next();
-      addAdapter(notifier);
+      for (Iterator<? extends Notifier> i = resolve() ? 
+             target.eContents().iterator() : 
+             ((InternalEList<? extends Notifier>)target.eContents()).basicIterator();
+           i.hasNext(); )
+      {
+        Notifier notifier = i.next();
+        addAdapter(notifier);
+      }
+    }
+    else if (!iterating)
+    {
+      iterating = true;
+      for (TreeIterator<EObject> i = EcoreUtil.getAllContents(target, resolve()); i.hasNext(); )
+      {
+        EObject eObject = i.next();
+        if (eObject.eAdapters().contains(this))
+        {
+          i.prune();
+        }
+        else
+        {
+          addAdapter(eObject);
+        }
+      }
+      iterating = false;
     }
   }
 
@@ -308,13 +351,26 @@ public class EContentAdapter extends AdapterImpl
   protected void unsetTarget(EObject target)
   {
     basicUnsetTarget(target);
-    for (Iterator<? extends Notifier> i = resolve() ? 
-           target.eContents().iterator() : 
-           ((InternalEList<EObject>)target.eContents()).basicIterator(); 
-         i.hasNext(); )
+    if (useRecursion())
     {
-      Notifier notifier = i.next();
-      removeAdapter(notifier, false, true);
+      for (Iterator<? extends Notifier> i = resolve() ? 
+             target.eContents().iterator() : 
+             ((InternalEList<EObject>)target.eContents()).basicIterator(); 
+           i.hasNext(); )
+      {
+        Notifier notifier = i.next();
+        removeAdapter(notifier, false, true);
+      }
+    }
+    else if (!iterating)
+    {
+      iterating = true;
+      for (TreeIterator<EObject> i = EcoreUtil.getAllContents(target, resolve()); i.hasNext(); )
+      {
+        EObject eObject = i.next();
+        removeAdapter(eObject, false, true);
+      }
+      iterating = false;
     }
   }
 
