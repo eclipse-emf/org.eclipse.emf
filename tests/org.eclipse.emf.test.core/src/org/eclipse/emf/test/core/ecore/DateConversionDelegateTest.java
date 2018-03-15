@@ -251,7 +251,6 @@ public class DateConversionDelegateTest
         Object convertedValue = EcoreUtil.createFromString(eDataType, convertedLiteral);
         String doubleConvertedLiteral = EcoreUtil.convertToString(eDataType, convertedValue);
         Assert.assertEquals(message, convertedLiteral, doubleConvertedLiteral);
-        System.out.println("###" + message);
       }
     }
   }
