@@ -20,7 +20,7 @@
     </application>
   </extension>
 
-  <extension point="org.eclipse.core.resources.natures" id="org.eclipse.emf.codegen.jet.IJETNature">
+  <extension point="org.eclipse.core.resources.natures" id="org.eclipse.emf.codegen.jet.IJETNature" name="%jetNature">
     <runtime>
       <run class="org.eclipse.emf.codegen.jet.JETNature" />
     </runtime>
