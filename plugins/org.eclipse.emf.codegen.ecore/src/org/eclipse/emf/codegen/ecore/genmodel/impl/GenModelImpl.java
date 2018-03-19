@@ -108,6 +108,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
@@ -11172,6 +11173,19 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         projectAttributeData.put(project, result);
       }
       return result;
+    }
+
+    @Override
+    protected InputStream createInputStream(URI workspacePath) throws Exception
+    {
+      if (EMFPlugin.IS_ECLIPSE_RUNNING)
+      {
+        return super.createInputStream(workspacePath);
+      }
+      else
+      {
+        return URIConverter.INSTANCE.createInputStream(toPlatformResourceURI(workspacePath));
+      }
     }
 
     private Properties getProjectPropertyData(String project, String propertiesPath)
