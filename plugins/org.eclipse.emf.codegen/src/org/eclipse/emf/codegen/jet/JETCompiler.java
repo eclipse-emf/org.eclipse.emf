@@ -30,6 +30,8 @@ import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.URI;
 
 
@@ -764,7 +766,7 @@ public class JETCompiler implements JETParseEventListener
     try
     {
       new URL(locationURI);
-      uri = JETNature.resolve(uri);
+      uri = resolve(uri);
     }
     catch (MalformedURLException exception)
     {
@@ -870,7 +872,7 @@ public class JETCompiler implements JETParseEventListener
       URL url;
       try
       {
-        uri = JETNature.resolve(uri);
+        uri = resolve(uri);
         url = new URL(uri.toString());
       }
       catch (MalformedURLException exception)
@@ -884,6 +886,18 @@ public class JETCompiler implements JETParseEventListener
     catch (IOException exception)
     {
       throw new JETException(exception.getLocalizedMessage(), exception);
+    }
+  }
+
+  private static URI resolve(URI uri)
+  {
+    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    {
+      return JETNature.resolve(uri);
+    }
+    else
+    {
+      return CommonPlugin.resolve(uri);
     }
   }
 }
