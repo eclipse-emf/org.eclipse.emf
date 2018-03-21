@@ -644,7 +644,7 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 					<%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%> submenuManager = (<%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%>)contributionItem;
 					if (submenuActions.containsKey(submenuManager.getMenuText()))
 					{
-						depopulateManager(submenuManager, <%if (!genModel.useGenerics()) {%>(<%=_CollectionOfIAction%>)<%}%>submenuActions.get(contributionItem));
+						depopulateManager(submenuManager, <%if (!genModel.useGenerics()) {%>(<%=_CollectionOfIAction%>)<%}%>submenuActions.get(submenuManager.getMenuText()));
 						manager.remove(contributionItem);
 					}
 				}

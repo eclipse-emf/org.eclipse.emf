@@ -200,7 +200,7 @@ public class ActionBarContributor
   protected final String TEXT_184 = " contributionItem = items[i];" + NL + "\t\t\t\tif (contributionItem instanceof ";
   protected final String TEXT_185 = " submenuManager = (";
   protected final String TEXT_186 = ")contributionItem;" + NL + "\t\t\t\t\tif (submenuActions.containsKey(submenuManager.getMenuText()))" + NL + "\t\t\t\t\t{" + NL + "\t\t\t\t\t\tdepopulateManager(submenuManager, ";
-  protected final String TEXT_187 = "submenuActions.get(contributionItem));" + NL + "\t\t\t\t\t\tmanager.remove(contributionItem);" + NL + "\t\t\t\t\t}" + NL + "\t\t\t\t}" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t}" + NL;
+  protected final String TEXT_187 = "submenuActions.get(submenuManager.getMenuText()));" + NL + "\t\t\t\t\t\tmanager.remove(contributionItem);" + NL + "\t\t\t\t\t}" + NL + "\t\t\t\t}" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t}" + NL;
   protected final String TEXT_188 = NL + "\t/**" + NL + "\t * This populates the pop-up menu before it appears." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
   protected final String TEXT_189 = NL + "\tpublic void menuAboutToShow(";
   protected final String TEXT_190 = " menuManager)" + NL + "\t{" + NL + "\t\tsuper.menuAboutToShow(menuManager);";
