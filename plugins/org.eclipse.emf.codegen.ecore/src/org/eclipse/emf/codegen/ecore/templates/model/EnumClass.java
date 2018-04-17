@@ -46,29 +46,29 @@ public class EnumClass
   protected final String TEXT_28 = NL + "\t * <!-- begin-model-doc -->" + NL + "\t * ";
   protected final String TEXT_29 = NL + "\t * <!-- end-model-doc -->";
   protected final String TEXT_30 = NL + "\t * @see #";
-  protected final String TEXT_31 = NL + "\t * ";
-  protected final String TEXT_32 = NL + "\t * @generated" + NL + "\t * @ordered" + NL + "\t */";
-  protected final String TEXT_33 = NL + "\t@Deprecated";
-  protected final String TEXT_34 = NL + "\t";
-  protected final String TEXT_35 = "(";
-  protected final String TEXT_36 = ", \"";
-  protected final String TEXT_37 = "\", ";
-  protected final String TEXT_38 = ")";
-  protected final String TEXT_39 = ",";
-  protected final String TEXT_40 = ";";
-  protected final String TEXT_41 = NL;
-  protected final String TEXT_42 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static final ";
-  protected final String TEXT_43 = " copyright = ";
-  protected final String TEXT_44 = "</b></em>' literal value." + NL + "\t * <!-- begin-user-doc -->";
-  protected final String TEXT_45 = NL + "\t * <p>" + NL + "\t * If the meaning of '<em><b>";
-  protected final String TEXT_46 = "</b></em>' literal object isn't clear," + NL + "\t * there really should be more of a description here..." + NL + "\t * </p>";
-  protected final String TEXT_47 = NL + "\t * <!-- end-user-doc -->";
-  protected final String TEXT_48 = NL + "\t * @model ";
-  protected final String TEXT_49 = NL + "\t *        ";
-  protected final String TEXT_50 = NL + "\t * @model";
-  protected final String TEXT_51 = NL + "\tpublic static final int ";
-  protected final String TEXT_52 = " = ";
-  protected final String TEXT_53 = "</b></em>' literal object." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see #";
+  protected final String TEXT_31 = NL + "\t * @generated" + NL + "\t * @ordered" + NL + "\t */";
+  protected final String TEXT_32 = NL + "\t@Deprecated";
+  protected final String TEXT_33 = NL + "\t";
+  protected final String TEXT_34 = "(";
+  protected final String TEXT_35 = ", \"";
+  protected final String TEXT_36 = "\", ";
+  protected final String TEXT_37 = ")";
+  protected final String TEXT_38 = ",";
+  protected final String TEXT_39 = ";";
+  protected final String TEXT_40 = NL;
+  protected final String TEXT_41 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static final ";
+  protected final String TEXT_42 = " copyright = ";
+  protected final String TEXT_43 = "</b></em>' literal value." + NL + "\t * <!-- begin-user-doc -->";
+  protected final String TEXT_44 = NL + "\t * <p>" + NL + "\t * If the meaning of '<em><b>";
+  protected final String TEXT_45 = "</b></em>' literal object isn't clear," + NL + "\t * there really should be more of a description here..." + NL + "\t * </p>";
+  protected final String TEXT_46 = NL + "\t * <!-- end-user-doc -->";
+  protected final String TEXT_47 = NL + "\t * @model ";
+  protected final String TEXT_48 = NL + "\t *        ";
+  protected final String TEXT_49 = NL + "\t * @model";
+  protected final String TEXT_50 = NL + "\tpublic static final int ";
+  protected final String TEXT_51 = " = ";
+  protected final String TEXT_52 = "</b></em>' literal object." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see #";
+  protected final String TEXT_53 = NL + "\t * ";
   protected final String TEXT_54 = NL + "\tpublic static final ";
   protected final String TEXT_55 = " = new ";
   protected final String TEXT_56 = ");";
@@ -212,53 +212,49 @@ public class EnumClass
     }
     stringBuffer.append(TEXT_30);
     stringBuffer.append(genEnumLiteral.getEnumLiteralValueConstantName());
-    if (genEnumLiteral.hasAPITags()) {
     stringBuffer.append(TEXT_31);
-    stringBuffer.append(genEnumLiteral.getAPITags(genModel.getIndentation(stringBuffer)));
-    }
-    stringBuffer.append(TEXT_32);
     if (isJDK50 && genEnumLiteral.hasAPIDeprecatedTag()) {
-    stringBuffer.append(TEXT_33);
+    stringBuffer.append(TEXT_32);
     }
-    stringBuffer.append(TEXT_34);
+    stringBuffer.append(TEXT_33);
     stringBuffer.append(genEnumLiteral.getEnumLiteralInstanceConstantName());
-    stringBuffer.append(TEXT_35);
+    stringBuffer.append(TEXT_34);
     stringBuffer.append(genEnumLiteral.getValue());
-    stringBuffer.append(TEXT_36);
+    stringBuffer.append(TEXT_35);
     stringBuffer.append(genEnumLiteral.getName());
-    stringBuffer.append(TEXT_37);
+    stringBuffer.append(TEXT_36);
     stringBuffer.append(Literals.toStringLiteral(genEnumLiteral.getLiteral(), genModel));
-    stringBuffer.append(TEXT_38);
+    stringBuffer.append(TEXT_37);
     if (l.hasNext()) {
-    stringBuffer.append(TEXT_39);
+    stringBuffer.append(TEXT_38);
     } else {
-    stringBuffer.append(TEXT_40);
+    stringBuffer.append(TEXT_39);
     }
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(genModel.getNonNLS(2));
-    stringBuffer.append(TEXT_41);
+    stringBuffer.append(TEXT_40);
     }
     }
     }
     if (genModel.hasCopyrightField()) {
-    stringBuffer.append(TEXT_42);
-    stringBuffer.append(genModel.getImportedName("java.lang.String"));
-    stringBuffer.append(TEXT_43);
-    stringBuffer.append(genModel.getCopyrightFieldLiteral());
-    stringBuffer.append(TEXT_40);
-    stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_41);
+    stringBuffer.append(genModel.getImportedName("java.lang.String"));
+    stringBuffer.append(TEXT_42);
+    stringBuffer.append(genModel.getCopyrightFieldLiteral());
+    stringBuffer.append(TEXT_39);
+    stringBuffer.append(genModel.getNonNLS());
+    stringBuffer.append(TEXT_40);
     }
     for (GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals()) {
     stringBuffer.append(TEXT_26);
     stringBuffer.append(genEnumLiteral.getFormattedName());
-    stringBuffer.append(TEXT_44);
+    stringBuffer.append(TEXT_43);
     if (!genEnumLiteral.hasDocumentation()) {
-    stringBuffer.append(TEXT_45);
+    stringBuffer.append(TEXT_44);
     stringBuffer.append(genEnumLiteral.getFormattedName());
-    stringBuffer.append(TEXT_46);
+    stringBuffer.append(TEXT_45);
     }
-    stringBuffer.append(TEXT_47);
+    stringBuffer.append(TEXT_46);
     if (genEnumLiteral.hasDocumentation()) {
     stringBuffer.append(TEXT_28);
     stringBuffer.append(genEnumLiteral.getDocumentation(genModel.getIndentation(stringBuffer)));
@@ -267,36 +263,36 @@ public class EnumClass
     stringBuffer.append(TEXT_30);
     stringBuffer.append(genEnumLiteral.getEnumLiteralInstanceConstantName());
     if (!genModel.isSuppressEMFModelTags()) { boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genEnumLiteral.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;
-    stringBuffer.append(TEXT_48);
+    stringBuffer.append(TEXT_47);
     stringBuffer.append(modelInfo);
     } else {
-    stringBuffer.append(TEXT_49);
+    stringBuffer.append(TEXT_48);
     stringBuffer.append(modelInfo);
     }} if (first) {
-    stringBuffer.append(TEXT_50);
+    stringBuffer.append(TEXT_49);
     }}
-    stringBuffer.append(TEXT_32);
+    stringBuffer.append(TEXT_31);
     if (isJDK50 && genEnumLiteral.hasAPIDeprecatedTag()) {
-    stringBuffer.append(TEXT_33);
+    stringBuffer.append(TEXT_32);
     }
-    stringBuffer.append(TEXT_51);
+    stringBuffer.append(TEXT_50);
     stringBuffer.append(genEnumLiteral.getEnumLiteralValueConstantName());
-    stringBuffer.append(TEXT_52);
+    stringBuffer.append(TEXT_51);
     stringBuffer.append(genEnumLiteral.getValue());
     stringBuffer.append(TEXT_5);
     }
     if (!isEnum) for (GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals()) {
     stringBuffer.append(TEXT_26);
     stringBuffer.append(genEnumLiteral.getFormattedName());
-    stringBuffer.append(TEXT_53);
+    stringBuffer.append(TEXT_52);
     stringBuffer.append(genEnumLiteral.getEnumLiteralValueConstantName());
     if (genEnumLiteral.hasAPITags()) {
-    stringBuffer.append(TEXT_31);
+    stringBuffer.append(TEXT_53);
     stringBuffer.append(genEnumLiteral.getAPITags(genModel.getIndentation(stringBuffer)));
     }
-    stringBuffer.append(TEXT_32);
+    stringBuffer.append(TEXT_31);
     if (isJDK50 && genEnumLiteral.hasAPIDeprecatedTag()) {
-    stringBuffer.append(TEXT_33);
+    stringBuffer.append(TEXT_32);
     }
     stringBuffer.append(TEXT_54);
     stringBuffer.append(genEnum.getName());
@@ -304,16 +300,16 @@ public class EnumClass
     stringBuffer.append(genEnumLiteral.getEnumLiteralInstanceConstantName());
     stringBuffer.append(TEXT_55);
     stringBuffer.append(genEnum.getName());
-    stringBuffer.append(TEXT_35);
+    stringBuffer.append(TEXT_34);
     stringBuffer.append(genEnumLiteral.getEnumLiteralValueConstantName());
-    stringBuffer.append(TEXT_36);
+    stringBuffer.append(TEXT_35);
     stringBuffer.append(genEnumLiteral.getName());
-    stringBuffer.append(TEXT_37);
+    stringBuffer.append(TEXT_36);
     stringBuffer.append(Literals.toStringLiteral(genEnumLiteral.getLiteral(), genModel));
     stringBuffer.append(TEXT_56);
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(genModel.getNonNLS(2));
-    stringBuffer.append(TEXT_41);
+    stringBuffer.append(TEXT_40);
     }
     stringBuffer.append(TEXT_57);
     stringBuffer.append(genEnum.getFormattedName());
@@ -325,7 +321,7 @@ public class EnumClass
     for (GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals()) {
     stringBuffer.append(TEXT_61);
     stringBuffer.append(genEnumLiteral.getEnumLiteralInstanceConstantName());
-    stringBuffer.append(TEXT_39);
+    stringBuffer.append(TEXT_38);
     }
     stringBuffer.append(TEXT_62);
     stringBuffer.append(genEnum.getFormattedName());
@@ -361,7 +357,7 @@ public class EnumClass
     stringBuffer.append(genEnumLiteral.getEnumLiteralValueConstantName());
     stringBuffer.append(TEXT_78);
     stringBuffer.append(genEnumLiteral.getEnumLiteralInstanceConstantName());
-    stringBuffer.append(TEXT_40);
+    stringBuffer.append(TEXT_39);
     }
     stringBuffer.append(TEXT_79);
     if (isEnum) {
@@ -400,7 +396,7 @@ public class EnumClass
     stringBuffer.append(TEXT_96);
     stringBuffer.append(genEnum.getName());
     if (genModel.isSuppressEMFMetaData()&& !genModel.isSuppressInterfaces() ) {
-    stringBuffer.append(TEXT_41);
+    stringBuffer.append(TEXT_40);
     if (isEnum) {
     stringBuffer.append(TEXT_97);
     stringBuffer.append(genEnum.getName());
@@ -418,7 +414,7 @@ public class EnumClass
     }
     }
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_41);
+    stringBuffer.append(TEXT_40);
     return stringBuffer.toString();
   }
 }

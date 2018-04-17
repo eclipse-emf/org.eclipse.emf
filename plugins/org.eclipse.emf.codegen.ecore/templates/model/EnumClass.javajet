@@ -66,9 +66,6 @@ public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> 
 	 * <!-- end-model-doc -->
 <%}%>
 	 * @see #<%=genEnumLiteral.getEnumLiteralValueConstantName()%>
-      <%if (genEnumLiteral.hasAPITags()) {%>
-	 * <%=genEnumLiteral.getAPITags(genModel.getIndentation(stringBuffer))%>
-      <%}%>
 	 * @generated
 	 * @ordered
 	 */
