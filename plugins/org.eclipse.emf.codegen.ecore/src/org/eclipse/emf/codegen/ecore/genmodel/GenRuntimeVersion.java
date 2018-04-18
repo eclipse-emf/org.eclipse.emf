@@ -130,8 +130,10 @@ public enum GenRuntimeVersion implements Enumerator
    * The '<em><b>EMF214</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #EMF214_VALUE
+   * <!-- begin-model-doc -->
    * @since 2.14
+   * <!-- end-model-doc -->
+   * @see #EMF214_VALUE
    * @generated
    * @ordered
    */

@@ -30,15 +30,16 @@ public class ManifestMF
   protected final String TEXT_13 = NL + "Bundle-RequiredExecutionEnvironment: JavaSE-1.7";
   protected final String TEXT_14 = NL + "Bundle-RequiredExecutionEnvironment: JavaSE-1.8";
   protected final String TEXT_15 = NL + "Bundle-RequiredExecutionEnvironment: JavaSE-9";
-  protected final String TEXT_16 = NL + "Export-Package: ";
-  protected final String TEXT_17 = ",";
-  protected final String TEXT_18 = NL + " ";
-  protected final String TEXT_19 = NL + "Require-Bundle: ";
-  protected final String TEXT_20 = ";visibility:=reexport";
-  protected final String TEXT_21 = NL + "Import-Package: org.eclipse.emf.common.ui," + NL + " org.eclipse.emf.common.ui.action," + NL + " org.eclipse.emf.common.ui.dialogs," + NL + " org.eclipse.emf.common.ui.editor," + NL + " org.eclipse.emf.common.ui.viewer," + NL + " org.eclipse.emf.edit.ui," + NL + " org.eclipse.emf.edit.ui.action," + NL + " org.eclipse.emf.edit.ui.celleditor," + NL + " org.eclipse.emf.edit.ui.dnd," + NL + " org.eclipse.emf.edit.ui.provider," + NL + " org.eclipse.emf.edit.ui.util," + NL + " org.eclipse.emf.edit.ui.view," + NL + " org.eclipse.jface.action," + NL + " org.eclipse.jface.dialogs," + NL + " org.eclipse.jface.operation," + NL + " org.eclipse.jface.viewers," + NL + " org.eclipse.jface.window," + NL + " org.eclipse.jface.wizard," + NL + " org.eclipse.swt," + NL + " org.eclipse.swt.custom," + NL + " org.eclipse.swt.dnd," + NL + " org.eclipse.swt.events," + NL + " org.eclipse.swt.graphics," + NL + " org.eclipse.swt.layout," + NL + " org.eclipse.swt.widgets," + NL + " org.eclipse.ui;ui.workbench=\"split\"," + NL + " org.eclipse.ui.actions;ui.workbench=\"split\"," + NL + " org.eclipse.ui.application," + NL + " org.eclipse.ui.part;ui.workbench=\"split\"," + NL + " org.eclipse.ui.views," + NL + " org.eclipse.ui.views.contentoutline," + NL + " org.eclipse.ui.views.properties;ui.views=\"split\"";
-  protected final String TEXT_22 = NL + "Eclipse-LazyStart: true";
-  protected final String TEXT_23 = NL + "Bundle-ActivationPolicy: lazy";
-  protected final String TEXT_24 = NL;
+  protected final String TEXT_16 = NL + "Bundle-RequiredExecutionEnvironment: JavaSE-10";
+  protected final String TEXT_17 = NL + "Export-Package: ";
+  protected final String TEXT_18 = ",";
+  protected final String TEXT_19 = NL + " ";
+  protected final String TEXT_20 = NL + "Require-Bundle: ";
+  protected final String TEXT_21 = ";visibility:=reexport";
+  protected final String TEXT_22 = NL + "Import-Package: org.eclipse.emf.common.ui," + NL + " org.eclipse.emf.common.ui.action," + NL + " org.eclipse.emf.common.ui.dialogs," + NL + " org.eclipse.emf.common.ui.editor," + NL + " org.eclipse.emf.common.ui.viewer," + NL + " org.eclipse.emf.edit.ui," + NL + " org.eclipse.emf.edit.ui.action," + NL + " org.eclipse.emf.edit.ui.celleditor," + NL + " org.eclipse.emf.edit.ui.dnd," + NL + " org.eclipse.emf.edit.ui.provider," + NL + " org.eclipse.emf.edit.ui.util," + NL + " org.eclipse.emf.edit.ui.view," + NL + " org.eclipse.jface.action," + NL + " org.eclipse.jface.dialogs," + NL + " org.eclipse.jface.operation," + NL + " org.eclipse.jface.viewers," + NL + " org.eclipse.jface.window," + NL + " org.eclipse.jface.wizard," + NL + " org.eclipse.swt," + NL + " org.eclipse.swt.custom," + NL + " org.eclipse.swt.dnd," + NL + " org.eclipse.swt.events," + NL + " org.eclipse.swt.graphics," + NL + " org.eclipse.swt.layout," + NL + " org.eclipse.swt.widgets," + NL + " org.eclipse.ui;ui.workbench=\"split\"," + NL + " org.eclipse.ui.actions;ui.workbench=\"split\"," + NL + " org.eclipse.ui.application," + NL + " org.eclipse.ui.part;ui.workbench=\"split\"," + NL + " org.eclipse.ui.views," + NL + " org.eclipse.ui.views.contentoutline," + NL + " org.eclipse.ui.views.properties;ui.views=\"split\"";
+  protected final String TEXT_23 = NL + "Eclipse-LazyStart: true";
+  protected final String TEXT_24 = NL + "Bundle-ActivationPolicy: lazy";
+  protected final String TEXT_25 = NL;
 
   public String generate(Object argument)
   {
@@ -88,37 +89,39 @@ public class ManifestMF
     stringBuffer.append(TEXT_14);
     } else if (genModel.getComplianceLevel() == GenJDKLevel.JDK90_LITERAL) {
     stringBuffer.append(TEXT_15);
+    } else if (genModel.getComplianceLevel() == GenJDKLevel.JDK100_LITERAL) {
+    stringBuffer.append(TEXT_16);
     }
     Iterator<String> packagesIterator = genModel.getEditorQualifiedPackageNames().iterator(); if (packagesIterator.hasNext()) { String pack = packagesIterator.next();
-    stringBuffer.append(TEXT_16);
+    stringBuffer.append(TEXT_17);
     stringBuffer.append(pack);
     while(packagesIterator.hasNext()) { pack = packagesIterator.next();
-    stringBuffer.append(TEXT_17);
     stringBuffer.append(TEXT_18);
+    stringBuffer.append(TEXT_19);
     stringBuffer.append(pack);
     }
     }
     Iterator<String> requiredPluginIterator = genModel.getEditorRequiredPlugins().iterator(); if (requiredPluginIterator.hasNext()) { String pluginID = requiredPluginIterator.next();
-    stringBuffer.append(TEXT_19);
+    stringBuffer.append(TEXT_20);
     stringBuffer.append(pluginID);
     if (!pluginID.startsWith("org.eclipse.core.runtime")){
-    stringBuffer.append(TEXT_20);
+    stringBuffer.append(TEXT_21);
     } while(requiredPluginIterator.hasNext()) { pluginID = requiredPluginIterator.next();
-    stringBuffer.append(TEXT_17);
     stringBuffer.append(TEXT_18);
+    stringBuffer.append(TEXT_19);
     stringBuffer.append(pluginID);
     if (!pluginID.startsWith("org.eclipse.core.runtime") && !pluginID.equals("org.eclipse.jface.text") && !pluginID.equals("org.eclipse.xtext.xbase.lib") && !pluginID.equals("org.eclipse.emf.ecore.xcore.lib")) {
-    stringBuffer.append(TEXT_20);
+    stringBuffer.append(TEXT_21);
     }}
     }
     if (genModel.isRichAjaxPlatform()) {
-    stringBuffer.append(TEXT_21);
-    }
-    if (genModel.getRuntimeVersion() == GenRuntimeVersion.EMF22 || genModel.getRuntimeVersion() == GenRuntimeVersion.EMF23) {
     stringBuffer.append(TEXT_22);
     }
+    if (genModel.getRuntimeVersion() == GenRuntimeVersion.EMF22 || genModel.getRuntimeVersion() == GenRuntimeVersion.EMF23) {
     stringBuffer.append(TEXT_23);
+    }
     stringBuffer.append(TEXT_24);
+    stringBuffer.append(TEXT_25);
     return stringBuffer.toString();
   }
 }

@@ -14,6 +14,7 @@ package org.eclipse.emf.codegen.ecore.genmodel.impl;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
 import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
@@ -424,7 +425,17 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
   public String getName()
   {
     EEnumLiteral ecoreEnumLiteral = getEcoreEnumLiteral();
-    return ecoreEnumLiteral == null || ecoreEnumLiteral.getName() == null ? "" : ecoreEnumLiteral.getName();
+    String name = ecoreEnumLiteral == null || ecoreEnumLiteral.getName() == null ? "" : ecoreEnumLiteral.getName();
+    // At compliance level 1.8 or higher, "_" is a reserved keyword.
+    if ("_".equals(name))
+    {
+      GenModel genModel = getGenModel();
+      if (genModel != null && genModel.getComplianceLevel().ordinal() >= GenJDKLevel.JDK80)
+      {
+        return "__";
+      }
+    }
+    return name;
   }
 
   public String getCapName()
@@ -450,7 +461,17 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
   public String getEnumLiteralID()
   {
     String name = getName();
-    return name == null ? null : CodeGenUtil.upperName(name, getGenModel().getLocale());
+    String id = name == null ? null : CodeGenUtil.upperName(name, getGenModel().getLocale());
+    // At compliance level 1.8 or higher, "_" is a reserved keyword.
+    if ("_".equals(id))
+    {
+      GenModel genModel = getGenModel();
+      if (genModel != null && genModel.getComplianceLevel().ordinal() >= GenJDKLevel.JDK80)
+      {
+        return "__";
+      }
+    }
+    return id;
   }
   
   public String getEnumLiteralInstanceConstantName()

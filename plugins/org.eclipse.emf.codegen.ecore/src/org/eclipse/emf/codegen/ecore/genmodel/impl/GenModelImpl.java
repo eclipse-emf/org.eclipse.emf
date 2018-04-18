@@ -10924,6 +10924,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
             {
               return GenJDKLevel.JDK90_LITERAL;
             }
+            else if ("10".equals(complianceLevel))
+            {
+              return GenJDKLevel.JDK100_LITERAL;
+            }
           }
         }
         catch (Exception exception)

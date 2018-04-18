@@ -34,6 +34,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 <%} else if (genModel.getComplianceLevel() == GenJDKLevel.JDK90_LITERAL) {%>
 Bundle-RequiredExecutionEnvironment: JavaSE-9
+<%} else if (genModel.getComplianceLevel() == GenJDKLevel.JDK100_LITERAL) {%>
+Bundle-RequiredExecutionEnvironment: JavaSE-10
 <%}%>
 <%Iterator<String> packagesIterator = genModel.getEditorQualifiedPackageNames().iterator(); if (packagesIterator.hasNext()) { String pack = packagesIterator.next();%>
 Export-Package: <%=pack%><%while(packagesIterator.hasNext()) { pack = packagesIterator.next();%>,
