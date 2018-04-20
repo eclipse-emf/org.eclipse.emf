@@ -68,6 +68,16 @@
                </appInfo>
             </annotation>
          </attribute>
+         <attribute name="predecessor" type="string">
+            <annotation>
+               <documentation>
+                  A fully qualified name of the Java class of a competing factory implementation for which this overriding factory is a successor implementation.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.ecore.EFactory"/>
+               </appInfo>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

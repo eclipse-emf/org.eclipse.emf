@@ -27,6 +27,7 @@ class FactoryOverrideRegistryReader extends RegistryReader
   static final String TAG_FACTORY = "factory";
   static final String ATT_URI = "uri";
   static final String ATT_CLASS = "class";
+  static final String ATT_PREDECESSOR = "predecessor";
   
   public FactoryOverrideRegistryReader()
   {
@@ -55,13 +56,27 @@ class FactoryOverrideRegistryReader extends RegistryReader
         Object ePackageDescriptor = EPackage.Registry.INSTANCE.get(packageURI);
         if (ePackageDescriptor instanceof EPackage.Descriptor)
         {
-          EPackage.Registry.INSTANCE.put(packageURI, new EFactoryDescriptor(element, ATT_CLASS, (EPackage.Descriptor)ePackageDescriptor));
           if (ePackageDescriptor instanceof EFactoryDescriptor)
           {
-            EFactoryDescriptor descriptor = (EFactoryDescriptor)ePackageDescriptor;
-            EcorePlugin.INSTANCE.log
-              ("Both '" + descriptor.element.getContributor().getName() + "' and '" + element.getContributor().getName() + "' register a factory override for '" + packageURI + "'");
+            EFactoryDescriptor oldFactoryDescriptor = (EFactoryDescriptor)ePackageDescriptor;
+            
+            String oldPredecessor = oldFactoryDescriptor.element.getAttribute(ATT_PREDECESSOR);
+            if (oldPredecessor != null && oldPredecessor.equals(element.getAttribute(ATT_CLASS)))
+            {
+              // The old factory override succeeds over the new one. Do nothing.
+              return true;
+            }
+
+            String newPredecessor = element.getAttribute(ATT_PREDECESSOR);
+            if (newPredecessor == null || !newPredecessor.equals(oldFactoryDescriptor.element.getAttribute(ATT_CLASS)))
+            {
+              EcorePlugin.INSTANCE.log
+                ("Both '" + oldFactoryDescriptor.element.getContributor().getName() + "' and '" + element.getContributor().getName() + "' register a factory override for '" + packageURI + "'");
+            }
           }
+          
+          EFactoryDescriptor newFactoryDescriptor = new EFactoryDescriptor(element, ATT_CLASS, (EPackage.Descriptor)ePackageDescriptor);
+          EPackage.Registry.INSTANCE.put(packageURI, newFactoryDescriptor);
         }
         return true;
       }
