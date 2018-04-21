@@ -208,36 +208,39 @@ public class EModelElementItemProvider
     Collection<String> sources = new ArrayList<String>();
     sources.add(null);
 
-    // Create an annotation that we will temporarily add as a child.
-    // We will disable notifications because no adapter should see this happen.
-    //
-    EList<EAnnotation> eAnnotations = eModelElement.getEAnnotations();
-    EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-    eModelElement.eSetDeliver(false);
-    try
+    if (eModelElement.eClass().getEPackage() == EcorePackage.eINSTANCE)
     {
-      // Add the annotation
-      eAnnotations.add(eAnnotation);
-      IItemPropertyDescriptor propertyDescriptor = new AdapterFactoryItemDelegator(getRootAdapterFactory()).getPropertyDescriptor(
-        eAnnotation,
-        EcorePackage.Literals.EANNOTATION__SOURCE);
-      @SuppressWarnings("unchecked")
-      Collection<String> choiceOfValues = (Collection<String>)propertyDescriptor.getChoiceOfValues(eAnnotation);
-      sources.addAll(choiceOfValues);
-    }
-    finally
-    {
-      // No matter what might go wrong, we will remove the annotation, re-enable notification, and clear any adapters added to the annotation.
-      eAnnotations.remove(eAnnotation);
-      eModelElement.eSetDeliver(true);
-      eAnnotation.eAdapters().clear();
+      // Create an annotation that we will temporarily add as a child.
+      // We will disable notifications because no adapter should see this happen.
+      //
+      EList<EAnnotation> eAnnotations = eModelElement.getEAnnotations();
+      EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+      eModelElement.eSetDeliver(false);
+      try
+      {
+        // Add the annotation
+        eAnnotations.add(eAnnotation);
+        IItemPropertyDescriptor propertyDescriptor = new AdapterFactoryItemDelegator(getRootAdapterFactory()).getPropertyDescriptor(
+          eAnnotation,
+          EcorePackage.Literals.EANNOTATION__SOURCE);
+        @SuppressWarnings("unchecked")
+        Collection<String> choiceOfValues = (Collection<String>)propertyDescriptor.getChoiceOfValues(eAnnotation);
+        sources.addAll(choiceOfValues);
+      }
+      finally
+      {
+        // No matter what might go wrong, we will remove the annotation, re-enable notification, and clear any adapters added to the annotation.
+        eAnnotations.remove(eAnnotation);
+        eModelElement.eSetDeliver(true);
+        eAnnotation.eAdapters().clear();
+      }
     }
 
     // Create a child descriptor for each source.
     //
     for (String source : sources)
     {
-      eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+      EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
       eAnnotation.setSource(source);
       newChildDescriptors.add(createChildParameter(EcorePackage.Literals.EMODEL_ELEMENT__EANNOTATIONS, eAnnotation));
     }
