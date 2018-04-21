@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -34,6 +35,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -110,8 +113,10 @@ public class ReflectiveItemProvider
     EObject container = eObject.eContainer();
     if (container == null)
     {
+      Resource resource = eObject.eResource();
+      ResourceSet resourceSet = resource == null ? null : resource.getResourceSet();
       ExtendedMetaData extendedMetaData =
-          eObject.eResource() == null || eObject.eResource().getResourceSet() == null ?
+          resourceSet == null ?
             ExtendedMetaData.INSTANCE :
             new BasicExtendedMetaData(eObject.eResource().getResourceSet().getPackageRegistry());
       EStructuralFeature xmlnsPrefixMapFeature = extendedMetaData.getXMLNSPrefixMapFeature(eObject.eClass());
@@ -125,6 +130,34 @@ public class ReflectiveItemProvider
           if (ePackage != null)
           {
             gatherMetaData((EModelElement)EcoreUtil.getRootContainer(ePackage));
+          }
+        }
+      }
+
+      if (resourceSet != null)
+      {
+        EPackage.Registry packageRegistry = resourceSet.getPackageRegistry();
+        for (Object ePackageValue : packageRegistry.values())
+        {
+          if (ePackageValue instanceof EPackage)
+          {
+            gatherMetaData((EModelElement)EcoreUtil.getRootContainer((EPackage)ePackageValue));
+          }
+        }
+
+        EList<Resource> resources = resourceSet.getResources();
+        for (int i = 0; i  < resources.size(); ++i)
+        {
+          Resource otherResource = resources.get(i);
+          if (otherResource != resource)
+          {
+            for (EObject otherEObject : otherResource.getContents())
+            {
+              if (otherEObject instanceof EPackage)
+              {
+                gatherMetaData((EPackage)otherEObject);
+              }
+            }
           }
         }
       }
