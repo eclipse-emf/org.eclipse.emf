@@ -941,15 +941,15 @@ public class EcorePlugin  extends EMFPlugin
     {
       // Try to get the classpath from the class loader.
       //
-      Method method = classLoader.getClass().getMethod("getClassPath", (Class<?>) null);
+      Method method = classLoader.getClass().getMethod("getClassPath");
       if (method != null)
       {
-        classpath = (String) method.invoke(classLoader, (Object) null);
+        classpath = (String) method.invoke(classLoader);
       }
     }
     catch (Throwable throwable)
     {
-      // Failing thet, get it from the system properties.
+      // Failing that, get it from the system properties.
       //
       classpath = System.getProperty("java.class.path");
     }
@@ -980,12 +980,31 @@ public class EcorePlugin  extends EMFPlugin
           {
             // If not, check if there is one in the parent folder.
             //
-            pluginXML = new File(file.getParentFile(), "plugin.xml");
+            File parentFile = file.getParentFile();
+            pluginXML = new File(parentFile, "plugin.xml");
             if (pluginXML.isFile())
             {
               // If there is, then we have plugin.xml files that aren't on the classpath.
               //
               nonClasspathXML = true;
+            }
+            else if (parentFile != null)
+            {
+              // The parent has a parent, check if there is one in the parent's parent folder.
+              //
+              pluginXML = new File(parentFile.getParentFile(), "plugin.xml");
+              if (pluginXML.isFile())
+              {
+                // If there is, then we have plugin.xml files that aren't on the classpath.
+                //
+                nonClasspathXML = true;
+              }
+              else
+              {
+                // Otherwise this is bogus too.
+                //
+                pluginXML = null;
+              }
             }
             else
             {
