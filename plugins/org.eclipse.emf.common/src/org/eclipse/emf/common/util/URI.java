@@ -2584,27 +2584,47 @@ public abstract class URI
   }
 
   /**
-   * Static factory method based on parsing a {@link java.io.File} path
-   * string.  The <code>pathName</code> is converted into an appropriate
-   * form, as follows: platform specific path separators are converted to
-   * <code>/</code>; the path is encoded; and a "file" scheme, if the path is {@link File#isAbsolute() absolute}, and, if missing,
-   * a leading <code>/</code>, are added to an absolute path.  The result
-   * is then parsed the same as if using {@link #createURI(String) createURI}.
+   * Static factory method based on parsing a {@link java.io.File} path string.
+   * The {@code pathname} may be either {@link File#isAbsolute() absolute} or relative.
+   * A relative path should be avoided and can be converted to an absolute path using <code>new File(pathname).{@link java.io.File#getAbsolutePath() getAbsolutePath()}</code>.
+   * <ul>
+   * <li>
+   * An absolute path is converted into an appropriate form starting with "file:" scheme,
+   * followed by a {@code /}, if {@code pathname} doesn't start with a {@link File#separator platform-specific separator},
+   * followed by the {@code pathname} modified to use {@code /} as the separator and modified to encode the segments.
+   * </li>
+   * <li>
+   * A relative path is converted into an appropriate form simply by modifying the {@code pathname} to use {@code /} as the separator and modifying the segments to encode them.
+   * </li>
+   * </ul>
    *
-   * <p>The encoding step escapes all spaces, <code>#</code> characters, and
-   * other characters disallowed in URIs, as well as <code>?</code>, which
-   * would delimit a path from a query.  Decoding is automatically performed
-   * by {@link #toFileString toFileString}, and can be applied to the values
-   * returned by other accessors via the static {@link #decode(String)
-   * decode} method.
+   * <p>
+   * The encoding step escapes all spaces, <code>#</code> characters, and other characters disallowed in URIs,
+   * as well as <code>?</code>, which would delimit a path from a query.
+   * Decoding is automatically performed by {@link #toFileString toFileString},
+   * and can be applied to the values returned by other accessors via the static {@link #decode(String) decode} method.
    *
-   * <p>A relative path with a specified device (something like
-   * <code>C:myfile.txt</code>) cannot be expressed as a valid URI.
-   * An absolute URI, i.e., one with <code>file:</code> will only be returned if the <code>pathName</code> itself is {@link File#isAbsolute() absolute}.
-   * In other words, a relative path will yield a {@link #isRelative() relative} URI,
-   * and in particular on Windows, a path is absolute only if the device is specified, 
-   * e.g., <code>C:/myfile.text</code> is absolute but <code>/myfile.text</code> is relative on Windows though absolute on Unix-style file systems.
-   * 
+   * <p>
+   * Callers are generally recommended to call this method using {@code URI.createFileURI(new File(pathname).getAbsolutePath())} for the following reasons:
+   * </p>
+   * <ul>
+   * <li>
+   * On Windows, a relative path with a specified device, e.g., {@code C:myfile.txt</code>}, cannot be expressed as a valid {@link #isFile() file} URI.
+   * </li>
+   * <li>
+   * On Windows, {@code C:/myfile.text} is an absolute path, but on a Unix-style file system, it is a relative path.
+   * <li>
+   * On Windows, {@code /myfile.text} is a relative path, but on a Unix-style file system, it is an absolute path.
+   * </li>
+   * </ul>
+   * <p>
+   * Furthermore, any application that uses a relative URI to locate some associated resource will generally map the relative URI to an absolute URI in some manner, 
+   * likely depending on the system's state, e.g., the current user directory that can change over time,
+   * exactly as is the case for {@code new File(path).getAbsolutePath()}.
+   * Not only that, when an accessed resource itself contains URIs, 
+   * the general XML interpretation of any such contained relative URI is to {@link #resolve(URI) resolve} it to an absolute URI based on the absolute URI of the containing resource;
+   * that resolution isn't possible (well-defined) unless the base URI of the resource is an absolute URI.
+   * </p>
    *
    * @exception java.lang.IllegalArgumentException if <code>pathName</code>
    * specifies a device and a relative path, or if any component of the path
@@ -6158,5 +6178,15 @@ public abstract class URI
     }
 
     return 0;
+  }
+  
+  public static void main(String[] args)
+  {
+    System.out.println("###" + URI.createURI("d:a/b"));
+    System.out.println("###" + URI.createURI("d:a/b").isFile());
+    System.out.println("###" + URI.createURI("d:a/b").toFileString());
+    File file = new File("a");
+    System.out.println(new File(URI.createFileURI(file.getPath()).toFileString()).equals(new File("a").getAbsoluteFile()));
+    
   }
 }
