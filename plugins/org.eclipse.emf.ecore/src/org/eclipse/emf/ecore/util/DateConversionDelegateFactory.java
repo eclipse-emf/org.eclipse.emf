@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -62,7 +63,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  * {@code //TimeFormat/<time-style>/<language>/<country>/<variant>}
  * </pre>
  * <p>
- * The have the following meaning
+ * The each of the value above have the following corresponding meaning:
  * </p>
  * <ul>
  *   <li>
@@ -93,6 +94,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  *   The variant is optional, but the {@code language} and {@code country} must be specified to ensure that the serialization is portable to any other locale.
  *   </li>
  * </ul>
+ * <p>
  * In all cases, the {@code language}, {@code country}, and {@code variant}, when present, must specify an {@link Locale#getAvailableLocales() available} locale.
  * In the case that the data type is a {@link Calendar}, other than {@link GregorianCalendar}, 
  * the URI may include a query segment specifying the {@link Calendar#getCalendarType() calendar type}, e.g., 
@@ -102,7 +104,12 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  * {@code //...?buddhist}
  * </pre>
  * When absent, {@code gregory} is the default.
- * 
+ * </p>
+ * <p>
+ * To ensure that a serialized value is portable across all {@link TimeZone#getDefault() time zones}, 
+ * for those formats based on a date format, i.e., all them except {@code //Long},
+ * the associated format's {@link DateFormat#setTimeZone(TimeZone) time zone is set} to GMT .
+ * </p>
  * @since 2.14
  */
 public class DateConversionDelegateFactory implements EDataType.Internal.ConversionDelegate.Factory
@@ -111,6 +118,11 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
    * The annotation URI of thing conversion delegate factory.
    */
   public static final String ANNOTATION_URI = "http:///org/eclipse/emf/ecore/util/DateConversionDelegate";
+
+  /**
+   * The time zone used to produce normalized portable serializations.
+   */
+  private static final TimeZone GMT = TimeZone.getTimeZone("GMT");
 
   /**
    * The date and time styles.
@@ -412,7 +424,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       Locale locale = getLocale(1, "SimpleDateFormat", formatURI);
       try
       {
-        return new SimpleDateFormat(formatPattern, locale);
+        return normalizeTimeZone(new SimpleDateFormat(formatPattern, locale));
       }
       catch (IllegalArgumentException exception)
       {
@@ -438,7 +450,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       }
 
       Locale locale = getLocale(1, "DateFormat", formatURI);
-      return DateFormat.getDateInstance(dateStyle, locale);
+      return normalizeTimeZone(DateFormat.getDateInstance(dateStyle, locale));
     }
     else if ("TimeFormat".equals(style))
     {
@@ -456,7 +468,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       }
 
       Locale locale = getLocale(1, "TimeFormat", formatURI);
-      return DateFormat.getTimeInstance(timeStyle, locale);
+      return normalizeTimeZone(DateFormat.getTimeInstance(timeStyle, locale));
     }
     else if ("DateTimeFormat".equals(style))
     {
@@ -482,7 +494,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       }
 
       Locale locale = getLocale(2, "DateTimeFormat", formatURI);
-      return DateFormat.getDateTimeInstance(dateStyle, timeStyle, locale);
+      return normalizeTimeZone(DateFormat.getDateTimeInstance(dateStyle, timeStyle, locale));
     }
     else
     {
@@ -494,6 +506,12 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       // Unreachable.
       return null;
     }
+  }
+
+  private static DateFormat normalizeTimeZone(DateFormat dateFormat)
+  {
+    dateFormat.setTimeZone(GMT);
+    return dateFormat;
   }
 
   private static Locale getLocale(int start, String style, URI formatURI) throws IllegalArgumentException
@@ -953,6 +971,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       }
       else
       {
+        dateFormat.setTimeZone(GMT);
         return dateFormat.format(new Date((Long)value));
       }
     }
@@ -967,6 +986,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       {
         try
         {
+          dateFormat.setTimeZone(GMT);
           return dateFormat.parse(literal).getTime();
         }
         catch (ParseException exception)
@@ -976,7 +996,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       }
     }
   }
-  
+
   private static class DateAsLongConversionDelegate implements EDataType.Internal.ConversionDelegate
   {
     private static final DateAsLongConversionDelegate INSTANCE = new DateAsLongConversionDelegate();
@@ -1027,6 +1047,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       }
       else
       {
+        dateFormat.setTimeZone(GMT);
         return dateFormat.format(value);
       }
     }
@@ -1041,6 +1062,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       {
         try
         {
+          dateFormat.setTimeZone(GMT);
           return dateFormat.parse(literal);
         }
         catch (ParseException exception)
@@ -1101,6 +1123,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       }
       else
       {
+        dateFormat.setTimeZone(GMT);
         return dateFormat.format(value);
       }
     }
@@ -1115,6 +1138,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       {
         try
         {
+          dateFormat.setTimeZone(GMT);
           Date date = dateFormat.parse(literal);
           return new java.sql.Date(date.getTime());
         }
@@ -1181,6 +1205,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       }
       else
       {
+        dateFormat.setTimeZone(GMT);
         return dateFormat.format(((Calendar)value).getTime());
       }
     }
@@ -1195,6 +1220,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       {
         try
         {
+          dateFormat.setTimeZone(GMT);
           Date date = dateFormat.parse(literal);
           return calendarBuilder.create(date.getTime());
         }
@@ -1290,6 +1316,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       }
       else
       {
+        dateFormat.setTimeZone(GMT);
         return dateFormat.format(((XMLGregorianCalendar)value).toGregorianCalendar().getTime());
       }
     }
@@ -1304,6 +1331,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       {
         try
         {
+          dateFormat.setTimeZone(GMT);
           Date date = dateFormat.parse(literal);
           GregorianCalendar gregorianCalendar = new GregorianCalendar();
           gregorianCalendar.setTime(date);

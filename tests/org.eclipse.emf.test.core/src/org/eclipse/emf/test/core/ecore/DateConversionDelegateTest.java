@@ -15,7 +15,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -43,7 +45,7 @@ public class DateConversionDelegateTest
 {
   private static final EPackage DATE_CONVERSION_PACKAGE;
 
-  private static final Map<String, String> FORMAT_LITERALS;
+  private static final Map<String, Set<String>> FORMAT_LITERALS;
 
   private static final Map<Integer, String> FAILURE_CODES;
 
@@ -62,21 +64,30 @@ public class DateConversionDelegateTest
       "//SimpleDateFormat/yyyy-MM-dd'T'HH:mm:ss'.'SSSS",
       "//DateFormat/LONG/en/US",
       "//DateTimeFormat/LONG/LONG/en/US",
-      "//TimeFormat/LONG/en/US" };
+      "//TimeFormat/LONG/en/US" // 
+    };
 
-    Date date = new java.sql.Date(System.currentTimeMillis());
-    Map<String, String> literals = new HashMap<String, String>();
-    for (String format : formats)
+    Map<String, Set<String>> literals = new HashMap<String, Set<String>>();
+    for (Date date : new Date []{ new java.sql.Date(0L), new java.sql.Date(System.currentTimeMillis()) })
     {
-      if ("//Long".equals(format))
+      for (String format : formats)
       {
-        literals.put(format, Long.toString(date.getTime()));
-      }
-      else
-      {
-        DateFormat dateFormat = DateConversionDelegateFactory.getDateFormat(URI.createURI(format));
-        String literal = dateFormat.format(date);
-        literals.put(format, literal);
+        Set<String> formatters = literals.get(format);
+        if (formatters == null)
+        {
+          formatters = new LinkedHashSet<String>();
+          literals.put(format, formatters);
+        }
+        if ("//Long".equals(format))
+        {
+          formatters.add(Long.toString(date.getTime()));
+        }
+        else
+        {
+          DateFormat dateFormat = DateConversionDelegateFactory.getDateFormat(URI.createURI(format));
+          String literal = dateFormat.format(date);
+          formatters.add(literal);
+        }
       }
     }
 
@@ -122,103 +133,103 @@ public class DateConversionDelegateTest
   @Test
   public void testBadCalendarType()
   {
-    testDataType("BadCalendarType", "'bad-calendar-type'", DateConversionDelegateFactory.AnnotationValidator.INVALID_CALENDAR_TYPE);
+    testDataTypeValidation("BadCalendarType", "'bad-calendar-type'", DateConversionDelegateFactory.AnnotationValidator.INVALID_CALENDAR_TYPE);
   }
 
   @Test
   public void testBadSimpleDateFormatMissing()
   {
-    testDataType("BadSimpleDateFormatMissing", "", DateConversionDelegateFactory.AnnotationValidator.INVALID_MISSING_SIMPLE_DATE_FORMAT);
+    testDataTypeValidation("BadSimpleDateFormatMissing", "", DateConversionDelegateFactory.AnnotationValidator.INVALID_MISSING_SIMPLE_DATE_FORMAT);
   }
 
   @Test
   public void testBadSimpleDateFormatEmpty()
   {
-    testDataType("BadSimpleDateFormatEmpty", "", DateConversionDelegateFactory.AnnotationValidator.INVALID_MISSING_SIMPLE_DATE_FORMAT);
+    testDataTypeValidation("BadSimpleDateFormatEmpty", "", DateConversionDelegateFactory.AnnotationValidator.INVALID_MISSING_SIMPLE_DATE_FORMAT);
   }
 
   @Test
   public void testBadDateFormatMissing()
   {
-    testDataType("BadDateFormatMissing", "", DateConversionDelegateFactory.AnnotationValidator.INVALID_MISSING_DATE_FORMAT);
+    testDataTypeValidation("BadDateFormatMissing", "", DateConversionDelegateFactory.AnnotationValidator.INVALID_MISSING_DATE_FORMAT);
   }
 
   @Test
   public void testBadDateFormatBadDateStyle()
   {
-    testDataType("BadDateFormatBadDateStyle", "'DEFAULT'", DateConversionDelegateFactory.AnnotationValidator.INVALID_DATE_STYLE);
+    testDataTypeValidation("BadDateFormatBadDateStyle", "'DEFAULT'", DateConversionDelegateFactory.AnnotationValidator.INVALID_DATE_STYLE);
   }
 
   @Test
   public void testBadTimeFormatMissing()
   {
-    testDataType("BadTimeFormatMissing", "", DateConversionDelegateFactory.AnnotationValidator.INVALID_MISSING_TIME_FORMAT);
+    testDataTypeValidation("BadTimeFormatMissing", "", DateConversionDelegateFactory.AnnotationValidator.INVALID_MISSING_TIME_FORMAT);
   }
 
   @Test
   public void testBadDateFormatBadTimeStyle()
   {
-    testDataType("BadDateFormatBadTimeStyle", "'DEFAULT'", DateConversionDelegateFactory.AnnotationValidator.INVALID_TIME_STYLE);
+    testDataTypeValidation("BadDateFormatBadTimeStyle", "'DEFAULT'", DateConversionDelegateFactory.AnnotationValidator.INVALID_TIME_STYLE);
   }
 
   @Test
   public void testBadDateTimeFormatMissing()
   {
-    testDataType("BadDateTimeFormatMissing", "", DateConversionDelegateFactory.AnnotationValidator.INVALID_MISSING_DATE_TIME_FORMAT);
+    testDataTypeValidation("BadDateTimeFormatMissing", "", DateConversionDelegateFactory.AnnotationValidator.INVALID_MISSING_DATE_TIME_FORMAT);
   }
 
   @Test
   public void testBadDateTimeFormatBadDateStyle()
   {
-    testDataType("BadDateTimeFormatBadDateStyle", "'DEFAULT'", DateConversionDelegateFactory.AnnotationValidator.INVALID_DATE_STYLE);
+    testDataTypeValidation("BadDateTimeFormatBadDateStyle", "'DEFAULT'", DateConversionDelegateFactory.AnnotationValidator.INVALID_DATE_STYLE);
   }
 
   @Test
   public void testBadDateTimeFormatBadTimeStyle()
   {
-    testDataType("BadDateTimeFormatBadTimeStyle", "'DEFAULT'", DateConversionDelegateFactory.AnnotationValidator.INVALID_TIME_STYLE);
+    testDataTypeValidation("BadDateTimeFormatBadTimeStyle", "'DEFAULT'", DateConversionDelegateFactory.AnnotationValidator.INVALID_TIME_STYLE);
   }
 
   @Test
   public void testBadStyle()
   {
-    testDataType("BadStyle", "'Bogus'", DateConversionDelegateFactory.AnnotationValidator.INVALID_STYLE);
+    testDataTypeValidation("BadStyle", "'Bogus'", DateConversionDelegateFactory.AnnotationValidator.INVALID_STYLE);
   }
 
   @Test
   public void testBadLocaleMissing()
   {
-    testDataType("BadLocaleMissing", "DateFormat", DateConversionDelegateFactory.AnnotationValidator.INVALID_MISSING_LOCALE);
+    testDataTypeValidation("BadLocaleMissing", "DateFormat", DateConversionDelegateFactory.AnnotationValidator.INVALID_MISSING_LOCALE);
   }
 
   @Test
   public void testBadLocaleBadLanguage()
   {
-    testDataType("BadLocaleBadLanguage", "DateFormat", DateConversionDelegateFactory.AnnotationValidator.INVALID_LANGUAGE);
+    testDataTypeValidation("BadLocaleBadLanguage", "DateFormat", DateConversionDelegateFactory.AnnotationValidator.INVALID_LANGUAGE);
   }
 
   @Test
   public void testBadLocaleBadCountry()
   {
-    testDataType("BadLocaleBadCountry", "DateFormat", DateConversionDelegateFactory.AnnotationValidator.INVALID_COUNTRY);
+    testDataTypeValidation("BadLocaleBadCountry", "DateFormat", DateConversionDelegateFactory.AnnotationValidator.INVALID_COUNTRY);
   }
 
   @Test
   public void testBadLocaleBadVariant()
   {
-    testDataType("BadLocaleBadVariant", "'bogus'", DateConversionDelegateFactory.AnnotationValidator.INVALID_VARIANT);
+    testDataTypeValidation("BadLocaleBadVariant", "'bogus'", DateConversionDelegateFactory.AnnotationValidator.INVALID_VARIANT);
   }
 
   @Test
   public void testBadSimpleDateFormatInvalidFormat()
   {
-    testDataType("BadSimpleDateFormatInvalidFormat", "", DateConversionDelegateFactory.AnnotationValidator.INVALID_SIMPLE_DATE_FORMAT);
+    testDataTypeValidation("BadSimpleDateFormatInvalidFormat", "", DateConversionDelegateFactory.AnnotationValidator.INVALID_SIMPLE_DATE_FORMAT);
   }
 
   @Test
   public void testBadInstanceType()
   {
-    testDataType("BadInstanceType", "'java.lang.String'", DateConversionDelegateFactory.AnnotationValidator.INVALID_INSTANCE_TYPE);
+    testDataTypeValidation("BadInstanceType", "'java.lang.String'", DateConversionDelegateFactory.AnnotationValidator.INVALID_INSTANCE_TYPE);
   }
 
   @Test
@@ -229,33 +240,38 @@ public class DateConversionDelegateTest
       if (eClassifier.getName().startsWith("Valid_"))
       {
         EDataType eDataType = (EDataType)eClassifier;
-        String message = eDataType.getName();
         String format = EcoreUtil.getAnnotation(eDataType, DateConversionDelegateFactory.ANNOTATION_URI, "format");
-        Assert.assertNotNull(message, format);
-        message += ": " + format;
-        String literal = FORMAT_LITERALS.get(format);
-        Assert.assertNotNull(message, literal);
-        message += " -> " + literal;
-        Object value = EcoreUtil.createFromString(eDataType, literal);
-        message += " : " + value.getClass().getName();
-        Class<?> instanceClass = eDataType.getInstanceClass();
-        if (instanceClass.isPrimitive())
+        Assert.assertNotNull(eDataType.getName(), format);
+        for (String literal : FORMAT_LITERALS.get(format))
         {
-          Assert.assertTrue(message + " -> " + value.getClass(), Long.class.isInstance(value));
+          testDateConversion(eDataType, format, literal);
         }
-        else
-        {
-          Assert.assertTrue(message + " -> " + value.getClass(), instanceClass.isInstance(value));
-        }
-        String convertedLiteral = EcoreUtil.convertToString(eDataType, value);
-        Object convertedValue = EcoreUtil.createFromString(eDataType, convertedLiteral);
-        String doubleConvertedLiteral = EcoreUtil.convertToString(eDataType, convertedValue);
-        Assert.assertEquals(message, convertedLiteral, doubleConvertedLiteral);
       }
     }
   }
 
-  private void testDataType(String dataTypeName, String expectedMessageSubstring, int expectedFailureCode)
+  private void testDateConversion(EDataType eDataType, String format, String literal)
+  {
+    String message = eDataType.getName();
+    message += ": " + format;
+    Assert.assertNotNull(message, literal);
+    message += " -> " + literal;
+    Object value = EcoreUtil.createFromString(eDataType, literal);
+    message += " : " + value.getClass().getName();
+    Class<?> instanceClass = eDataType.getInstanceClass();
+    if (instanceClass.isPrimitive())
+    {
+      Assert.assertTrue(message + " -> " + value.getClass(), Long.class.isInstance(value));
+    }
+    else
+    {
+      Assert.assertTrue(message + " -> " + value.getClass(), instanceClass.isInstance(value));
+    }
+    String convertedLiteral = EcoreUtil.convertToString(eDataType, value);
+    Assert.assertEquals(message, literal, convertedLiteral);
+  }
+
+  private void testDataTypeValidation(String dataTypeName, String expectedMessageSubstring, int expectedFailureCode)
   {
     EDataType eDataType = (EDataType)DATE_CONVERSION_PACKAGE.getEClassifier(dataTypeName);
     EAnnotation eAnnotation = eDataType.getEAnnotation(DateConversionDelegateFactory.ANNOTATION_URI);
