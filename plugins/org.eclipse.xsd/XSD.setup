@@ -36,7 +36,11 @@
       vm="true"/>
   <setupTask
       xsi:type="setup:PreferenceTask"
-      key="instance/org.eclipse.jdt.launching/org.eclipse.jdt.launching.PREF_STRICTLY_COMPATIBLE_JRE_NOT_AVAILABLE"
+      key="/instance/org.eclipse.jdt.launching/org.eclipse.jdt.launching.PREF_COMPILER_COMPLIANCE_DOES_NOT_MATCH_JRE"
+      value="ignore"/>
+  <setupTask
+      xsi:type="setup:PreferenceTask"
+      key="/instance/org.eclipse.jdt.launching/org.eclipse.jdt.launching.PREF_STRICTLY_COMPATIBLE_JRE_NOT_AVAILABLE"
       value="ignore"/>
   <setupTask
       xsi:type="setup:ResourceCreationTask"
@@ -212,10 +216,10 @@
             nature="org.eclipse.pde.PluginNature"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.10/@workingSets.1"/>
+            excludedWorkingSet="//@setupTasks.11/@workingSets.1"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.10/@workingSets.3"/>
+            excludedWorkingSet="//@setupTasks.11/@workingSets.3"/>
       </predicate>
     </workingSet>
     <workingSet
