@@ -75,6 +75,10 @@
           key="/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.missingOverrideAnnotationForInterfaceMethodImplementation">
         <value>record</value>
       </detail>
+      <detail
+          key="/instance/org.eclipse.jdt.launching/org.eclipse.jdt.launching.PREF_COMPILER_COMPLIANCE_DOES_NOT_MATCH_JRE">
+        <value>record</value>
+      </detail>
     </annotation>
     <setupTask
         xsi:type="setup:CompoundTask"
@@ -109,7 +113,11 @@
         name="org.eclipse.jdt.launching">
       <setupTask
           xsi:type="setup:PreferenceTask"
-          key="instance/org.eclipse.jdt.launching/org.eclipse.jdt.launching.PREF_STRICTLY_COMPATIBLE_JRE_NOT_AVAILABLE"
+          key="/instance/org.eclipse.jdt.launching/org.eclipse.jdt.launching.PREF_COMPILER_COMPLIANCE_DOES_NOT_MATCH_JRE"
+          value="ignore"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.jdt.launching/org.eclipse.jdt.launching.PREF_STRICTLY_COMPATIBLE_JRE_NOT_AVAILABLE"
           value="ignore"/>
     </setupTask>
     <setupTask
