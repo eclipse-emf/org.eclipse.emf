@@ -24,9 +24,8 @@
 
       <repository location="http://download.itemis.com/updates/releases/2.1.0"/>
 
-      <repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.13.0"/>
+      <repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.14.0"/>
       <repository location="http://download.eclipse.org/modeling/m2t/xpand/updates/releases/R201605260315"/>
-      <repository location="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.9.1"/>
       <repository location="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.9.1"/>
       <repository location="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
 
