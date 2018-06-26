@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-SymbolicName: org.eclipse.emf.examples.databinding.project.core
-Bundle-Version: 1.1.0.qualifier
+Bundle-Version: 1.2.0.qualifier
 Bundle-Activator: org.eclipse.emf.examples.databinding.project.core.internal.Activator
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
  org.eclipse.emf.ecore.xmi;bundle-version="[2.14.0,3.0.0)",

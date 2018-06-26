@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * http://www.eclipse.org/legal/epl-v20.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
@@ -145,9 +145,9 @@ public class JavaTest
     expectedHeader.append("/**");
     expectedHeader.append("\n").append(" * Copyright (c) 2004-2006 IBM Corporation and others.");
     expectedHeader.append("\n").append(" * All rights reserved.   This program and the accompanying materials");
-    expectedHeader.append("\n").append(" * are made available under the terms of the Eclipse Public License v1.0");
+    expectedHeader.append("\n").append(" * are made available under the terms of the Eclipse Public License v2.0");
     expectedHeader.append("\n").append(" * which accompanies this distribution, and is available at");
-    expectedHeader.append("\n").append(" * http://www.eclipse.org/legal/epl-v10.html");
+    expectedHeader.append("\n").append(" * http://www.eclipse.org/legal/epl-v20.html");
     expectedHeader.append("\n").append(" * ");
     expectedHeader.append("\n").append(" * Contributors: ");
     expectedHeader.append("\n").append(" *   IBM - Initial API and implementation");

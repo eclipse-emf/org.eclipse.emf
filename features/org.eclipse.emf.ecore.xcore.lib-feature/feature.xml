@@ -2,21 +2,21 @@
 <feature
       id="org.eclipse.emf.ecore.xcore.lib"
       label="%featureName"
-      version="1.3.0.qualifier"
+      version="1.4.0.qualifier"
       provider-name="%providerName"
       license-feature="org.eclipse.emf.license"
-      license-feature-version="2.9.0.qualifier">
+      license-feature-version="2.10.0">
 
    <description>
       %description
    </description>
 
-   <copyright url="http://www.eclipse.org/legal/epl-v10.html">
+   <copyright url="http://www.eclipse.org/legal/epl-v20.html">
       Copyright (c) 2011-2018 Eclipse contributors and others.
 All rights reserved.   This program and the accompanying materials
-are made available under the terms of the Eclipse Public License v1.0
+are made available under the terms of the Eclipse Public License v2.0
 which accompanies this distribution, and is available at
-http://www.eclipse.org/legal/epl-v10.html
+http://www.eclipse.org/legal/epl-v20.html
    </copyright>
 
    <license url="%licenseURL">

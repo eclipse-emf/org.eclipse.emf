@@ -116,8 +116,8 @@ A setting delegate factory can be also registered from the source code with the 
       </appInfo>
       <documentation>
          Copyright (c) 2009 Kenn Hussey and others.&lt;br&gt;
-All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at &lt;a 
-href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;
+All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v2.0 which accompanies this distribution, and is available at &lt;a 
+href=&quot;http://www.eclipse.org/legal/epl-v20.html&quot;&gt;http://www.eclipse.org/legal/epl-v20.html&lt;/a&gt;
       </documentation>
    </annotation>
 
