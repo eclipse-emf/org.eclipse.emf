@@ -88,6 +88,7 @@ public class GenPackageItemProvider
       addEcorePackagePropertyDescriptor(object);
       addPublicationLocationPropertyDescriptor(object);
       addDocumentationPropertyDescriptor(object);
+      addLoadInitializationFileExtensionPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -669,6 +670,30 @@ public class GenPackageItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Load Initialization File Extension feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.15
+   * @generated
+   */
+  protected void addLoadInitializationFileExtensionPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_loadInitializationFileExtension_feature"),
+         getString("_UI_GenPackage_loadInitializationFileExtension_description"),
+         GenModelPackage.Literals.GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -779,6 +804,7 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
       case GenModelPackage.GEN_PACKAGE__PUBLICATION_LOCATION:
       case GenModelPackage.GEN_PACKAGE__DOCUMENTATION:
+      case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_PACKAGE__GEN_ENUMS:

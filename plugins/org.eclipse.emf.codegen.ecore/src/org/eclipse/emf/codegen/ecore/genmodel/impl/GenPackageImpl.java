@@ -129,6 +129,7 @@ import org.osgi.framework.Bundle;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenClassifiers <em>Gen Classifiers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getPublicationLocation <em>Publication Location</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getDocumentation <em>Documentation</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getLoadInitializationFileExtension <em>Load Initialization File Extension</em>}</li>
  * </ul>
  *
  * @generated
@@ -678,6 +679,28 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @ordered
    */
   protected boolean documentationESet;
+
+  /**
+   * The default value of the '{@link #getLoadInitializationFileExtension() <em>Load Initialization File Extension</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getLoadInitializationFileExtension()
+   * @since 2.15
+   * @generated
+   * @ordered
+   */
+  protected static final String LOAD_INITIALIZATION_FILE_EXTENSION_EDEFAULT = "ecore";
+
+  /**
+   * The cached value of the '{@link #getLoadInitializationFileExtension() <em>Load Initialization File Extension</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getLoadInitializationFileExtension()
+   * @since 2.15
+   * @generated
+   * @ordered
+   */
+  protected String loadInitializationFileExtension = LOAD_INITIALIZATION_FILE_EXTENSION_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -1532,6 +1555,31 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.15
+   * @generated
+   */
+  public String getLoadInitializationFileExtension()
+  {
+    return loadInitializationFileExtension;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.15
+   * @generated
+   */
+  public void setLoadInitializationFileExtension(String newLoadInitializationFileExtension)
+  {
+    String oldLoadInitializationFileExtension = loadInitializationFileExtension;
+    loadInitializationFileExtension = newLoadInitializationFileExtension;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION, oldLoadInitializationFileExtension, loadInitializationFileExtension));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   @Override
@@ -1660,6 +1708,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return getPublicationLocation();
       case GenModelPackage.GEN_PACKAGE__DOCUMENTATION:
         return getDocumentation();
+      case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION:
+        return getLoadInitializationFileExtension();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -1769,6 +1819,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__DOCUMENTATION:
         setDocumentation((String)newValue);
         return;
+      case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION:
+        setLoadInitializationFileExtension((String)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -1873,6 +1926,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__DOCUMENTATION:
         unsetDocumentation();
         return;
+      case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION:
+        setLoadInitializationFileExtension(LOAD_INITIALIZATION_FILE_EXTENSION_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -1949,6 +2005,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return PUBLICATION_LOCATION_EDEFAULT == null ? publicationLocation != null : !PUBLICATION_LOCATION_EDEFAULT.equals(publicationLocation);
       case GenModelPackage.GEN_PACKAGE__DOCUMENTATION:
         return isSetDocumentation();
+      case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION:
+        return LOAD_INITIALIZATION_FILE_EXTENSION_EDEFAULT == null ? loadInitializationFileExtension != null : !LOAD_INITIALIZATION_FILE_EXTENSION_EDEFAULT.equals(loadInitializationFileExtension);
     }
     return super.eIsSet(featureID);
   }
@@ -2012,6 +2070,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.append(publicationLocation);
     result.append(", documentation: ");
     if (documentationESet) result.append(documentation); else result.append("<unset>");
+    result.append(", loadInitializationFileExtension: ");
+    result.append(loadInitializationFileExtension);
     result.append(')');
     return result.toString();
   }
@@ -4657,9 +4717,14 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getSerializedPackageFilename()
   {
-    return getName() + ".ecore";
+    String loadInitializationFileExtension = getLoadInitializationFileExtension();
+    if (isBlank(loadInitializationFileExtension))
+    {
+      loadInitializationFileExtension = "ecore";
+    }
+    return getName() + '.' + loadInitializationFileExtension;
   }
-  
+
   protected boolean isBigModel()
   {
     int classes = getGenClasses().size();

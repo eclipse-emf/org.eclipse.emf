@@ -59,6 +59,7 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenClassifiers <em>Gen Classifiers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getPublicationLocation <em>Publication Location</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getDocumentation <em>Documentation</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getLoadInitializationFileExtension <em>Load Initialization File Extension</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage()
@@ -745,6 +746,33 @@ public interface GenPackage extends GenBase
    * @generated
    */
   void setDocumentation(String value);
+
+  /**
+   * Returns the value of the '<em><b>Load Initialization File Extension</b></em>' attribute.
+   * The default value is <code>"ecore"</code>.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.15
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Load Initialization File Extension</em>' attribute.
+   * @see #setLoadInitializationFileExtension(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_LoadInitializationFileExtension()
+   * @model default="ecore"
+   * @generated
+   */
+  String getLoadInitializationFileExtension();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getLoadInitializationFileExtension <em>Load Initialization File Extension</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Load Initialization File Extension</em>' attribute.
+   * @see #getLoadInitializationFileExtension()
+   * @since 2.15
+   * @generated
+   */
+  void setLoadInitializationFileExtension(String value);
 
   String getInterfacePackageName();
   String getReflectionPackageName();

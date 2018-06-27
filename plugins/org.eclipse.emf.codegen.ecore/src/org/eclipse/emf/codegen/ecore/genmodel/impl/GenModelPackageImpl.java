@@ -1596,6 +1596,17 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.15
+   * @generated
+   */
+  public EAttribute getGenPackage_LoadInitializationFileExtension()
+  {
+    return (EAttribute)genPackageEClass.getEStructuralFeatures().get(31);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   public EClass getGenClass()
@@ -2539,6 +2550,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEReference(genPackageEClass, GEN_PACKAGE__GEN_CLASSIFIERS);
     createEAttribute(genPackageEClass, GEN_PACKAGE__PUBLICATION_LOCATION);
     createEAttribute(genPackageEClass, GEN_PACKAGE__DOCUMENTATION);
+    createEAttribute(genPackageEClass, GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION);
 
     genClassEClass = createEClass(GEN_CLASS);
     createEAttribute(genClassEClass, GEN_CLASS__PROVIDER);
@@ -2809,6 +2821,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEReference(getGenPackage_GenClassifiers(), this.getGenClassifier(), this.getGenClassifier_GenPackage(), "genClassifiers", null, 0, -1, GenPackage.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_PublicationLocation(), theEcorePackage.getEString(), "publicationLocation", null, 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_Documentation(), theEcorePackage.getEString(), "documentation", null, 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenPackage_LoadInitializationFileExtension(), theEcorePackage.getEString(), "loadInitializationFileExtension", "ecore", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(genClassEClass, GenClass.class, "GenClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getGenClass_Provider(), this.getGenProviderKind(), "provider", null, 0, 1, GenClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

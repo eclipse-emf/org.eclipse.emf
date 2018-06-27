@@ -323,6 +323,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/publicationLocation"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The Javadoc to be generated, including any @since or @deprecated tags"
           propertyMultiLine="true" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/documentation"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The file extension of the resource used to initialize package meta-data when loading from serialized form (required for large models)"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/loadInitializationFileExtension"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenClass">
       <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether to generate an item provider and which pattern to use"

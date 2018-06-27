@@ -1291,13 +1291,23 @@ public interface GenModelPackage extends EPackage
   int GEN_PACKAGE__DOCUMENTATION = GEN_BASE_FEATURE_COUNT + 30;
 
   /**
+   * The feature id for the '<em><b>Load Initialization File Extension</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.15
+   * @generated
+   * @ordered
+   */
+  int GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION = GEN_BASE_FEATURE_COUNT + 31;
+
+  /**
    * The number of structural features of the '<em>Gen Package</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 31;
+  int GEN_PACKAGE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 32;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassifierImpl <em>Gen Classifier</em>}' class.
@@ -3782,6 +3792,18 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenPackage_Documentation();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getLoadInitializationFileExtension <em>Load Initialization File Extension</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Load Initialization File Extension</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getLoadInitializationFileExtension()
+   * @see #getGenPackage()
+   * @since 2.15
+   * @generated
+   */
+  EAttribute getGenPackage_LoadInitializationFileExtension();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass <em>Gen Class</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -5682,6 +5704,15 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_PACKAGE__DOCUMENTATION = eINSTANCE.getGenPackage_Documentation();
+
+    /**
+     * The meta object literal for the '<em><b>Load Initialization File Extension</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.15
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION = eINSTANCE.getGenPackage_LoadInitializationFileExtension();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassImpl <em>Gen Class</em>}' class.
