@@ -394,6 +394,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
         final ResourceSet originalSet = genModel.eResource().getResourceSet();
         EPackage originalPackage = genPackage.getEcorePackage();
+        final String originalPackageNsURI = originalPackage.getNsURI();
 
         ResourceSet outputSet = new ResourceSetImpl();
         outputSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new EcoreResourceFactoryImpl());
@@ -507,7 +508,14 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
                         }
                         path.insert(0, '/');
                         path.append(relativePath);
-                        return URI.createURI(ePackage.getNsURI()).appendFragment(path.toString());
+
+                        // With Xcore generation, the previously serialized resource might have been loaded into the resource set.
+                        // So if the package nsURI is the same as the nsURI of the package we're generating,
+                        // and if the resource URI is the one to which we are serializing,
+                        // redirect to the base URI so that it's subsequently deresolved to a document relative URI.
+                        String nsURI = ePackage.getNsURI();
+                        URI redirectedURI = originalPackageNsURI.equals(nsURI) && resource.getURI().equals(baseURI) ? baseURI : URI.createURI(nsURI);
+                        return redirectedURI.appendFragment(path.toString());
                       }
                     }
                   }
