@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameElementProcessor;
 import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameRefactoringParticipantProcessor;
 import org.eclipse.emf.ecore.xcore.ui.refactoring.XcoreRenameStrategy;
 import org.eclipse.emf.ecore.xcore.ui.validation.XcoreUniqueClassNameValidator;
+import org.eclipse.emf.xcore.ui.folding.XcoreFoldingRegionProvider;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.builder.EclipseResourceFileSystemAccess2;
 import org.eclipse.xtext.builder.IXtextBuilderParticipant;
@@ -43,6 +44,7 @@ import org.eclipse.xtext.resource.containers.IAllContainersState;
 import org.eclipse.xtext.service.SingletonBinding;
 import org.eclipse.xtext.ui.containers.JavaProjectsState;
 import org.eclipse.xtext.ui.editor.contentassist.antlr.IContentAssistParser;
+import org.eclipse.xtext.ui.editor.folding.IFoldingRegionProvider;
 import org.eclipse.xtext.ui.editor.formatting.IContentFormatterFactory;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHover;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHoverProvider;
@@ -220,5 +222,10 @@ public class XcoreUiModule extends AbstractXcoreUiModule
   public Class<? extends UniqueClassNameValidator> bindUniqueClassNameValidator()
   {
     return XcoreUniqueClassNameValidator.class;
+  }
+
+  public Class<? extends IFoldingRegionProvider> bindIFoldingRegionProvider()
+  {
+    return XcoreFoldingRegionProvider.class;
   }
 }
