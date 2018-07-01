@@ -27,7 +27,7 @@ public class Source
 // line comment
   )
   @Deprecated
-  protected final T method2()
+  protected final T method2() throws Exception
   {
     
   }

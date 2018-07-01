@@ -10,12 +10,15 @@
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ChildListPropertyDescriptor;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Name;
+import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.emf.codegen.merge.java.facade.JMethod;
 
@@ -110,11 +113,43 @@ public class ASTJMethod extends ASTJMember<MethodDeclaration> implements JMethod
     return returnType;
   }
 
+  private static final ChildListPropertyDescriptor EXTRA_DIMENSIONS2_PROPERTY;
+  private static final int DIMENSION;
+
+  static
+  {
+    ChildListPropertyDescriptor extraDimensions2Property = null;
+    int dimension = 0;
+    try
+    {
+      extraDimensions2Property = (ChildListPropertyDescriptor)MethodDeclaration.class.getField("EXTRA_DIMENSIONS2_PROPERTY").get(null);
+      dimension = (Integer)ASTNode.class.getField("DIMENSION").get(null);
+    }
+    catch (Exception exception)
+    {
+      // Ignore
+    }
+    EXTRA_DIMENSIONS2_PROPERTY = extraDimensions2Property;
+    DIMENSION = dimension;
+  }
+
   @SuppressWarnings("deprecation")
+  private void clearExtraDimensions()
+  {
+    if (getASTNode().getAST().apiLevel() <= 4)
+    {
+      setNodeProperty(getASTNode(), 0, MethodDeclaration.EXTRA_DIMENSIONS_PROPERTY);
+    }
+    else
+    {
+      setListNodeProperty(getASTNode(), EMPTY_STRING_ARRAY, EXTRA_DIMENSIONS2_PROPERTY, DIMENSION);
+    }
+  }
+
   public void setReturnType(String type)
   {
     this.returnType = type;
-    setNodeProperty(getASTNode(), 0, MethodDeclaration.EXTRA_DIMENSIONS_PROPERTY);
+    clearExtraDimensions();
     setTrackedNodeProperty(getASTNode(), type, MethodDeclaration.RETURN_TYPE2_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
 
@@ -257,22 +292,89 @@ public class ASTJMethod extends ASTJMember<MethodDeclaration> implements JMethod
     }
   }
 
+  private static final Method THROWN_EXCEPTION_TYPES_METHOD;
+
+  static
+  {
+    Method thrownExceptionTypesMethod = null;
+    try
+    {
+      thrownExceptionTypesMethod = MethodDeclaration.class.getMethod("thrownExceptionTypes");
+    }
+    catch (Exception exception)
+    {
+      // Ignore.
+    }
+
+    THROWN_EXCEPTION_TYPES_METHOD = thrownExceptionTypesMethod;
+  }
+
+  @SuppressWarnings({ "deprecation", "unchecked" })
+  private <T> List<T> thrownExceptions()
+  {
+    MethodDeclaration astNode = getASTNode();
+    if (astNode.getAST().apiLevel() <= 4)
+    {
+      List<T> exceptionsList = astNode.thrownExceptions();
+      return exceptionsList;
+    }
+    else
+    {
+      try
+      {
+        List<T> exceptionsList = (List<T>)THROWN_EXCEPTION_TYPES_METHOD.invoke(astNode);
+        return exceptionsList;
+      }
+      catch (Exception exception)
+      {
+        throw new RuntimeException(exception);
+      }
+    }
+  }
+
   public String[] getExceptions()
   {
     if (exceptions == EMPTY_STRING_ARRAY)
     {
-      @SuppressWarnings({ "unchecked", "deprecation" })
-      List<Name> exceptionsList = getASTNode().thrownExceptions();
-      
-      exceptions = new String [exceptionsList.size()];
-      int j = 0;
-      for (Name exception : exceptionsList)
+      if (getASTNode().getAST().apiLevel() <= 4)
       {
-        exceptions[j++] = ASTFacadeHelper.toString(exception);
+        List<Name> exceptionsList = thrownExceptions();
+        exceptions = new String [exceptionsList.size()];
+        int j = 0;
+        for (Name exception : exceptionsList)
+        {
+          exceptions[j++] = ASTFacadeHelper.toString(exception);
+        }
+      }
+      else
+      {
+        List<SimpleType> thrownExceptionTypes = thrownExceptions();
+        exceptions = new String [thrownExceptionTypes.size()];
+        int j = 0;
+        for (SimpleType exception : thrownExceptionTypes)
+        {
+          exceptions[j++] = ASTFacadeHelper.toString(exception);
+        }
       }
     }
     exceptions = combineArrayAndList(exceptions, addedExceptions);
     return exceptions;
+  }
+
+  private static final ChildListPropertyDescriptor THROWN_EXCEPTION_TYPES_PROPERTY;
+
+  static
+  {
+    ChildListPropertyDescriptor thrownExceptionTypesProperty = null;
+    try
+    {
+      thrownExceptionTypesProperty = (ChildListPropertyDescriptor)MethodDeclaration.class.getField("THROWN_EXCEPTION_TYPES_PROPERTY").get(null);
+    }
+    catch (Exception exception)
+    {
+      // Ignore.
+    }
+    THROWN_EXCEPTION_TYPES_PROPERTY = thrownExceptionTypesProperty;
   }
 
   @SuppressWarnings("deprecation")
@@ -280,18 +382,32 @@ public class ASTJMethod extends ASTJMember<MethodDeclaration> implements JMethod
   {
     this.exceptions = exceptionTypes;
     this.addedExceptions = null;
-    setListNodeProperty(getASTNode(), exceptionTypes, MethodDeclaration.THROWN_EXCEPTIONS_PROPERTY, ASTNode.SIMPLE_NAME);
+    if (getASTNode().getAST().apiLevel() <= 4)
+    {
+      setListNodeProperty(getASTNode(), exceptionTypes, MethodDeclaration.THROWN_EXCEPTIONS_PROPERTY, ASTNode.SIMPLE_NAME);
+    }
+    else
+    {
+      setListNodeProperty(getASTNode(), exceptionTypes, THROWN_EXCEPTION_TYPES_PROPERTY, ASTNode.SIMPLE_TYPE);
+    }
   }
 
   @SuppressWarnings("deprecation")
-public void addException(String exceptionType)
+  public void addException(String exceptionType)
   {
     if (addedExceptions == null)
     {
       addedExceptions = new ArrayList<String>();
     }
     addedExceptions.add(exceptionType);
-    addValueToListProperty(getASTNode(), exceptionType, MethodDeclaration.THROWN_EXCEPTIONS_PROPERTY, ASTNode.SIMPLE_NAME);
+    if (getASTNode().getAST().apiLevel() <= 4)
+    {
+      addValueToListProperty(getASTNode(), exceptionType, MethodDeclaration.THROWN_EXCEPTIONS_PROPERTY, ASTNode.SIMPLE_NAME);
+    }
+    else
+    {
+      addValueToListProperty(getASTNode(), exceptionType, THROWN_EXCEPTION_TYPES_PROPERTY, ASTNode.SIMPLE_TYPE);
+    }
   }
 
   public String getBody()

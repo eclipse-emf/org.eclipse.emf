@@ -143,6 +143,17 @@ public class ASTFacadeHelper extends FacadeHelper
     return name == null ? null : name.getFullyQualifiedName();
   }
 
+  /**
+   * Converts {@link SimpleType} to a string representation.
+   * @param simpleType the simple type.
+   * @return fully qualified name or <code>null</code> if simple type parameter is <code>null</code>
+   * @since 2.15
+   */
+  public static String toString(SimpleType simpleType)
+  {
+    return simpleType == null ? null : simpleType.getName().getFullyQualifiedName();
+  }
+
   public static String getTypeErasure(ArrayType arrayType)
   {
     StringBuilder sb = new StringBuilder(ASTFacadeHelper.getTypeErasure(arrayType.getElementType()));
@@ -245,7 +256,7 @@ public class ASTFacadeHelper extends FacadeHelper
   {
     // caching parser does not parse 2nd file in the same way (javadoc of package for example)
     // hence, new parser is created every time this method is called
-    ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser();
+    ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser(true);
     Map<String, String> javaCoreOptions = new HashMap<String, String>();
     for (Map.Entry<?, ?> entry : getJavaCoreOptions().entrySet())
     {

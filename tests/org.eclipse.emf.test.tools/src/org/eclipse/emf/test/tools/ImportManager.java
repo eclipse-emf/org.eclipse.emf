@@ -183,7 +183,7 @@ class OldImportManager
     public static void addCompilationUnitImports
       (Set<String> importedPackages, Map<String, String> shortNameToImportMap, String compilationUnitContents)
     {
-      ASTParser parser = CodeGenUtil.EclipseUtil.newASTParser();
+      ASTParser parser = CodeGenUtil.EclipseUtil.newASTParser(true);
       parser.setSource(compilationUnitContents.toCharArray());
       CompilationUnit compilationUnit = (CompilationUnit)parser.createAST(new NullProgressMonitor());
       for (Iterator<?> i = compilationUnit.imports().iterator(); i.hasNext();)

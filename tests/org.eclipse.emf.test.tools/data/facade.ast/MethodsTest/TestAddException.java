@@ -9,7 +9,7 @@ public class Source
 // line comment
   )
   @Deprecated
-  public static List< ? extends Serializable > method1() 
+  public static List< ? extends Serializable > method1() throws AddedException 
   {
     // line comment
     // line comment
@@ -24,7 +24,7 @@ public class Source
 // line comment
   )
   @Deprecated
-  protected final T method2() throws Exception
+  protected final T method2() throws Exception, AddedException
   {
     
   }

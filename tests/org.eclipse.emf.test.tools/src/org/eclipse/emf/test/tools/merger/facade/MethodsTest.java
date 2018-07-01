@@ -54,6 +54,17 @@ public class MethodsTest extends BaseFacadeTest
   }
 
   /**
+   * Does all modifications of {@link #addExceptionToMethod()}.
+   */
+  @Test
+  public void testAddException()
+  {
+    addExceptionToMethod();
+
+    rewriteAndCompare("TestAddException");
+  }
+
+  /**
    * Does all modifications of {@link #testMoveAndModify2()},
    * and at the end switches the order of enum and class.
    */
@@ -109,6 +120,26 @@ public class MethodsTest extends BaseFacadeTest
 
     modifyMethod(method1, "3", 2, 1, 2, FacadeFlags.PUBLIC, true);
 //    readModifiedMethod(method1, "1_3", 1, 2, FacadeFlags.PUBLIC);
+  }
+  
+  /**
+   * Adds an exception to method1 and method2.
+   */
+  protected void addExceptionToMethod()
+  {
+    testNoChildren(compilationUnit, 2);
+
+    JType type1 = (JType)compilationUnit.getChildren().get(0);
+    JEnum enum1 = (JEnum)compilationUnit.getChildren().get(1);
+
+    testNoChildren(type1, 2);
+    testNoChildren(enum1, 0);
+
+    JMethod method1 = (JMethod)type1.getChildren().get(0);
+    method1.addException("AddedException");
+    
+    JMethod method2 = (JMethod)type1.getChildren().get(1);
+    method2.addException("AddedException");
   }
 
   /**

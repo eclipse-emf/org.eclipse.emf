@@ -82,7 +82,7 @@ public class ASTTest
  {
    String content = TestUtil.readFile(CLASS_FILE, false);
 
-   ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser();
+   ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser(true);
    astParser.setSource(content.toCharArray());
    CompilationUnit compilationUnit = (CompilationUnit)astParser.createAST(null);
 
@@ -414,8 +414,8 @@ public class ASTTest
  public void testWrite() throws Exception
  {
    // read
-     String source = TestUtil.readFile(CLASS_FILE, true);
-    ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser();
+    String source = TestUtil.readFile(CLASS_FILE, true);
+    ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser(false);
     astParser.setSource(source.toCharArray());
     CompilationUnit sourceCu = (CompilationUnit)astParser.createAST(null);
     astParser.setSource(source.toCharArray());

@@ -293,7 +293,40 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
     }    
     return type;
   }
-  
+
+  private static final ChildListPropertyDescriptor EXTRA_DIMENSIONS2_PROPERTY;
+  private static final int DIMENSION;
+
+  static
+  {
+    ChildListPropertyDescriptor extraDimensions2Property = null;
+    int dimension = 0;
+    try
+    {
+      extraDimensions2Property = (ChildListPropertyDescriptor)VariableDeclarationFragment.class.getField("EXTRA_DIMENSIONS2_PROPERTY").get(null);
+      dimension = (Integer)ASTNode.class.getField("DIMENSION").get(null);
+    }
+    catch (Exception exception)
+    {
+      // Ignore
+    }
+    EXTRA_DIMENSIONS2_PROPERTY = extraDimensions2Property;
+    DIMENSION = dimension;
+  }
+
+  @SuppressWarnings("deprecation")
+  private void clearExtraDimensions()
+  {
+    if (getASTNode().getAST().apiLevel() <= 4)
+    {
+      setNodeProperty(variableDeclarationFragment, 0, VariableDeclarationFragment.EXTRA_DIMENSIONS_PROPERTY);
+    }
+    else
+    {
+      setListNodeProperty(variableDeclarationFragment, EMPTY_STRING_ARRAY, EXTRA_DIMENSIONS2_PROPERTY, DIMENSION);
+    }
+  }
+
   /**
    * Sets the type of {@link FieldDeclaration}.
    * <p>
@@ -311,7 +344,6 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
    * 
    * @see org.eclipse.emf.codegen.merge.java.facade.JField#setType(String)
    */
-  @SuppressWarnings("deprecation")
   public void setType(String type)
   {
     // if there are multiple variables in declaration, 
@@ -319,7 +351,7 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
     performSplit();
     
     this.type = type;
-    setNodeProperty(variableDeclarationFragment, 0, VariableDeclarationFragment.EXTRA_DIMENSIONS_PROPERTY);
+    clearExtraDimensions();
     setTrackedNodeProperty(getASTNode(), type, FieldDeclaration.TYPE_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
 
