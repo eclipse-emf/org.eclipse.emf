@@ -75,7 +75,36 @@ public class BasicNotifierImpl implements Notifier
     void removeListener(Listener listener);
   }
 
-  public static class EAdapterList<E extends Object & Adapter> extends BasicEList<E> implements EObservableAdapterList
+  /**
+   * An interface implemented by an adapter list that supports direct adapter lookup based on type,
+   * i.e., that directly and very efficiently implements the equivalent of the follow logic.
+   * <pre>
+   * public static Adapter getAdapter(List&lt;Adapter> adapters, Object type)
+   * {
+   *   for (int i = 0, size = adapters.size(); i < size; ++i)
+   *   {
+   *     Adapter adapter = adapters.get(i);
+   *     if (adapter.isAdapterForType(type))
+   *     {
+   *       return adapter;
+   *     }
+   *    }
+   *    return null;
+   *  }
+   * </pre>
+   * @since 2.15
+   */
+  public interface EScannableAdapterList
+  {
+    /**
+     * Returns that first adapter in the list for which {@link Adapter#isAdapterForType(Object) <tt>isAdapterForType(type)</tt>} return {@code true}.
+     * @param type the type of adapter to get.
+     * @return the first adapter in the list for which {@code isAdapterForType(Object)} return {@code true}, or {@code null} if there isn't one.
+     */
+    Adapter getAdapterForType(Object type);
+  }
+
+  public static class EAdapterList<E extends Object & Adapter> extends BasicEList<E> implements EObservableAdapterList, EScannableAdapterList
   {
     private static final long serialVersionUID = 1L;
 
@@ -305,6 +334,25 @@ public class BasicNotifierImpl implements Notifier
         }
       }
     }
+
+    /**
+     * @since 2.15
+     */
+    public Adapter getAdapterForType(Object type)
+    {
+      Adapter[] adapters = (Adapter[])data();
+      if (adapters != null)
+      {
+        for (Adapter adapter : adapters)
+        {
+          if (adapter.isAdapterForType(type))
+          {
+            return adapter;
+          }
+        }
+      }
+      return null;
+     }
   }
 
   public EList<Adapter> eAdapters()

@@ -34,6 +34,7 @@ import java.util.StringTokenizer;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.notify.impl.BasicNotifierImpl;
 import org.eclipse.emf.common.util.AbstractTreeIterator;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -146,15 +147,22 @@ public class EcoreUtil
    */
   public static Adapter getAdapter(List<Adapter> adapters, Object type)
   {
-    for (int i = 0, size = adapters.size(); i < size; ++i)
+    if (adapters instanceof BasicNotifierImpl.EScannableAdapterList)
     {
-      Adapter adapter = adapters.get(i);
-      if (adapter.isAdapterForType(type))
-      {
-        return adapter;
-      }
+      return ((BasicNotifierImpl.EScannableAdapterList)adapters).getAdapterForType(type);
     }
-    return null;
+    else
+    {
+      for (int i = 0, size = adapters.size(); i < size; ++i)
+      {
+        Adapter adapter = adapters.get(i);
+        if (adapter.isAdapterForType(type))
+        {
+          return adapter;
+        }
+      }
+      return null;
+    }
   }
 
   /**

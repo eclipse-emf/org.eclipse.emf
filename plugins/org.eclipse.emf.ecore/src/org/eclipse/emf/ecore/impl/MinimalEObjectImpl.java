@@ -15,7 +15,6 @@ import java.util.Arrays;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.BasicNotifierImpl;
 import org.eclipse.emf.common.notify.impl.NotificationImpl;
 import org.eclipse.emf.common.util.ArrayDelegatingEList;
 import org.eclipse.emf.common.util.BasicEList;
@@ -451,7 +450,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
   @Override
   public EList<Adapter> eAdapters()
   {
-    class ArrayDelegatingAdapterList extends ArrayDelegatingEList<Adapter> implements BasicNotifierImpl.EObservableAdapterList
+    class ArrayDelegatingAdapterList extends ArrayDelegatingEList<Adapter> implements EObservableAdapterList, EScannableAdapterList
     {
       private static final long serialVersionUID = 1L;
 
@@ -577,6 +576,22 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
             }
           }
         }
+      }
+
+      public Adapter getAdapterForType(Object type)
+      {
+        Adapter[] adapters = eBasicAdapterArray();
+        if (adapters != null)
+        {
+          for (Adapter adapter : adapters)
+          {
+            if (adapter.isAdapterForType(type))
+            {
+              return adapter;
+            }
+          }
+        }
+        return null;
       }
     }
     return new ArrayDelegatingAdapterList();
