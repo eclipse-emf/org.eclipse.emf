@@ -21,7 +21,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypedElement;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
@@ -762,8 +761,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
       return false;
     }
     String substitutedType = getTypeArgument(context, actualEGenericType, false, false);
-    Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(substitutedType);
-    EGenericType eGenericType = (EGenericType)diagnostic.getData().get(0);
+    EGenericType eGenericType = EcoreValidator.EGenericTypeBuilder.INSTANCE.buildEGenericType(substitutedType);
     if (eGenericType != null)
     {
       // Type parameter casts can't be checked.

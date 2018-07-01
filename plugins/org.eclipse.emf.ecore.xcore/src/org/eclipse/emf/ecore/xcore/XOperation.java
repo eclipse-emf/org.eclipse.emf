@@ -19,13 +19,13 @@ import org.eclipse.xtext.xbase.XBlockExpression;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XOperation#getTypeParameters <em>Type Parameters</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XOperation#getParameters <em>Parameters</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XOperation#getExceptions <em>Exceptions</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XOperation#getBody <em>Body</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXOperation()
  * @model

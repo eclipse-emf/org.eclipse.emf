@@ -371,16 +371,28 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
     return uncapPrefixedName(getName()) + getMetaType();
   }
 
+  private String classifierID;
+
   public String getClassifierID()
   {
-    String name = getName();
-    String prefix = getGenPackage().getPrefix();
-    return format(name, '_', prefix, true, true).toUpperCase(getGenModel().getLocale());
+    if (classifierID == null)
+    {
+      String name = getName();
+      String prefix = getGenPackage().getPrefix();
+      classifierID = format(name, '_', prefix, true, true).toUpperCase(getGenModel().getLocale());
+    }
+    return classifierID;
   }
+
+  private List<String> genConstraints;
 
   public List<String> getGenConstraints()
   {
-    return EcoreUtil.getConstraints(getEcoreClassifier());
+    if (genConstraints == null)
+    {
+      genConstraints = EcoreUtil.getConstraints(getEcoreClassifier());
+    }
+    return genConstraints;
   }
 
   public List<String> getAllGenConstraints()
@@ -455,5 +467,13 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
       }
     }
     return null;
+  }
+
+  @Override
+  public void clearCache()
+  {
+    super.clearCache();
+    classifierID = null;
+    genConstraints = null;
   }
 }

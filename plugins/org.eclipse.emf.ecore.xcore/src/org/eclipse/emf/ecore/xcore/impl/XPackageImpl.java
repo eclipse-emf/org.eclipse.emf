@@ -33,12 +33,12 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XPackageImpl#getImportDirectives <em>Import Directives</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XPackageImpl#getAnnotationDirectives <em>Annotation Directives</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XPackageImpl#getClassifiers <em>Classifiers</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

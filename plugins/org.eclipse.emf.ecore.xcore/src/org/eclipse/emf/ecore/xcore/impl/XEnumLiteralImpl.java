@@ -27,12 +27,12 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XEnumLiteralImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XEnumLiteralImpl#getLiteral <em>Literal</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XEnumLiteralImpl#getEnum <em>Enum</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -153,7 +153,7 @@ public class XEnumLiteralImpl extends XNamedElementImpl implements XEnumLiteral
   public XEnum getEnum()
   {
     if (eContainerFeatureID() != XcorePackage.XENUM_LITERAL__ENUM) return null;
-    return (XEnum)eContainer();
+    return (XEnum)eInternalContainer();
   }
 
   /**
@@ -296,7 +296,7 @@ public class XEnumLiteralImpl extends XNamedElementImpl implements XEnumLiteral
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (value: ");
     result.append(value);
     result.append(", literal: ");

@@ -2406,25 +2406,30 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return result;
   }
 
+  private List<GenClass> orderedGenClasses;
+
   public List<GenClass> getOrderedGenClasses()
   {
-    List<GenClass> result = new ArrayList<GenClass>();
-    Set<GenClass> resultSet = new HashSet<GenClass>();
-
-    for (Iterator<GenClass> iter = getGenClasses().iterator(); iter.hasNext(); )
+    if (orderedGenClasses == null)
     {
-      List<GenClass> extendChain = new LinkedList<GenClass>();
-      Set<GenClass> visited = new HashSet<GenClass>();
-      for (GenClass genClass = iter.next(); genClass != null && visited.add(genClass); genClass = genClass.getBaseGenClass())
+      orderedGenClasses = new ArrayList<GenClass>();
+      Set<GenClass> resultSet = new HashSet<GenClass>();
+
+      for (Iterator<GenClass> iter = getGenClasses().iterator(); iter.hasNext(); )
       {
-        if (this == genClass.getGenPackage() && resultSet.add(genClass))
+        List<GenClass> extendChain = new LinkedList<GenClass>();
+        Set<GenClass> visited = new HashSet<GenClass>();
+        for (GenClass genClass = iter.next(); genClass != null && visited.add(genClass); genClass = genClass.getBaseGenClass())
         {
-          extendChain.add(0, genClass);
+          if (this == genClass.getGenPackage() && resultSet.add(genClass))
+          {
+            extendChain.add(0, genClass);
+          }
         }
+        orderedGenClasses.addAll(extendChain);
       }
-      result.addAll(extendChain);
     }
-    return result;
+    return orderedGenClasses;
   }
 
   public List<GenClassifier> getOrderedGenClassifiers()
@@ -2458,22 +2463,38 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
     else
     {
+      if (dependencyHelper == null)
+      {
+        dependencyHelper = new DependencyHelper();
+      }
       return dependencyHelper.getSimpleDependencies();
     }
   }
 
   public List<GenPackage> getPackageInterDependencies()
   {
+    if (dependencyHelper == null)
+    {
+      dependencyHelper = new DependencyHelper();
+    }
     return dependencyHelper.getInterDependencies();
   }
 
   public List<GenPackage> getPackageLoadInterDependencies()
   {
+    if (dependencyHelper == null)
+    {
+      dependencyHelper = new DependencyHelper();
+    }
     return dependencyHelper.getLoadInterDependencies();
   }
 
   public List<GenPackage> getPackageBuildInterDependencies()
   {
+    if (dependencyHelper == null)
+    {
+      dependencyHelper = new DependencyHelper();
+    }
     return dependencyHelper.getBuildInterDependencies();
   }
 
@@ -2485,6 +2506,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
     else
     {
+      if (dependencyHelper == null)
+      {
+        dependencyHelper = new DependencyHelper();
+      }
       return dependencyHelper.getInitializationDependencies();
     }
   }
@@ -2494,10 +2519,14 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     if (genPackage == this) return "this";
     if (genPackage.getEcorePackage() == EcorePackage.eINSTANCE) return "ecorePackage";
 
+    if (dependencyHelper == null)
+    {
+      dependencyHelper = new DependencyHelper();
+    }
     return "the" + dependencyHelper.getUniqueName(genPackage);
   }
 
-  private DependencyHelper dependencyHelper = null;
+  private DependencyHelper dependencyHelper;
 
   private class DependencyHelper extends GenBaseImpl.UniqueNameHelper
   {
@@ -2790,26 +2819,32 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return !getJavaLangConflicts().isEmpty();
   }
 
+  private List<String> javaLanguageConflicts;
+
   public List<String> getJavaLangConflicts()
   {
-    List<String> result = new ArrayList<String>();
-    for (GenClass genClass : getGenClasses())
+    if (javaLanguageConflicts == null)
     {
-      String name = genClass.getName();
-      if (CodeGenUtil.isJavaDefaultType(name))
+      List<String> result = new ArrayList<String>();
+      for (GenClass genClass : getGenClasses())
       {
-        result.add(name);
+        String name = genClass.getName();
+        if (CodeGenUtil.isJavaDefaultType(name))
+        {
+          result.add(name);
+        }
       }
-    }
-    for (GenEnum genEnum : getGenEnums())
-    {
-      String name = genEnum.getName();
-      if (CodeGenUtil.isJavaDefaultType(name))
+      for (GenEnum genEnum : getGenEnums())
       {
-        result.add(name);
+        String name = genEnum.getName();
+        if (CodeGenUtil.isJavaDefaultType(name))
+        {
+          result.add(name);
+        }
       }
+      javaLanguageConflicts = result;
     }
-    return result;
+    return javaLanguageConflicts;
   }
 
   public boolean hasInterfaceImplConflict()
@@ -2856,7 +2891,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return switchHelper.getUniqueName(genClass);
   }
 
-  private SwitchHelper switchHelper = null;
+  private SwitchHelper switchHelper;
 
   private class SwitchHelper extends GenBaseImpl.UniqueNameHelper
   {
@@ -2943,7 +2978,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return validatorHelper.getPackageUniqueSafeName(genPackage);
   }
 
-  private ValidatorHelper validatorHelper = null;
+  private ValidatorHelper validatorHelper;
 
   private class ValidatorHelper extends UniqueNameHelper
   {
@@ -3381,22 +3416,22 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    */
   public void prepareCache()
   {
-    // Create helpers to cache and supply information for unique naming
-    switchHelper = new SwitchHelper();
-    validatorHelper = new ValidatorHelper();
-    dependencyHelper = new DependencyHelper();
-    annotationSourceHelper = new AnnotationSourceHelper();
+    // All helpers are demand created now to avoid expensive overhead that might not be used.
   }
 
   /**
    * Clear the cache for unique naming information.
    */
+  @Override
   public void clearCache()
   {
+    super.clearCache();
     switchHelper = null;
     validatorHelper = null;
     dependencyHelper = null;
     annotationSourceHelper = null;
+    orderedGenClasses = null;
+    javaLanguageConflicts = null;
   }
 
   /**
@@ -3472,9 +3507,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           Object generator = theGeneratorClass.newInstance();
 
           // Set the mapper to build an XSD2EcoreMappingRoot, if available.
+          // As of EMF 2.15, I've disabled this.
           //
           Bundle xsd2ecorePlugin = Platform.getBundle("org.eclipse.emf.mapping.xsd2ecore");
-          if (xsd2ecorePlugin != null)
+          if (Boolean.FALSE && xsd2ecorePlugin != null)
           {
             try
             {
@@ -4381,7 +4417,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return result;
   }
 
-  private AnnotationSourceHelper annotationSourceHelper = null;
+  private AnnotationSourceHelper annotationSourceHelper;
 
   private class AnnotationSourceHelper extends GenBaseImpl.UniqueNameHelper
   {
@@ -4426,6 +4462,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getAnnotationSourceIdentifier(String annotationSource)
   {
+    if (annotationSourceHelper == null)
+    {
+      annotationSourceHelper = new AnnotationSourceHelper();
+    }
     return annotationSourceHelper.getUniqueName(annotationSource);
   }
 

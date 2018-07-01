@@ -4616,6 +4616,19 @@ public class EcoreValidator extends EObjectValidator
     }
 
     /**
+     * Parses an instance type name and returns its representation as an {@link EGenericType generic type}.
+     * @param instanceTypeName an instance type name.
+     * @return the generic type representation.
+     * @since 2.15
+     */
+    public EGenericType buildEGenericType(String instanceTypeName)
+    {
+      char [] instanceTypeNameCharacterArray = instanceTypeName == null ? NO_CHARS: instanceTypeName.toCharArray();
+      EGenericType eGenericType = handleInstanceTypeName(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, null);
+      return eGenericType;
+    }
+
+    /**
      * Parses a list of type parameters and returns a diagnostic representing the result of the analysis.
      * The {@link Diagnostic#getData() data} of the diagnostic will contain as the first object, the resulting list of {@link ETypeParameter type parameters}.
      * @param typeParameterList a comma separated list of type parameters delimited by '&lt;' and '>'.
@@ -4636,6 +4649,19 @@ public class EcoreValidator extends EObjectValidator
            new Object [] { eTypeParameters, typeParameterList });
       result.addAll(placeholder);
       return result;
+    }
+
+    /**
+     * Parses a list of type parameters and returns its representation as a list of {@link ETypeParameter type parameters}.
+     * @param typeParameterList a comma separated list of type parameters delimited by '&lt;' and '>'.
+     * @return the typed parameter list representation.
+     * @since 2.15
+     */
+    public List<ETypeParameter> buildETypeParameters(String typeParameterList)
+    {
+      char [] instanceTypeNameCharacterArray = typeParameterList == null ? NO_CHARS : typeParameterList.toCharArray();
+      List<ETypeParameter> eTypeParameters = handleTypeParameters(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, null);
+      return eTypeParameters;
     }
 
     /**
@@ -4663,9 +4689,22 @@ public class EcoreValidator extends EObjectValidator
     }
 
     /**
+     * Parses a list of type arguments and returns its representation as a list of {@link EGenericType type arguments}.
+     * @param typeArgumentList a comma separated list of type arguments.
+     * @return the generic type list representation.
+     * @since 2.15
+     */
+    public List<EGenericType> buildEGenericTypes(String typeArgumentList)
+    {
+      char [] instanceTypeNameCharacterArray = typeArgumentList == null ? NO_CHARS : typeArgumentList.toCharArray();
+      List<EGenericType> eTypeArguments = handleTypeArguments(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, null);
+      return eTypeArguments;
+    }
+
+    /**
      * Parses a type parameter and returns a diagnostic representing the result of the analysis.
      * The {@link Diagnostic#getData() data} of the diagnostic will contain as the first object, the resulting {@link ETypeParameter type parameter}.
-     * @param typeParameter comma separated list of type parameters delimited by '&lt;' and '>'.
+     * @param typeParameter a type parameter.
      * @return the diagnostic result of the analysis.
      */
     public Diagnostic parseTypeParameter(final String typeParameter)
@@ -4683,6 +4722,19 @@ public class EcoreValidator extends EObjectValidator
            new Object [] { eTypeParameter, typeParameter });
       result.addAll(placeholder);
       return result;
+    }
+
+    /**
+     * Parses a type parameter and returns its representation as {@link ETypeParameter type parameter}.
+     * @param typeParameter a type parameter.
+     * @return the diagnostic result of the analysis.
+     * @since 2.15
+     */
+    public ETypeParameter buildETypeParameter(String typeParameter)
+    {
+      char [] instanceTypeNameCharacterArray = typeParameter == null ? NO_CHARS : typeParameter.toCharArray();
+      ETypeParameter eTypeParameter = handleTypeParameter(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, null);
+      return eTypeParameter;
     }
 
     /**

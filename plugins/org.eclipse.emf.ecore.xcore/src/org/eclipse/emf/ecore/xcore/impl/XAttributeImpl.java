@@ -24,11 +24,11 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XAttributeImpl#getDefaultValueLiteral <em>Default Value Literal</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XAttributeImpl#isID <em>ID</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -65,14 +65,14 @@ public class XAttributeImpl extends XStructuralFeatureImpl implements XAttribute
   protected static final boolean ID_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isID() <em>ID</em>}' attribute.
+   * The flag representing the value of the '{@link #isID() <em>ID</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isID()
    * @generated
    * @ordered
    */
-  protected boolean iD = ID_EDEFAULT;
+  protected static final int ID_EFLAG = 1 << 8;
 
   /**
    * <!-- begin-user-doc -->
@@ -125,7 +125,7 @@ public class XAttributeImpl extends XStructuralFeatureImpl implements XAttribute
    */
   public boolean isID()
   {
-    return iD;
+    return (eFlags & ID_EFLAG) != 0;
   }
 
   /**
@@ -135,10 +135,10 @@ public class XAttributeImpl extends XStructuralFeatureImpl implements XAttribute
    */
   public void setID(boolean newID)
   {
-    boolean oldID = iD;
-    iD = newID;
+    boolean oldID = (eFlags & ID_EFLAG) != 0;
+    if (newID) eFlags |= ID_EFLAG; else eFlags &= ~ID_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XATTRIBUTE__ID, oldID, iD));
+      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XATTRIBUTE__ID, oldID, newID));
   }
 
   /**
@@ -212,7 +212,7 @@ public class XAttributeImpl extends XStructuralFeatureImpl implements XAttribute
       case XcorePackage.XATTRIBUTE__DEFAULT_VALUE_LITERAL:
         return DEFAULT_VALUE_LITERAL_EDEFAULT == null ? defaultValueLiteral != null : !DEFAULT_VALUE_LITERAL_EDEFAULT.equals(defaultValueLiteral);
       case XcorePackage.XATTRIBUTE__ID:
-        return iD != ID_EDEFAULT;
+        return ((eFlags & ID_EFLAG) != 0) != ID_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -227,11 +227,11 @@ public class XAttributeImpl extends XStructuralFeatureImpl implements XAttribute
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (defaultValueLiteral: ");
     result.append(defaultValueLiteral);
     result.append(", iD: ");
-    result.append(iD);
+    result.append((eFlags & ID_EFLAG) != 0);
     result.append(')');
     return result.toString();
   }

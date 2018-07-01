@@ -108,6 +108,7 @@ public class XcoreJvmInferrer
 
   public static void inferName(GenBase genBase)
   {
+    genBase.getGenModel().clearCache();
     Adapter adapter = EcoreUtil.getAdapter(genBase.eAdapters(), InferenceAdapter.class);
     if (adapter != null)
     {
@@ -230,6 +231,7 @@ public class XcoreJvmInferrer
       }
     }
 
+    genModel.clearCache();
     cache.clear(genModel.eResource());
   }
 
@@ -384,7 +386,6 @@ public class XcoreJvmInferrer
                     public void inferName()
                     {
                       inferredElement.setSimpleName("case" + genPackage.getClassUniqueName(genClass));
-                      genPackage.clearCache();
                     }
                   };
                 associate(genClass, caseMethodInferrer);
@@ -974,7 +975,6 @@ public class XcoreJvmInferrer
                       public void inferName()
                       {
                         inferredElement.setSimpleName("test" + genClass.getUniqueName(genOperation));
-                        genClass.clearCache();
                       }
                     };
                   associate(genOperation, operationTestInferrer);
@@ -1322,7 +1322,6 @@ public class XcoreJvmInferrer
                               public void inferName()
                               {
                                 inferredElement.setSimpleName(genClass.getOperationID(genOperation, false));
-                                genClass.clearCache();
                               }
                             };
                           associate(genOperation, operationFieldInferrer);
@@ -1507,7 +1506,6 @@ public class XcoreJvmInferrer
                         public void inferName()
                         {
                           inferredElement.setSimpleName(genClass.getOperationID(genOperation, false));
-                          genClass.clearCache();
                         }
                       };
                     associate(genOperation, operationFieldInferrer);
@@ -1532,7 +1530,6 @@ public class XcoreJvmInferrer
                         public void inferName()
                         {
                           inferredElement.setSimpleName("get" + genOperation.getOperationAccessorName());
-                          genClass.clearCache();
                         }
                       };
                     associate(genOperation, operationAccessorInferrer);
@@ -2380,7 +2377,12 @@ public class XcoreJvmInferrer
           @Override
           public void inferName()
           {
-            inferredElement.setSimpleName(genFeature.getGetAccessor() + (isImplementation && genClass.hasCollidingGetAccessorOperation(genFeature) ? "_" : ""));
+            String getAccessor = genFeature.getGetAccessor();
+            if (isImplementation && genClass.hasCollidingGetAccessorOperation(genFeature))
+            {
+              getAccessor += "_";
+            }
+            inferredElement.setSimpleName(getAccessor);
           }
         };
       associate(genFeature, getAccessorInferrer);
@@ -2674,8 +2676,7 @@ public class XcoreJvmInferrer
       EGenericType eGenericType = eGenericTypes.get(instanceTypeName);
       if (eGenericType == null)
       {
-        Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName);
-        eGenericType = (EGenericType)diagnostic.getData().get(0);
+        eGenericType = EcoreValidator.EGenericTypeBuilder.INSTANCE.buildEGenericType(instanceTypeName);
         eGenericTypes.put(instanceTypeName, eGenericType);
       }
       return eGenericType;

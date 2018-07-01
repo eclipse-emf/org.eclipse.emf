@@ -15,12 +15,12 @@ package org.eclipse.emf.ecore.xcore;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XEnumLiteral#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XEnumLiteral#getLiteral <em>Literal</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XEnumLiteral#getEnum <em>Enum</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXEnumLiteral()
  * @model

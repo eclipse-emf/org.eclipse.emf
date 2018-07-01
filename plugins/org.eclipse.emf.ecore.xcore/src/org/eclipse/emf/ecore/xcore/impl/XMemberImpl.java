@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XMemberImpl#getContainingClass <em>Containing Class</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -62,7 +62,7 @@ public abstract class XMemberImpl extends XTypedElementImpl implements XMember
   public XClass getContainingClass()
   {
     if (eContainerFeatureID() != XcorePackage.XMEMBER__CONTAINING_CLASS) return null;
-    return (XClass)eContainer();
+    return (XClass)eInternalContainer();
   }
 
   /**

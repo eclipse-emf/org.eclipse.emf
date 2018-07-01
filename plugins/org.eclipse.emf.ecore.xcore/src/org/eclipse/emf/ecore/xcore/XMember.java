@@ -15,10 +15,10 @@ package org.eclipse.emf.ecore.xcore;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XMember#getContainingClass <em>Containing Class</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXMember()
  * @model abstract="true"

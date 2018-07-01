@@ -38,12 +38,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.ToolFactory;
-import org.eclipse.jdt.core.formatter.CodeFormatter;
-
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter;
@@ -55,19 +49,19 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDecoration;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEclipsePlatformVersion;
-import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
-import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimePlatform;
-import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
+import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimePlatform;
+import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.codegen.jet.JETCompiler;
@@ -121,6 +115,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.ToolFactory;
+import org.eclipse.jdt.core.formatter.CodeFormatter;
 
 
 /**
@@ -3268,7 +3267,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   public boolean canGenerate()
   {
-    clearCache();
     return canGenerate && hasModelSupport();
   }
 
@@ -3596,7 +3594,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   public boolean canGenerateEdit()
   {
-    clearCache();
     return canGenerate && hasEditSupport();
   }
 
@@ -3707,7 +3704,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   public boolean canGenerateEditor()
   {
-    clearCache();
     return canGenerate && hasEditorSupport();
   }
 
@@ -3851,7 +3847,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   public boolean canGenerateTests()
   {
-    clearCache();
     return canGenerate && hasTestSupport();
   }
 
@@ -5211,16 +5206,22 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return genPackage != null ? genPackage.getQualifiedPackageName() : getModelDirectory();
   }
 
+  private GenPackage mainGenPackage;
+
   protected GenPackage getMainGenPackage()
   {
     if (!getGenPackages().isEmpty())
     {
-      GenPackage genPackage = getGenPackages().get(0);
-      while (genPackage.getGenClassifiers().isEmpty() && !genPackage.getNestedGenPackages().isEmpty())
+      if (mainGenPackage == null)
       {
-        genPackage = genPackage.getNestedGenPackages().get(0);
+        GenPackage genPackage = getGenPackages().get(0);
+        while (genPackage.getGenClassifiers().isEmpty() && !genPackage.getNestedGenPackages().isEmpty())
+        {
+          genPackage = genPackage.getNestedGenPackages().get(0);
+        }
+        mainGenPackage = genPackage;
       }
-      return genPackage;
+      return mainGenPackage;
     }
     return null;
   }
@@ -9759,8 +9760,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
   }
 
-  private void clearCache()
+  @Override
+  public void clearCache()
   {
+    super.clearCache();
     if (eClassifierToGenClassifierMap != null)
     {
       eClassifierToGenClassifierMap.clear();
@@ -9770,6 +9773,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       ePackageToGenPackageMap.clear();
     }
     bundleHelper.flush();
+    mainGenPackage = null;
   }
 
   public List<GenPackage> computeMissingUsedGenPackages()

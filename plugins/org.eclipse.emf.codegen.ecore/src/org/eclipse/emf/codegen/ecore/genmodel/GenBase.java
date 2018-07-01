@@ -249,4 +249,9 @@ public interface GenBase extends EObject
    * @since 2.3
    */
   String getCopyright(String indentation);
+
+  /**
+   * @since 2.15
+   */
+  void clearCache();
 }

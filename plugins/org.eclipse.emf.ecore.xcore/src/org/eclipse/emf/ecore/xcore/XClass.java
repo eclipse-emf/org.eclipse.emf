@@ -18,13 +18,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XClass#isAbstract <em>Abstract</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XClass#isInterface <em>Interface</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XClass#getMembers <em>Members</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XClass#getSuperTypes <em>Super Types</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXClass()
  * @model

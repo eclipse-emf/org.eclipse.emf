@@ -18,12 +18,12 @@ import org.eclipse.emf.common.util.EMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XAnnotation#getSource <em>Source</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XAnnotation#getDetails <em>Details</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XAnnotation#getModelElement <em>Model Element</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXAnnotation()
  * @model
@@ -69,7 +69,7 @@ public interface XAnnotation extends XModelElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>Details</em>' map.
    * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXAnnotation_Details()
-   * @model mapType="org.eclipse.emf.ecore.xcore.XStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
+   * @model mapType="org.eclipse.emf.ecore.xcore.XStringToStringMapEntry&lt;org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString&gt;"
    * @generated
    */
   EMap<String, String> getDetails();

@@ -15,11 +15,11 @@ package org.eclipse.emf.ecore.xcore;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XAnnotationDirective#getSourceURI <em>Source URI</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XAnnotationDirective#getPackage <em>Package</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXAnnotationDirective()
  * @model

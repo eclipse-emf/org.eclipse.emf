@@ -77,7 +77,6 @@ import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicMonitor;
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
@@ -100,6 +99,7 @@ import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
@@ -126,7 +126,9 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 {
   private static final Pattern SUBSTITUTION_PATTERN = Pattern.compile("\\{\\d+\\}");
-  
+
+  private static final Pattern TAG_PATTERN = Pattern.compile("^[ \\t]*@(\\S+)", Pattern.MULTILINE);
+
   /**
    * The cached value of the '{@link #getGenAnnotations() <em>Gen Annotations</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -1339,8 +1341,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
     else
     {
-      Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName);
-      EGenericType eGenericType = (EGenericType)diagnostic.getData().get(0);
+      EGenericType eGenericType = EcoreValidator.EGenericTypeBuilder.INSTANCE.buildEGenericType(instanceTypeName);
       return getTypeArgument(context, eGenericType, false, erased);
     }
   }
@@ -1720,7 +1721,26 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
     public boolean accept(EModelElement eModelElement, String source, String key, String value)
     {
-      return !(GenModelPackage.eNS_URI.equals(source) && ("documentation".equals(key) || "copyright".equals(key)));
+      if (!(GenModelPackage.eNS_URI.equals(source)))
+      {
+        return true;
+      }
+      else if ("documentation".equals(key) || "copyright".equals(key)) 
+      {
+        return false;
+      }
+      else if ("body".equals(key) || "get".equals(key))
+      {
+        // Generate the annotation information only if the model element comes from an "ecore" resource.
+        // E.g., do not produce this information if the model comes from an "xcore" resource.
+        //
+        Resource eResource = eModelElement.eResource();
+        return eResource == null || "ecore".equals(eResource.getURI().fileExtension());
+      }
+      else
+      {
+        return true;
+      }
     }
   }
 
@@ -1739,31 +1759,31 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       String source = eAnnotation.getSource();
       if (source != null)
       {
-        StringBuffer stringBuffer = null;
+        StringBuilder stringBuilder = null;
         for (Map.Entry<String, String> entry : eAnnotation.getDetails())
         {
           String key = entry.getKey();
           String value = entry.getValue();
           if (annotationFilter.accept(eModelElement, source, key, value))
           {
-            if (stringBuffer == null)
+            if (stringBuilder == null)
             {
-              stringBuffer = new StringBuffer(escapeString(source, " ="));
+              stringBuilder = new StringBuilder(escapeString(source, " ="));
             }
-            stringBuffer.append(' ');
-            stringBuffer.append(escapeString(key, " ="));
-            stringBuffer.append("=\'");
-            stringBuffer.append(escapeString(value, ""));
-            stringBuffer.append('\'');
+            stringBuilder.append(' ');
+            stringBuilder.append(escapeString(key, " ="));
+            stringBuilder.append("=\'");
+            stringBuilder.append(escapeString(value, ""));
+            stringBuilder.append('\'');
           }
         }
-        if (stringBuffer != null)
+        if (stringBuilder != null)
         {
           if (result.size() == 0)
           {
             result = new ArrayList<String>();
           }
-          result.add(stringBuffer.toString());
+          result.add(stringBuilder.toString());
         }
       }
     }
@@ -2726,31 +2746,36 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return indent(getImpliciAPITags(excludeOwnDocumentation), indentation);
   }
 
+  private Map<String, String> documentationTags;
+
   /**
    * @since-2.14
    */
   protected Map<String, String> getDocumentationTags()
   {
-    String documentation = getDocumentation();
-    if (documentation != null)
+    if (documentationTags == null)
     {
-      Map<String, String> result = new HashMap<String, String>();
-      int index = 0;
-      String tag = "";
-      Pattern tagPattern = Pattern.compile("^[ \\t]*@(\\S+)", Pattern.MULTILINE);
-      for (Matcher matcher = tagPattern.matcher(documentation); matcher.find();)
+      String documentation = getDocumentation();
+      if (documentation != null)
       {
-        result.put(tag, documentation.substring(index, matcher.start()));
-        index = matcher.end();
-        tag = matcher.group(1);
+        Map<String, String> result = new HashMap<String, String>();
+        int index = 0;
+        String tag = "";
+        for (Matcher matcher = TAG_PATTERN.matcher(documentation); matcher.find();)
+        {
+          result.put(tag, documentation.substring(index, matcher.start()));
+          index = matcher.end();
+          tag = matcher.group(1);
+        }
+        result.put(tag, documentation.substring(index));
+        documentationTags = result;
       }
-      result.put(tag, documentation.substring(index));
-      return result;
+      else
+      {
+        documentationTags = Collections.emptyMap();
+      }
     }
-    else
-    {
-      return Collections.emptyMap();
-    }
+    return documentationTags;
   }
 
   protected String getCopyright(boolean includeGenModelCopyrightTextAsDefault)
@@ -3907,4 +3932,15 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return result;
   }
 
+  public void clearCache()
+  {
+    documentationTags = null;
+    for (EObject eObject : eContents())
+    {
+      if (eObject instanceof GenBase)
+      {
+        ((GenBase)eObject).clearCache();
+      }
+    }
+  }
 }

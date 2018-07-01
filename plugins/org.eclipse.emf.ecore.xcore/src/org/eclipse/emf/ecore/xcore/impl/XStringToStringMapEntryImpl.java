@@ -17,8 +17,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.xcore.XcorePackage;
 
 
@@ -28,16 +28,25 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XStringToStringMapEntryImpl#getTypedKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XStringToStringMapEntryImpl#getTypedValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
-public class XStringToStringMapEntryImpl extends EObjectImpl implements BasicEMap.Entry<String,String>
+public class XStringToStringMapEntryImpl extends MinimalEObjectImpl.Container implements BasicEMap.Entry<String,String>
 {
+  /**
+   * A set of bit flags representing the values of boolean attributes and whether unsettable features have been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected int eFlags = 0;
+
   /**
    * The default value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -231,7 +240,7 @@ public class XStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (key: ");
     result.append(key);
     result.append(", value: ");

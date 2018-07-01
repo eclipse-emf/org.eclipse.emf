@@ -1190,34 +1190,45 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     return result;
   }
 
+  private String getAccessor;
+
   public String getGetAccessor()
   {
-    String capName = getCapName();
-    if (isMapEntryFeature()) return "getTyped" + capName;
-    String result = isBooleanType() ? "is" + capName : "get" + ("Class".equals(capName) ? "Class_" : capName);
-    
-    if (isListType() && !isFeatureMapType() && !isMapType() && getGenModel().isArrayAccessors())
+    if (getAccessor == null)
     {
-      result += "List";
-    }
-
-    GenClass rootImplementsInterface = getGenModel().getRootImplementsInterfaceGenClass();
-    GenClass context = getContext();
-    if (rootImplementsInterface != null && !rootImplementsInterface.isEObject())
-    {
-      for (GenOperation genOperation : rootImplementsInterface.getAllGenOperations())
+      String capName = getCapName();
+      if (isMapEntryFeature())
       {
-        if (genOperation.getName().equals(result) && 
-              genOperation.getGenParameters().isEmpty() && 
-              !genOperation.getType(context).equals(getType(context)))
+        getAccessor = "getTyped" + capName;
+      }
+      else
+      {
+        String result = isBooleanType() ? "is" + capName : "get" + ("Class".equals(capName) ? "Class_" : capName);
+        if (isListType() && !isFeatureMapType() && !isMapType() && getGenModel().isArrayAccessors())
         {
-          result = result + "_";
-          break;
+          result += "List";
         }
+
+        GenClass rootImplementsInterface = getGenModel().getRootImplementsInterfaceGenClass();
+        GenClass context = getContext();
+        if (rootImplementsInterface != null && !rootImplementsInterface.isEObject())
+        {
+          for (GenOperation genOperation : rootImplementsInterface.getAllGenOperations())
+          {
+            if (genOperation.getGenParameters().isEmpty() &&
+                  genOperation.getName().equals(result) &&
+                  !genOperation.getType(context).equals(getType(context)))
+            {
+              result = result + "_";
+              break;
+            }
+          }
+        }
+
+        getAccessor = result;
       }
     }
-
-    return result;
+    return getAccessor;
   }
 
   public String getSafeName()
@@ -2614,5 +2625,12 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   {
     GenClass genClass = getGenClass();
     return genClass.getRawQualifiedInterfaceName() + (!genClass.isMapEntry() && !isSuppressedGetVisibility() ? "#" + getGetAccessor() + "()" : "");
+  }
+
+  @Override
+  public void clearCache()
+  {
+    super.clearCache();
+    getAccessor = null;
   }
 } //GenFeatureImpl

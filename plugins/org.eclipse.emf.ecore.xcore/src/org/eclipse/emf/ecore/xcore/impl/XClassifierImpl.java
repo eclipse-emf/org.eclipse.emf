@@ -36,12 +36,12 @@ import org.eclipse.xtext.common.types.JvmTypeReference;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XClassifierImpl#getInstanceType <em>Instance Type</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XClassifierImpl#getPackage <em>Package</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XClassifierImpl#getTypeParameters <em>Type Parameters</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -144,7 +144,7 @@ public abstract class XClassifierImpl extends XNamedElementImpl implements XClas
   public XPackage getPackage()
   {
     if (eContainerFeatureID() != XcorePackage.XCLASSIFIER__PACKAGE) return null;
-    return (XPackage)eContainer();
+    return (XPackage)eInternalContainer();
   }
 
   /**

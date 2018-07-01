@@ -40,7 +40,7 @@ public class XcoreFactoryImpl extends EFactoryImpl implements XcoreFactory
   {
     try
     {
-      XcoreFactory theXcoreFactory = (XcoreFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2011/Xcore"); 
+      XcoreFactory theXcoreFactory = (XcoreFactory)EPackage.Registry.INSTANCE.getEFactory(XcorePackage.eNS_URI);
       if (theXcoreFactory != null)
       {
         return theXcoreFactory;

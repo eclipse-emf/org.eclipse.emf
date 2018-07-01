@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XReferenceImpl#isContainer <em>Container</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XReferenceImpl#isContainment <em>Containment</em>}</li>
@@ -41,7 +42,6 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XReferenceImpl#getOpposite <em>Opposite</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XReferenceImpl#getKeys <em>Keys</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -58,14 +58,14 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
   protected static final boolean CONTAINER_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isContainer() <em>Container</em>}' attribute.
+   * The flag representing the value of the '{@link #isContainer() <em>Container</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isContainer()
    * @generated
    * @ordered
    */
-  protected boolean container = CONTAINER_EDEFAULT;
+  protected static final int CONTAINER_EFLAG = 1 << 8;
 
   /**
    * The default value of the '{@link #isContainment() <em>Containment</em>}' attribute.
@@ -78,14 +78,14 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
   protected static final boolean CONTAINMENT_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isContainment() <em>Containment</em>}' attribute.
+   * The flag representing the value of the '{@link #isContainment() <em>Containment</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isContainment()
    * @generated
    * @ordered
    */
-  protected boolean containment = CONTAINMENT_EDEFAULT;
+  protected static final int CONTAINMENT_EFLAG = 1 << 9;
 
   /**
    * The default value of the '{@link #isResolveProxies() <em>Resolve Proxies</em>}' attribute.
@@ -98,14 +98,14 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
   protected static final boolean RESOLVE_PROXIES_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isResolveProxies() <em>Resolve Proxies</em>}' attribute.
+   * The flag representing the value of the '{@link #isResolveProxies() <em>Resolve Proxies</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isResolveProxies()
    * @generated
    * @ordered
    */
-  protected boolean resolveProxies = RESOLVE_PROXIES_EDEFAULT;
+  protected static final int RESOLVE_PROXIES_EFLAG = 1 << 10;
 
   /**
    * The default value of the '{@link #isLocal() <em>Local</em>}' attribute.
@@ -118,14 +118,14 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
   protected static final boolean LOCAL_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isLocal() <em>Local</em>}' attribute.
+   * The flag representing the value of the '{@link #isLocal() <em>Local</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isLocal()
    * @generated
    * @ordered
    */
-  protected boolean local = LOCAL_EDEFAULT;
+  protected static final int LOCAL_EFLAG = 1 << 11;
 
   /**
    * The cached value of the '{@link #getOpposite() <em>Opposite</em>}' reference.
@@ -175,7 +175,7 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
    */
   public boolean isContainer()
   {
-    return container;
+    return (eFlags & CONTAINER_EFLAG) != 0;
   }
 
   /**
@@ -185,10 +185,10 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
    */
   public void setContainer(boolean newContainer)
   {
-    boolean oldContainer = container;
-    container = newContainer;
+    boolean oldContainer = (eFlags & CONTAINER_EFLAG) != 0;
+    if (newContainer) eFlags |= CONTAINER_EFLAG; else eFlags &= ~CONTAINER_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XREFERENCE__CONTAINER, oldContainer, container));
+      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XREFERENCE__CONTAINER, oldContainer, newContainer));
   }
 
   /**
@@ -198,7 +198,7 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
    */
   public boolean isContainment()
   {
-    return containment;
+    return (eFlags & CONTAINMENT_EFLAG) != 0;
   }
 
   /**
@@ -208,10 +208,10 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
    */
   public void setContainment(boolean newContainment)
   {
-    boolean oldContainment = containment;
-    containment = newContainment;
+    boolean oldContainment = (eFlags & CONTAINMENT_EFLAG) != 0;
+    if (newContainment) eFlags |= CONTAINMENT_EFLAG; else eFlags &= ~CONTAINMENT_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XREFERENCE__CONTAINMENT, oldContainment, containment));
+      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XREFERENCE__CONTAINMENT, oldContainment, newContainment));
   }
 
   /**
@@ -221,7 +221,7 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
    */
   public boolean isResolveProxies()
   {
-    return resolveProxies;
+    return (eFlags & RESOLVE_PROXIES_EFLAG) != 0;
   }
 
   /**
@@ -231,10 +231,10 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
    */
   public void setResolveProxies(boolean newResolveProxies)
   {
-    boolean oldResolveProxies = resolveProxies;
-    resolveProxies = newResolveProxies;
+    boolean oldResolveProxies = (eFlags & RESOLVE_PROXIES_EFLAG) != 0;
+    if (newResolveProxies) eFlags |= RESOLVE_PROXIES_EFLAG; else eFlags &= ~RESOLVE_PROXIES_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XREFERENCE__RESOLVE_PROXIES, oldResolveProxies, resolveProxies));
+      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XREFERENCE__RESOLVE_PROXIES, oldResolveProxies, newResolveProxies));
   }
 
   /**
@@ -244,7 +244,7 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
    */
   public boolean isLocal()
   {
-    return local;
+    return (eFlags & LOCAL_EFLAG) != 0;
   }
 
   /**
@@ -254,10 +254,10 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
    */
   public void setLocal(boolean newLocal)
   {
-    boolean oldLocal = local;
-    local = newLocal;
+    boolean oldLocal = (eFlags & LOCAL_EFLAG) != 0;
+    if (newLocal) eFlags |= LOCAL_EFLAG; else eFlags &= ~LOCAL_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XREFERENCE__LOCAL, oldLocal, local));
+      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XREFERENCE__LOCAL, oldLocal, newLocal));
   }
 
   /**
@@ -421,13 +421,13 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
     switch (featureID)
     {
       case XcorePackage.XREFERENCE__CONTAINER:
-        return container != CONTAINER_EDEFAULT;
+        return ((eFlags & CONTAINER_EFLAG) != 0) != CONTAINER_EDEFAULT;
       case XcorePackage.XREFERENCE__CONTAINMENT:
-        return containment != CONTAINMENT_EDEFAULT;
+        return ((eFlags & CONTAINMENT_EFLAG) != 0) != CONTAINMENT_EDEFAULT;
       case XcorePackage.XREFERENCE__RESOLVE_PROXIES:
-        return resolveProxies != RESOLVE_PROXIES_EDEFAULT;
+        return ((eFlags & RESOLVE_PROXIES_EFLAG) != 0) != RESOLVE_PROXIES_EDEFAULT;
       case XcorePackage.XREFERENCE__LOCAL:
-        return local != LOCAL_EDEFAULT;
+        return ((eFlags & LOCAL_EFLAG) != 0) != LOCAL_EDEFAULT;
       case XcorePackage.XREFERENCE__OPPOSITE:
         return opposite != null;
       case XcorePackage.XREFERENCE__KEYS:
@@ -446,15 +446,15 @@ public class XReferenceImpl extends XStructuralFeatureImpl implements XReference
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (container: ");
-    result.append(container);
+    result.append((eFlags & CONTAINER_EFLAG) != 0);
     result.append(", containment: ");
-    result.append(containment);
+    result.append((eFlags & CONTAINMENT_EFLAG) != 0);
     result.append(", resolveProxies: ");
-    result.append(resolveProxies);
+    result.append((eFlags & RESOLVE_PROXIES_EFLAG) != 0);
     result.append(", local: ");
-    result.append(local);
+    result.append((eFlags & LOCAL_EFLAG) != 0);
     result.append(')');
     return result.toString();
   }

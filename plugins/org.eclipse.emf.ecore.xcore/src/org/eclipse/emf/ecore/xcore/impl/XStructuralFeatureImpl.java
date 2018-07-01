@@ -28,6 +28,7 @@ import org.eclipse.xtext.xbase.XBlockExpression;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XStructuralFeatureImpl#isReadonly <em>Readonly</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XStructuralFeatureImpl#isVolatile <em>Volatile</em>}</li>
@@ -39,7 +40,6 @@ import org.eclipse.xtext.xbase.XBlockExpression;
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XStructuralFeatureImpl#getIsSetBody <em>Is Set Body</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XStructuralFeatureImpl#getUnsetBody <em>Unset Body</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -56,14 +56,14 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
   protected static final boolean READONLY_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isReadonly() <em>Readonly</em>}' attribute.
+   * The flag representing the value of the '{@link #isReadonly() <em>Readonly</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isReadonly()
    * @generated
    * @ordered
    */
-  protected boolean readonly = READONLY_EDEFAULT;
+  protected static final int READONLY_EFLAG = 1 << 3;
 
   /**
    * The default value of the '{@link #isVolatile() <em>Volatile</em>}' attribute.
@@ -76,14 +76,14 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
   protected static final boolean VOLATILE_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isVolatile() <em>Volatile</em>}' attribute.
+   * The flag representing the value of the '{@link #isVolatile() <em>Volatile</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isVolatile()
    * @generated
    * @ordered
    */
-  protected boolean volatile_ = VOLATILE_EDEFAULT;
+  protected static final int VOLATILE_EFLAG = 1 << 4;
 
   /**
    * The default value of the '{@link #isTransient() <em>Transient</em>}' attribute.
@@ -96,14 +96,14 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
   protected static final boolean TRANSIENT_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isTransient() <em>Transient</em>}' attribute.
+   * The flag representing the value of the '{@link #isTransient() <em>Transient</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isTransient()
    * @generated
    * @ordered
    */
-  protected boolean transient_ = TRANSIENT_EDEFAULT;
+  protected static final int TRANSIENT_EFLAG = 1 << 5;
 
   /**
    * The default value of the '{@link #isUnsettable() <em>Unsettable</em>}' attribute.
@@ -116,14 +116,14 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
   protected static final boolean UNSETTABLE_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isUnsettable() <em>Unsettable</em>}' attribute.
+   * The flag representing the value of the '{@link #isUnsettable() <em>Unsettable</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isUnsettable()
    * @generated
    * @ordered
    */
-  protected boolean unsettable = UNSETTABLE_EDEFAULT;
+  protected static final int UNSETTABLE_EFLAG = 1 << 6;
 
   /**
    * The default value of the '{@link #isDerived() <em>Derived</em>}' attribute.
@@ -136,14 +136,14 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
   protected static final boolean DERIVED_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isDerived() <em>Derived</em>}' attribute.
+   * The flag representing the value of the '{@link #isDerived() <em>Derived</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isDerived()
    * @generated
    * @ordered
    */
-  protected boolean derived = DERIVED_EDEFAULT;
+  protected static final int DERIVED_EFLAG = 1 << 7;
 
   /**
    * The cached value of the '{@link #getGetBody() <em>Get Body</em>}' containment reference.
@@ -213,7 +213,7 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
    */
   public boolean isReadonly()
   {
-    return readonly;
+    return (eFlags & READONLY_EFLAG) != 0;
   }
 
   /**
@@ -223,10 +223,10 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
    */
   public void setReadonly(boolean newReadonly)
   {
-    boolean oldReadonly = readonly;
-    readonly = newReadonly;
+    boolean oldReadonly = (eFlags & READONLY_EFLAG) != 0;
+    if (newReadonly) eFlags |= READONLY_EFLAG; else eFlags &= ~READONLY_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__READONLY, oldReadonly, readonly));
+      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__READONLY, oldReadonly, newReadonly));
   }
 
   /**
@@ -236,7 +236,7 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
    */
   public boolean isVolatile()
   {
-    return volatile_;
+    return (eFlags & VOLATILE_EFLAG) != 0;
   }
 
   /**
@@ -246,10 +246,10 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
    */
   public void setVolatile(boolean newVolatile)
   {
-    boolean oldVolatile = volatile_;
-    volatile_ = newVolatile;
+    boolean oldVolatile = (eFlags & VOLATILE_EFLAG) != 0;
+    if (newVolatile) eFlags |= VOLATILE_EFLAG; else eFlags &= ~VOLATILE_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__VOLATILE, oldVolatile, volatile_));
+      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__VOLATILE, oldVolatile, newVolatile));
   }
 
   /**
@@ -259,7 +259,7 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
    */
   public boolean isTransient()
   {
-    return transient_;
+    return (eFlags & TRANSIENT_EFLAG) != 0;
   }
 
   /**
@@ -269,10 +269,10 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
    */
   public void setTransient(boolean newTransient)
   {
-    boolean oldTransient = transient_;
-    transient_ = newTransient;
+    boolean oldTransient = (eFlags & TRANSIENT_EFLAG) != 0;
+    if (newTransient) eFlags |= TRANSIENT_EFLAG; else eFlags &= ~TRANSIENT_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__TRANSIENT, oldTransient, transient_));
+      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__TRANSIENT, oldTransient, newTransient));
   }
 
   /**
@@ -282,7 +282,7 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
    */
   public boolean isUnsettable()
   {
-    return unsettable;
+    return (eFlags & UNSETTABLE_EFLAG) != 0;
   }
 
   /**
@@ -292,10 +292,10 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
    */
   public void setUnsettable(boolean newUnsettable)
   {
-    boolean oldUnsettable = unsettable;
-    unsettable = newUnsettable;
+    boolean oldUnsettable = (eFlags & UNSETTABLE_EFLAG) != 0;
+    if (newUnsettable) eFlags |= UNSETTABLE_EFLAG; else eFlags &= ~UNSETTABLE_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__UNSETTABLE, oldUnsettable, unsettable));
+      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__UNSETTABLE, oldUnsettable, newUnsettable));
   }
 
   /**
@@ -305,7 +305,7 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
    */
   public boolean isDerived()
   {
-    return derived;
+    return (eFlags & DERIVED_EFLAG) != 0;
   }
 
   /**
@@ -315,10 +315,10 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
    */
   public void setDerived(boolean newDerived)
   {
-    boolean oldDerived = derived;
-    derived = newDerived;
+    boolean oldDerived = (eFlags & DERIVED_EFLAG) != 0;
+    if (newDerived) eFlags |= DERIVED_EFLAG; else eFlags &= ~DERIVED_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__DERIVED, oldDerived, derived));
+      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XSTRUCTURAL_FEATURE__DERIVED, oldDerived, newDerived));
   }
 
   /**
@@ -660,15 +660,15 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
     switch (featureID)
     {
       case XcorePackage.XSTRUCTURAL_FEATURE__READONLY:
-        return readonly != READONLY_EDEFAULT;
+        return ((eFlags & READONLY_EFLAG) != 0) != READONLY_EDEFAULT;
       case XcorePackage.XSTRUCTURAL_FEATURE__VOLATILE:
-        return volatile_ != VOLATILE_EDEFAULT;
+        return ((eFlags & VOLATILE_EFLAG) != 0) != VOLATILE_EDEFAULT;
       case XcorePackage.XSTRUCTURAL_FEATURE__TRANSIENT:
-        return transient_ != TRANSIENT_EDEFAULT;
+        return ((eFlags & TRANSIENT_EFLAG) != 0) != TRANSIENT_EDEFAULT;
       case XcorePackage.XSTRUCTURAL_FEATURE__UNSETTABLE:
-        return unsettable != UNSETTABLE_EDEFAULT;
+        return ((eFlags & UNSETTABLE_EFLAG) != 0) != UNSETTABLE_EDEFAULT;
       case XcorePackage.XSTRUCTURAL_FEATURE__DERIVED:
-        return derived != DERIVED_EDEFAULT;
+        return ((eFlags & DERIVED_EFLAG) != 0) != DERIVED_EDEFAULT;
       case XcorePackage.XSTRUCTURAL_FEATURE__GET_BODY:
         return getBody != null;
       case XcorePackage.XSTRUCTURAL_FEATURE__SET_BODY:
@@ -691,17 +691,17 @@ public abstract class XStructuralFeatureImpl extends XMemberImpl implements XStr
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (readonly: ");
-    result.append(readonly);
+    result.append((eFlags & READONLY_EFLAG) != 0);
     result.append(", volatile: ");
-    result.append(volatile_);
+    result.append((eFlags & VOLATILE_EFLAG) != 0);
     result.append(", transient: ");
-    result.append(transient_);
+    result.append((eFlags & TRANSIENT_EFLAG) != 0);
     result.append(", unsettable: ");
-    result.append(unsettable);
+    result.append((eFlags & UNSETTABLE_EFLAG) != 0);
     result.append(", derived: ");
-    result.append(derived);
+    result.append((eFlags & DERIVED_EFLAG) != 0);
     result.append(')');
     return result.toString();
   }

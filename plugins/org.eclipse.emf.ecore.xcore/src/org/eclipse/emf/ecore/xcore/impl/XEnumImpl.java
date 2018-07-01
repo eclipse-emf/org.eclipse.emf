@@ -31,10 +31,10 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XEnumImpl#getLiterals <em>Literals</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

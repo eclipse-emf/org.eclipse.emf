@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.xcore.scoping.XcoreResourceDescriptionStrategy;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreScopeProvider;
 import org.eclipse.emf.ecore.xcore.scoping.XcoreSerializerScopeProvider;
 import org.eclipse.emf.ecore.xcore.serializer.XcoreCrossReferenceSerializer;
+import org.eclipse.emf.ecore.xcore.util.XcoreFeatureCallAsTypeLiteralHelper;
 import org.eclipse.emf.ecore.xcore.validation.XcoreAwareMessageProvider;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnosticConverter;
 import org.eclipse.emf.ecore.xcore.validation.XcoreDiagnostician;
@@ -65,6 +66,7 @@ import org.eclipse.xtext.xbase.jvmmodel.ILogicalContainerProvider;
 import org.eclipse.xtext.xbase.scoping.batch.ImplicitlyImportedFeatures;
 import org.eclipse.xtext.xbase.scoping.batch.XbaseBatchScopeProvider;
 import org.eclipse.xtext.xbase.typesystem.internal.DefaultReentrantTypeResolver;
+import org.eclipse.xtext.xbase.util.FeatureCallAsTypeLiteralHelper;
 import org.eclipse.xtext.xbase.validation.JvmTypeReferencesValidator;
 
 import com.google.inject.Binder;
@@ -239,5 +241,10 @@ public class XcoreRuntimeModule extends AbstractXcoreRuntimeModule
   public Class<? extends CrossReferenceSerializer> bindCrossReferenceSerializer() 
   {
     return XcoreCrossReferenceSerializer.class;
+  }
+
+  public Class<? extends FeatureCallAsTypeLiteralHelper> bindFeatureCallAsTypeLiteralHelper()
+  {
+    return XcoreFeatureCallAsTypeLiteralHelper.class;
   }
 }

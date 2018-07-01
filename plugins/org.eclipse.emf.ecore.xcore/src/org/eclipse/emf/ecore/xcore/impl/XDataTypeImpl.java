@@ -28,12 +28,12 @@ import org.eclipse.xtext.xbase.XBlockExpression;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XDataTypeImpl#isSerializable <em>Serializable</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XDataTypeImpl#getCreateBody <em>Create Body</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XDataTypeImpl#getConvertBody <em>Convert Body</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -50,14 +50,14 @@ public class XDataTypeImpl extends XClassifierImpl implements XDataType
   protected static final boolean SERIALIZABLE_EDEFAULT = true;
 
   /**
-   * The cached value of the '{@link #isSerializable() <em>Serializable</em>}' attribute.
+   * The flag representing the value of the '{@link #isSerializable() <em>Serializable</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isSerializable()
    * @generated
    * @ordered
    */
-  protected boolean serializable = SERIALIZABLE_EDEFAULT;
+  protected static final int SERIALIZABLE_EFLAG = 1 << 0;
 
   /**
    * The cached value of the '{@link #getCreateBody() <em>Create Body</em>}' containment reference.
@@ -87,6 +87,7 @@ public class XDataTypeImpl extends XClassifierImpl implements XDataType
   protected XDataTypeImpl()
   {
     super();
+    eFlags |= SERIALIZABLE_EFLAG;
   }
 
   /**
@@ -107,7 +108,7 @@ public class XDataTypeImpl extends XClassifierImpl implements XDataType
    */
   public boolean isSerializable()
   {
-    return serializable;
+    return (eFlags & SERIALIZABLE_EFLAG) != 0;
   }
 
   /**
@@ -117,10 +118,10 @@ public class XDataTypeImpl extends XClassifierImpl implements XDataType
    */
   public void setSerializable(boolean newSerializable)
   {
-    boolean oldSerializable = serializable;
-    serializable = newSerializable;
+    boolean oldSerializable = (eFlags & SERIALIZABLE_EFLAG) != 0;
+    if (newSerializable) eFlags |= SERIALIZABLE_EFLAG; else eFlags &= ~SERIALIZABLE_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XDATA_TYPE__SERIALIZABLE, oldSerializable, serializable));
+      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XDATA_TYPE__SERIALIZABLE, oldSerializable, newSerializable));
   }
 
   /**
@@ -314,7 +315,7 @@ public class XDataTypeImpl extends XClassifierImpl implements XDataType
     switch (featureID)
     {
       case XcorePackage.XDATA_TYPE__SERIALIZABLE:
-        return serializable != SERIALIZABLE_EDEFAULT;
+        return ((eFlags & SERIALIZABLE_EFLAG) != 0) != SERIALIZABLE_EDEFAULT;
       case XcorePackage.XDATA_TYPE__CREATE_BODY:
         return createBody != null;
       case XcorePackage.XDATA_TYPE__CONVERT_BODY:
@@ -333,9 +334,9 @@ public class XDataTypeImpl extends XClassifierImpl implements XDataType
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (serializable: ");
-    result.append(serializable);
+    result.append((eFlags & SERIALIZABLE_EFLAG) != 0);
     result.append(')');
     return result.toString();
   }

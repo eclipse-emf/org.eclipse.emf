@@ -15,13 +15,13 @@ package org.eclipse.emf.ecore.xcore;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XTypedElement#isUnordered <em>Unordered</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XTypedElement#isUnique <em>Unique</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XTypedElement#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XTypedElement#getMultiplicity <em>Multiplicity</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXTypedElement()
  * @model abstract="true"

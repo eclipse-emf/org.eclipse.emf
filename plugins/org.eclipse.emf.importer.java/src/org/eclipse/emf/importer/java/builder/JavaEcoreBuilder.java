@@ -1682,8 +1682,8 @@ public class JavaEcoreBuilder
       {
         if (depth == 0 && start != -1)
         {
-          Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(genericTypes.substring(start, i));
-          result.add((EGenericType)diagnostic.getData().get(0));
+          EGenericType eGenericType = EcoreValidator.EGenericTypeBuilder.INSTANCE.buildEGenericType(genericTypes.substring(start, i));
+          result.add(eGenericType);
           start = -1;
         }
       }
@@ -1694,8 +1694,8 @@ public class JavaEcoreBuilder
     }
     if (start != -1)
     {
-      Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(genericTypes.substring(start));
-      result.add((EGenericType)diagnostic.getData().get(0));
+      EGenericType eGenericType = EcoreValidator.EGenericTypeBuilder.INSTANCE.buildEGenericType(genericTypes.substring(start));
+      result.add(eGenericType);
     }
     return result;
   }

@@ -35,12 +35,12 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XAnnotationImpl#getSource <em>Source</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XAnnotationImpl#getDetails <em>Details</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XAnnotationImpl#getModelElement <em>Model Element</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -152,7 +152,7 @@ public class XAnnotationImpl extends XModelElementImpl implements XAnnotation
   public XModelElement getModelElement()
   {
     if (eContainerFeatureID() != XcorePackage.XANNOTATION__MODEL_ELEMENT) return null;
-    return (XModelElement)eContainer();
+    return (XModelElement)eInternalContainer();
   }
 
   /**

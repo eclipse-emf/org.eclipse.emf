@@ -18,12 +18,12 @@ import org.eclipse.xtext.xbase.XBlockExpression;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XDataType#isSerializable <em>Serializable</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XDataType#getCreateBody <em>Create Body</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XDataType#getConvertBody <em>Convert Body</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXDataType()
  * @model

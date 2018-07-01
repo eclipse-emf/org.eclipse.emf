@@ -21,8 +21,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -36,18 +36,27 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl#getUpperBound <em>Upper Bound</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl#getTypeArguments <em>Type Arguments</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl#getLowerBound <em>Lower Bound</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XGenericTypeImpl#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
-public class XGenericTypeImpl extends EObjectImpl implements XGenericType
+public class XGenericTypeImpl extends MinimalEObjectImpl.Container implements XGenericType
 {
+  /**
+   * A set of bit flags representing the values of boolean attributes and whether unsettable features have been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected int eFlags = 0;
+
   /**
    * The cached value of the '{@link #getUpperBound() <em>Upper Bound</em>}' containment reference.
    * <!-- begin-user-doc -->

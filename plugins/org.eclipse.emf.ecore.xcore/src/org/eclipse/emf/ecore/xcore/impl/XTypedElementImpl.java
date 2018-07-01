@@ -27,13 +27,13 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XTypedElementImpl#isUnordered <em>Unordered</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XTypedElementImpl#isUnique <em>Unique</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XTypedElementImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XTypedElementImpl#getMultiplicity <em>Multiplicity</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -50,14 +50,14 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
   protected static final boolean UNORDERED_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isUnordered() <em>Unordered</em>}' attribute.
+   * The flag representing the value of the '{@link #isUnordered() <em>Unordered</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isUnordered()
    * @generated
    * @ordered
    */
-  protected boolean unordered = UNORDERED_EDEFAULT;
+  protected static final int UNORDERED_EFLAG = 1 << 0;
 
   /**
    * The default value of the '{@link #isUnique() <em>Unique</em>}' attribute.
@@ -70,14 +70,14 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
   protected static final boolean UNIQUE_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isUnique() <em>Unique</em>}' attribute.
+   * The flag representing the value of the '{@link #isUnique() <em>Unique</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isUnique()
    * @generated
    * @ordered
    */
-  protected boolean unique = UNIQUE_EDEFAULT;
+  protected static final int UNIQUE_EFLAG = 1 << 1;
 
   /**
    * The cached value of the '{@link #getType() <em>Type</em>}' containment reference.
@@ -90,13 +90,13 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
   protected XGenericType type;
 
   /**
-   * This is true if the Type containment reference has been set.
+   * The flag representing whether the Type containment reference has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean typeESet;
+  protected static final int TYPE_ESETFLAG = 1 << 2;
 
   /**
    * The default value of the '{@link #getMultiplicity() <em>Multiplicity</em>}' attribute.
@@ -146,7 +146,7 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
    */
   public boolean isUnordered()
   {
-    return unordered;
+    return (eFlags & UNORDERED_EFLAG) != 0;
   }
 
   /**
@@ -156,10 +156,10 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
    */
   public void setUnordered(boolean newUnordered)
   {
-    boolean oldUnordered = unordered;
-    unordered = newUnordered;
+    boolean oldUnordered = (eFlags & UNORDERED_EFLAG) != 0;
+    if (newUnordered) eFlags |= UNORDERED_EFLAG; else eFlags &= ~UNORDERED_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XTYPED_ELEMENT__UNORDERED, oldUnordered, unordered));
+      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XTYPED_ELEMENT__UNORDERED, oldUnordered, newUnordered));
   }
 
   /**
@@ -169,7 +169,7 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
    */
   public boolean isUnique()
   {
-    return unique;
+    return (eFlags & UNIQUE_EFLAG) != 0;
   }
 
   /**
@@ -179,10 +179,10 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
    */
   public void setUnique(boolean newUnique)
   {
-    boolean oldUnique = unique;
-    unique = newUnique;
+    boolean oldUnique = (eFlags & UNIQUE_EFLAG) != 0;
+    if (newUnique) eFlags |= UNIQUE_EFLAG; else eFlags &= ~UNIQUE_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XTYPED_ELEMENT__UNIQUE, oldUnique, unique));
+      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XTYPED_ELEMENT__UNIQUE, oldUnique, newUnique));
   }
 
   /**
@@ -204,8 +204,8 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
   {
     XGenericType oldType = type;
     type = newType;
-    boolean oldTypeESet = typeESet;
-    typeESet = true;
+    boolean oldTypeESet = (eFlags & TYPE_ESETFLAG) != 0;
+    eFlags |= TYPE_ESETFLAG;
     if (eNotificationRequired())
     {
       ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XcorePackage.XTYPED_ELEMENT__TYPE, oldType, newType, !oldTypeESet);
@@ -233,8 +233,8 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
     }
     else
     {
-      boolean oldTypeESet = typeESet;
-      typeESet = true;
+      boolean oldTypeESet = (eFlags & TYPE_ESETFLAG) != 0;
+      eFlags |= TYPE_ESETFLAG;
       if (eNotificationRequired())
         eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XTYPED_ELEMENT__TYPE, newType, newType, !oldTypeESet));
     }
@@ -249,8 +249,8 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
   {
     XGenericType oldType = type;
     type = null;
-    boolean oldTypeESet = typeESet;
-    typeESet = false;
+    boolean oldTypeESet = (eFlags & TYPE_ESETFLAG) != 0;
+    eFlags &= ~TYPE_ESETFLAG;
     if (eNotificationRequired())
     {
       ENotificationImpl notification = new ENotificationImpl(this, Notification.UNSET, XcorePackage.XTYPED_ELEMENT__TYPE, oldType, null, oldTypeESet);
@@ -275,8 +275,8 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
     }
     else
     {
-      boolean oldTypeESet = typeESet;
-      typeESet = false;
+      boolean oldTypeESet = (eFlags & TYPE_ESETFLAG) != 0;
+      eFlags &= ~TYPE_ESETFLAG;
       if (eNotificationRequired())
         eNotify(new ENotificationImpl(this, Notification.UNSET, XcorePackage.XTYPED_ELEMENT__TYPE, null, null, oldTypeESet));
     }
@@ -289,7 +289,7 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
    */
   public boolean isSetType()
   {
-    return typeESet;
+    return (eFlags & TYPE_ESETFLAG) != 0;
   }
 
   /**
@@ -416,9 +416,9 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
     switch (featureID)
     {
       case XcorePackage.XTYPED_ELEMENT__UNORDERED:
-        return unordered != UNORDERED_EDEFAULT;
+        return ((eFlags & UNORDERED_EFLAG) != 0) != UNORDERED_EDEFAULT;
       case XcorePackage.XTYPED_ELEMENT__UNIQUE:
-        return unique != UNIQUE_EDEFAULT;
+        return ((eFlags & UNIQUE_EFLAG) != 0) != UNIQUE_EDEFAULT;
       case XcorePackage.XTYPED_ELEMENT__TYPE:
         return isSetType();
       case XcorePackage.XTYPED_ELEMENT__MULTIPLICITY:
@@ -437,11 +437,11 @@ public abstract class XTypedElementImpl extends XNamedElementImpl implements XTy
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (unordered: ");
-    result.append(unordered);
+    result.append((eFlags & UNORDERED_EFLAG) != 0);
     result.append(", unique: ");
-    result.append(unique);
+    result.append((eFlags & UNIQUE_EFLAG) != 0);
     result.append(", multiplicity: ");
     result.append(multiplicity);
     result.append(')');

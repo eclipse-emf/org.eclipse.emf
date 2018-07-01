@@ -26,7 +26,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -407,8 +406,8 @@ public class EcoreXcoreBuilder
         {
           public void run()
           {
-            Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(finalInstanceTypeName);
-            xClassifier.setInstanceType(jvmInferrer.getJvmTypeReference((EGenericType)diagnostic.getData().get(0), eClassifier));
+            EGenericType eGenericType = EcoreValidator.EGenericTypeBuilder.INSTANCE.buildEGenericType(finalInstanceTypeName);
+            xClassifier.setInstanceType(jvmInferrer.getJvmTypeReference(eGenericType, eClassifier));
           }
         });
     }

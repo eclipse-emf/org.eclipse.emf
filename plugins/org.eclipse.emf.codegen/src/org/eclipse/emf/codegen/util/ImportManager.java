@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -209,7 +210,7 @@ public class ImportManager
 
     for (int i = 0; i < srcLength; i++)
     {
-      if (Character.isWhitespace(src[i]))
+      if (src[i] <= ' ')
       {
         if (result == null)
         {
@@ -685,10 +686,16 @@ public class ImportManager
    */
   private static class EclipseHelper
   {
+    private static final AtomicReference<ASTParser> cachedASTParser = new AtomicReference<ASTParser>(null);
+
     public static List<String> getCompilationUnitImports(String compilationUnitContents)
     {
       List<String> result = new ArrayList<String>();
-      ASTParser parser = CodeGenUtil.EclipseUtil.newASTParser();
+      ASTParser parser = cachedASTParser.getAndSet(null);
+      if (parser == null)
+      {
+        parser = CodeGenUtil.EclipseUtil.newASTParser(true);
+      }
       parser.setSource(compilationUnitContents.toCharArray());
       CompilationUnit compilationUnit = (CompilationUnit)parser.createAST(new NullProgressMonitor());
       for (Iterator<?> i = compilationUnit.imports().iterator(); i.hasNext();)
@@ -696,9 +703,11 @@ public class ImportManager
         ImportDeclaration importDeclaration = (ImportDeclaration)i.next();
         result.add(importDeclaration.getName().getFullyQualifiedName());
       }
+      cachedASTParser.set(parser);
       return result;
     }
   }
+
 
   /**
    * Records the given <code>StringBuilder</code> and its current length, so that computed imports can later be

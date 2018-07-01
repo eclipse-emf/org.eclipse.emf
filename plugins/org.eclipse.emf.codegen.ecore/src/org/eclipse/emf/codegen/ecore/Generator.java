@@ -831,8 +831,18 @@ public class Generator extends CodeGen
             System.arraycopy(oldBuilders, 0, builders, 0, enhancerBuilderIndex);
             System.arraycopy(oldBuilders, enhancerBuilderIndex + 1, builders, enhancerBuilderIndex, oldBuilders.length - enhancerBuilderIndex - 1);
           }
+
           projectDescription.setBuildSpec(builders);
-          project.setDescription(projectDescription, BasicMonitor.subProgress(progressMonitor, 1));
+
+          // Avoid updating if there are no changes.
+          //
+          IProjectDescription originalDescription = project.getDescription();
+          if (!Arrays.equals(originalDescription.getBuildSpec(), projectDescription.getBuildSpec()) ||
+                !Arrays.equals(originalDescription.getNatureIds(), projectDescription.getNatureIds()) ||
+                !Arrays.equals(originalDescription.getReferencedProjects(), projectDescription.getReferencedProjects()))
+          {
+            project.setDescription(projectDescription, BasicMonitor.subProgress(progressMonitor, 1));
+          }
 
           IContainer sourceContainer = project;
           if (javaSource.segmentCount() > 1)
@@ -1000,9 +1010,14 @@ public class Generator extends CodeGen
             }
           }
 
-          javaProject.setRawClasspath
-            (classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]),
-             BasicMonitor.subProgress(progressMonitor, 1));
+          // Avoid setting the classpath if it hasn't changed.
+          //
+          IClasspathEntry[] oldRawClasspath = javaProject.getRawClasspath();
+          IClasspathEntry[] newRawClasspath = classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]);
+          if (!Arrays.equals(oldRawClasspath, newRawClasspath))
+          {
+            javaProject.setRawClasspath(newRawClasspath, BasicMonitor.subProgress(progressMonitor, 1));
+          }
         }
 
         if (isInitiallyEmpty)

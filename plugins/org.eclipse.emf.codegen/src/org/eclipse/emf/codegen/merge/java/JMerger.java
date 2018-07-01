@@ -385,6 +385,14 @@ public class JMerger
     return sourceCompilationUnit;
   }
 
+  /**
+   * @since 2.15
+   */
+  public void setSourceCompilationUnit(String sourceCompilationUnitContents)
+  {
+    setSourceCompilationUnit(createCompilationUnitForContents(sourceCompilationUnitContents));
+  }
+
   public void setSourceCompilationUnit(JCompilationUnit sourceCompilationUnit)
   {
     this.sourceCompilationUnit =  sourceCompilationUnit;

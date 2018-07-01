@@ -19,12 +19,12 @@ import org.eclipse.xtext.common.types.JvmTypeReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XClassifier#getInstanceType <em>Instance Type</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XClassifier#getPackage <em>Package</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XClassifier#getTypeParameters <em>Type Parameters</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXClassifier()
  * @model abstract="true"

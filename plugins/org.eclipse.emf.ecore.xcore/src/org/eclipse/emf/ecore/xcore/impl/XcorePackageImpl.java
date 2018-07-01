@@ -239,7 +239,7 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link XcorePackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -254,12 +254,15 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     if (isInited) return (XcorePackage)EPackage.Registry.INSTANCE.getEPackage(XcorePackage.eNS_URI);
 
     // Obtain or create and register package
-    XcorePackageImpl theXcorePackage = (XcorePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof XcorePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XcorePackageImpl());
+    Object registeredXcorePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    XcorePackageImpl theXcorePackage = registeredXcorePackage instanceof XcorePackageImpl ? (XcorePackageImpl)registeredXcorePackage : new XcorePackageImpl();
 
     isInited = true;
 
     // Initialize simple dependencies
+    EcorePackage.eINSTANCE.eClass();
     GenModelPackage.eINSTANCE.eClass();
+    TypesPackage.eINSTANCE.eClass();
     XbasePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
@@ -271,7 +274,6 @@ public class XcorePackageImpl extends EPackageImpl implements XcorePackage
     // Mark meta-data to indicate it can't be changed
     theXcorePackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(XcorePackage.eNS_URI, theXcorePackage);
     return theXcorePackage;

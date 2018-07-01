@@ -39,13 +39,13 @@ import org.eclipse.xtext.xbase.XBlockExpression;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XOperationImpl#getTypeParameters <em>Type Parameters</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XOperationImpl#getParameters <em>Parameters</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XOperationImpl#getExceptions <em>Exceptions</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XOperationImpl#getBody <em>Body</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

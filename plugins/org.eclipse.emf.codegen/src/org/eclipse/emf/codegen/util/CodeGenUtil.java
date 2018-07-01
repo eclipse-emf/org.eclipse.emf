@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.osgi.framework.Bundle;
@@ -287,7 +286,7 @@ public class CodeGenUtil
    */
   public static boolean isJavaLangType(String s)
   {
-    return getJavaDefaultTypes().contains(s) && Character.isUpperCase(s.charAt(0));
+    return getJavaDefaultTypes().contains(s) && isUpperCase(s.charAt(0));
   }
 
   /**
@@ -295,7 +294,7 @@ public class CodeGenUtil
    */
   public static boolean isJavaPrimitiveType(String s)
   {
-    return getJavaDefaultTypes().contains(s) && Character.isLowerCase(s.charAt(0));
+    return getJavaDefaultTypes().contains(s) && isLowerCase(s.charAt(0));
   }
 
   // Interprets escaped characters within the string according to Java
@@ -468,7 +467,7 @@ public class CodeGenUtil
           break;
         }
       }
-      if (i > 1 && i < name.length() && !Character.isDigit(name.charAt(i))) 
+      if (i > 1 && i < name.length() && !isDigit(name.charAt(i))) 
       {
         --i;
       }
@@ -536,7 +535,7 @@ public class CodeGenUtil
     List<String> parsedName = new ArrayList<String>();
     if (prefix != null && 
           name.startsWith(prefix) && 
-          name.length() > prefix.length() && Character.isUpperCase(name.charAt(prefix.length())))
+          name.length() > prefix.length() && isUpperCase(name.charAt(prefix.length())))
     {
       name = name.substring(prefix.length());
       if (includePrefix)
@@ -590,7 +589,7 @@ public class CodeGenUtil
       for (int index = 0, length = sourceName.length(); index < length; ++index)
       {
         char curChar = sourceName.charAt(index);
-        if (Character.isUpperCase(curChar) || (!lastIsLower && Character.isDigit(curChar)) || curChar == separator)
+        if (isUpperCase(curChar) || (!lastIsLower && isDigit(curChar)) || curChar == separator)
         {
           if (lastIsLower && currentWord.length() > 1 || curChar == separator && currentWord.length() > 0)
           {
@@ -643,7 +642,7 @@ public class CodeGenUtil
       for (int index = 0, length = sourceName.length(); index < length; index = sourceName.offsetByCodePoints(index, 1))
       {
         int codePoint = sourceName.charAt(index);
-        if (Character.isUpperCase(codePoint) || (!lastIsLower && Character.isDigit(codePoint)) ||  Character.isJavaIdentifierPart(codePoint))
+        if (isUpperCase(codePoint) || (!lastIsLower && isDigit(codePoint)) ||  Character.isJavaIdentifierPart(codePoint))
         {
           if (lastIsLower && currentWord.length() > 1 || (codePoint == '$' || codePoint == '_') && currentWord.length() > 0)
           {
@@ -838,112 +837,155 @@ public class CodeGenUtil
 
     if (convertToStandardBraceStyle)
     {
-      FindAndReplace findAndReplaceLineWithJustABrace = 
-        new FindAndReplace(BRACE_LINE_PATTERN)
-        {
-          @Override
-          public boolean handleMatch(int offset, Matcher matcher)
-          {
-            if (matcher.groupCount() >= 1)
-            {
-              int begin = offset + matcher.start(1);
-
-              // Don't do replacement if we just did one, or if previous line
-              // ended with a semicolon.
-              //
-              if (current != 0 && (begin <= current || string.charAt(begin - 1) == ';'))
-              {
-                return true;
-              }
-
-              // Don't do replacement if previous line ended with a comment.
-              //
-              for (int i = begin - 1; i >= current; --i)
-              {
-                char character = string.charAt(i);
-                if (character == '\n' || character == '\r' || i == current)
-                {
-                  boolean slash = false;
-                  while (++i < begin)
-                  {
-                    character = string.charAt(i);
-                    if (character == '/')
-                    {
-                      if (slash)
-                      {
-                        return true;
-                      }
-                      slash = true;
-                    }
-                    else
-                    {
-                      slash = false;
-                    }
-                  }
-
-                  break;
-                }
-              }
-
-              int end = offset + matcher.end(1);
-              replace(begin, end, " {"); // }
-            }
-            return true;
-          }
-        };
-      value = findAndReplaceLineWithJustABrace.apply(value);
+      value = new BraceFixer().apply(value);
     }
 
     return value;
   }
 
-  private static abstract class FindAndReplace
+  private static class BraceFixer
   {
-    protected Pattern pattern;
-    protected String string;
-    protected StringBuilder stringBuilder;
-    protected int current;
+    protected char[] string;
 
-    public FindAndReplace(Pattern pattern)
-    {
-      this.pattern = pattern;
-    }
+    protected StringBuilder stringBuilder;
+
+    protected int current;
 
     public String apply(String string)
     {
       current = 0;
-      this.string = string;
+      this.string = string.toCharArray();
       this.stringBuilder = new StringBuilder();
 
-      for (int start = 0, end = string.length(); start < end; )
+      for (int i = 0, length = this.string.length; i < length; ++i)
       {
-        Matcher matcher = pattern.matcher(string.subSequence(start, end));
-        if (matcher.find())
+        char character = this.string[i];
+        if (character == '{') // }
         {
-          if (!handleMatch(start, matcher))
+          int end = scanForLineEnd(i + 1);
+          if (end != -1)
+          {
+            int begin = scanForStart(i - 1);
+            if (begin != -1)
+            {
+              handleMatch(begin, end);
+              i = end;
+            }
+          }
+        }
+      }
+
+      stringBuilder.append(this.string, current, this.string.length - current);
+      return stringBuilder.toString();
+    }
+
+    private int scanForLineEnd(int index)
+    {
+      for (int i = index, length = string.length; i < length; ++i)
+      {
+        char character = string[i];
+        if (character == '\n')
+        {
+          return i;
+        }
+        else if (character == '\r')
+        {
+          ++i;
+          if (i < length && string[i] == '\n')
+          {
+            return i - 1;
+          }
+          else
           {
             break;
           }
-          start += matcher.end();
         }
-        else
+        else if (character != ' ' && character != '\t')
         {
           break;
         }
       }
+      return -1;
+    }
 
-      stringBuilder.append(string.substring(current));
-      return stringBuilder.toString();
+    private int scanForStart(int index)
+    {
+      boolean sawLineFeed = false;
+      for (int i = index; i >=0; --i)
+      {
+        char character = string[i];
+        if (character == '\n')
+        {
+          if (i > 0 && string[i - 1] == '\r')
+          {
+            --i;
+          }
+          sawLineFeed = true;
+        }
+        else if (character != ' ' && character != '\t')
+        {
+          if (sawLineFeed)
+          {
+            return i + 1;
+          }
+          else
+          {
+            return -1;
+          }
+        }
+      }
+      return -1;
     }
 
     public void replace(int begin, int end, String replacement)
     {
-      stringBuilder.append(string.substring(current, begin));
+      stringBuilder.append(string, current, begin - current);
       stringBuilder.append(replacement);
       current = end;
     }
 
-    public abstract boolean handleMatch(int offset, Matcher matcher);
+    public boolean handleMatch(int begin, int end)
+    {
+      // Don't do replacement if we just did one, or if previous line
+      // ended with a semicolon.
+      //
+      if (current != 0 && (begin <= current || string[begin - 1] == ';'))
+      {
+        return true;
+      }
+
+      // Don't do replacement if previous line ended with a comment.
+      //
+      for (int i = begin - 1; i >= current; --i)
+      {
+        char character = string[i];
+        if (character == '\n' || character == '\r' || i == current)
+        {
+          boolean slash = false;
+          while (++i < begin)
+          {
+            character = string[i];
+            if (character == '/')
+            {
+              if (slash)
+              {
+                return true;
+              }
+              slash = true;
+            }
+            else
+            {
+              slash = false;
+            }
+          }
+
+          break;
+        }
+      }
+
+      replace(begin, end, " {"); // }
+      return true;
+    }
   }
 
   /**
@@ -1104,6 +1146,42 @@ public class CodeGenUtil
     return false;
   }
 
+  private static boolean isUpperCase(int codePoint)
+  {
+    if (codePoint < 128)
+    {
+      return codePoint >= 'A' && codePoint <= 'Z';
+    }
+    else
+    {
+      return Character.isUpperCase(codePoint);
+    }
+  }
+
+  private static boolean isLowerCase(int codePoint)
+  {
+    if (codePoint < 128)
+    {
+      return codePoint >= 'a' && codePoint <= 'z';
+    }
+    else
+    {
+      return Character.isLowerCase(codePoint);
+    }
+  }
+
+  private static boolean isDigit(int codePoint)
+  {
+    if (codePoint < 128)
+    {
+      return codePoint >= '0' && codePoint <= '9';
+    }
+    else
+    {
+      return Character.isDigit(codePoint);
+    }
+  }
+
   public static class EclipseUtil
   {
     /**
@@ -1144,6 +1222,15 @@ public class CodeGenUtil
       {
         // Ignore the absence of the new version support in older runtimes.
       }
+      try
+      {
+        Field field = AST.class.getField("JLS10");
+        jls = (Integer)field.get(null);
+      }
+      catch (Throwable exception)
+      {
+        // Ignore the absence of the new version support in older runtimes.
+      }
       JLS = jls;
     }
 
@@ -1157,7 +1244,8 @@ public class CodeGenUtil
     }
 
     /**
-     * Return an ASTParser that supports the latest language level in the version of the JDT in the installed runtime or JLS4 otherwise.
+     * Return an ASTParser that supports the latest language level in the version of the JDT in the installed runtime, if {@code latest} is {@code true},
+     * or at most JLS4 otherwise.
      * @since 2.14
      */
     public static ASTParser newASTParser(boolean latest)

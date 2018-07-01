@@ -752,8 +752,7 @@ public class XcoreEcoreBuilder
         if (instanceType != null)
         {
           String instanceTypeName = instanceType.getIdentifier();
-          String normalizedInstanceTypeName = EcoreUtil.toJavaInstanceTypeName(
-            (EGenericType)EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName).getData().get(0));
+          String normalizedInstanceTypeName = EcoreUtil.toJavaInstanceTypeName((EGenericType)EcoreValidator.EGenericTypeBuilder.INSTANCE.buildEGenericType(instanceTypeName));
           setInstanceTypeName(normalizedInstanceTypeName);
           if (classLoader != null)
           {
@@ -836,8 +835,7 @@ public class XcoreEcoreBuilder
         if (instanceType != null)
         {
           String instanceTypeName = instanceType.getIdentifier();
-          String normalizedInstanceTypeName = EcoreUtil.toJavaInstanceTypeName(
-            (EGenericType)EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName).getData().get(0));
+          String normalizedInstanceTypeName = EcoreUtil.toJavaInstanceTypeName(EcoreValidator.EGenericTypeBuilder.INSTANCE.buildEGenericType(instanceTypeName));
           setInstanceTypeName(normalizedInstanceTypeName);
           if (classLoader != null)
           {

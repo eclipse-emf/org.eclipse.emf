@@ -186,11 +186,6 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
   @Override
   protected Diagnostic doPostGenerate(Object object, Object projectType)
   {
-    if (MODEL_PROJECT_TYPE.equals(projectType))
-    {
-      ((GenPackage)object).clearCache();
-      return Diagnostic.OK_INSTANCE;
-    }
     return super.doPostGenerate(object, projectType);
   }
 

@@ -15,11 +15,11 @@ package org.eclipse.emf.ecore.xcore;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XAttribute#getDefaultValueLiteral <em>Default Value Literal</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XAttribute#isID <em>ID</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXAttribute()
  * @model

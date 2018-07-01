@@ -36,13 +36,13 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XClassImpl#isAbstract <em>Abstract</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XClassImpl#isInterface <em>Interface</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XClassImpl#getMembers <em>Members</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XClassImpl#getSuperTypes <em>Super Types</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -59,14 +59,14 @@ public class XClassImpl extends XClassifierImpl implements XClass
   protected static final boolean ABSTRACT_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
+   * The flag representing the value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isAbstract()
    * @generated
    * @ordered
    */
-  protected boolean abstract_ = ABSTRACT_EDEFAULT;
+  protected static final int ABSTRACT_EFLAG = 1 << 0;
 
   /**
    * The default value of the '{@link #isInterface() <em>Interface</em>}' attribute.
@@ -79,14 +79,14 @@ public class XClassImpl extends XClassifierImpl implements XClass
   protected static final boolean INTERFACE_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isInterface() <em>Interface</em>}' attribute.
+   * The flag representing the value of the '{@link #isInterface() <em>Interface</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isInterface()
    * @generated
    * @ordered
    */
-  protected boolean interface_ = INTERFACE_EDEFAULT;
+  protected static final int INTERFACE_EFLAG = 1 << 1;
 
   /**
    * The cached value of the '{@link #getMembers() <em>Members</em>}' containment reference list.
@@ -136,7 +136,7 @@ public class XClassImpl extends XClassifierImpl implements XClass
    */
   public boolean isAbstract()
   {
-    return abstract_;
+    return (eFlags & ABSTRACT_EFLAG) != 0;
   }
 
   /**
@@ -146,10 +146,10 @@ public class XClassImpl extends XClassifierImpl implements XClass
    */
   public void setAbstract(boolean newAbstract)
   {
-    boolean oldAbstract = abstract_;
-    abstract_ = newAbstract;
+    boolean oldAbstract = (eFlags & ABSTRACT_EFLAG) != 0;
+    if (newAbstract) eFlags |= ABSTRACT_EFLAG; else eFlags &= ~ABSTRACT_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XCLASS__ABSTRACT, oldAbstract, abstract_));
+      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XCLASS__ABSTRACT, oldAbstract, newAbstract));
   }
 
   /**
@@ -159,7 +159,7 @@ public class XClassImpl extends XClassifierImpl implements XClass
    */
   public boolean isInterface()
   {
-    return interface_;
+    return (eFlags & INTERFACE_EFLAG) != 0;
   }
 
   /**
@@ -169,10 +169,10 @@ public class XClassImpl extends XClassifierImpl implements XClass
    */
   public void setInterface(boolean newInterface)
   {
-    boolean oldInterface = interface_;
-    interface_ = newInterface;
+    boolean oldInterface = (eFlags & INTERFACE_EFLAG) != 0;
+    if (newInterface) eFlags |= INTERFACE_EFLAG; else eFlags &= ~INTERFACE_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XCLASS__INTERFACE, oldInterface, interface_));
+      eNotify(new ENotificationImpl(this, Notification.SET, XcorePackage.XCLASS__INTERFACE, oldInterface, newInterface));
   }
 
   /**
@@ -346,9 +346,9 @@ public class XClassImpl extends XClassifierImpl implements XClass
     switch (featureID)
     {
       case XcorePackage.XCLASS__ABSTRACT:
-        return abstract_ != ABSTRACT_EDEFAULT;
+        return ((eFlags & ABSTRACT_EFLAG) != 0) != ABSTRACT_EDEFAULT;
       case XcorePackage.XCLASS__INTERFACE:
-        return interface_ != INTERFACE_EDEFAULT;
+        return ((eFlags & INTERFACE_EFLAG) != 0) != INTERFACE_EDEFAULT;
       case XcorePackage.XCLASS__MEMBERS:
         return members != null && !members.isEmpty();
       case XcorePackage.XCLASS__SUPER_TYPES:
@@ -367,11 +367,11 @@ public class XClassImpl extends XClassifierImpl implements XClass
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (abstract: ");
-    result.append(abstract_);
+    result.append((eFlags & ABSTRACT_EFLAG) != 0);
     result.append(", interface: ");
-    result.append(interface_);
+    result.append((eFlags & INTERFACE_EFLAG) != 0);
     result.append(')');
     return result.toString();
   }

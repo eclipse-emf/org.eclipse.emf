@@ -22,13 +22,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XGenericType#getUpperBound <em>Upper Bound</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XGenericType#getTypeArguments <em>Type Arguments</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XGenericType#getLowerBound <em>Lower Bound</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XGenericType#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXGenericType()
  * @model

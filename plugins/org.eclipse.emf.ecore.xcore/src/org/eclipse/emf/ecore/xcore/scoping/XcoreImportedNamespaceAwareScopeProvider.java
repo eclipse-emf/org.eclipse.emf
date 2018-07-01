@@ -46,7 +46,6 @@ import org.eclipse.emf.ecore.xcore.scoping.types.XcoreJvmTypeScopeProvider;
 import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.common.types.JvmOperation;
 import org.eclipse.xtext.common.types.JvmTypeParameter;
-import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -107,13 +106,9 @@ public class XcoreImportedNamespaceAwareScopeProvider extends ImportedNamespaceA
     {
       return getAnnotationScope(context);
     }
-    else if (TypesPackage.Literals.JVM_TYPE.isSuperTypeOf(reference.getEReferenceType()))
-    {
-      return getJvmTypeScope(context, reference);
-    }
     else
     {
-      throw new IllegalArgumentException("Scope for unknown reference " + reference + " requested");
+      return getJvmTypeScope(context, reference);
     }
   }
 

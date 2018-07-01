@@ -445,14 +445,26 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return getGenModel().getImportedName(getQualifiedClassName());
   }
 
+  private List<GenClass> baseGenClasses;
+
   public List<GenClass> getBaseGenClasses()
   {
-    return collectGenClasses(getEcoreClass().getESuperTypes(), null);
+    if (baseGenClasses == null)
+    {
+      baseGenClasses = collectGenClasses(getEcoreClass().getESuperTypes(), null);
+    }
+    return baseGenClasses;
   }
+
+  private List<GenClass> allBaseGenClasses;
 
   public List<GenClass> getAllBaseGenClasses()
   {
-    return collectGenClasses(getEcoreClass().getEAllSuperTypes(), null);
+    if (allBaseGenClasses == null)
+    {
+      allBaseGenClasses = collectGenClasses(getEcoreClass().getEAllSuperTypes(), null);
+    }
+    return allBaseGenClasses;
   }
 
   public boolean isRawBaseClass(GenClass baseClass)
@@ -1066,30 +1078,41 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
   }
 
-  private OperationHelper operationHelper = new OperationHelper();
-  
+  private OperationHelper operationHelper;
+
+  @Override
   public void clearCache()
   {
+    super.clearCache();
+
     getAccessorOperations = null;
     setAccessorOperations = null;
     isSetAccessorOperations = null;
     unsetAccessorOperations = null;
 
-    operationHelper = new OperationHelper();
-    
-    // Need to ensure that the cached names are computed in the same order and manner as they are in the generated package interface.
-    //
-    for (GenOperation genOperation : getAllGenOperations(false))
-    {
-      if (getOverrideGenOperation(genOperation) == null)
-      {
-        operationHelper.getUniqueName(genOperation);
-      }
-    }
+    operationHelper = null;
+    genClassConstraints = null;
+    baseGenClasses = null;
+    allBaseGenClasses = null;
+    implementedGenOperations = null;
   }
 
   public String getUniqueName(GenOperation genOperation)
   {
+    if (operationHelper == null)
+    {
+      operationHelper = new OperationHelper();
+      
+      // Need to ensure that the cached names are computed in the same order and manner as they are in the generated package interface.
+      //
+      for (GenOperation otherGenOperation : getAllGenOperations(false))
+      {
+        if (getOverrideGenOperation(otherGenOperation) == null)
+        {
+          operationHelper.getUniqueName(otherGenOperation);
+        }
+      }
+    }
     return operationHelper.getUniqueName(genOperation);
   }
 
@@ -1502,34 +1525,40 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
   }
 
+  private List<GenOperation> implementedGenOperations;
+
   public List<GenOperation> getImplementedGenOperations()
   {
-    EList<GenClass> implementedGenClasses = new UniqueEList<GenClass>(getImplementedGenClasses());
-    ECollections.reverse(implementedGenClasses);
-    if (needsRootImplementsInterfaceOperations())
+    if (implementedGenOperations == null)
     {
-      GenClass rootImplementsInterface = getGenModel().getRootImplementsInterfaceGenClass();
-      if (rootImplementsInterface != null)
+      EList<GenClass> implementedGenClasses = new UniqueEList<GenClass>(getImplementedGenClasses());
+      ECollections.reverse(implementedGenClasses);
+      if (needsRootImplementsInterfaceOperations())
       {
-        List<GenClass> allBaseClasses = new UniqueEList<GenClass>(rootImplementsInterface.getAllBaseGenClasses());
-        for (Iterator<GenClass> i = allBaseClasses.iterator(); i.hasNext(); )
+        GenClass rootImplementsInterface = getGenModel().getRootImplementsInterfaceGenClass();
+        if (rootImplementsInterface != null)
         {
-          GenClass genClass = i.next();
-          if (genClass.isEObject())
+          List<GenClass> allBaseClasses = new UniqueEList<GenClass>(rootImplementsInterface.getAllBaseGenClasses());
+          for (Iterator<GenClass> i = allBaseClasses.iterator(); i.hasNext(); )
           {
-            i.remove();
+            GenClass genClass = i.next();
+            if (genClass.isEObject())
+            {
+              i.remove();
+            }
           }
+          allBaseClasses.add(rootImplementsInterface);
+          implementedGenClasses.addAll(allBaseClasses);
         }
-        allBaseClasses.add(rootImplementsInterface);
-        implementedGenClasses.addAll(allBaseClasses);
       }
+      implementedGenOperations =
+        collectGenOperations
+          (this,
+           implementedGenClasses,
+           null, 
+           new CollidingGenOperationFilter());
     }
-    return
-      collectGenOperations
-        (this,
-         implementedGenClasses,
-         null, 
-         new CollidingGenOperationFilter());
+    return implementedGenOperations;
   }
 
   public boolean hasImplementedToStringGenOperation()
@@ -3061,15 +3090,21 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
   }
 
+  private List<String> genClassConstraints;
+
   @Override
   public List<String> getGenConstraints()
   {
-    List<String> result = new UniqueEList<String>(super.getGenConstraints());
-    for (GenOperation genOperation : getInvariantOperations())
+    if (genClassConstraints == null)
     {
-      result.add(genOperation.getName());
+      List<String> result = new UniqueEList<String>(super.getGenConstraints());
+      for (GenOperation genOperation : getInvariantOperations())
+      {
+        result.add(genOperation.getName());
+      }
+      genClassConstraints = result;
     }
-    return result;
+    return genClassConstraints;
   }
 
   /**
@@ -3513,13 +3548,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     {
       boolean hasBody = genOperation.hasBody() || genOperation.hasInvocationDelegate();
 
-      if (genOperation.getName().startsWith("isSet") && genOperation.getGenParameters().isEmpty())
+      String name = genOperation.getName();
+      if (name.startsWith("isSet") && genOperation.getGenParameters().isEmpty())
       {
         for (GenFeature genFeature : allGenFeatures)
         {
           if (genFeature.isChangeable() &&
                 genFeature.isUnsettable() &&
-                genOperation.getName().equals("isSet" + genFeature.getAccessorName()) &&
+                name.equals("isSet" + genFeature.getAccessorName()) &&
                 (!hasBody ||
                   !extendsGenClassFeatures.contains(genFeature) &&
                     (genFeature.isVolatile() && !genFeature.hasDelegateFeature() ||
@@ -3529,13 +3565,12 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           }
         }
       }
-      else if ((genOperation.getName().startsWith("get") || genOperation.getName().startsWith("is")) &&
-                 genOperation.getGenParameters().isEmpty())
+      else if ((name.startsWith("get") || name.startsWith("is")) && genOperation.getGenParameters().isEmpty())
       {
         String operationType = genOperation.getType(GenClassImpl.this);
         for (GenFeature genFeature : allGenFeatures)
         {
-          if (genFeature.getGetAccessor().equals(genOperation.getName()) &&
+          if (genFeature.getGetAccessor().equals(name) &&
                 (genFeature.getType(GenClassImpl.this).equals(operationType) || !extendsGenClassFeatures.contains(genFeature)) &&
                 (!hasBody ||
                     !extendsGenClassFeatures.contains(genFeature) &&
@@ -3546,14 +3581,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           }
         }
       }
-      else if (genOperation.getName().startsWith("set") && genOperation.getGenParameters().size() == 1)
+      else if (name.startsWith("set") && genOperation.getGenParameters().size() == 1)
       {
         GenParameter genParameter = genOperation.getGenParameters().get(0);
         for (GenFeature genFeature : allGenFeatures)
         {
           if (genFeature.isChangeable() &&
                 !genFeature.isListType() &&
-                genOperation.getName().equals("set" + genFeature.getAccessorName()) &&
+                name.equals("set" + genFeature.getAccessorName()) &&
                 genParameter.getType(GenClassImpl.this).equals(genFeature.getType(GenClassImpl.this)) &&
                 (!hasBody ||
                   !extendsGenClassFeatures.contains(genFeature) &&
@@ -3564,13 +3599,13 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           }
         }
       }
-      else if (genOperation.getName().startsWith("unset") && genOperation.getGenParameters().isEmpty())
+      else if (name.startsWith("unset") && genOperation.getGenParameters().isEmpty())
       {
         for (GenFeature genFeature : allGenFeatures)
         {
           if (genFeature.isChangeable() &&
                 genFeature.isUnsettable() &&
-                genOperation.getName().equals("unset" + genFeature.getAccessorName()) &&
+                name.equals("unset" + genFeature.getAccessorName()) &&
                 (!hasBody ||
                   !extendsGenClassFeatures.contains(genFeature) &&
                     (genFeature.isVolatile() && !genFeature.hasDelegateFeature() ||

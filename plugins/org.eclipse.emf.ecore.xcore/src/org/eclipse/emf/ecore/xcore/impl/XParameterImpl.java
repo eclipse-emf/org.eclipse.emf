@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.xcore.XcorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XParameterImpl#getOperation <em>Operation</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -62,7 +62,7 @@ public class XParameterImpl extends XTypedElementImpl implements XParameter
   public XOperation getOperation()
   {
     if (eContainerFeatureID() != XcorePackage.XPARAMETER__OPERATION) return null;
-    return (XOperation)eContainer();
+    return (XOperation)eInternalContainer();
   }
 
   /**

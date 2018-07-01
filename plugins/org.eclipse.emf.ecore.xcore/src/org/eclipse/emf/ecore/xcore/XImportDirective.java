@@ -18,12 +18,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XImportDirective#getImportedNamespace <em>Imported Namespace</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XImportDirective#getImportedObject <em>Imported Object</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XImportDirective#getPackage <em>Package</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXImportDirective()
  * @model

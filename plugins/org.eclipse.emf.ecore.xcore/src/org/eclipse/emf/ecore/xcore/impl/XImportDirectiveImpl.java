@@ -32,12 +32,12 @@ import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl#getImportedNamespace <em>Imported Namespace</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl#getImportedObject <em>Imported Object</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.impl.XImportDirectiveImpl#getPackage <em>Package</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -187,7 +187,7 @@ public class XImportDirectiveImpl extends XModelElementImpl implements XImportDi
   public XPackage getPackage()
   {
     if (eContainerFeatureID() != XcorePackage.XIMPORT_DIRECTIVE__PACKAGE) return null;
-    return (XPackage)eContainer();
+    return (XPackage)eInternalContainer();
   }
 
   /**
@@ -331,7 +331,7 @@ public class XImportDirectiveImpl extends XModelElementImpl implements XImportDi
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (importedNamespace: ");
     result.append(importedNamespace);
     result.append(')');

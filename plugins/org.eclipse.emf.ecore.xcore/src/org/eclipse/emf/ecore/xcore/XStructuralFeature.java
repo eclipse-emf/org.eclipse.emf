@@ -18,6 +18,7 @@ import org.eclipse.xtext.xbase.XBlockExpression;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isReadonly <em>Readonly</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#isVolatile <em>Volatile</em>}</li>
@@ -29,7 +30,6 @@ import org.eclipse.xtext.xbase.XBlockExpression;
  *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#getIsSetBody <em>Is Set Body</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XStructuralFeature#getUnsetBody <em>Unset Body</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXStructuralFeature()
  * @model abstract="true"

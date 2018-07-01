@@ -1895,17 +1895,65 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         arguments = new Object[] { generatingObject };
       }
 
-      JControlModel jControlModel = getGenerator().getJControlModel();      
+      final JControlModel jControlModel = getGenerator().getJControlModel();
       JMerger jMerger = null;
+      final boolean shouldMerge = shouldMerge(targetFile);
       if (jControlModel.canMerge())
       {
-        jMerger = new JMerger(jControlModel);
+        // Specialize the merger so that in the case that merging isn't needed, it by-passes all the expensive things like creating a compilation unit and the dictionaries.
+        //
+        jMerger =
+          new JMerger(jControlModel)
+          { 
+            private String compilationUnitContents;
+
+            @Override
+            public void setSourceCompilationUnit(String sourceCompilationUnitContents)
+            {
+              if (shouldMerge)
+              {
+                super.setSourceCompilationUnit(sourceCompilationUnitContents);
+              }
+              else
+              {
+                // Simply record the source.
+                //
+                compilationUnitContents = sourceCompilationUnitContents;
+              }
+            }
+
+            @Override
+            public void merge()
+            {
+              // Do nothing if we're not really merging.
+              //
+              if (shouldMerge)
+              {
+                super.merge();
+              }
+            }
+
+            @Override
+            public String getTargetCompilationUnitContents()
+            {
+              if (shouldMerge)
+              {
+                return super.getTargetCompilationUnitContents();
+              }
+              else
+              {
+                // Ensure that at least the tab conversion and brace style preference are applied to the original emmitter's result.
+                // 
+                return CodeGenUtil.convertFormat(jControlModel.getLeadingTabReplacement(), jControlModel.convertToStandardBraceStyle(), compilationUnitContents);
+              }
+            }
+          };
       }
 
       createImportManager(packageName, className);
       String targetFileContents = null;
       String targetFileEncoding = getEncoding(targetFile);
-      if (shouldMerge(targetFile) && exists(targetFile) && jMerger != null)
+      if (shouldMerge && exists(targetFile) && jMerger != null)
       {
         // Prime the import manager with the existing imports of the target.
         //
@@ -1940,7 +1988,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         
         try
         {
-          jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(emitterResult));
+          jMerger.setSourceCompilationUnit(emitterResult);
         }
         catch (RuntimeException runtimeException)
         {

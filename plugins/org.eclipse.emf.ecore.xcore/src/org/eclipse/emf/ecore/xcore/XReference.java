@@ -19,6 +19,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XReference#isContainer <em>Container</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XReference#isContainment <em>Containment</em>}</li>
@@ -27,7 +28,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.emf.ecore.xcore.XReference#getOpposite <em>Opposite</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xcore.XReference#getKeys <em>Keys</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xcore.XcorePackage#getXReference()
  * @model

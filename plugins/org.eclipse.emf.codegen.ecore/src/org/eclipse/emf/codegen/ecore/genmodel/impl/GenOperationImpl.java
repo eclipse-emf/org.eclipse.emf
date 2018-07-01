@@ -1248,7 +1248,6 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     else
     {
       return
-        getReturnType() != null && 
           "boolean".equals(getReturnType()) &&
           getGenParameters().size() == 2 &&
           "org.eclipse.emf.common.util.DiagnosticChain".equals
