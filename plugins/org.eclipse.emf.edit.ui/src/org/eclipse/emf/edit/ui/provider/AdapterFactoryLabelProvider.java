@@ -332,7 +332,10 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
    */
   public void addListener(ILabelProviderListener listener) 
   {
-    labelProviderListeners.add(listener);
+    if (!labelProviderListeners.contains(listener))
+    {
+      labelProviderListeners.add(listener);
+    }
   }
 
   /**
