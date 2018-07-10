@@ -607,12 +607,15 @@ public class GenModelValidator extends EObjectValidator
       return true;
     }
 
-    IStatus status;
+    IStatus status = Status.OK_STATUS;
     try
     {
       IWorkspaceRoot workspaceRoot = EcorePlugin.getWorkspaceRoot();
-      IPath workspacePath = new Path(path).makeAbsolute();
-      status = workspaceRoot.getWorkspace().validatePath(workspacePath.toString(), IResource.FOLDER);
+      if (workspaceRoot != null)
+      {
+        IPath workspacePath = new Path(path).makeAbsolute();
+        status = workspaceRoot.getWorkspace().validatePath(workspacePath.toString(), IResource.FOLDER);
+      }
       if (status.isOK())
       {
         for (char c : path.toCharArray())
