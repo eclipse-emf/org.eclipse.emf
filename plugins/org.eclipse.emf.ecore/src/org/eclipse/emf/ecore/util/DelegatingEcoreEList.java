@@ -506,6 +506,30 @@ public abstract class DelegatingEcoreEList<E>
     }
   }
 
+  /**
+   * Resolve to compare objects but do not modify list
+   */
+  @Override
+  public boolean containsAll(Collection<?> collection)
+  {
+    boolean result = super.containsAll(collection);
+    if (hasProxies() && !result)
+    {
+      int count = 0;
+      for (int i = 0, size = size(); i < size; ++i)
+      {
+        EObject delegateEObject = (EObject)delegateGet(i);
+        EObject eObject = resolveProxy(delegateEObject);
+        if (collection.contains(eObject) || eObject != delegateEObject && collection.contains(delegateEObject))
+        {
+          ++count;
+        }
+      }
+      result = count == collection.size();
+    }
+    return result;
+  }
+
   @Override
   public int indexOf(Object object)
   {
