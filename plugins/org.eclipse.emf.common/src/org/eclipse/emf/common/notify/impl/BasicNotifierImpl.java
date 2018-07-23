@@ -187,7 +187,6 @@ public class BasicNotifierImpl implements Notifier
     @Override
     public Object [] data()
     {
-      safe = true;
       if (data != null && data.length != size)
       {
         if (size == 0)
@@ -197,10 +196,12 @@ public class BasicNotifierImpl implements Notifier
         else
         {
           Object [] oldData = data;
-          data = newData(size);
-          System.arraycopy(oldData, 0, data, 0, size);
+          Object [] newData = newData(size);
+          System.arraycopy(oldData, 0, newData, 0, size);
+          data = newData;
         }
       }
+      safe = true;
       return data;
     }
 
@@ -209,8 +210,9 @@ public class BasicNotifierImpl implements Notifier
       if (safe && data != null)
       {
         Object [] oldData = data;
-        data = newData(data.length);
-        System.arraycopy(oldData, 0, data, 0, size);
+        Object [] newData = newData(oldData.length);
+        System.arraycopy(oldData, 0, newData, 0, size);
+        data = newData;
         safe = false;
       }
     }
