@@ -1219,6 +1219,11 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
     }
   }
 
+  protected LiveValidator createLiveValidator(EditingDomain editingDomain, IDialogSettings dialogSettings)
+  {
+    return new LiveValidator(editingDomain, dialogSettings);
+  }
+
   protected LiveValidator getLiveValidator()
   {
     if (liveValidator == null && editingDomain != null)
@@ -1226,7 +1231,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
       liveValidator = LIVE_VALIDATORS.get(editingDomain);
       if (liveValidator == null)
       {
-        liveValidator = new LiveValidator(editingDomain, dialogSettings);
+        liveValidator = createLiveValidator(editingDomain, dialogSettings);
         LIVE_VALIDATORS.put(editingDomain, liveValidator);
       }
       liveValidator.register(this);
