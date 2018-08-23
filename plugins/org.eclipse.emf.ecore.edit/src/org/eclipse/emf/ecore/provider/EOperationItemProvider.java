@@ -143,15 +143,20 @@ public class EOperationItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @SuppressWarnings("unchecked")
   @Override
   public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
+    List<EStructuralFeature> childrenFeatures = getChildrenFeatures();
     if (childrenFeatures == null)
     {
-      super.getChildrenFeatures(object);
-      childrenFeatures.add(1, EcorePackage.Literals.EOPERATION__ETYPE_PARAMETERS);
-      childrenFeatures.add(2, EcorePackage.Literals.EOPERATION__EPARAMETERS);
-      childrenFeatures.add(4, EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS);
+      childrenFeatures = (List<EStructuralFeature>)super.getChildrenFeatures(object);
+      if (isShowGenerics())
+      {
+        childrenFeatures.add(1, EcorePackage.Literals.EOPERATION__ETYPE_PARAMETERS);
+        childrenFeatures.add(2, EcorePackage.Literals.EOPERATION__EPARAMETERS);
+        childrenFeatures.add(4, EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS);
+      }
     }
     return childrenFeatures;
   }

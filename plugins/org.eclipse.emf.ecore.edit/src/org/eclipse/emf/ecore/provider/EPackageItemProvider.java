@@ -144,14 +144,16 @@ public class EPackageItemProvider
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
+  @SuppressWarnings("unchecked")
   @Override
   public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
+    List<EStructuralFeature> childrenFeatures = getChildrenFeatures();
     if (childrenFeatures == null)
     {
-      super.getChildrenFeatures(object);
+      childrenFeatures = (List<EStructuralFeature>)super.getChildrenFeatures(object);
       childrenFeatures.add(EcorePackage.Literals.EPACKAGE__ECLASSIFIERS);
       childrenFeatures.add(EcorePackage.Literals.EPACKAGE__ESUBPACKAGES);
     }

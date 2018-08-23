@@ -236,15 +236,20 @@ public class EClassItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @SuppressWarnings("unchecked")
   @Override
   public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
+    List<EStructuralFeature> childrenFeatures = getChildrenFeatures();
     if (childrenFeatures == null)
     {
-      super.getChildrenFeatures(object);
+      childrenFeatures = (List<EStructuralFeature>)super.getChildrenFeatures(object);
       childrenFeatures.add(EcorePackage.Literals.ECLASS__EOPERATIONS);
       childrenFeatures.add(EcorePackage.Literals.ECLASS__ESTRUCTURAL_FEATURES);
-      childrenFeatures.add(2, EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES);
+      if (isShowGenerics())
+      {
+        childrenFeatures.add(2, EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES);
+      }
     }
     return childrenFeatures;
   }

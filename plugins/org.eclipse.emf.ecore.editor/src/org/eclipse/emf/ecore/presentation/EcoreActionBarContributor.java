@@ -76,6 +76,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
+import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -582,19 +583,35 @@ public class EcoreActionBarContributor
     new ViewerFilterAction(EcoreEditorPlugin.INSTANCE.getString("_UI_ShowGenerics_menu_item"), IAction.AS_CHECK_BOX)
     {
       @Override
-      protected void refreshViewers()
+      public void addViewer(Viewer viewer)
       {
-        if (activeEditorPart instanceof EcoreEditor)
+        EcoreItemProviderAdapterFactory ecoreItemProviderAdapterFactory = ((EcoreEditor)activeEditorPart).ecoreItemProviderAdapterFactory;
+        if (viewers == null || !viewers.contains(viewer))
         {
-          ((EcoreEditor)activeEditorPart).ecoreItemProviderAdapterFactory.setShowGenerics(isChecked());
+          ecoreItemProviderAdapterFactory.setShowGenerics(isChecked());
+          super.addViewer(viewer);
+        }
+        else if (ecoreItemProviderAdapterFactory.isShowGenerics() != isChecked())
+        {
+          ecoreItemProviderAdapterFactory.setShowGenerics(isChecked());
+          viewer.refresh();
         }
 
-        super.refreshViewers();
-
-        if (lastSelectionChangedEvent != null && activeEditorPart instanceof EcoreEditor)
+        if (lastSelectionChangedEvent != null)
         {
           selectionChanged(lastSelectionChangedEvent);
         }
+      }
+
+      @Override
+      public void setChecked(boolean checked)
+      {
+        if (activeEditorPart instanceof EcoreEditor)
+        {
+          EcoreItemProviderAdapterFactory ecoreItemProviderAdapterFactory = ((EcoreEditor)activeEditorPart).ecoreItemProviderAdapterFactory;
+          ecoreItemProviderAdapterFactory.setShowGenerics(checked);
+        }
+        super.setChecked(checked);
       }
 
       @Override

@@ -204,15 +204,20 @@ public class EClassifierItemProvider
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
+  @SuppressWarnings("unchecked")
   @Override
   public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
+    List<EStructuralFeature> childrenFeatures = getChildrenFeatures();
     if (childrenFeatures == null)
     {
-      super.getChildrenFeatures(object);
-      childrenFeatures.add(EcorePackage.Literals.ECLASSIFIER__ETYPE_PARAMETERS);
+      childrenFeatures = (List<EStructuralFeature>)super.getChildrenFeatures(object);
+      if (isShowGenerics())
+      {
+        childrenFeatures.add(EcorePackage.Literals.ECLASSIFIER__ETYPE_PARAMETERS);
+      }
     }
     return childrenFeatures;
   }

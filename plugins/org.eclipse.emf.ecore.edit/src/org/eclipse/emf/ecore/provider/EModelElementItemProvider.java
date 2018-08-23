@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -27,12 +26,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
@@ -62,6 +59,13 @@ public class EModelElementItemProvider
   implements
     IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource
 {
+  /**
+   * This is used to store all the non-generic children features.
+   * @see #getChildrenFeatures()
+   * @since 2.15
+   */
+  protected List<EStructuralFeature> nonGenericChildrenFeatures;
+
   /**
    * This constructs an instance from a factory and a notifier.
    * <!-- begin-user-doc -->
@@ -96,14 +100,22 @@ public class EModelElementItemProvider
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   @Override
   public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
+    List<EStructuralFeature> childrenFeatures = getChildrenFeatures();
     if (childrenFeatures == null)
     {
-      super.getChildrenFeatures(object);
+      if (isShowGenerics())
+      {
+        childrenFeatures = this.childrenFeatures = new ArrayList<EStructuralFeature>();
+      }
+      else
+      {
+        childrenFeatures = nonGenericChildrenFeatures = new ArrayList<EStructuralFeature>();
+      }
       childrenFeatures.add(EcorePackage.Literals.EMODEL_ELEMENT__EANNOTATIONS);
     }
     return childrenFeatures;
@@ -119,26 +131,12 @@ public class EModelElementItemProvider
   }
 
   /**
-   * Filters out {@link ETypeParameter} and {@link EGenericType} instances from the children.
-   *
-   * @since 2.14
+   * Returns either {@link #childrenFeatures} or {@link #nonGenericChildrenFeatures} depending on {@link #isShowGenerics()}.
+   * @since 2.15
    */
-  @Override
-  public Collection<?> getChildren(Object object)
+  protected List<EStructuralFeature> getChildrenFeatures()
   {
-    Collection<?> result = super.getChildren(object);
-    if (!isShowGenerics())
-    {
-      for (Iterator<?> i = result.iterator(); i.hasNext();)
-      {
-        Object child = i.next();
-        if (child instanceof ETypeParameter || child instanceof EGenericType)
-        {
-          i.remove();
-        }
-      }
-    }
-    return result;
+    return isShowGenerics() ? childrenFeatures : nonGenericChildrenFeatures;
   }
 
   /**

@@ -71,14 +71,20 @@ public class ETypeParameterItemProvider
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
+  @SuppressWarnings("unchecked")
   @Override
   public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
+    List<EStructuralFeature> childrenFeatures = getChildrenFeatures();
     if (childrenFeatures == null)
     {
-      super.getChildrenFeatures(object);
+      childrenFeatures = (List<EStructuralFeature>)super.getChildrenFeatures(object);
+
+      // Add this unconditionally.
+      // If we're not showing generics we'd not be showing an ETypeParameter in the first place.
+      //
       childrenFeatures.add(EcorePackage.Literals.ETYPE_PARAMETER__EBOUNDS);
     }
     return childrenFeatures;
