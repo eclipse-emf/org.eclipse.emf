@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.test.databinding/src" editDirectory=""
     editorDirectory="" modelPluginID="org.eclipse.emf.test.databinding" modelName="EMFDB"
     testsDirectory="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0"
-    copyrightFields="false">
+    copyrightFields="false" importOrganizing="true">
   <foreignModel>EMFDB.ecore</foreignModel>
   <genPackages prefix="Emfdb" basePackage="org.eclipse.emf.test.databinding" disposableProviderFactory="true"
       ecorePackage="EMFDB.ecore#/">
@@ -11,6 +11,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EMFDB.ecore#//A/string"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference EMFDB.ecore#//A/blist"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference EMFDB.ecore#//A/cmap"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EMFDB.ecore#//A/strings"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EMFDB.ecore#//A/primitiveValues"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EMFDB.ecore#//A/notUniqueValues"/>
     </genClasses>
     <genClasses ecoreClass="EMFDB.ecore#//B">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EMFDB.ecore#//B/string"/>

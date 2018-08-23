@@ -26,6 +26,9 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.A#getString <em>String</em>}</li>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.A#getBlist <em>Blist</em>}</li>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.A#getCmap <em>Cmap</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.databinding.emfdb.A#getStrings <em>Strings</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.databinding.emfdb.A#getPrimitiveValues <em>Primitive Values</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.databinding.emfdb.A#getNotUniqueValues <em>Not Unique Values</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.test.databinding.emfdb.EmfdbPackage#getA()
@@ -88,9 +91,57 @@ public interface A extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Cmap</em>' map.
    * @see org.eclipse.emf.test.databinding.emfdb.EmfdbPackage#getA_Cmap()
-   * @model mapType="org.eclipse.emf.test.databinding.emfdb.C<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
+   * @model mapType="org.eclipse.emf.test.databinding.emfdb.C&lt;org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString&gt;"
    * @generated
    */
   EMap<String, String> getCmap();
+
+  /**
+   * Returns the value of the '<em><b>Strings</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.String}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Strings</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Strings</em>' attribute list.
+   * @see org.eclipse.emf.test.databinding.emfdb.EmfdbPackage#getA_Strings()
+   * @model unique="false"
+   * @generated
+   */
+  EList<String> getStrings();
+
+  /**
+   * Returns the value of the '<em><b>Primitive Values</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.Double}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Primitive Values</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Primitive Values</em>' attribute list.
+   * @see org.eclipse.emf.test.databinding.emfdb.EmfdbPackage#getA_PrimitiveValues()
+   * @model
+   * @generated
+   */
+  EList<Double> getPrimitiveValues();
+
+  /**
+   * Returns the value of the '<em><b>Not Unique Values</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.Double}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Not Unique Values</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Not Unique Values</em>' attribute list.
+   * @see org.eclipse.emf.test.databinding.emfdb.EmfdbPackage#getA_NotUniqueValues()
+   * @model unique="false"
+   * @generated
+   */
+  EList<Double> getNotUniqueValues();
 
 } // A

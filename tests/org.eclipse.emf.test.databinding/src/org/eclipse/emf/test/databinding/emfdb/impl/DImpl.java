@@ -163,6 +163,7 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("all")
   @Override
   public void eSet(int featureID, Object newValue)
   {
@@ -227,7 +228,7 @@ public class DImpl extends EObjectImpl implements D
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
     result.append(')');

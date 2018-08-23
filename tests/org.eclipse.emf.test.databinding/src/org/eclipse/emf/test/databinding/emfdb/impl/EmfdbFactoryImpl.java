@@ -17,10 +17,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.emf.test.databinding.emfdb.A;
-import org.eclipse.emf.test.databinding.emfdb.B;
-import org.eclipse.emf.test.databinding.emfdb.D;
-import org.eclipse.emf.test.databinding.emfdb.E;
+import org.eclipse.emf.test.databinding.emfdb.*;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbFactory;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
 

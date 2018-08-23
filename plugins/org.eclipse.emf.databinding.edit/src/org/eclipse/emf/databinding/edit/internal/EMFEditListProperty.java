@@ -25,6 +25,7 @@ import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.MoveCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.ReplaceCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 
@@ -102,19 +103,40 @@ public class EMFEditListProperty extends EMFListProperty
     @Override
     public void handleMove(int oldIndex, int newIndex, Object element)
     {
-      commands.add(MoveCommand.create(editingDomain, eObj, feature, element, newIndex));
+      if (feature.isUnique())
+      {
+        commands.add(MoveCommand.create(editingDomain, eObj, feature, element, newIndex));
+      }
+      else
+      {
+        commands.add(MoveCommand.create(editingDomain, eObj, feature, oldIndex, newIndex));
+      }
     }
 
     @Override
     public void handleReplace(int index, Object oldElement, Object newElement)
     {
-      commands.add(ReplaceCommand.create(editingDomain, eObj, feature, oldElement, Collections.singleton(newElement)));
+      if (feature.isUnique())
+      {
+        commands.add(ReplaceCommand.create(editingDomain, eObj, feature, oldElement, Collections.singleton(newElement)));
+      }
+      else
+      {
+        commands.add(SetCommand.create(editingDomain, eObj, feature, newElement, index));
+      }
     }
 
     @Override
     public void handleRemove(int index, Object element)
     {
-      commands.add(RemoveCommand.create(editingDomain, eObj, feature, element));
+      if (feature.isUnique())
+      {
+        commands.add(RemoveCommand.create(editingDomain, eObj, feature, element));
+      }
+      else
+      {
+        commands.add(RemoveCommand.create(editingDomain, eObj, feature, index));
+      }
     }
   }
 }

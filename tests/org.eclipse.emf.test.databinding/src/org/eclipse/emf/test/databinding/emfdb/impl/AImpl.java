@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -39,6 +41,9 @@ import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.AImpl#getString <em>String</em>}</li>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.AImpl#getBlist <em>Blist</em>}</li>
  *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.AImpl#getCmap <em>Cmap</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.AImpl#getStrings <em>Strings</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.AImpl#getPrimitiveValues <em>Primitive Values</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.databinding.emfdb.impl.AImpl#getNotUniqueValues <em>Not Unique Values</em>}</li>
  * </ul>
  *
  * @generated
@@ -84,6 +89,36 @@ public class AImpl extends EObjectImpl implements A
    * @ordered
    */
   protected EMap<String, String> cmap;
+
+  /**
+   * The cached value of the '{@link #getStrings() <em>Strings</em>}' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getStrings()
+   * @generated
+   * @ordered
+   */
+  protected EList<String> strings;
+
+  /**
+   * The cached value of the '{@link #getPrimitiveValues() <em>Primitive Values</em>}' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPrimitiveValues()
+   * @generated
+   * @ordered
+   */
+  protected EList<Double> primitiveValues;
+
+  /**
+   * The cached value of the '{@link #getNotUniqueValues() <em>Not Unique Values</em>}' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getNotUniqueValues()
+   * @generated
+   * @ordered
+   */
+  protected EList<Double> notUniqueValues;
 
   /**
    * <!-- begin-user-doc -->
@@ -162,6 +197,48 @@ public class AImpl extends EObjectImpl implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  public EList<String> getStrings()
+  {
+    if (strings == null)
+    {
+      strings = new EDataTypeEList<String>(String.class, this, EmfdbPackage.A__STRINGS);
+    }
+    return strings;
+  }
+
+    /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList<Double> getPrimitiveValues()
+  {
+    if (primitiveValues == null)
+    {
+      primitiveValues = new EDataTypeUniqueEList<Double>(Double.class, this, EmfdbPackage.A__PRIMITIVE_VALUES);
+    }
+    return primitiveValues;
+  }
+
+    /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList<Double> getNotUniqueValues()
+  {
+    if (notUniqueValues == null)
+    {
+      notUniqueValues = new EDataTypeEList<Double>(Double.class, this, EmfdbPackage.A__NOT_UNIQUE_VALUES);
+    }
+    return notUniqueValues;
+  }
+
+    /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
@@ -192,6 +269,12 @@ public class AImpl extends EObjectImpl implements A
       case EmfdbPackage.A__CMAP:
         if (coreType) return getCmap();
         else return getCmap().map();
+      case EmfdbPackage.A__STRINGS:
+        return getStrings();
+      case EmfdbPackage.A__PRIMITIVE_VALUES:
+        return getPrimitiveValues();
+      case EmfdbPackage.A__NOT_UNIQUE_VALUES:
+        return getNotUniqueValues();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -201,6 +284,7 @@ public class AImpl extends EObjectImpl implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("all")
   @Override
   public void eSet(int featureID, Object newValue)
   {
@@ -215,6 +299,18 @@ public class AImpl extends EObjectImpl implements A
         return;
       case EmfdbPackage.A__CMAP:
         ((EStructuralFeature.Setting)getCmap()).set(newValue);
+        return;
+      case EmfdbPackage.A__STRINGS:
+        getStrings().clear();
+        getStrings().addAll((Collection<? extends String>)newValue);
+        return;
+      case EmfdbPackage.A__PRIMITIVE_VALUES:
+        getPrimitiveValues().clear();
+        getPrimitiveValues().addAll((Collection<? extends Double>)newValue);
+        return;
+      case EmfdbPackage.A__NOT_UNIQUE_VALUES:
+        getNotUniqueValues().clear();
+        getNotUniqueValues().addAll((Collection<? extends Double>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -239,6 +335,15 @@ public class AImpl extends EObjectImpl implements A
       case EmfdbPackage.A__CMAP:
         getCmap().clear();
         return;
+      case EmfdbPackage.A__STRINGS:
+        getStrings().clear();
+        return;
+      case EmfdbPackage.A__PRIMITIVE_VALUES:
+        getPrimitiveValues().clear();
+        return;
+      case EmfdbPackage.A__NOT_UNIQUE_VALUES:
+        getNotUniqueValues().clear();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -259,6 +364,12 @@ public class AImpl extends EObjectImpl implements A
         return blist != null && !blist.isEmpty();
       case EmfdbPackage.A__CMAP:
         return cmap != null && !cmap.isEmpty();
+      case EmfdbPackage.A__STRINGS:
+        return strings != null && !strings.isEmpty();
+      case EmfdbPackage.A__PRIMITIVE_VALUES:
+        return primitiveValues != null && !primitiveValues.isEmpty();
+      case EmfdbPackage.A__NOT_UNIQUE_VALUES:
+        return notUniqueValues != null && !notUniqueValues.isEmpty();
     }
     return super.eIsSet(featureID);
   }
@@ -273,9 +384,15 @@ public class AImpl extends EObjectImpl implements A
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (string: ");
     result.append(string);
+    result.append(", strings: ");
+    result.append(strings);
+    result.append(", primitiveValues: ");
+    result.append(primitiveValues);
+    result.append(", notUniqueValues: ");
+    result.append(notUniqueValues);
     result.append(')');
     return result.toString();
   }

@@ -133,7 +133,14 @@ public class EditingDomainEObjectObservableList extends EObjectObservableList
   {
     checkRealm();
     Object element = wrappedList.get(index);
-    execute(RemoveCommand.create(domain, eObject, eStructuralFeature, element));
+    if (eStructuralFeature.isUnique())
+    {
+      execute(RemoveCommand.create(domain, eObject, eStructuralFeature, element));
+    }
+    else
+    {
+      execute(RemoveCommand.create(domain, eObject, eStructuralFeature, index));
+    }
     return element;
   }
 
@@ -171,7 +178,14 @@ public class EditingDomainEObjectObservableList extends EObjectObservableList
   public Object move(int oldIndex, int newIndex)
   {
     Object result = wrappedList.get(oldIndex);
-    move(newIndex, result);
+    if (eStructuralFeature.isUnique())
+    {
+      execute(MoveCommand.create(domain, eObject, eStructuralFeature, result, newIndex));
+    }
+    else
+    {
+      execute(MoveCommand.create(domain, eObject, eStructuralFeature, oldIndex, newIndex));
+    }
     return result;
   }
 

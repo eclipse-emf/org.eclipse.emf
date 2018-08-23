@@ -16,10 +16,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.test.databinding.emfdb.A;
-import org.eclipse.emf.test.databinding.emfdb.B;
-import org.eclipse.emf.test.databinding.emfdb.D;
-import org.eclipse.emf.test.databinding.emfdb.E;
+import org.eclipse.emf.test.databinding.emfdb.*;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
 
 /**

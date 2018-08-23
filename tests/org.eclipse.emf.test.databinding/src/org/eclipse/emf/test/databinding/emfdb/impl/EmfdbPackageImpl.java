@@ -92,7 +92,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link EmfdbPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -107,7 +107,8 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
     if (isInited) return (EmfdbPackage)EPackage.Registry.INSTANCE.getEPackage(EmfdbPackage.eNS_URI);
 
     // Obtain or create and register package
-    EmfdbPackageImpl theEmfdbPackage = (EmfdbPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EmfdbPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new EmfdbPackageImpl());
+    Object registeredEmfdbPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    EmfdbPackageImpl theEmfdbPackage = registeredEmfdbPackage instanceof EmfdbPackageImpl ? (EmfdbPackageImpl)registeredEmfdbPackage : new EmfdbPackageImpl();
 
     isInited = true;
 
@@ -120,7 +121,6 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
     // Mark meta-data to indicate it can't be changed
     theEmfdbPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(EmfdbPackage.eNS_URI, theEmfdbPackage);
     return theEmfdbPackage;
@@ -164,6 +164,36 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
   public EReference getA_Cmap()
   {
     return (EReference)aEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getA_Strings()
+  {
+    return (EAttribute)aEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getA_PrimitiveValues()
+  {
+    return (EAttribute)aEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getA_NotUniqueValues()
+  {
+    return (EAttribute)aEClass.getEStructuralFeatures().get(5);
   }
 
   /**
@@ -310,6 +340,9 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
     createEAttribute(aEClass, A__STRING);
     createEReference(aEClass, A__BLIST);
     createEReference(aEClass, A__CMAP);
+    createEAttribute(aEClass, A__STRINGS);
+    createEAttribute(aEClass, A__PRIMITIVE_VALUES);
+    createEAttribute(aEClass, A__NOT_UNIQUE_VALUES);
 
     bEClass = createEClass(B);
     createEAttribute(bEClass, B__STRING);
@@ -362,6 +395,9 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
     initEAttribute(getA_String(), ecorePackage.getEString(), "string", null, 0, 1, org.eclipse.emf.test.databinding.emfdb.A.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getA_Blist(), this.getB(), null, "blist", null, 0, -1, org.eclipse.emf.test.databinding.emfdb.A.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getA_Cmap(), this.getC(), null, "cmap", null, 0, -1, org.eclipse.emf.test.databinding.emfdb.A.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getA_Strings(), ecorePackage.getEString(), "strings", null, 0, -1, org.eclipse.emf.test.databinding.emfdb.A.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getA_PrimitiveValues(), ecorePackage.getEDouble(), "primitiveValues", null, 0, -1, org.eclipse.emf.test.databinding.emfdb.A.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getA_NotUniqueValues(), ecorePackage.getEDouble(), "notUniqueValues", null, 0, -1, org.eclipse.emf.test.databinding.emfdb.A.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(bEClass, org.eclipse.emf.test.databinding.emfdb.B.class, "B", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getB_String(), ecorePackage.getEString(), "string", null, 0, 1, org.eclipse.emf.test.databinding.emfdb.B.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

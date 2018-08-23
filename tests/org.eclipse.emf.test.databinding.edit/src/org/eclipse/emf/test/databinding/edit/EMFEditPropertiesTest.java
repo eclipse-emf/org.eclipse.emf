@@ -10,6 +10,7 @@
  */
 package org.eclipse.emf.test.databinding.edit;
 
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -33,7 +34,10 @@ import org.eclipse.core.databinding.observable.set.SetDiff;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.CompoundCommand;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFListProperty.ListElementAccess;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.databinding.edit.IEMFEditListProperty;
@@ -55,15 +59,23 @@ import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
 import org.junit.Before;
 import org.junit.Test;
 
+
 public class EMFEditPropertiesTest
 {
   private Resource resource;
+
   private EditingDomain editingDomain;
+
   private Realm testRealm;
+
   private boolean flag;
+
   private ListDiffEntry[] listEntries;
+
   private ListDiff listDiff;
+
   private SetDiff diff;
+
   private BasicCommandStack commandStack;
 
   @Before
@@ -73,9 +85,7 @@ public class EMFEditPropertiesTest
     ResourceSet resourceSet = new ResourceSetImpl();
     commandStack = new BasicCommandStack();
 
-    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
-      Resource.Factory.Registry.DEFAULT_EXTENSION,
-      new XMIResourceFactoryImpl());
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
     editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, resourceSet);
     URI uri = URI.createFileURI(TestUtil.getPluginDirectory("org.eclipse.emf.test.databinding") + "/model/A.xmi");
     resource = resourceSet.getResource(uri, true);
@@ -213,10 +223,7 @@ public class EMFEditPropertiesTest
         public void run()
         {
           A a = (A)resource.getContents().get(0);
-          IEMFEditListProperty prop = EMFEditProperties.multiList(
-            editingDomain,
-            EmfdbPackage.Literals.A__STRING,
-            EmfdbPackage.Literals.A__BLIST);
+          IEMFEditListProperty prop = EMFEditProperties.multiList(editingDomain, EmfdbPackage.Literals.A__STRING, EmfdbPackage.Literals.A__BLIST);
           IObservableList list = prop.observe(a);
           list.addListChangeListener(new IListChangeListener()
             {
@@ -436,13 +443,13 @@ public class EMFEditPropertiesTest
       {
 
         @Override
-        public int getReadValueIndex(List< Object > list)
+        public int getReadValueIndex(List<Object> list)
         {
           return 0;
         }
 
         @Override
-        public int getWriteValueIndex(List< Object > list)
+        public int getWriteValueIndex(List<Object> list)
         {
           return 0;
         }
@@ -465,33 +472,213 @@ public class EMFEditPropertiesTest
     b = EmfdbFactory.eINSTANCE.createB();
     b.setString("New Element 2");
     IObservableValue aObservable = valueProp.observe(a);
-    try {
-		aObservable.setValue(b);
-	} finally {
-		aObservable.dispose();
-	}
+    try
+    {
+      aObservable.setValue(b);
+    }
+    finally
+    {
+      aObservable.dispose();
+    }
     assertEquals("New Element 2", value.getValue());
   }
 
-  //
-  //  public void testMultiListEditingDomainFeaturePathEStructuralFeatureArray()
-  //  {
-  //    fail("Not yet implemented");
-  //  }
-  //
-  //  public void testMultiListEditingDomainFeaturePathArray()
-  //  {
-  //    fail("Not yet implemented");
-  //  }
-  //
-  //  public void testMultiListEditingDomainIEMFEditListPropertyArray()
-  //  {
-  //    fail("Not yet implemented");
-  //  }
-  //
-  //  public void testMap()
-  //  {
-  //    fail("Not yet implemented");
-  //  }
+  @Test
+  public void test_attributeListWithDuplicates()
+  {
+    Realm.runWithDefault(testRealm, new Runnable()
+      {
+        public void run()
+        {
+          _test_attributeListWithDuplicates();
+        }
+      });
+  }
 
+  public void _test_attributeListWithDuplicates()
+  {
+    A a = (A)resource.getContents().get(0);
+    EList<String> strings = a.getStrings();
+
+    IEMFListProperty stringsListProperty = EMFEditProperties.list(editingDomain, EmfdbPackage.Literals.A__STRINGS);
+    IObservableList observableList = stringsListProperty.observe(a);
+    EList<String> normalList = new BasicEList<String>();
+
+    String value1 = "value1";
+    String value1Copy = new String(value1);
+    String value2 = "value2";
+    String value3 = "value3";
+
+    observableList.add(value1);
+    observableList.add(value2);
+    observableList.add(value1Copy);
+    observableList.add(3, value2);
+
+    normalList.add(value1);
+    normalList.add(value2);
+    normalList.add(value1Copy);
+    normalList.add(3, value2);
+
+    assertSameListContents(normalList, observableList);
+    assertSameListContents(normalList, strings);
+
+    observableList.set(1, value3);
+    normalList.set(1, value3);
+
+    assertSameListContents(normalList, observableList);
+    assertSameListContents(normalList, strings);
+
+    observableList.remove(2);
+    normalList.remove(2);
+
+    assertSameListContents(normalList, observableList);
+    assertSameListContents(normalList, strings);
+
+    observableList.add(value1);
+    normalList.add(value1);
+
+    assertSameListContents(normalList, observableList);
+    assertSameListContents(normalList, strings);
+
+    observableList.remove(observableList.size() - 1);
+    normalList.remove(normalList.size() - 1);
+
+    assertSameListContents(normalList, observableList);
+    assertSameListContents(normalList, strings);
+
+    // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=478053 that 
+    //  EList.move(int, int) and 
+    //  IObservableList.move(int, int) 
+    // have opposite meaning for source and target.
+    //
+    observableList.move(2, 0);
+    normalList.move(0, 2);
+
+    assertSameListContents(normalList, observableList);
+    assertSameListContents(normalList, strings);
+
+    observableList.add(value1);
+    normalList.add(value1);
+
+    assertSameListContents(normalList, observableList);
+    assertSameListContents(normalList, strings);
+
+    observableList.move(observableList.size() - 1, 0);
+    normalList.move(0, normalList.size() - 1);
+
+    assertSameListContents(normalList, observableList);
+    assertSameListContents(normalList, strings);
+  }
+
+  private void assertSameListContents(List<?> list1, List<?> list2)
+  {
+    String string1 = list1.toString();
+    String string2 = list2.toString();
+    assertEquals(string1, string2);
+    assertEquals(list1.size(), list2.size());
+    for (int i = 0, size = list1.size(); i < size; ++i)
+    {
+      assertSame("Same object expected at index " + i + " of " + string1, list1.get(i), list2.get(i));
+    }
+  }
+
+  @Test
+  public void testMultiValued_NotUnique_Replace_PrimitiveAttributes()
+  {
+    Realm.runWithDefault(testRealm, new Runnable()
+      {
+        public void run()
+        {
+          _testMultiValued_NotUnique_Replace_PrimitiveAttributes();
+        }
+      });
+  }
+
+  private void _testMultiValued_NotUnique_Replace_PrimitiveAttributes()
+  {
+    A a = (A)resource.getContents().get(0);
+    a.getNotUniqueValues().clear();
+    Double d20 = 20.0;
+    Double d30 = 30.0;
+    a.getNotUniqueValues().add(d20);
+    a.getNotUniqueValues().add(d30);
+    a.getNotUniqueValues().add(d20);
+    a.getNotUniqueValues().add(d30);
+    IEMFEditListProperty prop = EMFEditProperties.list(editingDomain, EmfdbPackage.Literals.A__NOT_UNIQUE_VALUES);
+    IObservableList list = prop.observe(a);
+    list.set(1, 100.0);
+    assertEquals(100.0, list.get(1));
+  }
+
+  @Test
+  public void testMultiValued_Unique_Replace_PrimitiveAttributes()
+  {
+    Realm.runWithDefault(testRealm, new Runnable()
+      {
+        public void run()
+        {
+          _testMultiValued_Unique_Replace_PrimitiveAttributes();
+        }
+      });
+  }
+
+  private void _testMultiValued_Unique_Replace_PrimitiveAttributes()
+  {
+    A a = (A)resource.getContents().get(0);
+    IEMFEditListProperty prop = EMFEditProperties.list(editingDomain, EmfdbPackage.Literals.A__PRIMITIVE_VALUES);
+    IObservableList list = prop.observe(a);
+    assertEquals(30.0, list.get(1));
+    list.set(1, 100.0);
+    assertEquals(100.0, list.get(1));
+  }
+
+  public void testMultiValued_NotUnique_Remove_PrimitiveAttributes()
+  {
+    Realm.runWithDefault(testRealm, new Runnable()
+      {
+        public void run()
+        {
+          _testMultiValued_NotUnique_Remove_PrimitiveAttributes();
+        }
+      });
+  }
+
+  private void _testMultiValued_NotUnique_Remove_PrimitiveAttributes()
+  {
+    A a = (A)resource.getContents().get(0);
+    a.getNotUniqueValues().clear();
+    Double d20 = 20.0;
+    Double d30 = 30.0;
+    a.getNotUniqueValues().add(d20);
+    a.getNotUniqueValues().add(d30);
+    a.getNotUniqueValues().add(d20);
+    a.getNotUniqueValues().add(d30);
+    IEMFEditListProperty prop = EMFEditProperties.list(editingDomain, EmfdbPackage.Literals.A__NOT_UNIQUE_VALUES);
+    IObservableList list = prop.observe(a);
+    list.remove(3);
+    assertEquals(20.0, list.get(0));
+    assertEquals(30.0, list.get(1));
+    assertEquals(20.0, list.get(2));
+  }
+
+  public void testMultiValued_Unique_Remove_PrimitiveAttributes()
+  {
+    Realm.runWithDefault(testRealm, new Runnable()
+      {
+        public void run()
+        {
+          _testMultiValued_Unique_Remove_PrimitiveAttributes();
+        }
+      });
+  }
+
+  private void _testMultiValued_Unique_Remove_PrimitiveAttributes()
+  {
+    A a = (A)resource.getContents().get(0);
+    IEMFEditListProperty prop = EMFEditProperties.list(editingDomain, EmfdbPackage.Literals.A__PRIMITIVE_VALUES);
+    IObservableList list = prop.observe(a);
+    list.remove(1);
+    assertEquals(1, list.size());
+    assertEquals(20.0, list.get(0));
+  }
 }

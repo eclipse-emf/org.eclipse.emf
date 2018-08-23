@@ -10,6 +10,7 @@
  */
 package org.eclipse.emf.test.databinding;
 
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -37,6 +38,8 @@ import org.eclipse.core.databinding.observable.set.ISetChangeListener;
 import org.eclipse.core.databinding.observable.set.SetChangeEvent;
 import org.eclipse.core.databinding.observable.set.SetDiff;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.FeaturePath;
@@ -61,24 +64,25 @@ import org.junit.Test;
 public class EMFPropertiesTest
 {
   private Resource resource;
+
   private Realm testRealm;
+
   private SetDiff setDiff;
+
   private ListDiff listDiff;
+
   private MapDiff mapDiff;
 
   @Before
   public void setUp() throws Exception
   {
     ResourceSet resourceSet = new ResourceSetImpl();
-    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
-      Resource.Factory.Registry.DEFAULT_EXTENSION,
-      new XMIResourceFactoryImpl());
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
 
     URI uri = URI.createFileURI(TestUtil.getPluginDirectory("org.eclipse.emf.test.databinding") + "/model/A.xmi");
     resource = resourceSet.getResource(uri, true);
     testRealm = new Realm()
       {
-
         @Override
         public boolean isCurrent()
         {
@@ -121,7 +125,6 @@ public class EMFPropertiesTest
     IObservableList list = prop.observe(resource);
     list.addListChangeListener(new IListChangeListener()
       {
-
         public void handleListChange(ListChangeEvent event)
         {
           listDiff = event.diff;
@@ -201,7 +204,6 @@ public class EMFPropertiesTest
   {
     Realm.runWithDefault(testRealm, new Runnable()
       {
-
         public void run()
         {
           _testSetProperty();
@@ -236,7 +238,6 @@ public class EMFPropertiesTest
   {
     Realm.runWithDefault(testRealm, new Runnable()
       {
-
         public void run()
         {
           _testListPropertyOnSingleFeature();
@@ -290,7 +291,6 @@ public class EMFPropertiesTest
     IEMFListProperty prop = EMFProperties.list(EmfdbPackage.Literals.A__BLIST);
     IEMFValueProperty valueProp = prop.value(new ListElementAccess<Object>()
       {
-
         @Override
         public int getReadValueIndex(List<Object> list)
         {
@@ -353,7 +353,6 @@ public class EMFPropertiesTest
     IObservableMap map = prop.observe(a);
     map.addMapChangeListener(new IMapChangeListener()
       {
-
         public void handleMapChange(MapChangeEvent event)
         {
           mapDiff = event.diff;
@@ -454,13 +453,13 @@ public class EMFPropertiesTest
   public void test_sublistElement()
   {
     Realm.runWithDefault(testRealm, new Runnable()
-    {
-
-      public void run()
       {
-        _test_sublistElement();
-      }
-    });
+
+        public void run()
+        {
+          _test_sublistElement();
+        }
+      });
   }
 
   public void _test_sublistElement()
@@ -500,9 +499,83 @@ public class EMFPropertiesTest
         }
       });
 
-
     IEMFValueProperty detailValue = vProp3.value(EmfdbPackage.Literals.E__NAME);
     IObservableValue v = detailValue.observe(a);
     assertEquals(v.getValue(), "Last Element");
+  }
+
+  @Test
+  public void test_attributeListWithDuplicates()
+  {
+    Realm.runWithDefault(testRealm, new Runnable()
+      {
+        public void run()
+        {
+          _test_attributeListWithDuplicates();
+        }
+      });
+  }
+
+  public void _test_attributeListWithDuplicates()
+  {
+    A a = (A)resource.getContents().get(0);
+    EList<String> strings = a.getStrings();
+
+    IEMFListProperty stringsListProperty = EMFProperties.list(EmfdbPackage.Literals.A__STRINGS);
+    IObservableList observableList = stringsListProperty.observe(a);
+    EList<String> normalList = new BasicEList<String>();
+
+    String value1 = "value1";
+    String value1Copy = new String(value1);
+    String value2 = "value2";
+    String value3 = "value3";
+
+    observableList.add(value1);
+    observableList.add(value2);
+    observableList.add(value1Copy);
+    observableList.add(3, value2);
+
+    normalList.add(value1);
+    normalList.add(value2);
+    normalList.add(value1Copy);
+    normalList.add(3, value2);
+
+    assertSameListContents(normalList, observableList);
+    assertSameListContents(normalList, strings);
+
+    observableList.set(2, value3);
+    normalList.set(2, value3);
+
+    assertSameListContents(normalList, observableList);
+    assertSameListContents(normalList, strings);
+
+    observableList.remove(2);
+    normalList.remove(2);
+
+    assertSameListContents(normalList, observableList);
+    assertSameListContents(normalList, strings);
+
+    // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=478053 that 
+    //  EList.move(int, int) and 
+    //  IObservableList.move(int, int) 
+    // have opposite meaning for source and target.
+    //
+    observableList.move(2, 0);
+    normalList.move(0, 2);
+
+    assertSameListContents(normalList, observableList);
+    assertSameListContents(normalList, strings);
+  }
+
+  private void assertSameListContents(List<?> list1, List<?> list2)
+  {
+    String string1 = list1.toString();
+    String string2 = list2.toString();
+    assertEquals(string1, string2);
+    assertEquals(list1.size(), list2.size());
+    for (int i = 0, size = list1.size(); i < size; ++i)
+    {
+      assertSame("Same object expected at index " + i + " of " + string1, list1.get(i), list2.get(i));
+    }
   }
 }

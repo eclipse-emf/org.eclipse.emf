@@ -15,10 +15,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
-import org.eclipse.emf.test.databinding.emfdb.A;
-import org.eclipse.emf.test.databinding.emfdb.B;
-import org.eclipse.emf.test.databinding.emfdb.D;
-import org.eclipse.emf.test.databinding.emfdb.E;
+import org.eclipse.emf.test.databinding.emfdb.*;
 import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
 
 /**
@@ -80,6 +77,7 @@ public class EmfdbSwitch<T> extends Switch<T>
    * @generated
    */
   @Override
+  @SuppressWarnings("all")
   protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
@@ -100,7 +98,7 @@ public class EmfdbSwitch<T> extends Switch<T>
       }
       case EmfdbPackage.C:
       {
-        Map.Entry<String, String> c = (Map.Entry<String, String>)theEObject;
+        @SuppressWarnings("unchecked") Map.Entry<String, String> c = (Map.Entry<String, String>)theEObject;
         T result = caseC(c);
         if (result == null) result = defaultCase(theEObject);
         return result;

@@ -59,6 +59,15 @@ public class MoveCommand extends AbstractOverrideableCommand
     return domain.createCommand(MoveCommand.class, new CommandParameter(owner, feature, value, index));
   }
 
+  /**
+   * This creates a command to move the value at the source index to the target index in the specified feature of the owner.
+   * The feature should typically not be null because the domain likely can't deduce it.
+   * @since 2.15
+   */
+  public static Command create(EditingDomain domain, Object owner, Object feature, int sourceIndex, int targetIndex)
+  {
+    return create(domain, owner, feature, CommandParameter.Indices.create(sourceIndex), targetIndex);
+  }
 
   /**
    * This caches the label.
@@ -242,10 +251,53 @@ public class MoveCommand extends AbstractOverrideableCommand
       ownerList != null  && 
          index >= 0 && 
          index < ownerList.size() &&
-         (oldIndex == -1 ? ownerList.contains(value) : oldIndex >= 0 && oldIndex < ownerList.size()) && 
+         prepareValue() &&
          (owner == null || !domain.isReadOnly(owner.eResource()));
 
     return result;
+  }
+
+  /**
+   * Called by {@link #prepare()} if the {@link #ownerList} is not {@code null} and the {@link #index} is a valid index for the {@code ownerList}.
+   * <p>
+   * It handles the case that the {@link #value} is an {@link CommandParameter.Indices},
+   * in which case  it must specify a single {@link CommandParameter.Indices#getIndices() index}
+   * and that index but be valid with respect to the {@code ownerList}.
+   * The {@link #value} is updated with the value at that index,
+   * and the {@link #oldIndex} is updated to be that index.
+   * </p>
+   *
+   * @since 2.15
+   * @returns {@code true} if the {@code value} and {@code oldIndex} are valid with respect to the {@code ownerList}.
+   */
+  protected boolean prepareValue()
+  {
+    if (value instanceof CommandParameter.Indices)
+    {
+      int[] indices = ((CommandParameter.Indices)value).getIndices();
+      if (indices.length != 1)
+      {
+        return false;
+      }
+      else
+      {
+        int oldIndex = indices[0];
+        if (oldIndex < 0 || oldIndex >= ownerList.size())
+        {
+          return false;
+        }
+        else
+        {
+          this.oldIndex = oldIndex;
+          value = ownerList.get(oldIndex);
+          return true;
+        }
+      }
+    }
+    else
+    {
+       return (oldIndex == -1 ? ownerList.contains(value) : oldIndex >= 0 && oldIndex < ownerList.size());
+    }
   }
 
   @Override

@@ -102,13 +102,40 @@ public interface EmfdbPackage extends EPackage
   int A__CMAP = 2;
 
   /**
+   * The feature id for the '<em><b>Strings</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int A__STRINGS = 3;
+
+  /**
+   * The feature id for the '<em><b>Primitive Values</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int A__PRIMITIVE_VALUES = 4;
+
+  /**
+   * The feature id for the '<em><b>Not Unique Values</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int A__NOT_UNIQUE_VALUES = 5;
+
+  /**
    * The number of structural features of the '<em>A</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int A_FEATURE_COUNT = 3;
+  int A_FEATURE_COUNT = 6;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.test.databinding.emfdb.impl.BImpl <em>B</em>}' class.
@@ -296,6 +323,39 @@ public interface EmfdbPackage extends EPackage
   EReference getA_Cmap();
 
   /**
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.databinding.emfdb.A#getStrings <em>Strings</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Strings</em>'.
+   * @see org.eclipse.emf.test.databinding.emfdb.A#getStrings()
+   * @see #getA()
+   * @generated
+   */
+  EAttribute getA_Strings();
+
+  /**
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.databinding.emfdb.A#getPrimitiveValues <em>Primitive Values</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Primitive Values</em>'.
+   * @see org.eclipse.emf.test.databinding.emfdb.A#getPrimitiveValues()
+   * @see #getA()
+   * @generated
+   */
+  EAttribute getA_PrimitiveValues();
+
+  /**
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.databinding.emfdb.A#getNotUniqueValues <em>Not Unique Values</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Not Unique Values</em>'.
+   * @see org.eclipse.emf.test.databinding.emfdb.A#getNotUniqueValues()
+   * @see #getA()
+   * @generated
+   */
+  EAttribute getA_NotUniqueValues();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.test.databinding.emfdb.B <em>B</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -470,6 +530,30 @@ public interface EmfdbPackage extends EPackage
      * @generated
      */
     EReference A__CMAP = eINSTANCE.getA_Cmap();
+
+    /**
+     * The meta object literal for the '<em><b>Strings</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute A__STRINGS = eINSTANCE.getA_Strings();
+
+    /**
+     * The meta object literal for the '<em><b>Primitive Values</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute A__PRIMITIVE_VALUES = eINSTANCE.getA_PrimitiveValues();
+
+    /**
+     * The meta object literal for the '<em><b>Not Unique Values</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute A__NOT_UNIQUE_VALUES = eINSTANCE.getA_NotUniqueValues();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.test.databinding.emfdb.impl.BImpl <em>B</em>}' class.

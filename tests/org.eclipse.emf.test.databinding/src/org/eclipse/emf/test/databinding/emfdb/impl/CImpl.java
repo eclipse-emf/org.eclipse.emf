@@ -228,7 +228,7 @@ public class CImpl extends EObjectImpl implements BasicEMap.Entry<String,String>
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (key: ");
     result.append(key);
     result.append(", value: ");
@@ -316,6 +316,7 @@ public class CImpl extends EObjectImpl implements BasicEMap.Entry<String,String>
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("all")
   public EMap<String, String> getEMap()
   {
     EObject container = eContainer();

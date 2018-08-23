@@ -20,4 +20,10 @@
       value="value 1"/>
   <cmap key="key 2"
       value="value 2"/>
+  <primitiveValues>20.0</primitiveValues>
+  <primitiveValues>30.0</primitiveValues>
+  <notUniqueValues>20.0</notUniqueValues>
+  <notUniqueValues>30.0</notUniqueValues>
+  <notUniqueValues>20.0</notUniqueValues>
+  <notUniqueValues>30.0</notUniqueValues>
 </emfdb:A>

@@ -43,7 +43,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * <p>
  * It can also be used as a near-equivalent to the call
  * <pre>
- *   ((EList)extent).removeAll((Collection)collection);
+ *   ((EList)list).removeAll((Collection)collection);
  * </pre>
  * which is how root objects are removed from the contents of a resource.
  *
@@ -66,7 +66,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
    */
   public static Command create(EditingDomain domain, Object value) 
   {
-    return create(domain, Collections.singleton(value));
+    return create(domain, null, null, Collections.singleton(value));
   }
 
   /**
@@ -86,12 +86,31 @@ public class RemoveCommand extends AbstractOverrideableCommand
   }
 
   /**
+   * This creates a command to remove the value at the specified index from the specified feature of the owner.
+   * @since 2.15
+   */
+  public static Command create(EditingDomain domain, Object owner, Object feature, int index)
+  {
+    return create(domain, owner, feature, Collections.singleton(CommandParameter.Indices.create(index)));
+  }
+  
+  /**
+   * This creates a command to remove the values at the specified indices from the specified feature of the owner.
+   * @since 2.15
+   */
+  public static Command create(EditingDomain domain, Object owner, Object feature, int... indices)
+  {
+    return create(domain, owner, feature, Collections.singleton(CommandParameter.Indices.create(indices)));
+  }
+
+  /**
    * This creates a command to remove a collection of values from the specified feature of the owner.
    */
   public static Command create(final EditingDomain domain, final Object owner, final Object feature, final Collection<?> collection)
   {
     return domain.createCommand(RemoveCommand.class, new CommandParameter(owner, feature, collection));
   }
+
 
   /**
    * This caches the label.
@@ -150,6 +169,24 @@ public class RemoveCommand extends AbstractOverrideableCommand
   }
 
   /**
+   * This constructs a primitive command to remove the value at the specified index from the specified feature of the owner.
+   * @since 2.15
+   */
+  public RemoveCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, int index) 
+  {
+    this(domain, owner, feature, Collections.singleton(CommandParameter.Indices.create(index)));
+  }
+  
+  /**
+   * This constructs a primitive command to remove the values at the specified indices from the specified feature of the owner.
+   * @since 2.15
+   */
+  public RemoveCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, int... indices) 
+  {
+    this(domain, owner, feature, Collections.singleton(CommandParameter.Indices.create(indices)));
+  }
+
+  /**
    * This constructs a primitive command to remove a collection of values from the specified feature of the owner.
    */
   public RemoveCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection<?> collection)
@@ -166,7 +203,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
   }
 
   /**
-   * This constructs a primitive command to remove a particular value from the specified extent.
+   * This constructs a primitive command to remove a particular value from the specified list.
    */
   public RemoveCommand(EditingDomain domain, EList<?> list, Object value) 
   {
@@ -174,7 +211,25 @@ public class RemoveCommand extends AbstractOverrideableCommand
   }
 
   /**
-   * This constructs a primitive command to remove a collection of values from the specified extent.
+   * This constructs a primitive command to remove the value at the specified index from the specified list.
+   * @since 2.15
+   */
+  public RemoveCommand(EditingDomain domain, EList<?> list, int index) 
+  {
+    this(domain, list, Collections.singleton(CommandParameter.Indices.create(index)));
+  }
+  
+  /**
+   * This constructs a primitive command to remove the values at the specified indices from the specified list.
+   * @since 2.15
+   */
+  public RemoveCommand(EditingDomain domain, EList<?> list, int... indices) 
+  {
+    this(domain, list, Collections.singleton(CommandParameter.Indices.create(indices)));
+  }
+
+  /**
+   * This constructs a primitive command to remove a collection of values from the specified list.
    */
   public RemoveCommand(EditingDomain domain, EList<?> list, Collection<?> collection)
   {
@@ -239,84 +294,134 @@ public class RemoveCommand extends AbstractOverrideableCommand
     boolean result =
       ownerList != null && 
         collection != null && 
-        ownerList.containsAll(collection) && 
+        prepareCollection() && 
         (owner == null || !domain.isReadOnly(owner.eResource()));
 
     return result;
   }
 
+  /**
+   * Called by {@link #prepare()} if the {@link #ownerList} and the {@link #collection} are both not {@code null}.
+   *
+   * @return {@code} true if the collection is valid,
+   * i.e., either all its values are contained by the owner list,
+   * or it contains a single {@link CommandParameter.Indices} instance all of whose {@link CommandParameter.Indices#getClass() indices} are within the bounds of the list.
+   *
+   * @since 2.15
+   */
+  protected boolean prepareCollection()
+  {
+    if (ownerList.containsAll(collection))
+    {
+      return true;
+    }
+    else if (collection.size() != 1)
+    {
+      return false;
+    }
+    else
+    {
+      Object value = collection.iterator().next();
+      if (value instanceof CommandParameter.Indices)
+      {
+        int[] indices = ((CommandParameter.Indices)value).getIndices();
+        Arrays.sort(indices);
+        Collection<Object> collection = new ArrayList<Object>();
+        int size = ownerList.size();
+        for (int i : indices)
+        {
+          if (i < 0 || i >= size)
+          {
+            return false;
+          }
+          collection.add(ownerList.get(i));
+        }
+        this.indices = indices;
+        this.collection = collection;
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+  }
+
   @Override
   public void doExecute() 
   {
-    // Iterate over the owner list twice, first matching objects from the collection by identity (==), then matching
-    // objects by value equality (.equals()). The positions of matched objects in the owner list are recorded, and
-    // the objects are stored in the same order. The lists are then merged to form a final, in-order list of objects
-    // and corresponding indices in ownerList. This is very important for undo to interpret the indices correctly.
-    // Also, this yields exactly one object removed for each object in the collection, with preference given to
-    // identity over value equality.
-    //
-    List<Object> identity = new ArrayList<Object>(collection.size());
-    int[] identityIndices = new int[collection.size()];
-
-    int i = 0;
-
-    for (ListIterator<Object> ownedObjects = ownerList.listIterator(); ownedObjects.hasNext(); )
+    if (indices == null)
     {
-      Object ownedObject = ownedObjects.next();
-
-      // If this owned object is one from the collection...
+      // Iterate over the owner list twice, first matching objects from the collection by identity (==), then matching
+      // objects by value equality (.equals()). The positions of matched objects in the owner list are recorded, and
+      // the objects are stored in the same order. The lists are then merged to form a final, in-order list of objects
+      // and corresponding indices in ownerList. This is very important for undo to interpret the indices correctly.
+      // Also, this yields exactly one object removed for each object in the collection, with preference given to
+      // identity over value equality.
       //
-      if (containsExact(collection, ownedObject))
+      List<Object> identity = new ArrayList<Object>(collection.size());
+      int[] identityIndices = new int[collection.size()];
+  
+      int i = 0;
+  
+      for (ListIterator<Object> ownedObjects = ownerList.listIterator(); ownedObjects.hasNext(); )
       {
-        // Remove the object from the collection and add it to the identity list.
+        Object ownedObject = ownedObjects.next();
+  
+        // If this owned object is one from the collection...
         //
-        removeExact(collection, ownedObject);
-        identity.add(ownedObject);
-
-        // Record the index.
-        //
-        identityIndices[i++] = ownedObjects.previousIndex();
+        if (containsExact(collection, ownedObject))
+        {
+          // Remove the object from the collection and add it to the identity list.
+          //
+          removeExact(collection, ownedObject);
+          identity.add(ownedObject);
+  
+          // Record the index.
+          //
+          identityIndices[i++] = ownedObjects.previousIndex();
+        }
       }
-    }
-
-    while (i < identityIndices.length)
-    {
-      identityIndices[i++] = -1;
-    }
-
-    // Second pass: match by value equality.
-    //
-    List<Object> equality = new ArrayList<Object>(collection.size());
-    int[] equalityIndices = new int[collection.size()];
-    i = 0;
-
-    for (ListIterator<Object> ownedObjects = ownerList.listIterator(); ownedObjects.hasNext(); )
-    {
-      Object ownedObject = ownedObjects.next();
-      int index = ownedObjects.previousIndex();
-
-      // If this owned object is equal to one from the collection...
+  
+      while (i < identityIndices.length)
+      {
+        identityIndices[i++] = -1;
+      }
+  
+      // Second pass: match by value equality.
       //
-      if (collection.contains(ownedObject) && !contains(identityIndices, index))
+      List<Object> equality = new ArrayList<Object>(collection.size());
+      int[] equalityIndices = new int[collection.size()];
+      i = 0;
+  
+      for (ListIterator<Object> ownedObjects = ownerList.listIterator(); ownedObjects.hasNext(); )
       {
-        // Remove the object from the collection and add it to the equality list. 
+        Object ownedObject = ownedObjects.next();
+        int index = ownedObjects.previousIndex();
+  
+        // If this owned object is equal to one from the collection...
         //
-        collection.remove(ownedObject);
-        equality.add(ownedObject);
-
-        // Record the index.
-        //
-        equalityIndices[i++] = index;
+        if (collection.contains(ownedObject) && !contains(identityIndices, index))
+        {
+          // Remove the object from the collection and add it to the equality list. 
+          //
+          collection.remove(ownedObject);
+          equality.add(ownedObject);
+  
+          // Record the index.
+          //
+          equalityIndices[i++] = index;
+        }
       }
+  
+      // Merge the lists.
+      //
+      merge(identity, identityIndices, equality, equalityIndices);
     }
-
-    // Merge the lists.
-    //
-    merge(identity, identityIndices, equality, equalityIndices);
 
     // Remove objects from the owner list by index, starting from the end.
     //
-    for (i = indices.length - 1; i >= 0; i--)
+    for (int i = indices.length - 1; i >= 0; i--)
     {
       ownerList.remove(indices[i]);
     }

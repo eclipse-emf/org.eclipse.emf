@@ -12,6 +12,7 @@ package org.eclipse.emf.edit.command;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.domain.EditingDomain;
 
 
 /**
@@ -350,5 +352,72 @@ public class CommandParameter
     }
 
     return result.toString();
+  }
+
+  /**
+   * A class used to wrap indices that are used to specify commands that act upon index-specific elements in a list.
+   * This is particularly significant for lists with non-unique values.
+   * In this case, only the index unambiguously specifies the effect of operations such as {@link List#remove(int)} and {@link EList#move(int, int)}.
+   * <p>
+   * An instance can be passed as a {@link CommandParameter#getValue()},
+   * or as the single value of a {@link CommandParameter#getCollection()}.
+   * </p>
+   *
+   * @see MoveCommand#create(EditingDomain, Object, Object, int, int)
+   * @see RemoveCommand#create(EditingDomain, Object, Object, int)
+   * @see RemoveCommand#create(EditingDomain, Object, Object, int...)
+   *
+   * @since 2.15
+   */
+  public static final class Indices
+  {
+    public static Indices create(int... indices)
+    {
+      return new Indices(indices);
+    }
+
+    private final int[] indices;
+
+    private Indices (int... indices)
+    {
+      this.indices = new int[indices.length];
+      System.arraycopy(indices, 0, this.indices, 0, indices.length);
+    }
+
+    public int[] getIndices()
+    {
+      int[] indices = new int[this.indices.length];
+      System.arraycopy(this.indices, 0, indices, 0, indices.length);
+      return indices;
+    }
+
+    @Override
+    public String toString()
+    {
+      return Arrays.asList(indices).toString();
+    }
+
+    @Override
+    public int hashCode()
+    {
+      return Arrays.hashCode(indices);
+    }
+
+    @Override
+    public boolean equals(Object that)
+    {
+      if (this == that)
+      {
+        return true;
+      }
+      else if (that instanceof Indices)
+      {
+        return Arrays.equals(indices, ((Indices)that).indices);
+      }
+      else
+      {
+        return false;
+      }
+    }
   }
 }
