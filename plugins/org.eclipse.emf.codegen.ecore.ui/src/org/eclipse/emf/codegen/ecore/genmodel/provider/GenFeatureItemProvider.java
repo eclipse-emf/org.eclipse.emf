@@ -451,7 +451,7 @@ public class GenFeatureItemProvider
          getString("_UI_GenFeature_get_description"),
          GenModelPackage.Literals.GEN_FEATURE__GET,
          true,
-         false,
+         true,
          false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),

@@ -372,7 +372,7 @@
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to suppress the generated unset accessor from the interface"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/suppressedUnsetVisibility"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The body to be generated for the get-accessor method of the feature in the implementation class"
-          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/get"/>
+          propertyMultiLine="true" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/get"/>
       <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="A URI that specifies a registered property editor factory that will be used to create property editors"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/propertyEditorFactory"/>
     </genClasses>
@@ -407,9 +407,9 @@
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           propertyDescription="The Ecore model element for this data type" ecoreFeature="ecore:EReference GenModel.ecore#//GenDataType/ecoreDataType"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The body to be generated for the create-from-string method of the data type in the factory implementation class"
-          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenDataType/create"/>
+          propertyMultiLine="true" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenDataType/create"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The body to be generated for the convert-to-string method of the data type in the factory implementation class"
-          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenDataType/convert"/>
+          propertyMultiLine="true" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenDataType/convert"/>
       <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="A URI that specifies a registered property editor factory that will be used to create property editors for attributes of this type"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenDataType/propertyEditorFactory"/>
     </genClasses>
@@ -422,7 +422,7 @@
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to suppress the generated method from the interface"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenOperation/suppressedVisibility"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The body to be generated for the method of the operation in the implementation class"
-          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenOperation/body"/>
+          propertyMultiLine="true" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenOperation/body"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenParameter">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenParameter/genOperation"/>

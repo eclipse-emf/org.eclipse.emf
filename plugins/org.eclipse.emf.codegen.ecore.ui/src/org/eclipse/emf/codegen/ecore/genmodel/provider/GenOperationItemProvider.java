@@ -156,7 +156,7 @@ public class GenOperationItemProvider
          getString("_UI_GenOperation_body_description"),
          GenModelPackage.Literals.GEN_OPERATION__BODY,
          true,
-         false,
+         true,
          false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),
