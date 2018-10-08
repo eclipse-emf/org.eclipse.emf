@@ -392,6 +392,8 @@
       <requirement
           name="org.eclipse.egit.feature.group"
           optional="true"/>
+      <requirement
+          name="org.eclipse.equinox.ds"/>
       <repositoryList
           name="2018-12">
         <repository

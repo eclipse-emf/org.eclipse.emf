@@ -115,7 +115,7 @@ public class XcoreEditor extends XtextEditor
   protected ComposedAdapterFactory adapterFactory;
 
   @Override
-  @SuppressWarnings("rawtypes")
+  @SuppressWarnings("all")
   public Object getAdapter(Class type)
   {
     if (type.equals(IPropertySheetPage.class))
