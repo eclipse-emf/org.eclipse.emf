@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.xsd.doc"
       label="%featureName"
-      version="2.11.0.qualifier"
+      version="2.12.0.qualifier"
       provider-name="%providerName"
       license-feature="org.eclipse.xsd.license"
       license-feature-version="2.10.0">
