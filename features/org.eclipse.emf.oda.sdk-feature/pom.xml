@@ -12,7 +12,19 @@
 
   <groupId>org.eclipse.emf.features</groupId>
   <artifactId>org.eclipse.emf.oda.sdk</artifactId>
-  <version>1.6.0-SNAPSHOT</version>
+  <version>1.7.0-SNAPSHOT</version>
   <packaging>eclipse-feature</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho.extras</groupId>
+        <artifactId>tycho-source-feature-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

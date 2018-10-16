@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.gwt.sdk"
       label="%featureName"
-      version="2.12.0.qualifier"
+      version="2.13.0.qualifier"
       provider-name="%providerName"
       license-feature="org.eclipse.emf.license"
       license-feature-version="2.10.0">
@@ -30,6 +30,10 @@ http://www.eclipse.org/legal/epl-v20.html
 
    <includes
          id="org.eclipse.emf.gwt"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.gwt.source"
          version="0.0.0"/>
 
 </feature>
