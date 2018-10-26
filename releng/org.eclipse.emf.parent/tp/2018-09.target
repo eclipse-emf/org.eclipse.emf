@@ -17,8 +17,8 @@
 
       <unit id="org.eclipse.nebula.widgets.cdatetime" version="0.0.0"/>
 
-      <repository location="http://download.eclipse.org/eclipse/updates/4.9"/>
-      <repository location="http://download.eclipse.org/releases/2018-09"/>
+      <repository location="http://download.eclipse.org/eclipse/updates/4.9/R-4.9-201809060745"/>
+      <repository location="http://download.eclipse.org/releases/2018-09/201809191002"/>
       <repository location="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
 
       <repository location="https://dl.google.com/eclipse/plugin/4.6"/>
