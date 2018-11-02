@@ -469,27 +469,31 @@ public abstract class EModelElementImpl extends MinimalEObjectImpl.Container imp
         }
 
         name = "%".equals(name) ? null : URI.decode(name);
-    
-        // Look for a matching named element.
-        //
-        for (Object object : eContents())
-        {
-          if (object instanceof ENamedElement)
-          {
-            ENamedElement eNamedElement = (ENamedElement)object;
-            String otherName = eNamedElement.getName();
-            if ((name == null ? otherName == null : name.equals(otherName)) && count-- == 0)
-            {
-              return eNamedElement;
-            }
-          }
-        }
-  
-        return null;
+
+        return eObjectForURIFragmentNameSegment(name, count);
       }
     }
     
     return super.eObjectForURIFragmentSegment(uriFragmentSegment);
   }
 
+  EObject eObjectForURIFragmentNameSegment(String name, int count)
+  {
+    // Look for a matching named element.
+    //
+    for (Object object : eContents())
+    {
+      if (object instanceof ENamedElement)
+      {
+        ENamedElement eNamedElement = (ENamedElement)object;
+        String otherName = eNamedElement.getName();
+        if ((name == null ? otherName == null : name.equals(otherName)) && count-- == 0)
+        {
+          return eNamedElement;
+        }
+      }
+    }
+
+    return null;
+  }
 }

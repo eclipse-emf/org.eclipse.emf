@@ -11,6 +11,7 @@
 package org.eclipse.emf.test.core.ecore;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -19,12 +20,18 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.Test;
 
@@ -143,5 +150,40 @@ public class EcoreTest
       assertionFailure = true;
     }
     assertTrue(assertionFailure);
+  }
+
+  /**
+   * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=540041">Bugzilla 540041</a>
+   */
+  @Test
+  public void testCircularProxy()
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+    URI uri = URI.createURI("CircularProxy.ecore");
+    Resource resource = resourceSet.createResource(uri);
+    EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
+    resource.getContents().add(ePackage);
+
+    EClass circularProxyEClass = EcoreFactory.eINSTANCE.createEClass();
+    ((InternalEObject)circularProxyEClass).eSetProxyURI(uri.appendFragment("//Class"));
+    ePackage.getEClassifiers().add(circularProxyEClass);
+
+    EClass validEClass = EcoreFactory.eINSTANCE.createEClass();
+    validEClass.setName("Valid");
+    ePackage.getEClassifiers().add(validEClass);
+
+    EPackage eSubPackage = EcoreFactory.eINSTANCE.createEPackage();
+    ((InternalEObject)eSubPackage).eSetProxyURI(uri.appendFragment("//package"));
+    ePackage.getESubpackages().add(eSubPackage);
+
+    try
+    {
+      EObject eObject = resourceSet.getEObject(uri.appendFragment("//Valid"), false);
+      assertSame(validEClass, eObject);
+    }
+    catch (StackOverflowError error)
+    {
+      fail("Stack overflow");
+    }
   }
 }

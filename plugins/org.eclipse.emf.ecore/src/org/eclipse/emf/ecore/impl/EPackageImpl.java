@@ -14,6 +14,7 @@ package org.eclipse.emf.ecore.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -423,6 +424,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
           protected void didChange()
           {
             eNameToEClassifierMap = null;
+            eNameToENamedElementMaps = null;
           }
         };
     }
@@ -530,13 +532,23 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public EList<EPackage> getESubpackages()
   {
     if (eSubpackages == null)
     {
-      eSubpackages = new EObjectContainmentWithInverseEList.Resolving<EPackage>(EPackage.class, this, EcorePackage.EPACKAGE__ESUBPACKAGES, EcorePackage.EPACKAGE__ESUPER_PACKAGE);
+      eSubpackages =
+        new EObjectContainmentWithInverseEList.Resolving<EPackage>(EPackage.class, this, EcorePackage.EPACKAGE__ESUBPACKAGES, EcorePackage.EPACKAGE__ESUPER_PACKAGE)
+        {
+          private static final long serialVersionUID = 1L;
+
+          @Override
+          protected void didChange()
+          {
+            eNameToENamedElementMaps = null;
+          }
+        };
     }
     return eSubpackages;
   }
@@ -1867,11 +1879,105 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     this.ePackageExtendedMetaData = ePackageExtendedMetaData;
   }
 
-  @Override
-  public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
+  private static final class Computation
   {
-    EObject result = getEClassifierGen(uriFragmentSegment);
-    return result != null ? result : super.eObjectForURIFragmentSegment(uriFragmentSegment);
+    private static final ThreadLocal<Map<EPackage, Computation>> COMPUTATION_IN_PROGRESS =
+        new ThreadLocal<Map<EPackage, Computation>>()
+        {
+          @Override
+          protected Map<EPackage, Computation> initialValue()
+          {
+            return new HashMap<EPackage, Computation>();
+          }
+        };
+
+    public static final Computation get(EPackage ePackage)
+    {
+      Map<EPackage, Computation> computationInProgress = COMPUTATION_IN_PROGRESS.get();
+      Computation computation = computationInProgress.get(ePackage);
+      if (computation == null)
+      {
+        computation = new Computation(ePackage, computationInProgress);
+        computationInProgress.put(ePackage, computation);
+      }
+      return computation;
+    }
+
+    private final EPackage ePackage;
+
+    private final Map<EPackage, Computation> computationInProgress;
+
+    private final Iterator<EObject> iterator;
+
+    private final List<Map<String, ENamedElement>> result = new ArrayList<Map<String,ENamedElement>>();
+
+    public Computation(EPackage ePackage, Map<EPackage, Computation> computationInProgress)
+    {
+      this.ePackage = ePackage;
+      this.computationInProgress = computationInProgress;
+      iterator = ePackage.eContents().iterator();
+      result.add(new HashMap<String, ENamedElement>());
+    }
+
+    public List<Map<String, ENamedElement>> compute()
+    {
+      try
+      {
+        while (iterator.hasNext())
+        {
+          EObject eObject = iterator.next();
+          if (eObject instanceof ENamedElement)
+          {
+            ENamedElement eNamedElement = (ENamedElement)eObject;
+            Map<String, ENamedElement> target = result.get(0);
+            int count = 0;
+            String name = eNamedElement.getName();
+            while (target.containsKey(name))
+            {
+              if (result.size() >= ++count)
+              {
+                target = new HashMap<String, ENamedElement>();
+                result.add(target);
+              }
+              else
+              {
+                target = result.get(count);
+              }
+            }
+            target.put(name, eNamedElement);
+          }
+        }
+
+        return result;
+      }
+      finally
+      {
+        computationInProgress.remove(ePackage);
+      }
+    }
+  }
+
+  private List<Map<String, ENamedElement>> eNameToENamedElementMaps;
+
+  @Override
+  EObject eObjectForURIFragmentNameSegment(String name, int count)
+  {
+    if (eNameToENamedElementMaps == null)
+    {
+      Computation computation = Computation.get(this);
+      eNameToENamedElementMaps = computation.compute();
+    }
+    return count >= 0 || count < eNameToENamedElementMaps.size() ? eNameToENamedElementMaps.get(count).get(name) : null;
+  }
+
+  @Override
+  public void setName(String newName)
+  {
+    if (eContainer instanceof EPackageImpl)
+    {
+      ((EPackageImpl)eContainer).eNameToENamedElementMaps = null;
+    }
+    super.setName(newName);
   }
 
   /**
