@@ -21,6 +21,7 @@ import java.util.Map;
 import org.eclipse.emf.common.ui.viewer.IUndecoratingLabelProvider;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
@@ -36,19 +37,14 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
@@ -72,6 +68,8 @@ public abstract class ViewerPane implements IPropertyListener, Listener
   protected Viewer viewer;
   protected Composite container;
   boolean isActive;
+  Font normalTitleFont;
+  Font activeTitleFont;
   protected CLabel titleLabel;
   protected ToolBar actionBar;
   protected ToolBarManager toolBarManager;
@@ -134,7 +132,6 @@ public abstract class ViewerPane implements IPropertyListener, Listener
    */
   public ViewerPane(IWorkbenchPage page, IWorkbenchPart part) 
   {
-    WorkbenchColors.startup();
     this.page = page;
     this.part = part;
 
@@ -342,6 +339,9 @@ public abstract class ViewerPane implements IPropertyListener, Listener
     {
       // Title.  
       titleLabel = new CLabel(control, SWT.SHADOW_NONE);
+      normalTitleFont = titleLabel.getFont();
+      activeTitleFont = getActiveFont(normalTitleFont);
+
       hookFocus(titleLabel);
       titleLabel.setAlignment(SWT.LEFT);
       titleLabel.setBackground(null, null);
@@ -354,31 +354,6 @@ public abstract class ViewerPane implements IPropertyListener, Listener
              if (e.button == 3)
              {
                showTitleLabelMenu(e);
-             }
-           }
-         });
-      titleLabel.addPaintListener
-        (new PaintListener()
-         {
-           public void paintControl(PaintEvent event)
-           {
-             if (isActive)
-             {
-               Rectangle clientRectangle = titleLabel.getClientArea();
-               event.gc.drawImage
-                 (WorkbenchColors.getGradient((event.gc.getStyle() & SWT.LEFT_TO_RIGHT) != 0), 
-                  10, 0, 10, 10, 
-                  0, 0, 24, clientRectangle.height);
-  
-               Image image = titleLabel.getImage();
-               if (image != null) 
-               {
-                 Rectangle imageRectangle = image.getBounds();
-                 event.gc.drawImage
-                   (image, 
-                    0, 0, imageRectangle.width, imageRectangle.height,
-                    3, (clientRectangle.height-imageRectangle.height) / 2, imageRectangle.width, imageRectangle.height);
-               }
              }
            }
          });
@@ -491,24 +466,9 @@ public abstract class ViewerPane implements IPropertyListener, Listener
 
       if (titleLabel != null)
       {
-        if (inFocus) 
-        {
-          //titleLabel.setBackground(WorkbenchColors.getActiveGradient(), WorkbenchColors.getActiveGradientPercents());
-          // titleLabel.setForeground(titleLabel.getDisplay().getSystemColor(SWT.COLOR_TITLE_FOREGROUND));
-          titleLabel.update();
-          titleLabel.redraw();
-          //actionBar.setBackground(WorkbenchColors.getActiveGradientEnd());
-          //systemBar.setBackground(WorkbenchColors.getActiveGradientEnd());
-        }
-        else 
-        {
-          //titleLabel.setBackground(null, null);
-          // titleLabel.setForeground(null);
-          titleLabel.update();
-          titleLabel.redraw();
-          //actionBar.setBackground(WorkbenchColors.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-          //systemBar.setBackground(WorkbenchColors.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-        }
+        titleLabel.setFont(inFocus ? activeTitleFont : normalTitleFont);
+        titleLabel.update();
+        titleLabel.redraw();
       }
     }
   }
@@ -636,189 +596,19 @@ public abstract class ViewerPane implements IPropertyListener, Listener
     menu.setLocation(point.x, point.y);
     menu.setVisible(true);
   }
-}
-
-
-/**
- * EATM I just ripped this off and it's still a big mess.
- *
- * This class manages the common workbench colors.  
- */
-class WorkbenchColors 
-{
-  static private boolean init = false;
-  static private Map<Object, Color> colorMap;
-  static private Color [] activeGradient;
-  static private int [] activePercentages;
-  final static private String CLR_GRAD_START = "clrGradStart";
-  final static private String CLR_GRAD_MID = "clrGradMid";
-  final static private String CLR_GRAD_END = "clrGradEnd";
-
-/**
- * Returns the active gradient.
- */
-static public Color [] getActiveGradient() {
-  return activeGradient;
-}
-/**
- * Returns the active gradient start color.
- */
-static public Color getActiveGradientStart() {
-  Color clr = colorMap.get(CLR_GRAD_START);
-  return clr;
-}
-/**
- * Returns the active gradient end color.
- */
-static public Color getActiveGradientEnd() {
-  Color clr = colorMap.get(CLR_GRAD_END);
-  return clr;
-}
-/**
- * Returns the active gradient percents.
- */
-static public int [] getActiveGradientPercents() {
-  return activePercentages;
-}
-/**
- * Returns a color identified by an RGB value.
- */
-static public Color getColor(RGB rgbValue) {
-  Color clr = colorMap.get(rgbValue);
-  if (clr == null) {
-    Display disp = Display.getDefault();
-    clr = new Color(disp, rgbValue);
-    colorMap.put(rgbValue, clr);
-  }
-  return clr;
-}
-/**
- * Returns a system color identified by a SWT constant.
- */
-static public Color getSystemColor(int swtId) {
-  Integer bigInt = swtId;
-  Color clr = colorMap.get(bigInt);
-  if (clr == null) {
-    Display disp = Display.getDefault();
-    clr = disp.getSystemColor(swtId);
-    colorMap.put(bigInt, clr);
-  }
-  return clr;
-}
-/**
- * Disposes of the colors.
- */
-static public void shutdown() {
-  if (!init)
-    return;
-    
-  for (Color color : colorMap.values())
-  {
-    color.dispose();
-  }
-  colorMap.clear();
-  gradient.dispose();
-}
-
-/**
- * Initializes the colors.
- */
-static public void startup() {
-  if (init)
-    return;
-    
-  init = true;
-  Display disp = Display.getDefault();
-  colorMap = new HashMap<Object, Color>(10);
-
-  // Define gradient (blue to widget background color)
-  Color clr1 = disp.getSystemColor(SWT.COLOR_TITLE_BACKGROUND);
-  Color clr2 = disp.getSystemColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT);
-  Color clr3 = disp.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
-
-  int r = clr1.getRGB().red + 2 * (clr3.getRGB().red - clr1.getRGB().red) / 3;
-  r = (clr3.getRGB().red > clr1.getRGB().red) ? Math.min(r, clr3.getRGB().red) : Math.max(r, clr3.getRGB().red);
-  int g = clr1.getRGB().green + 2 * (clr3.getRGB().green - clr1.getRGB().green) / 3;
-  g = (clr3.getRGB().green > clr1.getRGB().green) ? Math.min(g, clr3.getRGB().green) : Math.max(g, clr3.getRGB().green);
-  int b = clr1.getRGB().blue + 2 * (clr3.getRGB().blue - clr1.getRGB().blue) / 3;
-  b = (clr3.getRGB().blue > clr1.getRGB().blue) ? Math.min(b, clr3.getRGB().blue) : Math.max(b, clr3.getRGB().blue);
-  Color clr4 = new Color(disp, r, g, b);
   
-  // colorMap.put(CLR_GRAD_START, clr1);
-  colorMap.put(CLR_GRAD_START, clr4);
-  colorMap.put(CLR_GRAD_MID, clr2);
-  colorMap.put(CLR_GRAD_END, clr3);
-  
-  activeGradient = new Color [] { clr4, clr3, clr3 };
-  activePercentages = new int[] {25, 100};
-  
-  // Preload.
-  getSystemColor(SWT.COLOR_WIDGET_FOREGROUND);
-  getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
-}
+  private static final Map<Font, Font> FONTS = new HashMap<Font, Font>();
 
-  protected static Image gradient;
-  protected static Image mirrorGradient;
-
-  public static Image getGradient()
+  private static Font getActiveFont(Font font)
   {
-    return getGradient(true);
-  }
-
-  public static Image getGradient(boolean leftToRight)
-  {
-    if (leftToRight)
+    Font result = FONTS.get(font);
+    if (result == null)
     {
-      if (gradient == null)
-      {
-        gradient = createGradient(true);
-      }
-      return gradient;
+      Device device = font.getDevice();
+      FontDescriptor fontDescriptor = FontDescriptor.createFrom(font);
+      result = fontDescriptor.setStyle(SWT.ITALIC).createFont(device);
+      FONTS.put(font, result);
     }
-    else
-    {
-      if (mirrorGradient == null)
-      {
-        mirrorGradient = createGradient(false);
-      }
-      return mirrorGradient;
-    }
-  }
-  
-  protected static Image createGradient(boolean leftToRight)
-  {
-    int width = 20;
-    int height = 10;
-
-    Display display = Display.getDefault();
-
-    Image gradient = new Image(display, width, height);
-    GC gc = new GC(gradient);
-
-    Color startColor = display.getSystemColor(leftToRight ? SWT.COLOR_WIDGET_BACKGROUND : SWT.COLOR_TITLE_BACKGROUND);
-    RGB rgb1 = startColor.getRGB();
-
-    Color endColor = display.getSystemColor(leftToRight ? SWT.COLOR_TITLE_BACKGROUND : SWT.COLOR_WIDGET_BACKGROUND);
-    RGB rgb2 = endColor.getRGB();
-
-    for (int k = 0; k < width; k++)
-    {
-      int r = rgb1.red + k * (rgb2.red - rgb1.red) / width;
-      r = (rgb2.red > rgb1.red) ? Math.min(r, rgb2.red) : Math.max(r, rgb2.red);
-      int g = rgb1.green + k * (rgb2.green - rgb1.green) / width;
-      g = (rgb2.green > rgb1.green) ? Math.min(g, rgb2.green) : Math.max(g, rgb2.green);
-      int b = rgb1.blue + k * (rgb2.blue - rgb1.blue) / width;
-      b = (rgb2.blue > rgb1.blue) ? Math.min(b, rgb2.blue) : Math.max(b, rgb2.blue);
-
-      Color color = new Color(display, r, g, b);
-
-      gc.setBackground(color);
-      gc.fillRectangle(width - k - 1, 0, 1, height);
-
-      color.dispose();
-    }
-
-    gc.dispose();
-    return gradient;
+    return result;
   }
 }

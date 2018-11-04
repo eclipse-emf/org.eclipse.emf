@@ -28,7 +28,6 @@ import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
@@ -492,17 +491,12 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
   }
 
   /**
-   * This extracts an object from the given item widget, providing the special
-   * support required by an 
-   * {@link org.eclipse.emf.common.ui.viewer.ExtendedTableTreeViewer.ExtendedTableTreeItem}.
+   * This extracts an object from the given item widget.
    */
-  @SuppressWarnings("deprecation")
   protected Object extractDropTarget(Widget item)
   {
     if (item == null) return null;
-    return item.getData(org.eclipse.emf.common.ui.viewer.ExtendedTableTreeViewer.ITEM_ID) instanceof Item ?
-      ((Item)item.getData(org.eclipse.emf.common.ui.viewer.ExtendedTableTreeViewer.ITEM_ID)).getData() :
-      item.getData();
+    return item.getData();
   }
 
 

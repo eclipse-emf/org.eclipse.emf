@@ -17,10 +17,12 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TreePath;
 
 
-public class ComposedSelection implements IStructuredSelection, IComposedSelection
+public class ComposedSelection implements IStructuredSelection, IComposedSelection, ITreeSelection
 {
   protected ISelection [] selections;
   protected ISelection primarySelection;
@@ -45,6 +47,16 @@ public class ComposedSelection implements IStructuredSelection, IComposedSelecti
     return primarySelection instanceof IStructuredSelection ? ((IStructuredSelection)primarySelection).iterator() : null;
   }
   
+  public TreePath[] getPaths()
+  {
+    return primarySelection instanceof ITreeSelection ? ((ITreeSelection)primarySelection).getPaths() : null;
+  }
+
+  public TreePath[] getPathsFor(Object element)
+  {
+    return primarySelection instanceof ITreeSelection ? ((ITreeSelection)primarySelection).getPathsFor(element) : null;
+  }
+
   public Iterator<?> iterator()
   {
     return primarySelection instanceof IStructuredSelection ? ((IStructuredSelection)primarySelection).iterator() : null;

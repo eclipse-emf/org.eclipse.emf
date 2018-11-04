@@ -11,6 +11,7 @@
 package org.eclipse.emf.mapping.presentation;
 
 
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -18,7 +19,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EventObject;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -31,69 +31,10 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IStatusLineManager;
-import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.StructuredViewer;
-import org.eclipse.jface.viewers.TableLayout;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.dnd.DND;
-import org.eclipse.swt.dnd.DropTargetEvent;
-import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
-import org.eclipse.ui.dialogs.SaveAsDialog;
-import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.ui.part.MultiPageEditorPart;
-import org.eclipse.ui.views.contentoutline.ContentOutline;
-import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
-import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-import org.eclipse.ui.views.properties.IPropertySheetPage;
-import org.eclipse.ui.views.properties.PropertySheet;
-import org.eclipse.ui.views.properties.PropertySheetPage;
-
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
-import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.ui.ViewerPane;
@@ -103,7 +44,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.AdapterFactoryTreeIterator;
@@ -127,7 +67,6 @@ import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 import org.eclipse.emf.mapping.MappedObjectState;
 import org.eclipse.emf.mapping.Mapping;
@@ -140,14 +79,82 @@ import org.eclipse.emf.mapping.action.CreateOneSidedMappingAction;
 import org.eclipse.emf.mapping.action.NameMatchMappingAction;
 import org.eclipse.emf.mapping.action.RemoveMappingAction;
 import org.eclipse.emf.mapping.action.TypeMatchMappingAction;
-import org.eclipse.emf.mapping.command.CreateMappingCommand;
 import org.eclipse.emf.mapping.command.PersistentCommandStack;
-import org.eclipse.emf.mapping.command.RemoveMappingCommand;
 import org.eclipse.emf.mapping.command.RestoreInitialStateCommand;
 import org.eclipse.emf.mapping.domain.AdapterFactoryMappingDomain;
 import org.eclipse.emf.mapping.domain.MappingDomain;
 import org.eclipse.emf.mapping.provider.MappedObjectItemProvider;
 import org.eclipse.emf.mapping.provider.MappingItemProvider;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IStatusLineManager;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
+import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
+import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.FocusCellOwnerDrawHighlighter;
+import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITreeSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.TableLayout;
+import org.eclipse.jface.viewers.TreePath;
+import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerEditor;
+import org.eclipse.jface.viewers.TreeViewerFocusCellManager;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.ViewForm;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.ui.dialogs.SaveAsDialog;
+import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.part.MultiPageEditorPart;
+import org.eclipse.ui.views.contentoutline.ContentOutline;
+import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.eclipse.ui.views.properties.PropertySheet;
+import org.eclipse.ui.views.properties.PropertySheetPage;
 
 
 /**
@@ -1484,6 +1491,45 @@ public abstract class MappingEditor
           {
             return createOverviewViewer(composite);
           }
+
+          @Override
+          public void createControl(Composite parent) 
+          {
+            if (getControl() == null)
+            {
+              container = parent;
+
+              // Create view form.    
+              //control = new ViewForm(parent, getStyle());
+              control = new ViewForm(parent, SWT.NONE);
+              control.addDisposeListener
+                (new DisposeListener()
+                 {
+                   public void widgetDisposed(DisposeEvent event)
+                   {
+                     dispose();
+                   }
+                 });
+              control.marginWidth = 0;
+              control.marginHeight = 0;
+
+              // Create a title bar.
+              createTitleBar();
+
+              Composite container = new Composite(control, SWT.INHERIT_DEFAULT);
+              container.setLayout(new FillLayout());
+              viewer = createViewer(container);
+              control.setContent(container);
+
+              control.setTabList(new Control [] { container });
+              
+              // When the pane or any child gains focus, notify the workbench.
+              control.addListener(SWT.Activate, this);
+              hookFocus(control);
+              hookFocus(viewer.getControl());
+            }
+          }
+
           @Override
           public void requestActivation()
           {
@@ -2319,11 +2365,7 @@ public abstract class MappingEditor
          overviewViewer.getMultipleColumnsAction());
   }
 
-  /**
-   * Unfortunately we've not had time to implement a replacement for this yet.
-   */
-  @Deprecated
-  public static class OverviewViewer extends org.eclipse.emf.common.ui.viewer.ExtendedTableTreeViewer 
+  public static class OverviewViewer extends TreeViewer
   {
     protected SimpleMappedObjectViewer otherViewer;
     protected MappingEditor mappingEditor;
@@ -2332,49 +2374,63 @@ public abstract class MappingEditor
     protected Action filterUnmappedObjects;
     protected Action multipleColumns;
     protected Action showTopFirst;
-    protected org.eclipse.swt.custom.TableTree tableTree;
-    protected Table table;
-    protected org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTableTreeEditor tableTreeEditor;
+    protected Tree tree;
+    protected TreeViewerFocusCellManager focusCellManager;
 
 
     ControlListener controlListener = new DelayedColumnFitter();
 
     public OverviewViewer(MappingEditor editor, Composite composite) 
     {
-      super(composite);
+      super(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);
       this.mappingEditor = editor;
       this.mappingDomain = editor.getMappingDomain();
 
-      tableTree = getTableTree();
-      table = tableTree.getTable();
-      table.getVerticalBar().setVisible(true);
-      table.setHeaderVisible(true);
-      table.setLinesVisible(true);
+      tree = getTree();
+      tree.getVerticalBar().setVisible(true);
+      tree.setHeaderVisible(true);
+      tree.setLinesVisible(true);
 
-      // This is a big festering hack to make the images the right size from the start.
-      //
-      org.eclipse.swt.widgets.TableItem item = new org.eclipse.swt.widgets.TableItem(table, SWT.NULL);
-      item.setImage(1, ExtendedImageRegistry.getInstance().getImage(MappingPlugin.getPlugin().getImage("full/obj16/MultipleImages")));
-      org.eclipse.swt.custom.TableTreeItem itemx = new org.eclipse.swt.custom.TableTreeItem(tableTree, SWT.NULL, 0);
-      itemx.setImage(1, ExtendedImageRegistry.getInstance().getImage(MappingPlugin.getPlugin().getImage("full/obj16/MultipleImages")));
-      itemx.dispose();
-      item.dispose();
 
-      table.addControlListener(controlListener);
-
-      tableTreeEditor = 
-        new org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTableTreeEditor(tableTree, mappingDomain.getAdapterFactory())
+      tree.addControlListener(controlListener);
+      
+      
+      focusCellManager = new TreeViewerFocusCellManager(this, new FocusCellOwnerDrawHighlighter(this));
+      ColumnViewerEditorActivationStrategy activationStrategy = 
+        new ColumnViewerEditorActivationStrategy(this) 
+        {
+          @Override
+          protected boolean isEditorActivationEvent(ColumnViewerEditorActivationEvent event) 
+          {
+            return event.eventType == ColumnViewerEditorActivationEvent.TRAVERSAL
+                || event.eventType == ColumnViewerEditorActivationEvent.MOUSE_DOUBLE_CLICK_SELECTION
+                || event.eventType == ColumnViewerEditorActivationEvent.KEY_PRESSED && event.keyCode == SWT.CR
+                || event.eventType == ColumnViewerEditorActivationEvent.KEY_PRESSED && event.keyCode == SWT.F2
+                || event.eventType == ColumnViewerEditorActivationEvent.PROGRAMMATIC;
+          }
+        };
+      activationStrategy.setEnableEditorActivationWithKeyboard(true);
+      TreeViewerEditor.create(this, focusCellManager, activationStrategy, 1);
+      
+      /*
+      treeEditor = 
+        new AdapterFactoryTreeEditor(tree, mappingDomain.getAdapterFactory())
         {
           TreeViewer dropDownTreeViewer;
           Collection<Object> dropDownRoots;
           Collection<Object> mappedObjects;
           Mapping mapping;
           HashMap<Object, Object> filteredChildren;
-
+          
           @Override
+          protected void editItem(TreeItem treeItem)
+          {
+            super.editItem(treeItem);
+          }
+
           public boolean hasDropDownEditor(Object object, int column)
           {
-            if (column == 0 || column == this.table.getColumnCount() - 1 && mappingEditor.getOverviewSummaryColumnLabel() != null)
+            if (column == 0 || column == this.tree.getColumnCount() - 1 && mappingEditor.getOverviewSummaryColumnLabel() != null)
             {
               return false;
             }
@@ -2488,7 +2544,6 @@ public abstract class MappingEditor
             }
           }
 
-          @Override
           public Control createDropDownEditor(Composite parent, Object object, int column)
           {
             dropDownTreeViewer = new TreeViewer(new Tree(parent, SWT.MULTI | SWT.FLAT));
@@ -2520,22 +2575,19 @@ public abstract class MappingEditor
             return dropDownTreeViewer.getControl();
           }
 
-          @Override
           public boolean hasLaunchedEditor(Object object, int column)
           {    
             return 
               mappingEditor.getOverviewSummaryColumnLabel() != null && 
-              column == this.table.getColumnCount() - 1 && 
+              column == this.tree.getColumnCount() - 1 && 
               mappingEditor.hasLaunchedOverviewSummaryColumnEditor(object);
           }
 
-          @Override
           public void createLaunchedEditor(Composite parent, Object object, int column)
           {
             mappingEditor.createLaunchedOverviewSummaryColumnEditor(parent, object);
           }
 
-          @Override
           public void apply()
           {
             if (dropDownTreeViewer == null)
@@ -2549,7 +2601,8 @@ public abstract class MappingEditor
             {
               if (!selection.isEmpty())
               {
-                selection.add(currentTableTreeItem.getData());
+                int todo;
+                // selection.add(currentTableTreeItem.getData());
                 Command command = CreateMappingCommand.create(mappingDomain, selection);
                 mappingDomain.getCommandStack().execute(command);
               }
@@ -2623,18 +2676,20 @@ public abstract class MappingEditor
               }
             }
 
-            super.apply();
+            int todo;
+            // super.apply();
 
             dropDownTreeViewer = null;
           }
         };
+      */
     }
 
     @Override
     public void cancelEditing()
     {
       super.cancelEditing();
-      tableTreeEditor.dismiss();
+      //treeEditor.dismiss();
     }
 
     public boolean isPrimaryMappedObject(MappingRoot mappingRoot, Object object)
@@ -2711,19 +2766,19 @@ public abstract class MappingEditor
 
     public void init()
     {
-      tableTree.removeAll();
+      tree.removeAll();
+      unmapAllElements();
 
-      TableColumn [] columns = table.getColumns();
+      TreeColumn [] columns = tree.getColumns();
       for (int i = 0; i < columns.length; ++i)
       {
         columns[i].dispose();
       }
 
       TableLayout layout = new TableLayout();
-      table.setLayout(layout);
-      // oldWidth = table.getClientArea().width;
+      tree.setLayout(layout);
 
-      TableColumn objectColumn = new TableColumn(table, SWT.NONE);
+      TreeColumn objectColumn = new TreeColumn(tree, SWT.NONE);
       objectColumn.addControlListener(controlListener);
       layout.addColumnData(new ColumnWeightData(2, true));
       objectColumn.setText(!showTopFirst.isChecked() ? mappingEditor.getTopLabel() : mappingEditor.getBottomLabel());
@@ -2745,14 +2800,14 @@ public abstract class MappingEditor
 
       if (multipleColumns == null || !multipleColumns.isChecked())
       {
-        TableColumn otherColumn = new TableColumn(table, SWT.NONE);
+        TreeColumn otherColumn = new TreeColumn(tree, SWT.NONE);
         otherColumn.addControlListener(controlListener);
         layout.addColumnData(new ColumnWeightData(2, true));
         otherColumn.setText(showTopFirst.isChecked() ? mappingEditor.getTopLabel() : mappingEditor.getBottomLabel());
         otherColumn.setResizable(true);
         if (summaryColumnLabel != null)
         {
-          TableColumn summaryColumn = new TableColumn(table, SWT.NONE);
+          TreeColumn summaryColumn = new TreeColumn(tree, SWT.NONE);
           summaryColumn.addControlListener(controlListener);
           layout.addColumnData(new ColumnWeightData(2, true));
           summaryColumn.setText(summaryColumnLabel);
@@ -2774,7 +2829,7 @@ public abstract class MappingEditor
         }
         for (Object mappedObject : secondaryMappedObjectsCollection)
         {
-          TableColumn mappedObjectColumn = new TableColumn(table, SWT.NONE);
+          TreeColumn mappedObjectColumn = new TreeColumn(tree, SWT.NONE);
           mappedObjectColumn.addControlListener(controlListener);
           layout.addColumnData(new ColumnWeightData(2, true));
 
@@ -2789,7 +2844,7 @@ public abstract class MappingEditor
         if (summaryColumnLabel != null)
         {
           properties.add("summaryColumnLabel");
-          TableColumn summaryColumn = new TableColumn(table, SWT.NONE);
+          TreeColumn summaryColumn = new TreeColumn(tree, SWT.NONE);
           summaryColumn.addControlListener(controlListener);
           layout.addColumnData(new ColumnWeightData(2, true));
           summaryColumn.setText(summaryColumnLabel);
@@ -2799,7 +2854,7 @@ public abstract class MappingEditor
         setColumnProperties(properties.toArray(new String [properties.size()]));
       }
 
-      table.layout();
+      tree.layout();
     }
 
     public void setAdapterFactory(AdapterFactory adapterFactory)
@@ -2944,33 +2999,40 @@ public abstract class MappingEditor
     @Override
     public ISelection getSelection()
     {
-      IStructuredSelection theSelection = (IStructuredSelection)super.getSelection();
+      ITreeSelection theSelection = (ITreeSelection)super.getSelection();
       List<Object> result = new ArrayList<Object>();
+      MappingRoot mappingRoot = mappingDomain.getMappingRoot();
       for (Object object : theSelection.toList())
       {
-        result.addAll(mappingDomain.getMappingRoot().getMappings(object));
+        Collection<? extends Mapping> mappings = mappingRoot.getMappings(object);
+        for (Mapping mapping : mappings)
+        {
+          result.add(new TreePath(new Object[] { mapping }));
+        }
       }
-
-      return result.isEmpty() ? theSelection : new StructuredSelection(result.toArray());
+      return result.isEmpty() ? theSelection : new TreeSelection(result.toArray(new TreePath[result.size()]), getComparer());
     }
 
     public void dismissCellEditor()
     {
-      tableTreeEditor.dismiss();
+      // treeEditor.dismiss();
+      cancelEditing();
     }
 
     public void refreshCell()
     {
-      if (tableTreeEditor.getEditor() != null)
+      /*
+      if (treeEditor.getEditor() != null)
       {
-        tableTreeEditor.getEditor().redraw();
+        treeEditor.getEditor().redraw();
       }
+      */
     }
 
     /**
      * This override ensures the objects which aren't in the view don't cause a failure.
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     protected void setSelectionToWidget(List list, boolean reveal)
     {
@@ -2989,8 +3051,43 @@ public abstract class MappingEditor
       }
 
       super.setSelectionToWidget(filteredSelection, reveal);
+
+      // Update the cell selection to match the selection.
+      //
+      Tree tree = getTree();
+      TreeItem[] selection = tree.getSelection();
+      if (selection.length > 0)
+      {
+        TreeItem treeItem = selection[0];
+        ViewerCell cell = getViewerRowFromItem(treeItem).getCell(0);
+        try
+        {
+          Method setFocusCellMethod = TreeViewerFocusCellManager.class.getSuperclass().getDeclaredMethod("setFocusCell", ViewerCell.class);
+          setFocusCellMethod.setAccessible(true);
+          setFocusCellMethod.invoke(focusCellManager, cell);
+        }
+        catch (Exception ex)
+        {
+          // Ignore.
+        }
+      }
     }
-    
+
+    @Override
+    protected void setSelectionToWidget(ISelection selection, boolean reveal)
+    {
+      // Override this to ignore ITreeSelecton.
+      //
+      if (selection instanceof IStructuredSelection) 
+      {
+        setSelectionToWidget(((IStructuredSelection) selection).toList(), reveal);
+      } 
+      else 
+      {
+        setSelectionToWidget((List<?>) null, reveal);
+      }
+    }
+
     public void setVisible(boolean visible)
     {
       getControl().setVisible(visible);
@@ -2999,7 +3096,7 @@ public abstract class MappingEditor
 
   protected static class DelayedColumnFitter extends ControlAdapter
   {
-    protected Table table;
+    protected Tree tree;
     protected DelayedLayout delayedLayout;
     protected int columnResizeTime;
     protected int oldWidth;
@@ -3008,9 +3105,9 @@ public abstract class MappingEditor
     @Override
     public void controlResized(ControlEvent event)
     {
-      if (event.getSource() instanceof Table)
+      if (event.getSource() instanceof Tree)
       {
-        table = (Table)event.getSource();
+        tree = (Tree)event.getSource();
         if (delayedLayout == null)
         {
           delayedLayout = new DelayedLayout(event.time);
@@ -3033,11 +3130,11 @@ public abstract class MappingEditor
   
       public DelayedLayout(int time)
       {
-        newWidth = table.getClientArea().width;
+        newWidth = tree.getClientArea().width;
         if (oldWidth != newWidth && oldWidth != 0)
         {
           layout = new TableLayout();
-          TableColumn [] tableColumns = table.getColumns();
+          TreeColumn [] tableColumns = tree.getColumns();
           for (int i = 0; i < tableColumns.length; ++i)
           {
             layout.addColumnData(new ColumnWeightData(tableColumns[i].getWidth(), true));
@@ -3056,25 +3153,19 @@ public abstract class MappingEditor
         oldWidth = newWidth;
         columnResizeTime = 0;
   
-        table.getDisplay().asyncExec(this);
+        tree.getDisplay().asyncExec(this);
       }
   
       public void run()
       {
         delayedLayout = null;
-        if (!table.isDisposed() && !ignore)
+        if (!tree.isDisposed() && !ignore)
         {
           columnResizeTime = 0;
-          table.setLayout(layout);
+          tree.setLayout(layout);
           inLayout = true;
-          table.layout();
+          tree.layout();
           inLayout = false;
-  /*
-          if (delayedLayout != null)
-          {
-            System.out.println("Layout causes a layout!!!!!");
-          }
-  */
         }
       }
     } 

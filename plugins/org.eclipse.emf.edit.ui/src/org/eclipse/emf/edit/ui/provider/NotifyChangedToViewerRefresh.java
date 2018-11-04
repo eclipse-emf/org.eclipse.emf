@@ -62,7 +62,6 @@ public class NotifyChangedToViewerRefresh
     }
   }
 
-  @SuppressWarnings("deprecation")
   public void refresh
     (Viewer viewer, 
      Object object, 
@@ -75,10 +74,6 @@ public class NotifyChangedToViewerRefresh
     if (viewer instanceof TreeViewer)
     {
       refreshTreeViewer((TreeViewer)viewer, object, eventType, feature, oldValue, newValue, index);
-    }
-    else if (viewer instanceof org.eclipse.jface.viewers.TableTreeViewer)
-    {
-      refreshTableTreeViewer((org.eclipse.jface.viewers.TableTreeViewer)viewer, object, eventType, feature, oldValue, newValue, index);
     }
     else if (viewer instanceof TableViewer)
     {
@@ -118,33 +113,6 @@ public class NotifyChangedToViewerRefresh
         break;
       }
     }
-  }
-
-  @Deprecated
-  public void refreshTableTreeViewer
-    (org.eclipse.jface.viewers.TableTreeViewer viewer, 
-     Object object, 
-     int eventType, 
-     Object feature, 
-     Object oldValue, 
-     Object newValue, 
-     int index)
-  {
-    switch (eventType) 
-    {
-      case Notification.ADD:
-      case Notification.ADD_MANY:
-      case Notification.REMOVE:
-      case Notification.REMOVE_MANY:
-      case Notification.MOVE:
-      case Notification.UNSET:
-      case Notification.SET:
-      default:
-      {
-        refreshAbstractTreeViewer(viewer, object, eventType, feature, oldValue, newValue, index);
-        break;
-      }
-    }   
   }
 
   public void refreshListViewer
