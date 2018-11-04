@@ -3037,6 +3037,11 @@ public interface GenModel extends GenBase
   /**
    * @since 2.3
    */
+  boolean useInterfaceOverrideAnnotation();
+
+  /**
+   * @since 2.3
+   */
   boolean useGenerics();
   
   /**

@@ -13,7 +13,7 @@
 %>
 <%GenPackage genPackage = (GenPackage)((Object[])argument)[0]; GenModel genModel=genPackage.getGenModel(); /* Trick to import java.util.* without warnings */Iterator.class.getName();%>
 <%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
-<%boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);%>
+<%boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]); boolean useInterfaceOverrideAnnotation = genModel.useInterfaceOverrideAnnotation() && !(isInterface && isImplementation);%>
 <%String publicStaticFinalFlag = isImplementation ? "public static final " : "";%>
 <%@ include file="../Header.javajetinc"%>
 <%if (isInterface || genModel.isSuppressInterfaces()) {%>
@@ -225,6 +225,9 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 <%if (isJDK50 && genClass.hasAPIDeprecatedTag()) {%>
 	@Deprecated
 <%}%>
+<%if (useInterfaceOverrideAnnotation) {%>
+	@Override
+<%}%>
 	public <%=genClass.getTypeParameters()%><%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceTypeArguments()%> create<%=genClass.getName()%>()
 	{
     <%if (genClass.isDynamic()) {%>
@@ -254,6 +257,9 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
     <%if (isJDK50 && genDataType.hasAPIDeprecatedTag()) {%>
 	@Deprecated
     <%}%>
+  <%if (genPackage.isDataTypeConverters() && useInterfaceOverrideAnnotation) {%>
+	@Override
+  <%}%>
 	public <%=genDataType.getImportedParameterizedInstanceClassName()%> create<%=genDataType.getName()%>(<%if (genDataType.hasCreatorBody()) {%>final <%}%>String <%if (genDataType.hasCreatorBody()) {%>it<%} else {%>literal<%}%>)
 	{
     <%if (genDataType.hasCreatorBody()) {%>
@@ -462,6 +468,9 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	 */
   <%if (isJDK50 && genDataType.hasAPIDeprecatedTag()) {%>
 	@Deprecated
+  <%}%>
+  <%if (genPackage.isDataTypeConverters() && useInterfaceOverrideAnnotation) {%>
+	@Override
   <%}%>
 	public String convert<%=genDataType.getName()%>(<%if (genDataType.hasCreatorBody()) {%>final <%}%><%=genDataType.getImportedBoundedWildcardInstanceClassName()%> <%if (genDataType.hasConverterBody()) {%>it<%} else {%>instanceValue<%}%>)
 	{
@@ -756,6 +765,9 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+ <%if (useInterfaceOverrideAnnotation && !genModel.isSuppressEMFMetaData()) {%>
+	@Override
+ <%}%>
 	public <%=genPackage.getImportedPackageInterfaceName()%> get<%=genPackage.getBasicPackageName()%>()
 	{
 		return (<%=genPackage.getImportedPackageInterfaceName()%>)getEPackage();

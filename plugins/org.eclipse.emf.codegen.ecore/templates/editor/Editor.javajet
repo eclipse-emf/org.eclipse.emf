@@ -197,9 +197,7 @@ import org.eclipse.emf.ecore.EValidator;
 <%}%>
 
 import org.eclipse.emf.ecore.resource.Resource;
-<%if (!genModel.isRichClientPlatform()) {%>
 import org.eclipse.emf.ecore.resource.ResourceSet;
-<%}%>
 
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -462,6 +460,9 @@ public class <%=genPackage.getEditorClassName()%>
 	protected IPartListener partListener =
 		new IPartListener()
 		{
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+			@Override
+<%}%>
 			public void partActivated(IWorkbenchPart p)
 			{
 				if (p instanceof ContentOutline)
@@ -486,18 +487,30 @@ public class <%=genPackage.getEditorClassName()%>
 					handleActivate();
 				}
 			}
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+			@Override
+<%}%>
 			public void partBroughtToTop(IWorkbenchPart p)
 			{
 				// Ignore.
 			}
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+			@Override
+<%}%>
 			public void partClosed(IWorkbenchPart p)
 			{
 				// Ignore.
 			}
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+			@Override
+<%}%>
 			public void partDeactivated(IWorkbenchPart p)
 			{
 				// Ignore.
 			}
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+			@Override
+<%}%>
 			public void partOpened(IWorkbenchPart p)
 			{
 				// Ignore.
@@ -597,6 +610,9 @@ public class <%=genPackage.getEditorClassName()%>
 					getSite().getShell().getDisplay().asyncExec
 						(new Runnable()
 						 {
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+							 @Override
+<%}%>
 							 public void run()
 							 {
 								 dispatching = false;
@@ -635,6 +651,9 @@ public class <%=genPackage.getEditorClassName()%>
 	protected IResourceChangeListener resourceChangeListener =
 		new IResourceChangeListener()
 		{
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+			@Override
+<%}%>
 			public void resourceChanged(IResourceChangeEvent event)
 			{
 				IResourceDelta delta = event.getDelta();
@@ -646,6 +665,9 @@ public class <%=genPackage.getEditorClassName()%>
 						protected <%=_CollectionOfResource%> changedResources = new <%=_ArrayListOfResource%>();
 						protected <%=_CollectionOfResource%> removedResources = new <%=_ArrayListOfResource%>();
 
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+						@Override
+<%}%>
 						public boolean visit(<%if (genModel.getDecoration() != GenDecoration.NONE) {%>final <%}%>IResourceDelta delta)
 						{
 							if (delta.getResource().getType() == IResource.FILE)
@@ -708,6 +730,9 @@ public class <%=genPackage.getEditorClassName()%>
 						getSite().getShell().getDisplay().asyncExec
 							(new Runnable()
 							 {
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+								 @Override
+<%}%>
 								 public void run()
 								 {
 									 removedResources.addAll(visitor.getRemovedResources());
@@ -724,6 +749,9 @@ public class <%=genPackage.getEditorClassName()%>
 						getSite().getShell().getDisplay().asyncExec
 							(new Runnable()
 							 {
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+								 @Override
+<%}%>
 								 public void run()
 								 {
 									 changedResources.addAll(visitor.getChangedResources());
@@ -1017,11 +1045,17 @@ public class <%=genPackage.getEditorClassName()%>
 		commandStack.addCommandStackListener
 			(new CommandStackListener()
 			 {
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+				 @Override
+<%}%>
 				 public void commandStackChanged(final EventObject event)
 				 {
 					 getContainer().getDisplay().asyncExec
 						 (new Runnable()
 						  {
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+							  @Override
+<%}%>
 							  public void run()
 							  {
 								  firePropertyChange(IEditorPart.PROP_DIRTY);
@@ -1085,6 +1119,9 @@ public class <%=genPackage.getEditorClassName()%>
 			Runnable runnable =
 				new Runnable()
 				{
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+					@Override
+<%}%>
 					public void run()
 					{
 						// Try to select the items in the current content viewer of the editor.
@@ -1107,6 +1144,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public EditingDomain getEditingDomain()
 	{
 		return editingDomain;
@@ -1227,6 +1267,9 @@ public class <%=genPackage.getEditorClassName()%>
 					{
 						// This just notifies those things that are affected by the section.
 						//
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+						@Override
+<%}%>
 						public void selectionChanged(SelectionChangedEvent selectionChangedEvent)
 						{
 							setSelection(selectionChangedEvent.getSelection());
@@ -1264,6 +1307,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public Viewer getViewer()
 	{
 		return currentViewer;
@@ -1676,6 +1722,9 @@ public class <%=genPackage.getEditorClassName()%>
 			getSite().getShell().getDisplay().asyncExec
 				(new Runnable()
 				 {
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+					 @Override
+<%}%>
 					 public void run()
 					 {
 						 if (!getContainer().isDisposed())
@@ -1710,6 +1759,9 @@ public class <%=genPackage.getEditorClassName()%>
 		getSite().getShell().getDisplay().asyncExec
 			(new Runnable()
 			 {
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+				 @Override
+<%}%>
 				 public void run()
 				 {
 					 updateProblemIndication();
@@ -1908,6 +1960,9 @@ public class <%=genPackage.getEditorClassName()%>
 				 {
 					 // This ensures that we handle selections correctly.
 					 //
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+					 @Override
+<%}%>
 					 public void selectionChanged(SelectionChangedEvent event)
 					 {
 						 handleContentOutlineSelection(event.getSelection());
@@ -2037,6 +2092,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void doRevert()
 	{
 <%if (genModel.getDecoration() == GenDecoration.LIVE) {%>
@@ -2120,7 +2178,7 @@ public class <%=genPackage.getEditorClassName()%>
 			{
 				// This is the method that gets invoked when the operation runs.
 				//
-<%if (!genModel.isRichClientPlatform() && genModel.useClassOverrideAnnotation()) {%>
+<%if (genModel.useInterfaceOverrideAnnotation() || !genModel.isRichClientPlatform() && genModel.useClassOverrideAnnotation()) {%>
 				@Override
 <%}%>
 				public void <%=operationMethodName%>(IProgressMonitor monitor)
@@ -2308,6 +2366,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void gotoMarker(IMarker marker)
 	{
 <%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF23_VALUE) {%>
@@ -2392,6 +2453,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void addSelectionChangedListener(ISelectionChangedListener listener)
 	{
 		selectionChangedListeners.add(listener);
@@ -2403,6 +2467,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void removeSelectionChangedListener(ISelectionChangedListener listener)
 	{
 		selectionChangedListeners.remove(listener);
@@ -2414,6 +2481,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public ISelection getSelection()
 	{
 		return editorSelection;
@@ -2426,6 +2496,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void setSelection(ISelection selection)
 	{
 		editorSelection = selection;
@@ -2514,6 +2587,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void menuAboutToShow(IMenuManager menuManager)
 	{
 		((IMenuListener)getEditorSite().getActionBarContributor()).menuAboutToShow(menuManager);

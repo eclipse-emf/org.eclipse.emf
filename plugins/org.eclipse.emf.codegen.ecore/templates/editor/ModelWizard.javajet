@@ -216,6 +216,9 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void init(IWorkbench workbench, IStructuredSelection selection)
 	{
 		this.workbench = workbench;
@@ -340,6 +343,9 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 			//
 			<%=genModel.getImportedName("org.eclipse.jface.operation.IRunnableWithProgress")%> operation = new <%=genModel.getImportedName("org.eclipse.jface.operation.IRunnableWithProgress")%>()
 			{
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+				@Override
+<%}%>
 				public void run(IProgressMonitor progressMonitor)
 <%} else {%>
 			// Remember the file.
@@ -414,6 +420,9 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 				getShell().getDisplay().asyncExec
 					(new Runnable()
 					 {
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+						 @Override
+<%}%>
 						 public void run()
 						 {
 							 ((ISetSelectionTarget)activePart).selectReveal(targetSelection);
@@ -559,6 +568,9 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+		@Override
+<%}%>
 		public void createControl(Composite parent)
 		{
 			Composite composite = new Composite(parent, SWT.NONE);
@@ -710,6 +722,9 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 		protected ModifyListener validator =
 			new ModifyListener()
 			{
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+				@Override
+<%}%>
 				public void modifyText(ModifyEvent e)
 				{
 					setPageComplete(validatePage());

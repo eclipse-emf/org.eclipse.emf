@@ -13,7 +13,7 @@
 %>
 <%final GenClass genClass = (GenClass)((Object[])argument)[0]; final GenPackage genPackage = genClass.getGenPackage(); final GenModel genModel=genPackage.getGenModel();%>
 <%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
-<%final boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); final boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);%>
+<%final boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); final boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]); final boolean useInterfaceOverrideAnnotation = genModel.useInterfaceOverrideAnnotation() && !(isInterface && isImplementation);%>
 <%final boolean isGWT = genModel.getRuntimePlatform() == GenRuntimePlatform.GWT;%>
 <%final String publicStaticFinalFlag = isImplementation ? "public static final " : "";%>
 <%final String singleWildcard = isJDK50 ? "<?>" : "";%>
@@ -569,7 +569,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
     <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
 	@Deprecated
     <%}%>
-    <%if (classExtendsAllGenFeatures.contains(genFeature)) {%>
+    <%if (useInterfaceOverrideAnnotation || classExtendsAllGenFeatures.contains(genFeature)) {%>
 	@Override
     <%}%>
 	public <%=arrayElementType%>[] <%=genFeature.getGetArrayAccessor()%>()
@@ -605,7 +605,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
     <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
 	@Deprecated
     <%}%>
-    <%if (classExtendsAllGenFeatures.contains(genFeature)) {%>
+    <%if (useInterfaceOverrideAnnotation || classExtendsAllGenFeatures.contains(genFeature)) {%>
 	@Override
     <%}%>
 	public <%=genFeature.getImportedType(genClass)%> <%=genFeature.getGetAccessor()%><%if (genClass.hasCollidingGetAccessorOperation(genFeature)) {%>_<%}%>()
@@ -703,6 +703,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
     <%if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {%>
 	@Deprecated
     <%}%>
+    <%if (useInterfaceOverrideAnnotation) {%>
+	@Override
+    <%}%>
 	public <%=arrayElementType%>[] <%=genFeature.getGetArrayAccessor()%>()
 	{
       <%if (genFeature.isVolatile()) {%>
@@ -732,6 +735,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	<%=genFeature.getListItemType(genClass)%> get<%=genFeature.getAccessorName()%>(int index);
 
     <%} else {%>
+    <%if (useInterfaceOverrideAnnotation) {%>
+	@Override
+    <%}%>
 	public <%=genFeature.getListItemType(genClass)%> get<%=genFeature.getAccessorName()%>(int index)
 	{
 		return <%if (!genModel.useGenerics()) {%>(<%=genFeature.getListItemType(genClass)%>)<%}%><%=genFeature.getGetAccessor()%>().get(index);
@@ -753,6 +759,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	int get<%=genFeature.getAccessorName()%>Length();
 
     <%} else {%>
+    <%if (useInterfaceOverrideAnnotation) {%>
+	@Override
+    <%}%>
 	public int get<%=genFeature.getAccessorName()%>Length()
 	{
       <%if (genFeature.isVolatile()) {%>
@@ -778,6 +787,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	void set<%=genFeature.getAccessorName()%>(<%=genFeature.getListItemType(genClass)%>[] new<%=genFeature.getCapName()%>);
 
     <%} else {%>
+    <%if (useInterfaceOverrideAnnotation) {%>
+	@Override
+    <%}%>
 	public void set<%=genFeature.getAccessorName()%>(<%=genFeature.getListItemType(genClass)%>[] new<%=genFeature.getCapName()%>)
 	{
 		((<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%><%=genFeature.getListTemplateArguments(genClass)%>)<%=genFeature.getGetAccessor()%>()).setData(new<%=genFeature.getCapName()%>.length, new<%=genFeature.getCapName()%>);
@@ -799,6 +811,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	void set<%=genFeature.getAccessorName()%>(int index, <%=genFeature.getListItemType(genClass)%> element);
 
     <%} else {%>
+    <%if (useInterfaceOverrideAnnotation) {%>
+	@Override
+    <%}%>
 	public void set<%=genFeature.getAccessorName()%>(int index, <%=genFeature.getListItemType(genClass)%> element)
 	{
 		<%=genFeature.getGetAccessor()%>().set(index, element);
@@ -904,6 +919,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 <%} else {%>
   <%if (genModel.useGenerics() && ((genFeature.isContainer() || genFeature.isResolveProxies()) && !genFeature.isListType() && genFeature.isUncheckedCast(genClass) || genFeature.isListType() && !genFeature.isFeatureMapType() && (genModel.isReflectiveDelegation() || genModel.isVirtualDelegation() || (genModel.isDynamicDelegation() && !genFeature.isVolatile())) || genFeature.isListDataType() && genFeature.hasDelegateFeature() || genFeature.isListType() && genFeature.hasSettingDelegate())) {%>
 	@SuppressWarnings("unchecked")
+  <%}%>
+  <%if (useInterfaceOverrideAnnotation && !genClass.hasCollidingGetAccessorOperation(genFeature) && !genFeature.isSuppressedGetVisibility()) {%>
+	@Override
   <%}%>
 	public <%=genFeature.getImportedType(genClass)%> <%=genFeature.getGetAccessor()%><%if (genClass.hasCollidingGetAccessorOperation(genFeature)) {%>_<%}%>()
 	{
@@ -1223,6 +1241,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	void set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType(genClass)%> value);
 
 <%} else { GenOperation setAccessorOperation = genClass.getSetAccessorOperation(genFeature);%>
+  <%if (useInterfaceOverrideAnnotation && !genClass.hasCollidingSetAccessorOperation(genFeature) && !genFeature.isSuppressedSetVisibility()) {%>
+	@Override
+  <%}%>
 	public void set<%=genFeature.getAccessorName()%><%if (genClass.hasCollidingSetAccessorOperation(genFeature)) {%>_<%}%>(<%=genFeature.getImportedType(genClass)%> <%=setAccessorOperation == null ? "new" + genFeature.getCapName() : setAccessorOperation.getGenParameters().get(0).getName()%>)
 	{
 <%@ include file="Class/setGenFeature.pre.insert.javajetinc" fail="silent" %>
@@ -1494,6 +1515,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	void unset<%=genFeature.getAccessorName()%>();
 
 <%} else {%>
+  <%if (useInterfaceOverrideAnnotation && !genClass.hasCollidingUnsetAccessorOperation(genFeature) && !genFeature.isSuppressedUnsetVisibility()) {%>
+	@Override
+  <%}%>
 	public void unset<%=genFeature.getAccessorName()%><%if (genClass.hasCollidingUnsetAccessorOperation(genFeature)) {%>_<%}%>()
 	{
     <%if (genModel.isDynamicDelegation() && !genFeature.isVolatile()) {%>
@@ -1670,6 +1694,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	boolean isSet<%=genFeature.getAccessorName()%>();
 
 <%} else {%>
+  <%if (useInterfaceOverrideAnnotation && !genClass.hasCollidingIsSetAccessorOperation(genFeature) && !genFeature.isSuppressedIsSetVisibility()) {%>
+	@Override
+  <%}%>
 	public boolean isSet<%=genFeature.getAccessorName()%><%if (genClass.hasCollidingIsSetAccessorOperation(genFeature)) {%>_<%}%>()
 	{
     <%if (genModel.isDynamicDelegation() && !genFeature.isVolatile()) {%>
@@ -1814,6 +1841,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 <%} else {%>
   <%if (genModel.useGenerics() && !genOperation.hasBody() && !genOperation.isInvariant() && genOperation.hasInvocationDelegate() && genOperation.isUncheckedCast(genClass)) {%>
 	@SuppressWarnings("unchecked")
+  <%}%>
+  <%if (useInterfaceOverrideAnnotation && !genOperation.isSuppressedVisibility()) {%>
+	@Override
   <%}%>
 	public <%=genOperation.getTypeParameters(genClass)%><%=genOperation.getImportedType(genClass)%> <%=genOperation.getName()%>(<%=genOperation.getParameters(isImplementation, genClass)%>)<%=genOperation.getThrows(genClass)%>
 	{

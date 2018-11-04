@@ -266,6 +266,9 @@ public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+  <%if (genModel.useInterfaceOverrideAnnotation()) {%>
+	@Override
+  <%}%>
 	public int getValue()
 	{
 	  return value;
@@ -276,6 +279,9 @@ public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+  <%if (genModel.useInterfaceOverrideAnnotation()) {%>
+	@Override
+  <%}%>
 	public <%=genModel.getImportedName("java.lang.String")%> getName()
 	{
 	  return name;
@@ -286,6 +292,9 @@ public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+  <%if (genModel.useInterfaceOverrideAnnotation()) {%>
+	@Override
+  <%}%>
 	public <%=genModel.getImportedName("java.lang.String")%> getLiteral()
 	{
 	  return literal;

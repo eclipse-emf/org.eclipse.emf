@@ -230,12 +230,11 @@ public class FactoryClass
   protected final String TEXT_212 = " instanceValue);" + NL;
   protected final String TEXT_213 = NL + "\t/**" + NL + "\t * Returns the package supported by this factory." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return the package supported by this factory." + NL + "\t * @generated" + NL + "\t */" + NL + "\t";
   protected final String TEXT_214 = " get";
-  protected final String TEXT_215 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
-  protected final String TEXT_216 = "()" + NL + "\t{" + NL + "\t\treturn (";
-  protected final String TEXT_217 = ")getEPackage();" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @deprecated" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_218 = " getPackage()" + NL + "\t{" + NL + "\t\treturn ";
-  protected final String TEXT_219 = ".eINSTANCE;" + NL + "\t}" + NL;
-  protected final String TEXT_220 = NL + "} //";
+  protected final String TEXT_215 = "()" + NL + "\t{" + NL + "\t\treturn (";
+  protected final String TEXT_216 = ")getEPackage();" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @deprecated" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_217 = " getPackage()" + NL + "\t{" + NL + "\t\treturn ";
+  protected final String TEXT_218 = ".eINSTANCE;" + NL + "\t}" + NL;
+  protected final String TEXT_219 = NL + "} //";
 
   public String generate(Object argument)
   {
@@ -254,7 +253,7 @@ public class FactoryClass
 
     GenPackage genPackage = (GenPackage)((Object[])argument)[0]; GenModel genModel=genPackage.getGenModel(); /* Trick to import java.util.* without warnings */Iterator.class.getName();
     final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;
-    boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);
+    boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]); boolean useInterfaceOverrideAnnotation = genModel.useInterfaceOverrideAnnotation() && !(isInterface && isImplementation);
     String publicStaticFinalFlag = isImplementation ? "public static final " : "";
     stringBuffer.append(TEXT_1);
     stringBuffer.append(TEXT_2);
@@ -460,6 +459,9 @@ public class FactoryClass
     if (isJDK50 && genClass.hasAPIDeprecatedTag()) {
     stringBuffer.append(TEXT_63);
     }
+    if (useInterfaceOverrideAnnotation) {
+    stringBuffer.append(TEXT_40);
+    }
     stringBuffer.append(TEXT_64);
     stringBuffer.append(genClass.getTypeParameters());
     stringBuffer.append(genClass.getImportedInterfaceName());
@@ -512,6 +514,9 @@ public class FactoryClass
     }
     if (isJDK50 && genDataType.hasAPIDeprecatedTag()) {
     stringBuffer.append(TEXT_63);
+    }
+    if (genPackage.isDataTypeConverters() && useInterfaceOverrideAnnotation) {
+    stringBuffer.append(TEXT_40);
     }
     stringBuffer.append(TEXT_64);
     stringBuffer.append(genDataType.getImportedParameterizedInstanceClassName());
@@ -921,6 +926,9 @@ public class FactoryClass
     stringBuffer.append(TEXT_62);
     if (isJDK50 && genDataType.hasAPIDeprecatedTag()) {
     stringBuffer.append(TEXT_63);
+    }
+    if (genPackage.isDataTypeConverters() && useInterfaceOverrideAnnotation) {
+    stringBuffer.append(TEXT_40);
     }
     stringBuffer.append(TEXT_153);
     stringBuffer.append(genDataType.getName());
@@ -1389,23 +1397,27 @@ public class FactoryClass
     stringBuffer.append(genPackage.getBasicPackageName());
     stringBuffer.append(TEXT_206);
     } else if (isImplementation) {
-    stringBuffer.append(TEXT_215);
+    stringBuffer.append(TEXT_49);
+    if (useInterfaceOverrideAnnotation && !genModel.isSuppressEMFMetaData()) {
+    stringBuffer.append(TEXT_40);
+    }
+    stringBuffer.append(TEXT_64);
     stringBuffer.append(genPackage.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_214);
     stringBuffer.append(genPackage.getBasicPackageName());
-    stringBuffer.append(TEXT_216);
+    stringBuffer.append(TEXT_215);
     stringBuffer.append(genPackage.getImportedPackageInterfaceName());
-    stringBuffer.append(TEXT_217);
+    stringBuffer.append(TEXT_216);
     if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_63);
     }
     stringBuffer.append(TEXT_28);
     stringBuffer.append(genPackage.getImportedPackageInterfaceName());
-    stringBuffer.append(TEXT_218);
+    stringBuffer.append(TEXT_217);
     stringBuffer.append(genPackage.getImportedPackageInterfaceName());
-    stringBuffer.append(TEXT_219);
+    stringBuffer.append(TEXT_218);
     }
-    stringBuffer.append(TEXT_220);
+    stringBuffer.append(TEXT_219);
     stringBuffer.append(isInterface ? genPackage.getFactoryInterfaceName() : genPackage.getFactoryClassName());
     genModel.emitSortedImports();
     stringBuffer.append(TEXT_7);

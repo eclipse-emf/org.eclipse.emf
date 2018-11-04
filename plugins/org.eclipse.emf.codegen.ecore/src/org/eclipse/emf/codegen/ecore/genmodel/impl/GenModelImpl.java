@@ -10125,6 +10125,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return getComplianceLevel().getValue() >= GenJDKLevel.JDK50;
   }
 
+  public boolean useInterfaceOverrideAnnotation()
+  {
+    return getComplianceLevel().getValue() >= GenJDKLevel.JDK60;
+  }
+
   public boolean useGenerics()
   {
     return getComplianceLevel().getValue() >= GenJDKLevel.JDK50;

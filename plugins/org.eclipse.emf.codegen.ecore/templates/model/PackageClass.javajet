@@ -13,7 +13,7 @@
 %>
 <%final GenPackage genPackage = (GenPackage)((Object[])argument)[0]; final GenModel genModel=genPackage.getGenModel();%>
 <%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
-<%boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);%>
+<%boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);  boolean useInterfaceOverrideAnnotation = genModel.useInterfaceOverrideAnnotation() && !(isInterface && isImplementation);%>
 <%boolean packageNeedsSuppressDeprecation = isJDK50 && GenModelUtil.hasAPIDeprecatedTag(genPackage.getOrderedGenClassifiers()) && !genPackage.hasAPIDeprecatedTag();%>
 <%String publicStaticFinalFlag = isImplementation ? "public static final " : "";%>
 <%boolean needsAddEOperation = false;%>
@@ -395,6 +395,9 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 			(the<%=genPackage.getBasicPackageName()%>,
 			 new <%=genModel.getImportedName("org.eclipse.emf.ecore.EValidator")%>.Descriptor()
 			 {
+ <%if (genModel.useInterfaceOverrideAnnotation()) {%>
+				 @Override
+ <%}%>
 				 public <%=genModel.getImportedName("org.eclipse.emf.ecore.EValidator")%> getEValidator()
 				 {
 					 return <%=genPackage.getImportedValidatorClassName()%>.INSTANCE;
@@ -567,6 +570,9 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	@Deprecated
   <%}%>
 <%if (isImplementation) {%>
+ <%if (useInterfaceOverrideAnnotation) {%>
+	@Override
+ <%}%>
 	public <%=genClassifier.getImportedMetaType()%> get<%=genClassifier.getClassifierAccessorName()%>()
 	{
     <%if (genPackage.isLoadedInitialization()) {%>
@@ -611,6 +617,9 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	@Deprecated
 <%}%>
 <%if (isImplementation) {%>
+   <%if (useInterfaceOverrideAnnotation) {%>
+	@Override
+   <%}%>
 	public <%=genFeature.getImportedMetaType()%> get<%=genFeature.getFeatureAccessorName()%>()
 	{
         <%if (!genPackage.isLoadedInitialization()) {%>
@@ -652,6 +661,9 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	@Deprecated
 <%}%>
 <%if (isImplementation) {%>
+   <%if (useInterfaceOverrideAnnotation) {%>
+	@Override
+   <%}%>
 	public <%=genOperation.getImportedMetaType()%> get<%=genOperation.getOperationAccessorName()%>()
 	{
         <%if (!genPackage.isLoadedInitialization()) {%>
@@ -684,6 +696,9 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	 */
 <%}%>
 <%if (isImplementation) {%>
+   <%if (useInterfaceOverrideAnnotation) {%>
+	@Override
+   <%}%>
 	public <%=genPackage.getImportedFactoryInterfaceName()%> get<%=genPackage.getFactoryName()%>()
 	{
 		return (<%=genPackage.getImportedFactoryInterfaceName()%>)getEFactoryInstance();

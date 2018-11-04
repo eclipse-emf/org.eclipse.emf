@@ -82,6 +82,9 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+		@Override
+<%}%>
 		public void run(<%=genModel.getImportedName("org.eclipse.jface.action.IAction")%> action)
 		{
 			<%=genPackage.getModelWizardClassName()%> wizard = new <%=genPackage.getModelWizardClassName()%>();
@@ -305,6 +308,9 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 		submenuManager.addMenuListener
 			(new <%=genModel.getImportedName("org.eclipse.jface.action.IMenuListener")%>()
 			 {
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+				 @Override
+<%}%>
 				 public void menuAboutToShow(<%=genModel.getImportedName("org.eclipse.jface.action.IMenuManager")%> menuManager)
 				 {
 					 menuManager.updateAll(true);
@@ -365,6 +371,9 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useInterfaceOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void selectionChanged(<%=genModel.getImportedName("org.eclipse.jface.viewers.SelectionChangedEvent")%> event)
 	{
 <%if (genModel.isCreationCommands()) {%>

@@ -734,7 +734,7 @@ public class Class
 
     final GenClass genClass = (GenClass)((Object[])argument)[0]; final GenPackage genPackage = genClass.getGenPackage(); final GenModel genModel=genPackage.getGenModel();
     final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;
-    final boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); final boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);
+    final boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); final boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]); final boolean useInterfaceOverrideAnnotation = genModel.useInterfaceOverrideAnnotation() && !(isInterface && isImplementation);
     final boolean isGWT = genModel.getRuntimePlatform() == GenRuntimePlatform.GWT;
     final String publicStaticFinalFlag = isImplementation ? "public static final " : "";
     final String singleWildcard = isJDK50 ? "<?>" : "";
@@ -1405,7 +1405,7 @@ public class Class
     if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {
     stringBuffer.append(TEXT_55);
     }
-    if (classExtendsAllGenFeatures.contains(genFeature)) {
+    if (useInterfaceOverrideAnnotation || classExtendsAllGenFeatures.contains(genFeature)) {
     stringBuffer.append(TEXT_124);
     }
     stringBuffer.append(TEXT_131);
@@ -1461,7 +1461,7 @@ public class Class
     if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {
     stringBuffer.append(TEXT_55);
     }
-    if (classExtendsAllGenFeatures.contains(genFeature)) {
+    if (useInterfaceOverrideAnnotation || classExtendsAllGenFeatures.contains(genFeature)) {
     stringBuffer.append(TEXT_124);
     }
     stringBuffer.append(TEXT_131);
@@ -1598,6 +1598,9 @@ public class Class
     if (isJDK50 && genFeature.hasAPIDeprecatedTag()) {
     stringBuffer.append(TEXT_55);
     }
+    if (useInterfaceOverrideAnnotation) {
+    stringBuffer.append(TEXT_124);
+    }
     stringBuffer.append(TEXT_131);
     stringBuffer.append(arrayElementType);
     stringBuffer.append(TEXT_58);
@@ -1652,6 +1655,9 @@ public class Class
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_165);
     } else {
+    if (useInterfaceOverrideAnnotation) {
+    stringBuffer.append(TEXT_124);
+    }
     stringBuffer.append(TEXT_131);
     stringBuffer.append(genFeature.getListItemType(genClass));
     stringBuffer.append(TEXT_164);
@@ -1679,6 +1685,9 @@ public class Class
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_169);
     } else {
+    if (useInterfaceOverrideAnnotation) {
+    stringBuffer.append(TEXT_124);
+    }
     stringBuffer.append(TEXT_170);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_171);
@@ -1713,6 +1722,9 @@ public class Class
     stringBuffer.append(genFeature.getCapName());
     stringBuffer.append(TEXT_179);
     } else {
+    if (useInterfaceOverrideAnnotation) {
+    stringBuffer.append(TEXT_124);
+    }
     stringBuffer.append(TEXT_159);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_93);
@@ -1746,6 +1758,9 @@ public class Class
     stringBuffer.append(genFeature.getListItemType(genClass));
     stringBuffer.append(TEXT_184);
     } else {
+    if (useInterfaceOverrideAnnotation) {
+    stringBuffer.append(TEXT_124);
+    }
     stringBuffer.append(TEXT_159);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_183);
@@ -1906,6 +1921,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
     } else {
     if (genModel.useGenerics() && ((genFeature.isContainer() || genFeature.isResolveProxies()) && !genFeature.isListType() && genFeature.isUncheckedCast(genClass) || genFeature.isListType() && !genFeature.isFeatureMapType() && (genModel.isReflectiveDelegation() || genModel.isVirtualDelegation() || (genModel.isDynamicDelegation() && !genFeature.isVolatile())) || genFeature.isListDataType() && genFeature.hasDelegateFeature() || genFeature.isListType() && genFeature.hasSettingDelegate())) {
     stringBuffer.append(TEXT_73);
+    }
+    if (useInterfaceOverrideAnnotation && !genClass.hasCollidingGetAccessorOperation(genFeature) && !genFeature.isSuppressedGetVisibility()) {
+    stringBuffer.append(TEXT_124);
     }
     stringBuffer.append(TEXT_131);
     stringBuffer.append(genFeature.getImportedType(genClass));
@@ -2675,6 +2693,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
     stringBuffer.append(genFeature.getImportedType(genClass));
     stringBuffer.append(TEXT_341);
     } else { GenOperation setAccessorOperation = genClass.getSetAccessorOperation(genFeature);
+    if (useInterfaceOverrideAnnotation && !genClass.hasCollidingSetAccessorOperation(genFeature) && !genFeature.isSuppressedSetVisibility()) {
+    stringBuffer.append(TEXT_124);
+    }
     stringBuffer.append(TEXT_159);
     stringBuffer.append(genFeature.getAccessorName());
     if (genClass.hasCollidingSetAccessorOperation(genFeature)) {
@@ -3402,6 +3423,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_163);
     } else {
+    if (useInterfaceOverrideAnnotation && !genClass.hasCollidingUnsetAccessorOperation(genFeature) && !genFeature.isSuppressedUnsetVisibility()) {
+    stringBuffer.append(TEXT_124);
+    }
     stringBuffer.append(TEXT_419);
     stringBuffer.append(genFeature.getAccessorName());
     if (genClass.hasCollidingUnsetAccessorOperation(genFeature)) {
@@ -3816,6 +3840,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_163);
     } else {
+    if (useInterfaceOverrideAnnotation && !genClass.hasCollidingIsSetAccessorOperation(genFeature) && !genFeature.isSuppressedIsSetVisibility()) {
+    stringBuffer.append(TEXT_124);
+    }
     stringBuffer.append(TEXT_442);
     stringBuffer.append(genFeature.getAccessorName());
     if (genClass.hasCollidingIsSetAccessorOperation(genFeature)) {
@@ -4044,6 +4071,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
     } else {
     if (genModel.useGenerics() && !genOperation.hasBody() && !genOperation.isInvariant() && genOperation.hasInvocationDelegate() && genOperation.isUncheckedCast(genClass)) {
     stringBuffer.append(TEXT_73);
+    }
+    if (useInterfaceOverrideAnnotation && !genOperation.isSuppressedVisibility()) {
+    stringBuffer.append(TEXT_124);
     }
     stringBuffer.append(TEXT_131);
     stringBuffer.append(genOperation.getTypeParameters(genClass));
