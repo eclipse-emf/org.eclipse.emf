@@ -137,7 +137,29 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF214(12, "EMF214", "2.14");
+  EMF214(12, "EMF214", "2.14"), /**
+   * The '<em><b>EMF215</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.16
+   * <!-- end-model-doc -->
+   * @see #EMF215_VALUE
+   * @generated
+   * @ordered
+   */
+  EMF215(13, "EMF215", "2.15"), /**
+   * The '<em><b>EMF216</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.16
+   * <!-- end-model-doc -->
+   * @see #EMF216_VALUE
+   * @generated
+   * @ordered
+   */
+  EMF216(14, "EMF216", "2.16");
 
   /**
    * The '<em><b>EMF22</b></em>' literal value.
@@ -314,6 +336,34 @@ public enum GenRuntimeVersion implements Enumerator
   public static final int EMF214_VALUE = 12;
 
   /**
+   * The '<em><b>EMF215</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.16
+   * <!-- end-model-doc -->
+   * @see #EMF215
+   * @model literal="2.15"
+   * @generated
+   * @ordered
+   */
+  public static final int EMF215_VALUE = 13;
+
+  /**
+   * The '<em><b>EMF216</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.16
+   * <!-- end-model-doc -->
+   * @see #EMF216
+   * @model literal="2.16"
+   * @generated
+   * @ordered
+   */
+  public static final int EMF216_VALUE = 14;
+
+  /**
    * An array of all the '<em><b>Gen Runtime Version</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -335,6 +385,8 @@ public enum GenRuntimeVersion implements Enumerator
       EMF212,
       EMF213,
       EMF214,
+      EMF215,
+      EMF216,
     };
 
   /**
@@ -412,6 +464,8 @@ public enum GenRuntimeVersion implements Enumerator
       case EMF212_VALUE: return EMF212;
       case EMF213_VALUE: return EMF213;
       case EMF214_VALUE: return EMF214;
+      case EMF215_VALUE: return EMF215;
+      case EMF216_VALUE: return EMF216;
     }
     return null;
   }

@@ -90,7 +90,29 @@ public enum GenEclipsePlatformVersion implements Enumerator
    * @generated
    * @ordered
    */
-  PHOTON(6, "Photon", "Photon");
+  PHOTON(6, "Photon", "Photon"), /**
+   * The '<em><b>Eclipse 2018 09</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.16
+   * <!-- end-model-doc -->
+   * @see #ECLIPSE_2018_09_VALUE
+   * @generated
+   * @ordered
+   */
+  ECLIPSE_2018_09(7, "Eclipse_2018_09", "2018-09"), /**
+   * The '<em><b>Eclipse 2018 12</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.16
+   * <!-- end-model-doc -->
+   * @see #ECLIPSE_2018_12_VALUE
+   * @generated
+   * @ordered
+   */
+  ECLIPSE_2018_12(8, "Eclipse_2018_12", "2018-12");
 
   /**
    * The '<em><b>Juno</b></em>' literal value.
@@ -170,6 +192,34 @@ public enum GenEclipsePlatformVersion implements Enumerator
   public static final int PHOTON_VALUE = 6;
 
   /**
+   * The '<em><b>Eclipse 2018 09</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.16
+   * <!-- end-model-doc -->
+   * @see #ECLIPSE_2018_09
+   * @model name="Eclipse_2018_09" literal="2018-09"
+   * @generated
+   * @ordered
+   */
+  public static final int ECLIPSE_2018_09_VALUE = 7;
+
+  /**
+   * The '<em><b>Eclipse 2018 12</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.16
+   * <!-- end-model-doc -->
+   * @see #ECLIPSE_2018_12
+   * @model name="Eclipse_2018_12" literal="2018-12"
+   * @generated
+   * @ordered
+   */
+  public static final int ECLIPSE_2018_12_VALUE = 8;
+
+  /**
    * An array of all the '<em><b>Gen Eclipse Platform Version</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -185,6 +235,8 @@ public enum GenEclipsePlatformVersion implements Enumerator
       NEON,
       OXYGEN,
       PHOTON,
+      ECLIPSE_2018_09,
+      ECLIPSE_2018_12,
     };
 
   /**
@@ -256,6 +308,8 @@ public enum GenEclipsePlatformVersion implements Enumerator
       case NEON_VALUE: return NEON;
       case OXYGEN_VALUE: return OXYGEN;
       case PHOTON_VALUE: return PHOTON;
+      case ECLIPSE_2018_09_VALUE: return ECLIPSE_2018_09;
+      case ECLIPSE_2018_12_VALUE: return ECLIPSE_2018_12;
     }
     return null;
   }
