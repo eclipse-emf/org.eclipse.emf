@@ -150,6 +150,58 @@
     </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
+        name="org.eclipse.oomph.version">
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.oomph.version/laxLowerBound///org.eclipse.emf.all-feature/release.xml"
+          value="ANY_RELEASE"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.oomph.version/laxLowerBound///org.eclipse.emf.base-feature/release.xml"
+          value="ANY_RELEASE"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.oomph.version/laxLowerBound///org.eclipse.emf.common/release.xml"
+          value="ANY_RELEASE"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.oomph.version/laxLowerBound///org.eclipse.emf.ecore.xcore/release.xml"
+          value="ANY_RELEASE"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.oomph.version/laxLowerBound///org.eclipse.emf.gwt.common/release.xml"
+          value="ANY_RELEASE"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.oomph.version/laxLowerBound///org.eclipse.emf.java/release.xml"
+          value="ANY_RELEASE"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.oomph.version/laxLowerBound///org.eclipse.emf.oda.ecore/release.xml"
+          value="ANY_RELEASE"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.oomph.version/laxLowerBound///org.eclipse.emf.rap.common.ui/release.xml"
+          value="ANY_RELEASE"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.oomph.version/laxLowerBound///org.eclipse.emf.test.codegen.ecore.xtext/release.xml"
+          value="ANY_RELEASE"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.oomph.version/laxLowerBound///org.eclipse.emf.test.common/release.xml"
+          value="ANY_RELEASE"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.oomph.version/laxLowerBound///org.eclipse.xsd.example/release.xml"
+          value="ANY_RELEASE"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.oomph.version/laxLowerBound///org.eclipse.xsd/release.xml"
+          value="ANY_RELEASE"/>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:CompoundTask"
         name="org.eclipse.pde">
       <setupTask
           xsi:type="setup:PreferenceTask"
