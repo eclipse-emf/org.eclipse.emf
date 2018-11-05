@@ -1372,6 +1372,8 @@ public class Class
     stringBuffer.append(genClass.getQualifiedClassifierAccessor());
     stringBuffer.append(TEXT_126);
     }
+    if (isImplementation && genModel.isDynamicDelegation()) {
+    }
     if (isImplementation && (genModel.getFeatureDelegation() == GenDelegationKind.REFLECTIVE_LITERAL || genModel.isDynamicDelegation()) && (genClass.getClassExtendsGenClass() == null || (genClass.getClassExtendsGenClass().getGenModel().getFeatureDelegation() != GenDelegationKind.REFLECTIVE_LITERAL && !genClass.getClassExtendsGenClass().getGenModel().isDynamicDelegation()))) {
     if (genClass.hasStaticFeatures()) {
     stringBuffer.append(TEXT_127);

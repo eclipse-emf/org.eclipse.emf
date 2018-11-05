@@ -520,6 +520,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	}
 
 <%}%>
+<%if (isImplementation && genModel.isDynamicDelegation()) {%>
+<%@ include file="Class/dynamicDelegation.javajetinc" fail="silent" %>
+<%}%>
 <%@ include file="Class/reflectiveDelegation.override.javajetinc" fail="alternative" %>
 <%@ start %>
 <%if (isImplementation && (genModel.getFeatureDelegation() == GenDelegationKind.REFLECTIVE_LITERAL || genModel.isDynamicDelegation()) && (genClass.getClassExtendsGenClass() == null || (genClass.getClassExtendsGenClass().getGenModel().getFeatureDelegation() != GenDelegationKind.REFLECTIVE_LITERAL && !genClass.getClassExtendsGenClass().getGenModel().isDynamicDelegation()))) {%>
@@ -1248,7 +1251,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	{
 <%@ include file="Class/setGenFeature.pre.insert.javajetinc" fail="silent" %>
     <%if (genModel.isDynamicDelegation() && !genFeature.isVolatile()) {%>
+<%@ include file="Class/dynamicSetGenFeature.pre.insert.javajetinc" fail="silent" %>
 		eDynamicSet(<%=genClass.getQualifiedFeatureID(genFeature)%><%if (genClass.hasStaticFeatures()){%> - ESTATIC_FEATURE_COUNT<%}%>, <%=genFeature.getQualifiedFeatureAccessor()%>, <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType(genClass)%>(<%}%>new<%=genFeature.getCapName()%><%if (!isJDK50 && genFeature.isPrimitiveType()) {%>)<%}%>);
+<%@ include file="Class/dynamicSetGenFeature.post.insert.javajetinc" fail="silent" %>
     <%} else if (genModel.isReflectiveDelegation()) {%>
 		eSet(<%=genFeature.getQualifiedFeatureAccessor()%>, <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType(genClass)%>(<%}%>new<%=genFeature.getCapName()%><%if (!isJDK50 && genFeature.isPrimitiveType()) {%>)<%}%>);
     <%} else if (genFeature.hasSettingDelegate()) {%>
