@@ -1505,7 +1505,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
         //
         if (value == null) return "null";
         Class<?> typeClass = getInstanceClass(base);
-        return Literals.toLiteral(value, typeClass != null && !typeClass.isPrimitive(), getGenModel());
+        return Literals.toLiteral(value, typeClass != null && !typeClass.isPrimitive(), getGenModel().getMainGenModel());
       }
     }
 
@@ -1519,7 +1519,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     result.append(".eINSTANCE.get"); 
     result.append(getName()); 
     result.append("(), "); 
-    result.append(Literals.toStringLiteral(literal, getGenModel()));
+    result.append(Literals.toStringLiteral(literal, getGenModel().getMainGenModel()));
     result.append(')');
 
     // If the type isn't Object, we need to cast. If it's a primitive, we need to unbox.

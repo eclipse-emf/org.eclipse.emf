@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 
 
@@ -176,9 +177,7 @@ public class Literals
     {
       String wrapperClass = importName("java.lang.Byte", genModel);
       StringBuilder boxed = new StringBuilder(16 + wrapperClass.length());
-      boxed.append("new ");
-      boxed.append(wrapperClass);
-      boxed.append('(');
+      appendBoxPrefix(boxed, wrapperClass, genModel);
       if (b >= 0)
       {
         boxed.append("(byte)");
@@ -207,7 +206,10 @@ public class Literals
   }
 
   /**
-   * Returns the boxed form of the literal: new wrapperClass((castType)literal)
+   * Returns the boxed form of the literal 
+   * new wrapperClass((castType)literal) 
+   * or wrapperClass.valueOf((castType>literal)),
+   * if the genModel is not null and the compliance level is Java 9 or higher.
    * The wrapperClass is imported, and, if the castType is null, no cast is
    * included.
    */
@@ -215,9 +217,7 @@ public class Literals
   {
     wrapperClass = importName(wrapperClass, genModel);
     StringBuilder boxed = new StringBuilder(6 + literal.length() + wrapperClass.length() + (castType != null ? castType.length() + 2 : 0));
-    boxed.append("new ");
-    boxed.append(wrapperClass);
-    boxed.append('(');
+    appendBoxPrefix(boxed, wrapperClass, genModel);
     if (castType != null)
     {
       boxed.append('(');
@@ -227,6 +227,21 @@ public class Literals
     boxed.append(literal);
     boxed.append(')');
     return boxed.toString();
+  }
+
+  private static void appendBoxPrefix(StringBuilder boxed, String wrapperClass, GenModel genModel)
+  {
+    if (genModel != null && genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK90)
+    {
+      boxed.append(wrapperClass);
+      boxed.append(".valueOf(");
+    }
+    else
+    {
+      boxed.append("new ");
+      boxed.append(wrapperClass);
+      boxed.append('(');
+    }
   }
 
   /**
