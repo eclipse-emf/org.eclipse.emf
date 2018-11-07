@@ -932,7 +932,9 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
   {
     if (eContainer instanceof EPackageImpl)
     {
-      ((EPackageImpl)eContainer).eNameToEClassifierMap = null;
+      EPackageImpl ePackage = (EPackageImpl)eContainer;
+      ePackage.eNameToEClassifierMap = null;
+      ePackage.eNameToENamedElementMaps = null;
     }
     super.setName(newName);
   }

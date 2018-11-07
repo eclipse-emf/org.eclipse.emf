@@ -1957,7 +1957,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     }
   }
 
-  private List<Map<String, ENamedElement>> eNameToENamedElementMaps;
+  List<Map<String, ENamedElement>> eNameToENamedElementMaps;
 
   @Override
   EObject eObjectForURIFragmentNameSegment(String name, int count)

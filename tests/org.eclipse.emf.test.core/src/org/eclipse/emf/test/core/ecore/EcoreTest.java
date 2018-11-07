@@ -172,14 +172,36 @@ public class EcoreTest
     validEClass.setName("Valid");
     ePackage.getEClassifiers().add(validEClass);
 
-    EPackage eSubPackage = EcoreFactory.eINSTANCE.createEPackage();
-    ((InternalEObject)eSubPackage).eSetProxyURI(uri.appendFragment("//package"));
-    ePackage.getESubpackages().add(eSubPackage);
+    EPackage circularSubPackage = EcoreFactory.eINSTANCE.createEPackage();
+    ((InternalEObject)circularSubPackage).eSetProxyURI(uri.appendFragment("//package"));
+    ePackage.getESubpackages().add(circularSubPackage);
+
+    EPackage validSubPackage = EcoreFactory.eINSTANCE.createEPackage();
+    validSubPackage.setName("valid");
+    ePackage.getESubpackages().add(validSubPackage);
 
     try
     {
       EObject eObject = resourceSet.getEObject(uri.appendFragment("//Valid"), false);
       assertSame(validEClass, eObject);
+
+      eObject = resourceSet.getEObject(uri.appendFragment("//valid"), false);
+      assertSame(validSubPackage, eObject);
+    }
+    catch (StackOverflowError error)
+    {
+      fail("Stack overflow");
+    }
+
+    try
+    {
+      validEClass.setName("Valid1");
+      EObject eObject = resourceSet.getEObject(uri.appendFragment("//Valid1"), false);
+      assertSame(validEClass, eObject);
+
+      validSubPackage.setName("valid1");
+      eObject = resourceSet.getEObject(uri.appendFragment("//valid1"), false);
+      assertSame(validSubPackage, eObject);
     }
     catch (StackOverflowError error)
     {
