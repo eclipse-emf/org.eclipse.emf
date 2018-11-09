@@ -412,10 +412,58 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
 
   public boolean isUncheckedCast()
   {
-    return 
-      getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50 && 
-        getEcoreClassifier().getInstanceTypeName() != null && 
-        getEcoreClassifier().getInstanceTypeName().indexOf('<') != -1;
+    if (getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50)
+    {
+      return false;
+    }
+    else
+    {
+      String instanceTypeName = getEcoreClassifier().getInstanceTypeName();
+      if (instanceTypeName == null)
+      {
+        return false;
+      }
+      else
+      {
+        int index =  instanceTypeName.indexOf('<');
+        if (index == -1)
+        {
+          return false;
+        }
+        else
+        {
+          int end = instanceTypeName.lastIndexOf('>');
+          if (end == -1)
+          {
+            return false;
+          }
+          else
+          {
+            // A generic type with only wild cards arguments is not an unchecked cast.
+            //
+            for (int i = index + 1 ; i < end; ++i)
+            {
+              char character = instanceTypeName.charAt(i);
+              switch (character)
+              {
+                case ' ':
+                case '?':
+                case ',':
+                case '>':
+                {
+                  break;
+                }
+                default:
+                {
+                  return true;
+                }
+              }
+            }
+            return false;
+          }
+        }
+      }
+    }
   }
 
   public String getImportedParameterizedInstanceClassName()

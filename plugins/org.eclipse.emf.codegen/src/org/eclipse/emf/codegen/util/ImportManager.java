@@ -324,6 +324,8 @@ public class ImportManager
         case '<':
         case '>':
         case '&':
+        case '[':
+        case ']':
         {
           if (start != i)
           {
