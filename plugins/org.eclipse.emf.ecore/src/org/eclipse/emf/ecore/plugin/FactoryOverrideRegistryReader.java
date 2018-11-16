@@ -11,6 +11,11 @@
 package org.eclipse.emf.ecore.plugin;
 
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.RegistryFactory;
 
@@ -59,22 +64,22 @@ class FactoryOverrideRegistryReader extends RegistryReader
           if (ePackageDescriptor instanceof EFactoryDescriptor)
           {
             EFactoryDescriptor oldFactoryDescriptor = (EFactoryDescriptor)ePackageDescriptor;
-            
-            String oldPredecessor = oldFactoryDescriptor.element.getAttribute(ATT_PREDECESSOR);
-            if (oldPredecessor != null && oldPredecessor.equals(element.getAttribute(ATT_CLASS)))
+
+            Set<String> oldPredecessors = getPredecessors(oldFactoryDescriptor.element);
+            if (oldPredecessors.contains(element.getAttribute(ATT_CLASS)))
             {
               // The old factory override succeeds over the new one. Do nothing.
               return true;
             }
 
-            String newPredecessor = element.getAttribute(ATT_PREDECESSOR);
-            if (newPredecessor == null || !newPredecessor.equals(oldFactoryDescriptor.element.getAttribute(ATT_CLASS)))
+            Set<String> newPredecessors = getPredecessors(element);
+            if (!newPredecessors.contains(oldFactoryDescriptor.element.getAttribute(ATT_CLASS)))
             {
               EcorePlugin.INSTANCE.log
                 ("Both '" + oldFactoryDescriptor.element.getContributor().getName() + "' and '" + element.getContributor().getName() + "' register a factory override for '" + packageURI + "'");
             }
           }
-          
+
           EFactoryDescriptor newFactoryDescriptor = new EFactoryDescriptor(element, ATT_CLASS, (EPackage.Descriptor)ePackageDescriptor);
           EPackage.Registry.INSTANCE.put(packageURI, newFactoryDescriptor);
         }
@@ -92,5 +97,28 @@ class FactoryOverrideRegistryReader extends RegistryReader
     }
 
     return false;
+  }
+
+  private static Set<String> getPredecessors(IConfigurationElement element)
+  {
+    String value = element.getAttribute(ATT_PREDECESSOR);
+    if (value == null)
+    {
+      return Collections.emptySet();
+    }
+
+    Set<String> predecessors = new HashSet<String>();
+    StringTokenizer tokenizer = new StringTokenizer(value, " ");
+
+    while (tokenizer.hasMoreTokens())
+    {
+      String predecessor = tokenizer.nextToken().trim();
+      if (predecessor.length() != 0)
+      {
+        predecessors.add(predecessor);
+      }
+    }
+
+    return predecessors;
   }
 }
