@@ -29,7 +29,6 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.core.runtime.IPlatformRunnable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.JavaCore;
@@ -1154,8 +1153,7 @@ public class JMerger
    * @deprecated
    */
   @Deprecated
-  public static class PlatformRunnable extends PropertyMerger implements IPlatformRunnable 
+  public static class PlatformRunnable extends PropertyMerger
   {
-    // Empty
   }
 }

@@ -11,9 +11,6 @@
 package org.eclipse.emf.codegen.jmerge;
 
 
-import org.eclipse.core.runtime.IPlatformRunnable;
-
-
 /**
  * This implements the method {@link #run(Object)}, 
  * which is called just like main during headless workbench invocation.
@@ -22,7 +19,7 @@ import org.eclipse.core.runtime.IPlatformRunnable;
 @Deprecated
 public class PropertyMerger extends org.eclipse.emf.codegen.merge.properties.PropertyMerger
 {
-  public static class PlatformRunnable extends PropertyMerger implements IPlatformRunnable 
+  public static class PlatformRunnable extends PropertyMerger
   {
     // Empty
   }

@@ -279,7 +279,7 @@ public class PropertyMerger
 /////////////////////////////////  HEADLESS INVOCATION  /////////////////////////////////////
 
   @Deprecated
-  public static class PlatformRunnable extends PropertyMerger implements org.eclipse.core.runtime.IPlatformRunnable 
+  public static class PlatformRunnable extends PropertyMerger
   {
     // Empty
   }
