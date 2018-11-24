@@ -84,18 +84,19 @@ public abstract class RegistryReader
     if (point != null)
     {
       IConfigurationElement[] elements = point.getConfigurationElements();
+      elements = getFilteredConfigurationElements(elements);
       for (int i = 0; i < elements.length; i++)
       {
         internalReadElement(elements[i], true);
       }
-  
+
       pluginRegistry.addRegistryChangeListener
         (new IRegistryChangeListener()
          {
            public void registryChanged(IRegistryChangeEvent event)
            {
              IExtensionDelta[] deltas = event.getExtensionDeltas();
-             for (int i = 0; i < deltas.length; ++i) 
+             for (int i = 0; i < deltas.length; ++i)
              {
                IExtensionDelta delta = deltas[i];
                if (point.equals(delta.getExtensionPoint()))
@@ -103,7 +104,7 @@ public abstract class RegistryReader
                  boolean add = delta.getKind() == IExtensionDelta.ADDED;
                  IExtension extension = delta.getExtension();
                  IConfigurationElement[] configurationElement = extension.getConfigurationElements();
-                 for (int j = 0; j < configurationElement.length; ++j) 
+                 for (int j = 0; j < configurationElement.length; ++j)
                  {
                    internalReadElement(configurationElement[j], add);
                  }
@@ -112,6 +113,15 @@ public abstract class RegistryReader
            }
          });
       }
+  }
+
+  /**
+   * Returns the filtered configuration elements.
+   * @since 2.16
+   */
+  protected IConfigurationElement[] getFilteredConfigurationElements(IConfigurationElement[] elements)
+  {
+    return elements;
   }
 
   private void internalReadElement(IConfigurationElement element, boolean add)
