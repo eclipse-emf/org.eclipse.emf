@@ -4585,15 +4585,27 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       {
         InternalEObject internalEObject = (InternalEObject)reference;
         List<String> uriFragmentPath = new ArrayList<String>();
-        for (InternalEObject container = internalEObject.eInternalContainer(); container != null; container = internalEObject.eInternalContainer())
+        if (!(internalEObject instanceof EPackage))
         {
-          uriFragmentPath.add(container.eURIFragmentSegment(internalEObject.eContainingFeature(), internalEObject));
-          internalEObject = container;
+          for (InternalEObject container = internalEObject.eInternalContainer(); container != null; container = internalEObject.eInternalContainer())
+          {
+            uriFragmentPath.add(container.eURIFragmentSegment(internalEObject.eContainingFeature(), internalEObject));
+
+            // Don't walk past a package's containing package.
+            //
+            if (internalEObject instanceof EPackage && container instanceof EPackage)
+            {
+              break;
+            }
+            internalEObject = container;
+          }
         }
         if (internalEObject instanceof EPackage)
         {
+          // There should be one, but if it's not generated, we can't refer to things that are in it.
+          //
           GenPackage genPackage = findGenPackage((EPackage)internalEObject);
-          if (genPackage != null)
+          if (genPackage != null && genPackage.hasClassifiers())
           {
             StringBuilder fragment = new StringBuilder("/");
             for (int i = uriFragmentPath.size() - 1; i >= 0; --i)
