@@ -427,7 +427,11 @@ public class XSDEcoreBuilder extends MapBuilder
           {
             if (xsdSimpleTypeDefinition.getVariety() == XSDVariety.LIST_LITERAL)
             {
-              EDataType itemEDataType = getEDataType(xsdSimpleTypeDefinition.getItemTypeDefinition());
+              EDataType itemEDataType = getExplicitType(xsdSimpleTypeDefinition, eDataType);
+              if (itemEDataType == null)
+              {
+                itemEDataType = getEDataType(xsdSimpleTypeDefinition.getItemTypeDefinition());
+              }
               extendedMetaData.setItemType(eDataType, itemEDataType);
               eDataType.setInstanceTypeName("java.util.List");
             }
@@ -459,7 +463,12 @@ public class XSDEcoreBuilder extends MapBuilder
           }
           else
           {
-            EDataType baseEDataType = getEDataType(baseTypeDefinition);
+            EDataType baseEDataType = getExplicitType(xsdSimpleTypeDefinition, eDataType);
+            if (baseEDataType == null)
+            {
+              baseEDataType = getEDataType(baseTypeDefinition);
+            }
+
             String instanceClassName = getInstanceClassName(xsdSimpleTypeDefinition, baseEDataType);
 
             // Don't set up circular inheritance.
@@ -1589,6 +1598,38 @@ public class XSDEcoreBuilder extends MapBuilder
       }
     }
     return result;
+  }
+
+  private EDataType getExplicitType(XSDSimpleTypeDefinition xsdSimpleTypeDefinition, EModelElement context)
+  {
+    Element element = xsdSimpleTypeDefinition.getElement();
+    if (element != null)
+    {
+      for (Node node = element.getFirstChild(); node != null; node = node.getNextSibling())
+      {
+        if (node.getNodeType() == Node.ELEMENT_NODE)
+        {
+          int nodeType = XSDConstants.nodeType(node);
+          if (nodeType == XSDConstants.RESTRICTION_ELEMENT || nodeType == XSDConstants.LIST_ELEMENT)
+          {
+            String explicitType = getEcoreAttribute((Element)node, "type");
+            if (explicitType != null)
+            {
+              EGenericType explicitGenericType = getGenericType(xsdSimpleTypeDefinition, xsdSimpleTypeDefinition.getElement(), context, explicitType);
+              if (explicitGenericType != null)
+              {
+                EClassifier eClassifier = explicitGenericType.getEClassifier();
+                if (eClassifier instanceof EDataType && explicitGenericType.getETypeArguments().isEmpty() && explicitGenericType.getELowerBound() == null && explicitGenericType.getELowerBound() == null)
+                {
+                  return (EDataType)eClassifier;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return null;
   }
 
   protected boolean useSortedAttributes()
