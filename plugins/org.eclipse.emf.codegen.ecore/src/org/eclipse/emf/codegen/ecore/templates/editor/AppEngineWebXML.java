@@ -20,7 +20,7 @@ public class AppEngineWebXML
   protected final String TEXT_3 = "<!--";
   protected final String TEXT_4 = NL + " ";
   protected final String TEXT_5 = NL + "-->" + NL + "<appengine-web-app xmlns=\"http://appengine.google.com/ns/1.0\">" + NL + "\t<application>";
-  protected final String TEXT_6 = "-editor</application>" + NL + "\t<version>1</version>" + NL + "</appengine-web-app>";
+  protected final String TEXT_6 = "-editor</application>" + NL + "\t<version>1</version>" + NL + "\t<threadsafe>true</threadsafe>" + NL + "</appengine-web-app>";
 
   public String generate(Object argument)
   {
