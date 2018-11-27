@@ -1760,6 +1760,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       if (source != null)
       {
         StringBuilder stringBuilder = null;
+        boolean containsFilteredDetails = false;
         for (Map.Entry<String, String> entry : eAnnotation.getDetails())
         {
           String key = entry.getKey();
@@ -1776,7 +1777,19 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             stringBuilder.append(escapeString(value, ""));
             stringBuilder.append('\'');
           }
+          else 
+          {
+            containsFilteredDetails = true;
+          }
         }
+
+        // Generate the annotation even if there are no details, but only if there are no details because they have been filtered.
+        //
+        if (stringBuilder == null && !containsFilteredDetails)
+        {
+          stringBuilder = new StringBuilder(escapeString(source, " ="));
+        }
+
         if (stringBuilder != null)
         {
           if (result.size() == 0)
