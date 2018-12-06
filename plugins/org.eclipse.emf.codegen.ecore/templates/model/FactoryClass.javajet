@@ -225,7 +225,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 <%if (isJDK50 && genClass.hasAPIDeprecatedTag()) {%>
 	@Deprecated
 <%}%>
-<%if (useInterfaceOverrideAnnotation) {%>
+<%if (useInterfaceOverrideAnnotation && !genClass.isMapEntry()) {%>
 	@Override
 <%}%>
 	public <%=genClass.getTypeParameters()%><%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceTypeArguments()%> create<%=genClass.getName()%>()

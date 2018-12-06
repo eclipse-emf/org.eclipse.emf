@@ -923,7 +923,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
   <%if (genModel.useGenerics() && ((genFeature.isContainer() || genFeature.isResolveProxies()) && !genFeature.isListType() && genFeature.isUncheckedCast(genClass) || genFeature.isListType() && !genFeature.isFeatureMapType() && (genModel.isReflectiveDelegation() || genModel.isVirtualDelegation() || (genModel.isDynamicDelegation() && !genFeature.isVolatile())) || genFeature.isListDataType() && genFeature.hasDelegateFeature() || genFeature.isListType() && genFeature.hasSettingDelegate())) {%>
 	@SuppressWarnings("unchecked")
   <%}%>
-  <%if (useInterfaceOverrideAnnotation && !genClass.hasCollidingGetAccessorOperation(genFeature) && !genFeature.isSuppressedGetVisibility()) {%>
+  <%if (useInterfaceOverrideAnnotation && !genClass.isMapEntry() && !genClass.hasCollidingGetAccessorOperation(genFeature) && !genFeature.isSuppressedGetVisibility()) {%>
 	@Override
   <%}%>
 	public <%=genFeature.getImportedType(genClass)%> <%=genFeature.getGetAccessor()%><%if (genClass.hasCollidingGetAccessorOperation(genFeature)) {%>_<%}%>()
@@ -1244,7 +1244,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	void set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType(genClass)%> value);
 
 <%} else { GenOperation setAccessorOperation = genClass.getSetAccessorOperation(genFeature);%>
-  <%if (useInterfaceOverrideAnnotation && !genClass.hasCollidingSetAccessorOperation(genFeature) && !genFeature.isSuppressedSetVisibility()) {%>
+  <%if (useInterfaceOverrideAnnotation && !genClass.isMapEntry() && !genClass.hasCollidingSetAccessorOperation(genFeature) && !genFeature.isSuppressedSetVisibility()) {%>
 	@Override
   <%}%>
 	public void set<%=genFeature.getAccessorName()%><%if (genClass.hasCollidingSetAccessorOperation(genFeature)) {%>_<%}%>(<%=genFeature.getImportedType(genClass)%> <%=setAccessorOperation == null ? "new" + genFeature.getCapName() : setAccessorOperation.getGenParameters().get(0).getName()%>)
@@ -1520,7 +1520,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	void unset<%=genFeature.getAccessorName()%>();
 
 <%} else {%>
-  <%if (useInterfaceOverrideAnnotation && !genClass.hasCollidingUnsetAccessorOperation(genFeature) && !genFeature.isSuppressedUnsetVisibility()) {%>
+  <%if (useInterfaceOverrideAnnotation && !genClass.isMapEntry() && !genClass.hasCollidingUnsetAccessorOperation(genFeature) && !genFeature.isSuppressedUnsetVisibility()) {%>
 	@Override
   <%}%>
 	public void unset<%=genFeature.getAccessorName()%><%if (genClass.hasCollidingUnsetAccessorOperation(genFeature)) {%>_<%}%>()
@@ -1699,7 +1699,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	boolean isSet<%=genFeature.getAccessorName()%>();
 
 <%} else {%>
-  <%if (useInterfaceOverrideAnnotation && !genClass.hasCollidingIsSetAccessorOperation(genFeature) && !genFeature.isSuppressedIsSetVisibility()) {%>
+  <%if (useInterfaceOverrideAnnotation  && !genClass.isMapEntry() && !genClass.hasCollidingIsSetAccessorOperation(genFeature) && !genFeature.isSuppressedIsSetVisibility()) {%>
 	@Override
   <%}%>
 	public boolean isSet<%=genFeature.getAccessorName()%><%if (genClass.hasCollidingIsSetAccessorOperation(genFeature)) {%>_<%}%>()
@@ -1847,7 +1847,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
   <%if (genModel.useGenerics() && !genOperation.hasBody() && !genOperation.isInvariant() && genOperation.hasInvocationDelegate() && genOperation.isUncheckedCast(genClass)) {%>
 	@SuppressWarnings("unchecked")
   <%}%>
-  <%if (useInterfaceOverrideAnnotation && !genOperation.isSuppressedVisibility()) {%>
+  <%if (useInterfaceOverrideAnnotation && !genClass.isMapEntry() && !genOperation.isSuppressedVisibility()) {%>
 	@Override
   <%}%>
 	public <%=genOperation.getTypeParameters(genClass)%><%=genOperation.getImportedType(genClass)%> <%=genOperation.getName()%>(<%=genOperation.getParameters(isImplementation, genClass)%>)<%=genOperation.getThrows(genClass)%>
@@ -2628,6 +2628,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+  <%if (useInterfaceOverrideAnnotation) {%>
+	@Override
+  <%}%>
 	public int getHash()
 	{
 		if (hash == -1)
@@ -2643,6 +2646,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+  <%if (useInterfaceOverrideAnnotation) {%>
+	@Override
+  <%}%>
 	public void setHash(int hash)
 	{
 		this.hash = hash;
@@ -2653,6 +2659,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+  <%if (useInterfaceOverrideAnnotation) {%>
+	@Override
+  <%}%>
 	public <%=keyType%> getKey()
 	{
   <%if (!isJDK50 && keyFeature.isPrimitiveType()) {%>
@@ -2667,6 +2676,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+  <%if (useInterfaceOverrideAnnotation) {%>
+	@Override
+  <%}%>
 	public void setKey(<%=keyType%> key)
 	{
   <%if (keyFeature.isListType()) {%>
@@ -2685,6 +2697,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+  <%if (useInterfaceOverrideAnnotation) {%>
+	@Override
+  <%}%>
 	public <%=valueType%> getValue()
 	{
   <%if (!isJDK50 && valueFeature.isPrimitiveType()) {%>
@@ -2699,6 +2714,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+  <%if (useInterfaceOverrideAnnotation) {%>
+	@Override
+  <%}%>
 	public <%=valueType%> setValue(<%=valueType%> value)
 	{
 		<%=valueType%> oldValue = getValue();

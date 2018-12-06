@@ -459,7 +459,7 @@ public class FactoryClass
     if (isJDK50 && genClass.hasAPIDeprecatedTag()) {
     stringBuffer.append(TEXT_63);
     }
-    if (useInterfaceOverrideAnnotation) {
+    if (useInterfaceOverrideAnnotation && !genClass.isMapEntry()) {
     stringBuffer.append(TEXT_40);
     }
     stringBuffer.append(TEXT_64);
