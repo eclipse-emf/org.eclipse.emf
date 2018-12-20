@@ -35,7 +35,7 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.xtext.util.MergeableManifest;
+import org.eclipse.xtext.util.MergeableManifest2;
 import org.osgi.framework.Bundle;
 
 
@@ -125,7 +125,7 @@ public class XcoreClasspathUpdater
       try
       {
         IFile manifestFile = (IFile)manifestResource;
-        MergeableManifest manifest = new MergeableManifest(manifestFile.getContents());
+        MergeableManifest2 manifest = new MergeableManifest2(manifestFile.getContents());
         manifest.addRequiredBundles(Collections.singleton(bundleID));
         if (manifest.isModified())
         {
