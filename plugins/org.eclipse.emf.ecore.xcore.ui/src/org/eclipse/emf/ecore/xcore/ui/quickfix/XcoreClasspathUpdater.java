@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.Collections;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
@@ -27,15 +28,18 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.xtext.util.MergeableManifest2;
 import org.osgi.framework.Bundle;
 
 
@@ -125,13 +129,13 @@ public class XcoreClasspathUpdater
       try
       {
         IFile manifestFile = (IFile)manifestResource;
-        MergeableManifest2 manifest = new MergeableManifest2(manifestFile.getContents());
-        manifest.addRequiredBundles(Collections.singleton(bundleID));
-        if (manifest.isModified())
+        Object manifest = createMergeableManifest(manifestFile.getContents());
+        addRequiredBundle(manifest, bundleID);
+        if (isModified(manifest))
         {
           ByteArrayOutputStream out = new ByteArrayOutputStream();
           output = new BufferedOutputStream(out);
-          manifest.write(output);
+          write(manifest, output);
           ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
           input = new BufferedInputStream(in);
           manifestFile.setContents(input, true, true, monitor);
@@ -152,5 +156,70 @@ public class XcoreClasspathUpdater
       }
     }
     return false;
+  }
+  
+  private static Object createMergeableManifest(InputStream inputStream) throws CoreException
+  {
+    Class<?> mergeableManifestClass;
+    try
+    {
+      mergeableManifestClass = CommonPlugin.loadClass("org.eclipse.xtext.util", "org.eclipse.xtext.util.MergeableManifest2");
+    }
+    catch (Exception exception)
+    {
+      try
+      {
+        mergeableManifestClass = CommonPlugin.loadClass("org.eclipse.xtext.util", "org.eclipse.xtext.util.MergeableManifest");
+      }
+      catch (ClassNotFoundException exception2)
+      {
+        throw new CoreException(new Status(IStatus.ERROR, XcoreActivator.getInstance().getBundle().getSymbolicName(), exception.getMessage(), exception));
+      }
+    }
+    
+    try
+    {
+      return mergeableManifestClass.getConstructor(InputStream.class).newInstance(inputStream);
+    }
+    catch (Exception exception)
+    {
+      throw new CoreException(new Status(IStatus.ERROR, XcoreActivator.getInstance().getBundle().getSymbolicName(), exception.getMessage(), exception));
+    }
+  }
+  
+  private static void addRequiredBundle(Object mergeableManifest, String bundleID) throws CoreException
+  {
+    try
+    {
+      mergeableManifest.getClass().getMethod("addRequiredBundles", Set.class).invoke(mergeableManifest, Collections.singleton(bundleID));
+    }
+    catch (Exception exception)
+    {
+      throw new CoreException(new Status(IStatus.ERROR, XcoreActivator.getInstance().getBundle().getSymbolicName(), exception.getMessage(), exception));
+    }
+  }
+  
+  private static boolean isModified(Object mergeableManifest) throws CoreException
+  {
+    try
+    {
+      return (Boolean)mergeableManifest.getClass().getMethod("isModified").invoke(mergeableManifest);
+    }
+    catch (Exception exception)
+    {
+      throw new CoreException(new Status(IStatus.ERROR, XcoreActivator.getInstance().getBundle().getSymbolicName(), exception.getMessage(), exception));
+    }
+  }
+  
+  private static void write(Object mergeableManifest, OutputStream outputStream) throws CoreException
+  {
+    try
+    {
+      mergeableManifest.getClass().getMethod("write", OutputStream.class).invoke(mergeableManifest, outputStream);
+    }
+    catch (Exception exception)
+    {
+      throw new CoreException(new Status(IStatus.ERROR, XcoreActivator.getInstance().getBundle().getSymbolicName(), exception.getMessage(), exception));
+    }
   }
 }
