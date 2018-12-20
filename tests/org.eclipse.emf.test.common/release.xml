@@ -5,8 +5,8 @@
 		<feature name="org.eclipse.emf.license" version="2.10.0" license="true"/>
 		<plugin name="org.eclipse.emf.tests" version="2.8.0"/>
 		<plugin name="org.eclipse.emf.test.common" version="1.7.0"/>
-		<plugin name="org.eclipse.emf.test.core" version="2.15.0"/>
-		<plugin name="org.eclipse.emf.test.edit" version="2.11.0"/>
+		<plugin name="org.eclipse.emf.test.core" version="2.16.0"/>
+		<plugin name="org.eclipse.emf.test.edit" version="2.12.0"/>
 		<plugin name="org.eclipse.emf.test.tools" version="2.13.0"/>
 		<plugin name="org.eclipse.emf.test.xml" version="2.12.0"/>
 		<plugin name="org.eclipse.emf.test.examples" version="2.10.0"/>
@@ -16,10 +16,10 @@
 		<plugin name="org.eclipse.emf.test.edit.ui.platform" version="2.11.0"/>
 	</feature>
 	<plugin name="org.eclipse.emf.test.common" version="1.7.0"/>
-	<plugin name="org.eclipse.emf.test.core" version="2.15.0"/>
+	<plugin name="org.eclipse.emf.test.core" version="2.16.0"/>
 	<plugin name="org.eclipse.emf.test.databinding" version="1.5.0"/>
 	<plugin name="org.eclipse.emf.test.databinding.edit" version="1.4.0"/>
-	<plugin name="org.eclipse.emf.test.edit" version="2.11.0"/>
+	<plugin name="org.eclipse.emf.test.edit" version="2.12.0"/>
 	<plugin name="org.eclipse.emf.test.edit.ui.platform" version="2.11.0"/>
 	<plugin name="org.eclipse.emf.test.edit.ui.rap" version="2.11.0"/>
 	<plugin name="org.eclipse.emf.test.examples" version="2.10.0"/>
