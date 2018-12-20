@@ -8,7 +8,7 @@
       name="emf.development.environment.installation"
       label="EMF Development Environment Installation">
     <productVersion
-        href="index:/org.eclipse.setup#//@productCatalogs[name='org.eclipse.products']/@products[name='epp.package.committers']/@versions[name='2018-09']"/>
+        href="index:/org.eclipse.setup#//@productCatalogs[name='org.eclipse.products']/@products[name='epp.package.committers']/@versions[name='2018-12']"/>
     <description>The EMF development environment installation provides the full development environment for working with EMF and XSD.</description>
   </installation>
   <workspace
