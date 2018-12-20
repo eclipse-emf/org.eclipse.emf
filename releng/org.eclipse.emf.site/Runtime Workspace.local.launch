@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.pde.ui.RuntimeWorkbench">
-<setAttribute key="additional_plugins">
-<setEntry value="org.eclipse.equinox.ds:1.5.100.v20171221-2204:default:true"/>
-</setAttribute>
+<setAttribute key="additional_plugins"/>
 <booleanAttribute key="append.args" value="true"/>
 <booleanAttribute key="askclear" value="true"/>
 <booleanAttribute key="automaticAdd" value="true"/>
@@ -51,7 +49,6 @@
 <setEntry value="org.eclipse.emf.codegen:default"/>
 <setEntry value="org.eclipse.emf.common.ui:default"/>
 <setEntry value="org.eclipse.emf.common:default"/>
-<setEntry value="org.eclipse.emf.compare:default"/>
 <setEntry value="org.eclipse.emf.converter:default"/>
 <setEntry value="org.eclipse.emf.databinding.edit:default"/>
 <setEntry value="org.eclipse.emf.databinding:default"/>
