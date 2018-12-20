@@ -2366,7 +2366,7 @@ public class XcoreJvmInferrer
           @Override
           protected JvmOperation inferStructure()
           {
-            JvmOperation jvmOperation = createJvmOperation(genFeature, JvmVisibility.PUBLIC, false,  getJvmTypeReference(genFeature.getType(genFeature.getGenClass()), genFeature));
+            JvmOperation jvmOperation = createJvmOperation(genFeature, JvmVisibility.PUBLIC, false,  getJvmTypeReference(genFeature.getType(genClass), genFeature));
             if (isInterface)
             {
               mapping.setGetter(jvmOperation);
@@ -2397,7 +2397,7 @@ public class XcoreJvmInferrer
           @Override
           protected JvmOperation inferStructure()
           {
-            JvmOperation jvmOperation = createJvmOperation(genFeature, JvmVisibility.PUBLIC, false,  getJvmTypeReference(genFeature.getType(genFeature.getGenClass()), genFeature));
+            JvmOperation jvmOperation = createJvmOperation(genFeature, JvmVisibility.PUBLIC, false,  getJvmTypeReference(genFeature.getType(genClass), genFeature));
             return jvmOperation;
           }
 
