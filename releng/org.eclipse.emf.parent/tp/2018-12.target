@@ -17,7 +17,7 @@
 
       <unit id="org.eclipse.nebula.widgets.cdatetime" version="0.0.0"/>
 
-      <repository location="http://download.eclipse.org/eclipse/updates/4.10-I-builds"/>
+      <repository location="http://download.eclipse.org/eclipse/updates/4.10/R-4.10-201812060815"/>
       <repository location="http://download.eclipse.org/releases/2018-12"/>
       <repository location="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
 
@@ -25,7 +25,7 @@
 
       <repository location="http://download.itemis.com/updates/releases/2.1.0"/>
 
-      <repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.15.0"/>
+      <repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.16.0"/>
       <repository location="http://download.eclipse.org/modeling/m2t/xpand/updates/releases/R201605260315"/>
       <repository location="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.9.1"/>
       <repository location="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
