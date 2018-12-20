@@ -53,13 +53,16 @@ import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
 import org.eclipse.xtext.ui.refactoring.IDependentElementsCalculator;
 import org.eclipse.xtext.ui.refactoring.IRenameStrategy;
 import org.eclipse.xtext.ui.refactoring.impl.RenameElementProcessor;
+import org.eclipse.xtext.xbase.imports.RewritableImportSection;
 import org.eclipse.xtext.xbase.ui.hover.XbaseDeclarativeHoverSignatureProvider;
 import org.eclipse.xtext.xbase.ui.hover.XbaseDispatchingEObjectTextHover;
 import org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.jdt.JdtRenameRefactoringParticipantProcessor;
 import org.eclipse.xtext.xbase.validation.UniqueClassNameValidator;
 
+import com.google.inject.Binder;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.name.Names;
 
 
 /**
@@ -227,5 +230,10 @@ public class XcoreUiModule extends AbstractXcoreUiModule
   public Class<? extends IFoldingRegionProvider> bindIFoldingRegionProvider()
   {
     return XcoreFoldingRegionProvider.class;
+  }
+
+  public void configureRewritableImportSection(Binder binder)
+  {
+    binder.bind(Boolean.class).annotatedWith(Names.named(RewritableImportSection.Factory.REWRITABLEIMPORTSECTION_ENABLEMENT)).toInstance(false);
   }
 }
