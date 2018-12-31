@@ -1967,7 +1967,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
       Computation computation = Computation.get(this);
       eNameToENamedElementMaps = computation.compute();
     }
-    return count >= 0 || count < eNameToENamedElementMaps.size() ? eNameToENamedElementMaps.get(count).get(name) : null;
+    return count >= 0 && count < eNameToENamedElementMaps.size() ? eNameToENamedElementMaps.get(count).get(name) : null;
   }
 
   @Override
