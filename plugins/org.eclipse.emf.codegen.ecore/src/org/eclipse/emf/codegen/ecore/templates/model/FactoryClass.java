@@ -305,9 +305,9 @@ public class FactoryClass
     stringBuffer.append(TEXT_12);
     }
     if (isImplementation) {
-    if (isJDK50 && GenModelUtil.hasAPIDeprecatedTag(genPackage.getGenClassifiers()) && !genPackage.hasAPIDeprecatedTag()) {
+    if (isJDK50 && !genPackage.hasAPIDeprecatedTag()) { List<GenClassifier> genClassifiers = new ArrayList<GenClassifier>(genPackage.getGenClassifiers()); for (Iterator<GenClassifier> i = genClassifiers.iterator(); i.hasNext(); ) { GenClassifier genClassifier = i.next(); if (genClassifier instanceof GenClass && ((GenClass)genClassifier).isAbstract()) i.remove(); } if (GenModelUtil.hasAPIDeprecatedTag(genClassifiers)) {
     stringBuffer.append(TEXT_13);
-    }
+    }}
     stringBuffer.append(TEXT_14);
     stringBuffer.append(genPackage.getFactoryClassName());
     stringBuffer.append(TEXT_15);
