@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xrefso="http://www.eclipse.org/EMF/2019/test/xrefsopposite">
+  <xrefso:APkg id="apkg">
+    <ownedAs
+      id="a0"
+      name="a0"
+      ref1="#a1 #a2"
+      ref2="#a1 #a2">
+  </ownedAs>
+  <ownedAs
+      id="a1"
+      name="a1"
+      oref1="#a0"
+      oref2="#a0">
+  </ownedAs>
+  <ownedAs
+      id="a2"
+      name="a2"
+      oref1="#a0"
+      oref2="#a0"
+      ref3="#a1">
+  </ownedAs>
+  
+  </xrefso:APkg>
+</xmi:XMI>

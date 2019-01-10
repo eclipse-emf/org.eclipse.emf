@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2014 IBM Corporation, CEA, and others.
+ * Copyright (c) 2002-2019 IBM Corporation, CEA, and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *   Christian W. Damus (CEA) - 433108, 433027
+ *   Thales - bug 543340
  */
 package org.eclipse.emf.test.core;
 
@@ -58,6 +59,7 @@ import org.junit.runners.Suite;
       org.eclipse.emf.test.core.ecore.ReificationTest.class,
       org.eclipse.emf.test.core.ecore.ECrossReferenceAdapterTest.class,
       org.eclipse.emf.test.core.ecore.ECrossReferenceAdapterStressTest.class,
+      org.eclipse.emf.test.core.ecore.ECrossReferenceAdapterByFeatureTest.class,
       org.eclipse.emf.test.core.common.util.WeakInterningHashSetTest.class,
       org.eclipse.emf.test.core.common.util.PoolTest.class,
       org.eclipse.emf.test.core.common.util.StringPoolTest.class,

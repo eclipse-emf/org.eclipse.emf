@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2014 IBM Corporation, CEA, and others.
+ * Copyright (c) 2005-2019 IBM Corporation, CEA, and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
  * Contributors: 
  *   IBM - Initial API and implementation
  *   Christian W. Damus (CEA) - bug 433027
+ *   Thales - bug 543340
  */
 package org.eclipse.emf.ecore.util;
 
@@ -573,6 +574,63 @@ public class ECrossReferenceAdapter implements Adapter.Internal
     return result;
   }
   
+  /**
+   * @since 2.17
+   */
+  public Collection<EStructuralFeature.Setting> getInverseReferences(EObject eObject, EReference reference, boolean resolve)
+  {
+    Collection<EStructuralFeature.Setting> result = new ArrayList<EStructuralFeature.Setting>();
+
+    if (resolve)
+    {
+      resolveAll(eObject);
+    }
+
+    EReference containmentFeature = eObject.eContainmentFeature();
+    if (reference == containmentFeature)
+    {
+      EObject eContainer = resolve ? eObject.eContainer() : ((InternalEObject)eObject).eInternalContainer();
+      if (eContainer != null)
+      {
+        result.add(((InternalEObject) eContainer).eSetting(containmentFeature));
+      }
+    }
+
+    Collection<EStructuralFeature.Setting> nonNavigableInverseReferences = inverseCrossReferencer.get(eObject);
+    if (nonNavigableInverseReferences != null)
+    {
+      for (EStructuralFeature.Setting setting : nonNavigableInverseReferences)
+      {
+        if (reference == setting.getEStructuralFeature())
+        {
+          result.add(setting);
+        }
+      }
+    }
+
+    EReference eOpposite = reference;
+    EReference eReference = eOpposite.getEOpposite();
+    if (eReference != null && !eReference.isContainer() && eObject.eIsSet(eReference))
+    {
+      if (eReference.isMany())
+      {
+        Object collection = eObject.eGet(eReference);
+        for (@SuppressWarnings("unchecked")
+        Iterator<EObject> j = resolve() ? ((Collection<EObject>) collection).iterator() : ((InternalEList<EObject>) collection).basicIterator(); j.hasNext();)
+        {
+          InternalEObject referencingEObject = (InternalEObject) j.next();
+          result.add(referencingEObject.eSetting(eOpposite));
+        }
+      }
+      else
+      {
+        result.add(((InternalEObject) eObject.eGet(eReference, resolve())).eSetting(eOpposite));
+      }
+    }
+
+    return result;
+  }
+
   protected void resolveAll(EObject eObject)
   {
     if (!eObject.eIsProxy())

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) 2019 THALES GLOBAL SERVICES.&#xD;&#xA;All rights reserved.   This program and the accompanying materials&#xD;&#xA;are made available under the terms of the Eclipse Public License v2.0&#xD;&#xA;which accompanies this distribution, and is available at&#xD;&#xA;http://www.eclipse.org/legal/epl-v20.html&#xD;&#xA;&#xD;&#xA;Contributors:&#xD;&#xA;  Thales - initial API and implementation"
+    modelDirectory="/org.eclipse.emf.test.core/src" editDirectory="" editorDirectory=""
+    modelPluginID="org.eclipse.emf.test.core" modelName="XRefsOpposite" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    testsDirectory="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0"
+    copyrightFields="false" language="" operationReflection="true" importOrganizing="true">
+  <foreignModel>xrefsopposite.ecore</foreignModel>
+  <genPackages prefix="XRefsOpposite" basePackage="org.eclipse.emf.test.core" disposableProviderFactory="true"
+      ecorePackage="xrefsopposite.ecore#/">
+    <genClasses ecoreClass="xrefsopposite.ecore#//A">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xrefsopposite.ecore#//A/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xrefsopposite.ecore#//A/ref1"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xrefsopposite.ecore#//A/oref1"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xrefsopposite.ecore#//A/ref2"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xrefsopposite.ecore#//A/oref2"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xrefsopposite.ecore#//A/ref3"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xrefsopposite.ecore#//A/owningAPkg"/>
+    </genClasses>
+    <genClasses ecoreClass="xrefsopposite.ecore#//APkg">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xrefsopposite.ecore#//APkg/ownedAs"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="xrefsopposite.ecore#//AbstractA">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xrefsopposite.ecore#//AbstractA/id"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
