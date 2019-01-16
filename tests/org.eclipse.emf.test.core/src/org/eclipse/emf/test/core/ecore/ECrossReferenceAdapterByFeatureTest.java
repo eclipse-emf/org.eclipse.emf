@@ -188,12 +188,12 @@ public class ECrossReferenceAdapterByFeatureTest
           }
           
           @Override
-          public Object eGet(EStructuralFeature eFeature, boolean resolve)
+          public Object eGet(int featureID, boolean resolve, boolean coreType)
           {
+            EStructuralFeature eFeature = eClass().getEStructuralFeature(featureID);
             increment(eFeature);
-            return super.eGet(eFeature, resolve);
+            return super.eGet(featureID, resolve, coreType);
           }
-          
         };
       }
     });

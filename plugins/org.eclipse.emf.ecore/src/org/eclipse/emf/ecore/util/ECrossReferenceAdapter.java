@@ -555,7 +555,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
         {
           Object collection = eObject.eGet(eReference);
           for (@SuppressWarnings("unchecked") Iterator<EObject> j = 
-                 resolve() ? 
+                 resolve ? 
                    ((Collection<EObject>)collection).iterator() : 
                    ((InternalEList<EObject>)collection).basicIterator(); 
                j.hasNext(); )
@@ -566,7 +566,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
         }
         else
         {
-          result.add(((InternalEObject)eObject.eGet(eReference, resolve())).eSetting(eOpposite));
+          result.add(((InternalEObject)eObject.eGet(eReference, resolve)).eSetting(eOpposite));
         }
       }
     }
@@ -577,7 +577,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
   /**
    * @since 2.17
    */
-  public Collection<EStructuralFeature.Setting> getInverseReferences(EObject eObject, EReference reference, boolean resolve)
+  public Collection<EStructuralFeature.Setting> getInverseReferences(EObject eObject, EReference eReference, boolean resolve)
   {
     Collection<EStructuralFeature.Setting> result = new ArrayList<EStructuralFeature.Setting>();
 
@@ -586,45 +586,59 @@ public class ECrossReferenceAdapter implements Adapter.Internal
       resolveAll(eObject);
     }
 
-    EReference containmentFeature = eObject.eContainmentFeature();
-    if (reference == containmentFeature)
+    if (eReference.isContainment())
     {
-      EObject eContainer = resolve ? eObject.eContainer() : ((InternalEObject)eObject).eInternalContainer();
-      if (eContainer != null)
+      EReference containmentFeature = eObject.eContainmentFeature();
+      if (eReference == containmentFeature)
       {
-        result.add(((InternalEObject) eContainer).eSetting(containmentFeature));
-      }
-    }
-
-    Collection<EStructuralFeature.Setting> nonNavigableInverseReferences = inverseCrossReferencer.get(eObject);
-    if (nonNavigableInverseReferences != null)
-    {
-      for (EStructuralFeature.Setting setting : nonNavigableInverseReferences)
-      {
-        if (reference == setting.getEStructuralFeature())
+        EObject eContainer = resolve ? eObject.eContainer() : ((InternalEObject)eObject).eInternalContainer();
+        if (eContainer != null)
         {
-          result.add(setting);
+          result.add(((InternalEObject)eContainer).eSetting(containmentFeature));
         }
       }
     }
-
-    EReference eOpposite = reference;
-    EReference eReference = eOpposite.getEOpposite();
-    if (eReference != null && !eReference.isContainer() && eObject.eIsSet(eReference))
+    else
     {
-      if (eReference.isMany())
+      EReference eOpposite = eReference.getEOpposite();
+      if (eOpposite == null)
       {
-        Object collection = eObject.eGet(eReference);
-        for (@SuppressWarnings("unchecked")
-        Iterator<EObject> j = resolve() ? ((Collection<EObject>) collection).iterator() : ((InternalEList<EObject>) collection).basicIterator(); j.hasNext();)
+        Collection<EStructuralFeature.Setting> nonNavigableInverseReferences = inverseCrossReferencer.get(eObject);
+        if (nonNavigableInverseReferences != null)
         {
-          InternalEObject referencingEObject = (InternalEObject) j.next();
-          result.add(referencingEObject.eSetting(eOpposite));
+          for (EStructuralFeature.Setting setting : nonNavigableInverseReferences)
+          {
+            if (eReference == setting.getEStructuralFeature())
+            {
+              result.add(setting);
+            }
+          }
         }
       }
       else
       {
-        result.add(((InternalEObject) eObject.eGet(eReference, resolve())).eSetting(eOpposite));
+        int featureID = eObject.eClass().getFeatureID(eOpposite);
+        if (featureID != -1)
+        {
+          InternalEObject internalEObject = (InternalEObject)eObject;
+          if (internalEObject.eIsSet(featureID))
+          {
+            Object value = internalEObject.eGet(featureID, resolve, true);
+            if (eOpposite.isMany())
+            {
+              for (@SuppressWarnings("unchecked")
+              Iterator<EObject> j = resolve ? ((Collection<EObject>)value).iterator() : ((InternalEList<EObject>)value).basicIterator(); j.hasNext();)
+              {
+                InternalEObject referencingEObject = (InternalEObject)j.next();
+                result.add(referencingEObject.eSetting(eReference));
+              }
+            }
+            else
+            {
+              result.add(((InternalEObject)value).eSetting(eReference));
+            }
+          }
+        }
       }
     }
 
