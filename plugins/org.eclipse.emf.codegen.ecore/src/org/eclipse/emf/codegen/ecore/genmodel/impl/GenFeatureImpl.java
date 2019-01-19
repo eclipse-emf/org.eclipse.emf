@@ -1246,6 +1246,30 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     return result;
   }
 
+  public String getAsInternalEObject(String expression, boolean parenthesize)
+  {
+    GenClass typeGenClass = getTypeGenClass();
+    if (typeGenClass != null && !typeGenClass.getGenModel().isSuppressInterfaces())
+    {
+      String cast = getGenModel().getImportedName("org.eclipse.emf.ecore.InternalEObject");
+      StringBuilder result = new StringBuilder();
+      if (parenthesize)
+      {
+        result.append('(');
+      }
+      result.append('(');
+      result.append(cast);
+      result.append(')');
+      result.append(expression);
+      if (parenthesize)
+      {
+        result.append(')');
+      }
+      return result.toString();
+    }
+    return expression;
+  }
+
   public String getFormattedName()
   {
     return format(getCapName(), ' ', null, false, false);

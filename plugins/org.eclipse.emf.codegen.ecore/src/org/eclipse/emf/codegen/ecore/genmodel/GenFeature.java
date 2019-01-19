@@ -333,6 +333,15 @@ public interface GenFeature extends GenTypedElement
   String getName(); // callers that plan to use this name without appending a suffix should call f.safeName(f.getName()) to make sure its not a keyword
   String getSafeName(); // this is a safe guaranteed uncapitalized form of the name
   String getSafeNameAsEObject(); // the safe name and cast to EObject, if necessary.
+
+  /**
+   * The expression is assumed to be of the type of this feature.  
+   * This will return that expression cast to InternalEObject, if necessary, i.e., if interfaces are not suppressed,
+   * and with additional parentheses around the cast of the expression.
+   * @since 2.17
+   */
+  String getAsInternalEObject(String expression, boolean parenthesize); 
+
   String getCapName();
   String getUncapName();
   String getUpperName();
