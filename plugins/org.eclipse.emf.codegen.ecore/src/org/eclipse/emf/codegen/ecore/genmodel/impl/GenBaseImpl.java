@@ -3872,37 +3872,146 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     if (body != null)
     {
-      StringBuffer stringBuffer = new StringBuffer(indent(body, indentation));
-
-      for (int i = 0; i < stringBuffer.length(); )
-      {
-        int start = stringBuffer.indexOf("<%", i);
-        if (start == -1)
-        {
-          break;
-        }
-        else
-        {
-          int end = stringBuffer.indexOf("%>", start + 2);
-          if (end == -1)
-          {
-            break;
-          }
-          else
-          {
-            String qualifiedName = stringBuffer.substring(start + 2, end);
-            String importedName = getGenModel().getImportedName(qualifiedName);
-            stringBuffer.replace(start, end + 2, importedName);
-            i = start + importedName.length();
-          }
-        }
-      }
-
-      return stringBuffer.toString();
+      return importBody(indent(body, indentation));
     }
     else
     {
       return null;
+    }
+  }
+
+  /**
+   * @since 2.17
+   */
+  protected String importBody(String body)
+  {
+    StringBuffer stringBuffer = new StringBuffer(body);
+    for (int i = 0; i < stringBuffer.length();)
+    {
+      int start = stringBuffer.indexOf("<%", i);
+      if (start == -1)
+      {
+        // If we find no start markers, we're done.
+        //
+        break;
+      }
+      else
+      {
+        // Look for an end marker after the start marker.
+        //
+        i = start + 2;
+        int end = stringBuffer.indexOf("%>", i);
+        for (int nestedStart = start + 2; end != -1; nestedStart += 2)
+        {
+          // Keep looking to see if there is a nested start marker before the end marker...
+          //
+          i = end + 2;
+          nestedStart = stringBuffer.indexOf("<%", nestedStart);
+          
+          // If such a marker is found before the end, and the overall length of the string between the markers is more than one, to properly handle <%<%> as an escape.
+          //
+          if (nestedStart != -1 && nestedStart < end && (end - nestedStart > 1))
+          {
+            end = stringBuffer.indexOf("%>", end + 2);
+          }
+          else
+          {
+            break;
+          }
+        }
+
+        // If we found a balanced end...
+        //
+        if (end != -1)
+        {
+          // Extract the expression between the ends,
+          // and handle the degenerate cases or otherwise handle the import expression.
+          //
+          String qualifiedNameExpression = stringBuffer.substring(start + 2, end);
+          String importedName = qualifiedNameExpression.equals("") || qualifiedNameExpression.equals("<") || qualifiedNameExpression.equals("%") ? qualifiedNameExpression : importExpression(qualifiedNameExpression);
+          
+          // Replace the expression with the result continue processing after that point.
+          stringBuffer.replace(start, end + 2, importedName);
+          i = start + importedName.length();
+        }
+      }
+    }
+
+    return stringBuffer.toString();
+  }
+
+  /**
+   * @since 2.17
+   */
+  protected String importExpression(String qualifiedNameExpression)
+  {
+    // Only one nested body expression is supported.
+    // 
+    int start = qualifiedNameExpression.indexOf("<%");
+    int end = qualifiedNameExpression.lastIndexOf("%>");
+    GenModel genModel = getGenModel();
+    if (start != -1 && end > start)
+    {
+      // Extract the parts before and after the body expression, and import it.
+      //
+      String prefix = qualifiedNameExpression.substring(0, start);
+      String suffix = qualifiedNameExpression.substring(end + 2);
+      String importedName = genModel.getImportedName(prefix + suffix);
+
+      // Extract the body expression and handle it as general body text.
+      //
+      String body = qualifiedNameExpression.substring(start + 2, end);
+      String importedBody = importBody(body);
+
+      // Check if the imported name starts with the "normalized" prefix.
+      String normalizedPrefix = prefix.replace('$', '.');
+      if (importedName.startsWith(normalizedPrefix))
+      {
+        // This is the case that the name could not be imported,
+        // and the expanded body must be inserted after the prefix.
+        //
+        return normalizedPrefix + importedBody + importedName.substring(prefix.length());
+      }
+      else if (prefix.endsWith("$"))
+      {
+        // This is the case of a qualified nested class reference, e.g., java.util.Map$<%%>Entry, that has been imported as Map.Entry.
+        // Look for the closest '.' before the preceding class name.
+        //
+        int packagePrefixEnd = prefix.lastIndexOf('.');
+        if (packagePrefixEnd != -1)
+        {
+          // We really do always expect there to be package portion for the name.
+          //
+          String expectedImportedNamePrefix = normalizedPrefix.substring(packagePrefixEnd + 1, prefix.length() - 1) + '.';
+          if (importedName.startsWith(expectedImportedNamePrefix))
+          {
+            // And we really do expect that the imported name will always start with this outer class name,
+            // otherwise the name wasn't imported and we would not have gotten to this branch but rather the first one.
+            // In this case the body must be inserted after the outer class name and before the final trailing inner class name.
+            // E.g., @Annotation Map.Entry is wrong, it should be Map.@Annotation Entry instead.
+            //
+            return expectedImportedNamePrefix + importedBody + importedName.substring(expectedImportedNamePrefix.length());
+          }
+        }
+
+        // We don't expect to get here normally.
+        //
+        return importedBody + importedName;
+      }
+      else
+      {
+        // This is the case of a normal simple reference to non-nested class.
+        // In this case the body must simply be inserted before the name.
+        //
+        return importedBody + importedName;
+      }
+    }
+    else
+    {
+      // If there is no body expression, simply import the name expression.
+      //
+      String importedName = genModel.getImportedName(qualifiedNameExpression);
+      return importedName;
     }
   }
 

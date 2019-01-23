@@ -15,6 +15,7 @@ import org.eclipse.emf.test.tools.ant.AntTest;
 import org.eclipse.emf.test.tools.codegen.CodeGenUtilTest;
 import org.eclipse.emf.test.tools.codegen.GenModelDefaultsTest;
 import org.eclipse.emf.test.tools.codegen.GenModelTest;
+import org.eclipse.emf.test.tools.codegen.ImportSubstitutionTest;
 import org.eclipse.emf.test.tools.codegen.LiteralsTest;
 import org.eclipse.emf.test.tools.codegen.RemappedXMLTypesTest;
 import org.eclipse.emf.test.tools.converter.ConverterUtilTest;
@@ -35,6 +36,7 @@ import org.junit.runners.Suite;
     CodeGenUtilTest.class,
     GenModelDefaultsTest.class,
     GenModelTest.class,
+    ImportSubstitutionTest.class,
     LiteralsTest.class,
     RemappedXMLTypesTest.class,
     ConverterUtilTest.class,
