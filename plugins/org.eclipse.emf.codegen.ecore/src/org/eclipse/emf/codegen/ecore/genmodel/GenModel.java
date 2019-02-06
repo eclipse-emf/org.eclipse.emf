@@ -2302,10 +2302,6 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Eclipse Platform Version</b></em>' attribute.
    * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.GenEclipsePlatformVersion}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Eclipse Platform Version</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * <!-- begin-model-doc -->
    * @since 2.14

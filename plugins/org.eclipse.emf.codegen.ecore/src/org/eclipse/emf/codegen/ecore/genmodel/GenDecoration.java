@@ -58,10 +58,6 @@ public enum GenDecoration implements Enumerator
   /**
    * The '<em><b>None</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>None</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #NONE
    * @model name="None"
@@ -73,10 +69,6 @@ public enum GenDecoration implements Enumerator
   /**
    * The '<em><b>Manual</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Manual</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #MANUAL
    * @model name="Manual"
@@ -88,10 +80,6 @@ public enum GenDecoration implements Enumerator
   /**
    * The '<em><b>Live</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Live</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #LIVE
    * @model name="Live"

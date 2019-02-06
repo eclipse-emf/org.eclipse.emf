@@ -855,12 +855,6 @@ if (index != -1) { head = typeName.substring(0, index); tail = "<code>" + CodeGe
     <%}%>
 <%@ include file="Class/getGenFeature.javadoc.insert.javajetinc" fail="silent" %>
 	 * <!-- begin-user-doc -->
-    <%if (!genFeature.hasDocumentation()) {%>
-	 * <p>
-	 * If the meaning of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%> isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-    <%}%>
 	 * <!-- end-user-doc -->
     <%if (genFeature.hasDocumentation()) {%>
 	 * <!-- begin-model-doc -->

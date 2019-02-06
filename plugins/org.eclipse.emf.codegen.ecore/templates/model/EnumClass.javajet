@@ -90,12 +90,6 @@ public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> 
 	/**
 	 * The '<em><b><%=genEnumLiteral.getFormattedName()%></b></em>' literal value.
 	 * <!-- begin-user-doc -->
-<%if (!genEnumLiteral.hasDocumentation()) {%>
-	 * <p>
-	 * If the meaning of '<em><b><%=genEnumLiteral.getFormattedName()%></b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-<%}%>
 	 * <!-- end-user-doc -->
 <%if (genEnumLiteral.hasDocumentation()) {%>
 	 * <!-- begin-model-doc -->

@@ -288,10 +288,6 @@ public enum GenRuntimeVersion implements Enumerator
   /**
    * The '<em><b>EMF211</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>EMF211</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #EMF211
    * @model literal="2.11"
@@ -303,10 +299,6 @@ public enum GenRuntimeVersion implements Enumerator
   /**
    * The '<em><b>EMF212</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>EMF212</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #EMF212
    * @model literal="2.12"
@@ -318,10 +310,6 @@ public enum GenRuntimeVersion implements Enumerator
   /**
    * The '<em><b>EMF213</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>EMF213</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #EMF213
    * @model literal="2.13"
@@ -333,8 +321,6 @@ public enum GenRuntimeVersion implements Enumerator
   /**
    * The '<em><b>EMF214</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * </p>
    * <!-- end-user-doc -->
    * <!-- begin-model-doc -->
    * @since 2.14
