@@ -3031,7 +3031,7 @@ public interface GenModel extends GenBase
   boolean useClassOverrideAnnotation();
 
   /**
-   * @since 2.3
+   * @since 2.16
    */
   boolean useInterfaceOverrideAnnotation();
 
