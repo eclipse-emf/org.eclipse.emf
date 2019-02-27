@@ -338,6 +338,7 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
   protected void fileTextModified(String text)
   {
     fileTextContent = text;
+    updateOKStatus();
   }
   
   public IStatus validate(Object[] selectedElements)
