@@ -145,7 +145,8 @@ class XcoreGenerator implements IGenerator {
 			EcoreUtil::setAnnotation(target, GenModelPackage::eNS_URI, key, extractBody(appendable.toString))
 		}
 		catch (Throwable throwable) {
-			EcoreUtil::setAnnotation(target, GenModelPackage::eNS_URI, key, "throw new <%java.lang.Error%>(\"Unresolved compilation problems: " + CodeGenUtil.unicodeEscapeEncode(throwable.message) + "\");");
+			val message = if (throwable.message === null) "throw new <%java.lang.Error%>(\"Unresolved compilation problem\");" else "throw new <%java.lang.Error%>(\"Unresolved compilation problems: " + CodeGenUtil.unicodeEscapeEncode(throwable.message) + "\");"
+			EcoreUtil::setAnnotation(target, GenModelPackage::eNS_URI, key, message)
 		}
 	}
 

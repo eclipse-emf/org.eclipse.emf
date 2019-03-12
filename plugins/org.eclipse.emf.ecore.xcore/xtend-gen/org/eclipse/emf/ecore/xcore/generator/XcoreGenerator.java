@@ -181,10 +181,18 @@ public class XcoreGenerator implements IGenerator {
     } catch (final Throwable _t) {
       if (_t instanceof Throwable) {
         final Throwable throwable = (Throwable)_t;
-        String _unicodeEscapeEncode = CodeGenUtil.unicodeEscapeEncode(throwable.getMessage());
-        String _plus = ("throw new <%java.lang.Error%>(\"Unresolved compilation problems: " + _unicodeEscapeEncode);
-        String _plus_1 = (_plus + "\");");
-        EcoreUtil.setAnnotation(target, GenModelPackage.eNS_URI, key, _plus_1);
+        String _xifexpression = null;
+        String _message = throwable.getMessage();
+        boolean _tripleEquals = (_message == null);
+        if (_tripleEquals) {
+          _xifexpression = "throw new <%java.lang.Error%>(\"Unresolved compilation problem\");";
+        } else {
+          String _unicodeEscapeEncode = CodeGenUtil.unicodeEscapeEncode(throwable.getMessage());
+          String _plus = ("throw new <%java.lang.Error%>(\"Unresolved compilation problems: " + _unicodeEscapeEncode);
+          _xifexpression = (_plus + "\");");
+        }
+        final String message = _xifexpression;
+        EcoreUtil.setAnnotation(target, GenModelPackage.eNS_URI, key, message);
       } else {
         throw Exceptions.sneakyThrow(_t);
       }
