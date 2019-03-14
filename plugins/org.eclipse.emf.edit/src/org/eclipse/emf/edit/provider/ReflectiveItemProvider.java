@@ -129,7 +129,7 @@ public class ReflectiveItemProvider
           EPackage ePackage = extendedMetaData.getPackage(entry.getValue());
           if (ePackage != null)
           {
-            gatherMetaData((EModelElement)EcoreUtil.getRootContainer(ePackage));
+            gatherRootContainerMetaData(ePackage);
           }
         }
       }
@@ -141,7 +141,7 @@ public class ReflectiveItemProvider
         {
           if (ePackageValue instanceof EPackage)
           {
-            gatherMetaData((EModelElement)EcoreUtil.getRootContainer((EPackage)ePackageValue));
+            gatherRootContainerMetaData((EPackage)ePackageValue);
           }
         }
 
@@ -169,7 +169,27 @@ public class ReflectiveItemProvider
     
     gatherMetaData(eObject.eClass());
   }
-  
+
+  private void gatherRootContainerMetaData(EPackage ePackage)
+  {
+    EObject rootContainer = EcoreUtil.getRootContainer(ePackage);
+    if (rootContainer instanceof EModelElement)
+    {
+      gatherMetaData((EModelElement) rootContainer);
+    }
+    else
+    {
+      // The package may be rooted by some other arbitrary model, so look up the containers until we reach something that's not a model element.
+      //
+      EModelElement bestContainer = ePackage;
+      for (EObject eContainer = bestContainer.eContainer(); eContainer instanceof EModelElement; eContainer = eContainer.eContainer())
+      {
+        bestContainer = (EModelElement) eContainer;
+      }
+      gatherMetaData(bestContainer);
+    }
+  }
+
   protected List<EClass> getAllEClasses(EClass eClass)
   {
     gatherMetaData(eClass);
