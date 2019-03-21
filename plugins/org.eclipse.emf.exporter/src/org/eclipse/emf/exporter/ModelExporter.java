@@ -25,6 +25,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.AbstractTreeIterator;
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -494,8 +495,7 @@ public abstract class ModelExporter extends ModelConverter
   
   public void loadGenModel(URI uri) throws DiagnosticException
   {
-    setGenModel(uri == null ? null :
-      (GenModel)createResourceSet().getResource(uri, true).getContents().get(0));
+    setGenModel(uri == null ? null : GenModelUtil.getGenModel(createResourceSet().getResource(uri, true)));
   }
   
   public EPackageExportInfo getEPackageExportInfo(EPackage ePackage)

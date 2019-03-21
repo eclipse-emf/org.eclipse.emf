@@ -52,6 +52,7 @@ import org.eclipse.osgi.util.ManifestElement;
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.codegen.merge.java.JMerger;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.JAbstractType;
@@ -544,7 +545,7 @@ public class JavaEcoreBuilder
     for (IFile file : allGenModelFiles)
     {
       Resource resource = resourceSet.getResource(modelImporter.createFileURI(file.getFullPath().toString()), true);
-      GenModel genModel = (GenModel)resource.getContents().get(0);
+      GenModel genModel = GenModelUtil.getGenModel(resource);
       externalGenModels.add(genModel);
       for (GenPackage genPackage : genModel.getGenPackages())
       {
@@ -649,7 +650,7 @@ public class JavaEcoreBuilder
         // Load the model and if it's not one already considered, e.g., a local version in the workspace, process its GenPackages.
         //
         Resource resource = resourceSet.getResource(uri, true);
-        GenModel genModel = (GenModel)resource.getContents().get(0);
+        GenModel genModel = GenModelUtil.getGenModel(resource);
         if (externalGenModels.add(genModel))
         {
           for (GenPackage genPackage : genModel.getGenPackages())

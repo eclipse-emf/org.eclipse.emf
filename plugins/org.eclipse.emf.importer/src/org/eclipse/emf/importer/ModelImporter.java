@@ -34,6 +34,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.AbstractTreeIterator;
@@ -470,7 +471,7 @@ public abstract class ModelImporter extends ModelConverter
 
     if (resource != null && !resource.getContents().isEmpty() && resource.getContents().get(0) instanceof GenModel)
     {
-      originalGenModel = (GenModel)resource.getContents().get(0);
+      originalGenModel = GenModelUtil.getGenModel(resource);
 
       setGenModelFileName(getOriginalGenModelPath().lastSegment());
       setGenModelContainerPath(getOriginalGenModelPath().removeLastSegments(1));

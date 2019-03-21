@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.importer.java; singleton:=true
-Bundle-Version: 2.10.0.qualifier
+Bundle-Version: 2.11.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.importer.java.JavaImporterPlugin$Implementation
 Bundle-Vendor: %providerName
@@ -15,8 +15,8 @@ Export-Package: org.eclipse.emf.importer.java,
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
  org.eclipse.core.resources;bundle-version="[3.6.0,4.0.0)",
  org.eclipse.jdt.core;bundle-version="[3.6.0,4.0.0)",
- org.eclipse.emf.importer;bundle-version="[2.11.0,3.0.0)",
- org.eclipse.emf.codegen.ecore.ui;bundle-version="[2.15.0,3.0.0)";resolution:=optional,
+ org.eclipse.emf.importer;bundle-version="[2.12.0,3.0.0)",
+ org.eclipse.emf.codegen.ecore.ui;bundle-version="[2.17.0,3.0.0)";resolution:=optional,
  org.apache.ant;bundle-version="[1.7.0,2.0.0)";resolution:=optional,
  org.eclipse.emf.ant;bundle-version="[2.10.0,3.0.0)";resolution:=optional
 Eclipse-LazyStart: true

@@ -35,6 +35,7 @@ import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.codegen.util.CodeGenUtil.EclipseUtil.StreamProgressMonitor;
 import org.eclipse.emf.common.util.BasicMonitor;
@@ -488,7 +489,7 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
           }
           
           Resource resource = resourceSet.getResource(genModelURI, true);
-          GenModel referencedGenModel = (GenModel)resource.getContents().get(0);
+          GenModel referencedGenModel = GenModelUtil.getGenModel(resource);
           for (GenPackage genPackage : referencedGenModel.getGenPackages())
           {
             if (ePackageNSURIs.contains(genPackage.getEcorePackage().getNsURI()))

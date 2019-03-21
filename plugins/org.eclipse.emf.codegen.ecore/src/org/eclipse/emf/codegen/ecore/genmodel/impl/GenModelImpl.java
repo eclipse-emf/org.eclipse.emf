@@ -6472,7 +6472,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
             try
             {
               Resource genModelResource = eResource().getResourceSet().getResource(genModelURI, true);
-              GenModel genModel = (GenModel)genModelResource.getContents().get(0);
+              GenModel genModel = GenModelUtil.getGenModel(genModelResource);
               staticGenPackage = genModel.findGenPackage(staticEPackage);
             }
             catch (Exception exception)

@@ -51,6 +51,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
+import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Monitor;
@@ -319,7 +320,7 @@ public class Generator extends CodeGen
                   resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
                   URI genModelURI = genModelName.startsWith("platform:/resource/") ? URI.createURI(genModelName) : URI.createFileURI(new File(genModelName).getAbsoluteFile().getCanonicalPath());
                   Resource genModelResource = resourceSet.getResource(genModelURI, true);
-                  GenModel genModel = (GenModel)genModelResource.getContents().get(0);
+                  GenModel genModel = GenModelUtil.getGenModel(genModelResource);
 
                   if (reconcile)
                   {
