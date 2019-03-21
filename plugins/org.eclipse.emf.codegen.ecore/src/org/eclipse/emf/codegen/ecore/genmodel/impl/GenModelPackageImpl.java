@@ -2955,6 +2955,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF215);
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF216);
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF217);
+    addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF218);
 
     initEEnum(genRuntimePlatformEEnum, GenRuntimePlatform.class, "GenRuntimePlatform");
     addEEnumLiteral(genRuntimePlatformEEnum, GenRuntimePlatform.IDE);
@@ -2978,6 +2979,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2018_09);
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2018_12);
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2019_03);
+    addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2019_06);
 
     // Initialize data types
     initEDataType(pathEDataType, String.class, "Path", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
