@@ -330,7 +330,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="xtext.latest.release.url"
-      value="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.16.0">
+      value="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.17.0">
     <description>The p2 update site URL for the last Xtext release.</description>
   </setupTask>
   <setupTask
@@ -348,7 +348,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
-      defaultValue="2018-12"
+      defaultValue="2019-06"
       storageURI="scope://Workspace"/>
   <setupTask
       xsi:type="git:GitCloneTask"
@@ -447,9 +447,20 @@
       <requirement
           name="org.eclipse.equinox.ds"/>
       <repositoryList
+          name="2019-06">
+        <repository
+            url="http://download.eclipse.org/releases/2019-06"/>
+        <repository
+            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+        <repository
+            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
+      </repositoryList>
+      <repositoryList
           name="2019-03">
         <repository
-            url="http://download.eclipse.org/releases/2018-12"/>
+            url="http://download.eclipse.org/releases/2019-03"/>
         <repository
             url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
