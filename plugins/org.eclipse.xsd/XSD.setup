@@ -92,7 +92,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
-      defaultValue="2018-12"
+      defaultValue="2019-03"
       storageURI="scope://Workspace"/>
   <setupTask
       xsi:type="git:GitCloneTask"
@@ -137,9 +137,16 @@
       <sourceLocator
           rootFolder="${xsd.git.clone.location}"/>
       <repositoryList
+          name="2019-06">
+        <repository
+            url="http://download.eclipse.org/releases/2019-06"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+      </repositoryList>
+      <repositoryList
           name="2019-03">
         <repository
-            url="http://download.eclipse.org/releases/2018-12"/>
+            url="http://download.eclipse.org/releases/2019-03"/>
         <repository
             url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
       </repositoryList>
