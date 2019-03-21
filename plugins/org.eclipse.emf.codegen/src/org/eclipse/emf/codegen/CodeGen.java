@@ -117,7 +117,7 @@ public class CodeGen
     return PlatformRunnable.runHelper(object);
   }
 
-  public static class PlatformRunnable implements IApplication, DeprecatedPlatformRunnable
+  public static class PlatformRunnable implements IApplication
   {
     /**
      * This is called with the command line arguments of a headless workbench invocation.
@@ -241,10 +241,4 @@ public class CodeGen
       }
     }
   }
-}
-
-@SuppressWarnings("deprecation")
-interface DeprecatedPlatformRunnable extends org.eclipse.core.runtime.IPlatformRunnable
-{
-  // Empty extension to limit the effect of suppressing the deprecation warning.
 }

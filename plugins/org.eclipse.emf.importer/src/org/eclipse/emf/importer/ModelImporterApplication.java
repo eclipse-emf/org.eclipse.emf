@@ -55,7 +55,7 @@ import org.eclipse.equinox.app.IApplicationContext;
 /**
  * @since 2.1.0
  */
-public abstract class ModelImporterApplication implements IApplication, DeprecatedPlatformRunnable
+public abstract class ModelImporterApplication implements IApplication
 {
   protected ModelImporter modelImporter;
 
@@ -690,10 +690,4 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
       }
     }    
   }
-}
-
-@SuppressWarnings("deprecation")
-interface DeprecatedPlatformRunnable extends org.eclipse.core.runtime.IPlatformRunnable
-{
-  // Empty extension to limit the effect of suppressing the deprecation warning.
 }

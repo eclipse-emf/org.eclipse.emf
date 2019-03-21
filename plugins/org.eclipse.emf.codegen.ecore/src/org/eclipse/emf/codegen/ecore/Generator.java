@@ -112,7 +112,7 @@ public class Generator extends CodeGen
     return PlatformRunnable.run(this, object);
   }
 
-  public static class PlatformRunnable extends Generator implements IApplication, DeprecatedPlatformRunnable
+  public static class PlatformRunnable extends Generator implements IApplication
   {
     public Object start(IApplicationContext context) throws Exception
     {
@@ -1099,10 +1099,4 @@ public class Generator extends CodeGen
       return encodedPath;
     }
   }
-}
-
-@SuppressWarnings("deprecation")
-interface DeprecatedPlatformRunnable extends org.eclipse.core.runtime.IPlatformRunnable
-{
-  // Empty extension to limit the effect of suppressing the deprecation warning.
 }

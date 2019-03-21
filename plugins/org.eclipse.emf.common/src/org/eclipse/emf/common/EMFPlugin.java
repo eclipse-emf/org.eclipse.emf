@@ -233,18 +233,6 @@ public abstract class EMFPlugin extends DelegatingResourceLocator implements Res
     }
 
     /**
-     * Creates an instance.
-     * @param descriptor the description of the plugin.
-     * @deprecated
-     */
-    @Deprecated
-    public EclipsePlugin(org.eclipse.core.runtime.IPluginDescriptor descriptor)
-    {
-      super(descriptor);
-      helper = new InternalHelper(this);
-    }
-
-    /**
      * Return the plugin ID.
      */
     public String getSymbolicName()
