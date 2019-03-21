@@ -296,7 +296,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (copies: "); //$NON-NLS-1$
     result.append(copies);
     result.append(')');

@@ -178,7 +178,7 @@ public abstract class ItemImpl extends EObjectImpl implements Item
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (publicationDate: "); //$NON-NLS-1$
     result.append(publicationDate);
     result.append(')');

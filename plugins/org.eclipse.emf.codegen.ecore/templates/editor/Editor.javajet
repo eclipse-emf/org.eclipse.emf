@@ -1070,7 +1070,7 @@ public class <%=genPackage.getEditorClassName()%>
 								  for (Iterator<%if (genModel.useGenerics()) {%><PropertySheetPage><%}%> i = propertySheetPages.iterator(); i.hasNext(); )
 								  {
 									  PropertySheetPage propertySheetPage = <%if (!genModel.useGenerics()) {%>(PropertySheetPage)<%}%>i.next();
-									  if (propertySheetPage.getControl().isDisposed())
+									  if (propertySheetPage.getControl() == null || propertySheetPage.getControl().isDisposed())
 									  {
 										  i.remove();
 									  }

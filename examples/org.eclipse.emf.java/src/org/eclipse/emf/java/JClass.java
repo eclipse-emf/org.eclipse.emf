@@ -144,7 +144,7 @@ public interface JClass extends JMember
    * @return the value of the '<em>Java Class</em>' attribute.
    * @see #setJavaClass(Class)
    * @see org.eclipse.emf.java.JavaPackage#getJClass_JavaClass()
-   * @model dataType="org.eclipse.emf.java.JavaClass<?>" transient="true"
+   * @model dataType="org.eclipse.emf.java.JavaClass&lt;?&gt;" transient="true"
    * @generated
    */
   Class<?> getJavaClass();

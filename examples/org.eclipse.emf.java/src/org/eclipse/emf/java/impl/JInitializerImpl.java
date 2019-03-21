@@ -178,7 +178,7 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (body: ");
     result.append(body);
     result.append(')');

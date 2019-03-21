@@ -183,6 +183,7 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
   @Override
   public void contributeToToolBar(IToolBarManager toolBarManager)
   {
+    super.contributeToToolBar(toolBarManager);
     toolBarManager.add(new Separator("extlibrary-settings")); //$NON-NLS-1$
     toolBarManager.add(new Separator("extlibrary-additions")); //$NON-NLS-1$
   }

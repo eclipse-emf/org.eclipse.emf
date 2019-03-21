@@ -74,6 +74,7 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
@@ -409,6 +410,8 @@ public class JavaEditor
   protected EContentAdapter problemIndicationAdapter = 
     new EContentAdapter()
     {
+      protected boolean dispatching;
+
       @Override
       public void notifyChanged(Notification notification)
       {
@@ -430,18 +433,7 @@ public class JavaEditor
               {
                 resourceToDiagnosticMap.remove(resource);
               }
-
-              if (updateProblemIndication)
-              {
-                getSite().getShell().getDisplay().asyncExec
-                  (new Runnable()
-                   {
-                     public void run()
-                     {
-                       updateProblemIndication();
-                     }
-                   });
-              }
+              dispatchUpdateProblemIndication();
               break;
             }
           }
@@ -449,6 +441,23 @@ public class JavaEditor
         else
         {
           super.notifyChanged(notification);
+        }
+      }
+
+      protected void dispatchUpdateProblemIndication()
+      {
+        if (updateProblemIndication && !dispatching)
+        {
+          dispatching = true;
+          getSite().getShell().getDisplay().asyncExec
+            (new Runnable()
+             {
+               public void run()
+               {
+                 dispatching = false;
+                 updateProblemIndication();
+               }
+             });
         }
       }
 
@@ -463,17 +472,7 @@ public class JavaEditor
       {
         basicUnsetTarget(target);
         resourceToDiagnosticMap.remove(target);
-        if (updateProblemIndication)
-        {
-          getSite().getShell().getDisplay().asyncExec
-            (new Runnable()
-             {
-               public void run()
-               {
-                 updateProblemIndication();
-               }
-             });
-        }
+        dispatchUpdateProblemIndication();
       }
     };
 
@@ -624,9 +623,10 @@ public class JavaEditor
   {
     if (!changedResources.isEmpty() && (!isDirty() || handleDirtyConflict()))
     {
+      ResourceSet resourceSet = editingDomain.getResourceSet();
       if (isDirty())
       {
-        changedResources.addAll(editingDomain.getResourceSet().getResources());
+        changedResources.addAll(resourceSet.getResources());
       }
       editingDomain.getCommandStack().flush();
 
@@ -638,7 +638,7 @@ public class JavaEditor
           resource.unload();
           try
           {
-            resource.load(Collections.EMPTY_MAP);
+            resource.load(resourceSet.getLoadOptions());
           }
           catch (IOException exception)
           {
@@ -714,17 +714,13 @@ public class JavaEditor
 
       if (markerHelper.hasMarkers(editingDomain.getResourceSet()))
       {
-        markerHelper.deleteMarkers(editingDomain.getResourceSet());
-        if (diagnostic.getSeverity() != Diagnostic.OK)
+        try
         {
-          try
-          {
-            markerHelper.createMarkers(diagnostic);
-          }
-          catch (CoreException exception)
-          {
-            JavaEditorPlugin.INSTANCE.log(exception);
-          }
+          markerHelper.updateMarkers(diagnostic);
+        }
+        catch (CoreException exception)
+        {
+          JavaEditorPlugin.INSTANCE.log(exception);
         }
       }
     }
@@ -799,7 +795,7 @@ public class JavaEditor
                   for (Iterator<PropertySheetPage> i = propertySheetPages.iterator(); i.hasNext(); )
                   {
                     PropertySheetPage propertySheetPage = i.next();
-                    if (propertySheetPage.getControl().isDisposed())
+                    if (propertySheetPage.getControl() == null || propertySheetPage.getControl().isDisposed())
                     {
                       i.remove();
                     }
@@ -1050,7 +1046,7 @@ public class JavaEditor
    */
   public void createModel()
   {
-    URI resourceURI = EditUIUtil.getURI(getEditorInput());
+    URI resourceURI = EditUIUtil.getURI(getEditorInput(), editingDomain.getResourceSet().getURIConverter());
     Exception exception = null;
     Resource resource = null;
     try
@@ -1492,9 +1488,9 @@ public class JavaEditor
       setPageText(0, "");
       if (getContainer() instanceof CTabFolder)
       {
-        ((CTabFolder)getContainer()).setTabHeight(1);
         Point point = getContainer().getSize();
-        getContainer().setSize(point.x, point.y + 6);
+        Rectangle clientArea = getContainer().getClientArea();
+        getContainer().setSize(point.x,  2 * point.y - clientArea.height - clientArea.y);
       }
     }
   }
@@ -1513,9 +1509,9 @@ public class JavaEditor
       setPageText(0, getString("_UI_SelectionPage_label"));
       if (getContainer() instanceof CTabFolder)
       {
-        ((CTabFolder)getContainer()).setTabHeight(SWT.DEFAULT);
         Point point = getContainer().getSize();
-        getContainer().setSize(point.x, point.y - 6);
+        Rectangle clientArea = getContainer().getClientArea();
+        getContainer().setSize(point.x, clientArea.height + clientArea.y);
       }
     }
   }
@@ -1543,21 +1539,20 @@ public class JavaEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
-  public Object getAdapter(Class key)
+  public <T> T getAdapter(Class<T> key)
   {
     if (key.equals(IContentOutlinePage.class))
     {
-      return showOutlineView() ? getContentOutlinePage() : null;
+      return showOutlineView() ? key.cast(getContentOutlinePage()) : null;
     }
     else if (key.equals(IPropertySheetPage.class))
     {
-      return getPropertySheetPage();
+      return key.cast(getPropertySheetPage());
     }
     else if (key.equals(IGotoMarker.class))
     {
-      return this;
+      return key.cast(this);
     }
     else
     {
@@ -1588,6 +1583,7 @@ public class JavaEditor
 
           // Set up the tree viewer.
           //
+          contentOutlineViewer.setUseHashlookup(true);
           contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
           contentOutlineViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
           contentOutlineViewer.setInput(editingDomain.getResourceSet());
@@ -1647,7 +1643,7 @@ public class JavaEditor
   public IPropertySheetPage getPropertySheetPage()
   {
     PropertySheetPage propertySheetPage =
-      new ExtendedPropertySheetPage(editingDomain)
+      new ExtendedPropertySheetPage(editingDomain, ExtendedPropertySheetPage.Decoration.NONE, null, 0, false)
       {
         @Override
         public void setSelectionToViewer(List<?> selection)
@@ -1755,8 +1751,10 @@ public class JavaEditor
           // Save the resources to the file system.
           //
           boolean first = true;
-          for (Resource resource : editingDomain.getResourceSet().getResources())
+          List<Resource> resources = editingDomain.getResourceSet().getResources();
+          for (int i = 0; i < resources.size(); ++i)
           {
+            Resource resource = resources.get(i);
             if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource))
             {
               try

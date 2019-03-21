@@ -141,6 +141,7 @@ public class JavaActionBarContributor
   @Override
   public void contributeToToolBar(IToolBarManager toolBarManager)
   {
+    super.contributeToToolBar(toolBarManager);
     toolBarManager.add(new Separator("java-settings"));
     toolBarManager.add(new Separator("java-additions"));
   }

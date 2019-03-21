@@ -349,7 +349,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (final: ");
     result.append(final_);
     result.append(')');

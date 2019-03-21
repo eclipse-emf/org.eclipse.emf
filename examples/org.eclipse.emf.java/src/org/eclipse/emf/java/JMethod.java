@@ -184,7 +184,7 @@ public interface JMethod extends JMember
    * @return the value of the '<em>Java Constructor</em>' attribute.
    * @see #setJavaConstructor(Constructor)
    * @see org.eclipse.emf.java.JavaPackage#getJMethod_JavaConstructor()
-   * @model dataType="org.eclipse.emf.java.JavaConstructor<?>" transient="true"
+   * @model dataType="org.eclipse.emf.java.JavaConstructor&lt;?&gt;" transient="true"
    * @generated
    */
   Constructor<?> getJavaConstructor();

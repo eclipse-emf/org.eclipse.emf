@@ -180,7 +180,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link EXTLibraryPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -195,7 +195,8 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
     if (isInited) return (EXTLibraryPackage)EPackage.Registry.INSTANCE.getEPackage(EXTLibraryPackage.eNS_URI);
 
     // Obtain or create and register package
-    EXTLibraryPackageImpl theEXTLibraryPackage = (EXTLibraryPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EXTLibraryPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new EXTLibraryPackageImpl());
+    Object registeredEXTLibraryPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    EXTLibraryPackageImpl theEXTLibraryPackage = registeredEXTLibraryPackage instanceof EXTLibraryPackageImpl ? (EXTLibraryPackageImpl)registeredEXTLibraryPackage : new EXTLibraryPackageImpl();
 
     isInited = true;
 
@@ -208,7 +209,6 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
     // Mark meta-data to indicate it can't be changed
     theEXTLibraryPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(EXTLibraryPackage.eNS_URI, theEXTLibraryPackage);
     return theEXTLibraryPackage;
@@ -891,34 +891,34 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$	
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$
     addAnnotation
-      (getLibrary_Writers(), 
-       source, 
-       new String[] 
+      (getLibrary_Writers(),
+       source,
+       new String[]
        {
-       "group", "#people" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "group", "#people" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getLibrary_Employees(), 
-       source, 
-       new String[] 
+      (getLibrary_Employees(),
+       source,
+       new String[]
        {
-       "group", "#people" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "group", "#people" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getLibrary_Borrowers(), 
-       source, 
-       new String[] 
+      (getLibrary_Borrowers(),
+       source,
+       new String[]
        {
-       "group", "#people" //$NON-NLS-1$ //$NON-NLS-2$
-       });	
+         "group", "#people" //$NON-NLS-1$ //$NON-NLS-2$
+       });
     addAnnotation
-      (getLibrary_People(), 
-       source, 
-       new String[] 
+      (getLibrary_People(),
+       source,
+       new String[]
        {
-       "kind", "group" //$NON-NLS-1$ //$NON-NLS-2$
+         "kind", "group" //$NON-NLS-1$ //$NON-NLS-2$
        });
   }
 

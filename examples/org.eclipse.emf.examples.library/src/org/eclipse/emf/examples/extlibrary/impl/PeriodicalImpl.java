@@ -229,7 +229,7 @@ public abstract class PeriodicalImpl extends ItemImpl implements Periodical
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (title: "); //$NON-NLS-1$
     result.append(title);
     result.append(", issuesPerYear: "); //$NON-NLS-1$

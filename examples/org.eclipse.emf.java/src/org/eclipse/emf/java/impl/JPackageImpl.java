@@ -253,7 +253,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (javaPackage: ");
     result.append(javaPackage);
     result.append(')');
