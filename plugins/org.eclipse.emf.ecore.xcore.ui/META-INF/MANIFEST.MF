@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.6.0,4.0.0)",
  org.antlr.runtime;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.compare;bundle-version="[3.5.0,4.0.0)",
  org.eclipse.xtext.builder;bundle-version="[2.13.0,3.0.0)",
- org.eclipse.emf.ecore.xcore;bundle-version="[1.9.0,2.0.0)",
+ org.eclipse.emf.ecore.xcore;bundle-version="[1.10.0,2.0.0)",
  org.eclipse.xtext.xbase;bundle-version="[2.13.0,3.0.0)",
  org.eclipse.xtext.xbase.ui;bundle-version="[2.13.0,3.0.0)",
  org.eclipse.xtext.xbase.lib;bundle-version="[2.13.0,3.0.0)",
@@ -34,15 +34,23 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.6.0,4.0.0)",
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.emf.ecore.xcore.ui,
+ org.eclipse.emf.ecore.xcore.ui.builder,
+ org.eclipse.emf.ecore.xcore.ui.container,
  org.eclipse.emf.ecore.xcore.ui.contentassist,
  org.eclipse.emf.ecore.xcore.ui.contentassist.antlr,
  org.eclipse.emf.ecore.xcore.ui.contentassist.antlr.internal,
+ org.eclipse.emf.ecore.xcore.ui.editor,
+ org.eclipse.emf.ecore.xcore.ui.formatting,
+ org.eclipse.emf.ecore.xcore.ui.handler,
+ org.eclipse.emf.ecore.xcore.ui.hover,
  org.eclipse.emf.ecore.xcore.ui.hyperlinking,
  org.eclipse.emf.ecore.xcore.ui.internal,
  org.eclipse.emf.ecore.xcore.ui.labeling,
  org.eclipse.emf.ecore.xcore.ui.outline,
  org.eclipse.emf.ecore.xcore.ui.quickfix,
- org.eclipse.emf.ecore.xcore.ui.refactoring
+ org.eclipse.emf.ecore.xcore.ui.refactoring,
+ org.eclipse.emf.ecore.xcore.ui.validation,
+ org.eclipse.emf.xcore.ui.folding
 Import-Package: org.apache.log4j;version="[1.2.0,2.0.0)",
  org.eclipse.xtext.xbase.lib;version="[2.13.0,3.0.0)"
 Automatic-Module-Name: org.eclipse.emf.ecore.xcore.ui

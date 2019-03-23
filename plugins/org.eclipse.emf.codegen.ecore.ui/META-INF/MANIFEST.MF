@@ -9,6 +9,7 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.codegen.ecore.genmodel.action,
+ org.eclipse.emf.codegen.ecore.genmodel.handler,
  org.eclipse.emf.codegen.ecore.genmodel.presentation,
  org.eclipse.emf.codegen.ecore.genmodel.provider,
  org.eclipse.emf.codegen.ecore.ui
