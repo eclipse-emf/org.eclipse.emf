@@ -445,7 +445,8 @@
           name="org.eclipse.egit.feature.group"
           optional="true"/>
       <requirement
-          name="org.eclipse.equinox.ds"/>
+          name="org.eclipse.equinox.ds"
+          optional="true"/>
       <repositoryList
           name="2019-06">
         <repository
