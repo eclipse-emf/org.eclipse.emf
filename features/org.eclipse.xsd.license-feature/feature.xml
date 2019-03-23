@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.xsd.license"
       label="XSD License"
-      version="2.10.0.qualifier"
+      version="2.11.0.qualifier"
       provider-name="Eclipse Modeling Project">
 
    <description>
