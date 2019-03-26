@@ -1539,20 +1539,21 @@ public class JavaEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
-  public <T> T getAdapter(Class<T> key)
+  public Object getAdapter(Class key)
   {
     if (key.equals(IContentOutlinePage.class))
     {
-      return showOutlineView() ? key.cast(getContentOutlinePage()) : null;
+      return showOutlineView() ? getContentOutlinePage() : null;
     }
     else if (key.equals(IPropertySheetPage.class))
     {
-      return key.cast(getPropertySheetPage());
+      return getPropertySheetPage();
     }
     else if (key.equals(IGotoMarker.class))
     {
-      return key.cast(this);
+      return this;
     }
     else
     {
