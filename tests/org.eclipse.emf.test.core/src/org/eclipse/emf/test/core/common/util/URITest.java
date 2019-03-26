@@ -1268,6 +1268,7 @@ public class URITest
     {
       // Expected.
     }
+    System.gc();
 
     Set<String> uriStrings = new HashSet<String>();
     for (Iterator<URI> i = uris.iterator(); i.hasNext(); )
