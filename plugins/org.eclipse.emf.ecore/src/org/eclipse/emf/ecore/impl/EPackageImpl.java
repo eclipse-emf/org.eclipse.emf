@@ -1934,10 +1934,11 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
             String name = eNamedElement.getName();
             while (target.containsKey(name))
             {
-              if (result.size() >= ++count)
+              if (result.size() <= ++count)
               {
                 target = new HashMap<String, ENamedElement>();
                 result.add(target);
+                break;
               }
               else
               {

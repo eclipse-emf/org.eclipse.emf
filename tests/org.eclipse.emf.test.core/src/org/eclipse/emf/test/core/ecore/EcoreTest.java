@@ -208,4 +208,50 @@ public class EcoreTest
       fail("Stack overflow");
     }
   }
+
+  /**
+   * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=545978">Bugzilla 545978</a>
+   */
+  @Test
+  public void testDuplicateNameProxyResolution()
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+    URI uri = URI.createURI("Duplicate.ecore");
+    Resource resource = resourceSet.createResource(uri);
+    EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
+    ePackage.setName("duplicate");
+    ePackage.setNsURI("duplicate");
+    ePackage.setNsPrefix("duplicate");
+    resource.getContents().add(ePackage);
+
+    for (int i = 0; i < 10; ++i)
+    {
+      for (String name : new String []{ "bogus1", "bogus2" })
+      {
+        EClass eClass = EcoreFactory.eINSTANCE.createEClass();
+        eClass.setName(name);
+        ePackage.getEClassifiers().add(eClass);
+      }
+    }
+
+    for (int i = 0; i < 10; ++i)
+    {
+      EPackage eSubPackage = EcoreFactory.eINSTANCE.createEPackage();
+      for (String name : new String []{ "bogus1", "bogus2" })
+      {
+        eSubPackage.setName(name);
+        eSubPackage.setNsURI(name);
+        eSubPackage.setNsPrefix(name);
+        ePackage.getESubpackages().add(eSubPackage);
+      }
+    }
+
+    for (EObject eObject : ePackage.eContents())
+    {
+      URI eProxyURI = EcoreUtil.getURI(eObject);
+      System.err.println("###" + eProxyURI);
+      EObject otherEObject = resourceSet.getEObject(eProxyURI, false);
+      assertSame("The proxy URI " + eProxyURI + " fails to resolve to the correct object", eObject, otherEObject);
+    }
+  }
 }
