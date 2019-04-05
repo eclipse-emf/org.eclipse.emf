@@ -2235,21 +2235,28 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     return getModelInfo(true);
   }
 
-  AnnotationFilter DEFAULT_GEN_FEATURE_ANNOTATION_FILTER = 
-    new AnnotationFilterImpl()
+  /**
+   * @since 2.18
+   */
+  protected AnnotationFilter getFeatureAnnotationFilter()
+  {
+    return new AnnotationFilterImpl()
     {
+      private final AnnotationFilter delegate = getAnnotationFilter();
+
       @Override
       public boolean accept(EModelElement eModelElement, String source, String key, String value)
       {
-        return 
-          super.accept(eModelElement, source, key, value) &&
-            !(GenModelPackage.eNS_URI.equals(source) && 
+        return
+          delegate.accept(eModelElement, source, key, value) &&
+            !(GenModelPackage.eNS_URI.equals(source) &&
                 ("suppressedSetVisibility".equals(key) ||
                    "suppressedGetVisibility".equals(key) ||
                    "suppressedIsSetVisibility".equals(key) ||
                    "suppressedUnsetVisibility".equals(key)));
       }
     };
+  }
 
   public String getModelInfo(boolean qualified)
   {
@@ -2421,7 +2428,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       appendModelSetting(result, qualified, "suppressedUnsetVisibility", "true");
     }
 
-    appendAnnotationInfo(result, qualified, eStructuralFeature, DEFAULT_GEN_FEATURE_ANNOTATION_FILTER);
+    appendAnnotationInfo(result, qualified, eStructuralFeature, getFeatureAnnotationFilter());
     return result.toString().trim();
   }
 

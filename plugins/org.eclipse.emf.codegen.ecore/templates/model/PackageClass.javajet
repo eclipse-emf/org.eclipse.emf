@@ -14,7 +14,7 @@
 <%final GenPackage genPackage = (GenPackage)((Object[])argument)[0]; final GenModel genModel=genPackage.getGenModel();%>
 <%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
 <%boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);  boolean useInterfaceOverrideAnnotation = genModel.useInterfaceOverrideAnnotation() && !(isInterface && isImplementation);%>
-<%boolean packageNeedsSuppressDeprecation = isJDK50 && GenModelUtil.hasAPIDeprecatedTag(genPackage.getOrderedGenClassifiers()) && !genPackage.hasAPIDeprecatedTag();%>
+<%boolean packageNeedsSuppressDeprecation = isJDK50 && GenModelUtil.hasAPIDeprecatedTag(genPackage.getOrderedGenClassifiers()) && !genPackage.hasAPIDeprecatedTag() && !genModel.isSuppressEMFMetaData();%>
 <%String publicStaticFinalFlag = isImplementation ? "public static final " : "";%>
 <%boolean needsAddEOperation = false;%>
 <%boolean needsAddEParameter = false;%>
@@ -268,8 +268,8 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-    <%if (genClassifier.hasAPITags()) {%>
-	 * <%=genClassifier.getAPITags(genModel.getIndentation(stringBuffer))%>
+    <%if (genClassifier.hasAPITags(true)) {%>
+	 * <%=genClassifier.getAPITags(genModel.getIndentation(stringBuffer), true)%>
     <%}%>
 	 * @generated
 	 */
@@ -723,7 +723,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    <%{boolean needsSuppressDeprecation = false; if (!packageNeedsSuppressDeprecation && isJDK50) { LOOP: for (GenClass genClass : genPackage.getGenClasses()) { for (GenFeature genFeature : genClass.getGenFeatures()) { if (genFeature.hasAPIDeprecatedTag()) { needsSuppressDeprecation = true; break LOOP; }}
+    <%{boolean needsSuppressDeprecation = false; if (!packageNeedsSuppressDeprecation && isJDK50 && !genModel.isSuppressEMFMetaData()) { LOOP: for (GenClass genClass : genPackage.getGenClasses()) { for (GenFeature genFeature : genClass.getGenFeatures()) { if (genFeature.hasAPIDeprecatedTag()) { needsSuppressDeprecation = true; break LOOP; }}
       for (GenOperation genOperation : genClass.getGenOperations()) { if (genOperation.hasAPIDeprecatedTag()) { needsSuppressDeprecation = true; break LOOP; }}} if (needsSuppressDeprecation) {%>
 	@SuppressWarnings("deprecation")
     <%}}}%>

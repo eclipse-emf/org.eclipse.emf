@@ -209,9 +209,19 @@ public interface GenBase extends EObject
   boolean hasAPITags();
 
   /**
+   * @since 2.18
+   */
+  boolean hasAPITags(boolean excludePrivate);
+
+  /**
    * Since 2.14
    */
   String getAPITags(String indentation);
+
+  /**
+   * Since 2.18
+   */
+  String getAPITags(String indentation, boolean excludePrivate);
 
   /**
    * @since 2.14

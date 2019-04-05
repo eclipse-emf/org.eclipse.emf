@@ -382,7 +382,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
       }
     }
 
-    appendAnnotationInfo(result, qualified, eParameter, DEFAULT_ANNOTATION_FILTER);
+    appendAnnotationInfo(result, qualified, eParameter, getAnnotationFilter());
     return result.toString().trim();
   }
 

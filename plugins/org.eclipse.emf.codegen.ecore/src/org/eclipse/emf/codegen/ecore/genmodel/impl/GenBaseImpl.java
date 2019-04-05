@@ -1744,11 +1744,32 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
   }
 
+  /**
+   * @deprecated Use {@link #getAnnotationFilter()} instead.
+   */
+  @Deprecated
   protected static final AnnotationFilter DEFAULT_ANNOTATION_FILTER = new AnnotationFilterImpl();
+
+  /**
+   * @since 2.18
+   */
+  protected AnnotationFilter getAnnotationFilter()
+  {
+    GenModel genModel = getGenModel(); 
+    final boolean suppressGenModelAnnotations = genModel != null && genModel.isSuppressGenModelAnnotations();
+    return new AnnotationFilterImpl()
+      {
+        @Override
+        public boolean accept(EModelElement eModelElement, String source, String key, String value)
+        {
+          return (!suppressGenModelAnnotations || !GenModelPackage.eNS_URI.equals(source)) && super.accept(eModelElement, source, key, value);
+        }
+      };
+  }
 
   protected List<String> getAnnotationInfo(EModelElement eModelElement)
   {
-    return getAnnotationInfo(eModelElement, DEFAULT_ANNOTATION_FILTER);
+    return getAnnotationInfo(eModelElement, getAnnotationFilter());
   }
 
   protected List<String> getAnnotationInfo(EModelElement eModelElement, AnnotationFilter annotationFilter)
@@ -1805,7 +1826,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected void appendAnnotationInfo(StringBuffer result, EModelElement eModelElement)
   {
-    appendAnnotationInfo(result, eModelElement, DEFAULT_ANNOTATION_FILTER);
+    appendAnnotationInfo(result, eModelElement, getAnnotationFilter());
   }
 
   protected void appendAnnotationInfo(StringBuffer result, EModelElement eModelElement, AnnotationFilter annotationFilter)
@@ -2539,12 +2560,25 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    */
   protected String getAPITags()
   {
+    return getAPITags(false);
+  }
+
+  /**
+   * @since 2.18
+   */
+  protected String getAPITags(boolean excludePrivate)
+  {
     StringBuilder result = new StringBuilder();
     Map<String, String> documentationTags = getDocumentationTags();
     String since = documentationTags.get("since");
     composeSince(result, since);
     String deprecated = documentationTags.get("deprecated");
     composeDeprecated(result, deprecated, this);
+    if (!excludePrivate)
+    {
+      String noReference = documentationTags.get("noreference");
+      composeNoReference(result, noReference, this);
+    }
     return result.toString();
   }
 
@@ -2593,6 +2627,35 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   }
 
   /**
+   * @since 2.18
+   */
+  protected void composeNoReference(StringBuilder builder, String noReference, GenBaseImpl linkTarget)
+  {
+    if (noReference != null)
+    {
+      if (builder.length() > 0)
+      {
+        builder.append('\n');
+      }
+      builder.append("@noreference");
+      if (noReference.trim().length() != 0)
+      {
+        String link = linkTarget.getLink();
+        if (link.length() != 0)
+        {
+          builder.append(" See {@link ");
+          builder.append(link);
+          builder.append(" model documentation} for details.");
+        }
+        else
+        {
+          builder.append(' ').append(noReference.trim());
+        }
+      }
+    }
+  }
+
+  /**
    * @since 2.14
    */
   protected String getLink()
@@ -2618,11 +2681,27 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   }
 
   /**
+   * @since 2.18
+   */
+  public boolean hasAPITags(boolean excludePrivate)
+  {
+    return getAPITags(excludePrivate).length() > 0;
+  }
+
+  /**
    * @since 2.14
    */
   public String getAPITags(String indentation)
   {
     return indent(getAPITags(), indentation);
+  }
+
+  /**
+   * @since 2.18
+   */
+  public String getAPITags(String indentation, boolean excludePrivate)
+  {
+    return indent(getAPITags(excludePrivate), indentation);
   }
 
   /**
@@ -2666,6 +2745,17 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     {
       deprecated = containerDocumentationTags.get("deprecated");
       composeDeprecated(result, deprecated, container);
+    }
+
+    String noReference = documentationTags.get("noreference");
+    if (noReference != null)
+    {
+      composeNoReference(result, noReference, this);
+    }
+    else if (containerDocumentationTags != null)
+    {
+      deprecated = containerDocumentationTags.get("noreference");
+      composeNoReference(result, noReference, container);
     }
 
     return result.toString();
@@ -2717,7 +2807,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         Map<String, String> containerDocumentationTags = container.getDocumentationTags();
         Map<String, String> documentationTags = getDocumentationTags();
         containerDocumentationTags.keySet().removeAll(documentationTags.keySet());
-        return containerDocumentationTags.containsKey("since") || containerDocumentationTags.containsKey("deprecated");
+        return containerDocumentationTags.containsKey("since") || containerDocumentationTags.containsKey("deprecated") || containerDocumentationTags.containsKey("noreference");
       }
       else
       {

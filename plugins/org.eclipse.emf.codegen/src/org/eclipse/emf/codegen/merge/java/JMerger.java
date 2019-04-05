@@ -241,6 +241,8 @@ public class JMerger
   
   protected boolean noAbstractTypeConversion = true;
   
+  private boolean clean = "true".equals(System.getProperty("org.eclipse.emf.codegen.merge.java.JMerger.clean"));
+
   /**
    * This creates an empty instances, an when used as a runnable.
    */
@@ -288,12 +290,21 @@ public class JMerger
     targetCompilationChanged = false;
     targetCompilationUnitExists = targetCompilationUnit != null;
     
-    pullTargetCompilationUnit();
-    if (!isBlocked && targetCompilationUnitExists)
+    if (targetCompilationUnitExists && clean)
     {
-      pushSourceCompilationUnit();
-      sweepTargetCompilationUnit();
-      sortTargetCompilationUnit();
+      sourceCompilationUnit.setHeader(targetCompilationUnit.getHeader());
+      targetCompilationUnit = sourceCompilationUnit;
+      targetCompilationChanged = true;
+    }
+    else
+    {
+      pullTargetCompilationUnit();
+      if (!isBlocked && targetCompilationUnitExists)
+      {
+        pushSourceCompilationUnit();
+        sweepTargetCompilationUnit();
+        sortTargetCompilationUnit();
+      }
     }
   }
 
@@ -425,6 +436,10 @@ public class JMerger
     if (result == null)
     {
       result = targetCompilationUnit.getContents();
+      if (clean)
+      {
+        result = CodeGenUtil.convertFormat(controlModel.getLeadingTabReplacement(), controlModel.convertToStandardBraceStyle(), result);
+      }
     }
     
     if (fixInterfaceBrace)
