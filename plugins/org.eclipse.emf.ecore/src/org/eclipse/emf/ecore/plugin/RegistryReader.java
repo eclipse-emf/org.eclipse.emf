@@ -12,6 +12,7 @@ package org.eclipse.emf.ecore.plugin;
 
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -345,7 +346,7 @@ public abstract class RegistryReader
       try
       {
         Class<?> javaClass = CommonPlugin.loadClass(element.getDeclaringExtension().getContributor().getName(), element.getAttribute(attributeName));
-        return (EFactory)javaClass.newInstance();
+        return (EFactory) javaClass.getDeclaredConstructor().newInstance();
       }
       catch (ClassNotFoundException e)
       {
@@ -356,6 +357,22 @@ public abstract class RegistryReader
         throw new WrappedException(e);
       }
       catch (InstantiationException e)
+      {
+        throw new WrappedException(e);
+      }
+      catch (IllegalArgumentException e)
+      {
+        throw new WrappedException(e);
+      }
+      catch (InvocationTargetException e)
+      {
+        throw new WrappedException(e);
+      }
+      catch (NoSuchMethodException e)
+      {
+        throw new WrappedException(e);
+      }
+      catch (SecurityException e)
       {
         throw new WrappedException(e);
       }

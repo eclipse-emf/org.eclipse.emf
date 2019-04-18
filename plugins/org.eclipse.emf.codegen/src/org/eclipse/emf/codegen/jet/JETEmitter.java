@@ -279,13 +279,25 @@ public class JETEmitter
     {
       try
       {
-        object = method.getDeclaringClass().newInstance();
+        object = method.getDeclaringClass().getDeclaredConstructor().newInstance();
+      }
+      catch (RuntimeException exception)
+      {
+        CodeGenPlugin.INSTANCE.log(exception);
+      }
+      catch (InstantiationException exception)
+      {
+        CodeGenPlugin.INSTANCE.log(exception);
       }
       catch (IllegalAccessException exception)
       {
         CodeGenPlugin.INSTANCE.log(exception);
       }
-      catch (InstantiationException exception)
+      catch (InvocationTargetException exception)
+      {
+        CodeGenPlugin.INSTANCE.log(exception);
+      }
+      catch (NoSuchMethodException exception)
       {
         CodeGenPlugin.INSTANCE.log(exception);
       }

@@ -9,6 +9,7 @@ package org.eclipse.emf.ecore.plugin;
 
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.RegistryFactory;
@@ -49,7 +50,7 @@ class AnnotationValidatorRegistryReader extends RegistryReader
         catch (NoSuchFieldError e)
         {
           // If not, create a new instance.
-          return (EAnnotationValidator)javaClass.newInstance();
+          return (EAnnotationValidator) javaClass.getDeclaredConstructor().newInstance();
         }
       }
       catch (ClassNotFoundException e)
@@ -65,6 +66,22 @@ class AnnotationValidatorRegistryReader extends RegistryReader
         throw new WrappedException(e);
       }
       catch (InstantiationException e)
+      {
+        throw new WrappedException(e);
+      }
+      catch (IllegalArgumentException e)
+      {
+        throw new WrappedException(e);
+      }
+      catch (InvocationTargetException e)
+      {
+        throw new WrappedException(e);
+      }
+      catch (NoSuchMethodException e)
+      {
+        throw new WrappedException(e);
+      }
+      catch (SecurityException e)
       {
         throw new WrappedException(e);
       }

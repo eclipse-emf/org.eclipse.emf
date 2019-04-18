@@ -758,7 +758,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
       {
         try
         {
-          resourceFactory = (Resource.Factory)CommonPlugin.loadClass("org.eclipse.emf.ecore.xmi", "org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl").newInstance();
+          resourceFactory = (Resource.Factory)CommonPlugin.loadClass("org.eclipse.emf.ecore.xmi", "org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl").getDeclaredConstructor().newInstance();
         }
         catch (Throwable exception)
         {

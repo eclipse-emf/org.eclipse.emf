@@ -1068,17 +1068,16 @@ public class CodeGenUtil
     try
     {
       Class<?> cls = Class.forName(facadeHelperClass);
-      Object object = cls.newInstance();
-      if (object instanceof FacadeHelper)
+      if (FacadeHelper.class.isAssignableFrom(cls))
       {
-        return (FacadeHelper)object;
+        return (FacadeHelper) cls.getDeclaredConstructor().newInstance();
       }
     }
     catch (Exception e)
     {
       // Ignore
     }
-      
+
     FacadeHelper result = null;
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
     {

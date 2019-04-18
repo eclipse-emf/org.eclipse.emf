@@ -196,7 +196,7 @@ public class EcoreEditor
         editingDomain.getResourceSet().getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new GenericXMLResourceFactoryImpl());
 
         Class<?> theItemProviderClass = CommonPlugin.loadClass("org.eclipse.xsd.edit", "org.eclipse.xsd.provider.XSDItemProviderAdapterFactory");
-        AdapterFactory xsdItemProviderAdapterFactory = (AdapterFactory)theItemProviderClass.newInstance();
+        AdapterFactory xsdItemProviderAdapterFactory = (AdapterFactory) theItemProviderClass.getDeclaredConstructor().newInstance();
         adapterFactory.insertAdapterFactory(xsdItemProviderAdapterFactory);
       }
       catch (Exception exception)

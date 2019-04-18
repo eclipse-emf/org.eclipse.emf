@@ -220,7 +220,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
         {
           // Test that the builder will actually function when used.
           //
-          Object builder = calendarBuilderClass.newInstance();
+          Object builder = calendarBuilderClass.getDeclaredConstructor().newInstance();
           setCalendarTypeMethod.invoke(builder, calendarType);
           setInstantMethod.invoke(builder, System.currentTimeMillis());
           buildMethod.invoke(builder);
@@ -232,7 +232,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
               {
                 try
                 {
-                  Object builder = calendarBuilderClass.newInstance();
+                  Object builder = calendarBuilderClass.getDeclaredConstructor().newInstance();
                   setCalendarTypeMethod.invoke(builder, calendarType);
                   setInstantMethod.invoke(builder, timeInstant);
                   return (Calendar)buildMethod.invoke(builder);

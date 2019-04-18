@@ -3504,7 +3504,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
         try
         {
-          Object generator = theGeneratorClass.newInstance();
+          Object generator = theGeneratorClass.getDeclaredConstructor().newInstance();
 
           // Set the mapper to build an XSD2EcoreMappingRoot, if available.
           // As of EMF 2.15, I've disabled this.
@@ -3522,7 +3522,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
                 xsd2ecorePlugin.loadClass
                   ("org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMapper");
   
-              Object mapper = theMapperClass.newInstance();
+              Object mapper = theMapperClass.getDeclaredConstructor().newInstance();
   
               theGeneratorClass.getMethod
                 ("setMapper", 

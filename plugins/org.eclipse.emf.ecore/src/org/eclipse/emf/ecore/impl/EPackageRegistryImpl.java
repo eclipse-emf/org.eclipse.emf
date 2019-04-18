@@ -75,7 +75,7 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
       }
       else
       {
-        return (EPackage.Registry)Class.forName(className).newInstance();
+        return (EPackage.Registry)Class.forName(className).getDeclaredConstructor().newInstance();
       }
     }
     catch (Exception exception)

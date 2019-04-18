@@ -76,7 +76,7 @@ class ContentHandlerRegistryReader extends RegistryReader
             }
             ContentHandler contentHandler = 
               parameters.isEmpty() ?
-                contributorHandlerClass.newInstance() : 
+                contributorHandlerClass.getDeclaredConstructor().newInstance() :
                 contributorHandlerClass.getConstructor(Map.class).newInstance(parameters);
             ContentHandler.Registry.INSTANCE.put(priority, contentHandler);
             List<ContentHandler> contributions = CONTRIBUTION_MAP.get(contributorName);

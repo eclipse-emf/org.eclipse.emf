@@ -11,6 +11,7 @@
 package org.eclipse.emf.ant.taskdefs.codegen;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -161,7 +162,7 @@ public class JETEmitterTask extends JETTask
     return emitter;
   }
 
-  protected void invokeEmitter(JETEmitter emitter) throws JETException, IOException, InstantiationException, IllegalAccessException
+  protected void invokeEmitter(JETEmitter emitter) throws JETException, IOException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
   {
     Object[] arguments = null;
     if (argument != null)
@@ -170,7 +171,7 @@ public class JETEmitterTask extends JETTask
     }
     else if (argumentClass != null)
     {
-      arguments = new Object []{ argumentClass.newInstance() };
+      arguments = new Object []{ argumentClass.getDeclaredConstructor().newInstance() };
     }
     else
     {
