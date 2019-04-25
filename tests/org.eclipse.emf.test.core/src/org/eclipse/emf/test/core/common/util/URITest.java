@@ -1081,6 +1081,8 @@ public class URITest
       assertSame(URI.createFileURI("c:\\\\x"), URI.createFileURI("c:\\x"));
       assertSame(URI.createFileURI("c://x"), URI.createFileURI("c:/x"));
       assertSame(URI.createFileURI("c:\\\\x"), URI.createFileURI("c:/x"));
+
+      assertEquals("\\\\authority\\path", URI.createFileURI("\\\\authority\\path").toFileString());
     }
   }
 

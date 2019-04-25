@@ -4114,7 +4114,8 @@ public abstract class URI
 
       if (hasAuthority())
       {
-        result.append("//");
+        result.append(separator);
+        result.append(separator);
         result.append(authority);
 
         if (hasDevice) result.append(separator);
