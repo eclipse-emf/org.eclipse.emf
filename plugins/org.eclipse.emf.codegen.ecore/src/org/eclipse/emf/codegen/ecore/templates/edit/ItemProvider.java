@@ -162,46 +162,48 @@ public class ItemProvider
   protected final String TEXT_145 = "(notification, notification.getNotifier(), false, true));" + NL + "\t\t\t\treturn;";
   protected final String TEXT_146 = "(notification, notification.getNotifier(), true, false));" + NL + "\t\t\t\treturn;";
   protected final String TEXT_147 = "(notification, notification.getNotifier(), true, true));" + NL + "\t\t\t\treturn;";
-  protected final String TEXT_148 = NL + "\t\t}";
-  protected final String TEXT_149 = NL + "\t\tsuper.notifyChanged(notification);" + NL + "\t}" + NL;
-  protected final String TEXT_150 = NL + "\t/**" + NL + "\t * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children" + NL + "\t * that can be created under this object." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_151 = NL + "\tprotected void collectNewChildDescriptors(";
-  protected final String TEXT_152 = " newChildDescriptors, Object object)" + NL + "\t{" + NL + "\t\tsuper.collectNewChildDescriptors(newChildDescriptors, object);";
-  protected final String TEXT_153 = NL + NL + "\t\tnewChildDescriptors.add" + NL + "\t\t\t(createChildParameter" + NL + "\t\t\t\t(";
-  protected final String TEXT_154 = ".createEntry" + NL + "\t\t\t\t\t(";
-  protected final String TEXT_155 = NL + "\t\t\t\t\t ";
-  protected final String TEXT_156 = ".create(";
-  protected final String TEXT_157 = "))));";
-  protected final String TEXT_158 = ".create";
-  protected final String TEXT_159 = "())));";
-  protected final String TEXT_160 = ".createFromString(";
-  protected final String TEXT_161 = ", ";
-  protected final String TEXT_162 = " // TODO: ensure this is a valid literal value";
-  protected final String TEXT_163 = "));";
-  protected final String TEXT_164 = NL + "\t/**" + NL + "\t * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_165 = NL + "\tpublic String getCreateChildText(Object owner, Object feature, Object child, ";
-  protected final String TEXT_166 = " selection)" + NL + "\t{" + NL + "\t\tObject childFeature = feature;" + NL + "\t\tObject childObject = child;" + NL;
-  protected final String TEXT_167 = NL + "\t\tif (childFeature instanceof ";
-  protected final String TEXT_168 = " && ";
-  protected final String TEXT_169 = ".isFeatureMap((EStructuralFeature)childFeature))" + NL + "\t\t{" + NL + "\t\t\t";
-  protected final String TEXT_170 = ".Entry entry = (FeatureMap.Entry)childObject;" + NL + "\t\t\tchildFeature = entry.getEStructuralFeature();" + NL + "\t\t\tchildObject = entry.getValue();" + NL + "\t\t}" + NL;
-  protected final String TEXT_171 = NL + "\t\tboolean qualify =";
-  protected final String TEXT_172 = NL + "\t\t\tchildFeature == ";
-  protected final String TEXT_173 = NL + NL + "\t\tif (qualify)" + NL + "\t\t{" + NL + "\t\t\treturn getString" + NL + "\t\t\t\t(\"_UI_CreateChild_text2\",";
-  protected final String TEXT_174 = NL + "\t\t\t\t new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });" + NL + "\t\t}" + NL + "\t\treturn super.getCreateChildText(owner, feature, child, selection);" + NL + "\t}" + NL;
-  protected final String TEXT_175 = NL + "\t/**" + NL + "\t * Return the resource locator for this item provider's resources." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_176 = " getResourceLocator()" + NL + "\t{";
-  protected final String TEXT_177 = ")adapterFactory).getResourceLocator();";
-  protected final String TEXT_178 = NL + "\t\treturn ";
-  protected final String TEXT_179 = ".INSTANCE;";
-  protected final String TEXT_180 = NL + "}";
+  protected final String TEXT_148 = NL + "\t\t\tdefault:";
+  protected final String TEXT_149 = NL + "\t\t}";
+  protected final String TEXT_150 = "\t\tsuper.notifyChanged(notification);";
+  protected final String TEXT_151 = "\t\treturn;" + NL + "\t\t\t}";
+  protected final String TEXT_152 = NL + "\t/**" + NL + "\t * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children" + NL + "\t * that can be created under this object." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_153 = NL + "\tprotected void collectNewChildDescriptors(";
+  protected final String TEXT_154 = " newChildDescriptors, Object object)" + NL + "\t{" + NL + "\t\tsuper.collectNewChildDescriptors(newChildDescriptors, object);";
+  protected final String TEXT_155 = NL + NL + "\t\tnewChildDescriptors.add" + NL + "\t\t\t(createChildParameter" + NL + "\t\t\t\t(";
+  protected final String TEXT_156 = ".createEntry" + NL + "\t\t\t\t\t(";
+  protected final String TEXT_157 = NL + "\t\t\t\t\t ";
+  protected final String TEXT_158 = ".create(";
+  protected final String TEXT_159 = "))));";
+  protected final String TEXT_160 = ".create";
+  protected final String TEXT_161 = "())));";
+  protected final String TEXT_162 = ".createFromString(";
+  protected final String TEXT_163 = ", ";
+  protected final String TEXT_164 = " // TODO: ensure this is a valid literal value";
+  protected final String TEXT_165 = "));";
+  protected final String TEXT_166 = NL + "\t/**" + NL + "\t * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_167 = NL + "\tpublic String getCreateChildText(Object owner, Object feature, Object child, ";
+  protected final String TEXT_168 = " selection)" + NL + "\t{" + NL + "\t\tObject childFeature = feature;" + NL + "\t\tObject childObject = child;" + NL;
+  protected final String TEXT_169 = NL + "\t\tif (childFeature instanceof ";
+  protected final String TEXT_170 = " && ";
+  protected final String TEXT_171 = ".isFeatureMap((EStructuralFeature)childFeature))" + NL + "\t\t{" + NL + "\t\t\t";
+  protected final String TEXT_172 = ".Entry entry = (FeatureMap.Entry)childObject;" + NL + "\t\t\tchildFeature = entry.getEStructuralFeature();" + NL + "\t\t\tchildObject = entry.getValue();" + NL + "\t\t}" + NL;
+  protected final String TEXT_173 = NL + "\t\tboolean qualify =";
+  protected final String TEXT_174 = NL + "\t\t\tchildFeature == ";
+  protected final String TEXT_175 = NL + NL + "\t\tif (qualify)" + NL + "\t\t{" + NL + "\t\t\treturn getString" + NL + "\t\t\t\t(\"_UI_CreateChild_text2\",";
+  protected final String TEXT_176 = NL + "\t\t\t\t new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });" + NL + "\t\t}" + NL + "\t\treturn super.getCreateChildText(owner, feature, child, selection);" + NL + "\t}" + NL;
+  protected final String TEXT_177 = NL + "\t/**" + NL + "\t * Return the resource locator for this item provider's resources." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_178 = " getResourceLocator()" + NL + "\t{";
+  protected final String TEXT_179 = ")adapterFactory).getResourceLocator();";
+  protected final String TEXT_180 = NL + "\t\treturn ";
+  protected final String TEXT_181 = ".INSTANCE;";
+  protected final String TEXT_182 = NL + "}";
 
   public String generate(Object argument)
   {
     final StringBuffer stringBuffer = new StringBuffer();
     
 /**
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2019 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -209,10 +211,12 @@ public class ItemProvider
  *
  * Contributors:
  *   IBM - Initial API and implementation
+ *   Alexander Fedorov <alexander.fedorov@arsysop.ru> - Bug 546714
  */
 
     GenClass genClass = (GenClass)argument; GenPackage genPackage = genClass.getGenPackage(); GenModel genModel=genPackage.getGenModel();
     final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;
+    final boolean forceDefaultCase = genModel.isSwitchMissingDefaultCase();String indentDefaultCase = forceDefaultCase ? "\t\t" : "";
     stringBuffer.append(TEXT_1);
     stringBuffer.append(TEXT_2);
     {GenBase copyrightHolder = argument instanceof GenBase ? (GenBase)argument : argument instanceof Object[] && ((Object[])argument)[0] instanceof GenBase ? (GenBase)((Object[])argument)[0] : null;
@@ -781,117 +785,129 @@ public class ItemProvider
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.edit.provider.ViewerNotification"));
     stringBuffer.append(TEXT_147);
     }
+    if (forceDefaultCase) {
     stringBuffer.append(TEXT_148);
-    }
+    } else { // {
     stringBuffer.append(TEXT_149);
-    if (genModel.isCreationCommands()) {
+    }
+    stringBuffer.append(TEXT_21);
+    stringBuffer.append(indentDefaultCase);
     stringBuffer.append(TEXT_150);
+    if (forceDefaultCase) { // {
+    stringBuffer.append(TEXT_21);
+    stringBuffer.append(indentDefaultCase);
+    stringBuffer.append(TEXT_151);
+    } // }
+    }
+    stringBuffer.append(TEXT_61);
+    if (genModel.isCreationCommands()) {
+    stringBuffer.append(TEXT_152);
     if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_24);
     }
-    stringBuffer.append(TEXT_151);
+    stringBuffer.append(TEXT_153);
     stringBuffer.append(genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<java.lang.Object>" : "java.util.Collection"));
-    stringBuffer.append(TEXT_152);
+    stringBuffer.append(TEXT_154);
     for (GenClass.ChildCreationData childCreationData : genClass.getChildCreationData()) { GenFeature createFeature = childCreationData.createFeature; GenFeature delegatedFeature = childCreationData.delegatedFeature; GenClassifier createClassifier = childCreationData.createClassifier;
     if (createFeature.isFeatureMapType()) {
     if (delegatedFeature.isReferenceType()) { GenClass createClass = (GenClass)createClassifier;
-    stringBuffer.append(TEXT_153);
+    stringBuffer.append(TEXT_155);
     stringBuffer.append(createFeature.getQualifiedFeatureAccessor());
     stringBuffer.append(TEXT_47);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMapUtil"));
-    stringBuffer.append(TEXT_154);
+    stringBuffer.append(TEXT_156);
     stringBuffer.append(delegatedFeature.getQualifiedFeatureAccessor());
     stringBuffer.append(TEXT_16);
     if (createClass.isMapEntry()) { 
-    stringBuffer.append(TEXT_155);
-    stringBuffer.append(createClass.getGenPackage().getQualifiedEFactoryInstanceAccessor());
-    stringBuffer.append(TEXT_156);
-    stringBuffer.append(createClass.getQualifiedClassifierAccessor());
     stringBuffer.append(TEXT_157);
-    } else {
-    stringBuffer.append(TEXT_155);
-    stringBuffer.append(createClass.getGenPackage().getQualifiedFactoryInstanceAccessor());
+    stringBuffer.append(createClass.getGenPackage().getQualifiedEFactoryInstanceAccessor());
     stringBuffer.append(TEXT_158);
-    stringBuffer.append(createClass.getName());
+    stringBuffer.append(createClass.getQualifiedClassifierAccessor());
     stringBuffer.append(TEXT_159);
+    } else {
+    stringBuffer.append(TEXT_157);
+    stringBuffer.append(createClass.getGenPackage().getQualifiedFactoryInstanceAccessor());
+    stringBuffer.append(TEXT_160);
+    stringBuffer.append(createClass.getName());
+    stringBuffer.append(TEXT_161);
     }
     //ItemProvider/newChildDescriptorsReferenceDelegatedFeature.override.javajetinc
     } else { GenDataType createDataType = (GenDataType)createClassifier;
-    stringBuffer.append(TEXT_153);
+    stringBuffer.append(TEXT_155);
     stringBuffer.append(createFeature.getQualifiedFeatureAccessor());
     stringBuffer.append(TEXT_47);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMapUtil"));
-    stringBuffer.append(TEXT_154);
+    stringBuffer.append(TEXT_156);
     stringBuffer.append(delegatedFeature.getQualifiedFeatureAccessor());
     stringBuffer.append(TEXT_16);
     if (delegatedFeature.isEnumBasedType()) {
-    stringBuffer.append(TEXT_155);
+    stringBuffer.append(TEXT_157);
     stringBuffer.append(delegatedFeature.getTypeGenEnum().getStaticValue(delegatedFeature.getEcoreFeature().getDefaultValueLiteral()));
     stringBuffer.append(TEXT_54);
     } else if (delegatedFeature.isStringBasedType()) {
-    stringBuffer.append(TEXT_155);
+    stringBuffer.append(TEXT_157);
     stringBuffer.append(delegatedFeature.getCreateChildValueLiteral());
     stringBuffer.append(TEXT_54);
     stringBuffer.append(genModel.getNonNLS());
     } else { String literal = delegatedFeature.getCreateChildValueLiteral();
-    stringBuffer.append(TEXT_155);
-    stringBuffer.append(createDataType.getGenPackage().getQualifiedEFactoryInstanceAccessor());
-    stringBuffer.append(TEXT_160);
-    stringBuffer.append(createDataType.getQualifiedClassifierAccessor());
-    stringBuffer.append(TEXT_161);
-    stringBuffer.append(literal);
     stringBuffer.append(TEXT_157);
+    stringBuffer.append(createDataType.getGenPackage().getQualifiedEFactoryInstanceAccessor());
+    stringBuffer.append(TEXT_162);
+    stringBuffer.append(createDataType.getQualifiedClassifierAccessor());
+    stringBuffer.append(TEXT_163);
+    stringBuffer.append(literal);
+    stringBuffer.append(TEXT_159);
     if (literal != null) {
     stringBuffer.append(genModel.getNonNLS());
     } else {
-    stringBuffer.append(TEXT_162);
+    stringBuffer.append(TEXT_164);
     }
     }
     //ItemProvider/newChildDescriptorsAttributeDelegatedFeature.override.javajetinc
     }
     } else if (createFeature.isReferenceType()) { GenClass createClass = (GenClass)createClassifier;
-    stringBuffer.append(TEXT_153);
+    stringBuffer.append(TEXT_155);
     stringBuffer.append(createFeature.getQualifiedFeatureAccessor());
     stringBuffer.append(TEXT_16);
     if (createClass.isMapEntry()) { 
     stringBuffer.append(TEXT_46);
     stringBuffer.append(createClass.getGenPackage().getQualifiedEFactoryInstanceAccessor());
-    stringBuffer.append(TEXT_156);
+    stringBuffer.append(TEXT_158);
     stringBuffer.append(createClass.getQualifiedClassifierAccessor());
     stringBuffer.append(TEXT_54);
     } else {
     stringBuffer.append(TEXT_46);
     stringBuffer.append(createClass.getGenPackage().getQualifiedFactoryInstanceAccessor());
-    stringBuffer.append(TEXT_158);
+    stringBuffer.append(TEXT_160);
     stringBuffer.append(createClass.getName());
     stringBuffer.append(TEXT_128);
     }
     //ItemProvider/newChildDescriptorsReferenceFeature.override.javajetinc 
     } else { GenDataType createDataType = (GenDataType)createClassifier;
-    stringBuffer.append(TEXT_153);
+    stringBuffer.append(TEXT_155);
     stringBuffer.append(createFeature.getQualifiedFeatureAccessor());
     stringBuffer.append(TEXT_16);
     if (createFeature.isEnumBasedType()) {
     stringBuffer.append(TEXT_46);
     stringBuffer.append(createFeature.getTypeGenEnum().getStaticValue(createFeature.getEcoreFeature().getDefaultValueLiteral()));
-    stringBuffer.append(TEXT_163);
+    stringBuffer.append(TEXT_165);
     } else if (createFeature.isStringBasedType()) {
     stringBuffer.append(TEXT_46);
     stringBuffer.append(createFeature.getCreateChildValueLiteral());
-    stringBuffer.append(TEXT_163);
+    stringBuffer.append(TEXT_165);
     stringBuffer.append(genModel.getNonNLS());
     } else { String literal = createFeature.getCreateChildValueLiteral();
     stringBuffer.append(TEXT_46);
     stringBuffer.append(createDataType.getGenPackage().getQualifiedEFactoryInstanceAccessor());
-    stringBuffer.append(TEXT_160);
+    stringBuffer.append(TEXT_162);
     stringBuffer.append(createDataType.getQualifiedClassifierAccessor());
-    stringBuffer.append(TEXT_161);
+    stringBuffer.append(TEXT_163);
     stringBuffer.append(literal);
     stringBuffer.append(TEXT_54);
     if (literal != null) {
     stringBuffer.append(genModel.getNonNLS());
     } else {
-    stringBuffer.append(TEXT_162);
+    stringBuffer.append(TEXT_164);
     }
     }
     //ItemProvider/newChildDescriptorsAttributeFeature.override.javajetinc
@@ -899,53 +915,53 @@ public class ItemProvider
     }
     stringBuffer.append(TEXT_61);
     if (!genClass.getSharedClassCreateChildFeatures().isEmpty()) {
-    stringBuffer.append(TEXT_164);
+    stringBuffer.append(TEXT_166);
     if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_24);
     }
-    stringBuffer.append(TEXT_165);
-    stringBuffer.append(genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<?>" : "java.util.Collection"));
-    stringBuffer.append(TEXT_166);
-    if (genClass.hasFeatureMapCreateChildFeatures()) {
     stringBuffer.append(TEXT_167);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature"));
+    stringBuffer.append(genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<?>" : "java.util.Collection"));
     stringBuffer.append(TEXT_168);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMapUtil"));
+    if (genClass.hasFeatureMapCreateChildFeatures()) {
     stringBuffer.append(TEXT_169);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature"));
     stringBuffer.append(TEXT_170);
-    }
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMapUtil"));
     stringBuffer.append(TEXT_171);
-    for (Iterator<GenFeature> i = genClass.getSharedClassCreateChildFeatures().iterator(); i.hasNext();) { GenFeature createFeature = i.next();
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
     stringBuffer.append(TEXT_172);
+    }
+    stringBuffer.append(TEXT_173);
+    for (Iterator<GenFeature> i = genClass.getSharedClassCreateChildFeatures().iterator(); i.hasNext();) { GenFeature createFeature = i.next();
+    stringBuffer.append(TEXT_174);
     stringBuffer.append(createFeature.getQualifiedFeatureAccessor());
     stringBuffer.append(i.hasNext() ? " ||" : ";");
     }
-    stringBuffer.append(TEXT_173);
+    stringBuffer.append(TEXT_175);
     stringBuffer.append(genModel.getNonNLS());
-    stringBuffer.append(TEXT_174);
+    stringBuffer.append(TEXT_176);
     }
     }
     if (genClass.getProviderExtendsGenClass() == null || genClass.getProviderExtendsGenClass().getGenPackage() != genPackage && (!genPackage.isExtensibleProviderFactory() || genClass.getProviderExtendsGenClass().getGenPackage().isExtensibleProviderFactory() != genPackage.isExtensibleProviderFactory())) {
-    stringBuffer.append(TEXT_175);
+    stringBuffer.append(TEXT_177);
     if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_24);
     }
     stringBuffer.append(TEXT_25);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.ResourceLocator"));
-    stringBuffer.append(TEXT_176);
+    stringBuffer.append(TEXT_178);
     if (genPackage.isExtensibleProviderFactory()) {
     stringBuffer.append(TEXT_81);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.edit.provider.IChildCreationExtender"));
-    stringBuffer.append(TEXT_177);
-    } else {
-    stringBuffer.append(TEXT_178);
-    stringBuffer.append(genPackage.getImportedEditPluginClassName());
     stringBuffer.append(TEXT_179);
+    } else {
+    stringBuffer.append(TEXT_180);
+    stringBuffer.append(genPackage.getImportedEditPluginClassName());
+    stringBuffer.append(TEXT_181);
     }
     stringBuffer.append(TEXT_61);
     }
-    stringBuffer.append(TEXT_180);
+    stringBuffer.append(TEXT_182);
     genModel.emitSortedImports();
     stringBuffer.append(TEXT_21);
     return stringBuffer.toString();

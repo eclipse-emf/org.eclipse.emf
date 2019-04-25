@@ -91,37 +91,38 @@ public class EnumClass
   protected final String TEXT_73 = " get(int value)" + NL + "\t{" + NL + "\t\tswitch (value)" + NL + "\t\t{";
   protected final String TEXT_74 = NL + "\t\t\tcase ";
   protected final String TEXT_75 = ": return ";
-  protected final String TEXT_76 = NL + "\t\t}" + NL + "\t\treturn null;" + NL + "\t}" + NL;
-  protected final String TEXT_77 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate final int value;" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate final ";
-  protected final String TEXT_78 = " name;" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate final ";
-  protected final String TEXT_79 = " literal;" + NL;
-  protected final String TEXT_80 = NL + "\t/**" + NL + "\t * Only this class can construct instances." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate ";
-  protected final String TEXT_81 = "(int value, ";
-  protected final String TEXT_82 = " name, ";
-  protected final String TEXT_83 = " literal)" + NL + "\t{";
-  protected final String TEXT_84 = NL + "\t\tthis.value = value;" + NL + "\t\tthis.name = name;" + NL + "\t\tthis.literal = literal;";
-  protected final String TEXT_85 = NL + "\t\tsuper(value, name, literal);";
-  protected final String TEXT_86 = NL + "\t}" + NL;
-  protected final String TEXT_87 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_88 = NL + "\t@Override";
-  protected final String TEXT_89 = NL + "\tpublic int getValue()" + NL + "\t{" + NL + "\t  return value;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_90 = NL + "\tpublic ";
-  protected final String TEXT_91 = " getName()" + NL + "\t{" + NL + "\t  return name;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_92 = " getLiteral()" + NL + "\t{" + NL + "\t  return literal;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * Returns the literal value of the enumerator, which is its string representation." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_93 = " toString()" + NL + "\t{" + NL + "\t\treturn literal;" + NL + "\t}" + NL + "\t";
-  protected final String TEXT_94 = NL + "} //";
-  protected final String TEXT_95 = NL + "/**" + NL + " * A private implementation interface used to hide the inheritance from Enumerator." + NL + " * <!-- begin-user-doc -->" + NL + " * <!-- end-user-doc -->" + NL + " * @generated" + NL + " */" + NL + "interface Internal";
-  protected final String TEXT_96 = " extends org.eclipse.emf.common.util.Enumerator" + NL + "{" + NL + "\t// Empty " + NL + "}";
-  protected final String TEXT_97 = NL + "/**" + NL + " * A private implementation class to construct the instances." + NL + " * <!-- begin-user-doc -->" + NL + " * <!-- end-user-doc -->" + NL + " * @generated" + NL + " */" + NL + "class Internal";
-  protected final String TEXT_98 = " extends org.eclipse.emf.common.util.AbstractEnumerator" + NL + "{" + NL + "\t/**" + NL + "\t * Only this class can construct instances." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected Internal";
-  protected final String TEXT_99 = " literal)" + NL + "\t{" + NL + "\t\tsuper(value, name, literal);" + NL + "\t}" + NL + "}";
+  protected final String TEXT_76 = NL + "\t\t\tdefault: return null;" + NL + "\t\t}";
+  protected final String TEXT_77 = NL + "\t\t}" + NL + "\t\treturn null;";
+  protected final String TEXT_78 = NL + "\t}" + NL;
+  protected final String TEXT_79 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate final int value;" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate final ";
+  protected final String TEXT_80 = " name;" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate final ";
+  protected final String TEXT_81 = " literal;" + NL;
+  protected final String TEXT_82 = NL + "\t/**" + NL + "\t * Only this class can construct instances." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate ";
+  protected final String TEXT_83 = "(int value, ";
+  protected final String TEXT_84 = " name, ";
+  protected final String TEXT_85 = " literal)" + NL + "\t{";
+  protected final String TEXT_86 = NL + "\t\tthis.value = value;" + NL + "\t\tthis.name = name;" + NL + "\t\tthis.literal = literal;";
+  protected final String TEXT_87 = NL + "\t\tsuper(value, name, literal);";
+  protected final String TEXT_88 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_89 = NL + "\t@Override";
+  protected final String TEXT_90 = NL + "\tpublic int getValue()" + NL + "\t{" + NL + "\t  return value;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_91 = NL + "\tpublic ";
+  protected final String TEXT_92 = " getName()" + NL + "\t{" + NL + "\t  return name;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_93 = " getLiteral()" + NL + "\t{" + NL + "\t  return literal;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * Returns the literal value of the enumerator, which is its string representation." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_94 = " toString()" + NL + "\t{" + NL + "\t\treturn literal;" + NL + "\t}" + NL + "\t";
+  protected final String TEXT_95 = NL + "} //";
+  protected final String TEXT_96 = NL + "/**" + NL + " * A private implementation interface used to hide the inheritance from Enumerator." + NL + " * <!-- begin-user-doc -->" + NL + " * <!-- end-user-doc -->" + NL + " * @generated" + NL + " */" + NL + "interface Internal";
+  protected final String TEXT_97 = " extends org.eclipse.emf.common.util.Enumerator" + NL + "{" + NL + "\t// Empty " + NL + "}";
+  protected final String TEXT_98 = NL + "/**" + NL + " * A private implementation class to construct the instances." + NL + " * <!-- begin-user-doc -->" + NL + " * <!-- end-user-doc -->" + NL + " * @generated" + NL + " */" + NL + "class Internal";
+  protected final String TEXT_99 = " extends org.eclipse.emf.common.util.AbstractEnumerator" + NL + "{" + NL + "\t/**" + NL + "\t * Only this class can construct instances." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected Internal";
+  protected final String TEXT_100 = " literal)" + NL + "\t{" + NL + "\t\tsuper(value, name, literal);" + NL + "\t}" + NL + "}";
 
   public String generate(Object argument)
   {
     final StringBuffer stringBuffer = new StringBuffer();
     
 /**
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2019 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -129,10 +130,12 @@ public class EnumClass
  *
  * Contributors:
  *   IBM - Initial API and implementation
+ *   Alexander Fedorov <alexander.fedorov@arsysop.ru> - Bug 546714
  */
 
     GenEnum genEnum = (GenEnum)argument; GenPackage genPackage = genEnum.getGenPackage(); GenModel genModel=genPackage.getGenModel();
     final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;
+    final boolean forceDefaultCase = genModel.isSwitchMissingDefaultCase();
     stringBuffer.append(TEXT_1);
     stringBuffer.append(TEXT_2);
     {GenBase copyrightHolder = argument instanceof GenBase ? (GenBase)argument : argument instanceof Object[] && ((Object[])argument)[0] instanceof GenBase ? (GenBase)((Object[])argument)[0] : null;
@@ -351,70 +354,75 @@ public class EnumClass
     stringBuffer.append(genEnumLiteral.getEnumLiteralInstanceConstantName());
     stringBuffer.append(TEXT_39);
     }
+    if (forceDefaultCase) { // {
     stringBuffer.append(TEXT_76);
-    if (isEnum) {
+    } else { // {
     stringBuffer.append(TEXT_77);
-    stringBuffer.append(genModel.getImportedName("java.lang.String"));
+    } // }
     stringBuffer.append(TEXT_78);
-    stringBuffer.append(genModel.getImportedName("java.lang.String"));
+    if (isEnum) {
     stringBuffer.append(TEXT_79);
-    }
+    stringBuffer.append(genModel.getImportedName("java.lang.String"));
     stringBuffer.append(TEXT_80);
-    stringBuffer.append(genEnum.getName());
+    stringBuffer.append(genModel.getImportedName("java.lang.String"));
     stringBuffer.append(TEXT_81);
-    stringBuffer.append(genModel.getImportedName("java.lang.String"));
+    }
     stringBuffer.append(TEXT_82);
-    stringBuffer.append(genModel.getImportedName("java.lang.String"));
+    stringBuffer.append(genEnum.getName());
     stringBuffer.append(TEXT_83);
-    if (isEnum) {
-    stringBuffer.append(TEXT_84);
-    } else {
-    stringBuffer.append(TEXT_85);
-    }
-    stringBuffer.append(TEXT_86);
-    if (isEnum) {
-    stringBuffer.append(TEXT_87);
-    if (genModel.useInterfaceOverrideAnnotation()) {
-    stringBuffer.append(TEXT_88);
-    }
-    stringBuffer.append(TEXT_89);
-    if (genModel.useInterfaceOverrideAnnotation()) {
-    stringBuffer.append(TEXT_88);
-    }
-    stringBuffer.append(TEXT_90);
     stringBuffer.append(genModel.getImportedName("java.lang.String"));
-    stringBuffer.append(TEXT_91);
-    if (genModel.useInterfaceOverrideAnnotation()) {
+    stringBuffer.append(TEXT_84);
+    stringBuffer.append(genModel.getImportedName("java.lang.String"));
+    stringBuffer.append(TEXT_85);
+    if (isEnum) {
+    stringBuffer.append(TEXT_86);
+    } else {
+    stringBuffer.append(TEXT_87);
+    }
+    stringBuffer.append(TEXT_78);
+    if (isEnum) {
     stringBuffer.append(TEXT_88);
+    if (genModel.useInterfaceOverrideAnnotation()) {
+    stringBuffer.append(TEXT_89);
     }
     stringBuffer.append(TEXT_90);
+    if (genModel.useInterfaceOverrideAnnotation()) {
+    stringBuffer.append(TEXT_89);
+    }
+    stringBuffer.append(TEXT_91);
     stringBuffer.append(genModel.getImportedName("java.lang.String"));
     stringBuffer.append(TEXT_92);
-    if (genModel.useClassOverrideAnnotation()) {
-    stringBuffer.append(TEXT_88);
+    if (genModel.useInterfaceOverrideAnnotation()) {
+    stringBuffer.append(TEXT_89);
     }
-    stringBuffer.append(TEXT_90);
+    stringBuffer.append(TEXT_91);
     stringBuffer.append(genModel.getImportedName("java.lang.String"));
     stringBuffer.append(TEXT_93);
+    if (genModel.useClassOverrideAnnotation()) {
+    stringBuffer.append(TEXT_89);
     }
+    stringBuffer.append(TEXT_91);
+    stringBuffer.append(genModel.getImportedName("java.lang.String"));
     stringBuffer.append(TEXT_94);
+    }
+    stringBuffer.append(TEXT_95);
     stringBuffer.append(genEnum.getName());
     if (genModel.isSuppressEMFMetaData()&& !genModel.isSuppressInterfaces() ) {
     stringBuffer.append(TEXT_40);
     if (isEnum) {
-    stringBuffer.append(TEXT_95);
-    stringBuffer.append(genEnum.getName());
     stringBuffer.append(TEXT_96);
-    } else {
-    stringBuffer.append(TEXT_97);
     stringBuffer.append(genEnum.getName());
+    stringBuffer.append(TEXT_97);
+    } else {
     stringBuffer.append(TEXT_98);
     stringBuffer.append(genEnum.getName());
-    stringBuffer.append(TEXT_81);
-    stringBuffer.append(genModel.getImportedName("java.lang.String"));
-    stringBuffer.append(TEXT_82);
-    stringBuffer.append(genModel.getImportedName("java.lang.String"));
     stringBuffer.append(TEXT_99);
+    stringBuffer.append(genEnum.getName());
+    stringBuffer.append(TEXT_83);
+    stringBuffer.append(genModel.getImportedName("java.lang.String"));
+    stringBuffer.append(TEXT_84);
+    stringBuffer.append(genModel.getImportedName("java.lang.String"));
+    stringBuffer.append(TEXT_100);
     }
     }
     genModel.emitSortedImports();

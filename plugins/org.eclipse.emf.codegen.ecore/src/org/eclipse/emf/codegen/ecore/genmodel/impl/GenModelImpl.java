@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2012 IBM Corporation and others.
+ * Copyright (c) 2002-2019 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
+ *   Alexander Fedorov <alexander.fedorov@arsysop.ru> - Bug 546714
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -10823,24 +10824,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
   }
 
+  public boolean isSwitchMissingDefaultCase()
+  {
+    //JavaCore.COMPILER_PB_SWITCH_MISSING_DEFAULT_CASE is available from JDT 3.8 only
+    String option = "org.eclipse.jdt.core.compiler.problem.missingDefaultCase";
+    return EclipseHelper.isJavaOptionActive(this, option);
+  }
+
   public boolean isUnnecessaryElse()
   {
-    if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
-    {
-      return !JavaCore.IGNORE.equals(EclipseHelper.getJavaOptions(this).get(JavaCore.COMPILER_PB_UNNECESSARY_ELSE));
-    }
-    return false;
+    return EclipseHelper.isJavaOptionActive(this, JavaCore.COMPILER_PB_UNNECESSARY_ELSE);
   }
 
   private static class EclipseHelper
   {
-    static Map<String, String> getJavaOptions(GenModel genModel)
+    static boolean isJavaOptionActive(GenModel genModel, String option)
     {
       if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
       {
-        return GenModelUtil.getJavaOptions(genModel);
+        Map<String, String> javaOptions = GenModelUtil.getJavaOptions(genModel);
+        String anObject = javaOptions.get(option);
+        return !JavaCore.IGNORE.equals(anObject);
       }
-      else return Collections.emptyMap();
+      return false;
     }
 
     static String getModelDirectory(URI uri)

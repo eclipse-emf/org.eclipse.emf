@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2010 IBM Corporation and others.
+ * Copyright (c) 2002-2019 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
+ *   Alexander Fedorov <alexander.fedorov@arsysop.ru> - Bug 546714
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -3232,6 +3233,11 @@ public interface GenModel extends GenBase
   GenOperation findGenOperation(EOperation eOperation);
 
   /**
+   * @since 2.18
+   */
+  boolean isSwitchMissingDefaultCase();
+
+  /**
    * @since 2.9
    */
   boolean isUnnecessaryElse();
@@ -3335,4 +3341,5 @@ public interface GenModel extends GenBase
    * @since 2.14
    */
   String getTestsBundleVendorName();
+
 }
