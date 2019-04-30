@@ -160,6 +160,39 @@ public class ProblemEditorPart extends EditorPart
     }
 
     editorToOpen = computeEditorToOpen();
+    createButtons(buttonComposite);
+    updateDetails();
+
+    detailsComposite = new Composite(parent, SWT.NONE);
+    GridData data = new GridData(GridData.FILL_BOTH | GridData.GRAB_VERTICAL);
+    data.horizontalSpan = 3;
+    data.verticalSpan = 2;
+    detailsComposite.setLayoutData(data);
+    {
+      GridLayout layout = new GridLayout();
+      int margin = -5;
+      int spacing = 3;
+      layout.marginTop = margin;
+      layout.marginLeft = margin;
+      layout.marginRight = margin;
+      layout.marginBottom = margin;
+      layout.horizontalSpacing = spacing;
+      layout.verticalSpacing = spacing;
+      detailsComposite.setLayout(layout);
+    }
+
+    refresh();
+    parent.layout(true);
+  }
+
+  /**
+   * Create buttons into the buttonComposite.
+   *
+   * @param buttonComposite the composite owning buttons.
+   *
+   * @since 2.18.0
+   */
+  protected void createButtons(Composite buttonComposite) {
     if (editorToOpen != null)
     {
       Button openButton = new Button(buttonComposite, SWT.PUSH);
@@ -201,28 +234,6 @@ public class ProblemEditorPart extends EditorPart
           toggleDetails();
         }
       });
-    updateDetails();
-
-    detailsComposite = new Composite(parent, SWT.NONE);
-    GridData data = new GridData(GridData.FILL_BOTH | GridData.GRAB_VERTICAL);
-    data.horizontalSpan = 3;
-    data.verticalSpan = 2;
-    detailsComposite.setLayoutData(data);
-    {
-      GridLayout layout = new GridLayout();
-      int margin = -5;
-      int spacing = 3;
-      layout.marginTop = margin;
-      layout.marginLeft = margin;
-      layout.marginRight = margin;
-      layout.marginBottom = margin;
-      layout.horizontalSpacing = spacing;
-      layout.verticalSpacing = spacing;
-      detailsComposite.setLayout(layout);
-    }
-
-    refresh();
-    parent.layout(true);
   }
 
   public Diagnostic getDiagnostic()
