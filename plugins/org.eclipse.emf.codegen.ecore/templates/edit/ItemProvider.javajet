@@ -131,7 +131,7 @@ public class <%=genClass.getProviderClassName()%> <%if (genClass.getProviderImpl
   <%if (genFeature.getPropertyFilterFlags().isEmpty()) {%>
     <%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF214_VALUE && genFeature.getPropertyEditorFactory() != null && genFeature.getPropertyEditorFactory().trim().length() != 0) {%>
 				 null,
-				 <%=genModel.getImportedName("org.eclipse.emf.common.util.URI")%>.createURI(<%=org.eclipse.emf.codegen.ecore.genmodel.impl.Literals.toStringLiteral(genFeature.getPropertyEditorFactory().trim(), genModel)%>)));
+				 <%=genModel.getImportedName("org.eclipse.emf.common.util.URI")%>.createURI(<%=org.eclipse.emf.codegen.ecore.genmodel.impl.Literals.toStringLiteral(genFeature.getPropertyEditorFactory().trim(), genModel)%>)));<%=genModel.getNonNLS()%>
     <%} else {%>
 				 null));
     <%}%>

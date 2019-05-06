@@ -361,6 +361,7 @@ public class ItemProvider
     stringBuffer.append(TEXT_53);
     stringBuffer.append(org.eclipse.emf.codegen.ecore.genmodel.impl.Literals.toStringLiteral(genFeature.getPropertyEditorFactory().trim(), genModel));
     stringBuffer.append(TEXT_54);
+    stringBuffer.append(genModel.getNonNLS());
     } else {
     stringBuffer.append(TEXT_55);
     }
