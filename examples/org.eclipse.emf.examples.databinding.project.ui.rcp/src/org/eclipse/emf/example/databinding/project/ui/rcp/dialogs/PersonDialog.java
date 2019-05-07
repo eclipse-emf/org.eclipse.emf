@@ -57,6 +57,7 @@ import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPa
 /**
  * Dialog to edit person data
  */
+@SuppressWarnings("deprecation")
 public class PersonDialog extends TitleAreaDialog
 {
   private final Person person;

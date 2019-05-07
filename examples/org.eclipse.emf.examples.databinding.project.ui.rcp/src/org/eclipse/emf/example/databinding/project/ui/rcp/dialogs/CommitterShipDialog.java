@@ -49,6 +49,7 @@ import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPa
 /**
  * Dialog to edit the committer ship
  */
+@SuppressWarnings("deprecation")
 public class CommitterShipDialog extends TitleAreaDialog
 {
   private final DataBindingContext ctx;

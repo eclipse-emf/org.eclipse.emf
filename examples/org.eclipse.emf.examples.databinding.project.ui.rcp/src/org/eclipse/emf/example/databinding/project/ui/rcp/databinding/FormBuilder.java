@@ -32,6 +32,7 @@ import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
  * Helper class which builds a two column form with labels and text-fields
  * @param <P> the value property type
  */
+@SuppressWarnings("deprecation")
 public class FormBuilder<P extends IValueProperty>
 {
   private class Entry

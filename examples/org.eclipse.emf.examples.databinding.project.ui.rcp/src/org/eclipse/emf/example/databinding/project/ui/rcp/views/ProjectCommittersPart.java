@@ -48,6 +48,7 @@ import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPa
 /**
  * Part showing the current committers
  */
+@SuppressWarnings("deprecation")
 public class ProjectCommittersPart
 {
   private static final String END_DATE_PROPERTY = "enddate";

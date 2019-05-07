@@ -73,6 +73,7 @@ import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPa
 /**
  * Part creating the form area
  */
+@SuppressWarnings("deprecation")
 public class ProjectFormAreaPart
 {
   private DataBindingContext ctx;

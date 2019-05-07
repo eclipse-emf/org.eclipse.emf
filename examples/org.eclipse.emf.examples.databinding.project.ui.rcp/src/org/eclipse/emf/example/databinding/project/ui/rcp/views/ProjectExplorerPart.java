@@ -86,6 +86,7 @@ import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPa
 /**
  * Part responsible for rendering the project tree
  */
+@SuppressWarnings("deprecation")
 public class ProjectExplorerPart
 {
   private final TreeViewer viewer;
