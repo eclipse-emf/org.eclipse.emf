@@ -138,7 +138,7 @@ public final class SegmentSequence implements CharSequence
     }
     // If the segment contains the delimiter...
     //
-    else if (segment.indexOf(delimiter) != -1)
+    else if (segment.contains(delimiter))
     {
       // Create a segment sequence for the segment and append that instead.
       //
@@ -2807,7 +2807,7 @@ public final class SegmentSequence implements CharSequence
         // If the segment contains the delimiter...
         //
         String segment = segments[i];
-        if (segment.indexOf(delimiter) != -1)
+        if (segment.contains(delimiter))
         {
           // Create a segment sequence for the segment, to reuse the efficient logic for splitting a name, and pull out the segments from that result.
           //

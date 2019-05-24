@@ -327,7 +327,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
   public boolean isAnonymous(EClassifier eClassifier)
   {
     String name =  getExtendedMetaData(eClassifier).getName();
-    return name.length() == 0 || name.indexOf("_._") != -1;
+    return name.length() == 0 || name.contains("_._");
   }
 
   public String getName(EStructuralFeature eStructuralFeature)
