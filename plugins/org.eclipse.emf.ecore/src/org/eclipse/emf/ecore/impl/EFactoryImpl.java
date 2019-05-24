@@ -504,7 +504,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory, BinaryR
       {
         return "";
       }
-      StringBuffer result = new StringBuffer();
+      StringBuilder result = new StringBuilder();
       for (Object item : list)
       {
         result.append(EcoreUtil.convertToString(itemType, item));

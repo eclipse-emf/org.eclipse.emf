@@ -1972,7 +1972,7 @@ final static class RangeToken extends Token implements java.io.Serializable {
             else if (this == Token.token_spaces)
                 ret = "\\s";
             else {
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
                 sb.append('[');
                 for (int i = 0;  i < this.ranges.length;  i += 2) {
                     if ((options & RegularExpression.SPECIAL_COMMA) != 0 && i > 0)  sb.append(',');
@@ -1995,7 +1995,7 @@ final static class RangeToken extends Token implements java.io.Serializable {
             else if (this == Token.token_not_spaces)
                 ret = "\\S";
             else {
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
                 sb.append("[^");
                 for (int i = 0;  i < this.ranges.length;  i += 2) {
                     if ((options & RegularExpression.SPECIAL_COMMA) != 0 && i > 0)  sb.append(',');
@@ -5761,7 +5761,7 @@ final static class REUtil {
     }
 
     static final String createOptionString(int options) {
-        StringBuffer sb = new StringBuffer(9);
+        StringBuilder sb = new StringBuilder(9);
         if ((options & RegularExpression.PROHIBIT_FIXED_STRING_OPTIMIZATION) != 0)
             sb.append((char)'F');
         if ((options & RegularExpression.PROHIBIT_HEAD_CHARACTER_OPTIMIZATION) != 0)
@@ -5789,7 +5789,7 @@ final static class REUtil {
 
     static String stripExtendedComment(String regex) {
         int len = regex.length();
-        StringBuffer buffer = new StringBuffer(len);
+        StringBuilder buffer = new StringBuilder(len);
         int offset = 0;
         int charClass = 0;
         while (offset < len) {
@@ -6813,7 +6813,7 @@ static class Token implements java.io.Serializable {
                 //REVISIT: do we really need to support block names as in Unicode 3.1
                 //         or we can just create all the names in IsBLOCKNAME format (XML Schema REC)?
                 //
-                StringBuffer buffer = new StringBuffer(50);
+                StringBuilder buffer = new StringBuilder(50);
                 for (int i = 0;  i < Token.blockNames.length;  i ++) {
                     Token r1 = Token.createRange();
                     int location;

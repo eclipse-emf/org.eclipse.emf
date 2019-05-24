@@ -439,7 +439,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (resourceURI: ");
     result.append(resourceURI);
     result.append(", resource: ");

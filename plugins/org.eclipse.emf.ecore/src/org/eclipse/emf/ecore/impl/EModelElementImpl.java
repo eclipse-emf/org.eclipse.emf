@@ -376,7 +376,7 @@ public abstract class EModelElementImpl extends MinimalEObjectImpl.Container imp
         }
       }
 
-      StringBuffer result = new StringBuffer(source == null ? 6 : source.length() + 5);
+      StringBuilder result = new StringBuilder(source == null ? 6 : source.length() + 5);
       result.append('%');
       result.append(source == null ? "%" : URI.encodeSegment(source,  false));
       result.append('%');

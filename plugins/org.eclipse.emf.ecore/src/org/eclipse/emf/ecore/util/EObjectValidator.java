@@ -1107,7 +1107,7 @@ public class EObjectValidator implements EValidator
 
       if (effectiveTotalDigits != -1 && eDataType.getInstanceClassName() != "java.math.BigDecimal")
       {
-        StringBuffer digits = new StringBuffer("1");
+        StringBuilder digits = new StringBuilder("1");
         for (int i = effectiveTotalDigits; i > 0; --i)
         {
           digits.append("0");

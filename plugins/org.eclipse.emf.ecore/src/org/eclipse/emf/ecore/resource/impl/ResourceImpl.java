@@ -1876,7 +1876,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   public String toKeyString()
   {
-    StringBuffer result = new StringBuffer("Key type: ");
+    StringBuilder result = new StringBuilder("Key type: ");
     result.append(getClass().toString());
     return result.toString();
   }

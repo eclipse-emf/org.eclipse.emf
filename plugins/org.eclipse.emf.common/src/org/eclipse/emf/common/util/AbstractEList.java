@@ -618,7 +618,7 @@ public abstract class AbstractEList<E> extends AbstractList<E> implements EList<
   @Override
   public String toString() 
   {
-    StringBuffer stringBuffer = new StringBuffer();
+    StringBuilder stringBuffer = new StringBuilder();
     stringBuffer.append("[");
     for (int i = 0, size = size(); i < size; )
     {

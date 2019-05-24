@@ -864,7 +864,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (set: ");
     result.append(set);
     result.append(')');

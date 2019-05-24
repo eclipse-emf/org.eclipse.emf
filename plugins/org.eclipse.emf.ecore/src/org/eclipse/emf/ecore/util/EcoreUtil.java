@@ -1846,7 +1846,7 @@ public class EcoreUtil
     @Override
     public String toString()
     {
-      StringBuffer result = new StringBuffer("{"); // }
+      StringBuilder result = new StringBuilder("{"); // }
 
       for (Map.Entry<EObject, Collection<EStructuralFeature.Setting>> entry : entrySet())
       {
@@ -3022,7 +3022,7 @@ public class EcoreUtil
    */
   public static String getIdentification(EObject eObject)
   {
-    StringBuffer result = new StringBuffer(eObject.getClass().getName());
+    StringBuilder result = new StringBuilder(eObject.getClass().getName());
     EClass eClass = eObject.eClass();
     if (eClass.getInstanceClassName() == null)
     {
@@ -3874,7 +3874,7 @@ public class EcoreUtil
         eAnnotation.setSource(EcorePackage.eNS_URI);
         eModelElement.getEAnnotations().add(eAnnotation);
       }
-      StringBuffer value = new StringBuffer();
+      StringBuilder value = new StringBuilder();
       for (Iterator<String> i = constraints.iterator(); i.hasNext();)
       {
         value.append(i.next());
@@ -4736,7 +4736,7 @@ public class EcoreUtil
         eAnnotation.setSource(EcorePackage.eNS_URI);
         ePackage.getEAnnotations().add(eAnnotation);
       }
-      StringBuffer value = new StringBuffer();
+      StringBuilder value = new StringBuilder();
       for (Iterator<String> i = validationDelegates.iterator(); i.hasNext();)
       {
         value.append(i.next());
@@ -4793,7 +4793,7 @@ public class EcoreUtil
         eAnnotation.setSource(EcorePackage.eNS_URI);
         ePackage.getEAnnotations().add(eAnnotation);
       }
-      StringBuffer value = new StringBuffer();
+      StringBuilder value = new StringBuilder();
       for (Iterator<String> i = settingDelegates.iterator(); i.hasNext();)
       {
         value.append(i.next());
@@ -4863,7 +4863,7 @@ public class EcoreUtil
         eAnnotation.setSource(EcorePackage.eNS_URI);
         ePackage.getEAnnotations().add(eAnnotation);
       }
-      StringBuffer value = new StringBuffer();
+      StringBuilder value = new StringBuilder();
       for (Iterator<String> i = invocationDelegates.iterator(); i.hasNext();)
       {
         value.append(i.next());
@@ -4933,7 +4933,7 @@ public class EcoreUtil
         eAnnotation.setSource(EcorePackage.eNS_URI);
         ePackage.getEAnnotations().add(eAnnotation);
       }
-      StringBuffer value = new StringBuffer();
+      StringBuilder value = new StringBuilder();
       for (Iterator<String> i = eDataTypeDelegates.iterator(); i.hasNext();)
       {
         value.append(i.next());

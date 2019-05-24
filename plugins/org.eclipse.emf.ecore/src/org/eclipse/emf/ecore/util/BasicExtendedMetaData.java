@@ -686,7 +686,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     {
       EAnnotation eAnnotation = getAnnotation(eDataType, true);
       String namespace = getNamespace(eDataType);
-      StringBuffer result = new StringBuffer();
+      StringBuilder result = new StringBuilder();
       for (int i = 0, size = memberTypes.size(); i < size; ++i)
       {
         result.append(getQualifiedName(namespace, memberTypes.get(i)));
@@ -1145,7 +1145,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     }
     else
     {
-      StringBuffer value = new StringBuffer();
+      StringBuilder value = new StringBuilder();
       for (int i = 0, size = wildcards.size(); i < size; )
       {
         String wildcard = wildcards.get(i);
@@ -1597,7 +1597,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     else
     {
       EAnnotation eAnnotation = getAnnotation(eDataType, true);
-      StringBuffer result = new StringBuffer();
+      StringBuilder result = new StringBuilder();
       for (int i = 0, size = literals.size(); i < size; ++i)
       {
         result.append(replace(replace(literals.get(i), "%","%25"), " ", "%20"));
@@ -1646,7 +1646,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     else
     {
       EAnnotation eAnnotation = getAnnotation(eDataType, true);
-      StringBuffer result = new StringBuffer();
+      StringBuilder result = new StringBuilder();
       for (int i = 0, size = pattern.size(); i < size; ++i)
       {
         result.append(replace(replace(pattern.get(i), "%","%25"), " ", "%20"));
@@ -2016,7 +2016,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
   {
     int index = namespace.length();
     boolean containsLetter = false;
-    StringBuffer prefix = new StringBuffer(index);
+    StringBuilder prefix = new StringBuilder(index);
     while (--index >= 0)
     {
       char character = namespace.charAt(index);

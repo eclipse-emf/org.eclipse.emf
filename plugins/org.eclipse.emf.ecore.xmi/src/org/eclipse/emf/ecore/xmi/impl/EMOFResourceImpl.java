@@ -85,7 +85,7 @@ public class EMOFResourceImpl extends XMIResourceImpl implements XMIResource
       eObject = container;
     }
 
-    StringBuffer result = new StringBuffer(eObject instanceof ENamedElement ?
+    StringBuilder result = new StringBuilder(eObject instanceof ENamedElement ?
                                            ((ENamedElement)eObject).getName() :
                                            "_" + Integer.toString(getContents().indexOf(eObject)));
     for (ListIterator<String> i = uriFragmentPath.listIterator(uriFragmentPath.size()); i.hasPrevious(); )

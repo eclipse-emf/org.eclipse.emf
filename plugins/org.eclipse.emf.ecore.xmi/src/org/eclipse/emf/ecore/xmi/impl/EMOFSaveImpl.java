@@ -304,7 +304,7 @@ public class EMOFSaveImpl extends XMISaveImpl
           }
           else
           {
-            StringBuffer ids = new StringBuffer();
+            StringBuilder ids = new StringBuilder();
             boolean failed = true;
             for (Iterator<? extends EObject> iter = values.basicIterator();; )
             {

@@ -5953,7 +5953,7 @@ public abstract class URI
   {
     if (uri == null) return null;
 
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
 
     int i = uri.indexOf(SCHEME_SEPARATOR);
     if (i != -1)

@@ -735,7 +735,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (kind: ");
     result.append(kind);
     result.append(", dataValues: ");

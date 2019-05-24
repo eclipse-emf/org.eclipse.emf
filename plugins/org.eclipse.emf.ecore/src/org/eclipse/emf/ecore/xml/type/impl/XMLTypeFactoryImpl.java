@@ -511,7 +511,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   {
     if (instanceValue == null) return null;
     if (instanceValue.isEmpty()) return "";
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
     for (Object item : instanceValue)
     {
       result.append(convertENTITY((String)item));
@@ -530,7 +530,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     if (instanceValue == null) return null;
     List<?> list = (List<?>)instanceValue;
     if (list.isEmpty()) return "";
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
     for (Iterator<?> i = list.iterator(); i.hasNext(); )
     {
       result.append(convertENTITYToString(XMLTypePackage.Literals.ENTITY, i.next()));
@@ -948,7 +948,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   {
     if (instanceValue == null) return null;
     if (instanceValue.isEmpty()) return "";
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
     for (Object item : instanceValue)
     {
       result.append(convertIDREF((String)item));
@@ -1263,7 +1263,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   {
     if (instanceValue == null) return null;
     if (instanceValue.isEmpty()) return "";
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
     for (Object item : instanceValue)
     {
       result.append(convertNMTOKEN((String)item));
@@ -1277,7 +1277,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     if (instanceValue == null) return null;
     List<?> list = (List<?>)instanceValue;
     if (list.isEmpty()) return "";
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
     for (Iterator<?> i = list.iterator(); i.hasNext(); )
     {
       result.append(convertNMTOKENToString(XMLTypePackage.Literals.NMTOKEN, i.next()));

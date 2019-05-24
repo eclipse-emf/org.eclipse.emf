@@ -229,7 +229,7 @@ public class ProcessingInstructionImpl extends MinimalEObjectImpl.Container impl
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (data: ");
     result.append(data);
     result.append(", target: ");

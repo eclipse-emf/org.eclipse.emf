@@ -1840,7 +1840,7 @@ public class XMLSaveImpl implements XMLSave
       EDataType d = (EDataType)f.getEType();
       EPackage ePackage = d.getEPackage();
       EFactory fac = ePackage.getEFactoryInstance();
-      StringBuffer stringValues = new StringBuffer();
+      StringBuilder stringValues = new StringBuilder();
       for (int i = 0; i < size; ++i)
       {
         Object value = values.get(i);

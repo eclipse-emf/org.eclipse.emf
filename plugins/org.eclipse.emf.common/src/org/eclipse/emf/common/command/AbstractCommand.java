@@ -232,7 +232,7 @@ public abstract class AbstractCommand implements Command
   {
     String className = getClass().getName();
     int lastDotIndex = className.lastIndexOf('.'); 
-    StringBuffer result = new StringBuffer(lastDotIndex == -1 ?  className : className.substring(lastDotIndex + 1));
+    StringBuilder result = new StringBuilder(lastDotIndex == -1 ?  className : className.substring(lastDotIndex + 1));
     result.append(" (label: " + label + ")");
     result.append(" (description: " + description + ")");
     result.append(" (isPrepared: " + isPrepared + ")");

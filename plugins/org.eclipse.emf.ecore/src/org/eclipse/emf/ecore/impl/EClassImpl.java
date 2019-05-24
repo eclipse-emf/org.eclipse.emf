@@ -1972,7 +1972,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           @Override
           protected String delegateToString()
           {
-            StringBuffer stringBuffer = new StringBuffer();
+            StringBuilder stringBuffer = new StringBuilder();
             stringBuffer.append("[");
             EList<EGenericType> eGenericSuperTypes = getEGenericSuperTypes();
             for (int i = 0, size = delegateSize(); i < size; )

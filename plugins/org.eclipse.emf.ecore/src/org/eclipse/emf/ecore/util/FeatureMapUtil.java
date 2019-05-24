@@ -933,7 +933,7 @@ public final class FeatureMapUtil
     @Override
     public String toString()
     {
-      StringBuffer stringBuffer = new StringBuffer();
+      StringBuilder stringBuffer = new StringBuilder();
       stringBuffer.append("[");
       for (Iterator<E> i = basicIterator(); i.hasNext(); )
       {

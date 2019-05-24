@@ -427,7 +427,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation, EOp
           @Override
           protected String delegateToString()
           {
-            StringBuffer stringBuffer = new StringBuffer();
+            StringBuilder stringBuffer = new StringBuilder();
             stringBuffer.append("[");
             EList<EGenericType> eGenericExceptions = getEGenericExceptions();
             for (int i = 0, size = delegateSize(); i < size; )

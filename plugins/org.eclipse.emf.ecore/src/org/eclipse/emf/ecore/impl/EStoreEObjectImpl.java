@@ -351,7 +351,7 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
     @Override
     protected String delegateToString()
     {
-      StringBuffer stringBuffer = new StringBuffer();
+      StringBuilder stringBuffer = new StringBuilder();
       stringBuffer.append("[");
       for (int i = 0, size = size(); i < size; )
       {
@@ -552,7 +552,7 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
     @Override
     protected String delegateToString()
     {
-      StringBuffer stringBuffer = new StringBuffer();
+      StringBuilder stringBuffer = new StringBuilder();
       stringBuffer.append("[");
       for (int i = 0, size = size(); i < size; )
       {

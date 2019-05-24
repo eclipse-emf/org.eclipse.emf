@@ -173,7 +173,7 @@ public class DefaultDOMHandlerImpl implements DOMHandler, DOMHelper
   {
     if (DEBUG)
     {
-      StringBuffer buf = new StringBuffer();
+      StringBuilder buf = new StringBuilder();
 
       buf.append("recordValues( ");
       buf.append(" {");

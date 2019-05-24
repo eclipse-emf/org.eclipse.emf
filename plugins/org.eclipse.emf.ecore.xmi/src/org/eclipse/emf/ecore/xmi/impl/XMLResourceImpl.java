@@ -742,7 +742,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   @Override
   public String toKeyString()
   {
-    StringBuffer result = new StringBuffer("Key type: ");
+    StringBuilder result = new StringBuilder("Key type: ");
     result.append(getClass().toString());
     if (idToEObjectMap != null)
     {

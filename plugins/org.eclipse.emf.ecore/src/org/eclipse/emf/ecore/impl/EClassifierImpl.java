@@ -434,7 +434,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
     if (arrayIndex != -1)
     {
       String componentClassName = className.substring(0, arrayIndex);
-      StringBuffer result = new StringBuffer();
+      StringBuilder result = new StringBuilder();
       do result.append('['); while ((arrayIndex = className.indexOf('[', ++arrayIndex)) != -1);
       if (componentClassName.equals("boolean"))
         result.append('Z');
@@ -766,7 +766,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
     //
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (instanceClassName: ");
     result.append(instanceClassName);
     result.append(')');
