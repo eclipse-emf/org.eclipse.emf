@@ -156,7 +156,7 @@ public final class EcoreAnnotationValidator extends BasicEAnnotationValidator
           result.add(eClass);
         }
       }.doSwitch(eModelElement);
-    return result.size() == 0 ? Collections.<EClass> emptyList() : Collections.singletonList(result.get(0));
+    return result.isEmpty() ? Collections.<EClass> emptyList() : Collections.singletonList(result.get(0));
   }
 
   @Override

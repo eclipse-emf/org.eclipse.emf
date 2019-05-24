@@ -392,7 +392,7 @@ public class BasicNotifierImpl implements Notifier
   protected boolean eBasicHasAdapters()
   {
     BasicEList<Adapter> eBasicAdapters = eBasicAdapters();
-    return eBasicAdapters != null && eBasicAdapters.size() != 0;
+    return eBasicAdapters != null && !eBasicAdapters.isEmpty();
   }
 
   /*

@@ -1337,7 +1337,7 @@ public class BasicFeatureMap
 
   public boolean addAll(int index, EStructuralFeature feature, Collection<?> collection)
   {
-    if (collection.size() == 0)
+    if (collection.isEmpty())
     {
       return false;
     }
@@ -1414,7 +1414,7 @@ public class BasicFeatureMap
 
   public boolean addAll(EStructuralFeature feature, Collection<?> collection)
   {
-    if (collection.size() == 0)
+    if (collection.isEmpty())
     {
       return false;
     }
@@ -1488,7 +1488,7 @@ public class BasicFeatureMap
 
   public boolean addAll(EStructuralFeature feature, int index, Collection<?> collection)
   {
-    if (collection.size() == 0)
+    if (collection.isEmpty())
     {
       return false;
     }
