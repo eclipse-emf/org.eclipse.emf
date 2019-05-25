@@ -3,7 +3,8 @@
     xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:setup="http://www.eclipse.org/oomph/setup/1.0">
+    xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
+    label="EMF Development Environment">
   <installation
       name="emf.development.environment.installation"
       label="EMF Development Environment Installation">
@@ -30,4 +31,5 @@
         href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']/@projects[name='xsd']/@streams[name='master']"/>
     <description>The EMF/XSD development environment workspace includes the Core, RAP, GWT, Xcore, ODA, Releng, and XSD.</description>
   </workspace>
+  <description>THe EMF Development Environment configuration provides the full development environment for working on EMF.</description>
 </setup:Configuration>
