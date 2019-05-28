@@ -13,7 +13,7 @@ Export-Package: org.eclipse.emf.ecore.action,
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
  org.eclipse.core.resources;bundle-version="[3.6.0,4.0.0)";visibility:=reexport,
  org.eclipse.ui.ide;bundle-version="[3.6.0,4.0.0)";visibility:=reexport,
- org.eclipse.emf.ecore.xmi;bundle-version="[2.15.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;bundle-version="[2.16.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.ecore.edit;bundle-version="[2.12.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.edit.ui;bundle-version="[2.16.0,3.0.0)";visibility:=reexport,
  org.eclipse.jface.text;bundle-version="[3.6.0,4.0.0)"
