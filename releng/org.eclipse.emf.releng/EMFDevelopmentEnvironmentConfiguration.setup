@@ -9,7 +9,7 @@
       name="emf.development.environment.installation"
       label="EMF Development Environment Installation">
     <productVersion
-        href="index:/org.eclipse.setup#//@productCatalogs[name='org.eclipse.products']/@products[name='epp.package.committers']/@versions[name='2019-03']"/>
+        href="index:/org.eclipse.setup#//@productCatalogs[name='org.eclipse.products']/@products[name='epp.package.committers']/@versions[name='latest']"/>
     <description>The EMF development environment installation provides the full development environment for working with EMF and XSD.</description>
   </installation>
   <workspace
@@ -18,7 +18,7 @@
     <setupTask
         xsi:type="setup:VariableTask"
         name="eclipse.target.platform"
-        value="2019-03"/>
+        value="2019-09"/>
     <stream
         href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']/@projects[name='emf']/@projects[name='core']/@streams[name='master']"/>
     <stream
