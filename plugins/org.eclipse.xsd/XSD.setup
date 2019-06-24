@@ -137,6 +137,13 @@
       <sourceLocator
           rootFolder="${xsd.git.clone.location}"/>
       <repositoryList
+          name="2019-09">
+        <repository
+            url="http://download.eclipse.org/releases/2019-09"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+      </repositoryList>
+      <repositoryList
           name="2019-06">
         <repository
             url="http://download.eclipse.org/releases/2019-06"/>
