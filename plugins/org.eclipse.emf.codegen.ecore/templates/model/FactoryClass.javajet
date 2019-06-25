@@ -213,7 +213,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 
 <%}%>
 <%for (GenClass genClass : genPackage.getGenClasses()) {%>
-  <%if (!genClass.isAbstract()) {%>
+  <%if (!genClass.isAbstract()) { boolean isUnnecessaryAssignmentBeforeReturn = genModel.getCodeStyle().contains(CodeStyle.UNNECESSARY_ASSIGNMENT_BEFORE_RETURN);%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -231,11 +231,13 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	public <%=genClass.getTypeParameters()%><%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceTypeArguments()%> create<%=genClass.getName()%>()
 	{
     <%if (genClass.isDynamic()) {%>
-		<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceTypeArguments()%> <%=genClass.getSafeUncapName()%> = <%=genClass.getCastFromEObject()%>super.create(<%=genClass.getQualifiedClassifierAccessor()%>);
+		<%if (!isUnnecessaryAssignmentBeforeReturn) {%><%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceTypeArguments()%> <%=genClass.getSafeUncapName()%> =<%} else {%>return<%}%> <%=genClass.getCastFromEObject()%>super.create(<%=genClass.getQualifiedClassifierAccessor()%>);
     <%} else {%>
-		<%=genClass.getImportedClassName()%><%=genClass.getClassTypeArguments()%> <%=genClass.getSafeUncapName()%> = new <%=genClass.getImportedClassName()%><%=genClass.getClassTypeArguments()%>()<%if (genModel.isSuppressInterfaces() && !genPackage.getReflectionPackageName().equals(genPackage.getInterfacePackageName())) {%>{}<%}%>;
+		<%if (!isUnnecessaryAssignmentBeforeReturn) {%><%=genClass.getImportedClassName()%><%=genClass.getClassTypeArguments()%> <%=genClass.getSafeUncapName()%> =<%} else {%>return<%}%> new <%=genClass.getImportedClassName()%><%=genClass.getClassTypeArguments()%>()<%if (genModel.isSuppressInterfaces() && !genPackage.getReflectionPackageName().equals(genPackage.getInterfacePackageName())) {%>{}<%}%>;
     <%}%>
+    <%if (!isUnnecessaryAssignmentBeforeReturn) {%>
 		return <%=genClass.getSafeUncapName()%>;
+    <%}%>
 	}
 
   <%}%>

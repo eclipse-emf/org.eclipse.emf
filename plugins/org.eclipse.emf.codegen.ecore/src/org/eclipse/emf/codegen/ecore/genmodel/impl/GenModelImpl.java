@@ -42,6 +42,7 @@ import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter;
+import org.eclipse.emf.codegen.ecore.genmodel.CodeStyle;
 import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
@@ -225,6 +226,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isExpandAllAction <em>Expand All Action</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCollapseAllAction <em>Collapse All Action</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isRevertAction <em>Revert Action</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getCodeStyle <em>Code Style</em>}</li>
  * </ul>
  *
  * @generated
@@ -2094,6 +2096,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean revertAction = REVERT_ACTION_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getCodeStyle() <em>Code Style</em>}' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getCodeStyle()
+   * @since 2.19
+   * @generated
+   * @ordered
+   */
+  protected EList<CodeStyle> codeStyle;
 
   protected boolean validateModel = false;
 
@@ -7126,6 +7139,21 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.19
+   * @generated
+   */
+  public EList<CodeStyle> getCodeStyle()
+  {
+    if (codeStyle == null)
+    {
+      codeStyle = new EDataTypeUniqueEList<CodeStyle>(CodeStyle.class, this, GenModelPackage.GEN_MODEL__CODE_STYLE);
+    }
+    return codeStyle;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   @SuppressWarnings("unchecked")
@@ -7354,6 +7382,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isCollapseAllAction();
       case GenModelPackage.GEN_MODEL__REVERT_ACTION:
         return isRevertAction();
+      case GenModelPackage.GEN_MODEL__CODE_STYLE:
+        return getCodeStyle();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -7660,6 +7690,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__REVERT_ACTION:
         setRevertAction((Boolean)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__CODE_STYLE:
+        getCodeStyle().clear();
+        getCodeStyle().addAll((Collection<? extends CodeStyle>)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -7956,6 +7990,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__REVERT_ACTION:
         setRevertAction(REVERT_ACTION_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__CODE_STYLE:
+        getCodeStyle().clear();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -8158,6 +8195,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return collapseAllAction != COLLAPSE_ALL_ACTION_EDEFAULT;
       case GenModelPackage.GEN_MODEL__REVERT_ACTION:
         return revertAction != REVERT_ACTION_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__CODE_STYLE:
+        return codeStyle != null && !codeStyle.isEmpty();
     }
     return super.eIsSet(featureID);
   }
@@ -8351,6 +8390,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(collapseAllAction);
     result.append(", revertAction: ");
     result.append(revertAction);
+    result.append(", codeStyle: ");
+    result.append(codeStyle);
     result.append(')');
     return result.toString();
   }
@@ -10828,12 +10869,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     //JavaCore.COMPILER_PB_SWITCH_MISSING_DEFAULT_CASE is available from JDT 3.8 only
     String option = "org.eclipse.jdt.core.compiler.problem.missingDefaultCase";
-    return EclipseHelper.isJavaOptionActive(this, option);
+    return EclipseHelper.isJavaOptionActive(this, option) || getCodeStyle().contains(CodeStyle.SWITCH_MISSING_DEFAULT_CASE);
   }
 
   public boolean isUnnecessaryElse()
   {
-    return EclipseHelper.isJavaOptionActive(this, JavaCore.COMPILER_PB_UNNECESSARY_ELSE);
+    return EclipseHelper.isJavaOptionActive(this, JavaCore.COMPILER_PB_UNNECESSARY_ELSE) || getCodeStyle().contains(CodeStyle.UNNECESSARY_ELSE);
   }
 
   private static class EclipseHelper

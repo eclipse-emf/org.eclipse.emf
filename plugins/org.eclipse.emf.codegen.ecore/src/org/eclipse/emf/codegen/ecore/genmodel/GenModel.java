@@ -138,6 +138,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isExpandAllAction <em>Expand All Action</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCollapseAllAction <em>Collapse All Action</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRevertAction <em>Revert Action</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getCodeStyle <em>Code Style</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel()
@@ -2509,6 +2510,23 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setRevertAction(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Code Style</b></em>' attribute list.
+   * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.CodeStyle}.
+   * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.CodeStyle}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.19
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Code Style</em>' attribute list.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.CodeStyle
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_CodeStyle()
+   * @model
+   * @generated
+   */
+  EList<CodeStyle> getCodeStyle();
 
   EList<GenPackage> getStaticGenPackages();
 

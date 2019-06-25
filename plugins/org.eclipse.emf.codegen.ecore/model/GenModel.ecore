@@ -177,6 +177,12 @@
         <details key="documentation" value="@since 2.14"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="codeStyle" upperBound="-1"
+        eType="#//CodeStyle">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.19"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenPackage" eSuperTypes="#//GenBase">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -640,5 +646,13 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="@since 2.14"/>
     </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CodeStyle">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="@since 2.19"/>
+    </eAnnotations>
+    <eLiterals name="UnnecessaryElse"/>
+    <eLiterals name="SwitchMissingDefaultCase" value="1"/>
+    <eLiterals name="UnnecessaryAssignmentBeforeReturn" value="2"/>
   </eClassifiers>
 </ecore:EPackage>

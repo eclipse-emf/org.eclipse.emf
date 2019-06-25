@@ -92,6 +92,11 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2019_06"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2019_09"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//CodeStyle">
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//CodeStyle/UnnecessaryElse"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//CodeStyle/SwitchMissingDefaultCase"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//CodeStyle/UnnecessaryAssignmentBeforeReturn"/>
+    </genEnums>
     <genDataTypes ecoreDataType="GenModel.ecore#//Path"/>
     <genDataTypes ecoreDataType="GenModel.ecore#//PropertyEditorFactory"/>
     <genClasses ecoreClass="GenModel.ecore#//GenModel">
@@ -278,6 +283,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/collapseAllAction"/>
       <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="Whether the generated editor should support a File -> Revert action"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/revertAction"/>
+      <genFeatures createChild="false" propertyCategory="All" propertyDescription="A set of style options that affect the code style of generated method bodies"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/codeStyle"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenPackage">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The prefix for names of several packaged-related classes, including package, factory, switch, and adapter factory"
