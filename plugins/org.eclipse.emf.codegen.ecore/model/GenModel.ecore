@@ -654,5 +654,6 @@
     <eLiterals name="UnnecessaryElse"/>
     <eLiterals name="SwitchMissingDefaultCase" value="1"/>
     <eLiterals name="UnnecessaryAssignmentBeforeReturn" value="2"/>
+    <eLiterals name="UnnecessaryDeprecatedMethod" value="3"/>
   </eClassifiers>
 </ecore:EPackage>

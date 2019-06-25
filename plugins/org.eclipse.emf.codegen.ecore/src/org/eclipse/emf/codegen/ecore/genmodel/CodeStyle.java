@@ -55,7 +55,17 @@ public enum CodeStyle implements Enumerator
    * @generated
    * @ordered
    */
-  UNNECESSARY_ASSIGNMENT_BEFORE_RETURN(2, "UnnecessaryAssignmentBeforeReturn", "UnnecessaryAssignmentBeforeReturn");
+  UNNECESSARY_ASSIGNMENT_BEFORE_RETURN(2, "UnnecessaryAssignmentBeforeReturn", "UnnecessaryAssignmentBeforeReturn"), 
+
+  /**
+   * The '<em><b>Unnecessary Deprecated Method</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #UNNECESSARY_DEPRECATED_METHOD_VALUE
+   * @generated
+   * @ordered
+   */
+  UNNECESSARY_DEPRECATED_METHOD(3, "UnnecessaryDeprecatedMethod", "UnnecessaryDeprecatedMethod");
 
   /**
    * The '<em><b>Unnecessary Else</b></em>' literal value.
@@ -91,6 +101,17 @@ public enum CodeStyle implements Enumerator
   public static final int UNNECESSARY_ASSIGNMENT_BEFORE_RETURN_VALUE = 2;
 
   /**
+   * The '<em><b>Unnecessary Deprecated Method</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #UNNECESSARY_DEPRECATED_METHOD
+   * @model name="UnnecessaryDeprecatedMethod"
+   * @generated
+   * @ordered
+   */
+  public static final int UNNECESSARY_DEPRECATED_METHOD_VALUE = 3;
+
+  /**
    * An array of all the '<em><b>Code Style</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -102,6 +123,7 @@ public enum CodeStyle implements Enumerator
       UNNECESSARY_ELSE,
       SWITCH_MISSING_DEFAULT_CASE,
       UNNECESSARY_ASSIGNMENT_BEFORE_RETURN,
+      UNNECESSARY_DEPRECATED_METHOD,
     };
 
   /**
@@ -169,6 +191,7 @@ public enum CodeStyle implements Enumerator
       case UNNECESSARY_ELSE_VALUE: return UNNECESSARY_ELSE;
       case SWITCH_MISSING_DEFAULT_CASE_VALUE: return SWITCH_MISSING_DEFAULT_CASE;
       case UNNECESSARY_ASSIGNMENT_BEFORE_RETURN_VALUE: return UNNECESSARY_ASSIGNMENT_BEFORE_RETURN;
+      case UNNECESSARY_DEPRECATED_METHOD_VALUE: return UNNECESSARY_DEPRECATED_METHOD;
     }
     return null;
   }

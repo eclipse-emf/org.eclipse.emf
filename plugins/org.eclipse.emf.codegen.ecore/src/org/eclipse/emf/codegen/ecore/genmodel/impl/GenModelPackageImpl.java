@@ -3022,6 +3022,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(codeStyleEEnum, CodeStyle.UNNECESSARY_ELSE);
     addEEnumLiteral(codeStyleEEnum, CodeStyle.SWITCH_MISSING_DEFAULT_CASE);
     addEEnumLiteral(codeStyleEEnum, CodeStyle.UNNECESSARY_ASSIGNMENT_BEFORE_RETURN);
+    addEEnumLiteral(codeStyleEEnum, CodeStyle.UNNECESSARY_DEPRECATED_METHOD);
 
     // Initialize data types
     initEDataType(pathEDataType, String.class, "Path", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

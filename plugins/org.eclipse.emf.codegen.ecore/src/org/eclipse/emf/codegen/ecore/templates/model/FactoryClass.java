@@ -231,10 +231,11 @@ public class FactoryClass
   protected final String TEXT_213 = NL + "\t/**" + NL + "\t * Returns the package supported by this factory." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return the package supported by this factory." + NL + "\t * @generated" + NL + "\t */" + NL + "\t";
   protected final String TEXT_214 = " get";
   protected final String TEXT_215 = "()" + NL + "\t{" + NL + "\t\treturn (";
-  protected final String TEXT_216 = ")getEPackage();" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @deprecated" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_217 = " getPackage()" + NL + "\t{" + NL + "\t\treturn ";
-  protected final String TEXT_218 = ".eINSTANCE;" + NL + "\t}" + NL;
-  protected final String TEXT_219 = NL + "} //";
+  protected final String TEXT_216 = ")getEPackage();" + NL + "\t}" + NL;
+  protected final String TEXT_217 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @deprecated" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_218 = " getPackage()" + NL + "\t{" + NL + "\t\treturn ";
+  protected final String TEXT_219 = ".eINSTANCE;" + NL + "\t}" + NL;
+  protected final String TEXT_220 = NL + "} //";
 
   public String generate(Object argument)
   {
@@ -1421,16 +1422,19 @@ public class FactoryClass
     stringBuffer.append(TEXT_215);
     stringBuffer.append(genPackage.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_216);
+    if (!genModel.getCodeStyle().contains(CodeStyle.UNNECESSARY_DEPRECATED_METHOD)) {
+    stringBuffer.append(TEXT_217);
     if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_63);
     }
     stringBuffer.append(TEXT_28);
     stringBuffer.append(genPackage.getImportedPackageInterfaceName());
-    stringBuffer.append(TEXT_217);
-    stringBuffer.append(genPackage.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_218);
-    }
+    stringBuffer.append(genPackage.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_219);
+    }
+    }
+    stringBuffer.append(TEXT_220);
     stringBuffer.append(isInterface ? genPackage.getFactoryInterfaceName() : genPackage.getFactoryClassName());
     genModel.emitSortedImports();
     stringBuffer.append(TEXT_7);

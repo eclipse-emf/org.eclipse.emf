@@ -96,6 +96,7 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//CodeStyle/UnnecessaryElse"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//CodeStyle/SwitchMissingDefaultCase"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//CodeStyle/UnnecessaryAssignmentBeforeReturn"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//CodeStyle/UnnecessaryDeprecatedMethod"/>
     </genEnums>
     <genDataTypes ecoreDataType="GenModel.ecore#//Path"/>
     <genDataTypes ecoreDataType="GenModel.ecore#//PropertyEditorFactory"/>
