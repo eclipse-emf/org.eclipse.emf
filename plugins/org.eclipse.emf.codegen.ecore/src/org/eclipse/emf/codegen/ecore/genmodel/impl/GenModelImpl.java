@@ -10734,15 +10734,39 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           Object value = null;
           try
           {
+            EDataType eAttributeType = eAttribute.getEAttributeType();
             if (eAttribute.isMany())
             {
               List<String> list = XMLTypeFactory.eINSTANCE.createENTITIESBase(literal);
               list.remove("");
-              value = list;
+              if (eAttributeType instanceof EEnum)
+              {
+                List<Object> enumValues = new ArrayList<Object>();
+                for (String literalValue : list)
+                {
+                  try
+                  {
+                    Object enumValue = EcoreUtil.createFromString(eAttributeType, literalValue);
+                    if (enumValue != null)
+                    {
+                      enumValues.add(enumValue);
+                    }
+                  }
+                  catch (RuntimeException exception)
+                  {
+                    // Ignore.
+                  }
+                }
+                value = enumValues;
+              }
+              else
+              {
+                value = list;
+              }
             }
             else
             {
-              value = EcoreUtil.createFromString(eAttribute.getEAttributeType(), literal);
+              value = EcoreUtil.createFromString(eAttributeType, literal);
             }
           }
           catch (Exception exception)

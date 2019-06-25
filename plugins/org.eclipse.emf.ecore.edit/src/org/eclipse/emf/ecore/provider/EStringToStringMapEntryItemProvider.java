@@ -362,7 +362,7 @@ public class EStringToStringMapEntryItemProvider extends ItemProviderAdapter
                 @Override
                 public Object getFeature(Object thisObject)
                 {
-                  return valuePropertyDescriptor.getFeature(entry);
+                  return eStructuralFeature;
                 }
 
                 @Override
