@@ -518,6 +518,11 @@
         <details key="documentation" value="@since 2.17"/>
       </eAnnotations>
     </eLiterals>
+    <eLiterals name="JDK130" value="8" literal="13.0">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.19"/>
+      </eAnnotations>
+    </eLiterals>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenTypeParameter" eSuperTypes="#//GenBase">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreTypeParameter" lowerBound="1"
@@ -569,6 +574,11 @@
         <details key="documentation" value="@since 2.18"/>
       </eAnnotations>
     </eLiterals>
+    <eLiterals name="EMF219" value="17" literal="2.19">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.19"/>
+      </eAnnotations>
+    </eLiterals>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="GenRuntimePlatform">
     <eLiterals name="IDE"/>
@@ -609,7 +619,12 @@
     </eLiterals>
     <eLiterals name="Eclipse_2019_06" value="10" literal="2019-06">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="@since 2.17"/>
+        <details key="documentation" value="@since 2.18"/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="Eclipse_2019_09" value="11" literal="2019-09">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.19"/>
       </eAnnotations>
     </eLiterals>
   </eClassifiers>
