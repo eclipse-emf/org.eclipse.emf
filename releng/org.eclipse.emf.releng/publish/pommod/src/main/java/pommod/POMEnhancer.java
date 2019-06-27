@@ -186,6 +186,7 @@ public class POMEnhancer
 
   protected String getJavadocWindowTitle(String string, String version)
   {
+    version = version.substring(0, version.lastIndexOf('.'));
     if (string.startsWith("EMF"))
     {
       return "Eclipse Modeling Framework" + string.substring(3) + " " + version + " API Specification";
